@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upbit Trading Bot Dashboard</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #0f1117; color: #e1e5e9; }
+        .header { background: #1a1d29; padding: 16px 24px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #2a2d3a; }
+        .header h1 { font-size: 20px; color: #fff; }
+        .status-badge { padding: 6px 14px; border-radius: 20px; font-size: 13px; font-weight: 600; }
+        .status-running { background: #0d5a2d; color: #4ade80; }
+        .status-stopped { background: #5a0d0d; color: #f87171; }
+        .container { max-width: 1400px; margin: 0 auto; padding: 20px; }
+        .grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 20px; }
+        .card { background: #1a1d29; border-radius: 12px; padding: 20px; border: 1px solid #2a2d3a; }
+        .card-title { font-size: 12px; color: #8b8fa3; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; }
+        .card-value { font-size: 28px; font-weight: 700; color: #fff; }
+        .card-sub { font-size: 13px; margin-top: 4px; }
+        .positive { color: #4ade80; }
+        .negative { color: #f87171; }
+        .section { margin-bottom: 20px; }
+        .section-title { font-size: 16px; font-weight: 600; margin-bottom: 12px; color: #fff; }
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+        .grid-3 { display: grid; grid-template-columns: 2fr 1fr; gap: 16px; }
+        table { width: 100%; border-collapse: collapse; }
+        th { text-align: left; padding: 10px 12px; font-size: 12px; color: #8b8fa3; text-transform: uppercase; border-bottom: 1px solid #2a2d3a; }
+        td { padding: 10px 12px; font-size: 14px; border-bottom: 1px solid #1e2130; }
+        .btn { padding: 8px 20px; border: none; border-radius: 8px; cursor: pointer; font-size: 14px; font-weight: 600; transition: opacity 0.2s; }
+        .btn:hover { opacity: 0.85; }
+        .btn-start { background: #16a34a; color: #fff; }
+        .btn-stop { background: #dc2626; color: #fff; }
+        .btn-sm { padding: 4px 12px; font-size: 12px; }
+        .controls { display: flex; gap: 10px; align-items: center; }
+        .chart-container { height: 300px; }
+        .alert-item { padding: 10px; border-bottom: 1px solid #1e2130; display: flex; justify-content: space-between; align-items: center; }
+        .alert-item.unread { background: #1e2235; }
+        .alert-type { font-size: 11px; padding: 2px 8px; border-radius: 4px; font-weight: 600; }
+        .alert-type-trade { background: #1e3a5f; color: #60a5fa; }
+        .alert-type-signal { background: #1e3a2f; color: #4ade80; }
+        .alert-type-error { background: #3a1e1e; color: #f87171; }
+        .alert-type-system { background: #3a3a1e; color: #facc15; }
+        .settings-form { display: grid; gap: 12px; }
+        .form-group { display: flex; flex-direction: column; gap: 4px; }
+        .form-group label { font-size: 12px; color: #8b8fa3; }
+        .form-group input, .form-group select { background: #0f1117; border: 1px solid #2a2d3a; color: #e1e5e9; padding: 8px 12px; border-radius: 6px; font-size: 14px; }
+        .holdings-coin { display: flex; align-items: center; gap: 8px; }
+        .coin-name { font-weight: 600; color: #fff; }
+        @media (max-width: 768px) {
+            .grid { grid-template-columns: repeat(2, 1fr); }
+            .grid-2, .grid-3 { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Upbit Trading Bot</h1>
+        <div class="controls">
+            <span id="statusBadge" class="status-badge status-stopped">Stopped</span>
+            <button id="btnStart" class="btn btn-start" onclick="startBot()">Start</button>
+            <button id="btnStop" class="btn btn-stop" onclick="stopBot()" style="display:none">Stop</button>
+        </div>
+    </div>
+
+    <div class="container">
+        <!-- Summary Cards -->
+        <div class="grid">
+            <div class="card">
+                <div class="card-title">Total Value</div>
+                <div class="card-value" id="totalValue">-</div>
+            </div>
+            <div class="card">
+                <div class="card-title">KRW Balance</div>
+                <div class="card-value" id="krwBalance">-</div>
+            </div>
+            <div class="card">
+                <div class="card-title">Total Trades</div>
+                <div class="card-value" id="totalTrades">-</div>
+            </div>
+            <div class="card">
+                <div class="card-title">Total P/L</div>
+                <div class="card-value" id="totalPL">-</div>
+                <div class="card-sub" id="totalPLpct"></div>
+            </div>
+        </div>
+
+        <!-- Charts & Holdings -->
+        <div class="section grid-3">
+            <div class="card">
+                <div class="section-title">Portfolio Value</div>
+                <div class="chart-container">
+                    <canvas id="portfolioChart"></canvas>
+                </div>
+            </div>
+            <div class="card">
+                <div class="section-title">Holdings</div>
+                <div id="holdingsContainer">
+                    <table>
+                        <thead><tr><th>Coin</th><th>Value</th><th>P/L</th></tr></thead>
+                        <tbody id="holdingsBody"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Trades & Alerts -->
+        <div class="section grid-2">
+            <div class="card">
+                <div class="section-title">Recent Trades</div>
+                <table>
+                    <thead><tr><th>Time</th><th>Coin</th><th>Side</th><th>Amount</th><th>Score</th></tr></thead>
+                    <tbody id="tradesBody"></tbody>
+                </table>
+            </div>
+            <div class="card">
+                <div class="section-title">Alerts</div>
+                <div id="alertsContainer" style="max-height: 400px; overflow-y: auto;"></div>
+            </div>
+        </div>
+
+        <!-- Settings -->
+        <div class="section">
+            <div class="card">
+                <div class="section-title">Settings</div>
+                <div class="settings-form" id="settingsForm">
+                    <div class="grid" style="grid-template-columns: repeat(3, 1fr);">
+                        <div class="form-group">
+                            <label>Target Coins (comma separated)</label>
+                            <input type="text" id="settCoins" placeholder="KRW-BTC,KRW-ETH,KRW-XRP">
+                        </div>
+                        <div class="form-group">
+                            <label>Invest Amount (KRW)</label>
+                            <input type="number" id="settAmount" placeholder="100000">
+                        </div>
+                        <div class="form-group">
+                            <label>Trading Interval (sec)</label>
+                            <input type="number" id="settInterval" placeholder="60">
+                        </div>
+                        <div class="form-group">
+                            <label>Stop Loss (%)</label>
+                            <input type="number" id="settStopLoss" step="0.1" placeholder="-3.0">
+                        </div>
+                        <div class="form-group">
+                            <label>Take Profit (%)</label>
+                            <input type="number" id="settTakeProfit" step="0.1" placeholder="5.0">
+                        </div>
+                        <div class="form-group">
+                            <label>Max Positions</label>
+                            <input type="number" id="settMaxPos" placeholder="5">
+                        </div>
+                    </div>
+                    <button class="btn btn-start" onclick="saveSettings()">Save Settings</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let portfolioChart = null;
+
+        function fmt(n) {
+            if (n == null) return '-';
+            return Number(n).toLocaleString('ko-KR');
+        }
+
+        function fmtTime(iso) {
+            if (!iso) return '-';
+            const d = new Date(iso);
+            return d.toLocaleString('ko-KR', { month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' });
+        }
+
+        async function fetchStatus() {
+            try {
+                const res = await fetch('/api/status');
+                const data = await res.json();
+
+                document.getElementById('totalValue').textContent = fmt(data.total_value) + ' KRW';
+                document.getElementById('krwBalance').textContent = fmt(data.krw_balance) + ' KRW';
+
+                const badge = document.getElementById('statusBadge');
+                const btnStart = document.getElementById('btnStart');
+                const btnStop = document.getElementById('btnStop');
+                if (data.status === 'running') {
+                    badge.textContent = 'Running';
+                    badge.className = 'status-badge status-running';
+                    btnStart.style.display = 'none';
+                    btnStop.style.display = '';
+                } else {
+                    badge.textContent = 'Stopped';
+                    badge.className = 'status-badge status-stopped';
+                    btnStart.style.display = '';
+                    btnStop.style.display = 'none';
+                }
+
+                const tbody = document.getElementById('holdingsBody');
+                tbody.innerHTML = '';
+                (data.holdings || []).forEach(h => {
+                    const plClass = h.profit_pct >= 0 ? 'positive' : 'negative';
+                    tbody.innerHTML += `<tr>
+                        <td><div class="holdings-coin"><span class="coin-name">${h.currency}</span></div></td>
+                        <td>${fmt(h.eval_amount)}</td>
+                        <td class="${plClass}">${h.profit_pct > 0 ? '+' : ''}${h.profit_pct}%</td>
+                    </tr>`;
+                });
+
+                if (data.settings) {
+                    const s = data.settings;
+                    document.getElementById('settCoins').value = (s.target_coins || []).join(',');
+                    document.getElementById('settAmount').value = s.invest_amount || '';
+                    document.getElementById('settInterval').value = s.trading_interval || '';
+                    document.getElementById('settStopLoss').value = s.stop_loss_pct || '';
+                    document.getElementById('settTakeProfit').value = s.take_profit_pct || '';
+                    document.getElementById('settMaxPos').value = s.max_positions || '';
+                }
+            } catch (e) {
+                console.error('Status fetch error:', e);
+            }
+        }
+
+        async function fetchTrades() {
+            try {
+                const res = await fetch('/api/trades?limit=20');
+                const trades = await res.json();
+                const tbody = document.getElementById('tradesBody');
+                tbody.innerHTML = '';
+                trades.forEach(t => {
+                    const sideClass = t.side === 'buy' ? 'positive' : 'negative';
+                    tbody.innerHTML += `<tr>
+                        <td>${fmtTime(t.created_at)}</td>
+                        <td>${t.market}</td>
+                        <td class="${sideClass}" style="font-weight:600">${t.side.toUpperCase()}</td>
+                        <td>${fmt(Math.round(t.amount))}</td>
+                        <td>${t.score}</td>
+                    </tr>`;
+                });
+            } catch (e) {
+                console.error('Trades fetch error:', e);
+            }
+        }
+
+        async function fetchPerformance() {
+            try {
+                const res = await fetch('/api/performance');
+                const p = await res.json();
+                document.getElementById('totalTrades').textContent = p.total_trades || 0;
+                const plEl = document.getElementById('totalPL');
+                const plPctEl = document.getElementById('totalPLpct');
+                if (p.profit != null) {
+                    const cls = p.profit >= 0 ? 'positive' : 'negative';
+                    plEl.textContent = (p.profit >= 0 ? '+' : '') + fmt(p.profit) + ' KRW';
+                    plEl.className = 'card-value ' + cls;
+                    plPctEl.textContent = (p.profit_pct >= 0 ? '+' : '') + p.profit_pct + '%';
+                    plPctEl.className = 'card-sub ' + cls;
+                }
+            } catch (e) {
+                console.error('Performance fetch error:', e);
+            }
+        }
+
+        async function fetchAlerts() {
+            try {
+                const res = await fetch('/api/alerts?limit=20');
+                const alerts = await res.json();
+                const container = document.getElementById('alertsContainer');
+                container.innerHTML = '';
+                alerts.forEach(a => {
+                    const typeClass = {trade:'alert-type-trade', buy_signal:'alert-type-signal', stop_loss:'alert-type-error', take_profit:'alert-type-signal', error:'alert-type-error', system:'alert-type-system'}[a.alert_type] || 'alert-type-system';
+                    container.innerHTML += `<div class="alert-item ${a.is_read ? '' : 'unread'}">
+                        <div><span class="alert-type ${typeClass}">${a.alert_type}</span> <span style="margin-left:8px">${a.message}</span></div>
+                        <span style="font-size:11px;color:#8b8fa3">${fmtTime(a.created_at)}</span>
+                    </div>`;
+                });
+            } catch (e) {
+                console.error('Alerts fetch error:', e);
+            }
+        }
+
+        async function fetchPortfolioChart() {
+            try {
+                const res = await fetch('/api/portfolio-history?limit=50');
+                const history = await res.json();
+                if (!history.length) return;
+
+                const labels = history.reverse().map(h => fmtTime(h.created_at));
+                const values = history.map(h => h.total_value);
+
+                const ctx = document.getElementById('portfolioChart').getContext('2d');
+                if (portfolioChart) portfolioChart.destroy();
+                portfolioChart = new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels,
+                        datasets: [{
+                            label: 'Portfolio Value (KRW)',
+                            data: values,
+                            borderColor: '#60a5fa',
+                            backgroundColor: 'rgba(96,165,250,0.1)',
+                            fill: true,
+                            tension: 0.3,
+                            pointRadius: 2,
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: { legend: { display: false } },
+                        scales: {
+                            x: { ticks: { color: '#8b8fa3', maxTicksLimit: 8 }, grid: { color: '#1e2130' } },
+                            y: { ticks: { color: '#8b8fa3', callback: v => fmt(v) }, grid: { color: '#1e2130' } }
+                        }
+                    }
+                });
+            } catch (e) {
+                console.error('Chart fetch error:', e);
+            }
+        }
+
+        async function startBot() {
+            await fetch('/api/bot/start', { method: 'POST' });
+            fetchStatus();
+        }
+
+        async function stopBot() {
+            await fetch('/api/bot/stop', { method: 'POST' });
+            fetchStatus();
+        }
+
+        async function saveSettings() {
+            const coins = document.getElementById('settCoins').value.split(',').map(s => s.trim()).filter(Boolean);
+            const data = {
+                target_coins: coins,
+                invest_amount: parseFloat(document.getElementById('settAmount').value),
+                trading_interval: parseInt(document.getElementById('settInterval').value),
+                stop_loss_pct: parseFloat(document.getElementById('settStopLoss').value),
+                take_profit_pct: parseFloat(document.getElementById('settTakeProfit').value),
+                max_positions: parseInt(document.getElementById('settMaxPos').value),
+            };
+            await fetch('/api/settings', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data),
+            });
+            alert('Settings saved!');
+        }
+
+        // Initial load & auto-refresh
+        fetchStatus();
+        fetchTrades();
+        fetchPerformance();
+        fetchAlerts();
+        fetchPortfolioChart();
+
+        setInterval(() => {
+            fetchStatus();
+            fetchTrades();
+            fetchPerformance();
+            fetchAlerts();
+            fetchPortfolioChart();
+        }, 30000);
+    </script>
+</body>
+</html>
