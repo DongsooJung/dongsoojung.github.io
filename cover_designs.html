@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;700;900&family=Noto+Sans+KR:wght@300;400;700&family=Space+Mono:wght@400;700&family=Bebas+Neue&display=swap');
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:#111;display:flex;flex-direction:column;align-items:center;padding:40px 20px 60px;font-family:'Noto Sans KR',sans-serif;}
+.page-title{color:#555;font-family:'Space Mono',monospace;font-size:11px;letter-spacing:4px;text-transform:uppercase;margin-bottom:44px;}
+.grid{display:flex;gap:40px;flex-wrap:wrap;justify-content:center;align-items:flex-start;}
+.wrap{display:flex;flex-direction:column;align-items:center;gap:14px;}
+.label{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:2px;color:#444;text-transform:uppercase;}
+
+/* ── COVER A: 에디토리얼 미니멀 ── */
+.ca{width:264px;height:374px;background:#f4efe6;position:relative;overflow:hidden;box-shadow:6px 10px 36px rgba(0,0,0,.65);}
+.ca-spine{position:absolute;top:0;left:0;width:7px;height:100%;background:#111;}
+.ca-top{position:absolute;top:0;left:0;right:0;height:4px;background:#bf2a1e;}
+.ca-inner{position:absolute;top:0;left:18px;right:0;bottom:0;padding:26px 18px 18px 12px;display:flex;flex-direction:column;}
+.ca-yr{font-family:'Bebas Neue',sans-serif;font-size:78px;line-height:1;color:#111;letter-spacing:-2px;}
+.ca-ttl{font-family:'Noto Serif KR',serif;font-weight:900;font-size:23px;line-height:1.25;color:#111;margin-top:2px;}
+.ca-sub{font-size:8.5px;color:#777;letter-spacing:.8px;margin-top:9px;line-height:1.9;border-top:1px solid #ccc;padding-top:8px;font-weight:300;}
+.ca-mid{flex:1;display:flex;align-items:center;}
+.ca-mid-line{width:100%;height:1px;background:#d0c8bc;}
+.ca-chips{display:flex;gap:5px;margin-top:2px;}
+.ca-chip{flex:1;background:#111;padding:7px 4px;text-align:center;}
+.ca-chip-n{font-family:'Bebas Neue',sans-serif;font-size:20px;color:#bf2a1e;line-height:1;}
+.ca-chip-l{font-family:'Space Mono',monospace;font-size:6.5px;color:#888;margin-top:2px;}
+.ca-ft{margin-top:13px;display:flex;justify-content:space-between;align-items:flex-end;}
+.ca-auth{font-family:'Noto Serif KR',serif;font-size:9.5px;color:#444;line-height:1.7;}
+.ca-pub{font-family:'Space Mono',monospace;font-size:7.5px;color:#aaa;text-align:right;line-height:1.6;}
+
+/* ── COVER B: 테크 다크 사이버 ── */
+.cb{width:264px;height:374px;background:#040a0f;position:relative;overflow:hidden;box-shadow:6px 10px 36px rgba(0,0,0,.8),0 0 50px rgba(0,255,130,.06);}
+.cb-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(0,255,130,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(0,255,130,.035) 1px,transparent 1px);background-size:22px 22px;}
+.cb-glo1{position:absolute;top:-70px;left:50%;transform:translateX(-50%);width:220px;height:220px;background:radial-gradient(circle,rgba(0,255,130,.14) 0%,transparent 70%);}
+.cb-glo2{position:absolute;bottom:-50px;right:-30px;width:170px;height:170px;background:radial-gradient(circle,rgba(40,130,255,.1) 0%,transparent 70%);}
+.cb-body{position:relative;z-index:2;padding:26px 20px 20px;height:100%;display:flex;flex-direction:column;}
+.cb-tag{font-family:'Space Mono',monospace;font-size:7.5px;color:#00ff82;letter-spacing:3px;border:1px solid rgba(0,255,130,.28);padding:3px 7px;display:inline-block;margin-bottom:14px;}
+.cb-ttl{font-family:'Noto Serif KR',serif;font-weight:900;font-size:30px;line-height:1.15;color:#dff0eb;text-shadow:0 0 18px rgba(0,255,130,.25);}
+.cb-ttl span{color:#00ff82;}
+.cb-yrline{display:flex;align-items:center;gap:8px;margin-top:9px;}
+.cb-yrline::before{content:'';flex:1;height:1px;background:linear-gradient(90deg,transparent,rgba(0,255,130,.45));}
+.cb-yrn{font-family:'Space Mono',monospace;font-size:11px;color:#00ff82;letter-spacing:2px;}
+.cb-grid2{display:grid;grid-template-columns:1fr 1fr;gap:5px;margin-top:16px;}
+.cb-chip{background:rgba(0,255,130,.05);border:1px solid rgba(0,255,130,.12);padding:6px 7px;display:flex;align-items:center;gap:5px;}
+.cb-dot{width:5px;height:5px;border-radius:50%;}
+.cb-name{font-family:'Space Mono',monospace;font-size:7.5px;color:#80b89a;}
+.cb-cnt{font-size:7px;color:#334455;margin-left:auto;font-family:'Space Mono',monospace;}
+.cb-total{margin-top:10px;padding:9px 10px;background:rgba(0,255,130,.04);border-left:2px solid #00ff82;display:flex;align-items:center;justify-content:space-between;}
+.cb-total-l{font-family:'Space Mono',monospace;font-size:7.5px;color:#556677;letter-spacing:1px;}
+.cb-total-n{font-family:'Bebas Neue',sans-serif;font-size:28px;color:#00ff82;line-height:1;text-shadow:0 0 8px rgba(0,255,130,.45);}
+.cb-sp{flex:1;}
+.cb-ft{display:flex;justify-content:space-between;align-items:flex-end;border-top:1px solid rgba(0,255,130,.09);padding-top:9px;}
+.cb-auth{font-family:'Space Mono',monospace;font-size:8px;color:#445566;line-height:1.7;}
+.cb-exp{font-family:'Space Mono',monospace;font-size:7px;color:#2a3a4a;text-align:right;line-height:1.7;}
+.cb-exp span{color:#00ff82;}
+
+/* ── COVER C: 프리미엄 한국적 ── */
+.cc{width:264px;height:374px;background:#0c1a2c;position:relative;overflow:hidden;box-shadow:6px 10px 36px rgba(0,0,0,.8),0 0 36px rgba(196,157,90,.08);}
+.cc-ring1{position:absolute;bottom:-90px;right:-90px;width:320px;height:320px;border:1px solid rgba(196,157,90,.1);border-radius:50%;}
+.cc-ring2{position:absolute;bottom:-50px;right:-50px;width:210px;height:210px;border:1px solid rgba(196,157,90,.07);border-radius:50%;}
+.cc-topbar{position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,#c49d5a,#e8d598,#c49d5a);}
+.cc-body{position:relative;z-index:2;padding:26px 22px 20px;height:100%;display:flex;flex-direction:column;}
+.cc-badge{display:inline-flex;align-items:center;gap:7px;margin-bottom:18px;}
+.cc-bline{height:1px;width:22px;background:linear-gradient(90deg,transparent,#c49d5a);}
+.cc-btext{font-family:'Noto Serif KR',serif;font-size:8.5px;color:#c49d5a;letter-spacing:3px;}
+.cc-bline2{height:1px;width:22px;background:linear-gradient(90deg,#c49d5a,transparent);}
+.cc-ttl{font-family:'Noto Serif KR',serif;font-weight:900;font-size:27px;line-height:1.25;color:#ddeeff;letter-spacing:-.5px;}
+.cc-ttl em{font-style:normal;color:#c49d5a;}
+.cc-sub{font-family:'Noto Sans KR',sans-serif;font-weight:300;font-size:9.5px;color:#506a84;margin-top:7px;letter-spacing:.5px;line-height:1.8;}
+.cc-div{margin:16px 0;display:flex;align-items:center;gap:9px;}
+.cc-dline{flex:1;height:1px;background:linear-gradient(90deg,rgba(196,157,90,.28),transparent);}
+.cc-ddia{width:5px;height:5px;background:#c49d5a;transform:rotate(45deg);opacity:.55;}
+.cc-stats{display:flex;}
+.cc-stat{flex:1;padding:11px 6px;border:1px solid rgba(196,157,90,.13);text-align:center;}
+.cc-stat+.cc-stat{border-left:none;}
+.cc-sn{font-family:'Bebas Neue',sans-serif;font-size:19px;color:#c49d5a;line-height:1;}
+.cc-sl{font-family:'Noto Sans KR',sans-serif;font-size:6.5px;color:#3a5570;margin-top:3px;}
+.cc-quote{margin-top:14px;padding:9px 12px;background:rgba(196,157,90,.03);border-left:2px solid rgba(196,157,90,.35);}
+.cc-qt{font-family:'Noto Serif KR',serif;font-size:8.5px;color:#6080a0;line-height:1.9;font-style:italic;}
+.cc-qt strong{color:#c49d5a;font-style:normal;}
+.cc-sp{flex:1;}
+.cc-ft{display:flex;justify-content:space-between;align-items:flex-end;border-top:1px solid rgba(196,157,90,.1);padding-top:11px;}
+.cc-aname{font-family:'Noto Serif KR',serif;font-size:10.5px;color:#a0b8cc;letter-spacing:1px;}
+.cc-atitle{font-family:'Noto Sans KR',sans-serif;font-size:7px;color:#3a5060;margin-top:2px;letter-spacing:.3px;line-height:1.7;}
+.cc-pub{font-family:'Noto Serif KR',serif;font-size:7.5px;color:#c49d5a;opacity:.45;letter-spacing:1px;text-align:right;line-height:1.7;}
+
+/* ── 비교표 ── */
+.cmp{margin-top:52px;width:100%;max-width:870px;}
+.cmp-ttl{font-family:'Space Mono',monospace;font-size:9.5px;color:#333;letter-spacing:3px;text-transform:uppercase;text-align:center;margin-bottom:18px;}
+table{width:100%;border-collapse:collapse;}
+th{font-family:'Space Mono',monospace;font-size:8.5px;color:#333;letter-spacing:1px;text-transform:uppercase;padding:8px 13px;text-align:left;border-bottom:1px solid #1e1e1e;}
+td{font-size:11px;color:#555;padding:7px 13px;border-bottom:1px solid #171717;vertical-align:middle;}
+td:first-child{font-family:'Space Mono',monospace;font-size:8.5px;color:#444;letter-spacing:.8px;}
+.ra{color:#bf2a1e;}.rb{color:#00ff82;}.rc{color:#c49d5a;}
+</style>
+</head>
+<body>
+<p class="page-title">AI 실전 연감 2026 — 표지 시안 3종</p>
+<div class="grid">
+
+<!-- COVER A -->
+<div class="wrap">
+<div class="ca">
+  <div class="ca-spine"></div>
+  <div class="ca-top"></div>
+  <div class="ca-inner">
+    <div class="ca-yr">2026</div>
+    <div class="ca-ttl">AI<br>실전 연감</div>
+    <div class="ca-sub">ChatGPT · Claude · Gemini · Perplexity<br>4대 AI 도구 1,922회 실전 비교<br>유통기한: 2027년 12월</div>
+    <div class="ca-mid"><div class="ca-mid-line"></div></div>
+    <div class="ca-chips">
+      <div class="ca-chip"><div class="ca-chip-n">362</div><div class="ca-chip-l">ChatGPT</div></div>
+      <div class="ca-chip"><div class="ca-chip-n">400</div><div class="ca-chip-l">Claude</div></div>
+      <div class="ca-chip"><div class="ca-chip-n">689</div><div class="ca-chip-l">Gemini</div></div>
+      <div class="ca-chip"><div class="ca-chip-n">471</div><div class="ca-chip-l">Perplx</div></div>
+    </div>
+    <div class="ca-ft">
+      <div class="ca-auth">AI 기업 CEO<br>스마트시티 공학 박사</div>
+      <div class="ca-pub">주식회사<br>별의문</div>
+    </div>
+  </div>
+</div>
+<div class="label"><span class="ra">시안 A</span> — 에디토리얼 미니멀</div>
+</div>
+
+<!-- COVER B -->
+<div class="wrap">
+<div class="cb">
+  <div class="cb-grid"></div>
+  <div class="cb-glo1"></div>
+  <div class="cb-glo2"></div>
+  <div class="cb-body">
+    <div class="cb-tag">▶ 2026 EDITION</div>
+    <div class="cb-ttl">AI<br>실전<br><span>연감</span></div>
+    <div class="cb-yrline"><div class="cb-yrn">2026.01 — 12</div></div>
+    <div class="cb-grid2">
+      <div class="cb-chip"><div class="cb-dot" style="background:#74aa9c"></div><div class="cb-name">ChatGPT</div><div class="cb-cnt">362</div></div>
+      <div class="cb-chip"><div class="cb-dot" style="background:#cc785c"></div><div class="cb-name">Claude</div><div class="cb-cnt">400</div></div>
+      <div class="cb-chip"><div class="cb-dot" style="background:#4285f4"></div><div class="cb-name">Gemini</div><div class="cb-cnt">689</div></div>
+      <div class="cb-chip"><div class="cb-dot" style="background:#20b2aa"></div><div class="cb-name">Perplexity</div><div class="cb-cnt">471</div></div>
+    </div>
+    <div class="cb-total">
+      <div class="cb-total-l">TOTAL SESSIONS</div>
+      <div class="cb-total-n">1,922</div>
+    </div>
+    <div class="cb-sp"></div>
+    <div class="cb-ft">
+      <div class="cb-auth">AI 기업 CEO<br>서울대 스마트시티 공학 박사</div>
+      <div class="cb-exp">유통기한<br><span>2027.12</span></div>
+    </div>
+  </div>
+</div>
+<div class="label"><span class="rb">시안 B</span> — 테크 다크 사이버</div>
+</div>
+
+<!-- COVER C -->
+<div class="wrap">
+<div class="cc">
+  <div class="cc-ring1"></div>
+  <div class="cc-ring2"></div>
+  <div class="cc-topbar"></div>
+  <div class="cc-body">
+    <div class="cc-badge">
+      <div class="cc-bline"></div>
+      <div class="cc-btext">연간 실전 가이드</div>
+      <div class="cc-bline2"></div>
+    </div>
+    <div class="cc-ttl">AI 실전<br><em>연감</em> 2026</div>
+    <div class="cc-sub">ChatGPT · Claude · Gemini · Perplexity<br>단일 저자 4대 AI 비교 실전서</div>
+    <div class="cc-div">
+      <div class="cc-dline"></div>
+      <div class="cc-ddia"></div>
+      <div class="cc-dline" style="background:linear-gradient(90deg,rgba(196,157,90,.28),transparent)"></div>
+    </div>
+    <div class="cc-stats">
+      <div class="cc-stat"><div class="cc-sn">1,922</div><div class="cc-sl">실전 대화 수</div></div>
+      <div class="cc-stat"><div class="cc-sn">492</div><div class="cc-sl">보유 도서</div></div>
+      <div class="cc-stat"><div class="cc-sn">10</div><div class="cc-sl">핵심 챕터</div></div>
+    </div>
+    <div class="cc-quote">
+      <div class="cc-qt">"이 책의 유통기한은 <strong>2027년 12월</strong>이다.<br>그때 개정판을 내겠습니다."</div>
+    </div>
+    <div class="cc-sp"></div>
+    <div class="cc-ft">
+      <div>
+        <div class="cc-aname">별의문</div>
+        <div class="cc-atitle">AI 기업 CEO · 서울대 공학 박사<br>대치동 수학·KOI 강사</div>
+      </div>
+      <div class="cc-pub">星の門<br>별의문</div>
+    </div>
+  </div>
+</div>
+<div class="label"><span class="rc">시안 C</span> — 프리미엄 한국적</div>
+</div>
+
+</div><!-- /grid -->
+
+<div class="cmp">
+<p class="cmp-ttl">── 시안 비교 요약 ──</p>
+<table>
+<tr><th>항목</th><th><span class="ra">시안 A</span> 에디토리얼</th><th><span class="rb">시안 B</span> 사이버</th><th><span class="rc">시안 C</span> 프리미엄</th></tr>
+<tr><td>배경색</td><td>크림 화이트</td><td>딥 블랙</td><td>미드나잇 네이비</td></tr>
+<tr><td>포인트 컬러</td><td>크림슨 레드</td><td>네온 그린</td><td>골드</td></tr>
+<tr><td>타겟 독자층</td><td>일반 비즈니스</td><td>개발자·IT인</td><td>전문가·교수층</td></tr>
+<tr><td>분위기</td><td>신문·잡지 에디토리얼</td><td>터미널·코드 감성</td><td>절제된 럭셔리</td></tr>
+<tr><td>POD 인쇄 비용</td><td>낮음 (라이트 배경)</td><td>높음 (다크 배경)</td><td>높음 (다크 배경)</td></tr>
+<tr><td>e-book 적합도</td><td>보통</td><td>최적</td><td>최적</td></tr>
+<tr><td>저자 이미지 부합도</td><td>대중성·접근성</td><td>기술 전문성</td><td>박사·연구자</td></tr>
+</table>
+</div>
+</body>
+</html>
