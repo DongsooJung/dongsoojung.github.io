@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dongsoo Jung | AI CEO & Urban Researcher</title>
+<meta name="description" content="정동수 - AI 소프트웨어 기업 CEO, 서울대 스마트도시공학 박사과정 연구자">
+<meta property="og:title" content="Dongsoo Jung | AI CEO & Urban Researcher">
+<meta property="og:description" content="도시 공간 데이터와 인공지능의 교차점에서 새로운 가치를 만듭니다.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://dongsoojung.github.io">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&amp;family=DM+Sans:ital,opsz,wght@0,9..40,300..700;1,9..40,300..700&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0a0a0c;
+  --surface: #111114;
+  --surface-2: #1a1a1f;
+  --border: #2a2a30;
+  --text: #e8e6e3;
+  --text-dim: #8a8890;
+  --accent: #4f7df5;
+  --accent-glow: rgba(79,125,245,0.15);
+  --gold: #c4a265;
+  --gold-glow: rgba(196,162,101,0.12);
+  --serif: 'Instrument Serif', Georgia, serif;
+  --sans: 'DM Sans', -apple-system, sans-serif;
+  --mono: 'JetBrains Mono', monospace;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior:smooth; }
+body { background:var(--bg); color:var(--text); font-family:var(--sans); line-height:1.65; overflow-x:hidden; }
+::selection { background:var(--accent); color:#fff; }
+nav { position:fixed; top:0; width:100%; z-index:100; backdrop-filter:blur(20px); background:rgba(10,10,12,0.85); border-bottom:1px solid var(--border); }
+.nav-inner { max-width:1200px; margin:0 auto; padding:0 2rem; height:64px; display:flex; align-items:center; justify-content:space-between; }
+.nav-logo { font-family:var(--serif); font-size:1.3rem; color:var(--text); text-decoration:none; letter-spacing:-0.02em; }
+.nav-logo span { color:var(--accent); }
+.nav-links { display:flex; gap:2rem; list-style:none; }
+.nav-links a { color:var(--text-dim); text-decoration:none; font-size:0.85rem; font-weight:500; letter-spacing:0.04em; text-transform:uppercase; transition:color 0.3s; }
+.nav-links a:hover { color:var(--text); }
+.hero { min-height:100vh; display:flex; align-items:center; padding:6rem 2rem 4rem; position:relative; overflow:hidden; }
+.hero::before { content:''; position:absolute; top:-200px; right:-200px; width:700px; height:700px; background:radial-gradient(circle,var(--accent-glow) 0%,transparent 70%); pointer-events:none; animation:pulse 8s ease-in-out infinite; }
+.hero::after { content:''; position:absolute; bottom:-150px; left:-150px; width:500px; height:500px; background:radial-gradient(circle,var(--gold-glow) 0%,transparent 70%); pointer-events:none; animation:pulse 10s ease-in-out infinite reverse; }
+@keyframes pulse { 0%,100%{opacity:0.6;transform:scale(1)} 50%{opacity:1;transform:scale(1.1)} }
+.hero-inner { max-width:1200px; margin:0 auto; width:100%; position:relative; z-index:1; display:grid; grid-template-columns:1fr 1fr; gap:4rem; align-items:center; }
+.hero-tag { font-family:var(--mono); font-size:0.75rem; color:var(--accent); letter-spacing:0.1em; text-transform:uppercase; margin-bottom:1.5rem; display:flex; align-items:center; gap:0.5rem; }
+.hero-tag::before { content:''; width:24px; height:1px; background:var(--accent); }
+.hero h1 { font-family:var(--serif); font-size:clamp(2.8rem,5vw,4.2rem); line-height:1.1; letter-spacing:-0.03em; margin-bottom:1.5rem; }
+.hero h1 em { font-style:italic; color:var(--gold); }
+.hero-desc { font-size:1.05rem; color:var(--text-dim); max-width:500px; margin-bottom:2rem; }
+.hero-cta { display:flex; gap:1rem; flex-wrap:wrap; }
+.btn { padding:0.75rem 1.8rem; border-radius:6px; font-family:var(--sans); font-size:0.9rem; font-weight:500; text-decoration:none; transition:all 0.3s; cursor:pointer; border:none; }
+.btn-primary { background:var(--accent); color:#fff; }
+.btn-primary:hover { background:#6090ff; box-shadow:0 4px 20px rgba(79,125,245,0.3); }
+.btn-outline { background:transparent; color:var(--text); border:1px solid var(--border); }
+.btn-outline:hover { border-color:var(--text-dim); background:var(--surface); }
+.hero-card { background:var(--surface); border:1px solid var(--border); border-radius:16px; padding:2.5rem; position:relative; }
+.hero-card::before { content:''; position:absolute; inset:-1px; border-radius:16px; background:linear-gradient(135deg,rgba(79,125,245,0.2),transparent 50%,rgba(196,162,101,0.15)); z-index:-1; mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0); mask-composite:exclude; -webkit-mask-composite:xor; padding:1px; }
+.card-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:2rem; padding-bottom:1.5rem; border-bottom:1px solid var(--border); }
+.card-name { font-family:var(--serif); font-size:1.5rem; }
+.card-status { font-family:var(--mono); font-size:0.7rem; color:#4ade80; display:flex; align-items:center; gap:0.4rem; }
+.card-status::before { content:''; width:6px; height:6px; background:#4ade80; border-radius:50%; animation:blink 2s infinite; }
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
+.stat-grid { display:grid; grid-template-columns:1fr 1fr; gap:1.5rem; }
+.stat-item { padding:1rem; background:var(--surface-2); border-radius:10px; border:1px solid transparent; transition:border-color 0.3s; }
+.stat-item:hover { border-color:var(--border); }
+.stat-label { font-size:0.7rem; color:var(--text-dim); text-transform:uppercase; letter-spacing:0.08em; margin-bottom:0.5rem; }
+.stat-value { font-family:var(--serif); font-size:1.6rem; color:var(--text); }
+.stat-value small { font-family:var(--sans); font-size:0.75rem; color:var(--text-dim); }
+section { max-width:1200px; margin:0 auto; padding:6rem 2rem; }
+.section-label { font-family:var(--mono); font-size:0.7rem; color:var(--accent); letter-spacing:0.12em; text-transform:uppercase; margin-bottom:0.75rem; }
+.section-title { font-family:var(--serif); font-size:clamp(2rem,3.5vw,2.8rem); letter-spacing:-0.02em; margin-bottom:3rem; }
+.dual-grid { display:grid; grid-template-columns:1fr 1fr; gap:2rem; }
+.identity-card { background:var(--surface); border:1px solid var(--border); border-radius:14px; padding:2.5rem; transition:transform 0.3s,box-shadow 0.3s; position:relative; overflow:hidden; }
+.identity-card:hover { transform:translateY(-4px); box-shadow:0 20px 60px rgba(0,0,0,0.3); }
+.identity-card.academic::after { content:''; position:absolute; top:0; left:0; right:0; height:3px; background:linear-gradient(90deg,var(--accent),#8b5cf6); }
+.identity-card.business::after { content:''; position:absolute; top:0; left:0; right:0; height:3px; background:linear-gradient(90deg,var(--gold),#e8a435); }
+.identity-icon { width:48px; height:48px; border-radius:12px; display:flex; align-items:center; justify-content:center; font-size:1.3rem; margin-bottom:1.5rem; }
+.academic .identity-icon { background:rgba(79,125,245,0.12); }
+.business .identity-icon { background:rgba(196,162,101,0.12); }
+.identity-card h3 { font-family:var(--serif); font-size:1.5rem; margin-bottom:0.5rem; }
+.identity-card .role { font-size:0.85rem; color:var(--text-dim); margin-bottom:1.5rem; }
+.identity-list { list-style:none; display:flex; flex-direction:column; gap:0.75rem; }
+.identity-list li { font-size:0.9rem; color:var(--text-dim); padding-left:1rem; position:relative; }
+.identity-list li::before { content:'→'; position:absolute; left:0; color:var(--text-dim); font-size:0.8rem; }
+.timeline { position:relative; padding-left:2rem; }
+.timeline::before { content:''; position:absolute; left:0; top:0; bottom:0; width:1px; background:linear-gradient(to bottom,var(--accent),var(--border) 30%,var(--border) 70%,transparent); }
+.timeline-item { position:relative; padding-bottom:2.5rem; padding-left:2rem; }
+.timeline-item::before { content:''; position:absolute; left:-2.35rem; top:0.35rem; width:10px; height:10px; border-radius:50%; background:var(--surface); border:2px solid var(--accent); }
+.timeline-item.highlight::before { background:var(--accent); box-shadow:0 0 12px rgba(79,125,245,0.4); }
+.timeline-year { font-family:var(--mono); font-size:0.75rem; color:var(--accent); margin-bottom:0.3rem; }
+.timeline-title { font-size:1rem; font-weight:600; margin-bottom:0.2rem; }
+.timeline-desc { font-size:0.85rem; color:var(--text-dim); }
+.research-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:1.5rem; }
+.research-item { background:var(--surface); border:1px solid var(--border); border-radius:12px; padding:2rem; transition:all 0.3s; }
+.research-item:hover { border-color:var(--accent); transform:translateY(-2px); }
+.research-item h4 { font-family:var(--serif); font-size:1.15rem; margin-bottom:0.75rem; }
+.research-item p { font-size:0.85rem; color:var(--text-dim); margin-bottom:1rem; }
+.research-tag { font-family:var(--mono); font-size:0.65rem; color:var(--accent); background:var(--accent-glow); padding:0.25rem 0.6rem; border-radius:4px; display:inline-block; margin-right:0.4rem; margin-bottom:0.4rem; }
+.contact-section { text-align:center; padding:8rem 2rem; }
+.contact-section .section-title { margin-bottom:1rem; }
+.contact-desc { color:var(--text-dim); max-width:500px; margin:0 auto 2.5rem; }
+.contact-links { display:flex; justify-content:center; gap:1rem; flex-wrap:wrap; }
+.contact-chip { display:inline-flex; align-items:center; gap:0.5rem; padding:0.6rem 1.2rem; background:var(--surface); border:1px solid var(--border); border-radius:8px; color:var(--text-dim); text-decoration:none; font-size:0.85rem; transition:all 0.3s; }
+.contact-chip:hover { border-color:var(--accent); color:var(--text); background:var(--surface-2); }
+footer { border-top:1px solid var(--border); padding:2rem; text-align:center; font-size:0.8rem; color:var(--text-dim); }
+.footer-inner { max-width:1200px; margin:0 auto; display:flex; justify-content:space-between; align-items:center; }
+.grid-bg { position:fixed; inset:0; z-index:-1; background-image:linear-gradient(rgba(255,255,255,0.015) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.015) 1px,transparent 1px); background-size:80px 80px; pointer-events:none; }
+.fade-in { opacity:0; transform:translateY(20px); animation:fadeUp 0.8s ease forwards; }
+.fade-in:nth-child(2) { animation-delay:0.1s; }
+.fade-in:nth-child(3) { animation-delay:0.2s; }
+@keyframes fadeUp { to{opacity:1;transform:translateY(0)} }
+@media(max-width:768px) { .hero-inner{grid-template-columns:1fr} .dual-grid{grid-template-columns:1fr} .research-grid{grid-template-columns:1fr} .nav-links{gap:1rem} .nav-links a{font-size:0.75rem} .footer-inner{flex-direction:column;gap:0.5rem} }
+</style>
+</head>
+<body>
+<div class="grid-bg"></div>
+<nav><div class="nav-inner">
+  <a href="#" class="nav-logo">D<span>.</span>Jung</a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#education">Education</a></li>
+    <li><a href="#research">Research</a></li>
+    <li><a href="#stargate">Stargate</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</div></nav>
+
+<section class="hero"><div class="hero-inner">
+  <div class="fade-in">
+    <div class="hero-tag">Seoul National University · Stargate Corp</div>
+    <h1>Dongsoo Jung<br><em>정동수</em></h1>
+    <p class="hero-desc">AI 소프트웨어 기업 CEO이자 서울대 스마트도시공학 박사과정 연구자. 도시 공간 데이터와 인공지능의 교차점에서 새로운 가치를 만듭니다.</p>
+    <div class="hero-cta">
+      <a href="#contact" class="btn btn-primary">Get in Touch</a>
+      <a href="#research" class="btn btn-outline">View Research</a>
+    </div>
+  </div>
+  <div class="hero-card fade-in">
+    <div class="card-header"><span class="card-name">정동수</span><span class="card-status">Active</span></div>
+    <div class="stat-grid">
+      <div class="stat-item"><div class="stat-label">Education</div><div class="stat-value">SNU <small>B.A.·M.A.·Ph.D.</small></div></div>
+      <div class="stat-item"><div class="stat-label">Company</div><div class="stat-value">별의문 <small>CEO · 2025~</small></div></div>
+      <div class="stat-item"><div class="stat-label">Military</div><div class="stat-value">ROKAF <small>1st Lt. · 3yr 3mo</small></div></div>
+      <div class="stat-item"><div class="stat-label">Degrees</div><div class="stat-value">4 <small>B.A.+2×M.A.+Ph.D.</small></div></div>
+    </div>
+  </div>
+</div></section>
+<section id="about">
+  <div class="section-label">01 — About</div>
+  <h2 class="section-title">Two Worlds, One Vision</h2>
+  <div class="dual-grid">
+    <div class="identity-card academic fade-in">
+      <div class="identity-icon">🎓</div>
+      <h3>Academic Researcher</h3>
+      <p class="role">Ph.D. Candidate, Smart City Engineering @ SNU</p>
+      <ul class="identity-list">
+        <li>기업 신용 빅데이터 기반 도시 공간 분석 연구</li>
+        <li>공간계량모형 · 헤도닉가격모형 · DID 이중차분법</li>
+        <li>Python/GIS 기반 도시 데이터 분석</li>
+        <li>지도교수: 박윤미 교수 (SNU 건설환경공학부)</li>
+        <li>국토연구원 국토서원 프로그램 수료</li>
+      </ul>
+    </div>
+    <div class="identity-card business fade-in">
+      <div class="identity-icon">🚀</div>
+      <h3>AI Startup CEO</h3>
+      <p class="role">Founder &amp; CEO, Stargate Corporation (주식회사 별의문)</p>
+      <ul class="identity-list">
+        <li>AI 소프트웨어 개발 및 교육 콘텐츠 사업</li>
+        <li>전자출판 · 글로벌 이커머스 (Amazon/Coupang)</li>
+        <li>대치동 수학/정보올림피아드(KOI) 과외</li>
+        <li>알고리즘 교육 및 경쟁 프로그래밍</li>
+        <li>설립: 2025.08.15 · 대치동, 서울</li>
+      </ul>
+    </div>
+  </div>
+</section>
+<section id="education">
+  <div class="section-label">02 — Education &amp; Career</div>
+  <h2 class="section-title">Journey</h2>
+  <div class="timeline">
+    <div class="timeline-item highlight"><div class="timeline-year">2025.08 — PRESENT</div><div class="timeline-title">CEO, Stargate Corporation (주식회사 별의문)</div><div class="timeline-desc">AI 소프트웨어 개발, 교육 콘텐츠, 전자출판, 글로벌 이커머스</div></div>
+    <div class="timeline-item"><div class="timeline-year">2024.04 — 2024.10</div><div class="timeline-title">GRI Researcher, 경기연구원</div><div class="timeline-desc">경기도 정책 연구</div></div>
+    <div class="timeline-item"><div class="timeline-year">2022.03 — 2024.02</div><div class="timeline-title">Ph.D. Candidate (수료), Smart City Engineering, SNU</div><div class="timeline-desc">건설환경공학부 스마트도시공학 전공 · 기업신용빅데이터 도시공간분석</div></div>
+    <div class="timeline-item"><div class="timeline-year">2022.03 — 2024.03</div><div class="timeline-title">Researcher, SNU CEE</div><div class="timeline-desc">서울대 건설환경공학부 연구원</div></div>
+    <div class="timeline-item"><div class="timeline-year">2021.08 — 2021.10</div><div class="timeline-title">Researcher, KIPA 한국행정연구원</div><div class="timeline-desc">행정학 연구 프로젝트</div></div>
+    <div class="timeline-item"><div class="timeline-year">2018.03 — 2022.02</div><div class="timeline-title">M.A. Public Administration &amp; Policy, SNU GSPA</div><div class="timeline-desc">서울대 행정대학원 행정학 석사</div></div>
+    <div class="timeline-item"><div class="timeline-year">2015.03 — 2017.02</div><div class="timeline-title">M.A. North Korean Economics &amp; IT</div><div class="timeline-desc">북한대학원대학교 북한학(경제/IT) 석사</div></div>
+    <div class="timeline-item"><div class="timeline-year">2012.12 — 2015.11</div><div class="timeline-title">First Lieutenant, Republic of Korea Air Force</div><div class="timeline-desc">시설장교 · 서울공항 활주로 재포장(₩803억) · 격납고(₩215억) 프로젝트 관리 · 공군참모총장상 수상 · 토목기사 취득</div></div>
+    <div class="timeline-item"><div class="timeline-year">2006.03 — 2012.08</div><div class="timeline-title">B.A. Civil &amp; Urban &amp; Geosystem Engineering, SNU</div><div class="timeline-desc">서울대 공과대학 지구환경시스템공학부 · 만 17세 최연소 입학</div></div>
+  </div>
+</section>
+<section id="research">
+  <div class="section-label">03 — Research &amp; Projects</div>
+  <h2 class="section-title">Research Focus</h2>
+  <div class="research-grid">
+    <div class="research-item fade-in"><h4>기업 신용 빅데이터 × 도시공간</h4><p>기업 신용 데이터를 활용한 도시 공간 패턴 분석 및 경제지리학적 인사이트 도출. 박사 학위논문 주제.</p><span class="research-tag">Spatial Econometrics</span><span class="research-tag">Big Data</span><span class="research-tag">Credit Analysis</span></div>
+    <div class="research-item fade-in"><h4>수원 군공항 종전부지 미래전략</h4><p>수원 군공항 이전 후 종전부지 활용 방안에 대한 미래 전략 연구.</p><span class="research-tag">Urban Planning</span><span class="research-tag">GIS</span><span class="research-tag">Policy</span></div>
+    <div class="research-item fade-in"><h4>김포 스마트 재생 예비타당성</h4><p>KDI 협력 연구. 김포 지역 스마트 재생 사업의 예비타당성 조사 수행.</p><span class="research-tag">KDI</span><span class="research-tag">Feasibility</span><span class="research-tag">Smart City</span></div>
+    <div class="research-item fade-in"><h4>부천 역세권 종합운동장 개발</h4><p>부천역 역세권 종합운동장 개발 구상 및 공간 분석 연구.</p><span class="research-tag">TOD</span><span class="research-tag">Urban Dev</span></div>
+    <div class="research-item fade-in"><h4>공간계량 &amp; 헤도닉 모형</h4><p>공간자기상관, 공간오차모형 등 공간계량경제학 방법론과 부동산 헤도닉 가격모형 연구.</p><span class="research-tag">Hedonic Model</span><span class="research-tag">DID</span><span class="research-tag">Python</span></div>
+    <div class="research-item fade-in"><h4>AI &amp; Education Technology</h4><p>알고리즘 교육(KOI/IOI), AI 기반 교육 콘텐츠 개발, EdTech 플랫폼 구축.</p><span class="research-tag">KOI</span><span class="research-tag">AI EdTech</span><span class="research-tag">Algorithm</span></div>
+  </div>
+</section>
+<section id="stargate" style="padding-bottom:2rem">
+  <div class="section-label">04 — Stargate Corporation</div>
+  <h2 class="section-title">주식회사 별의문</h2>
+  <div class="dual-grid">
+    <div style="display:flex;flex-direction:column;gap:1.5rem">
+      <div class="research-item"><h4>🤖 AI Software</h4><p>AI 기반 소프트웨어 솔루션 개발. 도시 데이터 분석, 교육 자동화, 비즈니스 인텔리전스.</p></div>
+      <div class="research-item"><h4>📚 Education &amp; Publishing</h4><p>전자출판(Amazon KDP), AI 교육 콘텐츠, 수학/정보올림피아드(KOI) 커리큘럼.</p></div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:1.5rem">
+      <div class="research-item"><h4>🌏 Global E-Commerce</h4><p>Amazon, Coupang, Cafe24 멀티채널 글로벌 이커머스 전략.</p></div>
+      <div class="research-item"><h4>🎓 Tutoring (Daechi-dong)</h4><p>대치동 수학 · KOI(한국정보올림피아드) 과외. 알고리즘 및 경쟁 프로그래밍 교육.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="contact" class="contact-section">
+  <div class="section-label">05 — Contact</div>
+  <h2 class="section-title">Let's Connect</h2>
+  <p class="contact-desc">연구 협업, 사업 제안, 교육 문의 등 편하게 연락주세요.</p>
+  <div class="contact-links">
+    <a href="mailto:jds0688@snu.ac.kr" class="contact-chip">✉️ jds0688@snu.ac.kr</a>
+    <a href="mailto:jds0688@naver.com" class="contact-chip">✉️ jds0688@naver.com</a>
+    <a href="tel:+82-70-8017-8224" class="contact-chip">📞 070-8017-8224</a>
+    <a href="https://scholar.google.co.kr/citations?user=cXG0LFEAAAAJ&amp;hl=ko" class="contact-chip" target="_blank">🎓 Google Scholar</a>
+    <a href="https://www.researchgate.net/profile/Dongsoo-Jung-2" class="contact-chip" target="_blank">📄 ResearchGate</a>
+    <a href="https://orcid.org/0009-0004-9578-6858" class="contact-chip" target="_blank">🆔 ORCiD</a>
+    <a href="https://github.com/dongsoojung" class="contact-chip" target="_blank">💻 GitHub</a>
+  </div>
+</section>
+
+<footer><div class="footer-inner">
+  <span>© 2026 Dongsoo Jung. All rights reserved.</span>
+  <span style="font-family:var(--mono);font-size:0.7rem">Stargate Corporation (주식회사 별의문) · Seoul, Korea</span>
+</div></footer>
+</body>
+</html>
