@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8"/>
+<title>수학 교재(25GB) 트리 구조 시각화 · Stargate Corp</title>
+<script src="https://d3js.org/d3.v7.min.js"></script>
+<style>
+  * { box-sizing: border-box; }
+  body {
+    font-family: 'Malgun Gothic', 'Apple SD Gothic Neo', -apple-system, sans-serif;
+    margin: 0; padding: 0; background:#0b1220; color:#e7ecf7;
+    min-height: 100vh;
+  }
+  header {
+    padding: 18px 28px 12px; border-bottom:1px solid #233045;
+    display:flex; justify-content:space-between; align-items:flex-end; gap:20px;
+    background:linear-gradient(180deg,#0f1a2e,#0b1220);
+  }
+  header h1 { margin:0; font-size:22px; font-weight:700; letter-spacing:-.01em; }
+  header .sub { color:#9fb0cf; font-size:13px; margin-top:4px; }
+  .stats { display:flex; gap:18px; }
+  .stats .kv { text-align:right; }
+  .stats .kv .n { font-size:20px; font-weight:700; color:#79b8ff; }
+  .stats .kv .l { font-size:11px; color:#8fa3c7; }
+  .tabs { display:flex; gap:2px; padding:10px 28px 0; border-bottom:1px solid #233045; background:#0b1220; }
+  .tab {
+    padding:10px 18px; background:#14223b; color:#c0d0ed; cursor:pointer;
+    border:1px solid #233045; border-bottom:none; border-radius:8px 8px 0 0;
+    font-size:13px; font-weight:600;
+  }
+  .tab.active { background:#1f3054; color:#fff; border-color:#365081; }
+  .panel { padding:18px 28px; display:none; }
+  .panel.active { display:block; }
+  .two-col { display:grid; grid-template-columns: 1fr 320px; gap:18px; }
+  .card { background:#111c33; border:1px solid #23304a; border-radius:10px; padding:14px 16px; }
+  .card h2 { margin:0 0 10px; font-size:14px; color:#9fb0cf; font-weight:600; letter-spacing:.02em; text-transform:uppercase; }
+  #treemap, #sunburst, #treechart, #bar { width:100%; min-height:540px; }
+  .legend { display:flex; flex-wrap:wrap; gap:6px 10px; font-size:11px; color:#b3c4e0; padding-top:8px; }
+  .legend .sw { width:10px; height:10px; display:inline-block; border-radius:2px; margin-right:4px; vertical-align:middle; }
+  table { width:100%; border-collapse:collapse; font-size:12px; }
+  table th { text-align:left; color:#8fa3c7; font-weight:600; padding:6px 4px; border-bottom:1px solid #23304a; }
+  table td { padding:5px 4px; border-bottom:1px solid #1a2640; color:#d6e0f2; }
+  table tr:hover td { background:#16233d; }
+  .breadcrumb { font-size:12px; color:#9fb0cf; margin-bottom:8px; }
+  .breadcrumb span { cursor:pointer; color:#79b8ff; }
+  .breadcrumb span:hover { text-decoration:underline; }
+  .tooltip {
+    position:absolute; pointer-events:none;
+    background:#1b2a47; color:#e7ecf7; padding:8px 10px; border-radius:6px;
+    border:1px solid #365081; font-size:12px; max-width:320px; z-index:999;
+    box-shadow:0 4px 14px rgba(0,0,0,.4);
+  }
+  .node circle { stroke:#fff; stroke-width:1.2px; }
+  .node text { font-size:11px; fill:#e7ecf7; }
+  .link { fill:none; stroke:#3f557f; stroke-opacity:.55; stroke-width:1.2px; }
+  .search { padding:8px 10px; border:1px solid #365081; border-radius:6px; background:#0f1a2e; color:#e7ecf7; width:100%; font-size:13px; }
+  footer { padding:16px 28px; color:#667994; font-size:11px; border-top:1px solid #233045; }
+  .pill { display:inline-block; padding:2px 8px; border-radius:999px; font-size:11px; font-weight:600; }
+</style>
+</head>
+<body>
+<header>
+  <div>
+    <h1>수학 교재(25GB) 트리 구조 · 인터랙티브 시각화</h1>
+    <div class="sub">Stargate Corp · 대치동 KOI 강사 자산 · 3단계 하위 구조 · D3.js v7</div>
+  </div>
+  <div class="stats">
+    <div class="kv"><div class="n">437</div><div class="l">파일 수</div></div>
+    <div class="kv"><div class="n">22</div><div class="l">폴더 수</div></div>
+    <div class="kv"><div class="n">29.7</div><div class="l">총 용량 (GB)</div></div>
+  </div>
+</header>
+
+<div class="tabs">
+  <div class="tab active" data-tab="treemap">① 트리맵 (드릴다운)</div>
+  <div class="tab" data-tab="sunburst">② 선버스트</div>
+  <div class="tab" data-tab="tree">③ 접고펴는 트리</div>
+  <div class="tab" data-tab="category">④ 카테고리 분석</div>
+</div>
+
+<div class="panel active" id="panel-treemap">
+  <div class="breadcrumb" id="bc">📍 <span data-depth="0">수학 교재(25GB)</span></div>
+  <div class="card">
+    <h2>트리맵 (클릭으로 드릴다운, 우클릭/뒤로가기로 상위)</h2>
+    <svg id="treemap"></svg>
+    <div class="legend" id="tmlegend"></div>
+  </div>
+</div>
+
+<div class="panel" id="panel-sunburst">
+  <div class="two-col">
+    <div class="card">
+      <h2>선버스트 (중심 클릭→상위, 조각 클릭→확대)</h2>
+      <svg id="sunburst" viewBox="-420 -420 840 840"></svg>
+    </div>
+    <div class="card">
+      <h2>현재 경로 상세</h2>
+      <div id="sunburst-info" style="font-size:12px;color:#c0d0ed;line-height:1.7;">
+        조각을 클릭하시면 세부 정보가 표시됩니다.
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="panel" id="panel-tree">
+  <div class="card">
+    <h2>접을 수 있는 계층 트리 (노드 클릭 = 접기/펴기)</h2>
+    <input type="text" class="search" id="search" placeholder="🔍 파일/폴더 검색 (예: 현우진, 2026, KMO)" />
+    <svg id="treechart"></svg>
+  </div>
+</div>
+
+<div class="panel" id="panel-category">
+  <div class="two-col">
+    <div class="card">
+      <h2>카테고리별 권수 · 용량</h2>
+      <svg id="bar" viewBox="0 0 760 540"></svg>
+    </div>
+    <div class="card">
+      <h2>카테고리 순위표</h2>
+      <table id="cat-table">
+        <thead><tr><th>#</th><th>카테고리</th><th style="text-align:right">권수</th><th style="text-align:right">MB</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<footer>
+  생성: Stargate Corp · 경로: H:\내 드라이브\수학 교재(25GB) · 3단계 스캔 · 정동수 CEO
+</footer>
+
+<script>
+const DATA = {"name": "수학 교재(25GB)", "children": [{"name": "KMO 경시 자료", "children": [{"name": "조합 경시 자료(이태균 선생님)_올림피아드 지름길", "children": [{"name": "[중학생을 위한 올림피아드 수학의 지름길] 중급-상 (2015)[씨실과 날실][본문].pdf", "size": 146496021, "ext": ".pdf", "category": "KMO/올림피아드", "isdir": false}, {"name": "[중학생을 위한 올림피아드 수학의 지름길] 중급-상 (2015)[씨실과 날실][해설].pdf", "size": 47072644, "ext": ".pdf", "category": "KMO/올림피아드", "isdir": false}, {"name": "[중학생을 위한 올림피아드 수학의 지름길] 중급-하 (2015)[씨실과 날실][본문].pdf", "size": 156726690, "ext": ".pdf", "category": "KMO/올림피아드", "isdir": false}, {"name": "[중학생을 위한 올림피아드 수학의 지름길] 중급-하 (2015)[씨실과 날실][해설].pdf", "size": 53928720, "ext": ".pdf", "category": "KMO/올림피아드", "isdir": false}, {"name": "수학경시콘서트2.pdf", "size": 9168108, "ext": ".pdf", "category": "KMO/올림피아드", "isdir": false}, {"name": "올림피아드-조합론.pdf", "size": 6524873, "ext": ".pdf", "category": "KMO/올림피아드", "isdir": false}, {"name": "올림피아드수학의지름길 실전종합상(정답과해설)-씨실과날실.pdf", "size": 19034048, "ext": ".pdf", "category": "KMO/올림피아드", "isdir": false}, {"name": "올림피아드수학의지름길 실전종합상-씨실과날실.pdf", "size": 13740458, "ext": ".pdf", "category": "KMO/올림피아드", "isdir": false}, {"name": "올림피아드수학의지름길 실전종합하(정답과해설)-씨실과날실.pdf", "size": 82766947, "ext": ".pdf", "category": "KMO/올림피아드", "isdir": false}, {"name": "올림피아드수학의지름길 실전종합하-씨실과날실.pdf", "size": 13407592, "ext": ".pdf", "category": "KMO/올림피아드", "isdir": false}], "isdir": true, "size": 548866101, "file_count": 10}, {"name": "2015 A급수학 Limited Edition 해설.pdf", "size": 165538105, "ext": ".pdf", "category": "해설/답지", "isdir": false}, {"name": "2015 A급수학 Limited Edition.pdf", "size": 255882531, "ext": ".pdf", "category": "기타", "isdir": false}, {"name": "[중학생을 위한 올림피아드 수학의 지름길] 중급-상 (2015)[씨실과 날실][본문].pdf", "size": 146496021, "ext": ".pdf", "category": "KMO/올림피아드", "isdir": false}, {"name": "[중학생을 위한 올림피아드 수학의 지름길] 중급-상 (2015)[씨실과 날실][해설].pdf", "size": 47072644, "ext": ".pdf", "category": "KMO/올림피아드", "isdir": false}, {"name": "[중학생을 위한 올림피아드 수학의 지름길] 중급-하 (2015)[씨실과 날실][본문].pdf", "size": 156726690, "ext": ".pdf", "category": "KMO/올림피아드", "isdir": false}, {"name": "[중학생을 위한 올림피아드 수학의 지름길] 중급-하 (2015)[씨실과 날실][해설].pdf", "size": 53928720, "ext": ".pdf", "category": "KMO/올림피아드", "isdir": false}, {"name": "개론조합교재-교사용(22.01.수정완료)-재수정본.hwp", "size": 7924224, "ext": ".hwp", "category": "KMO/올림피아드", "isdir": false}, {"name": "수학 노베이스를 위한 삼각형 정리.zip", "size": 1666412, "ext": ".zip", "category": "기타", "isdir": false}, {"name": "수학경시콘서트2.pdf", "size": 9168108, "ext": ".pdf", "category": "KMO/올림피아드", "isdir": false}, {"name": "올림피아드 3프로 2과정.zip", "size": 6346325, "ext": ".zip", "category": "KMO/올림피아드", "isdir": false}, {"name": "올림피아드-조합론.pdf", "size": 6524873, "ext": ".pdf", "category": "KMO/올림피아드", "isdir": false}, {"name": "올림피아드수학의지름길 실전종합상(정답과해설)-씨실과날실.pdf", "size": 19034048, "ext": ".pdf", "category": "KMO/올림피아드", "isdir": false}, {"name": "올림피아드수학의지름길 실전종합상-씨실과날실.pdf", "size": 13740458, "ext": ".pdf", "category": "KMO/올림피아드", "isdir": false}, {"name": "올림피아드수학의지름길 실전종합하(정답과해설)-씨실과날실.pdf", "size": 82766947, "ext": ".pdf", "category": "KMO/올림피아드", "isdir": false}, {"name": "올림피아드수학의지름길 실전종합하-씨실과날실.pdf", "size": 13407592, "ext": ".pdf", "category": "KMO/올림피아드", "isdir": false}, {"name": "한국수학kmo+바이블+기하편.PDF", "size": 3243637, "ext": ".PDF", "category": "KMO/올림피아드", "isdir": false}, {"name": "한국수학올림피아드바이블(1-정수).hwp", "size": 83456, "ext": ".hwp", "category": "KMO/올림피아드", "isdir": false}, {"name": "한국수학올림피아드바이블(2-대수).PDF", "size": 115626, "ext": ".PDF", "category": "KMO/올림피아드", "isdir": false}, {"name": "한국수학올림피아드바이블(2-대수).hwp", "size": 94208, "ext": ".hwp", "category": "KMO/올림피아드", "isdir": false}, {"name": "한국수학올림피아드바이블(3-기하).hwp", "size": 249344, "ext": ".hwp", "category": "KMO/올림피아드", "isdir": false}], "isdir": true, "size": 1538876070, "file_count": 30}, {"name": "Telegram Desktop", "children": [{"name": "ChatExport_2026-02-04", "children": [{"name": "js", "children": [], "isdir": true}], "isdir": true, "size": 0, "file_count": 0}], "isdir": true, "size": 0, "file_count": 0}, {"name": "강사 교재", "children": [{"name": "2025 수학 강윤구 CHECKPOINT 모의 Vol.1 (문제).pdf", "size": 101287176, "ext": ".pdf", "category": "기출/모의", "isdir": false}, {"name": "2025 수학 강윤구 CHECKPOINT 모의 Vol.1 (해설).pdf", "size": 81786531, "ext": ".pdf", "category": "기출/모의", "isdir": false}, {"name": "2025 수학 강윤구 수리논술 공략법.pdf", "size": 163680692, "ext": ".pdf", "category": "기타", "isdir": false}, {"name": "2025_강대K_국어_2회_문제.pdf", "size": 199944919, "ext": ".pdf", "category": "강대/시대인재", "isdir": false}, {"name": "2025_강대K_국어_2회_해설.pdf", "size": 229270386, "ext": ".pdf", "category": "강대/시대인재", "isdir": false}, {"name": "2025_수학1_박종민_고수탑_1권.pdf", "size": 47665995, "ext": ".pdf", "category": "기타", "isdir": false}, {"name": "2025_수학1_박종민_리사이트_1권.pdf", "size": 10340015, "ext": ".pdf", "category": "기타", "isdir": false}, {"name": "2025_수학1_박종민_위클리콤_1권.pdf", "size": 25122631, "ext": ".pdf", "category": "기타", "isdir": false}, {"name": "2026 강기원 어싸인먼트 13주차 99_250326_140320.pdf", "size": 81170034, "ext": ".pdf", "category": "강대/시대인재", "isdir": false}, {"name": "2026 강기원 어싸인먼트 14주차.pdf", "size": 89147705, "ext": ".pdf", "category": "강대/시대인재", "isdir": false}, {"name": "2026 강기원 어싸인먼트 15주차.pdf", "size": 80824731, "ext": ".pdf", "category": "강대/시대인재", "isdir": false}, {"name": "2026 강기원 어싸인먼트 19주차.pdf", "size": 78199199, "ext": ".pdf", "category": "강대/시대인재", "isdir": false}, {"name": "2026 김기현 KICK OFF 수학1 워크북.pdf", "size": 24886798, "ext": ".pdf", "category": "기타", "isdir": false}, {"name": "2026 김기현 KICK OFF 수학1 해설.pdf", "size": 37659974, "ext": ".pdf", "category": "해설/답지", "isdir": false}, {"name": "2026 김기현 KICK OFF 수학1.pdf", "size": 68299597, "ext": ".pdf", "category": "기타", "isdir": false}, {"name": "2026 김기현 KICK OFF 수학2 워크북.pdf", "size": 22580681, "ext": ".pdf", "category": "기타", "isdir": false}, {"name": "2026 김기현 KICK OFF 수학2 해설.pdf", "size": 55860760, "ext": ".pdf", "category": "해설/답지", "isdir": false}, {"name": "2026 김기현 KICK OFF 수학2.pdf", "size": 64815375, "ext": ".pdf", "category": "기타", "isdir": false}, {"name": "2026 마더텅 국어 문법 개념 완성 2400제.pdf", "size": 68032302, "ext": ".pdf", "category": "기타", "isdir": false}, {"name": "2026 마더텅 문법 개념 완성 2400제 정답 해설.pdf", "size": 164711753, "ext": ".pdf", "category": "해설/답지", "isdir": false}, {"name": "2026 수능완성 원본 기하.pdf", "size": 15765139, "ext": ".pdf", "category": "EBS", "isdir": false}, {"name": "2026 수능완성 원본 미적분.pdf", "size": 12302604, "ext": ".pdf", "category": "EBS", "isdir": false}, {"name": "2026 수능완성 원본 생명과학 II.pdf", "size": 16009350, "ext": ".pdf", "category": "EBS", "isdir": false}, {"name": "2026 수능완성 원본 지구과학 II.pdf", "size": 19436453, "ext": ".pdf", "category": "EBS", "isdir": false}, {"name": "2026 수능특강 수2 본문.pdf", "size": 28372861, "ext": ".pdf", "category": "EBS", "isdir": false}, {"name": "2026 수능특강 수2 정답 및 해설.pdf", "size": 9011202, "ext": ".pdf", "category": "EBS", "isdir": false}, {"name": "2026 수분감 미적분 문제편.pdf", "size": 164869603, "ext": ".pdf", "category": "현우진(대성/시대인재)", "isdir": false}, {"name": "2026 수분감 미적분 해설편.pdf", "size": 101483965, "ext": ".pdf", "category": "현우진(대성/시대인재)", "isdir": false}, {"name": "24시대인재_서바_모고_확통_1,2회_폰스캔_답지x.pdf", "size": 2397084, "ext": ".pdf", "category": "강대/시대인재", "isdir": false}, {"name": "24시대인재_서바_모고_확통_3회_.pdf", "size": 604703, "ext": ".pdf", "category": "강대/시대인재", "isdir": false}, {"name": "24시대인재_서바_모고_확통_4회_폰스캔.pdf", "size": 1636263, "ext": ".pdf", "category": "강대/시대인재", "isdir": false}, {"name": "25학년도 9월 모평_수학 정답,해설.pdf", "size": 342765, "ext": ".pdf", "category": "기출/모의", "isdir": false}, {"name": "[해설지] [6월호] 우일신 (又日新) 파본형 월간 N제.pdf", "size": 12352635, "ext": ".pdf", "category": "N제/핀셋", "isdir": false}, {"name": "_수학_2025학년도_시대인재_서바이벌_17회_해설.pdf", "size": 5954412, "ext": ".pdf", "category": "강대/시대인재", "isdir": false}, {"name": "_수학_2025학년도_시대인재_서바이벌_리부트_13회.pdf", "size": 14256404, "ext": ".pdf", "category": "강대/시대인재", "isdir": false}, {"name": "_수학_2025학년도_시대인재_서바이벌_리부트_13회_해설.pdf", "size": 6232727, "ext": ".pdf", "category": "강대/시대인재", "isdir": false}, {"name": "_수학_2025학년도_시대인재_전국_브릿지_24회_해설.pdf", "size": 2976632, "ext": ".pdf", "category": "강대/시대인재", "isdir": false}], "isdir": true, "size": 2109292056, "file_count": 37}, {"name": "고등학교 기본교재", "children": [{"name": "1.EBS 50일수학 수학(상)-1.pdf", "size": 6359904, "ext": ".pdf", "category": "EBS", "isdir": false}, {"name": "2.EBS 50일수학 수학(상)_해설-1.pdf", "size": 6094738, "ext": ".pdf", "category": "EBS", "isdir": false}, {"name": "2015 개념원리 기하 해설.pdf", "size": 9283692, "ext": ".pdf", "category": "개념원리/유형", "isdir": false}, {"name": "2015 개념원리 기하.pdf", "size": 17791007, "ext": ".pdf", "category": "개념원리/유형", "isdir": false}, {"name": "2015 개념원리 미적분 해설.pdf", "size": 9656649, "ext": ".pdf", "category": "개념원리/유형", "isdir": false}, {"name": "2015 개념원리 미적분.pdf", "size": 13077557, "ext": ".pdf", "category": "개념원리/유형", "isdir": false}, {"name": "2015 개념원리 수학(상) 해설.pdf", "size": 11182863, "ext": ".pdf", "category": "개념원리/유형", "isdir": false}, {"name": "2015 개념원리 수학(상).pdf", "size": 26710808, "ext": ".pdf", "category": "개념원리/유형", "isdir": false}, {"name": "2015 개념원리 수학(하) 해설.pdf", "size": 7694883, "ext": ".pdf", "category": "개념원리/유형", "isdir": false}, {"name": "2015 개념원리 수학(하).pdf", "size": 18478290, "ext": ".pdf", "category": "개념원리/유형", "isdir": false}, {"name": "2015 개념원리 수학1 해설.pdf", "size": 7458606, "ext": ".pdf", "category": "개념원리/유형", "isdir": false}, {"name": "2015 개념원리 수학1.pdf", "size": 27224100, "ext": ".pdf", "category": "개념원리/유형", "isdir": false}, {"name": "2015 개념원리 수학2 해설.pdf", "size": 2226866, "ext": ".pdf", "category": "개념원리/유형", "isdir": false}, {"name": "2015 개념원리 수학2.pdf", "size": 3593626, "ext": ".pdf", "category": "개념원리/유형", "isdir": false}, {"name": "2015 개념원리 확률과 통계 해설.pdf", "size": 1007175, "ext": ".pdf", "category": "개념원리/유형", "isdir": false}, {"name": "2015 개념원리 확률과 통계.pdf", "size": 3139219, "ext": ".pdf", "category": "개념원리/유형", "isdir": false}, {"name": "2015 수학의 바이블 BOB 기하 해설.pdf", "size": 71914760, "ext": ".pdf", "category": "바이블", "isdir": false}, {"name": "2015 수학의 바이블 BOB 기하.pdf", "size": 100928730, "ext": ".pdf", "category": "바이블", "isdir": false}, {"name": "2015 수학의 바이블 BOB 미적분 해설.pdf", "size": 109623791, "ext": ".pdf", "category": "바이블", "isdir": false}, {"name": "2015 수학의 바이블 BOB 미적분.pdf", "size": 126738841, "ext": ".pdf", "category": "바이블", "isdir": false}, {"name": "2015 수학의 바이블 BOB 확률과 통계 (해설).pdf", "size": 7626225, "ext": ".pdf", "category": "바이블", "isdir": false}, {"name": "2015 수학의 바이블 BOB 확률과 통계.pdf", "size": 11922537, "ext": ".pdf", "category": "바이블", "isdir": false}, {"name": "2015 수학의 바이블 기하.pdf", "size": 19923218, "ext": ".pdf", "category": "바이블", "isdir": false}, {"name": "2015 수학의 바이블 미적분.pdf", "size": 197721641, "ext": ".pdf", "category": "바이블", "isdir": false}, {"name": "2015 수학의 바이블 확률과 통계.pdf", "size": 11367916, "ext": ".pdf", "category": "바이블", "isdir": false}, {"name": "2022개정 공통수학1 실력정석 본책.pdf", "size": 24952699, "ext": ".pdf", "category": "수학의 정석", "isdir": false}, {"name": "2022개정 공통수학1 실력정석 정답과해설(연습문제).pdf", "size": 7708119, "ext": ".pdf", "category": "수학의 정석", "isdir": false}, {"name": "2022개정 공통수학1 실력정석 정답과해설(유제).pdf", "size": 4406405, "ext": ".pdf", "category": "수학의 정석", "isdir": false}, {"name": "2022개정 공통수학2 실력정석 본책.pdf", "size": 29127775, "ext": ".pdf", "category": "수학의 정석", "isdir": false}, {"name": "2022개정 공통수학2 실력정석 정답과해설(연습문제).pdf", "size": 5574941, "ext": ".pdf", "category": "수학의 정석", "isdir": false}, {"name": "2022개정 공통수학2 실력정석 정답과해설(유제).pdf", "size": 3240426, "ext": ".pdf", "category": "수학의 정석", "isdir": false}, {"name": "3.EBS 50일수학 수학하)-1.pdf", "size": 15296843, "ext": ".pdf", "category": "EBS", "isdir": false}, {"name": "4.EBS 50일수학 수학(하)_해설-1.pdf", "size": 8282714, "ext": ".pdf", "category": "EBS", "isdir": false}, {"name": "[PDF] 개정 미적분I_바이블_본책-복사.pdf", "size": 8266680, "ext": ".pdf", "category": "바이블", "isdir": false}, {"name": "[PDF] 개정 미적분I_바이블_본책.pdf", "size": 8949920, "ext": ".pdf", "category": "바이블", "isdir": false}, {"name": "[PDF] 개정 미적분I_바이블_정답 및 해설.pdf", "size": 2615100, "ext": ".pdf", "category": "바이블", "isdir": false}, {"name": "[블랙라벨] 미적분.pdf", "size": 77001195, "ext": ".pdf", "category": "블랙라벨", "isdir": false}, {"name": "[숨마쿰라우데]미적분2_부분1.pdf", "size": 9141379, "ext": ".pdf", "category": "숨마쿰라우데/풍산자", "isdir": false}, {"name": "[숨마쿰라우데]미적분2_부분2.pdf", "size": 5847226, "ext": ".pdf", "category": "숨마쿰라우데/풍산자", "isdir": false}, {"name": "마플시너지 수1_.pdf", "size": 35063235, "ext": ".pdf", "category": "마플", "isdir": false}, {"name": "마플시너지 수상.pdf", "size": 17600705, "ext": ".pdf", "category": "마플", "isdir": false}, {"name": "마플시너지 수하.pdf", "size": 32559066, "ext": ".pdf", "category": "마플", "isdir": false}, {"name": "마플시너지 수학Ⅱ 해설.pdf", "size": 304027302, "ext": ".pdf", "category": "마플", "isdir": false}, {"name": "마플시너지 수학Ⅱ.pdf", "size": 148546512, "ext": ".pdf", "category": "마플", "isdir": false}, {"name": "마플시너지(수상)답지.pdf", "size": 37236613, "ext": ".pdf", "category": "마플", "isdir": false}, {"name": "마플시너지수1＿정답과해설 2.pdf", "size": 41882940, "ext": ".pdf", "category": "마플", "isdir": false}, {"name": "마플시너지수하(답지).pdf", "size": 45885654, "ext": ".pdf", "category": "마플", "isdir": false}, {"name": "수학의 신 1-1 09개정.pdf", "size": 4764986, "ext": ".pdf", "category": "기타", "isdir": false}, {"name": "수학의 신 1-2 09개정 해설.pdf", "size": 4463990, "ext": ".pdf", "category": "해설/답지", "isdir": false}, {"name": "수학의 정석 (기본) 기하.pdf", "size": 23310121, "ext": ".pdf", "category": "수학의 정석", "isdir": false}, {"name": "수학의 정석 (기본) 미적분.pdf", "size": 32105484, "ext": ".pdf", "category": "수학의 정석", "isdir": false}, {"name": "수학의 정석 (기본) 수1.pdf", "size": 21701208, "ext": ".pdf", "category": "수학의 정석", "isdir": false}, {"name": "수학의 정석 (기본) 수2.pdf", "size": 32752459, "ext": ".pdf", "category": "수학의 정석", "isdir": false}, {"name": "수학의 정석 (기본) 확률과 통계.pdf", "size": 23937543, "ext": ".pdf", "category": "수학의 정석", "isdir": false}, {"name": "수학의-바이블-유형on-공통수학1_정답과-풀이.pdf", "size": 6378939, "ext": ".pdf", "category": "바이블", "isdir": false}, {"name": "숨마쿰라우데 - 미적분.pdf", "size": 24397839, "ext": ".pdf", "category": "숨마쿰라우데/풍산자", "isdir": false}, {"name": "숨마쿰라우데 - 수학2.pdf", "size": 18105739, "ext": ".pdf", "category": "숨마쿰라우데/풍산자", "isdir": false}, {"name": "숨마쿰라우데 - 확률과통계.pdf", "size": 15488425, "ext": ".pdf", "category": "숨마쿰라우데/풍산자", "isdir": false}, {"name": "숨마쿰라우데 고등수학 상 2018.pdf", "size": 44055341, "ext": ".pdf", "category": "숨마쿰라우데/풍산자", "isdir": false}, {"name": "숨마쿰라우데 고등수학(상).pdf", "size": 893296719, "ext": ".pdf", "category": "숨마쿰라우데/풍산자", "isdir": false}, {"name": "숨마쿰라우데 중학수학 1-상.pdf", "size": 18300853, "ext": ".pdf", "category": "숨마쿰라우데/풍산자", "isdir": false}, {"name": "숨마쿰라우데 중학수학 1-하.pdf", "size": 20672116, "ext": ".pdf", "category": "숨마쿰라우데/풍산자", "isdir": false}, {"name": "숨마쿰라우데 중학수학 2-상.pdf", "size": 15986454, "ext": ".pdf", "category": "숨마쿰라우데/풍산자", "isdir": false}, {"name": "숨마쿰라우데 중학수학 2-하.pdf", "size": 17210553, "ext": ".pdf", "category": "숨마쿰라우데/풍산자", "isdir": false}, {"name": "숨마쿰라우데_고등수학_하 서브노트.pdf", "size": 19490192, "ext": ".pdf", "category": "숨마쿰라우데/풍산자", "isdir": false}, {"name": "숨마쿰라우데_미적분 서브노트.pdf", "size": 6399613, "ext": ".pdf", "category": "숨마쿰라우데/풍산자", "isdir": false}, {"name": "숨마쿰라우데_중학수학_개념기본서3-상_개념BOOK_문제(배포).pdf", "size": 18018077, "ext": ".pdf", "category": "숨마쿰라우데/풍산자", "isdir": false}], "isdir": true, "size": 2962797742, "file_count": 67}, {"name": "고등학교 내신", "children": [{"name": "[2020년 기출] 영동일고등학교 (서울 송파구) 1학년 1학기 중간 수학.pdf", "size": 15071513, "ext": ".pdf", "category": "기출/모의", "isdir": false}, {"name": "[2021년 기출] 영동일고등학교 (서울 송파구) 1학년 1학기 중간 수학.pdf", "size": 16208405, "ext": ".pdf", "category": "기출/모의", "isdir": false}], "isdir": true, "size": 31279918, "file_count": 2}, {"name": "수학 강의 자료", "children": [{"name": "50일 수학", "children": [{"name": "1.EBS 50일수학 수학(상)-1.pdf", "size": 6359904, "ext": ".pdf", "category": "EBS", "isdir": false}, {"name": "2.EBS 50일수학 수학(상)_해설-1.pdf", "size": 6094738, "ext": ".pdf", "category": "EBS", "isdir": false}, {"name": "3.EBS 50일수학 수학하)-1.pdf", "size": 15296843, "ext": ".pdf", "category": "EBS", "isdir": false}, {"name": "4.EBS 50일수학 수학(하)_해설-1.pdf", "size": 8282714, "ext": ".pdf", "category": "EBS", "isdir": false}], "isdir": true, "size": 36034199, "file_count": 4}, {"name": "중학 도형 정리", "children": [{"name": "도형 추가.pdf", "size": 2342221, "ext": ".pdf", "category": "기타", "isdir": false}, {"name": "주제5_중학도형 총정리.pdf", "size": 2229121, "ext": ".pdf", "category": "기타", "isdir": false}], "isdir": true, "size": 4571342, "file_count": 2}, {"name": "50일 수학.zip", "size": 32530713, "ext": ".zip", "category": "기타", "isdir": false}, {"name": "중학 도형 정리.zip", "size": 4377817, "ext": ".zip", "category": "기타", "isdir": false}], "isdir": true, "size": 77514071, "file_count": 8}, {"name": "수학의 정석", "children": [{"name": "2022개정 공통수학1 실력정석 본책.pdf", "size": 24952699, "ext": ".pdf", "category": "수학의 정석", "isdir": false}, {"name": "2022개정 공통수학1 실력정석 정답과해설(연습문제).pdf", "size": 7708119, "ext": ".pdf", "category": "수학의 정석", "isdir": false}, {"name": "2022개정 공통수학1 실력정석 정답과해설(유제).pdf", "size": 4406405, "ext": ".pdf", "category": "수학의 정석", "isdir": false}, {"name": "2022개정 공통수학2 실력정석 본책.pdf", "size": 29127775, "ext": ".pdf", "category": "수학의 정석", "isdir": false}, {"name": "2022개정 공통수학2 실력정석 정답과해설(연습문제).pdf", "size": 5574941, "ext": ".pdf", "category": "수학의 정석", "isdir": false}, {"name": "2022개정 공통수학2 실력정석 정답과해설(유제).pdf", "size": 3240426, "ext": ".pdf", "category": "수학의 정석", "isdir": false}, {"name": "수2 실력 정석.pdf", "size": 17978279, "ext": ".pdf", "category": "기타", "isdir": false}, {"name": "수학의 정석 (기본) 기하.pdf", "size": 23310121, "ext": ".pdf", "category": "수학의 정석", "isdir": false}, {"name": "수학의 정석 (기본) 미적분.pdf", "size": 32105484, "ext": ".pdf", "category": "수학의 정석", "isdir": false}, {"name": "수학의 정석 (기본) 수1.pdf", "size": 21701208, "ext": ".pdf", "category": "수학의 정석", "isdir": false}, {"name": "수학의 정석 (기본) 수2.pdf", "size": 32752459, "ext": ".pdf", "category": "수학의 정석", "isdir": false}, {"name": "수학의 정석 (기본) 확률과 통계.pdf", "size": 23937543, "ext": ".pdf", "category": "수학의 정석", "isdir": false}, {"name": "실력정석 수학 Ⅰ 본문.pdf", "size": 15752470, "ext": ".pdf", "category": "수학의 정석", "isdir": false}], "isdir": true, "size": 242547929, "file_count": 13}, {"name": "숨마쿰라우데", "children": [{"name": "2021 풍산자 라이트 수학(상) 해설지.pdf", "size": 1936156, "ext": ".pdf", "category": "숨마쿰라우데/풍산자", "isdir": false}, {"name": "2021 풍산자 라이트 수학(상).pdf", "size": 2865761, "ext": ".pdf", "category": "숨마쿰라우데/풍산자", "isdir": false}, {"name": "2021 풍산자 라이트 수학(하) 해설지.pdf", "size": 1768741, "ext": ".pdf", "category": "숨마쿰라우데/풍산자", "isdir": false}, {"name": "2021 풍산자 라이트 수학(하).pdf", "size": 3487779, "ext": ".pdf", "category": "숨마쿰라우데/풍산자", "isdir": false}, {"name": "2021 풍산자 필수유형 미적분 해설지.pdf", "size": 2996412, "ext": ".pdf", "category": "숨마쿰라우데/풍산자", "isdir": false}, {"name": "2021 풍산자 필수유형 미적분.pdf", "size": 2897668, "ext": ".pdf", "category": "숨마쿰라우데/풍산자", "isdir": false}, {"name": "2021 풍산자 필수유형 확률과 통계 해설지.pdf", "size": 1471620, "ext": ".pdf", "category": "숨마쿰라우데/풍산자", "isdir": false}, {"name": "2021 풍산자 필수유형 확률과 통계.pdf", "size": 2334716, "ext": ".pdf", "category": "숨마쿰라우데/풍산자", "isdir": false}, {"name": "수학I_숨마쿰라우데-01_지수_로그_함수.hwp", "size": 950784, "ext": ".hwp", "category": "숨마쿰라우데/풍산자", "isdir": false}, {"name": "수학I_숨마쿰라우데-02_행렬.hwp", "size": 338944, "ext": ".hwp", "category": "숨마쿰라우데/풍산자", "isdir": false}, {"name": "수학I_숨마쿰라우데-03_수열.hwp", "size": 999936, "ext": ".hwp", "category": "숨마쿰라우데/풍산자", "isdir": false}, {"name": "수학I_숨마쿰라우데-04_수열의_극한.hwp", "size": 484352, "ext": ".hwp", "category": "숨마쿰라우데/풍산자", "isdir": false}, {"name": "수학I_숨마쿰라우데-05_순열과_조합.hwp", "size": 454144, "ext": ".hwp", "category": "숨마쿰라우데/풍산자", "isdir": false}, {"name": "수학I_숨마쿰라우데-06_확률.hwp", "size": 174592, "ext": ".hwp", "category": "숨마쿰라우데/풍산자", "isdir": false}, {"name": "수학I_숨마쿰라우데-07_통계.hwp", "size": 178176, "ext": ".hwp", "category": "숨마쿰라우데/풍산자", "isdir": false}], "isdir": true, "size": 23339781, "file_count": 15}, {"name": "압축파일", "children": [{"name": "고1+수학+점검용.zip", "size": 8544736, "ext": ".zip", "category": "기타", "isdir": false}, {"name": "공통 수학 교재 등(정석, 숨마쿰 라우데) (1)-003.zip", "size": 2291810363, "ext": ".zip", "category": "기타", "isdir": false}, {"name": "교육(학원과외)-20260309T005700Z-3-032.zip", "size": 2099951928, "ext": ".zip", "category": "기타", "isdir": false}, {"name": "수학 노베이스를 위한 삼각형 정리.zip", "size": 1666412, "ext": ".zip", "category": "기타", "isdir": false}, {"name": "수학1 지수~통계 숨마쿰라우데.zip", "size": 3379932, "ext": ".zip", "category": "숨마쿰라우데/풍산자", "isdir": false}, {"name": "올림피아드 3프로 2과정.zip", "size": 6346325, "ext": ".zip", "category": "KMO/올림피아드", "isdir": false}], "isdir": true, "size": 4411699696, "file_count": 6}, {"name": "인공지능을 위한 수학", "children": [{"name": "인공 지능을 위한 수학 교과서(성균관대).pdf.crdownload", "size": 9498039, "ext": ".crdownload", "category": "기타", "isdir": false}], "isdir": true, "size": 9498039, "file_count": 1}, {"name": "조합 입문서", "children": [{"name": "수학 교재 내용들.zip", "size": 4727, "ext": ".zip", "category": "기타", "isdir": false}, {"name": "조합입문서_교사용 (2022.10.30. 수정).hwp", "size": 6577664, "ext": ".hwp", "category": "KMO/올림피아드", "isdir": false}], "isdir": true, "size": 6582391, "file_count": 2}, {"name": "중학 수학", "children": [{"name": "수학 노베이스를 위한 삼각형 정리", "children": [{"name": "수학 노베이스를 위한 삼각형 정리1.jpg", "size": 578114, "ext": ".jpg", "category": "기타", "isdir": false}, {"name": "수학 노베이스를 위한 삼각형 정리2.jpg", "size": 578114, "ext": ".jpg", "category": "기타", "isdir": false}, {"name": "수학 노베이스를 위한 삼각형 정리3.jpg", "size": 578114, "ext": ".jpg", "category": "기타", "isdir": false}, {"name": "수학 노베이스를 위한 삼각형 정리4.jpg", "size": 578114, "ext": ".jpg", "category": "기타", "isdir": false}, {"name": "수학 노베이스를 위한 삼각형 정리5.jpg", "size": 578114, "ext": ".jpg", "category": "기타", "isdir": false}], "isdir": true, "size": 2890570, "file_count": 5}, {"name": "(001-096)블랙중등(해설)1-2(웹용)(2).pdf", "size": 3604941, "ext": ".pdf", "category": "블랙라벨", "isdir": false}, {"name": "(15개정) 블랙라벨 중학 수학 1-1-해설 (웹용).pdf", "size": 3287069, "ext": ".pdf", "category": "블랙라벨", "isdir": false}, {"name": "(15개정) 블랙라벨 중학 수학 2-1-해설(웹용)(1).pdf", "size": 3193162, "ext": ".pdf", "category": "블랙라벨", "isdir": false}, {"name": "(15개정) 블랙라벨 중학 수학 2-2-해설(웹용).pdf", "size": 3824823, "ext": ".pdf", "category": "블랙라벨", "isdir": false}, {"name": "(15개정) 블랙라벨 중학수학 3-2 해설.pdf", "size": 2999555, "ext": ".pdf", "category": "블랙라벨", "isdir": false}, {"name": "1.EBS 50일수학 수학(상)-1.pdf", "size": 6359904, "ext": ".pdf", "category": "EBS", "isdir": false}, {"name": "2.EBS 50일수학 수학(상)_해설-1.pdf", "size": 6094738, "ext": ".pdf", "category": "EBS", "isdir": false}, {"name": "2015개정_개념플러스유형_중등수학2-1(22)_라이트편_학생용 (pdf.io).pdf", "size": 10808648, "ext": ".pdf", "category": "개념원리/유형", "isdir": false}, {"name": "2015개정_개념플러스유형_중등수학2-1_개념편.pdf", "size": 21609576, "ext": ".pdf", "category": "개념원리/유형", "isdir": false}, {"name": "2015개정_개념플러스유형_중등수학3-2_개념편.pdf", "size": 40394004, "ext": ".pdf", "category": "개념원리/유형", "isdir": false}, {"name": "2015개정_개념플러스유형_중등수학3-2_라이트편.pdf", "size": 21078398, "ext": ".pdf", "category": "개념원리/유형", "isdir": false}, {"name": "3.EBS 50일수학 수학하)-1.pdf", "size": 15296843, "ext": ".pdf", "category": "EBS", "isdir": false}, {"name": "4.EBS 50일수학 수학(하)_해설-1.pdf", "size": 8282714, "ext": ".pdf", "category": "EBS", "isdir": false}, {"name": "블랙라벨 중2-2.pdf", "size": 89981734, "ext": ".pdf", "category": "블랙라벨", "isdir": false}, {"name": "숨마쿰라우데 중학수학 1-상.pdf", "size": 18300853, "ext": ".pdf", "category": "숨마쿰라우데/풍산자", "isdir": false}, {"name": "숨마쿰라우데 중학수학 1-하.pdf", "size": 20672116, "ext": ".pdf", "category": "숨마쿰라우데/풍산자", "isdir": false}, {"name": "숨마쿰라우데 중학수학 2-상.pdf", "size": 15986454, "ext": ".pdf", "category": "숨마쿰라우데/풍산자", "isdir": false}, {"name": "숨마쿰라우데 중학수학 2-하.pdf", "size": 17210553, "ext": ".pdf", "category": "숨마쿰라우데/풍산자", "isdir": false}, {"name": "숨마쿰라우데_중학수학_개념기본서3-상_개념BOOK_문제(배포).pdf", "size": 18018077, "ext": ".pdf", "category": "숨마쿰라우데/풍산자", "isdir": false}, {"name": "중 3-1 숨마쿰라우데 테스트북.pdf", "size": 15009708, "ext": ".pdf", "category": "숨마쿰라우데/풍산자", "isdir": false}, {"name": "중3-2 수학 총정리(with예제).pdf", "size": 427112, "ext": ".pdf", "category": "기타", "isdir": false}, {"name": "중3-2 수학 총정리.pdf", "size": 315002, "ext": ".pdf", "category": "기타", "isdir": false}, {"name": "중학 도형 문제 선별 [고1, 고2 모의고사] (1).pdf", "size": 2491770, "ext": ".pdf", "category": "기출/모의", "isdir": false}, {"name": "중학 도형 문제 선별 손풀이 해설 [고1, 고2 모의고사].pdf", "size": 6089428, "ext": ".pdf", "category": "기출/모의", "isdir": false}, {"name": "중학교 수학 복습, 기출 문제로 2주 만에 완성하기(교재).pdf", "size": 6687950, "ext": ".pdf", "category": "기출/모의", "isdir": false}, {"name": "중학교 수학 복습, 기출 문제로 2주 만에 완성하기(손필기).pdf", "size": 10468279, "ext": ".pdf", "category": "기출/모의", "isdir": false}, {"name": "중학도형 닮음 샘플.pdf", "size": 312035, "ext": ".pdf", "category": "기타", "isdir": false}, {"name": "중학도형 체크리스트 1.pdf", "size": 245076, "ext": ".pdf", "category": "기타", "isdir": false}, {"name": "중학도형_자가체크리스트 오르비 완성본-복사.pdf", "size": 541513, "ext": ".pdf", "category": "기타", "isdir": false}], "isdir": true, "size": 372482605, "file_count": 34}, {"name": "중학교 내신", "children": [{"name": "[2021년 기출] 휘문중학교 (서울 강남구) 2학년 1학기 중간 수학.pdf", "size": 14116864, "ext": ".pdf", "category": "기출/모의", "isdir": false}], "isdir": true, "size": 14116864, "file_count": 1}, {"name": "초등 수학", "children": [{"name": "디딤돌 수시평가자료집 3-2.pdf", "size": 79968360, "ext": ".pdf", "category": "디딤돌", "isdir": false}, {"name": "디딤돌 수시평가자료집 4-1.pdf", "size": 93151975, "ext": ".pdf", "category": "디딤돌", "isdir": false}, {"name": "디딤돌 수시평가자료집 4-2.pdf", "size": 98285092, "ext": ".pdf", "category": "디딤돌", "isdir": false}, {"name": "디딤돌 수시평가자료집 6-1.pdf", "size": 99303634, "ext": ".pdf", "category": "디딤돌", "isdir": false}, {"name": "디딤돌 초등수학 기본+유형 3-2.pdf", "size": 550593896, "ext": ".pdf", "category": "디딤돌", "isdir": false}, {"name": "디딤돌 초등수학 기본+유형 4-1.pdf", "size": 653301643, "ext": ".pdf", "category": "디딤돌", "isdir": false}, {"name": "디딤돌 초등수학 기본+유형 5-1.pdf", "size": 563583145, "ext": ".pdf", "category": "디딤돌", "isdir": false}, {"name": "디딤돌 초등수학 기본+유형 6-1.pdf", "size": 600654558, "ext": ".pdf", "category": "디딤돌", "isdir": false}, {"name": "창의사고력 수학-6학년(문제+답안).pdf", "size": 4190240, "ext": ".pdf", "category": "기타", "isdir": false}], "isdir": true, "size": 2743032543, "file_count": 9}, {"name": "필기 노트", "children": [{"name": "수학 정리(공통)-추가 파일.pdf", "size": 8331466, "ext": ".pdf", "category": "기타", "isdir": false}, {"name": "필기 요약-연연하지말고 이연.pdf", "size": 5175893, "ext": ".pdf", "category": "기타", "isdir": false}], "isdir": true, "size": 13507359, "file_count": 2}, {"name": "현우진 시리즈", "children": [{"name": "2023 현우진 뉴런 기하.pdf", "size": 247407677, "ext": ".pdf", "category": "현우진(대성/시대인재)", "isdir": false}, {"name": "2023_현우진_시냅스_기하.pdf", "size": 176660219, "ext": ".pdf", "category": "현우진(대성/시대인재)", "isdir": false}, {"name": "2024_현우진_드릴드_미적분.pdf", "size": 21896029, "ext": ".pdf", "category": "현우진(대성/시대인재)", "isdir": false}, {"name": "2024_현우진_드릴드_미적분_해설편.pdf", "size": 19362081, "ext": ".pdf", "category": "현우진(대성/시대인재)", "isdir": false}, {"name": "2024_현우진_드릴드_수학1.pdf", "size": 16980789, "ext": ".pdf", "category": "현우진(대성/시대인재)", "isdir": false}, {"name": "2024_현우진_드릴드_수학1_해설편.pdf", "size": 11866072, "ext": ".pdf", "category": "현우진(대성/시대인재)", "isdir": false}, {"name": "2024_현우진_드릴드_수학2.pdf", "size": 17673125, "ext": ".pdf", "category": "현우진(대성/시대인재)", "isdir": false}, {"name": "2024_현우진_드릴드_수학2_해설편.pdf", "size": 17137990, "ext": ".pdf", "category": "현우진(대성/시대인재)", "isdir": false}, {"name": "2026 수분감 수학I 문제편.pdf", "size": 134215952, "ext": ".pdf", "category": "현우진(대성/시대인재)", "isdir": false}, {"name": "2026 수분감 수학I 해설편.pdf", "size": 76932452, "ext": ".pdf", "category": "현우진(대성/시대인재)", "isdir": false}, {"name": "2026 수분감 수학II 문제편.pdf", "size": 107306229, "ext": ".pdf", "category": "현우진(대성/시대인재)", "isdir": false}, {"name": "2026 수분감 수학II 해설편.pdf", "size": 74371358, "ext": ".pdf", "category": "현우진(대성/시대인재)", "isdir": false}, {"name": "2026 수분감 확률과 통계 문제편.pdf", "size": 9093714, "ext": ".pdf", "category": "현우진(대성/시대인재)", "isdir": false}, {"name": "2026 수분감 확률과 통계 해설편.pdf", "size": 5229034, "ext": ".pdf", "category": "현우진(대성/시대인재)", "isdir": false}, {"name": "2026 수학 강기원 어싸인먼트 10주차.pdf", "size": 60826278, "ext": ".pdf", "category": "강대/시대인재", "isdir": false}, {"name": "2026 수학 강기원 어싸인먼트 11주차.pdf", "size": 71827251, "ext": ".pdf", "category": "강대/시대인재", "isdir": false}, {"name": "2026 수학 강기원 어싸인먼트 12주차.pdf", "size": 91861356, "ext": ".pdf", "category": "강대/시대인재", "isdir": false}, {"name": "2026 수학 강기원 어싸인먼트 1주차.pdf", "size": 97048308, "ext": ".pdf", "category": "강대/시대인재", "isdir": false}, {"name": "2026 수학 강기원 어싸인먼트 2주차.pdf", "size": 78674875, "ext": ".pdf", "category": "강대/시대인재", "isdir": false}, {"name": "2026 수학 강기원 어싸인먼트 3주차.pdf", "size": 76862539, "ext": ".pdf", "category": "강대/시대인재", "isdir": false}, {"name": "2026 수학 강기원 어싸인먼트 4주차.pdf", "size": 80927132, "ext": ".pdf", "category": "강대/시대인재", "isdir": false}, {"name": "2026 수학 강기원 어싸인먼트 5주차.pdf", "size": 82423698, "ext": ".pdf", "category": "강대/시대인재", "isdir": false}, {"name": "2026 수학 강기원 어싸인먼트 6주차.pdf", "size": 80122319, "ext": ".pdf", "category": "강대/시대인재", "isdir": false}, {"name": "2026 수학 강기원 어싸인먼트 7주차.pdf", "size": 77544656, "ext": ".pdf", "category": "강대/시대인재", "isdir": false}, {"name": "2026 수학 강기원 어싸인먼트 8주차.pdf", "size": 69696738, "ext": ".pdf", "category": "강대/시대인재", "isdir": false}, {"name": "2026 수학 강기원 어싸인먼트 9주차.pdf", "size": 87149031, "ext": ".pdf", "category": "강대/시대인재", "isdir": false}, {"name": "2026 수학강기원 어싸인먼트 13주차.pdf", "size": 84536811, "ext": ".pdf", "category": "강대/시대인재", "isdir": false}, {"name": "2026 싱글 커넥션 수1.pdf", "size": 79948292, "ext": ".pdf", "category": "현우진(대성/시대인재)", "isdir": false}, {"name": "2026 싱글 커넥션 수2 해설.pdf", "size": 33985960, "ext": ".pdf", "category": "현우진(대성/시대인재)", "isdir": false}, {"name": "2026 싱글 커넥션 수2.pdf", "size": 87198677, "ext": ".pdf", "category": "현우진(대성/시대인재)", "isdir": false}, {"name": "2026 이해원 시즌1 수학 1 해설.pdf", "size": 75798173, "ext": ".pdf", "category": "해설/답지", "isdir": false}, {"name": "2026 이해원 시즌1 수학 2.pdf", "size": 90747520, "ext": ".pdf", "category": "기타", "isdir": false}, {"name": "2026 커넥션 수1 해설.pdf", "size": 38417850, "ext": ".pdf", "category": "현우진(대성/시대인재)", "isdir": false}, {"name": "2026 커넥션 수1.pdf", "size": 96485965, "ext": ".pdf", "category": "현우진(대성/시대인재)", "isdir": false}, {"name": "2026 커넥션 수2 해설.pdf", "size": 49595212, "ext": ".pdf", "category": "현우진(대성/시대인재)", "isdir": false}, {"name": "2026 커넥션 수2.pdf", "size": 91425055, "ext": ".pdf", "category": "현우진(대성/시대인재)", "isdir": false}, {"name": "2026 한완기 테마 미적분.pdf", "size": 36744203, "ext": ".pdf", "category": "기타", "isdir": false}, {"name": "2026 한완기 테마 수학1.pdf", "size": 44467988, "ext": ".pdf", "category": "기타", "isdir": false}, {"name": "2026 한완기 테마 수학2.pdf", "size": 48509875, "ext": ".pdf", "category": "기타", "isdir": false}, {"name": "2026 현우진 킬캠 1회 문제.pdf", "size": 16855417, "ext": ".pdf", "category": "현우진(대성/시대인재)", "isdir": false}, {"name": "2026 현우진 킬캠 1회 해설.pdf", "size": 10061815, "ext": ".pdf", "category": "현우진(대성/시대인재)", "isdir": false}, {"name": "2026_수학_한석원_펀더멘탈_미적분_pdf.pdf", "size": 37109804, "ext": ".pdf", "category": "기타", "isdir": false}, {"name": "2026_수학_한석원_펀더멘탈_미적분_해설.pdf", "size": 32114084, "ext": ".pdf", "category": "해설/답지", "isdir": false}, {"name": "2026드릴 미적분.pdf", "size": 78425606, "ext": ".pdf", "category": "현우진(대성/시대인재)", "isdir": false}, {"name": "2026드릴 수학1.pdf", "size": 81728442, "ext": ".pdf", "category": "현우진(대성/시대인재)", "isdir": false}, {"name": "2026드릴 수학2.pdf", "size": 85613070, "ext": ".pdf", "category": "현우진(대성/시대인재)", "isdir": false}, {"name": "2026드릴 워크북 수학1.pdf", "size": 68201580, "ext": ".pdf", "category": "현우진(대성/시대인재)", "isdir": false}, {"name": "2026드릴 워크북 수학2.pdf", "size": 78476245, "ext": ".pdf", "category": "현우진(대성/시대인재)", "isdir": false}, {"name": "2026드릴_워크북_미적분.pdf", "size": 80574444, "ext": ".pdf", "category": "현우진(대성/시대인재)", "isdir": false}, {"name": "2026학년도 뉴런 미적분.pdf", "size": 148431433, "ext": ".pdf", "category": "현우진(대성/시대인재)", "isdir": false}, {"name": "2026학년도 뉴런 수학Ⅰ.pdf", "size": 107171309, "ext": ".pdf", "category": "현우진(대성/시대인재)", "isdir": false}, {"name": "2026학년도 뉴런 수학Ⅱ.pdf", "size": 133367005, "ext": ".pdf", "category": "현우진(대성/시대인재)", "isdir": false}, {"name": "2026학년도 뉴런 확률과 통계.pdf", "size": 94649469, "ext": ".pdf", "category": "현우진(대성/시대인재)", "isdir": false}, {"name": "2026학년도 시냅스 미적분 해설.pdf", "size": 28812525, "ext": ".pdf", "category": "현우진(대성/시대인재)", "isdir": false}, {"name": "2026학년도 시냅스 미적분.pdf", "size": 69925396, "ext": ".pdf", "category": "현우진(대성/시대인재)", "isdir": false}, {"name": "2026학년도 시냅스 수학Ⅰ.pdf", "size": 42606759, "ext": ".pdf", "category": "현우진(대성/시대인재)", "isdir": false}, {"name": "2026학년도 시냅스 수학Ⅱ 해설.pdf", "size": 18882908, "ext": ".pdf", "category": "현우진(대성/시대인재)", "isdir": false}, {"name": "2026학년도 시냅스 수학Ⅱ.pdf", "size": 29941366, "ext": ".pdf", "category": "현우진(대성/시대인재)", "isdir": false}, {"name": "2026학년도 시냅스 확률과 통계.pdf", "size": 86467205, "ext": ".pdf", "category": "현우진(대성/시대인재)", "isdir": false}, {"name": "2026학년도_현우진_드릴드2_수학Ⅰ_본문.pdf", "size": 6590274, "ext": ".pdf", "category": "현우진(대성/시대인재)", "isdir": false}, {"name": "2026학년도_현우진_드릴드2_수학Ⅰ_해설.pdf", "size": 5624030, "ext": ".pdf", "category": "현우진(대성/시대인재)", "isdir": false}, {"name": "2026학년도_현우진_드릴드2_수학Ⅱ_본문.pdf", "size": 6122074, "ext": ".pdf", "category": "현우진(대성/시대인재)", "isdir": false}, {"name": "2026학년도_현우진_드릴드2_수학Ⅱ_해설.pdf", "size": 6358644, "ext": ".pdf", "category": "현우진(대성/시대인재)", "isdir": false}, {"name": "_수1_2025학년도_현우진_드릴.pdf", "size": 71924519, "ext": ".pdf", "category": "현우진(대성/시대인재)", "isdir": false}, {"name": "시발점 공통수학Ⅰ 워크북.pdf", "size": 179939447, "ext": ".pdf", "category": "현우진(대성/시대인재)", "isdir": false}, {"name": "시발점 공통수학Ⅰ.pdf", "size": 421268248, "ext": ".pdf", "category": "현우진(대성/시대인재)", "isdir": false}, {"name": "시발점 공통수학Ⅱ 워크북.pdf", "size": 90957825, "ext": ".pdf", "category": "현우진(대성/시대인재)", "isdir": false}, {"name": "시발점 공통수학Ⅱ.pdf", "size": 91771881, "ext": ".pdf", "category": "현우진(대성/시대인재)", "isdir": false}, {"name": "시발점 기하 워크북.pdf", "size": 116687017, "ext": ".pdf", "category": "현우진(대성/시대인재)", "isdir": false}, {"name": "시발점 기하.pdf", "size": 220195916, "ext": ".pdf", "category": "현우진(대성/시대인재)", "isdir": false}, {"name": "시발점 대수 워크북.pdf", "size": 69542018, "ext": ".pdf", "category": "현우진(대성/시대인재)", "isdir": false}, {"name": "시발점 대수.pdf", "size": 172204452, "ext": ".pdf", "category": "현우진(대성/시대인재)", "isdir": false}, {"name": "시발점 미적분(상) 워크북.pdf", "size": 26131123, "ext": ".pdf", "category": "현우진(대성/시대인재)", "isdir": false}, {"name": "시발점 미적분(상).pdf", "size": 69695955, "ext": ".pdf", "category": "현우진(대성/시대인재)", "isdir": false}, {"name": "시발점 미적분(하) 워크북.pdf", "size": 23573960, "ext": ".pdf", "category": "현우진(대성/시대인재)", "isdir": false}, {"name": "시발점 미적분(하).pdf", "size": 88167338, "ext": ".pdf", "category": "현우진(대성/시대인재)", "isdir": false}, {"name": "시발점 미적분Ⅰ.pdf", "size": 190464570, "ext": ".pdf", "category": "현우진(대성/시대인재)", "isdir": false}, {"name": "시발점 수학Ⅰ 워크북.pdf", "size": 220446907, "ext": ".pdf", "category": "현우진(대성/시대인재)", "isdir": false}, {"name": "시발점 수학Ⅱ 워크북.pdf", "size": 253652667, "ext": ".pdf", "category": "현우진(대성/시대인재)", "isdir": false}, {"name": "시발점 수학Ⅱ.pdf", "size": 123192125, "ext": ".pdf", "category": "현우진(대성/시대인재)", "isdir": false}, {"name": "시발점 확률과 통계 워크북.pdf", "size": 52216191, "ext": ".pdf", "category": "현우진(대성/시대인재)", "isdir": false}, {"name": "시발점 확률과 통계.pdf", "size": 469562160, "ext": ".pdf", "category": "현우진(대성/시대인재)", "isdir": false}, {"name": "현우진 6월 킬캠 1회.pdf", "size": 61237287, "ext": ".pdf", "category": "현우진(대성/시대인재)", "isdir": false}], "isdir": true, "size": 7115900993, "file_count": 83}, {"name": "-수학- 2025학년도 시대인재 브릿지 24회 해설.pdf", "size": 2952046, "ext": ".pdf", "category": "강대/시대인재", "isdir": false}, {"name": "-수학- 2025학년도 시대인재 브릿지 24회.pdf", "size": 1888357, "ext": ".pdf", "category": "강대/시대인재", "isdir": false}, {"name": "-수학- 2025학년도 시대인재 서바이벌 17회.pdf", "size": 12942097, "ext": ".pdf", "category": "강대/시대인재", "isdir": false}, {"name": "-수학- 2025학년도 시대인재 전국 브릿지 24회.pdf", "size": 2031491, "ext": ".pdf", "category": "강대/시대인재", "isdir": false}, {"name": "2015 A급수학 Limited Edition 해설.pdf", "size": 165538105, "ext": ".pdf", "category": "해설/답지", "isdir": false}, {"name": "2015 A급수학 Limited Edition.pdf", "size": 255882531, "ext": ".pdf", "category": "기타", "isdir": false}, {"name": "2021 자이스토리 고2 미적분.pdf", "size": 89189829, "ext": ".pdf", "category": "자이스토리", "isdir": false}, {"name": "2021 자이스토리 고2 수학2.pdf", "size": 382401702, "ext": ".pdf", "category": "자이스토리", "isdir": false}, {"name": "2021 자이스토리 고2 확통.pdf", "size": 33882422, "ext": ".pdf", "category": "자이스토리", "isdir": false}, {"name": "2022 EBS 올림포스 전국연합 기출 수학(고1).pdf", "size": 155229673, "ext": ".pdf", "category": "EBS", "isdir": false}, {"name": "2022 마플수능기출총정리 수학2 문제.pdf", "size": 353357790, "ext": ".pdf", "category": "마플", "isdir": false}, {"name": "2022 마플수능기출총정리 수학2 해설.pdf", "size": 462548338, "ext": ".pdf", "category": "마플", "isdir": false}, {"name": "2023 콴다일로 학원 교습비 내역서.png", "size": 96439, "ext": ".png", "category": "기타", "isdir": false}, {"name": "2024 수분감 기하 문제.pdf", "size": 28884345, "ext": ".pdf", "category": "현우진(대성/시대인재)", "isdir": false}, {"name": "2025 강대모의고사K 국어 2회 의식의 흐름.pdf", "size": 22318459, "ext": ".pdf", "category": "강대/시대인재", "isdir": false}, {"name": "2025 드릴 미적분.pdf", "size": 62546575, "ext": ".pdf", "category": "현우진(대성/시대인재)", "isdir": false}, {"name": "2025 드릴 수학2.pdf", "size": 72686788, "ext": ".pdf", "category": "현우진(대성/시대인재)", "isdir": false}, {"name": "2025 미적 허들링 10주차.pdf", "size": 3340319, "ext": ".pdf", "category": "기타", "isdir": false}, {"name": "2025 미적 허들링 9주차.pdf", "size": 2902252, "ext": ".pdf", "category": "기타", "isdir": false}, {"name": "2025-공통수학1 (10)조합(level-0,1,2).pdf", "size": 2275050, "ext": ".pdf", "category": "KMO/올림피아드", "isdir": false}, {"name": "2025-공통수학1 (10)조합(level-3).pdf", "size": 2867547, "ext": ".pdf", "category": "KMO/올림피아드", "isdir": false}, {"name": "2025-공통수학1 (10)조합(level-4).pdf", "size": 2800384, "ext": ".pdf", "category": "KMO/올림피아드", "isdir": false}, {"name": "2025-공통수학1 (10)조합(level-5,6).pdf", "size": 1620146, "ext": ".pdf", "category": "KMO/올림피아드", "isdir": false}, {"name": "2025학년도 6월_수학 문제.pdf", "size": 1177620, "ext": ".pdf", "category": "기타", "isdir": false}, {"name": "2025학년도 6월_수학 정답,해설.pdf", "size": 705345, "ext": ".pdf", "category": "해설/답지", "isdir": false}, {"name": "2026 EBS 수능특강 확률과 통계 문제편.pdf", "size": 56512531, "ext": ".pdf", "category": "EBS", "isdir": false}, {"name": "2026 EBS 수능특강 확률과 통계 정답과 해설.pdf", "size": 39431053, "ext": ".pdf", "category": "EBS", "isdir": false}, {"name": "226842_4_쎈수학 공통수학 1 - 교사용.pdf", "size": 271703533, "ext": ".pdf", "category": "쎈", "isdir": false}, {"name": "226842_5_쎈수학 공통수학 2 - 교사용.pdf", "size": 278064664, "ext": ".pdf", "category": "쎈", "isdir": false}, {"name": "226842_6_기본정석_공통수학2.pdf", "size": 168405229, "ext": ".pdf", "category": "수학의 정석", "isdir": false}, {"name": "226842_7_실력정석_공통수학2.pdf", "size": 175654943, "ext": ".pdf", "category": "수학의 정석", "isdir": false}, {"name": "25 강대 K 국어 1회 문제.pdf", "size": 16126860, "ext": ".pdf", "category": "강대/시대인재", "isdir": false}, {"name": "25 강대 K 국어 1회 해설.pdf", "size": 19657274, "ext": ".pdf", "category": "강대/시대인재", "isdir": false}, {"name": "25학년도 9월 모평_수학(미적) 문제.pdf", "size": 519046, "ext": ".pdf", "category": "기출/모의", "isdir": false}, {"name": "26 FUNDAMENTAL N제 수1.pdf", "size": 29361821, "ext": ".pdf", "category": "N제/핀셋", "isdir": false}, {"name": "4의규칙 수학1 해설포함.pdf", "size": 58220195, "ext": ".pdf", "category": "해설/답지", "isdir": false}, {"name": "4의규칙 수학2 해설포함.pdf", "size": 51405319, "ext": ".pdf", "category": "해설/답지", "isdir": false}, {"name": "502872158-kmo-조합.pdf", "size": 44764547, "ext": ".pdf", "category": "KMO/올림피아드", "isdir": false}, {"name": "711435650-황소-초등-입학시험-2018-11.pdf", "size": 387717, "ext": ".pdf", "category": "기타", "isdir": false}, {"name": "746233681-KMO-정수론-필수이론정리.doc", "size": 1159680, "ext": ".doc", "category": "KMO/올림피아드", "isdir": false}, {"name": "785517463-블랙라벨-중2-2-교사용.pdf", "size": 73413885, "ext": ".pdf", "category": "블랙라벨", "isdir": false}, {"name": "818380462-2025-정승-제-수학1-수학2-미적분-240507-084427.pdf", "size": 49209626, "ext": ".pdf", "category": "기타", "isdir": false}, {"name": "830847784-블랙라벨-중학-수학-3-1.pdf", "size": 37855177, "ext": ".pdf", "category": "블랙라벨", "isdir": false}, {"name": "849364297-Ⅰ-1-인공지능과-수학-미래엔.pdf", "size": 54117096, "ext": ".pdf", "category": "인공지능수학", "isdir": false}, {"name": "EBS_올림포스_고난도_공통수학1(2022개정)_정답과해설.pdf", "size": 1974456, "ext": ".pdf", "category": "EBS", "isdir": false}, {"name": "KICE ANATOMY 수학1.pdf", "size": 40573772, "ext": ".pdf", "category": "기타", "isdir": false}, {"name": "KICE ANATOMY 수학2.pdf", "size": 51686923, "ext": ".pdf", "category": "기타", "isdir": false}, {"name": "TalkFile_26_간쓸개_시즌1_1_문제_pdf.pdf", "size": 31093993, "ext": ".pdf", "category": "기타", "isdir": false}, {"name": "TalkFile_26_간쓸개_시즌1_1_해설_pdf.pdf", "size": 29434622, "ext": ".pdf", "category": "해설/답지", "isdir": false}, {"name": "[문제지] [6월호] 우일신 (又日新) 파본형 월간 N제.pdf", "size": 1572141, "ext": ".pdf", "category": "N제/핀셋", "isdir": false}, {"name": "[수1]_실력정석_연습문제-jjh2da.hwp", "size": 422400, "ext": ".hwp", "category": "수학의 정석", "isdir": false}, {"name": "[프라이빗노트] 창의수업 샘플교재.pdf", "size": 23720036, "ext": ".pdf", "category": "기타", "isdir": false}, {"name": "final shortcut 02 미적분 해설.pdf", "size": 2628739, "ext": ".pdf", "category": "해설/답지", "isdir": false}, {"name": "script.js", "size": 6120, "ext": ".js", "category": "기타", "isdir": false}, {"name": "강대N제 수학I.pdf", "size": 7029837, "ext": ".pdf", "category": "강대/시대인재", "isdir": false}, {"name": "강대N제 수학II.pdf", "size": 41559140, "ext": ".pdf", "category": "강대/시대인재", "isdir": false}, {"name": "강윤구 출사표 미적분.pdf", "size": 83295520, "ext": ".pdf", "category": "기타", "isdir": false}, {"name": "개념유형 중학수학3-1 개념편-복사.pdf", "size": 343512887, "ext": ".pdf", "category": "개념원리/유형", "isdir": false}, {"name": "경제 퀄 링크 g,I코드.pdf", "size": 23922538, "ext": ".pdf", "category": "기타", "isdir": false}, {"name": "고_인공지능수학_교과서PDF_천재교육.pdf", "size": 133017837, "ext": ".pdf", "category": "인공지능수학", "isdir": false}, {"name": "고등수학 상 마무리.pdf", "size": 625936, "ext": ".pdf", "category": "기타", "isdir": false}, {"name": "고쟁이 수(하) pdf.pdf", "size": 1487488, "ext": ".pdf", "category": "고쟁이", "isdir": false}, {"name": "고쟁이 수상 교사용.pdf", "size": 11255328, "ext": ".pdf", "category": "고쟁이", "isdir": false}, {"name": "고쟁이 수하 답지.pdf", "size": 7596628, "ext": ".pdf", "category": "고쟁이", "isdir": false}, {"name": "기본정석 공통수학1 - 문제.pdf", "size": 252333799, "ext": ".pdf", "category": "수학의 정석", "isdir": false}, {"name": "김기원_수리논술_6회차.pdf", "size": 4811869, "ext": ".pdf", "category": "기타", "isdir": false}, {"name": "뉴런 수1,2 빠답.pdf", "size": 1789683, "ext": ".pdf", "category": "현우진(대성/시대인재)", "isdir": false}, {"name": "마플시너지 미적분 [희망에듀]-본문.pdf", "size": 1194083668, "ext": ".pdf", "category": "마플", "isdir": false}, {"name": "마플시너지 미적분 [희망에듀]-해설.pdf", "size": 1381725553, "ext": ".pdf", "category": "마플", "isdir": false}, {"name": "블랙라벨 중2-2 정답및해설.pdf", "size": 3824823, "ext": ".pdf", "category": "블랙라벨", "isdir": false}, {"name": "블랙중등3-1_해설(웹용).pdf", "size": 2625481, "ext": ".pdf", "category": "블랙라벨", "isdir": false}, {"name": "서킷 합본 해설.pdf", "size": 190106982, "ext": ".pdf", "category": "해설/답지", "isdir": false}, {"name": "서킷 합본.pdf", "size": 86962052, "ext": ".pdf", "category": "기타", "isdir": false}, {"name": "수2 실력 정석.pdf", "size": 17978279, "ext": ".pdf", "category": "기타", "isdir": false}, {"name": "수력충전 수I.pdf", "size": 13522514, "ext": ".pdf", "category": "기타", "isdir": false}, {"name": "수상 고쟁이.pdf", "size": 10004416, "ext": ".pdf", "category": "고쟁이", "isdir": false}, {"name": "수학(상) 개념 완벽정리(with 예제)_v1.1.pdf", "size": 165468, "ext": ".pdf", "category": "기타", "isdir": false}, {"name": "수학(상) 개념 완벽정리.pdf", "size": 134030, "ext": ".pdf", "category": "기타", "isdir": false}, {"name": "수학1+수학2+미적분_Step2_19주차_복습테스트.pdf", "size": 399058, "ext": ".pdf", "category": "기타", "isdir": false}, {"name": "수학1+수학2+미적분_Step2_19주차_복습테스트_해설지.pdf", "size": 1638241, "ext": ".pdf", "category": "해설/답지", "isdir": false}, {"name": "수학2+미적분_Step1_4주차_복습테스트.pdf", "size": 429968, "ext": ".pdf", "category": "기타", "isdir": false}, {"name": "수학_2025학년도_시대인재_서바이벌_리부트_14회.pdf", "size": 23581403, "ext": ".pdf", "category": "강대/시대인재", "isdir": false}, {"name": "수학_2025학년도_시대인재_서바이벌_리부트_14회_해설.pdf", "size": 4749687, "ext": ".pdf", "category": "강대/시대인재", "isdir": false}, {"name": "스탠서브 11회 해설.pdf", "size": 3688179, "ext": ".pdf", "category": "해설/답지", "isdir": false}, {"name": "스탠서브 11회.pdf", "size": 4449415, "ext": ".pdf", "category": "기타", "isdir": false}, {"name": "시빌리삼 수학2.pdf", "size": 17546325, "ext": ".pdf", "category": "기타", "isdir": false}, {"name": "실력 수학의 정석 - 미분과 적분.pdf", "size": 7696911, "ext": ".pdf", "category": "수학의 정석", "isdir": false}, {"name": "실력정석 공통수학1 - 문제.pdf", "size": 245970845, "ext": ".pdf", "category": "수학의 정석", "isdir": false}, {"name": "실력정석 수학 Ⅰ 본문.pdf", "size": 15752470, "ext": ".pdf", "category": "수학의 정석", "isdir": false}, {"name": "쎈 미적분 해설.pdf", "size": 28664820, "ext": ".pdf", "category": "쎈", "isdir": false}, {"name": "쎈 미적분.pdf", "size": 34040765, "ext": ".pdf", "category": "쎈", "isdir": false}, {"name": "쎈 수1.pdf", "size": 21187059, "ext": ".pdf", "category": "쎈", "isdir": false}, {"name": "쎈 수2 2022.pdf", "size": 8807405, "ext": ".pdf", "category": "쎈", "isdir": false}, {"name": "원솔멀텍 수학2.pdf", "size": 112744404, "ext": ".pdf", "category": "기타", "isdir": false}, {"name": "원솔멀텍_수학1_해답.pdf", "size": 66721886, "ext": ".pdf", "category": "기타", "isdir": false}, {"name": "원솔멀텍_수학2_해답.pdf", "size": 111101188, "ext": ".pdf", "category": "기타", "isdir": false}, {"name": "원솔멀텍_확률과_통계.pdf", "size": 93841343, "ext": ".pdf", "category": "기타", "isdir": false}, {"name": "원솔멀텍_확률과_통계_해답.pdf", "size": 82252525, "ext": ".pdf", "category": "기타", "isdir": false}, {"name": "유형내신고쟁이(2023) 수학(상) - 해설.pdf", "size": 9979828, "ext": ".pdf", "category": "고쟁이", "isdir": false}, {"name": "이미지_T_엔티켓_시즌_1_수학1.pdf", "size": 82108246, "ext": ".pdf", "category": "기타", "isdir": false}, {"name": "이산수학 임용대비 자료(단권화).pdf", "size": 3420737, "ext": ".pdf", "category": "기타", "isdir": false}, {"name": "인도 IIT 수학 기출 문제 해설 iit2006_maths06.pdf.crdownload", "size": 259877, "ext": ".crdownload", "category": "기출/모의", "isdir": false}, {"name": "일품_15개정_고등_기하_386제.pdf", "size": 38745398, "ext": ".pdf", "category": "일품", "isdir": false}, {"name": "일품_15개정_고등_기하_386제_정답.pdf", "size": 14121042, "ext": ".pdf", "category": "일품", "isdir": false}, {"name": "일품_15개정_고등_미적분_488제.pdf", "size": 43895862, "ext": ".pdf", "category": "일품", "isdir": false}, {"name": "일품_15개정_고등_미적분_488제_정답.pdf", "size": 15708538, "ext": ".pdf", "category": "일품", "isdir": false}, {"name": "일품_15개정_고등_상_684제.pdf", "size": 39015938, "ext": ".pdf", "category": "일품", "isdir": false}, {"name": "일품_15개정_고등_상_684제_정답.pdf", "size": 22892457, "ext": ".pdf", "category": "일품", "isdir": false}, {"name": "일품_15개정_고등_수학_II_448제.pdf", "size": 26357007, "ext": ".pdf", "category": "일품", "isdir": false}, {"name": "일품_15개정_고등_수학_II_448제_정답.pdf", "size": 15552771, "ext": ".pdf", "category": "일품", "isdir": false}, {"name": "일품_15개정_고등_수학_I_486제.pdf", "size": 26846830, "ext": ".pdf", "category": "일품", "isdir": false}, {"name": "일품_15개정_고등_수학_I_486제_정답.pdf", "size": 13856529, "ext": ".pdf", "category": "일품", "isdir": false}, {"name": "일품_15개정_고등_하_433제.pdf", "size": 30394198, "ext": ".pdf", "category": "일품", "isdir": false}, {"name": "일품_15개정_고등_하_433제_정답.pdf", "size": 13552140, "ext": ".pdf", "category": "일품", "isdir": false}, {"name": "일품_15개정_고등_확통_360제.pdf", "size": 223037158, "ext": ".pdf", "category": "일품", "isdir": false}, {"name": "일품_15개정_고등_확통_360제_정답.pdf", "size": 12225939, "ext": ".pdf", "category": "일품", "isdir": false}, {"name": "잠실고2 중간고사기출.pdf", "size": 166520, "ext": ".pdf", "category": "기출/모의", "isdir": false}, {"name": "중 3-1 숨마쿰라우데 테스트북.pdf", "size": 15009708, "ext": ".pdf", "category": "숨마쿰라우데/풍산자", "isdir": false}, {"name": "카페 업로드용.pdf", "size": 331626, "ext": ".pdf", "category": "기타", "isdir": false}, {"name": "프로메테우스 수학1.pdf", "size": 106609652, "ext": ".pdf", "category": "기타", "isdir": false}, {"name": "프로메테우스 수학2.pdf", "size": 125618273, "ext": ".pdf", "category": "기타", "isdir": false}, {"name": "프로메테우스 확통.pdf", "size": 116593947, "ext": ".pdf", "category": "기타", "isdir": false}, {"name": "핀셋N제_수1_vol1_본교재+해설.pdf", "size": 16118194, "ext": ".pdf", "category": "N제/핀셋", "isdir": false}, {"name": "핀셋N제_수1_vol2_해설지_포함.pdf", "size": 27223224, "ext": ".pdf", "category": "N제/핀셋", "isdir": false}, {"name": "핀셋N제_수1_vol3_해설지_포함.pdf", "size": 15128476, "ext": ".pdf", "category": "N제/핀셋", "isdir": false}, {"name": "핀셋N제_수1_vol4_해설지_포함.pdf", "size": 18962943, "ext": ".pdf", "category": "N제/핀셋", "isdir": false}, {"name": "허들링 미적 10주차 손필기.pdf", "size": 5275616, "ext": ".pdf", "category": "기타", "isdir": false}], "size": 31181261432, "file_count": 437};
+const CATS = [{"category": "기타", "count": 78, "size_mb": 6799.3}, {"category": "현우진(대성/시대인재)", "count": 69, "size_mb": 5858.6}, {"category": "마플", "count": 12, "size_mb": 3866.7}, {"category": "디딤돌", "count": 8, "size_mb": 2612.0}, {"category": "강대/시대인재", "count": 37, "size_mb": 1894.9}, {"category": "수학의 정석", "count": 30, "size_mb": 1239.4}, {"category": "숨마쿰라우데/풍산자", "count": 37, "size_mb": 1214.3}, {"category": "KMO/올림피아드", "count": 35, "size_mb": 1129.3}, {"category": "해설/답지", "count": 16, "size_mb": 991.4}, {"category": "바이블", "count": 13, "size_mb": 652.3}, {"category": "쎈", "count": 6, "size_mb": 612.7}, {"category": "개념원리/유형", "count": 19, "size_mb": 568.3}, {"category": "일품", "count": 14, "size_mb": 511.4}, {"category": "자이스토리", "count": 3, "size_mb": 482.1}, {"category": "EBS", "count": 22, "size_mb": 440.7}, {"category": "블랙라벨", "count": 11, "size_mb": 287.6}, {"category": "기출/모의", "count": 13, "size_mb": 243.7}, {"category": "인공지능수학", "count": 2, "size_mb": 178.5}, {"category": "N제/핀셋", "count": 7, "size_mb": 115.1}, {"category": "고쟁이", "count": 5, "size_mb": 38.5}];
+
+// Category palette
+const palette = d3.schemeTableau10.concat(d3.schemeSet3).slice(0,22);
+const cats = Array.from(new Set(CATS.map(c=>c.category)));
+const colorCat = d3.scaleOrdinal().domain(cats).range(palette);
+
+// Tooltip
+const tip = d3.select('body').append('div').attr('class','tooltip').style('opacity',0);
+function showTip(ev, html){ tip.html(html).style('left',(ev.pageX+12)+'px').style('top',(ev.pageY+12)+'px').style('opacity',1);}
+function hideTip(){ tip.style('opacity',0); }
+
+// Tab switching
+document.querySelectorAll('.tab').forEach(t=>{
+  t.addEventListener('click',()=>{
+    document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));
+    document.querySelectorAll('.panel').forEach(x=>x.classList.remove('active'));
+    t.classList.add('active');
+    document.getElementById('panel-'+t.dataset.tab).classList.add('active');
+    if(t.dataset.tab==='sunburst' && !window._sbReady){ drawSunburst(); window._sbReady=true; }
+    if(t.dataset.tab==='tree' && !window._trReady){ drawTree(); window._trReady=true; }
+    if(t.dataset.tab==='category' && !window._caReady){ drawCategory(); window._caReady=true; }
+  });
+});
+
+// ============================================================
+// ① TREEMAP with drill-down
+// ============================================================
+const tmSvg = d3.select('#treemap');
+const TM_W = 1180, TM_H = 560;
+tmSvg.attr('viewBox', `0 0 ${TM_W} ${TM_H}`);
+
+function sizeOrOne(d){ return Math.max(d.size||1, 1); }
+
+let tmStack = [];
+function drawTreemap(node){
+  tmStack.push(node);
+  tmSvg.selectAll('*').remove();
+  const root = d3.hierarchy(node).sum(d=>d.children?0:sizeOrOne(d)).sort((a,b)=>b.value-a.value);
+  d3.treemap().size([TM_W, TM_H]).paddingOuter(2).paddingInner(1).round(true)(root);
+
+  const nodes = root.leaves().concat(root.descendants().filter(d=>d.depth===1));
+  const uniq = new Map();
+  root.descendants().filter(d=>d.depth>=1).forEach(d=>uniq.set(d, d));
+  const items = Array.from(uniq.values());
+
+  const g = tmSvg.selectAll('g.tile').data(items, d=>d.data.name+'-'+d.depth).enter().append('g').attr('class','tile');
+
+  g.append('rect')
+    .attr('x', d=>d.x0).attr('y', d=>d.y0)
+    .attr('width', d=>d.x1-d.x0).attr('height', d=>d.y1-d.y0)
+    .attr('fill', d=>{
+      if(d.data.children && d.data.children.length){
+        return d3.color(colorCat(d.data.name)||'#365081').darker(0.4);
+      }
+      return colorCat(d.data.category||'기타');
+    })
+    .attr('stroke','#0b1220').attr('stroke-width',1)
+    .style('cursor', d=>d.data.children && d.data.children.length ? 'pointer' : 'default')
+    .on('click',(ev,d)=>{
+      if(d.data.children && d.data.children.length){ drawTreemap(d.data); updateBreadcrumb(); }
+    })
+    .on('mousemove',(ev,d)=>{
+      const sz = (d.value/1024/1024).toFixed(1)+' MB';
+      showTip(ev, `<b>${d.data.name}</b><br/>${d.data.children?'폴더 · '+d.data.children.length+'개':'파일'}<br/>${sz}${d.data.category?'<br/>분류: '+d.data.category:''}`);
+    })
+    .on('mouseleave', hideTip);
+
+  g.append('text')
+    .attr('x', d=>d.x0+6).attr('y', d=>d.y0+14)
+    .style('font-size','11px').style('fill','#fff').style('font-weight','600')
+    .style('pointer-events','none')
+    .text(d=>{
+      const w = d.x1-d.x0, h=d.y1-d.y0;
+      if(w<50||h<18) return '';
+      const name = d.data.name;
+      return name.length>Math.floor(w/7)? name.slice(0,Math.floor(w/7)-1)+'…': name;
+    });
+
+  g.append('text')
+    .attr('x', d=>d.x0+6).attr('y', d=>d.y0+28)
+    .style('font-size','10px').style('fill','#dfe8f7').style('pointer-events','none')
+    .text(d=>{
+      const w = d.x1-d.x0, h=d.y1-d.y0;
+      if(w<70||h<34) return '';
+      return (d.value/1024/1024).toFixed(0)+' MB';
+    });
+}
+
+function updateBreadcrumb(){
+  const bc = d3.select('#bc');
+  bc.html('📍 ');
+  tmStack.forEach((n,i)=>{
+    const s = bc.append('span').text(n.name).attr('data-depth', i);
+    if(i<tmStack.length-1) bc.append('text').text(' › ');
+    s.on('click', ()=>{ tmStack = tmStack.slice(0,i); drawTreemap(n); updateBreadcrumb(); });
+  });
+}
+
+drawTreemap(DATA);
+updateBreadcrumb();
+
+// Legend for categories
+const leg = d3.select('#tmlegend');
+cats.forEach(c=>{
+  leg.append('span').html(`<span class="sw" style="background:${colorCat(c)}"></span>${c}`);
+});
+
+// ============================================================
+// ② SUNBURST
+// ============================================================
+function drawSunburst(){
+  const R = 380;
+  const root = d3.hierarchy(DATA).sum(d=>d.children?0:sizeOrOne(d));
+  d3.partition().size([2*Math.PI, R])(root);
+  const arc = d3.arc()
+    .startAngle(d=>d.x0).endAngle(d=>d.x1)
+    .innerRadius(d=>d.y0).outerRadius(d=>d.y1-1);
+
+  const svg = d3.select('#sunburst');
+  svg.selectAll('*').remove();
+
+  const path = svg.selectAll('path')
+    .data(root.descendants().filter(d=>d.depth && d.depth<=3))
+    .enter().append('path')
+    .attr('d', arc)
+    .attr('fill', d=>{
+      let a=d; while(a.depth>1) a=a.parent;
+      return colorCat(a.data.name) || '#365081';
+    })
+    .attr('stroke','#0b1220').attr('stroke-width',0.5)
+    .style('cursor','pointer')
+    .on('mousemove',(ev,d)=>{
+      const path = d.ancestors().map(x=>x.data.name).reverse().join(' › ');
+      showTip(ev, `<b>${d.data.name}</b><br/>${path}<br/>${(d.value/1024/1024).toFixed(1)} MB`);
+    })
+    .on('mouseleave',hideTip)
+    .on('click',(ev,d)=>{
+      d3.select('#sunburst-info').html(`
+        <b style="color:#79b8ff">${d.data.name}</b><br/>
+        <span style="color:#9fb0cf">경로:</span> ${d.ancestors().map(x=>x.data.name).reverse().join(' › ')}<br/>
+        <span style="color:#9fb0cf">크기:</span> ${(d.value/1024/1024).toFixed(1)} MB<br/>
+        <span style="color:#9fb0cf">하위 파일:</span> ${d.leaves().length}개<br/>
+        ${d.data.category?`<span class="pill" style="background:${colorCat(d.data.category)};color:#0b1220">${d.data.category}</span>`:''}
+      `);
+    });
+
+  svg.append('circle').attr('r',40).attr('fill','#0f1a2e').attr('stroke','#365081');
+  svg.append('text').attr('text-anchor','middle').attr('dy',5)
+    .style('fill','#e7ecf7').style('font-size','13px').style('font-weight','700')
+    .text('25GB');
+}
+
+// ============================================================
+// ③ COLLAPSIBLE TREE
+// ============================================================
+function drawTree(){
+  const W = 1180, H = 2400;
+  const svg = d3.select('#treechart').attr('viewBox', `0 0 ${W} ${H}`);
+  svg.selectAll('*').remove();
+  const g = svg.append('g').attr('transform','translate(180,30)');
+
+  const root = d3.hierarchy(DATA);
+  root.x0 = H/2; root.y0 = 0;
+  // Collapse initially beyond depth 1
+  root.descendants().forEach(d=>{
+    if(d.depth===1 && d.children){ d._children = d.children; d.children = null; }
+  });
+
+  const tree = d3.tree().size([H-60, W-280]);
+
+  function update(source){
+    tree(root);
+    const nodes = root.descendants();
+    const links = root.links();
+
+    // Links
+    const link = g.selectAll('path.link').data(links, d=>d.target.data.name+d.target.depth);
+    link.enter().append('path').attr('class','link')
+      .attr('d', d=>d3.linkHorizontal()({source:[source.y0||0,source.x0||0],target:[source.y0||0,source.x0||0]}))
+      .merge(link).transition().duration(400)
+      .attr('d', d3.linkHorizontal().x(d=>d.y).y(d=>d.x));
+    link.exit().transition().duration(300).attr('d',d3.linkHorizontal().x(()=>source.y).y(()=>source.x)).remove();
+
+    // Nodes
+    const node = g.selectAll('g.node').data(nodes, d=>d.data.name+d.depth+(d.parent?d.parent.data.name:''));
+    const nodeEnter = node.enter().append('g').attr('class','node')
+      .attr('transform', d=>`translate(${source.y0||0},${source.x0||0})`)
+      .on('click',(ev,d)=>{
+        if(d.children){ d._children=d.children; d.children=null; }
+        else if(d._children){ d.children=d._children; d._children=null; }
+        update(d);
+      });
+
+    nodeEnter.append('circle').attr('r',4)
+      .attr('fill', d=> d._children?'#79b8ff':(d.children?'#b794f4':'#23304a'))
+      .attr('stroke', d=>d.data.category?colorCat(d.data.category):'#365081')
+      .on('mousemove',(ev,d)=>{
+        const sz = d.value?(d.value/1024/1024).toFixed(1)+' MB':(d.data.size?(d.data.size/1024/1024).toFixed(1)+' MB':'-');
+        showTip(ev, `<b>${d.data.name}</b><br/>${sz}`);
+      }).on('mouseleave',hideTip);
+
+    nodeEnter.append('text')
+      .attr('dy',3).attr('x', d=>d.children||d._children?-8:8)
+      .style('text-anchor', d=>d.children||d._children?'end':'start')
+      .text(d=>{
+        const n=d.data.name; return n.length>46?n.slice(0,44)+'…':n;
+      });
+
+    const nodeUpdate = nodeEnter.merge(node);
+    nodeUpdate.transition().duration(400).attr('transform', d=>`translate(${d.y},${d.x})`);
+    nodeUpdate.select('circle').attr('fill', d=> d._children?'#79b8ff':(d.children?'#b794f4':'#23304a'));
+    node.exit().transition().duration(300).attr('transform', d=>`translate(${source.y},${source.x})`).remove();
+
+    nodes.forEach(d=>{ d.x0=d.x; d.y0=d.y; });
+  }
+  update(root);
+
+  // Search
+  document.getElementById('search').addEventListener('input', e=>{
+    const q = e.target.value.trim().toLowerCase();
+    g.selectAll('g.node').style('opacity', d=>{
+      if(!q) return 1;
+      return d.data.name.toLowerCase().includes(q)?1:0.15;
+    });
+  });
+}
+
+// ============================================================
+// ④ CATEGORY BAR CHART + TABLE
+// ============================================================
+function drawCategory(){
+  const W=760, H=540;
+  const svg = d3.select('#bar');
+  svg.selectAll('*').remove();
+  const m = {t:20, r:100, b:20, l:140};
+  const data = CATS.slice().sort((a,b)=>b.size_mb-a.size_mb);
+  const x = d3.scaleLinear().domain([0, d3.max(data,d=>d.size_mb)]).range([0, W-m.l-m.r]);
+  const y = d3.scaleBand().domain(data.map(d=>d.category)).range([0, H-m.t-m.b]).padding(0.18);
+  const g = svg.append('g').attr('transform',`translate(${m.l},${m.t})`);
+
+  g.selectAll('rect').data(data).enter().append('rect')
+    .attr('y',d=>y(d.category)).attr('height',y.bandwidth())
+    .attr('x',0).attr('width',d=>x(d.size_mb))
+    .attr('fill',d=>colorCat(d.category))
+    .attr('rx',3)
+    .on('mousemove',(ev,d)=>showTip(ev,`<b>${d.category}</b><br/>${d.count}권 · ${d.size_mb} MB`))
+    .on('mouseleave',hideTip);
+
+  g.selectAll('text.lbl').data(data).enter().append('text').attr('class','lbl')
+    .attr('y',d=>y(d.category)+y.bandwidth()/2+4).attr('x',-8)
+    .style('fill','#e7ecf7').style('text-anchor','end').style('font-size','11px')
+    .text(d=>d.category);
+
+  g.selectAll('text.val').data(data).enter().append('text').attr('class','val')
+    .attr('y',d=>y(d.category)+y.bandwidth()/2+4)
+    .attr('x',d=>x(d.size_mb)+6)
+    .style('fill','#c0d0ed').style('font-size','11px')
+    .text(d=>`${d.count}권 · ${d.size_mb.toFixed(0)}MB`);
+
+  // Table
+  const tb = d3.select('#cat-table tbody');
+  tb.selectAll('*').remove();
+  data.forEach((d,i)=>{
+    const tr = tb.append('tr');
+    tr.append('td').text(i+1);
+    tr.append('td').html(`<span class="sw" style="background:${colorCat(d.category)};width:10px;height:10px;display:inline-block;border-radius:2px;margin-right:6px;vertical-align:middle"></span>${d.category}`);
+    tr.append('td').style('text-align','right').text(d.count);
+    tr.append('td').style('text-align','right').text(d.size_mb.toFixed(0));
+  });
+}
+</script>
+</body>
+</html>
