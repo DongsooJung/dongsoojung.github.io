@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>KOI Coach · 수학정보올림피아드 대비 — Stargate Education</title>
+<meta name="description" content="수학정보올림피아드(KOI) 대비 문제 큐레이션·풀이 아카이브. 학생별 진도 관리. 대치동 KOI 강사 정동수.">
+<meta name="author" content="Dongsoo Jung">
+<meta property="og:title" content="KOI Coach · 수학정보올림피아드 대비">
+<meta property="og:description" content="KOI 대비 문제 큐레이션·풀이 아카이브. 학생별 진도 관리.">
+<meta property="og:url" content="https://stargateedu.co.kr/koi-coach/">
+<meta property="og:type" content="website">
+<link rel="canonical" href="https://stargateedu.co.kr/koi-coach/">
+<style>
+:root{
+  --bg:#0a0d14; --bg2:#111827; --panel:#0f172a; --panel2:#111c33;
+  --line:#1f2a44; --line2:#263452;
+  --ink:#e6edf3; --sub:#9aa7b8; --muted:#6b7a90;
+  --acc:#7aa2ff; --acc2:#4f7fff; --warm:#ffb86b; --good:#63d6a0;
+  --grad1:linear-gradient(135deg,#4f7fff 0%,#7aa2ff 55%,#b388ff 100%);
+  --grad2:linear-gradient(135deg,#0b1220 0%,#101a33 100%);
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{
+  font-family:"Pretendard","Apple SD Gothic Neo","Segoe UI",system-ui,-apple-system,sans-serif;
+  color:var(--ink); background:var(--bg); line-height:1.55;
+  -webkit-font-smoothing:antialiased;
+  background-image:
+    radial-gradient(1000px 600px at 10% -10%, rgba(79,127,255,.18), transparent 60%),
+    radial-gradient(800px 500px at 100% 0%, rgba(179,136,255,.12), transparent 60%),
+    radial-gradient(700px 500px at 50% 120%, rgba(99,214,160,.08), transparent 60%);
+  background-attachment:fixed;
+}
+a{color:var(--acc); text-decoration:none} a:hover{text-decoration:underline}
+.wrap{max-width:1100px;margin:0 auto;padding:28px 22px 120px}
+
+/* Top nav */
+.nav{display:flex;justify-content:space-between;align-items:center;padding:8px 4px 0}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;letter-spacing:.2px}
+.brand .logo{width:34px;height:34px;border-radius:9px;background:var(--grad1);
+  display:inline-flex;align-items:center;justify-content:center;color:#0b1020;font-weight:900}
+.brand .name{font-size:15px}
+.brand .tag{font-size:11px;color:var(--muted);margin-left:6px}
+.nav .links{display:flex;gap:14px;font-size:13px;color:var(--sub)}
+.nav .links a{color:var(--sub)} .nav .links a:hover{color:var(--ink)}
+
+/* Hero */
+.hero{padding:56px 0 32px;max-width:720px}
+.hero .badge-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px}
+.badge{display:inline-flex;align-items:center;gap:6px;padding:5px 12px;border-radius:999px;font-size:12px;font-weight:600;letter-spacing:.2px}
+.badge.coming{background:rgba(255,184,107,.12);border:1px solid rgba(255,184,107,.35);color:var(--warm)}
+.badge.edu{background:rgba(99,214,160,.10);border:1px solid rgba(99,214,160,.30);color:var(--good)}
+.badge.koi{background:rgba(79,127,255,.12);border:1px solid rgba(79,127,255,.35);color:var(--acc)}
+.hero h1{margin:0 0 14px;font-size:46px;line-height:1.08;letter-spacing:-.6px;
+  background:var(--grad1);-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero .lead{color:var(--sub);font-size:17px;margin:0 0 28px;line-height:1.65;max-width:60ch}
+.hero .cta{display:flex;gap:10px;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:11px 18px;border-radius:12px;
+  font-weight:600;border:1px solid transparent;font-size:14px;transition:.15s transform,.15s box-shadow}
+.btn.primary{background:var(--grad1);color:#0b1020;box-shadow:0 6px 24px rgba(79,127,255,.35)}
+.btn.primary:hover{transform:translateY(-1px);text-decoration:none}
+.btn.ghost{background:var(--panel);color:var(--ink);border-color:var(--line2)}
+.btn.ghost:hover{border-color:var(--acc);text-decoration:none}
+
+/* Section */
+.sec{margin-top:60px}
+.sec-head{margin-bottom:22px}
+.sec-head h2{font-size:21px;letter-spacing:-.2px;margin:0 0 4px}
+.sec-head p{color:var(--sub);font-size:13px;margin:0}
+
+/* Feature cards */
+.feat-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px}
+.feat{border:1px solid var(--line);border-radius:16px;background:linear-gradient(180deg,var(--panel2),var(--panel));padding:22px 20px;transition:.18s all}
+.feat:hover{border-color:var(--acc);transform:translateY(-2px);box-shadow:0 12px 36px rgba(79,127,255,.15)}
+.feat .icon{font-size:30px;margin-bottom:12px}
+.feat h3{margin:0 0 8px;font-size:15px;font-weight:700}
+.feat p{margin:0;color:var(--sub);font-size:13px;line-height:1.6}
+.feat .status{margin-top:14px;display:inline-flex;align-items:center;gap:5px;font-size:11.5px;font-weight:600;color:var(--warm);background:rgba(255,184,107,.10);border:1px solid rgba(255,184,107,.25);padding:4px 10px;border-radius:999px}
+
+/* Roadmap */
+.roadmap{display:flex;flex-direction:column;gap:0}
+.rm-item{display:grid;grid-template-columns:120px 1fr;gap:0;position:relative}
+.rm-item:not(:last-child)::before{
+  content:'';position:absolute;left:59px;top:44px;bottom:-1px;width:2px;
+  background:linear-gradient(to bottom,var(--acc2),var(--line));opacity:.5}
+.rm-dot{display:flex;flex-direction:column;align-items:center;padding-top:14px;gap:6px}
+.rm-dot .circle{width:28px;height:28px;border-radius:50%;border:2px solid var(--acc2);background:var(--panel);
+  display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:var(--acc);z-index:1;position:relative}
+.rm-dot .lbl{font-size:10.5px;color:var(--muted);text-align:center;line-height:1.3}
+.rm-body{border:1px solid var(--line);border-radius:14px;background:var(--panel);padding:16px 18px;margin:10px 0 16px}
+.rm-body h3{margin:0 0 6px;font-size:14px;font-weight:700}
+.rm-body p{margin:0;color:var(--sub);font-size:12.5px;line-height:1.6}
+.rm-body .tags{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}
+.rm-body .tag{font-size:11px;color:var(--muted);border:1px solid var(--line2);padding:3px 8px;border-radius:999px}
+
+/* CTA box */
+.cta-box{border:1px solid var(--line2);border-radius:20px;background:linear-gradient(135deg,rgba(79,127,255,.08),rgba(179,136,255,.06));padding:40px 36px;text-align:center;margin-top:60px}
+.cta-box h2{margin:0 0 10px;font-size:26px;letter-spacing:-.3px;background:var(--grad1);-webkit-background-clip:text;background-clip:text;color:transparent}
+.cta-box p{color:var(--sub);font-size:15px;margin:0 0 26px}
+.cta-box .form-row{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+.cta-box input{background:var(--panel);border:1px solid var(--line2);border-radius:10px;padding:11px 16px;color:var(--ink);font-size:14px;width:280px;outline:none;transition:.15s border-color}
+.cta-box input:focus{border-color:var(--acc)}
+.cta-box input::placeholder{color:var(--muted)}
+
+/* Instructor */
+.instructor{display:grid;grid-template-columns:auto 1fr;gap:20px;align-items:start;border:1px solid var(--line);border-radius:18px;background:linear-gradient(180deg,var(--panel2),var(--panel));padding:24px}
+.instructor .avatar{width:64px;height:64px;border-radius:50%;background:var(--grad1);display:flex;align-items:center;justify-content:center;color:#0b1020;font-weight:900;font-size:22px;flex-shrink:0}
+.instructor h3{margin:0 0 4px;font-size:17px;font-weight:700}
+.instructor .role{color:var(--sub);font-size:13px;margin-bottom:12px}
+.instructor .kv{display:grid;grid-template-columns:80px 1fr;row-gap:6px;column-gap:10px;font-size:13px}
+.instructor .kv dt{color:var(--muted)} .instructor .kv dd{margin:0;color:var(--ink)}
+
+/* Footer */
+footer{margin-top:72px;padding-top:22px;border-top:1px solid var(--line);color:var(--muted);font-size:12px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px}
+
+@media(max-width:700px){
+  .hero h1{font-size:34px}
+  .rm-item{grid-template-columns:80px 1fr}
+  .rm-item::before{left:39px}
+  .instructor{grid-template-columns:1fr}
+  .cta-box{padding:28px 20px}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <nav class="nav">
+    <div class="brand">
+      <span class="logo">D</span>
+      <span class="name">DONGSOO.<span style="color:var(--acc)">PORTAL</span></span>
+      <span class="tag">v1 · 2026</span>
+    </div>
+    <div class="links">
+      <a href="/">홈</a>
+      <a href="/#projects">프로젝트</a>
+      <a href="https://github.com/DongsooJung" target="_blank" rel="noopener">GitHub ↗</a>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="badge-row">
+      <span class="badge koi">🧠 KOI Coach</span>
+      <span class="badge edu">Education</span>
+      <span class="badge coming">🚧 Coming Soon</span>
+    </div>
+    <h1>수학정보올림피아드<br>대비 코치</h1>
+    <p class="lead">
+      KOI(한국정보올림피아드) · KMO(한국수학올림피아드) 대비 문제 큐레이션 및 단계별 풀이 아카이브.
+      학생별 진도 관리와 맞춤형 피드백으로 실력을 체계적으로 끌어올립니다.
+    </p>
+    <div class="cta">
+      <a class="btn ghost" href="/">← 포털 홈으로</a>
+      <a class="btn primary" href="#notify">사전 신청 →</a>
+    </div>
+  </section>
+
+  <!-- Features -->
+  <section class="sec">
+    <div class="sec-head">
+      <h2>핵심 기능</h2>
+      <p>KOI Coach가 제공할 세 가지 핵심 서비스</p>
+    </div>
+    <div class="feat-grid">
+      <div class="feat">
+        <div class="icon">📚</div>
+        <h3>문제 큐레이션 아카이브</h3>
+        <p>KOI 기출 전 회차 + 유형별 연습 문제를 난이도·분류·출처별로 정리한 검색 가능한 아카이브. 필요한 문제를 즉시 찾을 수 있습니다.</p>
+        <span class="status">준비중</span>
+      </div>
+      <div class="feat">
+        <div class="icon">🔍</div>
+        <h3>단계별 풀이 해설</h3>
+        <p>단순 정답 제시가 아닌 아이디어 도출 → 설계 → 구현 → 최적화의 4단계 풀이 프로세스. 사고 흐름을 함께 익힙니다.</p>
+        <span class="status">준비중</span>
+      </div>
+      <div class="feat">
+        <div class="icon">📊</div>
+        <h3>학생별 진도 관리</h3>
+        <p>풀이 이력, 취약 유형 분석, 목표 대회까지의 학습 로드맵을 개인별로 관리. 강사와 학생이 함께 진도를 추적합니다.</p>
+        <span class="status">준비중</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Roadmap -->
+  <section class="sec">
+    <div class="sec-head">
+      <h2>커리큘럼 로드맵</h2>
+      <p>입문부터 KOI 본선까지 단계별 학습 경로</p>
+    </div>
+    <div class="roadmap">
+      <div class="rm-item">
+        <div class="rm-dot">
+          <div class="circle">1</div>
+          <div class="lbl">입문</div>
+        </div>
+        <div class="rm-body">
+          <h3>Python 기초 & 알고리즘 입문</h3>
+          <p>Python 문법, 기본 자료구조(리스트·딕셔너리·집합), 완전탐색·재귀·정렬의 개념을 익힙니다. 백준 브론즈~실버 수준의 문제를 통해 코딩 감각을 기릅니다.</p>
+          <div class="tags">
+            <span class="tag">Python</span>
+            <span class="tag">완전탐색</span>
+            <span class="tag">정렬</span>
+            <span class="tag">재귀</span>
+          </div>
+        </div>
+      </div>
+      <div class="rm-item">
+        <div class="rm-dot">
+          <div class="circle">2</div>
+          <div class="lbl">중급</div>
+        </div>
+        <div class="rm-body">
+          <h3>자료구조 & 핵심 알고리즘</h3>
+          <p>스택·큐·힙·트리·그래프 등 핵심 자료구조와 BFS/DFS·DP·그리디·이분탐색을 체계적으로 학습합니다. KOI 지역 예선 수준의 문제를 집중 훈련합니다.</p>
+          <div class="tags">
+            <span class="tag">BFS/DFS</span>
+            <span class="tag">DP</span>
+            <span class="tag">그리디</span>
+            <span class="tag">이분탐색</span>
+          </div>
+        </div>
+      </div>
+      <div class="rm-item">
+        <div class="rm-dot">
+          <div class="circle">3</div>
+          <div class="lbl">고급</div>
+        </div>
+        <div class="rm-body">
+          <h3>KOI 실전 대비</h3>
+          <p>세그먼트 트리·플로우·문자열 알고리즘 등 고급 주제와 KOI 전 회차 기출 분석. 실전 시간 제한 훈련과 코드 리뷰로 본선 입상을 목표로 합니다.</p>
+          <div class="tags">
+            <span class="tag">세그먼트 트리</span>
+            <span class="tag">네트워크 플로우</span>
+            <span class="tag">KOI 기출</span>
+            <span class="tag">실전 훈련</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Instructor -->
+  <section class="sec">
+    <div class="sec-head">
+      <h2>강사 소개</h2>
+    </div>
+    <div class="instructor">
+      <div class="avatar">정</div>
+      <div>
+        <h3>정동수 · Dongsoo Jung</h3>
+        <p class="role">Stargate Corporation CEO · 대치동 KOI 수학정보올림피아드 강사</p>
+        <dl class="kv">
+          <dt>학력</dt><dd>서울대학교 공과대학 (17세 입학) · 스마트시티공학 박사과정</dd>
+          <dt>경력</dt><dd>공군 시설장교(서울공항 PM) · 공군참모총장상 수상</dd>
+          <dt>전문</dt><dd>알고리즘 · 수학 · AI 에이전트 · 공간계량경제학</dd>
+          <dt>연락</dt><dd><a href="mailto:jds068888@gmail.com">jds068888@gmail.com</a></dd>
+        </dl>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA / Notify -->
+  <div class="cta-box" id="notify">
+    <h2>사전 신청 · 오픈 알림</h2>
+    <p>KOI Coach 정식 오픈 시 가장 먼저 안내받으세요.<br>현재 소수 정예 1:1 과외 문의도 받고 있습니다.</p>
+    <div class="form-row">
+      <input type="email" placeholder="이메일 주소를 입력하세요" disabled>
+      <a class="btn primary" href="mailto:jds068888@gmail.com?subject=KOI Coach 사전신청&body=안녕하세요, KOI Coach 오픈 알림 신청합니다.">이메일로 문의하기</a>
+    </div>
+  </div>
+
+  <footer>
+    <span>© 2026 Dongsoo Jung · Stargate Corporation</span>
+    <span>
+      <a href="/">stargateedu.co.kr</a> ·
+      <a href="https://github.com/DongsooJung" target="_blank" rel="noopener">GitHub</a> ·
+      <a href="mailto:jds068888@gmail.com">jds068888@gmail.com</a>
+    </span>
+  </footer>
+
+</div>
+</body>
+</html>
