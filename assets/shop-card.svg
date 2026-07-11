@@ -1,1 +1,50 @@
-��1�Y�
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 400" font-family="Pretendard,'Apple SD Gothic Neo','Malgun Gothic','Segoe UI',sans-serif">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0B2A4A"/>
+      <stop offset=".55" stop-color="#123A63"/>
+      <stop offset="1" stop-color="#1c4d80"/>
+    </linearGradient>
+    <radialGradient id="glow" cx=".82" cy=".18" r=".6">
+      <stop offset="0" stop-color="#C9A227" stop-opacity=".55"/>
+      <stop offset="1" stop-color="#C9A227" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="glow2" cx=".12" cy=".9" r=".5">
+      <stop offset="0" stop-color="#63d6a0" stop-opacity=".28"/>
+      <stop offset="1" stop-color="#63d6a0" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="gold" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#E8C766"/>
+      <stop offset="1" stop-color="#C9A227"/>
+    </linearGradient>
+  </defs>
+  <rect width="640" height="400" fill="url(#bg)"/>
+  <rect width="640" height="400" fill="url(#glow)"/>
+  <rect width="640" height="400" fill="url(#glow2)"/>
+  <g opacity=".16" stroke="#9fc0e8" fill="none">
+    <circle cx="530" cy="86" r="120"/>
+    <circle cx="530" cy="86" r="170"/>
+    <circle cx="530" cy="86" r="225"/>
+  </g>
+  <g opacity=".9">
+    <circle cx="530" cy="86" r="7" fill="#E8C766"/>
+    <circle cx="402" cy="180" r="3.5" fill="#9fc0e8"/>
+    <circle cx="595" cy="205" r="4" fill="#63d6a0"/>
+  </g>
+  <text x="48" y="96" font-size="26" fill="#E8C766" font-weight="700" letter-spacing="4">★ STARGATE</text>
+  <text x="48" y="168" font-size="58" fill="#ffffff" font-weight="800" letter-spacing="-1">EDU SHOP</text>
+  <rect x="50" y="192" width="150" height="5" rx="2.5" fill="url(#gold)"/>
+  <text x="48" y="244" font-size="23" fill="#C9D8E8" font-weight="500">정보·수학 올림피아드</text>
+  <text x="48" y="278" font-size="23" fill="#C9D8E8" font-weight="500">온라인 스쿨 스토어</text>
+  <g font-size="15" font-weight="700">
+    <rect x="46" y="308" width="66" height="30" rx="15" fill="#C9A227"/>
+    <text x="79" y="328" fill="#3a2e00" text-anchor="middle">강의</text>
+    <rect x="120" y="308" width="66" height="30" rx="15" fill="rgba(255,255,255,.12)" stroke="rgba(255,255,255,.35)"/>
+    <text x="153" y="328" fill="#dbe7f5" text-anchor="middle">교재</text>
+    <rect x="194" y="308" width="94" height="30" rx="15" fill="rgba(255,255,255,.12)" stroke="rgba(255,255,255,.35)"/>
+    <text x="241" y="328" fill="#dbe7f5" text-anchor="middle">모의고사</text>
+    <rect x="296" y="308" width="106" height="30" rx="15" fill="rgba(255,255,255,.12)" stroke="rgba(255,255,255,.35)"/>
+    <text x="349" y="328" fill="#dbe7f5" text-anchor="middle">1:1 컨설팅</text>
+  </g>
+  <text x="48" y="374" font-size="14" fill="#8fa9c4" letter-spacing="1">shop.stargateedu.co.kr</text>
+</svg>
