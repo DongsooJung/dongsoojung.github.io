@@ -8,10 +8,15 @@
 <meta name="author" content="Dongsoo Jung">
 <meta property="og:title" content="정동수 · Dongsoo Jung — Stargate Corp">
 <meta property="og:description" content="AI 기업 CEO · KOI 강사 · 프로젝트 포털">
-<meta property="og:url" content="https://dongsoojung.github.io/">
+<meta property="og:url" content="https://stargateedu.co.kr/">
 <meta property="og:type" content="website">
 <meta name="twitter:card" content="summary_large_image">
-<link rel="canonical" href="https://dongsoojung.github.io/">
+<link rel="canonical" href="https://stargateedu.co.kr/">
+<meta name="theme-color" content="#0b1020">
+<link rel="manifest" href="/manifest.webmanifest">
+<link rel="icon" href="/assets/icons/favicon.ico" sizes="48x48">
+<link rel="icon" href="/assets/icons/icon-192.png" type="image/png" sizes="192x192">
+<link rel="apple-touch-icon" href="/assets/icons/apple-touch-icon.png">
 <style>
 :root{
   --bg:#0a0d14; --bg2:#111827; --panel:#0f172a; --panel2:#111c33;
@@ -330,5 +335,10 @@ footer{margin-top:72px;padding-top:22px;border-top:1px solid var(--line);color:v
   </footer>
 
 </div>
+<script>
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => navigator.serviceWorker.register('/sw.js'));
+}
+</script>
 </body>
 </html>

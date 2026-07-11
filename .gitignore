@@ -5,3 +5,21 @@ Thumbs.db
 .idea/
 node_modules/
 _local/
+
+# Android 서명키 — 공개 저장소이므로 절대 커밋 금지
+*.keystore
+*.jks
+keystore.properties
+app/*.keystore
+
+# Bubblewrap/Gradle 빌드 산출물 (twa-manifest.json만 버전 관리)
+app/build/
+app/app/
+app/gradle/
+app/gradlew
+app/gradlew.bat
+app/*.apk
+app/*.aab
+app/*.idsig
+app/store_icon.png
+app/manifest-checksum.txt
