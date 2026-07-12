@@ -1,21 +1,26 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-법원경매 2026년 월별 주택 데이터 수집기
-========================================
+법원경매 2026년 월별 부동산(주택/상업용) 데이터 수집기
+======================================================
 
 대한민국법원 법원경매정보(www.courtauction.go.kr)의 물건검색 API를 호출해
-2026년 주택(주거용 건물) 경매 물건을 **공고일 기준** 월별로 수집하고,
+2026년 주택(주거용 건물)·상업용 건물 경매 물건을 **공고일 기준** 월별로
+수집하고,
 
-  1) 엑셀 파일(output/법원경매_주택_2026.xlsx)
-  2) 대시보드용 JSON(court-auction/data.json)
+  1) 엑셀 파일(output/법원경매_주택_2026.xlsx, 법원경매_상업용_2026.xlsx)
+  2) 대시보드용 JSON(data.json, data_commercial.json)
 
 으로 저장합니다.
 
 사용법
 ------
-  # 2026년 1월 ~ 현재 월까지 전체 수집
+  # 주택 + 상업용 모두, 2026년 1월 ~ 현재 월까지 수집
   python3 fetch_court_auction.py
+
+  # 특정 구분만 수집
+  python3 fetch_court_auction.py --category 주택
+  python3 fetch_court_auction.py --category 상업용
 
   # 최신 월(데이터가 있는 가장 최근 월)만 수집
   python3 fetch_court_auction.py --latest
@@ -53,9 +58,22 @@ except ImportError:
 
 BASE_DIR = Path(__file__).resolve().parent
 OUTPUT_DIR = BASE_DIR / "output"
-EXCEL_PATH = OUTPUT_DIR / "법원경매_주택_2026.xlsx"
-JSON_PATH = BASE_DIR / "data.json"
 YEAR = 2026
+
+# 물건 구분별 설정: 용도 중분류 코드와 저장 경로
+# (코드값은 사이트 개편 시 개발자도구에서 재확인)
+CATEGORIES = {
+    "주택": {
+        "mcl_code": "20100",   # 중분류: 주거용건물
+        "excel": OUTPUT_DIR / "법원경매_주택_2026.xlsx",
+        "json": BASE_DIR / "data.json",
+    },
+    "상업용": {
+        "mcl_code": "20200",   # 중분류: 상업용건물
+        "excel": OUTPUT_DIR / "법원경매_상업용_2026.xlsx",
+        "json": BASE_DIR / "data_commercial.json",
+    },
+}
 
 # ---------------------------------------------------------------------------
 # 법원경매정보 API 설정
@@ -76,9 +94,8 @@ PAGE_SIZE = 40          # 사이트 기본 페이지 크기
 REQUEST_DELAY_SEC = 1.0  # 요청 간 지연(서버 부하 방지)
 MAX_RETRY = 3
 
-# 용도 분류 코드(주거용 건물). 사이트 개편 시 개발자도구에서 코드값 재확인.
+# 용도 대분류 코드. 사이트 개편 시 개발자도구에서 코드값 재확인.
 USAGE_LARGE_CODE = "20000"   # 대분류: 건물
-USAGE_MID_CODE = "20100"     # 중분류: 주거용건물(아파트/단독/다세대/연립 등 포함)
 
 # 응답 JSON에서 항목 리스트가 담기는 후보 키(사이트 버전에 따라 다를 수 있음)
 RESULT_LIST_KEYS = ["dlt_srchResult", "dlt_srchRslt", "data"]
@@ -99,7 +116,7 @@ FIELD_CANDIDATES = {
 }
 
 
-def build_payload(page_no: int, start_ymd: str, end_ymd: str) -> dict:
+def build_payload(page_no: int, start_ymd: str, end_ymd: str, mcl_code: str) -> dict:
     """월별 공고일 범위 검색 페이로드. 필드명은 사이트 개편 시 재확인 필요."""
     return {
         "dma_pageInfo": {
@@ -114,7 +131,7 @@ def build_payload(page_no: int, start_ymd: str, end_ymd: str) -> dict:
             "mvprpRletDvsCd": "00031R",    # 부동산
             "cortAuctnSrchCondCd": "0004601",
             "lclDspslGdsLstUsgCd": USAGE_LARGE_CODE,
-            "mclDspslGdsLstUsgCd": USAGE_MID_CODE,
+            "mclDspslGdsLstUsgCd": mcl_code,
             "sclDspslGdsLstUsgCd": "",
             "cortOfcCd": "",               # 전체 법원
             "rprsAdongSdCd": "",           # 전체 시도
@@ -160,7 +177,7 @@ def normalize_record(item: dict) -> dict:
     return rec
 
 
-def fetch_month(session, year: int, month: int) -> list[dict]:
+def fetch_month(session, year: int, month: int, mcl_code: str) -> list[dict]:
     """한 달치(공고일 기준) 데이터를 페이지네이션하며 전부 수집."""
     start = f"{year}{month:02d}01"
     last_day = (dt.date(year + month // 12, month % 12 + 1, 1) - dt.timedelta(days=1)).day
@@ -169,7 +186,7 @@ def fetch_month(session, year: int, month: int) -> list[dict]:
     records: list[dict] = []
     page = 1
     while True:
-        payload = build_payload(page, start, end)
+        payload = build_payload(page, start, end, mcl_code)
         data = None
         for attempt in range(1, MAX_RETRY + 1):
             try:
@@ -217,10 +234,16 @@ SIDO_WEIGHTS = [
     ("충북", 4), ("강원", 3), ("광주", 3), ("대전", 3), ("울산", 2),
     ("제주", 1), ("세종", 1),
 ]
-USAGE_WEIGHTS = [
-    ("아파트", 38), ("다세대주택", 22), ("단독주택", 14), ("오피스텔", 9),
-    ("연립주택", 8), ("다가구주택", 5), ("주상복합", 4),
-]
+USAGE_WEIGHTS = {
+    "주택": [
+        ("아파트", 38), ("다세대주택", 22), ("단독주택", 14), ("오피스텔", 9),
+        ("연립주택", 8), ("다가구주택", 5), ("주상복합", 4),
+    ],
+    "상업용": [
+        ("근린생활시설", 34), ("상가", 21), ("점포", 13), ("사무실", 12),
+        ("숙박시설", 9), ("근린상가", 8), ("목욕탕", 3),
+    ],
+}
 COURTS = {
     "서울": ["서울중앙지방법원", "서울동부지방법원", "서울남부지방법원", "서울북부지방법원", "서울서부지방법원"],
     "경기": ["수원지방법원", "의정부지방법원", "수원지방법원 성남지원", "의정부지방법원 고양지원"],
@@ -232,8 +255,12 @@ COURTS = {
     "강원": ["춘천지방법원", "춘천지방법원 원주지원"], "제주": ["제주지방법원"], "세종": ["대전지방법원"],
 }
 BASE_PRICE = {  # 용도별 감정가 중심값(만원)
+    # 주택
     "아파트": 42000, "주상복합": 55000, "오피스텔": 21000, "단독주택": 38000,
     "다세대주택": 17000, "연립주택": 19000, "다가구주택": 45000,
+    # 상업용
+    "근린생활시설": 48000, "상가": 35000, "점포": 22000, "사무실": 40000,
+    "숙박시설": 90000, "근린상가": 30000, "목욕탕": 65000,
 }
 SIDO_MULT = {"서울": 2.3, "경기": 1.4, "인천": 1.0, "부산": 1.0, "대구": 0.9, "대전": 0.9,
              "광주": 0.8, "울산": 0.9, "세종": 1.1, "제주": 1.0}
@@ -250,13 +277,16 @@ def weighted_choice(rng: random.Random, pairs):
     return pairs[-1][0]
 
 
-def generate_sample(year: int, upto_month: int) -> list[dict]:
-    rng = random.Random(20260712)
+def generate_sample(year: int, upto_month: int, category: str) -> list[dict]:
+    # 구분별로 시드를 달리해 서로 다른 분포 생성
+    rng = random.Random(20260712 + hash(category) % 1000)
     today = dt.date.today()
+    is_commercial = category == "상업용"
     records = []
     seq = 0
     for month in range(1, upto_month + 1):
-        n = rng.randint(330, 470)
+        # 상업용 물건 수는 주택보다 적게
+        n = rng.randint(150, 240) if is_commercial else rng.randint(330, 470)
         last_day = (dt.date(year + month // 12, month % 12 + 1, 1) - dt.timedelta(days=1)).day
         # 현재 진행 중인 월은 오늘까지의 공고만 생성
         if year == today.year and month == today.month:
@@ -265,19 +295,21 @@ def generate_sample(year: int, upto_month: int) -> list[dict]:
         for _ in range(n):
             seq += 1
             sido = weighted_choice(rng, SIDO_WEIGHTS)
-            usage = weighted_choice(rng, USAGE_WEIGHTS)
+            usage = weighted_choice(rng, USAGE_WEIGHTS[category])
             court = rng.choice(COURTS[sido])
             appraisal = int(BASE_PRICE[usage] * SIDO_MULT.get(sido, 0.75)
-                            * rng.lognormvariate(0, 0.45)) * 10000
+                            * rng.lognormvariate(0, 0.55 if is_commercial else 0.45)) * 10000
             appraisal = max(appraisal // 1000000 * 1000000, 30000000)
-            fails = min(int(rng.expovariate(1.1)), 4)
+            # 상업용은 유찰이 더 잦은 경향
+            fails = min(int(rng.expovariate(0.8 if is_commercial else 1.1)), 5)
             low_price = int(appraisal * (0.8 ** fails) // 100000 * 100000)
             notice_day = rng.randint(1, last_day)
             notice = dt.date(year, month, notice_day)
             sale = notice + dt.timedelta(days=rng.randint(14, 35))
             status = "신건" if fails == 0 else "유찰"
+            case_base = 200000 if is_commercial else 100000
             records.append({
-                "사건번호": f"{year}타경{100000 + seq}",
+                "사건번호": f"{year}타경{case_base + seq}",
                 "법원": court,
                 "물건번호": 1,
                 "용도": usage,
@@ -367,13 +399,14 @@ def save_excel(records: list[dict], path: Path) -> None:
     print(f"엑셀 저장: {path} ({len(records)}건, 시트 {len(wb.sheetnames)}개)")
 
 
-def save_json(records: list[dict], path: Path, source: str) -> None:
+def save_json(records: list[dict], path: Path, source: str, category: str) -> None:
     months = sorted({r["공고일"][:7] for r in records if r.get("공고일")})
     payload = {
         "meta": {
             "generated_at": dt.datetime.now().isoformat(timespec="seconds"),
             "source": source,
             "year": YEAR,
+            "category": category,
             "months": months,
             "count": len(records),
             "basis": "공고일",
@@ -387,22 +420,67 @@ def save_json(records: list[dict], path: Path, source: str) -> None:
 # ---------------------------------------------------------------------------
 # main
 # ---------------------------------------------------------------------------
+def run_category(category: str, args, current_month: int, session) -> bool:
+    cfg = CATEGORIES[category]
+
+    if args.sample:
+        print(f"[{category}] 샘플 모드: {YEAR}년 1월~{current_month}월 데이터 생성")
+        records = generate_sample(YEAR, current_month, category)
+        source = "샘플 데이터 (--sample)"
+    else:
+        if args.month:
+            y, m = args.month.split("-")
+            months = [(int(y), int(m))]
+        elif args.latest:
+            months = [(YEAR, mm) for mm in range(current_month, 0, -1)]
+        else:
+            months = [(YEAR, mm) for mm in range(1, current_month + 1)]
+
+        records = []
+        print(f"[{category}] 법원경매정보 수집 시작 (공고일 기준)")
+        for y, m in months:
+            month_records = fetch_month(session, y, m, cfg["mcl_code"])
+            records.extend(month_records)
+            if args.latest and month_records:
+                print(f"[{category}] 최신 데이터 월: {y}-{m:02d}")
+                break
+            time.sleep(REQUEST_DELAY_SEC)
+        source = "법원경매정보(courtauction.go.kr)"
+
+    if not records:
+        print(f"[{category}] 수집된 데이터가 없습니다.", file=sys.stderr)
+        return False
+
+    records.sort(key=lambda r: (r.get("공고일", ""), r.get("사건번호", "")))
+    save_excel(records, cfg["excel"])
+    save_json(records, cfg["json"], source, category)
+
+    months = sorted({r["공고일"][:7] for r in records})
+    print(f"\n[{category}] 월별 요약")
+    for m in months:
+        rows = [r for r in records if r["공고일"].startswith(m)]
+        avg = sum(r["감정가"] for r in rows) / len(rows)
+        print(f"  {m}: {len(rows):>5}건, 평균 감정가 {avg/1e8:.2f}억원")
+    print()
+    return True
+
+
 def main() -> int:
-    ap = argparse.ArgumentParser(description="법원경매 2026년 월별 주택 데이터 수집기(공고일 기준)")
+    ap = argparse.ArgumentParser(
+        description="법원경매 2026년 월별 부동산(주택/상업용) 데이터 수집기(공고일 기준)")
     g = ap.add_mutually_exclusive_group()
     g.add_argument("--month", help="특정 월만 수집 (예: 2026-06)")
     g.add_argument("--latest", action="store_true", help="데이터가 있는 최신 월만 수집")
     ap.add_argument("--sample", action="store_true", help="네트워크 없이 샘플 데이터 생성")
+    ap.add_argument("--category", choices=[*CATEGORIES, "전체"], default="전체",
+                    help="물건 구분 (기본: 전체 = 주택 + 상업용)")
     args = ap.parse_args()
 
     today = dt.date.today()
     current_month = today.month if today.year == YEAR else (12 if today.year > YEAR else 1)
 
-    if args.sample:
-        print(f"샘플 모드: {YEAR}년 1월~{current_month}월 데이터 생성")
-        records = generate_sample(YEAR, current_month)
-        source = "샘플 데이터 (--sample)"
-    else:
+    session = None
+    if not args.sample:
         if requests is None:
             print("requests 패키지가 없습니다: pip install requests openpyxl", file=sys.stderr)
             return 1
@@ -416,40 +494,9 @@ def main() -> int:
                   file=sys.stderr)
             return 1
 
-        if args.month:
-            y, m = args.month.split("-")
-            months = [(int(y), int(m))]
-        elif args.latest:
-            months = [(YEAR, mm) for mm in range(current_month, 0, -1)]
-        else:
-            months = [(YEAR, mm) for mm in range(1, current_month + 1)]
-
-        records = []
-        print(f"법원경매정보 수집 시작 (공고일 기준, 주거용 건물)")
-        for y, m in months:
-            month_records = fetch_month(session, y, m)
-            records.extend(month_records)
-            if args.latest and month_records:
-                print(f"최신 데이터 월: {y}-{m:02d}")
-                break
-            time.sleep(REQUEST_DELAY_SEC)
-        source = "법원경매정보(courtauction.go.kr)"
-
-    if not records:
-        print("수집된 데이터가 없습니다.", file=sys.stderr)
-        return 1
-
-    records.sort(key=lambda r: (r.get("공고일", ""), r.get("사건번호", "")))
-    save_excel(records, EXCEL_PATH)
-    save_json(records, JSON_PATH, source)
-
-    months = sorted({r["공고일"][:7] for r in records})
-    print("\n월별 요약")
-    for m in months:
-        rows = [r for r in records if r["공고일"].startswith(m)]
-        avg = sum(r["감정가"] for r in rows) / len(rows)
-        print(f"  {m}: {len(rows):>5}건, 평균 감정가 {avg/1e8:.2f}억원")
-    return 0
+    categories = list(CATEGORIES) if args.category == "전체" else [args.category]
+    ok = all([run_category(c, args, current_month, session) for c in categories])
+    return 0 if ok else 1
 
 
 if __name__ == "__main__":

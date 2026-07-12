@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>법원경매 주택 대시보드 · 2026</title>
+<title>법원경매 부동산 대시보드 · 2026</title>
 <style>
   :root{
     --page:#f9f9f7; --surface:#fcfcfb;
@@ -55,6 +55,11 @@
   .filters .reset{background:none;border:1px solid var(--border);color:var(--ink-2);
     border-radius:8px;padding:7px 12px;font-size:13px;cursor:pointer;align-self:flex-end}
   .filters .reset:hover{color:var(--ink)}
+  /* 구분(주택/상업용) 세그먼트 토글 */
+  .seg{display:flex;border:1px solid var(--border);border-radius:8px;overflow:hidden}
+  .seg button{padding:7px 16px;background:var(--surface);color:var(--ink-2);border:none;
+    cursor:pointer;font-size:13px}
+  .seg button.on{background:var(--series);color:#fff;font-weight:600}
   /* KPI tiles */
   .kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;margin-bottom:20px}
   .tile{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:16px 18px}
@@ -108,17 +113,20 @@
 <body>
 <div class="wrap">
   <header class="top">
-    <h1>법원경매 주택 대시보드</h1>
+    <h1>법원경매 부동산 대시보드</h1>
     <span class="badge">2026년 · 공고일 기준</span>
     <span class="badge warn" id="sampleBadge" style="display:none">샘플 데이터</span>
     <span class="spacer"></span>
-    <a class="btn" href="output/법원경매_주택_2026.xlsx" download>⬇ 엑셀 다운로드</a>
+    <a class="btn" id="xlsxLink" href="output/법원경매_주택_2026.xlsx" download>⬇ 엑셀 다운로드</a>
   </header>
-  <p class="subtitle">대한민국법원 법원경매정보의 주거용 건물(아파트·단독·다세대·연립 등) 경매 물건을 공고일 기준으로 집계합니다.</p>
+  <p class="subtitle" id="subtitle">대한민국법원 법원경매정보의 주거용 건물(아파트·단독·다세대·연립 등) 경매 물건을 공고일 기준으로 집계합니다.</p>
 
   <div id="loadErr">data.json을 불러오지 못했습니다. <code>python3 fetch_court_auction.py --sample</code>을 실행해 데이터를 생성한 뒤, 로컬 서버(<code>python3 -m http.server</code>)로 열어 주세요.</div>
 
   <div class="filters" id="filters">
+    <label>구분
+      <span class="seg" id="fCat"></span>
+    </label>
     <label>공고월
       <select id="fMonth"><option value="">전체 (2026년)</option></select>
     </label>
@@ -136,12 +144,12 @@
   <div class="grid">
     <div class="card full">
       <h2>월별 공고 물건 수</h2>
-      <div class="desc" id="trendDesc">2026년 각 월에 공고된 주택 경매 물건 수</div>
+      <div class="desc" id="trendDesc">2026년 각 월에 공고된 경매 물건 수</div>
       <div class="chart" id="chTrend"></div>
     </div>
     <div class="card">
       <h2>용도별 물건 수</h2>
-      <div class="desc">필터 적용 범위 내 주택 유형별 분포</div>
+      <div class="desc">필터 적용 범위 내 용도별 분포</div>
       <div class="chart" id="chUsage"></div>
     </div>
     <div class="card">
@@ -180,28 +188,66 @@ const eok = n => {
   return Math.round(n/1e4).toLocaleString("ko-KR") + "만";
 };
 
-let DATA = null;          // 전체 records
+const DATASETS = {
+  "주택": {
+    json: "data.json",
+    xlsx: "output/법원경매_주택_2026.xlsx",
+    desc: "대한민국법원 법원경매정보의 주거용 건물(아파트·단독·다세대·연립 등) 경매 물건을 공고일 기준으로 집계합니다.",
+  },
+  "상업용": {
+    json: "data_commercial.json",
+    xlsx: "output/법원경매_상업용_2026.xlsx",
+    desc: "대한민국법원 법원경매정보의 상업용 건물(근린생활시설·상가·사무실 등) 경매 물건을 공고일 기준으로 집계합니다.",
+  },
+};
+let DATA = null;          // 현재 구분의 records
 let META = null;
-let state = { month:"", sido:"", usage:"", page:1, sortKey:"공고일", sortDir:-1 };
+let state = { cat:"주택", month:"", sido:"", usage:"", page:1, sortKey:"공고일", sortDir:-1 };
 const PAGE = 20;
+let resizeBound = false;
 
-/* ---------- 데이터 로드 ---------- */
-fetch("data.json")
-  .then(r => { if(!r.ok) throw new Error(r.status); return r.json(); })
-  .then(j => {
-    DATA = j.records; META = j.meta;
-    if ((META.source||"").includes("샘플")) $("sampleBadge").style.display = "inline-block";
-    initFilters(); renderAll();
-    $("foot").append(document.createTextNode(
-      `데이터 기준: ${META.basis} · 출처: ${META.source} · 생성 ${META.generated_at} · 총 ${fmt(META.count)}건`));
-  })
-  .catch(() => { $("loadErr").style.display = "block"; });
+/* ---------- 데이터 로드 & 구분 전환 ---------- */
+function initCatToggle(){
+  const seg = $("fCat");
+  for (const cat of Object.keys(DATASETS)){
+    const b = document.createElement("button");
+    b.type = "button"; b.textContent = cat;
+    b.onclick = () => { if (state.cat !== cat) loadDataset(cat); };
+    seg.append(b);
+  }
+}
+function syncCatToggle(){
+  for (const b of $("fCat").children) b.classList.toggle("on", b.textContent === state.cat);
+}
+function loadDataset(cat){
+  const ds = DATASETS[cat];
+  fetch(ds.json)
+    .then(r => { if(!r.ok) throw new Error(r.status); return r.json(); })
+    .then(j => {
+      DATA = j.records; META = j.meta;
+      state = {...state, cat, month:"", sido:"", usage:"", page:1};
+      $("sampleBadge").style.display =
+        (META.source||"").includes("샘플") ? "inline-block" : "none";
+      $("subtitle").textContent = ds.desc;
+      $("xlsxLink").href = ds.xlsx;
+      syncCatToggle();
+      initFilters(); renderAll();
+      const foot = $("foot"); foot.replaceChildren();
+      foot.append(document.createTextNode(
+        `구분: ${META.category || cat} · 데이터 기준: ${META.basis} · 출처: ${META.source} · 생성 ${META.generated_at} · 총 ${fmt(META.count)}건`));
+    })
+    .catch(() => { $("loadErr").style.display = "block"; });
+}
+initCatToggle();
+loadDataset("주택");
 
 /* ---------- 필터 ---------- */
+function resetSelect(sel){ while (sel.options.length > 1) sel.remove(1); sel.value = ""; }
 function initFilters(){
   const months = [...new Set(DATA.map(r => r.공고일.slice(0,7)))].sort();
   const sidos  = [...new Set(DATA.map(r => r.시도))].filter(Boolean).sort((a,b)=>a.localeCompare(b,"ko"));
   const usages = [...new Set(DATA.map(r => r.용도))].filter(Boolean).sort((a,b)=>a.localeCompare(b,"ko"));
+  resetSelect($("fMonth")); resetSelect($("fSido")); resetSelect($("fUsage"));
   for (const m of months) addOpt($("fMonth"), m, m.replace("-","년 ")+"월");
   for (const s of sidos)  addOpt($("fSido"), s, s);
   for (const u of usages) addOpt($("fUsage"), u, u);
@@ -213,7 +259,10 @@ function initFilters(){
     $("fMonth").value = $("fSido").value = $("fUsage").value = "";
     renderAll();
   };
-  window.addEventListener("resize", debounce(renderAll, 200));
+  if (!resizeBound){
+    window.addEventListener("resize", debounce(renderAll, 200));
+    resizeBound = true;
+  }
 }
 function addOpt(sel, v, label){ const o = document.createElement("option"); o.value = v; o.textContent = label; sel.append(o); }
 function debounce(fn, ms){ let t; return () => { clearTimeout(t); t = setTimeout(fn, ms); }; }
@@ -329,7 +378,7 @@ function renderTrend(){
   const entries = [...byMonth.entries()];
   $("trendDesc").textContent = state.month
     ? `선택한 ${state.month.replace("-","년 ")}월을 강조 표시 (막대를 클릭하면 해당 월 선택)`
-    : "2026년 각 월에 공고된 주택 경매 물건 수 (막대를 클릭하면 해당 월 선택)";
+    : `2026년 각 월에 공고된 ${state.cat} 경매 물건 수 (막대를 클릭하면 해당 월 선택)`;
 
   const W = box.clientWidth || 800, H = 240;
   const m = {t:24, r:12, b:26, l:44};
@@ -415,7 +464,8 @@ function renderBars(id, entries, fmtVal){
 /* ---------- 감정가 구간 히스토그램 ---------- */
 const BINS = [
   ["1억 미만", 0, 1e8], ["1~2억", 1e8, 2e8], ["2~3억", 2e8, 3e8],
-  ["3~5억", 3e8, 5e8], ["5~10억", 5e8, 1e9], ["10억 이상", 1e9, Infinity],
+  ["3~5억", 3e8, 5e8], ["5~10억", 5e8, 1e9], ["10~20억", 1e9, 2e9],
+  ["20억 이상", 2e9, Infinity],
 ];
 function renderPriceHist(rows){
   const box = $("chPrice"); box.replaceChildren();
