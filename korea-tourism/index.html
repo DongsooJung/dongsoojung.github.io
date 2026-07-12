@@ -159,7 +159,7 @@ footer{margin-top:56px;padding-top:20px;border-top:1px solid var(--line);color:v
 
     <div class="card half">
       <h2>연도별 합계</h2>
-      <div class="cap" id="yearCap">연간 누적 입국자 수</div>
+      <div class="cap" id="yearCap">데이터가 있는 월 기준 합계 · 결측 월은 제외 (괄호는 집계 개월 수)</div>
       <div class="chart-box"><canvas id="yearChart" role="img" aria-label="국적별 연도별 합계 막대 그래프"></canvas></div>
     </div>
 
@@ -184,7 +184,9 @@ footer{margin-top:56px;padding-top:20px;border-top:1px solid var(--line);color:v
     <b>데이터 출처 및 갱신</b> — 한국관광공사 <a href="https://datalab.visitkorea.or.kr/" target="_blank" rel="noopener">한국관광 데이터랩</a> 공표
     방한 외래관광객 통계 기준이며, GitHub Actions가 매월 5일 공공데이터포털
     <a href="https://www.data.go.kr/data/15000297/openapi.do" target="_blank" rel="noopener">출입국관광통계서비스</a>를 호출해
-    <code>data.json</code>을 자동 갱신합니다. 통계 공표 일정상 최근 1~2개월 수치는 비어 있을 수 있으며,
+    <code>data.json</code>을 자동 갱신합니다. 현재 표시 중인 시드 데이터는 공표 통계를 인용한 보도 기반
+    요약치(일부 천~만 단위 반올림)로 일부 월이 비어 있으며, API 키 등록 시 2024년 1월부터 전체 월이
+    정밀치로 대체됩니다. 통계 공표 일정상 최근 1~2개월 수치는 비어 있을 수 있고,
     잠정치는 이후 확정치로 소급 수정될 수 있습니다. 설정 방법은
     <a href="https://github.com/DongsooJung/dongsoojung.github.io/tree/main/korea-tourism" target="_blank" rel="noopener">README</a> 참고.
   </div>
@@ -319,7 +321,8 @@ function filteredSeries(){
   if (state.range === 'last12') return s.slice(-12);
   return s.filter(r => r.ym.startsWith(state.range));
 }
-const rowSum = r => COUNTRIES.reduce((a,c)=> a + (r[c.key]??0), 0);
+const rowSum = r => COUNTRIES.every(c => r[c.key]!=null)
+  ? COUNTRIES.reduce((a,c)=> a + r[c.key], 0) : null;
 function yoyOf(ym, key){
   const prev = DATA.series.find(r => r.ym === `${+ym.slice(0,4)-1}${ym.slice(4)}`);
   const cur  = DATA.series.find(r => r.ym === ym);
@@ -353,23 +356,28 @@ function renderKPIs(){
   const el = document.getElementById('kpis');
   el.innerHTML = '';
   if (!rows.length) return;
-  const anchor = rows[rows.length-1];
-  const idxAll = DATA.series.findIndex(r => r.ym === anchor.ym);
-  const spark12 = DATA.series.slice(Math.max(0, idxAll-11), idxAll+1);
-
-  const defs = [...COUNTRIES.map(c => ({...c, value:anchor[c.key], yoy:yoyOf(anchor.ym, c.key)})),
-    { key:'total', label:'3개국 합계', color:'#9085e9',
-      value: COUNTRIES.every(c=>anchor[c.key]==null) ? null : rowSum(anchor), yoy: yoyOf(anchor.ym, null) }];
+  // 국가별 앵커: 선택 기간 내에서 해당 국가 값이 있는 마지막 달
+  const lastWith = pred => [...rows].reverse().find(pred) || null;
+  const defs = [...COUNTRIES.map(c => {
+    const a = lastWith(r => r[c.key]!=null);
+    return {...c, anchor:a, value:a?.[c.key] ?? null, yoy:a ? yoyOf(a.ym, c.key) : null};
+  }), (()=>{
+    const a = lastWith(r => rowSum(r)!=null);
+    return { key:'total', label:'3개국 합계', color:'#9085e9', anchor:a,
+      value:a ? rowSum(a) : null, yoy:a ? yoyOf(a.ym, null) : null };
+  })()];
 
   defs.forEach(d=>{
     const tile = document.createElement('div');
     tile.className = 'tile';
     const deltaHtml = d.yoy==null ? '<span>전년동월 데이터 없음</span>'
       : `<b class="${d.yoy>=0?'up':'down'}">${d.yoy>=0?'▲':'▼'} ${Math.abs(d.yoy).toLocaleString('ko-KR',{maximumFractionDigits:1})}%</b> <span>전년동월비</span>`;
+    const idxA = d.anchor ? DATA.series.findIndex(r => r.ym === d.anchor.ym) : -1;
+    const spark12 = idxA >= 0 ? DATA.series.slice(Math.max(0, idxA-11), idxA+1) : [];
     const sparkVals = spark12.map(r => d.key==='total' ? rowSum(r) : r[d.key]);
     tile.innerHTML = `
       <div class="lb"><span class="key" style="background:${d.color}"></span><span></span></div>
-      <div class="val">${fmtMan(d.value)}<small>명 · ${ymKorean(anchor.ym)}</small></div>
+      <div class="val">${fmtMan(d.value)}<small>${d.anchor ? `명 · ${ymKorean(d.anchor.ym)}` : ''}</small></div>
       <div class="delta">${deltaHtml}</div>
       ${sparkSVG(sparkVals, d.color)}`;
     tile.querySelector('.lb span:last-child').textContent = d.label;
@@ -490,11 +498,11 @@ function updateCharts(){
   charts.yoy.update();
 
   // 연도별 합계는 항상 전체 데이터 기준 (기간 필터와 무관한 요약)
+  // 결측 월이 있으면 "(n개월)"로 표기해 연간 총계로 오독되지 않게 한다
   const years = [...new Set(DATA.series.map(r=>r.ym.slice(0,4)))];
-  const lastByYear = y => Math.max(...DATA.series.filter(r=>r.ym.startsWith(y)).map(r=>+r.ym.slice(5)));
   charts.year.data.labels = years.map(y => {
-    const lm = lastByYear(y);
-    return lm < 12 ? `${y} (1~${lm}월)` : y;
+    const n = DATA.series.filter(r=>r.ym.startsWith(y) && COUNTRIES.some(c=>r[c.key]!=null)).length;
+    return n < 12 ? `${y} (${n}개월)` : y;
   });
   COUNTRIES.forEach((c,i)=> charts.year.data.datasets[i].data =
     years.map(y => {
