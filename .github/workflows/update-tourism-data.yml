@@ -5,6 +5,11 @@ on:
     # 매월 5일 12:00 KST (03:00 UTC) — 전월 통계 공표 직후
     - cron: '0 3 5 * *'
   workflow_dispatch:
+    inputs:
+      api_key:
+        description: '(선택) data.go.kr 인증키 — TOUR_API_KEY 시크릿이 없을 때 1회용으로 사용. 공개 저장소에서는 실행 기록에 남으므로 사용 후 키 재발급 권장'
+        required: false
+        default: ''
 
 permissions:
   contents: write
@@ -15,19 +20,23 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Mask one-off key in logs
+        if: ${{ inputs.api_key != '' }}
+        run: echo "::add-mask::${{ inputs.api_key }}"
+
       - name: Fetch tourism statistics
         env:
-          TOUR_API_KEY: ${{ secrets.TOUR_API_KEY }}
+          TOUR_API_KEY: ${{ secrets.TOUR_API_KEY || inputs.api_key }}
         run: python3 korea-tourism/fetch_data.py
 
       - name: Commit updated data
         run: |
-          if git diff --quiet korea-tourism/data.json; then
+          if git diff --quiet korea-tourism/data.json korea-tourism/fallback-data.js; then
             echo "변경 없음 — 커밋 생략"
             exit 0
           fi
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add korea-tourism/data.json
+          git add korea-tourism/data.json korea-tourism/fallback-data.js
           git commit -m "chore(korea-tourism): 방한 관광객 통계 자동 갱신"
           git push

@@ -23,9 +23,9 @@ API_URL = "https://apis.data.go.kr/B551011/EdrcntTourismStatsService/getEdrcntTo
 
 # 출입국관광통계서비스 국적 코드 (기술문서 국가코드표 기준)
 COUNTRIES = {
-    "china": {"natCd": "112", "label": "중국"},
-    "taiwan": {"natCd": "125", "label": "대만"},
-    "vietnam": {"natCd": "240", "label": "베트남"},
+    "china": {"natCd": "112", "label": "중국", "match": ["중국", "중 국"]},
+    "taiwan": {"natCd": "125", "label": "대만", "match": ["대만", "대 만", "타이완"]},
+    "vietnam": {"natCd": "240", "label": "베트남", "match": ["베트남", "베 트 남"]},
 }
 
 START_YM = (2024, 1)
@@ -66,7 +66,7 @@ def fetch_month(service_key, ym, nat_cd):
         return None  # 아직 공표되지 않은 월
     if isinstance(item, list):
         item = item[0]
-    return int(item["num"])
+    return int(item["num"]), str(item.get("natKorNm", ""))
 
 
 def main():
@@ -87,10 +87,17 @@ def main():
             ym_dash = f"{ym[:4]}-{ym[4:]}"
             row = by_ym.setdefault(ym_dash, {"ym": ym_dash, "china": None, "taiwan": None, "vietnam": None})
             try:
-                value = fetch_month(service_key, ym, info["natCd"])
+                result = fetch_month(service_key, ym, info["natCd"])
             except Exception as exc:  # 개별 월 실패는 건너뛰고 계속
                 print(f"  ! {ym_dash} {info['label']}: {exc}", file=sys.stderr)
                 continue
+            value = None
+            if result is not None:
+                value, nat_nm = result
+                compact = nat_nm.replace(" ", "")
+                if not any(m.replace(" ", "") in compact for m in info["match"]):
+                    print(f"  !! NAT_CD {info['natCd']} 응답 국적명 불일치: '{nat_nm}' (기대: {info['label']}) — 중단", file=sys.stderr)
+                    return 1
             if value is not None and row.get(key) != value:
                 row[key] = value
                 updated += 1
@@ -110,6 +117,8 @@ def main():
     data["sourceMode"] = "api"
 
     DATA_PATH.write_text(json.dumps(data, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    fallback = DATA_PATH.parent / "fallback-data.js"
+    fallback.write_text("window.FALLBACK_DATA = " + json.dumps(data, ensure_ascii=False) + ";\n", encoding="utf-8")
     print(f"완료: {updated}개 값 갱신, 총 {len(data['series'])}개월.")
     return 0
 
