@@ -1,0 +1,576 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>방한 외래관광객 대시보드 — 중국 · 대만 · 베트남 | Stargate</title>
+<meta name="description" content="2024년 이후 중국·대만·베트남 국적별 월별 방한 외래관광객 시계열 대시보드. 한국관광공사 데이터랩·공공데이터포털 출입국관광통계 기반.">
+<meta property="og:title" content="방한 외래관광객 대시보드 — 중국 · 대만 · 베트남">
+<meta property="og:description" content="2024년 이후 국적별 월별 방한 관광객 인터랙티브 시계열 · 공공데이터 API 자동 갱신">
+<meta property="og:url" content="https://www.stargateedu.co.kr/korea-tourism/">
+<meta property="og:type" content="website">
+<link rel="canonical" href="https://www.stargateedu.co.kr/korea-tourism/">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%A7%B3%3C/text%3E%3C/svg%3E">
+<style>
+:root{
+  --bg:#0a0d14; --panel:#0f172a; --panel2:#111c33;
+  --line:#1f2a44; --line2:#263452;
+  --ink:#e6edf3; --sub:#9aa7b8; --muted:#6b7a90;
+  --acc:#7aa2ff;
+  --grid:#1c2740; --baseline:#2b3a5e;
+  --c-china:#3987e5; --c-taiwan:#199e70; --c-vietnam:#c98500;
+  --delta-up:#2fb457; --delta-down:#e66767;
+  --grad1:linear-gradient(135deg,#4f7fff 0%,#7aa2ff 55%,#b388ff 100%);
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{
+  font-family:"Pretendard","Apple SD Gothic Neo","Segoe UI",system-ui,-apple-system,sans-serif;
+  color:var(--ink); background:var(--bg); line-height:1.55;
+  -webkit-font-smoothing:antialiased;
+  background-image:
+    radial-gradient(1000px 600px at 10% -10%, rgba(79,127,255,.15), transparent 60%),
+    radial-gradient(800px 500px at 100% 0%, rgba(179,136,255,.10), transparent 60%);
+  background-attachment:fixed;
+}
+a{color:var(--acc);text-decoration:none} a:hover{text-decoration:underline}
+.wrap{max-width:1180px;margin:0 auto;padding:24px 22px 90px}
+
+.nav{display:flex;justify-content:space-between;align-items:center;padding:6px 2px 0;font-size:13px}
+.nav .brand{display:flex;align-items:center;gap:10px;font-weight:700}
+.nav .brand .logo{width:30px;height:30px;border-radius:8px;background:var(--grad1);
+  display:inline-flex;align-items:center;justify-content:center;color:#0b1020;font-weight:900;font-size:14px}
+.nav .links a{color:var(--sub)} .nav .links a:hover{color:var(--ink)}
+
+header.head{padding:34px 0 6px}
+header.head h1{margin:0;font-size:30px;letter-spacing:-.4px;line-height:1.2}
+header.head h1 .grad{background:var(--grad1);-webkit-background-clip:text;background-clip:text;color:transparent}
+header.head .lead{color:var(--sub);font-size:14px;margin:8px 0 0;max-width:72ch}
+.meta-line{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px;font-size:12px;color:var(--muted)}
+.meta-line .pill{border:1px solid var(--line2);background:var(--panel);border-radius:999px;padding:4px 10px}
+.meta-line .pill b{color:var(--sub);font-weight:600}
+
+/* 필터 행 — 아래 모든 카드에 공통 적용 */
+.filters{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:22px 0 16px}
+.filters .lbl{font-size:12px;color:var(--muted);margin-right:2px}
+.fbtn{border:1px solid var(--line2);background:var(--panel);color:var(--sub);
+  padding:7px 14px;border-radius:999px;font-size:13px;cursor:pointer;font-family:inherit;transition:.15s}
+.fbtn:hover{color:var(--ink);border-color:var(--acc)}
+.fbtn[aria-pressed="true"]{background:var(--grad1);color:#0b1020;border-color:transparent;font-weight:700}
+
+/* KPI 타일 */
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.tile{border:1px solid var(--line);background:linear-gradient(180deg,var(--panel2),var(--panel));
+  border-radius:14px;padding:16px 18px 14px;min-width:0}
+.tile .lb{font-size:12.5px;color:var(--sub);display:flex;align-items:center;gap:7px}
+.tile .lb .key{width:12px;height:3px;border-radius:2px;display:inline-block}
+.tile .val{font-size:27px;font-weight:750;letter-spacing:-.4px;margin:5px 0 1px;white-space:nowrap}
+.tile .val small{font-size:13px;font-weight:500;color:var(--muted);margin-left:3px}
+.tile .delta{font-size:12px;color:var(--muted);white-space:nowrap}
+.tile .delta b{font-weight:700}
+.tile .delta .up{color:var(--delta-up)} .tile .delta .down{color:var(--delta-down)}
+.tile .spark{margin-top:9px;display:block;width:100%;height:30px}
+
+/* 차트 카드 */
+.cards{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:14px}
+.card{border:1px solid var(--line);background:linear-gradient(180deg,var(--panel2),var(--panel));
+  border-radius:16px;padding:18px 18px 14px;min-width:0}
+.card.full{grid-column:1 / -1}
+.card h2{margin:0;font-size:15.5px;letter-spacing:-.2px}
+.card .cap{color:var(--muted);font-size:12px;margin:3px 0 12px}
+.chart-box{position:relative;height:380px}
+.card.half .chart-box{height:300px}
+
+/* 테이블 */
+.thead-row{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+.dl{border:1px solid var(--line2);background:var(--panel);color:var(--sub);border-radius:9px;
+  padding:7px 13px;font-size:12.5px;cursor:pointer;font-family:inherit}
+.dl:hover{color:var(--ink);border-color:var(--acc)}
+.tbl-scroll{overflow-x:auto;margin-top:12px}
+table{width:100%;border-collapse:collapse;font-size:13px;min-width:560px}
+th,td{padding:8px 12px;text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+th{color:var(--muted);font-weight:600;font-size:12px;border-bottom:1px solid var(--line2)}
+th:first-child,td:first-child{text-align:left}
+td{border-bottom:1px solid var(--line);color:var(--ink)}
+td .yoy{font-size:11.5px;margin-left:6px;color:var(--muted)}
+td .yoy.up{color:var(--delta-up)} td .yoy.down{color:var(--delta-down)}
+tr:hover td{background:rgba(122,162,255,.05)}
+
+/* 안내 박스 */
+.note{border:1px solid var(--line);background:var(--panel);border-radius:14px;padding:16px 18px;
+  margin-top:14px;font-size:12.5px;color:var(--sub);line-height:1.7}
+.note b{color:var(--ink)}
+
+footer{margin-top:56px;padding-top:20px;border-top:1px solid var(--line);color:var(--muted);
+  font-size:12px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px}
+
+@media (max-width:960px){ .kpis{grid-template-columns:repeat(2,1fr)} .cards{grid-template-columns:1fr} }
+@media (max-width:520px){
+  .kpis{grid-template-columns:1fr}
+  header.head h1{font-size:24px}
+  .chart-box{height:300px} .card.half .chart-box{height:260px}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <nav class="nav">
+    <div class="brand"><span class="logo">D</span><span>DONGSOO.<span style="color:var(--acc)">PORTAL</span></span></div>
+    <div class="links"><a href="../">← 포털로 돌아가기</a></div>
+  </nav>
+
+  <header class="head">
+    <h1>방한 외래관광객 대시보드 <span class="grad">중국 · 대만 · 베트남</span></h1>
+    <p class="lead">2024년 1월부터의 국적별 월별 방한 외래관광객 입국자 수 시계열.
+      한국관광공사 한국관광 데이터랩 공표 통계를 기반으로, 공공데이터포털
+      <a href="https://www.data.go.kr/data/15000297/openapi.do" target="_blank" rel="noopener">출입국관광통계 API</a>를 통해 매월 자동 갱신됩니다.</p>
+    <div class="meta-line">
+      <span class="pill">데이터 기준 <b id="metaUpdated">—</b></span>
+      <span class="pill">커버리지 <b id="metaRange">—</b></span>
+      <span class="pill">단위 <b>명 (입국자 수)</b></span>
+      <span class="pill" id="metaMode">—</span>
+    </div>
+  </header>
+
+  <div class="filters" role="group" aria-label="기간 필터">
+    <span class="lbl">기간</span>
+    <button class="fbtn" data-range="all" aria-pressed="true">전체</button>
+    <button class="fbtn" data-range="last12" aria-pressed="false">최근 12개월</button>
+    <button class="fbtn" data-range="2024" aria-pressed="false">2024년</button>
+    <button class="fbtn" data-range="2025" aria-pressed="false">2025년</button>
+    <button class="fbtn" data-range="2026" aria-pressed="false">2026년</button>
+  </div>
+
+  <section class="kpis" id="kpis" aria-label="핵심 지표"></section>
+
+  <section class="cards">
+    <div class="card full">
+      <h2>월별 방한 외래관광객 수</h2>
+      <div class="cap" id="mainCap">국적별 월간 입국자 수 · 범례 클릭으로 표시/숨김</div>
+      <div class="chart-box"><canvas id="mainChart" role="img" aria-label="국적별 월별 방한 관광객 수 선 그래프. 동일한 값은 아래 표에서 확인할 수 있습니다."></canvas></div>
+    </div>
+
+    <div class="card half">
+      <h2>전년동월비 증감률</h2>
+      <div class="cap">같은 달 전년 대비 증감 (%) · 2025년 1월부터 산출</div>
+      <div class="chart-box"><canvas id="yoyChart" role="img" aria-label="국적별 전년동월비 증감률 선 그래프"></canvas></div>
+    </div>
+
+    <div class="card half">
+      <h2>연도별 합계</h2>
+      <div class="cap" id="yearCap">연간 누적 입국자 수</div>
+      <div class="chart-box"><canvas id="yearChart" role="img" aria-label="국적별 연도별 합계 막대 그래프"></canvas></div>
+    </div>
+
+    <div class="card full">
+      <div class="thead-row">
+        <div>
+          <h2>월별 상세 데이터</h2>
+          <div class="cap" style="margin-bottom:0">선택한 기간의 전체 수치 · 괄호는 전년동월비</div>
+        </div>
+        <button class="dl" id="csvBtn">⬇ CSV 다운로드</button>
+      </div>
+      <div class="tbl-scroll">
+        <table id="dataTable" aria-label="월별 국적별 방한 관광객 수 표">
+          <thead><tr><th>월</th><th>중국</th><th>대만</th><th>베트남</th><th>3개국 합계</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <div class="note">
+    <b>데이터 출처 및 갱신</b> — 한국관광공사 <a href="https://datalab.visitkorea.or.kr/" target="_blank" rel="noopener">한국관광 데이터랩</a> 공표
+    방한 외래관광객 통계 기준이며, GitHub Actions가 매월 5일 공공데이터포털
+    <a href="https://www.data.go.kr/data/15000297/openapi.do" target="_blank" rel="noopener">출입국관광통계서비스</a>를 호출해
+    <code>data.json</code>을 자동 갱신합니다. 통계 공표 일정상 최근 1~2개월 수치는 비어 있을 수 있으며,
+    잠정치는 이후 확정치로 소급 수정될 수 있습니다. 설정 방법은
+    <a href="https://github.com/DongsooJung/dongsoojung.github.io/tree/main/korea-tourism" target="_blank" rel="noopener">README</a> 참고.
+  </div>
+
+  <footer>
+    <span>© 2026 Dongsoo Jung · Stargate Corporation</span>
+    <span>
+      <a href="https://www.stargateedu.co.kr/">stargateedu.co.kr</a> ·
+      <a href="https://datalab.visitkorea.or.kr/" target="_blank" rel="noopener">한국관광 데이터랩</a> ·
+      <a href="https://www.data.go.kr/data/15000297/openapi.do" target="_blank" rel="noopener">공공데이터포털</a>
+    </span>
+  </footer>
+
+</div>
+
+<script src="./chart.umd.min.js"></script>
+<script src="./fallback-data.js"></script>
+<script>
+'use strict';
+
+/* ─── 상수 ─────────────────────────────────────────── */
+const COUNTRIES = [
+  { key:'china',   label:'중국',   color:'#3987e5' },
+  { key:'taiwan',  label:'대만',   color:'#199e70' },
+  { key:'vietnam', label:'베트남', color:'#c98500' },
+];
+const SURFACE = '#111c33';
+const INK='#e6edf3', SUB='#9aa7b8', MUTED='#6b7a90', GRID='#1c2740', BASELINE='#2b3a5e';
+const FONT = { family:'"Pretendard","Apple SD Gothic Neo","Segoe UI",system-ui,sans-serif' };
+
+const fmt = n => n==null ? '—' : n.toLocaleString('ko-KR');
+const fmtMan = n => n==null ? '—' : (n>=10000 ? (n/10000).toLocaleString('ko-KR',{maximumFractionDigits:1})+'만' : fmt(n));
+const ymLabel = ym => { const [y,m]=ym.split('-'); return `${y.slice(2)}.${+m}`; };
+const ymKorean = ym => { const [y,m]=ym.split('-'); return `${y}년 ${+m}월`; };
+
+/* ─── Chart.js 전역 ─────────────────────────────────── */
+Chart.defaults.font.family = FONT.family;
+Chart.defaults.font.size = 11.5;
+Chart.defaults.color = MUTED;
+
+/* 크로스헤어: 툴팁 활성 X 위치에 세로 헤어라인 */
+const crosshair = {
+  id:'crosshair',
+  afterDraw(chart){
+    const t = chart.tooltip;
+    if (!t || !t.getActiveElements().length) return;
+    const x = t.getActiveElements()[0].element.x;
+    const {top,bottom} = chart.chartArea, ctx = chart.ctx;
+    ctx.save();
+    ctx.strokeStyle = BASELINE; ctx.lineWidth = 1;
+    ctx.beginPath(); ctx.moveTo(x, top); ctx.lineTo(x, bottom); ctx.stroke();
+    ctx.restore();
+  }
+};
+
+/* 라인 끝 직접 레이블 (충돌 시 세로로 살짝 밀어냄) */
+const endLabels = {
+  id:'endLabels',
+  afterDatasetsDraw(chart){
+    if (chart.config.type !== 'line' || !chart.$endLabels) return;
+    const ctx = chart.ctx, placed = [];
+    chart.data.datasets.forEach((ds,i)=>{
+      if (!chart.isDatasetVisible(i)) return;
+      const meta = chart.getDatasetMeta(i);
+      let last = null;
+      for (let p = meta.data.length-1; p>=0; p--){ if (ds.data[p]!=null){ last = meta.data[p]; break; } }
+      if (!last) return;
+      let y = last.y;
+      for (const py of placed){ if (Math.abs(y-py) < 14) y = py + (y>=py?14:-14); }
+      placed.push(y);
+      ctx.save();
+      ctx.font = `600 11px ${FONT.family}`;
+      ctx.fillStyle = ds.borderColor;
+      ctx.textAlign = 'left'; ctx.textBaseline = 'middle';
+      ctx.fillText(ds.label, Math.min(last.x+8, chart.chartArea.right+6), y);
+      ctx.restore();
+    });
+  }
+};
+
+/* 막대 캡 값 레이블 (연도별 합계) */
+const barCaps = {
+  id:'barCaps',
+  afterDatasetsDraw(chart){
+    if (chart.config.type !== 'bar') return;
+    const ctx = chart.ctx;
+    chart.data.datasets.forEach((ds,i)=>{
+      if (!chart.isDatasetVisible(i)) return;
+      chart.getDatasetMeta(i).data.forEach((bar,j)=>{
+        const v = ds.data[j];
+        if (v==null) return;
+        ctx.save();
+        ctx.font = `600 10.5px ${FONT.family}`;
+        ctx.fillStyle = SUB; ctx.textAlign='center'; ctx.textBaseline='bottom';
+        ctx.fillText(fmtMan(v), bar.x, bar.y-4);
+        ctx.restore();
+      });
+    });
+  }
+};
+
+const tooltipStyle = {
+  backgroundColor:'#0d1526', borderColor:BASELINE, borderWidth:1,
+  titleColor:SUB, bodyColor:INK, padding:11, cornerRadius:9,
+  titleFont:{size:11.5, weight:'600'}, bodyFont:{size:12.5, weight:'650'},
+  boxWidth:12, boxHeight:2, boxPadding:5, usePointStyle:false, displayColors:true,
+};
+const legendStyle = {
+  position:'top', align:'end',
+  labels:{ color:SUB, boxWidth:14, boxHeight:2, padding:16, font:{size:12} }
+};
+
+/* ─── 상태 & 데이터 로딩 ────────────────────────────── */
+let DATA = null;          // {updatedAt, sourceMode, series:[{ym,china,taiwan,vietnam}]}
+let state = { range:'all' };
+let charts = {};
+
+async function loadData(){
+  try{
+    const r = await fetch('./data.json', {cache:'no-cache'});
+    if (!r.ok) throw new Error(r.status);
+    return await r.json();
+  }catch(e){
+    console.warn('data.json 로드 실패 — 내장 폴백 데이터 사용', e);
+    return window.FALLBACK_DATA;
+  }
+}
+
+function filteredSeries(){
+  const s = DATA.series;
+  if (state.range === 'all') return s;
+  if (state.range === 'last12') return s.slice(-12);
+  return s.filter(r => r.ym.startsWith(state.range));
+}
+const rowSum = r => COUNTRIES.reduce((a,c)=> a + (r[c.key]??0), 0);
+function yoyOf(ym, key){
+  const prev = DATA.series.find(r => r.ym === `${+ym.slice(0,4)-1}${ym.slice(4)}`);
+  const cur  = DATA.series.find(r => r.ym === ym);
+  if (!prev || !cur) return null;
+  const a = key ? cur[key] : rowSum(cur), b = key ? prev[key] : rowSum(prev);
+  if (a==null || b==null || b===0) return null;
+  return (a/b - 1) * 100;
+}
+
+/* ─── KPI 타일 ─────────────────────────────────────── */
+function sparkSVG(values, color){
+  const pts = values.filter(v=>v!=null);
+  if (pts.length < 2) return '';
+  const min = Math.min(...pts), max = Math.max(...pts), span = (max-min)||1;
+  const W=140, H=30, P=3;
+  const step = (W-2*P)/(values.length-1);
+  let d='', lastX=0, lastY=0;
+  values.forEach((v,i)=>{
+    if (v==null) return;
+    const x = P + i*step, y = H-P - (v-min)/span*(H-2*P);
+    d += (d?' L':'M') + x.toFixed(1) + ' ' + y.toFixed(1);
+    lastX=x; lastY=y;
+  });
+  return `<svg class="spark" viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" aria-hidden="true">
+    <path d="${d}" fill="none" stroke="${MUTED}" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+    <circle cx="${lastX}" cy="${lastY}" r="3" fill="${color}" stroke="${SURFACE}" stroke-width="1.5"/></svg>`;
+}
+
+function renderKPIs(){
+  const rows = filteredSeries();
+  const el = document.getElementById('kpis');
+  el.innerHTML = '';
+  if (!rows.length) return;
+  const anchor = rows[rows.length-1];
+  const idxAll = DATA.series.findIndex(r => r.ym === anchor.ym);
+  const spark12 = DATA.series.slice(Math.max(0, idxAll-11), idxAll+1);
+
+  const defs = [...COUNTRIES.map(c => ({...c, value:anchor[c.key], yoy:yoyOf(anchor.ym, c.key)})),
+    { key:'total', label:'3개국 합계', color:'#9085e9',
+      value: COUNTRIES.every(c=>anchor[c.key]==null) ? null : rowSum(anchor), yoy: yoyOf(anchor.ym, null) }];
+
+  defs.forEach(d=>{
+    const tile = document.createElement('div');
+    tile.className = 'tile';
+    const deltaHtml = d.yoy==null ? '<span>전년동월 데이터 없음</span>'
+      : `<b class="${d.yoy>=0?'up':'down'}">${d.yoy>=0?'▲':'▼'} ${Math.abs(d.yoy).toLocaleString('ko-KR',{maximumFractionDigits:1})}%</b> <span>전년동월비</span>`;
+    const sparkVals = spark12.map(r => d.key==='total' ? rowSum(r) : r[d.key]);
+    tile.innerHTML = `
+      <div class="lb"><span class="key" style="background:${d.color}"></span><span></span></div>
+      <div class="val">${fmtMan(d.value)}<small>명 · ${ymKorean(anchor.ym)}</small></div>
+      <div class="delta">${deltaHtml}</div>
+      ${sparkSVG(sparkVals, d.color)}`;
+    tile.querySelector('.lb span:last-child').textContent = d.label;
+    el.appendChild(tile);
+  });
+}
+
+/* ─── 차트 ─────────────────────────────────────────── */
+/* 축에는 원본 ym("2024-01")을 두고, 눈금 표시만 "24.1"로 축약 */
+function ymTick(value){ return ymLabel(this.getLabelForValue(value)); }
+
+function baseScales(yFmt){
+  return {
+    x:{ grid:{display:false}, border:{color:BASELINE},
+        ticks:{color:MUTED, maxRotation:0, autoSkipPadding:14, callback: ymTick} },
+    y:{ beginAtZero:true, border:{display:false},
+        grid:{color:GRID, drawTicks:false},
+        ticks:{color:MUTED, padding:8, callback:yFmt, font:{size:11}} },
+  };
+}
+
+function buildMain(){
+  const ctx = document.getElementById('mainChart');
+  charts.main = new Chart(ctx, {
+    type:'line',
+    data:{ labels:[], datasets: COUNTRIES.map(c=>({
+      label:c.label, data:[], borderColor:c.color, backgroundColor:c.color,
+      borderWidth:2, tension:.25, spanGaps:true,
+      pointRadius:0, pointHoverRadius:5, pointHoverBorderWidth:2,
+      pointHoverBackgroundColor:c.color, pointHoverBorderColor:SURFACE,
+    }))},
+    options:{
+      responsive:true, maintainAspectRatio:false,
+      layout:{ padding:{right:46, top:6} },
+      interaction:{ mode:'index', intersect:false },
+      scales: baseScales(v => fmtMan(v)),
+      plugins:{
+        legend: legendStyle,
+        tooltip:{ ...tooltipStyle,
+          callbacks:{
+            title: items => ymKorean(items[0].label),
+            label: it => ` ${fmt(it.parsed.y)}명 · ${it.dataset.label}`,
+          }},
+      },
+    },
+    plugins:[crosshair, endLabels],
+  });
+  charts.main.$endLabels = true;
+}
+
+function buildYoy(){
+  const ctx = document.getElementById('yoyChart');
+  charts.yoy = new Chart(ctx, {
+    type:'line',
+    data:{ labels:[], datasets: COUNTRIES.map(c=>({
+      label:c.label, data:[], borderColor:c.color, backgroundColor:c.color,
+      borderWidth:2, tension:.25, spanGaps:true,
+      pointRadius:0, pointHoverRadius:5, pointHoverBorderWidth:2,
+      pointHoverBackgroundColor:c.color, pointHoverBorderColor:SURFACE,
+    }))},
+    options:{
+      responsive:true, maintainAspectRatio:false,
+      interaction:{ mode:'index', intersect:false },
+      scales:{
+        x:{ grid:{display:false}, border:{color:BASELINE},
+            ticks:{color:MUTED, maxRotation:0, autoSkipPadding:14, callback: ymTick} },
+        y:{ border:{display:false},
+            grid:{ color: c => c.tick.value===0 ? BASELINE : GRID, drawTicks:false },
+            ticks:{color:MUTED, padding:8, callback:v=>v+'%', font:{size:11}} },
+      },
+      plugins:{
+        legend: legendStyle,
+        tooltip:{ ...tooltipStyle,
+          callbacks:{
+            title: items => ymKorean(items[0].label) + ' · 전년동월비',
+            label: it => it.parsed.y==null ? '' :
+              ` ${it.parsed.y>=0?'+':''}${it.parsed.y.toLocaleString('ko-KR',{maximumFractionDigits:1})}% · ${it.dataset.label}`,
+          }},
+      },
+    },
+    plugins:[crosshair],
+  });
+}
+
+function buildYear(){
+  const ctx = document.getElementById('yearChart');
+  charts.year = new Chart(ctx, {
+    type:'bar',
+    data:{ labels:[], datasets: COUNTRIES.map(c=>({
+      label:c.label, data:[], backgroundColor:c.color,
+      maxBarThickness:24, borderRadius:{topLeft:4, topRight:4},
+      borderSkipped:'bottom', categoryPercentage:.62, barPercentage:.86,
+    }))},
+    options:{
+      responsive:true, maintainAspectRatio:false,
+      layout:{ padding:{top:18} },
+      scales: (()=>{ const s = baseScales(v => fmtMan(v)); delete s.x.ticks.callback; return s; })(),
+      plugins:{
+        legend: legendStyle,
+        tooltip:{ ...tooltipStyle, mode:'index', intersect:false,
+          callbacks:{ label: it => ` ${fmt(it.parsed.y)}명 · ${it.dataset.label}` } },
+      },
+    },
+    plugins:[barCaps],
+  });
+}
+
+function updateCharts(){
+  const rows = filteredSeries();
+
+  charts.main.data.labels = rows.map(r=>r.ym);
+  COUNTRIES.forEach((c,i)=> charts.main.data.datasets[i].data = rows.map(r=>r[c.key]));
+  charts.main.update();
+
+  const yoyRows = rows.filter(r => r.ym >= '2025-01');
+  charts.yoy.data.labels = yoyRows.map(r=>r.ym);
+  COUNTRIES.forEach((c,i)=> charts.yoy.data.datasets[i].data = yoyRows.map(r=>yoyOf(r.ym, c.key)));
+  charts.yoy.update();
+
+  // 연도별 합계는 항상 전체 데이터 기준 (기간 필터와 무관한 요약)
+  const years = [...new Set(DATA.series.map(r=>r.ym.slice(0,4)))];
+  const lastByYear = y => Math.max(...DATA.series.filter(r=>r.ym.startsWith(y)).map(r=>+r.ym.slice(5)));
+  charts.year.data.labels = years.map(y => {
+    const lm = lastByYear(y);
+    return lm < 12 ? `${y} (1~${lm}월)` : y;
+  });
+  COUNTRIES.forEach((c,i)=> charts.year.data.datasets[i].data =
+    years.map(y => {
+      const vals = DATA.series.filter(r=>r.ym.startsWith(y)).map(r=>r[c.key]).filter(v=>v!=null);
+      return vals.length ? vals.reduce((a,b)=>a+b,0) : null;
+    }));
+  charts.year.update();
+}
+
+/* ─── 테이블 & CSV ─────────────────────────────────── */
+function renderTable(){
+  const tbody = document.querySelector('#dataTable tbody');
+  tbody.innerHTML = '';
+  const rows = [...filteredSeries()].reverse();
+  rows.forEach(r=>{
+    const tr = document.createElement('tr');
+    const cells = [ymKorean(r.ym),
+      ...COUNTRIES.map(c=>({v:r[c.key], yoy:yoyOf(r.ym,c.key)})),
+      {v: COUNTRIES.every(c=>r[c.key]==null)?null:rowSum(r), yoy:yoyOf(r.ym,null)}];
+    cells.forEach((cell,i)=>{
+      const td = document.createElement('td');
+      if (i===0){ td.textContent = cell; }
+      else{
+        td.textContent = fmt(cell.v);
+        if (cell.yoy!=null){
+          const sp = document.createElement('span');
+          sp.className = 'yoy ' + (cell.yoy>=0?'up':'down');
+          sp.textContent = `(${cell.yoy>=0?'+':''}${cell.yoy.toLocaleString('ko-KR',{maximumFractionDigits:1})}%)`;
+          td.appendChild(sp);
+        }
+      }
+      tr.appendChild(td);
+    });
+    tbody.appendChild(tr);
+  });
+}
+
+function downloadCSV(){
+  const rows = filteredSeries();
+  const lines = ['ym,china,taiwan,vietnam,total'];
+  rows.forEach(r=> lines.push([r.ym, r.china??'', r.taiwan??'', r.vietnam??'',
+    COUNTRIES.every(c=>r[c.key]==null)?'':rowSum(r)].join(',')));
+  const blob = new Blob(['﻿'+lines.join('\n')], {type:'text/csv;charset=utf-8'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = `korea-tourism_${state.range}.csv`;
+  a.click();
+  URL.revokeObjectURL(a.href);
+}
+
+/* ─── 초기화 ───────────────────────────────────────── */
+function renderMeta(){
+  const s = DATA.series;
+  document.getElementById('metaUpdated').textContent = DATA.updatedAt || '—';
+  document.getElementById('metaRange').textContent =
+    s.length ? `${ymKorean(s[0].ym)} ~ ${ymKorean(s[s.length-1].ym)}` : '—';
+  document.getElementById('metaMode').textContent =
+    DATA.sourceMode === 'api' ? '자동 갱신: 공공데이터 API 연동 중' : '시드 데이터 (공표 통계 수기 집계)';
+}
+
+function renderAll(){ renderKPIs(); updateCharts(); renderTable(); }
+
+(async function init(){
+  DATA = await loadData();
+  renderMeta();
+  buildMain(); buildYoy(); buildYear();
+  renderAll();
+  document.querySelectorAll('.fbtn').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      state.range = btn.dataset.range;
+      document.querySelectorAll('.fbtn').forEach(b=>b.setAttribute('aria-pressed', String(b===btn)));
+      renderAll();
+    });
+  });
+  document.getElementById('csvBtn').addEventListener('click', downloadCSV);
+})();
+</script>
+</body>
+</html>

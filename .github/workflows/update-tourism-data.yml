@@ -1,0 +1,33 @@
+name: Update tourism data
+
+on:
+  schedule:
+    # 매월 5일 12:00 KST (03:00 UTC) — 전월 통계 공표 직후
+    - cron: '0 3 5 * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Fetch tourism statistics
+        env:
+          TOUR_API_KEY: ${{ secrets.TOUR_API_KEY }}
+        run: python3 korea-tourism/fetch_data.py
+
+      - name: Commit updated data
+        run: |
+          if git diff --quiet korea-tourism/data.json; then
+            echo "변경 없음 — 커밋 생략"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add korea-tourism/data.json
+          git commit -m "chore(korea-tourism): 방한 관광객 통계 자동 갱신"
+          git push
