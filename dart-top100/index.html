@@ -1,0 +1,496 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>2025년 매출액 상위 100개 기업 분기별 매출액·영업이익</title>
+<style>
+
+.viz-root {
+  --surface-1: #fcfcfb;
+  --page: #f9f9f7;
+  --text-primary: #0b0b0b;
+  --text-secondary: #52514e;
+  --text-muted: #898781;
+  --grid: #e1e0d9;
+  --baseline: #c3c2b7;
+  --border: rgba(11,11,11,0.10);
+  --series-rev: #2a78d6;   /* 매출액 */
+  --series-op:  #1baf7a;   /* 영업이익 */
+  --warn-bg: #fff7e0;
+  --warn-ink: #6b4d00;
+}
+@media (prefers-color-scheme: dark) {
+  .viz-root {
+    --surface-1: #1a1a19;
+    --page: #0d0d0d;
+    --text-primary: #ffffff;
+    --text-secondary: #c3c2b7;
+    --text-muted: #898781;
+    --grid: #2c2c2a;
+    --baseline: #383835;
+    --border: rgba(255,255,255,0.10);
+    --series-rev: #3987e5;
+    --series-op:  #199e70;
+    --warn-bg: #3a2f10;
+    --warn-ink: #ffd777;
+  }
+}
+:root[data-theme="light"] .viz-root {
+  --surface-1: #fcfcfb; --page: #f9f9f7; --text-primary: #0b0b0b;
+  --text-secondary: #52514e; --text-muted: #898781; --grid: #e1e0d9;
+  --baseline: #c3c2b7; --border: rgba(11,11,11,0.10);
+  --series-rev: #2a78d6; --series-op: #1baf7a;
+  --warn-bg: #fff7e0; --warn-ink: #6b4d00;
+}
+:root[data-theme="dark"] .viz-root {
+  --surface-1: #1a1a19; --page: #0d0d0d; --text-primary: #ffffff;
+  --text-secondary: #c3c2b7; --text-muted: #898781; --grid: #2c2c2a;
+  --baseline: #383835; --border: rgba(255,255,255,0.10);
+  --series-rev: #3987e5; --series-op: #199e70;
+  --warn-bg: #3a2f10; --warn-ink: #ffd777;
+}
+html, body { margin: 0; padding: 0; }
+body { background: var(--page); }
+.viz-root {
+  font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+  color: var(--text-primary);
+  background: var(--page);
+  max-width: 1040px; margin: 0 auto; padding: 24px 16px 48px;
+}
+h1 { font-size: 20px; font-weight: 650; margin: 0 0 4px; }
+.sub { color: var(--text-secondary); font-size: 13px; margin: 0 0 16px; }
+.banner {
+  display: flex; align-items: center; gap: 8px;
+  background: var(--warn-bg); color: var(--warn-ink);
+  border: 1px solid var(--border); border-radius: 8px;
+  padding: 8px 12px; font-size: 13px; margin: 0 0 16px;
+}
+.controls { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin: 0 0 16px; }
+.controls label { font-size: 13px; color: var(--text-secondary); }
+select, input[type="search"] {
+  font: inherit; font-size: 13px; color: var(--text-primary);
+  background: var(--surface-1); border: 1px solid var(--border);
+  border-radius: 8px; padding: 6px 10px; max-width: 320px;
+}
+.tiles { display: flex; flex-wrap: wrap; gap: 12px; margin: 0 0 16px; }
+.tile {
+  flex: 1 1 160px; background: var(--surface-1);
+  border: 1px solid var(--border); border-radius: 12px; padding: 12px 16px;
+}
+.tile .lbl { font-size: 12px; color: var(--text-secondary); }
+.tile .val { font-size: 24px; font-weight: 600; margin-top: 2px; }
+.card {
+  background: var(--surface-1); border: 1px solid var(--border);
+  border-radius: 12px; padding: 16px; margin: 0 0 16px; position: relative;
+}
+.card h2 { font-size: 14px; font-weight: 600; margin: 0 0 2px; }
+.card .note { font-size: 12px; color: var(--text-muted); margin: 0 0 8px; }
+.legend { display: flex; gap: 16px; font-size: 12px; color: var(--text-secondary); margin: 4px 0 8px; }
+.legend .key { display: inline-flex; align-items: center; gap: 6px; }
+.legend .swatch { width: 12px; height: 12px; border-radius: 3px; display: inline-block; }
+.tooltip {
+  position: absolute; pointer-events: none; z-index: 10; display: none;
+  background: var(--surface-1); border: 1px solid var(--border);
+  border-radius: 8px; box-shadow: 0 4px 16px rgba(0,0,0,0.18);
+  padding: 8px 12px; font-size: 12px; min-width: 150px;
+}
+.tooltip .tq { color: var(--text-muted); margin-bottom: 4px; }
+.tooltip .row { display: flex; align-items: center; gap: 6px; margin: 2px 0; }
+.tooltip .row .k { width: 14px; height: 3px; border-radius: 2px; }
+.tooltip .row .v { font-weight: 600; }
+.tooltip .row .n { color: var(--text-secondary); }
+.tablewrap { overflow-x: auto; }
+table { border-collapse: collapse; width: 100%; font-size: 12px; min-width: 860px; }
+th, td { padding: 6px 10px; text-align: right; white-space: nowrap; }
+th { color: var(--text-secondary); font-weight: 600; border-bottom: 1px solid var(--baseline);
+     position: sticky; top: 0; background: var(--surface-1); }
+td { border-bottom: 1px solid var(--grid); font-variant-numeric: tabular-nums; }
+th:nth-child(2), td:nth-child(2) { text-align: left; }
+tbody tr { cursor: pointer; }
+tbody tr:hover { background: color-mix(in srgb, var(--text-primary) 5%, transparent); }
+tbody tr.sel { background: color-mix(in srgb, var(--series-rev) 12%, transparent); }
+.neg { color: #d03b3b; }
+@media (prefers-color-scheme: dark) { .neg { color: #e66767; } }
+svg text { font-family: inherit; }
+
+</style>
+</head>
+<body>
+<div class="viz-root" id="app"></div>
+<script>
+const DATA = {"meta":{"source":"SAMPLE","generated_at":null,"year":2025,"unit":"KRW","note":"데모용 샘플 데이터 — 실제 OpenDART 공시 수치가 아닙니다."},
+"totals":{"revenue":{"Q1":519825693044600,"Q2":526384308980045,"Q3":539354094388489,"Q4":567761308918544},"operating_profit":{"Q1":41929737356496,"Q2":42591059562616,"Q3":41165186845615,"Q4":45366212370760}},
+"companies":[
+{"rank":1,"corp_name":"삼성전자","corp_code":null,"stock_code":null,"fs_div":"CFS","revenue":{"Q1":77466436972333,"Q2":72357241469843,"Q3":71638334231107,"Q4":85756846555599},"operating_profit":{"Q1":9503119855476,"Q2":7487126639522,"Q3":9380554803940,"Q4":12778469925177},"revenue_annual":307218859228882,"operating_profit_annual":39149271224115},
+{"rank":2,"corp_name":"현대자동차","corp_code":null,"stock_code":null,"fs_div":"CFS","revenue":{"Q1":45187467934308,"Q2":44720190886563,"Q3":46750862306111,"Q4":42885892764380},"operating_profit":{"Q1":4367234813376,"Q2":4911236939842,"Q3":2733305969748,"Q4":4266245023854},"revenue_annual":179544413891362,"operating_profit_annual":16278022746820},
+{"rank":3,"corp_name":"기아","corp_code":null,"stock_code":null,"fs_div":"CFS","revenue":{"Q1":24612214814837,"Q2":28711967245502,"Q3":29542299899901,"Q4":28289216348494},"operating_profit":{"Q1":2483340513623,"Q2":2794229979659,"Q3":3188027345045,"Q4":3460680967826},"revenue_annual":111155698308734,"operating_profit_annual":11926278806153},
+{"rank":4,"corp_name":"한국전력공사","corp_code":null,"stock_code":null,"fs_div":"CFS","revenue":{"Q1":20550373199077,"Q2":21320434032310,"Q3":23811785796439,"Q4":27027429379062},"operating_profit":{"Q1":1418647646773,"Q2":1693800554115,"Q3":1685555386678,"Q4":1156091346246},"revenue_annual":92710022406888,"operating_profit_annual":5954094933812},
+{"rank":5,"corp_name":"SK하이닉스","corp_code":null,"stock_code":null,"fs_div":"CFS","revenue":{"Q1":21924934024897,"Q2":22292926534527,"Q3":21113195231826,"Q4":22545607873063},"operating_profit":{"Q1":7222158784902,"Q2":8564213314444,"Q3":7548479730846,"Q4":5821349290396},"revenue_annual":87876663664313,"operating_profit_annual":29156201120588},
+{"rank":6,"corp_name":"LG전자","corp_code":null,"stock_code":null,"fs_div":"CFS","revenue":{"Q1":23052863528163,"Q2":21342013993216,"Q3":21500372284181,"Q4":22602960667276},"operating_profit":{"Q1":1240555519401,"Q2":694262755472,"Q3":547380746783,"Q4":1097532324759},"revenue_annual":88498210472836,"operating_profit_annual":3579731346415},
+{"rank":7,"corp_name":"SK이노베이션","corp_code":null,"stock_code":null,"fs_div":"CFS","revenue":{"Q1":16169106923597,"Q2":19117887681163,"Q3":19145902116210,"Q4":20692144836891},"operating_profit":{"Q1":303456037850,"Q2":301744266419,"Q3":243497114843,"Q4":294403769215},"revenue_annual":75125041557861,"operating_profit_annual":1143101188327},
+{"rank":8,"corp_name":"포스코홀딩스","corp_code":null,"stock_code":null,"fs_div":"CFS","revenue":{"Q1":17081318811664,"Q2":15889320691300,"Q3":16981002174463,"Q4":19744927416456},"operating_profit":{"Q1":435720368240,"Q2":565985689445,"Q3":580389388362,"Q4":463317850724},"revenue_annual":69696569093883,"operating_profit_annual":2045413296771},
+{"rank":9,"corp_name":"HD현대","corp_code":null,"stock_code":null,"fs_div":"CFS","revenue":{"Q1":15548565659719,"Q2":16901683317003,"Q3":18312935400704,"Q4":18745914900036},"operating_profit":{"Q1":852271512107,"Q2":581052603345,"Q3":732258690426,"Q4":887722140224},"revenue_annual":69509099277462,"operating_profit_annual":3053304946102},
+{"rank":10,"corp_name":"현대모비스","corp_code":null,"stock_code":null,"fs_div":"CFS","revenue":{"Q1":14275807591329,"Q2":15028807734298,"Q3":13622421259480,"Q4":14610628257165},"operating_profit":{"Q1":429528817092,"Q2":562198669646,"Q3":761825901063,"Q4":680565198723},"revenue_annual":57537664842272,"operating_profit_annual":2434118586524},
+{"rank":11,"corp_name":"한화","corp_code":null,"stock_code":null,"fs_div":"CFS","revenue":{"Q1":12727898373319,"Q2":15164963683729,"Q3":13509057552031,"Q4":15612827486539},"operating_profit":{"Q1":616931523903,"Q2":549029140143,"Q3":587494502693,"Q4":433561259586},"revenue_annual":57014747095618,"operating_profit_annual":2187016426325},
+{"rank":12,"corp_name":"LG화학","corp_code":null,"stock_code":null,"fs_div":"CFS","revenue":{"Q1":11745987566974,"Q2":11370944175957,"Q3":11744653346867,"Q4":14403481658852},"operating_profit":{"Q1":244415094533,"Q2":257451535445,"Q3":161699882558,"Q4":231513123682},"revenue_annual":49265066748650,"operating_profit_annual":895079636218},
+{"rank":13,"corp_name":"삼성물산","corp_code":null,"stock_code":null,"fs_div":"CFS","revenue":{"Q1":11373838890526,"Q2":10495408952178,"Q3":11008124792318,"Q4":11152365641067},"operating_profit":{"Q1":634220477784,"Q2":464060163368,"Q3":563558337688,"Q4":858215237907},"revenue_annual":44029738276089,"operating_profit_annual":2520054216747},
+{"rank":14,"corp_name":"한국가스공사","corp_code":null,"stock_code":null,"fs_div":"CFS","revenue":{"Q1":9534822754202,"Q2":10266100485802,"Q3":9695036151571,"Q4":9216684798743},"operating_profit":{"Q1":653410769295,"Q2":762884083724,"Q3":731216778562,"Q4":747573931558},"revenue_annual":38712644190318,"operating_profit_annual":2895085563139},
+{"rank":15,"corp_name":"S-Oil","corp_code":null,"stock_code":null,"fs_div":"CFS","revenue":{"Q1":8097831393499,"Q2":8460907001834,"Q3":9523410704104,"Q4":9618620480640},"operating_profit":{"Q1":223409350024,"Q2":171278723263,"Q3":217538348523,"Q4":187643823484},"revenue_annual":35700769580077,"operating_profit_annual":799870245294},
+{"rank":16,"corp_name":"현대건설","corp_code":null,"stock_code":null,"fs_div":"CFS","revenue":{"Q1":8270454575185,"Q2":7727252711005,"Q3":7999861204959,"Q4":8474742589515},"operating_profit":{"Q1":129471892702,"Q2":197905180035,"Q3":195316374078,"Q4":107395268999},"revenue_annual":32472311080664,"operating_profit_annual":630088715814},
+{"rank":17,"corp_name":"CJ제일제당","corp_code":null,"stock_code":null,"fs_div":"CFS","revenue":{"Q1":6780504426709,"Q2":7549371991688,"Q3":7017503706521,"Q4":7796945401437},"operating_profit":{"Q1":295034265794,"Q2":352057319959,"Q3":318604579157,"Q4":440737726158},"revenue_annual":29144325526355,"operating_profit_annual":1406433891068},
+{"rank":18,"corp_name":"이마트","corp_code":null,"stock_code":null,"fs_div":"CFS","revenue":{"Q1":6899935780959,"Q2":7142082094299,"Q3":8092869612293,"Q4":7018488254714},"operating_profit":{"Q1":189992373396,"Q2":156789277677,"Q3":172113111712,"Q4":120786606134},"revenue_annual":29153375742265,"operating_profit_annual":639681368919},
+{"rank":19,"corp_name":"현대글로비스","corp_code":null,"stock_code":null,"fs_div":"CFS","revenue":{"Q1":6339021713033,"Q2":7257151137595,"Q3":7617659454127,"Q4":6805172722310},"operating_profit":{"Q1":322760111820,"Q2":500630903058,"Q3":286333185667,"Q4":288788417652},"revenue_annual":28019005027065,"operating_profit_annual":1398512618197},
+{"rank":20,"corp_name":"KT","corp_code":null,"stock_code":null,"fs_div":"CFS","revenue":{"Q1":6608980202648,"Q2":6818432405765,"Q3":6117154421603,"Q4":6346365481650},"operating_profit":{"Q1":450787982819,"Q2":480536660202,"Q3":367953820380,"Q4":438082954704},"revenue_annual":25890932511666,"operating_profit_annual":1737361418105},
+{"rank":21,"corp_name":"LG디스플레이","corp_code":null,"stock_code":null,"fs_div":"CFS","revenue":{"Q1":6768034012224,"Q2":6477134271517,"Q3":6508217004094,"Q4":6982562817736},"operating_profit":{"Q1":83704867381,"Q2":130455723663,"Q3":128736846612,"Q4":147354227396},"revenue_annual":26735948105571,"operating_profit_annual":490251665052},
+{"rank":22,"corp_name":"HD한국조선해양","corp_code":null,"stock_code":null,"fs_div":"CFS","revenue":{"Q1":5952098391381,"Q2":5902870933444,"Q3":6980200787980,"Q4":6469960297170},"operating_profit":{"Q1":522909342338,"Q2":493340737074,"Q3":377160460035,"Q4":387722929734},"revenue_annual":25305130409975,"operating_profit_annual":1781133469181},
+{"rank":23,"corp_name":"LS","corp_code":null,"stock_code":null,"fs_div":"CFS","revenue":{"Q1":5852098622613,"Q2":5294179576036,"Q3":6178579945554,"Q4":6031110418824},"operating_profit":{"Q1":232300738524,"Q2":235872418128,"Q3":304873529749,"Q4":185296930473},"revenue_annual":23355968563027,"operating_profit_annual":958343616874},
+{"rank":24,"corp_name":"현대제철","corp_code":null,"stock_code":null,"fs_div":"CFS","revenue":{"Q1":5608150009696,"Q2":5589421228753,"Q3":5997408694351,"Q4":5856571637345},"operating_profit":{"Q1":74208272343,"Q2":37667852471,"Q3":42718378673,"Q4":49232174613},"revenue_annual":23051551570145,"operating_profit_annual":203826678100},
+{"rank":25,"corp_name":"LG이노텍","corp_code":null,"stock_code":null,"fs_div":"CFS","revenue":{"Q1":5415795624769,"Q2":5149206598234,"Q3":4843281162777,"Q4":5385153893311},"operating_profit":{"Q1":203468435663,"Q2":166990135424,"Q3":200926393105,"Q4":132328116405},"revenue_annual":20793437279091,"operating_profit_annual":703713080597},
+{"rank":26,"corp_name":"롯데케미칼","corp_code":null,"stock_code":null,"fs_div":"CFS","revenue":{"Q1":4659900733492,"Q2":4795963235578,"Q3":4909131117066,"Q4":5327208658817},"operating_profit":{"Q1":-51508656637,"Q2":-66501497417,"Q3":-67793671322,"Q4":-60051343976},"revenue_annual":19692203744953,"operating_profit_annual":-245855169352},
+{"rank":27,"corp_name":"두산에너빌리티","corp_code":null,"stock_code":null,"fs_div":"CFS","revenue":{"Q1":3922085615514,"Q2":4046812953607,"Q3":4738641131254,"Q4":4825043773909},"operating_profit":{"Q1":293087255548,"Q2":311606338842,"Q3":353995575741,"Q4":228645656795},"revenue_annual":17532583474284,"operating_profit_annual":1187334826926},
+{"rank":28,"corp_name":"SK텔레콤","corp_code":null,"stock_code":null,"fs_div":"CFS","revenue":{"Q1":4735795042083,"Q2":4402298551696,"Q3":4404808623899,"Q4":4836385272473},"operating_profit":{"Q1":391414879157,"Q2":597904989095,"Q3":291849371571,"Q4":374322704402},"revenue_annual":18379287490151,"operating_profit_annual":1655491944225},
+{"rank":29,"corp_name":"대한항공","corp_code":null,"stock_code":null,"fs_div":"CFS","revenue":{"Q1":4538962202770,"Q2":4367271436115,"Q3":4499346804850,"Q4":4605141015805},"operating_profit":{"Q1":642244482445,"Q2":648112504601,"Q3":323286351181,"Q4":532293692322},"revenue_annual":18010721459540,"operating_profit_annual":2145937030549},
+{"rank":30,"corp_name":"삼성SDI","corp_code":null,"stock_code":null,"fs_div":"CFS","revenue":{"Q1":4052687873208,"Q2":3904264849505,"Q3":3977886064852,"Q4":4515000639292},"operating_profit":{"Q1":108597642784,"Q2":91656381953,"Q3":101096442191,"Q4":124598438151},"revenue_annual":16449839426857,"operating_profit_annual":425948905079},
+{"rank":31,"corp_name":"HD현대중공업","corp_code":null,"stock_code":null,"fs_div":"CFS","revenue":{"Q1":3616188373383,"Q2":3476026972135,"Q3":3584308255259,"Q4":4323122887906},"operating_profit":{"Q1":187006360083,"Q2":289264358601,"Q3":188700881409,"Q4":217843081850},"revenue_annual":14999646488683,"operating_profit_annual":882814681943},
+{"rank":32,"corp_name":"LG유플러스","corp_code":null,"stock_code":null,"fs_div":"CFS","revenue":{"Q1":3362614422107,"Q2":3530094808149,"Q3":3809920202815,"Q4":3952433038146},"operating_profit":{"Q1":215807504747,"Q2":295388367209,"Q3":190952081846,"Q4":280668372485},"revenue_annual":14655062471217,"operating_profit_annual":982816326287},
+{"rank":33,"corp_name":"롯데쇼핑","corp_code":null,"stock_code":null,"fs_div":"CFS","revenue":{"Q1":3215090868747,"Q2":3633648772156,"Q3":3576099252036,"Q4":3429879102214},"operating_profit":{"Q1":125430793591,"Q2":87350483945,"Q3":82395877987,"Q4":75236834147},"revenue_annual":13854717995153,"operating_profit_annual":370413989670},
+{"rank":34,"corp_name":"GS건설","corp_code":null,"stock_code":null,"fs_div":"CFS","revenue":{"Q1":2886233193102,"Q2":3304760259519,"Q3":3499506558335,"Q4":3434039714395},"operating_profit":{"Q1":113394258790,"Q2":62496664126,"Q3":125492964646,"Q4":66329478718},"revenue_annual":13124539725351,"operating_profit_annual":367713366280},
+{"rank":35,"corp_name":"CJ대한통운","corp_code":null,"stock_code":null,"fs_div":"CFS","revenue":{"Q1":2836256951310,"Q2":2970637041701,"Q3":3424074442753,"Q4":3105083003914},"operating_profit":{"Q1":101177536054,"Q2":163821668171,"Q3":82948437405,"Q4":119085454827},"revenue_annual":12336051439678,"operating_profit_annual":467033096457},
+{"rank":36,"corp_name":"고려아연","corp_code":null,"stock_code":null,"fs_div":"CFS","revenue":{"Q1":2764740105162,"Q2":3201068299504,"Q3":3165161141619,"Q4":3118576087583},"operating_profit":{"Q1":170832011908,"Q2":191314717134,"Q3":336206038313,"Q4":213076567661},"revenue_annual":12249545633868,"operating_profit_annual":911429335016},
+{"rank":37,"corp_name":"HMM","corp_code":null,"stock_code":null,"fs_div":"CFS","revenue":{"Q1":2765638016932,"Q2":2960589263495,"Q3":3007630747556,"Q4":3031644577583},"operating_profit":{"Q1":533190794291,"Q2":793115427933,"Q3":726956818037,"Q4":820213533231},"revenue_annual":11765502605566,"operating_profit_annual":2873476573492},
+{"rank":38,"corp_name":"한화에어로스페이스","corp_code":null,"stock_code":null,"fs_div":"CFS","revenue":{"Q1":2779715640745,"Q2":2574084424343,"Q3":2772696363230,"Q4":3006375665475},"operating_profit":{"Q1":216486611998,"Q2":365379129066,"Q3":454921431621,"Q4":382731879125},"revenue_annual":11132872093793,"operating_profit_annual":1419519051810},
+{"rank":39,"corp_name":"한화오션","corp_code":null,"stock_code":null,"fs_div":"CFS","revenue":{"Q1":2759682543149,"Q2":2541800277593,"Q3":3047386387417,"Q4":2965279116724},"operating_profit":{"Q1":143957043097,"Q2":96720455626,"Q3":209594378700,"Q4":105152405555},"revenue_annual":11314148324883,"operating_profit_annual":555424282978},
+{"rank":40,"corp_name":"네이버","corp_code":null,"stock_code":null,"fs_div":"CFS","revenue":{"Q1":2873474366191,"Q2":2599222500939,"Q3":2918454309628,"Q4":2931374000095},"operating_profit":{"Q1":379925190442,"Q2":370344310473,"Q3":326628016506,"Q4":546806574150},"revenue_annual":11322525176853,"operating_profit_annual":1623704091571},
+{"rank":41,"corp_name":"삼성전기","corp_code":null,"stock_code":null,"fs_div":"CFS","revenue":{"Q1":2650773219545,"Q2":2678912136522,"Q3":2354589638198,"Q4":2582415571025},"operating_profit":{"Q1":172877300564,"Q2":130592744545,"Q3":234091157863,"Q4":161454301896},"revenue_annual":10266690565290,"operating_profit_annual":699015504868},
+{"rank":42,"corp_name":"삼성중공업","corp_code":null,"stock_code":null,"fs_div":"CFS","revenue":{"Q1":2289407431552,"Q2":2406352384671,"Q3":2620175023967,"Q4":2713928198614},"operating_profit":{"Q1":136402902196,"Q2":141707099457,"Q3":111894793455,"Q4":109540221571},"revenue_annual":10029863038804,"operating_profit_annual":499545016679},
+{"rank":43,"corp_name":"대우건설","corp_code":null,"stock_code":null,"fs_div":"CFS","revenue":{"Q1":2154390752513,"Q2":2355116080433,"Q3":2634989776567,"Q4":2761179016632},"operating_profit":{"Q1":62277995967,"Q2":74074964067,"Q3":62095952426,"Q4":93683099687},"revenue_annual":9905675626145,"operating_profit_annual":292132012147},
+{"rank":44,"corp_name":"삼성E&A","corp_code":null,"stock_code":null,"fs_div":"CFS","revenue":{"Q1":2604100021103,"Q2":2358815211264,"Q3":2460639648531,"Q4":2656574887255},"operating_profit":{"Q1":130959427201,"Q2":134599481807,"Q3":162844176308,"Q4":214133972759},"revenue_annual":10080129768153,"operating_profit_annual":642537058075},
+{"rank":45,"corp_name":"한온시스템","corp_code":null,"stock_code":null,"fs_div":"CFS","revenue":{"Q1":2498491239341,"Q2":2586030160982,"Q3":2436763854851,"Q4":2468664187808},"operating_profit":{"Q1":58374234636,"Q2":98259758639,"Q3":67202987378,"Q4":44720321864},"revenue_annual":9989949442982,"operating_profit_annual":268557302517},
+{"rank":46,"corp_name":"두산밥캣","corp_code":null,"stock_code":null,"fs_div":"CFS","revenue":{"Q1":2435697503693,"Q2":2547030602094,"Q3":2598434739406,"Q4":2576600462220},"operating_profit":{"Q1":196432456374,"Q2":260331790188,"Q3":181020918036,"Q4":262743101635},"revenue_annual":10157763307413,"operating_profit_annual":900528266233},
+{"rank":47,"corp_name":"아시아나항공","corp_code":null,"stock_code":null,"fs_div":"CFS","revenue":{"Q1":2121876483467,"Q2":2439280667822,"Q3":2288627176847,"Q4":2664802387448},"operating_profit":{"Q1":143412092175,"Q2":144074905156,"Q3":163893614049,"Q4":202346501587},"revenue_annual":9514586715584,"operating_profit_annual":653727112967},
+{"rank":48,"corp_name":"한진칼","corp_code":null,"stock_code":null,"fs_div":"CFS","revenue":{"Q1":2212048900193,"Q2":2167255252328,"Q3":2628973404911,"Q4":2389883891679},"operating_profit":{"Q1":134633517432,"Q2":259622101182,"Q3":260187516511,"Q4":236166117481},"revenue_annual":9398161449111,"operating_profit_annual":890609252606},
+{"rank":49,"corp_name":"현대위아","corp_code":null,"stock_code":null,"fs_div":"CFS","revenue":{"Q1":1908526570296,"Q2":2009887431534,"Q3":2285755155394,"Q4":2503658060991},"operating_profit":{"Q1":55035753149,"Q2":51167752169,"Q3":55355692936,"Q4":99828509909},"revenue_annual":8707827218215,"operating_profit_annual":261387708163},
+{"rank":50,"corp_name":"HL만도","corp_code":null,"stock_code":null,"fs_div":"CFS","revenue":{"Q1":2044612236732,"Q2":1888905380891,"Q3":2303905476156,"Q4":2114220591802},"operating_profit":{"Q1":57014801241,"Q2":54212263544,"Q3":69830551439,"Q4":59727396920},"revenue_annual":8351643685581,"operating_profit_annual":240785013144},
+{"rank":51,"corp_name":"E1","corp_code":null,"stock_code":null,"fs_div":"CFS","revenue":{"Q1":2051426928203,"Q2":1755298736908,"Q3":1995676363337,"Q4":2163324507942},"operating_profit":{"Q1":29576847297,"Q2":37923355355,"Q3":34538229468,"Q4":27320056944},"revenue_annual":7965726536390,"operating_profit_annual":129358489064},
+{"rank":52,"corp_name":"카카오","corp_code":null,"stock_code":null,"fs_div":"CFS","revenue":{"Q1":1888781999372,"Q2":1989107469727,"Q3":1999481957858,"Q4":1831997607960},"operating_profit":{"Q1":126560934987,"Q2":77698314863,"Q3":156766519832,"Q4":143262931982},"revenue_annual":7709369034917,"operating_profit_annual":504288701664},
+{"rank":53,"corp_name":"DL이앤씨","corp_code":null,"stock_code":null,"fs_div":"CFS","revenue":{"Q1":1746132484514,"Q2":2057544969551,"Q3":2113648920092,"Q4":2060540190944},"operating_profit":{"Q1":72353509529,"Q2":84310499382,"Q3":81154084583,"Q4":79864094222},"revenue_annual":7977866565101,"operating_profit_annual":317682187716},
+{"rank":54,"corp_name":"효성","corp_code":null,"stock_code":null,"fs_div":"CFS","revenue":{"Q1":1888639498870,"Q2":1876335611638,"Q3":2041241629905,"Q4":1772781958280},"operating_profit":{"Q1":47858866999,"Q2":57654159009,"Q3":48818837109,"Q4":37708004403},"revenue_annual":7578998698693,"operating_profit_annual":192039867520},
+{"rank":55,"corp_name":"금호석유화학","corp_code":null,"stock_code":null,"fs_div":"CFS","revenue":{"Q1":1784488865439,"Q2":1752207124863,"Q3":1986194784014,"Q4":1785518695384},"operating_profit":{"Q1":89371390566,"Q2":85813153392,"Q3":124571466186,"Q4":62781792922},"revenue_annual":7308409469700,"operating_profit_annual":362537803066},
+{"rank":56,"corp_name":"SK가스","corp_code":null,"stock_code":null,"fs_div":"CFS","revenue":{"Q1":1735802968582,"Q2":1677570024442,"Q3":1729293235666,"Q4":1658856868207},"operating_profit":{"Q1":93686271776,"Q2":63262086808,"Q3":53502266781,"Q4":42798512652},"revenue_annual":6801523096897,"operating_profit_annual":253249138017},
+{"rank":57,"corp_name":"LG생활건강","corp_code":null,"stock_code":null,"fs_div":"CFS","revenue":{"Q1":1691285659166,"Q2":1795287712551,"Q3":1575554410836,"Q4":1879489337440},"operating_profit":{"Q1":79591881513,"Q2":122968752350,"Q3":141462863148,"Q4":159634301917},"revenue_annual":6941617119993,"operating_profit_annual":503657798928},
+{"rank":58,"corp_name":"코오롱인더스트리","corp_code":null,"stock_code":null,"fs_div":"CFS","revenue":{"Q1":1620539856344,"Q2":1537832017720,"Q3":1562956959639,"Q4":1782070247088},"operating_profit":{"Q1":78601218525,"Q2":62616862309,"Q3":81998898851,"Q4":87708292174},"revenue_annual":6503399080791,"operating_profit_annual":310925271859},
+{"rank":59,"corp_name":"KCC","corp_code":null,"stock_code":null,"fs_div":"CFS","revenue":{"Q1":1542780505561,"Q2":1602792743205,"Q3":1687449623607,"Q4":1545803661879},"operating_profit":{"Q1":55792101317,"Q2":59541205810,"Q3":74818874828,"Q4":74249641628},"revenue_annual":6378826534252,"operating_profit_annual":264401823583},
+{"rank":60,"corp_name":"팬오션","corp_code":null,"stock_code":null,"fs_div":"CFS","revenue":{"Q1":1298832066545,"Q2":1528488143372,"Q3":1584580406033,"Q4":1683012868356},"operating_profit":{"Q1":113464823234,"Q2":105318266179,"Q3":140972865804,"Q4":151982665671},"revenue_annual":6094913484306,"operating_profit_annual":511738620888},
+{"rank":61,"corp_name":"KT&G","corp_code":null,"stock_code":null,"fs_div":"CFS","revenue":{"Q1":1508090833917,"Q2":1428223880839,"Q3":1358001174964,"Q4":1609132943777},"operating_profit":{"Q1":386231674726,"Q2":386477589476,"Q3":239639809825,"Q4":310536901922},"revenue_annual":5903448833497,"operating_profit_annual":1322885975949},
+{"rank":62,"corp_name":"동국제강","corp_code":null,"stock_code":null,"fs_div":"CFS","revenue":{"Q1":1339152189354,"Q2":1497915910770,"Q3":1436683574351,"Q4":1536811141584},"operating_profit":{"Q1":48863471923,"Q2":80755472541,"Q3":80053594740,"Q4":72414081859},"revenue_annual":5810562816059,"operating_profit_annual":282086621063},
+{"rank":63,"corp_name":"세아베스틸지주","corp_code":null,"stock_code":null,"fs_div":"CFS","revenue":{"Q1":1256798168652,"Q2":1359699396442,"Q3":1400285027104,"Q4":1366243926675},"operating_profit":{"Q1":36614531356,"Q2":25050821540,"Q3":28764706856,"Q4":39500524674},"revenue_annual":5383026518873,"operating_profit_annual":129930584426},
+{"rank":64,"corp_name":"호텔신라","corp_code":null,"stock_code":null,"fs_div":"CFS","revenue":{"Q1":1107270366823,"Q2":1328863650368,"Q3":1379411467813,"Q4":1338752633131},"operating_profit":{"Q1":23535284715,"Q2":34440884321,"Q3":20428056865,"Q4":22550060740},"revenue_annual":5154298118135,"operating_profit_annual":100954286641},
+{"rank":65,"corp_name":"한국타이어앤테크놀로지","corp_code":null,"stock_code":null,"fs_div":"CFS","revenue":{"Q1":1424027356286,"Q2":1246256745491,"Q3":1281675152868,"Q4":1360513943162},"operating_profit":{"Q1":215773229935,"Q2":143597166991,"Q3":117328082977,"Q4":147876298423},"revenue_annual":5312473197807,"operating_profit_annual":624574778326},
+{"rank":66,"corp_name":"풍산","corp_code":null,"stock_code":null,"fs_div":"CFS","revenue":{"Q1":1213973352636,"Q2":1155971422718,"Q3":1287403874846,"Q4":1312229015362},"operating_profit":{"Q1":68952859256,"Q2":95118320512,"Q3":46597113845,"Q4":72437817767},"revenue_annual":4969577665562,"operating_profit_annual":283106111380},
+{"rank":67,"corp_name":"GS리테일","corp_code":null,"stock_code":null,"fs_div":"CFS","revenue":{"Q1":1129988697850,"Q2":1195126256799,"Q3":1196342600671,"Q4":1292534905075},"operating_profit":{"Q1":43288350065,"Q2":40114187886,"Q3":29888616439,"Q4":41720844428},"revenue_annual":4813992460395,"operating_profit_annual":155011998818},
+{"rank":68,"corp_name":"현대백화점","corp_code":null,"stock_code":null,"fs_div":"CFS","revenue":{"Q1":1184071814952,"Q2":1052877941481,"Q3":1251317460703,"Q4":1337261974962},"operating_profit":{"Q1":54754750709,"Q2":42723310100,"Q3":64915061685,"Q4":111778200182},"revenue_annual":4825529192098,"operating_profit_annual":274171322676},
+{"rank":69,"corp_name":"LS일렉트릭","corp_code":null,"stock_code":null,"fs_div":"CFS","revenue":{"Q1":1223427465945,"Q2":1064891280954,"Q3":1079364685731,"Q4":1162646256084},"operating_profit":{"Q1":98637963926,"Q2":40138042667,"Q3":53331982750,"Q4":88227904254},"revenue_annual":4530329688714,"operating_profit_annual":280335893597},
+{"rank":70,"corp_name":"삼성바이오로직스","corp_code":null,"stock_code":null,"fs_div":"CFS","revenue":{"Q1":998160281533,"Q2":1140301463963,"Q3":1099897140671,"Q4":1134271544354},"operating_profit":{"Q1":361736384436,"Q2":338444675092,"Q3":339956420170,"Q4":457818962375},"revenue_annual":4372630430521,"operating_profit_annual":1497956442073},
+{"rank":71,"corp_name":"한국항공우주","corp_code":null,"stock_code":null,"fs_div":"CFS","revenue":{"Q1":1101965285655,"Q2":1146752129361,"Q3":1099616986965,"Q4":1037199658790},"operating_profit":{"Q1":108090604283,"Q2":97903286020,"Q3":60823245043,"Q4":79096046247},"revenue_annual":4385534060771,"operating_profit_annual":345913181593},
+{"rank":72,"corp_name":"현대로템","corp_code":null,"stock_code":null,"fs_div":"CFS","revenue":{"Q1":1114904151073,"Q2":956054081533,"Q3":1019885083355,"Q4":1095021799563},"operating_profit":{"Q1":105933016548,"Q2":63977848927,"Q3":125943640989,"Q4":117805223019},"revenue_annual":4185865115524,"operating_profit_annual":413659729483},
+{"rank":73,"corp_name":"BGF리테일","corp_code":null,"stock_code":null,"fs_div":"CFS","revenue":{"Q1":929486352615,"Q2":972543696902,"Q3":1140162533076,"Q4":1109393217494},"operating_profit":{"Q1":29750340510,"Q2":37701582588,"Q3":20741691736,"Q4":28814659613},"revenue_annual":4151585800087,"operating_profit_annual":117008274447},
+{"rank":74,"corp_name":"아모레퍼시픽","corp_code":null,"stock_code":null,"fs_div":"CFS","revenue":{"Q1":965389831330,"Q2":1054190524712,"Q3":1070913420367,"Q4":998913954191},"operating_profit":{"Q1":62874618979,"Q2":73471685494,"Q3":84436744437,"Q4":62145976516},"revenue_annual":4089407730600,"operating_profit_annual":282929025426},
+{"rank":75,"corp_name":"롯데칠성음료","corp_code":null,"stock_code":null,"fs_div":"CFS","revenue":{"Q1":851232455440,"Q2":1060981829217,"Q3":959599063493,"Q4":1123058463090},"operating_profit":{"Q1":47980204333,"Q2":32296856741,"Q3":55141905619,"Q4":33947651868},"revenue_annual":3994871811240,"operating_profit_annual":169366618561},
+{"rank":76,"corp_name":"오뚜기","corp_code":null,"stock_code":null,"fs_div":"CFS","revenue":{"Q1":853551525136,"Q2":964136993450,"Q3":975904790521,"Q4":1019993375835},"operating_profit":{"Q1":58699783127,"Q2":48863512407,"Q3":45643285419,"Q4":74409058014},"revenue_annual":3813586684942,"operating_profit_annual":227615638967},
+{"rank":77,"corp_name":"대상","corp_code":null,"stock_code":null,"fs_div":"CFS","revenue":{"Q1":936068857600,"Q2":860414408290,"Q3":953264370816,"Q4":1027751989666},"operating_profit":{"Q1":45529988308,"Q2":32848258144,"Q3":37330732643,"Q4":27449579084},"revenue_annual":3777499626372,"operating_profit_annual":143158558179},
+{"rank":78,"corp_name":"셀트리온","corp_code":null,"stock_code":null,"fs_div":"CFS","revenue":{"Q1":795586069956,"Q2":908298973810,"Q3":847766260232,"Q4":949241706556},"operating_profit":{"Q1":191714332502,"Q2":140203701654,"Q3":155930553873,"Q4":157251415474},"revenue_annual":3500893010554,"operating_profit_annual":645100003503},
+{"rank":79,"corp_name":"농심","corp_code":null,"stock_code":null,"fs_div":"CFS","revenue":{"Q1":832121689501,"Q2":825309701994,"Q3":877993286360,"Q4":782463475636},"operating_profit":{"Q1":50196261240,"Q2":37793213039,"Q3":46847391357,"Q4":33555609974},"revenue_annual":3317888153491,"operating_profit_annual":168392475610},
+{"rank":80,"corp_name":"한전KPS","corp_code":null,"stock_code":null,"fs_div":"CFS","revenue":{"Q1":845851783739,"Q2":885534925242,"Q3":810504166163,"Q4":837383608373},"operating_profit":{"Q1":72965149332,"Q2":108870485229,"Q3":100599252864,"Q4":136492990329},"revenue_annual":3379274483517,"operating_profit_annual":418927877754},
+{"rank":81,"corp_name":"오리온","corp_code":null,"stock_code":null,"fs_div":"CFS","revenue":{"Q1":752132713862,"Q2":817088066732,"Q3":820658714332,"Q4":806071799071},"operating_profit":{"Q1":78059539583,"Q2":111156261251,"Q3":177165815295,"Q4":171222710805},"revenue_annual":3195951293997,"operating_profit_annual":537604326934},
+{"rank":82,"corp_name":"LIG넥스원","corp_code":null,"stock_code":null,"fs_div":"CFS","revenue":{"Q1":777713668430,"Q2":829050191760,"Q3":831168191276,"Q4":816314522113},"operating_profit":{"Q1":41241320377,"Q2":76477767762,"Q3":80903449824,"Q4":57161661796},"revenue_annual":3254246573579,"operating_profit_annual":255784199759},
+{"rank":83,"corp_name":"하이트진로","corp_code":null,"stock_code":null,"fs_div":"CFS","revenue":{"Q1":754189826467,"Q2":715090655884,"Q3":837996486755,"Q4":835784784323},"operating_profit":{"Q1":55269413148,"Q2":38201266651,"Q3":38173617101,"Q4":53791652827},"revenue_annual":3143061753429,"operating_profit_annual":185435949727},
+{"rank":84,"corp_name":"한샘","corp_code":null,"stock_code":null,"fs_div":"CFS","revenue":{"Q1":725524084009,"Q2":661595434075,"Q3":775679890014,"Q4":775148993499},"operating_profit":{"Q1":12827812704,"Q2":14754389056,"Q3":13533671085,"Q4":10297232491},"revenue_annual":2937948401597,"operating_profit_annual":51413105336},
+{"rank":85,"corp_name":"CJ ENM","corp_code":null,"stock_code":null,"fs_div":"CFS","revenue":{"Q1":708003044687,"Q2":747553614354,"Q3":782592430633,"Q4":805068649513},"operating_profit":{"Q1":15657392654,"Q2":26762869006,"Q3":14927706703,"Q4":30862227022},"revenue_annual":3043217739187,"operating_profit_annual":88210195385},
+{"rank":86,"corp_name":"한솔제지","corp_code":null,"stock_code":null,"fs_div":"CFS","revenue":{"Q1":685107958662,"Q2":713394577984,"Q3":808728005858,"Q4":745780707911},"operating_profit":{"Q1":19516449482,"Q2":21241624579,"Q3":23595601576,"Q4":21798395943},"revenue_annual":2953011250415,"operating_profit_annual":86152071580},
+{"rank":87,"corp_name":"영원무역","corp_code":null,"stock_code":null,"fs_div":"CFS","revenue":{"Q1":765814437967,"Q2":657424546339,"Q3":786534903357,"Q4":712191917680},"operating_profit":{"Q1":120829182181,"Q2":66305843002,"Q3":120141709038,"Q4":82804641614},"revenue_annual":2921965805343,"operating_profit_annual":390081375835},
+{"rank":88,"corp_name":"휠라홀딩스","corp_code":null,"stock_code":null,"fs_div":"CFS","revenue":{"Q1":740851910797,"Q2":675443925113,"Q3":649825008136,"Q4":700769610061},"operating_profit":{"Q1":50050077470,"Q2":49871461188,"Q3":86803843178,"Q4":83086754953},"revenue_annual":2766890454107,"operating_profit_annual":269812136789},
+{"rank":89,"corp_name":"크래프톤","corp_code":null,"stock_code":null,"fs_div":"CFS","revenue":{"Q1":649439964017,"Q2":696328165006,"Q3":646323353859,"Q4":735255491237},"operating_profit":{"Q1":282895903969,"Q2":354476911471,"Q3":261488606166,"Q4":266470774786},"revenue_annual":2727346974119,"operating_profit_annual":1165332196392},
+{"rank":90,"corp_name":"넷마블","corp_code":null,"stock_code":null,"fs_div":"CFS","revenue":{"Q1":569411832544,"Q2":585807963350,"Q3":694640247979,"Q4":718746897876},"operating_profit":{"Q1":29876375540,"Q2":47940926756,"Q3":26975983965,"Q4":34540555819},"revenue_annual":2568606941749,"operating_profit_annual":139333842080},
+{"rank":91,"corp_name":"F&F","corp_code":null,"stock_code":null,"fs_div":"CFS","revenue":{"Q1":580466839941,"Q2":613831136086,"Q3":623392111994,"Q4":644420869830},"operating_profit":{"Q1":178058973040,"Q2":85643098437,"Q3":155047751410,"Q4":135376877007},"revenue_annual":2462110957851,"operating_profit_annual":554126699894},
+{"rank":92,"corp_name":"동원산업","corp_code":null,"stock_code":null,"fs_div":"CFS","revenue":{"Q1":620329049831,"Q2":695247299940,"Q3":609510908490,"Q4":627055880803},"operating_profit":{"Q1":38791805733,"Q2":37828949249,"Q3":22661788165,"Q4":30551773715},"revenue_annual":2552143139064,"operating_profit_annual":129834316862},
+{"rank":93,"corp_name":"한국콜마","corp_code":null,"stock_code":null,"fs_div":"CFS","revenue":{"Q1":601645400103,"Q2":572086594279,"Q3":619666161413,"Q4":655358947972},"operating_profit":{"Q1":30842237532,"Q2":54799334731,"Q3":31188761510,"Q4":41406740129},"revenue_annual":2448757103767,"operating_profit_annual":158237073902},
+{"rank":94,"corp_name":"코스맥스","corp_code":null,"stock_code":null,"fs_div":"CFS","revenue":{"Q1":513380057346,"Q2":582644741507,"Q3":596378685804,"Q4":590743323863},"operating_profit":{"Q1":29278136614,"Q2":40902456456,"Q3":36144194500,"Q4":36501721270},"revenue_annual":2283146808520,"operating_profit_annual":142826508840},
+{"rank":95,"corp_name":"녹십자","corp_code":null,"stock_code":null,"fs_div":"CFS","revenue":{"Q1":508607911030,"Q2":520375257259,"Q3":550400726739,"Q4":572357333779},"operating_profit":{"Q1":14378466893,"Q2":21354459708,"Q3":19350113358,"Q4":11325653134},"revenue_annual":2151741228807,"operating_profit_annual":66408693093},
+{"rank":96,"corp_name":"한미약품","corp_code":null,"stock_code":null,"fs_div":"CFS","revenue":{"Q1":542803139344,"Q2":500415287864,"Q3":578642492435,"Q4":516815591685},"operating_profit":{"Q1":104910959717,"Q2":62879845622,"Q3":93519319580,"Q4":54621597844},"revenue_annual":2138676511328,"operating_profit_annual":315931722763},
+{"rank":97,"corp_name":"유한양행","corp_code":null,"stock_code":null,"fs_div":"CFS","revenue":{"Q1":506923226565,"Q2":516611549936,"Q3":578092964554,"Q4":504412124746},"operating_profit":{"Q1":17832491670,"Q2":18123821192,"Q3":26853976377,"Q4":19867499773},"revenue_annual":2106039865801,"operating_profit_annual":82677789012},
+{"rank":98,"corp_name":"종근당","corp_code":null,"stock_code":null,"fs_div":"CFS","revenue":{"Q1":477705119335,"Q2":522726551786,"Q3":510632028796,"Q4":499463459346},"operating_profit":{"Q1":28134773769,"Q2":25172631992,"Q3":46484251492,"Q4":29485737275},"revenue_annual":2010527159263,"operating_profit_annual":129277394528},
+{"rank":99,"corp_name":"대웅제약","corp_code":null,"stock_code":null,"fs_div":"CFS","revenue":{"Q1":475221004319,"Q2":471225523297,"Q3":511330168406,"Q4":492011159449},"operating_profit":{"Q1":39724228435,"Q2":29581356375,"Q3":54288691024,"Q4":50710334776},"revenue_annual":1949787855471,"operating_profit_annual":174304610610},
+{"rank":100,"corp_name":"에코프로비엠","corp_code":null,"stock_code":null,"fs_div":"CFS","revenue":{"Q1":477060388764,"Q2":519528341044,"Q3":539795956633,"Q4":502184988867},"operating_profit":{"Q1":-8942386359,"Q2":-9731694349,"Q3":-10176765613,"Q4":-12719713877},"revenue_annual":2038569675308,"operating_profit_annual":-41570560198}
+]};
+
+'use strict';
+const Q = ['Q1','Q2','Q3','Q4'];
+const QL = {Q1:'1분기', Q2:'2분기', Q3:'3분기', Q4:'4분기'};
+
+function fmt(v) { // 원 단위 → "300.9조" / "8,532억" / "-1,205억"
+  if (v === null || v === undefined) return '–';
+  if (v === 0) return '0';
+  const abs = Math.abs(v);
+  if (abs >= 1e12) {
+    const cho = v / 1e12;
+    return cho.toLocaleString('ko-KR', {maximumFractionDigits: abs >= 1e13 ? 1 : 2}) + '조';
+  }
+  return Math.round(v / 1e8).toLocaleString('ko-KR') + '억';
+}
+function fmtEok(v) { // 테이블용: 억 원 정수
+  if (v === null || v === undefined) return '–';
+  return Math.round(v / 1e8).toLocaleString('ko-KR');
+}
+function el(tag, attrs, ...children) {
+  const ns = 'http://www.w3.org/2000/svg';
+  const svgTags = ['svg','g','rect','line','text','path'];
+  const e = svgTags.includes(tag) ? document.createElementNS(ns, tag) : document.createElement(tag);
+  for (const [k, v] of Object.entries(attrs || {})) {
+    if (k === 'text') e.textContent = v;
+    else if (k.startsWith('on')) e.addEventListener(k.slice(2), v);
+    else e.setAttribute(k, v);
+  }
+  for (const c of children) if (c) e.append(c);
+  return e;
+}
+function niceTicks(min, max, n) {
+  const span = max - min || 1;
+  const step0 = span / n;
+  const mag = Math.pow(10, Math.floor(Math.log10(step0)));
+  const step = [1, 2, 2.5, 5, 10].map(m => m * mag).find(s => span / s <= n) || 10 * mag;
+  const lo = Math.floor(min / step) * step, hi = Math.ceil(max / step) * step;
+  const ticks = [];
+  for (let t = lo; t <= hi + step / 2; t += step) ticks.push(t);
+  return ticks;
+}
+
+// ---- 상태 ----
+let selected = null; // null = Top100 합산, 아니면 companies 배열 원소
+const state = { sorted: DATA.companies.slice() };
+
+function currentSeries() {
+  if (selected) return { rev: selected.revenue, op: selected.operating_profit, name: selected.corp_name };
+  return { rev: DATA.totals.revenue, op: DATA.totals.operating_profit,
+           name: `매출 상위 ${DATA.companies.length}개 기업 합산` };
+}
+
+// ---- 렌더 ----
+const app = document.getElementById('app');
+
+function build() {
+  app.textContent = '';
+  const meta = DATA.meta;
+  app.append(
+    el('h1', {text: `${meta.year}년 매출액 상위 ${DATA.companies.length}개 기업 — 분기별 매출액·영업이익`}),
+    el('p', {class: 'sub', text: `출처: ${meta.source === 'SAMPLE' ? '샘플 데이터' : 'OpenDART(금융감독원 전자공시)'} · ${meta.note || ''}`})
+  );
+  if (meta.source === 'SAMPLE') {
+    const b = el('div', {class: 'banner'});
+    b.append(el('span', {text: '⚠️'}), el('span', {text: '데모 데이터입니다 — 실제 OpenDART 공시 수치가 아닙니다. 인증키로 fetch_opendart_top100.py 실행 후 실제 데이터로 교체하세요.'}));
+    app.append(b);
+  }
+
+  // 컨트롤: 기업 선택
+  const sel = el('select', {id: 'corpSel', 'aria-label': '기업 선택'});
+  sel.append(el('option', {value: '', text: `전체 — 상위 ${DATA.companies.length}개 합산`}));
+  for (const c of DATA.companies)
+    sel.append(el('option', {value: String(c.rank), text: `${c.rank}. ${c.corp_name}`}));
+  sel.addEventListener('change', () => {
+    selected = sel.value ? DATA.companies.find(c => String(c.rank) === sel.value) : null;
+    renderDynamic();
+  });
+  const ctr = el('div', {class: 'controls'});
+  ctr.append(el('label', {for: 'corpSel', text: '보기'}), sel);
+  app.append(ctr);
+
+  app.append(el('div', {class: 'tiles', id: 'tiles'}));
+
+  const card = el('div', {class: 'card'});
+  card.append(
+    el('h2', {id: 'chartTitle'}),
+    el('p', {class: 'note', text: '세로 막대: 분기별 매출액과 영업이익 (단위: 원, 라벨은 조/억 축약)'}),
+    (() => {
+      const lg = el('div', {class: 'legend', role: 'list'});
+      for (const [name, cssv] of [['매출액', 'var(--series-rev)'], ['영업이익', 'var(--series-op)']]) {
+        const k = el('span', {class: 'key', role: 'listitem'});
+        k.append(el('span', {class: 'swatch', style: `background:${cssv}`}), el('span', {text: name}));
+        lg.append(k);
+      }
+      return lg;
+    })(),
+    el('div', {id: 'chart'}),
+    el('div', {class: 'tooltip', id: 'tip'})
+  );
+  app.append(card);
+
+  // 테이블 카드
+  const tcard = el('div', {class: 'card'});
+  tcard.append(el('h2', {text: `상위 ${DATA.companies.length}개 기업 순위 (단위: 억 원)`}),
+               el('p', {class: 'note', text: '행을 클릭하면 해당 기업의 차트를 표시합니다.'}));
+  const search = el('input', {type: 'search', placeholder: '기업명 검색', 'aria-label': '기업명 검색',
+                              oninput: () => renderTable(search.value.trim())});
+  const sc = el('div', {class: 'controls'}); sc.append(search);
+  tcard.append(sc, el('div', {class: 'tablewrap', id: 'tablewrap'}));
+  app.append(tcard);
+
+  renderDynamic();
+  renderTable('');
+  new ResizeObserver(() => renderChart()).observe(document.getElementById('chart'));
+}
+
+function renderDynamic() {
+  const s = currentSeries();
+  document.getElementById('chartTitle').textContent = s.name;
+  // 스탯 타일
+  const revA = Q.reduce((a, q) => a + (s.rev[q] ?? 0), 0);
+  const opA = Q.reduce((a, q) => a + (s.op[q] ?? 0), 0);
+  const tiles = document.getElementById('tiles');
+  tiles.textContent = '';
+  const items = [
+    ['연간 매출액', fmt(revA) + ' 원'],
+    ['연간 영업이익', fmt(opA) + ' 원'],
+    ['영업이익률', revA ? (opA / revA * 100).toFixed(1) + '%' : '–'],
+  ];
+  for (const [l, v] of items) {
+    const t = el('div', {class: 'tile'});
+    t.append(el('div', {class: 'lbl', text: l}), el('div', {class: 'val', text: v}));
+    tiles.append(t);
+  }
+  renderChart();
+  // 테이블 선택 표시 갱신
+  for (const tr of document.querySelectorAll('tbody tr'))
+    tr.classList.toggle('sel', !!selected && tr.dataset.rank === String(selected.rank));
+}
+
+function renderChart() {
+  const host = document.getElementById('chart');
+  const s = currentSeries();
+  const W = Math.max(480, host.clientWidth || 800), H = 340;
+  const m = {top: 24, right: 12, bottom: 28, left: 56};
+  const iw = W - m.left - m.right, ih = H - m.top - m.bottom;
+
+  const vals = Q.flatMap(q => [s.rev[q], s.op[q]]).filter(v => v !== null && v !== undefined);
+  const vmax = Math.max(0, ...vals), vmin = Math.min(0, ...vals);
+  const ticks = niceTicks(vmin, vmax * 1.08, 5);
+  const lo = ticks[0], hi = ticks[ticks.length - 1];
+  const y = v => m.top + ih - (v - lo) / (hi - lo) * ih;
+
+  const svg = el('svg', {width: W, height: H, viewBox: `0 0 ${W} ${H}`, role: 'img',
+                         'aria-label': `${s.name} 분기별 매출액 및 영업이익 막대 차트`});
+  // 그리드 + y축 라벨
+  for (const t of ticks) {
+    svg.append(el('line', {x1: m.left, x2: W - m.right, y1: y(t), y2: y(t),
+                           stroke: t === 0 ? 'var(--baseline)' : 'var(--grid)', 'stroke-width': 1}));
+    svg.append(el('text', {x: m.left - 8, y: y(t) + 4, 'text-anchor': 'end',
+                           'font-size': 11, fill: 'var(--text-muted)', text: fmt(t)}));
+  }
+
+  const band = iw / 4, bw = Math.min(24, band * 0.18), gap = 2;
+  const tip = document.getElementById('tip');
+  const groups = [];
+
+  Q.forEach((q, i) => {
+    const cx = m.left + band * i + band / 2;
+    const g = el('g', {});
+    const bars = [['rev', s.rev[q], 'var(--series-rev)', cx - bw - gap / 2],
+                  ['op',  s.op[q],  'var(--series-op)',  cx + gap / 2]];
+    for (const [, v, color, x] of bars) {
+      if (v === null || v === undefined) continue;
+      const y0 = y(0), y1 = y(v);
+      const top = Math.min(y0, y1), h = Math.max(1.5, Math.abs(y0 - y1));
+      const r = Math.min(4, h / 2);
+      // 데이터 쪽 끝만 4px 라운드, 기준선 쪽은 각지게
+      const d = v >= 0
+        ? `M${x},${y0} L${x},${top + r} Q${x},${top} ${x + r},${top} L${x + bw - r},${top} Q${x + bw},${top} ${x + bw},${top + r} L${x + bw},${y0} Z`
+        : `M${x},${y0} L${x},${top + h - r} Q${x},${top + h} ${x + r},${top + h} L${x + bw - r},${top + h} Q${x + bw},${top + h} ${x + bw},${top + h - r} L${x + bw},${y0} Z`;
+      g.append(el('path', {d, fill: color}));
+      // 캡 직접 라벨
+      const ly = v >= 0 ? top - 6 : top + h + 14;
+      g.append(el('text', {x: x + bw / 2, y: ly, 'text-anchor': 'middle', 'font-size': 11,
+                           fill: 'var(--text-secondary)', text: fmt(v)}));
+    }
+    // x축 라벨
+    svg.append(el('text', {x: cx, y: H - 8, 'text-anchor': 'middle', 'font-size': 12,
+                           fill: 'var(--text-secondary)', text: QL[q]}));
+    // 히트 영역(분기 전체) + 툴팁
+    const hit = el('rect', {x: m.left + band * i, y: m.top, width: band, height: ih,
+                            fill: 'transparent', tabindex: 0, role: 'presentation'});
+    const show = (px, py) => {
+      tip.textContent = '';
+      tip.append(el('div', {class: 'tq', text: `${s.name} · ${QL[q]}`}));
+      for (const [name, v, cssv] of [['매출액', s.rev[q], 'var(--series-rev)'], ['영업이익', s.op[q], 'var(--series-op)']]) {
+        const row = el('div', {class: 'row'});
+        row.append(el('span', {class: 'k', style: `background:${cssv}`}),
+                   el('span', {class: 'v', text: fmt(v) + ' 원'}),
+                   el('span', {class: 'n', text: name}));
+        tip.append(row);
+      }
+      const rv = s.rev[q], ov = s.op[q];
+      if (rv) tip.append(el('div', {class: 'tq', text: `영업이익률 ${(ov / rv * 100).toFixed(1)}%`}));
+      tip.style.display = 'block';
+      const card = host.closest('.card').getBoundingClientRect();
+      let tx = px - card.left + 14, ty = py - card.top + 14;
+      tip.style.left = Math.min(tx, card.width - tip.offsetWidth - 8) + 'px';
+      tip.style.top = ty + 'px';
+      g.setAttribute('opacity', '0.85');
+    };
+    const hide = () => { tip.style.display = 'none'; g.removeAttribute('opacity'); };
+    hit.addEventListener('pointermove', e => show(e.clientX, e.clientY));
+    hit.addEventListener('pointerleave', hide);
+    hit.addEventListener('focus', () => {
+      const r = hit.getBoundingClientRect();
+      show(r.left + r.width / 2, r.top + 40);
+    });
+    hit.addEventListener('blur', hide);
+    groups.push([g, hit]);
+  });
+  for (const [g] of groups) svg.append(g);
+  for (const [, hit] of groups) svg.append(hit);
+
+  host.textContent = '';
+  host.append(svg);
+}
+
+function renderTable(filter) {
+  const wrap = document.getElementById('tablewrap');
+  wrap.textContent = '';
+  const table = el('table', {});
+  const thead = el('thead', {});
+  const hr = el('tr', {});
+  const cols = ['순위', '기업명',
+    '매출 1분기', '매출 2분기', '매출 3분기', '매출 4분기', '매출 연간',
+    '영업이익 1분기', '영업이익 2분기', '영업이익 3분기', '영업이익 4분기', '영업이익 연간'];
+  for (const c of cols) hr.append(el('th', {text: c, scope: 'col'}));
+  thead.append(hr);
+  const tbody = el('tbody', {});
+  const f = (filter || '').toLowerCase();
+  for (const c of state.sorted) {
+    if (f && !c.corp_name.toLowerCase().includes(f)) continue;
+    const tr = el('tr', {'data-rank': String(c.rank)});
+    const cells = [String(c.rank), c.corp_name,
+      ...Q.map(q => fmtEok(c.revenue[q])), fmtEok(c.revenue_annual),
+      ...Q.map(q => fmtEok(c.operating_profit[q])), fmtEok(c.operating_profit_annual)];
+    cells.forEach((v, i) => {
+      const td = el('td', {text: v});
+      if (i >= 7 && v.startsWith('-')) td.classList.add('neg');
+      tr.append(td);
+    });
+    if (selected && selected.rank === c.rank) tr.classList.add('sel');
+    tr.addEventListener('click', () => {
+      selected = c;
+      document.getElementById('corpSel').value = String(c.rank);
+      renderDynamic();
+      document.querySelector('.card').scrollIntoView({behavior: 'smooth'});
+    });
+    tbody.append(tr);
+  }
+  table.append(thead, tbody);
+  wrap.append(table);
+}
+
+build();
+
+</script>
+</body>
+</html>

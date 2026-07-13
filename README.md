@@ -9,7 +9,12 @@
 
 - `index.html` — 포털 랜딩 페이지 (프로젝트 카드 그리드 + About)
 - `404.html` — 커스텀 404
-- `CNAME` (옵션) — 커스텀 도메인 연결 시 추가
+- `CNAME` — 커스텀 도메인 `stargateedu.co.kr`
+- `manifest.webmanifest` / `sw.js` / `offline.html` / `assets/icons/` — PWA (앱 설치 요건)
+- `.well-known/assetlinks.json` — Android 앱(TWA) 도메인 소유 증명
+- `privacy.html` — 개인정보처리방침 (Play Store 필수)
+- `app/` — Google Play용 Stargate 앱(TWA) 빌드 설정 → [app/README.md](app/README.md)
+- `.nojekyll` — GitHub Pages가 `.well-known/`을 서빙하도록 Jekyll 비활성화
 
 ## 로컬 확인
 

@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>오프라인 — Stargate</title>
+<meta name="theme-color" content="#0b1020">
+<link rel="icon" href="/assets/icons/favicon.ico">
+<style>
+:root{--bg:#0a0d14;--panel:#0f172a;--line:#1f2a44;--ink:#e6edf3;--sub:#9aa7b8;
+  --grad1:linear-gradient(135deg,#4f7fff 0%,#7aa2ff 55%,#b388ff 100%)}
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;display:flex;align-items:center;justify-content:center;
+  font-family:"Pretendard","Apple SD Gothic Neo","Segoe UI",system-ui,-apple-system,sans-serif;
+  color:var(--ink);background:var(--bg);
+  background-image:radial-gradient(800px 500px at 20% -10%, rgba(79,127,255,.16), transparent 60%)}
+.box{text-align:center;padding:40px 28px;border:1px solid var(--line);border-radius:18px;
+  background:var(--panel);max-width:360px;margin:20px}
+.box img{width:84px;height:84px;border-radius:20px;margin-bottom:18px}
+h1{font-size:20px;margin:0 0 8px;background:var(--grad1);
+  -webkit-background-clip:text;background-clip:text;color:transparent}
+p{color:var(--sub);font-size:14px;line-height:1.6;margin:0 0 20px}
+button{padding:11px 22px;border-radius:12px;border:none;cursor:pointer;font-weight:600;
+  font-size:14px;background:var(--grad1);color:#0b1020}
+</style>
+</head>
+<body>
+  <div class="box">
+    <img src="/assets/icons/icon-192.png" alt="Stargate">
+    <h1>인터넷 연결이 필요해요</h1>
+    <p>네트워크에 연결되어 있지 않습니다.<br>연결을 확인한 뒤 다시 시도해 주세요.</p>
+    <button onclick="location.reload()">다시 시도</button>
+  </div>
+</body>
+</html>
