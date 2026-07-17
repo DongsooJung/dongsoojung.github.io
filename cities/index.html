@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>밟은 도시 인터랙티브 지도 · 정동수 — Dongsoo Jung</title>
+<meta name="description" content="정동수(Dongsoo Jung)가 발자취를 남긴 전 세계 84개 도시(국내 36 · 해외 25개국) 인터랙티브 지도." />
+<meta property="og:title" content="밟은 도시 인터랙티브 지도 · 정동수" />
+<meta property="og:description" content="해외 25개국 · 대한민국 인구 50만 이상 전 도시 — 발자취 지도" />
+<meta property="og:url" content="https://dongsoojung.github.io/cities/" />
+<meta property="og:type" content="website" />
+<link rel="canonical" href="https://dongsoojung.github.io/cities/" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css" />
+<style>
+  :root{
+    --bg:#0a0d14;--panel:#0f172a;--panel2:#111c33;--line:#1f2a44;--line2:#263452;
+    --ink:#e6edf3;--muted:#9aa7b8;--accent:#7aa2ff;
+    --grad1:linear-gradient(135deg,#4f7fff 0%,#7aa2ff 55%,#b388ff 100%);
+    --kr:#e4572e;--jpcn:#f2a541;--mideast:#8ac926;--eu:#4d9de0;
+    --ru:#c05299;--us:#2ec4b6;--nk:#9aa0a6;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{
+    font-family:"Pretendard","Apple SD Gothic Neo","Segoe UI",system-ui,-apple-system,sans-serif;
+    background:var(--bg);color:var(--ink);line-height:1.55;-webkit-font-smoothing:antialiased;
+    background-image:
+      radial-gradient(1000px 600px at 10% -10%, rgba(79,127,255,.18), transparent 60%),
+      radial-gradient(800px 500px at 100% 0%, rgba(179,136,255,.12), transparent 60%);
+    background-attachment:fixed;
+  }
+  a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
+  .nav{max-width:1180px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;padding:18px 22px 0}
+  .brand{display:flex;align-items:center;gap:10px;font-weight:700}
+  .brand .logo{width:32px;height:32px;border-radius:9px;background:var(--grad1);
+    display:inline-flex;align-items:center;justify-content:center;color:#0b1020;font-weight:900}
+  .nav .links{display:flex;gap:14px;font-size:13px;color:var(--muted)}
+  header{padding:26px 22px 18px;text-align:center;
+    background:radial-gradient(1200px 400px at 50% -120px,rgba(122,162,255,.22),transparent 70%)}
+  header h1{margin:0 0 8px;font-size:clamp(22px,4vw,34px);letter-spacing:-.5px;
+    background:var(--grad1);-webkit-background-clip:text;background-clip:text;color:transparent}
+  header p{margin:0 auto;max-width:760px;color:var(--muted);font-size:15px}
+  .stats{display:flex;flex-wrap:wrap;justify-content:center;gap:14px;margin:20px auto 4px;max-width:900px}
+  .stat{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:12px 20px;min-width:120px}
+  .stat b{display:block;font-size:26px;line-height:1.1}
+  .stat span{font-size:12px;color:var(--muted)}
+  .wrap{max-width:1180px;margin:0 auto;padding:8px 22px 40px}
+  #map{height:64vh;min-height:460px;width:100%;border-radius:16px;border:1px solid var(--line);
+       box-shadow:0 12px 40px rgba(0,0,0,.35);background:#0d1526}
+  .legend{display:flex;flex-wrap:wrap;gap:10px 18px;justify-content:center;margin:18px 0 6px}
+  .legend button{display:inline-flex;align-items:center;gap:8px;background:var(--panel);color:var(--ink);
+    border:1px solid var(--line);border-radius:999px;padding:7px 14px;font-size:13px;cursor:pointer;transition:.15s;font-family:inherit}
+  .legend button:hover{border-color:var(--accent)}
+  .legend button.off{opacity:.35;filter:grayscale(.6)}
+  .dot{width:12px;height:12px;border-radius:50%;box-shadow:0 0 0 3px rgba(255,255,255,.12)}
+  .region{margin-top:34px}
+  .region h2{font-size:18px;margin:0 0 4px;display:flex;align-items:center;gap:10px}
+  .region .cnt{font-size:13px;color:var(--muted);font-weight:400}
+  .chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+  .chip{background:var(--panel2);border:1px solid var(--line);border-radius:8px;padding:5px 11px;font-size:13px;cursor:pointer;transition:.15s}
+  .chip:hover{border-color:var(--accent);color:#fff;transform:translateY(-1px)}
+  .note{background:var(--panel);border:1px solid var(--line);border-left:3px solid var(--jpcn);
+        border-radius:10px;padding:12px 16px;margin-top:22px;color:var(--muted);font-size:13.5px}
+  footer{max-width:1180px;margin:0 auto;text-align:center;color:var(--muted);font-size:12.5px;padding:26px 16px 40px;border-top:1px solid var(--line)}
+  .leaflet-tooltip.city-tip{background:#0b1120;color:#fff;border:1px solid var(--accent);
+        border-radius:8px;font-weight:600;font-size:13px;box-shadow:0 4px 14px rgba(0,0,0,.5)}
+  .leaflet-tooltip.city-tip::before{border-top-color:var(--accent)}
+</style>
+</head>
+<body>
+  <nav class="nav">
+    <div class="brand"><span class="logo">D</span><span>DONGSOO.<span style="color:var(--accent)">PORTAL</span></span></div>
+    <div class="links"><a href="/">← 포털 홈</a><a href="https://github.com/DongsooJung" target="_blank" rel="noopener">GitHub ↗</a></div>
+  </nav>
+
+<header>
+  <h1>🌏 밟은 도시 인터랙티브 지도</h1>
+  <p>전 세계 모든 도시를 밟고자 하는 꿈 — 해외 25개국, 대한민국 인구 50만 이상 전 도시를 포함해 지금까지 발자취를 남긴 도시들을 지도 위에 담았습니다.</p>
+  <div class="stats">
+    <div class="stat"><b>84</b><span>총 도시</span></div>
+    <div class="stat"><b>7</b><span>대륙·권역</span></div>
+    <div class="stat"><b>36</b><span>국내 도시</span></div>
+    <div class="stat"><b>48</b><span>해외·북녘</span></div>
+  </div>
+</header>
+
+<div class="wrap">
+  <div id="map"></div>
+  <div class="legend" id="legend"></div>
+  <div id="lists"></div>
+  <div class="note">📝 북녘 지역(신의주·강계·무산·회령)은 압록강·두만강 건너편에서 바라본 도시로, 실제 방문이 아닌 ‘바라만 본’ 도시로 별도 표기했습니다. 지도 마커에 마우스를 올리면 도시명이 표시됩니다.</div>
+</div>
+
+<footer>© 2026 정동수 (Dongsoo Jung) · Stargate Corporation · 발자취 지도 · 지도 타일 © OpenStreetMap · © CARTO</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<script>
+const REGIONS = {
+  kr:{label:"🇰🇷 국내 · 대한민국", color:"#e4572e"},
+  jpcn:{label:"🌏 아시아 · 일본·중국", color:"#f2a541"},
+  mideast:{label:"🕊️ 중동 · 이스라엘·팔레스타인", color:"#8ac926"},
+  eu:{label:"🇪🇺 유럽 (터키·그리스 포함)", color:"#4d9de0"},
+  ru:{label:"🇷🇺 러시아", color:"#c05299"},
+  us:{label:"🇺🇸 북미 · 미국", color:"#2ec4b6"},
+  nk:{label:"🔭 북녘 · 강 건너 바라만 봄", color:"#9aa0a6"}
+};
+
+const CITIES = [
+  ["서울",37.5665,126.9780,"kr"],["인천",37.4563,126.7052,"kr"],["대전",36.3504,127.3845,"kr"],
+  ["대구",35.8714,128.6014,"kr"],["부산",35.1796,129.0756,"kr"],["울산",35.5384,129.3114,"kr"],
+  ["광주",35.1595,126.8526,"kr"],["수원",37.2636,127.0286,"kr"],["성남",37.4200,127.1267,"kr"],
+  ["용인",37.2411,127.1776,"kr"],["부천",37.5035,126.7660,"kr"],["화성",37.1996,126.8310,"kr"],
+  ["광명",37.4786,126.8644,"kr"],["과천",37.4292,126.9877,"kr"],["의정부",37.7381,127.0337,"kr"],
+  ["양주",37.7853,127.0456,"kr"],["파주",37.7599,126.7800,"kr"],["일산",37.6584,126.7700,"kr"],
+  ["청주",36.6424,127.4890,"kr"],["충주",36.9910,127.9259,"kr"],["전주",35.8242,127.1480,"kr"],
+  ["영광",35.2772,126.5120,"kr"],["포항",36.0190,129.3435,"kr"],["경산",35.8251,128.7413,"kr"],
+  ["영천",35.9733,128.9386,"kr"],["구미",36.1195,128.3446,"kr"],["김천",36.1398,128.1136,"kr"],
+  ["진주",35.1800,128.1076,"kr"],["밀양",35.5038,128.7469,"kr"],["진해",35.1533,128.6614,"kr"],
+  ["강릉",37.7519,128.8761,"kr"],["속초",38.2070,128.5918,"kr"],["원주",37.3422,127.9202,"kr"],
+  ["춘천",37.8813,127.7300,"kr"],["여주",37.2984,127.6370,"kr"],["제주",33.4996,126.5312,"kr"],
+  ["도쿄",35.6762,139.6503,"jpcn"],["교토",35.0116,135.7681,"jpcn"],["오사카",34.6937,135.5023,"jpcn"],
+  ["고베",34.6901,135.1955,"jpcn"],["단둥",40.1244,124.3947,"jpcn"],["장백현",41.4200,128.2100,"jpcn"],
+  ["연변",42.9047,129.5091,"jpcn"],
+  ["예루살렘",31.7683,35.2137,"mideast"],["텔아비브",32.0853,34.7818,"mideast"],["하이파",32.7940,34.9896,"mideast"],
+  ["나사렛",32.7021,35.2978,"mideast"],["네타냐",32.3215,34.8532,"mideast"],["베들레헴",31.7054,35.2024,"mideast"],
+  ["여리고",31.8667,35.4500,"mideast"],
+  ["런던",51.5074,-0.1278,"eu"],["옥스퍼드",51.7520,-1.2577,"eu"],["파리",48.8566,2.3522,"eu"],
+  ["암스테르담",52.3676,4.9041,"eu"],["베를린",52.5200,13.4050,"eu"],["프랑크푸르트",50.1109,8.6821,"eu"],
+  ["드레스덴",51.0504,13.7373,"eu"],["프라하",50.0755,14.4378,"eu"],["비엔나",48.2082,16.3738,"eu"],
+  ["취리히",47.3769,8.5417,"eu"],["루체른",47.0502,8.3093,"eu"],["베른",46.9480,7.4474,"eu"],
+  ["로마",41.9028,12.4964,"eu"],["밀라노",45.4642,9.1900,"eu"],["베니스",45.4408,12.3155,"eu"],
+  ["포지타노",40.6281,14.4850,"eu"],["이스탄불",41.0082,28.9784,"eu"],["갑바도기아",38.6431,34.8289,"eu"],
+  ["파묵칼레",37.9137,29.1187,"eu"],["아테네",37.9838,23.7275,"eu"],["밧모섬",37.3089,26.5479,"eu"],
+  ["모스크바",55.7558,37.6173,"ru"],["로스토프온돈",47.2357,39.7015,"ru"],["하산",42.4290,130.6430,"ru"],
+  ["뉴욕",40.7128,-74.0060,"us"],["보스턴",42.3601,-71.0589,"us"],["뉴헤이븐",41.3083,-72.9279,"us"],
+  ["시애틀",47.6062,-122.3321,"us"],["호놀룰루",21.3069,-157.8583,"us"],["코나",19.6400,-155.9969,"us"],
+  ["신의주",40.1006,124.3980,"nk"],["강계",40.9700,126.5850,"nk"],["무산",42.2280,129.2130,"nk"],
+  ["회령",42.4443,129.7530,"nk"]
+];
+
+const map = L.map('map',{worldCopyJump:true}).setView([40,60],2.4);
+L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png',{
+  attribution:'© OpenStreetMap · © CARTO', maxZoom:18, subdomains:'abcd'
+}).addTo(map);
+
+const groups = {}, markerByName = {};
+for(const key in REGIONS){ groups[key] = L.layerGroup().addTo(map); }
+
+CITIES.forEach(([name,lat,lng,region])=>{
+  const c = REGIONS[region].color;
+  const m = L.circleMarker([lat,lng],{radius:6,color:'#0b1120',weight:1.5,fillColor:c,fillOpacity:.95})
+    .bindTooltip(name,{className:'city-tip',direction:'top',offset:[0,-4]});
+  m.on('mouseover',()=>m.setStyle({radius:9}));
+  m.on('mouseout',()=>m.setStyle({radius:6}));
+  m.addTo(groups[region]);
+  markerByName[name]=m;
+});
+
+map.fitBounds(CITIES.map(c=>[c[1],c[2]]),{padding:[40,40]});
+
+const legend = document.getElementById('legend');
+for(const key in REGIONS){
+  const b=document.createElement('button');
+  b.innerHTML=`<span class="dot" style="background:${REGIONS[key].color}"></span>${REGIONS[key].label} (${CITIES.filter(c=>c[3]===key).length})`;
+  b.onclick=()=>{
+    b.classList.toggle('off');
+    if(b.classList.contains('off')) map.removeLayer(groups[key]); else groups[key].addTo(map);
+  };
+  legend.appendChild(b);
+}
+
+const lists=document.getElementById('lists');
+for(const key in REGIONS){
+  const cs=CITIES.filter(c=>c[3]===key);
+  const div=document.createElement('div');div.className='region';
+  div.innerHTML=`<h2><span class="dot" style="background:${REGIONS[key].color}"></span>${REGIONS[key].label} <span class="cnt">${cs.length}개</span></h2>`;
+  const chips=document.createElement('div');chips.className='chips';
+  cs.forEach(c=>{
+    const s=document.createElement('span');s.className='chip';s.textContent=c[0];
+    s.onclick=()=>{
+      map.flyTo([c[1],c[2]],c[3]==='kr'?9:6,{duration:.8});
+      const mk=markerByName[c[0]];
+      setTimeout(()=>mk.openTooltip(),820);
+    };
+    chips.appendChild(s);
+  });
+  div.appendChild(chips);lists.appendChild(div);
+}
+</script>
+</body>
+</html>
