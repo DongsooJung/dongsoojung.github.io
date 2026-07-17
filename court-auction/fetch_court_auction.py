@@ -22,6 +22,9 @@
   python3 fetch_court_auction.py --category 주택
   python3 fetch_court_auction.py --category 상업용
 
+  # 일간 증분 수집(매일 cron 실행용) — 기존 데이터에 오늘 새로 등록된 물건만 append
+  python3 fetch_court_auction.py --daily
+
   # 최신 월(데이터가 있는 가장 최근 월)만 수집
   python3 fetch_court_auction.py --latest
 
@@ -174,6 +177,8 @@ def normalize_record(item: dict) -> dict:
             rec[col] = f"{s[:4]}-{s[4:6]}-{s[6:]}"
     addr = str(rec["소재지"])
     rec["시도"] = addr.split()[0] if addr else ""
+    # 수집일은 API에 없는 우리 시스템 필드 — 호출부에서 스탬프. 기본값은 공고일.
+    rec.setdefault("수집일", rec.get("공고일", ""))
     return rec
 
 
@@ -308,6 +313,8 @@ def generate_sample(year: int, upto_month: int, category: str) -> list[dict]:
             sale = notice + dt.timedelta(days=rng.randint(14, 35))
             status = "신건" if fails == 0 else "유찰"
             case_base = 200000 if is_commercial else 100000
+            # 수집일(시스템 등록일): 공고 당일 또는 1~2일 뒤에 수집됐다고 가정, 오늘 초과 금지
+            collected = min(notice + dt.timedelta(days=rng.randint(0, 2)), today)
             records.append({
                 "사건번호": f"{year}타경{case_base + seq}",
                 "법원": court,
@@ -321,6 +328,7 @@ def generate_sample(year: int, upto_month: int, category: str) -> list[dict]:
                 "매각기일": sale.isoformat(),
                 "상태": status,
                 "시도": sido,
+                "수집일": collected.isoformat(),
             })
     return records
 
@@ -329,7 +337,7 @@ def generate_sample(year: int, upto_month: int, category: str) -> list[dict]:
 # 저장: 엑셀 + JSON
 # ---------------------------------------------------------------------------
 COLUMNS = ["사건번호", "법원", "물건번호", "용도", "시도", "소재지",
-           "감정가", "최저매각가", "유찰횟수", "공고일", "매각기일", "상태"]
+           "감정가", "최저매각가", "유찰횟수", "공고일", "매각기일", "상태", "수집일"]
 
 
 def save_excel(records: list[dict], path: Path) -> None:
@@ -355,7 +363,7 @@ def save_excel(records: list[dict], path: Path) -> None:
         for idx, col in enumerate(COLUMNS, start=1):
             letter = get_column_letter(idx)
             width = {"소재지": 34, "법원": 22, "사건번호": 16, "감정가": 14,
-                     "최저매각가": 14, "공고일": 12, "매각기일": 12}.get(col, 10)
+                     "최저매각가": 14, "공고일": 12, "매각기일": 12, "수집일": 12}.get(col, 10)
             ws.column_dimensions[letter].width = width
         money_cols = [COLUMNS.index("감정가") + 1, COLUMNS.index("최저매각가") + 1]
         for row in ws.iter_rows(min_row=2):
@@ -395,8 +403,49 @@ def save_excel(records: list[dict], path: Path) -> None:
         row[2].number_format = "#,##0"
         row[3].number_format = "#,##0"
 
+    # 일별요약 시트: 등록일(공고일) 기준 일별 신규 건수
+    ws_day = wb.create_sheet("일별요약", 2)
+    ws_day.append(["등록일(공고일)", "신규 건수", "누적"])
+    for c in range(1, 4):
+        cell = ws_day.cell(row=1, column=c)
+        cell.fill = header_fill
+        cell.font = header_font
+        cell.alignment = Alignment(horizontal="center")
+    cumulative = 0
+    for d, cnt in daily_counts(records, "공고일").items():
+        cumulative += cnt
+        ws_day.append([d, cnt, cumulative])
+    for letter, width in zip("ABC", (16, 12, 12)):
+        ws_day.column_dimensions[letter].width = width
+    ws_day.freeze_panes = "A2"
+
     wb.save(path)
     print(f"엑셀 저장: {path} ({len(records)}건, 시트 {len(wb.sheetnames)}개)")
+
+
+def daily_counts(records: list[dict], key: str) -> dict:
+    """날짜(YYYY-MM-DD)별 물건 수 집계."""
+    out: dict[str, int] = {}
+    for r in records:
+        d = str(r.get(key, ""))[:10]
+        if len(d) == 10:
+            out[d] = out.get(d, 0) + 1
+    return dict(sorted(out.items()))
+
+
+def load_existing_records(path: Path) -> list[dict]:
+    """기존 JSON에서 records 로드(일간 증분 수집의 누적 기반)."""
+    if not path.exists():
+        return []
+    try:
+        data = json.loads(path.read_text(encoding="utf-8"))
+        return data.get("records", [])
+    except Exception:  # noqa: BLE001
+        return []
+
+
+def record_key(r: dict) -> tuple:
+    return (str(r.get("사건번호", "")), str(r.get("물건번호", "")))
 
 
 def save_json(records: list[dict], path: Path, source: str, category: str) -> None:
@@ -410,6 +459,9 @@ def save_json(records: list[dict], path: Path, source: str, category: str) -> No
             "months": months,
             "count": len(records),
             "basis": "공고일",
+            # 일간 대시보드용: 등록일(공고일)·수집일 기준 일별 신규 건수
+            "daily_by_notice": daily_counts(records, "공고일"),
+            "daily_by_collected": daily_counts(records, "수집일"),
         },
         "records": [{k: r.get(k, "") for k in COLUMNS} for r in records],
     }
@@ -422,11 +474,35 @@ def save_json(records: list[dict], path: Path, source: str, category: str) -> No
 # ---------------------------------------------------------------------------
 def run_category(category: str, args, current_month: int, session) -> bool:
     cfg = CATEGORIES[category]
+    today_iso = dt.date.today().isoformat()
 
-    if args.sample:
+    if args.daily and not args.sample:
+        # 일간 증분 수집: 기존 데이터에 최근 공고를 재조회해 신규 물건만 append.
+        # (매일 cron으로 실행하면 새로 등록되는 경매가 수집일=오늘로 누적됨)
+        existing = load_existing_records(cfg["json"])
+        known = {record_key(r) for r in existing}
+        months = [(YEAR, current_month)]
+        if dt.date.today().day <= 15 and current_month > 1:
+            months.insert(0, (YEAR, current_month - 1))  # 월초엔 전월 경계도 재조회
+        print(f"[{category}] 일간 증분 수집 (기존 {len(existing)}건 + 최근 공고 재조회)")
+        new_recs = []
+        for y, m in months:
+            for r in fetch_month(session, y, m, cfg["mcl_code"]):
+                if record_key(r) not in known:
+                    r["수집일"] = today_iso        # 오늘 처음 수집된 신규 물건
+                    known.add(record_key(r))
+                    new_recs.append(r)
+            time.sleep(REQUEST_DELAY_SEC)
+        records = existing + new_recs
+        source = "법원경매정보(courtauction.go.kr) · 일간 증분"
+        print(f"[{category}] 오늘({today_iso}) 신규 등록 {len(new_recs)}건 · 누적 {len(records)}건")
+    elif args.sample:
         print(f"[{category}] 샘플 모드: {YEAR}년 1월~{current_month}월 데이터 생성")
         records = generate_sample(YEAR, current_month, category)
         source = "샘플 데이터 (--sample)"
+        if args.daily:
+            todays = sum(1 for r in records if str(r.get("수집일", "")).startswith(today_iso))
+            print(f"[{category}] (샘플) 오늘 수집일 물건 {todays}건")
     else:
         if args.month:
             y, m = args.month.split("-")
@@ -471,6 +547,8 @@ def main() -> int:
     g = ap.add_mutually_exclusive_group()
     g.add_argument("--month", help="특정 월만 수집 (예: 2026-06)")
     g.add_argument("--latest", action="store_true", help="데이터가 있는 최신 월만 수집")
+    g.add_argument("--daily", action="store_true",
+                   help="일간 증분 수집 — 기존 데이터에 최근 공고의 신규 물건만 append(매일 cron 실행용)")
     ap.add_argument("--sample", action="store_true", help="네트워크 없이 샘플 데이터 생성")
     ap.add_argument("--category", choices=[*CATEGORIES, "전체"], default="전체",
                     help="물건 구분 (기본: 전체 = 주택 + 상업용)")
