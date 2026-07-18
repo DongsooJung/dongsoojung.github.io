@@ -161,6 +161,29 @@ def aggregate_month(service_key, y, m, today):
     return {"days": days_with_data, "rates": rates}
 
 
+def probe_reachable(service_key, today, tries=8):
+    """최근 영업일 몇 개로 API 도달 가능성을 빠르게 확인한다.
+
+    수출입은행 API는 해외(GitHub 러너) IP를 302 리다이렉트로 차단하는 경우가 있다.
+    전 영업일(수백 회)을 순회하기 전에 먼저 소수만 시도해, 한 건도 응답을 받지
+    못하면(모두 예외) 도달 불가로 판단하고 조기 종료한다. 응답이 오면(빈 목록 포함)
+    도달 가능으로 본다.
+    """
+    d = today
+    attempted = 0
+    while attempted < tries:
+        d = d.fromordinal(d.toordinal() - 1)
+        if d.weekday() >= 5:
+            continue
+        attempted += 1
+        try:
+            fetch_day(service_key, d)      # 예외 없이 반환되면 도달 가능
+            return True
+        except Exception as exc:
+            print(f"    · 도달 확인 {d} 실패: {exc}", file=sys.stderr)
+    return False
+
+
 def main():
     service_key = os.environ.get("EXIM_API_KEY", "").strip()
     if not service_key:
@@ -172,6 +195,12 @@ def main():
 
     today = date.today()
     end = (today.year, today.month)
+
+    # 전 영업일 순회(수백 회) 전에 도달 가능성부터 확인 — 해외 IP 차단 시 즉시 종료
+    if not probe_reachable(service_key, today):
+        print("수출입은행 API에 도달하지 못했습니다(해외 IP 차단 추정) — "
+              "환율 시드를 유지하고 종료합니다.", file=sys.stderr)
+        return 1
 
     # 최근 2개월(현재·직전)은 잠정치 보정을 위해 항상 재수집한다.
     recent = set()
