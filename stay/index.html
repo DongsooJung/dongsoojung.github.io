@@ -1,234 +1,135 @@
 <!doctype html>
-<html lang="ko">
+<html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Stay with Dongsoo · 대치동 스테이</title>
-<meta name="theme-color" content="#0b1020">
-<link rel="manifest" href="/manifest.webmanifest">
-<link rel="icon" href="/assets/icons/favicon.ico" sizes="48x48">
-<link rel="apple-touch-icon" href="/assets/icons/apple-touch-icon.png">
-<meta name="description" content="박사 호스트가 직접 운영하는 대치동 프리미엄 단기 숙소. Premium short-stay in Daechi-dong, Seoul — hosted by a PhD scholar. Airbnb(외국인)·위홈(내국인) 이중 채널 예약.">
-<meta property="og:title" content="Stay with Dongsoo · 대치동 스테이">
-<meta property="og:description" content="박사 호스트가 직접 큐레이션한 대치동 단기 숙소. 외국인 게스트는 Airbnb, 내국인 게스트는 위홈으로.">
-<meta property="og:type" content="website">
-<meta property="og:url" content="https://stargateedu.co.kr/stay/">
-<link rel="canonical" href="https://stargateedu.co.kr/stay/">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Nanum+Myeongjo:wght@400;700;800&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
-<style>
-:root{
-  --ivory:#F5EFE6; --paper:#EFE7DA; --clay:#C9A77B; --terra:#8B5A3C;
-  --ink:#2C1810; --moss:#4A5240; --line:#DACBB4;
-}
-*{box-sizing:border-box}
-html,body{margin:0;padding:0}
-body{background:var(--ivory);color:var(--ink);font-family:Inter,"Apple SD Gothic Neo",sans-serif;
-  font-weight:300;line-height:1.7;-webkit-font-smoothing:antialiased}
-.serif{font-family:"Cormorant Garamond",serif}
-.kserif{font-family:"Nanum Myeongjo",serif}
-a{color:var(--terra);text-decoration:none}
-.wrap{max-width:1060px;margin:0 auto;padding:0 24px}
-
-/* nav */
-.nav{display:flex;justify-content:space-between;align-items:baseline;padding:26px 0 0}
-.nav .logo{font-family:"Cormorant Garamond",serif;font-size:20px;letter-spacing:.14em;font-weight:600}
-.nav .right{display:flex;gap:18px;align-items:baseline;font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--terra)}
-.nav .right a:hover{border-bottom:1px solid var(--terra)}
-#langBtn{background:none;border:1px solid var(--line);border-radius:999px;padding:5px 14px;
-  font-size:11px;letter-spacing:.14em;color:var(--ink);cursor:pointer}
-#langBtn:hover{background:var(--paper)}
-
-/* hero */
-.hero{padding:78px 0 60px;text-align:center}
-.hero .eyebrow{font-size:12px;letter-spacing:.34em;text-transform:uppercase;color:var(--terra);margin-bottom:22px}
-.hero h1{font-family:"Cormorant Garamond",serif;font-weight:500;font-size:clamp(42px,7vw,76px);
-  line-height:1.06;margin:0 0 10px;letter-spacing:-.01em}
-.hero h1 .ko{font-family:"Nanum Myeongjo",serif;display:block;font-size:.42em;font-weight:400;
-  letter-spacing:.42em;margin-top:18px;color:var(--terra)}
-.hero p{max-width:56ch;margin:26px auto 0;color:#5b463a;font-size:15.5px}
-.hero .rule{width:56px;height:1px;background:var(--terra);margin:34px auto 0}
-
-/* arches */
-.arches{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;padding:14px 0 70px}
-.arch{border-radius:160px 160px 14px 14px;aspect-ratio:3/4;position:relative;overflow:hidden;
-  border:1px solid var(--line);display:flex;align-items:flex-end}
-.arch .ph{position:absolute;inset:0}
-.arch:nth-child(1) .ph{background:linear-gradient(165deg,#E4D5BE,#C9A77B 55%,#9c7450)}
-.arch:nth-child(2) .ph{background:linear-gradient(165deg,#D9D2C0,#8f9377 55%,#4A5240)}
-.arch:nth-child(3) .ph{background:linear-gradient(165deg,#E7D8C6,#b98a63 55%,#8B5A3C)}
-.arch .cap{position:relative;width:100%;padding:14px 16px;font-size:11px;letter-spacing:.22em;
-  text-transform:uppercase;color:rgba(255,252,246,.92);background:linear-gradient(transparent,rgba(44,24,16,.45))}
-
-/* sections */
-.sec{padding:64px 0;border-top:1px solid var(--line)}
-.sec .label{font-size:12px;letter-spacing:.3em;text-transform:uppercase;color:var(--terra);margin-bottom:14px}
-.sec h2{font-family:"Nanum Myeongjo",serif;font-weight:700;font-size:clamp(24px,3.4vw,34px);margin:0 0 18px;line-height:1.35}
-.cols{display:grid;grid-template-columns:1fr 1fr;gap:44px}
-.cols p{margin:0 0 14px;color:#4c3a2e;font-size:15px}
-.fact{display:grid;grid-template-columns:110px 1fr;gap:8px 14px;font-size:14px}
-.fact dt{color:var(--terra);letter-spacing:.06em}
-.fact dd{margin:0;color:#4c3a2e}
-
-/* two doors */
-.doors{display:grid;grid-template-columns:1fr 1fr;gap:26px;margin-top:34px}
-.door{border:1px solid var(--terra);border-radius:130px 130px 16px 16px;padding:52px 30px 34px;
-  text-align:center;background:var(--paper);transition:.25s transform,.25s box-shadow}
-.door:hover{transform:translateY(-5px);box-shadow:0 18px 40px rgba(139,90,60,.18)}
-.door .who{font-size:11.5px;letter-spacing:.3em;text-transform:uppercase;color:var(--moss)}
-.door h3{font-family:"Cormorant Garamond",serif;font-weight:600;font-size:30px;margin:12px 0 6px}
-.door p{font-size:13.5px;color:#5b463a;min-height:3.2em;margin:0 0 22px}
-.door .btn{display:inline-block;border:1px solid var(--ink);border-radius:999px;padding:12px 30px;
-  font-size:12px;letter-spacing:.22em;text-transform:uppercase;color:var(--ink);transition:.2s}
-.door .btn:hover{background:var(--ink);color:var(--ivory)}
-.doors .note{grid-column:1/-1;text-align:center;font-size:12.5px;color:#8a715f;margin-top:4px}
-
-/* host strip */
-.host{display:grid;grid-template-columns:.85fr 1.15fr;gap:44px;align-items:center}
-.host .portrait{border-radius:160px 160px 14px 14px;aspect-ratio:3/4;
-  background:linear-gradient(170deg,#E7DCC9,#C9A77B 50%,#6e4e35);border:1px solid var(--line);
-  display:flex;align-items:center;justify-content:center;font-family:"Cormorant Garamond",serif;
-  font-size:58px;color:rgba(255,252,246,.9)}
-.host ul{margin:0;padding-left:18px;color:#4c3a2e;font-size:14.5px}
-.host li{margin-bottom:8px}
-
-/* footer */
-footer{border-top:1px solid var(--line);padding:44px 0 70px;font-size:12.5px;color:#7d6a5b}
-footer .biz{margin-top:10px;line-height:1.9}
-footer .logo{font-family:"Cormorant Garamond",serif;font-size:18px;letter-spacing:.14em;color:var(--ink)}
-
-@media(max-width:760px){
-  .arches{grid-template-columns:1fr 1fr}
-  .arches .arch:nth-child(3){display:none}
-  .cols,.doors,.host{grid-template-columns:1fr}
-  .host .portrait{max-width:320px;margin:0 auto}
-}
-.reveal{opacity:0;transform:translateY(18px);transition:.7s ease}
-.reveal.on{opacity:1;transform:none}
-</style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Daechi Stay | A quiet Seoul stay in Gangnam</title>
+  <meta name="description" content="A calm, globally friendly city stay in Daechi-dong, Gangnam, Seoul.">
+  <meta name="theme-color" content="#18231d">
+  <meta property="og:title" content="Daechi Stay">
+  <meta property="og:description" content="Your Seoul rhythm, from here.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://www.stargateedu.co.kr/stay/">
+  <meta property="og:image" content="https://www.stargateedu.co.kr/stay/og.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="canonical" href="https://www.stargateedu.co.kr/stay/">
+  <link rel="icon" href="/assets/icons/favicon.ico" sizes="48x48">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=Noto+Sans+KR:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root{--ivory:#f2ebdd;--paper:#faf7f0;--ink:#18231d;--moss:#536451;--terra:#b85c3e;--line:rgba(24,35,29,.17)}
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{margin:0;background:var(--paper);color:var(--ink);font-family:"Noto Sans KR",sans-serif;-webkit-font-smoothing:antialiased}
+    a{color:inherit;text-decoration:none} button,input,select,textarea{font:inherit}
+    .shell{width:min(1180px,calc(100% - 48px));margin-inline:auto}
+    .nav{height:84px;display:flex;align-items:center;justify-content:space-between;gap:24px}
+    .brand{display:flex;align-items:center;gap:11px;font-size:12px;font-weight:600;letter-spacing:.2em}
+    .brand-mark{width:31px;height:31px;border:1px solid currentColor;border-radius:50%;display:grid;place-items:center;font-family:"Cormorant Garamond",serif;font-size:19px;letter-spacing:0}
+    .nav-links{display:flex;gap:34px;font-size:13px}.nav-links a{position:relative}
+    .nav-links a:after{content:"";position:absolute;left:0;right:100%;bottom:-7px;height:1px;background:currentColor;transition:.25s}
+    .nav-links a:hover:after,.nav-links a:focus-visible:after{right:0}
+    .lang-toggle{border:1px solid var(--line);background:transparent;border-radius:999px;padding:9px 15px;cursor:pointer;font-size:12px;font-weight:600}
+    .hero{min-height:calc(100svh - 84px);position:relative;color:#fff;display:flex;align-items:center;overflow:hidden}
+    .hero-image{position:absolute;inset:0;background:url("assets/hero-interior.png") center/cover no-repeat;transform:scale(1.01)}
+    .hero-shade{position:absolute;inset:0;background:linear-gradient(90deg,rgba(12,22,17,.84) 0%,rgba(12,22,17,.59) 38%,rgba(12,22,17,.08) 73%)}
+    .hero-content{position:relative;padding:90px 0 118px}.eyebrow{margin:0 0 21px;color:var(--terra);text-transform:uppercase;letter-spacing:.22em;font-size:11px;font-weight:600}.eyebrow.light{color:#f0b098}
+    h1,h2,h3,p{margin-top:0}h1{font-family:"Cormorant Garamond",serif;font-weight:500;font-size:clamp(64px,8.1vw,118px);line-height:.82;letter-spacing:-.045em;max-width:790px;margin-bottom:35px}h1 span{display:block}
+    .hero-intro{max-width:620px;font-size:clamp(16px,1.5vw,20px);line-height:1.7;color:rgba(255,255,255,.86)}
+    .hero-actions{display:flex;flex-wrap:wrap;gap:12px;margin:34px 0 45px}.button{min-height:50px;padding:0 23px;border:1px solid transparent;display:inline-flex;align-items:center;justify-content:center;gap:22px;font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;transition:.25s}
+    .button.primary{color:var(--ink);background:var(--ivory)}.button.primary:hover{background:#fff;transform:translateY(-2px)}.button.ghost{color:#fff;border-color:rgba(255,255,255,.45)}.button.ghost:hover{border-color:#fff;background:rgba(255,255,255,.08)}
+    .proof{list-style:none;padding:0;margin:0;display:flex;gap:26px;flex-wrap:wrap;color:rgba(255,255,255,.74);font-size:12px}.proof li:before{content:"·";color:#f0b098;margin-right:10px}.image-note{position:absolute;right:18px;bottom:15px;margin:0;font-size:10px;letter-spacing:.06em;color:rgba(255,255,255,.58)}
+    .section{padding:120px 0}.section-heading{display:grid;grid-template-columns:1.1fr .9fr;gap:100px;align-items:end;margin-bottom:66px}h2{font-family:"Cormorant Garamond",serif;font-weight:500;font-size:clamp(42px,5vw,70px);line-height:1.02;letter-spacing:-.03em;margin-bottom:0}.section-heading>p,.lead{color:#58625c;line-height:1.8;margin-bottom:0}
+    .feature-grid{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid var(--line)}.feature-card{padding:35px 38px 38px 0;min-height:310px;border-right:1px solid var(--line);position:relative}.feature-card+.feature-card{padding-left:38px}.feature-card:last-child{border-right:0}.feature-number{color:var(--terra);font-size:10px;letter-spacing:.16em}
+    .feature-icon{width:64px;height:64px;margin:37px 0 31px;position:relative}.icon-bed{border:1px solid var(--moss);border-radius:60% 60% 8px 8px}.icon-bed:after{content:"";position:absolute;left:12px;right:12px;bottom:15px;height:1px;background:var(--moss);box-shadow:0 -9px var(--moss)}.icon-home{border:1px solid var(--moss);border-radius:50%}.icon-home:before,.icon-home:after{content:"";position:absolute;background:var(--moss)}.icon-home:before{width:1px;height:44px;left:31px;top:9px;transform:rotate(45deg)}.icon-home:after{height:1px;width:44px;top:31px;left:9px;transform:rotate(45deg)}.icon-work:before{content:"";position:absolute;width:52px;height:36px;left:6px;top:12px;border:1px solid var(--moss);border-radius:4px}.icon-work:after{content:"";position:absolute;width:28px;height:1px;background:var(--moss);bottom:10px;left:18px;box-shadow:0 5px var(--moss)}
+    .feature-card h3,.timeline h3{font-family:"Cormorant Garamond",serif;font-size:27px;font-weight:600;margin-bottom:12px}.feature-card p,.timeline p{color:#687069;line-height:1.7;font-size:14px;margin:0}
+    .neighborhood{background:var(--ink);color:#fff;padding:100px 0}.neighborhood-grid{display:grid;grid-template-columns:1.05fr .95fr;align-items:center;gap:90px}.map-card{min-height:590px;position:relative;overflow:hidden;background:#27332d;border:1px solid rgba(255,255,255,.13)}.map-grid{position:absolute;inset:0;opacity:.16;background-image:linear-gradient(rgba(255,255,255,.5) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.5) 1px,transparent 1px);background-size:64px 64px;transform:rotate(12deg) scale(1.3)}.route{position:absolute;height:5px;background:#9cab89;transform-origin:left center;border-radius:8px}.route-a{width:540px;top:180px;left:40px;transform:rotate(28deg)}.route-b{width:650px;top:430px;left:-70px;background:#c58a69;transform:rotate(-22deg)}
+    .map-dot{position:absolute;font-size:9px;letter-spacing:.11em;display:flex;align-items:center;gap:8px}.map-dot i{width:8px;height:8px;background:var(--ivory);border-radius:50%}.dot-home{left:46%;top:45%;flex-direction:column;gap:6px;transform:translate(-50%,-50%)}.dot-home b{width:55px;height:55px;display:grid;place-items:center;background:var(--terra);border-radius:50%;font-family:"Cormorant Garamond",serif;font-size:25px}.dot-home em{font-style:normal;white-space:nowrap}.dot-coex{right:12%;top:25%}.dot-park{left:12%;bottom:24%}.map-river{position:absolute;right:-15px;bottom:52px;color:rgba(255,255,255,.3);font-size:10px;letter-spacing:.35em;transform:rotate(-12deg)}
+    .neighborhood-copy h2{margin-bottom:28px}.neighborhood-copy .lead{color:rgba(255,255,255,.68);font-size:16px}.transit-list{margin-top:50px;border-top:1px solid rgba(255,255,255,.18)}.transit-list div{padding:18px 0;display:flex;justify-content:space-between;gap:20px;border-bottom:1px solid rgba(255,255,255,.18)}.transit-list span{color:#f0b098;font-size:12px}.transit-list strong{font-size:13px;font-weight:500}
+    .rhythm{padding-bottom:140px}.timeline{display:grid;grid-template-columns:repeat(3,1fr);margin-top:45px;border-top:1px solid var(--line)}.timeline article{padding:32px 45px 0 0;position:relative}.timeline time{color:var(--terra);font-size:11px;letter-spacing:.13em}.timeline-dot{position:absolute;width:9px;height:9px;border:2px solid var(--paper);border-radius:50%;background:var(--terra);top:-5px;left:0;box-shadow:0 0 0 1px var(--terra)}.timeline h3{margin-top:40px}
+    .essentials{background:var(--ivory);padding:105px 0}.essentials-grid{display:grid;grid-template-columns:.8fr 1.2fr;gap:120px}.essentials-grid h2{font-size:clamp(42px,4vw,62px)}.essentials dl{margin:0;border-top:1px solid var(--line)}.essentials dl div{display:grid;grid-template-columns:130px 1fr;gap:20px;padding:21px 0;border-bottom:1px solid var(--line)}.essentials dt{color:var(--terra);font-size:12px;font-weight:600}.essentials dd{margin:0;font-size:14px}
+    .inquiry{background:var(--moss);color:#fff;padding:110px 0}.inquiry-grid{display:grid;grid-template-columns:.8fr 1.2fr;gap:110px}.inquiry h2{margin-bottom:25px}.inquiry-grid>div>p:last-child{color:rgba(255,255,255,.7);line-height:1.7}.inquiry form{display:grid;gap:18px}.form-row{display:grid;grid-template-columns:1fr 1fr;gap:18px}.inquiry label{display:grid;gap:8px;color:rgba(255,255,255,.72);font-size:11px;letter-spacing:.08em;text-transform:uppercase}.inquiry input,.inquiry select,.inquiry textarea{width:100%;color:#fff;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.26);border-radius:0;padding:14px;outline:none}.inquiry input:focus,.inquiry select:focus,.inquiry textarea:focus{border-color:#fff;box-shadow:0 0 0 2px rgba(255,255,255,.12)}.inquiry select option{color:var(--ink)}.button.submit{background:var(--ivory);color:var(--ink);width:100%;margin-top:4px}.button.submit:hover{background:#fff}.inquiry small{color:rgba(255,255,255,.52);font-size:10px}
+    .footer{min-height:150px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:24px;align-items:center;font-size:11px;color:#687069}.footer p{margin:0;text-align:center}.footer p:last-child{text-align:right}
+    @media(max-width:850px){.nav-links{display:none}.hero{min-height:760px}.hero-image{background-position:58% center}.hero-shade{background:linear-gradient(90deg,rgba(12,22,17,.86),rgba(12,22,17,.35))}.section-heading,.neighborhood-grid,.essentials-grid,.inquiry-grid{grid-template-columns:1fr;gap:45px}.feature-grid{grid-template-columns:1fr}.feature-card,.feature-card+.feature-card{padding:30px 0;border-right:0;border-bottom:1px solid var(--line);min-height:0;display:grid;grid-template-columns:50px 82px 1fr;align-items:center;gap:10px}.feature-icon{margin:0}.feature-card h3,.feature-card p{grid-column:3}.feature-card h3{margin:0}.map-card{min-height:460px;order:2}.timeline{grid-template-columns:1fr;border-top:0}.timeline article{border-top:1px solid var(--line);padding:30px 0 35px 28px}.timeline-dot{top:26px}}
+    @media(max-width:560px){.shell{width:min(100% - 32px,1180px)}.nav{height:70px}.brand{font-size:10px}.hero{min-height:calc(100svh - 70px)}.hero-content{padding:70px 0 100px}h1{font-size:61px}.proof{display:grid;gap:8px}.section{padding:80px 0}.section-heading{margin-bottom:35px}.feature-card,.feature-card+.feature-card{grid-template-columns:35px 60px 1fr}.feature-icon{transform:scale(.78);transform-origin:left center}.neighborhood{padding:75px 0}.map-card{min-height:380px}.form-row{grid-template-columns:1fr}.essentials-grid{gap:35px}.essentials dl div{grid-template-columns:95px 1fr}.footer{padding:35px 0;grid-template-columns:1fr;justify-items:center}.footer p:last-child{text-align:center}}
+    @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*:before,*:after{transition:none!important}}
+  </style>
 </head>
 <body>
-<div class="wrap">
+  <nav class="nav shell" aria-label="Main navigation">
+    <a class="brand" href="#top" aria-label="Daechi Stay home"><span class="brand-mark">D</span><span>DAECHI STAY</span></a>
+    <div class="nav-links"><a href="#stay" data-en="The stay" data-ko="숙소">The stay</a><a href="#neighborhood" data-en="Neighborhood" data-ko="동네">Neighborhood</a><a href="#essentials" data-en="Essentials" data-ko="이용 안내">Essentials</a></div>
+    <button class="lang-toggle" id="langToggle" type="button" aria-label="한국어로 보기">한국어</button>
+  </nav>
 
-<nav class="nav">
-  <div class="logo">STAY · DONGSOO</div>
-  <div class="right">
-    <a href="/" data-ko="포털" data-en="Portal">포털</a>
-    <a href="#doors" data-ko="예약" data-en="Book">예약</a>
-    <a href="#host" data-ko="호스트" data-en="Host">호스트</a>
-    <button id="langBtn">EN</button>
-  </div>
-</nav>
-
-<header class="hero">
-  <div class="eyebrow" data-ko="Daechi-dong · Gangnam · Seoul" data-en="Daechi-dong · Gangnam · Seoul">Daechi-dong · Gangnam · Seoul</div>
-  <h1 class="serif">Stay with Dongsoo
-    <span class="ko" data-ko="대 치 동 스 테 이" data-en="A quiet stay in Daechi">대 치 동 스 테 이</span>
-  </h1>
-  <p data-ko="박사 호스트가 직접 운영하는 대치동 한복판의 프리미엄 단기 숙소. 학원가 도보권, 삼성역·선릉역 생활권 — 출장객, 학부모, 그리고 서울을 깊이 여행하려는 분들을 위한 조용한 공간입니다."
-     data-en="A premium short-stay in the heart of Daechi-dong, run personally by a PhD host. Steps from Korea's famed academy district and the Samseong–Seolleung business belt — a quiet base for business travelers, visiting parents, and slow travelers of Seoul.">
-     박사 호스트가 직접 운영하는 대치동 한복판의 프리미엄 단기 숙소. 학원가 도보권, 삼성역·선릉역 생활권 — 출장객, 학부모, 그리고 서울을 깊이 여행하려는 분들을 위한 조용한 공간입니다.</p>
-  <div class="rule"></div>
-</header>
-
-<section class="arches reveal">
-  <figure class="arch"><div class="ph"></div><figcaption class="cap" data-ko="Living · 거실" data-en="Living">Living · 거실</figcaption></figure>
-  <figure class="arch"><div class="ph"></div><figcaption class="cap" data-ko="Bedroom · 침실" data-en="Bedroom">Bedroom · 침실</figcaption></figure>
-  <figure class="arch"><div class="ph"></div><figcaption class="cap" data-ko="Kitchen · 주방" data-en="Kitchen">Kitchen · 주방</figcaption></figure>
-</section>
-
-<section class="sec reveal" id="space">
-  <div class="label" data-ko="The Space" data-en="The Space">The Space</div>
-  <h2 class="kserif" data-ko="대치동 한복판, 사색이 가능한 숙소" data-en="A place to think, in the middle of Daechi">대치동 한복판, 사색이 가능한 숙소</h2>
-  <div class="cols">
-    <div>
-      <p data-ko="대한민국 교육 1번지 대치동은 사실 서울에서 가장 밀도 높은 '생활 인프라'의 도시이기도 합니다. 24시간 움직이는 상권, 정돈된 주거 블록, 강남의 업무지구와 코엑스까지 이어지는 동선 — 이 숙소는 그 한가운데에 있습니다."
-         data-en="Daechi-dong is best known as Korea's education capital, but it is also one of Seoul's most convenient residential districts: round-the-clock amenities, orderly blocks, and direct access to Gangnam's business core and COEX. This stay sits right in the middle of it.">
-         대한민국 교육 1번지 대치동은 사실 서울에서 가장 밀도 높은 '생활 인프라'의 도시이기도 합니다. 24시간 움직이는 상권, 정돈된 주거 블록, 강남의 업무지구와 코엑스까지 이어지는 동선 — 이 숙소는 그 한가운데에 있습니다.</p>
-      <p data-ko="공간은 호스트가 직접 큐레이션했습니다. 책과 커피, 그리고 조용한 책상. 짧게 머물러도 생활의 리듬이 흐트러지지 않도록 설계했습니다."
-         data-en="The space is personally curated by the host — books, coffee, and a quiet desk — designed so that even a short stay keeps the rhythm of daily life intact.">
-         공간은 호스트가 직접 큐레이션했습니다. 책과 커피, 그리고 조용한 책상. 짧게 머물러도 생활의 리듬이 흐트러지지 않도록 설계했습니다.</p>
+  <header class="hero" id="top">
+    <div class="hero-image" role="img" aria-label="Warm, modern Seoul apartment interior"></div><div class="hero-shade"></div>
+    <div class="hero-content shell">
+      <p class="eyebrow light" data-en="A quiet address in Gangnam · Seoul" data-ko="서울 강남, 조용한 대치동 스테이">A quiet address in Gangnam · Seoul</p>
+      <h1 data-en="<span>Your Seoul rhythm,</span><span>from here.</span>" data-ko="<span>서울의 리듬을,</span><span>여기서부터.</span>"><span>Your Seoul rhythm,</span><span>from here.</span></h1>
+      <p class="hero-intro" data-en="A considered city stay in Daechi-dong—close to Seoul’s energy, designed for the way global travelers actually live." data-ko="서울의 활기와 가깝고 일상처럼 편안한 대치동 시티 스테이. 글로벌 여행자의 생활 방식에 맞춰 세심하게 준비했습니다.">A considered city stay in Daechi-dong—close to Seoul’s energy, designed for the way global travelers actually live.</p>
+      <div class="hero-actions"><a class="button primary" href="#inquiry" data-en="Check availability" data-ko="예약 가능일 문의">Check availability</a><a class="button ghost" href="#stay"><span data-en="Explore the stay" data-ko="숙소 둘러보기">Explore the stay</span> <span aria-hidden="true">↓</span></a></div>
+      <ul class="proof"><li data-en="English-speaking host" data-ko="영어 응대 가능">English-speaking host</li><li data-en="Self check-in" data-ko="셀프 체크인">Self check-in</li><li data-en="Fast Wi-Fi" data-ko="빠른 Wi-Fi">Fast Wi-Fi</li></ul>
     </div>
-    <dl class="fact">
-      <dt data-ko="위치" data-en="Location">위치</dt><dd data-ko="서울 강남구 대치동 (학원가 도보권)" data-en="Daechi-dong, Gangnam-gu, Seoul">서울 강남구 대치동 (학원가 도보권)</dd>
-      <dt data-ko="교통" data-en="Transit">교통</dt><dd data-ko="3호선 대치역 · 수인분당선 한티역 · 삼성역 생활권" data-en="Daechi Stn (L3) · Hanti Stn · near Samseong/COEX">3호선 대치역 · 수인분당선 한티역 · 삼성역 생활권</dd>
-      <dt data-ko="적합" data-en="Ideal for">적합</dt><dd data-ko="출장 · 단기 교육 체류 학부모 · 장기 여행자" data-en="Business trips · academy-season parents · slow travelers">출장 · 단기 교육 체류 학부모 · 장기 여행자</dd>
-      <dt data-ko="체크인" data-en="Check-in">체크인</dt><dd data-ko="셀프 체크인 (도어록) · 상세는 예약 채널 안내" data-en="Self check-in (smart lock) · details on booking channel">셀프 체크인 (도어록) · 상세는 예약 채널 안내</dd>
-      <dt data-ko="언어" data-en="Language">언어</dt><dd data-ko="한국어 · English" data-en="Korean · English">한국어 · English</dd>
-    </dl>
-  </div>
-</section>
+    <p class="image-note" data-en="Concept imagery · actual stay photos coming soon" data-ko="콘셉트 이미지 · 실제 숙소 사진 업데이트 예정">Concept imagery · actual stay photos coming soon</p>
+  </header>
 
-<section class="sec reveal" id="doors">
-  <div class="label" data-ko="Booking · 두 개의 문" data-en="Booking · Two Doors">Booking · 두 개의 문</div>
-  <h2 class="kserif" data-ko="당신에게 맞는 문으로 들어오세요" data-en="Enter through the door made for you">당신에게 맞는 문으로 들어오세요</h2>
-  <div class="doors">
-    <div class="door">
-      <div class="who" data-ko="For International Guests" data-en="For International Guests">For International Guests</div>
-      <h3>Airbnb</h3>
-      <p data-ko="외국인 게스트 전용 채널입니다. 외국인관광 도시민박업 등록 숙소로, 영문 안내와 함께 합법적으로 운영됩니다."
-         data-en="Our channel for international guests — a legally registered Foreign Tourist City B&amp;B, hosted with full English support.">
-         외국인 게스트 전용 채널입니다. 외국인관광 도시민박업 등록 숙소로, 영문 안내와 함께 합법적으로 운영됩니다.</p>
-      <a class="btn" id="airbnbLink" href="#" data-ko="Airbnb에서 예약" data-en="Book on Airbnb">Airbnb에서 예약</a>
-    </div>
-    <div class="door">
-      <div class="who" data-ko="내국인 게스트" data-en="For Korean Guests">내국인 게스트</div>
-      <h3 class="kserif" style="font-size:26px">위홈 WeHome</h3>
-      <p data-ko="내국인 게스트는 규제샌드박스 공유숙박 플랫폼 위홈으로 예약하실 수 있습니다. 학원가 단기 체류 학부모님께 특히 권합니다."
-         data-en="Korean guests can book via WeHome, the regulatory-sandbox home-sharing platform — especially recommended for academy-season stays.">
-         내국인 게스트는 규제샌드박스 공유숙박 플랫폼 위홈으로 예약하실 수 있습니다. 학원가 단기 체류 학부모님께 특히 권합니다.</p>
-      <a class="btn" id="wehomeLink" href="#" data-ko="위홈에서 예약" data-en="Book on WeHome">위홈에서 예약</a>
-    </div>
-    <div class="note" data-ko="※ 채널별 요금·환불 규정은 각 플랫폼 리스팅 기준을 따릅니다. 오픈 준비 중인 채널은 버튼이 곧 활성화됩니다."
-         data-en="※ Rates and refund policies follow each platform's listing. Buttons go live as each channel opens.">
-         ※ 채널별 요금·환불 규정은 각 플랫폼 리스팅 기준을 따릅니다. 오픈 준비 중인 채널은 버튼이 곧 활성화됩니다.</div>
-  </div>
-</section>
+  <main>
+    <section class="section shell" id="stay">
+      <div class="section-heading"><div><p class="eyebrow">The stay</p><h2 data-en="Room to arrive. Space to settle in." data-ko="도착의 긴장을 풀고, 일상처럼 머무는 공간.">Room to arrive. Space to settle in.</h2></div><p data-en="Start slowly with morning light, work comfortably when you need to, and return to a calm home base after a full Seoul day. Every detail is chosen for a stay that feels intuitive from the first night." data-ko="아침 햇살로 천천히 하루를 시작하고, 필요할 때는 편안하게 일하고, 서울을 충분히 누린 뒤 조용한 집으로 돌아오세요. 첫날부터 직관적으로 사용할 수 있도록 준비했습니다.">Start slowly with morning light, work comfortably when you need to, and return to a calm home base after a full Seoul day. Every detail is chosen for a stay that feels intuitive from the first night.</p></div>
+      <div class="feature-grid">
+        <article class="feature-card"><span class="feature-number">01</span><div class="feature-icon icon-bed" aria-hidden="true"></div><h3 data-en="Rest well" data-ko="편안한 휴식">Rest well</h3><p data-en="A quiet bedroom, quality linen, and blackout curtains." data-ko="조용한 침실, 좋은 리넨과 암막 커튼.">A quiet bedroom, quality linen, and blackout curtains.</p></article>
+        <article class="feature-card"><span class="feature-number">02</span><div class="feature-icon icon-home" aria-hidden="true"></div><h3 data-en="Live lightly" data-ko="가벼운 생활">Live lightly</h3><p data-en="A well-equipped kitchen, washer, and thoughtful everyday essentials." data-ko="주방, 세탁기와 꼭 필요한 생활용품.">A well-equipped kitchen, washer, and thoughtful everyday essentials.</p></article>
+        <article class="feature-card"><span class="feature-number">03</span><div class="feature-icon icon-work" aria-hidden="true"></div><h3 data-en="Stay connected" data-ko="끊김 없는 연결">Stay connected</h3><p data-en="A dedicated desk, reliable Wi-Fi, and straightforward self check-in." data-ko="전용 책상, 안정적인 Wi-Fi와 간편한 셀프 체크인.">A dedicated desk, reliable Wi-Fi, and straightforward self check-in.</p></article>
+      </div>
+    </section>
 
-<section class="sec reveal" id="host">
-  <div class="label" data-ko="Your Host" data-en="Your Host">Your Host</div>
-  <h2 class="kserif" data-ko="20년의 여행, 한 사람의 호스트" data-en="Twenty years of travel, one host">20년의 여행, 한 사람의 호스트</h2>
-  <div class="host">
-    <div class="portrait">D</div>
-    <div>
-      <p data-ko="안녕하세요, 호스트 동수입니다. 공학 박사과정 연구자이자 AI 기업 대표로, 유럽·미국·일본을 여행하며 '좋은 숙소'가 여행의 절반임을 배웠습니다. 그 기준 그대로 이 공간을 준비했습니다."
-         data-en="Hello, I'm Dongsoo — a doctoral researcher in engineering and CEO of an AI company. Traveling through Europe, the US, and Japan taught me that a good stay is half the journey. This space is built to that standard."
-         style="color:#4c3a2e;font-size:15px;margin:0 0 16px">
-         안녕하세요, 호스트 동수입니다. 공학 박사과정 연구자이자 AI 기업 대표로, 유럽·미국·일본을 여행하며 '좋은 숙소'가 여행의 절반임을 배웠습니다. 그 기준 그대로 이 공간을 준비했습니다.</p>
-      <ul>
-        <li data-ko="스마트도시공학 박사과정 · 도시·공간 데이터 연구자" data-en="PhD candidate in Smart City Engineering">스마트도시공학 박사과정 · 도시·공간 데이터 연구자</li>
-        <li data-ko="대치동에서 교육업을 함께 운영 — 이 동네를 누구보다 잘 압니다" data-en="Runs an education business in Daechi — knows the neighborhood inside out">대치동에서 교육업을 함께 운영 — 이 동네를 누구보다 잘 압니다</li>
-        <li data-ko="영어 소통 가능 · 체크인부터 맛집 추천까지 직접 응대" data-en="Fluent English support, from check-in to local tips">영어 소통 가능 · 체크인부터 맛집 추천까지 직접 응대</li>
-      </ul>
-    </div>
-  </div>
-</section>
+    <section class="neighborhood" id="neighborhood"><div class="shell neighborhood-grid">
+      <div class="map-card" aria-label="Stylized map showing Daechi connections"><div class="map-grid"></div><div class="route route-a"></div><div class="route route-b"></div><span class="map-dot dot-home"><b>D</b><em>DAECHI STAY</em></span><span class="map-dot dot-coex"><i></i>COEX</span><span class="map-dot dot-park"><i></i>SEONJEONGNEUNG</span><span class="map-river">HAN RIVER</span></div>
+      <div class="neighborhood-copy"><p class="eyebrow light" data-en="Daechi, connected" data-ko="연결되는 대치">Daechi, connected</p><h2 data-en="Local calm. All of Seoul within reach." data-ko="동네의 여유와 서울의 속도를 모두.">Local calm. All of Seoul within reach.</h2><p class="lead" data-en="Daechi is a lived-in Gangnam neighborhood with cafés, markets, parks, and quick connections across the city. COEX, Bongeunsa, and the royal tombs at Seonjeongneung are easy additions to your day." data-ko="대치동은 카페, 시장, 공원과 편리한 교통을 갖춘 강남의 주거 동네입니다. 코엑스, 봉은사, 선정릉도 하루 일정에 자연스럽게 더할 수 있습니다.">Daechi is a lived-in Gangnam neighborhood with cafés, markets, parks, and quick connections across the city. COEX, Bongeunsa, and the royal tombs at Seonjeongneung are easy additions to your day.</p>
+        <div class="transit-list"><div><span data-en="Line 3" data-ko="3호선">Line 3</span><strong data-en="Daechi Station area" data-ko="대치역 생활권">Daechi Station area</strong></div><div><span data-en="Suin–Bundang" data-ko="수인분당선">Suin–Bundang</span><strong data-en="Hanti Station area" data-ko="한티역 생활권">Hanti Station area</strong></div><div><span data-en="Airport" data-ko="공항">Airport</span><strong data-en="Simple transfer options" data-ko="편리한 환승 선택지">Simple transfer options</strong></div></div>
+      </div>
+    </div></section>
 
-<footer>
-  <div class="logo">STAY · DONGSOO</div>
-  <div class="biz">
-    주식회사 별의문 (Stargate Corporation) · 대표 정동수 · 사업자등록번호 848-86-03835<br>
-    서울특별시 강남구 대치동 · <a href="/">dongsoojung portal</a> · <a href="/refund/">환불규정 센터</a>
-  </div>
-</footer>
+    <section class="section shell rhythm"><p class="eyebrow" data-en="A day from Daechi" data-ko="대치동에서 보내는 하루">A day from Daechi</p><div class="timeline">
+      <article><time>08:00</time><span class="timeline-dot"></span><h3 data-en="Coffee like a local" data-ko="동네처럼 커피 한 잔">Coffee like a local</h3><p data-en="Start with a quiet neighborhood café and a walk through the residential streets." data-ko="조용한 카페와 주택가 산책으로 하루를 시작하세요.">Start with a quiet neighborhood café and a walk through the residential streets.</p></article>
+      <article><time>11:00</time><span class="timeline-dot"></span><h3 data-en="Design, culture, city" data-ko="디자인, 문화, 도시">Design, culture, city</h3><p data-en="Head toward COEX, Bongeunsa, or Seonjeongneung for an easy half day." data-ko="코엑스와 봉은사, 선정릉으로 여유로운 반나절을 보내세요.">Head toward COEX, Bongeunsa, or Seonjeongneung for an easy half day.</p></article>
+      <article><time>19:00</time><span class="timeline-dot"></span><h3 data-en="Come home to Gangnam" data-ko="강남의 집으로">Come home to Gangnam</h3><p data-en="Pick up dinner nearby, reset, and plan tomorrow at your own pace." data-ko="근처에서 저녁을 준비하고 내일을 천천히 계획하세요.">Pick up dinner nearby, reset, and plan tomorrow at your own pace.</p></article>
+    </div></section>
 
-</div>
-<script>
-(function(){
-  var ko=true;
-  document.getElementById('langBtn').addEventListener('click',function(){
-    ko=!ko; this.textContent=ko?'EN':'KO';
-    document.documentElement.lang=ko?'ko':'en';
-    document.querySelectorAll('[data-ko]').forEach(function(el){
-      el.innerHTML=ko?el.getAttribute('data-ko'):el.getAttribute('data-en');
-    });
-  });
-  var io=new IntersectionObserver(function(es){
-    es.forEach(function(e){ if(e.isIntersecting){e.target.classList.add('on');io.unobserve(e.target);} });
-  },{threshold:.12});
-  document.querySelectorAll('.reveal').forEach(function(el){io.observe(el)});
-})();
-</script>
+    <section class="essentials" id="essentials"><div class="shell essentials-grid"><div><p class="eyebrow" data-en="Good to know" data-ko="이용 안내">Good to know</p><h2 data-en="The essentials, made simple." data-ko="꼭 필요한 정보만 간단하게.">The essentials, made simple.</h2></div><dl>
+      <div><dt data-en="Check-in" data-ko="체크인">Check-in</dt><dd data-en="Self check-in · details shared before arrival" data-ko="셀프 체크인 · 도착 전 상세 안내">Self check-in · details shared before arrival</dd></div><div><dt data-en="Languages" data-ko="언어">Languages</dt><dd>English · 한국어</dd></div><div><dt data-en="Best for" data-ko="추천">Best for</dt><dd data-en="Solo travelers · couples · business stays" data-ko="1인 여행 · 커플 · 비즈니스 체류">Solo travelers · couples · business stays</dd></div><div><dt data-en="Support" data-ko="지원">Support</dt><dd data-en="Direct local help from your Seoul host" data-ko="서울 호스트의 직접적인 현지 도움">Direct local help from your Seoul host</dd></div>
+    </dl></div></section>
+
+    <section class="inquiry" id="inquiry"><div class="shell inquiry-grid"><div><p class="eyebrow light" data-en="Plan your stay" data-ko="여행 계획">Plan your stay</p><h2 data-en="Tell us when Seoul is calling." data-ko="서울에 오는 날짜를 알려주세요.">Tell us when Seoul is calling.</h2><p data-en="Share your dates and group size. Your email app will open with a ready-to-send availability request." data-ko="일정과 인원을 남기면 이메일 앱에 예약 가능일 문의가 자동으로 작성됩니다.">Share your dates and group size. Your email app will open with a ready-to-send availability request.</p></div>
+      <form id="inquiryForm"><div class="form-row"><label><span data-en="Arrival" data-ko="도착일">Arrival</span><input name="arrival" type="date" required></label><label><span data-en="Departure" data-ko="출발일">Departure</span><input name="departure" type="date" required></label></div><label><span data-en="Guests" data-ko="인원">Guests</span><select name="guests"><option>1</option><option selected>2</option><option>3</option><option>4</option></select></label><label><span data-en="Anything we should know?" data-ko="호스트에게 전할 내용">Anything we should know?</span><textarea name="message" rows="3"></textarea></label><button class="button submit" type="submit"><span data-en="Request availability" data-ko="예약 가능일 문의">Request availability</span><span aria-hidden="true">↗</span></button><small data-en="No payment is taken here. Your stay is confirmed directly by the host." data-ko="이 페이지에서는 결제되지 않으며, 호스트 확인 후 예약이 확정됩니다.">No payment is taken here. Your stay is confirmed directly by the host.</small></form>
+    </div></section>
+  </main>
+
+  <footer class="footer shell"><a class="brand" href="#top"><span class="brand-mark">D</span><span>DAECHI STAY</span></a><p data-en="A slower place to land in a fast-moving city." data-ko="빠르게 움직이는 도시에서, 천천히 도착하는 곳.">A slower place to land in a fast-moving city.</p><p>Daechi-dong · Gangnam · Seoul</p></footer>
+
+  <script>
+    (()=>{
+      let language="en";
+      const toggle=document.getElementById("langToggle");
+      toggle.addEventListener("click",()=>{
+        language=language==="en"?"ko":"en";
+        document.documentElement.lang=language;
+        toggle.textContent=language==="en"?"한국어":"EN";
+        toggle.setAttribute("aria-label",language==="en"?"한국어로 보기":"View in English");
+        document.querySelectorAll("[data-en]").forEach(el=>{el.innerHTML=el.dataset[language]});
+      });
+      document.getElementById("inquiryForm").addEventListener("submit",event=>{
+        event.preventDefault();
+        const data=new FormData(event.currentTarget);
+        const subject=encodeURIComponent("Daechi Stay availability request");
+        const body=encodeURIComponent(`Arrival: ${data.get("arrival")}\nDeparture: ${data.get("departure")}\nGuests: ${data.get("guests")}\n\n${data.get("message")||""}`);
+        location.href=`mailto:stay@stargateedu.co.kr?subject=${subject}&body=${body}`;
+      });
+    })();
+  </script>
 </body>
 </html>
