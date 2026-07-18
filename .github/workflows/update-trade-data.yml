@@ -40,13 +40,11 @@ jobs:
             curl -sS --max-time 30 -A "$3" -o /tmp/body -w "HTTP %{http_code}\n" "$2" || true
             head -c 300 /tmp/body; echo; echo
           }
-          probe "nationtrade / custom UA"   "$NT" "stargateedu-dashboard"
-          probe "nationtrade / browser UA"  "$NT" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/126 Safari/537.36"
-          probe "nationtrade / curl UA"     "$NT" "curl/8.5.0"
-          probe "nationtrade / param 없음"  "https://apis.data.go.kr/1220000/nationtrade/getNationtradeList" "Mozilla/5.0"
-          probe "nationtrade / http 평문"   "http://apis.data.go.kr/1220000/nationtrade/getNationtradeList?serviceKey=$KEY&strtYymm=202606&endYymm=202606" "Mozilla/5.0"
-          probe "타 서비스(관광 B551011) 같은 키" "https://apis.data.go.kr/B551011/EdrcntTourismStatsService/getEdrcntTourismStatsList?serviceKey=$KEY&YM=202605&NAT_CD=112&ED_CD=E" "stargateedu-dashboard"
-          probe "관세청 환율(1220000 다른 오퍼레이션)" "https://apis.data.go.kr/1220000/retrieveTrifFxrtInfoQry/retrieveTrifFxrtInfo?serviceKey=$KEY&aplyBgnDt=20260601&weekFxrtTpcd=2" "stargateedu-dashboard"
+          probe "nationtrade(국가별) / 사용자 키" "$NT" "stargateedu-dashboard"
+          probe "nationtrade(국가별) / 고의로 틀린 키" "https://apis.data.go.kr/1220000/nationtrade/getNationtradeList?serviceKey=WRONGKEY1234567890&strtYymm=202606&endYymm=202606" "stargateedu-dashboard"
+          probe "totaltrade(수출입실적 총괄) / 사용자 키" "https://apis.data.go.kr/1220000/totaltrade/getTotaltradeList?serviceKey=$KEY&strtYymm=202606&endYymm=202606" "stargateedu-dashboard"
+          probe "Itemtrade(품목별) / 사용자 키" "https://apis.data.go.kr/1220000/Itemtrade/getItemtradeList?serviceKey=$KEY&strtYymm=202606&endYymm=202606&hsSgn=8542" "stargateedu-dashboard"
+          probe "nitemtrade(신성질별) / 사용자 키" "https://apis.data.go.kr/1220000/nitemtrade/getNitemtradeList?serviceKey=$KEY&strtYymm=202606&endYymm=202606" "stargateedu-dashboard"
 
       - name: Fetch nation trade stats (관세청)
         env:
