@@ -51,4 +51,5 @@ jobs:
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add $FILES
           git commit -m "chore(exchange-rate): 월간 환율·금리·물가 데이터 자동 갱신"
+          git pull --rebase origin main
           git push
