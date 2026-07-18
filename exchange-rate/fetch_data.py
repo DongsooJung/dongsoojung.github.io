@@ -26,6 +26,10 @@ from pathlib import Path
 
 API_URL = "https://www.koreaexim.go.kr/site/program/financial/exchangeJSON"
 
+# 국내(서울) 리전 프록시 URL이 있으면 이를 경유한다. 해외 IP 차단(302) 우회용.
+# 예: https://exim-proxy-kr.vercel.app/api/exim  (인증키는 x-exim-authkey 헤더로 전달)
+EXIM_PROXY_BASE = os.environ.get("EXIM_PROXY_BASE", "").strip()
+
 # 추적 통화 — key는 data.json에서 쓰는 식별자, unit은 API의 cur_unit 값.
 # per는 표시 기준 단위(엔은 100엔당 고시), label은 한글명.
 CURRENCIES = {
@@ -72,15 +76,20 @@ def parse_rate(raw):
 
 def fetch_day(service_key, d):
     """해당 날짜의 AP01 응답(리스트)을 반환한다. 비영업일/미공표면 []."""
-    params = urllib.parse.urlencode({
-        "authkey": service_key,
-        "searchdate": d.strftime("%Y%m%d"),
-        "data": "AP01",
-    })
-    req = urllib.request.Request(
-        f"{API_URL}?{params}",
-        headers={"User-Agent": "stargateedu-dashboard"},
-    )
+    headers = {"User-Agent": "stargateedu-dashboard"}
+    if EXIM_PROXY_BASE:
+        # 프록시 경유: 인증키는 헤더로 전달(로그 노출 최소화), 프록시가 koreaexim에 중계
+        params = urllib.parse.urlencode({"searchdate": d.strftime("%Y%m%d"), "data": "AP01"})
+        headers["x-exim-authkey"] = service_key
+        url = f"{EXIM_PROXY_BASE}?{params}"
+    else:
+        params = urllib.parse.urlencode({
+            "authkey": service_key,
+            "searchdate": d.strftime("%Y%m%d"),
+            "data": "AP01",
+        })
+        url = f"{API_URL}?{params}"
+    req = urllib.request.Request(url, headers=headers)
     global USE_INSECURE_TLS
     try:
         context = insecure_tls_context() if USE_INSECURE_TLS else None
