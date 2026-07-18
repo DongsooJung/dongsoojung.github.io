@@ -1,0 +1,44 @@
+name: Update trade data
+
+on:
+  schedule:
+    # 매월 16일 03:00 UTC (12:00 KST) — 관세청이 매월 15일경 전월 자료를 현행화한 직후
+    - cron: '0 3 16 * *'
+  workflow_dispatch:
+    inputs:
+      api_key:
+        description: '(선택) data.go.kr 인증키(Decoding) — CUSTOMS_API_KEY 시크릿이 없을 때 1회용으로 사용. 공개 저장소에서는 실행 기록에 남으므로 사용 후 키 재발급 권장'
+        required: false
+        default: ''
+
+permissions:
+  contents: write
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Mask one-off key in logs
+        run: |
+          [ -n "${{ inputs.api_key }}" ] && echo "::add-mask::${{ inputs.api_key }}"
+          true
+
+      - name: Fetch nation trade stats (관세청)
+        env:
+          CUSTOMS_API_KEY: ${{ secrets.CUSTOMS_API_KEY || inputs.api_key }}
+        run: python3 trade/fetch_data.py
+
+      - name: Commit updated data
+        run: |
+          FILES="trade/data.json trade/fallback-data.js"
+          if git diff --quiet $FILES; then
+            echo "변경 없음 — 커밋 생략"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add $FILES
+          git commit -m "chore(trade): 국가별 수출입실적 데이터 자동 갱신"
+          git push

@@ -1,0 +1,776 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>무역 월별 대시보드 — 국가별 수출입실적 | Stargate</title>
+<meta name="description" content="관세청 국가별 수출입실적(GW) 공공데이터 API를 월별로 집계한 인터랙티브 무역 대시보드. 수출(FOB)·수입(CIF)·무역수지 시계열과 국가별 순위·상세 추이. 매월 자동 갱신.">
+<meta property="og:title" content="무역 월별 대시보드 — 국가별 수출입실적">
+<meta property="og:description" content="관세청 국가별 수출입실적 API 기반 월별 수출·수입·무역수지 인터랙티브 대시보드 · 공공데이터 자동 갱신">
+<meta property="og:url" content="https://www.stargateedu.co.kr/trade/">
+<meta property="og:type" content="website">
+<link rel="canonical" href="https://www.stargateedu.co.kr/trade/">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%9A%A2%3C/text%3E%3C/svg%3E">
+<style>
+:root{
+  --bg:#0a0d14; --panel:#0f172a; --panel2:#111c33;
+  --line:#1f2a44; --line2:#263452;
+  --ink:#e6edf3; --sub:#9aa7b8; --muted:#6b7a90;
+  --acc:#7aa2ff;
+  --exp:#5c88ec; --imp:#cf7c29; --pos:#22a385; --neg:#b74a52;
+  --grid:#1c2740; --baseline:#2b3a5e;
+  --grad1:linear-gradient(135deg,#4f7fff 0%,#5c88ec 55%,#2fb99a 100%);
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{
+  font-family:"Pretendard","Apple SD Gothic Neo","Segoe UI",system-ui,-apple-system,sans-serif;
+  color:var(--ink); background:var(--bg); line-height:1.55;
+  -webkit-font-smoothing:antialiased;
+  background-image:
+    radial-gradient(1000px 600px at 10% -10%, rgba(79,127,255,.15), transparent 60%),
+    radial-gradient(800px 500px at 100% 0%, rgba(34,163,133,.10), transparent 60%);
+  background-attachment:fixed;
+}
+a{color:var(--acc);text-decoration:none} a:hover{text-decoration:underline}
+.wrap{max-width:1180px;margin:0 auto;padding:24px 22px 90px}
+
+.nav{display:flex;justify-content:space-between;align-items:center;padding:6px 2px 0;font-size:13px}
+.nav .brand{display:flex;align-items:center;gap:10px;font-weight:700}
+.nav .brand .logo{width:30px;height:30px;border-radius:8px;background:var(--grad1);
+  display:inline-flex;align-items:center;justify-content:center;color:#0b1020;font-weight:900;font-size:14px}
+.nav .links a{color:var(--sub)} .nav .links a:hover{color:var(--ink)}
+
+header.head{padding:34px 0 6px}
+header.head h1{margin:0;font-size:30px;letter-spacing:-.4px;line-height:1.2}
+header.head h1 .grad{background:var(--grad1);-webkit-background-clip:text;background-clip:text;color:transparent}
+header.head .lead{color:var(--sub);font-size:14px;margin:8px 0 0;max-width:74ch}
+.meta-line{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px;font-size:12px;color:var(--muted)}
+.meta-line .pill{border:1px solid var(--line);border-radius:999px;padding:4px 11px;background:rgba(15,23,42,.6)}
+.meta-line .pill b{color:var(--sub);font-weight:600}
+.pill.warn{border-color:#5a4a22;color:#d9b45c}
+
+.banner{border:1px solid #5a4a22;background:rgba(90,74,34,.14);color:#d9b45c;border-radius:12px;
+  padding:11px 15px;font-size:12.5px;margin-top:16px;line-height:1.6}
+.banner b{color:#ecc879}
+
+.controls{display:flex;gap:10px;flex-wrap:wrap;margin:22px 0 16px;align-items:center}
+.fgroup{display:flex;gap:6px;align-items:center;flex-wrap:wrap;border:1px solid var(--line);
+  border-radius:12px;padding:6px 9px;background:rgba(15,23,42,.55)}
+.fgroup .lbl{font-size:11.5px;color:var(--muted);margin:0 3px 0 4px}
+.fbtn{border:1px solid transparent;background:transparent;color:var(--sub);border-radius:8px;
+  padding:6px 11px;font-size:12.5px;cursor:pointer;font-family:inherit;display:inline-flex;align-items:center;gap:7px}
+.fbtn:hover{color:var(--ink)}
+.fbtn[aria-pressed="true"]{background:var(--panel2);border-color:var(--line2);color:var(--ink);font-weight:650}
+.fbtn .dot{width:9px;height:9px;border-radius:50%;display:inline-block}
+select.sel{border:1px solid var(--line2);background:var(--panel);color:var(--ink);border-radius:9px;
+  padding:7px 10px;font-size:12.5px;font-family:inherit;cursor:pointer}
+select.sel:focus{outline:2px solid var(--acc);outline-offset:1px}
+
+.hero-title{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;margin:26px 0 12px}
+.hero-title h2{margin:0;font-size:19px;letter-spacing:-.2px}
+.hero-title .cap{color:var(--muted);font-size:12px}
+
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.tile{border:1px solid var(--line);background:linear-gradient(180deg,var(--panel2),var(--panel));
+  border-radius:14px;padding:16px 18px 14px;min-width:0}
+.tile.feature{border-color:#31456f;box-shadow:0 0 0 1px rgba(92,136,236,.25), 0 10px 30px rgba(10,16,32,.5)}
+.tile .lb{font-size:12.5px;color:var(--sub);display:flex;align-items:center;gap:7px}
+.tile .lb .key{width:12px;height:3px;border-radius:2px;display:inline-block}
+.tile .val{font-size:26px;font-weight:750;letter-spacing:-.4px;margin:5px 0 1px;white-space:nowrap}
+.tile .val small{font-size:12.5px;font-weight:500;color:var(--muted);margin-left:3px}
+.tile .delta{font-size:12px;color:var(--muted);white-space:nowrap}
+.tile .delta b{font-weight:700}
+.tile .delta .up{color:var(--pos)} .tile .delta .down{color:var(--neg)}
+.tile .spark{margin-top:9px;display:block;width:100%;height:30px}
+
+.cards{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:14px}
+.card{border:1px solid var(--line);background:linear-gradient(180deg,var(--panel2),var(--panel));
+  border-radius:16px;padding:18px 18px 14px;min-width:0}
+.card.full{grid-column:1 / -1}
+.card h2{margin:0;font-size:15.5px;letter-spacing:-.2px}
+.card .cap{color:var(--muted);font-size:12px;margin:3px 0 12px}
+.chart-box{position:relative;height:360px}
+.card.half .chart-box{height:300px}
+.chart-box.tall{height:420px}
+
+.thead-row{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+.dl{border:1px solid var(--line2);background:var(--panel);color:var(--sub);border-radius:9px;
+  padding:7px 13px;font-size:12.5px;cursor:pointer;font-family:inherit}
+.dl:hover{color:var(--ink);border-color:var(--acc)}
+.tbl-scroll{overflow-x:auto;margin-top:12px}
+table{width:100%;border-collapse:collapse;font-size:13px;min-width:640px}
+th,td{padding:8px 12px;text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+th{color:var(--muted);font-weight:600;font-size:12px;border-bottom:1px solid var(--line2)}
+th:first-child,td:first-child{text-align:left}
+td{border-bottom:1px solid var(--line);color:var(--ink)}
+td .mom{font-size:11.5px;margin-left:6px;color:var(--muted)}
+td.pos{color:var(--pos)} td.neg{color:var(--neg)}
+tr:hover td{background:rgba(122,162,255,.05)}
+tr.hl td{background:rgba(92,136,236,.10);font-weight:650}
+
+.note{border:1px solid var(--line);background:var(--panel);border-radius:14px;padding:16px 18px;
+  margin-top:14px;font-size:12.5px;color:var(--sub);line-height:1.7}
+.note b{color:var(--ink)}
+.note code{background:var(--panel2);border:1px solid var(--line);border-radius:5px;padding:1px 5px;font-size:11.5px}
+
+footer{margin-top:56px;padding-top:20px;border-top:1px solid var(--line);color:var(--muted);
+  font-size:12px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px}
+
+@media (max-width:960px){ .kpis{grid-template-columns:repeat(2,1fr)} .cards{grid-template-columns:1fr} }
+@media (max-width:520px){
+  .kpis{grid-template-columns:1fr}
+  header.head h1{font-size:24px}
+  .chart-box{height:300px} .chart-box.tall{height:380px}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <nav class="nav">
+    <div class="brand"><span class="logo">D</span><span>DONGSOO.<span style="color:var(--acc)">PORTAL</span></span></div>
+    <div class="links"><a href="../">← 포털로 돌아가기</a></div>
+  </nav>
+
+  <header class="head">
+    <h1>무역 월별 대시보드 <span class="grad">국가별 수출입실적</span></h1>
+    <p class="lead">관세청
+      <a href="https://www.data.go.kr/data/15101612/openapi.do" target="_blank" rel="noopener">국가별 수출입실적(GW) Open API</a>를
+      월 단위로 집계한 인터랙티브 무역통계입니다. 수출은 최종목적국·FOB 신고금액, 수입은 원산국·CIF 과세가격 기준이며,
+      매월 15일경 신고 정정·취하를 반영해 전월 자료가 현행화됩니다. GitHub Actions가 매월 자동 갱신합니다.</p>
+    <div class="meta-line">
+      <span class="pill">데이터 기준 <b id="metaUpdated">—</b></span>
+      <span class="pill">커버리지 <b id="metaRange">—</b></span>
+      <span class="pill">단위 <b>미화 달러 · 수출 FOB / 수입 CIF</b></span>
+      <span class="pill" id="metaMode">—</span>
+    </div>
+    <div class="banner" id="seedBanner" hidden>
+      <b>지금 보이는 값은 시드(예시) 데이터입니다.</b> 공표 통계 기반 근사치와 추세 연장 예시치로 구성했으며,
+      저장소에 <code>CUSTOMS_API_KEY</code>(공공데이터포털 인증키)를 등록하면 다음 자동 실행 때 관세청 API 실측치로 전량 대체됩니다.
+      설정 방법은 하단 안내 참고.
+    </div>
+  </header>
+
+  <div class="controls">
+    <div class="fgroup" role="group" aria-label="기간 필터">
+      <span class="lbl">기간</span>
+      <button class="fbtn" data-range="all" aria-pressed="true">전체</button>
+      <button class="fbtn" data-range="last12" aria-pressed="false">최근 12개월</button>
+      <button class="fbtn" data-range="2024" aria-pressed="false">2024년</button>
+      <button class="fbtn" data-range="2025" aria-pressed="false">2025년</button>
+      <button class="fbtn" data-range="2026" aria-pressed="false">2026년</button>
+    </div>
+  </div>
+
+  <div class="hero-title">
+    <h2 id="heroTitle">최신 월 실적</h2>
+    <span class="cap">최신 공표 월 기준 · 전월비(MoM) / 전년동월비(YoY)</span>
+  </div>
+  <section class="kpis" id="kpis" aria-label="최신 월 핵심 지표"></section>
+
+  <section class="cards">
+    <div class="card full">
+      <h2>월별 수출 · 수입 추이</h2>
+      <div class="cap">월별 총액(억 달러) · 수출 FOB — 수입 CIF · 음영은 최신 공표 월</div>
+      <div class="chart-box"><canvas id="trendChart" role="img" aria-label="월별 수출과 수입 총액 추이 선 그래프. 동일한 값은 아래 월별 상세 표에서 확인할 수 있습니다."></canvas></div>
+    </div>
+
+    <div class="card full">
+      <h2>월별 무역수지</h2>
+      <div class="cap">수출 − 수입(억 달러) · 청록 = 흑자 · 적색 = 적자 · 0 기준선</div>
+      <div class="chart-box" style="height:280px"><canvas id="balChart" role="img" aria-label="월별 무역수지 막대 그래프. 0을 기준으로 흑자는 위, 적자는 아래로 표시됩니다."></canvas></div>
+    </div>
+
+    <div class="sec-divider" style="grid-column:1/-1;margin-top:12px;display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+      <h2 style="font-size:19px;margin:0">국가별 실적</h2>
+      <div class="fgroup" role="group" aria-label="기준 월 선택">
+        <span class="lbl">기준 월</span>
+        <select class="sel" id="monthSel" aria-label="기준 월"></select>
+      </div>
+      <div class="fgroup" role="group" aria-label="지표 선택">
+        <span class="lbl">지표</span>
+        <button class="fbtn" data-metric="exp" aria-pressed="true"><span class="dot" style="background:var(--exp)"></span>수출</button>
+        <button class="fbtn" data-metric="imp" aria-pressed="false"><span class="dot" style="background:var(--imp)"></span>수입</button>
+        <button class="fbtn" data-metric="bal" aria-pressed="false"><span class="dot" style="background:var(--pos)"></span>무역수지</button>
+      </div>
+    </div>
+
+    <div class="card full">
+      <h2 id="rankTitle">국가별 TOP 10</h2>
+      <div class="cap" id="rankCap">—</div>
+      <div class="chart-box tall"><canvas id="rankChart" role="img" aria-label="선택한 월과 지표 기준 국가별 상위 10개국 가로 막대 그래프. 동일한 값은 아래 국가별 상세 표에서 확인할 수 있습니다."></canvas></div>
+    </div>
+
+    <div class="card full">
+      <div class="thead-row">
+        <div>
+          <h2>국가 상세 추이</h2>
+          <div class="cap" style="margin-bottom:0" id="ctyCap">선택 국가의 월별 수출·수입(선)과 무역수지(막대) · 억 달러</div>
+        </div>
+        <select class="sel" id="ctySel" aria-label="국가 선택"></select>
+      </div>
+      <div class="chart-box" style="margin-top:10px"><canvas id="ctyChart" role="img" aria-label="선택 국가의 월별 수출·수입 추이 선 그래프와 무역수지 막대 그래프"></canvas></div>
+    </div>
+
+    <div class="card full">
+      <div class="thead-row">
+        <div>
+          <h2 id="ctyTblTitle">국가별 상세 데이터</h2>
+          <div class="cap" style="margin-bottom:0">기준 월의 국가별 수출·수입·무역수지와 수출 비중</div>
+        </div>
+        <button class="dl" id="csvCtyBtn">⬇ CSV 다운로드</button>
+      </div>
+      <div class="tbl-scroll">
+        <table id="ctyTable" aria-label="기준 월 국가별 수출입 실적 표">
+          <thead><tr><th>순위</th><th>국가</th><th>수출(억$)</th><th>수입(억$)</th><th>무역수지(억$)</th><th>수출 비중</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="card full">
+      <div class="thead-row">
+        <div>
+          <h2>월별 상세 데이터</h2>
+          <div class="cap" style="margin-bottom:0">월별 총계 · 괄호는 수출 전월비 · 하이라이트는 최신 공표 월</div>
+        </div>
+        <button class="dl" id="csvBtn">⬇ CSV 다운로드</button>
+      </div>
+      <div class="tbl-scroll">
+        <table id="dataTable" aria-label="월별 수출입 총계 표">
+          <thead><tr><th>월</th><th>수출(억$)</th><th>수입(억$)</th><th>무역수지(억$)</th><th>수출 YoY</th><th>비고</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <div class="note">
+    <b>데이터 출처 및 기준</b> — 공공데이터포털
+    <a href="https://www.data.go.kr/data/15101612/openapi.do" target="_blank" rel="noopener">관세청_국가별 수출입실적(GW)</a>
+    (<code>apis.data.go.kr/1220000/nationtrade/getNationtradeList</code>)를 월 단위로 호출해 집계합니다.
+    국가분류는 무역통계부호의 ISO 국가코드 기준이며, <b>수출은 최종목적국 · FOB 신고미화금액</b>,
+    <b>수입은 원산국 · CIF 과세가격미화금액</b>입니다. 관세청은 매월 15일경 신고 정정·취하 등 변경내역을 반영해
+    전월까지 자료를 현행화하므로, 자동 갱신은 매월 16일 실행되고 최근 3개월은 항상 재수집합니다.
+    국가별 내역은 수출액 기준 상위 40개국을 저장합니다.
+    <br><br>
+    <b>API 키 설정</b> — 공공데이터포털에서 활용신청 후 발급받은 <b>Decoding 인증키</b>를 저장소
+    Settings → Secrets and variables → Actions에 <code>CUSTOMS_API_KEY</code>로 등록하면
+    GitHub Actions(<code>update-trade-data.yml</code>)가 매월 <code>data.json</code>을 갱신합니다.
+    시크릿 없이 1회 실행하려면 워크플로 수동 실행(workflow_dispatch)의 <code>api_key</code> 입력을 사용하세요.
+    자세한 내용은 <a href="https://github.com/DongsooJung/dongsoojung.github.io/tree/main/trade" target="_blank" rel="noopener">README</a> 참고.
+  </div>
+
+  <footer>
+    <span>© 2026 Dongsoo Jung · Stargate Corporation</span>
+    <span>
+      <a href="https://www.stargateedu.co.kr/">stargateedu.co.kr</a> ·
+      <a href="https://www.data.go.kr/data/15101612/openapi.do" target="_blank" rel="noopener">공공데이터포털 API</a> ·
+      <a href="https://tradedata.go.kr/" target="_blank" rel="noopener">관세청 수출입무역통계</a>
+    </span>
+  </footer>
+
+</div>
+
+<script src="./chart.umd.min.js"></script>
+<script src="./fallback-data.js"></script>
+<script>
+'use strict';
+
+/* ─── 상수 ─────────────────────────────────────────── */
+const SURFACE='#111c33';
+const INK='#e6edf3', SUB='#9aa7b8', MUTED='#6b7a90', GRID='#1c2740', BASELINE='#2b3a5e';
+const EXP='#5c88ec', IMP='#cf7c29', POS='#22a385', NEG='#b74a52';
+const FONT = { family:'"Pretendard","Apple SD Gothic Neo","Segoe UI",system-ui,sans-serif' };
+
+const toB = m => m/100;                                   // 백만 달러 → 억 달러
+const fmt = (n,d=1) => n==null ? '—' : n.toLocaleString('ko-KR',{minimumFractionDigits:d,maximumFractionDigits:d});
+const fmtSign = (n,d=1) => n==null ? '—' : `${n>=0?'+':'−'}${fmt(Math.abs(n),d)}`;
+const fmtPct = n => n==null ? '—' : `${n>=0?'+':''}${n.toLocaleString('ko-KR',{maximumFractionDigits:1})}%`;
+const ymLabel = ym => { const [y,m]=ym.split('-'); return `${y.slice(2)}.${+m}`; };
+const ymKorean = ym => { const [y,m]=ym.split('-'); return `${y}년 ${+m}월`; };
+const hexA = (hex,a) => { const n=parseInt(hex.slice(1),16); return `rgba(${n>>16&255},${n>>8&255},${n&255},${a})`; };
+
+Chart.defaults.font.family = FONT.family;
+Chart.defaults.font.size = 11.5;
+Chart.defaults.color = MUTED;
+
+/* 크로스헤어 (선형 차트) */
+const crosshair = {
+  id:'crosshair',
+  afterDraw(chart){
+    const t = chart.tooltip;
+    if (!t || !t.getActiveElements().length) return;
+    const x = t.getActiveElements()[0].element.x;
+    const {top,bottom} = chart.chartArea, ctx = chart.ctx;
+    ctx.save();
+    ctx.strokeStyle = BASELINE; ctx.lineWidth = 1;
+    ctx.beginPath(); ctx.moveTo(x, top); ctx.lineTo(x, bottom); ctx.stroke();
+    ctx.restore();
+  }
+};
+
+/* 최신 공표 월 음영 밴드 */
+const latestBand = {
+  id:'latestBand',
+  beforeDatasetsDraw(chart){
+    const ymIdx = chart.$latestIdx;
+    if (ymIdx==null || ymIdx<0) return;
+    const xs = chart.scales.x, {top,bottom} = chart.chartArea, ctx = chart.ctx;
+    const c = xs.getPixelForValue(ymIdx);
+    const half = Math.max(10, (xs.getPixelForValue(1)-xs.getPixelForValue(0))/2 || 12);
+    ctx.save();
+    ctx.fillStyle = 'rgba(122,162,255,.07)';
+    ctx.fillRect(c-half, top, half*2, bottom-top);
+    ctx.strokeStyle = 'rgba(122,162,255,.28)'; ctx.setLineDash([4,4]); ctx.lineWidth = 1;
+    ctx.beginPath(); ctx.moveTo(c, top); ctx.lineTo(c, bottom); ctx.stroke();
+    ctx.restore();
+  }
+};
+
+/* 라인 끝 직접 레이블 */
+const endLabels = {
+  id:'endLabels',
+  afterDatasetsDraw(chart){
+    if (!chart.$endLabels) return;
+    const ctx = chart.ctx, placed = [];
+    chart.data.datasets.forEach((ds,i)=>{
+      if (ds.$noLabel || !chart.isDatasetVisible(i)) return;
+      const meta = chart.getDatasetMeta(i);
+      let last = null;
+      for (let p = meta.data.length-1; p>=0; p--){ if (ds.data[p]!=null){ last = meta.data[p]; break; } }
+      if (!last) return;
+      let y = last.y;
+      for (const py of placed){ if (Math.abs(y-py) < 14) y = py + (y>=py?14:-14); }
+      placed.push(y);
+      ctx.save();
+      ctx.font = `600 11px ${FONT.family}`;
+      ctx.fillStyle = ds.$labelColor || ds.borderColor;
+      ctx.textAlign = 'left'; ctx.textBaseline = 'middle';
+      ctx.fillText(ds.$labelText || ds.label, Math.min(last.x+8, chart.chartArea.right+6), y);
+      ctx.restore();
+    });
+  }
+};
+
+/* 가로 막대 값 레이블 */
+const barValueLabels = {
+  id:'barValueLabels',
+  afterDatasetsDraw(chart){
+    if (!chart.$barLabels) return;
+    const ctx = chart.ctx;
+    const meta = chart.getDatasetMeta(0);
+    meta.data.forEach((bar,i)=>{
+      const v = chart.data.datasets[0].data[i];
+      if (v==null) return;
+      ctx.save();
+      ctx.font = `650 11px ${FONT.family}`;
+      ctx.fillStyle = SUB; ctx.textBaseline = 'middle';
+      if (v >= 0){ ctx.textAlign='left';  ctx.fillText(fmt(v), bar.x+6, bar.y); }
+      else       { ctx.textAlign='right'; ctx.fillText(fmtSign(v), bar.x-6, bar.y); }
+      ctx.restore();
+    });
+  }
+};
+
+const tooltipStyle = {
+  backgroundColor:'#0d1526', borderColor:BASELINE, borderWidth:1,
+  titleColor:SUB, bodyColor:INK, padding:11, cornerRadius:9,
+  titleFont:{size:11.5, weight:'600'}, bodyFont:{size:12.5, weight:'650'},
+  boxWidth:12, boxHeight:2, boxPadding:5, usePointStyle:false, displayColors:true,
+};
+const legendStyle = {
+  position:'top', align:'end',
+  labels:{ color:SUB, boxWidth:14, boxHeight:2, padding:16, font:{size:12} }
+};
+const METRIC = {
+  exp:{key:'exp', label:'수출', color:EXP},
+  imp:{key:'imp', label:'수입', color:IMP},
+  bal:{key:'bal', label:'무역수지', color:POS},
+};
+
+/* ─── 상태 & 데이터 ─────────────────────────────────── */
+let DATA = null;
+let state = { range:'all', metric:'exp', month:null, cty:null };
+let charts = {};
+
+async function loadData(){
+  try{
+    const r = await fetch('./data.json', {cache:'no-cache'});
+    if (!r.ok) throw new Error(r.status);
+    return await r.json();
+  }catch(e){
+    console.warn('data.json 로드 실패 — 내장 폴백 사용', e);
+    return window.FALLBACK_DATA;
+  }
+}
+
+const cRows = ym => (DATA.countries && DATA.countries[ym]) || [];
+function filteredSeries(){
+  const s = DATA.series;
+  if (state.range === 'all') return s;
+  if (state.range === 'last12') return s.slice(-12);
+  return s.filter(r => r.ym.startsWith(state.range));
+}
+function momOf(ym, key){
+  const idx = DATA.series.findIndex(r=>r.ym===ym);
+  if (idx <= 0) return null;
+  const cur = DATA.series[idx][key], prev = DATA.series[idx-1][key];
+  if (cur==null || prev==null || prev===0) return null;
+  return (cur/prev - 1) * 100;
+}
+function yoyOf(ym, key){
+  const prev = DATA.series.find(r => r.ym === `${+ym.slice(0,4)-1}${ym.slice(4)}`);
+  const cur  = DATA.series.find(r => r.ym === ym);
+  if (!prev || !cur || !prev[key]) return null;
+  return (cur[key]/prev[key] - 1) * 100;
+}
+
+/* ─── KPI 타일 ─────────────────────────────────────── */
+function sparkSVG(values, color){
+  const pts = values.filter(v=>v!=null);
+  if (pts.length < 2) return '';
+  const min = Math.min(...pts), max = Math.max(...pts), span = (max-min)||1;
+  const W=140, H=30, P=3;
+  const step = (W-2*P)/(values.length-1);
+  let d='', lastX=0, lastY=0;
+  values.forEach((v,i)=>{
+    if (v==null) return;
+    const x = P + i*step, y = H-P - (v-min)/span*(H-2*P);
+    d += (d?' L':'M') + x.toFixed(1) + ' ' + y.toFixed(1);
+    lastX=x; lastY=y;
+  });
+  return `<svg class="spark" viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" aria-hidden="true">
+    <path d="${d}" fill="none" stroke="${MUTED}" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+    <circle cx="${lastX}" cy="${lastY}" r="3" fill="${color}" stroke="${SURFACE}" stroke-width="1.5"/></svg>`;
+}
+
+function renderKPIs(){
+  const el = document.getElementById('kpis');
+  const latest = DATA.latestYm;
+  const row = DATA.series.find(r=>r.ym===latest);
+  el.innerHTML = '';
+  if (!row) return;
+  document.getElementById('heroTitle').textContent = `${ymKorean(latest)} 실적 하이라이트`;
+
+  const idx = DATA.series.findIndex(r=>r.ym===latest);
+  const spark = k => DATA.series.slice(Math.max(0,idx-11), idx+1).map(r=>toB(r[k]));
+  const yr = latest.slice(0,4);
+  const ytd = DATA.series.filter(r=>r.ym.startsWith(yr) && r.ym<=latest);
+  const ytdExp = ytd.reduce((a,r)=>a+r.exp,0), ytdBal = ytd.reduce((a,r)=>a+r.bal,0);
+
+  const deltaTag = (v,suffix) => v==null ? `<span>${suffix} —</span>`
+    : `<b class="${v>=0?'up':'down'}">${v>=0?'▲':'▼'} ${Math.abs(v).toLocaleString('ko-KR',{maximumFractionDigits:1})}%</b> <span>${suffix}</span>`;
+
+  const tiles = [
+    {lb:'수출 (FOB)', keyColor:EXP, val:`${fmt(toB(row.exp))}<small>억 달러</small>`,
+     delta:`${deltaTag(momOf(latest,'exp'),'전월비')} · ${deltaTag(yoyOf(latest,'exp'),'전년동월비')}`, spark:spark('exp'), color:EXP},
+    {lb:'수입 (CIF)', keyColor:IMP, val:`${fmt(toB(row.imp))}<small>억 달러</small>`,
+     delta:`${deltaTag(momOf(latest,'imp'),'전월비')} · ${deltaTag(yoyOf(latest,'imp'),'전년동월비')}`, spark:spark('imp'), color:IMP},
+    {lb:'무역수지', keyColor:row.bal>=0?POS:NEG, val:`${fmtSign(toB(row.bal))}<small>억 달러</small>`,
+     valColor:row.bal>=0?POS:NEG,
+     delta:`<span>${row.bal>=0?'흑자':'적자'} · ${ymKorean(latest)}</span>`, spark:spark('bal'), color:row.bal>=0?POS:NEG},
+    {lb:`${yr}년 누계 (1월~)`, keyColor:MUTED, val:`${fmt(toB(ytdExp),0)}<small>억$ 수출</small>`,
+     delta:`<span>누계 무역수지 <b style="color:${ytdBal>=0?POS:NEG}">${fmtSign(toB(ytdBal),0)}억$</b></span>`, spark:null},
+  ];
+  tiles.forEach((t,i)=>{
+    const d = document.createElement('div');
+    d.className = 'tile' + (i===0 ? ' feature' : '');
+    d.innerHTML = `<div class="lb"><span class="key" style="background:${t.keyColor}"></span>${t.lb}</div>
+      <div class="val"${t.valColor?` style="color:${t.valColor}"`:''}>${t.val}</div>
+      <div class="delta">${t.delta}</div>
+      ${t.spark ? sparkSVG(t.spark, t.color) : ''}`;
+    el.appendChild(d);
+  });
+}
+
+/* ─── 차트: 수출·수입 추이 ──────────────────────────── */
+function renderTrend(){
+  const rows = filteredSeries();
+  const labels = rows.map(r=>ymLabel(r.ym));
+  const latestIdx = rows.findIndex(r=>r.ym===DATA.latestYm);
+  const lastPt = i => rows.length-1===i ? 4 : 0;
+  const cfg = {
+    type:'line',
+    data:{ labels, datasets:[
+      { label:'수출', data:rows.map(r=>toB(r.exp)), borderColor:EXP, backgroundColor:EXP,
+        borderWidth:2, pointRadius:rows.map((_,i)=>lastPt(i)), pointHoverRadius:5,
+        pointBackgroundColor:EXP, pointBorderColor:SURFACE, pointBorderWidth:1.5, tension:.25 },
+      { label:'수입', data:rows.map(r=>toB(r.imp)), borderColor:IMP, backgroundColor:IMP,
+        borderWidth:2, pointRadius:rows.map((_,i)=>lastPt(i)), pointHoverRadius:5,
+        pointBackgroundColor:IMP, pointBorderColor:SURFACE, pointBorderWidth:1.5, tension:.25 },
+    ]},
+    options:{
+      responsive:true, maintainAspectRatio:false, interaction:{mode:'index', intersect:false},
+      layout:{padding:{right:44}},
+      plugins:{
+        legend:legendStyle,
+        tooltip:{...tooltipStyle, callbacks:{
+          title: items => ymKorean(rows[items[0].dataIndex].ym),
+          label: c => ` ${c.dataset.label} ${fmt(c.parsed.y)}억 달러`,
+          afterBody: items => { const r = rows[items[0].dataIndex];
+            return `무역수지 ${fmtSign(toB(r.bal))}억 달러${r.approx?' · 예시치':''}`; },
+        }},
+      },
+      scales:{
+        x:{ grid:{display:false}, border:{color:BASELINE}, ticks:{maxRotation:0, autoSkipPadding:14} },
+        y:{ grid:{color:GRID}, border:{display:false},
+            title:{display:true, text:'억 달러', color:MUTED, font:{size:11}},
+            ticks:{callback:v=>fmt(v,0)} },
+      },
+    },
+    plugins:[crosshair, latestBand, endLabels],
+  };
+  if (charts.trend) charts.trend.destroy();
+  charts.trend = new Chart(document.getElementById('trendChart'), cfg);
+  charts.trend.$latestIdx = latestIdx;
+  charts.trend.$endLabels = true;
+}
+
+/* ─── 차트: 무역수지 ───────────────────────────────── */
+function renderBal(){
+  const rows = filteredSeries();
+  const latestIdx = rows.findIndex(r=>r.ym===DATA.latestYm);
+  const cfg = {
+    type:'bar',
+    data:{ labels:rows.map(r=>ymLabel(r.ym)), datasets:[{
+      label:'무역수지', data:rows.map(r=>toB(r.bal)),
+      backgroundColor:rows.map(r=>hexA(r.bal>=0?POS:NEG, r.ym===DATA.latestYm?1:.78)),
+      borderColor:rows.map(r=>r.bal>=0?POS:NEG),
+      borderWidth:rows.map(r=>r.ym===DATA.latestYm?1.5:0),
+      borderRadius:4, borderSkipped:'start', maxBarThickness:26, categoryPercentage:.72,
+    }]},
+    options:{
+      responsive:true, maintainAspectRatio:false,
+      plugins:{
+        legend:{display:false},
+        tooltip:{...tooltipStyle, callbacks:{
+          title: items => ymKorean(rows[items[0].dataIndex].ym),
+          label: c => ` ${c.parsed.y>=0?'흑자':'적자'} ${fmt(Math.abs(c.parsed.y))}억 달러`,
+        }},
+      },
+      scales:{
+        x:{ grid:{display:false}, border:{color:BASELINE}, ticks:{maxRotation:0, autoSkipPadding:14} },
+        y:{ grid:{color:GRID}, border:{display:false},
+            title:{display:true, text:'억 달러', color:MUTED, font:{size:11}},
+            ticks:{callback:v=>fmtSign(v,0)} },
+      },
+    },
+    plugins:[latestBand],
+  };
+  if (charts.bal) charts.bal.destroy();
+  charts.bal = new Chart(document.getElementById('balChart'), cfg);
+  charts.bal.$latestIdx = latestIdx;
+}
+
+/* ─── 차트: 국가별 TOP 10 ──────────────────────────── */
+function renderRank(){
+  const ym = state.month, mt = METRIC[state.metric];
+  const rows = cRows(ym).slice();
+  const total = DATA.series.find(r=>r.ym===ym);
+  let picked;
+  if (state.metric === 'bal'){
+    rows.sort((a,b)=>b.bal-a.bal);
+    const top = rows.slice(0,5), bottom = rows.slice(-5).filter(r=>!top.includes(r));
+    picked = [...top, ...bottom];
+    document.getElementById('rankTitle').textContent = `무역수지 상위 5 · 하위 5 — ${ymKorean(ym)}`;
+    document.getElementById('rankCap').textContent = '흑자 상위 5개국과 적자 상위 5개국 · 억 달러';
+  } else {
+    rows.sort((a,b)=>b[mt.key]-a[mt.key]);
+    picked = rows.slice(0,10);
+    document.getElementById('rankTitle').textContent = `${mt.label} TOP 10 — ${ymKorean(ym)}`;
+    document.getElementById('rankCap').textContent =
+      `${mt.label}액 상위 10개국 · 막대 끝 숫자는 금액(억 달러) · 전체 대비 비중은 툴팁과 아래 표 참고`;
+  }
+  const cfg = {
+    type:'bar',
+    data:{ labels:picked.map(r=>r.name), datasets:[{
+      label:mt.label,
+      data:picked.map(r=>toB(r[mt.key])),
+      backgroundColor:picked.map(r=> state.metric==='bal' ? hexA(r.bal>=0?POS:NEG,.85) : hexA(mt.color,.85)),
+      borderRadius:4, borderSkipped:'start', maxBarThickness:22, categoryPercentage:.74,
+    }]},
+    options:{
+      indexAxis:'y', responsive:true, maintainAspectRatio:false,
+      layout:{padding:{right:56, left:4}},
+      plugins:{
+        legend:{display:false},
+        tooltip:{...tooltipStyle, callbacks:{
+          title: items => `${items[0].label} · ${ymKorean(ym)}`,
+          label: c => {
+            const r = picked[c.dataIndex];
+            const lines = [` 수출 ${fmt(toB(r.exp))}억$ · 수입 ${fmt(toB(r.imp))}억$ · 수지 ${fmtSign(toB(r.bal))}억$`];
+            if (total && state.metric!=='bal' && total[mt.key])
+              lines.push(` 전체 ${mt.label} 대비 ${(r[mt.key]/total[mt.key]*100).toFixed(1)}%`);
+            return lines;
+          },
+        }},
+      },
+      scales:{
+        x:{ grid:{color:GRID}, border:{display:false},
+            title:{display:true, text:'억 달러', color:MUTED, font:{size:11}},
+            ticks:{callback:v=>state.metric==='bal'?fmtSign(v,0):fmt(v,0)} },
+        y:{ grid:{display:false}, border:{color:BASELINE}, ticks:{color:SUB, font:{size:12}} },
+      },
+    },
+    plugins:[barValueLabels],
+  };
+  if (charts.rank) charts.rank.destroy();
+  charts.rank = new Chart(document.getElementById('rankChart'), cfg);
+  charts.rank.$barLabels = true;
+}
+
+/* ─── 차트: 국가 상세 추이 ─────────────────────────── */
+function renderCty(){
+  const cd = state.cty;
+  const rows = filteredSeries();
+  const pts = rows.map(r => (cRows(r.ym).find(c=>c.cd===cd)) || null);
+  const name = (pts.find(Boolean)||{}).name || cd;
+  document.getElementById('ctyCap').textContent =
+    `${name} — 월별 수출·수입(선)과 무역수지(막대) · 억 달러`;
+  const cfg = {
+    data:{ labels:rows.map(r=>ymLabel(r.ym)), datasets:[
+      { type:'line', label:'수출', data:pts.map(p=>p?toB(p.exp):null), borderColor:EXP, backgroundColor:EXP,
+        borderWidth:2, pointRadius:0, pointHoverRadius:5, tension:.25 },
+      { type:'line', label:'수입', data:pts.map(p=>p?toB(p.imp):null), borderColor:IMP, backgroundColor:IMP,
+        borderWidth:2, pointRadius:0, pointHoverRadius:5, tension:.25 },
+      { type:'bar', label:'무역수지', data:pts.map(p=>p?toB(p.bal):null),
+        backgroundColor:pts.map(p=>hexA(p&&p.bal>=0?POS:NEG,.5)),
+        borderRadius:3, borderSkipped:'start', maxBarThickness:16, categoryPercentage:.6 },
+    ]},
+    options:{
+      responsive:true, maintainAspectRatio:false, interaction:{mode:'index', intersect:false},
+      layout:{padding:{right:44}},
+      plugins:{
+        legend:legendStyle,
+        tooltip:{...tooltipStyle, callbacks:{
+          title: items => `${name} · ${ymKorean(rows[items[0].dataIndex].ym)}`,
+          label: c => ` ${c.dataset.label} ${c.dataset.type==='bar'?fmtSign(c.parsed.y):fmt(c.parsed.y)}억 달러`,
+        }},
+      },
+      scales:{
+        x:{ grid:{display:false}, border:{color:BASELINE}, ticks:{maxRotation:0, autoSkipPadding:14} },
+        y:{ grid:{color:GRID}, border:{display:false},
+            title:{display:true, text:'억 달러', color:MUTED, font:{size:11}},
+            ticks:{callback:v=>fmt(v,0)} },
+      },
+    },
+    plugins:[crosshair, endLabels],
+  };
+  if (charts.cty) charts.cty.destroy();
+  charts.cty = new Chart(document.getElementById('ctyChart'), cfg);
+  charts.cty.$endLabels = true;
+}
+
+/* ─── 표 ───────────────────────────────────────────── */
+function renderCtyTable(){
+  const ym = state.month;
+  const rows = cRows(ym).slice().sort((a,b)=>b.exp-a.exp);
+  const total = DATA.series.find(r=>r.ym===ym);
+  document.getElementById('ctyTblTitle').textContent = `국가별 상세 데이터 — ${ymKorean(ym)}`;
+  const tb = document.querySelector('#ctyTable tbody');
+  tb.innerHTML = rows.map((r,i)=>`<tr>
+    <td>${i+1}</td><td>${r.name} <span class="mom">${r.cd}</span></td>
+    <td>${fmt(toB(r.exp))}</td><td>${fmt(toB(r.imp))}</td>
+    <td class="${r.bal>=0?'pos':'neg'}">${fmtSign(toB(r.bal))}</td>
+    <td>${total && total.exp ? (r.exp/total.exp*100).toFixed(1)+'%' : '—'}</td>
+  </tr>`).join('');
+}
+
+function renderTable(){
+  const rows = filteredSeries();
+  const tb = document.querySelector('#dataTable tbody');
+  tb.innerHTML = rows.slice().reverse().map(r=>{
+    const mom = momOf(r.ym,'exp'), yoy = yoyOf(r.ym,'exp');
+    return `<tr class="${r.ym===DATA.latestYm?'hl':''}">
+      <td>${ymKorean(r.ym)}</td>
+      <td>${fmt(toB(r.exp))}<span class="mom ${mom>=0?'pos':'neg'}">${mom==null?'':`(${fmtPct(mom)})`}</span></td>
+      <td>${fmt(toB(r.imp))}</td>
+      <td class="${r.bal>=0?'pos':'neg'}">${fmtSign(toB(r.bal))}</td>
+      <td>${fmtPct(yoy)}</td>
+      <td style="color:var(--muted)">${r.approx?'예시치':'관세청 공표'}</td>
+    </tr>`;
+  }).join('');
+}
+
+/* ─── CSV ──────────────────────────────────────────── */
+function downloadCSV(name, header, rows){
+  const csv = '﻿' + [header, ...rows].map(r=>r.join(',')).join('\n');
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob([csv], {type:'text/csv;charset=utf-8'}));
+  a.download = name; a.click(); URL.revokeObjectURL(a.href);
+}
+document.getElementById('csvBtn').addEventListener('click', ()=>{
+  downloadCSV('trade-monthly.csv',
+    ['월','수출(백만달러)','수입(백만달러)','무역수지(백만달러)','구분'],
+    DATA.series.map(r=>[r.ym, r.exp, r.imp, r.bal, r.approx?'예시치':'공표']));
+});
+document.getElementById('csvCtyBtn').addEventListener('click', ()=>{
+  const ym = state.month;
+  downloadCSV(`trade-countries-${ym}.csv`,
+    ['국가코드','국가','수출(백만달러)','수입(백만달러)','무역수지(백만달러)'],
+    cRows(ym).map(r=>[r.cd, r.name, r.exp, r.imp, r.bal]));
+});
+
+/* ─── 컨트롤 ───────────────────────────────────────── */
+document.querySelectorAll('[data-range]').forEach(btn=>{
+  btn.addEventListener('click', ()=>{
+    state.range = btn.dataset.range;
+    document.querySelectorAll('[data-range]').forEach(b=>b.setAttribute('aria-pressed', String(b===btn)));
+    renderTrend(); renderBal(); renderCty(); renderTable();
+  });
+});
+document.querySelectorAll('[data-metric]').forEach(btn=>{
+  btn.addEventListener('click', ()=>{
+    state.metric = btn.dataset.metric;
+    document.querySelectorAll('[data-metric]').forEach(b=>b.setAttribute('aria-pressed', String(b===btn)));
+    renderRank();
+  });
+});
+document.getElementById('monthSel').addEventListener('change', e=>{
+  state.month = e.target.value;
+  renderRank(); renderCtyTable();
+});
+document.getElementById('ctySel').addEventListener('change', e=>{
+  state.cty = e.target.value;
+  renderCty();
+});
+
+/* ─── 초기화 ───────────────────────────────────────── */
+(async function init(){
+  DATA = await loadData();
+  if (!DATA){ document.getElementById('kpis').innerHTML = '<div class="tile"><div class="lb">데이터를 불러오지 못했습니다</div></div>'; return; }
+  DATA.latestYm = DATA.latestYm || DATA.series[DATA.series.length-1].ym;
+  state.month = DATA.latestYm;
+
+  document.getElementById('metaUpdated').textContent = DATA.updatedAt || '—';
+  document.getElementById('metaRange').textContent =
+    `${ymKorean(DATA.series[0].ym)} ~ ${ymKorean(DATA.series[DATA.series.length-1].ym)} (${DATA.series.length}개월)`;
+  const mode = document.getElementById('metaMode');
+  if (DATA.sourceMode === 'api'){
+    mode.textContent = '관세청 API 자동 갱신';
+  } else {
+    mode.textContent = '시드(예시) 데이터 — API 키 등록 시 자동 대체';
+    mode.classList.add('warn');
+    document.getElementById('seedBanner').hidden = false;
+  }
+
+  // 기준 월 셀렉트 — 국가 데이터가 있는 월만, 최신이 위
+  const monthSel = document.getElementById('monthSel');
+  const yms = Object.keys(DATA.countries||{}).sort().reverse();
+  monthSel.innerHTML = yms.map(ym=>
+    `<option value="${ym}"${ym===state.month?' selected':''}>${ymKorean(ym)}${ym===DATA.latestYm?' (최신)':''}</option>`).join('');
+
+  // 국가 셀렉트 — 최신 월 수출액 순
+  const ctySel = document.getElementById('ctySel');
+  const latestRows = cRows(DATA.latestYm).slice().sort((a,b)=>b.exp-a.exp);
+  state.cty = latestRows.length ? latestRows[0].cd : null;
+  ctySel.innerHTML = latestRows.map(r=>
+    `<option value="${r.cd}"${r.cd===state.cty?' selected':''}>${r.name}</option>`).join('');
+
+  renderKPIs(); renderTrend(); renderBal(); renderRank(); renderCty(); renderCtyTable(); renderTable();
+})();
+</script>
+</body>
+</html>
