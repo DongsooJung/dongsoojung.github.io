@@ -1,0 +1,251 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Dongsoo Jung — Stargate Corp / AI Lab</title>
+<meta name="description" content="Dongsoo Jung's portal: CEO of Stargate Corporation, KOI instructor, and an archive of AI, urban analytics, and education projects.">
+<meta name="author" content="Dongsoo Jung">
+<meta property="og:title" content="Dongsoo Jung — Stargate Corp">
+<meta property="og:description" content="AI company CEO · KOI instructor · Project portal">
+<meta property="og:url" content="https://stargateedu.co.kr/en/">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="canonical" href="https://stargateedu.co.kr/en/">
+<link rel="alternate" hreflang="ko" href="https://stargateedu.co.kr/">
+<link rel="alternate" hreflang="en" href="https://stargateedu.co.kr/en/">
+<link rel="alternate" hreflang="x-default" href="https://stargateedu.co.kr/">
+<meta name="theme-color" content="#0b1020">
+<link rel="manifest" href="/manifest.webmanifest">
+<link rel="icon" href="/assets/icons/favicon.ico" sizes="48x48">
+<link rel="icon" href="/assets/icons/icon-192.png" type="image/png" sizes="192x192">
+<link rel="apple-touch-icon" href="/assets/icons/apple-touch-icon.png">
+<style>
+:root{
+  --bg:#0a0d14;--bg2:#111827;--panel:#0f172a;--panel2:#111c33;
+  --line:#1f2a44;--line2:#263452;--ink:#e6edf3;--sub:#9aa7b8;--muted:#6b7a90;
+  --acc:#7aa2ff;--acc2:#4f7fff;--warm:#ffb86b;--good:#63d6a0;
+  --grad1:linear-gradient(135deg,#4f7fff 0%,#7aa2ff 55%,#b388ff 100%);
+  --grad2:linear-gradient(135deg,#0b1220 0%,#101a33 100%);
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{
+  font-family:"Inter","Segoe UI",system-ui,-apple-system,sans-serif;color:var(--ink);background:var(--bg);line-height:1.55;
+  -webkit-font-smoothing:antialiased;
+  background-image:radial-gradient(1000px 600px at 10% -10%,rgba(79,127,255,.18),transparent 60%),radial-gradient(800px 500px at 100% 0%,rgba(179,136,255,.12),transparent 60%),radial-gradient(700px 500px at 50% 120%,rgba(99,214,160,.08),transparent 60%);
+  background-attachment:fixed;zoom:1.4;
+}
+a{color:var(--acc);text-decoration:none}a:hover{text-decoration:underline}
+.wrap{max-width:1180px;margin:0 auto;padding:28px 22px 120px}
+.nav{display:flex;justify-content:space-between;align-items:center;padding:8px 4px 0}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;letter-spacing:.2px}
+.brand .logo{width:34px;height:34px;border-radius:9px;background:var(--grad1);display:inline-flex;align-items:center;justify-content:center;color:#0b1020;font-weight:900}
+.brand .name{font-size:15px}.brand .tag{font-size:11px;color:var(--muted);margin-left:6px}
+.nav .links{display:flex;gap:14px;font-size:13px;color:var(--sub)}
+.nav .links a{color:var(--sub)}.nav .links a:hover{color:var(--ink)}
+.hero{padding:62px 0 36px;display:grid;grid-template-columns:1.25fr .9fr;gap:40px;align-items:center}
+.hero h1{margin:0;font-size:44px;line-height:1.1;letter-spacing:-.5px;background:var(--grad1);-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero p.lead{color:var(--sub);font-size:17px;margin:14px 0 18px;max-width:60ch}
+.hero .chips{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0 22px}
+.chip{border:1px solid var(--line2);background:var(--panel);color:var(--sub);padding:6px 10px;border-radius:999px;font-size:12px;text-decoration:none;transition:border-color .18s ease,color .18s ease,transform .18s ease}
+.chip:hover,.chip:focus-visible{border-color:var(--acc);color:var(--ink);transform:translateY(-1px);text-decoration:none}
+.hero .cta{display:flex;gap:10px;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:11px 16px;border-radius:12px;font-weight:600;border:1px solid transparent;font-size:14px;transition:.15s transform,.15s box-shadow}
+.btn.primary{background:var(--grad1);color:#0b1020;box-shadow:0 6px 24px rgba(79,127,255,.35)}
+.btn.primary:hover{transform:translateY(-1px);text-decoration:none}
+.btn.ghost{background:var(--panel);color:var(--ink);border-color:var(--line2)}
+.btn.ghost:hover{border-color:var(--acc);text-decoration:none}
+.card{border:1px solid var(--line);background:linear-gradient(180deg,var(--panel2),var(--panel));border-radius:18px;padding:22px;box-shadow:0 20px 60px rgba(0,0,0,.35)}
+.id{display:flex;gap:16px;align-items:center;margin-bottom:14px}
+.id .avatar{width:62px;height:62px;border-radius:50%;background:var(--grad1);display:flex;align-items:center;justify-content:center;color:#0b1020;font-weight:900;font-size:22px}
+.id .meta .nm{font-size:18px;font-weight:700}.id .meta .ro{font-size:12px;color:var(--sub)}
+.kv{display:grid;grid-template-columns:90px 1fr;row-gap:8px;column-gap:10px;font-size:13px}
+.kv dt{color:var(--muted)}.kv dd{margin:0;color:var(--ink)}
+.sec{margin-top:56px}.sec h2{font-size:22px;letter-spacing:-.2px;margin:0 0 4px}.sec .desc{color:var(--sub);font-size:13px;margin-bottom:18px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:16px}
+.proj{position:relative;border:1px solid var(--line);border-radius:16px;overflow:hidden;background:linear-gradient(180deg,var(--panel2),var(--panel));transition:.18s all;display:flex;flex-direction:column}
+.proj:hover{border-color:var(--acc);transform:translateY(-2px);box-shadow:0 14px 40px rgba(79,127,255,.18)}
+.proj .thumb{aspect-ratio:16/10;background:var(--grad2) center/cover;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
+.proj .thumb .emo{font-size:44px;filter:drop-shadow(0 6px 18px rgba(79,127,255,.45))}
+.proj .thumb.hero-shot{background:radial-gradient(400px 180px at 20% 20%,rgba(79,127,255,.55),transparent 60%),radial-gradient(300px 180px at 80% 80%,rgba(179,136,255,.45),transparent 60%),linear-gradient(135deg,#0d1426,#121b33)}
+.proj .body{padding:14px 16px 16px;display:flex;flex-direction:column;gap:6px;flex:1}
+.proj .ttl{font-weight:700;font-size:15px}.proj .sub{color:var(--sub);font-size:12.5px;line-height:1.5}
+.proj .row{display:flex;justify-content:space-between;align-items:center;margin-top:10px}
+.proj .tag{font-size:11px;color:var(--muted);border:1px solid var(--line2);padding:3px 8px;border-radius:999px}
+.proj .go{color:var(--acc);font-size:12.5px;font-weight:600}
+.proj .badge{position:absolute;top:10px;left:10px;background:var(--grad1);color:#0b1020;font-size:10.5px;font-weight:800;padding:4px 8px;border-radius:999px;letter-spacing:.3px}
+.about{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.box{border:1px solid var(--line);background:var(--panel);border-radius:14px;padding:18px}.box h3{margin:0 0 8px;font-size:15px}.box ul{margin:0;padding-left:18px;color:var(--sub);font-size:13px;line-height:1.7}
+footer{margin-top:72px;padding-top:22px;border-top:1px solid var(--line);color:var(--muted);font-size:12px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px}
+@media(max-width:820px){.hero{grid-template-columns:1fr;padding:32px 0 10px}.hero h1{font-size:34px}.about{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <nav class="nav">
+    <div class="brand">
+      <span class="logo">D</span>
+      <span class="name">DONGSOO.<span style="color:var(--acc)">PORTAL</span></span>
+      <span class="tag">v1 · 2026</span>
+    </div>
+    <div class="links">
+      <a href="#projects">Projects</a>
+      <a href="#about">About</a>
+      <a href="/" lang="ko">한국어</a>
+      <a href="https://github.com/DongsooJung" target="_blank" rel="noopener">GitHub ↗</a>
+    </div>
+  </nav>
+
+  <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:14px">
+    <a class="chip" style="border-color:#63d6a0;color:#b8e7d0;background:rgba(99,214,160,.08);font-family:'JetBrains Mono',monospace" href="https://git.stargateedu.co.kr/" target="_blank" rel="noopener">⚙ GitHub</a>
+    <a class="chip" style="border-color:#c4a265;color:#e7cf9a;background:rgba(196,162,101,.08);font-family:'JetBrains Mono',monospace" href="https://blog.stargateedu.co.kr/" target="_blank" rel="noopener">✍ Blog</a>
+    <a class="chip" style="border-color:#ffb86b;color:#ffd9a8;background:rgba(255,184,107,.08);font-family:'JetBrains Mono',monospace" href="https://shop.stargateedu.co.kr/" target="_blank" rel="noopener">🛒 Shop</a>
+  </div>
+
+  <section class="hero">
+    <div>
+      <h1>AI · Research · Education<br>in one place.</h1>
+      <p class="lead">CEO of Stargate Corporation and a KOI mathematics and informatics olympiad instructor in Daechi-dong. This portal connects my research, business, and education work in one public archive.</p>
+      <div class="chips">
+        <a class="chip" href="https://dongsoojung.github.io/stargate-ai-gallery/files/arch-002.html">AI Engineering</a>
+        <a class="chip" href="https://dongsoojung.github.io/stargate-ai-gallery/files/land-003.html">Urban Analytics</a>
+        <a class="chip" href="https://dongsoojung.github.io/stargate-ai-gallery/files/land-001.html">KOI · PS</a>
+        <a class="chip" href="https://dongsoojung.github.io/stargate-ai-gallery/files/land-002.html">Cybersecurity</a>
+        <a class="chip" href="https://dongsoojung.github.io/stargate-ai-gallery/files/arch-001.html#card-mcp">Docker · MCP</a>
+      </div>
+      <div class="cta">
+        <a class="btn primary" href="https://dongsoojung.github.io/stargate-ai-gallery/hub.html">🗂 Browse by category</a>
+        <a class="btn ghost" href="https://dongsoojung.github.io/stargate-ai-gallery/">▶ Open Stargate AI</a>
+      </div>
+    </div>
+    <aside class="card">
+      <div class="id">
+        <div class="avatar">DJ</div>
+        <div class="meta"><div class="nm">Dongsoo Jung</div><div class="ro">Stargate Corp CEO · AI Engineer</div></div>
+      </div>
+      <dl class="kv">
+        <dt>Experience</dt><dd>ROK Air Force Facilities Officer (Seoul Air Base PM) · Chief of Staff Award · Civil Engineer</dd>
+        <dt>Teaching</dt><dd>KOI mathematics and informatics olympiad, Daechi-dong</dd>
+        <dt>Interests</dt><dd>AI Agents · Spatial Econometrics · MCP · Cybersecurity</dd>
+      </dl>
+    </aside>
+  </section>
+
+  <section class="sec" id="projects">
+    <h2>Projects</h2>
+    <div class="desc">A collection of public work. Select a card to open the project.</div>
+    <div class="grid">
+      <a class="proj" href="/stargate-main/">
+        <div class="badge">CORP</div><div class="thumb" style="background:linear-gradient(135deg,#0B1A3A,#C9A24E)"><span class="emo">⭐</span></div>
+        <div class="body"><div class="ttl">STARGATE Headquarters · Stargate Corporation</div><div class="sub">Corporate home for AI, spatial econometrics, and urban engineering, with unified navigation across the company, blog, and shop.</div><div class="row"><span class="tag">Corp Site · 3-Site Nav</span><span class="go">Open →</span></div></div>
+      </a>
+      <a class="proj" href="https://blog.stargateedu.co.kr/">
+        <div class="badge">BLOG</div><div class="thumb" style="background:radial-gradient(320px 170px at 20% 25%,rgba(196,162,101,.45),transparent 60%),linear-gradient(135deg,#17130d,#352816)"><span class="emo">✍️</span></div>
+        <div class="body"><div class="ttl">STARGATE Corporate Blog</div><div class="sub">Research and project updates on AI, education, spatial data, classes, and learning materials.</div><div class="row"><span class="tag">Blog · blog.stargateedu.co.kr</span><span class="go">Read →</span></div></div>
+      </a>
+      <a class="proj" href="https://shop.stargateedu.co.kr/">
+        <div class="badge">SHOP · NEW</div><div class="thumb" style="background:url('/assets/shop-card.svg') center/cover"></div>
+        <div class="body"><div class="ttl">Stargate Edu Shop · Online School Store</div><div class="sub">KOI and KMO courses, textbooks, mock exams, and one-to-one coaching for informatics and mathematics olympiads.</div><div class="row"><span class="tag">Store · shop.stargateedu.co.kr</span><span class="go">Shop →</span></div></div>
+      </a>
+      <a class="proj" href="/math-library/">
+        <div class="thumb" style="background:linear-gradient(135deg,#0f1a2e,#1f3054)"><span class="emo">📚</span></div>
+        <div class="body"><div class="ttl">Mathematics Library · Tree Visualization</div><div class="sub">Explore 25 GB, 437 books, and 20 categories through interactive treemap, sunburst, collapsible-tree, and bar-chart views.</div><div class="row"><span class="tag">D3.js · Interactive</span><span class="go">Open →</span></div></div>
+      </a>
+      <a class="proj" href="https://dongsoojung.github.io/stargate-ai-gallery/hub.html">
+        <div class="badge">FEATURED</div><div class="thumb hero-shot"><span class="emo">🛰️</span></div>
+        <div class="body"><div class="ttl">Stargate AI Gallery</div><div class="sub">A public archive of 33 AI-generated landing pages, dashboards, and infographics. The category hub is the recommended starting point.</div><div class="row"><span class="tag">HTML · AI Gallery · Hub</span><span class="go">Open →</span></div></div>
+      </a>
+      <a class="proj" href="https://dongsoojung.github.io/stargate-ai-gallery/">
+        <div class="thumb" style="background:linear-gradient(135deg,#102042,#1c2f5c)"><span class="emo">🔍</span></div>
+        <div class="body"><div class="ttl">Gallery Search Index</div><div class="sub">Search and sort gallery items by file name, category, and original path.</div><div class="row"><span class="tag">Search · Index</span><span class="go">Open →</span></div></div>
+      </a>
+      <a class="proj" href="/publishing-market-2025/">
+        <div class="badge">NEW · DATA</div><div class="thumb" style="background:radial-gradient(320px 170px at 20% 25%,rgba(232,200,122,.4),transparent 60%),radial-gradient(300px 160px at 80% 80%,rgba(139,127,240,.45),transparent 60%),linear-gradient(135deg,#0c0f1c,#1a2138)"><span class="emo">📚</span></div>
+        <div class="body"><div class="ttl">2025 Korean Publishing Market Dashboard</div><div class="sub">Revenue, segment performance, and operating-margin comparisons based on DART filings from 72 publishers and Korea Publishers Association statistics.</div><div class="row"><span class="tag">DART · KPA · Chart.js</span><span class="go">Open →</span></div></div>
+      </a>
+      <a class="proj" href="/cities/">
+        <div class="badge">NEW</div><div class="thumb" style="background:radial-gradient(340px 170px at 22% 22%,rgba(79,127,255,.5),transparent 60%),radial-gradient(280px 160px at 82% 82%,rgba(46,196,182,.4),transparent 60%),linear-gradient(135deg,#0d1426,#121b33)"><span class="emo">🌏</span></div>
+        <div class="body"><div class="ttl">Places I Have Been · Interactive Map</div><div class="sub">An interactive Leaflet map of 84 cities, including 36 in Korea and cities across 25 countries, with regional markers and filters.</div><div class="row"><span class="tag">Leaflet · Interactive Map</span><span class="go">Open →</span></div></div>
+      </a>
+      <a class="proj" href="/ds-research-urban-analytics/">
+        <div class="badge">LIVE</div><div class="thumb" style="background:linear-gradient(135deg,#0a0e27,#1baf7a)"><span class="emo">🏙️</span></div>
+        <div class="body"><div class="ttl">Seoul Real-Time Urban Data Dashboard</div><div class="sub">Live population, congestion, weather, and commercial-area analysis for major Seoul hotspots using Seoul Open Data APIs.</div><div class="row"><span class="tag">Real-time · Python · Chart.js</span><span class="go">Open →</span></div></div>
+      </a>
+      <a class="proj" href="/court-auction/">
+        <div class="badge">NEW</div><div class="thumb" style="background:radial-gradient(360px 160px at 20% 20%,rgba(79,127,255,.5),transparent 60%),radial-gradient(280px 160px at 80% 80%,rgba(255,184,107,.4),transparent 60%),linear-gradient(135deg,#0d1426,#1a2540)"><span class="emo">🏛️</span></div>
+        <div class="body"><div class="ttl">Court Auction Real Estate Dashboard · 2026</div><div class="sub">Monthly residential and commercial auction listings with property-type, region, use, and appraisal-value filters.</div><div class="row"><span class="tag">Data · SVG Dashboard</span><span class="go">Open →</span></div></div>
+      </a>
+      <a class="proj" href="/kmong-research/">
+        <div class="thumb" style="background:linear-gradient(135deg,#1a2f5c,#2563EB)"><span class="emo">📊</span></div>
+        <div class="body"><div class="ttl">Kmong GMV &amp; Financial Research 2025</div><div class="sub">B2B market research covering Kmong's 2022–2025 gross merchandise value, revenue, and operating profit.</div><div class="row"><span class="tag">Market Research · Chart.js</span><span class="go">Open →</span></div></div>
+      </a>
+      <a class="proj" href="/cover_designs.html">
+        <div class="thumb" style="background:linear-gradient(135deg,#2a2015,#5c4223)"><span class="emo">📖</span></div>
+        <div class="body"><div class="ttl">Cover Designs — Storyboard</div><div class="sub">Six storybook and minimalist cover-layout design prototypes.</div><div class="row"><span class="tag">Design · Typography</span><span class="go">Open →</span></div></div>
+      </a>
+      <a class="proj" href="/koi-coach/" style="text-decoration:none;color:inherit">
+        <div class="thumb" style="background:linear-gradient(135deg,#1a2340,#243560)"><span class="emo">🧠</span></div>
+        <div class="body"><div class="ttl">KOI Coach</div><div class="sub">Curated problems, solutions, and student progress management for the Korean Olympiad in Informatics.</div><div class="row"><span class="tag">Education</span><span class="go">Open →</span></div></div>
+      </a>
+      <a class="proj" href="https://github.com/DongsooJung/smart-city-gis">
+        <div class="thumb" style="background:linear-gradient(135deg,#1b2640,#223054)"><span class="emo">🗺️</span></div>
+        <div class="body"><div class="ttl">Spatial Econometrics Lab · Urban Spatial Analysis</div><div class="sub">Research code for accessibility indices, walkability, land-use entropy, DID, spatial autocorrelation, and choropleth visualization.</div><div class="row"><span class="tag">Research · GitHub</span><span class="go">Open →</span></div></div>
+      </a>
+      <a class="proj" href="/stay/">
+        <div class="badge">STAY</div><div class="thumb" style="background:linear-gradient(135deg,#3b2a1c,#8B5A3C 60%,#C9A77B)"><span class="emo">🏠</span></div>
+        <div class="body"><div class="ttl">Stay with Dongsoo · Daechi-dong</div><div class="sub">A premium short-term stay in Daechi-dong, personally hosted by a doctoral-level host, with Airbnb and WeHome booking channels.</div><div class="row"><span class="tag">Airbnb · WeHome</span><span class="go">Open →</span></div></div>
+      </a>
+      <a class="proj" href="/exchange-rate/">
+        <div class="badge">NEW · API</div><div class="thumb" style="background:radial-gradient(360px 160px at 24% 24%,rgba(57,135,229,.45),transparent 60%),radial-gradient(280px 160px at 80% 80%,rgba(176,109,224,.32),transparent 60%),linear-gradient(135deg,#0c1730,#12224a)"><span class="emo">💱</span></div>
+        <div class="body"><div class="ttl">Monthly Macroeconomic Dashboard · FX, Rates &amp; Prices</div><div class="sub">Monthly exchange rates, Bank of Korea policy rates, and consumer prices with trend bands, relative strength, and month-over-month changes.</div><div class="row"><span class="tag">Chart.js · KEXIM · BOK API</span><span class="go">Open →</span></div></div>
+      </a>
+      <a class="proj" href="/trade/">
+        <div class="badge">NEW · API</div><div class="thumb" style="background:radial-gradient(360px 160px at 24% 24%,rgba(92,136,236,.45),transparent 60%),radial-gradient(280px 160px at 80% 80%,rgba(34,163,133,.32),transparent 60%),linear-gradient(135deg,#0c1730,#12224a)"><span class="emo">🚢</span></div>
+        <div class="body"><div class="ttl">Monthly Trade Dashboard · Exports &amp; Imports by Country</div><div class="sub">Interactive monthly exports, imports, trade balances, top-ten country rankings, and country-level trends using Korea Customs Service APIs.</div><div class="row"><span class="tag">Chart.js · Customs API</span><span class="go">Open →</span></div></div>
+      </a>
+      <a class="proj" href="/korea-tourism/">
+        <div class="badge">LIVE · API</div><div class="thumb" style="background:radial-gradient(360px 160px at 25% 25%,rgba(57,135,229,.45),transparent 60%),radial-gradient(280px 160px at 78% 78%,rgba(201,133,0,.30),transparent 60%),linear-gradient(135deg,#0c1730,#12224a)"><span class="emo">🧳</span></div>
+        <div class="body"><div class="ttl">Inbound Tourism Dashboard · China, Taiwan &amp; Vietnam</div><div class="sub">Monthly inbound visitor trends since 2024, updated through Korea Tourism Data Lab and public tourism-statistics APIs.</div><div class="row"><span class="tag">Chart.js · Public Data API</span><span class="go">Open →</span></div></div>
+      </a>
+      <a class="proj" href="/stargate-visual/">
+        <div class="badge">LIVE</div><div class="thumb" style="background:radial-gradient(360px 160px at 20% 20%,rgba(79,127,255,.5),transparent 60%),radial-gradient(280px 160px at 80% 80%,rgba(99,214,160,.38),transparent 60%),linear-gradient(135deg,#0d1426,#121b33)"><span class="emo">📊</span></div>
+        <div class="body"><div class="ttl">Stargate Visual Lab · Data Visualization</div><div class="sub">An archive of interactive spatial-econometrics and real-estate dashboards, including regional analysis and hedonic regression.</div><div class="row"><span class="tag">Recharts · D3 · Plotly</span><span class="go">Open →</span></div></div>
+      </a>
+    </div>
+  </section>
+
+  <section class="sec" id="about">
+    <h2>About</h2>
+    <div class="desc">A concise overview of my roles and interests. For collaboration, teaching, or consulting inquiries, please use the email below.</div>
+    <div class="about">
+      <div class="box">
+        <h3>What I do</h3>
+        <ul>
+          <li>CEO, Stargate Corporation — planning and developing AI and spatial-data products</li>
+          <li>KOI mathematics and informatics olympiad instructor in Daechi-dong — algorithms and mathematics education</li>
+          <li>Building multi-MCP workflows across Claude Desktop, Cowork, and Claude Code</li>
+        </ul>
+      </div>
+      <div class="box">
+        <h3>Contact &amp; links</h3>
+        <ul>
+          <li>Email: <a href="mailto:jds068888@gmail.com">jds068888@gmail.com</a></li>
+          <li>GitHub: <a href="https://github.com/DongsooJung" target="_blank" rel="noopener">github.com/DongsooJung</a></li>
+          <li>Gallery: <a href="https://dongsoojung.github.io/stargate-ai-gallery/">stargate-ai-gallery</a></li>
+          <li>Portal source: <a href="https://github.com/DongsooJung/dongsoojung.github.io" target="_blank" rel="noopener">github.com/DongsooJung/dongsoojung.github.io</a></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <span>© 2026 Dongsoo Jung · Stargate Corporation</span>
+    <span><a href="https://stargateedu.co.kr/" target="_blank" rel="noopener">stargateedu.co.kr</a> · <a href="https://github.com/DongsooJung" target="_blank" rel="noopener">GitHub</a> · <a href="mailto:jds068888@gmail.com">jds068888@gmail.com</a></span>
+  </footer>
+</div>
+<script>
+if('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('/sw.js'));}
+</script>
+</body>
+</html>
