@@ -78,6 +78,10 @@ BOK_API_KEY=<인증키>  python3 exchange-rate/fetch_bok.py
   최근 2개월(잠정치 보정)과 결측 월만 다시 집계해 API 호출 수를 아낍니다.
 - 각 월의 **영업일(월~금)** 만 조회하며, 통화별 `deal_bas_r`를 모아 `avg/min/max`를 계산합니다.
 - 비영업일·미공표일 응답(`[]`)은 건너뜁니다.
+- **해외 IP 차단(302) 대응**: 수출입은행 API는 GitHub Actions(미국) IP를 차단합니다.
+  전 영업일 순회 전 `probe_reachable()`로 도달 가능성을 확인해 차단 시 즉시 종료하며,
+  `EXIM_PROXY_BASE`(국내 서울 리전 프록시 URL)를 설정하면 그 프록시를 경유해 우회합니다.
+  프록시 배포·설정은 [`proxy/README.md`](./proxy/README.md) 참고.
 
 **금리·물가 (`fetch_bok.py`)**
 - 한국은행 기준금리(`722Y001`/`0101000`)와 소비자물가지수(`901Y009`/`0`)를 주기 `M`으로 조회합니다.
