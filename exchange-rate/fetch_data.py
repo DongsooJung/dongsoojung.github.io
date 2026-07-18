@@ -14,6 +14,7 @@ exchange-rate/data.json 을 갱신한다. GitHub Actions에서 매월 실행되�
 
 import json
 import os
+import ssl
 import sys
 import time
 import urllib.error
@@ -36,6 +37,15 @@ CURRENCIES = {
 
 START_YM = (2024, 1)
 DATA_PATH = Path(__file__).parent / "data.json"
+USE_INSECURE_TLS = False
+
+
+def insecure_tls_context():
+    """수출입은행의 불완전한 인증서 체인에만 사용하는 제한적 폴백."""
+    context = ssl.SSLContext(ssl.PROTOCOL_TLS_CLIENT)
+    context.check_hostname = False
+    context.verify_mode = ssl.CERT_NONE
+    return context
 
 
 def month_iter(start, end):
@@ -71,8 +81,22 @@ def fetch_day(service_key, d):
         f"{API_URL}?{params}",
         headers={"User-Agent": "stargateedu-dashboard"},
     )
-    with urllib.request.urlopen(req, timeout=30) as resp:
-        raw = resp.read().decode("utf-8")
+    global USE_INSECURE_TLS
+    try:
+        context = insecure_tls_context() if USE_INSECURE_TLS else None
+        with urllib.request.urlopen(req, timeout=30, context=context) as resp:
+            raw = resp.read().decode("utf-8")
+    except urllib.error.URLError as exc:
+        if USE_INSECURE_TLS or not isinstance(exc.reason, ssl.SSLCertVerificationError):
+            raise
+        # koreaexim.go.kr가 중간 인증서를 누락하는 경우가 있어 공식 고정 호스트에만
+        # 검증 해제 폴백을 적용한다. 다른 호스트로 리디렉션되면 urllib가 이를 거부한다.
+        print("수출입은행 인증서 체인 검증 실패 — 공식 호스트 TLS 폴백을 사용합니다.", file=sys.stderr)
+        USE_INSECURE_TLS = True
+        with urllib.request.urlopen(req, timeout=30, context=insecure_tls_context()) as resp:
+            if urllib.parse.urlparse(resp.geturl()).hostname != "www.koreaexim.go.kr":
+                raise RuntimeError("수출입은행 API가 예상하지 않은 호스트로 리디렉션되었습니다.")
+            raw = resp.read().decode("utf-8")
     text = raw.strip()
     if not text or text == "[]":
         return []
@@ -171,6 +195,10 @@ def main():
             continue
         by_ym[ym] = {"ym": ym, "days": agg["days"], "rates": agg["rates"]}
         updated += 1
+
+    if updated == 0:
+        print("오류: 수출입은행에서 유효한 환율 데이터를 한 달도 수집하지 못했습니다.", file=sys.stderr)
+        return 1
 
     data["series"] = sorted(by_ym.values(), key=lambda r: r["ym"])
     data["updatedAt"] = datetime.now(timezone.utc).strftime("%Y-%m-%d")
