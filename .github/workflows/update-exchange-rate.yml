@@ -10,6 +10,10 @@ on:
         description: '(선택) 수출입은행 인증키 — EXIM_API_KEY 시크릿이 없을 때 1회용으로 사용. 공개 저장소에서는 실행 기록에 남으므로 사용 후 키 재발급 권장'
         required: false
         default: ''
+      bok_api_key:
+        description: '(선택) 한국은행 ECOS 인증키 — BOK_API_KEY 시크릿이 없을 때 1회용으로 사용. 사용 후 키 재발급 권장'
+        required: false
+        default: ''
 
 permissions:
   contents: write
@@ -20,23 +24,31 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Mask one-off key in logs
-        if: ${{ inputs.api_key != '' }}
-        run: echo "::add-mask::${{ inputs.api_key }}"
+      - name: Mask one-off keys in logs
+        run: |
+          [ -n "${{ inputs.api_key }}" ] && echo "::add-mask::${{ inputs.api_key }}"
+          [ -n "${{ inputs.bok_api_key }}" ] && echo "::add-mask::${{ inputs.bok_api_key }}"
+          true
 
-      - name: Fetch exchange rates
+      - name: Fetch exchange rates (수출입은행)
         env:
           EXIM_API_KEY: ${{ secrets.EXIM_API_KEY || inputs.api_key }}
         run: python3 exchange-rate/fetch_data.py
 
+      - name: Fetch interest rate & CPI (한국은행 ECOS)
+        env:
+          BOK_API_KEY: ${{ secrets.BOK_API_KEY || inputs.bok_api_key }}
+        run: python3 exchange-rate/fetch_bok.py
+
       - name: Commit updated data
         run: |
-          if git diff --quiet exchange-rate/data.json exchange-rate/fallback-data.js; then
+          FILES="exchange-rate/data.json exchange-rate/fallback-data.js exchange-rate/bok_data.json exchange-rate/bok-fallback.js"
+          if git diff --quiet $FILES; then
             echo "변경 없음 — 커밋 생략"
             exit 0
           fi
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add exchange-rate/data.json exchange-rate/fallback-data.js
-          git commit -m "chore(exchange-rate): 월간 환율 데이터 자동 갱신"
+          git add $FILES
+          git commit -m "chore(exchange-rate): 월간 환율·금리·물가 데이터 자동 갱신"
           git push

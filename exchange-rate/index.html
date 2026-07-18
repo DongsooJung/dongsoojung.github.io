@@ -3,10 +3,10 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>월간 환율 분석 대시보드 — USD · JPY · EUR · CNH | Stargate</title>
-<meta name="description" content="한국수출입은행 환율 API의 일일 매매기준율을 월간(월평균·월최저·월최고)으로 집계·분석하는 대시보드. 미국 달러·일본 엔·유로·중국 위안 원화 환율 시계열.">
-<meta property="og:title" content="월간 환율 분석 대시보드 — USD · JPY · EUR · CNH">
-<meta property="og:description" content="한국수출입은행 환율 API 일일 매매기준율을 월간으로 집계한 원화 환율 인터랙티브 대시보드 · 공공데이터 API 자동 갱신">
+<title>월간 거시경제 대시보드 — 환율 · 금리 · 물가 | Stargate</title>
+<meta name="description" content="한국수출입은행 환율 API의 일일 매매기준율과 한국은행 ECOS 기준금리·소비자물가를 월간으로 집계·분석하는 대시보드. 원화 환율(USD·JPY·EUR·CNH), 한국은행 기준금리, 소비자물가 상승률 시계열.">
+<meta property="og:title" content="월간 거시경제 대시보드 — 환율 · 금리 · 물가">
+<meta property="og:description" content="수출입은행 환율 + 한국은행 기준금리·소비자물가를 월간으로 집계한 인터랙티브 거시 대시보드 · 공공데이터 API 자동 갱신">
 <meta property="og:url" content="https://www.stargateedu.co.kr/exchange-rate/">
 <meta property="og:type" content="website">
 <link rel="canonical" href="https://www.stargateedu.co.kr/exchange-rate/">
@@ -118,11 +118,13 @@ footer{margin-top:56px;padding-top:20px;border-top:1px solid var(--line);color:v
   </nav>
 
   <header class="head">
-    <h1>월간 환율 분석 대시보드 <span class="grad">USD · JPY · EUR · CNH</span></h1>
+    <h1>월간 거시경제 대시보드 <span class="grad">환율 · 금리 · 물가</span></h1>
     <p class="lead">한국수출입은행
-      <a href="https://www.koreaexim.go.kr/ir/HPHKIR019M01" target="_blank" rel="noopener">환율정보 Open API</a>의
-      일일 매매기준율(deal_bas_r)을 영업일 단위로 수집해 월평균·월최저·월최고로 집계한 원화 환율 시계열입니다.
-      GitHub Actions가 매월 자동으로 최신 월을 갱신합니다.</p>
+      <a href="https://www.koreaexim.go.kr/ir/HPHKIR019M01" target="_blank" rel="noopener">환율 Open API</a>의
+      일일 매매기준율과 한국은행
+      <a href="https://ecos.bok.or.kr/" target="_blank" rel="noopener">ECOS 경제통계</a>의
+      기준금리·소비자물가를 월간으로 집계·분석합니다. 원화 환율(USD·JPY·EUR·CNH)과
+      통화정책·물가 지표를 한 화면에서 보고, GitHub Actions가 매월 자동 갱신합니다.</p>
     <div class="meta-line">
       <span class="pill">데이터 기준 <b id="metaUpdated">—</b></span>
       <span class="pill">커버리지 <b id="metaRange">—</b></span>
@@ -167,11 +169,24 @@ footer{margin-top:56px;padding-top:20px;border-top:1px solid var(--line);color:v
       <div class="chart-box"><canvas id="momChart" role="img" aria-label="선택 통화 전월비 증감률 막대 그래프"></canvas></div>
     </div>
 
+    <div class="sec-divider" style="grid-column:1/-1;margin-top:12px;display:flex;align-items:baseline;gap:10px;flex-wrap:wrap">
+      <h2 style="font-size:19px;margin:0">거시 지표 · 금리 &amp; 물가</h2>
+      <span class="cap" style="margin:0">한국은행 ECOS 경제통계 — 기준금리와 소비자물가 상승률(전년동월비)</span>
+    </div>
+
+    <section class="kpis" id="macroKpis" style="grid-column:1/-1" aria-label="금리·물가 지표"></section>
+
+    <div class="card full">
+      <h2>기준금리 vs 소비자물가 상승률</h2>
+      <div class="cap">월별 · 한국은행 기준금리(%)와 소비자물가 전년동월비(%) — 좌축 · 소비자물가지수(2020=100) — 우축</div>
+      <div class="chart-box"><canvas id="macroChart" role="img" aria-label="한국은행 기준금리와 소비자물가 상승률, 소비자물가지수의 월별 추이 선 그래프. 동일한 값은 아래 표에서 확인할 수 있습니다."></canvas></div>
+    </div>
+
     <div class="card full">
       <div class="thead-row">
         <div>
           <h2>월별 상세 데이터</h2>
-          <div class="cap" style="margin-bottom:0">통화별 월평균 매매기준율 · 괄호는 선택 통화 전월비</div>
+          <div class="cap" style="margin-bottom:0">통화별 월평균 매매기준율 · 괄호는 선택 통화 전월비 · 기준금리/물가는 우측 열</div>
         </div>
         <button class="dl" id="csvBtn">⬇ CSV 다운로드</button>
       </div>
@@ -191,6 +206,10 @@ footer{margin-top:56px;padding-top:20px;border-top:1px solid var(--line);color:v
     GitHub Actions가 매월 <code>data.json</code>을 갱신하며, 확정된 과거 월은 그대로 두고 최근 2개월만 재집계합니다.
     현재 표시 중인 <b>시드 데이터는 근사 월평균(approx)</b>으로 USD/KRW·교차환율 근사치에서 산출했으며,
     <code>EXIM_API_KEY</code> 등록 시 API 정밀치로 대체됩니다. 엔(JPY)은 <b>100엔당</b> 고시 기준입니다.
+    <br><br>
+    <b>금리 · 물가</b> — 한국은행 <a href="https://ecos.bok.or.kr/" target="_blank" rel="noopener">ECOS 경제통계시스템 API</a>에서
+    <b>한국은행 기준금리</b>(통계표 722Y001)와 <b>소비자물가지수</b>(901Y009, 2020=100)를 월별로 수집하며,
+    물가상승률은 소비자물가지수의 전년동월비(YoY)입니다. <code>BOK_API_KEY</code> 등록 시 근사 시드가 ECOS 정밀치로 대체됩니다.
     설정 방법은 <a href="https://github.com/DongsooJung/dongsoojung.github.io/tree/main/exchange-rate" target="_blank" rel="noopener">README</a> 참고.
   </div>
 
@@ -198,7 +217,8 @@ footer{margin-top:56px;padding-top:20px;border-top:1px solid var(--line);color:v
     <span>© 2026 Dongsoo Jung · Stargate Corporation</span>
     <span>
       <a href="https://www.stargateedu.co.kr/">stargateedu.co.kr</a> ·
-      <a href="https://www.koreaexim.go.kr/ir/HPHKIR019M01" target="_blank" rel="noopener">한국수출입은행 Open API</a>
+      <a href="https://www.koreaexim.go.kr/ir/HPHKIR019M01" target="_blank" rel="noopener">수출입은행 Open API</a> ·
+      <a href="https://ecos.bok.or.kr/" target="_blank" rel="noopener">한국은행 ECOS</a>
     </span>
   </footer>
 
@@ -206,6 +226,7 @@ footer{margin-top:56px;padding-top:20px;border-top:1px solid var(--line);color:v
 
 <script src="./chart.umd.min.js"></script>
 <script src="./fallback-data.js"></script>
+<script src="./bok-fallback.js"></script>
 <script>
 'use strict';
 
@@ -259,7 +280,7 @@ const endLabels = {
       ctx.font = `600 11px ${FONT.family}`;
       ctx.fillStyle = ds.$labelColor || ds.borderColor;
       ctx.textAlign = 'left'; ctx.textBaseline = 'middle';
-      ctx.fillText(ds.label, Math.min(last.x+8, chart.chartArea.right+6), y);
+      ctx.fillText(ds.$labelText || ds.label, Math.min(last.x+8, chart.chartArea.right+6), y);
       ctx.restore();
     });
   }
@@ -279,19 +300,25 @@ const legendStyle = {
 /* ─── 상태 & 데이터 ─────────────────────────────────── */
 let DATA = null;                        // {currencies, series:[{ym,days,rates:{CODE:{avg,min,max}}}]}
 let CURS = [];                          // currencies 메타
+let BOK = null;                         // {meta, series:[{ym,baseRate,cpi,cpiYoY}]}
+let MACRO = {};                         // ym -> {baseRate,cpi,cpiYoY}
 let state = { range:'all', cur:'USD' };
 let charts = {};
 
-async function loadData(){
+const MC = { base:'#e0a24e', cpi:'#5eb0e0', yoy:'#e0685e' };  // 금리·물가 색
+
+async function loadJSON(path, fallbackVar){
   try{
-    const r = await fetch('./data.json', {cache:'no-cache'});
+    const r = await fetch(path, {cache:'no-cache'});
     if (!r.ok) throw new Error(r.status);
     return await r.json();
   }catch(e){
-    console.warn('data.json 로드 실패 — 내장 폴백 데이터 사용', e);
-    return window.FALLBACK_DATA;
+    console.warn(`${path} 로드 실패 — 내장 폴백 사용`, e);
+    return window[fallbackVar];
   }
 }
+const loadData = () => loadJSON('./data.json', 'FALLBACK_DATA');
+const loadBok  = () => loadJSON('./bok_data.json', 'BOK_FALLBACK');
 
 const curMeta = code => CURS.find(c=>c.code===code) || {code, label:code, per:1, color:'#7aa2ff'};
 const rateOf = (r, code, f='avg') => (r.rates && r.rates[code]) ? r.rates[code][f] : null;
@@ -523,7 +550,9 @@ function updateCharts(){
 /* ─── 테이블 & CSV ─────────────────────────────────── */
 function renderHead(){
   const tr = document.getElementById('tblHead');
-  tr.innerHTML = '<th>월</th>' + CURS.map(c=>`<th>${c.label}${c.per>1?` <span style="color:var(--muted)">(${c.per}${c.code==='JPY'?'엔':''})</span>`:''}</th>`).join('');
+  tr.innerHTML = '<th>월</th>'
+    + CURS.map(c=>`<th>${c.label}${c.per>1?` <span style="color:var(--muted)">(${c.per}${c.code==='JPY'?'엔':''})</span>`:''}</th>`).join('')
+    + '<th>기준금리</th><th>물가상승률</th>';
 }
 function renderTable(){
   const tbody = document.querySelector('#dataTable tbody');
@@ -547,20 +576,154 @@ function renderTable(){
       }
       tr.appendChild(td);
     });
+    // 기준금리 · 물가상승률
+    const br = macroVal(r.ym, 'baseRate');
+    const brTd = document.createElement('td');
+    brTd.textContent = br==null ? '—' : br.toLocaleString('ko-KR',{minimumFractionDigits:2})+'%';
+    tr.appendChild(brTd);
+    const yoy = macroVal(r.ym, 'cpiYoY');
+    const yoyTd = document.createElement('td');
+    yoyTd.textContent = yoy==null ? '—' : fmtPct(yoy);
+    if (yoy!=null){ yoyTd.style.color = yoy>=0 ? UP : DOWN; }
+    tr.appendChild(yoyTd);
     tbody.appendChild(tr);
   });
 }
 function downloadCSV(){
   const rows = filteredSeries();
   const cols = CURS.map(c=>c.code);
-  const lines = ['ym,'+cols.map(c=>`${c}_avg,${c}_min,${c}_max`).join(',')];
-  rows.forEach(r=> lines.push([r.ym, ...cols.flatMap(c=>[rateOf(r,c,'avg')??'',rateOf(r,c,'min')??'',rateOf(r,c,'max')??''])].join(',')));
+  const lines = ['ym,'+cols.map(c=>`${c}_avg,${c}_min,${c}_max`).join(',')+',base_rate,cpi,cpi_yoy'];
+  rows.forEach(r=> lines.push([r.ym,
+    ...cols.flatMap(c=>[rateOf(r,c,'avg')??'',rateOf(r,c,'min')??'',rateOf(r,c,'max')??'']),
+    macroVal(r.ym,'baseRate')??'', macroVal(r.ym,'cpi')??'', macroVal(r.ym,'cpiYoY')??''
+  ].join(',')));
   const blob = new Blob(['﻿'+lines.join('\n')], {type:'text/csv;charset=utf-8'});
   const a = document.createElement('a');
   a.href = URL.createObjectURL(blob);
   a.download = `exchange-rate_${state.range}.csv`;
   a.click();
   URL.revokeObjectURL(a.href);
+}
+
+/* ─── 거시 지표 (금리 · 물가) ───────────────────────── */
+function ymMinus(ym, n){
+  let [y,m] = ym.split('-').map(Number);
+  m -= n; while(m<1){ m+=12; y-=1; }
+  return `${y}-${String(m).padStart(2,'0')}`;
+}
+const macroVal = (ym, key) => MACRO[ym] ? (MACRO[ym][key] ?? null) : null;
+function filteredMacro(){
+  const s = BOK ? BOK.series : [];
+  if (state.range === 'all') return s;
+  if (state.range === 'last12') return s.slice(-12);
+  return s.filter(r => r.ym.startsWith(state.range));
+}
+function macroSparkAround(ym, key){
+  if (!BOK) return [];
+  const i = BOK.series.findIndex(r=>r.ym===ym);
+  if (i<0) return [];
+  return BOK.series.slice(Math.max(0,i-11), i+1).map(r=>r[key] ?? null);
+}
+function renderMacroKPIs(){
+  const el = document.getElementById('macroKpis');
+  el.innerHTML = '';
+  const rows = filteredMacro();
+  if (!rows.length){ el.innerHTML = '<div class="tile"><div class="lb">데이터 없음</div></div>'; return; }
+  const lastWith = pred => [...rows].reverse().find(pred) || null;
+  const brRow  = lastWith(r => r.baseRate!=null);
+  const yoyRow = lastWith(r => r.cpiYoY!=null);
+  const cpiRow = lastWith(r => r.cpi!=null);
+  // 실질 기준금리 = 기준금리 − 물가상승률 (동일 월 기준)
+  const realRow = lastWith(r => r.baseRate!=null && r.cpiYoY!=null);
+
+  const ppTag = (v,suffix) => v==null ? `<span>${suffix}</span>`
+    : `<b class="${v>=0?'up':'down'}">${v>=0?'▲':'▼'} ${Math.abs(v).toLocaleString('ko-KR',{maximumFractionDigits:2})}%p</b> <span>${suffix}</span>`;
+
+  const brDelta = brRow ? (()=>{ const p=macroVal(ymMinus(brRow.ym,12),'baseRate'); return p==null?null:brRow.baseRate-p; })() : null;
+  const yoyDelta = yoyRow ? (()=>{ const p=macroVal(ymMinus(yoyRow.ym,12),'cpiYoY'); return p==null?null:yoyRow.cpiYoY-p; })() : null;
+  const real = realRow ? Math.round((realRow.baseRate-realRow.cpiYoY)*100)/100 : null;
+
+  const tiles = [
+    { color:MC.base, lb:'한국은행 기준금리',
+      val: brRow?`${brRow.baseRate.toLocaleString('ko-KR',{minimumFractionDigits:2})}<small>% · ${ymKorean(brRow.ym)}</small>`:'—',
+      delta: ppTag(brDelta,'전년 대비'), spark: brRow?macroSparkAround(brRow.ym,'baseRate'):[] },
+    { color:MC.yoy, lb:'소비자물가 상승률', valColor: yoyRow?(yoyRow.cpiYoY>=0?UP:DOWN):null,
+      val: yoyRow?`${fmtPct(yoyRow.cpiYoY)}<small>YoY · ${ymKorean(yoyRow.ym)}</small>`:'—',
+      delta: ppTag(yoyDelta,'전년 대비'), spark: yoyRow?macroSparkAround(yoyRow.ym,'cpiYoY'):[] },
+    { color:MC.cpi, lb:'소비자물가지수',
+      val: cpiRow?`${cpiRow.cpi.toLocaleString('ko-KR',{minimumFractionDigits:2})}<small>2020=100</small>`:'—',
+      delta:`<span>${cpiRow?ymKorean(cpiRow.ym):''}</span>`, spark: cpiRow?macroSparkAround(cpiRow.ym,'cpi'):[] },
+    { color:'#8fb56b', lb:'실질 기준금리', valColor: real==null?null:(real>=0?UP:DOWN),
+      val: real==null?'—':`${fmtPct(real)}`,
+      delta:`<span>기준금리 − 물가상승률</span>`, spark:[] },
+  ];
+  tiles.forEach(t=>{
+    const tile = document.createElement('div');
+    tile.className = 'tile';
+    tile.innerHTML = `
+      <div class="lb"><span class="key" style="background:${t.color}"></span><span>${t.lb}</span></div>
+      <div class="val" ${t.valColor?`style="color:${t.valColor}"`:''}>${t.val}</div>
+      <div class="delta">${t.delta}</div>
+      ${t.spark && t.spark.length ? sparkSVG(t.spark, t.color) : ''}`;
+    el.appendChild(tile);
+  });
+}
+
+function buildMacro(){
+  charts.macro = new Chart(document.getElementById('macroChart'), {
+    type:'line',
+    data:{ labels:[], datasets:[
+      {label:'기준금리', data:[], borderColor:MC.base, backgroundColor:MC.base, $labelColor:MC.base,
+       borderWidth:2.4, tension:.2, spanGaps:true, stepped:true, yAxisID:'y',
+       pointRadius:0, pointHoverRadius:5, pointHoverBorderWidth:2, pointHoverBackgroundColor:MC.base, pointHoverBorderColor:SURFACE},
+      {label:'물가상승률', data:[], borderColor:MC.yoy, backgroundColor:MC.yoy, $labelColor:MC.yoy,
+       borderWidth:2.4, tension:.28, spanGaps:true, yAxisID:'y',
+       pointRadius:0, pointHoverRadius:5, pointHoverBorderWidth:2, pointHoverBackgroundColor:MC.yoy, pointHoverBorderColor:SURFACE},
+      {label:'소비자물가지수', $labelText:'CPI', data:[], borderColor:MC.cpi, backgroundColor:MC.cpi, $labelColor:MC.cpi,
+       borderWidth:1.6, borderDash:[5,3], tension:.28, spanGaps:true, yAxisID:'y1',
+       pointRadius:0, pointHoverRadius:4, pointHoverBackgroundColor:MC.cpi, pointHoverBorderColor:SURFACE},
+    ]},
+    options:{
+      responsive:true, maintainAspectRatio:false,
+      layout:{ padding:{right:46, top:6} },
+      interaction:{ mode:'index', intersect:false },
+      scales:{
+        x:{ grid:{display:false}, border:{color:BASELINE},
+            ticks:{color:MUTED, maxRotation:0, autoSkipPadding:14, callback: ymTick} },
+        y:{ position:'left', border:{display:false},
+            grid:{ color: c => c.tick.value===0 ? BASELINE : GRID, drawTicks:false },
+            ticks:{color:MUTED, padding:8, callback:v=>v+'%', font:{size:11}},
+            title:{display:true, text:'금리 · 물가상승률 (%)', color:MUTED, font:{size:10.5}} },
+        y1:{ position:'right', border:{display:false}, grid:{drawOnChartArea:false},
+            ticks:{color:MUTED, padding:6, font:{size:11}},
+            title:{display:true, text:'CPI (2020=100)', color:MUTED, font:{size:10.5}} },
+      },
+      plugins:{
+        legend: legendStyle,
+        tooltip:{ ...tooltipStyle,
+          callbacks:{
+            title: items => ymKorean(items[0].label),
+            label: it => {
+              if (it.parsed.y==null) return '';
+              if (it.dataset.label==='소비자물가지수') return ` ${it.parsed.y.toLocaleString('ko-KR',{maximumFractionDigits:2})} · CPI`;
+              return ` ${it.parsed.y.toLocaleString('ko-KR',{maximumFractionDigits:2})}% · ${it.dataset.label}`;
+            },
+          }},
+      },
+    },
+    plugins:[crosshair, endLabels],
+  });
+  charts.macro.$endLabels = true;
+}
+
+function updateMacro(){
+  if (!charts.macro) return;
+  const rows = filteredMacro();
+  charts.macro.data.labels = rows.map(r=>r.ym);
+  charts.macro.data.datasets[0].data = rows.map(r=>r.baseRate ?? null);
+  charts.macro.data.datasets[1].data = rows.map(r=>r.cpiYoY ?? null);
+  charts.macro.data.datasets[2].data = rows.map(r=>r.cpi ?? null);
+  charts.macro.update();
 }
 
 /* ─── 초기화 ───────────────────────────────────────── */
@@ -594,14 +757,16 @@ function renderCurButtons(){
     box.appendChild(b);
   });
 }
-function renderAll(){ renderKPIs(); updateCharts(); renderTable(); }
+function renderAll(){ renderKPIs(); updateCharts(); renderMacroKPIs(); updateMacro(); renderTable(); }
 
 (async function init(){
-  DATA = await loadData();
+  const [ex, bok] = await Promise.all([loadData(), loadBok()]);
+  DATA = ex; BOK = bok;
   CURS = DATA.currencies || [];
+  MACRO = {}; (BOK && BOK.series || []).forEach(r=>{ MACRO[r.ym] = r; });
   if (CURS.length && !CURS.find(c=>c.code===state.cur)) state.cur = CURS[0].code;
   renderMeta(); renderCurButtons(); renderHead(); renderTitles();
-  buildMain(); buildIdx(); buildMom();
+  buildMain(); buildIdx(); buildMom(); buildMacro();
   renderAll();
   document.querySelectorAll('.controls .fbtn[data-range]').forEach(btn=>{
     btn.addEventListener('click', ()=>{
