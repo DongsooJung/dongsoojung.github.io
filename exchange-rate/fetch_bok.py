@@ -15,10 +15,15 @@ CPI는 전년동월비(cpiYoY, %)를 함께 산출하기 위해 12개월 이전�
 import json
 import os
 import sys
+import time
+import urllib.error
 import urllib.parse
 import urllib.request
 from datetime import date, datetime, timezone
 from pathlib import Path
+
+HTTP_TIMEOUT = 60      # ECOS가 해외에서 느리게 응답할 수 있어 여유를 둔다
+RETRIES = 4            # 일시적 타임아웃 대비 재시도 횟수
 
 BASE = "https://ecos.bok.or.kr/api/StatisticSearch"
 
@@ -41,8 +46,19 @@ def fetch_stat(key, stat, item, start_ym, end_ym):
         stat, "M", start_ym, end_ym, item,
     ])
     req = urllib.request.Request(path, headers={"User-Agent": "stargateedu-dashboard"})
-    with urllib.request.urlopen(req, timeout=30) as resp:
-        payload = json.loads(resp.read().decode("utf-8"))
+    payload = None
+    for attempt in range(1, RETRIES + 1):
+        try:
+            with urllib.request.urlopen(req, timeout=HTTP_TIMEOUT) as resp:
+                payload = json.loads(resp.read().decode("utf-8"))
+            break
+        except (urllib.error.URLError, TimeoutError, OSError) as exc:
+            if attempt == RETRIES:
+                raise
+            wait = 2 ** attempt  # 2s, 4s, 8s 백오프
+            print(f"    · ECOS 요청 실패({attempt}/{RETRIES}) — {wait}s 후 재시도: {exc}",
+                  file=sys.stderr)
+            time.sleep(wait)
     if "RESULT" in payload:  # 오류(인증 실패·데이터 없음 등)
         r = payload["RESULT"]
         raise RuntimeError(f"ECOS {r.get('CODE')}: {r.get('MESSAGE')}")
