@@ -10,6 +10,10 @@ on:
         description: '(선택) data.go.kr 인증키(Decoding) — CUSTOMS_API_KEY 시크릿이 없을 때 1회용으로 사용. 공개 저장소에서는 실행 기록에 남으므로 사용 후 키 재발급 권장'
         required: false
         default: ''
+      debug:
+        description: '(선택) true면 게이트웨이 진단 프로브 실행 (403 원인 분석)'
+        required: false
+        default: 'false'
 
 permissions:
   contents: write
@@ -24,6 +28,23 @@ jobs:
         run: |
           [ -n "${{ inputs.api_key }}" ] && echo "::add-mask::${{ inputs.api_key }}"
           true
+
+      - name: Diagnose gateway (debug)
+        if: ${{ inputs.debug == 'true' }}
+        env:
+          KEY: ${{ secrets.CUSTOMS_API_KEY || inputs.api_key }}
+        run: |
+          NT="https://apis.data.go.kr/1220000/nationtrade/getNationtradeList?serviceKey=$KEY&strtYymm=202606&endYymm=202606"
+          probe() {
+            echo "== $1"
+            curl -sS --max-time 30 -A "$3" -o /tmp/body -w "HTTP %{http_code}\n" "$2" || true
+            head -c 300 /tmp/body; echo; echo
+          }
+          probe "nationtrade(국가별) / 사용자 키" "$NT" "stargateedu-dashboard"
+          probe "nationtrade(국가별) / 고의로 틀린 키" "https://apis.data.go.kr/1220000/nationtrade/getNationtradeList?serviceKey=WRONGKEY1234567890&strtYymm=202606&endYymm=202606" "stargateedu-dashboard"
+          probe "totaltrade(수출입실적 총괄) / 사용자 키" "https://apis.data.go.kr/1220000/totaltrade/getTotaltradeList?serviceKey=$KEY&strtYymm=202606&endYymm=202606" "stargateedu-dashboard"
+          probe "Itemtrade(품목별) / 사용자 키" "https://apis.data.go.kr/1220000/Itemtrade/getItemtradeList?serviceKey=$KEY&strtYymm=202606&endYymm=202606&hsSgn=8542" "stargateedu-dashboard"
+          probe "nitemtrade(신성질별) / 사용자 키" "https://apis.data.go.kr/1220000/nitemtrade/getNitemtradeList?serviceKey=$KEY&strtYymm=202606&endYymm=202606" "stargateedu-dashboard"
 
       - name: Fetch nation trade stats (관세청)
         env:

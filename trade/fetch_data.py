@@ -19,6 +19,7 @@ import json
 import os
 import sys
 import time
+import urllib.error
 import urllib.parse
 import urllib.request
 import xml.etree.ElementTree as ET
@@ -78,8 +79,13 @@ def fetch_month(service_key, ym):
         f"{API_URL}?{params}",
         headers={"User-Agent": "stargateedu-dashboard", "Accept": "application/xml"},
     )
-    with urllib.request.urlopen(req, timeout=60) as resp:
-        raw = resp.read().decode("utf-8")
+    try:
+        with urllib.request.urlopen(req, timeout=60) as resp:
+            raw = resp.read().decode("utf-8")
+    except urllib.error.HTTPError as exc:
+        # 게이트웨이가 4xx/5xx로 내려주는 오류 본문(키 미승인 사유 등)을 그대로 노출
+        body = exc.read().decode("utf-8", "replace").strip()
+        raise RuntimeError(f"HTTP {exc.code}: {body[:300] or '(빈 응답 본문)'}") from None
     root = ET.fromstring(raw)
     code = (root.findtext(".//resultCode") or "").strip()
     if code not in ("00", "0000"):
