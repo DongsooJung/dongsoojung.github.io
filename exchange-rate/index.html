@@ -1,0 +1,617 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>월간 환율 분석 대시보드 — USD · JPY · EUR · CNH | Stargate</title>
+<meta name="description" content="한국수출입은행 환율 API의 일일 매매기준율을 월간(월평균·월최저·월최고)으로 집계·분석하는 대시보드. 미국 달러·일본 엔·유로·중국 위안 원화 환율 시계열.">
+<meta property="og:title" content="월간 환율 분석 대시보드 — USD · JPY · EUR · CNH">
+<meta property="og:description" content="한국수출입은행 환율 API 일일 매매기준율을 월간으로 집계한 원화 환율 인터랙티브 대시보드 · 공공데이터 API 자동 갱신">
+<meta property="og:url" content="https://www.stargateedu.co.kr/exchange-rate/">
+<meta property="og:type" content="website">
+<link rel="canonical" href="https://www.stargateedu.co.kr/exchange-rate/">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%92%B1%3C/text%3E%3C/svg%3E">
+<style>
+:root{
+  --bg:#0a0d14; --panel:#0f172a; --panel2:#111c33;
+  --line:#1f2a44; --line2:#263452;
+  --ink:#e6edf3; --sub:#9aa7b8; --muted:#6b7a90;
+  --acc:#7aa2ff;
+  --grid:#1c2740; --baseline:#2b3a5e;
+  --delta-up:#2fb457; --delta-down:#e66767;
+  --grad1:linear-gradient(135deg,#4f7fff 0%,#7aa2ff 55%,#b388ff 100%);
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{
+  font-family:"Pretendard","Apple SD Gothic Neo","Segoe UI",system-ui,-apple-system,sans-serif;
+  color:var(--ink); background:var(--bg); line-height:1.55;
+  -webkit-font-smoothing:antialiased;
+  background-image:
+    radial-gradient(1000px 600px at 10% -10%, rgba(79,127,255,.15), transparent 60%),
+    radial-gradient(800px 500px at 100% 0%, rgba(179,136,255,.10), transparent 60%);
+  background-attachment:fixed;
+}
+a{color:var(--acc);text-decoration:none} a:hover{text-decoration:underline}
+.wrap{max-width:1180px;margin:0 auto;padding:24px 22px 90px}
+
+.nav{display:flex;justify-content:space-between;align-items:center;padding:6px 2px 0;font-size:13px}
+.nav .brand{display:flex;align-items:center;gap:10px;font-weight:700}
+.nav .brand .logo{width:30px;height:30px;border-radius:8px;background:var(--grad1);
+  display:inline-flex;align-items:center;justify-content:center;color:#0b1020;font-weight:900;font-size:14px}
+.nav .links a{color:var(--sub)} .nav .links a:hover{color:var(--ink)}
+
+header.head{padding:34px 0 6px}
+header.head h1{margin:0;font-size:30px;letter-spacing:-.4px;line-height:1.2}
+header.head h1 .grad{background:var(--grad1);-webkit-background-clip:text;background-clip:text;color:transparent}
+header.head .lead{color:var(--sub);font-size:14px;margin:8px 0 0;max-width:74ch}
+.meta-line{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px;font-size:12px;color:var(--muted)}
+.meta-line .pill{border:1px solid var(--line2);background:var(--panel);border-radius:999px;padding:4px 10px}
+.meta-line .pill b{color:var(--sub);font-weight:600}
+
+.controls{display:flex;gap:22px;flex-wrap:wrap;align-items:flex-start;margin:22px 0 16px}
+.fgroup{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.fgroup .lbl{font-size:12px;color:var(--muted);margin-right:2px}
+.fbtn{border:1px solid var(--line2);background:var(--panel);color:var(--sub);
+  padding:7px 14px;border-radius:999px;font-size:13px;cursor:pointer;font-family:inherit;transition:.15s;
+  display:inline-flex;align-items:center;gap:7px}
+.fbtn:hover{color:var(--ink);border-color:var(--acc)}
+.fbtn[aria-pressed="true"]{background:var(--grad1);color:#0b1020;border-color:transparent;font-weight:700}
+.fbtn .dot{width:9px;height:9px;border-radius:50%;display:inline-block}
+
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.tile{border:1px solid var(--line);background:linear-gradient(180deg,var(--panel2),var(--panel));
+  border-radius:14px;padding:16px 18px 14px;min-width:0}
+.tile .lb{font-size:12.5px;color:var(--sub);display:flex;align-items:center;gap:7px}
+.tile .lb .key{width:12px;height:3px;border-radius:2px;display:inline-block}
+.tile .val{font-size:26px;font-weight:750;letter-spacing:-.4px;margin:5px 0 1px;white-space:nowrap}
+.tile .val small{font-size:12.5px;font-weight:500;color:var(--muted);margin-left:3px}
+.tile .delta{font-size:12px;color:var(--muted);white-space:nowrap}
+.tile .delta b{font-weight:700}
+.tile .delta .up{color:var(--delta-up)} .tile .delta .down{color:var(--delta-down)}
+.tile .spark{margin-top:9px;display:block;width:100%;height:30px}
+
+.cards{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:14px}
+.card{border:1px solid var(--line);background:linear-gradient(180deg,var(--panel2),var(--panel));
+  border-radius:16px;padding:18px 18px 14px;min-width:0}
+.card.full{grid-column:1 / -1}
+.card h2{margin:0;font-size:15.5px;letter-spacing:-.2px}
+.card .cap{color:var(--muted);font-size:12px;margin:3px 0 12px}
+.chart-box{position:relative;height:380px}
+.card.half .chart-box{height:300px}
+
+.thead-row{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+.dl{border:1px solid var(--line2);background:var(--panel);color:var(--sub);border-radius:9px;
+  padding:7px 13px;font-size:12.5px;cursor:pointer;font-family:inherit}
+.dl:hover{color:var(--ink);border-color:var(--acc)}
+.tbl-scroll{overflow-x:auto;margin-top:12px}
+table{width:100%;border-collapse:collapse;font-size:13px;min-width:640px}
+th,td{padding:8px 12px;text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+th{color:var(--muted);font-weight:600;font-size:12px;border-bottom:1px solid var(--line2)}
+th:first-child,td:first-child{text-align:left}
+td{border-bottom:1px solid var(--line);color:var(--ink)}
+td .mom{font-size:11.5px;margin-left:6px;color:var(--muted)}
+td .mom.up{color:var(--delta-up)} td .mom.down{color:var(--delta-down)}
+tr:hover td{background:rgba(122,162,255,.05)}
+
+.note{border:1px solid var(--line);background:var(--panel);border-radius:14px;padding:16px 18px;
+  margin-top:14px;font-size:12.5px;color:var(--sub);line-height:1.7}
+.note b{color:var(--ink)}
+
+footer{margin-top:56px;padding-top:20px;border-top:1px solid var(--line);color:var(--muted);
+  font-size:12px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px}
+
+@media (max-width:960px){ .kpis{grid-template-columns:repeat(2,1fr)} .cards{grid-template-columns:1fr} }
+@media (max-width:520px){
+  .kpis{grid-template-columns:1fr}
+  header.head h1{font-size:24px}
+  .chart-box{height:300px} .card.half .chart-box{height:260px}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <nav class="nav">
+    <div class="brand"><span class="logo">D</span><span>DONGSOO.<span style="color:var(--acc)">PORTAL</span></span></div>
+    <div class="links"><a href="../">← 포털로 돌아가기</a></div>
+  </nav>
+
+  <header class="head">
+    <h1>월간 환율 분석 대시보드 <span class="grad">USD · JPY · EUR · CNH</span></h1>
+    <p class="lead">한국수출입은행
+      <a href="https://www.koreaexim.go.kr/ir/HPHKIR019M01" target="_blank" rel="noopener">환율정보 Open API</a>의
+      일일 매매기준율(deal_bas_r)을 영업일 단위로 수집해 월평균·월최저·월최고로 집계한 원화 환율 시계열입니다.
+      GitHub Actions가 매월 자동으로 최신 월을 갱신합니다.</p>
+    <div class="meta-line">
+      <span class="pill">데이터 기준 <b id="metaUpdated">—</b></span>
+      <span class="pill">커버리지 <b id="metaRange">—</b></span>
+      <span class="pill">단위 <b>원 (월평균 매매기준율)</b></span>
+      <span class="pill" id="metaMode">—</span>
+    </div>
+  </header>
+
+  <div class="controls">
+    <div class="fgroup" role="group" aria-label="통화 선택">
+      <span class="lbl">통화</span>
+      <span id="curBtns" style="display:contents"></span>
+    </div>
+    <div class="fgroup" role="group" aria-label="기간 필터">
+      <span class="lbl">기간</span>
+      <button class="fbtn" data-range="all" aria-pressed="true">전체</button>
+      <button class="fbtn" data-range="last12" aria-pressed="false">최근 12개월</button>
+      <button class="fbtn" data-range="2024" aria-pressed="false">2024년</button>
+      <button class="fbtn" data-range="2025" aria-pressed="false">2025년</button>
+      <button class="fbtn" data-range="2026" aria-pressed="false">2026년</button>
+    </div>
+  </div>
+
+  <section class="kpis" id="kpis" aria-label="핵심 지표"></section>
+
+  <section class="cards">
+    <div class="card full">
+      <h2 id="mainTitle">월평균 매매기준율</h2>
+      <div class="cap" id="mainCap">월평균 라인과 월중 최저–최고 변동밴드</div>
+      <div class="chart-box"><canvas id="mainChart" role="img" aria-label="선택 통화의 월평균 매매기준율과 월중 최저·최고 변동밴드. 동일한 값은 아래 표에서 확인할 수 있습니다."></canvas></div>
+    </div>
+
+    <div class="card half">
+      <h2>통화별 상대강도 지수</h2>
+      <div class="cap">표시 기간 첫 달 = 100 기준 리베이스 · 원화 대비 통화 가치</div>
+      <div class="chart-box"><canvas id="idxChart" role="img" aria-label="통화별 리베이스 지수 선 그래프"></canvas></div>
+    </div>
+
+    <div class="card half">
+      <h2 id="momTitle">전월 대비 증감률</h2>
+      <div class="cap">선택 통화 월평균의 전월비(%) · 원화 약세(＋)·강세(－)</div>
+      <div class="chart-box"><canvas id="momChart" role="img" aria-label="선택 통화 전월비 증감률 막대 그래프"></canvas></div>
+    </div>
+
+    <div class="card full">
+      <div class="thead-row">
+        <div>
+          <h2>월별 상세 데이터</h2>
+          <div class="cap" style="margin-bottom:0">통화별 월평균 매매기준율 · 괄호는 선택 통화 전월비</div>
+        </div>
+        <button class="dl" id="csvBtn">⬇ CSV 다운로드</button>
+      </div>
+      <div class="tbl-scroll">
+        <table id="dataTable" aria-label="월별 통화별 월평균 매매기준율 표">
+          <thead><tr id="tblHead"></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <div class="note">
+    <b>데이터 출처 및 갱신</b> — 한국수출입은행
+    <a href="https://www.koreaexim.go.kr/ir/HPHKIR019M01" target="_blank" rel="noopener">환율정보 Open API</a>(현재환율, <code>data=AP01</code>)의
+    일일 <b>매매기준율(deal_bas_r)</b>을 영업일마다 수집해 월평균·월최저·월최고로 집계합니다.
+    GitHub Actions가 매월 <code>data.json</code>을 갱신하며, 확정된 과거 월은 그대로 두고 최근 2개월만 재집계합니다.
+    현재 표시 중인 <b>시드 데이터는 근사 월평균(approx)</b>으로 USD/KRW·교차환율 근사치에서 산출했으며,
+    <code>EXIM_API_KEY</code> 등록 시 API 정밀치로 대체됩니다. 엔(JPY)은 <b>100엔당</b> 고시 기준입니다.
+    설정 방법은 <a href="https://github.com/DongsooJung/dongsoojung.github.io/tree/main/exchange-rate" target="_blank" rel="noopener">README</a> 참고.
+  </div>
+
+  <footer>
+    <span>© 2026 Dongsoo Jung · Stargate Corporation</span>
+    <span>
+      <a href="https://www.stargateedu.co.kr/">stargateedu.co.kr</a> ·
+      <a href="https://www.koreaexim.go.kr/ir/HPHKIR019M01" target="_blank" rel="noopener">한국수출입은행 Open API</a>
+    </span>
+  </footer>
+
+</div>
+
+<script src="./chart.umd.min.js"></script>
+<script src="./fallback-data.js"></script>
+<script>
+'use strict';
+
+/* ─── 상수 ─────────────────────────────────────────── */
+const SURFACE = '#111c33';
+const INK='#e6edf3', SUB='#9aa7b8', MUTED='#6b7a90', GRID='#1c2740', BASELINE='#2b3a5e';
+const UP='#2fb457', DOWN='#e66767';
+const FONT = { family:'"Pretendard","Apple SD Gothic Neo","Segoe UI",system-ui,sans-serif' };
+
+const fmt = (n,d=2) => n==null ? '—' : n.toLocaleString('ko-KR',{minimumFractionDigits:d,maximumFractionDigits:d});
+const fmtPct = n => n==null ? '—' : `${n>=0?'+':''}${n.toLocaleString('ko-KR',{maximumFractionDigits:2})}%`;
+const ymLabel = ym => { const [y,m]=ym.split('-'); return `${y.slice(2)}.${+m}`; };
+const ymKorean = ym => { const [y,m]=ym.split('-'); return `${y}년 ${+m}월`; };
+const hexA = (hex,a) => { const n=parseInt(hex.slice(1),16); return `rgba(${n>>16&255},${n>>8&255},${n&255},${a})`; };
+
+Chart.defaults.font.family = FONT.family;
+Chart.defaults.font.size = 11.5;
+Chart.defaults.color = MUTED;
+
+/* 크로스헤어 */
+const crosshair = {
+  id:'crosshair',
+  afterDraw(chart){
+    const t = chart.tooltip;
+    if (!t || !t.getActiveElements().length) return;
+    const x = t.getActiveElements()[0].element.x;
+    const {top,bottom} = chart.chartArea, ctx = chart.ctx;
+    ctx.save();
+    ctx.strokeStyle = BASELINE; ctx.lineWidth = 1;
+    ctx.beginPath(); ctx.moveTo(x, top); ctx.lineTo(x, bottom); ctx.stroke();
+    ctx.restore();
+  }
+};
+
+/* 지수 차트 라인 끝 직접 레이블 */
+const endLabels = {
+  id:'endLabels',
+  afterDatasetsDraw(chart){
+    if (!chart.$endLabels) return;
+    const ctx = chart.ctx, placed = [];
+    chart.data.datasets.forEach((ds,i)=>{
+      if (ds.$noLabel || !chart.isDatasetVisible(i)) return;
+      const meta = chart.getDatasetMeta(i);
+      let last = null;
+      for (let p = meta.data.length-1; p>=0; p--){ if (ds.data[p]!=null){ last = meta.data[p]; break; } }
+      if (!last) return;
+      let y = last.y;
+      for (const py of placed){ if (Math.abs(y-py) < 14) y = py + (y>=py?14:-14); }
+      placed.push(y);
+      ctx.save();
+      ctx.font = `600 11px ${FONT.family}`;
+      ctx.fillStyle = ds.$labelColor || ds.borderColor;
+      ctx.textAlign = 'left'; ctx.textBaseline = 'middle';
+      ctx.fillText(ds.label, Math.min(last.x+8, chart.chartArea.right+6), y);
+      ctx.restore();
+    });
+  }
+};
+
+const tooltipStyle = {
+  backgroundColor:'#0d1526', borderColor:BASELINE, borderWidth:1,
+  titleColor:SUB, bodyColor:INK, padding:11, cornerRadius:9,
+  titleFont:{size:11.5, weight:'600'}, bodyFont:{size:12.5, weight:'650'},
+  boxWidth:12, boxHeight:2, boxPadding:5, usePointStyle:false, displayColors:true,
+};
+const legendStyle = {
+  position:'top', align:'end',
+  labels:{ color:SUB, boxWidth:14, boxHeight:2, padding:16, font:{size:12} }
+};
+
+/* ─── 상태 & 데이터 ─────────────────────────────────── */
+let DATA = null;                        // {currencies, series:[{ym,days,rates:{CODE:{avg,min,max}}}]}
+let CURS = [];                          // currencies 메타
+let state = { range:'all', cur:'USD' };
+let charts = {};
+
+async function loadData(){
+  try{
+    const r = await fetch('./data.json', {cache:'no-cache'});
+    if (!r.ok) throw new Error(r.status);
+    return await r.json();
+  }catch(e){
+    console.warn('data.json 로드 실패 — 내장 폴백 데이터 사용', e);
+    return window.FALLBACK_DATA;
+  }
+}
+
+const curMeta = code => CURS.find(c=>c.code===code) || {code, label:code, per:1, color:'#7aa2ff'};
+const rateOf = (r, code, f='avg') => (r.rates && r.rates[code]) ? r.rates[code][f] : null;
+function perLabel(code){ const p=curMeta(code).per; return p>1?`${p}${code==='JPY'?'엔':''}당`:'1단위당'; }
+
+function filteredSeries(){
+  const s = DATA.series;
+  if (state.range === 'all') return s;
+  if (state.range === 'last12') return s.slice(-12);
+  return s.filter(r => r.ym.startsWith(state.range));
+}
+function momOf(ym, code){
+  const idx = DATA.series.findIndex(r=>r.ym===ym);
+  if (idx <= 0) return null;
+  const cur = rateOf(DATA.series[idx], code), prev = rateOf(DATA.series[idx-1], code);
+  if (cur==null || prev==null || prev===0) return null;
+  return (cur/prev - 1) * 100;
+}
+function yoyOf(ym, code){
+  const prev = DATA.series.find(r => r.ym === `${+ym.slice(0,4)-1}${ym.slice(4)}`);
+  const cur  = DATA.series.find(r => r.ym === ym);
+  if (!prev || !cur) return null;
+  const a = rateOf(cur, code), b = rateOf(prev, code);
+  if (a==null || b==null || b===0) return null;
+  return (a/b - 1) * 100;
+}
+
+/* ─── KPI 타일 ─────────────────────────────────────── */
+function sparkSVG(values, color){
+  const pts = values.filter(v=>v!=null);
+  if (pts.length < 2) return '';
+  const min = Math.min(...pts), max = Math.max(...pts), span = (max-min)||1;
+  const W=140, H=30, P=3;
+  const step = (W-2*P)/(values.length-1);
+  let d='', lastX=0, lastY=0;
+  values.forEach((v,i)=>{
+    if (v==null) return;
+    const x = P + i*step, y = H-P - (v-min)/span*(H-2*P);
+    d += (d?' L':'M') + x.toFixed(1) + ' ' + y.toFixed(1);
+    lastX=x; lastY=y;
+  });
+  return `<svg class="spark" viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" aria-hidden="true">
+    <path d="${d}" fill="none" stroke="${MUTED}" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+    <circle cx="${lastX}" cy="${lastY}" r="3" fill="${color}" stroke="${SURFACE}" stroke-width="1.5"/></svg>`;
+}
+
+function renderKPIs(){
+  const rows = filteredSeries();
+  const el = document.getElementById('kpis');
+  el.innerHTML = '';
+  if (!rows.length) return;
+  const code = state.cur, meta = curMeta(code), color = meta.color;
+  const withVal = rows.filter(r=>rateOf(r,code)!=null);
+  if (!withVal.length){ el.innerHTML = '<div class="tile"><div class="lb">데이터 없음</div></div>'; return; }
+  const last = withVal[withVal.length-1];
+  const avg = rateOf(last, code);
+  const mom = momOf(last.ym, code), yoy = yoyOf(last.ym, code);
+  // 기간 변동폭: 필터 범위 내 월평균의 최저~최고
+  const avgs = withVal.map(r=>rateOf(r,code));
+  const pMin = Math.min(...avgs), pMax = Math.max(...avgs);
+  const volPct = pMin ? (pMax/pMin - 1)*100 : null;
+  const idxA = DATA.series.findIndex(r=>r.ym===last.ym);
+  const spark = DATA.series.slice(Math.max(0,idxA-11), idxA+1).map(r=>rateOf(r,code));
+
+  const deltaTag = (v,suffix) => v==null ? `<span>${suffix} 데이터 없음</span>`
+    : `<b class="${v>=0?'up':'down'}">${v>=0?'▲':'▼'} ${Math.abs(v).toLocaleString('ko-KR',{maximumFractionDigits:2})}%</b> <span>${suffix}</span>`;
+
+  const tiles = [
+    {lb:`${meta.label} 최근월 평균`, val:`${fmt(avg)}<small>원 · ${perLabel(code)} · ${ymKorean(last.ym)}</small>`,
+     delta:deltaTag(mom,'전월비'), spark:true},
+    {lb:'전월 대비 (MoM)', val: mom==null?'—':`${fmtPct(mom)}`, valColor:mom>=0?UP:DOWN,
+     delta:`<span>${ymKorean(last.ym)} 기준</span>`, spark:false},
+    {lb:'전년 동월 대비 (YoY)', val: yoy==null?'—':`${fmtPct(yoy)}`, valColor:yoy==null?null:(yoy>=0?UP:DOWN),
+     delta:`<span>${ymKorean(last.ym)} 기준</span>`, spark:false},
+    {lb:'기간 변동폭 (최저–최고)', val:`${fmt(pMin,1)}<small>~ ${fmt(pMax,1)}원</small>`,
+     delta: volPct==null?'<span>—</span>':`<b>${volPct.toLocaleString('ko-KR',{maximumFractionDigits:1})}%</b> <span>변동</span>`, spark:false},
+  ];
+  tiles.forEach(t=>{
+    const tile = document.createElement('div');
+    tile.className = 'tile';
+    tile.innerHTML = `
+      <div class="lb"><span class="key" style="background:${color}"></span><span>${t.lb}</span></div>
+      <div class="val" ${t.valColor?`style="color:${t.valColor}"`:''}>${t.val}</div>
+      <div class="delta">${t.delta}</div>
+      ${t.spark ? sparkSVG(spark, color) : ''}`;
+    el.appendChild(tile);
+  });
+}
+
+/* ─── 차트 ─────────────────────────────────────────── */
+function ymTick(value){ return ymLabel(this.getLabelForValue(value)); }
+function baseScales(yFmt){
+  return {
+    x:{ grid:{display:false}, border:{color:BASELINE},
+        ticks:{color:MUTED, maxRotation:0, autoSkipPadding:14, callback: ymTick} },
+    y:{ border:{display:false}, grid:{color:GRID, drawTicks:false},
+        ticks:{color:MUTED, padding:8, callback:yFmt, font:{size:11}} },
+  };
+}
+
+function buildMain(){
+  charts.main = new Chart(document.getElementById('mainChart'), {
+    type:'line',
+    data:{ labels:[], datasets:[
+      // 밴드 상단(max) → 하단(min)까지 채움
+      {label:'월최고', data:[], borderColor:'transparent', backgroundColor:'rgba(122,162,255,.10)',
+       pointRadius:0, fill:'+1', order:3, $noLabel:true, tension:.25},
+      {label:'월최저', data:[], borderColor:'transparent', backgroundColor:'transparent',
+       pointRadius:0, fill:false, order:3, $noLabel:true, tension:.25},
+      {label:'월평균', data:[], borderColor:'#7aa2ff', backgroundColor:'#7aa2ff',
+       borderWidth:2.4, tension:.25, spanGaps:true, order:1,
+       pointRadius:0, pointHoverRadius:5, pointHoverBorderWidth:2,
+       pointHoverBackgroundColor:'#7aa2ff', pointHoverBorderColor:SURFACE},
+    ]},
+    options:{
+      responsive:true, maintainAspectRatio:false,
+      layout:{ padding:{right:12, top:6} },
+      interaction:{ mode:'index', intersect:false },
+      scales: baseScales(v => fmt(v,0)),
+      plugins:{
+        legend:{ display:false },
+        tooltip:{ ...tooltipStyle, filter: it => it.datasetIndex===2 || it.datasetIndex===0 || it.datasetIndex===1,
+          callbacks:{
+            title: items => ymKorean(items[0].label),
+            label: it => {
+              const names=['최고','최저','평균'];
+              return ` ${names[it.datasetIndex]} ${fmt(it.parsed.y)}원`;
+            },
+          }},
+      },
+    },
+    plugins:[crosshair],
+  });
+}
+
+function buildIdx(){
+  charts.idx = new Chart(document.getElementById('idxChart'), {
+    type:'line',
+    data:{ labels:[], datasets: CURS.map(c=>({
+      label:c.label, data:[], borderColor:c.color, backgroundColor:c.color, $labelColor:c.color,
+      borderWidth:2, tension:.25, spanGaps:true,
+      pointRadius:0, pointHoverRadius:5, pointHoverBorderWidth:2,
+      pointHoverBackgroundColor:c.color, pointHoverBorderColor:SURFACE,
+    }))},
+    options:{
+      responsive:true, maintainAspectRatio:false,
+      layout:{ padding:{right:46, top:6} },
+      interaction:{ mode:'index', intersect:false },
+      scales:{
+        x:{ grid:{display:false}, border:{color:BASELINE},
+            ticks:{color:MUTED, maxRotation:0, autoSkipPadding:14, callback: ymTick} },
+        y:{ border:{display:false},
+            grid:{ color: c => c.tick.value===100 ? BASELINE : GRID, drawTicks:false },
+            ticks:{color:MUTED, padding:8, font:{size:11}} },
+      },
+      plugins:{
+        legend: legendStyle,
+        tooltip:{ ...tooltipStyle,
+          callbacks:{
+            title: items => ymKorean(items[0].label) + ' · 지수',
+            label: it => it.parsed.y==null ? '' : ` ${it.parsed.y.toLocaleString('ko-KR',{maximumFractionDigits:1})} · ${it.dataset.label}`,
+          }},
+      },
+    },
+    plugins:[crosshair, endLabels],
+  });
+  charts.idx.$endLabels = true;
+}
+
+function buildMom(){
+  charts.mom = new Chart(document.getElementById('momChart'), {
+    type:'bar',
+    data:{ labels:[], datasets:[{ label:'전월비', data:[], backgroundColor:[],
+      maxBarThickness:22, borderRadius:3 }]},
+    options:{
+      responsive:true, maintainAspectRatio:false,
+      scales:{
+        x:{ grid:{display:false}, border:{color:BASELINE},
+            ticks:{color:MUTED, maxRotation:0, autoSkipPadding:12, callback: ymTick} },
+        y:{ border:{display:false},
+            grid:{ color: c => c.tick.value===0 ? BASELINE : GRID, drawTicks:false },
+            ticks:{color:MUTED, padding:8, callback:v=>v+'%', font:{size:11}} },
+      },
+      plugins:{
+        legend:{ display:false },
+        tooltip:{ ...tooltipStyle, displayColors:false,
+          callbacks:{
+            title: items => ymKorean(items[0].label),
+            label: it => it.parsed.y==null ? '' : ` 전월비 ${fmtPct(it.parsed.y)}`,
+          }},
+      },
+    },
+  });
+}
+
+function updateCharts(){
+  const rows = filteredSeries();
+  const code = state.cur, color = curMeta(code).color;
+
+  // 메인: 선택 통화 평균 + 밴드
+  charts.main.data.labels = rows.map(r=>r.ym);
+  charts.main.data.datasets[0].data = rows.map(r=>rateOf(r,code,'max'));
+  charts.main.data.datasets[1].data = rows.map(r=>rateOf(r,code,'min'));
+  charts.main.data.datasets[2].data = rows.map(r=>rateOf(r,code,'avg'));
+  charts.main.data.datasets[2].borderColor = color;
+  charts.main.data.datasets[2].pointHoverBackgroundColor = color;
+  charts.main.data.datasets[0].backgroundColor = hexA(color,.12);
+  charts.main.update();
+
+  // 지수: 각 통화 첫 유효값=100
+  charts.idx.data.labels = rows.map(r=>r.ym);
+  CURS.forEach((c,i)=>{
+    const base = (rows.find(r=>rateOf(r,c.code)!=null)||{});
+    const b = rateOf(base, c.code);
+    charts.idx.data.datasets[i].data = rows.map(r=>{
+      const v = rateOf(r,c.code); return (v==null||!b) ? null : v/b*100;
+    });
+  });
+  charts.idx.update();
+
+  // 전월비
+  charts.mom.data.labels = rows.map(r=>r.ym);
+  const momVals = rows.map(r=>momOf(r.ym, code));
+  charts.mom.data.datasets[0].data = momVals;
+  charts.mom.data.datasets[0].backgroundColor = momVals.map(v=> v==null? MUTED : (v>=0? hexA(UP,.85): hexA(DOWN,.85)));
+  charts.mom.update();
+}
+
+/* ─── 테이블 & CSV ─────────────────────────────────── */
+function renderHead(){
+  const tr = document.getElementById('tblHead');
+  tr.innerHTML = '<th>월</th>' + CURS.map(c=>`<th>${c.label}${c.per>1?` <span style="color:var(--muted)">(${c.per}${c.code==='JPY'?'엔':''})</span>`:''}</th>`).join('');
+}
+function renderTable(){
+  const tbody = document.querySelector('#dataTable tbody');
+  tbody.innerHTML = '';
+  const rows = [...filteredSeries()].reverse();
+  rows.forEach(r=>{
+    const tr = document.createElement('tr');
+    const first = document.createElement('td'); first.textContent = ymKorean(r.ym); tr.appendChild(first);
+    CURS.forEach(c=>{
+      const td = document.createElement('td');
+      const v = rateOf(r, c.code);
+      td.textContent = fmt(v);
+      if (c.code === state.cur){
+        const mom = momOf(r.ym, c.code);
+        if (mom!=null){
+          const sp = document.createElement('span');
+          sp.className = 'mom ' + (mom>=0?'up':'down');
+          sp.textContent = `(${fmtPct(mom)})`;
+          td.appendChild(sp);
+        }
+      }
+      tr.appendChild(td);
+    });
+    tbody.appendChild(tr);
+  });
+}
+function downloadCSV(){
+  const rows = filteredSeries();
+  const cols = CURS.map(c=>c.code);
+  const lines = ['ym,'+cols.map(c=>`${c}_avg,${c}_min,${c}_max`).join(',')];
+  rows.forEach(r=> lines.push([r.ym, ...cols.flatMap(c=>[rateOf(r,c,'avg')??'',rateOf(r,c,'min')??'',rateOf(r,c,'max')??''])].join(',')));
+  const blob = new Blob(['﻿'+lines.join('\n')], {type:'text/csv;charset=utf-8'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = `exchange-rate_${state.range}.csv`;
+  a.click();
+  URL.revokeObjectURL(a.href);
+}
+
+/* ─── 초기화 ───────────────────────────────────────── */
+function renderMeta(){
+  const s = DATA.series;
+  document.getElementById('metaUpdated').textContent = DATA.updatedAt || '—';
+  document.getElementById('metaRange').textContent =
+    s.length ? `${ymKorean(s[0].ym)} ~ ${ymKorean(s[s.length-1].ym)}` : '—';
+  document.getElementById('metaMode').textContent =
+    DATA.sourceMode === 'api' ? '자동 갱신: 수출입은행 API 연동 중' : '시드 데이터 (근사 월평균)';
+}
+function renderTitles(){
+  const meta = curMeta(state.cur);
+  document.getElementById('mainTitle').textContent = `${meta.label} 월평균 매매기준율`;
+  document.getElementById('mainCap').textContent = `월평균 라인과 월중 최저–최고 변동밴드 · ${perLabel(state.cur)} 원화 환율`;
+  document.getElementById('momTitle').textContent = `${meta.label} 전월 대비 증감률`;
+}
+function renderCurButtons(){
+  const box = document.getElementById('curBtns');
+  box.innerHTML = '';
+  CURS.forEach(c=>{
+    const b = document.createElement('button');
+    b.className = 'fbtn'; b.dataset.cur = c.code;
+    b.setAttribute('aria-pressed', String(c.code===state.cur));
+    b.innerHTML = `<span class="dot" style="background:${c.color}"></span>${c.code} · ${c.label}`;
+    b.addEventListener('click', ()=>{
+      state.cur = c.code;
+      box.querySelectorAll('.fbtn').forEach(x=>x.setAttribute('aria-pressed', String(x.dataset.cur===c.code)));
+      renderTitles(); renderKPIs(); updateCharts(); renderTable();
+    });
+    box.appendChild(b);
+  });
+}
+function renderAll(){ renderKPIs(); updateCharts(); renderTable(); }
+
+(async function init(){
+  DATA = await loadData();
+  CURS = DATA.currencies || [];
+  if (CURS.length && !CURS.find(c=>c.code===state.cur)) state.cur = CURS[0].code;
+  renderMeta(); renderCurButtons(); renderHead(); renderTitles();
+  buildMain(); buildIdx(); buildMom();
+  renderAll();
+  document.querySelectorAll('.controls .fbtn[data-range]').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      state.range = btn.dataset.range;
+      document.querySelectorAll('.controls .fbtn[data-range]').forEach(b=>b.setAttribute('aria-pressed', String(b===btn)));
+      renderAll();
+    });
+  });
+  document.getElementById('csvBtn').addEventListener('click', downloadCSV);
+})();
+</script>
+</body>
+</html>
