@@ -30,17 +30,23 @@ jobs:
           [ -n "${{ inputs.bok_api_key }}" ] && echo "::add-mask::${{ inputs.bok_api_key }}"
           true
 
+      # 수출입은행 API는 해외(GitHub 러너) IP를 302 리다이렉트로 차단할 수 있어
+      # 실패하더라도 뒤의 ECOS(금리·물가) 수집과 커밋이 진행되도록 분리한다.
       - name: Fetch exchange rates (수출입은행)
+        continue-on-error: true
         env:
           EXIM_API_KEY: ${{ secrets.EXIM_API_KEY || inputs.api_key }}
         run: python3 exchange-rate/fetch_data.py
 
       - name: Fetch interest rate & CPI (한국은행 ECOS)
+        if: always()
+        continue-on-error: true
         env:
           BOK_API_KEY: ${{ secrets.BOK_API_KEY || inputs.bok_api_key }}
         run: python3 exchange-rate/fetch_bok.py
 
       - name: Commit updated data
+        if: always()
         run: |
           FILES="exchange-rate/data.json exchange-rate/fallback-data.js exchange-rate/bok_data.json exchange-rate/bok-fallback.js"
           if git diff --quiet $FILES; then
