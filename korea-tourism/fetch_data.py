@@ -104,8 +104,11 @@ def main():
         return 0
 
     if not probe(service_key):
-        print("모든 후보 엔드포인트 실패 — 위 오류 본문을 확인하세요 (활용신청/키 문제 가능).", file=sys.stderr)
-        return 1
+        # data.go.kr는 해외 IP(GitHub Actions 러너 포함)를 차단하는 경우가 많다.
+        # 시드 데이터를 유지한 채 정상 종료하고, 국내망 실행(Run.bat)을 안내한다.
+        print("모든 후보 엔드포인트 실패 — 해외 IP 차단 가능성이 큽니다. "
+              "국내 PC에서 korea-tourism/Run.bat 실행을 권장합니다.", file=sys.stderr)
+        return 0
 
     data = json.loads(DATA_PATH.read_text(encoding="utf-8"))
     by_ym = {row["ym"]: row for row in data["series"]}

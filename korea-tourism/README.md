@@ -9,12 +9,23 @@
 ## 데이터 갱신 구조
 
 ```
-공공데이터포털 API ──(매월 5일, GitHub Actions)──▶ data.json ──▶ 대시보드
+공공데이터포털 API ──(국내 PC에서 Run.bat 실행)──▶ data.json ──▶ 대시보드
 ```
 
-`data.json`은 공표 통계 기반 시드 값으로 시작하며, GitHub Actions 워크플로
-(`.github/workflows/update-tourism-data.yml`)가 매월 API를 호출해 최신 공표월까지
-자동으로 덮어씁니다. API 키가 등록되기 전에는 시드 데이터로 동작합니다.
+`data.json`은 공표 통계 기반 시드 값으로 시작합니다.
+
+> **⚠️ 해외 IP 차단**: data.go.kr / tour.go.kr는 해외 IP를 차단하므로 **GitHub Actions
+> (해외 러너)에서는 API 호출이 실패**합니다(HTTP 500 / 타임아웃 확인됨). 따라서 실제
+> 데이터 갱신은 **국내 네트워크의 PC에서** 아래 방법으로 실행합니다. Actions 워크플로는
+> 남겨두었으며, 향후 접근이 허용되면 자동 갱신으로 전환됩니다.
+
+## 국내 PC에서 데이터 갱신 (권장)
+
+1. 이 저장소를 클론: `git clone https://github.com/DongsooJung/dongsoojung.github.io.git`
+2. `korea-tourism\Run.bat` 더블클릭 (Windows PowerShell 내장 기능만 사용, 파이썬 불필요)
+3. 인증키 입력 → 2024-01부터 전체 월 자동 수집 → git이 있으면 자동 커밋·푸시
+
+명령줄로는: `$env:TOUR_API_KEY="<인증키>"; powershell -File korea-tourism\fetch_local.ps1`
 
 ## API 키 등록 (1회 설정)
 
@@ -34,7 +45,8 @@
 |---|---|
 | `index.html` | 대시보드 (Chart.js 4, 자체 완결형 정적 페이지) |
 | `data.json` | 월별 통계 데이터 (시드 → API 자동 갱신) |
-| `fetch_data.py` | API 호출·병합 스크립트 (표준 라이브러리만 사용) |
+| `fetch_data.py` | API 호출·병합 스크립트 — GitHub Actions용 (표준 라이브러리만 사용) |
+| `Run.bat` / `fetch_local.ps1` | **국내 PC용 수집 스크립트** (PowerShell, 파이썬 불필요) |
 
 ## 참고
 
