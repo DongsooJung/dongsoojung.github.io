@@ -1,5 +1,5 @@
 /* Stargate PWA service worker — network-first with offline fallback. */
-const CACHE = 'stargate-v1';
+const CACHE = 'stargate-v2';
 const OFFLINE_URL = '/offline.html';
 const PRECACHE = [
   OFFLINE_URL,
