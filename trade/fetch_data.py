@@ -9,8 +9,12 @@
 확정된 과거 월은 다시 호출하지 않고, 신고 정정·취하 반영을 위해 최근 3개월과
 시드(approx) 월만 재수집한다. 금액 단위는 백만 달러(수출 FOB · 수입 CIF).
 
+관세청 게이트웨이가 해외 IP를 403으로 차단하는 경우 CUSTOMS_PROXY_BASE(서울
+리전 프록시, /api/customs)를 설정하면 프록시를 경유해 국내 IP로 호출한다.
+
 사용법:
     CUSTOMS_API_KEY=<data.go.kr 인증키(Decoding)> python3 fetch_data.py
+    CUSTOMS_PROXY_BASE=https://<도메인>/api/customs  (선택 — 해외 IP 차단 우회)
 
 인증키 발급: https://www.data.go.kr/data/15101612/openapi.do (활용신청)
 """
@@ -27,6 +31,7 @@ from datetime import date, datetime, timezone
 from pathlib import Path
 
 API_URL = "https://apis.data.go.kr/1220000/nationtrade/getNationtradeList"
+PROXY_BASE = os.environ.get("CUSTOMS_PROXY_BASE", "").strip().rstrip("/")
 
 START_YM = (2024, 1)
 TOP_N = 40          # 월별로 저장할 국가 수(수출액 기준) — 이하는 표·차트에 쓰이지 않아 생략
@@ -68,17 +73,15 @@ def text(el, tag):
 
 def fetch_month(service_key, ym):
     """해당 연월의 전체 국가 실적을 (총계, 국가행 리스트)로 반환. 미공표면 None."""
-    params = urllib.parse.urlencode({
-        "serviceKey": service_key,
-        "strtYymm": ym,
-        "endYymm": ym,
-        "numOfRows": "500",
-        "pageNo": "1",
-    })
-    req = urllib.request.Request(
-        f"{API_URL}?{params}",
-        headers={"User-Agent": "stargateedu-dashboard", "Accept": "application/xml"},
-    )
+    query = {"strtYymm": ym, "endYymm": ym, "numOfRows": "500", "pageNo": "1"}
+    headers = {"User-Agent": "stargateedu-dashboard", "Accept": "application/xml"}
+    if PROXY_BASE:
+        # 서울 리전 프록시 경유 — 인증키는 헤더로 전달(URL 로그 노출 방지)
+        url = f"{PROXY_BASE}?{urllib.parse.urlencode(query)}"
+        headers["x-data-key"] = service_key
+    else:
+        url = f"{API_URL}?{urllib.parse.urlencode({'serviceKey': service_key, **query})}"
+    req = urllib.request.Request(url, headers=headers)
     try:
         with urllib.request.urlopen(req, timeout=60) as resp:
             raw = resp.read().decode("utf-8")
@@ -174,6 +177,11 @@ def main():
         countries[ym_dash] = rows
         updated += 1
         time.sleep(0.3)
+
+    if not updated:
+        # 갱신된 월이 없으면 updatedAt만 바뀐 무의미한 커밋을 만들지 않는다
+        print("완료: 갱신된 월 없음 — 파일을 수정하지 않습니다.")
+        return 0
 
     series = sorted(by_ym.values(), key=lambda r: r["ym"])
     data["series"] = series
