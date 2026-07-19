@@ -14,6 +14,8 @@
 <link rel="canonical" href="https://stargateedu.co.kr/en/">
 <link rel="alternate" hreflang="ko" href="https://stargateedu.co.kr/">
 <link rel="alternate" hreflang="en" href="https://stargateedu.co.kr/en/">
+<link rel="alternate" hreflang="zh-Hans" href="https://stargateedu.co.kr/zh/">
+<link rel="alternate" hreflang="ja" href="https://stargateedu.co.kr/ja/">
 <link rel="alternate" hreflang="x-default" href="https://stargateedu.co.kr/">
 <meta name="theme-color" content="#0b1020">
 <link rel="manifest" href="/manifest.webmanifest">
@@ -43,7 +45,7 @@ a{color:var(--acc);text-decoration:none}a:hover{text-decoration:underline}
 .brand .logo{width:34px;height:34px;border-radius:9px;background:var(--grad1);display:inline-flex;align-items:center;justify-content:center;color:#0b1020;font-weight:900}
 .brand .name{font-size:15px}.brand .tag{font-size:11px;color:var(--muted);margin-left:6px}
 .nav .links{display:flex;gap:14px;font-size:13px;color:var(--sub)}
-.nav .links a{color:var(--sub)}.nav .links a:hover{color:var(--ink)}
+.nav .links a{color:var(--sub)}.nav .links a:hover,.nav .links a[aria-current="page"]{color:var(--ink)}
 .hero{padding:62px 0 36px;display:grid;grid-template-columns:1.25fr .9fr;gap:40px;align-items:center}
 .hero h1{margin:0;font-size:44px;line-height:1.1;letter-spacing:-.5px;background:var(--grad1);-webkit-background-clip:text;background-clip:text;color:transparent}
 .hero p.lead{color:var(--sub);font-size:17px;margin:14px 0 18px;max-width:60ch}
@@ -93,6 +95,9 @@ footer{margin-top:72px;padding-top:22px;border-top:1px solid var(--line);color:v
       <a href="#projects">Projects</a>
       <a href="#about">About</a>
       <a href="/" lang="ko">한국어</a>
+      <a href="/en/" lang="en" aria-current="page">EN</a>
+      <a href="/zh/" lang="zh-Hans">中文</a>
+      <a href="/ja/" lang="ja">日本語</a>
       <a href="https://github.com/DongsooJung" target="_blank" rel="noopener">GitHub ↗</a>
     </div>
   </nav>
