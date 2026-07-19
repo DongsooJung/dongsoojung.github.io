@@ -14,6 +14,10 @@ on:
         description: '(선택) true면 게이트웨이 진단 프로브 실행 (403 원인 분석)'
         required: false
         default: 'false'
+      proxy_base:
+        description: '(선택) 서울 리전 프록시 URL (예: https://<도메인>/api/customs) — 관세청의 해외 IP 차단 우회'
+        required: false
+        default: ''
 
 permissions:
   contents: write
@@ -49,6 +53,7 @@ jobs:
       - name: Fetch nation trade stats (관세청)
         env:
           CUSTOMS_API_KEY: ${{ secrets.CUSTOMS_API_KEY || inputs.api_key }}
+          CUSTOMS_PROXY_BASE: ${{ secrets.CUSTOMS_PROXY_BASE || inputs.proxy_base }}
         run: python3 trade/fetch_data.py
 
       - name: Commit updated data
