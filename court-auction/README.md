@@ -37,6 +37,23 @@ python3 fetch_court_auction.py --month 2026-06
 python3 fetch_court_auction.py --sample
 ```
 
+### 국내 PC에서 원클릭 실행 (권장)
+
+해외 IP 차단 때문에 실데이터 수집은 **국내 네트워크 PC**에서 해야 합니다.
+아래 실행 스크립트를 쓰면 Python 확인 → 패키지 설치 → 수집 → (선택)커밋·푸시까지
+자동으로 진행됩니다. `court-auction` 폴더 안에서 실행하세요.
+
+- **Windows**: `run_domestic.bat` 더블클릭
+  (실행 방식 선택: `1` 전체 백필 / `2` 일간 증분)
+- **mac / Linux**: `./run_domestic.sh` (또는 `bash run_domestic.sh daily`)
+
+스크립트는 수집 후 "GitHub에 커밋·푸시할까요?"를 물어봅니다. `y`를 누르면
+`data.json`/엑셀 변경분이 커밋·푸시되어 GitHub Pages 재배포 후 라이브 대시보드
+(`stargateedu.co.kr/court-auction/`)에 실데이터로 반영됩니다. (git 로그인·푸시 권한 필요)
+
+> 파일 인코딩: `run_domestic.bat`은 ASCII 런처, 한글 안내는 `run_domestic.ps1`
+> (UTF-8 BOM)에 있어 한국어 Windows에서 글자가 깨지지 않습니다.
+
 ### 매일 자동 수집 (일간 대시보드용)
 
 `--daily`는 기존 `data.json`/`data_commercial.json`을 읽어 **최근 공고를 재조회하고
@@ -100,6 +117,8 @@ python3 -m http.server 8000
 | 파일 | 설명 |
 |---|---|
 | `fetch_court_auction.py` | 수집기 (API 호출 → 정규화 → 엑셀/JSON 저장; `--category` 구분, `--daily` 일간 증분) |
+| `run_domestic.bat` / `.ps1` | 국내 Windows 원클릭 실행기 (설치→수집→커밋·푸시) |
+| `run_domestic.sh` | 국내 mac/Linux 원클릭 실행기 |
 | `data.json` | 대시보드용 데이터 — 주택 |
 | `data_commercial.json` | 대시보드용 데이터 — 상업용 |
 | `index.html` | 정적 대시보드 (주택/상업용 토글) |
