@@ -75,12 +75,24 @@ a{color:var(--acc); text-decoration:none} a:hover{text-decoration:underline}
 .btn.ghost:hover{border-color:var(--acc);text-decoration:none}
 
 /* Publication stats */
-.pubstats{margin-top:42px;padding:28px;border:1px solid rgba(122,162,255,.35);border-radius:20px;
+.pubstats{margin-top:72px;border:1px solid rgba(122,162,255,.35);border-radius:20px;overflow:hidden;
   background:radial-gradient(700px 320px at 10% 0%,rgba(79,127,255,.22),transparent 60%),
   linear-gradient(180deg,#111c33,#0f172a);box-shadow:0 18px 54px rgba(0,0,0,.3)}
-.pubstats .eyebrow{display:inline-flex;align-items:center;gap:7px;color:var(--warm);font-size:11px;
-  font-weight:800;letter-spacing:.9px;text-transform:uppercase}
-.pubstats h2{font-size:26px;margin:8px 0 6px;letter-spacing:-.3px}
+.pubstats details{margin:0}
+.pubstats summary{display:flex;align-items:center;justify-content:space-between;gap:20px;padding:24px 28px;
+  cursor:pointer;list-style:none;transition:background .18s ease}
+.pubstats summary::-webkit-details-marker{display:none}
+.pubstats summary:hover,.pubstats summary:focus-visible{background:rgba(122,162,255,.08);outline:none}
+.pubstats-summary-copy{display:block}
+.pubstats .eyebrow{display:block;color:var(--warm);font-size:11px;font-weight:800;
+  letter-spacing:.9px;text-transform:uppercase}
+.pubstats-summary-title{display:block;font-size:24px;font-weight:800;margin-top:6px;letter-spacing:-.3px}
+.pubstats-summary-hint{display:block;color:var(--sub);font-size:12px;margin-top:4px}
+.pubstats-toggle{width:38px;height:38px;border:1px solid var(--line2);border-radius:50%;display:flex;
+  align-items:center;justify-content:center;color:var(--acc);font-size:24px;line-height:1;flex:0 0 auto}
+.pubstats-toggle::before{content:"＋"}
+.pubstats details[open] .pubstats-toggle::before{content:"−"}
+.pubstats-content{padding:22px 28px 28px;border-top:1px solid var(--line)}
 .pubstats .intro{margin:0 0 20px;color:var(--sub);font-size:13px;max-width:82ch}
 .pubstats-frame{overflow:hidden;border:1px solid var(--line2);border-radius:16px;background:#0f172a;
   box-shadow:0 16px 42px rgba(0,0,0,.32)}
@@ -215,22 +227,7 @@ footer{margin-top:72px;padding-top:22px;border-top:1px solid var(--line);color:v
     </aside>
   </section>
 
-  <section class="pubstats" id="pubstats" aria-labelledby="pubstats-title">
-    <div class="eyebrow">● Data · 실데이터</div>
-    <h2 id="pubstats-title">2025 한국 출판생산 통계</h2>
-    <p class="intro">대한출판문화협회 납본 기준의 연도별·분야별 신간 발행 종수, 발행 부수, 평균 정가를 한눈에 확인할 수 있는 인터랙티브 대시보드입니다.</p>
-    <div class="pubstats-frame">
-      <iframe
-        src="https://stargateedu.co.kr/daechi-monitor/publications.html?v=20260719"
-        title="2025 한국 출판생산 통계 시각화 대시보드"
-        loading="eager"
-        referrerpolicy="strict-origin-when-cross-origin"
-      ></iframe>
-    </div>
-    <div class="pubstats-actions">
-      <a class="btn primary" href="https://stargateedu.co.kr/daechi-monitor/publications.html?v=20260719" target="_blank" rel="noopener">↗ 전체 화면으로 보기</a>
-    </div>
-  </section>
+
 
   <section class="sec" id="projects">
     <h2>프로젝트 · Projects</h2>
@@ -472,6 +469,33 @@ footer{margin-top:72px;padding-top:22px;border-top:1px solid var(--line);color:v
     </div>
   </section>
 
+  <section class="pubstats" id="pubstats" aria-labelledby="pubstats-title">
+    <details>
+      <summary>
+        <span class="pubstats-summary-copy">
+          <span class="eyebrow">● Data · 실데이터</span>
+          <span class="pubstats-summary-title" id="pubstats-title">2025 한국 출판생산 통계</span>
+          <span class="pubstats-summary-hint">클릭하여 인터랙티브 대시보드 펼치기</span>
+        </span>
+        <span class="pubstats-toggle" aria-hidden="true"></span>
+      </summary>
+      <div class="pubstats-content">
+        <p class="intro">대한출판문화협회 납본 기준의 연도별·분야별 신간 발행 종수, 발행 부수, 평균 정가를 한눈에 확인할 수 있는 인터랙티브 대시보드입니다.</p>
+        <div class="pubstats-frame">
+          <iframe
+            src="https://stargateedu.co.kr/daechi-monitor/publications.html?v=20260719"
+            title="2025 한국 출판생산 통계 시각화 대시보드"
+            loading="lazy"
+            referrerpolicy="strict-origin-when-cross-origin"
+          ></iframe>
+        </div>
+        <div class="pubstats-actions">
+          <a class="btn primary" href="https://stargateedu.co.kr/daechi-monitor/publications.html?v=20260719" target="_blank" rel="noopener">↗ 전체 화면으로 보기</a>
+        </div>
+      </div>
+    </details>
+  </section>
+
   <footer>
     <span>© 2026 Dongsoo Jung · Stargate Corporation</span>
     <span>
@@ -483,6 +507,13 @@ footer{margin-top:72px;padding-top:22px;border-top:1px solid var(--line);color:v
 
 </div>
 <script>
+const pubstatsDetails = document.querySelector('#pubstats details');
+document.querySelectorAll('a[href="#pubstats"]').forEach((link) => {
+  link.addEventListener('click', () => {
+    if (pubstatsDetails) pubstatsDetails.open = true;
+  });
+});
+
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => navigator.serviceWorker.register('/sw.js'));
 }
