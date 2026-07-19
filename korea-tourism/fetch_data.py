@@ -19,7 +19,13 @@ import urllib.request
 from datetime import date, datetime, timezone
 from pathlib import Path
 
-API_URL = "https://apis.data.go.kr/B551011/EdrcntTourismStatsService/getEdrcntTourismStatsList"
+# 후보 엔드포인트 — 기동 시 프로브로 작동하는 URL을 선택한다
+CANDIDATE_URLS = [
+    "https://apis.data.go.kr/B551011/EdrcntTourismStatsService1/getEdrcntTourismStatsList1",
+    "https://apis.data.go.kr/B551011/EdrcntTourismStatsService/getEdrcntTourismStatsList",
+    "http://openapi.tour.go.kr/openapi/service/EdrcntTourismStatsService/getEdrcntTourismStatsList",
+]
+API_URL = CANDIDATE_URLS[0]
 
 # 출입국관광통계서비스 국적 코드 (기술문서 국가코드표 기준)
 COUNTRIES = {
@@ -41,7 +47,7 @@ def month_range(start, end):
             y, m = y + 1, 1
 
 
-def fetch_month(service_key, ym, nat_cd):
+def fetch_month(service_key, ym, nat_cd, url=None):
     """해당 연월·국적의 방한 입국자 수를 반환한다. 미공표 월이면 None."""
     params = urllib.parse.urlencode({
         "serviceKey": service_key,
@@ -50,9 +56,17 @@ def fetch_month(service_key, ym, nat_cd):
         "ED_CD": "E",  # E: 방한 외래관광객 입국
         "_type": "json",
     })
-    req = urllib.request.Request(f"{API_URL}?{params}", headers={"User-Agent": "stargateedu-dashboard"})
-    with urllib.request.urlopen(req, timeout=30) as resp:
-        raw = resp.read().decode("utf-8")
+    req = urllib.request.Request(f"{url or API_URL}?{params}", headers={"User-Agent": "stargateedu-dashboard"})
+    try:
+        with urllib.request.urlopen(req, timeout=30) as resp:
+            raw = resp.read().decode("utf-8")
+    except urllib.error.HTTPError as e:
+        body = ""
+        try:
+            body = e.read().decode("utf-8", "replace")[:400]
+        except Exception:
+            pass
+        raise RuntimeError(f"HTTP {e.code}: {body}") from None
     if raw.lstrip().startswith("<"):
         # 게이트웨이 오류(등록되지 않은 키 등)는 XML로 내려온다
         raise RuntimeError(f"XML error response for {ym}/{nat_cd}: {raw[:200]}")
@@ -69,10 +83,31 @@ def fetch_month(service_key, ym, nat_cd):
     return int(item["num"]), str(item.get("natKorNm", ""))
 
 
+def probe(service_key):
+    """후보 엔드포인트를 순서대로 시험해 작동하는 URL을 반환한다."""
+    global API_URL
+    for url in CANDIDATE_URLS:
+        try:
+            r = fetch_month(service_key, "202401", "112", url=url)
+            print(f"probe OK: {url} -> {r}")
+            API_URL = url
+            return True
+        except Exception as exc:
+            print(f"probe FAIL: {url}\n  {exc}", file=sys.stderr)
+    return False
+
+
 def main():
     service_key = os.environ.get("TOUR_API_KEY", "").strip()
     if not service_key:
         print("TOUR_API_KEY 미설정 — 시드 데이터를 유지하고 종료합니다.")
+        return 0
+
+    if not probe(service_key):
+        # data.go.kr는 해외 IP(GitHub Actions 러너 포함)를 차단하는 경우가 많다.
+        # 시드 데이터를 유지한 채 정상 종료하고, 국내망 실행(Run.bat)을 안내한다.
+        print("모든 후보 엔드포인트 실패 — 해외 IP 차단 가능성이 큽니다. "
+              "국내 PC에서 korea-tourism/Run.bat 실행을 권장합니다.", file=sys.stderr)
         return 0
 
     data = json.loads(DATA_PATH.read_text(encoding="utf-8"))
@@ -113,8 +148,9 @@ def main():
         (r for r in by_ym.values() if any(r.get(k) is not None for k in COUNTRIES)),
         key=lambda r: r["ym"],
     )
-    data["updatedAt"] = datetime.now(timezone.utc).strftime("%Y-%m-%d")
-    data["sourceMode"] = "api"
+    if updated:
+        data["updatedAt"] = datetime.now(timezone.utc).strftime("%Y-%m-%d")
+        data["sourceMode"] = "api"
 
     DATA_PATH.write_text(json.dumps(data, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     fallback = DATA_PATH.parent / "fallback-data.js"
