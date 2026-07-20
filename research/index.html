@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>연구 대시보드 | STARGATE Intelligence</title>
+  <meta name="description" content="도시·공간·부동산·거시경제·무역·관광 공공데이터를 분석하는 STARGATE 연구 대시보드 허브.">
+  <meta name="theme-color" content="#080c14">
+  <link rel="canonical" href="https://stargateedu.co.kr/research/">
+  <link rel="stylesheet" href="/assets/intelligence-hub.css?v=20260720">
+</head>
+<body class="research">
+  <div class="wrap">
+    <nav class="nav" aria-label="주요 메뉴">
+      <a class="brand" href="/"><span class="logo">D</span><span>DONGSOO.<span style="color:var(--accent)">PORTAL</span><small>INTELLIGENCE</small></span></a>
+      <div class="nav-links">
+        <a href="/strategy/">전략</a>
+        <a href="/research/" aria-current="page">연구 대시보드</a>
+        <a href="/#projects">전체 프로젝트</a>
+        <a href="/#about">About</a>
+      </div>
+      <a class="back" href="/">← 포털</a>
+    </nav>
+
+    <header class="hero">
+      <div>
+        <div class="eyebrow">Research Observatory</div>
+        <h1>도시와 경제를<br>데이터로 관측합니다.</h1>
+        <p>실시간 API와 공공데이터를 수집·가공해 도시 혼잡, 부동산 경매, 환율, 무역, 관광의 변화를 탐색할 수 있는 연구 대시보드입니다.</p>
+        <div class="hero-actions">
+          <a class="btn primary" href="#dashboards">대시보드 탐색 →</a>
+          <a class="btn" href="/strategy/">전략 인사이트로 이동</a>
+        </div>
+      </div>
+      <div class="stats" aria-label="연구 허브 현황">
+        <div class="stat"><strong>7</strong><span>연구·데이터 프로젝트</span></div>
+        <div class="stat"><strong>5</strong><span>공공데이터 영역</span></div>
+        <div class="stat"><strong>LIVE</strong><span>실시간·월간 갱신</span></div>
+      </div>
+    </header>
+
+    <main>
+      <section class="feature" aria-labelledby="observatory-title">
+        <div class="feature-grid">
+          <div>
+            <div class="eyebrow">Research Domains</div>
+            <h2 id="observatory-title">STARGATE 데이터 관측소</h2>
+            <p>도시·공간과 경제·산업 데이터를 같은 탐색 체계로 연결합니다. 각 대시보드는 출처, 갱신 주기, 분석 범위를 명시해 재사용 가능한 연구 자산으로 관리합니다.</p>
+          </div>
+          <div class="topic-row" aria-label="연구 영역">
+            <a class="topic" href="#dashboards"><strong>🏙️ 도시·공간</strong><span>혼잡·접근성·부동산</span></a>
+            <a class="topic" href="#dashboards"><strong>💱 경제·무역</strong><span>환율·금리·수출입</span></a>
+            <a class="topic" href="#dashboards"><strong>🧳 관광·이동</strong><span>방한객·국가별 추이</span></a>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="dashboards" aria-labelledby="dashboards-title">
+        <div class="section-head">
+          <div><h2 id="dashboards-title">연구 대시보드</h2><p>관심 영역과 키워드로 데이터 프로젝트를 빠르게 찾을 수 있습니다.</p></div>
+          <a class="switch-link" href="/strategy/">전략 보고서 보기 →</a>
+        </div>
+        <div class="toolbar">
+          <div class="filters" role="group" aria-label="연구 대시보드 필터">
+            <button class="filter active" type="button" data-filter="all" aria-pressed="true">전체</button>
+            <button class="filter" type="button" data-filter="urban" aria-pressed="false">도시·공간</button>
+            <button class="filter" type="button" data-filter="economy" aria-pressed="false">경제·무역</button>
+            <button class="filter" type="button" data-filter="tourism" aria-pressed="false">관광·이동</button>
+          </div>
+          <label class="search"><span hidden>대시보드 검색</span><input type="search" placeholder="주제·데이터 검색" data-search></label>
+        </div>
+        <div class="result-count" data-result-count aria-live="polite"></div>
+        <div class="grid">
+          <a class="project" href="/ds-research-urban-analytics/" data-card data-category="urban">
+            <div class="visual" style="--visual:linear-gradient(145deg,#071a2f,#0b6a55)">🏙️</div>
+            <div class="project-body">
+              <div class="meta"><span class="pill accent">Live</span><span class="pill">Urban</span></div>
+              <h3>서울 실시간 도시데이터</h3>
+              <p>주요 핫스팟의 실시간 인구·혼잡·날씨·상권과 혼잡–환경 관계를 분석합니다.</p>
+              <div class="project-footer"><span>서울 열린데이터광장 · 실시간</span><b>열기 →</b></div>
+            </div>
+          </a>
+          <a class="project" href="/court-auction/" data-card data-category="urban">
+            <div class="visual" style="--visual:radial-gradient(circle at 25% 20%,rgba(79,127,255,.45),transparent 55%),linear-gradient(145deg,#111b32,#273958)">🏛️</div>
+            <div class="project-body">
+              <div class="meta"><span class="pill accent">Data</span><span class="pill">Real Estate</span></div>
+              <h3>법원경매 부동산 대시보드</h3>
+              <p>주택·상업용 경매의 지역·용도·감정가 분포와 월별 공고 흐름을 탐색합니다.</p>
+              <div class="project-footer"><span>대한민국법원 · 월별</span><b>열기 →</b></div>
+            </div>
+          </a>
+          <a class="project" href="https://github.com/DongsooJung/smart-city-gis" target="_blank" rel="noopener" data-card data-category="urban">
+            <div class="visual" style="--visual:linear-gradient(145deg,#101a31,#213963)">🗺️</div>
+            <div class="project-body">
+              <div class="meta"><span class="pill accent">Research</span><span class="pill">Spatial</span></div>
+              <h3>Spatial Econometrics Lab</h3>
+              <p>접근성·보행성·토지이용과 DID·공간 자기상관을 다루는 도시공간 연구 코드입니다.</p>
+              <div class="project-footer"><span>GeoPandas · PostGIS</span><b>GitHub ↗</b></div>
+            </div>
+          </a>
+          <a class="project" href="/stargate-visual/" data-card data-category="urban">
+            <div class="visual" style="--visual:radial-gradient(circle at 22% 20%,rgba(79,127,255,.5),transparent 55%),linear-gradient(145deg,#0c1428,#182849)">📊</div>
+            <div class="project-body">
+              <div class="meta"><span class="pill accent">Lab</span><span class="pill">Visualization</span></div>
+              <h3>Stargate Visual Lab</h3>
+              <p>공간계량·부동산 분석과 Recharts·D3·Plotly 시각화를 모은 연구 아카이브입니다.</p>
+              <div class="project-footer"><span>Spatial Analytics · 실험</span><b>열기 →</b></div>
+            </div>
+          </a>
+          <a class="project" href="/exchange-rate/" data-card data-category="economy">
+            <div class="visual" style="--visual:linear-gradient(145deg,#0c1d3d,#243a79)">💱</div>
+            <div class="project-body">
+              <div class="meta"><span class="pill accent">Monthly</span><span class="pill">Macro</span></div>
+              <h3>환율·금리·물가 대시보드</h3>
+              <p>주요 통화 환율과 기준금리·소비자물가를 월간 지표와 상대강도로 비교합니다.</p>
+              <div class="project-footer"><span>수출입은행 · 한국은행</span><b>열기 →</b></div>
+            </div>
+          </a>
+          <a class="project" href="/trade/" data-card data-category="economy">
+            <div class="visual" style="--visual:linear-gradient(145deg,#0b1d39,#185c65)">🚢</div>
+            <div class="project-body">
+              <div class="meta"><span class="pill accent">Monthly</span><span class="pill">Trade</span></div>
+              <h3>국가별 수출입 대시보드</h3>
+              <p>월별 수출·수입·무역수지와 국가별 TOP 10, 국가 상세 추이를 탐색합니다.</p>
+              <div class="project-footer"><span>관세청 API · 월간</span><b>열기 →</b></div>
+            </div>
+          </a>
+          <a class="project" href="/korea-tourism/" data-card data-category="tourism">
+            <div class="visual" style="--visual:linear-gradient(145deg,#10213d,#214d75)">🧳</div>
+            <div class="project-body">
+              <div class="meta"><span class="pill accent">Monthly</span><span class="pill">Tourism</span></div>
+              <h3>방한 관광객 대시보드</h3>
+              <p>중국·대만·베트남 등 국적별 월간 방한 외래관광객 추이를 비교합니다.</p>
+              <div class="project-footer"><span>한국관광공사 · 공공데이터</span><b>열기 →</b></div>
+            </div>
+          </a>
+        </div>
+        <div class="empty" data-empty>조건에 맞는 연구 대시보드가 없습니다.</div>
+      </section>
+
+      <section class="cta-band">
+        <div><h2>기업과 시장의 전략적 전환점을 살펴보세요.</h2><p>당근·숨고·크몽과 출판산업 분석을 전략 인사이트 허브에서 제공합니다.</p></div>
+        <a class="btn primary" href="/strategy/">전략 인사이트 →</a>
+      </section>
+    </main>
+
+    <footer><span>© 2026 Dongsoo Jung · Stargate Corporation</span><span><a href="/">Portal</a> · <a href="https://github.com/DongsooJung">GitHub</a></span></footer>
+  </div>
+  <script src="/assets/intelligence-hub.js?v=20260720" defer></script>
+</body>
+</html>
