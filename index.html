@@ -150,6 +150,8 @@ a{color:var(--acc); text-decoration:none} a:hover{text-decoration:underline}
 .proj .tag{font-size:11px;color:var(--muted);border:1px solid var(--line2);
   padding:3px 8px;border-radius:999px}
 .proj .go{color:var(--acc);font-size:12.5px;font-weight:600}
+.proj .row a{text-decoration:none}
+.proj .row a:hover,.proj .row a:focus-visible{color:var(--ink);border-color:var(--acc);outline:none}
 .proj .badge{position:absolute;top:10px;left:10px;background:var(--grad1);color:#0b1020;
   font-size:10.5px;font-weight:800;padding:4px 8px;border-radius:999px;letter-spacing:.3px}
 .proj.disabled{opacity:.55;cursor:not-allowed}
@@ -316,24 +318,18 @@ footer{margin-top:72px;padding-top:22px;border-top:1px solid var(--line);color:v
         </div>
       </a>
 
-      <a class="proj" href="https://dongsoojung.github.io/stargate-ai-gallery/hub.html">
-        <div class="badge">FEATURED</div>
+      <article class="proj" aria-labelledby="ai-gallery-title">
+        <div class="badge">FEATURED · SEARCH</div>
         <div class="thumb hero-shot"><span class="emo">🛰️</span></div>
         <div class="body">
-          <div class="ttl">Stargate AI Gallery</div>
-          <div class="sub">AI로 생성한 랜딩·대시보드·인포그래픽 33개 공개 아카이브. 전체 링크 한눈에 보기(카테고리 허브)가 기본 진입점입니다.</div>
-          <div class="row"><span class="tag">HTML · AI 갤러리 · Hub</span><span class="go">열기 →</span></div>
+          <div class="ttl" id="ai-gallery-title">Stargate AI Gallery · 검색 인덱스</div>
+          <div class="sub">AI로 생성한 랜딩·대시보드·인포그래픽 공개 아카이브를 카테고리별로 탐색하거나 파일명·카테고리·원본 경로로 검색·정렬할 수 있습니다.</div>
+          <div class="row">
+            <a class="tag" href="https://dongsoojung.github.io/stargate-ai-gallery/hub.html">카테고리 허브 →</a>
+            <a class="go" href="https://dongsoojung.github.io/stargate-ai-gallery/">검색 인덱스 →</a>
+          </div>
         </div>
-      </a>
-
-      <a class="proj" href="https://dongsoojung.github.io/stargate-ai-gallery/">
-        <div class="thumb" style="background:linear-gradient(135deg,#102042,#1c2f5c)"><span class="emo">🔍</span></div>
-        <div class="body">
-          <div class="ttl">Gallery 검색 인덱스</div>
-          <div class="sub">파일명·카테고리·원본 경로로 갤러리 항목을 검색·정렬하는 인덱스 페이지.</div>
-          <div class="row"><span class="tag">Search · Index</span><span class="go">열기 →</span></div>
-        </div>
-      </a>
+      </article>
 
       <a class="proj" href="./publishing-market-2025/">
         <div class="badge">NEW · DATA</div>
