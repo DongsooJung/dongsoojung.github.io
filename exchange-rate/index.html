@@ -4,9 +4,9 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>월간 거시경제 대시보드 — 환율 · 금리 · 물가 | Stargate</title>
-<meta name="description" content="한국수출입은행 환율 API의 일일 매매기준율과 한국은행 ECOS 기준금리·소비자물가를 월간으로 집계·분석하는 대시보드. 원화 환율(USD·JPY·EUR·CNH), 한국은행 기준금리, 소비자물가 상승률 시계열.">
+<meta name="description" content="ECB 일일 기준환율과 한국은행 ECOS 기준금리·소비자물가를 집계·분석하는 매일 자동 갱신 대시보드. 원화 환율(USD·JPY·EUR·CNY), 한국은행 기준금리, 소비자물가 상승률 시계열.">
 <meta property="og:title" content="월간 거시경제 대시보드 — 환율 · 금리 · 물가">
-<meta property="og:description" content="수출입은행 환율 + 한국은행 기준금리·소비자물가를 월간으로 집계한 인터랙티브 거시 대시보드 · 공공데이터 API 자동 갱신">
+<meta property="og:description" content="ECB 환율 + 한국은행 기준금리·소비자물가를 집계한 인터랙티브 거시 대시보드 · 매일 자동 갱신">
 <meta property="og:url" content="https://www.stargateedu.co.kr/exchange-rate/">
 <meta property="og:type" content="website">
 <link rel="canonical" href="https://www.stargateedu.co.kr/exchange-rate/">
@@ -119,12 +119,11 @@ footer{margin-top:56px;padding-top:20px;border-top:1px solid var(--line);color:v
 
   <header class="head">
     <h1>월간 거시경제 대시보드 <span class="grad">환율 · 금리 · 물가</span></h1>
-    <p class="lead">한국수출입은행
-      <a href="https://www.koreaexim.go.kr/ir/HPHKIR019M01" target="_blank" rel="noopener">환율 Open API</a>의
-      일일 매매기준율과 한국은행
+    <p class="lead">유럽중앙은행(ECB)의
+      <a href="https://www.ecb.europa.eu/stats/policy_and_exchange_rates/euro_reference_exchange_rates/" target="_blank" rel="noopener">일일 기준환율</a>과 한국은행
       <a href="https://ecos.bok.or.kr/" target="_blank" rel="noopener">ECOS 경제통계</a>의
-      기준금리·소비자물가를 월간으로 집계·분석합니다. 원화 환율(USD·JPY·EUR·CNH)과
-      통화정책·물가 지표를 한 화면에서 보고, GitHub Actions가 매월 자동 갱신합니다.</p>
+      기준금리·소비자물가를 집계·분석합니다. 원화 환율(USD·JPY·EUR·CNY)과
+      통화정책·물가 지표를 한 화면에서 보고, GitHub Actions가 영업일마다 자동 갱신합니다.</p>
     <div class="meta-line">
       <span class="pill">데이터 기준 <b id="metaUpdated">—</b></span>
       <span class="pill">커버리지 <b id="metaRange">—</b></span>
@@ -200,12 +199,11 @@ footer{margin-top:56px;padding-top:20px;border-top:1px solid var(--line);color:v
   </section>
 
   <div class="note">
-    <b>데이터 출처 및 갱신</b> — 한국수출입은행
-    <a href="https://www.koreaexim.go.kr/ir/HPHKIR019M01" target="_blank" rel="noopener">환율정보 Open API</a>(현재환율, <code>data=AP01</code>)의
-    일일 <b>매매기준율(deal_bas_r)</b>을 영업일마다 수집해 월평균·월최저·월최고로 집계합니다.
-    GitHub Actions가 매월 <code>data.json</code>을 갱신하며, 확정된 과거 월은 그대로 두고 최근 2개월만 재집계합니다.
-    현재 표시 중인 <b>시드 데이터는 근사 월평균(approx)</b>으로 USD/KRW·교차환율 근사치에서 산출했으며,
-    <code>EXIM_API_KEY</code> 등록 시 API 정밀치로 대체됩니다. 엔(JPY)은 <b>100엔당</b> 고시 기준입니다.
+    <b>데이터 출처 및 갱신</b> — 유럽중앙은행(ECB)
+    <a href="https://www.ecb.europa.eu/stats/policy_and_exchange_rates/euro_reference_exchange_rates/" target="_blank" rel="noopener">일일 기준환율</a>을
+    Frankfurter API로 수집해 통화별 원화 교차환율과 월평균·월최저·월최고를 계산합니다.
+    GitHub Actions가 영업일마다 <code>data.json</code>을 갱신합니다. 인증키와 국내 PC 설치가 필요하지 않습니다.
+    USD·EUR·CNY는 <b>1단위당</b>, 엔(JPY)은 <b>100엔당</b> 원화이며 시장의 초단기 체결가가 아닌 공식 일일 기준환율입니다.
     <br><br>
     <b>금리 · 물가</b> — 한국은행 <a href="https://ecos.bok.or.kr/" target="_blank" rel="noopener">ECOS 경제통계시스템 API</a>에서
     <b>한국은행 기준금리</b>(통계표 722Y001)와 <b>소비자물가지수</b>(901Y009, 2020=100)를 월별로 수집하며,
@@ -217,7 +215,7 @@ footer{margin-top:56px;padding-top:20px;border-top:1px solid var(--line);color:v
     <span>© 2026 Dongsoo Jung · Stargate Corporation</span>
     <span>
       <a href="https://www.stargateedu.co.kr/">stargateedu.co.kr</a> ·
-      <a href="https://www.koreaexim.go.kr/ir/HPHKIR019M01" target="_blank" rel="noopener">수출입은행 Open API</a> ·
+      <a href="https://www.ecb.europa.eu/stats/policy_and_exchange_rates/euro_reference_exchange_rates/" target="_blank" rel="noopener">ECB 기준환율</a> ·
       <a href="https://ecos.bok.or.kr/" target="_blank" rel="noopener">한국은행 ECOS</a>
     </span>
   </footer>
@@ -375,6 +373,7 @@ function renderKPIs(){
   if (!withVal.length){ el.innerHTML = '<div class="tile"><div class="lb">데이터 없음</div></div>'; return; }
   const last = withVal[withVal.length-1];
   const avg = rateOf(last, code);
+  const latest = DATA.latest && DATA.latest.rates ? DATA.latest.rates[code] : null;
   const mom = momOf(last.ym, code), yoy = yoyOf(last.ym, code);
   // 기간 변동폭: 필터 범위 내 월평균의 최저~최고
   const avgs = withVal.map(r=>rateOf(r,code));
@@ -387,7 +386,7 @@ function renderKPIs(){
     : `<b class="${v>=0?'up':'down'}">${v>=0?'▲':'▼'} ${Math.abs(v).toLocaleString('ko-KR',{maximumFractionDigits:2})}%</b> <span>${suffix}</span>`;
 
   const tiles = [
-    {lb:`${meta.label} 최근월 평균`, val:`${fmt(avg)}<small>원 · ${perLabel(code)} · ${ymKorean(last.ym)}</small>`,
+    {lb:`${meta.label} 최근 고시`, val:`${fmt(latest == null ? avg : latest)}<small>원 · ${perLabel(code)} · ${latest == null ? ymKorean(last.ym) : DATA.latest.date}</small>`,
      delta:deltaTag(mom,'전월비'), spark:true},
     {lb:'전월 대비 (MoM)', val: mom==null?'—':`${fmtPct(mom)}`, valColor:mom>=0?UP:DOWN,
      delta:`<span>${ymKorean(last.ym)} 기준</span>`, spark:false},
@@ -729,11 +728,12 @@ function updateMacro(){
 /* ─── 초기화 ───────────────────────────────────────── */
 function renderMeta(){
   const s = DATA.series;
-  document.getElementById('metaUpdated').textContent = DATA.updatedAt || '—';
+  document.getElementById('metaUpdated').textContent = DATA.observedAt || DATA.updatedAt || '—';
   document.getElementById('metaRange').textContent =
     s.length ? `${ymKorean(s[0].ym)} ~ ${ymKorean(s[s.length-1].ym)}` : '—';
-  document.getElementById('metaMode').textContent =
-    DATA.sourceMode === 'api' ? '자동 갱신: 수출입은행 API 연동 중' : '시드 데이터 (근사 월평균)';
+  document.getElementById('metaMode').textContent = DATA.sourceMode === 'ecb'
+    ? '정상 · ECB 영업일 자동 갱신'
+    : (DATA.sourceMode === 'api' ? '자동 갱신: 공식 API 연동 중' : '시드 데이터 (근사 월평균)');
 }
 function renderTitles(){
   const meta = curMeta(state.cur);
