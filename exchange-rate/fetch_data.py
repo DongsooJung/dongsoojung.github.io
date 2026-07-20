@@ -1,254 +1,153 @@
 #!/usr/bin/env python3
-"""한국수출입은행 환율 API(일일 매매기준율)를 월간으로 집계하는 수집 스크립트.
+"""ECB 일일 기준환율을 원화 환율로 환산해 월간 데이터로 집계한다.
 
-한국수출입은행 공개 API(현재환율, data=AP01)를 영업일 단위로 호출해
-통화별 매매기준율(deal_bas_r)을 수집하고, 월별 평균·최저·최고로 집계해
-exchange-rate/data.json 을 갱신한다. GitHub Actions에서 매월 실행되며,
-확정된 과거 월은 다시 호출하지 않고 최근 2개월과 결측 월만 재수집한다.
+Frankfurter가 제공하는 ECB 기준환율을 한 번에 내려받아 USD/KRW,
+JPY/KRW, EUR/KRW, CNY/KRW를 계산한다. 인증키와 국내 IP가 필요하지 않아
+GitHub Actions에서 매일 안정적으로 실행할 수 있다.
 
 사용법:
-    EXIM_API_KEY=<수출입은행 인증키> python3 fetch_data.py
-
-인증키 발급: https://www.koreaexim.go.kr/ir/HPHKIR019M01  (오픈API > 현재환율)
+    python3 exchange-rate/fetch_data.py
 """
 
 import json
-import os
-import ssl
 import sys
-import time
-import urllib.error
 import urllib.parse
 import urllib.request
-from calendar import monthrange
-from datetime import date, datetime, timezone
+from collections import defaultdict
+from datetime import date
 from pathlib import Path
 
-API_URL = "https://www.koreaexim.go.kr/site/program/financial/exchangeJSON"
+API_URL = "https://api.frankfurter.app"
+START_DATE = date(2024, 1, 1)
+DATA_PATH = Path(__file__).parent / "data.json"
 
-# 국내(서울) 리전 프록시 URL이 있으면 이를 경유한다. 해외 IP 차단(302) 우회용.
-# 예: https://exim-proxy-kr.vercel.app/api/exim  (인증키는 x-exim-authkey 헤더로 전달)
-EXIM_PROXY_BASE = os.environ.get("EXIM_PROXY_BASE", "").strip()
-
-# 추적 통화 — key는 data.json에서 쓰는 식별자, unit은 API의 cur_unit 값.
-# per는 표시 기준 단위(엔은 100엔당 고시), label은 한글명.
 CURRENCIES = {
-    "USD": {"unit": "USD",      "label": "미국 달러", "per": 1},
-    "JPY": {"unit": "JPY(100)", "label": "일본 엔",   "per": 100},
-    "EUR": {"unit": "EUR",      "label": "유로",      "per": 1},
-    "CNH": {"unit": "CNH",      "label": "중국 위안", "per": 1},
+    "USD": {"label": "미국 달러", "per": 1, "color": "#3987e5"},
+    "JPY": {"label": "일본 엔", "per": 100, "color": "#199e70"},
+    "EUR": {"label": "유로", "per": 1, "color": "#c98500"},
+    "CNY": {"label": "중국 위안", "per": 1, "color": "#b06de0"},
 }
 
-START_YM = (2024, 1)
-DATA_PATH = Path(__file__).parent / "data.json"
-USE_INSECURE_TLS = False
+
+def fetch_ecb_rates(start, end):
+    """EUR 기준 ECB 일일 환율을 가져온다."""
+    query = urllib.parse.urlencode({"from": "EUR", "to": "USD,JPY,KRW,CNY"})
+    url = f"{API_URL}/{start.isoformat()}..{end.isoformat()}?{query}"
+    request = urllib.request.Request(
+        url,
+        headers={"Accept": "application/json", "User-Agent": "stargateedu-dashboard/2.0"},
+    )
+    with urllib.request.urlopen(request, timeout=60) as response:
+        payload = json.load(response)
+
+    rates = payload.get("rates")
+    if not isinstance(rates, dict) or not rates:
+        raise RuntimeError("ECB 환율 응답에 일일 데이터가 없습니다.")
+    return rates
 
 
-def insecure_tls_context():
-    """수출입은행의 불완전한 인증서 체인에만 사용하는 제한적 폴백."""
-    context = ssl.SSLContext(ssl.PROTOCOL_TLS_CLIENT)
-    context.check_hostname = False
-    context.verify_mode = ssl.CERT_NONE
-    return context
+def to_krw_rates(row):
+    """EUR 기준 교차환율을 통화 1단위당 KRW로 바꾼다(JPY는 100엔)."""
+    required = ("USD", "JPY", "KRW", "CNY")
+    missing = [code for code in required if not row.get(code)]
+    if missing:
+        raise ValueError(f"필수 통화 누락: {', '.join(missing)}")
+
+    krw = float(row["KRW"])
+    return {
+        "USD": krw / float(row["USD"]),
+        "JPY": krw / float(row["JPY"]) * 100,
+        "EUR": krw,
+        "CNY": krw / float(row["CNY"]),
+    }
 
 
-def month_iter(start, end):
-    y, m = start
-    while (y, m) <= end:
-        yield y, m
-        m += 1
-        if m > 12:
-            y, m = y + 1, 1
+def aggregate(daily):
+    """일일 환율을 월별 평균·최저·최고로 집계한다."""
+    monthly = defaultdict(lambda: defaultdict(list))
+    valid_daily = {}
 
-
-def parse_rate(raw):
-    """'1,330.5' 형태의 문자열을 float으로. 값이 없으면 None."""
-    if raw is None:
-        return None
-    s = str(raw).replace(",", "").strip()
-    if not s or s in ("0", "0.00"):
-        return None
-    try:
-        return float(s)
-    except ValueError:
-        return None
-
-
-def fetch_day(service_key, d):
-    """해당 날짜의 AP01 응답(리스트)을 반환한다. 비영업일/미공표면 []."""
-    headers = {"User-Agent": "stargateedu-dashboard"}
-    if EXIM_PROXY_BASE:
-        # 프록시 경유: 인증키는 헤더로 전달(로그 노출 최소화), 프록시가 koreaexim에 중계
-        params = urllib.parse.urlencode({"searchdate": d.strftime("%Y%m%d"), "data": "AP01"})
-        headers["x-exim-authkey"] = service_key
-        url = f"{EXIM_PROXY_BASE}?{params}"
-    else:
-        params = urllib.parse.urlencode({
-            "authkey": service_key,
-            "searchdate": d.strftime("%Y%m%d"),
-            "data": "AP01",
-        })
-        url = f"{API_URL}?{params}"
-    req = urllib.request.Request(url, headers=headers)
-    global USE_INSECURE_TLS
-    try:
-        context = insecure_tls_context() if USE_INSECURE_TLS else None
-        with urllib.request.urlopen(req, timeout=30, context=context) as resp:
-            raw = resp.read().decode("utf-8")
-    except urllib.error.URLError as exc:
-        if USE_INSECURE_TLS or not isinstance(exc.reason, ssl.SSLCertVerificationError):
-            raise
-        # koreaexim.go.kr가 중간 인증서를 누락하는 경우가 있어 공식 고정 호스트에만
-        # 검증 해제 폴백을 적용한다. 다른 호스트로 리디렉션되면 urllib가 이를 거부한다.
-        print("수출입은행 인증서 체인 검증 실패 — 공식 호스트 TLS 폴백을 사용합니다.", file=sys.stderr)
-        USE_INSECURE_TLS = True
-        with urllib.request.urlopen(req, timeout=30, context=insecure_tls_context()) as resp:
-            if urllib.parse.urlparse(resp.geturl()).hostname != "www.koreaexim.go.kr":
-                raise RuntimeError("수출입은행 API가 예상하지 않은 호스트로 리디렉션되었습니다.")
-            raw = resp.read().decode("utf-8")
-    text = raw.strip()
-    if not text or text == "[]":
-        return []
-    if text.startswith("<"):
-        raise RuntimeError(f"HTML/XML error response: {text[:160]}")
-    payload = json.loads(text)
-    if isinstance(payload, dict):
-        # 오류는 단일 객체(result != 1)로 내려오기도 한다
-        raise RuntimeError(f"unexpected object response: {str(payload)[:160]}")
-    return payload
-
-
-def aggregate_month(service_key, y, m, today):
-    """한 달의 영업일을 순회하며 통화별 일일 매매기준율을 모아 집계한다."""
-    last = monthrange(y, m)[1]
-    buckets = {k: [] for k in CURRENCIES}
-    days_with_data = 0
-    for day in range(1, last + 1):
-        d = date(y, m, day)
-        if d.weekday() >= 5:      # 토·일 제외
-            continue
-        if d > today:             # 미래 일자 제외
-            break
+    for observed_on, row in sorted(daily.items()):
         try:
-            rows = fetch_day(service_key, d)
-        except Exception as exc:  # 개별 일자 실패는 건너뛴다
-            print(f"    ! {d} 조회 실패: {exc}", file=sys.stderr)
-            time.sleep(0.2)
+            converted = to_krw_rates(row)
+        except (TypeError, ValueError) as exc:
+            print(f"경고: {observed_on} 데이터 제외 ({exc})", file=sys.stderr)
             continue
-        if not rows:
-            time.sleep(0.12)
-            continue
-        by_unit = {}
-        for row in rows:
-            if str(row.get("result")) not in ("1", "1.0"):
+        valid_daily[observed_on] = converted
+        ym = observed_on[:7]
+        for code, value in converted.items():
+            monthly[ym][code].append(value)
+
+    if not valid_daily:
+        raise RuntimeError("환산 가능한 ECB 환율 데이터가 없습니다.")
+
+    series = []
+    for ym, by_currency in sorted(monthly.items()):
+        rates = {}
+        day_counts = []
+        for code in CURRENCIES:
+            values = by_currency.get(code, [])
+            if not values:
                 continue
-            by_unit[row.get("cur_unit")] = parse_rate(row.get("deal_bas_r"))
-        got = False
-        for key, info in CURRENCIES.items():
-            v = by_unit.get(info["unit"])
-            if v is not None:
-                buckets[key].append(v)
-                got = True
-        if got:
-            days_with_data += 1
-        time.sleep(0.12)
+            day_counts.append(len(values))
+            rates[code] = {
+                "avg": round(sum(values) / len(values), 2),
+                "min": round(min(values), 2),
+                "max": round(max(values), 2),
+            }
+        if rates:
+            series.append({"ym": ym, "days": min(day_counts), "rates": rates})
 
-    if days_with_data == 0:
-        return None
-
-    rates = {}
-    for key, vals in buckets.items():
-        if not vals:
-            continue
-        rates[key] = {
-            "avg": round(sum(vals) / len(vals), 2),
-            "min": round(min(vals), 2),
-            "max": round(max(vals), 2),
-        }
-    if not rates:
-        return None
-    return {"days": days_with_data, "rates": rates}
+    latest_date = max(valid_daily)
+    latest_rates = {code: round(value, 2) for code, value in valid_daily[latest_date].items()}
+    return series, latest_date, latest_rates
 
 
-def probe_reachable(service_key, today, tries=8):
-    """최근 영업일 몇 개로 API 도달 가능성을 빠르게 확인한다.
-
-    수출입은행 API는 해외(GitHub 러너) IP를 302 리다이렉트로 차단하는 경우가 있다.
-    전 영업일(수백 회)을 순회하기 전에 먼저 소수만 시도해, 한 건도 응답을 받지
-    못하면(모두 예외) 도달 불가로 판단하고 조기 종료한다. 응답이 오면(빈 목록 포함)
-    도달 가능으로 본다.
-    """
-    d = today
-    attempted = 0
-    while attempted < tries:
-        d = d.fromordinal(d.toordinal() - 1)
-        if d.weekday() >= 5:
-            continue
-        attempted += 1
-        try:
-            fetch_day(service_key, d)      # 예외 없이 반환되면 도달 가능
-            return True
-        except Exception as exc:
-            print(f"    · 도달 확인 {d} 실패: {exc}", file=sys.stderr)
-    return False
-
-
-def main():
-    service_key = os.environ.get("EXIM_API_KEY", "").strip()
-    if not service_key:
-        print("EXIM_API_KEY 미설정 — 시드 데이터를 유지하고 종료합니다.")
-        return 0
-
-    data = json.loads(DATA_PATH.read_text(encoding="utf-8"))
-    by_ym = {row["ym"]: row for row in data["series"]}
-
-    today = date.today()
-    end = (today.year, today.month)
-
-    # 전 영업일 순회(수백 회) 전에 도달 가능성부터 확인 — 해외 IP 차단 시 즉시 종료
-    if not probe_reachable(service_key, today):
-        print("수출입은행 API에 도달하지 못했습니다(해외 IP 차단 추정) — "
-              "환율 시드를 유지하고 종료합니다.", file=sys.stderr)
-        return 1
-
-    # 최근 2개월(현재·직전)은 잠정치 보정을 위해 항상 재수집한다.
-    recent = set()
-    ry, rm = end
-    for _ in range(2):
-        recent.add(f"{ry:04d}-{rm:02d}")
-        rm -= 1
-        if rm < 1:
-            ry, rm = ry - 1, 12
-
-    updated = 0
-    for y, m in month_iter(START_YM, end):
-        ym = f"{y:04d}-{m:02d}"
-        existing = by_ym.get(ym)
-        # 확정된 과거 월(시드가 아니고 최근 2개월도 아님)은 재호출 생략
-        if existing and ym not in recent and not existing.get("approx"):
-            continue
-        print(f"  · {ym} 집계 중…", file=sys.stderr)
-        agg = aggregate_month(service_key, y, m, today)
-        if agg is None:
-            continue
-        by_ym[ym] = {"ym": ym, "days": agg["days"], "rates": agg["rates"]}
-        updated += 1
-
-    if updated == 0:
-        print("오류: 수출입은행에서 유효한 환율 데이터를 한 달도 수집하지 못했습니다.", file=sys.stderr)
-        return 1
-
-    data["series"] = sorted(by_ym.values(), key=lambda r: r["ym"])
-    data["updatedAt"] = datetime.now(timezone.utc).strftime("%Y-%m-%d")
-    data["sourceMode"] = "api"
-
-    DATA_PATH.write_text(json.dumps(data, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+def write_outputs(data):
+    rendered = json.dumps(data, ensure_ascii=False, indent=2) + "\n"
+    DATA_PATH.write_text(rendered, encoding="utf-8")
     fallback = DATA_PATH.parent / "fallback-data.js"
     fallback.write_text(
         "window.FALLBACK_DATA = " + json.dumps(data, ensure_ascii=False) + ";\n",
         encoding="utf-8",
     )
-    print(f"완료: {updated}개월 갱신, 총 {len(data['series'])}개월.")
+
+
+def main():
+    today = date.today()
+    try:
+        daily = fetch_ecb_rates(START_DATE, today)
+        series, latest_date, latest_rates = aggregate(daily)
+    except Exception as exc:
+        print(f"환율 갱신 실패: {exc}", file=sys.stderr)
+        return 1
+
+    # 비정상적으로 오래된 성공 응답을 최신 데이터로 오인하지 않는다.
+    age_days = (today - date.fromisoformat(latest_date)).days
+    if age_days > 7:
+        print(f"환율 갱신 실패: 최신 관측치가 {age_days}일 전({latest_date})입니다.", file=sys.stderr)
+        return 1
+
+    data = {
+        "source": "유럽중앙은행(ECB) 기준환율 · Frankfurter API",
+        "sourceUrl": "https://www.ecb.europa.eu/stats/policy_and_exchange_rates/euro_reference_exchange_rates/",
+        "sourceMode": "ecb",
+        "updatedAt": latest_date,
+        "observedAt": latest_date,
+        "unit": "원 (KRW) · ECB 일일 기준환율의 월평균",
+        "currencies": [
+            {"code": code, **meta} for code, meta in CURRENCIES.items()
+        ],
+        "notes": (
+            "ECB가 영업일마다 공표하는 EUR 기준환율에서 KRW 교차환율을 계산했습니다. "
+            "USD·EUR·CNY는 1단위당 원화, JPY는 100엔당 원화입니다. "
+            "시장 체결가가 아닌 일일 공식 기준환율이며 GitHub Actions가 매일 갱신합니다."
+        ),
+        "latest": {"date": latest_date, "rates": latest_rates},
+        "series": series,
+    }
+    write_outputs(data)
+    print(f"완료: 최신 {latest_date}, {len(series)}개월, {len(daily)}개 관측일 갱신.")
     return 0
 
 
