@@ -2,14 +2,10 @@ name: Update exchange rate data
 
 on:
   schedule:
-    # 매월 2일 03:00 UTC (12:00 KST) — 전월 영업일 마감 후 월간 집계
-    - cron: '0 3 2 * *'
+    # 매일 18:20 UTC (다음 날 03:20 KST) — ECB 영업일 기준환율 반영
+    - cron: '20 18 * * 1-5'
   workflow_dispatch:
     inputs:
-      api_key:
-        description: '(선택) 수출입은행 인증키 — EXIM_API_KEY 시크릿이 없을 때 1회용으로 사용. 공개 저장소에서는 실행 기록에 남으므로 사용 후 키 재발급 권장'
-        required: false
-        default: ''
       bok_api_key:
         description: '(선택) 한국은행 ECOS 인증키 — BOK_API_KEY 시크릿이 없을 때 1회용으로 사용. 사용 후 키 재발급 권장'
         required: false
@@ -26,16 +22,10 @@ jobs:
 
       - name: Mask one-off keys in logs
         run: |
-          [ -n "${{ inputs.api_key }}" ] && echo "::add-mask::${{ inputs.api_key }}"
           [ -n "${{ inputs.bok_api_key }}" ] && echo "::add-mask::${{ inputs.bok_api_key }}"
           true
 
-      # 수출입은행 API는 해외(GitHub 러너) IP를 302 리다이렉트로 차단할 수 있어
-      # 실패하더라도 뒤의 ECOS(금리·물가) 수집과 커밋이 진행되도록 분리한다.
-      - name: Fetch exchange rates (수출입은행)
-        continue-on-error: true
-        env:
-          EXIM_API_KEY: ${{ secrets.EXIM_API_KEY || inputs.api_key }}
+      - name: Fetch daily exchange rates (ECB)
         run: python3 exchange-rate/fetch_data.py
 
       - name: Fetch interest rate & CPI (한국은행 ECOS)
@@ -56,6 +46,6 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add $FILES
-          git commit -m "chore(exchange-rate): 월간 환율·금리·물가 데이터 자동 갱신"
+          git commit -m "chore(exchange-rate): 일일 환율·금리·물가 데이터 자동 갱신"
           git pull --rebase origin main
           git push
