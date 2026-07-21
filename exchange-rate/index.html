@@ -3,10 +3,10 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>거시경제 대시보드 — 환율 · 금리 · 물가 · DRAM · 유가 | Stargate</title>
-<meta name="description" content="ECB 환율, 한국은행 기준금리·소비자물가와 DRAM·브렌트유 연간 가격을 집계·분석하는 자동 갱신 대시보드.">
-<meta property="og:title" content="거시경제 대시보드 — 환율 · 금리 · 물가 · DRAM · 유가">
-<meta property="og:description" content="환율·금리·물가와 DRAM·브렌트유 연간 가격을 한 화면에서 비교하는 인터랙티브 대시보드">
+<title>거시경제 대시보드 — 환율 · 금리 · 물가 · 반도체 · 원자재 | Stargate</title>
+<meta name="description" content="환율·금리·물가와 DRAM·유가·금·구리·천연가스의 연간 가격을 집계·분석하는 자동 갱신 대시보드.">
+<meta property="og:title" content="거시경제 대시보드 — 환율 · 금리 · 물가 · 반도체 · 원자재">
+<meta property="og:description" content="환율·금리·물가와 DRAM·유가·금·구리·천연가스를 한 화면에서 비교하는 인터랙티브 대시보드">
 <meta property="og:url" content="https://www.stargateedu.co.kr/exchange-rate/">
 <meta property="og:type" content="website">
 <link rel="canonical" href="https://www.stargateedu.co.kr/exchange-rate/">
@@ -48,6 +48,15 @@ header.head .lead{color:var(--sub);font-size:14px;margin:8px 0 0;max-width:74ch}
 .meta-line{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px;font-size:12px;color:var(--muted)}
 .meta-line .pill{border:1px solid var(--line2);background:var(--panel);border-radius:999px;padding:4px 10px}
 .meta-line .pill b{color:var(--sub);font-weight:600}
+.refresh-row{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:14px}
+.refresh-data{border:1px solid transparent;background:var(--grad1);color:#0b1020;border-radius:10px;
+  padding:9px 15px;font:700 13px inherit;cursor:pointer;display:inline-flex;align-items:center;gap:8px;transition:.15s}
+.refresh-data:hover{filter:brightness(1.08);transform:translateY(-1px)}
+.refresh-data:disabled{opacity:.65;cursor:wait;transform:none}
+.refresh-data.loading .refresh-mark{animation:spin .8s linear infinite}
+.refresh-status{font-size:12px;color:var(--muted)}
+.refresh-status.ok{color:#75cf91}.refresh-status.error{color:#ef8b8b}
+@keyframes spin{to{transform:rotate(360deg)}}
 
 .controls{display:flex;gap:22px;flex-wrap:wrap;align-items:flex-start;margin:22px 0 16px}
 .fgroup{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
@@ -118,17 +127,23 @@ footer{margin-top:56px;padding-top:20px;border-top:1px solid var(--line);color:v
   </nav>
 
   <header class="head">
-    <h1>거시경제 대시보드 <span class="grad">환율 · 금리 · 물가 · DRAM · 유가</span></h1>
+    <h1>거시경제 대시보드 <span class="grad">환율 · 금리 · 물가 · 반도체 · 원자재</span></h1>
     <p class="lead">유럽중앙은행(ECB)의
       <a href="https://www.ecb.europa.eu/stats/policy_and_exchange_rates/euro_reference_exchange_rates/" target="_blank" rel="noopener">일일 기준환율</a>과 한국은행
       <a href="https://ecos.bok.or.kr/" target="_blank" rel="noopener">ECOS 경제통계</a>의
       기준금리·소비자물가를 집계·분석합니다. 원화 환율(USD·JPY·EUR·CNY)과
-      통화정책·물가, DRAM·브렌트유 연간 가격을 한 화면에서 보고, GitHub Actions가 영업일마다 자동 갱신합니다.</p>
+      통화정책·물가와 DRAM·유가·금·구리·천연가스 연간 가격을 한 화면에서 보고, GitHub Actions가 영업일마다 자동 갱신합니다.</p>
     <div class="meta-line">
       <span class="pill">데이터 기준 <b id="metaUpdated">—</b></span>
       <span class="pill">커버리지 <b id="metaRange">—</b></span>
       <span class="pill">단위 <b>원 (월평균 매매기준율)</b></span>
       <span class="pill" id="metaMode">—</span>
+    </div>
+    <div class="refresh-row">
+      <button class="refresh-data" id="refreshAllBtn" type="button" aria-describedby="refreshStatus">
+        <span class="refresh-mark" aria-hidden="true">↻</span><span>오늘 데이터 새로고침</span>
+      </button>
+      <span class="refresh-status" id="refreshStatus" role="status" aria-live="polite">환율·금리·물가·시장 데이터를 최신 파일에서 다시 확인합니다.</span>
     </div>
   </header>
 
@@ -199,6 +214,19 @@ footer{margin-top:56px;padding-top:20px;border-top:1px solid var(--line);color:v
       <div class="chart-box"><canvas id="marketChart" role="img" aria-label="DRAM 최저 소비자 소매가격과 브렌트유 현물가격의 연간 평균 추이 선 그래프"></canvas></div>
     </div>
 
+    <div class="sec-divider" style="grid-column:1/-1;margin-top:12px;display:flex;align-items:baseline;gap:10px;flex-wrap:wrap">
+      <h2 style="font-size:19px;margin:0">글로벌 원자재 · 금 · 구리 · 천연가스</h2>
+      <span class="cap" style="margin:0">세계은행 Pink Sheet 월별 가격의 연평균 · 2018년=100 비교지수</span>
+    </div>
+
+    <section class="kpis" id="commodityKpis" style="grid-column:1/-1" aria-label="금·구리·천연가스 연간 지표"></section>
+
+    <div class="card full">
+      <h2>금·구리·천연가스 연간 가격지수</h2>
+      <div class="cap">2018년 연평균=100 · 단위가 다른 세 원자재의 방향과 변동폭 비교</div>
+      <div class="chart-box"><canvas id="commodityChart" role="img" aria-label="금, 구리, 미국 천연가스의 2018년 기준 연간 가격지수 선 그래프"></canvas></div>
+    </div>
+
     <div class="card full">
       <div class="thead-row">
         <div>
@@ -232,6 +260,11 @@ footer{margin-top:56px;padding-top:20px;border-top:1px solid var(--line);color:v
     반도체 업체 간 계약가격이나 TrendForce 현물가격과는 정의가 다릅니다. 브렌트유는 FRED의
     <a href="https://fred.stlouisfed.org/series/DCOILBRENTEU" target="_blank" rel="noopener">DCOILBRENTEU</a>(원출처: U.S. EIA) 일일 현물가격을 연평균했습니다.
     두 데이터는 인증키 없이 자동 갱신됩니다.
+    <br><br>
+    <b>금 · 구리 · 천연가스</b> — 세계은행
+    <a href="https://www.worldbank.org/en/research/commodity-markets" target="_blank" rel="noopener">Commodity Price Data (Pink Sheet)</a>의
+    금(USD/트로이온스), 구리(USD/톤), 미국 천연가스(USD/MMBtu) 월별 가격을 연평균하고 2018년=100 지수로 비교합니다.
+    당해연도는 최근 발표 월까지의 YTD 평균입니다.
   </div>
 
   <footer>
@@ -329,7 +362,7 @@ let state = { range:'all', cur:'USD' };
 let charts = {};
 
 const MC = { base:'#e0a24e', cpi:'#5eb0e0', yoy:'#e0685e' };  // 금리·물가 색
-const MK = { dram:'#b388ff', brent:'#f2a65a' };                // DRAM·유가 색
+const MK = { dram:'#b388ff', brent:'#f2a65a', gold:'#f6c453', copper:'#d97745', gas:'#55c2a9' };
 
 async function loadJSON(path, fallbackVar){
   try{
@@ -821,9 +854,61 @@ function updateMarket(){
   charts.market.data.datasets[1].data = rows.map(r=>r.brentUsdPerBbl ?? null);
   charts.market.update();
 }
+function renderCommodityKPIs(){
+  const el = document.getElementById('commodityKpis');
+  el.innerHTML = '';
+  const metrics = [
+    {key:'goldUsdPerOz', label:'금 연평균 가격', unit:'/트로이온스', color:MK.gold},
+    {key:'copperUsdPerMt', label:'구리 연평균 가격', unit:'/톤', color:MK.copper},
+    {key:'gasUsdPerMmbtu', label:'미국 천연가스 연평균', unit:'/MMBtu', color:MK.gas},
+  ];
+  metrics.forEach(metric=>{
+    const row = marketLatest(metric.key), yoy = marketYoY(row, metric.key);
+    const tile = document.createElement('div'); tile.className='tile';
+    tile.innerHTML = `<div class="lb"><span class="key" style="background:${metric.color}"></span><span>${metric.label}</span></div>
+      <div class="val">${row?`$${fmt(row[metric.key],2)}<small>${metric.unit} · ${row.partial?row.year+' YTD':row.year}</small>`:'—'}</div>
+      <div class="delta">${yoy==null?'<span>전년 대비 —</span>':`<b class="${yoy>=0?'up':'down'}">${yoy>=0?'▲':'▼'} ${Math.abs(yoy).toLocaleString('ko-KR',{maximumFractionDigits:1})}%</b> <span>전년 대비</span>`}</div>`;
+    el.appendChild(tile);
+  });
+  const source = MARKET && MARKET.sources ? MARKET.sources.commodities : null;
+  const tile = document.createElement('div'); tile.className='tile';
+  tile.innerHTML = `<div class="lb"><span class="key" style="background:var(--acc)"></span><span>세계은행 데이터 기준</span></div>
+    <div class="val">${source&&source.observedAt?source.observedAt.slice(0,7):'—'}<small>최근 발표월</small></div>
+    <div class="delta"><span>${source&&source.workbookUpdated?`파일 갱신 ${source.workbookUpdated}`:'Pink Sheet'}</span></div>`;
+  el.appendChild(tile);
+}
+function buildCommodity(){
+  const defs = [
+    ['금','goldUsdPerOz',MK.gold],['구리','copperUsdPerMt',MK.copper],['미국 천연가스','gasUsdPerMmbtu',MK.gas]
+  ];
+  charts.commodity = new Chart(document.getElementById('commodityChart'), {
+    type:'line',data:{labels:[],datasets:defs.map(([label,key,color])=>({
+      label,data:[],borderColor:color,backgroundColor:color,$labelColor:color,$key:key,
+      borderWidth:2.5,tension:.24,spanGaps:true,pointRadius:3,pointHoverRadius:6,
+      pointHoverBorderWidth:2,pointHoverBackgroundColor:color,pointHoverBorderColor:SURFACE,
+    }))},
+    options:{responsive:true,maintainAspectRatio:false,layout:{padding:{right:64,top:6}},interaction:{mode:'index',intersect:false},
+      scales:{x:{grid:{display:false},border:{color:BASELINE},ticks:{color:MUTED,maxRotation:0}},
+        y:{border:{display:false},grid:{color:c=>c.tick.value===100?BASELINE:GRID,drawTicks:false},
+           ticks:{color:MUTED,padding:8,callback:v=>v},title:{display:true,text:'가격지수 (2018=100)',color:MUTED,font:{size:10.5}}}},
+      plugins:{legend:legendStyle,tooltip:{...tooltipStyle,callbacks:{
+        title:items=>`${items[0].label}년 · 2018=100`,label:it=>it.parsed.y==null?'':` ${fmt(it.parsed.y,1)} · ${it.dataset.label}`,
+      }}}},plugins:[crosshair,endLabels],
+  });
+  charts.commodity.$endLabels = true;
+}
+function updateCommodity(){
+  if (!charts.commodity) return;
+  const rows=marketRows(); charts.commodity.data.labels=rows.map(r=>String(r.year));
+  charts.commodity.data.datasets.forEach(ds=>{
+    const baseRow=rows.find(r=>r[ds.$key]!=null), base=baseRow?baseRow[ds.$key]:null;
+    ds.data=rows.map(r=>r[ds.$key]==null||!base?null:r[ds.$key]/base*100);
+  });
+  charts.commodity.update();
+}
 function downloadMarketCSV(){
-  const lines = ['year,partial,dram_usd_per_gb,dram_observations,brent_usd_per_barrel,brent_observations'];
-  marketRows().forEach(r=>lines.push([r.year,r.partial?'Y':'N',r.dramUsdPerGb??'',r.dramObservations??'',r.brentUsdPerBbl??'',r.brentObservations??''].join(',')));
+  const lines = ['year,partial,dram_usd_per_gb,dram_observations,brent_usd_per_barrel,brent_observations,gold_usd_per_oz,copper_usd_per_mt,natural_gas_usd_per_mmbtu'];
+  marketRows().forEach(r=>lines.push([r.year,r.partial?'Y':'N',r.dramUsdPerGb??'',r.dramObservations??'',r.brentUsdPerBbl??'',r.brentObservations??'',r.goldUsdPerOz??'',r.copperUsdPerMt??'',r.gasUsdPerMmbtu??''].join(',')));
   const blob = new Blob(['﻿'+lines.join('\n')], {type:'text/csv;charset=utf-8'});
   const a = document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='dram-brent-annual.csv'; a.click(); URL.revokeObjectURL(a.href);
 }
@@ -860,7 +945,31 @@ function renderCurButtons(){
     box.appendChild(b);
   });
 }
-function renderAll(){ renderKPIs(); updateCharts(); renderMacroKPIs(); updateMacro(); renderMarketKPIs(); updateMarket(); renderTable(); }
+function renderAll(){ renderKPIs(); updateCharts(); renderMacroKPIs(); updateMacro(); renderMarketKPIs(); updateMarket(); renderCommodityKPIs(); updateCommodity(); renderTable(); }
+
+async function refreshAllData(){
+  const button=document.getElementById('refreshAllBtn'), status=document.getElementById('refreshStatus');
+  button.disabled=true; button.classList.add('loading'); status.className='refresh-status';
+  status.textContent='최신 공개 데이터를 다시 불러오는 중입니다…';
+  try{
+    const stamp=Date.now();
+    const fresh=await Promise.all(['data.json','bok_data.json','market_data.json'].map(async file=>{
+      const response=await fetch(`./${file}?t=${stamp}`,{cache:'no-store'});
+      if(!response.ok) throw new Error(`${file} ${response.status}`);
+      return response.json();
+    }));
+    [DATA,BOK,MARKET]=fresh;
+    CURS=DATA.currencies||CURS; MACRO={}; (BOK&&BOK.series||[]).forEach(r=>{MACRO[r.ym]=r;});
+    renderMeta(); renderTitles(); renderAll();
+    const bokLast=BOK&&BOK.series&&BOK.series.length?BOK.series[BOK.series.length-1].ym:'—';
+    const marketObserved=MARKET&&MARKET.sources&&MARKET.sources.commodities?MARKET.sources.commodities.observedAt:'—';
+    const checked=new Intl.DateTimeFormat('ko-KR',{dateStyle:'medium',timeStyle:'short',timeZone:'Asia/Seoul'}).format(new Date());
+    status.textContent=`${checked} 재조회 완료 · 환율 ${DATA.observedAt||DATA.updatedAt||'—'} · 금리/물가 ${bokLast} · 원자재 ${marketObserved}`;
+    status.className='refresh-status ok';
+  }catch(error){
+    console.error(error); status.textContent='새로고침에 실패했습니다. 잠시 후 다시 시도해 주세요.'; status.className='refresh-status error';
+  }finally{button.disabled=false;button.classList.remove('loading');}
+}
 
 (async function init(){
   const [ex, bok, market] = await Promise.all([loadData(), loadBok(), loadMarket()]);
@@ -869,7 +978,7 @@ function renderAll(){ renderKPIs(); updateCharts(); renderMacroKPIs(); updateMac
   MACRO = {}; (BOK && BOK.series || []).forEach(r=>{ MACRO[r.ym] = r; });
   if (CURS.length && !CURS.find(c=>c.code===state.cur)) state.cur = CURS[0].code;
   renderMeta(); renderCurButtons(); renderHead(); renderTitles();
-  buildMain(); buildIdx(); buildMom(); buildMacro(); buildMarket();
+  buildMain(); buildIdx(); buildMom(); buildMacro(); buildMarket(); buildCommodity();
   renderAll();
   document.querySelectorAll('.controls .fbtn[data-range]').forEach(btn=>{
     btn.addEventListener('click', ()=>{
@@ -880,6 +989,7 @@ function renderAll(){ renderKPIs(); updateCharts(); renderMacroKPIs(); updateMac
   });
   document.getElementById('csvBtn').addEventListener('click', downloadCSV);
   document.getElementById('marketCsvBtn').addEventListener('click', downloadMarketCSV);
+  document.getElementById('refreshAllBtn').addEventListener('click', refreshAllData);
 })();
 </script>
 </body>
