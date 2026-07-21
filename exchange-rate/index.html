@@ -3,10 +3,10 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>월간 거시경제 대시보드 — 환율 · 금리 · 물가 | Stargate</title>
-<meta name="description" content="ECB 일일 기준환율과 한국은행 ECOS 기준금리·소비자물가를 집계·분석하는 매일 자동 갱신 대시보드. 원화 환율(USD·JPY·EUR·CNY), 한국은행 기준금리, 소비자물가 상승률 시계열.">
-<meta property="og:title" content="월간 거시경제 대시보드 — 환율 · 금리 · 물가">
-<meta property="og:description" content="ECB 환율 + 한국은행 기준금리·소비자물가를 집계한 인터랙티브 거시 대시보드 · 매일 자동 갱신">
+<title>거시경제 대시보드 — 환율 · 금리 · 물가 · DRAM · 유가 | Stargate</title>
+<meta name="description" content="ECB 환율, 한국은행 기준금리·소비자물가와 DRAM·브렌트유 연간 가격을 집계·분석하는 자동 갱신 대시보드.">
+<meta property="og:title" content="거시경제 대시보드 — 환율 · 금리 · 물가 · DRAM · 유가">
+<meta property="og:description" content="환율·금리·물가와 DRAM·브렌트유 연간 가격을 한 화면에서 비교하는 인터랙티브 대시보드">
 <meta property="og:url" content="https://www.stargateedu.co.kr/exchange-rate/">
 <meta property="og:type" content="website">
 <link rel="canonical" href="https://www.stargateedu.co.kr/exchange-rate/">
@@ -118,12 +118,12 @@ footer{margin-top:56px;padding-top:20px;border-top:1px solid var(--line);color:v
   </nav>
 
   <header class="head">
-    <h1>월간 거시경제 대시보드 <span class="grad">환율 · 금리 · 물가</span></h1>
+    <h1>거시경제 대시보드 <span class="grad">환율 · 금리 · 물가 · DRAM · 유가</span></h1>
     <p class="lead">유럽중앙은행(ECB)의
       <a href="https://www.ecb.europa.eu/stats/policy_and_exchange_rates/euro_reference_exchange_rates/" target="_blank" rel="noopener">일일 기준환율</a>과 한국은행
       <a href="https://ecos.bok.or.kr/" target="_blank" rel="noopener">ECOS 경제통계</a>의
       기준금리·소비자물가를 집계·분석합니다. 원화 환율(USD·JPY·EUR·CNY)과
-      통화정책·물가 지표를 한 화면에서 보고, GitHub Actions가 영업일마다 자동 갱신합니다.</p>
+      통화정책·물가, DRAM·브렌트유 연간 가격을 한 화면에서 보고, GitHub Actions가 영업일마다 자동 갱신합니다.</p>
     <div class="meta-line">
       <span class="pill">데이터 기준 <b id="metaUpdated">—</b></span>
       <span class="pill">커버리지 <b id="metaRange">—</b></span>
@@ -181,6 +181,24 @@ footer{margin-top:56px;padding-top:20px;border-top:1px solid var(--line);color:v
       <div class="chart-box"><canvas id="macroChart" role="img" aria-label="한국은행 기준금리와 소비자물가 상승률, 소비자물가지수의 월별 추이 선 그래프. 동일한 값은 아래 표에서 확인할 수 있습니다."></canvas></div>
     </div>
 
+    <div class="sec-divider" style="grid-column:1/-1;margin-top:12px;display:flex;align-items:baseline;gap:10px;flex-wrap:wrap">
+      <h2 style="font-size:19px;margin:0">산업·에너지 가격 · DRAM &amp; 유가</h2>
+      <span class="cap" style="margin:0">연간 평균 · DRAM 최저 소매가격(USD/GB)과 브렌트유 현물가격(USD/배럴)</span>
+    </div>
+
+    <section class="kpis" id="marketKpis" style="grid-column:1/-1" aria-label="DRAM·유가 연간 지표"></section>
+
+    <div class="card full">
+      <div class="thead-row">
+        <div>
+          <h2>DRAM 가격 vs 브렌트유 연간 시계열</h2>
+          <div class="cap" style="margin-bottom:0">연평균 · 당해연도는 최근 관측일까지의 YTD 평균</div>
+        </div>
+        <button class="dl" id="marketCsvBtn">⬇ 연간 CSV</button>
+      </div>
+      <div class="chart-box"><canvas id="marketChart" role="img" aria-label="DRAM 최저 소비자 소매가격과 브렌트유 현물가격의 연간 평균 추이 선 그래프"></canvas></div>
+    </div>
+
     <div class="card full">
       <div class="thead-row">
         <div>
@@ -209,6 +227,11 @@ footer{margin-top:56px;padding-top:20px;border-top:1px solid var(--line);color:v
     <b>한국은행 기준금리</b>(통계표 722Y001)와 <b>소비자물가지수</b>(901Y009, 2020=100)를 월별로 수집하며,
     물가상승률은 소비자물가지수의 전년동월비(YoY)입니다. <code>BOK_API_KEY</code> 등록 시 근사 시드가 ECOS 정밀치로 대체됩니다.
     설정 방법은 <a href="https://github.com/DongsooJung/dongsoojung.github.io/tree/main/exchange-rate" target="_blank" rel="noopener">README</a> 참고.
+    <br><br>
+    <b>DRAM · 유가</b> — DRAM은 Stanford DAM의 공개 Memory Prices CSV를 이용한 <b>최저 소비자 소매가격(USD/GB)</b> 연평균이며,
+    반도체 업체 간 계약가격이나 TrendForce 현물가격과는 정의가 다릅니다. 브렌트유는 FRED의
+    <a href="https://fred.stlouisfed.org/series/DCOILBRENTEU" target="_blank" rel="noopener">DCOILBRENTEU</a>(원출처: U.S. EIA) 일일 현물가격을 연평균했습니다.
+    두 데이터는 인증키 없이 자동 갱신됩니다.
   </div>
 
   <footer>
@@ -225,6 +248,7 @@ footer{margin-top:56px;padding-top:20px;border-top:1px solid var(--line);color:v
 <script src="./chart.umd.min.js"></script>
 <script src="./fallback-data.js"></script>
 <script src="./bok-fallback.js"></script>
+<script src="./market-fallback.js"></script>
 <script>
 'use strict';
 
@@ -300,10 +324,12 @@ let DATA = null;                        // {currencies, series:[{ym,days,rates:{
 let CURS = [];                          // currencies 메타
 let BOK = null;                         // {meta, series:[{ym,baseRate,cpi,cpiYoY}]}
 let MACRO = {};                         // ym -> {baseRate,cpi,cpiYoY}
+let MARKET = null;                      // {series:[{year,dramUsdPerGb,brentUsdPerBbl}]}
 let state = { range:'all', cur:'USD' };
 let charts = {};
 
 const MC = { base:'#e0a24e', cpi:'#5eb0e0', yoy:'#e0685e' };  // 금리·물가 색
+const MK = { dram:'#b388ff', brent:'#f2a65a' };                // DRAM·유가 색
 
 async function loadJSON(path, fallbackVar){
   try{
@@ -317,6 +343,7 @@ async function loadJSON(path, fallbackVar){
 }
 const loadData = () => loadJSON('./data.json', 'FALLBACK_DATA');
 const loadBok  = () => loadJSON('./bok_data.json', 'BOK_FALLBACK');
+const loadMarket = () => loadJSON('./market_data.json', 'MARKET_FALLBACK');
 
 const curMeta = code => CURS.find(c=>c.code===code) || {code, label:code, per:1, color:'#7aa2ff'};
 const rateOf = (r, code, f='avg') => (r.rates && r.rates[code]) ? r.rates[code][f] : null;
@@ -725,6 +752,82 @@ function updateMacro(){
   charts.macro.update();
 }
 
+/* ─── 산업·에너지 지표 (DRAM · 유가) ───────────────── */
+function marketRows(){ return MARKET && Array.isArray(MARKET.series) ? MARKET.series : []; }
+function marketLatest(key){ return [...marketRows()].reverse().find(r=>r[key]!=null) || null; }
+function marketYoY(row, key){
+  if (!row) return null;
+  const prev = marketRows().find(r=>r.year===row.year-1);
+  if (!prev || prev[key]==null || !prev[key]) return null;
+  return (row[key]/prev[key]-1)*100;
+}
+function renderMarketKPIs(){
+  const el = document.getElementById('marketKpis');
+  el.innerHTML = '';
+  const dram = marketLatest('dramUsdPerGb');
+  const brent = marketLatest('brentUsdPerBbl');
+  if (!dram && !brent){ el.innerHTML = '<div class="tile"><div class="lb">시장 데이터 없음</div></div>'; return; }
+  const dramYoy = marketYoY(dram, 'dramUsdPerGb');
+  const brentYoy = marketYoY(brent, 'brentUsdPerBbl');
+  const period = row => row && row.partial ? `${row.year} YTD` : String(row ? row.year : '—');
+  const delta = (value, label='전년 대비') => value==null ? `<span>${label} —</span>`
+    : `<b class="${value>=0?'up':'down'}">${value>=0?'▲':'▼'} ${Math.abs(value).toLocaleString('ko-KR',{maximumFractionDigits:1})}%</b> <span>${label}</span>`;
+  const tiles = [
+    {color:MK.dram, lb:'DRAM 연평균 소매가격', val:dram?`$${fmt(dram.dramUsdPerGb,2)}<small>/GB · ${period(dram)}</small>`:'—', delta:delta(dramYoy)},
+    {color:MK.brent, lb:'브렌트유 연평균 현물가격', val:brent?`$${fmt(brent.brentUsdPerBbl,2)}<small>/배럴 · ${period(brent)}</small>`:'—', delta:delta(brentYoy)},
+    {color:MK.dram, lb:'DRAM 연간 관측치', val:dram?`${dram.dramObservations||'—'}<small>개 가격 관측</small>`:'—', delta:'<span>Stanford DAM · 최저 소매가</span>'},
+    {color:MK.brent, lb:'유가 연간 관측치', val:brent?`${brent.brentObservations||'—'}<small>영업일</small>`:'—', delta:'<span>FRED · 원출처 U.S. EIA</span>'},
+  ];
+  tiles.forEach(t=>{
+    const tile = document.createElement('div');
+    tile.className = 'tile';
+    tile.innerHTML = `<div class="lb"><span class="key" style="background:${t.color}"></span><span>${t.lb}</span></div>
+      <div class="val">${t.val}</div><div class="delta">${t.delta}</div>`;
+    el.appendChild(tile);
+  });
+}
+function buildMarket(){
+  charts.market = new Chart(document.getElementById('marketChart'), {
+    type:'line',
+    data:{labels:[],datasets:[
+      {label:'DRAM 최저 소매가격',data:[],borderColor:MK.dram,backgroundColor:MK.dram,$labelColor:MK.dram,
+       borderWidth:2.5,tension:.24,spanGaps:true,yAxisID:'y',pointRadius:3,pointHoverRadius:6,pointHoverBorderWidth:2,pointHoverBackgroundColor:MK.dram,pointHoverBorderColor:SURFACE},
+      {label:'브렌트유 현물가격',data:[],borderColor:MK.brent,backgroundColor:MK.brent,$labelColor:MK.brent,
+       borderWidth:2.5,tension:.24,spanGaps:true,yAxisID:'y1',pointRadius:3,pointHoverRadius:6,pointHoverBorderWidth:2,pointHoverBackgroundColor:MK.brent,pointHoverBorderColor:SURFACE},
+    ]},
+    options:{
+      responsive:true,maintainAspectRatio:false,
+      layout:{padding:{right:48,top:6}},interaction:{mode:'index',intersect:false},
+      scales:{
+        x:{grid:{display:false},border:{color:BASELINE},ticks:{color:MUTED,maxRotation:0}},
+        y:{position:'left',beginAtZero:false,border:{display:false},grid:{color:GRID,drawTicks:false},
+           ticks:{color:MUTED,padding:8,callback:v=>'$'+v},title:{display:true,text:'DRAM (USD/GB)',color:MUTED,font:{size:10.5}}},
+        y1:{position:'right',beginAtZero:false,border:{display:false},grid:{drawOnChartArea:false},
+            ticks:{color:MUTED,padding:6,callback:v=>'$'+v},title:{display:true,text:'Brent (USD/barrel)',color:MUTED,font:{size:10.5}}},
+      },
+      plugins:{legend:legendStyle,tooltip:{...tooltipStyle,callbacks:{
+        title:items=>`${items[0].label}년 연평균`,
+        label:it=>it.parsed.y==null?'':(it.datasetIndex===0?` $${fmt(it.parsed.y,2)}/GB · DRAM`:` $${fmt(it.parsed.y,2)}/배럴 · Brent`),
+      }}},
+    },plugins:[crosshair,endLabels],
+  });
+  charts.market.$endLabels = true;
+}
+function updateMarket(){
+  if (!charts.market) return;
+  const rows = marketRows();
+  charts.market.data.labels = rows.map(r=>String(r.year));
+  charts.market.data.datasets[0].data = rows.map(r=>r.dramUsdPerGb ?? null);
+  charts.market.data.datasets[1].data = rows.map(r=>r.brentUsdPerBbl ?? null);
+  charts.market.update();
+}
+function downloadMarketCSV(){
+  const lines = ['year,partial,dram_usd_per_gb,dram_observations,brent_usd_per_barrel,brent_observations'];
+  marketRows().forEach(r=>lines.push([r.year,r.partial?'Y':'N',r.dramUsdPerGb??'',r.dramObservations??'',r.brentUsdPerBbl??'',r.brentObservations??''].join(',')));
+  const blob = new Blob(['﻿'+lines.join('\n')], {type:'text/csv;charset=utf-8'});
+  const a = document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='dram-brent-annual.csv'; a.click(); URL.revokeObjectURL(a.href);
+}
+
 /* ─── 초기화 ───────────────────────────────────────── */
 function renderMeta(){
   const s = DATA.series;
@@ -757,16 +860,16 @@ function renderCurButtons(){
     box.appendChild(b);
   });
 }
-function renderAll(){ renderKPIs(); updateCharts(); renderMacroKPIs(); updateMacro(); renderTable(); }
+function renderAll(){ renderKPIs(); updateCharts(); renderMacroKPIs(); updateMacro(); renderMarketKPIs(); updateMarket(); renderTable(); }
 
 (async function init(){
-  const [ex, bok] = await Promise.all([loadData(), loadBok()]);
-  DATA = ex; BOK = bok;
+  const [ex, bok, market] = await Promise.all([loadData(), loadBok(), loadMarket()]);
+  DATA = ex; BOK = bok; MARKET = market;
   CURS = DATA.currencies || [];
   MACRO = {}; (BOK && BOK.series || []).forEach(r=>{ MACRO[r.ym] = r; });
   if (CURS.length && !CURS.find(c=>c.code===state.cur)) state.cur = CURS[0].code;
   renderMeta(); renderCurButtons(); renderHead(); renderTitles();
-  buildMain(); buildIdx(); buildMom(); buildMacro();
+  buildMain(); buildIdx(); buildMom(); buildMacro(); buildMarket();
   renderAll();
   document.querySelectorAll('.controls .fbtn[data-range]').forEach(btn=>{
     btn.addEventListener('click', ()=>{
@@ -776,6 +879,7 @@ function renderAll(){ renderKPIs(); updateCharts(); renderMacroKPIs(); updateMac
     });
   });
   document.getElementById('csvBtn').addEventListener('click', downloadCSV);
+  document.getElementById('marketCsvBtn').addEventListener('click', downloadMarketCSV);
 })();
 </script>
 </body>
