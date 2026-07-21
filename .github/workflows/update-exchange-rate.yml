@@ -35,10 +35,12 @@ jobs:
           BOK_API_KEY: ${{ secrets.BOK_API_KEY || inputs.bok_api_key }}
         run: python3 exchange-rate/fetch_bok.py
 
-      - name: Fetch annual DRAM & Brent oil data
+      - name: Fetch annual DRAM, energy & commodity data
         if: always()
         continue-on-error: true
-        run: python3 exchange-rate/fetch_markets.py
+        run: |
+          python3 -m pip install --disable-pip-version-check --quiet openpyxl
+          python3 exchange-rate/fetch_markets.py
 
       - name: Commit updated data
         if: always()
