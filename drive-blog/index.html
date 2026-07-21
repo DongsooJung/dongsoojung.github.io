@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>STARGATE 공개 지식 아카이브 | AI·교육·데이터</title>
+  <meta name="description" content="주식회사 별의문의 AI 교육, 데이터 분석, 스마트시티, 업무 자동화 연구를 공개하는 지식 아카이브입니다.">
+  <meta property="og:title" content="STARGATE 공개 지식 아카이브">
+  <meta property="og:description" content="AI·교육·데이터 분석을 연결하는 실무형 연구 기록">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://www.stargateedu.co.kr/drive-blog/">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+  <style>
+    :root{--navy:#0b1738;--navy2:#142150;--gold:#d9a441;--gold2:#f1c77a;--paper:#f7f8fc;--line:#e4e8f2;--muted:#68728d;--text:#1a2138}
+    *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;font-family:"Noto Sans KR",system-ui,sans-serif;color:var(--text);background:var(--paper);line-height:1.75;word-break:keep-all}
+    a{color:inherit;text-decoration:none}.wrap{width:min(1080px,calc(100% - 40px));margin:auto}
+    nav{position:sticky;top:0;z-index:20;background:rgba(11,23,56,.94);backdrop-filter:blur(12px);border-bottom:1px solid rgba(217,164,65,.25);color:#fff}
+    nav .wrap{height:64px;display:flex;align-items:center;justify-content:space-between;gap:16px}.brand{font-weight:900;letter-spacing:.4px}.brand i{display:inline-block;width:9px;height:9px;border-radius:50%;background:var(--gold);box-shadow:0 0 12px var(--gold);margin-right:9px}
+    .navlinks{display:flex;align-items:center;gap:18px;font-size:14px}.navlinks a:hover{color:var(--gold2)}
+    .hero{position:relative;overflow:hidden;background:radial-gradient(800px 400px at 20% 0,rgba(217,164,65,.2),transparent 60%),linear-gradient(150deg,var(--navy),var(--navy2));color:#fff;padding:92px 0 82px}
+    .eyebrow{color:var(--gold2);font:700 12px "JetBrains Mono",monospace;letter-spacing:1.8px}.hero h1{font-size:clamp(34px,6vw,62px);line-height:1.15;margin:14px 0 18px;letter-spacing:-1.5px}.hero h1 span{color:var(--gold2)}.hero p{max-width:720px;margin:0;color:#cfd5e8;font-size:18px}
+    .hero-actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:30px}.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:12px 18px;border-radius:12px;border:1px solid transparent;font-weight:700;cursor:pointer;font:700 14px "Noto Sans KR",sans-serif}.btn.primary{background:var(--gold);color:var(--navy)}.btn.ghost{border-color:rgba(255,255,255,.32);color:#fff;background:transparent}.btn.dark{background:var(--navy);color:#fff}.btn:disabled{opacity:.6;cursor:wait}
+    main{padding:64px 0 90px}.section-head{display:flex;align-items:end;justify-content:space-between;gap:20px;margin-bottom:24px}.section-head h2{font-size:30px;margin:4px 0;color:var(--navy)}.section-head p{margin:0;color:var(--muted)}
+    .cards{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}.card{background:#fff;border:1px solid var(--line);border-radius:18px;padding:26px;box-shadow:0 10px 28px rgba(11,23,56,.05);transition:.2s}.card:hover{transform:translateY(-3px);box-shadow:0 16px 36px rgba(11,23,56,.09)}.tag{display:inline-flex;padding:5px 10px;border-radius:999px;background:#fff6df;color:#8a5b00;font-size:12px;font-weight:700}.card h3{margin:14px 0 8px;font-size:22px;color:var(--navy);line-height:1.4}.card p{margin:0;color:var(--muted)}.meta{margin-top:18px;color:#939bb1;font-size:12px}.card-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:20px}
+    article{margin-top:56px;background:#fff;border:1px solid var(--line);border-radius:22px;padding:clamp(26px,5vw,58px);box-shadow:0 14px 40px rgba(11,23,56,.06)}article h2{font-size:clamp(28px,4vw,42px);line-height:1.3;color:var(--navy);margin:0 0 12px}article .lead{font-size:18px;color:var(--muted);margin-bottom:36px}article h3{font-size:23px;color:var(--navy);margin:38px 0 10px}article p{margin:0 0 16px}article ul{padding-left:22px}article li{margin:8px 0}
+    .sync{margin-top:52px;border:1px dashed #aab3ca;background:#eef1f8;border-radius:18px;padding:24px}.sync h2{font-size:22px;margin:0 0 6px;color:var(--navy)}.sync p{margin:0;color:var(--muted);font-size:14px}.sync-row{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:18px}.status{font-size:13px;color:var(--muted)}#drive-results{margin-top:18px}
+    footer{background:var(--navy);color:#9fa8c4;text-align:center;padding:38px 20px;font-size:13px}footer a{color:var(--gold2)}
+    @media(max-width:720px){.navlinks a:not(:last-child){display:none}.hero{padding:72px 0 64px}.cards{grid-template-columns:1fr}.section-head{align-items:start;flex-direction:column}.wrap{width:min(100% - 28px,1080px)}}
+  </style>
+</head>
+<body>
+  <nav><div class="wrap"><a class="brand" href="/"><i></i>STARGATE EDU</a><div class="navlinks"><a href="#archive">아카이브</a><a href="#article">대표 글</a><a href="/">메인으로 →</a></div></div></nav>
+  <header class="hero">
+    <div class="wrap">
+      <div class="eyebrow">DRIVE · PUBLIC KNOWLEDGE ARCHIVE</div>
+      <h1>생각을 기록하고,<br><span>지식으로 연결합니다.</span></h1>
+      <p>AI 교육, 수학·알고리즘, 데이터 분석, 스마트시티와 업무 자동화에 관한 STARGATE의 공개 연구 기록입니다.</p>
+      <div class="hero-actions"><a class="btn primary" href="#article">대표 글 읽기</a><a class="btn ghost" href="https://drive.google.com/drive/folders/18wK4G_-jzJHsLsvM3Ka5oWjrQChoK9Y4" target="_blank" rel="noopener">Google Drive 폴더</a></div>
+    </div>
+  </header>
+  <main class="wrap">
+    <section id="archive">
+      <div class="section-head"><div><div class="eyebrow">LATEST</div><h2>공개 문서</h2><p>외부 공개 적합성을 확인한 자료만 표시합니다.</p></div></div>
+      <div class="cards" id="public-cards">
+        <section class="card">
+          <span class="tag">AI · 교육 · 전략</span>
+          <h3>STARGATE 공개 지식 아카이브</h3>
+          <p>수학적 사고, 알고리즘, AI, 공간 데이터 분석을 교육과 실제 비즈니스 문제에 연결하는 운영 원칙을 소개합니다.</p>
+          <div class="meta">공개용 편집본 · Google Docs</div>
+          <div class="card-actions"><a class="btn dark" href="#article">웹에서 읽기</a><a class="btn" href="https://docs.google.com/document/d/18VgljsswrJXGJ_gL63z1QvsIWIoZvdWQuFTncueB1-A/edit" target="_blank" rel="noopener">Drive 원문 ↗</a></div>
+        </section>
+      </div>
+    </section>
+
+    <article id="article">
+      <div class="eyebrow">FEATURED ARTICLE</div>
+      <h2>STARGATE 공개 지식 아카이브</h2>
+      <p class="lead">AI·교육·데이터 분석을 연결하는 실무형 연구 기록</p>
+      <h3>소개</h3>
+      <p>STARGATE는 수학적 사고, 알고리즘, 인공지능, 공간 데이터 분석을 연결하여 교육과 실제 비즈니스 문제를 해결합니다. 이 아카이브는 외부 공개에 적합한 연구·교육·프로젝트 기록만 선별해 제공합니다.</p>
+      <h3>1. 데이터 기반 AI 교육</h3>
+      <p>정답을 빠르게 찾는 기술보다 문제를 구조화하는 힘을 핵심 역량으로 봅니다. 수학적 증명에서 알고리즘 설계, 코드 구현, 실제 데이터 분석으로 이어지는 학습 흐름을 설계하고 KOI·수학정보올림피아드·Python 교육 자료로 확장합니다.</p>
+      <h3>2. 자동화 중심의 기업 운영</h3>
+      <p>반복 업무는 표준화하고 가능한 과정은 자동화합니다. 문서와 데이터를 중앙화하고, API 기반 수집·정리·배포 흐름을 구축하여 의사결정에 필요한 시간을 줄이는 것이 목표입니다.</p>
+      <h3>3. 연구 전문성의 사업화</h3>
+      <p>공간계량모형, 헤도닉 가격모형, 이중차분법, GIS와 Python 분석 역량을 스마트시티·도시개발·공공정책·교육 콘텐츠에 적용합니다. 연구 결과는 대시보드, 보고서, 강의, 전자책과 컨설팅으로 전환합니다.</p>
+      <h3>4. 공개 아카이브 운영 원칙</h3>
+      <ul><li>문제를 먼저 구조화하고 분석 목적을 명확히 합니다.</li><li>데이터 출처와 가정을 확인할 수 있게 기록합니다.</li><li>반복되는 작업은 API와 자동화 흐름으로 전환합니다.</li><li>법률·재무·건강·개인정보 자료는 공개 대상에서 제외합니다.</li></ul>
+    </article>
+
+    <section class="sync" aria-labelledby="sync-title">
+      <h2 id="sync-title">Google Drive 최신 목록 동기화</h2>
+      <p>관리자가 Google 계정으로 연결하면 지정된 공개블로그 폴더의 최신 파일 메타데이터를 불러옵니다. 로그인은 버튼을 누를 때만 시작됩니다.</p>
+      <div class="sync-row"><button class="btn dark" id="drive-sync" type="button">Drive 연결 및 새로고침</button><span class="status" id="drive-status" role="status">연결 대기</span></div>
+      <div class="cards" id="drive-results"></div>
+    </section>
+  </main>
+  <footer>© 2026 Stargate Corp. · <a href="/">STARGATE EDU 메인</a></footer>
+
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
+  <script>
+    (() => {
+      const CLIENT_ID = "131457847918-38qti9ho3tan2vkenfvgmdfodn9g506c.apps.googleusercontent.com";
+      const FOLDER_ID = "18wK4G_-jzJHsLsvM3Ka5oWjrQChoK9Y4";
+      const button = document.getElementById("drive-sync");
+      const status = document.getElementById("drive-status");
+      const results = document.getElementById("drive-results");
+      let tokenClient;
+
+      const escapeHtml = (value) => String(value).replace(/[&<>"']/g, (char) => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[char]));
+      const typeLabel = (mime) => mime.includes("document") ? "Google Docs" : mime.includes("pdf") ? "PDF" : mime.includes("presentation") ? "Slides" : mime.includes("spreadsheet") ? "Sheets" : "Drive 파일";
+
+      async function loadFiles(accessToken) {
+        const q = encodeURIComponent("'" + FOLDER_ID + "' in parents and trashed = false");
+        const fields = encodeURIComponent("files(id,name,mimeType,modifiedTime,webViewLink,description)");
+        const endpoint = "https://www.googleapis.com/drive/v3/files?q=" + q + "&orderBy=modifiedTime%20desc&pageSize=50&fields=" + fields;
+        const response = await fetch(endpoint, {headers:{Authorization:"Bearer " + accessToken},cache:"no-store"});
+        if (!response.ok) throw new Error("Drive API " + response.status);
+        const payload = await response.json();
+        const files = Array.isArray(payload.files) ? payload.files : [];
+        if (!files.length) { results.innerHTML = ""; status.textContent = "표시할 공개 문서가 없습니다."; return; }
+        results.innerHTML = files.map((file) => {
+          const updated = file.modifiedTime ? new Intl.DateTimeFormat("ko-KR",{dateStyle:"medium",timeZone:"Asia/Seoul"}).format(new Date(file.modifiedTime)) : "";
+          const url = file.webViewLink || ("https://drive.google.com/open?id=" + encodeURIComponent(file.id));
+          return '<section class="card"><span class="tag">' + escapeHtml(typeLabel(file.mimeType || "")) + '</span><h3>' + escapeHtml(file.name) + '</h3><p>' + escapeHtml(file.description || "STARGATE 공개 Google Drive 문서") + '</p><div class="meta">수정 ' + escapeHtml(updated) + '</div><div class="card-actions"><a class="btn dark" href="' + escapeHtml(url) + '" target="_blank" rel="noopener">원문 열기 ↗</a></div></section>';
+        }).join("");
+        status.textContent = files.length + "개 문서 동기화 완료";
+      }
+
+      button.addEventListener("click", () => {
+        if (!(window.google && google.accounts && google.accounts.oauth2)) { status.textContent = "Google 로그인 모듈을 불러오는 중입니다. 잠시 후 다시 시도해 주세요."; return; }
+        button.disabled = true;
+        status.textContent = "Google 인증을 시작합니다.";
+        tokenClient ||= google.accounts.oauth2.initTokenClient({
+          client_id: CLIENT_ID,
+          scope: "https://www.googleapis.com/auth/drive.metadata.readonly",
+          callback: async (response) => {
+            try {
+              if (response.error) throw new Error(response.error);
+              status.textContent = "Drive 목록을 불러오는 중입니다.";
+              await loadFiles(response.access_token);
+            } catch (error) {
+              status.textContent = "동기화 실패: OAuth 허용 출처와 폴더 권한을 확인해 주세요.";
+            } finally { button.disabled = false; }
+          }
+        });
+        tokenClient.requestAccessToken({prompt:"consent"});
+      });
+    })();
+  </script>
+</body>
+</html>
