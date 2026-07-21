@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>밀리의 서재 독서기록 · Stargate 독후감 블로그</title>
+<meta name="description" content="밀리의 서재로 읽은 책들을 독후감 형식으로 기록하는 독서 블로그">
+<link rel="canonical" href="https://www.stargateedu.co.kr/reading/">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="ko_KR">
+<meta property="og:title" content="밀리의 서재 독서기록 · Stargate 독후감 블로그">
+<meta property="og:description" content="완독한 책을 별점, 밑줄, 서평으로 정리한 개인 독서 아카이브">
+<meta property="og:url" content="https://www.stargateedu.co.kr/reading/">
+<style>
+  :root{
+    --bg:#0e1116; --panel:#161b22; --panel2:#1c232d; --line:#2a323d;
+    --txt:#e8edf2; --muted:#93a1b0; --accent:#5b8cff; --accent2:#8b5bff;
+    --gold:#ffc24b; --good:#3fb950; --radius:16px; --maxw:1080px;
+  }
+  [data-theme="light"]{
+    --bg:#f5f7fb; --panel:#ffffff; --panel2:#f0f3f8; --line:#e2e8f0;
+    --txt:#1a2230; --muted:#5a6a7d; --accent:#3366ff; --accent2:#7c3aed;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{
+    font-family:'Pretendard','Apple SD Gothic Neo','Malgun Gothic',system-ui,sans-serif;
+    background:var(--bg);color:var(--txt);line-height:1.65;
+    transition:background .3s,color .3s;
+  }
+  a{color:inherit;text-decoration:none}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 20px}
+
+  /* ── Header ── */
+  header.site{position:sticky;top:0;z-index:50;backdrop-filter:blur(12px);
+    background:color-mix(in srgb,var(--bg) 82%,transparent);
+    border-bottom:1px solid var(--line)}
+  .nav{display:flex;align-items:center;justify-content:space-between;height:64px}
+  .brand{display:flex;align-items:center;gap:10px;font-weight:800;font-size:18px;cursor:pointer}
+  .brand .logo{width:30px;height:30px;border-radius:9px;
+    background:linear-gradient(135deg,var(--accent),var(--accent2));
+    display:grid;place-items:center;font-size:16px}
+  .brand small{color:var(--muted);font-weight:500;font-size:12px}
+  .nav-actions{display:flex;align-items:center;gap:8px}
+  .home-link{height:38px;display:inline-flex;align-items:center;padding:0 12px;border:1px solid var(--line);
+    background:var(--panel);border-radius:10px;color:var(--txt);font-size:13px;font-weight:700;transition:.15s}
+  .home-link:hover{border-color:var(--accent);color:var(--accent)}
+  .iconbtn{width:38px;height:38px;border:1px solid var(--line);background:var(--panel);
+    border-radius:10px;color:var(--txt);cursor:pointer;font-size:16px;transition:.15s}
+  .iconbtn:hover{border-color:var(--accent)}
+
+  /* ── Hero / Stats ── */
+  .hero{padding:44px 0 28px}
+  .hero h1{font-size:34px;font-weight:800;letter-spacing:-.5px}
+  .hero .millie{display:inline-block;background:linear-gradient(135deg,var(--accent),var(--accent2));
+    -webkit-background-clip:text;background-clip:text;color:transparent}
+  .hero p{color:var(--muted);margin-top:10px;font-size:15px}
+  .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:26px}
+  .stat{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:18px}
+  .stat .n{font-size:26px;font-weight:800}
+  .stat .l{color:var(--muted);font-size:13px;margin-top:2px}
+  .stat .n .u{font-size:14px;color:var(--muted);font-weight:600;margin-left:2px}
+
+  /* ── Controls ── */
+  .controls{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin:30px 0 18px}
+  .search{flex:1;min-width:220px;position:relative}
+  .search input{width:100%;padding:12px 14px 12px 40px;border-radius:12px;
+    border:1px solid var(--line);background:var(--panel);color:var(--txt);font-size:14px;outline:none}
+  .search input:focus{border-color:var(--accent)}
+  .search::before{content:"🔍";position:absolute;left:13px;top:11px;opacity:.6}
+  select{padding:11px 14px;border-radius:12px;border:1px solid var(--line);
+    background:var(--panel);color:var(--txt);font-size:14px;cursor:pointer}
+  .chips{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:22px}
+  .chip{padding:7px 14px;border-radius:999px;border:1px solid var(--line);
+    background:var(--panel);color:var(--muted);cursor:pointer;font-size:13px;transition:.15s}
+  .chip.active{background:var(--accent);border-color:var(--accent);color:#fff;font-weight:600}
+
+  /* ── Cards grid ── */
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:20px;padding-bottom:60px}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);
+    overflow:hidden;cursor:pointer;transition:.2s;display:flex;flex-direction:column}
+  .card:hover{transform:translateY(-4px);border-color:var(--accent);
+    box-shadow:0 12px 30px -12px rgba(0,0,0,.5)}
+  .card .cover{height:150px;display:flex;align-items:flex-end;padding:16px;position:relative}
+  .card .cover .genre{position:absolute;top:12px;left:12px;font-size:11px;font-weight:700;
+    padding:4px 10px;border-radius:999px;background:rgba(0,0,0,.35);color:#fff;backdrop-filter:blur(4px)}
+  .card .cover h3{font-size:19px;font-weight:800;color:#fff;text-shadow:0 2px 8px rgba(0,0,0,.5)}
+  .card .body{padding:16px;flex:1;display:flex;flex-direction:column;gap:10px}
+  .card .meta{color:var(--muted);font-size:13px}
+  .card .stars{color:var(--gold);font-size:14px;letter-spacing:2px}
+  .card .oneline{font-size:14px;color:var(--txt);opacity:.9;
+    display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+  .card .tags{display:flex;gap:6px;flex-wrap:wrap;margin-top:auto}
+  .tag{font-size:11px;color:var(--muted);background:var(--panel2);padding:3px 9px;border-radius:6px}
+  .card .foot{display:flex;justify-content:space-between;align-items:center;
+    color:var(--muted);font-size:12px;border-top:1px solid var(--line);padding-top:10px}
+
+  /* ── Detail (modal) ── */
+  .overlay{position:fixed;inset:0;z-index:100;background:rgba(0,0,0,.6);
+    display:none;align-items:flex-start;justify-content:center;padding:40px 16px;overflow-y:auto}
+  .overlay.open{display:flex}
+  .post{max-width:760px;width:100%;background:var(--bg);border:1px solid var(--line);
+    border-radius:20px;overflow:hidden;animation:rise .3s ease}
+  @keyframes rise{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:none}}
+  .post .banner{padding:40px 36px 30px;position:relative}
+  .post .banner .close{position:absolute;top:16px;right:16px;width:36px;height:36px;
+    border-radius:50%;background:rgba(0,0,0,.35);border:none;color:#fff;font-size:18px;cursor:pointer}
+  .post .banner .genre{font-size:12px;font-weight:700;color:#fff;opacity:.9}
+  .post .banner h2{font-size:28px;font-weight:800;color:#fff;margin:8px 0;text-shadow:0 2px 10px rgba(0,0,0,.4)}
+  .post .banner .author{color:#fff;opacity:.9;font-size:14px}
+  .post .content{padding:30px 36px 40px}
+  .infobar{display:flex;flex-wrap:wrap;gap:20px;padding:16px 20px;background:var(--panel);
+    border:1px solid var(--line);border-radius:12px;margin-bottom:24px;font-size:13px}
+  .infobar div span{display:block;color:var(--muted);font-size:11px;margin-bottom:2px}
+  .infobar b{font-weight:700}
+  .post h4{font-size:15px;font-weight:800;margin:26px 0 10px;
+    display:flex;align-items:center;gap:8px}
+  .post h4::before{content:"";width:4px;height:16px;border-radius:2px;
+    background:linear-gradient(var(--accent),var(--accent2))}
+  .post p{color:var(--txt);opacity:.92;font-size:15px;margin-bottom:12px}
+  .quote{border-left:3px solid var(--accent);background:var(--panel);
+    padding:14px 18px;border-radius:0 10px 10px 0;margin:10px 0;font-style:italic;color:var(--txt)}
+  .quote .src{display:block;font-style:normal;color:var(--muted);font-size:12px;margin-top:8px}
+  .recommend{background:var(--panel2);border-radius:12px;padding:16px 20px;margin-top:8px}
+  .recommend ul{list-style:none;display:flex;flex-direction:column;gap:6px}
+  .recommend li::before{content:"✓ ";color:var(--good);font-weight:800}
+  .bigstars{color:var(--gold);font-size:22px;letter-spacing:3px}
+  .millie-badge{display:inline-flex;align-items:center;gap:6px;font-size:12px;
+    background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;
+    padding:5px 12px;border-radius:999px;font-weight:700;margin-top:14px}
+
+  footer.site{border-top:1px solid var(--line);padding:30px 0;color:var(--muted);font-size:13px;text-align:center}
+  .empty{text-align:center;color:var(--muted);padding:60px 0;grid-column:1/-1}
+  @media(max-width:640px){
+    .stats{grid-template-columns:repeat(2,1fr)}
+    .hero h1{font-size:26px}
+    .post .banner,.post .content{padding-left:22px;padding-right:22px}
+    .home-link{width:38px;padding:0;justify-content:center;font-size:0}
+    .home-link::before{content:"⌂";font-size:18px}
+  }
+</style>
+</head>
+<body data-theme="dark">
+
+<header class="site">
+  <div class="wrap nav">
+    <div class="brand" onclick="closePost()">
+      <span class="logo">📖</span>
+      <div>Stargate 독서기록<br><small>powered by 밀리의 서재</small></div>
+    </div>
+    <div class="nav-actions">
+      <a class="home-link" href="/" aria-label="STARGATE EDU 메인으로 이동">STARGATE EDU</a>
+      <button class="iconbtn" onclick="toggleTheme()" title="테마 전환" aria-label="밝은 테마와 어두운 테마 전환" id="themeBtn">🌙</button>
+    </div>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="wrap">
+    <h1>오늘 읽은 한 권, <span class="millie">밀리의 서재</span> 독후감</h1>
+    <p>구독형 전자책으로 완독한 책들을 별점 · 밑줄 · 서평으로 남기는 개인 독서 아카이브입니다.</p>
+    <div class="stats" id="stats"></div>
+  </div>
+</section>
+
+<div class="wrap">
+  <div class="controls">
+    <div class="search"><input id="search" placeholder="제목 · 저자 · 키워드 검색" oninput="render()"></div>
+    <select id="sort" onchange="render()">
+      <option value="recent">최신 읽은 순</option>
+      <option value="rating">별점 높은 순</option>
+      <option value="title">제목 가나다순</option>
+    </select>
+  </div>
+  <div class="chips" id="chips"></div>
+  <div class="grid" id="grid"></div>
+</div>
+
+<footer class="site">
+  <div class="wrap">
+    © 2026 Stargate 독서기록 · <a href="/">www.stargateedu.co.kr</a><br>
+    이 블로그는 밀리의 서재에서 읽은 책의 개인 감상을 기록하며, 밀리의 서재 공식 서비스와 제휴·후원 관계가 없습니다. 인용문의 저작권은 각 저작권자에게 있습니다.
+  </div>
+</footer>
+
+<div class="overlay" id="overlay" onclick="if(event.target===this)closePost()">
+  <article class="post" id="post"></article>
+</div>
+
+<script>
+/* ─────────── 독후감 데이터 (밀리의 서재 인기 도서 기반 샘플) ─────────── */
+const posts = [
+  {
+    id:1, title:"물고기는 존재하지 않는다", author:"룰루 밀러", pub:"곰출판",
+    genre:"과학·에세이", rating:5, start:"2026-07-05", end:"2026-07-11", pages:328, days:7,
+    c1:"#243b55", c2:"#141e30",
+    oneline:"'물고기'라는 분류는 사실 존재하지 않는다 — 혼돈 앞에서 의미를 붙드는 일에 대하여.",
+    quotes:[
+      {t:"혼돈은 언제나 다시 찾아온다. 그러니 우리가 할 수 있는 건, 그 앞에서 무너지지 않을 이유를 스스로 만들어내는 것뿐이다.", s:"본문 중"},
+    ],
+    review:"분류학자 데이비드 스타 조던의 집요한 인생을 따라가다 보면, 이 책이 실은 '무의미한 세계에서 어떻게 살아갈 것인가'라는 질문을 던지고 있음을 알게 된다. 저자는 조던을 영웅으로 세웠다가 끝내 해체한다. '물고기는 존재하지 않는다'는 문장은 생물학적 사실인 동시에, 우리가 세상에 그어놓은 선들이 얼마나 임의적인가를 보여주는 은유다. 과학 논픽션이면서 회고록이고, 동시에 철학서다.",
+    recommend:["인생의 의미를 잃은 것 같은 시기를 지나는 분","과학과 인문학의 경계를 좋아하는 분","넷플릭스보다 밀도 높은 논픽션을 찾는 분"],
+    tags:["회복탄력성","분류학","논픽션","인생책"]
+  },
+  {
+    id:2, title:"불편한 편의점", author:"김호연", pub:"나무옆의자",
+    genre:"소설", rating:4, start:"2026-06-20", end:"2026-06-24", pages:268, days:5,
+    c1:"#3a5a40", c2:"#1b3021",
+    oneline:"청파동 골목 편의점에서 벌어지는 다정한 회복의 이야기.",
+    quotes:[
+      {t:"결국 삶이란, 관계이고 소통이었다. 오래도록 잊고 있던 그 사실을.", s:"본문 중"},
+    ],
+    review:"부담 없이 읽히지만 마음에 오래 남는다. 노숙인 독고 씨를 중심으로 편의점을 오가는 사람들의 사연이 옴니버스처럼 이어지고, 각자의 상처가 조금씩 아문다. 소설적 완성도보다는 '따뜻함'이 이 책의 핵심 자산이다. 지친 하루 끝에 밀리의 서재로 가볍게 켜서 두세 챕터씩 읽기 좋았다.",
+    recommend:["잠들기 전 마음이 말랑해지는 이야기를 원하는 분","한국형 힐링 소설을 좋아하는 분","독서 습관을 다시 만들고 싶은 분"],
+    tags:["힐링","베스트셀러","한국소설","편의점"]
+  },
+  {
+    id:3, title:"클루지", author:"개리 마커스", pub:"갤리온",
+    genre:"과학·심리", rating:4, start:"2026-06-01", end:"2026-06-09", pages:320, days:9,
+    c1:"#4a2c6d", c2:"#241238",
+    oneline:"인간의 마음은 최적 설계가 아니라 '그럭저럭 굴러가는' 임시변통(클루지)이다.",
+    quotes:[
+      {t:"진화는 완벽한 것을 만들지 않는다. 다만 이전 것보다 조금 나은 것을 쌓아 올릴 뿐이다.", s:"본문 중"},
+    ],
+    review:"우리가 왜 확증편향에 빠지고, 미루고, 비합리적 소비를 하는지를 진화의 '누더기 설계'로 설명한다. 행동경제학과 인지심리를 얕고 넓게 훑기 좋은 입문서. 다만 후반 자기계발적 처방은 다소 느슨하다. 그래도 '내 실수는 인간 하드웨어의 기본값'이라는 관점은 꽤 위안이 된다.",
+    recommend:["행동경제학에 처음 입문하는 분","자기 실수를 덜 자책하고 싶은 분","의사결정을 개선하고 싶은 분"],
+    tags:["인지심리","행동경제학","진화","의사결정"]
+  },
+  {
+    id:4, title:"달러구트 꿈 백화점", author:"이미예", pub:"팩토리나인",
+    genre:"판타지 소설", rating:4, start:"2026-05-18", end:"2026-05-22", pages:300, days:5,
+    c1:"#6d4c2c", c2:"#3a2712",
+    oneline:"잠든 사람만 들어갈 수 있는, 꿈을 파는 백화점 이야기.",
+    quotes:[
+      {t:"오늘 밤 당신이 꿀 꿈은, 어쩌면 누군가 정성껏 만들어 진열해 둔 상품일지도 모릅니다.", s:"본문 중"},
+    ],
+    review:"상상력이 돋보이는 설정이 가장 큰 매력. 꿈을 상품으로 만든다는 아이디어 하나로 세계관 전체를 세운다. 잔잔하고 착한 이야기라 자극적인 전개를 기대하면 심심할 수 있지만, 지친 마음을 달래는 데는 충분하다. 전자책으로 하루 만에 완독하기 좋은 분량.",
+    recommend:["따뜻한 판타지를 좋아하는 분","짧고 편하게 완독하고 싶은 분","상상력 넘치는 설정을 즐기는 분"],
+    tags:["판타지","힐링","베스트셀러","꿈"]
+  },
+  {
+    id:5, title:"사피엔스", author:"유발 하라리", pub:"김영사",
+    genre:"역사·인문", rating:5, start:"2026-04-10", end:"2026-05-02", pages:636, days:23,
+    c1:"#5a3a2a", c2:"#2b1810",
+    oneline:"'허구를 믿는 능력'이 어떻게 호모 사피엔스를 지구의 지배종으로 만들었는가.",
+    quotes:[
+      {t:"돈은 지금까지 고안된 것 중 가장 보편적이고 효율적인 상호 신뢰의 시스템이다.", s:"본문 중"},
+    ],
+    review:"인지혁명·농업혁명·과학혁명이라는 세 축으로 인류사를 관통한다. 국가·화폐·종교·인권이 모두 '공유된 상상'이라는 통찰은 여전히 강력하다. 636쪽의 벽돌책이지만 밀리의 서재로 나눠 읽으니 완주할 수 있었다. 논쟁적인 단정도 있지만, 세계를 보는 렌즈 자체를 바꿔준 책.",
+    recommend:["큰 틀에서 인류사를 조망하고 싶은 분","'왜 우리는 이렇게 사는가'가 궁금한 분","벽돌책 완독에 도전하고 싶은 분"],
+    tags:["인류사","인문교양","인생책","베스트셀러"]
+  },
+  {
+    id:6, title:"미드나잇 라이브러리", author:"매트 헤이그", pub:"인플루엔셜",
+    genre:"소설", rating:4, start:"2026-03-22", end:"2026-03-28", pages:416, days:7,
+    c1:"#1f4e5f", c2:"#0e2830",
+    oneline:"삶과 죽음 사이의 도서관에서, 살지 않은 인생들을 열어보는 여자.",
+    quotes:[
+      {t:"후회하지 않는 삶이 아니라, 후회를 안고도 나아가는 삶이 필요하다.", s:"본문 중"},
+    ],
+    review:"'만약 다른 선택을 했다면'이라는 누구나의 상상을 도서관이라는 장치로 풀어낸다. 설정은 다소 도식적이지만, 우울의 밑바닥에서 다시 삶을 택하는 과정을 설득력 있게 그린다. 자기 삶을 되돌아보게 만드는 힘이 있다.",
+    recommend:["요즘 '만약에'를 자주 떠올리는 분","잔잔한 위로가 필요한 분","번역 소설을 좋아하는 분"],
+    tags:["위로","번역소설","선택","베스트셀러"]
+  },
+];
+
+/* ─────────── 상태/렌더 ─────────── */
+let activeGenre = "전체";
+
+function stars(n){return "★".repeat(n)+"☆".repeat(5-n);}
+function fmt(d){const[,m,day]=d.split("-");return `${+m}.${+day}`;}
+
+function renderStats(){
+  const total=posts.length;
+  const avg=(posts.reduce((s,p)=>s+p.rating,0)/total).toFixed(1);
+  const pages=posts.reduce((s,p)=>s+p.pages,0).toLocaleString();
+  const now=new Date();
+  const monthKey=new Intl.DateTimeFormat("en-CA",{year:"numeric",month:"2-digit",timeZone:"Asia/Seoul"})
+    .format(now).slice(0,7);
+  const thisMonth=posts.filter(p=>p.end.startsWith(monthKey)).length;
+  document.getElementById("stats").innerHTML=`
+    <div class="stat"><div class="n">${total}<span class="u">권</span></div><div class="l">완독한 책</div></div>
+    <div class="stat"><div class="n">${avg}<span class="u">/5</span></div><div class="l">평균 별점</div></div>
+    <div class="stat"><div class="n">${pages}<span class="u">쪽</span></div><div class="l">읽은 페이지</div></div>
+    <div class="stat"><div class="n">${thisMonth}<span class="u">권</span></div><div class="l">이번 달 완독</div></div>`;
+}
+
+function renderChips(){
+  const genres=["전체",...new Set(posts.map(p=>p.genre))];
+  document.getElementById("chips").innerHTML=genres.map(g=>
+    `<span class="chip ${g===activeGenre?'active':''}" onclick="setGenre('${g}')">${g}</span>`).join("");
+}
+function setGenre(g){activeGenre=g;renderChips();render();}
+
+function render(){
+  const q=document.getElementById("search").value.trim().toLowerCase();
+  const sort=document.getElementById("sort").value;
+  let list=posts.filter(p=>{
+    const okG=activeGenre==="전체"||p.genre===activeGenre;
+    const hay=(p.title+p.author+p.oneline+p.tags.join()).toLowerCase();
+    return okG && hay.includes(q);
+  });
+  if(sort==="recent")list.sort((a,b)=>b.end.localeCompare(a.end));
+  if(sort==="rating")list.sort((a,b)=>b.rating-a.rating);
+  if(sort==="title")list.sort((a,b)=>a.title.localeCompare(b.title,"ko"));
+
+  const grid=document.getElementById("grid");
+  if(!list.length){grid.innerHTML='<div class="empty">검색 결과가 없습니다 📭</div>';return;}
+  grid.innerHTML=list.map(p=>`
+    <div class="card" onclick="openPost(${p.id})">
+      <div class="cover" style="background:linear-gradient(135deg,${p.c1},${p.c2})">
+        <span class="genre">${p.genre}</span>
+        <h3>${p.title}</h3>
+      </div>
+      <div class="body">
+        <div class="meta">${p.author} · ${p.pub}</div>
+        <div class="stars">${stars(p.rating)}</div>
+        <div class="oneline">${p.oneline}</div>
+        <div class="tags">${p.tags.map(t=>`<span class="tag">#${t}</span>`).join("")}</div>
+        <div class="foot"><span>📅 ${fmt(p.end)} 완독</span><span>${p.days}일 · ${p.pages}쪽</span></div>
+      </div>
+    </div>`).join("");
+}
+
+function openPost(id){
+  const p=posts.find(x=>x.id===id);
+  document.getElementById("post").innerHTML=`
+    <div class="banner" style="background:linear-gradient(135deg,${p.c1},${p.c2})">
+      <button class="close" onclick="closePost()">✕</button>
+      <div class="genre">${p.genre}</div>
+      <h2>${p.title}</h2>
+      <div class="author">${p.author} 지음 · ${p.pub}</div>
+      <span class="millie-badge">📖 밀리의 서재에서 완독</span>
+    </div>
+    <div class="content">
+      <div class="infobar">
+        <div><span>별점</span><b class="bigstars">${stars(p.rating)}</b></div>
+        <div><span>읽은 기간</span><b>${fmt(p.start)} ~ ${fmt(p.end)} (${p.days}일)</b></div>
+        <div><span>분량</span><b>${p.pages}쪽</b></div>
+      </div>
+      <h4>한 줄 평</h4>
+      <p style="font-size:17px;font-weight:600">"${p.oneline}"</p>
+      <h4>밑줄 그은 문장</h4>
+      ${p.quotes.map(q=>`<div class="quote">"${q.t}"<span class="src">— ${p.title}, ${q.s}</span></div>`).join("")}
+      <h4>서평</h4>
+      <p>${p.review}</p>
+      <h4>이런 분께 추천</h4>
+      <div class="recommend"><ul>${p.recommend.map(r=>`<li>${r}</li>`).join("")}</ul></div>
+    </div>`;
+  document.getElementById("overlay").classList.add("open");
+  document.body.style.overflow="hidden";
+}
+function closePost(){
+  document.getElementById("overlay").classList.remove("open");
+  document.body.style.overflow="";
+}
+document.addEventListener("keydown",e=>{if(e.key==="Escape")closePost();});
+
+function toggleTheme(){
+  const b=document.body,cur=b.getAttribute("data-theme");
+  const next=cur==="dark"?"light":"dark";
+  b.setAttribute("data-theme",next);
+  localStorage.setItem("reading-theme",next);
+  document.getElementById("themeBtn").textContent=next==="dark"?"🌙":"☀️";
+}
+
+const savedTheme=localStorage.getItem("reading-theme");
+if(savedTheme==="light"||savedTheme==="dark"){
+  document.body.setAttribute("data-theme",savedTheme);
+  document.getElementById("themeBtn").textContent=savedTheme==="dark"?"🌙":"☀️";
+}
+renderStats();renderChips();render();
+</script>
+</body>
+</html>
