@@ -1,0 +1,41 @@
+name: Update consumer spending dashboard
+
+on:
+  schedule:
+    - cron: '15 0 6 * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: consumer-spending-update
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      KB_CARD_API_URL: ${{ secrets.KB_CARD_API_URL }}
+      KB_CARD_API_KEY: ${{ secrets.KB_CARD_API_KEY }}
+      SHINHAN_CARD_API_URL: ${{ secrets.SHINHAN_CARD_API_URL }}
+      SHINHAN_CARD_API_KEY: ${{ secrets.SHINHAN_CARD_API_KEY }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Fetch and normalize monthly card data
+        run: node scripts/update-consumer-spending.mjs
+      - name: Commit changed dataset
+        run: |
+          if git diff --quiet -- consumer-spending/data/latest.json; then
+            echo "No data changes"
+            exit 0
+          fi
+          git config user.name "stargate-data-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add consumer-spending/data/latest.json
+          git commit -m "data: update monthly consumer spending"
+          git push
