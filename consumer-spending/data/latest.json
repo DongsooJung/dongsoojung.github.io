@@ -1,0 +1,23 @@
+{
+  "meta": {
+    "mode": "demo",
+    "asOf": null,
+    "updatedAt": "2026-07-22T00:00:00Z",
+    "baseMonth": "2025-01",
+    "unit": "index",
+    "providers": {
+      "kb": { "status": "awaiting_credentials", "source": "KB국민카드 DataRoot" },
+      "shinhan": { "status": "awaiting_credentials", "source": "신한카드 DataBada" }
+    }
+  },
+  "categories": [
+    {"id":"food","label":"외식"},{"id":"retail","label":"유통"},{"id":"travel","label":"여행·숙박"},{"id":"mobility","label":"교통"},{"id":"culture","label":"문화·여가"},{"id":"health","label":"의료"},{"id":"education","label":"교육"},{"id":"digital","label":"온라인"}
+  ],
+  "demoOffsets": {
+    "food": [0,1], "retail": [2,0], "travel": [5,7], "mobility": [-2,-1],
+    "culture": [3,4], "health": [-4,-3], "education": [1,2], "digital": [7,8]
+  },
+  "monthly": [
+    ["2025-01",100,100],["2025-02",98,97],["2025-03",103,104],["2025-04",105,106],["2025-05",109,110],["2025-06",108,109],["2025-07",112,114],["2025-08",111,113],["2025-09",106,107],["2025-10",110,111],["2025-11",113,114],["2025-12",120,122],["2026-01",104,105],["2026-02",102,103],["2026-03",108,109],["2026-04",111,112],["2026-05",115,117],["2026-06",116,118]
+  ]
+}
