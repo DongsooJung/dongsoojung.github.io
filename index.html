@@ -74,73 +74,6 @@ a{color:var(--acc); text-decoration:none} a:hover{text-decoration:underline}
 .btn.ghost{background:var(--panel);color:var(--ink);border-color:var(--line2)}
 .btn.ghost:hover{border-color:var(--acc);text-decoration:none}
 
-/* CODEF live exchange data */
-.live-data{margin-top:72px;border:1px solid rgba(122,162,255,.35);border-radius:20px;overflow:hidden;
-  background:radial-gradient(620px 260px at 8% 0%,rgba(79,127,255,.2),transparent 62%),
-  linear-gradient(180deg,var(--panel2),var(--panel));box-shadow:0 18px 54px rgba(0,0,0,.28)}
-.live-data details{margin:0}
-.live-data summary{display:flex;align-items:center;justify-content:space-between;gap:20px;padding:24px 28px;
-  cursor:pointer;list-style:none;transition:background .18s ease}
-.live-data summary::-webkit-details-marker{display:none}
-.live-data summary:hover,.live-data summary:focus-visible{background:rgba(122,162,255,.08);outline:none}
-.codef-summary-copy{display:block}
-.codef-summary-title{display:block;font-size:24px;font-weight:800;margin-top:6px;letter-spacing:-.3px}
-.codef-summary-hint{display:block;color:var(--sub);font-size:12px;margin-top:4px}
-.codef-summary-hint.when-open{display:none}
-.live-data details[open] .codef-summary-hint.when-closed{display:none}
-.live-data details[open] .codef-summary-hint.when-open{display:block}
-.codef-toggle{width:38px;height:38px;border:1px solid var(--line2);border-radius:50%;display:flex;
-  align-items:center;justify-content:center;color:var(--acc);font-size:24px;line-height:1;flex:0 0 auto}
-.codef-toggle::before{content:"＋"}
-.live-data details[open] .codef-toggle::before{content:"−"}
-.live-data-content{padding:22px 28px 28px;border-top:1px solid var(--line)}
-.data-head{display:flex;align-items:flex-end;justify-content:space-between;gap:24px}
-.data-kicker{display:block;color:var(--warm);font-size:10.5px;font-weight:800;letter-spacing:1px;text-transform:uppercase}
-.data-head h2{margin:6px 0 3px;font-size:24px;letter-spacing:-.3px}
-.data-head p{margin:0;color:var(--sub);font-size:13px}
-.refresh-btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-width:174px;padding:11px 16px;
-  border:1px solid transparent;border-radius:12px;background:var(--grad1);color:#0b1020;font:700 13px inherit;
-  cursor:pointer;box-shadow:0 8px 24px rgba(79,127,255,.3);transition:transform .15s ease,opacity .15s ease}
-.refresh-btn:hover{transform:translateY(-1px)}
-.refresh-btn:disabled{cursor:wait;opacity:.7;transform:none}
-.refresh-btn.is-loading .refresh-icon{animation:data-spin .8s linear infinite}
-@keyframes data-spin{to{transform:rotate(360deg)}}
-.data-status{display:flex;align-items:center;gap:8px;min-height:22px;margin-top:20px;color:var(--sub);font-size:12px}
-.data-status::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--muted)}
-.data-status.is-live::before{background:var(--good);box-shadow:0 0 0 4px rgba(99,214,160,.12)}
-.data-status.is-error::before{background:#ff6b7a;box-shadow:0 0 0 4px rgba(255,107,122,.12)}
-.rate-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:14px}
-.rate-card{min-height:110px;padding:17px;border:1px solid var(--line2);border-radius:14px;background:rgba(10,13,20,.5)}
-.rate-card .currency{color:var(--sub);font-size:11.5px;font-weight:700;letter-spacing:.2px}
-.rate-card .rate{margin-top:8px;color:var(--ink);font-size:24px;font-weight:750;line-height:1.25;font-variant-numeric:tabular-nums}
-.rate-card .unit{margin-top:4px;color:var(--muted);font-size:10.5px}
-.data-note{margin:13px 0 0;color:var(--muted);font-size:10.5px}
-
-/* Publication stats */
-.pubstats{margin-top:72px;border:1px solid rgba(122,162,255,.35);border-radius:20px;overflow:hidden;
-  background:radial-gradient(700px 320px at 10% 0%,rgba(79,127,255,.22),transparent 60%),
-  linear-gradient(180deg,#111c33,#0f172a);box-shadow:0 18px 54px rgba(0,0,0,.3)}
-.pubstats details{margin:0}
-.pubstats summary{display:flex;align-items:center;justify-content:space-between;gap:20px;padding:24px 28px;
-  cursor:pointer;list-style:none;transition:background .18s ease}
-.pubstats summary::-webkit-details-marker{display:none}
-.pubstats summary:hover,.pubstats summary:focus-visible{background:rgba(122,162,255,.08);outline:none}
-.pubstats-summary-copy{display:block}
-.pubstats .eyebrow{display:block;color:var(--warm);font-size:11px;font-weight:800;
-  letter-spacing:.9px;text-transform:uppercase}
-.pubstats-summary-title{display:block;font-size:24px;font-weight:800;margin-top:6px;letter-spacing:-.3px}
-.pubstats-summary-hint{display:block;color:var(--sub);font-size:12px;margin-top:4px}
-.pubstats-toggle{width:38px;height:38px;border:1px solid var(--line2);border-radius:50%;display:flex;
-  align-items:center;justify-content:center;color:var(--acc);font-size:24px;line-height:1;flex:0 0 auto}
-.pubstats-toggle::before{content:"＋"}
-.pubstats details[open] .pubstats-toggle::before{content:"−"}
-.pubstats-content{padding:22px 28px 28px;border-top:1px solid var(--line)}
-.pubstats .intro{margin:0 0 20px;color:var(--sub);font-size:13px;max-width:82ch}
-.pubstats-frame{overflow:hidden;border:1px solid var(--line2);border-radius:16px;background:#0f172a;
-  box-shadow:0 16px 42px rgba(0,0,0,.32)}
-.pubstats-frame iframe{width:100%;height:760px;border:0;display:block;background:#0f172a}
-.pubstats-actions{display:flex;justify-content:flex-end;margin-top:14px}
-
 /* ID card */
 .card{border:1px solid var(--line);background:linear-gradient(180deg,var(--panel2),var(--panel));
   border-radius:18px;padding:22px;box-shadow:0 20px 60px rgba(0,0,0,.35)}
@@ -213,20 +146,7 @@ footer{margin-top:72px;padding-top:22px;border-top:1px solid var(--line);color:v
   .hero h1{font-size:34px}
   .about{grid-template-columns:1fr}
   .hub-grid{grid-template-columns:1fr}
-  .pubstats{margin-top:40px}
-  .pubstats summary{padding:20px 18px}
-  .pubstats-summary-title{font-size:20px}
-  .pubstats-content{padding:18px}
-  .pubstats-frame iframe{height:680px}
-  .live-data{margin-top:40px}
-  .live-data summary{padding:20px 18px}
-  .codef-summary-title{font-size:20px}
-  .live-data-content{padding:18px}
-  .data-head{align-items:flex-start;flex-direction:column}
-  .refresh-btn{width:100%}
-  .rate-grid{grid-template-columns:repeat(2,1fr)}
 }
-@media (max-width: 480px){.rate-grid{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -241,7 +161,6 @@ footer{margin-top:72px;padding-top:22px;border-top:1px solid var(--line);color:v
     <div class="links">
       <a href="/strategy/">전략</a>
       <a href="/research/">연구</a>
-      <a href="#live-data">CODEF 데이터</a>
       <a href="#projects">전체 프로젝트</a>
       <a href="/schedule/">주요일정</a>
       <a href="#about">About</a>
@@ -589,64 +508,6 @@ footer{margin-top:72px;padding-top:22px;border-top:1px solid var(--line);color:v
     </div>
   </section>
 
-  <section class="pubstats" id="pubstats" aria-labelledby="pubstats-title">
-    <details>
-      <summary>
-        <span class="pubstats-summary-copy">
-          <span class="eyebrow">● Data · 실데이터</span>
-          <span class="pubstats-summary-title" id="pubstats-title">2025 한국 출판생산 통계</span>
-          <span class="pubstats-summary-hint">클릭하여 인터랙티브 대시보드 펼치기</span>
-        </span>
-        <span class="pubstats-toggle" aria-hidden="true"></span>
-      </summary>
-      <div class="pubstats-content">
-        <p class="intro">대한출판문화협회 납본 기준의 연도별·분야별 신간 발행 종수, 발행 부수, 평균 정가를 한눈에 확인할 수 있는 인터랙티브 대시보드입니다.</p>
-        <div class="pubstats-frame">
-          <iframe
-            src="https://stargateedu.co.kr/daechi-monitor/publications.html?v=20260719"
-            title="2025 한국 출판생산 통계 시각화 대시보드"
-            loading="lazy"
-            referrerpolicy="strict-origin-when-cross-origin"
-          ></iframe>
-        </div>
-        <div class="pubstats-actions">
-          <a class="btn primary" href="https://stargateedu.co.kr/daechi-monitor/publications.html?v=20260719" target="_blank" rel="noopener">↗ 전체 화면으로 보기</a>
-        </div>
-      </div>
-    </details>
-  </section>
-
-  <section class="live-data" id="live-data" aria-labelledby="live-data-title">
-    <details>
-      <summary>
-        <span class="codef-summary-copy">
-          <span class="data-kicker">CODEF · Live Data</span>
-          <span class="codef-summary-title" id="live-data-title">최신 환율 데이터</span>
-          <span class="codef-summary-hint when-closed">클릭하여 CODEF 환율 데이터 펼치기</span>
-          <span class="codef-summary-hint when-open">클릭하여 CODEF 환율 데이터 숨기기</span>
-        </span>
-        <span class="codef-toggle" aria-hidden="true"></span>
-      </summary>
-      <div class="live-data-content">
-        <div class="data-head">
-          <p>CODEF 은행 환율조회 API를 통해 서버에서 안전하게 가져온 최신 고시 환율입니다.</p>
-          <button class="refresh-btn" id="data-refresh" type="button" aria-controls="rate-grid" aria-describedby="data-status">
-            <span class="refresh-icon" aria-hidden="true">↻</span>
-            <span>새 데이터 가져오기</span>
-          </button>
-        </div>
-        <div class="data-status" id="data-status" role="status" aria-live="polite">버튼을 누르면 최신 데이터를 확인합니다.</div>
-        <div class="rate-grid" id="rate-grid" aria-busy="false">
-          <article class="rate-card"><div class="currency">USD · 미국 달러</div><div class="rate">—</div><div class="unit">KRW 기준</div></article>
-          <article class="rate-card"><div class="currency">JPY · 일본 엔</div><div class="rate">—</div><div class="unit">KRW 기준</div></article>
-          <article class="rate-card"><div class="currency">EUR · 유로</div><div class="rate">—</div><div class="unit">KRW 기준</div></article>
-          <article class="rate-card"><div class="currency">CNY · 중국 위안</div><div class="rate">—</div><div class="unit">KRW 기준</div></article>
-        </div>
-        <p class="data-note">환율은 선택한 CODEF 연동 금융기관의 고시값이며 실제 거래 적용값과 다를 수 있습니다.</p>
-      </div>
-    </details>
-  </section>
-
   <footer>
     <span>© 2026 Dongsoo Jung · Stargate Corporation</span>
     <span>
@@ -658,88 +519,6 @@ footer{margin-top:72px;padding-top:22px;border-top:1px solid var(--line);color:v
 
 </div>
 <script>
-const pubstatsDetails = document.querySelector('#pubstats details');
-document.querySelectorAll('a[href="#pubstats"]').forEach((link) => {
-  link.addEventListener('click', () => {
-    if (pubstatsDetails) pubstatsDetails.open = true;
-  });
-});
-
-const codefDetails = document.querySelector('#live-data details');
-document.querySelectorAll('a[href="#live-data"]').forEach((link) => {
-  link.addEventListener('click', () => {
-    if (codefDetails) codefDetails.open = true;
-  });
-});
-
-(() => {
-  const endpoint = "https://stargateedu-codef-api.vercel.app/api/exchange";
-  const refreshButton = document.getElementById("data-refresh");
-  const status = document.getElementById("data-status");
-  const grid = document.getElementById("rate-grid");
-  const labels = { USD:"미국 달러", JPY:"일본 엔", EUR:"유로", CNY:"중국 위안", GBP:"영국 파운드", AUD:"호주 달러", CAD:"캐나다 달러", CHF:"스위스 프랑" };
-
-  function setStatus(message, state = "") {
-    status.textContent = message;
-    status.className = `data-status${state ? ` is-${state}` : ""}`;
-  }
-
-  function renderRates(rates) {
-    const preferred = ["USD", "JPY", "EUR", "CNY"];
-    const selected = [...rates].sort((a, b) => {
-      const ai = preferred.indexOf(String(a.currency).toUpperCase());
-      const bi = preferred.indexOf(String(b.currency).toUpperCase());
-      return (ai < 0 ? 99 : ai) - (bi < 0 ? 99 : bi);
-    }).slice(0, 4);
-    if (!selected.length) throw new Error("EMPTY_DATA");
-    grid.replaceChildren(...selected.map((item) => {
-      const code = String(item.currency || "").toUpperCase();
-      const card = document.createElement("article");
-      card.className = "rate-card";
-      const currency = document.createElement("div");
-      currency.className = "currency";
-      currency.textContent = labels[code] ? `${code} · ${labels[code]}` : code;
-      const rate = document.createElement("div");
-      rate.className = "rate";
-      rate.textContent = item.rate || "—";
-      const unit = document.createElement("div");
-      unit.className = "unit";
-      unit.textContent = "KRW 기준";
-      card.append(currency, rate, unit);
-      return card;
-    }));
-  }
-
-  async function refreshData() {
-    refreshButton.disabled = true;
-    refreshButton.classList.add("is-loading");
-    grid.setAttribute("aria-busy", "true");
-    setStatus("CODEF에서 최신 데이터를 가져오는 중입니다.");
-    const controller = new AbortController();
-    const timer = setTimeout(() => controller.abort(), 15000);
-    try {
-      const response = await fetch(`${endpoint}?t=${Date.now()}`, { cache:"no-store", signal:controller.signal });
-      const payload = await response.json();
-      if (!response.ok || !payload.ok) {
-        if (payload.error === "CONFIG_REQUIRED") throw new Error("CONFIG_REQUIRED");
-        throw new Error("FETCH_FAILED");
-      }
-      renderRates(Array.isArray(payload.rates) ? payload.rates : []);
-      const updated = new Intl.DateTimeFormat("ko-KR", { dateStyle:"medium", timeStyle:"medium", timeZone:"Asia/Seoul" }).format(new Date(payload.fetchedAt));
-      setStatus(`CODEF 연결 정상 · ${updated} 갱신`, "live");
-    } catch (error) {
-      const message = error.message === "CONFIG_REQUIRED" ? "CODEF API 키와 조회 기관 설정이 필요합니다." : "데이터를 가져오지 못했습니다. 잠시 후 다시 시도해 주세요.";
-      setStatus(message, "error");
-    } finally {
-      clearTimeout(timer);
-      refreshButton.disabled = false;
-      refreshButton.classList.remove("is-loading");
-      grid.setAttribute("aria-busy", "false");
-    }
-  }
-
-  refreshButton.addEventListener("click", refreshData);
-})();
 
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => navigator.serviceWorker.register('/sw.js'));
