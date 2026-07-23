@@ -8,192 +8,34 @@
 <style>
 :root{--bg:#0a0d14;--panel:#0f172a;--panel2:#111c33;--line:#263452;--ink:#e6edf3;--sub:#9aa7b8;--muted:#6b7a90;--acc:#7aa2ff;--good:#63d6a0;--warm:#ffb86b}
 *{box-sizing:border-box}html,body{margin:0;padding:0}body{font-family:"Pretendard","Apple SD Gothic Neo","Segoe UI",system-ui,sans-serif;color:var(--ink);background:radial-gradient(900px 520px at 10% -10%,rgba(79,127,255,.18),transparent 60%),var(--bg);min-height:100vh;line-height:1.55}
-a{color:inherit;text-decoration:none}.wrap{max-width:1080px;margin:0 auto;padding:28px 20px 70px}.top{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap}.brand{font-weight:800;letter-spacing:.3px}.back{padding:9px 13px;border:1px solid var(--line);border-radius:999px;color:var(--sub);font-size:13px;background:var(--panel)}.back:hover{border-color:var(--acc);color:var(--ink)}
-.hero{margin-top:42px}.kicker{color:var(--good);font-size:12px;font-weight:800;letter-spacing:1.2px}.hero h1{font-size:clamp(30px,5vw,48px);line-height:1.12;margin:8px 0 10px}.hero p{color:var(--sub);margin:0}.status{display:inline-flex;align-items:center;gap:8px;margin-top:14px;color:var(--sub);font-size:12px}.dot{width:8px;height:8px;border-radius:50%;background:var(--warm)}.status.ok .dot{background:var(--good);box-shadow:0 0 0 5px rgba(99,214,160,.1)}.status.warn .dot{background:var(--warm);box-shadow:0 0 0 5px rgba(255,184,107,.1)}.status.error .dot{background:#ff6b7a}
-.metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:30px}.card{border:1px solid var(--line);border-radius:18px;background:linear-gradient(180deg,var(--panel2),var(--panel));padding:22px;box-shadow:0 18px 44px rgba(0,0,0,.22)}.label{color:var(--sub);font-size:12px;font-weight:700}.value{font-size:34px;font-weight:850;margin-top:8px;letter-spacing:-1px;font-variant-numeric:tabular-nums}.hint{color:var(--muted);font-size:11px;margin-top:5px}
-.section{margin-top:28px}.section h2{font-size:19px;margin:0 0 12px}.chart{display:flex;align-items:flex-end;gap:6px;height:250px;padding:22px 16px 10px;border:1px solid var(--line);border-radius:18px;background:var(--panel);overflow-x:auto}.bar-wrap{min-width:22px;flex:1;height:100%;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;gap:7px}.bar{width:100%;min-height:2px;border-radius:7px 7px 2px 2px;background:linear-gradient(180deg,var(--acc),#4f7fff);position:relative}.bar:hover::after{content:attr(data-tip);position:absolute;left:50%;bottom:calc(100% + 8px);transform:translateX(-50%);white-space:nowrap;background:#05070c;border:1px solid var(--line);padding:5px 7px;border-radius:7px;font-size:11px;color:var(--ink);z-index:5}.day{font-size:9px;color:var(--muted);writing-mode:vertical-rl;transform:rotate(180deg);height:34px}.table{margin-top:14px;border:1px solid var(--line);border-radius:16px;overflow:hidden;background:var(--panel)}.row{display:grid;grid-template-columns:1fr 120px;padding:12px 16px;border-bottom:1px solid rgba(38,52,82,.65);font-size:13px}.row:last-child{border-bottom:0}.row span:last-child{text-align:right;font-weight:750;font-variant-numeric:tabular-nums}.footer{margin-top:24px;color:var(--muted);font-size:11px}.refresh{border:0;border-radius:12px;padding:11px 15px;background:linear-gradient(135deg,#4f7fff,#7aa2ff);color:#081020;font-weight:800;cursor:pointer}.refresh:disabled{opacity:.55;cursor:wait}
-@media(max-width:720px){.metrics{grid-template-columns:1fr}.chart{height:220px}.row{grid-template-columns:1fr 90px}}
+a{color:inherit;text-decoration:none}.wrap{max-width:1080px;margin:0 auto;padding:28px 20px 70px}.top{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap}.brand{font-weight:800}.back{padding:9px 13px;border:1px solid var(--line);border-radius:999px;color:var(--sub);font-size:13px;background:var(--panel)}.hero{margin-top:42px}.kicker{color:var(--good);font-size:12px;font-weight:800;letter-spacing:1.2px}.hero h1{font-size:clamp(30px,5vw,48px);line-height:1.12;margin:8px 0 10px}.hero p{color:var(--sub);margin:0}.status{display:inline-flex;align-items:center;gap:8px;margin-top:14px;color:var(--sub);font-size:12px}.dot{width:8px;height:8px;border-radius:50%;background:var(--warm)}.status.ok .dot{background:var(--good);box-shadow:0 0 0 5px rgba(99,214,160,.1)}.status.warn .dot{background:var(--warm)}.status.error .dot{background:#ff6b7a}.metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:30px}.card{border:1px solid var(--line);border-radius:18px;background:linear-gradient(180deg,var(--panel2),var(--panel));padding:22px;box-shadow:0 18px 44px rgba(0,0,0,.22)}.label{color:var(--sub);font-size:12px;font-weight:700}.value{font-size:34px;font-weight:850;margin-top:8px;letter-spacing:-1px;font-variant-numeric:tabular-nums}.hint{color:var(--muted);font-size:11px;margin-top:5px}.section{margin-top:28px}.section h2{font-size:19px;margin:0 0 12px}.chart{display:flex;align-items:flex-end;gap:6px;height:250px;padding:22px 16px 10px;border:1px solid var(--line);border-radius:18px;background:var(--panel);overflow-x:auto}.bar-wrap{min-width:22px;flex:1;height:100%;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;gap:7px}.bar{width:100%;min-height:2px;border-radius:7px 7px 2px 2px;background:linear-gradient(180deg,var(--acc),#4f7fff);position:relative}.bar:hover::after{content:attr(data-tip);position:absolute;left:50%;bottom:calc(100% + 8px);transform:translateX(-50%);white-space:nowrap;background:#05070c;border:1px solid var(--line);padding:5px 7px;border-radius:7px;font-size:11px;color:var(--ink);z-index:5}.day{font-size:9px;color:var(--muted);writing-mode:vertical-rl;transform:rotate(180deg);height:34px}.table{margin-top:14px;border:1px solid var(--line);border-radius:16px;overflow:hidden;background:var(--panel)}.row{display:grid;grid-template-columns:1fr 120px;padding:12px 16px;border-bottom:1px solid rgba(38,52,82,.65);font-size:13px}.row:last-child{border-bottom:0}.row span:last-child{text-align:right;font-weight:750}.footer{margin-top:24px;color:var(--muted);font-size:11px}.refresh{border:0;border-radius:12px;padding:11px 15px;background:linear-gradient(135deg,#4f7fff,#7aa2ff);color:#081020;font-weight:800;cursor:pointer}.refresh:disabled{opacity:.55}@media(max-width:720px){.metrics{grid-template-columns:1fr}.chart{height:220px}.row{grid-template-columns:1fr 90px}}
 </style>
 </head>
 <body>
 <div class="wrap">
-  <div class="top">
-    <div class="brand">STARGATE · ADMIN</div>
-    <div style="display:flex;gap:8px;align-items:center">
-      <button class="refresh" id="refresh" type="button">새로고침</button>
-      <a class="back" href="/">← 메인으로</a>
-    </div>
-  </div>
-
-  <section class="hero">
-    <div class="kicker">VISITOR ANALYTICS</div>
-    <h1>방문자 관리자 대시보드</h1>
-    <p>한국시간 기준 오늘·누적 방문자와 최근 30일 추이를 확인합니다.</p>
-    <div class="status" id="status"><span class="dot"></span><span>데이터를 불러오는 중입니다.</span></div>
-  </section>
-
-  <section class="metrics" aria-label="방문자 핵심 지표">
-    <article class="card"><div class="label">TODAY · 오늘</div><div class="value" id="today">—</div><div class="hint" id="today-date">한국시간 기준</div></article>
-    <article class="card"><div class="label">TOTAL · 누적</div><div class="value" id="total">—</div><div class="hint">사이트 누적 집계</div></article>
-    <article class="card"><div class="label">30 DAYS · 최근 30일</div><div class="value" id="monthly">—</div><div class="hint">일별 방문자 합계</div></article>
-  </section>
-
-  <section class="section">
-    <h2>최근 30일 방문 추이</h2>
-    <div class="chart" id="chart" aria-label="최근 30일 방문자 막대그래프"></div>
-    <div class="table" id="table" aria-label="최근 방문자 상세 목록"></div>
-  </section>
-
-  <div class="footer">개인정보는 수집하지 않으며, 동일 브라우저는 하루 1회 집계됩니다. 외부 API 장애 시 마지막 정상 데이터를 표시합니다.</div>
+  <div class="top"><div class="brand">STARGATE · ADMIN</div><div style="display:flex;gap:8px"><button class="refresh" id="refresh">새로고침</button><a class="back" href="/">← 메인으로</a></div></div>
+  <section class="hero"><div class="kicker">VISITOR ANALYTICS</div><h1>방문자 관리자 대시보드</h1><p>한국시간 기준 오늘·누적 방문자를 확인합니다.</p><div class="status" id="status"><span class="dot"></span><span>데이터를 불러오는 중입니다.</span></div></section>
+  <section class="metrics"><article class="card"><div class="label">TODAY · 오늘</div><div class="value" id="today">—</div><div class="hint" id="today-date">한국시간 기준</div></article><article class="card"><div class="label">TOTAL · 누적</div><div class="value" id="total">—</div><div class="hint">사이트 누적 집계</div></article><article class="card"><div class="label">30 DAYS · 최근 30일</div><div class="value" id="monthly">—</div><div class="hint">정상 수집된 일별 합계</div></article></section>
+  <section class="section"><h2>최근 30일 방문 추이</h2><div class="chart" id="chart"></div><div class="table" id="table"></div></section>
+  <div class="footer">동일 브라우저는 하루 1회 집계됩니다. 외부 API 장애 시 마지막 정상 데이터를 표시합니다.</div>
 </div>
 <script>
 (() => {
-  const namespace = 'stargateedu-co-kr';
-  const apiBase = `https://api.counterapi.dev/v1/${namespace}`;
-  const cacheKey = 'stargate-visitor-dashboard-cache-v2';
-  const todayEl = document.getElementById('today');
-  const totalEl = document.getElementById('total');
-  const monthlyEl = document.getElementById('monthly');
-  const dateEl = document.getElementById('today-date');
-  const chartEl = document.getElementById('chart');
-  const tableEl = document.getElementById('table');
-  const statusEl = document.getElementById('status');
-  const refreshBtn = document.getElementById('refresh');
-
-  function koreaDate(offset = 0) {
-    const now = new Date(Date.now() + offset * 86400000);
-    const parts = new Intl.DateTimeFormat('en-CA', {timeZone:'Asia/Seoul',year:'numeric',month:'2-digit',day:'2-digit'}).formatToParts(now);
-    const values = Object.fromEntries(parts.map(({type,value}) => [type,value]));
-    return `${values.year}-${values.month}-${values.day}`;
-  }
-
-  function toKoreaDateKey(value) {
-    const date = new Date(value);
-    if (Number.isNaN(date.getTime())) return String(value || '').slice(0, 10);
-    const parts = new Intl.DateTimeFormat('en-CA', {timeZone:'Asia/Seoul',year:'numeric',month:'2-digit',day:'2-digit'}).formatToParts(date);
-    const values = Object.fromEntries(parts.map(({type,value}) => [type,value]));
-    return `${values.year}-${values.month}-${values.day}`;
-  }
-
-  function fmt(n) {
-    const value = Number(n);
-    return Number.isFinite(value) ? value.toLocaleString('ko-KR') : '0';
-  }
-
-  async function fetchJson(url) {
-    const controller = new AbortController();
-    const timer = setTimeout(() => controller.abort(), 10000);
-    try {
-      const response = await fetch(`${url}${url.includes('?') ? '&' : '?'}t=${Date.now()}`, {
-        cache:'no-store',
-        signal:controller.signal,
-        headers:{'Accept':'application/json'}
-      });
-      if (!response.ok) throw new Error(`HTTP_${response.status}`);
-      return await response.json();
-    } finally {
-      clearTimeout(timer);
-    }
-  }
-
-  function counterValue(payload) {
-    return Number(payload?.count ?? payload?.Count ?? payload?.data?.count ?? payload?.data?.Count ?? payload?.data?.up_count ?? 0) || 0;
-  }
-
-  function historyRows(payload) {
-    const list = Array.isArray(payload) ? payload : (Array.isArray(payload?.data) ? payload.data : (Array.isArray(payload?.counts) ? payload.counts : []));
-    return list.map((item) => ({
-      date: toKoreaDateKey(item?.date ?? item?.Date ?? item?.created_at ?? item?.CreatedAt),
-      count: Number(item?.count ?? item?.Count ?? item?.value ?? 0) || 0
-    })).filter((item) => /^\d{4}-\d{2}-\d{2}$/.test(item.date)).sort((a,b) => a.date.localeCompare(b.date));
-  }
-
-  function buildDaily(history, dates) {
-    const values = new Map();
-    let previous = 0;
-    for (const item of history) {
-      const daily = item.count >= previous ? item.count - previous : item.count;
-      values.set(item.date, Math.max(0, daily));
-      previous = item.count;
-    }
-    return dates.map((date) => values.get(date) || 0);
-  }
-
-  function render(snapshot) {
-    const {dates, daily, total} = snapshot;
-    const today = daily[daily.length - 1] || 0;
-    const monthly = daily.reduce((sum,n) => sum + n, 0);
-    const max = Math.max(...daily, 1);
-    todayEl.textContent = fmt(today);
-    totalEl.textContent = fmt(total);
-    monthlyEl.textContent = fmt(monthly);
-    dateEl.textContent = `${dates[dates.length - 1]} · 한국시간`;
-
-    chartEl.replaceChildren(...daily.map((count,i) => {
-      const wrap = document.createElement('div');
-      wrap.className = 'bar-wrap';
-      const bar = document.createElement('div');
-      bar.className = 'bar';
-      bar.style.height = `${Math.max(2, Math.round((count/max)*170))}px`;
-      bar.dataset.tip = `${dates[i]} · ${fmt(count)}명`;
-      const day = document.createElement('span');
-      day.className = 'day';
-      day.textContent = dates[i].slice(5);
-      wrap.append(bar, day);
-      return wrap;
-    }));
-
-    tableEl.replaceChildren(...dates.slice(-10).reverse().map((date,idx) => {
-      const count = daily[daily.length - 1 - idx];
-      const row = document.createElement('div');
-      row.className = 'row';
-      const d = document.createElement('span');
-      d.textContent = date;
-      const c = document.createElement('span');
-      c.textContent = `${fmt(count)}명`;
-      row.append(d,c);
-      return row;
-    }));
-  }
-
-  function setStatus(text, state='') {
-    statusEl.className = `status${state ? ` ${state}` : ''}`;
-    statusEl.querySelector('span:last-child').textContent = text;
-  }
-
-  async function load() {
-    refreshBtn.disabled = true;
-    setStatus('데이터를 불러오는 중입니다.');
-    const dates = Array.from({length:30}, (_,i) => koreaDate(i - 29));
-
-    try {
-      const [counterPayload, historyPayload] = await Promise.all([
-        fetchJson(`${apiBase}/total-visitors`),
-        fetchJson(`${apiBase}/total-visitors/list?group_by=day&order_by=asc`)
-      ]);
-      const history = historyRows(historyPayload);
-      const total = counterValue(counterPayload) || history.at(-1)?.count || 0;
-      const snapshot = {dates, daily:buildDaily(history, dates), total, updatedAt:new Date().toISOString()};
-      render(snapshot);
-      try { localStorage.setItem(cacheKey, JSON.stringify(snapshot)); } catch (_) {}
-      setStatus(`정상 연결 · 요청 2회로 최적화 · ${new Intl.DateTimeFormat('ko-KR',{dateStyle:'medium',timeStyle:'medium',timeZone:'Asia/Seoul'}).format(new Date())} 갱신`, 'ok');
-    } catch (error) {
-      let cached = null;
-      try { cached = JSON.parse(localStorage.getItem(cacheKey) || 'null'); } catch (_) {}
-      if (cached?.dates?.length && cached?.daily?.length) {
-        render(cached);
-        const cachedAt = cached.updatedAt ? new Intl.DateTimeFormat('ko-KR',{dateStyle:'medium',timeStyle:'medium',timeZone:'Asia/Seoul'}).format(new Date(cached.updatedAt)) : '이전';
-        setStatus(`집계 서버가 일시 지연되어 ${cachedAt}의 마지막 정상 데이터를 표시합니다.`, 'warn');
-      } else {
-        setStatus('집계 서버 응답이 지연되고 있습니다. 새로고침 버튼으로 다시 시도해 주세요.', 'error');
-      }
-    } finally {
-      refreshBtn.disabled = false;
-    }
-  }
-
-  refreshBtn.addEventListener('click', load);
-  load();
+  const base='https://api.counterapi.dev/v1/stargateedu-co-kr';
+  const historyKey='stargate-visitor-daily-history-v3';
+  const snapshotKey='stargate-visitor-last-snapshot-v3';
+  const $=id=>document.getElementById(id);
+  const status=$('status'), refresh=$('refresh');
+  function day(offset=0){const d=new Date(Date.now()+offset*86400000);const p=new Intl.DateTimeFormat('en-CA',{timeZone:'Asia/Seoul',year:'numeric',month:'2-digit',day:'2-digit'}).formatToParts(d);const v=Object.fromEntries(p.map(x=>[x.type,x.value]));return `${v.year}-${v.month}-${v.day}`}
+  function fmt(n){return (Number(n)||0).toLocaleString('ko-KR')}
+  function countOf(x){return Number(x?.count??x?.Count??x?.data?.count??x?.data?.Count??0)||0}
+  async function get(url){const c=new AbortController();const t=setTimeout(()=>c.abort(),8000);try{const r=await fetch(url+'?t='+Date.now(),{cache:'no-store',signal:c.signal,headers:{Accept:'application/json'}});if(!r.ok)throw new Error('HTTP_'+r.status);return await r.json()}finally{clearTimeout(t)}}
+  function setStatus(text,state=''){status.className='status'+(state?' '+state:'');status.querySelector('span:last-child').textContent=text}
+  function loadHistory(){try{return JSON.parse(localStorage.getItem(historyKey)||'{}')}catch{return {}}}
+  function saveHistory(h){try{localStorage.setItem(historyKey,JSON.stringify(h))}catch{}}
+  function render(total,today,h){const dates=Array.from({length:30},(_,i)=>day(i-29));const daily=dates.map(d=>Number(h[d])||0);const max=Math.max(...daily,1);$('today').textContent=fmt(today);$('total').textContent=fmt(total);$('monthly').textContent=fmt(daily.reduce((a,b)=>a+b,0));$('today-date').textContent=day()+' · 한국시간';$('chart').replaceChildren(...daily.map((n,i)=>{const w=document.createElement('div');w.className='bar-wrap';const b=document.createElement('div');b.className='bar';b.style.height=Math.max(2,Math.round(n/max*170))+'px';b.dataset.tip=dates[i]+' · '+fmt(n)+'명';const s=document.createElement('span');s.className='day';s.textContent=dates[i].slice(5);w.append(b,s);return w}));$('table').replaceChildren(...dates.slice(-10).reverse().map((d,i)=>{const r=document.createElement('div');r.className='row';const a=document.createElement('span');a.textContent=d;const b=document.createElement('span');b.textContent=fmt(daily[daily.length-1-i])+'명';r.append(a,b);return r}))}
+  async function load(){refresh.disabled=true;setStatus('데이터를 불러오는 중입니다.');try{const d=day();const [totalRes,todayRes]=await Promise.all([get(base+'/total-visitors'),get(base+'/daily-'+d)]);const total=countOf(totalRes),today=countOf(todayRes);const h=loadHistory();h[d]=today;Object.keys(h).filter(k=>k<day(-60)).forEach(k=>delete h[k]);saveHistory(h);render(total,today,h);try{localStorage.setItem(snapshotKey,JSON.stringify({total,today,h,at:new Date().toISOString()}))}catch{}setStatus('정상 연결 · 서버 요청 2회 · '+new Intl.DateTimeFormat('ko-KR',{dateStyle:'medium',timeStyle:'medium',timeZone:'Asia/Seoul'}).format(new Date()),'ok')}catch(e){let s=null;try{s=JSON.parse(localStorage.getItem(snapshotKey)||'null')}catch{}if(s){render(s.total,s.today,s.h||{});setStatus('서버 지연으로 마지막 정상 데이터를 표시합니다.','warn')}else{setStatus('집계 서버 연결에 실패했습니다. 잠시 후 새로고침해 주세요.','error')}}finally{refresh.disabled=false}}
+  refresh.addEventListener('click',load);load();
 })();
 </script>
 </body>
