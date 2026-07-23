@@ -1,0 +1,24 @@
+name: Add OpenDART link to www portal
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/add-dart-www-home-link.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  patch-www-homepage:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Insert OpenDART TOP 100 project card
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+
+          path
