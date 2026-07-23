@@ -10,7 +10,7 @@ on:
 permissions:
   contents: write
 
-# Retriggered to apply the card to the current main homepage.
+# Retriggered after concurrent homepage visitor updates.
 jobs:
   patch:
     runs-on: ubuntu-latest
@@ -60,4 +60,5 @@ jobs:
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add index.html
           git commit -m "feat: add OpenDART top 100 card to www portal"
+          git pull --rebase origin main
           git push
