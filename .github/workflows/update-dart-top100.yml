@@ -1,0 +1,44 @@
+name: Update OpenDART top 100
+
+on:
+  schedule:
+    # 매월 5일 02:20 UTC (11:20 KST). 정정공시를 반영해 월 1회 갱신합니다.
+    - cron: '20 2 5 * *'
+  workflow_dispatch:
+    inputs:
+      business_year:
+        description: '조회할 사업연도(기본값: 2025)'
+        required: false
+        default: '2025'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: update-dart-top100
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Refresh OpenDART financial data
+        env:
+          OPENDART_API_KEY: ${{ secrets.OPENDART_API_KEY || secrets.DART_API_KEY }}
+          DART_BUSINESS_YEAR: ${{ inputs.business_year || '2025' }}
+        run: python3 dart-top100/fetch_opendart_top100.py
+
+      - name: Commit updated dashboard data
+        run: |
+          FILE="dart-top100/index.html"
+          if git diff --quiet -- "$FILE"; then
+            echo "변경 없음 — 커밋 생략"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add "$FILE"
+          git commit -m "chore(dart): OpenDART 상위 기업 실적 갱신"
+          git push
