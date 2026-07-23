@@ -256,8 +256,8 @@ footer{margin-top:72px;padding-top:22px;border-top:1px solid var(--line);color:v
     <h2>프로젝트 · Projects</h2>
     <div class="desc">공개 가능한 산출물 모음. 클릭하면 각 프로젝트 페이지로 이동합니다.</div>
     <div class="project-toggle-row">
-      <button class="project-toggle" id="project-visibility-toggle" type="button" aria-expanded="true" aria-controls="projects-grid">
-        <span aria-hidden="true">▴</span><span>서울 실시간 도시데이터부터 뒤 대시보드 숨기기</span>
+      <button class="project-toggle" id="project-visibility-toggle" type="button" aria-expanded="false" aria-controls="projects-grid">
+        <span aria-hidden="true">▾</span><span>서울 실시간 도시데이터 이후 대시보드 보기</span>
       </button>
     </div>
     <div class="grid" id="projects-grid">
@@ -559,6 +559,7 @@ footer{margin-top:72px;padding-top:22px;border-top:1px solid var(--line);color:v
     icon.textContent = expanded ? '▴' : '▾';
   }
 
+  setExpanded(false);
   toggle.addEventListener('click', () => {
     setExpanded(toggle.getAttribute('aria-expanded') !== 'true');
   });
