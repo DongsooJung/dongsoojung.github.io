@@ -6,11 +6,16 @@
 <title>밀리의 서재 독서기록 · Stargate 독후감 블로그</title>
 <meta name="description" content="밀리의 서재로 읽은 책들을 독후감 형식으로 기록하는 독서 블로그">
 <link rel="canonical" href="https://www.stargateedu.co.kr/reading/">
+<meta name="robots" content="index,follow,max-image-preview:large">
+<meta name="theme-color" content="#0e1116" id="themeColor">
 <meta property="og:type" content="website">
 <meta property="og:locale" content="ko_KR">
 <meta property="og:title" content="밀리의 서재 독서기록 · Stargate 독후감 블로그">
 <meta property="og:description" content="완독한 책을 별점, 밑줄, 서평으로 정리한 개인 독서 아카이브">
 <meta property="og:url" content="https://www.stargateedu.co.kr/reading/">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="밀리의 서재 독서기록 · Stargate 독후감 블로그">
+<meta name="twitter:description" content="완독한 책을 별점, 밑줄, 서평으로 정리한 개인 독서 아카이브">
 <style>
   :root{
     --bg:#0e1116; --panel:#161b22; --panel2:#1c232d; --line:#2a323d;
@@ -22,6 +27,15 @@
     --txt:#1a2230; --muted:#5a6a7d; --accent:#3366ff; --accent2:#7c3aed;
   }
   *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  button,input,select{font:inherit}
+  button{color:inherit}
+  .sr-only{position:absolute!important;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;
+    clip:rect(0,0,0,0);white-space:nowrap;border:0}
+  .skip-link{position:fixed;top:10px;left:10px;z-index:200;transform:translateY(-160%);
+    padding:9px 14px;border-radius:10px;background:var(--accent);color:#fff;font-weight:800}
+  .skip-link:focus{transform:none}
+  :focus-visible{outline:3px solid color-mix(in srgb,var(--accent) 70%,#fff);outline-offset:3px}
   body{
     font-family:'Pretendard','Apple SD Gothic Neo','Malgun Gothic',system-ui,sans-serif;
     background:var(--bg);color:var(--txt);line-height:1.65;
@@ -61,7 +75,9 @@
   .stat .n .u{font-size:14px;color:var(--muted);font-weight:600;margin-left:2px}
 
   /* ── Controls ── */
-  .controls{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin:30px 0 18px}
+  .controls{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin:30px 0 12px}
+  .controls-meta{display:flex;align-items:center;justify-content:space-between;gap:12px;
+    margin-bottom:18px;color:var(--muted);font-size:13px}
   .search{flex:1;min-width:220px;position:relative}
   .search input{width:100%;padding:12px 14px 12px 40px;border-radius:12px;
     border:1px solid var(--line);background:var(--panel);color:var(--txt);font-size:14px;outline:none}
@@ -69,21 +85,27 @@
   .search::before{content:"🔍";position:absolute;left:13px;top:11px;opacity:.6}
   select{padding:11px 14px;border-radius:12px;border:1px solid var(--line);
     background:var(--panel);color:var(--txt);font-size:14px;cursor:pointer}
+  .clearbtn,.sharebtn{padding:10px 13px;border-radius:10px;border:1px solid var(--line);
+    background:var(--panel);color:var(--muted);cursor:pointer;font-size:13px;font-weight:700;transition:.15s}
+  .clearbtn:hover,.sharebtn:hover{border-color:var(--accent);color:var(--accent)}
+  .clearbtn[hidden]{display:none}
   .chips{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:22px}
   .chip{padding:7px 14px;border-radius:999px;border:1px solid var(--line);
     background:var(--panel);color:var(--muted);cursor:pointer;font-size:13px;transition:.15s}
+  .chip:hover{border-color:var(--accent);color:var(--accent)}
   .chip.active{background:var(--accent);border-color:var(--accent);color:#fff;font-weight:600}
 
   /* ── Cards grid ── */
   .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:20px;padding-bottom:60px}
-  .card{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);
-    overflow:hidden;cursor:pointer;transition:.2s;display:flex;flex-direction:column}
+  .card{width:100%;text-align:left;appearance:none;background:var(--panel);color:var(--txt);
+    border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;cursor:pointer;
+    transition:.2s;display:flex;flex-direction:column}
   .card:hover{transform:translateY(-4px);border-color:var(--accent);
     box-shadow:0 12px 30px -12px rgba(0,0,0,.5)}
   .card .cover{height:150px;display:flex;align-items:flex-end;padding:16px;position:relative}
   .card .cover .genre{position:absolute;top:12px;left:12px;font-size:11px;font-weight:700;
     padding:4px 10px;border-radius:999px;background:rgba(0,0,0,.35);color:#fff;backdrop-filter:blur(4px)}
-  .card .cover h3{font-size:19px;font-weight:800;color:#fff;text-shadow:0 2px 8px rgba(0,0,0,.5)}
+  .card .cover .card-title{font-size:19px;font-weight:800;color:#fff;text-shadow:0 2px 8px rgba(0,0,0,.5)}
   .card .body{padding:16px;flex:1;display:flex;flex-direction:column;gap:10px}
   .card .meta{color:var(--muted);font-size:13px}
   .card .stars{color:var(--gold);font-size:14px;letter-spacing:2px}
@@ -127,33 +149,49 @@
   .millie-badge{display:inline-flex;align-items:center;gap:6px;font-size:12px;
     background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;
     padding:5px 12px;border-radius:999px;font-weight:700;margin-top:14px}
+  .post-actions{display:flex;justify-content:flex-end;margin-top:22px;padding-top:18px;border-top:1px solid var(--line)}
 
   footer.site{border-top:1px solid var(--line);padding:30px 0;color:var(--muted);font-size:13px;text-align:center}
   .empty{text-align:center;color:var(--muted);padding:60px 0;grid-column:1/-1}
   @media(max-width:640px){
     .stats{grid-template-columns:repeat(2,1fr)}
+    .hero{padding-top:32px}
     .hero h1{font-size:26px}
+    .grid{grid-template-columns:1fr}
     .post .banner,.post .content{padding-left:22px;padding-right:22px}
     .home-link{width:38px;padding:0;justify-content:center;font-size:0}
     .home-link::before{content:"⌂";font-size:18px}
+    .controls{align-items:stretch}
+    .search{min-width:100%}
+    select,.clearbtn{flex:1}
+    .controls-meta{align-items:flex-start;flex-direction:column}
+  }
+  @media(prefers-reduced-motion:reduce){
+    html{scroll-behavior:auto}
+    *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;
+      transition-duration:.01ms!important;scroll-behavior:auto!important}
   }
 </style>
 </head>
 <body data-theme="dark">
 
+<a class="skip-link" href="#main">본문 바로가기</a>
+
 <header class="site">
   <div class="wrap nav">
-    <div class="brand" onclick="closePost()">
-      <span class="logo">📖</span>
-      <div>Stargate 독서기록<br><small>powered by 밀리의 서재</small></div>
-    </div>
+    <a class="brand" href="/reading/" aria-label="Stargate 독서기록 홈">
+      <span class="logo" aria-hidden="true">📖</span>
+      <span>Stargate 독서기록<br><small>powered by 밀리의 서재</small></span>
+    </a>
     <div class="nav-actions">
       <a class="home-link" href="/" aria-label="STARGATE EDU 메인으로 이동">STARGATE EDU</a>
-      <button class="iconbtn" onclick="toggleTheme()" title="테마 전환" aria-label="밝은 테마와 어두운 테마 전환" id="themeBtn">🌙</button>
+      <button class="iconbtn" type="button" onclick="toggleTheme()" title="테마 전환"
+        aria-label="밝은 테마로 전환" id="themeBtn">🌙</button>
     </div>
   </div>
 </header>
 
+<main id="main">
 <section class="hero">
   <div class="wrap">
     <h1>오늘 읽은 한 권, <span class="millie">밀리의 서재</span> 독후감</h1>
@@ -163,26 +201,34 @@
 </section>
 
 <div class="wrap">
-  <div class="controls">
-    <div class="search"><input id="search" placeholder="제목 · 저자 · 키워드 검색" oninput="render()"></div>
+  <div class="controls" role="search">
+    <label class="sr-only" for="search">독서기록 검색</label>
+    <div class="search"><input id="search" type="search" autocomplete="off"
+      placeholder="제목 · 저자 · 키워드 검색" oninput="render()"></div>
+    <label class="sr-only" for="sort">정렬 방식</label>
     <select id="sort" onchange="render()">
       <option value="recent">최신 읽은 순</option>
       <option value="rating">별점 높은 순</option>
       <option value="title">제목 가나다순</option>
     </select>
+    <button class="clearbtn" type="button" id="clearBtn" onclick="clearSearch()" hidden>검색 초기화</button>
   </div>
-  <div class="chips" id="chips"></div>
-  <div class="grid" id="grid"></div>
+  <div class="controls-meta">
+    <div class="chips" id="chips" role="group" aria-label="장르 필터"></div>
+    <div id="resultSummary" aria-live="polite"></div>
+  </div>
+  <div class="grid" id="grid" aria-live="polite"></div>
 </div>
+</main>
 
 <footer class="site">
   <div class="wrap">
-    © 2026 Stargate 독서기록 · <a href="/">www.stargateedu.co.kr</a><br>
+    © <span id="copyrightYear">2026</span> Stargate 독서기록 · <a href="/">www.stargateedu.co.kr</a><br>
     이 블로그는 밀리의 서재에서 읽은 책의 개인 감상을 기록하며, 밀리의 서재 공식 서비스와 제휴·후원 관계가 없습니다. 인용문의 저작권은 각 저작권자에게 있습니다.
   </div>
 </footer>
 
-<div class="overlay" id="overlay" onclick="if(event.target===this)closePost()">
+<div class="overlay" id="overlay" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="postTitle" onclick="if(event.target===this)closePost()">
   <article class="post" id="post"></article>
 </div>
 
@@ -265,17 +311,18 @@ const posts = [
 
 /* ─────────── 상태/렌더 ─────────── */
 let activeGenre = "전체";
+let lastFocus = null;
 
 function stars(n){return "★".repeat(n)+"☆".repeat(5-n);}
 function fmt(d){const[,m,day]=d.split("-");return `${+m}.${+day}`;}
+function bookHash(id){return `#book-${id}`;}
 
 function renderStats(){
   const total=posts.length;
-  const avg=(posts.reduce((s,p)=>s+p.rating,0)/total).toFixed(1);
-  const pages=posts.reduce((s,p)=>s+p.pages,0).toLocaleString();
-  const now=new Date();
+  const avg=total ? (posts.reduce((s,p)=>s+p.rating,0)/total).toFixed(1) : "0.0";
+  const pages=posts.reduce((s,p)=>s+p.pages,0).toLocaleString("ko-KR");
   const monthKey=new Intl.DateTimeFormat("en-CA",{year:"numeric",month:"2-digit",timeZone:"Asia/Seoul"})
-    .format(now).slice(0,7);
+    .format(new Date()).slice(0,7);
   const thisMonth=posts.filter(p=>p.end.startsWith(monthKey)).length;
   document.getElementById("stats").innerHTML=`
     <div class="stat"><div class="n">${total}<span class="u">권</span></div><div class="l">완독한 책</div></div>
@@ -287,88 +334,196 @@ function renderStats(){
 function renderChips(){
   const genres=["전체",...new Set(posts.map(p=>p.genre))];
   document.getElementById("chips").innerHTML=genres.map(g=>
-    `<span class="chip ${g===activeGenre?'active':''}" onclick="setGenre('${g}')">${g}</span>`).join("");
+    `<button type="button" class="chip ${g===activeGenre?'active':''}" aria-pressed="${g===activeGenre}"
+      onclick="setGenre(${JSON.stringify(g)})">${g}</button>`).join("");
 }
-function setGenre(g){activeGenre=g;renderChips();render();}
 
-function render(){
-  const q=document.getElementById("search").value.trim().toLowerCase();
+function setGenre(g){
+  activeGenre=g;
+  renderChips();
+  render();
+}
+
+function clearSearch(){
+  document.getElementById("search").value="";
+  activeGenre="전체";
+  document.getElementById("sort").value="recent";
+  renderChips();
+  render();
+  document.getElementById("search").focus();
+}
+
+function getVisiblePosts(){
+  const q=document.getElementById("search").value.trim().toLocaleLowerCase("ko-KR");
   const sort=document.getElementById("sort").value;
-  let list=posts.filter(p=>{
+  const list=posts.filter(p=>{
     const okG=activeGenre==="전체"||p.genre===activeGenre;
-    const hay=(p.title+p.author+p.oneline+p.tags.join()).toLowerCase();
+    const hay=[p.title,p.author,p.pub,p.genre,p.oneline,p.review,...p.tags,...p.recommend,
+      ...p.quotes.flatMap(q=>[q.t,q.s])].join(" ").toLocaleLowerCase("ko-KR");
     return okG && hay.includes(q);
   });
   if(sort==="recent")list.sort((a,b)=>b.end.localeCompare(a.end));
-  if(sort==="rating")list.sort((a,b)=>b.rating-a.rating);
+  if(sort==="rating")list.sort((a,b)=>b.rating-a.rating || b.end.localeCompare(a.end));
   if(sort==="title")list.sort((a,b)=>a.title.localeCompare(b.title,"ko"));
-
-  const grid=document.getElementById("grid");
-  if(!list.length){grid.innerHTML='<div class="empty">검색 결과가 없습니다 📭</div>';return;}
-  grid.innerHTML=list.map(p=>`
-    <div class="card" onclick="openPost(${p.id})">
-      <div class="cover" style="background:linear-gradient(135deg,${p.c1},${p.c2})">
-        <span class="genre">${p.genre}</span>
-        <h3>${p.title}</h3>
-      </div>
-      <div class="body">
-        <div class="meta">${p.author} · ${p.pub}</div>
-        <div class="stars">${stars(p.rating)}</div>
-        <div class="oneline">${p.oneline}</div>
-        <div class="tags">${p.tags.map(t=>`<span class="tag">#${t}</span>`).join("")}</div>
-        <div class="foot"><span>📅 ${fmt(p.end)} 완독</span><span>${p.days}일 · ${p.pages}쪽</span></div>
-      </div>
-    </div>`).join("");
+  return list;
 }
 
-function openPost(id){
+function render(){
+  const list=getVisiblePosts();
+  const q=document.getElementById("search").value.trim();
+  const hasFilter=q || activeGenre!=="전체" || document.getElementById("sort").value!=="recent";
+  document.getElementById("clearBtn").hidden=!hasFilter;
+  document.getElementById("resultSummary").textContent=`${list.length}권 표시 중`;
+
+  const grid=document.getElementById("grid");
+  if(!list.length){
+    grid.innerHTML='<div class="empty">검색 결과가 없습니다 📭<br><button type="button" class="clearbtn" onclick="clearSearch()" style="margin-top:14px">전체 보기</button></div>';
+    return;
+  }
+  grid.innerHTML=list.map(p=>`
+    <button type="button" class="card" onclick="openPost(${p.id})" aria-label="${p.title}, ${p.author}, 별점 ${p.rating}점 상세 보기">
+      <span class="cover" style="background:linear-gradient(135deg,${p.c1},${p.c2})">
+        <span class="genre">${p.genre}</span>
+        <span role="heading" aria-level="2" class="card-title">${p.title}</span>
+      </span>
+      <span class="body">
+        <span class="meta">${p.author} · ${p.pub}</span>
+        <span class="stars" aria-label="별점 ${p.rating}점">${stars(p.rating)}</span>
+        <span class="oneline">${p.oneline}</span>
+        <span class="tags">${p.tags.map(t=>`<span class="tag">#${t}</span>`).join("")}</span>
+        <span class="foot"><span>📅 ${fmt(p.end)} 완독</span><span>${p.days}일 · ${p.pages}쪽</span></span>
+      </span>
+    </button>`).join("");
+}
+
+function openPost(id,{updateHash=true}={}){
   const p=posts.find(x=>x.id===id);
+  if(!p)return;
+  lastFocus=document.activeElement;
   document.getElementById("post").innerHTML=`
     <div class="banner" style="background:linear-gradient(135deg,${p.c1},${p.c2})">
-      <button class="close" onclick="closePost()">✕</button>
+      <button class="close" type="button" onclick="closePost()" aria-label="독후감 닫기">✕</button>
       <div class="genre">${p.genre}</div>
-      <h2>${p.title}</h2>
+      <h2 id="postTitle">${p.title}</h2>
       <div class="author">${p.author} 지음 · ${p.pub}</div>
       <span class="millie-badge">📖 밀리의 서재에서 완독</span>
     </div>
     <div class="content">
       <div class="infobar">
-        <div><span>별점</span><b class="bigstars">${stars(p.rating)}</b></div>
+        <div><span>별점</span><b class="bigstars" aria-label="별점 ${p.rating}점">${stars(p.rating)}</b></div>
         <div><span>읽은 기간</span><b>${fmt(p.start)} ~ ${fmt(p.end)} (${p.days}일)</b></div>
         <div><span>분량</span><b>${p.pages}쪽</b></div>
       </div>
       <h4>한 줄 평</h4>
-      <p style="font-size:17px;font-weight:600">"${p.oneline}"</p>
+      <p style="font-size:17px;font-weight:600">“${p.oneline}”</p>
       <h4>밑줄 그은 문장</h4>
-      ${p.quotes.map(q=>`<div class="quote">"${q.t}"<span class="src">— ${p.title}, ${q.s}</span></div>`).join("")}
+      ${p.quotes.map(q=>`<div class="quote">“${q.t}”<span class="src">— ${p.title}, ${q.s}</span></div>`).join("")}
       <h4>서평</h4>
       <p>${p.review}</p>
       <h4>이런 분께 추천</h4>
       <div class="recommend"><ul>${p.recommend.map(r=>`<li>${r}</li>`).join("")}</ul></div>
+      <div class="post-actions"><button type="button" class="sharebtn" onclick="sharePost(${p.id},this)">🔗 독후감 공유</button></div>
     </div>`;
-  document.getElementById("overlay").classList.add("open");
+  const overlay=document.getElementById("overlay");
+  overlay.classList.add("open");
+  overlay.setAttribute("aria-hidden","false");
   document.body.style.overflow="hidden";
+  document.title=`${p.title} 독후감 · Stargate 독서기록`;
+  if(updateHash && location.hash!==bookHash(id)){
+    try{history.pushState({bookId:id},"",bookHash(id));}
+    catch{location.hash=bookHash(id);}
+  }
+  requestAnimationFrame(()=>overlay.querySelector(".close")?.focus());
 }
-function closePost(){
-  document.getElementById("overlay").classList.remove("open");
+
+function closePost({updateHash=true}={}){
+  const overlay=document.getElementById("overlay");
+  if(!overlay.classList.contains("open"))return;
+  overlay.classList.remove("open");
+  overlay.setAttribute("aria-hidden","true");
   document.body.style.overflow="";
+  document.title="밀리의 서재 독서기록 · Stargate 독후감 블로그";
+  if(updateHash && location.hash.startsWith("#book-")){
+    try{history.replaceState(null,"",location.pathname+location.search);}
+    catch{location.hash="";}
+  }
+  if(lastFocus instanceof HTMLElement)lastFocus.focus();
 }
-document.addEventListener("keydown",e=>{if(e.key==="Escape")closePost();});
+
+async function sharePost(id,button){
+  const p=posts.find(x=>x.id===id);
+  const url=new URL(bookHash(id),location.href);
+  const data={title:`${p.title} 독후감`,text:p.oneline,url:url.href};
+  try{
+    if(navigator.share){
+      await navigator.share(data);
+    }else{
+      await navigator.clipboard.writeText(url.href);
+      const original=button.textContent;
+      button.textContent="✓ 링크 복사됨";
+      setTimeout(()=>button.textContent=original,1800);
+    }
+  }catch(error){
+    if(error?.name!=="AbortError")window.prompt("아래 링크를 복사해 주세요.",url.href);
+  }
+}
+
+function syncFromHash(){
+  const match=location.hash.match(/^#book-(\d+)$/);
+  if(match){
+    const id=Number(match[1]);
+    if(posts.some(p=>p.id===id))openPost(id,{updateHash:false});
+  }else{
+    closePost({updateHash:false});
+  }
+}
+
+document.addEventListener("keydown",e=>{
+  if(e.key==="Escape")closePost();
+  if(e.key==="Tab" && document.getElementById("overlay").classList.contains("open")){
+    const focusable=[...document.querySelectorAll("#overlay button,#overlay a[href]")].filter(el=>!el.disabled);
+    if(!focusable.length)return;
+    const first=focusable[0],last=focusable[focusable.length-1];
+    if(e.shiftKey && document.activeElement===first){e.preventDefault();last.focus();}
+    else if(!e.shiftKey && document.activeElement===last){e.preventDefault();first.focus();}
+  }
+});
+window.addEventListener("popstate",syncFromHash);
+
+function applyTheme(theme){
+  document.body.setAttribute("data-theme",theme);
+  document.getElementById("themeBtn").textContent=theme==="dark"?"🌙":"☀️";
+  document.getElementById("themeBtn").setAttribute("aria-label",theme==="dark"?"밝은 테마로 전환":"어두운 테마로 전환");
+  document.getElementById("themeColor").setAttribute("content",theme==="dark"?"#0e1116":"#f5f7fb");
+}
+
+function readSavedTheme(){
+  try{return localStorage.getItem("reading-theme");}
+  catch{return null;}
+}
+
+function saveTheme(theme){
+  try{localStorage.setItem("reading-theme",theme);}
+  catch{/* Storage can be unavailable in restricted browser contexts. */}
+}
 
 function toggleTheme(){
-  const b=document.body,cur=b.getAttribute("data-theme");
+  const cur=document.body.getAttribute("data-theme");
   const next=cur==="dark"?"light":"dark";
-  b.setAttribute("data-theme",next);
-  localStorage.setItem("reading-theme",next);
-  document.getElementById("themeBtn").textContent=next==="dark"?"🌙":"☀️";
+  saveTheme(next);
+  applyTheme(next);
 }
 
-const savedTheme=localStorage.getItem("reading-theme");
-if(savedTheme==="light"||savedTheme==="dark"){
-  document.body.setAttribute("data-theme",savedTheme);
-  document.getElementById("themeBtn").textContent=savedTheme==="dark"?"🌙":"☀️";
-}
-renderStats();renderChips();render();
+const savedTheme=readSavedTheme();
+const initialTheme=savedTheme==="light"||savedTheme==="dark"
+  ? savedTheme
+  : (matchMedia("(prefers-color-scheme: light)").matches?"light":"dark");
+applyTheme(initialTheme);
+document.getElementById("copyrightYear").textContent=new Date().getFullYear();
+renderStats();
+renderChips();
+render();
+syncFromHash();
 </script>
 </body>
 </html>
