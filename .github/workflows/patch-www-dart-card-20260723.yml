@@ -10,6 +10,7 @@ on:
 permissions:
   contents: write
 
+# Retriggered to apply the card to the current main homepage.
 jobs:
   patch:
     runs-on: ubuntu-latest
