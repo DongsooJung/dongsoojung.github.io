@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>방문자 관리자 대시보드 | STARGATE</title>
+<style>
+:root{--bg:#0a0d14;--panel:#0f172a;--panel2:#111c33;--line:#263452;--ink:#e6edf3;--sub:#9aa7b8;--muted:#6b7a90;--acc:#7aa2ff;--good:#63d6a0;--warm:#ffb86b}
+*{box-sizing:border-box}html,body{margin:0;padding:0}body{font-family:"Pretendard","Apple SD Gothic Neo","Segoe UI",system-ui,sans-serif;color:var(--ink);background:radial-gradient(900px 520px at 10% -10%,rgba(79,127,255,.18),transparent 60%),var(--bg);min-height:100vh;line-height:1.55}
+a{color:inherit;text-decoration:none}.wrap{max-width:1080px;margin:0 auto;padding:28px 20px 70px}.top{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap}.brand{font-weight:800;letter-spacing:.3px}.back{padding:9px 13px;border:1px solid var(--line);border-radius:999px;color:var(--sub);font-size:13px;background:var(--panel)}.back:hover{border-color:var(--acc);color:var(--ink)}
+.hero{margin-top:42px}.kicker{color:var(--good);font-size:12px;font-weight:800;letter-spacing:1.2px}.hero h1{font-size:clamp(30px,5vw,48px);line-height:1.12;margin:8px 0 10px}.hero p{color:var(--sub);margin:0}.status{display:inline-flex;align-items:center;gap:8px;margin-top:14px;color:var(--sub);font-size:12px}.dot{width:8px;height:8px;border-radius:50%;background:var(--warm)}.status.ok .dot{background:var(--good);box-shadow:0 0 0 5px rgba(99,214,160,.1)}.status.error .dot{background:#ff6b7a}
+.metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:30px}.card{border:1px solid var(--line);border-radius:18px;background:linear-gradient(180deg,var(--panel2),var(--panel));padding:22px;box-shadow:0 18px 44px rgba(0,0,0,.22)}.label{color:var(--sub);font-size:12px;font-weight:700}.value{font-size:34px;font-weight:850;margin-top:8px;letter-spacing:-1px;font-variant-numeric:tabular-nums}.hint{color:var(--muted);font-size:11px;margin-top:5px}
+.section{margin-top:28px}.section h2{font-size:19px;margin:0 0 12px}.chart{display:flex;align-items:flex-end;gap:6px;height:250px;padding:22px 16px 10px;border:1px solid var(--line);border-radius:18px;background:var(--panel);overflow-x:auto}.bar-wrap{min-width:22px;flex:1;height:100%;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;gap:7px}.bar{width:100%;min-height:2px;border-radius:7px 7px 2px 2px;background:linear-gradient(180deg,var(--acc),#4f7fff);position:relative}.bar:hover::after{content:attr(data-tip);position:absolute;left:50%;bottom:calc(100% + 8px);transform:translateX(-50%);white-space:nowrap;background:#05070c;border:1px solid var(--line);padding:5px 7px;border-radius:7px;font-size:11px;color:var(--ink);z-index:5}.day{font-size:9px;color:var(--muted);writing-mode:vertical-rl;transform:rotate(180deg);height:34px}.table{margin-top:14px;border:1px solid var(--line);border-radius:16px;overflow:hidden;background:var(--panel)}.row{display:grid;grid-template-columns:1fr 120px;padding:12px 16px;border-bottom:1px solid rgba(38,52,82,.65);font-size:13px}.row:last-child{border-bottom:0}.row span:last-child{text-align:right;font-weight:750;font-variant-numeric:tabular-nums}.footer{margin-top:24px;color:var(--muted);font-size:11px}.refresh{border:0;border-radius:12px;padding:11px 15px;background:linear-gradient(135deg,#4f7fff,#7aa2ff);color:#081020;font-weight:800;cursor:pointer}.refresh:disabled{opacity:.55;cursor:wait}
+@media(max-width:720px){.metrics{grid-template-columns:1fr}.chart{height:220px}.row{grid-template-columns:1fr 90px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top">
+    <div class="brand">STARGATE · ADMIN</div>
+    <div style="display:flex;gap:8px;align-items:center">
+      <button class="refresh" id="refresh" type="button">새로고침</button>
+      <a class="back" href="/">← 메인으로</a>
+    </div>
+  </div>
+
+  <section class="hero">
+    <div class="kicker">VISITOR ANALYTICS</div>
+    <h1>방문자 관리자 대시보드</h1>
+    <p>한국시간 기준 오늘·누적 방문자와 최근 30일 추이를 확인합니다.</p>
+    <div class="status" id="status"><span class="dot"></span><span>데이터를 불러오는 중입니다.</span></div>
+  </section>
+
+  <section class="metrics" aria-label="방문자 핵심 지표">
+    <article class="card"><div class="label">TODAY · 오늘</div><div class="value" id="today">—</div><div class="hint" id="today-date">한국시간 기준</div></article>
+    <article class="card"><div class="label">TOTAL · 누적</div><div class="value" id="total">—</div><div class="hint">사이트 누적 집계</div></article>
+    <article class="card"><div class="label">30 DAYS · 최근 30일</div><div class="value" id="monthly">—</div><div class="hint">일별 방문자 합계</div></article>
+  </section>
+
+  <section class="section">
+    <h2>최근 30일 방문 추이</h2>
+    <div class="chart" id="chart" aria-label="최근 30일 방문자 막대그래프"></div>
+    <div class="table" id="table" aria-label="최근 방문자 상세 목록"></div>
+  </section>
+
+  <div class="footer">개인정보는 수집하지 않으며, 동일 브라우저는 하루 1회 집계됩니다.</div>
+</div>
+<script>
+(() => {
+  const namespace = 'stargateedu-co-kr';
+  const apiBase = `https://api.counterapi.dev/v1/${namespace}`;
+  const todayEl = document.getElementById('today');
+  const totalEl = document.getElementById('total');
+  const monthlyEl = document.getElementById('monthly');
+  const dateEl = document.getElementById('today-date');
+  const chartEl = document.getElementById('chart');
+  const tableEl = document.getElementById('table');
+  const statusEl = document.getElementById('status');
+  const refreshBtn = document.getElementById('refresh');
+
+  function koreaDate(offset = 0) {
+    const now = new Date(Date.now() + offset * 86400000);
+    const parts = new Intl.DateTimeFormat('en-CA', {timeZone:'Asia/Seoul',year:'numeric',month:'2-digit',day:'2-digit'}).formatToParts(now);
+    const v = Object.fromEntries(parts.map(({type,value}) => [type,value]));
+    return `${v.year}-${v.month}-${v.day}`;
+  }
+  function fmt(n){ const value = Number(n); return Number.isFinite(value) ? value.toLocaleString('ko-KR') : '0'; }
+  async function readCounter(name){
+    const res = await fetch(`${apiBase}/${encodeURIComponent(name)}?t=${Date.now()}`, {cache:'no-store'});
+    if (!res.ok) throw new Error(`HTTP_${res.status}`);
+    const data = await res.json();
+    return Number(data.count) || 0;
+  }
+  function setStatus(text, state=''){
+    statusEl.className = `status${state ? ` ${state}` : ''}`;
+    statusEl.querySelector('span:last-child').textContent = text;
+  }
+  async function load(){
+    refreshBtn.disabled = true;
+    setStatus('데이터를 불러오는 중입니다.');
+    const dates = Array.from({length:30}, (_,i) => koreaDate(i - 29));
+    try {
+      const [total, ...daily] = await Promise.all([
+        readCounter('total-visitors'),
+        ...dates.map(d => readCounter(`daily-${d}`).catch(() => 0))
+      ]);
+      const today = daily[daily.length - 1] || 0;
+      const monthly = daily.reduce((sum,n) => sum + n, 0);
+      const max = Math.max(...daily, 1);
+      todayEl.textContent = fmt(today);
+      totalEl.textContent = fmt(total);
+      monthlyEl.textContent = fmt(monthly);
+      dateEl.textContent = `${dates[dates.length - 1]} · 한국시간`;
+      chartEl.replaceChildren(...daily.map((count,i) => {
+        const wrap = document.createElement('div'); wrap.className = 'bar-wrap';
+        const bar = document.createElement('div'); bar.className = 'bar';
+        bar.style.height = `${Math.max(2, Math.round((count/max)*170))}px`;
+        bar.dataset.tip = `${dates[i]} · ${fmt(count)}명`;
+        const day = document.createElement('span'); day.className = 'day'; day.textContent = dates[i].slice(5);
+        wrap.append(bar, day); return wrap;
+      }));
+      tableEl.replaceChildren(...dates.slice(-10).reverse().map((date,idx) => {
+        const count = daily[daily.length - 1 - idx];
+        const row = document.createElement('div'); row.className = 'row';
+        const d = document.createElement('span'); d.textContent = date;
+        const c = document.createElement('span'); c.textContent = `${fmt(count)}명`;
+        row.append(d,c); return row;
+      }));
+      setStatus(`정상 연결 · ${new Intl.DateTimeFormat('ko-KR',{dateStyle:'medium',timeStyle:'medium',timeZone:'Asia/Seoul'}).format(new Date())} 갱신`, 'ok');
+    } catch (error) {
+      setStatus('방문자 집계 서버에 연결하지 못했습니다. 잠시 후 다시 시도해 주세요.', 'error');
+    } finally {
+      refreshBtn.disabled = false;
+    }
+  }
+  refreshBtn.addEventListener('click', load);
+  load();
+})();
+</script>
+</body>
+</html>
