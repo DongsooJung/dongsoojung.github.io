@@ -1,0 +1,89 @@
+name: Add dashboard visibility toggle
+
+on:
+  push:
+    paths:
+      - '.github/workflows/add-dashboard-toggle.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Patch homepage
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+
+          path = Path('index.html')
+          text = path.read_text(encoding='utf-8')
+          marker = 'project-visibility-toggle'
+          if marker not in text:
+              css_anchor = '/* About */'
+              css = '''/* Project visibility toggle */
+          .project-toggle-row{display:flex;justify-content:flex-end;margin:-4px 0 16px}
+          .project-toggle{display:inline-flex;align-items:center;gap:8px;padding:9px 13px;border:1px solid var(--line2);border-radius:999px;background:var(--panel);color:var(--ink);font:600 12px inherit;cursor:pointer;transition:.18s border-color,.18s transform,.18s background}
+          .project-toggle:hover,.project-toggle:focus-visible{border-color:var(--acc);transform:translateY(-1px);outline:none}
+          .project-toggle[aria-expanded="false"]{background:rgba(79,127,255,.12);border-color:var(--acc)}
+          .proj.is-project-hidden{display:none}
+
+          '''
+              text = text.replace(css_anchor, css + css_anchor, 1)
+
+              grid_anchor = '    <div class="grid">'
+              button = '''    <div class="project-toggle-row">
+                <button class="project-toggle" id="project-visibility-toggle" type="button" aria-expanded="true" aria-controls="projects-grid">
+                  <span aria-hidden="true">▴</span><span>서울 실시간 도시데이터부터 뒤 대시보드 숨기기</span>
+                </button>
+              </div>
+              <div class="grid" id="projects-grid">'''
+              text = text.replace(grid_anchor, button, 1)
+
+              script_anchor = "if ('serviceWorker' in navigator) {"
+              script = '''(() => {
+            const toggle = document.getElementById('project-visibility-toggle');
+            const grid = document.getElementById('projects-grid');
+            if (!toggle || !grid) return;
+
+            const cards = [...grid.querySelectorAll(':scope > .proj')];
+            const firstHiddenIndex = cards.findIndex((card) =>
+              card.querySelector('.ttl')?.textContent.includes('서울 실시간 도시데이터 대시보드')
+            );
+            if (firstHiddenIndex < 0) {
+              toggle.hidden = true;
+              return;
+            }
+
+            const targetCards = cards.slice(firstHiddenIndex);
+            const label = toggle.querySelector('span:last-child');
+            const icon = toggle.querySelector('span:first-child');
+
+            function setExpanded(expanded) {
+              targetCards.forEach((card) => card.classList.toggle('is-project-hidden', !expanded));
+              toggle.setAttribute('aria-expanded', String(expanded));
+              label.textContent = expanded
+                ? '서울 실시간 도시데이터부터 뒤 대시보드 숨기기'
+                : '숨긴 대시보드 다시 보기';
+              icon.textContent = expanded ? '▴' : '▾';
+            }
+
+            toggle.addEventListener('click', () => {
+              setExpanded(toggle.getAttribute('aria-expanded') !== 'true');
+            });
+          })();
+
+          '''
+              text = text.replace(script_anchor, script + script_anchor, 1)
+              path.write_text(text, encoding='utf-8')
+          PY
+          rm .github/workflows/add-dashboard-toggle.yml
+      - name: Commit homepage update
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add index.html .github/workflows/add-dashboard-toggle.yml
+          git commit -m "Add dashboard visibility toggle [skip ci]"
+          git push
