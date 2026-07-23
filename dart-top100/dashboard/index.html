@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DART 상위 100대 기업 대시보드 · 2025</title>
+<link rel="preconnect" href="https://cdnjs.cloudflare.com">
+<style>
+  :root{
+    --bg:#0b1120; --panel:#111a2e; --panel2:#16223c; --line:#233150;
+    --txt:#e6ecfb; --muted:#94a3c4; --accent:#5b8cff; --accent2:#22d3ee;
+    --pos:#34d399; --neg:#f87171; --gold:#fbbf24;
+    --shadow:0 8px 30px rgba(0,0,0,.35);
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{background:linear-gradient(180deg,#0a0f1e,#0b1120 40%);color:var(--txt);
+    font-family:"Pretendard","Apple SD Gothic Neo","Malgun Gothic",system-ui,-apple-system,sans-serif;
+    -webkit-font-smoothing:antialiased;line-height:1.5}
+  a{color:var(--accent);text-decoration:none}
+  .wrap{max-width:1360px;margin:0 auto;padding:22px 20px 60px}
+  header.top{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:14px;margin-bottom:6px}
+  .brand{display:flex;align-items:center;gap:12px}
+  .logo{width:40px;height:40px;border-radius:11px;background:conic-gradient(from 210deg,#5b8cff,#22d3ee,#818cf8,#5b8cff);
+    box-shadow:0 6px 18px rgba(91,140,255,.4);position:relative}
+  .logo::after{content:"";position:absolute;inset:9px;border-radius:6px;background:var(--bg)}
+  h1{font-size:22px;margin:0;font-weight:800;letter-spacing:-.4px}
+  .sub{color:var(--muted);font-size:13px;margin-top:2px}
+  .pill{font-size:12px;color:var(--muted);border:1px solid var(--line);padding:5px 11px;border-radius:20px;background:var(--panel)}
+  .note{margin:10px 0 22px;font-size:12.5px;color:#b7c2dd;background:rgba(251,191,36,.08);
+    border:1px solid rgba(251,191,36,.25);padding:9px 13px;border-radius:10px}
+  .kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:20px}
+  .kpi{background:linear-gradient(160deg,var(--panel2),var(--panel));border:1px solid var(--line);
+    border-radius:15px;padding:16px 18px;box-shadow:var(--shadow);position:relative;overflow:hidden}
+  .kpi .k-label{font-size:12.5px;color:var(--muted);font-weight:600}
+  .kpi .k-val{font-size:26px;font-weight:800;margin-top:8px;letter-spacing:-.5px}
+  .kpi .k-unit{font-size:13px;color:var(--muted);font-weight:600;margin-left:4px}
+  .kpi .k-foot{font-size:11.5px;color:var(--muted);margin-top:6px}
+  .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:15px;padding:16px 18px 18px;box-shadow:var(--shadow)}
+  .card.full{grid-column:1 / -1}
+  .card h3{margin:0 0 3px;font-size:15.5px;font-weight:700}
+  .card .desc{color:var(--muted);font-size:12px;margin-bottom:12px}
+  .ctl{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-bottom:12px}
+  select,input[type=search]{background:var(--panel2);color:var(--txt);border:1px solid var(--line);
+    border-radius:9px;padding:8px 11px;font-size:13px;font-family:inherit;outline:none}
+  select:focus,input:focus{border-color:var(--accent)}
+  label.sml{font-size:12px;color:var(--muted)}
+  input[type=range]{accent-color:var(--accent)}
+  .seg{display:inline-flex;border:1px solid var(--line);border-radius:9px;overflow:hidden}
+  .seg button{background:var(--panel2);color:var(--muted);border:0;padding:7px 12px;font-size:12.5px;cursor:pointer;font-family:inherit}
+  .seg button.on{background:var(--accent);color:#04122e;font-weight:700}
+  .chart-box{position:relative;height:320px}
+  .chart-box.tall{height:380px}
+  .chips{display:flex;flex-wrap:wrap;gap:7px;margin-top:10px}
+  .chip{font-size:12px;background:var(--panel2);border:1px solid var(--line);border-radius:16px;
+    padding:5px 10px 5px 11px;display:inline-flex;align-items:center;gap:7px}
+  .chip b{font-weight:700}
+  .chip x{cursor:pointer;color:var(--muted);font-weight:800}
+  .chip x:hover{color:var(--neg)}
+  .tbl-wrap{overflow:auto;max-height:520px;border:1px solid var(--line);border-radius:11px}
+  table{border-collapse:collapse;width:100%;font-size:13px;min-width:720px}
+  th,td{padding:9px 11px;text-align:right;white-space:nowrap;border-bottom:1px solid var(--line)}
+  th{position:sticky;top:0;background:var(--panel2);cursor:pointer;user-select:none;font-weight:700;color:#cdd8f2;z-index:2}
+  th:hover{color:#fff}
+  td.name,th.name{text-align:left;position:sticky;left:0;background:var(--panel)}
+  th.name{background:var(--panel2);z-index:3}
+  tbody tr:hover td{background:rgba(91,140,255,.08)}
+  .pos{color:var(--pos)} .neg{color:var(--neg)}
+  .rk{color:var(--muted)}
+  footer{margin-top:30px;color:var(--muted);font-size:12px;text-align:center;border-top:1px solid var(--line);padding-top:16px}
+  @media(max-width:900px){.kpis{grid-template-columns:repeat(2,1fr)}.grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div class="brand">
+      <div class="logo"></div>
+      <div>
+        <h1>매출 상위 100대 기업 · 분기 실적 대시보드</h1>
+        <div class="sub">2025년 · 매출액 / 영업이익 · 분기별(Q1–Q4) 다각도 분석</div>
+      </div>
+    </div>
+    <div style="display:flex;gap:8px;align-items:center">
+      <span class="pill" id="unitPill">단위: 억원 (KRW)</span>
+      <a class="pill" href="../">← 원본 표 보기</a>
+    </div>
+  </header>
+
+  <div class="note" id="dataNote">※ 데이터를 불러오는 중…</div>
+
+  <section class="kpis" id="kpis"></section>
+
+  <section class="grid">
+    <div class="card full">
+      <h3>분기별 전체 매출 · 영업이익 추이</h3>
+      <div class="desc">100대 기업 합산 기준. 막대=매출액, 선=영업이익, 점선=영업이익률(%)</div>
+      <div class="ctl">
+        <div class="seg" id="totMode">
+          <button data-m="both" class="on">매출+영업이익</button>
+          <button data-m="margin">영업이익률</button>
+          <button data-m="qoq">전분기比 성장률</button>
+        </div>
+      </div>
+      <div class="chart-box"><canvas id="cTotals"></canvas></div>
+    </div>
+
+    <div class="card">
+      <h3>매출 랭킹 (상위 N)</h3>
+      <div class="desc">연간 합산 매출 기준 상위 기업</div>
+      <div class="ctl">
+        <label class="sml">상위 <b id="topNlbl">15</b>개</label>
+        <input type="range" id="topN" min="5" max="40" value="15" style="flex:1;min-width:120px">
+        <select id="rankMetric">
+          <option value="revenue_annual">연 매출</option>
+          <option value="op_annual">연 영업이익</option>
+          <option value="margin">영업이익률</option>
+        </select>
+      </div>
+      <div class="chart-box tall"><canvas id="cRank"></canvas></div>
+    </div>
+
+    <div class="card">
+      <h3>매출 대비 영업이익률 분포</h3>
+      <div class="desc">가로=연 매출(로그), 세로=영업이익률(%), 크기=영업이익</div>
+      <div class="chart-box tall"><canvas id="cScatter"></canvas></div>
+    </div>
+
+    <div class="card">
+      <h3>기업 드릴다운</h3>
+      <div class="desc">기업 선택 시 분기별 매출·영업이익·이익률 상세</div>
+      <div class="ctl">
+        <select id="drillSel" style="flex:1;min-width:160px"></select>
+      </div>
+      <div class="chart-box"><canvas id="cDrill"></canvas></div>
+      <div id="drillStat" class="chips"></div>
+    </div>
+
+    <div class="card">
+      <h3>기업 비교 (분기별)</h3>
+      <div class="desc">최대 6개 기업 선택 · 분기별 추이 비교</div>
+      <div class="ctl">
+        <select id="cmpSel" style="flex:1;min-width:160px"></select>
+        <div class="seg" id="cmpMode">
+          <button data-m="revenue" class="on">매출</button>
+          <button data-m="op">영업이익</button>
+          <button data-m="margin">이익률</button>
+        </div>
+      </div>
+      <div class="chart-box"><canvas id="cCompare"></canvas></div>
+      <div id="cmpChips" class="chips"></div>
+    </div>
+
+    <div class="card full">
+      <h3>전체 데이터 테이블</h3>
+      <div class="desc">열 머리글 클릭 = 정렬 · 검색으로 기업 필터</div>
+      <div class="ctl">
+        <input type="search" id="tblSearch" placeholder="기업명 검색…" style="flex:1;min-width:160px">
+        <span class="pill" id="tblCount"></span>
+      </div>
+      <div class="tbl-wrap"><table id="dataTbl"></table></div>
+    </div>
+  </section>
+
+  <footer>
+    Stargate Edu · DART 상위 100대 기업 실적 대시보드 · <span id="genTime"></span><br>
+    데이터 출처: 화면 상단 안내 참조 · 시각화: Chart.js
+  </footer>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script>
+/* DART 상위 100대 기업 · 2025 분기 실적 (단위: 억원)
+   rows = [순위, 기업명, 매출Q1~Q4, 영업이익Q1~Q4]
+   ※ 원본 안내: 데모용 샘플 데이터 — 실제 OpenDART 공시 수치가 아닙니다. */
+window.DASH_DATA = {
+  "unit": "억원",
+  "note": "데모용 샘플 데이터 — 실제 OpenDART 공시 수치가 아닙니다.",
+  "year": 2025,
+  "rows": [
+[1,"삼성전자",774664,723572,716383,857568,95031,74871,93806,127785],
+[2,"현대자동차",451875,447202,467509,428859,43672,49112,27333,42662],
+[3,"기아",246122,287120,295423,282892,24833,27942,31880,34607],
+[4,"한국전력공사",205504,213204,238118,270274,14186,16938,16856,11561],
+[5,"SK하이닉스",219249,222929,211132,225456,72222,85642,75485,58213],
+[6,"LG전자",230529,213420,215004,226030,12406,6943,5474,10975],
+[7,"SK이노베이션",161691,191179,191459,206921,3035,3017,2435,2944],
+[8,"포스코홀딩스",170813,158893,169810,197449,4357,5660,5804,4633],
+[9,"HD현대",155486,169017,183129,187459,8523,5811,7323,8877],
+[10,"현대모비스",142758,150288,136224,146106,4295,5622,7618,6806],
+[11,"한화",127279,151650,135091,156128,6169,5490,5875,4336],
+[12,"LG화학",117460,113709,117447,144035,2444,2575,1617,2315],
+[13,"삼성물산",113738,104954,110081,111524,6342,4641,5636,8582],
+[14,"한국가스공사",95348,102661,96950,92167,6534,7629,7312,7476],
+[15,"S-Oil",80978,84609,95234,96186,2234,1713,2175,1876],
+[16,"현대건설",82705,77273,79999,84747,1295,1979,1953,1074],
+[17,"CJ제일제당",67805,75494,70175,77969,2950,3521,3186,4407],
+[18,"이마트",68999,71421,80929,70185,1900,1568,1721,1208],
+[19,"현대글로비스",63390,72572,76177,68052,3228,5006,2863,2888],
+[20,"KT",66090,68184,61172,63464,4508,4805,3680,4381],
+[21,"LG디스플레이",67680,64771,65082,69826,837,1305,1287,1474],
+[22,"HD한국조선해양",59521,59029,69802,64700,5229,4933,3772,3877],
+[23,"LS",58521,52942,61786,60311,2323,2359,3049,1853],
+[24,"현대제철",56082,55894,59974,58566,742,377,427,492],
+[25,"LG이노텍",54158,51492,48433,53852,2035,1670,2009,1323],
+[26,"롯데케미칼",46599,47960,49091,53272,-515,-665,-678,-601],
+[27,"두산에너빌리티",39221,40468,47386,48250,2931,3116,3540,2286],
+[28,"SK텔레콤",47358,44023,44048,48364,3914,5979,2918,3743],
+[29,"대한항공",45390,43673,44993,46051,6422,6481,3233,5323],
+[30,"삼성SDI",40527,39043,39779,45150,1086,917,1011,1246],
+[31,"HD현대중공업",36162,34760,35843,43231,1870,2893,1887,2178],
+[32,"LG유플러스",33626,35301,38099,39524,2158,2954,1910,2807],
+[33,"롯데쇼핑",32151,36336,35761,34299,1254,874,824,752],
+[34,"GS건설",28862,33048,34995,34340,1134,625,1255,663],
+[35,"CJ대한통운",28363,29706,34241,31051,1012,1638,829,1191],
+[36,"고려아연",27647,32011,31652,31186,1708,1913,3362,2131],
+[37,"HMM",27656,29606,30076,30316,5332,7931,7270,8202],
+[38,"한화에어로스페이스",27797,25741,27727,30064,2165,3654,4549,3827],
+[39,"한화오션",27597,25418,30474,29653,1440,967,2096,1052],
+[40,"네이버",28735,25992,29185,29314,3799,3703,3266,5468],
+[41,"삼성전기",26508,26789,23546,25824,1729,1306,2341,1615],
+[42,"삼성중공업",22894,24064,26202,27139,1364,1417,1119,1095],
+[43,"대우건설",21544,23551,26350,27612,623,741,621,937],
+[44,"삼성E&A",26041,23588,24606,26566,1310,1346,1628,2141],
+[45,"한온시스템",24985,25860,24368,24687,584,983,672,447],
+[46,"두산밥캣",24357,25470,25984,25766,1964,2603,1810,2627],
+[47,"아시아나항공",21219,24393,22886,26648,1434,1441,1639,2023],
+[48,"한진칼",22120,21673,26290,23899,1346,2596,2602,2362],
+[49,"현대위아",19085,20099,22858,25037,550,512,554,998],
+[50,"HL만도",20446,18889,23039,21142,570,542,698,597],
+[51,"E1",20514,17553,19957,21633,296,379,345,273],
+[52,"카카오",18888,19891,19995,18320,1266,777,1568,1433],
+[53,"DL이앤씨",17461,20575,21136,20605,724,843,812,799],
+[54,"효성",18886,18763,20412,17728,479,577,488,377],
+[55,"금호석유화학",17845,17522,19862,17855,894,858,1246,628],
+[56,"SK가스",17358,16776,17293,16589,937,633,535,428],
+[57,"LG생활건강",16913,17953,15756,18795,796,1230,1415,1596],
+[58,"코오롱인더스트리",16205,15378,15630,17821,786,626,820,877],
+[59,"KCC",15428,16028,16874,15458,558,595,748,742],
+[60,"팬오션",12988,15285,15846,16830,1135,1053,1410,1520],
+[61,"KT&G",15081,14282,13580,16091,3862,3865,2396,3105],
+[62,"동국제강",13392,14979,14367,15368,489,808,801,724],
+[63,"세아베스틸지주",12568,13597,14003,13662,366,251,288,395],
+[64,"호텔신라",11073,13289,13794,13388,235,344,204,226],
+[65,"한국타이어앤테크놀로지",14240,12463,12817,13605,2158,1436,1173,1479],
+[66,"풍산",12140,11560,12874,13122,690,951,466,724],
+[67,"GS리테일",11300,11951,11963,12925,433,401,299,417],
+[68,"현대백화점",11841,10529,12513,13373,548,427,649,1118],
+[69,"LS일렉트릭",12234,10649,10794,11626,986,401,533,882],
+[70,"삼성바이오로직스",9982,11403,10999,11343,3617,3384,3400,4578],
+[71,"한국항공우주",11020,11468,10996,10372,1081,979,608,791],
+[72,"현대로템",11149,9561,10199,10950,1059,640,1259,1178],
+[73,"BGF리테일",9295,9725,11402,11094,298,377,207,288],
+[74,"아모레퍼시픽",9654,10542,10709,9989,629,735,844,621],
+[75,"롯데칠성음료",8512,10610,9596,11231,480,323,551,339],
+[76,"오뚜기",8536,9641,9759,10200,587,489,456,744],
+[77,"대상",9361,8604,9533,10278,455,328,373,274],
+[78,"셀트리온",7956,9083,8478,9492,1917,1402,1559,1573],
+[79,"농심",8321,8253,8780,7825,502,378,468,336],
+[80,"한전KPS",8459,8855,8105,8374,730,1089,1006,1365],
+[81,"오리온",7521,8171,8207,8061,781,1112,1772,1712],
+[82,"LIG넥스원",7777,8291,8312,8163,412,765,809,572],
+[83,"하이트진로",7542,7151,8380,8358,553,382,382,538],
+[84,"한샘",7255,6616,7757,7751,128,148,135,103],
+[85,"CJ ENM",7080,7476,7826,8051,157,268,149,309],
+[86,"한솔제지",6851,7134,8087,7458,195,212,236,218],
+[87,"영원무역",7658,6574,7865,7122,1208,663,1201,828],
+[88,"휠라홀딩스",7409,6754,6498,7008,501,499,868,831],
+[89,"크래프톤",6494,6963,6463,7353,2829,3545,2615,2665],
+[90,"넷마블",5694,5858,6946,7187,299,479,270,345],
+[91,"F&F",5805,6138,6234,6444,1781,856,1550,1354],
+[92,"동원산업",6203,6952,6095,6271,388,378,227,306],
+[93,"한국콜마",6016,5721,6197,6554,308,548,312,414],
+[94,"코스맥스",5134,5826,5964,5907,293,409,361,365],
+[95,"녹십자",5086,5204,5504,5724,144,214,194,113],
+[96,"한미약품",5428,5004,5786,5168,1049,629,935,546],
+[97,"유한양행",5069,5166,5781,5044,178,181,269,199],
+[98,"종근당",4777,5227,5106,4995,281,252,465,295],
+[99,"대웅제약",4752,4712,5113,4920,397,296,543,507],
+[100,"에코프로비엠",4771,5195,5398,5022,-89,-97,-102,-127]
+  ]
+};
+
+</script>
+<script>
+const Q=["Q1","Q2","Q3","Q4"];
+let RAW=(window.DASH_DATA||null);
+function buildCompanies(d){
+  return d.rows.map(r=>{
+    const [rank,name,r1,r2,r3,r4,o1,o2,o3,o4]=r;
+    const rev=[r1,r2,r3,r4],op=[o1,o2,o3,o4];
+    const revA=r1+r2+r3+r4,opA=o1+o2+o3+o4;
+    return {rank,name,rev,op,revA,opA,margin:revA?(opA/revA*100):0};
+  });
+}
+let COMPANIES=[],TOT={rev:[0,0,0,0],op:[0,0,0,0]};
+function computeTotals(){
+  TOT={rev:[0,0,0,0],op:[0,0,0,0]};
+  COMPANIES.forEach(c=>Q.forEach((q,i)=>{TOT.rev[i]+=c.rev[i];TOT.op[i]+=c.op[i];}));
+}
+const nf=new Intl.NumberFormat("ko-KR");
+function won(v){const jo=v/10000;if(Math.abs(jo)>=1)return nf.format(Math.round(jo*10)/10)+"조";return nf.format(Math.round(v))+"억";}
+function pct(v){return(Math.round(v*10)/10)+"%";}
+
+Chart.defaults.color="#94a3c4";
+Chart.defaults.font.family='"Pretendard","Malgun Gothic",sans-serif';
+Chart.defaults.font.size=12;
+const GRID={color:"rgba(35,49,80,.7)"};
+const palette=["#5b8cff","#22d3ee","#a78bfa","#34d399","#fbbf24","#f472b6","#f87171","#60a5fa"];
+let charts={};
+function destroy(k){if(charts[k]){charts[k].destroy();delete charts[k];}}
+
+function renderKPIs(){
+  const revA=COMPANIES.reduce((s,c)=>s+c.revA,0);
+  const opA=COMPANIES.reduce((s,c)=>s+c.opA,0);
+  const margin=opA/revA*100;
+  const top=COMPANIES[0];
+  const g=(TOT.rev[3]/TOT.rev[0]-1)*100;
+  const cards=[
+    {l:"100대 기업 총매출",v:won(revA),f:"연간 합산"},
+    {l:"총영업이익",v:won(opA),f:"평균 영업이익률 "+pct(margin)},
+    {l:"Q1→Q4 매출 성장",v:(g>=0?"+":"")+pct(g),f:"전체 합산 기준"},
+    {l:"1위 기업",v:top.name,f:"연 매출 "+won(top.revA)},
+  ];
+  document.getElementById("kpis").innerHTML=cards.map(c=>
+    `<div class="kpi"><div class="k-label">${c.l}</div>
+     <div class="k-val">${c.v}</div><div class="k-foot">${c.f}</div></div>`).join("");
+}
+
+let totMode="both";
+function renderTotals(){
+  destroy("tot");
+  const ctx=document.getElementById("cTotals");
+  let cfg;
+  if(totMode==="both"){
+    cfg={type:"bar",data:{labels:Q,datasets:[
+      {label:"매출액",data:TOT.rev,backgroundColor:"rgba(91,140,255,.65)",borderRadius:6,yAxisID:"y",order:2},
+      {label:"영업이익",data:TOT.op,type:"line",borderColor:"#22d3ee",backgroundColor:"#22d3ee",
+        tension:.35,borderWidth:3,pointRadius:4,yAxisID:"y1",order:1}]},
+      options:{maintainAspectRatio:false,interaction:{mode:"index",intersect:false},
+      plugins:{legend:{position:"top"},tooltip:{callbacks:{label:c=>c.dataset.label+": "+won(c.parsed.y)}}},
+      scales:{y:{grid:GRID,ticks:{callback:v=>won(v)},title:{display:true,text:"매출(억원)"}},
+        y1:{position:"right",grid:{drawOnChartArea:false},ticks:{callback:v=>won(v)},title:{display:true,text:"영업이익"}},
+        x:{grid:{display:false}}}}};
+  }else if(totMode==="margin"){
+    const m=TOT.rev.map((r,i)=>TOT.op[i]/r*100);
+    cfg={type:"line",data:{labels:Q,datasets:[
+      {label:"영업이익률(%)",data:m,borderColor:"#fbbf24",backgroundColor:"rgba(251,191,36,.15)",
+       fill:true,tension:.35,borderWidth:3,pointRadius:4}]},
+      options:{maintainAspectRatio:false,plugins:{legend:{position:"top"},
+        tooltip:{callbacks:{label:c=>"영업이익률: "+pct(c.parsed.y)}}},
+        scales:{y:{grid:GRID,ticks:{callback:v=>v+"%"}},x:{grid:{display:false}}}}};
+  }else{
+    const qoqR=TOT.rev.map((r,i)=>i===0?0:(r/TOT.rev[i-1]-1)*100);
+    const qoqO=TOT.op.map((o,i)=>i===0?0:(o/TOT.op[i-1]-1)*100);
+    cfg={type:"bar",data:{labels:Q,datasets:[
+      {label:"매출 성장률",data:qoqR,backgroundColor:"rgba(52,211,153,.7)",borderRadius:6},
+      {label:"영업이익 성장률",data:qoqO,backgroundColor:"rgba(248,113,113,.7)",borderRadius:6}]},
+      options:{maintainAspectRatio:false,plugins:{legend:{position:"top"},
+        tooltip:{callbacks:{label:c=>c.dataset.label+": "+pct(c.parsed.y)}}},
+        scales:{y:{grid:GRID,ticks:{callback:v=>v+"%"}},x:{grid:{display:false}}}}};
+  }
+  charts.tot=new Chart(ctx,cfg);
+}
+
+function renderRank(){
+  destroy("rank");
+  const n=+document.getElementById("topN").value;
+  const metric=document.getElementById("rankMetric").value;
+  let arr=[...COMPANIES];
+  const key=c=>metric==="revenue_annual"?c.revA:metric==="op_annual"?c.opA:c.margin;
+  arr.sort((a,b)=>key(b)-key(a));
+  arr=arr.slice(0,n).reverse();
+  const isMargin=metric==="margin";
+  charts.rank=new Chart(document.getElementById("cRank"),{
+    type:"bar",data:{labels:arr.map(c=>c.name),datasets:[{
+      data:arr.map(key),
+      backgroundColor:arr.map(c=>isMargin&&key(c)<0?"rgba(248,113,113,.8)":"rgba(91,140,255,.75)"),
+      borderRadius:5}]},
+    options:{indexAxis:"y",maintainAspectRatio:false,
+      plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>isMargin?pct(c.parsed.x):won(c.parsed.x)}}},
+      scales:{x:{grid:GRID,ticks:{callback:v=>isMargin?v+"%":won(v)}},
+        y:{grid:{display:false},ticks:{font:{size:11},autoSkip:false}}}}});
+}
+
+function renderScatter(){
+  destroy("sc");
+  const maxOp=Math.max(...COMPANIES.map(c=>Math.abs(c.opA)));
+  const pts=COMPANIES.map(c=>({x:c.revA,y:c.margin,r:6+Math.sqrt(Math.abs(c.opA)/maxOp)*22,c}));
+  charts.sc=new Chart(document.getElementById("cScatter"),{
+    type:"bubble",data:{datasets:[{data:pts,
+      backgroundColor:pts.map(p=>p.y<0?"rgba(248,113,113,.55)":"rgba(34,211,238,.5)"),
+      borderColor:pts.map(p=>p.y<0?"#f87171":"#22d3ee"),borderWidth:1}]},
+    options:{maintainAspectRatio:false,
+      plugins:{legend:{display:false},tooltip:{callbacks:{label:p=>{
+        const c=p.raw.c;return c.name+" · 매출 "+won(c.revA)+" · 이익률 "+pct(c.margin);}}}},
+      scales:{x:{type:"logarithmic",grid:GRID,title:{display:true,text:"연 매출(억원, 로그)"},ticks:{callback:v=>won(v)}},
+        y:{grid:GRID,title:{display:true,text:"영업이익률(%)"},ticks:{callback:v=>v+"%"}}}}});
+}
+
+function renderDrill(){
+  destroy("drill");
+  const name=document.getElementById("drillSel").value;
+  const c=COMPANIES.find(x=>x.name===name);
+  const m=c.rev.map((r,i)=>c.op[i]/r*100);
+  charts.drill=new Chart(document.getElementById("cDrill"),{
+    data:{labels:Q,datasets:[
+      {type:"bar",label:"매출",data:c.rev,backgroundColor:"rgba(91,140,255,.65)",borderRadius:6,yAxisID:"y",order:3},
+      {type:"bar",label:"영업이익",data:c.op,backgroundColor:"rgba(34,211,238,.7)",borderRadius:6,yAxisID:"y",order:2},
+      {type:"line",label:"이익률(%)",data:m,borderColor:"#fbbf24",backgroundColor:"#fbbf24",
+        tension:.35,borderWidth:3,pointRadius:4,yAxisID:"y1",order:1}]},
+    options:{maintainAspectRatio:false,interaction:{mode:"index",intersect:false},
+      plugins:{legend:{position:"top"},tooltip:{callbacks:{label:cc=>
+        cc.dataset.yAxisID==="y1"?cc.dataset.label+": "+pct(cc.parsed.y):cc.dataset.label+": "+won(cc.parsed.y)}}},
+      scales:{y:{grid:GRID,ticks:{callback:v=>won(v)}},
+        y1:{position:"right",grid:{drawOnChartArea:false},ticks:{callback:v=>v+"%"}},
+        x:{grid:{display:false}}}}});
+  document.getElementById("drillStat").innerHTML=
+    `<span class="chip">순위 <b>${c.rank}위</b></span>
+     <span class="chip">연 매출 <b>${won(c.revA)}</b></span>
+     <span class="chip">연 영업이익 <b>${won(c.opA)}</b></span>
+     <span class="chip">영업이익률 <b>${pct(c.margin)}</b></span>`;
+}
+
+let cmpMode="revenue";let cmpList=[];
+function renderCompare(){
+  destroy("cmp");
+  const key=c=>cmpMode==="revenue"?c.rev:cmpMode==="op"?c.op:c.rev.map((r,i)=>c.op[i]/r*100);
+  charts.cmp=new Chart(document.getElementById("cCompare"),{
+    type:"line",data:{labels:Q,datasets:cmpList.map((name,i)=>{
+      const c=COMPANIES.find(x=>x.name===name);const col=palette[i%palette.length];
+      return {label:name,data:key(c),borderColor:col,backgroundColor:col,tension:.35,borderWidth:2.5,pointRadius:3};
+    })},
+    options:{maintainAspectRatio:false,
+      plugins:{legend:{position:"top"},tooltip:{callbacks:{label:cc=>
+        cmpMode==="margin"?cc.dataset.label+": "+pct(cc.parsed.y):cc.dataset.label+": "+won(cc.parsed.y)}}},
+      scales:{y:{grid:GRID,ticks:{callback:v=>cmpMode==="margin"?v+"%":won(v)}},x:{grid:{display:false}}}}});
+  document.getElementById("cmpChips").innerHTML=cmpList.map((n,i)=>
+    `<span class="chip"><span style="width:9px;height:9px;border-radius:50%;background:${palette[i%palette.length]}"></span>
+     <b>${n}</b> <x data-n="${n}">×</x></span>`).join("");
+  document.querySelectorAll("#cmpChips x").forEach(x=>x.onclick=()=>{
+    cmpList=cmpList.filter(n=>n!==x.dataset.n);renderCompare();});
+}
+
+let sortKey="rank",sortDir=1;
+function renderTable(){
+  const q=document.getElementById("tblSearch").value.trim().toLowerCase();
+  let arr=COMPANIES.filter(c=>!q||c.name.toLowerCase().includes(q));
+  const getk={rank:c=>c.rank,name:c=>c.name,revA:c=>c.revA,opA:c=>c.opA,margin:c=>c.margin};
+  arr.sort((a,b)=>{const va=getk[sortKey](a),vb=getk[sortKey](b);return(va<vb?-1:va>vb?1:0)*sortDir;});
+  const cols=[["rank","순위"],["name","기업"],["revA","연매출"],["opA","연영업이익"],["margin","이익률"],
+    ...Q.map(qq=>["r"+qq,qq+" 매출"]),...Q.map(qq=>["o"+qq,qq+" 영업익"])];
+  let html="<thead><tr>"+cols.map(c=>
+    `<th class="${c[0]==='name'?'name':''}" data-k="${c[0]}">${c[1]}</th>`).join("")+"</tr></thead><tbody>";
+  arr.forEach(c=>{
+    html+=`<tr><td class="rk">${c.rank}</td><td class="name">${c.name}</td>
+      <td>${won(c.revA)}</td><td class="${c.opA<0?'neg':'pos'}">${won(c.opA)}</td>
+      <td class="${c.margin<0?'neg':'pos'}">${pct(c.margin)}</td>
+      ${c.rev.map(v=>`<td>${won(v)}</td>`).join("")}
+      ${c.op.map(v=>`<td class="${v<0?'neg':''}">${won(v)}</td>`).join("")}</tr>`;
+  });
+  html+="</tbody>";
+  const t=document.getElementById("dataTbl");t.innerHTML=html;
+  document.getElementById("tblCount").textContent=arr.length+"개 기업";
+  t.querySelectorAll("th").forEach(th=>th.onclick=()=>{
+    const sortable={rank:1,name:1,revA:1,opA:1,margin:1};
+    if(sortable[th.dataset.k]){if(sortKey===th.dataset.k)sortDir*=-1;else{sortKey=th.dataset.k;sortDir=1;}renderTable();}
+  });
+}
+
+function fillSelects(){
+  const opts=COMPANIES.map(c=>`<option value="${c.name}">${c.rank}. ${c.name}</option>`).join("");
+  document.getElementById("drillSel").innerHTML=opts;
+  document.getElementById("cmpSel").innerHTML=`<option value="">+ 기업 추가…</option>`+opts;
+}
+function boot(){
+  COMPANIES=buildCompanies(RAW);
+  computeTotals();
+  document.getElementById("dataNote").innerHTML="ℹ️ "+(RAW.note||"")+" · 단위: "+(RAW.unit||"억원");
+  document.getElementById("genTime").textContent=new Date().toLocaleString("ko-KR");
+  renderKPIs();renderTotals();renderRank();renderScatter();
+  fillSelects();
+  cmpList=[COMPANIES[0].name,COMPANIES[4].name,COMPANIES[6].name];
+  renderDrill();renderCompare();renderTable();
+  document.querySelectorAll("#totMode button").forEach(b=>b.onclick=()=>{
+    document.querySelectorAll("#totMode button").forEach(x=>x.classList.remove("on"));
+    b.classList.add("on");totMode=b.dataset.m;renderTotals();});
+  document.getElementById("topN").oninput=e=>{document.getElementById("topNlbl").textContent=e.target.value;renderRank();};
+  document.getElementById("rankMetric").onchange=renderRank;
+  document.getElementById("drillSel").onchange=renderDrill;
+  document.getElementById("cmpSel").onchange=e=>{
+    const v=e.target.value;if(v&&!cmpList.includes(v)&&cmpList.length<6)cmpList.push(v);
+    e.target.value="";renderCompare();};
+  document.querySelectorAll("#cmpMode button").forEach(b=>b.onclick=()=>{
+    document.querySelectorAll("#cmpMode button").forEach(x=>x.classList.remove("on"));
+    b.classList.add("on");cmpMode=b.dataset.m;renderCompare();});
+  document.getElementById("tblSearch").oninput=renderTable;
+}
+
+async function loadData(){
+  if(RAW&&RAW.rows){boot();return;}
+  try{
+    const res=await fetch("../");
+    const html=await res.text();
+    const s=html.indexOf("const DATA = ")+13;
+    let i=s,d=0,end=-1,instr=false,esc=false;
+    for(;i<html.length;i++){const ch=html[i];if(esc){esc=false;continue;}if(ch==="\\"){esc=true;continue;}
+      if(ch==='"'){instr=!instr;continue;}if(instr)continue;
+      if(ch==="{")d++;else if(ch==="}"){d--;if(d===0){end=i+1;break;}}}
+    const D=JSON.parse(html.slice(s,end));
+    RAW={unit:"억원",note:D.meta.note,year:D.meta.year,
+      rows:D.companies.map(c=>[c.rank,c.corp_name,
+        Math.round(c.revenue.Q1/1e8),Math.round(c.revenue.Q2/1e8),Math.round(c.revenue.Q3/1e8),Math.round(c.revenue.Q4/1e8),
+        Math.round(c.operating_profit.Q1/1e8),Math.round(c.operating_profit.Q2/1e8),
+        Math.round(c.operating_profit.Q3/1e8),Math.round(c.operating_profit.Q4/1e8)])};
+    boot();
+  }catch(e){
+    document.getElementById("dataNote").innerHTML="⚠️ 데이터를 불러오지 못했습니다: "+e.message;
+  }
+}
+loadData();
+</script>
+</body>
+</html>
