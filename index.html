@@ -22,6 +22,49 @@
 <link rel="icon" href="/assets/icons/favicon.ico" sizes="48x48">
 <link rel="icon" href="/assets/icons/icon-192.png" type="image/png" sizes="192x192">
 <link rel="apple-touch-icon" href="/assets/icons/apple-touch-icon.png">
+
+<!-- Google Search Console 소유권 확인:
+     Search Console → 속성 추가 → URL 접두어 https://stargateedu.co.kr/ →
+     "HTML 태그" 방식에서 발급된 content 값을 아래 주석을 해제해 넣으세요.
+<meta name="google-site-verification" content="여기에_발급받은_토큰_붙여넣기"> -->
+
+<!-- 구조화 데이터 (Google 리치 결과: 인물 + 조직) -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Person",
+      "@id": "https://stargateedu.co.kr/#dongsoo",
+      "name": "정동수",
+      "alternateName": "Dongsoo Jung",
+      "url": "https://stargateedu.co.kr/",
+      "email": "mailto:jds068888@gmail.com",
+      "jobTitle": "CEO, AI Engineer",
+      "worksFor": { "@id": "https://stargateedu.co.kr/#stargate" },
+      "sameAs": ["https://github.com/DongsooJung"],
+      "knowsAbout": ["AI Agents", "공간계량", "MCP", "사이버보안", "수학정보올림피아드"]
+    },
+    {
+      "@type": "Organization",
+      "@id": "https://stargateedu.co.kr/#stargate",
+      "name": "Stargate Corporation",
+      "url": "https://stargateedu.co.kr/",
+      "logo": "https://stargateedu.co.kr/assets/icons/icon-512.png",
+      "founder": { "@id": "https://stargateedu.co.kr/#dongsoo" },
+      "email": "mailto:jds068888@gmail.com"
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://stargateedu.co.kr/#website",
+      "url": "https://stargateedu.co.kr/",
+      "name": "Stargate · Dongsoo Jung Portal",
+      "publisher": { "@id": "https://stargateedu.co.kr/#stargate" },
+      "inLanguage": "ko"
+    }
+  ]
+}
+</script>
 <style>
 :root{
   --bg:#0a0d14; --bg2:#111827; --panel:#0f172a; --panel2:#111c33;

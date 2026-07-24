@@ -13,7 +13,9 @@
 - `manifest.webmanifest` / `sw.js` / `offline.html` / `assets/icons/` — PWA (앱 설치 요건)
 - `.well-known/assetlinks.json` — Android 앱(TWA) 도메인 소유 증명
 - `privacy.html` — 개인정보처리방침 (Play Store 필수)
+- `robots.txt` / `sitemap.xml` — 검색엔진 크롤링 안내 + 전체 프로젝트 색인 (Google Search Console용)
 - `app/` — Google Play용 Stargate 앱(TWA) 빌드 설정 → [app/README.md](app/README.md)
+- `app/GOOGLE-DEV-CHECKLIST.md` — Google 개발자 계정 통합 체크리스트(검색+앱 배포) → [바로가기](app/GOOGLE-DEV-CHECKLIST.md)
 - `.nojekyll` — GitHub Pages가 `.well-known/`을 서빙하도록 Jekyll 비활성화
 
 ## 로컬 확인

@@ -1,0 +1,12 @@
+# Stargate / Dongsoo Jung portal — robots.txt
+# 모든 검색엔진 크롤러 전체 허용
+User-agent: *
+Allow: /
+
+# 유틸리티/비콘텐츠 경로는 색인 제외 (선택)
+Disallow: /offline.html
+Disallow: /404.html
+Disallow: /app/
+
+# 사이트맵 위치 (Google Search Console 등록용)
+Sitemap: https://stargateedu.co.kr/sitemap.xml
