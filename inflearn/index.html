@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="인프런 메인 강의 목록을 매일 엑셀로 기록하는 비공식 데이터 아카이브">
+  <meta name="theme-color" content="#f6f8f5">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="ko_KR">
+  <meta property="og:title" content="인프런 데일리 아카이브">
+  <meta property="og:description" content="오늘의 강의를 내일의 데이터로. 인프런 메인 공개 강의 목록을 매일 엑셀로 기록합니다.">
+  <meta property="og:image" content="https://stargateedu.co.kr/inflearn/og.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="인프런 데일리 아카이브">
+  <meta name="twitter:description" content="인프런 메인 공개 강의 목록을 매일 엑셀로 기록합니다.">
+  <meta name="twitter:image" content="https://stargateedu.co.kr/inflearn/og.png">
+  <title>인프런 데일리 아카이브</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Noto+Sans+KR:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <div class="page-shell">
+    <header class="topbar">
+      <a class="brand" href="./" aria-label="인프런 데일리 아카이브 홈">
+        <span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i></span>
+        <span>INFLEARN<br><strong>DAILY ARCHIVE</strong></span>
+      </a>
+      <div class="topbar-meta">
+        <span class="live-dot" aria-hidden="true"></span>
+        <span>매일 09:15 KST 자동 수집</span>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div class="hero-copy">
+          <p class="eyebrow">PUBLIC COURSE INDEX · DAILY SNAPSHOT</p>
+          <h1>오늘의 강의를<br><em>내일의 데이터</em>로.</h1>
+          <p class="hero-description">
+            인프런 메인에 공개된 강의 제목, 강사, 가격과 일시 정보를
+            매일 한 번 수집해 엑셀로 기록합니다.
+          </p>
+          <div class="hero-actions">
+            <a class="button button-primary" href="./output/inflearn_main_latest.xlsx" download>
+              최신 엑셀 다운로드
+              <span aria-hidden="true">↓</span>
+            </a>
+            <button class="button button-secondary" id="reload-button" type="button">
+              데이터 다시 불러오기
+            </button>
+          </div>
+        </div>
+        <div class="hero-status" aria-label="최신 수집 현황">
+          <div class="status-grid">
+            <div class="status-cell status-main">
+              <span class="status-label">LAST SNAPSHOT</span>
+              <strong id="snapshot-date">—</strong>
+              <small id="snapshot-time">데이터 확인 중</small>
+            </div>
+            <div class="status-cell">
+              <span class="status-label">COURSES</span>
+              <strong id="course-count">—</strong>
+              <small>메인 노출 강의</small>
+            </div>
+            <div class="status-cell">
+              <span class="status-label">INSTRUCTORS</span>
+              <strong id="instructor-count">—</strong>
+              <small>고유 강사 수</small>
+            </div>
+            <div class="status-cell accent-cell">
+              <span class="status-label">STATUS</span>
+              <strong><span class="live-dot"></span> READY</strong>
+              <small>자동 수집 정상</small>
+            </div>
+          </div>
+          <div class="status-strip" aria-hidden="true">
+            <span>DATE</span><span>TITLE</span><span>INSTRUCTOR</span><span>PRICE</span><span>TIME</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="workspace" aria-labelledby="courses-title">
+        <div class="section-heading">
+          <div>
+            <p class="section-kicker">LATEST DATASET</p>
+            <h2 id="courses-title">최신 강의 목록</h2>
+          </div>
+          <p id="result-summary" aria-live="polite">데이터를 불러오는 중입니다.</p>
+        </div>
+
+        <div class="toolbar">
+          <label class="search-field">
+            <span class="sr-only">강의명 또는 강사 검색</span>
+            <span aria-hidden="true">⌕</span>
+            <input id="search-input" type="search" placeholder="강의명 또는 강사 검색" autocomplete="off">
+          </label>
+          <label class="select-field">
+            <span>카테고리</span>
+            <select id="category-filter">
+              <option value="">전체</option>
+            </select>
+          </label>
+          <label class="select-field">
+            <span>난이도</span>
+            <select id="level-filter">
+              <option value="">전체</option>
+            </select>
+          </label>
+        </div>
+
+        <div class="table-card">
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>순위</th>
+                  <th>강의</th>
+                  <th>강사</th>
+                  <th>현재가</th>
+                  <th>평점</th>
+                  <th>수강생</th>
+                  <th>게시 일시</th>
+                  <th><span class="sr-only">강의 링크</span></th>
+                </tr>
+              </thead>
+              <tbody id="course-rows"></tbody>
+            </table>
+          </div>
+          <div class="empty-state" id="empty-state" hidden>
+            <strong>검색 결과가 없습니다.</strong>
+            <span>검색어나 필터를 바꿔보세요.</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="archive-section" aria-labelledby="archive-title">
+        <div class="section-heading archive-heading">
+          <div>
+            <p class="section-kicker">DAILY EXPORTS</p>
+            <h2 id="archive-title">날짜별 엑셀 보관함</h2>
+          </div>
+          <p>하루 한 파일, 같은 형식으로 누적됩니다.</p>
+        </div>
+        <div class="archive-list" id="archive-list"></div>
+      </section>
+
+      <section class="process" aria-label="데이터 처리 과정">
+        <p class="section-kicker">HOW IT WORKS</p>
+        <div class="process-grid">
+          <div><span>01</span><strong>공개 페이지 수집</strong><p>비로그인 메인에 노출된 공개 강의 정보를 확인합니다.</p></div>
+          <div><span>02</span><strong>항목 표준화</strong><p>강의명, 강사, 가격, 평점과 일시를 같은 열로 정리합니다.</p></div>
+          <div><span>03</span><strong>엑셀 보관</strong><p>날짜별 XLSX 파일을 만들어 이 페이지에서 바로 내려받습니다.</p></div>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <p>비공식 공개 데이터 아카이브 · 인프런과 제휴 또는 공식 관계가 없습니다.</p>
+      <a href="https://www.inflearn.com/" target="_blank" rel="noopener noreferrer">원문 확인 ↗</a>
+    </footer>
+  </div>
+
+  <template id="course-row-template">
+    <tr>
+      <td class="rank-cell"></td>
+      <td class="course-cell">
+        <div class="course-title"></div>
+        <div class="course-tags"></div>
+      </td>
+      <td class="instructor-cell"></td>
+      <td class="price-cell"></td>
+      <td class="rating-cell"></td>
+      <td class="students-cell"></td>
+      <td class="date-cell"></td>
+      <td class="link-cell"><a target="_blank" rel="noopener noreferrer" aria-label="인프런에서 강의 보기">↗</a></td>
+    </tr>
+  </template>
+  <script src="./app.js"></script>
+</body>
+</html>
