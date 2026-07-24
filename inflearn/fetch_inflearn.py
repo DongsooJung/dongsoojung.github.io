@@ -6,15 +6,20 @@ from __future__ import annotations
 import argparse
 import gzip
 import json
+import math
 import re
 import shutil
 import sys
+import time
 from datetime import datetime
 from pathlib import Path
+from urllib.parse import urlencode
 from urllib.request import Request, urlopen
 from zoneinfo import ZoneInfo
 
-SOURCE_URL = "https://www.inflearn.com/ko/"
+SOURCE_URL = "https://www.inflearn.com/courses"
+DEFAULT_LIMIT = 100
+PAGE_SIZE = 40
 SEOUL = ZoneInfo("Asia/Seoul")
 LEVELS = {
     "BEGINNER": "입문",
@@ -24,12 +29,19 @@ LEVELS = {
 }
 
 
-def fetch_homepage() -> str:
+def fetch_course_page(page_number: int) -> str:
+    query = urlencode(
+        {
+            "types": "ONLINE",
+            "sort": "POPULAR",
+            "page_number": page_number,
+        }
+    )
     request = Request(
-        SOURCE_URL,
+        f"{SOURCE_URL}?{query}",
         headers={
             "User-Agent": (
-                "Mozilla/5.0 (compatible; InflearnDailyArchive/1.0; "
+                "Mozilla/5.0 (compatible; InflearnDailyArchiveBot/1.0; "
                 "+https://stargateedu.co.kr/inflearn/)"
             ),
             "Accept": "text/html,application/xhtml+xml",
@@ -73,6 +85,33 @@ def extract_course_items(html: str) -> list[dict]:
             if items:
                 return items
     raise RuntimeError("인프런 메인 강의 목록이 비어 있습니다.")
+
+
+def fetch_course_items(limit: int) -> list[dict]:
+    items_by_id: dict[int | str, dict] = {}
+    pages = math.ceil(limit / PAGE_SIZE)
+
+    for page_number in range(1, pages + 1):
+        html = fetch_course_page(page_number)
+        page_items = extract_course_items(html)
+        for item in page_items:
+            course = item.get("course") or {}
+            course_id = course.get("id") or item.get("id")
+            if course_id is not None:
+                items_by_id.setdefault(course_id, item)
+            if len(items_by_id) >= limit:
+                break
+        if len(items_by_id) >= limit:
+            break
+        if page_number < pages:
+            time.sleep(0.6)
+
+    items = list(items_by_id.values())[:limit]
+    if len(items) < limit:
+        raise RuntimeError(
+            f"요청한 {limit}개 중 {len(items)}개만 수집되었습니다."
+        )
+    return items
 
 
 def normalize_course(item: dict, rank: int, collected_at: str) -> dict:
@@ -290,16 +329,24 @@ def main() -> int:
         default=Path(__file__).resolve().parent,
         help="데이터와 엑셀을 저장할 inflearn 디렉터리",
     )
+    parser.add_argument(
+        "--limit",
+        type=int,
+        default=DEFAULT_LIMIT,
+        help=f"수집할 강의 수 (기본값: {DEFAULT_LIMIT})",
+    )
     args = parser.parse_args()
 
-    html = (
-        args.input_html.read_text(encoding="utf-8")
-        if args.input_html
-        else fetch_homepage()
-    )
+    if args.limit < 1:
+        parser.error("--limit은 1 이상이어야 합니다.")
+
     now = datetime.now(SEOUL).replace(microsecond=0)
     collected_at = now.isoformat()
-    items = extract_course_items(html)
+    if args.input_html:
+        items = extract_course_items(args.input_html.read_text(encoding="utf-8"))
+        items = items[: args.limit]
+    else:
+        items = fetch_course_items(args.limit)
     records = [
         normalize_course(item, rank, collected_at)
         for rank, item in enumerate(items, start=1)
