@@ -1,0 +1,310 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>화성 실거래 데이터 허브 | STARGATE</title>
+  <meta name="description" content="2026년 6월 화성시 4개 구 아파트 실거래가를 100건씩 탐색하고 CSV로 내려받는 공공데이터 대시보드">
+  <meta name="theme-color" content="#f3f0e8">
+  <meta property="og:title" content="화성의 거래를 한 번에 읽다">
+  <meta property="og:description" content="2026년 6월 화성시 아파트 실거래 데이터 2,672건">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://www.stargateedu.co.kr/hwaseong-real-estate/">
+  <meta property="og:image" content="https://www.stargateedu.co.kr/hwaseong-real-estate/og.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="canonical" href="https://www.stargateedu.co.kr/hwaseong-real-estate/">
+  <style>
+    :root{
+      --paper:#f3f0e8;--paper-deep:#e8e4d9;--ink:#151914;--muted:#686d65;
+      --line:#c9c7bd;--acid:#d9ff43;--forest:#193c29;--white:#fffef9;
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{margin:0;color:var(--ink);font-family:"Pretendard","Apple SD Gothic Neo","Noto Sans KR",sans-serif;
+      -webkit-font-smoothing:antialiased;background:
+      linear-gradient(rgba(21,25,20,.035) 1px,transparent 1px),
+      linear-gradient(90deg,rgba(21,25,20,.035) 1px,transparent 1px),var(--paper);
+      background-size:32px 32px}
+    button,a{-webkit-tap-highlight-color:transparent}
+    button{font:inherit}
+    .topbar{width:min(1440px,calc(100% - 64px));height:82px;margin:0 auto;display:flex;
+      align-items:center;justify-content:space-between;border-bottom:1px solid var(--ink)}
+    .brand{display:inline-flex;align-items:center;gap:12px;color:var(--ink);text-decoration:none;
+      font:800 13px/1 Arial,sans-serif;letter-spacing:.12em}
+    .brand-mark{width:31px;height:31px;display:grid;place-items:center;background:var(--ink);
+      color:var(--acid);border-radius:50%;font:900 14px/1 Arial,sans-serif}
+    .top-links{display:flex;align-items:center;gap:18px}
+    .back-link{color:var(--muted);font-size:11px;text-decoration:none}
+    .source-status{display:flex;align-items:center;gap:9px;color:var(--muted);font-size:12px}
+    .status-dot{width:7px;height:7px;border-radius:50%;background:#48a564;
+      box-shadow:0 0 0 4px rgba(72,165,100,.14)}
+    .hero{width:min(1440px,calc(100% - 64px));min-height:610px;margin:0 auto;display:grid;
+      grid-template-columns:minmax(0,1.25fr) minmax(340px,.75fr);gap:76px;align-items:center;
+      padding:72px 0 76px}
+    .eyebrow{margin:0 0 20px;font:800 11px/1.2 Arial,sans-serif;letter-spacing:.19em;color:var(--forest)}
+    h1{margin:0;font-size:clamp(56px,7.4vw,108px);line-height:.94;letter-spacing:-.075em;font-weight:900}
+    h1 span{color:transparent;-webkit-text-stroke:1.8px var(--ink)}
+    .hero-lead{max-width:560px;margin:30px 0 32px;color:var(--muted);font-size:17px;
+      line-height:1.75;letter-spacing:-.035em}
+    .hero-actions{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+    .sync-btn,.csv-btn{min-height:52px;border:1px solid var(--ink);cursor:pointer;
+      transition:transform .16s ease,box-shadow .16s ease,background .16s ease}
+    .sync-btn{min-width:246px;padding:0 18px 0 22px;display:inline-flex;align-items:center;
+      justify-content:space-between;gap:24px;background:var(--acid);box-shadow:5px 5px 0 var(--ink);
+      font-weight:850}
+    .sync-btn:hover:not(:disabled){transform:translate(-2px,-2px);box-shadow:7px 7px 0 var(--ink)}
+    .sync-btn:disabled{cursor:wait;opacity:.65}
+    .csv-btn{padding:0 20px;background:transparent;color:var(--ink);font-weight:750}
+    .csv-btn:hover:not(:disabled){background:var(--white)}
+    .notice{min-height:20px;margin:20px 0 0;color:var(--muted);font-size:12px}
+    .hero-panel{position:relative;background:var(--forest);color:var(--white);padding:30px;min-height:442px;
+      box-shadow:13px 13px 0 var(--acid)}
+    .hero-panel:before{content:"";position:absolute;inset:13px;border:1px solid rgba(255,255,255,.1);
+      pointer-events:none}
+    .panel-top{display:flex;align-items:center;justify-content:space-between;
+      font:700 10px/1 Arial,sans-serif;letter-spacing:.18em}
+    .live-pill{padding:7px 10px 6px;background:var(--acid);color:var(--ink);
+      border-radius:999px;letter-spacing:.08em}
+    .progress-number{display:flex;align-items:baseline;gap:9px;margin-top:54px}
+    .progress-number strong{font:850 56px/1 Arial,sans-serif;letter-spacing:-.055em}
+    .progress-number span{color:rgba(255,255,255,.58);font-size:13px}
+    .progress-track{height:6px;margin:20px 0 39px;background:rgba(255,255,255,.15);overflow:hidden}
+    .progress-track span{display:block;height:100%;background:var(--acid);transition:width .3s ease}
+    .pipeline{border-top:1px solid rgba(255,255,255,.22)}
+    .pipeline>div{display:grid;grid-template-columns:44px 1fr;gap:8px;align-items:center;
+      padding:17px 0;border-bottom:1px solid rgba(255,255,255,.14)}
+    .pipe-index{color:var(--acid);font:700 11px/1 Arial,sans-serif}
+    .pipeline b,.pipeline small{display:block}
+    .pipeline b{font-size:14px}
+    .pipeline small{margin-top:4px;color:rgba(255,255,255,.5);font-size:11px}
+    .metrics{width:100%;display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid var(--ink);
+      border-bottom:1px solid var(--ink);background:rgba(255,254,249,.42)}
+    .metrics article{min-height:192px;padding:32px clamp(22px,3vw,52px);display:flex;
+      flex-direction:column;border-right:1px solid var(--ink)}
+    .metrics article:last-child{border-right:0}
+    .metrics article>span{color:var(--muted);font-size:12px}
+    .metrics strong{margin:auto 0;font-size:clamp(28px,3vw,45px);letter-spacing:-.055em;white-space:nowrap}
+    .metrics strong small{margin-left:4px;font-size:17px}
+    .metrics em{max-width:100%;overflow:hidden;color:var(--muted);font:700 9px/1.2 Arial,sans-serif;
+      letter-spacing:.16em;text-overflow:ellipsis;white-space:nowrap}
+    .metrics .accent-metric{background:var(--acid)}
+    .metrics .accent-metric span,.metrics .accent-metric em{color:var(--ink)}
+    .data-section{width:min(1440px,calc(100% - 64px));margin:0 auto;padding:96px 0 84px}
+    .section-head{display:flex;align-items:flex-end;justify-content:space-between;gap:24px;margin-bottom:28px}
+    .section-head .eyebrow{margin-bottom:10px}
+    h2{margin:0;font-size:clamp(36px,4vw,58px);line-height:1;letter-spacing:-.06em}
+    .filters{display:flex;gap:4px;flex-wrap:wrap;justify-content:flex-end}
+    .filters button{padding:9px 13px;border:1px solid var(--line);background:transparent;
+      color:var(--muted);font-size:11px;cursor:pointer}
+    .filters button:hover,.filters button.active{border-color:var(--ink);background:var(--ink);color:var(--white)}
+    .table-shell{border-top:2px solid var(--ink);overflow-x:auto}
+    table{width:100%;min-width:980px;border-collapse:collapse}
+    th{height:47px;color:var(--muted);text-align:left;font-size:10px;letter-spacing:.04em;
+      border-bottom:1px solid var(--line)}
+    th:nth-child(4),th:nth-child(5),th:nth-child(6),td:nth-child(4),td:nth-child(5),td:nth-child(6){text-align:right}
+    td{height:74px;padding:11px 8px 11px 0;border-bottom:1px solid var(--line);
+      font-size:13px;vertical-align:middle}
+    td b,td small{display:block}
+    td b{font-size:13px}
+    td small{max-width:230px;margin-top:5px;color:var(--muted);font-size:10px;overflow:hidden;
+      text-overflow:ellipsis;white-space:nowrap}
+    .date-cell b{font:800 18px/1 Arial,sans-serif}
+    .district-tag,.deal-type{display:inline-flex;align-items:center;min-height:23px;padding:0 7px;
+      border:1px solid var(--line);font-size:10px}
+    .district-tag{background:var(--white);border-color:var(--ink);font-weight:750}
+    .price-cell{font-weight:850;font-size:15px}
+    .deal-type{border-radius:999px;color:var(--muted)}
+    .empty{padding:80px 0;color:var(--muted);text-align:center}
+    footer{min-height:105px;padding:0 32px;display:flex;align-items:center;justify-content:space-between;
+      gap:24px;border-top:1px solid var(--ink);background:var(--ink);color:var(--white)}
+    footer p{margin:0;color:rgba(255,255,255,.65);font-size:10px;letter-spacing:.08em}
+    footer p span{margin-left:14px;color:rgba(255,255,255,.35)}
+    @media(max-width:980px){
+      .topbar,.hero,.data-section{width:min(100% - 36px,760px)}
+      .hero{grid-template-columns:1fr;gap:50px;padding-top:56px}
+      .hero-panel{max-width:600px}.metrics{grid-template-columns:repeat(2,1fr)}
+      .metrics article:nth-child(2){border-right:0}.metrics article:nth-child(-n+2){border-bottom:1px solid var(--ink)}
+    }
+    @media(max-width:620px){
+      .topbar{height:68px}.back-link{display:none}.source-status{font-size:0}
+      .source-status:after{content:"API DATA";font-size:10px}
+      .hero{min-height:0;padding:46px 0 58px}.hero h1{font-size:clamp(49px,15.4vw,75px)}
+      .hero-lead{font-size:15px}.hero-actions,.sync-btn,.csv-btn{width:100%}
+      .hero-panel{min-height:420px;padding:26px;box-shadow:8px 8px 0 var(--acid)}
+      .progress-number strong{font-size:47px}.metrics{grid-template-columns:1fr}
+      .metrics article{min-height:142px;border-right:0;border-bottom:1px solid var(--ink)}
+      .section-head{align-items:flex-start;flex-direction:column}.filters{justify-content:flex-start}
+      footer{padding:24px 20px;align-items:flex-start;flex-direction:column;justify-content:center}
+      footer p span{display:block;margin:6px 0 0}
+    }
+    @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*:before,*:after{transition-duration:.01ms!important}}
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="#top" aria-label="화성 부동산 데이터 허브 홈">
+      <span class="brand-mark" aria-hidden="true">H</span><span>HWASEONG DATA</span>
+    </a>
+    <nav class="top-links" aria-label="보조 탐색">
+      <a class="back-link" href="/">STARGATE 홈</a>
+      <div class="source-status"><span class="status-dot"></span>국토교통부 실거래가 API</div>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero" id="top">
+      <div>
+        <p class="eyebrow">2026. 06 · APARTMENT SALES</p>
+        <h1>화성의 거래를<br><span>한 번에 읽다.</span></h1>
+        <p class="hero-lead">만세·효행·병점·동탄구의 아파트 실거래를 공공 API에서 수집한 순서대로 100건씩 탐색하고 CSV로 저장합니다.</p>
+        <div class="hero-actions">
+          <button class="sync-btn" id="next-btn" type="button"><span>다음 100건 불러오기</span><span aria-hidden="true">↗</span></button>
+          <button class="csv-btn" id="csv-btn" type="button">현재 CSV 내려받기</button>
+        </div>
+        <p class="notice" id="notice" role="status">2026년 6월 초기 100건을 불러오는 중입니다.</p>
+      </div>
+
+      <aside class="hero-panel" aria-label="데이터 수집 현황">
+        <div class="panel-top"><span>DATA PIPELINE</span><span class="live-pill">READY</span></div>
+        <div class="progress-number"><strong id="range-number">0–0</strong><span id="total-label">/ 0건</span></div>
+        <div class="progress-track"><span id="progress-bar" style="width:0"></span></div>
+        <div class="pipeline">
+          <div><span class="pipe-index">01</span><span><b>공공 API</b><small>4개 구 2,672건 수집</small></span></div>
+          <div><span class="pipe-index">02</span><span><b>100건 배치</b><small>버튼으로 다음 묶음 탐색</small></span></div>
+          <div><span class="pipe-index">03</span><span><b>Supabase</b><small>서버 쓰기 환경 준비</small></span></div>
+        </div>
+      </aside>
+    </section>
+
+    <section class="metrics" aria-label="현재 100건 요약">
+      <article><span>현재 화면</span><strong id="metric-count">0<small>건</small></strong><em>PAGE SIZE</em></article>
+      <article><span>평균 거래가</span><strong id="metric-average">—</strong><em>AVERAGE</em></article>
+      <article><span>중앙 거래가</span><strong id="metric-median">—</strong><em>MEDIAN</em></article>
+      <article class="accent-metric"><span>최고가</span><strong id="metric-top">—</strong><em id="metric-top-name">TOP DEAL</em></article>
+    </section>
+
+    <section class="data-section">
+      <div class="section-head">
+        <div><p class="eyebrow">TRANSACTION LOG</p><h2>실거래 내역</h2></div>
+        <div class="filters" id="filters" role="group" aria-label="구 필터"></div>
+      </div>
+      <div class="table-shell">
+        <table>
+          <thead><tr><th>계약일</th><th>구 · 법정동</th><th>아파트</th><th>전용면적</th><th>층</th><th>거래금액</th><th>유형</th></tr></thead>
+          <tbody id="rows"></tbody>
+        </table>
+        <p class="empty" id="empty" hidden>표시할 거래가 없습니다.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>Source · 국토교통부 아파트 매매 실거래가 자료 <span>2026.02.01 화성시 법정동 개편 반영</span></p>
+    <p>DATA MONTH 2026-06 · UNIT KRW 10K</p>
+  </footer>
+
+  <script>
+  (() => {
+    const state={summary:null,rows:[],offset:0,filter:'전체',loading:false};
+    const $=id=>document.getElementById(id);
+    const money=new Intl.NumberFormat('ko-KR');
+    const decimal=new Intl.NumberFormat('ko-KR',{maximumFractionDigits:1});
+    const safe=value=>String(value??'').replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
+    const wonLabel=value=>{const eok=Math.floor(value/10000),rest=value%10000;return eok?(rest?`${eok}억 ${money.format(rest)}만`:`${eok}억`):`${money.format(value)}만`};
+    const dateLabel=value=>{const parts=value.split('-');return `${Number(parts[1])}.${String(Number(parts[2])).padStart(2,'0')}`};
+    const csvEscape=value=>{const text=String(value??'');return /[",\n]/.test(text)?`"${text.replaceAll('"','""')}"`:text};
+
+    function stats(rows){
+      if(!rows.length)return{average:0,median:0,top:null};
+      const prices=rows.map(row=>row.price_manwon).sort((a,b)=>a-b),mid=Math.floor(prices.length/2);
+      return{
+        average:Math.round(rows.reduce((sum,row)=>sum+row.price_manwon,0)/rows.length),
+        median:prices.length%2?prices[mid]:Math.round((prices[mid-1]+prices[mid])/2),
+        top:rows.reduce((best,row)=>row.price_manwon>best.price_manwon?row:best)
+      };
+    }
+
+    function filteredRows(){return state.filter==='전체'?state.rows:state.rows.filter(row=>row.district_name===state.filter)}
+
+    function renderFilters(){
+      const districts=['전체',...new Set(state.rows.map(row=>row.district_name))];
+      $('filters').innerHTML=districts.map(name=>`<button type="button" data-district="${safe(name)}" class="${name===state.filter?'active':''}">${safe(name)}</button>`).join('');
+      $('filters').querySelectorAll('button').forEach(button=>button.addEventListener('click',()=>{
+        state.filter=button.dataset.district;render();
+      }));
+    }
+
+    function render(){
+      const rows=filteredRows(),summary=stats(state.rows);
+      $('metric-count').innerHTML=`${money.format(state.rows.length)}<small>건</small>`;
+      $('metric-average').textContent=summary.average?wonLabel(summary.average):'—';
+      $('metric-median').textContent=summary.median?wonLabel(summary.median):'—';
+      $('metric-top').textContent=summary.top?wonLabel(summary.top.price_manwon):'—';
+      $('metric-top-name').textContent=summary.top?.apartment_name||'TOP DEAL';
+      const start=state.rows.length?state.offset+1:0,end=state.offset+state.rows.length,total=state.summary?.totalCount||0;
+      $('range-number').textContent=`${money.format(start)}–${money.format(end)}`;
+      $('total-label').textContent=`/ ${money.format(total)}건`;
+      $('progress-bar').style.width=total?`${Math.min(100,end/total*100)}%`:'0';
+      $('next-btn').querySelector('span').textContent=end>=total?'처음 100건으로':'다음 100건 불러오기';
+      $('rows').innerHTML=rows.map(row=>`<tr>
+        <td class="date-cell"><b>${safe(dateLabel(row.deal_date))}</b><small>2026</small></td>
+        <td><span class="district-tag">${safe(row.district_name)}</span><small>${safe(row.neighborhood)}</small></td>
+        <td><b>${safe(row.apartment_name)}</b><small>${safe(row.build_year)}년 · ${safe(row.jibun)}</small></td>
+        <td>${safe(decimal.format(row.area_sqm))}㎡</td><td>${safe(row.floor)}층</td>
+        <td class="price-cell">${safe(wonLabel(row.price_manwon))}</td>
+        <td><span class="deal-type">${safe(row.deal_type||'미기재')}</span></td></tr>`).join('');
+      $('empty').hidden=rows.length>0;
+      renderFilters();
+    }
+
+    async function loadBatch(offset){
+      if(state.loading)return;
+      state.loading=true;$('next-btn').disabled=true;$('notice').textContent=`${money.format(offset+1)}번째 거래부터 불러오는 중입니다.`;
+      try{
+        const batch=state.summary.batches.find(item=>item.offset===offset)||state.summary.batches[0];
+        const response=await fetch(`data/${batch.file}?v=${encodeURIComponent(state.summary.updatedAt)}`,{cache:'no-store'});
+        if(!response.ok)throw new Error(`HTTP ${response.status}`);
+        state.rows=await response.json();state.offset=batch.offset;state.filter='전체';
+        $('notice').textContent=`공공 API 수집본 ${money.format(batch.offset+1)}–${money.format(batch.offset+batch.count)}건 · ${state.rows.length}건 표시`;
+        render();
+      }catch(error){$('notice').textContent=`데이터를 불러오지 못했습니다: ${error.message}`}
+      finally{state.loading=false;$('next-btn').disabled=false}
+    }
+
+    function downloadCsv(){
+      const rows=filteredRows();
+      const columns=[
+        ['global_index','순번'],['district_code','구코드'],['district_name','구'],['neighborhood','법정동'],
+        ['apartment_name','아파트'],['deal_date','계약일'],['price_manwon','거래금액(만원)'],
+        ['area_sqm','전용면적(㎡)'],['floor','층'],['build_year','건축년도'],['jibun','지번'],
+        ['deal_type','거래유형'],['agent_location','중개사소재지'],['buyer_type','매수자'],
+        ['seller_type','매도자'],['cancellation_date','해제사유발생일'],['registration_date','등기일자'],
+        ['transaction_key','거래키']
+      ];
+      const lines=[columns.map(([,label])=>csvEscape(label)).join(','),...rows.map(row=>columns.map(([key])=>csvEscape(key==='global_index'?row[key]+1:row[key])).join(','))];
+      const blob=new Blob([`\ufeff${lines.join('\n')}\n`],{type:'text/csv;charset=utf-8'});
+      const anchor=document.createElement('a');anchor.href=URL.createObjectURL(blob);
+      anchor.download=`화성시_아파트_실거래가_2026-06_${state.offset+1}-${state.offset+rows.length}.csv`;
+      anchor.click();URL.revokeObjectURL(anchor.href);
+    }
+
+    async function init(){
+      try{
+        const response=await fetch('data/summary.json',{cache:'no-store'});
+        if(!response.ok)throw new Error(`HTTP ${response.status}`);
+        state.summary=await response.json();
+        await loadBatch(0);
+      }catch(error){$('notice').textContent=`요약 데이터를 불러오지 못했습니다: ${error.message}`}
+    }
+
+    $('next-btn').addEventListener('click',()=>{
+      if(!state.summary)return;
+      const next=state.offset+100>=state.summary.totalCount?0:state.offset+100;
+      loadBatch(next);
+    });
+    $('csv-btn').addEventListener('click',downloadCsv);
+    init();
+  })();
+  </script>
+</body>
+</html>
