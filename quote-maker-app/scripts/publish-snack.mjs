@@ -18,6 +18,7 @@ const appTsx = readFileSync(join(root, 'App.tsx'), 'utf8');
 const indexTs = `import { registerRootComponent } from 'expo';
 import App from './App';
 registerRootComponent(App);
+export default App;
 `;
 
 const snack = new Snack({
