@@ -17,6 +17,7 @@
     .sms-head p{max-width:660px;color:var(--sub);font-size:14px;margin:0}
     .status-badge{display:inline-flex;align-items:center;gap:8px;white-space:nowrap;padding:10px 13px;border:1px solid var(--line2);border-radius:999px;background:var(--panel);color:var(--sub);font-size:11px;font-weight:800}
     .status-badge::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--good);box-shadow:0 0 0 5px rgba(99,214,160,.1)}
+    .status-badge.offline::before{background:#ffb86b;box-shadow:0 0 0 5px rgba(255,184,107,.1)}
     .workspace{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(320px,.65fr);gap:18px;align-items:start}
     .panel{border:1px solid var(--line);border-radius:20px;background:linear-gradient(180deg,var(--panel2),var(--panel));box-shadow:var(--shadow)}
     .panel-head{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:20px 22px;border-bottom:1px solid var(--line)}
@@ -81,7 +82,7 @@
           <h1>고객 10명에게<br>정확하게, 한 번에.</h1>
           <p>고객별 이름을 반영한 문자를 미리 확인한 뒤 SOLAPI로 발송합니다. API 키와 발신번호는 서버에만 보관되며 이 화면에는 노출되지 않습니다.</p>
         </div>
-        <div class="status-badge">최대 10명 · 중복 번호 자동 차단</div>
+        <div class="status-badge offline" id="api-status">운영 서버 연결 확인 중</div>
       </header>
 
       <form id="sms-form" class="workspace" novalidate>
@@ -154,6 +155,8 @@
       const confirmation = document.getElementById('confirmation');
       const sendButton = document.getElementById('send-button');
       const result = document.getElementById('result');
+      const apiStatus = document.getElementById('api-status');
+      let apiReady = false;
 
       rows.innerHTML = Array.from({ length: MAX }, (_, index) => `
         <tr>
@@ -207,6 +210,7 @@
           adminToken.value &&
           consent.checked &&
           confirmation.value.trim() === '발송'
+          && apiReady
         );
       }
 
@@ -281,7 +285,28 @@
         }
       });
 
+      async function checkApi() {
+        try {
+          const response = await fetch('/api/sms', { method: 'GET', cache: 'no-store' });
+          const contentType = response.headers.get('content-type') || '';
+          apiReady = response.status === 405 && contentType.includes('application/json');
+        } catch (_) {
+          apiReady = false;
+        }
+
+        apiStatus.classList.toggle('offline', !apiReady);
+        apiStatus.textContent = apiReady
+          ? '운영 서버 연결됨 · 최대 10명'
+          : '운영 서버 연결 대기 · 현재 발송 불가';
+        if (!apiReady) {
+          result.className = 'result error show';
+          result.textContent = '보안 서버 호스팅 연결이 완료될 때까지 실제 발송은 비활성화됩니다.';
+        }
+        render();
+      }
+
       render();
+      checkApi();
     })();
   </script>
 </body>
