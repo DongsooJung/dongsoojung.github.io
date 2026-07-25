@@ -51,7 +51,8 @@
       id: 'apt_trade',
       name: '부동산_실거래가',
       description: '국토부 아파트 매매 실거래가 (기본: 강남구·전월)',
-      url: 'https://apis.data.go.kr/1613000/RTMSDataSvcAptTradeDev/getRTMSDataSvcAptTradeDev',
+      // Dev 엔드포인트는 활용신청 전이면 403이 나므로 일반 조회 URL을 사용한다.
+      url: 'https://apis.data.go.kr/1613000/RTMSDataSvcAptTrade/getRTMSDataSvcAptTrade',
       params: { LAWD_CD: '11680' },
       dynamicParams: () => ({ DEAL_YMD: previousMonthYm() }),
       maxPages: 3,
