@@ -9,32 +9,65 @@
   <meta property="og:title" content="Daechi Stay">
   <meta property="og:description" content="Your Seoul rhythm, from here.">
   <meta property="og:type" content="website">
+  <meta property="og:locale" content="en_US">
   <meta property="og:url" content="https://www.stargateedu.co.kr/stay/">
-  <meta property="og:image" content="https://www.stargateedu.co.kr/stay/og.png">
+  <meta property="og:image" content="https://www.stargateedu.co.kr/stay/og.jpg">
+  <meta property="og:image:alt" content="A warm, modern interior at Daechi Stay in Seoul">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Daechi Stay">
+  <meta name="twitter:description" content="A calm, globally friendly city stay in Daechi-dong, Gangnam, Seoul.">
+  <meta name="twitter:image" content="https://www.stargateedu.co.kr/stay/og.jpg">
+  <meta name="twitter:image:alt" content="A warm, modern interior at Daechi Stay in Seoul">
   <link rel="canonical" href="https://www.stargateedu.co.kr/stay/">
+  <link rel="alternate" hreflang="en" href="https://www.stargateedu.co.kr/stay/?lang=en">
+  <link rel="alternate" hreflang="ko" href="https://www.stargateedu.co.kr/stay/?lang=ko">
+  <link rel="alternate" hreflang="x-default" href="https://www.stargateedu.co.kr/stay/">
   <link rel="icon" href="/assets/icons/favicon.ico" sizes="48x48">
+  <link rel="preload" as="image" href="assets/hero-interior.webp" fetchpriority="high">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=Noto+Sans+KR:wght@400;500;600&display=swap" rel="stylesheet">
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "LodgingBusiness",
+      "name": "Daechi Stay",
+      "description": "A calm, globally friendly city stay in Daechi-dong, Gangnam, Seoul.",
+      "url": "https://www.stargateedu.co.kr/stay/",
+      "image": "https://www.stargateedu.co.kr/stay/og.jpg",
+      "email": "stay@stargateedu.co.kr",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Daechi-dong, Gangnam-gu",
+        "addressRegion": "Seoul",
+        "addressCountry": "KR"
+      },
+      "availableLanguage": ["English", "Korean"]
+    }
+  </script>
   <style>
     :root{--ivory:#f2ebdd;--paper:#faf7f0;--ink:#18231d;--moss:#536451;--terra:#b85c3e;--line:rgba(24,35,29,.17)}
     *{box-sizing:border-box}
-    html{scroll-behavior:smooth}
+    html{scroll-behavior:smooth;scroll-padding-top:84px}
     body{margin:0;background:var(--paper);color:var(--ink);font-family:"Noto Sans KR",sans-serif;-webkit-font-smoothing:antialiased}
     a{color:inherit;text-decoration:none} button,input,select,textarea{font:inherit}
+    :focus-visible{outline:3px solid #d77553;outline-offset:4px}
+    .skip-link{position:fixed;z-index:100;top:10px;left:10px;padding:12px 16px;background:var(--paper);color:var(--ink);transform:translateY(-150%);transition:transform .2s}
+    .skip-link:focus{transform:translateY(0)}
     .shell{width:min(1180px,calc(100% - 48px));margin-inline:auto}
+    .site-header{position:sticky;top:0;z-index:20;background:rgba(250,247,240,.9);border-bottom:1px solid rgba(24,35,29,.09);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px)}
     .nav{height:84px;display:flex;align-items:center;justify-content:space-between;gap:24px}
     .brand{display:flex;align-items:center;gap:11px;font-size:12px;font-weight:600;letter-spacing:.2em}
     .brand-mark{width:31px;height:31px;border:1px solid currentColor;border-radius:50%;display:grid;place-items:center;font-family:"Cormorant Garamond",serif;font-size:19px;letter-spacing:0}
     .nav-links{display:flex;gap:34px;font-size:13px}.nav-links a{position:relative}
     .nav-links a:after{content:"";position:absolute;left:0;right:100%;bottom:-7px;height:1px;background:currentColor;transition:.25s}
     .nav-links a:hover:after,.nav-links a:focus-visible:after{right:0}
-    .lang-toggle{border:1px solid var(--line);background:transparent;border-radius:999px;padding:9px 15px;cursor:pointer;font-size:12px;font-weight:600}
+    .nav-actions{display:flex;align-items:center;gap:10px}.mobile-book{display:none;min-height:44px;padding:0 13px;background:var(--ink);color:#fff;font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase}
+    .lang-toggle{min-height:44px;border:1px solid var(--line);background:transparent;border-radius:999px;padding:9px 15px;cursor:pointer;font-size:12px;font-weight:600}
     .hero{min-height:calc(100svh - 84px);position:relative;color:#fff;display:flex;align-items:center;overflow:hidden}
-    .hero-image{position:absolute;inset:0;background:url("assets/hero-interior.png") center/cover no-repeat;transform:scale(1.01)}
+    .hero-image{position:absolute;inset:0;background:url("assets/hero-interior.webp") center/cover no-repeat;transform:scale(1.01)}
     .hero-shade{position:absolute;inset:0;background:linear-gradient(90deg,rgba(12,22,17,.84) 0%,rgba(12,22,17,.59) 38%,rgba(12,22,17,.08) 73%)}
     .hero-content{position:relative;padding:90px 0 118px}.eyebrow{margin:0 0 21px;color:var(--terra);text-transform:uppercase;letter-spacing:.22em;font-size:11px;font-weight:600}.eyebrow.light{color:#f0b098}
     h1,h2,h3,p{margin-top:0}h1{font-family:"Cormorant Garamond",serif;font-weight:500;font-size:clamp(64px,8.1vw,118px);line-height:.82;letter-spacing:-.045em;max-width:790px;margin-bottom:35px}h1 span{display:block}
@@ -51,22 +84,25 @@
     .neighborhood-copy h2{margin-bottom:28px}.neighborhood-copy .lead{color:rgba(255,255,255,.68);font-size:16px}.transit-list{margin-top:50px;border-top:1px solid rgba(255,255,255,.18)}.transit-list div{padding:18px 0;display:flex;justify-content:space-between;gap:20px;border-bottom:1px solid rgba(255,255,255,.18)}.transit-list span{color:#f0b098;font-size:12px}.transit-list strong{font-size:13px;font-weight:500}
     .rhythm{padding-bottom:140px}.timeline{display:grid;grid-template-columns:repeat(3,1fr);margin-top:45px;border-top:1px solid var(--line)}.timeline article{padding:32px 45px 0 0;position:relative}.timeline time{color:var(--terra);font-size:11px;letter-spacing:.13em}.timeline-dot{position:absolute;width:9px;height:9px;border:2px solid var(--paper);border-radius:50%;background:var(--terra);top:-5px;left:0;box-shadow:0 0 0 1px var(--terra)}.timeline h3{margin-top:40px}
     .essentials{background:var(--ivory);padding:105px 0}.essentials-grid{display:grid;grid-template-columns:.8fr 1.2fr;gap:120px}.essentials-grid h2{font-size:clamp(42px,4vw,62px)}.essentials dl{margin:0;border-top:1px solid var(--line)}.essentials dl div{display:grid;grid-template-columns:130px 1fr;gap:20px;padding:21px 0;border-bottom:1px solid var(--line)}.essentials dt{color:var(--terra);font-size:12px;font-weight:600}.essentials dd{margin:0;font-size:14px}
-    .inquiry{background:var(--moss);color:#fff;padding:110px 0}.inquiry-grid{display:grid;grid-template-columns:.8fr 1.2fr;gap:110px}.inquiry h2{margin-bottom:25px}.inquiry-grid>div>p:last-child{color:rgba(255,255,255,.7);line-height:1.7}.inquiry form{display:grid;gap:18px}.form-row{display:grid;grid-template-columns:1fr 1fr;gap:18px}.inquiry label{display:grid;gap:8px;color:rgba(255,255,255,.72);font-size:11px;letter-spacing:.08em;text-transform:uppercase}.inquiry input,.inquiry select,.inquiry textarea{width:100%;color:#fff;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.26);border-radius:0;padding:14px;outline:none}.inquiry input:focus,.inquiry select:focus,.inquiry textarea:focus{border-color:#fff;box-shadow:0 0 0 2px rgba(255,255,255,.12)}.inquiry select option{color:var(--ink)}.button.submit{background:var(--ivory);color:var(--ink);width:100%;margin-top:4px}.button.submit:hover{background:#fff}.inquiry small{color:rgba(255,255,255,.52);font-size:10px}
+    .inquiry{background:var(--moss);color:#fff;padding:110px 0}.inquiry-grid{display:grid;grid-template-columns:.8fr 1.2fr;gap:110px}.inquiry h2{margin-bottom:25px}.inquiry-grid>div>p:last-child{color:rgba(255,255,255,.7);line-height:1.7}.inquiry form{display:grid;gap:18px}.form-row{display:grid;grid-template-columns:1fr 1fr;gap:18px}.inquiry label{display:grid;gap:8px;color:rgba(255,255,255,.72);font-size:11px;letter-spacing:.08em;text-transform:uppercase}.inquiry input,.inquiry select,.inquiry textarea{width:100%;color:#fff;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.26);border-radius:0;padding:14px;outline:none}.inquiry input:focus,.inquiry select:focus,.inquiry textarea:focus{border-color:#fff;box-shadow:0 0 0 2px rgba(255,255,255,.12)}.inquiry select option{color:var(--ink)}.button.submit{background:var(--ivory);color:var(--ink);width:100%;margin-top:4px}.button.submit:hover{background:#fff}.inquiry small{color:rgba(255,255,255,.66);font-size:10px}.form-status{min-height:24px;margin:0;color:#ffe0d4;font-size:12px;font-weight:600}.form-status:empty{min-height:0}
     .footer{min-height:150px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:24px;align-items:center;font-size:11px;color:#687069}.footer p{margin:0;text-align:center}.footer p:last-child{text-align:right}
-    @media(max-width:850px){.nav-links{display:none}.hero{min-height:760px}.hero-image{background-position:58% center}.hero-shade{background:linear-gradient(90deg,rgba(12,22,17,.86),rgba(12,22,17,.35))}.section-heading,.neighborhood-grid,.essentials-grid,.inquiry-grid{grid-template-columns:1fr;gap:45px}.feature-grid{grid-template-columns:1fr}.feature-card,.feature-card+.feature-card{padding:30px 0;border-right:0;border-bottom:1px solid var(--line);min-height:0;display:grid;grid-template-columns:50px 82px 1fr;align-items:center;gap:10px}.feature-icon{margin:0}.feature-card h3,.feature-card p{grid-column:3}.feature-card h3{margin:0}.map-card{min-height:460px;order:2}.timeline{grid-template-columns:1fr;border-top:0}.timeline article{border-top:1px solid var(--line);padding:30px 0 35px 28px}.timeline-dot{top:26px}}
-    @media(max-width:560px){.shell{width:min(100% - 32px,1180px)}.nav{height:70px}.brand{font-size:10px}.hero{min-height:calc(100svh - 70px)}.hero-content{padding:70px 0 100px}h1{font-size:61px}.proof{display:grid;gap:8px}.section{padding:80px 0}.section-heading{margin-bottom:35px}.feature-card,.feature-card+.feature-card{grid-template-columns:35px 60px 1fr}.feature-icon{transform:scale(.78);transform-origin:left center}.neighborhood{padding:75px 0}.map-card{min-height:380px}.form-row{grid-template-columns:1fr}.essentials-grid{gap:35px}.essentials dl div{grid-template-columns:95px 1fr}.footer{padding:35px 0;grid-template-columns:1fr;justify-items:center}.footer p:last-child{text-align:center}}
+    @media(max-width:850px){.nav-links{display:none}.mobile-book{display:inline-flex;align-items:center}.hero{min-height:760px}.hero-image{background-position:58% center}.hero-shade{background:linear-gradient(90deg,rgba(12,22,17,.86),rgba(12,22,17,.35))}.section-heading,.neighborhood-grid,.essentials-grid,.inquiry-grid{grid-template-columns:1fr;gap:45px}.feature-grid{grid-template-columns:1fr}.feature-card,.feature-card+.feature-card{padding:30px 0;border-right:0;border-bottom:1px solid var(--line);min-height:0;display:grid;grid-template-columns:50px 82px 1fr;align-items:center;gap:10px}.feature-icon{margin:0}.feature-card h3,.feature-card p{grid-column:3}.feature-card h3{margin:0}.map-card{min-height:460px;order:2}.timeline{grid-template-columns:1fr;border-top:0}.timeline article{border-top:1px solid var(--line);padding:30px 0 35px 28px}.timeline-dot{top:26px}}
+    @media(max-width:560px){html{scroll-padding-top:70px}.shell{width:min(100% - 32px,1180px)}.nav{height:70px;gap:12px}.brand{font-size:10px}.nav-actions{gap:7px}.hero{min-height:calc(100svh - 70px)}.hero-content{padding:70px 0 100px}h1{font-size:61px}.proof{display:grid;gap:8px}.section{padding:80px 0}.section-heading{margin-bottom:35px}.feature-card,.feature-card+.feature-card{grid-template-columns:35px 60px 1fr}.feature-icon{transform:scale(.78);transform-origin:left center}.neighborhood{padding:75px 0}.map-card{min-height:380px}.form-row{grid-template-columns:1fr}.essentials-grid{gap:35px}.essentials dl div{grid-template-columns:95px 1fr}.footer{padding:35px 0;grid-template-columns:1fr;justify-items:center}.footer p:last-child{text-align:center}}
     @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*:before,*:after{transition:none!important}}
   </style>
 </head>
 <body>
-  <nav class="nav shell" aria-label="Main navigation">
-    <a class="brand" href="#top" aria-label="Daechi Stay home"><span class="brand-mark">D</span><span>DAECHI STAY</span></a>
-    <div class="nav-links"><a href="#stay" data-en="The stay" data-ko="숙소">The stay</a><a href="#neighborhood" data-en="Neighborhood" data-ko="동네">Neighborhood</a><a href="#essentials" data-en="Essentials" data-ko="이용 안내">Essentials</a></div>
-    <button class="lang-toggle" id="langToggle" type="button" aria-label="한국어로 보기">한국어</button>
-  </nav>
+  <a class="skip-link" href="#main-content" data-en="Skip to main content" data-ko="본문으로 바로가기">Skip to main content</a>
+  <div class="site-header">
+    <nav class="nav shell" aria-label="Main navigation">
+      <a class="brand" href="#top" aria-label="Daechi Stay home"><span class="brand-mark">D</span><span>DAECHI STAY</span></a>
+      <div class="nav-links"><a href="#stay" data-en="The stay" data-ko="숙소">The stay</a><a href="#neighborhood" data-en="Neighborhood" data-ko="동네">Neighborhood</a><a href="#essentials" data-en="Essentials" data-ko="이용 안내">Essentials</a></div>
+      <div class="nav-actions"><a class="mobile-book" href="#inquiry" data-en="Book" data-ko="문의">Book</a><button class="lang-toggle" id="langToggle" type="button" aria-label="한국어로 보기">한국어</button></div>
+    </nav>
+  </div>
 
   <header class="hero" id="top">
-    <div class="hero-image" role="img" aria-label="Warm, modern Seoul apartment interior"></div><div class="hero-shade"></div>
+    <div class="hero-image" role="img" aria-label="Warm, modern Seoul apartment interior" data-en-label="Warm, modern Seoul apartment interior" data-ko-label="따뜻하고 현대적인 서울 아파트 인테리어"></div><div class="hero-shade"></div>
     <div class="hero-content shell">
       <p class="eyebrow light" data-en="A quiet address in Gangnam · Seoul" data-ko="서울 강남, 조용한 대치동 스테이">A quiet address in Gangnam · Seoul</p>
       <h1 data-en="<span>Your Seoul rhythm,</span><span>from here.</span>" data-ko="<span>서울의 리듬을,</span><span>여기서부터.</span>"><span>Your Seoul rhythm,</span><span>from here.</span></h1>
@@ -77,7 +113,7 @@
     <p class="image-note" data-en="Concept imagery · actual stay photos coming soon" data-ko="콘셉트 이미지 · 실제 숙소 사진 업데이트 예정">Concept imagery · actual stay photos coming soon</p>
   </header>
 
-  <main>
+  <main id="main-content">
     <section class="section shell" id="stay">
       <div class="section-heading"><div><p class="eyebrow">The stay</p><h2 data-en="Room to arrive. Space to settle in." data-ko="도착의 긴장을 풀고, 일상처럼 머무는 공간.">Room to arrive. Space to settle in.</h2></div><p data-en="Start slowly with morning light, work comfortably when you need to, and return to a calm home base after a full Seoul day. Every detail is chosen for a stay that feels intuitive from the first night." data-ko="아침 햇살로 천천히 하루를 시작하고, 필요할 때는 편안하게 일하고, 서울을 충분히 누린 뒤 조용한 집으로 돌아오세요. 첫날부터 직관적으로 사용할 수 있도록 준비했습니다.">Start slowly with morning light, work comfortably when you need to, and return to a calm home base after a full Seoul day. Every detail is chosen for a stay that feels intuitive from the first night.</p></div>
       <div class="feature-grid">
@@ -88,7 +124,7 @@
     </section>
 
     <section class="neighborhood" id="neighborhood"><div class="shell neighborhood-grid">
-      <div class="map-card" aria-label="Stylized map showing Daechi connections"><div class="map-grid"></div><div class="route route-a"></div><div class="route route-b"></div><span class="map-dot dot-home"><b>D</b><em>DAECHI STAY</em></span><span class="map-dot dot-coex"><i></i>COEX</span><span class="map-dot dot-park"><i></i>SEONJEONGNEUNG</span><span class="map-river">HAN RIVER</span></div>
+      <div class="map-card" role="img" aria-label="Stylized map showing Daechi connections" data-en-label="Stylized map showing Daechi connections" data-ko-label="대치동과 주변 명소의 연결을 보여주는 지도"><div class="map-grid"></div><div class="route route-a"></div><div class="route route-b"></div><span class="map-dot dot-home"><b>D</b><em>DAECHI STAY</em></span><span class="map-dot dot-coex"><i></i>COEX</span><span class="map-dot dot-park"><i></i>SEONJEONGNEUNG</span><span class="map-river">HAN RIVER</span></div>
       <div class="neighborhood-copy"><p class="eyebrow light" data-en="Daechi, connected" data-ko="연결되는 대치">Daechi, connected</p><h2 data-en="Local calm. All of Seoul within reach." data-ko="동네의 여유와 서울의 속도를 모두.">Local calm. All of Seoul within reach.</h2><p class="lead" data-en="Daechi is a lived-in Gangnam neighborhood with cafés, markets, parks, and quick connections across the city. COEX, Bongeunsa, and the royal tombs at Seonjeongneung are easy additions to your day." data-ko="대치동은 카페, 시장, 공원과 편리한 교통을 갖춘 강남의 주거 동네입니다. 코엑스, 봉은사, 선정릉도 하루 일정에 자연스럽게 더할 수 있습니다.">Daechi is a lived-in Gangnam neighborhood with cafés, markets, parks, and quick connections across the city. COEX, Bongeunsa, and the royal tombs at Seonjeongneung are easy additions to your day.</p>
         <div class="transit-list"><div><span data-en="Line 3" data-ko="3호선">Line 3</span><strong data-en="Daechi Station area" data-ko="대치역 생활권">Daechi Station area</strong></div><div><span data-en="Suin–Bundang" data-ko="수인분당선">Suin–Bundang</span><strong data-en="Hanti Station area" data-ko="한티역 생활권">Hanti Station area</strong></div><div><span data-en="Airport" data-ko="공항">Airport</span><strong data-en="Simple transfer options" data-ko="편리한 환승 선택지">Simple transfer options</strong></div></div>
       </div>
@@ -105,7 +141,7 @@
     </dl></div></section>
 
     <section class="inquiry" id="inquiry"><div class="shell inquiry-grid"><div><p class="eyebrow light" data-en="Plan your stay" data-ko="여행 계획">Plan your stay</p><h2 data-en="Tell us when Seoul is calling." data-ko="서울에 오는 날짜를 알려주세요.">Tell us when Seoul is calling.</h2><p data-en="Share your dates and group size. Your email app will open with a ready-to-send availability request." data-ko="일정과 인원을 남기면 이메일 앱에 예약 가능일 문의가 자동으로 작성됩니다.">Share your dates and group size. Your email app will open with a ready-to-send availability request.</p></div>
-      <form id="inquiryForm"><div class="form-row"><label><span data-en="Arrival" data-ko="도착일">Arrival</span><input name="arrival" type="date" required></label><label><span data-en="Departure" data-ko="출발일">Departure</span><input name="departure" type="date" required></label></div><label><span data-en="Guests" data-ko="인원">Guests</span><select name="guests"><option>1</option><option selected>2</option><option>3</option><option>4</option></select></label><label><span data-en="Anything we should know?" data-ko="호스트에게 전할 내용">Anything we should know?</span><textarea name="message" rows="3"></textarea></label><button class="button submit" type="submit"><span data-en="Request availability" data-ko="예약 가능일 문의">Request availability</span><span aria-hidden="true">↗</span></button><small data-en="No payment is taken here. Your stay is confirmed directly by the host." data-ko="이 페이지에서는 결제되지 않으며, 호스트 확인 후 예약이 확정됩니다.">No payment is taken here. Your stay is confirmed directly by the host.</small></form>
+      <form id="inquiryForm" aria-describedby="formNote formStatus" novalidate><div class="form-row"><label for="arrival"><span data-en="Arrival" data-ko="도착일">Arrival</span><input id="arrival" name="arrival" type="date" required></label><label for="departure"><span data-en="Departure" data-ko="출발일">Departure</span><input id="departure" name="departure" type="date" required></label></div><label for="guests"><span data-en="Guests" data-ko="인원">Guests</span><select id="guests" name="guests"><option>1</option><option selected>2</option><option>3</option><option>4</option></select></label><label for="message"><span data-en="Anything we should know?" data-ko="호스트에게 전할 내용">Anything we should know?</span><textarea id="message" name="message" rows="3"></textarea></label><button class="button submit" type="submit"><span data-en="Request availability" data-ko="예약 가능일 문의">Request availability</span><span aria-hidden="true">↗</span></button><small id="formNote" data-en="No payment is taken here. Your stay is confirmed directly by the host." data-ko="이 페이지에서는 결제되지 않으며, 호스트 확인 후 예약이 확정됩니다.">No payment is taken here. Your stay is confirmed directly by the host.</small><p class="form-status" id="formStatus" role="status" aria-live="polite"></p></form>
     </div></section>
   </main>
 
@@ -113,22 +149,91 @@
 
   <script>
     (()=>{
-      let language="en";
       const toggle=document.getElementById("langToggle");
-      toggle.addEventListener("click",()=>{
-        language=language==="en"?"ko":"en";
+      const form=document.getElementById("inquiryForm");
+      const arrival=document.getElementById("arrival");
+      const departure=document.getElementById("departure");
+      const formStatus=document.getElementById("formStatus");
+      const supportedLanguages=["en","ko"];
+      const params=new URLSearchParams(location.search);
+      let savedLanguage;
+      try{savedLanguage=localStorage.getItem("daechiStayLanguage")}catch(error){}
+      let language=supportedLanguages.includes(params.get("lang"))?params.get("lang"):supportedLanguages.includes(savedLanguage)?savedLanguage:"en";
+
+      const setLanguage=(next,{syncUrl=false}={})=>{
+        language=next;
         document.documentElement.lang=language;
         toggle.textContent=language==="en"?"한국어":"EN";
         toggle.setAttribute("aria-label",language==="en"?"한국어로 보기":"View in English");
         document.querySelectorAll("[data-en]").forEach(el=>{el.innerHTML=el.dataset[language]});
+        document.querySelectorAll("[data-en-label]").forEach(el=>{el.setAttribute("aria-label",el.dataset[`${language}Label`])});
+        document.title=language==="en"?"Daechi Stay | A quiet Seoul stay in Gangnam":"대치 스테이 | 서울 강남의 조용한 숙소";
+        document.querySelector('meta[name="description"]').content=language==="en"?"A calm, globally friendly city stay in Daechi-dong, Gangnam, Seoul.":"글로벌 여행자를 위한 서울 강남 대치동의 편안하고 조용한 시티 스테이.";
+        try{localStorage.setItem("daechiStayLanguage",language)}catch(error){}
+        if(syncUrl){
+          const url=new URL(location.href);
+          url.searchParams.set("lang",language);
+          history.replaceState(null,"",url);
+        }
+      };
+
+      const toLocalDateString=date=>`${date.getFullYear()}-${String(date.getMonth()+1).padStart(2,"0")}-${String(date.getDate()).padStart(2,"0")}`;
+      const dayAfter=value=>{
+        const date=new Date(`${value}T00:00:00`);
+        date.setDate(date.getDate()+1);
+        return toLocalDateString(date);
+      };
+      const today=toLocalDateString(new Date());
+      arrival.min=today;
+      departure.min=today;
+
+      const clearDateError=()=>{
+        arrival.setCustomValidity("");
+        departure.setCustomValidity("");
+        formStatus.textContent="";
+      };
+      arrival.addEventListener("change",()=>{
+        clearDateError();
+        departure.min=arrival.value?dayAfter(arrival.value):today;
       });
-      document.getElementById("inquiryForm").addEventListener("submit",event=>{
+      departure.addEventListener("input",clearDateError);
+      toggle.addEventListener("click",()=>setLanguage(language==="en"?"ko":"en",{syncUrl:true}));
+
+      form.addEventListener("submit",event=>{
         event.preventDefault();
-        const data=new FormData(event.currentTarget);
-        const subject=encodeURIComponent("Daechi Stay availability request");
+        clearDateError();
+        if(!arrival.value||!departure.value){
+          const message=language==="en"?"Please select both arrival and departure dates.":"도착일과 출발일을 모두 선택해 주세요.";
+          const missingField=!arrival.value?arrival:departure;
+          missingField.setCustomValidity(message);
+          formStatus.textContent=message;
+          missingField.reportValidity();
+          missingField.focus();
+          return;
+        }
+        if(arrival.value<today){
+          const message=language==="en"?"Arrival cannot be in the past. Please choose a new date.":"도착일은 오늘 이후로 선택해 주세요.";
+          arrival.setCustomValidity(message);
+          formStatus.textContent=message;
+          arrival.reportValidity();
+          arrival.focus();
+          return;
+        }
+        if(arrival.value>=departure.value){
+          const message=language==="en"?"Departure must be after arrival. Please check your dates.":"출발일은 도착일 이후여야 합니다. 날짜를 다시 확인해 주세요.";
+          departure.setCustomValidity(message);
+          formStatus.textContent=message;
+          departure.reportValidity();
+          departure.focus();
+          return;
+        }
+        const data=new FormData(form);
+        const subject=encodeURIComponent(language==="en"?"Daechi Stay availability request":"대치 스테이 예약 가능일 문의");
         const body=encodeURIComponent(`Arrival: ${data.get("arrival")}\nDeparture: ${data.get("departure")}\nGuests: ${data.get("guests")}\n\n${data.get("message")||""}`);
         location.href=`mailto:stay@stargateedu.co.kr?subject=${subject}&body=${body}`;
       });
+
+      setLanguage(language);
     })();
   </script>
 </body>
