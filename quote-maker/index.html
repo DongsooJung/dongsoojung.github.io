@@ -1,0 +1,770 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>하루 견적서 · Quote Maker — Stargate</title>
+<meta name="description" content="프리랜서·소상공인을 위한 원클릭 PDF 견적서. 항목 입력 → 합계·부가세 자동 계산 → A4 PDF 다운로드.">
+<meta name="author" content="Dongsoo Jung">
+<meta property="og:title" content="하루 견적서 · Quote Maker">
+<meta property="og:description" content="30초 만에 만드는 PDF 견적서. 무료 체험 후 Pro로 워터마크·횟수 제한 해제.">
+<meta property="og:url" content="https://stargateedu.co.kr/quote-maker/">
+<meta property="og:type" content="website">
+<link rel="canonical" href="https://stargateedu.co.kr/quote-maker/">
+<meta name="theme-color" content="#0b1020">
+<link rel="icon" href="/assets/icons/favicon.ico" sizes="48x48">
+<link rel="apple-touch-icon" href="/assets/icons/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.2/html2pdf.bundle.min.js" defer></script>
+<style>
+:root{
+  --bg:#0a0d14; --bg2:#111827; --panel:#0f172a; --panel2:#111c33;
+  --line:#1f2a44; --line2:#263452;
+  --ink:#e6edf3; --sub:#9aa7b8; --muted:#6b7a90;
+  --acc:#7aa2ff; --acc2:#4f7fff; --warm:#ffb86b; --good:#63d6a0; --danger:#ff7a8a;
+  --paper:#f7f4ee; --paper-ink:#1a1f2b; --paper-line:#d8d2c6; --paper-muted:#5c6475;
+  --grad1:linear-gradient(135deg,#4f7fff 0%,#7aa2ff 55%,#b388ff 100%);
+  --radius:14px;
+  --font: "IBM Plex Sans KR", "Apple SD Gothic Neo", sans-serif;
+  --display: "Instrument Serif", Georgia, serif;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{
+  font-family:var(--font); color:var(--ink); background:var(--bg); line-height:1.5;
+  -webkit-font-smoothing:antialiased;
+  background-image:
+    radial-gradient(900px 520px at 8% -8%, rgba(79,127,255,.2), transparent 58%),
+    radial-gradient(700px 420px at 100% 0%, rgba(255,184,107,.1), transparent 55%),
+    radial-gradient(640px 420px at 50% 120%, rgba(99,214,160,.08), transparent 55%);
+  background-attachment:fixed; min-height:100vh;
+}
+a{color:var(--acc); text-decoration:none}
+a:hover{text-decoration:underline}
+button,input,select,textarea{font:inherit; color:inherit}
+button{cursor:pointer}
+.wrap{max-width:1240px; margin:0 auto; padding:20px 18px 80px}
+
+.nav{display:flex; justify-content:space-between; align-items:center; gap:12px; padding:4px 2px 18px}
+.brand{display:flex; align-items:center; gap:10px; font-weight:700}
+.brand .logo{
+  width:34px; height:34px; border-radius:9px; background:var(--grad1);
+  display:inline-flex; align-items:center; justify-content:center; color:#0b1020; font-weight:900;
+}
+.brand .name{font-size:15px}
+.brand .tag{font-size:11px; color:var(--muted); margin-left:4px; font-weight:500}
+.nav-links{display:flex; gap:12px; align-items:center; font-size:13px; color:var(--sub); flex-wrap:wrap}
+.nav-links a{color:var(--sub)} .nav-links a:hover{color:var(--ink)}
+.pill{
+  display:inline-flex; align-items:center; gap:6px; padding:5px 10px; border-radius:999px;
+  font-size:11.5px; font-weight:600; border:1px solid var(--line2); background:rgba(15,23,42,.7);
+}
+.pill.pro{border-color:rgba(99,214,160,.4); color:var(--good); background:rgba(99,214,160,.08)}
+.pill.free{border-color:rgba(255,184,107,.35); color:var(--warm); background:rgba(255,184,107,.08)}
+
+.hero{
+  display:grid; grid-template-columns:1.2fr .8fr; gap:28px; align-items:end;
+  padding:8px 0 28px; animation:rise .55s ease both;
+}
+.hero h1{
+  margin:0 0 10px; font-family:var(--display); font-weight:400;
+  font-size:clamp(40px, 5.4vw, 64px); line-height:1.05; letter-spacing:-.02em;
+}
+.hero h1 em{font-style:italic; background:var(--grad1); -webkit-background-clip:text; background-clip:text; color:transparent}
+.hero .lead{margin:0; color:var(--sub); font-size:15.5px; max-width:48ch; line-height:1.65}
+.hero-aside{
+  border:1px solid var(--line); border-radius:var(--radius); padding:16px 18px;
+  background:linear-gradient(180deg, rgba(17,28,51,.9), rgba(15,23,42,.85));
+}
+.hero-aside .k{font-size:12px; color:var(--muted); margin-bottom:8px}
+.hero-aside .v{font-size:22px; font-weight:700; letter-spacing:-.02em}
+.hero-aside .hint{margin-top:8px; font-size:12.5px; color:var(--sub); line-height:1.5}
+.hero-aside .hint strong{color:var(--warm); font-weight:600}
+
+.workspace{
+  display:grid; grid-template-columns:minmax(300px, 420px) 1fr; gap:18px; align-items:start;
+  animation:rise .65s ease .05s both;
+}
+.panel{
+  border:1px solid var(--line); border-radius:18px;
+  background:linear-gradient(180deg, var(--panel2), var(--panel));
+  padding:18px;
+}
+.panel h2{margin:0 0 4px; font-size:16px; letter-spacing:-.01em}
+.panel .sub{margin:0 0 16px; color:var(--sub); font-size:12.5px}
+
+.field{margin-bottom:12px}
+.field label{display:block; font-size:12px; color:var(--muted); margin-bottom:5px; font-weight:500}
+.field input, .field textarea, .field select{
+  width:100%; border:1px solid var(--line2); background:rgba(10,13,20,.55);
+  border-radius:10px; padding:10px 12px; color:var(--ink); outline:none;
+  transition:border-color .15s, box-shadow .15s;
+}
+.field input:focus, .field textarea:focus, .field select:focus{
+  border-color:var(--acc); box-shadow:0 0 0 3px rgba(79,127,255,.18);
+}
+.field-row{display:grid; grid-template-columns:1fr 1fr; gap:10px}
+.section-label{
+  display:flex; justify-content:space-between; align-items:center;
+  margin:18px 0 10px; padding-top:14px; border-top:1px solid var(--line);
+  font-size:12px; font-weight:600; color:var(--sub); letter-spacing:.02em;
+}
+.section-label:first-of-type{margin-top:4px}
+
+.items{display:flex; flex-direction:column; gap:8px}
+.item{
+  display:grid; grid-template-columns:1.4fr .55fr .8fr auto; gap:6px; align-items:center;
+}
+.item input{width:100%; border:1px solid var(--line2); background:rgba(10,13,20,.55);
+  border-radius:9px; padding:8px 10px; font-size:13px}
+.item .rm{
+  width:34px; height:34px; border-radius:9px; border:1px solid var(--line2);
+  background:transparent; color:var(--muted); display:grid; place-items:center;
+}
+.item .rm:hover{border-color:var(--danger); color:var(--danger)}
+
+.actions{display:flex; flex-wrap:wrap; gap:8px; margin-top:16px}
+.btn{
+  display:inline-flex; align-items:center; justify-content:center; gap:8px;
+  min-height:42px; padding:0 14px; border-radius:11px; border:1px solid transparent;
+  font-size:13.5px; font-weight:600; transition:transform .15s, box-shadow .15s, border-color .15s;
+}
+.btn:hover{transform:translateY(-1px); text-decoration:none}
+.btn.primary{background:var(--grad1); color:#0b1020; box-shadow:0 8px 24px rgba(79,127,255,.28)}
+.btn.ghost{background:rgba(15,23,42,.8); color:var(--ink); border-color:var(--line2)}
+.btn.ghost:hover{border-color:var(--acc)}
+.btn.warm{background:rgba(255,184,107,.12); color:var(--warm); border-color:rgba(255,184,107,.35)}
+.btn:disabled{opacity:.55; cursor:not-allowed; transform:none}
+
+.preview-shell{position:sticky; top:14px}
+.preview-toolbar{
+  display:flex; justify-content:space-between; align-items:center; gap:10px;
+  margin-bottom:10px; flex-wrap:wrap;
+}
+.preview-toolbar .meta{font-size:12px; color:var(--muted)}
+.paper-frame{
+  border:1px solid var(--line); border-radius:16px; padding:14px;
+  background:rgba(8,11,18,.55); overflow:auto; max-height:calc(100vh - 120px);
+}
+#quotePaper{
+  width:min(100%, 720px); margin:0 auto; background:var(--paper); color:var(--paper-ink);
+  border-radius:4px; padding:42px 44px 36px; position:relative; overflow:hidden;
+  box-shadow:0 18px 50px rgba(0,0,0,.35); min-height:920px;
+  font-family:var(--font);
+}
+#quotePaper.watermark::after{
+  content:"하루 견적서 · FREE";
+  position:absolute; inset:0; display:grid; place-items:center;
+  font-family:var(--display); font-size:54px; letter-spacing:.04em;
+  color:rgba(26,31,43,.07); transform:rotate(-28deg); pointer-events:none; font-weight:400;
+}
+.q-top{display:flex; justify-content:space-between; gap:20px; margin-bottom:28px}
+.q-brand{display:flex; gap:12px; align-items:flex-start}
+.q-logo{
+  width:52px; height:52px; border-radius:10px; object-fit:cover;
+  border:1px solid var(--paper-line); background:#fff; display:none;
+}
+.q-logo.show{display:block}
+.q-title{font-family:var(--display); font-size:40px; line-height:1; margin:0 0 8px; letter-spacing:-.02em}
+.q-seller{font-size:13px; color:var(--paper-muted); line-height:1.55}
+.q-meta{text-align:right; font-size:12.5px; color:var(--paper-muted); line-height:1.7}
+.q-meta strong{display:block; color:var(--paper-ink); font-size:14px; margin-bottom:4px}
+.q-client{
+  border-top:1px solid var(--paper-line); border-bottom:1px solid var(--paper-line);
+  padding:14px 0; margin-bottom:22px; display:grid; grid-template-columns:1fr 1fr; gap:12px;
+}
+.q-client .lbl{font-size:11px; color:var(--paper-muted); margin-bottom:3px}
+.q-client .val{font-size:14px; font-weight:600}
+table.q-items{width:100%; border-collapse:collapse; font-size:13px}
+table.q-items th{
+  text-align:left; font-size:11px; letter-spacing:.04em; text-transform:uppercase;
+  color:var(--paper-muted); font-weight:600; padding:0 0 10px; border-bottom:1px solid var(--paper-line);
+}
+table.q-items th.num, table.q-items td.num{text-align:right}
+table.q-items td{padding:11px 0; border-bottom:1px solid rgba(216,210,198,.65); vertical-align:top}
+table.q-items td:first-child{padding-right:12px}
+.q-totals{margin-top:22px; margin-left:auto; width:min(280px, 100%)}
+.q-totals .row{display:flex; justify-content:space-between; gap:16px; padding:7px 0; font-size:13.5px; color:var(--paper-muted)}
+.q-totals .row.grand{
+  margin-top:6px; padding-top:12px; border-top:2px solid var(--paper-ink);
+  color:var(--paper-ink); font-size:18px; font-weight:700;
+}
+.q-note{margin-top:28px; font-size:12px; color:var(--paper-muted); line-height:1.6; white-space:pre-wrap}
+.q-footer{margin-top:36px; font-size:11px; color:#8a9180}
+
+.toast{
+  position:fixed; left:50%; bottom:24px; transform:translateX(-50%) translateY(20px);
+  background:#111c33; border:1px solid var(--line2); color:var(--ink);
+  padding:12px 16px; border-radius:12px; font-size:13px; opacity:0; pointer-events:none;
+  transition:opacity .2s, transform .2s; z-index:50; max-width:min(92vw, 420px); text-align:center;
+}
+.toast.show{opacity:1; transform:translateX(-50%) translateY(0)}
+
+.modal-backdrop{
+  position:fixed; inset:0; background:rgba(5,8,14,.72); display:none;
+  align-items:center; justify-content:center; padding:18px; z-index:60;
+}
+.modal-backdrop.open{display:flex}
+.modal{
+  width:min(440px, 100%); border:1px solid var(--line); border-radius:18px;
+  background:linear-gradient(180deg, var(--panel2), var(--panel)); padding:22px;
+  animation:rise .25s ease both;
+}
+.modal h3{margin:0 0 8px; font-size:20px; font-family:var(--display); font-weight:400}
+.modal p{margin:0 0 14px; color:var(--sub); font-size:13.5px; line-height:1.6}
+.modal .price{font-size:28px; font-weight:700; margin-bottom:14px}
+.modal .price span{font-size:13px; color:var(--muted); font-weight:500; margin-left:6px}
+.modal ul{margin:0 0 16px; padding-left:18px; color:var(--sub); font-size:13px; line-height:1.7}
+.pro-box{margin-top:14px; padding-top:14px; border-top:1px solid var(--line)}
+
+@keyframes rise{
+  from{opacity:0; transform:translateY(12px)}
+  to{opacity:1; transform:translateY(0)}
+}
+
+@media (max-width:960px){
+  .hero{grid-template-columns:1fr}
+  .workspace{grid-template-columns:1fr}
+  .preview-shell{position:static}
+  .paper-frame{max-height:none}
+  #quotePaper{padding:28px 22px; min-height:auto}
+  .item{grid-template-columns:1fr 1fr; }
+  .item .name{grid-column:1 / -1}
+  .q-top,.q-client{grid-template-columns:1fr; display:grid}
+  .q-meta{text-align:left}
+}
+@media (max-width:560px){
+  .field-row{grid-template-columns:1fr}
+  .nav{align-items:flex-start; flex-direction:column}
+}
+@media print{
+  body{background:#fff}
+  .nav,.hero,.editor,.preview-toolbar,.toast,.modal-backdrop{display:none !important}
+  .workspace{display:block}
+  .paper-frame{border:0; padding:0; background:transparent}
+  #quotePaper{box-shadow:none; width:100%}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <nav class="nav">
+    <a class="brand" href="/">
+      <span class="logo">S</span>
+      <span class="name">Stargate</span>
+      <span class="tag">하루 견적서</span>
+    </a>
+    <div class="nav-links">
+      <span id="planPill" class="pill free">FREE · 오늘 3회</span>
+      <a href="#pro">Pro 업그레이드</a>
+      <a href="/">포털</a>
+    </div>
+  </nav>
+
+  <header class="hero">
+    <div>
+      <h1>하루 견적서 <em>Quote Maker</em></h1>
+      <p class="lead">항목만 적으면 합계·부가세가 계산되고, A4 PDF로 바로 내려받습니다. 무료는 하루 3회, Pro는 워터마크·횟수 제한 없이.</p>
+    </div>
+    <aside class="hero-aside" aria-live="polite">
+      <div class="k">오늘 남은 무료 다운로드</div>
+      <div class="v"><span id="remainCount">3</span>회</div>
+      <div class="hint" id="remainHint">워터마크가 포함됩니다. <strong>Pro</strong>로 로고·무제한 잠금 해제.</div>
+    </aside>
+  </header>
+
+  <div class="workspace">
+    <section class="panel editor" aria-labelledby="editorTitle">
+      <h2 id="editorTitle">견적 정보</h2>
+      <p class="sub">왼쪽을 고치면 오른쪽 미리보기가 바로 갱신됩니다.</p>
+
+      <div class="section-label"><span>발행자</span></div>
+      <div class="field">
+        <label for="sellerName">상호 / 이름</label>
+        <input id="sellerName" value="Stargate Studio" autocomplete="organization">
+      </div>
+      <div class="field-row">
+        <div class="field">
+          <label for="sellerContact">연락처</label>
+          <input id="sellerContact" value="010-0000-0000" inputmode="tel">
+        </div>
+        <div class="field">
+          <label for="sellerEmail">이메일</label>
+          <input id="sellerEmail" type="email" value="hello@stargateedu.co.kr">
+        </div>
+      </div>
+      <div class="field">
+        <label for="sellerBiz">사업자등록번호 (선택)</label>
+        <input id="sellerBiz" placeholder="000-00-00000">
+      </div>
+      <div class="field" id="logoField" hidden>
+        <label for="logoInput">로고 이미지 (Pro)</label>
+        <input id="logoInput" type="file" accept="image/*">
+      </div>
+
+      <div class="section-label"><span>고객 · 문서</span></div>
+      <div class="field-row">
+        <div class="field">
+          <label for="clientName">고객명</label>
+          <input id="clientName" value="홍길동 고객님">
+        </div>
+        <div class="field">
+          <label for="quoteNo">견적번호</label>
+          <input id="quoteNo" value="">
+        </div>
+      </div>
+      <div class="field-row">
+        <div class="field">
+          <label for="quoteDate">발행일</label>
+          <input id="quoteDate" type="date">
+        </div>
+        <div class="field">
+          <label for="validDays">유효기간(일)</label>
+          <input id="validDays" type="number" min="1" max="365" value="14">
+        </div>
+      </div>
+      <div class="field">
+        <label for="vatMode">부가세</label>
+        <select id="vatMode">
+          <option value="separate" selected>별도 (합계의 10% 추가)</option>
+          <option value="include">포함 (합계에서 역산)</option>
+          <option value="none">없음</option>
+        </select>
+      </div>
+
+      <div class="section-label">
+        <span>항목</span>
+        <button type="button" class="btn ghost" id="addItem" style="min-height:32px;padding:0 10px;font-size:12px">+ 항목</button>
+      </div>
+      <div class="items" id="items"></div>
+
+      <div class="section-label"><span>비고</span></div>
+      <div class="field">
+        <label for="notes">안내 문구</label>
+        <textarea id="notes" rows="3">· 본 견적은 발행일로부터 유효합니다.
+· 작업 범위 변경 시 금액이 조정될 수 있습니다.</textarea>
+      </div>
+
+      <div class="actions">
+        <button type="button" class="btn primary" id="downloadBtn">PDF 다운로드</button>
+        <button type="button" class="btn warm" id="proBtn">Pro 잠금 해제</button>
+        <button type="button" class="btn ghost" id="resetBtn">초기화</button>
+      </div>
+    </section>
+
+    <section class="preview-shell" aria-label="견적서 미리보기">
+      <div class="preview-toolbar">
+        <div class="meta">A4 미리보기 · 실시간 반영</div>
+        <div class="meta" id="totalChip">합계 ₩0</div>
+      </div>
+      <div class="paper-frame">
+        <article id="quotePaper" class="watermark">
+          <div class="q-top">
+            <div class="q-brand">
+              <img id="qLogo" class="q-logo" alt="로고">
+              <div>
+                <h2 class="q-title">견적서</h2>
+                <div class="q-seller" id="qSeller"></div>
+              </div>
+            </div>
+            <div class="q-meta" id="qMeta"></div>
+          </div>
+          <div class="q-client" id="qClient"></div>
+          <table class="q-items">
+            <thead>
+              <tr>
+                <th>항목</th>
+                <th class="num">수량</th>
+                <th class="num">단가</th>
+                <th class="num">금액</th>
+              </tr>
+            </thead>
+            <tbody id="qBody"></tbody>
+          </table>
+          <div class="q-totals" id="qTotals"></div>
+          <div class="q-note" id="qNote"></div>
+          <div class="q-footer">Generated with 하루 견적서 · stargateedu.co.kr/quote-maker</div>
+        </article>
+      </div>
+    </section>
+  </div>
+</div>
+
+<div class="toast" id="toast" role="status"></div>
+
+<div class="modal-backdrop" id="proModal" role="dialog" aria-modal="true" aria-labelledby="proTitle">
+  <div class="modal">
+    <h3 id="proTitle">Pro로 잠금 해제</h3>
+    <p>워터마크 제거, 로고 삽입, 하루 다운로드 무제한. 한 번 결제하면 이 브라우저에 영구 적용됩니다.</p>
+    <div class="price">₩9,900 <span>원타임</span></div>
+    <ul>
+      <li>워터마크 없는 PDF</li>
+      <li>로고 업로드</li>
+      <li>일일 횟수 제한 없음</li>
+    </ul>
+    <div class="actions">
+      <a class="btn primary" id="payLink" href="https://gumroad.com/" target="_blank" rel="noopener">결제하러 가기</a>
+      <button type="button" class="btn ghost" id="closePro">닫기</button>
+    </div>
+    <div class="pro-box">
+      <div class="field" style="margin-bottom:8px">
+        <label for="licenseKey">라이선스 키 입력</label>
+        <input id="licenseKey" placeholder="HQ-XXXX-XXXX-XXXX" autocomplete="off" spellcheck="false">
+      </div>
+      <button type="button" class="btn warm" id="unlockBtn" style="width:100%">키로 잠금 해제</button>
+      <p style="margin:10px 0 0;font-size:12px;color:var(--muted)">데모 키: <code>HQ-DEMO-PRO-2026</code></p>
+    </div>
+  </div>
+</div>
+
+<script>
+(() => {
+  const FREE_DAILY = 3;
+  const STORAGE_PLAN = 'quote-maker-plan-v1';
+  const STORAGE_USAGE = 'quote-maker-usage-v1';
+  const STORAGE_LOGO = 'quote-maker-logo-v1';
+  const DEMO_KEY = 'HQ-DEMO-PRO-2026';
+  // 결제 링크는 Gumroad/토스 링크로 교체하세요.
+  const PAY_URL = 'https://gumroad.com/l/hello';
+
+  const $ = (id) => document.getElementById(id);
+  const fields = ['sellerName','sellerContact','sellerEmail','sellerBiz','clientName','quoteNo','quoteDate','validDays','vatMode','notes'];
+  const itemsEl = $('items');
+  const paper = $('quotePaper');
+  const toast = $('toast');
+  let logoDataUrl = '';
+  let toastTimer = 0;
+
+  function todayKey() {
+    const d = new Date();
+    return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+  }
+
+  function isPro() {
+    try { return localStorage.getItem(STORAGE_PLAN) === 'pro'; } catch { return false; }
+  }
+
+  function getUsage() {
+    try {
+      const raw = JSON.parse(localStorage.getItem(STORAGE_USAGE) || '{}');
+      if (raw.date !== todayKey()) return { date: todayKey(), count: 0 };
+      return { date: raw.date, count: Number(raw.count) || 0 };
+    } catch {
+      return { date: todayKey(), count: 0 };
+    }
+  }
+
+  function setUsage(count) {
+    localStorage.setItem(STORAGE_USAGE, JSON.stringify({ date: todayKey(), count }));
+  }
+
+  function remaining() {
+    if (isPro()) return Infinity;
+    return Math.max(0, FREE_DAILY - getUsage().count);
+  }
+
+  function showToast(msg) {
+    toast.textContent = msg;
+    toast.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => toast.classList.remove('show'), 2600);
+  }
+
+  function money(n) {
+    return '₩' + Math.round(n).toLocaleString('ko-KR');
+  }
+
+  function defaultQuoteNo() {
+    const d = new Date();
+    const y = d.getFullYear();
+    const m = String(d.getMonth()+1).padStart(2,'0');
+    const day = String(d.getDate()).padStart(2,'0');
+    const r = String(Math.floor(Math.random()*900)+100);
+    return `Q-${y}${m}${day}-${r}`;
+  }
+
+  function addItem(data = { name: '', qty: 1, price: 0 }) {
+    const row = document.createElement('div');
+    row.className = 'item';
+    row.innerHTML = `
+      <input class="name" placeholder="항목명" value="${escapeAttr(data.name)}">
+      <input class="qty" type="number" min="0" step="1" value="${data.qty}">
+      <input class="price" type="number" min="0" step="100" value="${data.price}">
+      <button type="button" class="rm" aria-label="항목 삭제">×</button>
+    `;
+    row.querySelector('.rm').addEventListener('click', () => {
+      if (itemsEl.children.length <= 1) {
+        showToast('항목은 최소 1개 필요합니다.');
+        return;
+      }
+      row.remove();
+      render();
+    });
+    row.querySelectorAll('input').forEach((el) => el.addEventListener('input', render));
+    itemsEl.appendChild(row);
+  }
+
+  function escapeAttr(s) {
+    return String(s).replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;');
+  }
+
+  function escapeHtml(s) {
+    return String(s)
+      .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+      .replace(/"/g,'&quot;');
+  }
+
+  function readItems() {
+    return [...itemsEl.querySelectorAll('.item')].map((row) => {
+      const name = row.querySelector('.name').value.trim() || '항목';
+      const qty = Math.max(0, Number(row.querySelector('.qty').value) || 0);
+      const price = Math.max(0, Number(row.querySelector('.price').value) || 0);
+      return { name, qty, price, amount: qty * price };
+    });
+  }
+
+  function calcTotals(items) {
+    const supply = items.reduce((s, it) => s + it.amount, 0);
+    const mode = $('vatMode').value;
+    if (mode === 'separate') {
+      const vat = supply * 0.1;
+      return { supply, vat, total: supply + vat, mode };
+    }
+    if (mode === 'include') {
+      const supplyNet = Math.round(supply / 1.1);
+      const vat = supply - supplyNet;
+      return { supply: supplyNet, vat, total: supply, mode };
+    }
+    return { supply, vat: 0, total: supply, mode };
+  }
+
+  function updatePlanUI() {
+    const pro = isPro();
+    const left = remaining();
+    const pill = $('planPill');
+    const hint = $('remainHint');
+    $('remainCount').textContent = pro ? '∞' : String(left);
+    if (pro) {
+      pill.className = 'pill pro';
+      pill.textContent = 'PRO · 무제한';
+      hint.innerHTML = '워터마크 없음 · 로고 · 무제한 다운로드가 활성화되었습니다.';
+      $('logoField').hidden = false;
+      paper.classList.remove('watermark');
+    } else {
+      pill.className = 'pill free';
+      pill.textContent = `FREE · 오늘 ${left}회`;
+      hint.innerHTML = '워터마크가 포함됩니다. <strong>Pro</strong>로 로고·무제한 잠금 해제.';
+      $('logoField').hidden = true;
+      paper.classList.add('watermark');
+    }
+  }
+
+  function render() {
+    const sellerName = $('sellerName').value.trim() || '상호명';
+    const sellerContact = $('sellerContact').value.trim();
+    const sellerEmail = $('sellerEmail').value.trim();
+    const sellerBiz = $('sellerBiz').value.trim();
+    const clientName = $('clientName').value.trim() || '고객';
+    const quoteNo = $('quoteNo').value.trim() || '-';
+    const quoteDate = $('quoteDate').value;
+    const validDays = Math.max(1, Number($('validDays').value) || 14);
+    const notes = $('notes').value;
+    const items = readItems();
+    const totals = calcTotals(items);
+
+    const dateObj = quoteDate ? new Date(quoteDate + 'T00:00:00') : new Date();
+    const validObj = new Date(dateObj);
+    validObj.setDate(validObj.getDate() + validDays);
+    const fmt = (d) => d.toLocaleDateString('ko-KR', { year:'numeric', month:'long', day:'numeric' });
+
+    $('qSeller').innerHTML = [
+      `<strong style="color:var(--paper-ink);font-size:14px">${escapeHtml(sellerName)}</strong>`,
+      sellerContact && escapeHtml(sellerContact),
+      sellerEmail && escapeHtml(sellerEmail),
+      sellerBiz && `사업자 ${escapeHtml(sellerBiz)}`
+    ].filter(Boolean).join('<br>');
+
+    $('qMeta').innerHTML = `
+      <strong>견적번호 ${escapeHtml(quoteNo)}</strong>
+      발행일 ${fmt(dateObj)}<br>
+      유효기간 ${fmt(validObj)}까지
+    `;
+
+    $('qClient').innerHTML = `
+      <div><div class="lbl">수신</div><div class="val">${escapeHtml(clientName)}</div></div>
+      <div><div class="lbl">부가세</div><div class="val">${
+        totals.mode === 'separate' ? '별도 10%' : totals.mode === 'include' ? '포함' : '없음'
+      }</div></div>
+    `;
+
+    $('qBody').innerHTML = items.map((it) => `
+      <tr>
+        <td>${escapeHtml(it.name)}</td>
+        <td class="num">${it.qty}</td>
+        <td class="num">${money(it.price)}</td>
+        <td class="num">${money(it.amount)}</td>
+      </tr>
+    `).join('');
+
+    $('qTotals').innerHTML = `
+      <div class="row"><span>공급가액</span><span>${money(totals.supply)}</span></div>
+      <div class="row"><span>부가세</span><span>${money(totals.vat)}</span></div>
+      <div class="row grand"><span>합계</span><span>${money(totals.total)}</span></div>
+    `;
+    $('qNote').textContent = notes;
+    $('totalChip').textContent = `합계 ${money(totals.total)}`;
+
+    const logo = $('qLogo');
+    if (isPro() && logoDataUrl) {
+      logo.src = logoDataUrl;
+      logo.classList.add('show');
+    } else {
+      logo.removeAttribute('src');
+      logo.classList.remove('show');
+    }
+  }
+
+  function openPro() {
+    $('proModal').classList.add('open');
+    $('licenseKey').focus();
+  }
+  function closePro() {
+    $('proModal').classList.remove('open');
+  }
+
+  function unlockWithKey(raw) {
+    const key = String(raw || '').trim().toUpperCase();
+    if (!key) {
+      showToast('라이선스 키를 입력하세요.');
+      return false;
+    }
+    if (key === DEMO_KEY || verifyKey(key)) {
+      localStorage.setItem(STORAGE_PLAN, 'pro');
+      updatePlanUI();
+      render();
+      closePro();
+      showToast('Pro가 활성화되었습니다.');
+      return true;
+    }
+    showToast('유효하지 않은 키입니다.');
+    return false;
+  }
+
+  // 간단한 체크섬 키: HQ-XXXX-XXXX-ABCD (ABCD = 앞 8자 hex checksum 앞 4자리)
+  function verifyKey(key) {
+    const m = /^HQ-([A-Z0-9]{4})-([A-Z0-9]{4})-([A-Z0-9]{4})$/.exec(key);
+    if (!m) return false;
+    const body = (m[1] + m[2]).toUpperCase();
+    let h = 0;
+    for (let i = 0; i < body.length; i++) h = ((h << 5) - h + body.charCodeAt(i)) | 0;
+    const expect = (Math.abs(h).toString(16).toUpperCase() + 'AAAA').slice(0, 4);
+    return m[3] === expect;
+  }
+
+  async function downloadPdf() {
+    if (!window.html2pdf) {
+      showToast('PDF 엔진 로딩 중입니다. 잠시 후 다시 시도하세요.');
+      return;
+    }
+    if (!isPro() && remaining() <= 0) {
+      showToast('오늘 무료 횟수를 모두 사용했습니다. Pro로 계속하세요.');
+      openPro();
+      return;
+    }
+
+    const btn = $('downloadBtn');
+    btn.disabled = true;
+    btn.textContent = 'PDF 생성 중…';
+    try {
+      const no = $('quoteNo').value.trim() || 'quote';
+      const opt = {
+        margin: [8, 8, 8, 8],
+        filename: `${no}.pdf`,
+        image: { type: 'jpeg', quality: 0.98 },
+        html2canvas: { scale: 2, useCORS: true, backgroundColor: '#f7f4ee' },
+        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
+        pagebreak: { mode: ['css', 'legacy'] }
+      };
+      await html2pdf().set(opt).from(paper).save();
+      if (!isPro()) {
+        const usage = getUsage();
+        setUsage(usage.count + 1);
+        updatePlanUI();
+      }
+      showToast('PDF를 저장했습니다.');
+    } catch (err) {
+      console.error(err);
+      showToast('PDF 생성에 실패했습니다. 브라우저를 바꿔 시도해 보세요.');
+    } finally {
+      btn.disabled = false;
+      btn.textContent = 'PDF 다운로드';
+    }
+  }
+
+  function resetForm() {
+    $('sellerName').value = 'Stargate Studio';
+    $('sellerContact').value = '010-0000-0000';
+    $('sellerEmail').value = 'hello@stargateedu.co.kr';
+    $('sellerBiz').value = '';
+    $('clientName').value = '홍길동 고객님';
+    $('quoteNo').value = defaultQuoteNo();
+    $('quoteDate').valueAsDate = new Date();
+    $('validDays').value = 14;
+    $('vatMode').value = 'separate';
+    $('notes').value = '· 본 견적은 발행일로부터 유효합니다.\n· 작업 범위 변경 시 금액이 조정될 수 있습니다.';
+    itemsEl.innerHTML = '';
+    addItem({ name: '웹사이트 랜딩 페이지 제작', qty: 1, price: 500000 });
+    addItem({ name: '모바일 반응형 최적화', qty: 1, price: 150000 });
+    addItem({ name: '수정 라운드 (2회)', qty: 1, price: 80000 });
+    render();
+    showToast('기본값으로 초기화했습니다.');
+  }
+
+  // init
+  $('payLink').href = PAY_URL;
+  $('quoteNo').value = defaultQuoteNo();
+  $('quoteDate').valueAsDate = new Date();
+  try { logoDataUrl = localStorage.getItem(STORAGE_LOGO) || ''; } catch { logoDataUrl = ''; }
+
+  addItem({ name: '웹사이트 랜딩 페이지 제작', qty: 1, price: 500000 });
+  addItem({ name: '모바일 반응형 최적화', qty: 1, price: 150000 });
+  addItem({ name: '수정 라운드 (2회)', qty: 1, price: 80000 });
+
+  fields.forEach((id) => $(id).addEventListener('input', render));
+  $('addItem').addEventListener('click', () => { addItem({ name: '', qty: 1, price: 0 }); render(); });
+  $('downloadBtn').addEventListener('click', downloadPdf);
+  $('proBtn').addEventListener('click', openPro);
+  $('closePro').addEventListener('click', closePro);
+  $('unlockBtn').addEventListener('click', () => unlockWithKey($('licenseKey').value));
+  $('licenseKey').addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') unlockWithKey($('licenseKey').value);
+  });
+  $('resetBtn').addEventListener('click', resetForm);
+  $('proModal').addEventListener('click', (e) => { if (e.target === $('proModal')) closePro(); });
+  document.querySelector('a[href="#pro"]').addEventListener('click', (e) => { e.preventDefault(); openPro(); });
+
+  $('logoInput').addEventListener('change', (e) => {
+    const file = e.target.files && e.target.files[0];
+    if (!file) return;
+    if (!isPro()) {
+      showToast('로고는 Pro에서 사용할 수 있습니다.');
+      openPro();
+      return;
+    }
+    const reader = new FileReader();
+    reader.onload = () => {
+      logoDataUrl = String(reader.result || '');
+      try { localStorage.setItem(STORAGE_LOGO, logoDataUrl); } catch {}
+      render();
+    };
+    reader.readAsDataURL(file);
+  });
+
+  updatePlanUI();
+  render();
+})();
+</script>
+</body>
+</html>
