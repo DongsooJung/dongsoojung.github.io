@@ -1,0 +1,536 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>공공데이터 수집 기록소 · STARGATE</title>
+  <meta name="description" content="공공데이터포털 API를 버튼 한 번으로 모아 CSV로 만들고 Supabase Storage에 저장하는 STARGATE 수집 기록소">
+  <meta name="theme-color" content="#0d1b1a">
+  <meta property="og:title" content="공공데이터 수집 기록소 · STARGATE">
+  <meta property="og:description" content="원하는 공공데이터 목록을 주기적으로 수집해 Supabase에 CSV로 남깁니다.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://www.stargateedu.co.kr/public-data-collector/">
+  <link rel="canonical" href="https://www.stargateedu.co.kr/public-data-collector/">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;500;600;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --ink:#0d1b1a;
+      --ink-soft:#16302d;
+      --paper:#e7f2ef;
+      --paper-2:#d5ebe4;
+      --foam:#8fd6c4;
+      --teal:#0f7a68;
+      --teal-deep:#085648;
+      --amber:#e2a44b;
+      --muted:#4d6661;
+      --line:rgba(13,27,26,.16);
+      --white:#f7fbf9;
+      --danger:#b42318;
+      --ok:#0f7a68;
+      --shadow:0 24px 60px rgba(8,40,34,.18);
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;
+      color:var(--ink);
+      font-family:"IBM Plex Sans KR",sans-serif;
+      background:
+        radial-gradient(900px 420px at 12% -8%, rgba(143,214,196,.55), transparent 60%),
+        radial-gradient(700px 380px at 92% 8%, rgba(226,164,75,.28), transparent 55%),
+        linear-gradient(180deg, #f3faf7 0%, var(--paper) 42%, #dfece7 100%);
+      min-height:100vh;
+    }
+    button,input,select{font:inherit}
+    a{color:inherit}
+    .wrap{width:min(1120px, calc(100% - 40px)); margin:0 auto}
+    .topbar{
+      height:74px; display:flex; align-items:center; justify-content:space-between;
+      border-bottom:1px solid var(--line);
+    }
+    .brand{
+      display:inline-flex; align-items:center; gap:12px; text-decoration:none;
+      font-family:"Syne",sans-serif; font-weight:800; letter-spacing:.08em; font-size:14px;
+    }
+    .brand-mark{
+      width:34px; height:34px; border-radius:50%; display:grid; place-items:center;
+      background:var(--ink); color:var(--foam); font-size:13px; font-weight:800;
+    }
+    .top-links{display:flex; gap:14px; align-items:center; color:var(--muted); font-size:13px}
+    .top-links a{text-decoration:none}
+    .top-links a:hover{color:var(--teal-deep)}
+
+    .hero{
+      min-height:calc(100vh - 74px);
+      display:grid; grid-template-columns:1.05fr .95fr; gap:48px; align-items:center;
+      padding:48px 0 56px; position:relative;
+    }
+    .hero-copy{position:relative; z-index:1}
+    .brand-hero{
+      margin:0 0 18px; font-family:"Syne",sans-serif; font-size:clamp(42px,7vw,72px);
+      line-height:.9; letter-spacing:-.04em; font-weight:800;
+      animation:rise .8s ease both;
+    }
+    .brand-hero span{display:block; color:var(--teal)}
+    h1{
+      margin:0; font-size:clamp(28px,4vw,40px); line-height:1.15; letter-spacing:-.03em;
+      font-weight:700; max-width:14ch; animation:rise .8s ease .08s both;
+    }
+    .lead{
+      margin:18px 0 28px; max-width:36ch; color:var(--muted); font-size:16px; line-height:1.7;
+      animation:rise .8s ease .16s both;
+    }
+    .cta-row{display:flex; flex-wrap:wrap; gap:12px; animation:rise .8s ease .24s both}
+    .btn{
+      min-height:52px; border:1px solid var(--ink); border-radius:999px; padding:0 22px;
+      cursor:pointer; display:inline-flex; align-items:center; justify-content:center; gap:8px;
+      transition:transform .18s ease, box-shadow .18s ease, background .18s ease;
+    }
+    .btn:hover:not(:disabled){transform:translateY(-2px); box-shadow:0 10px 0 rgba(13,27,26,.12)}
+    .btn:disabled{opacity:.55; cursor:wait}
+    .btn-primary{background:var(--ink); color:var(--white)}
+    .btn-ghost{background:transparent; color:var(--ink)}
+    .hero-visual{
+      position:relative; min-height:420px; border-radius:28px; overflow:hidden;
+      background:
+        linear-gradient(145deg, rgba(15,122,104,.92), rgba(13,27,26,.96)),
+        repeating-linear-gradient(90deg, rgba(247,251,249,.08) 0 1px, transparent 1px 28px),
+        repeating-linear-gradient(0deg, rgba(247,251,249,.06) 0 1px, transparent 1px 28px);
+      box-shadow:var(--shadow); animation:fadein 1s ease .2s both;
+    }
+    .hero-visual::after{
+      content:""; position:absolute; inset:auto -10% -20% 30%; height:70%;
+      background:radial-gradient(circle, rgba(226,164,75,.45), transparent 65%);
+      filter:blur(8px);
+    }
+    .ticker{
+      position:absolute; inset:28px; display:grid; gap:10px; z-index:1;
+      font-family:"Syne",sans-serif; color:var(--white);
+    }
+    .ticker .row{
+      display:flex; justify-content:space-between; gap:12px; padding:14px 16px;
+      border:1px solid rgba(247,251,249,.16); border-radius:16px;
+      background:rgba(247,251,249,.06); backdrop-filter:blur(6px);
+      transform:translateY(8px); opacity:0; animation:slideup .7s ease forwards;
+    }
+    .ticker .row:nth-child(1){animation-delay:.35s}
+    .ticker .row:nth-child(2){animation-delay:.5s}
+    .ticker .row:nth-child(3){animation-delay:.65s}
+    .ticker .row:nth-child(4){animation-delay:.8s}
+    .ticker .muted{color:rgba(247,251,249,.68); font-family:"IBM Plex Sans KR",sans-serif; font-size:13px}
+    .ticker strong{font-size:15px; letter-spacing:.02em}
+
+    .section{padding:28px 0 72px}
+    .section h2{
+      margin:0 0 8px; font-family:"Syne",sans-serif; font-size:28px; letter-spacing:-.03em;
+    }
+    .section-lead{margin:0 0 22px; color:var(--muted); max-width:52ch; line-height:1.65}
+    .panel{
+      border:1px solid var(--line); border-radius:24px; background:rgba(247,251,249,.72);
+      backdrop-filter:blur(10px); padding:22px; box-shadow:0 10px 30px rgba(13,27,26,.05);
+    }
+    .controls{
+      display:grid; grid-template-columns:1.4fr .8fr; gap:18px; margin-bottom:18px;
+    }
+    .api-list{display:grid; gap:10px}
+    .api-item{
+      display:grid; grid-template-columns:auto 1fr; gap:12px; align-items:start;
+      padding:14px 16px; border:1px solid var(--line); border-radius:18px; background:var(--white);
+      transition:border-color .15s ease, transform .15s ease;
+    }
+    .api-item:hover{border-color:rgba(15,122,104,.45); transform:translateY(-1px)}
+    .api-item strong{display:block; margin-bottom:4px}
+    .api-item p{margin:0; color:var(--muted); font-size:13px; line-height:1.5}
+    .side-controls{display:grid; gap:12px; align-content:start}
+    label.field{display:grid; gap:6px; font-size:13px; color:var(--muted)}
+    select,input[type="number"]{
+      min-height:46px; border:1px solid var(--line); border-radius:14px;
+      padding:0 12px; background:var(--white); color:var(--ink);
+    }
+    .toggle{
+      display:flex; align-items:center; justify-content:space-between; gap:12px;
+      padding:14px 16px; border:1px solid var(--line); border-radius:16px; background:var(--white);
+    }
+    .status{
+      margin-top:14px; min-height:24px; color:var(--muted); font-size:14px;
+    }
+    .status.ok{color:var(--ok)}
+    .status.err{color:var(--danger)}
+    .status.run{color:var(--teal-deep)}
+
+    .results{display:grid; gap:14px; margin-top:18px}
+    .result{
+      border:1px solid var(--line); border-radius:18px; padding:16px 18px; background:var(--white);
+    }
+    .result-head{display:flex; justify-content:space-between; gap:12px; align-items:center; flex-wrap:wrap}
+    .result-head h3{margin:0; font-size:17px}
+    .pill{
+      display:inline-flex; align-items:center; min-height:28px; padding:0 10px; border-radius:999px;
+      font-size:12px; font-weight:600; background:var(--paper-2); color:var(--teal-deep);
+    }
+    .pill.bad{background:rgba(180,35,24,.1); color:var(--danger)}
+    .meta{margin:10px 0 0; color:var(--muted); font-size:13px; line-height:1.55}
+    .actions{display:flex; flex-wrap:wrap; gap:8px; margin-top:12px}
+    .link-btn{
+      min-height:38px; padding:0 14px; border-radius:999px; border:1px solid var(--line);
+      background:transparent; cursor:pointer; text-decoration:none; display:inline-flex; align-items:center;
+    }
+    .link-btn:hover{border-color:var(--teal); color:var(--teal-deep)}
+    .preview{
+      margin-top:12px; overflow:auto; border:1px solid var(--line); border-radius:14px;
+      max-height:220px; background:#f3faf7;
+    }
+    table{width:100%; border-collapse:collapse; font-size:12px}
+    th,td{padding:8px 10px; border-bottom:1px solid var(--line); text-align:left; white-space:nowrap}
+    th{position:sticky; top:0; background:#dff0e9; color:var(--ink-soft)}
+
+    .logs{display:grid; gap:10px}
+    .log-item{
+      display:grid; grid-template-columns:1fr auto; gap:10px; align-items:center;
+      padding:14px 16px; border:1px solid var(--line); border-radius:16px; background:var(--white);
+    }
+    .log-item p{margin:4px 0 0; color:var(--muted); font-size:13px}
+    .empty{color:var(--muted); font-size:14px; padding:8px 2px}
+
+    footer{
+      border-top:1px solid var(--line); padding:28px 0 48px; color:var(--muted); font-size:13px;
+    }
+
+    @keyframes rise{
+      from{opacity:0; transform:translateY(18px)}
+      to{opacity:1; transform:none}
+    }
+    @keyframes fadein{
+      from{opacity:0; transform:scale(.985)}
+      to{opacity:1; transform:none}
+    }
+    @keyframes slideup{
+      to{opacity:1; transform:none}
+    }
+
+    @media (max-width:860px){
+      .hero{grid-template-columns:1fr; min-height:auto; padding:28px 0 36px; gap:28px}
+      .hero-visual{min-height:300px}
+      .controls{grid-template-columns:1fr}
+      .log-item{grid-template-columns:1fr}
+      .wrap{width:min(1120px, calc(100% - 28px))}
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header class="topbar">
+      <a class="brand" href="/">
+        <span class="brand-mark">S</span>
+        <span>STARGATE</span>
+      </a>
+      <nav class="top-links">
+        <a href="/">포털</a>
+        <a href="https://www.data.go.kr/" target="_blank" rel="noreferrer">data.go.kr</a>
+      </nav>
+    </header>
+
+    <section class="hero" aria-label="소개">
+      <div class="hero-copy">
+        <p class="brand-hero">STARGATE<span>DATA VAULT</span></p>
+        <h1>공공데이터를 눌러서 남기는 CSV 기록소</h1>
+        <p class="lead">원하는 API 목록을 고른 뒤 버튼을 누르면 수집·CSV 변환·Supabase Storage 저장까지 한 번에 이어집니다. 탭을 열어 두면 주기 반복도 가능합니다.</p>
+        <div class="cta-row">
+          <button class="btn btn-primary" id="hero-collect" type="button">지금 수집하기</button>
+          <a class="btn btn-ghost" href="#collector">목록 고르기</a>
+        </div>
+      </div>
+      <div class="hero-visual" aria-hidden="true">
+        <div class="ticker">
+          <div class="row"><strong>APT TRADE</strong><span class="muted">실거래 → CSV</span></div>
+          <div class="row"><strong>STORE DONG</strong><span class="muted">상권 패널</span></div>
+          <div class="row"><strong>UPJONG</strong><span class="muted">생존분석 코호트</span></div>
+          <div class="row"><strong>FORECAST</strong><span class="muted">단기예보 스냅샷</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="collector">
+      <h2>수집 실행</h2>
+      <p class="section-lead">체크한 API만 호출합니다. 서버가 CSV를 만들고 Supabase 버킷 <code>public-data-csv</code>에 올린 뒤, 아래에서 미리보기·다운로드할 수 있습니다.</p>
+
+      <div class="panel">
+        <div class="controls">
+          <div>
+            <div class="api-list" id="api-list"></div>
+          </div>
+          <div class="side-controls">
+            <label class="field">주기 반복
+              <select id="interval">
+                <option value="0">수동 (버튼만)</option>
+                <option value="1">1시간마다</option>
+                <option value="6">6시간마다</option>
+                <option value="24" selected>24시간마다</option>
+              </select>
+            </label>
+            <div class="toggle">
+              <span>자동 반복 사용</span>
+              <input id="auto-run" type="checkbox">
+            </div>
+            <div class="toggle">
+              <span>Supabase에 CSV 저장</span>
+              <input id="save-supabase" type="checkbox" checked>
+            </div>
+            <button class="btn btn-primary" id="collect-btn" type="button">선택 목록 수집</button>
+            <button class="btn btn-ghost" id="refresh-logs" type="button">기록 새로고침</button>
+            <p class="status" id="status">준비되었습니다.</p>
+          </div>
+        </div>
+
+        <div class="results" id="results"></div>
+      </div>
+    </section>
+
+    <section class="section" id="history">
+      <h2>최근 저장 기록</h2>
+      <p class="section-lead">Supabase 로그 테이블에 남은 최근 수집 결과입니다. 성공한 항목은 CSV 공개 링크로 바로 열 수 있습니다.</p>
+      <div class="panel">
+        <div class="logs" id="logs"><p class="empty">기록을 불러오는 중입니다…</p></div>
+      </div>
+    </section>
+
+    <footer>
+      STARGATE · 공공데이터포털 API 수집기는 serviceKey 이중 인코딩을 피하도록 URL을 직접 구성합니다.
+      배포 환경에는 <code>DATA_GO_KR_API_KEY</code>, <code>SUPABASE_SERVICE_KEY</code>가 필요합니다.
+    </footer>
+  </div>
+
+  <script>
+    const API_ENDPOINT = '/api/public-data-collector';
+    const FALLBACK_APIS = [
+      { id:'apt_trade', name:'부동산_실거래가', description:'국토부 아파트 매매 실거래가 (기본: 강남구·전월)' },
+      { id:'store_dong', name:'서울_상권정보', description:'소상공인 상가업소 행정동 목록 (기본: 역삼1동)' },
+      { id:'store_upjong', name:'소상공인_상권분석', description:'업종·행정동 상가업소 (기본: 음식업·대치2동)' },
+      { id:'village_fcst', name:'기상청_단기예보', description:'단기예보 조회 (기본: 강남구 격자)' },
+    ];
+
+    const els = {
+      apiList: document.getElementById('api-list'),
+      collectBtn: document.getElementById('collect-btn'),
+      heroCollect: document.getElementById('hero-collect'),
+      refreshLogs: document.getElementById('refresh-logs'),
+      status: document.getElementById('status'),
+      results: document.getElementById('results'),
+      logs: document.getElementById('logs'),
+      interval: document.getElementById('interval'),
+      autoRun: document.getElementById('auto-run'),
+      saveSupabase: document.getElementById('save-supabase'),
+    };
+
+    let timerId = null;
+    let busy = false;
+
+    function setStatus(message, type = '') {
+      els.status.textContent = message;
+      els.status.className = 'status' + (type ? ' ' + type : '');
+    }
+
+    function selectedIds() {
+      return [...els.apiList.querySelectorAll('input[type="checkbox"]:checked')].map((el) => el.value);
+    }
+
+    function renderApis(apis) {
+      els.apiList.innerHTML = apis.map((api, index) => `
+        <label class="api-item">
+          <input type="checkbox" value="${api.id}" ${index < 2 ? 'checked' : ''}>
+          <span>
+            <strong>${api.name}</strong>
+            <p>${api.description || ''}</p>
+          </span>
+        </label>
+      `).join('');
+    }
+
+    function downloadCsv(fileName, csv) {
+      const blob = new Blob([csv], { type: 'text/csv;charset=utf-8' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = fileName || 'collected.csv';
+      a.click();
+      URL.revokeObjectURL(url);
+    }
+
+    function renderPreview(preview) {
+      if (!preview?.length) return '<p class="empty">미리보기 행이 없습니다.</p>';
+      const fields = Object.keys(preview[0]).slice(0, 8);
+      return `
+        <div class="preview">
+          <table>
+            <thead><tr>${fields.map((f) => `<th>${f}</th>`).join('')}</tr></thead>
+            <tbody>
+              ${preview.map((row) => `<tr>${fields.map((f) => `<td>${row[f] ?? ''}</td>`).join('')}</tr>`).join('')}
+            </tbody>
+          </table>
+        </div>
+      `;
+    }
+
+    function renderResults(payload) {
+      if (!payload?.results?.length) {
+        els.results.innerHTML = '<p class="empty">아직 수집 결과가 없습니다.</p>';
+        return;
+      }
+      els.results.innerHTML = payload.results.map((item, index) => {
+        if (!item.ok) {
+          return `
+            <article class="result">
+              <div class="result-head">
+                <h3>${item.name || item.id}</h3>
+                <span class="pill bad">실패</span>
+              </div>
+              <p class="meta">${item.error || '알 수 없는 오류'}</p>
+            </article>
+          `;
+        }
+        return `
+          <article class="result" data-index="${index}">
+            <div class="result-head">
+              <h3>${item.name}</h3>
+              <span class="pill">${item.rowCount.toLocaleString('ko-KR')}행</span>
+            </div>
+            <p class="meta">
+              파일: ${item.fileName || '-'}
+              ${item.publicUrl ? `<br>Storage: ${item.storagePath}` : '<br>로컬 CSV만 생성되었습니다.'}
+            </p>
+            <div class="actions">
+              ${item.csv ? `<button class="link-btn" type="button" data-download="${index}">CSV 다운로드</button>` : ''}
+              ${item.publicUrl ? `<a class="link-btn" href="${item.publicUrl}" target="_blank" rel="noreferrer">Supabase CSV 열기</a>` : ''}
+            </div>
+            ${renderPreview(item.preview)}
+          </article>
+        `;
+      }).join('');
+
+      els.results.querySelectorAll('[data-download]').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          const item = payload.results[Number(btn.dataset.download)];
+          if (item?.csv) downloadCsv(item.fileName, item.csv);
+        });
+      });
+    }
+
+    function renderLogs(logs) {
+      if (!logs?.length) {
+        els.logs.innerHTML = '<p class="empty">저장된 기록이 없거나 Supabase 연결이 없습니다. SQL 스키마를 먼저 적용했는지 확인해 주세요.</p>';
+        return;
+      }
+      els.logs.innerHTML = logs.map((log) => `
+        <article class="log-item">
+          <div>
+            <strong>${log.api_name || log.api_id}</strong>
+            <p>
+              ${log.status === 'ok' ? `${Number(log.row_count || 0).toLocaleString('ko-KR')}행` : '실패'}
+              · ${log.collected_at ? new Date(log.collected_at).toLocaleString('ko-KR', { timeZone:'Asia/Seoul' }) : '-'}
+              ${log.file_name ? ` · ${log.file_name}` : ''}
+              ${log.error_message ? ` · ${log.error_message}` : ''}
+            </p>
+          </div>
+          ${log.public_url
+            ? `<a class="link-btn" href="${log.public_url}" target="_blank" rel="noreferrer">CSV</a>`
+            : `<span class="pill ${log.status === 'ok' ? '' : 'bad'}">${log.status || '-'}</span>`}
+        </article>
+      `).join('');
+    }
+
+    async function loadMeta() {
+      try {
+        const response = await fetch(`${API_ENDPOINT}?limit=20`, { cache: 'no-store' });
+        if (!response.ok) throw new Error('meta_' + response.status);
+        const data = await response.json();
+        renderApis(data.apis?.length ? data.apis : FALLBACK_APIS);
+        renderLogs(data.logs || []);
+        const flags = [];
+        flags.push(data.dataGoKrConfigured ? '공공데이터 키 연결됨' : '공공데이터 키 미설정');
+        flags.push(data.supabaseConfigured ? 'Supabase 연결됨' : 'Supabase 키 미설정');
+        setStatus(flags.join(' · '));
+      } catch (error) {
+        renderApis(FALLBACK_APIS);
+        renderLogs([]);
+        setStatus('카탈로그를 불러오지 못했습니다. 로컬 기본 목록으로 표시합니다.', 'err');
+      }
+    }
+
+    async function collect() {
+      if (busy) return;
+      const apis = selectedIds();
+      if (!apis.length) {
+        setStatus('수집할 API를 하나 이상 선택해 주세요.', 'err');
+        return;
+      }
+
+      busy = true;
+      els.collectBtn.disabled = true;
+      els.heroCollect.disabled = true;
+      setStatus('공공데이터 API를 호출하고 CSV를 저장하는 중입니다…', 'run');
+
+      try {
+        const response = await fetch(API_ENDPOINT, {
+          method: 'POST',
+          headers: { 'content-type': 'application/json' },
+          body: JSON.stringify({
+            apis,
+            saveToSupabase: els.saveSupabase.checked,
+            includeCsv: true,
+            previewLimit: 12,
+          }),
+        });
+        const data = await response.json();
+        renderResults(data);
+        if (data.ok) {
+          const okCount = data.results.filter((row) => row.ok).length;
+          setStatus(`${okCount}개 API 수집을 마쳤습니다.`, 'ok');
+          await loadMeta();
+        } else {
+          const firstError = data.results?.find((row) => !row.ok)?.error || data.error || '수집 실패';
+          setStatus(firstError, 'err');
+        }
+      } catch (error) {
+        setStatus(error instanceof Error ? error.message : '수집 요청 실패', 'err');
+      } finally {
+        busy = false;
+        els.collectBtn.disabled = false;
+        els.heroCollect.disabled = false;
+      }
+    }
+
+    function syncTimer() {
+      if (timerId) {
+        clearInterval(timerId);
+        timerId = null;
+      }
+      if (!els.autoRun.checked) {
+        setStatus('자동 반복이 꺼져 있습니다. 버튼으로 수집합니다.');
+        return;
+      }
+      const hours = Number(els.interval.value || 0);
+      if (!hours) {
+        setStatus('주기가 수동입니다. 자동 반복을 쓰려면 1/6/24시간을 고르세요.', 'err');
+        return;
+      }
+      timerId = setInterval(collect, hours * 60 * 60 * 1000);
+      setStatus(`자동 반복 ON · ${hours}시간마다 수집합니다.`, 'ok');
+    }
+
+    els.collectBtn.addEventListener('click', collect);
+    els.heroCollect.addEventListener('click', () => {
+      document.getElementById('collector').scrollIntoView({ behavior: 'smooth' });
+      collect();
+    });
+    els.refreshLogs.addEventListener('click', loadMeta);
+    els.autoRun.addEventListener('change', syncTimer);
+    els.interval.addEventListener('change', () => {
+      if (els.autoRun.checked) syncTimer();
+    });
+
+    loadMeta();
+  </script>
+</body>
+</html>
