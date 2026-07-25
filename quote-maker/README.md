@@ -4,6 +4,7 @@
 
 - Live: https://stargateedu.co.kr/quote-maker/
 - 스택: HTML / CSS / JS + html2pdf.js (CDN)
+- 폰트: 포털과 동일 (`Pretendard` → `Apple SD Gothic Neo` 폴백, Google Fonts 미사용)
 - 배포: GitHub Pages (`main` 루트)
 
 ## 기능
