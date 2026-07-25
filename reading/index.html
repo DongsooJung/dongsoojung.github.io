@@ -233,8 +233,8 @@
 </div>
 
 <script>
-/* ─────────── 독후감 데이터 (밀리의 서재 인기 도서 기반 샘플) ─────────── */
-const posts = [
+/* 예전 샘플은 참고용으로만 남겨 두고 화면에는 Notion 동기화 데이터만 표시한다. */
+const samplePosts = [
   {
     id:1, title:"물고기는 존재하지 않는다", author:"룰루 밀러", pub:"곰출판",
     genre:"과학·에세이", rating:5, start:"2026-07-05", end:"2026-07-11", pages:328, days:7,
@@ -310,20 +310,61 @@ const posts = [
 ];
 
 /* ─────────── 상태/렌더 ─────────── */
+let posts = [];
 let activeGenre = "전체";
 let lastFocus = null;
 
 function stars(n){return "★".repeat(n)+"☆".repeat(5-n);}
-function fmt(d){const[,m,day]=d.split("-");return `${+m}.${+day}`;}
+function fmt(d){
+  if(!d)return "날짜 미등록";
+  const[,m,day]=d.split("-");
+  return `${+m}.${+day}`;
+}
 function bookHash(id){return `#book-${id}`;}
+function esc(value){
+  return String(value??"").replace(/[&<>"']/g,ch=>({
+    "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
+  })[ch]);
+}
+function periodLabel(p){
+  if(!p.start||p.start===p.end)return `${fmt(p.end)} 완독`;
+  return `${fmt(p.start)} ~ ${fmt(p.end)}${p.days?` (${p.days}일)`:""}`;
+}
+function volumeLabel(p){
+  return p.pages ? `${Number(p.pages).toLocaleString("ko-KR")}쪽` : "페이지 미등록";
+}
+
+async function loadPosts(){
+  const summary=document.getElementById("resultSummary");
+  summary.textContent="Notion 독서기록을 불러오는 중…";
+  try{
+    const response=await fetch("./data/notion-reading.json",{cache:"no-store"});
+    if(!response.ok)throw new Error(`HTTP ${response.status}`);
+    const payload=await response.json();
+    if(!Array.isArray(payload.posts))throw new Error("invalid_payload");
+    posts=payload.posts;
+    renderStats();
+    renderChips();
+    render();
+    syncFromHash();
+  }catch(error){
+    posts=[];
+    renderStats();
+    renderChips();
+    document.getElementById("grid").innerHTML=
+      '<div class="empty">Notion 독서기록을 불러오지 못했습니다.<br><small>잠시 후 다시 시도해 주세요.</small></div>';
+    summary.textContent="동기화 데이터 로드 실패";
+    console.error("Notion reading data load failed",error);
+  }
+}
 
 function renderStats(){
   const total=posts.length;
   const avg=total ? (posts.reduce((s,p)=>s+p.rating,0)/total).toFixed(1) : "0.0";
-  const pages=posts.reduce((s,p)=>s+p.pages,0).toLocaleString("ko-KR");
+  const pages=posts.reduce((s,p)=>s+(Number(p.pages)||0),0).toLocaleString("ko-KR");
   const monthKey=new Intl.DateTimeFormat("en-CA",{year:"numeric",month:"2-digit",timeZone:"Asia/Seoul"})
     .format(new Date()).slice(0,7);
-  const thisMonth=posts.filter(p=>p.end.startsWith(monthKey)).length;
+  const thisMonth=posts.filter(p=>p.end?.startsWith(monthKey)).length;
   document.getElementById("stats").innerHTML=`
     <div class="stat"><div class="n">${total}<span class="u">권</span></div><div class="l">완독한 책</div></div>
     <div class="stat"><div class="n">${avg}<span class="u">/5</span></div><div class="l">평균 별점</div></div>
@@ -358,8 +399,8 @@ function getVisiblePosts(){
   const sort=document.getElementById("sort").value;
   const list=posts.filter(p=>{
     const okG=activeGenre==="전체"||p.genre===activeGenre;
-    const hay=[p.title,p.author,p.pub,p.genre,p.oneline,p.review,...p.tags,...p.recommend,
-      ...p.quotes.flatMap(q=>[q.t,q.s])].join(" ").toLocaleLowerCase("ko-KR");
+    const hay=[p.title,p.author,p.pub,p.genre,p.oneline,p.review,...(p.tags||[]),...(p.recommend||[]),
+      ...(p.quotes||[]).flatMap(q=>[q.t,q.s])].join(" ").toLocaleLowerCase("ko-KR");
     return okG && hay.includes(q);
   });
   if(sort==="recent")list.sort((a,b)=>b.end.localeCompare(a.end));
@@ -381,17 +422,17 @@ function render(){
     return;
   }
   grid.innerHTML=list.map(p=>`
-    <button type="button" class="card" onclick="openPost(${p.id})" aria-label="${p.title}, ${p.author}, 별점 ${p.rating}점 상세 보기">
+    <button type="button" class="card" onclick="openPost('${p.id}')" aria-label="${esc(p.title)}, ${esc(p.author||"저자 미등록")}, 별점 ${p.rating}점 상세 보기">
       <span class="cover" style="background:linear-gradient(135deg,${p.c1},${p.c2})">
-        <span class="genre">${p.genre}</span>
-        <span role="heading" aria-level="2" class="card-title">${p.title}</span>
+        <span class="genre">${esc(p.genre||"기타")}</span>
+        <span role="heading" aria-level="2" class="card-title">${esc(p.title)}</span>
       </span>
       <span class="body">
-        <span class="meta">${p.author} · ${p.pub}</span>
+        <span class="meta">${esc(p.author||"저자 미등록")}${p.pub?` · ${esc(p.pub)}`:""}</span>
         <span class="stars" aria-label="별점 ${p.rating}점">${stars(p.rating)}</span>
-        <span class="oneline">${p.oneline}</span>
-        <span class="tags">${p.tags.map(t=>`<span class="tag">#${t}</span>`).join("")}</span>
-        <span class="foot"><span>📅 ${fmt(p.end)} 완독</span><span>${p.days}일 · ${p.pages}쪽</span></span>
+        <span class="oneline">${esc(p.oneline||"한줄평 미등록")}</span>
+        <span class="tags">${(p.tags||[]).map(t=>`<span class="tag">#${esc(t)}</span>`).join("")}</span>
+        <span class="foot"><span>📅 ${esc(periodLabel(p))}</span><span>${esc(volumeLabel(p))}</span></span>
       </span>
     </button>`).join("");
 }
@@ -403,26 +444,30 @@ function openPost(id,{updateHash=true}={}){
   document.getElementById("post").innerHTML=`
     <div class="banner" style="background:linear-gradient(135deg,${p.c1},${p.c2})">
       <button class="close" type="button" onclick="closePost()" aria-label="독후감 닫기">✕</button>
-      <div class="genre">${p.genre}</div>
-      <h2 id="postTitle">${p.title}</h2>
-      <div class="author">${p.author} 지음 · ${p.pub}</div>
+      <div class="genre">${esc(p.genre||"기타")}</div>
+      <h2 id="postTitle">${esc(p.title)}</h2>
+      <div class="author">${esc(p.author||"저자 미등록")}${p.pub?` 지음 · ${esc(p.pub)}`:""}</div>
       <span class="millie-badge">📖 밀리의 서재에서 완독</span>
     </div>
     <div class="content">
       <div class="infobar">
         <div><span>별점</span><b class="bigstars" aria-label="별점 ${p.rating}점">${stars(p.rating)}</b></div>
-        <div><span>읽은 기간</span><b>${fmt(p.start)} ~ ${fmt(p.end)} (${p.days}일)</b></div>
-        <div><span>분량</span><b>${p.pages}쪽</b></div>
+        <div><span>읽은 기간</span><b>${esc(periodLabel(p))}</b></div>
+        <div><span>분량</span><b>${esc(volumeLabel(p))}</b></div>
       </div>
       <h4>한 줄 평</h4>
-      <p style="font-size:17px;font-weight:600">“${p.oneline}”</p>
+      <p style="font-size:17px;font-weight:600">“${esc(p.oneline||"한줄평 미등록")}”</p>
       <h4>밑줄 그은 문장</h4>
-      ${p.quotes.map(q=>`<div class="quote">“${q.t}”<span class="src">— ${p.title}, ${q.s}</span></div>`).join("")}
+      ${(p.quotes||[]).length
+        ? p.quotes.map(q=>`<div class="quote">“${esc(q.t)}”<span class="src">— ${esc(p.title)}, ${esc(q.s||"Notion 기록")}</span></div>`).join("")
+        : '<p>등록된 인용문이 없습니다.</p>'}
       <h4>서평</h4>
-      <p>${p.review}</p>
+      <p>${esc(p.review||"등록된 독후감이 없습니다.")}</p>
       <h4>이런 분께 추천</h4>
-      <div class="recommend"><ul>${p.recommend.map(r=>`<li>${r}</li>`).join("")}</ul></div>
-      <div class="post-actions"><button type="button" class="sharebtn" onclick="sharePost(${p.id},this)">🔗 독후감 공유</button></div>
+      ${(p.recommend||[]).length
+        ? `<div class="recommend"><ul>${p.recommend.map(r=>`<li>${esc(r)}</li>`).join("")}</ul></div>`
+        : "<p>등록된 추천 대상이 없습니다.</p>"}
+      <div class="post-actions"><button type="button" class="sharebtn" onclick="sharePost('${p.id}',this)">🔗 독후감 공유</button></div>
     </div>`;
   const overlay=document.getElementById("overlay");
   overlay.classList.add("open");
@@ -469,9 +514,9 @@ async function sharePost(id,button){
 }
 
 function syncFromHash(){
-  const match=location.hash.match(/^#book-(\d+)$/);
+  const match=location.hash.match(/^#book-([a-f0-9]{32})$/);
   if(match){
-    const id=Number(match[1]);
+    const id=match[1];
     if(posts.some(p=>p.id===id))openPost(id,{updateHash:false});
   }else{
     closePost({updateHash:false});
@@ -520,10 +565,7 @@ const initialTheme=savedTheme==="light"||savedTheme==="dark"
   : (matchMedia("(prefers-color-scheme: light)").matches?"light":"dark");
 applyTheme(initialTheme);
 document.getElementById("copyrightYear").textContent=new Date().getFullYear();
-renderStats();
-renderChips();
-render();
-syncFromHash();
+loadPosts();
 </script>
 </body>
 </html>
