@@ -1,0 +1,39 @@
+name: Publish Quote Maker Expo Go Snack
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - 'quote-maker-app/App.tsx'
+      - 'quote-maker-app/scripts/publish-snack.mjs'
+      - 'quote-maker-app/package.json'
+
+jobs:
+  publish-snack:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: quote-maker-app/package-lock.json
+      - name: Install and publish Snack
+        working-directory: quote-maker-app
+        run: |
+          npm ci
+          npm run publish:expo-go
+      - name: Commit deploy metadata if changed
+        run: |
+          if git diff --quiet -- quote-maker-app/expo-go-deploy.json quote-maker/expo-go-deploy.json; then
+            echo "No deploy metadata changes"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add quote-maker-app/expo-go-deploy.json quote-maker/expo-go-deploy.json
+          git commit -m "chore(quote-maker): refresh Expo Go Snack deploy metadata"
+          git push

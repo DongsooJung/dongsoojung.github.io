@@ -3,6 +3,7 @@ import {
   ActivityIndicator,
   Alert,
   KeyboardAvoidingView,
+  Linking,
   Modal,
   Platform,
   Pressable,
@@ -470,11 +471,15 @@ export default function App() {
             <Text style={styles.price}>₩9,900 <Text style={styles.muted}>원타임</Text></Text>
             <Pressable
               style={styles.primaryBtn}
-              onPress={() => {
-                Alert.alert('결제', `브라우저에서 결제한 뒤 받은 키를 입력하세요.\n${PAY_URL}`);
+              onPress={async () => {
+                try {
+                  await Linking.openURL(PAY_URL);
+                } catch {
+                  Alert.alert('결제', `브라우저에서 열어 결제한 뒤 키를 입력하세요.\n${PAY_URL}`);
+                }
               }}
             >
-              <Text style={styles.primaryBtnText}>결제 안내</Text>
+              <Text style={styles.primaryBtnText}>결제 페이지 열기</Text>
             </Pressable>
             <Field label="라이선스 키" value={licenseKey} onChangeText={setLicenseKey} autoCapitalize="characters" />
             <Text style={[styles.muted, { marginBottom: 10 }]}>데모 키: {DEMO_KEY}</Text>

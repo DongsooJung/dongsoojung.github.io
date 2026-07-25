@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>하루 견적서 · Expo Go — Stargate</title>
+<meta name="description" content="하루 견적서를 Expo Go에서 바로 실행합니다. QR 스캔 또는 링크로 엽니다.">
+<meta name="theme-color" content="#0b1020">
+<link rel="canonical" href="https://stargateedu.co.kr/quote-maker/expo.html">
+<link rel="icon" href="/assets/icons/favicon.ico" sizes="48x48">
+<style>
+:root{
+  --bg:#0a0d14; --panel:#0f172a; --panel2:#111c33; --line:#1f2a44; --line2:#263452;
+  --ink:#e6edf3; --sub:#9aa7b8; --muted:#6b7a90; --acc:#7aa2ff; --warm:#ffb86b; --good:#63d6a0;
+  --grad:linear-gradient(135deg,#4f7fff 0%,#7aa2ff 55%,#b388ff 100%);
+  --font:"Pretendard","Apple SD Gothic Neo","Segoe UI",system-ui,-apple-system,sans-serif;
+}
+*{box-sizing:border-box} html,body{margin:0;padding:0}
+body{
+  font-family:var(--font); color:var(--ink); background:var(--bg); min-height:100vh; line-height:1.55;
+  background-image:
+    radial-gradient(900px 520px at 10% -10%, rgba(79,127,255,.2), transparent 58%),
+    radial-gradient(700px 420px at 100% 0%, rgba(255,184,107,.1), transparent 55%);
+}
+a{color:var(--acc); text-decoration:none} a:hover{text-decoration:underline}
+.wrap{max-width:720px; margin:0 auto; padding:24px 18px 80px}
+.nav{display:flex; justify-content:space-between; align-items:center; gap:12px; margin-bottom:28px}
+.brand{display:flex; align-items:center; gap:10px; font-weight:700; color:var(--ink)}
+.brand .logo{
+  width:34px; height:34px; border-radius:9px; background:var(--grad);
+  display:inline-flex; align-items:center; justify-content:center; color:#0b1020; font-weight:900;
+}
+.nav a{color:var(--sub); font-size:13px}
+h1{margin:0 0 10px; font-size:clamp(28px,5vw,40px); font-weight:700; letter-spacing:-.02em}
+.lead{margin:0 0 22px; color:var(--sub); font-size:15px}
+.card{
+  border:1px solid var(--line); border-radius:18px; background:linear-gradient(180deg,var(--panel2),var(--panel));
+  padding:22px; margin-bottom:14px;
+}
+.card h2{margin:0 0 8px; font-size:16px}
+.card p{margin:0; color:var(--sub); font-size:13.5px}
+.qr-wrap{
+  margin:18px auto 8px; width:min(240px,70vw); aspect-ratio:1; padding:12px; border-radius:16px;
+  background:#fff; display:grid; place-items:center;
+}
+.qr-wrap img{width:100%; height:100%; object-fit:contain; display:block}
+.steps{margin:14px 0 0; padding-left:18px; color:var(--sub); font-size:13.5px}
+.steps li{margin:6px 0}
+.actions{display:flex; flex-wrap:wrap; gap:10px; margin-top:16px}
+.btn{
+  display:inline-flex; align-items:center; justify-content:center; gap:8px;
+  min-height:44px; padding:0 16px; border-radius:12px; border:1px solid transparent;
+  font-size:14px; font-weight:700; cursor:pointer; color:inherit;
+}
+.btn.primary{background:var(--grad); color:#0b1020}
+.btn.warm{background:rgba(255,184,107,.12); color:var(--warm); border-color:rgba(255,184,107,.35)}
+.btn.ghost{background:rgba(15,23,42,.8); color:var(--ink); border-color:var(--line2)}
+.meta{margin-top:12px; font-size:12px; color:var(--muted); word-break:break-all}
+.pill{
+  display:inline-flex; align-items:center; gap:6px; padding:4px 10px; border-radius:999px;
+  font-size:11.5px; font-weight:700; border:1px solid rgba(99,214,160,.4); color:var(--good);
+  background:rgba(99,214,160,.08); margin-bottom:12px;
+}
+.status{font-size:12.5px; color:var(--muted); margin-top:10px}
+.status.ok{color:var(--good)} .status.err{color:#ff7a8a}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace; font-size:12px; color:var(--warm)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <nav class="nav">
+    <a class="brand" href="/quote-maker/"><span class="logo">S</span><span>하루 견적서</span></a>
+    <a href="/">포털</a>
+  </nav>
+
+  <div class="pill" id="statusPill">EXPO GO · 배포 확인 중</div>
+  <h1>Expo Go에서 하루 견적서 열기</h1>
+  <p class="lead">폰에 Expo Go만 있으면 QR을 찍거나 버튼을 눌러 바로 실행합니다. 설치·스토어 심사 없이 배포본을 확인하는 경로입니다.</p>
+
+  <section class="card">
+    <h2>1. QR 스캔</h2>
+    <p>Expo Go 앱의 스캔으로 아래 QR을 읽으세요.</p>
+    <div class="qr-wrap">
+      <img id="qr" alt="Expo Go QR 코드" width="216" height="216">
+    </div>
+    <p class="status" id="qrStatus">배포 정보를 불러오는 중…</p>
+  </section>
+
+  <section class="card">
+    <h2>2. 링크로 열기</h2>
+    <ol class="steps">
+      <li>휴대폰에 <strong>Expo Go</strong> 설치</li>
+      <li>아래 버튼을 눌러 Snack/딥링크 실행</li>
+      <li>데모 Pro 키: <code>HQ-DEMO-PRO-2026</code></li>
+    </ol>
+    <div class="actions">
+      <a class="btn primary" id="openSnack" href="https://snack.expo.dev/" target="_blank" rel="noopener">Snack에서 열기</a>
+      <a class="btn warm" id="openExpo" href="#" rel="noopener">Expo Go 딥링크</a>
+      <button type="button" class="btn ghost" id="copyBtn">링크 복사</button>
+      <a class="btn ghost" href="/quote-maker/">웹 버전</a>
+    </div>
+    <p class="meta" id="meta"></p>
+  </section>
+</div>
+<script>
+(async () => {
+  const pill = document.getElementById('statusPill');
+  const qr = document.getElementById('qr');
+  const qrStatus = document.getElementById('qrStatus');
+  const openSnack = document.getElementById('openSnack');
+  const openExpo = document.getElementById('openExpo');
+  const copyBtn = document.getElementById('copyBtn');
+  const meta = document.getElementById('meta');
+
+  const fallback = {
+    id: '6eA20WWBRIHB9WA1myi3K',
+    snackWeb: 'https://snack.expo.dev/6eA20WWBRIHB9WA1myi3K',
+    expUrl: 'exp://u.expo.dev/933fd9c0-1666-11e7-afca-d980795c5824?runtime-version=exposdk%3A54.0.0&channel-name=production&snack=6eA20WWBRIHB9WA1myi3K',
+    expoGoRedirect: '',
+    sdkVersion: '54.0.0',
+    savedAt: '',
+  };
+
+  let info = fallback;
+  try {
+    const res = await fetch('./expo-go-deploy.json', { cache: 'no-store' });
+    if (res.ok) info = { ...fallback, ...(await res.json()) };
+  } catch (_) {}
+
+  if (!info.expoGoRedirect) {
+    info.expoGoRedirect = 'https://exp.host/--/to-exp/' + encodeURIComponent(info.expUrl);
+  }
+
+  openSnack.href = info.snackWeb;
+  openExpo.href = info.expoGoRedirect;
+  qr.src = 'https://api.qrserver.com/v1/create-qr-code/?size=432x432&margin=8&data=' + encodeURIComponent(info.expUrl);
+  meta.textContent = `Snack ${info.id} · SDK ${info.sdkVersion}` + (info.savedAt ? ` · ${info.savedAt}` : '');
+
+  if (info.id && info.expUrl) {
+    pill.textContent = 'EXPO GO · 배포 확인됨';
+    qrStatus.textContent = 'QR 준비 완료 · Expo Go로 스캔하세요.';
+    qrStatus.className = 'status ok';
+  } else {
+    pill.textContent = 'EXPO GO · 링크 준비 중';
+    qrStatus.textContent = '배포 정보를 확인하지 못했습니다. Snack 링크로 시도하세요.';
+    qrStatus.className = 'status err';
+  }
+
+  copyBtn.addEventListener('click', async () => {
+    const text = info.snackWeb;
+    try {
+      await navigator.clipboard.writeText(text);
+      copyBtn.textContent = '복사됨';
+      setTimeout(() => { copyBtn.textContent = '링크 복사'; }, 1600);
+    } catch {
+      prompt('아래 링크를 복사하세요', text);
+    }
+  });
+})();
+</script>
+</body>
+</html>
