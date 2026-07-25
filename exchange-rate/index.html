@@ -3,10 +3,10 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>거시경제 대시보드 — 환율 · 금리 · 물가 · 반도체 · 원자재 | Stargate</title>
-<meta name="description" content="환율·금리·물가와 DRAM·유가·금·구리·천연가스의 연간 가격을 집계·분석하는 자동 갱신 대시보드.">
-<meta property="og:title" content="거시경제 대시보드 — 환율 · 금리 · 물가 · 반도체 · 원자재">
-<meta property="og:description" content="환율·금리·물가와 DRAM·유가·금·구리·천연가스를 한 화면에서 비교하는 인터랙티브 대시보드">
+<title>거시경제 대시보드 — 환율 · 금리 · 물가 · 한미 금리차 · 반도체 · 원자재 | Stargate</title>
+<meta name="description" content="환율·금리·물가, 지난 30년 한미 단기금리 차와 DRAM·유가·금·구리·천연가스의 연간 가격을 집계·분석하는 자동 갱신 대시보드.">
+<meta property="og:title" content="거시경제 대시보드 — 환율 · 금리 · 물가 · 한미 금리차 · 반도체 · 원자재">
+<meta property="og:description" content="환율·금리·물가, 30년 한미 금리차와 DRAM·유가·금·구리·천연가스를 한 화면에서 비교하는 인터랙티브 대시보드">
 <meta property="og:url" content="https://www.stargateedu.co.kr/exchange-rate/">
 <meta property="og:type" content="website">
 <link rel="canonical" href="https://www.stargateedu.co.kr/exchange-rate/">
@@ -132,7 +132,8 @@ footer{margin-top:56px;padding-top:20px;border-top:1px solid var(--line);color:v
       <a href="https://www.ecb.europa.eu/stats/policy_and_exchange_rates/euro_reference_exchange_rates/" target="_blank" rel="noopener">일일 기준환율</a>과 한국은행
       <a href="https://ecos.bok.or.kr/" target="_blank" rel="noopener">ECOS 경제통계</a>의
       기준금리·소비자물가를 집계·분석합니다. 원화 환율(USD·JPY·EUR·CNY)과
-      통화정책·물가와 DRAM·유가·금·구리·천연가스 연간 가격을 한 화면에서 보고, GitHub Actions가 영업일마다 자동 갱신합니다.</p>
+      통화정책·물가, 지난 30년 한·미 단기금리 차와 DRAM·유가·금·구리·천연가스 연간 가격을 한 화면에서 보고,
+      GitHub Actions가 영업일마다 자동 갱신합니다.</p>
     <div class="meta-line">
       <span class="pill">데이터 기준 <b id="metaUpdated">—</b></span>
       <span class="pill">커버리지 <b id="metaRange">—</b></span>
@@ -228,6 +229,12 @@ footer{margin-top:56px;padding-top:20px;border-top:1px solid var(--line);color:v
     </div>
 
     <div class="card full">
+      <h2>한·미 단기금리 차 · 30년</h2>
+      <div class="cap">월별 · 한국 콜머니·은행간 익일물 금리 − 미국 실효 연방기금금리 · 0선 위는 한국 금리가 높음 · 상단 기간 필터 연동</div>
+      <div class="chart-box"><canvas id="rateGapChart" role="img" aria-label="지난 30년간 한국 콜머니·은행간 익일물 금리와 미국 실효 연방기금금리, 한국에서 미국을 뺀 금리차의 월별 시계열 선 그래프"></canvas></div>
+    </div>
+
+    <div class="card full">
       <div class="thead-row">
         <div>
           <h2>월별 상세 데이터</h2>
@@ -254,6 +261,12 @@ footer{margin-top:56px;padding-top:20px;border-top:1px solid var(--line);color:v
     <b>금리 · 물가</b> — 한국은행 <a href="https://ecos.bok.or.kr/" target="_blank" rel="noopener">ECOS 경제통계시스템 API</a>에서
     <b>한국은행 기준금리</b>(통계표 722Y001)와 <b>소비자물가지수</b>(901Y009, 2020=100)를 월별로 수집하며,
     물가상승률은 소비자물가지수의 전년동월비(YoY)입니다. <code>BOK_API_KEY</code> 등록 시 근사 시드가 ECOS 정밀치로 대체됩니다.
+    <br><br>
+    <b>한·미 금리차</b> — 장기 비교가 가능한 동일 계열의 익일물 단기금리를 사용합니다.
+    한국은 OECD/FRED의 <a href="https://fred.stlouisfed.org/series/IRSTCI01KRM156N" target="_blank" rel="noopener">콜머니·은행간 익일물 금리</a>,
+    미국은 연준 H.15/FRED의 <a href="https://fred.stlouisfed.org/series/FEDFUNDS" target="_blank" rel="noopener">실효 연방기금금리</a>이며 모두 월평균입니다.
+    금리차는 <b>한국 − 미국</b>(%p)으로 계산합니다. 한국의 <a href="https://www.bok.or.kr/portal/singl/baseRate/list.do?menuNo=200656" target="_blank" rel="noopener">공식 기준금리 이력</a>은 1999년 5월부터이므로,
+    30년 비교 차트에는 정책금리와 가장 가까운 비교 가능한 익일물 금리를 사용합니다.
     설정 방법은 <a href="https://github.com/DongsooJung/dongsoojung.github.io/tree/main/exchange-rate" target="_blank" rel="noopener">README</a> 참고.
     <br><br>
     <b>DRAM · 유가</b> — DRAM은 Stanford DAM의 공개 Memory Prices CSV를 이용한 <b>최저 소비자 소매가격(USD/GB)</b> 연평균이며,
@@ -272,7 +285,8 @@ footer{margin-top:56px;padding-top:20px;border-top:1px solid var(--line);color:v
     <span>
       <a href="https://www.stargateedu.co.kr/">stargateedu.co.kr</a> ·
       <a href="https://www.ecb.europa.eu/stats/policy_and_exchange_rates/euro_reference_exchange_rates/" target="_blank" rel="noopener">ECB 기준환율</a> ·
-      <a href="https://ecos.bok.or.kr/" target="_blank" rel="noopener">한국은행 ECOS</a>
+      <a href="https://ecos.bok.or.kr/" target="_blank" rel="noopener">한국은행 ECOS</a> ·
+      <a href="https://fred.stlouisfed.org/" target="_blank" rel="noopener">FRED</a>
     </span>
   </footer>
 
@@ -282,6 +296,7 @@ footer{margin-top:56px;padding-top:20px;border-top:1px solid var(--line);color:v
 <script src="./fallback-data.js"></script>
 <script src="./bok-fallback.js"></script>
 <script src="./market-fallback.js"></script>
+<script src="./rate-gap-fallback.js"></script>
 <script>
 'use strict';
 
@@ -358,6 +373,7 @@ let CURS = [];                          // currencies 메타
 let BOK = null;                         // {meta, series:[{ym,baseRate,cpi,cpiYoY}]}
 let MACRO = {};                         // ym -> {baseRate,cpi,cpiYoY}
 let MARKET = null;                      // {series:[{year,dramUsdPerGb,brentUsdPerBbl}]}
+let RATE_GAP = null;                    // {series:[{ym,koreaRate,usRate,gap}]}
 let state = { range:'all', cur:'USD' };
 let charts = {};
 
@@ -377,6 +393,7 @@ async function loadJSON(path, fallbackVar){
 const loadData = () => loadJSON('./data.json', 'FALLBACK_DATA');
 const loadBok  = () => loadJSON('./bok_data.json', 'BOK_FALLBACK');
 const loadMarket = () => loadJSON('./market_data.json', 'MARKET_FALLBACK');
+const loadRateGap = () => loadJSON('./rate_gap.json', 'RATE_GAP_FALLBACK');
 
 const curMeta = code => CURS.find(c=>c.code===code) || {code, label:code, per:1, color:'#7aa2ff'};
 const rateOf = (r, code, f='avg') => (r.rates && r.rates[code]) ? r.rates[code][f] : null;
@@ -913,6 +930,76 @@ function downloadMarketCSV(){
   const a = document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='dram-brent-annual.csv'; a.click(); URL.revokeObjectURL(a.href);
 }
 
+/* ─── 한·미 익일물 단기금리 차 · 30년 ────────────────── */
+function filteredRateGap(){
+  const s = RATE_GAP ? RATE_GAP.series : [];
+  if (state.range === 'all') return s;
+  if (state.range === 'last12') return s.slice(-12);
+  return s.filter(r => r.ym.startsWith(state.range));
+}
+
+function rateGapTick(value, index){
+  const ym = this.getLabelForValue(value);
+  const count = this.getLabels().length;
+  if (count <= 24) return ymLabel(ym);
+  return index % 24 === 0 ? ym.slice(0, 4) : '';
+}
+
+function buildRateGap(){
+  const KOREA = '#e0a24e', US = '#5eb0e0', GAP = '#e6edf3';
+  charts.rateGap = new Chart(document.getElementById('rateGapChart'), {
+    type:'line',
+    data:{labels:[], datasets:[
+      {label:'한국 익일물 금리', $labelText:'한국', data:[], borderColor:KOREA, backgroundColor:KOREA, $labelColor:KOREA,
+       borderWidth:1.8, tension:.18, pointRadius:0, pointHoverRadius:4, pointHoverBackgroundColor:KOREA,
+       pointHoverBorderColor:SURFACE, pointHoverBorderWidth:2},
+      {label:'미국 실효 연방기금금리', $labelText:'미국', data:[], borderColor:US, backgroundColor:US, $labelColor:US,
+       borderWidth:1.8, borderDash:[6,4], tension:.18, pointRadius:0, pointHoverRadius:4,
+       pointHoverBackgroundColor:US, pointHoverBorderColor:SURFACE, pointHoverBorderWidth:2},
+      {label:'금리차 (한국−미국)', $labelText:'금리차', data:[], borderColor:GAP, backgroundColor:'rgba(230,237,243,.08)', $labelColor:GAP,
+       borderWidth:2.7, tension:.18, fill:{target:'origin', above:'rgba(224,162,78,.10)', below:'rgba(94,176,224,.10)'},
+       pointRadius:0, pointHoverRadius:5, pointHoverBackgroundColor:GAP, pointHoverBorderColor:SURFACE, pointHoverBorderWidth:2},
+    ]},
+    options:{
+      responsive:true, maintainAspectRatio:false,
+      layout:{padding:{right:48, top:6}},
+      interaction:{mode:'index', intersect:false},
+      scales:{
+        x:{grid:{display:false}, border:{color:BASELINE},
+           ticks:{color:MUTED, autoSkip:false, maxRotation:0, callback:rateGapTick, font:{size:11}}},
+        y:{border:{display:false},
+           grid:{color:c=>c.tick.value===0?BASELINE:GRID, lineWidth:c=>c.tick.value===0?1.4:1, drawTicks:false},
+           ticks:{color:MUTED, padding:8, callback:v=>v+'%', font:{size:11}},
+           title:{display:true, text:'금리 (%) · 금리차 (%p)', color:MUTED, font:{size:10.5}}},
+      },
+      plugins:{
+        legend:legendStyle,
+        tooltip:{...tooltipStyle, callbacks:{
+          title:items=>ymKorean(items[0].label),
+          label:it=>{
+            if (it.parsed.y==null) return '';
+            const unit = it.dataset.label.startsWith('금리차') ? '%p' : '%';
+            const sign = it.dataset.label.startsWith('금리차') && it.parsed.y>0 ? '+' : '';
+            return ` ${sign}${it.parsed.y.toLocaleString('ko-KR',{minimumFractionDigits:2,maximumFractionDigits:3})}${unit} · ${it.dataset.label}`;
+          },
+        }},
+      },
+    },
+    plugins:[crosshair, endLabels],
+  });
+  charts.rateGap.$endLabels = true;
+}
+
+function updateRateGap(){
+  if (!charts.rateGap) return;
+  const rows = filteredRateGap();
+  charts.rateGap.data.labels = rows.map(r=>r.ym);
+  charts.rateGap.data.datasets[0].data = rows.map(r=>r.koreaRate ?? null);
+  charts.rateGap.data.datasets[1].data = rows.map(r=>r.usRate ?? null);
+  charts.rateGap.data.datasets[2].data = rows.map(r=>r.gap ?? null);
+  charts.rateGap.update();
+}
+
 /* ─── 초기화 ───────────────────────────────────────── */
 function renderMeta(){
   const s = DATA.series;
@@ -945,7 +1032,7 @@ function renderCurButtons(){
     box.appendChild(b);
   });
 }
-function renderAll(){ renderKPIs(); updateCharts(); renderMacroKPIs(); updateMacro(); renderMarketKPIs(); updateMarket(); renderCommodityKPIs(); updateCommodity(); renderTable(); }
+function renderAll(){ renderKPIs(); updateCharts(); renderMacroKPIs(); updateMacro(); renderMarketKPIs(); updateMarket(); renderCommodityKPIs(); updateCommodity(); updateRateGap(); renderTable(); }
 
 async function refreshAllData(){
   const button=document.getElementById('refreshAllBtn'), status=document.getElementById('refreshStatus');
@@ -953,18 +1040,19 @@ async function refreshAllData(){
   status.textContent='최신 공개 데이터를 다시 불러오는 중입니다…';
   try{
     const stamp=Date.now();
-    const fresh=await Promise.all(['data.json','bok_data.json','market_data.json'].map(async file=>{
+    const fresh=await Promise.all(['data.json','bok_data.json','market_data.json','rate_gap.json'].map(async file=>{
       const response=await fetch(`./${file}?t=${stamp}`,{cache:'no-store'});
       if(!response.ok) throw new Error(`${file} ${response.status}`);
       return response.json();
     }));
-    [DATA,BOK,MARKET]=fresh;
+    [DATA,BOK,MARKET,RATE_GAP]=fresh;
     CURS=DATA.currencies||CURS; MACRO={}; (BOK&&BOK.series||[]).forEach(r=>{MACRO[r.ym]=r;});
     renderMeta(); renderTitles(); renderAll();
     const bokLast=BOK&&BOK.series&&BOK.series.length?BOK.series[BOK.series.length-1].ym:'—';
     const marketObserved=MARKET&&MARKET.sources&&MARKET.sources.commodities?MARKET.sources.commodities.observedAt:'—';
     const checked=new Intl.DateTimeFormat('ko-KR',{dateStyle:'medium',timeStyle:'short',timeZone:'Asia/Seoul'}).format(new Date());
-    status.textContent=`${checked} 재조회 완료 · 환율 ${DATA.observedAt||DATA.updatedAt||'—'} · 금리/물가 ${bokLast} · 원자재 ${marketObserved}`;
+    const rateGapLast=RATE_GAP&&RATE_GAP.series&&RATE_GAP.series.length?RATE_GAP.series[RATE_GAP.series.length-1].ym:'—';
+    status.textContent=`${checked} 재조회 완료 · 환율 ${DATA.observedAt||DATA.updatedAt||'—'} · 금리/물가 ${bokLast} · 한미 금리차 ${rateGapLast} · 원자재 ${marketObserved}`;
     status.className='refresh-status ok';
   }catch(error){
     console.error(error); status.textContent='새로고침에 실패했습니다. 잠시 후 다시 시도해 주세요.'; status.className='refresh-status error';
@@ -972,13 +1060,13 @@ async function refreshAllData(){
 }
 
 (async function init(){
-  const [ex, bok, market] = await Promise.all([loadData(), loadBok(), loadMarket()]);
-  DATA = ex; BOK = bok; MARKET = market;
+  const [ex, bok, market, rateGap] = await Promise.all([loadData(), loadBok(), loadMarket(), loadRateGap()]);
+  DATA = ex; BOK = bok; MARKET = market; RATE_GAP = rateGap;
   CURS = DATA.currencies || [];
   MACRO = {}; (BOK && BOK.series || []).forEach(r=>{ MACRO[r.ym] = r; });
   if (CURS.length && !CURS.find(c=>c.code===state.cur)) state.cur = CURS[0].code;
   renderMeta(); renderCurButtons(); renderHead(); renderTitles();
-  buildMain(); buildIdx(); buildMom(); buildMacro(); buildMarket(); buildCommodity();
+  buildMain(); buildIdx(); buildMom(); buildMacro(); buildMarket(); buildCommodity(); buildRateGap();
   renderAll();
   document.querySelectorAll('.controls .fbtn[data-range]').forEach(btn=>{
     btn.addEventListener('click', ()=>{

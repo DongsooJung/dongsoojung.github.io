@@ -42,10 +42,15 @@ jobs:
           python3 -m pip install --disable-pip-version-check --quiet openpyxl
           python3 exchange-rate/fetch_markets.py
 
+      - name: Fetch Korea-US overnight rate gap (FRED)
+        if: always()
+        continue-on-error: true
+        run: python3 exchange-rate/fetch_rate_gap.py
+
       - name: Commit updated data
         if: always()
         run: |
-          FILES="exchange-rate/data.json exchange-rate/fallback-data.js exchange-rate/bok_data.json exchange-rate/bok-fallback.js exchange-rate/market_data.json exchange-rate/market-fallback.js"
+          FILES="exchange-rate/data.json exchange-rate/fallback-data.js exchange-rate/bok_data.json exchange-rate/bok-fallback.js exchange-rate/market_data.json exchange-rate/market-fallback.js exchange-rate/rate_gap.json exchange-rate/rate-gap-fallback.js"
           if git diff --quiet $FILES; then
             echo "변경 없음 — 커밋 생략"
             exit 0
