@@ -1,0 +1,288 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>고객 문자 발송 | STARGATE Research</title>
+  <meta name="description" content="SOLAPI를 통해 최대 10명의 고객에게 개인화 문자를 안전하게 발송하는 STARGATE 연구 운영 도구.">
+  <meta name="theme-color" content="#080c14">
+  <meta name="robots" content="noindex,nofollow">
+  <link rel="canonical" href="https://stargateedu.co.kr/sms/">
+  <link rel="stylesheet" href="/assets/intelligence-hub.css?v=20260725">
+  <style>
+    body.sms{--accent:#68e3b4;--accent2:#2ba876;--accent-soft:rgba(43,168,118,.13)}
+    .sms-shell{padding:58px 0 72px}
+    .sms-head{display:flex;justify-content:space-between;align-items:end;gap:28px;margin-bottom:26px}
+    .sms-head h1{font-size:clamp(36px,5vw,58px);margin:12px 0 12px;letter-spacing:-2px}
+    .sms-head p{max-width:660px;color:var(--sub);font-size:14px;margin:0}
+    .status-badge{display:inline-flex;align-items:center;gap:8px;white-space:nowrap;padding:10px 13px;border:1px solid var(--line2);border-radius:999px;background:var(--panel);color:var(--sub);font-size:11px;font-weight:800}
+    .status-badge::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--good);box-shadow:0 0 0 5px rgba(99,214,160,.1)}
+    .workspace{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(320px,.65fr);gap:18px;align-items:start}
+    .panel{border:1px solid var(--line);border-radius:20px;background:linear-gradient(180deg,var(--panel2),var(--panel));box-shadow:var(--shadow)}
+    .panel-head{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:20px 22px;border-bottom:1px solid var(--line)}
+    .panel-head h2{font-size:16px;margin:0}
+    .panel-head span{color:var(--muted);font-size:10px}
+    .panel-body{padding:22px}
+    .field{display:grid;gap:8px;margin-bottom:18px}
+    .field label,.field-label{color:var(--sub);font-size:11px;font-weight:800}
+    input,textarea{width:100%;border:1px solid var(--line2);border-radius:12px;background:#0b1220;color:var(--ink);padding:11px 12px;outline:none;font:inherit;transition:.18s border-color,.18s box-shadow}
+    input:focus,textarea:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+    textarea{resize:vertical;min-height:122px;line-height:1.65}
+    .hint{display:flex;justify-content:space-between;gap:12px;color:var(--muted);font-size:10px}
+    .hint strong{color:var(--accent)}
+    .bulk{display:grid;grid-template-columns:1fr auto;gap:9px;align-items:end;margin-bottom:18px}
+    .bulk textarea{min-height:76px}
+    .mini-btn{border:1px solid var(--line2);border-radius:11px;background:var(--panel2);color:var(--ink);padding:11px 13px;font-size:11px;font-weight:850;cursor:pointer}
+    .mini-btn:hover,.mini-btn:focus-visible{border-color:var(--accent);outline:none}
+    .table-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:14px}
+    .recipient-table{width:100%;border-collapse:collapse;min-width:560px;background:#0b1220}
+    .recipient-table th,.recipient-table td{padding:8px;border-bottom:1px solid var(--line);text-align:left}
+    .recipient-table tr:last-child td{border-bottom:0}
+    .recipient-table th{color:var(--muted);font-size:9px;text-transform:uppercase;letter-spacing:.6px;background:#0d1628}
+    .recipient-table th:first-child,.recipient-table td:first-child{width:40px;text-align:center;color:var(--muted);font-size:10px}
+    .recipient-table input{padding:9px 10px;border-radius:9px;font-size:12px}
+    .recipient-table tr.ready td:first-child{color:var(--accent);font-weight:900}
+    .side{display:grid;gap:18px;position:sticky;top:18px}
+    .preview-list{display:grid;gap:8px;max-height:270px;overflow:auto}
+    .preview{padding:12px;border:1px solid var(--line);border-radius:12px;background:#0b1220}
+    .preview strong{display:flex;justify-content:space-between;gap:10px;font-size:11px}
+    .preview strong span{color:var(--muted);font-weight:600}
+    .preview p{color:var(--sub);font-size:10.5px;line-height:1.55;margin:7px 0 0;white-space:pre-wrap}
+    .preview-empty{padding:24px 12px;text-align:center;color:var(--muted);font-size:11px;border:1px dashed var(--line2);border-radius:12px}
+    .consent{display:flex;align-items:flex-start;gap:9px;margin:2px 0 16px;color:var(--sub);font-size:11px}
+    .consent input{width:16px;height:16px;margin:2px 0 0;accent-color:var(--accent)}
+    .confirm-row{display:grid;grid-template-columns:1fr auto;gap:9px}
+    .send-btn{border:0;border-radius:12px;padding:12px 16px;background:linear-gradient(135deg,var(--accent2),var(--accent));color:#06150f;font-weight:900;cursor:pointer;min-width:132px}
+    .send-btn:hover{transform:translateY(-1px)}
+    .send-btn:disabled{opacity:.45;cursor:not-allowed;transform:none}
+    .notice{margin-top:14px;padding:12px;border:1px solid var(--line);border-radius:12px;color:var(--muted);font-size:10px;line-height:1.6;background:rgba(8,12,20,.45)}
+    .result{display:none;margin-top:14px;padding:14px;border-radius:13px;border:1px solid var(--line2);font-size:11px;line-height:1.6}
+    .result.show{display:block}.result.success{border-color:var(--good);background:rgba(99,214,160,.08);color:#bff4db}.result.error{border-color:#ff7d8f;background:rgba(255,125,143,.08);color:#ffc4cc}
+    @media(max-width:900px){.workspace{grid-template-columns:1fr}.side{position:static}.sms-head{align-items:flex-start;flex-direction:column}}
+    @media(max-width:560px){.sms-shell{padding-top:38px}.panel-body{padding:16px}.panel-head{padding:17px}.bulk,.confirm-row{grid-template-columns:1fr}.mini-btn,.send-btn{width:100%}.sms-head h1{font-size:38px}.status-badge{white-space:normal}}
+  </style>
+</head>
+<body class="research sms">
+  <div class="wrap">
+    <nav class="nav" aria-label="주요 메뉴">
+      <a class="brand" href="/"><span class="logo">D</span><span>DONGSOO.<span style="color:var(--accent)">PORTAL</span><small>OPERATIONS</small></span></a>
+      <div class="nav-links">
+        <a href="/research/">연구 대시보드</a>
+        <a href="/sms/" aria-current="page">문자 발송</a>
+        <a href="/#projects">전체 프로젝트</a>
+      </div>
+      <a class="back" href="/research/">← 연구</a>
+    </nav>
+
+    <main class="sms-shell">
+      <header class="sms-head">
+        <div>
+          <div class="eyebrow">SOLAPI Messaging Console</div>
+          <h1>고객 10명에게<br>정확하게, 한 번에.</h1>
+          <p>고객별 이름을 반영한 문자를 미리 확인한 뒤 SOLAPI로 발송합니다. API 키와 발신번호는 서버에만 보관되며 이 화면에는 노출되지 않습니다.</p>
+        </div>
+        <div class="status-badge">최대 10명 · 중복 번호 자동 차단</div>
+      </header>
+
+      <form id="sms-form" class="workspace" novalidate>
+        <section class="panel" aria-labelledby="compose-title">
+          <div class="panel-head"><h2 id="compose-title">수신자와 메시지</h2><span id="recipient-count">0 / 10명 입력</span></div>
+          <div class="panel-body">
+            <div class="field">
+              <label for="message">메시지 내용</label>
+              <textarea id="message" maxlength="1000" required placeholder="{이름}님, 안녕하세요. 요청하신 연구 자료를 확인해 주세요.">안녕하세요, {이름}님. 요청하신 자료가 준비되었습니다. 감사합니다.</textarea>
+              <div class="hint"><span><strong>{이름}</strong>은 고객명으로 자동 치환됩니다.</span><span id="message-length">0자</span></div>
+            </div>
+
+            <span class="field-label">이름·휴대폰 번호 일괄 붙여넣기</span>
+            <div class="bulk">
+              <textarea id="bulk-input" aria-label="고객 일괄 입력" placeholder="홍길동, 010-1234-5678&#10;김연구, 010-9876-5432"></textarea>
+              <button class="mini-btn" id="bulk-apply" type="button">목록에 반영</button>
+            </div>
+
+            <div class="table-wrap">
+              <table class="recipient-table">
+                <thead><tr><th scope="col">#</th><th scope="col">고객명</th><th scope="col">휴대폰 번호</th></tr></thead>
+                <tbody id="recipient-rows"></tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <aside class="side">
+          <section class="panel" aria-labelledby="preview-title">
+            <div class="panel-head"><h2 id="preview-title">발송 미리보기</h2><span>개인화 결과</span></div>
+            <div class="panel-body"><div class="preview-list" id="preview-list"></div></div>
+          </section>
+
+          <section class="panel" aria-labelledby="send-title">
+            <div class="panel-head"><h2 id="send-title">최종 확인</h2><span>실제 문자 발송</span></div>
+            <div class="panel-body">
+              <div class="field">
+                <label for="admin-token">관리자 인증값</label>
+                <input id="admin-token" type="password" autocomplete="current-password" required placeholder="배포 환경에 등록한 인증값">
+              </div>
+              <label class="consent"><input id="consent" type="checkbox" required><span>입력한 모든 고객에게 문자 수신 동의를 받았고, 발송 내용을 확인했습니다.</span></label>
+              <div class="confirm-row">
+                <input id="confirmation" autocomplete="off" required placeholder="‘발송’ 입력">
+                <button class="send-btn" id="send-button" type="submit" disabled>문자 발송</button>
+              </div>
+              <div class="notice">버튼을 누르면 실제 비용이 발생하며 수신번호와 내용은 SOLAPI 발송 내역에 기록됩니다. 90바이트를 넘는 내용은 장문 문자(LMS)로 자동 분류될 수 있습니다.</div>
+              <div class="result" id="result" role="status" aria-live="polite"></div>
+            </div>
+          </section>
+        </aside>
+      </form>
+    </main>
+
+    <footer><span>© 2026 Dongsoo Jung · Stargate Corporation</span><span><a href="/research/">Research Observatory</a> · <a href="/">Portal</a></span></footer>
+  </div>
+
+  <script>
+    (() => {
+      const MAX = 10;
+      const form = document.getElementById('sms-form');
+      const rows = document.getElementById('recipient-rows');
+      const message = document.getElementById('message');
+      const count = document.getElementById('recipient-count');
+      const length = document.getElementById('message-length');
+      const previewList = document.getElementById('preview-list');
+      const bulkInput = document.getElementById('bulk-input');
+      const bulkApply = document.getElementById('bulk-apply');
+      const adminToken = document.getElementById('admin-token');
+      const consent = document.getElementById('consent');
+      const confirmation = document.getElementById('confirmation');
+      const sendButton = document.getElementById('send-button');
+      const result = document.getElementById('result');
+
+      rows.innerHTML = Array.from({ length: MAX }, (_, index) => `
+        <tr>
+          <td>${index + 1}</td>
+          <td><input data-name aria-label="${index + 1}번째 고객명" maxlength="40" placeholder="고객명"></td>
+          <td><input data-phone aria-label="${index + 1}번째 휴대폰 번호" inputmode="tel" maxlength="13" placeholder="010-0000-0000"></td>
+        </tr>
+      `).join('');
+
+      const nameInputs = [...rows.querySelectorAll('[data-name]')];
+      const phoneInputs = [...rows.querySelectorAll('[data-phone]')];
+
+      function recipients() {
+        return nameInputs.map((input, index) => ({
+          name: input.value.trim(),
+          phone: phoneInputs[index].value.trim()
+        })).filter((item) => item.name || item.phone);
+      }
+
+      function formatPhone(value) {
+        const digits = value.replace(/\D/g, '').slice(0, 11);
+        if (digits.length <= 3) return digits;
+        if (digits.length <= 7) return `${digits.slice(0, 3)}-${digits.slice(3)}`;
+        return `${digits.slice(0, 3)}-${digits.slice(3, digits.length - 4)}-${digits.slice(-4)}`;
+      }
+
+      function render() {
+        const current = recipients();
+        const allComplete = current.every((item) => item.name && item.phone.replace(/\D/g, '').length >= 10);
+        const template = message.value;
+        count.textContent = `${current.length} / ${MAX}명 입력`;
+        length.textContent = `${[...template].length}자`;
+        [...rows.querySelectorAll('tr')].forEach((row, index) => {
+          row.classList.toggle('ready', Boolean(nameInputs[index].value.trim() && phoneInputs[index].value.trim()));
+        });
+
+        previewList.innerHTML = current.length
+          ? current.map((item) => `
+              <article class="preview">
+                <strong>${escapeHtml(item.name || '이름 미입력')}<span>${escapeHtml(formatPhone(item.phone))}</span></strong>
+                <p>${escapeHtml(template.replaceAll('{이름}', item.name || '고객'))}</p>
+              </article>
+            `).join('')
+          : '<div class="preview-empty">왼쪽에 고객 정보를 입력하면<br>개인화된 문자를 미리 볼 수 있습니다.</div>';
+
+        sendButton.disabled = !(
+          current.length > 0 &&
+          current.length <= MAX &&
+          allComplete &&
+          message.value.trim() &&
+          adminToken.value &&
+          consent.checked &&
+          confirmation.value.trim() === '발송'
+        );
+      }
+
+      function escapeHtml(value) {
+        const node = document.createElement('div');
+        node.textContent = String(value || '');
+        return node.innerHTML;
+      }
+
+      phoneInputs.forEach((input) => {
+        input.addEventListener('input', () => {
+          input.value = formatPhone(input.value);
+          render();
+        });
+      });
+      [...nameInputs, message, adminToken, confirmation].forEach((input) => input.addEventListener('input', render));
+      consent.addEventListener('change', render);
+
+      bulkApply.addEventListener('click', () => {
+        const parsed = bulkInput.value.split(/\r?\n/).map((line) => {
+          const parts = line.split(/[,\t]/).map((part) => part.trim());
+          return { name: parts[0] || '', phone: parts[1] || '' };
+        }).filter((item) => item.name || item.phone).slice(0, MAX);
+
+        parsed.forEach((item, index) => {
+          nameInputs[index].value = item.name;
+          phoneInputs[index].value = formatPhone(item.phone);
+        });
+        for (let index = parsed.length; index < MAX; index += 1) {
+          nameInputs[index].value = '';
+          phoneInputs[index].value = '';
+        }
+        render();
+        nameInputs[0].focus();
+      });
+
+      form.addEventListener('submit', async (event) => {
+        event.preventDefault();
+        const current = recipients();
+        if (!window.confirm(`${current.length}명에게 실제 문자를 발송할까요?`)) return;
+
+        sendButton.disabled = true;
+        sendButton.textContent = '접수 중…';
+        result.className = 'result';
+        result.textContent = '';
+
+        try {
+          const response = await fetch('/api/sms', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'X-Admin-Token': adminToken.value
+            },
+            body: JSON.stringify({
+              recipients: current,
+              message: message.value,
+              confirmation: confirmation.value
+            })
+          });
+          const data = await response.json().catch(() => ({}));
+          if (!response.ok || !data.ok) throw new Error(data.message || '문자 발송 요청에 실패했습니다.');
+
+          result.className = 'result success show';
+          result.textContent = `${data.message} 통신사 최종 전송 결과는 SOLAPI 발송 내역에서 확인해 주세요.`;
+          confirmation.value = '';
+        } catch (error) {
+          result.className = 'result error show';
+          result.textContent = error.message || '문자 발송 요청에 실패했습니다.';
+        } finally {
+          sendButton.textContent = '문자 발송';
+          render();
+        }
+      });
+
+      render();
+    })();
+  </script>
+</body>
+</html>

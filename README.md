@@ -22,6 +22,17 @@
 Start-Process "index.html"
 ```
 
+## SOLAPI 고객 문자 발송
+
+- 화면: `/sms/`
+- 서버 함수: `/api/sms`
+- 발송 제한: 요청당 최대 10명, 중복 휴대폰 번호 차단
+- 환경 변수: `.env.example` 참고
+
+배포 환경에 `SOLAPI_API_KEY`, `SOLAPI_API_SECRET`, 사전 등록한
+`SOLAPI_SENDER_NUMBER`, 임의의 긴 `SMS_ADMIN_TOKEN`을 등록해야 실제 발송할 수
+있습니다. API 키와 Secret은 브라우저 코드에 넣지 않습니다.
+
 ## 배포
 
 main 브랜치 루트 그대로 GitHub Pages 에서 서빙. 푸시 후 1~2분 내 반영.
