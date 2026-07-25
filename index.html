@@ -238,6 +238,7 @@ footer{margin-top:72px;padding-top:22px;border-top:1px solid var(--line);color:v
     <a class="chip" style="border-color:#63d6a0;color:#b8e7d0;background:rgba(99,214,160,.08);font-family:'JetBrains Mono',monospace" href="https://git.stargateedu.co.kr/" target="_blank" rel="noopener">⚙ GitHub</a>
     <a class="chip" style="border-color:#c4a265;color:#e7cf9a;background:rgba(196,162,101,.08);font-family:'JetBrains Mono',monospace" href="https://blog.stargateedu.co.kr/" target="_blank" rel="noopener">✍ Blog</a>
     <a class="chip" style="border-color:#ffb86b;color:#ffd9a8;background:rgba(255,184,107,.08);font-family:'JetBrains Mono',monospace" href="https://shop.stargateedu.co.kr/" target="_blank" rel="noopener">🛒 Shop</a>
+    <a id="visitor-summary-link" class="chip" style="border-color:#7aa2ff;color:#dbe6ff;background:rgba(79,127,255,.14);font-family:'JetBrains Mono',monospace;font-weight:800" href="/admin/visitors/" rel="nofollow" aria-label="방문자 통계 대시보드">📈 오늘 <strong id="visitor-today-count" style="color:#fff">-</strong> · 누적 <strong id="visitor-total-count" style="color:#fff">-</strong></a>
   </div>
 
   <section class="hero">
@@ -309,7 +310,7 @@ footer{margin-top:72px;padding-top:22px;border-top:1px solid var(--line);color:v
     <div class="desc">공개 가능한 산출물 모음. 클릭하면 각 프로젝트 페이지로 이동합니다.</div>
     <div class="project-toggle-row">
       <button class="project-toggle" id="project-visibility-toggle" type="button" aria-expanded="false" aria-controls="projects-grid">
-        <span aria-hidden="true">▾</span><span>서울 실시간 도시데이터 이후 대시보드 보기</span>
+        <span aria-hidden="true">▾</span><span>숨긴 프로젝트 보기</span>
       </button>
     </div>
     <div class="grid" id="projects-grid">
@@ -344,26 +345,6 @@ footer{margin-top:72px;padding-top:22px;border-top:1px solid var(--line);color:v
           <div class="ttl">Stargate Edu Shop · 온라인 스쿨 스토어</div>
           <div class="sub">KOI·KMO 정보/수학 올림피아드 강의·교재·모의고사·1:1 코칭 스토어. shop.stargateedu.co.kr 신규 오픈.</div>
           <div class="row"><span class="tag">Store · shop.stargateedu.co.kr</span><span class="go">쇼핑하기 →</span></div>
-        </div>
-      </a>
-
-      <a class="proj" href="/quote-maker/">
-        <div class="badge">NEW · EXPO GO</div>
-        <div class="thumb" style="background:radial-gradient(340px 180px at 18% 20%,rgba(255,184,107,.45),transparent 58%),radial-gradient(260px 150px at 84% 80%,rgba(79,127,255,.4),transparent 60%),linear-gradient(135deg,#12181f,#1a2438)"><span class="emo">🧾</span></div>
-        <div class="body">
-          <div class="ttl">하루 견적서 · Quote Maker</div>
-          <div class="sub">웹 PDF 견적서 + Expo Go 앱. 무료 하루 3회, Pro로 워터마크·로고·무제한. 폰에서는 Snack 링크로 바로 실행.</div>
-          <div class="row"><span class="tag">Web · Expo Go · Freemium</span><span class="go">열기 →</span></div>
-        </div>
-      </a>
-
-      <a class="proj" href="https://damooaai-6vqmrysf.manus.space/" target="_blank" rel="noopener">
-        <div class="badge">AI OPS · NEW</div>
-        <div class="thumb" style="background:radial-gradient(340px 180px at 20% 20%,rgba(169,139,255,.5),transparent 60%),radial-gradient(260px 150px at 82% 82%,rgba(77,166,255,.38),transparent 60%),linear-gradient(135deg,#10152a,#1d2447)"><span class="emo">🧠</span></div>
-        <div class="body">
-          <div class="ttl">다모아 AI · AI 툴 대시보드</div>
-          <div class="sub">흩어진 AI 도구의 활용 현황, 월 구독 비용, 절감 후보와 결제 일정을 한 화면에서 관리합니다.</div>
-          <div class="row"><span class="tag">Manus · AI Tool Operations</span><span class="go">열기 ↗</span></div>
         </div>
       </a>
 
@@ -429,7 +410,27 @@ footer{margin-top:72px;padding-top:22px;border-top:1px solid var(--line);color:v
         </div>
       </article>
 
-<a class="proj" href="https://www.stargateedu.co.kr/ds-research-urban-analytics/">
+      <a class="proj" href="/quote-maker/">
+        <div class="badge">NEW · EXPO GO</div>
+        <div class="thumb" style="background:radial-gradient(340px 180px at 18% 20%,rgba(255,184,107,.45),transparent 58%),radial-gradient(260px 150px at 84% 80%,rgba(79,127,255,.4),transparent 60%),linear-gradient(135deg,#12181f,#1a2438)"><span class="emo">🧾</span></div>
+        <div class="body">
+          <div class="ttl">하루 견적서 · Quote Maker</div>
+          <div class="sub">웹 PDF 견적서 + Expo Go 앱. 무료 하루 3회, Pro로 워터마크·로고·무제한. 폰에서는 Snack 링크로 바로 실행.</div>
+          <div class="row"><span class="tag">Web · Expo Go · Freemium</span><span class="go">열기 →</span></div>
+        </div>
+      </a>
+
+      <a class="proj" href="https://damooaai-6vqmrysf.manus.space/" target="_blank" rel="noopener">
+        <div class="badge">AI OPS · NEW</div>
+        <div class="thumb" style="background:radial-gradient(340px 180px at 20% 20%,rgba(169,139,255,.5),transparent 60%),radial-gradient(260px 150px at 82% 82%,rgba(77,166,255,.38),transparent 60%),linear-gradient(135deg,#10152a,#1d2447)"><span class="emo">🧠</span></div>
+        <div class="body">
+          <div class="ttl">다모아 AI · AI 툴 대시보드</div>
+          <div class="sub">흩어진 AI 도구의 활용 현황, 월 구독 비용, 절감 후보와 결제 일정을 한 화면에서 관리합니다.</div>
+          <div class="row"><span class="tag">Manus · AI Tool Operations</span><span class="go">열기 ↗</span></div>
+        </div>
+      </a>
+
+      <a class="proj" href="https://www.stargateedu.co.kr/ds-research-urban-analytics/">
         <div class="badge">LIVE</div>
         <div class="thumb" style="background:linear-gradient(135deg,#0a0e27,#1baf7a)"><span class="emo">🏙️</span></div>
         <div class="body">
@@ -645,7 +646,7 @@ footer{margin-top:72px;padding-top:22px;border-top:1px solid var(--line);color:v
 
   const cards = [...grid.querySelectorAll(':scope > .proj')];
   const firstHiddenIndex = cards.findIndex((card) =>
-    card.querySelector('.ttl')?.textContent.includes('서울 실시간 도시데이터 대시보드')
+    card.querySelector('.ttl')?.textContent.includes('하루 견적서 · Quote Maker')
   );
   if (firstHiddenIndex < 0) {
     toggle.hidden = true;
@@ -660,8 +661,8 @@ footer{margin-top:72px;padding-top:22px;border-top:1px solid var(--line);color:v
     targetCards.forEach((card) => card.classList.toggle('is-project-hidden', !expanded));
     toggle.setAttribute('aria-expanded', String(expanded));
     label.textContent = expanded
-      ? '서울 실시간 도시데이터부터 뒤 대시보드 숨기기'
-      : '숨긴 대시보드 다시 보기';
+      ? '숨긴 프로젝트 다시 접기'
+      : '숨긴 프로젝트 보기';
     icon.textContent = expanded ? '▴' : '▾';
   }
 
@@ -675,5 +676,6 @@ if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => navigator.serviceWorker.register('/sw.js'));
 }
 </script>
+<script src="/assets/visitor-counter.js?v=20260725" defer></script>
 </body>
 </html>
