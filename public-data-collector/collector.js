@@ -363,19 +363,24 @@
         const storagePath = `${stamp.isoDate}/${api.id}/${fileName}`;
         let publicUrl = null;
 
+        let saveWarning = '';
         if (saveToSupabase) {
-          publicUrl = await uploadCsv(storagePath, csv);
-          await insertLog({
-            api_id: api.id,
-            api_name: api.name,
-            row_count: items.length,
-            file_name: fileName,
-            storage_path: storagePath,
-            public_url: publicUrl,
-            params,
-            status: 'ok',
-            collected_at: new Date().toISOString(),
-          });
+          try {
+            publicUrl = await uploadCsv(storagePath, csv);
+            await insertLog({
+              api_id: api.id,
+              api_name: api.name,
+              row_count: items.length,
+              file_name: fileName,
+              storage_path: storagePath,
+              public_url: publicUrl,
+              params,
+              status: 'ok',
+              collected_at: new Date().toISOString(),
+            });
+          } catch (saveError) {
+            saveWarning = saveError instanceof Error ? saveError.message : String(saveError);
+          }
         }
 
         results.push({
@@ -385,8 +390,9 @@
           rowCount: items.length,
           params,
           fileName,
-          storagePath: saveToSupabase ? storagePath : null,
+          storagePath: publicUrl ? storagePath : null,
           publicUrl,
+          saveWarning,
           preview: items.slice(0, previewLimit),
           csv,
         });

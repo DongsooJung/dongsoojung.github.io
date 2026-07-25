@@ -400,6 +400,7 @@
             <p class="meta">
               파일: ${item.fileName || '-'}
               ${item.publicUrl ? `<br>Storage: ${item.storagePath}` : '<br>로컬 CSV만 생성되었습니다.'}
+              ${item.saveWarning ? `<br>Supabase 저장 경고: ${item.saveWarning}` : ''}
             </p>
             <div class="actions">
               ${item.csv ? `<button class="link-btn" type="button" data-download="${index}">CSV 다운로드</button>` : ''}
