@@ -31,7 +31,13 @@ create policy "public can read public data collection logs"
   for select to anon, authenticated
   using (true);
 
--- INSERT는 배포 서버의 service_role 키만 수행합니다.
+-- GitHub Pages(정적 페이지)에서 버튼 수집이 가능하도록 anon INSERT 허용
+drop policy if exists "anon can insert public data collection logs"
+  on public.public_data_collection_logs;
+create policy "anon can insert public data collection logs"
+  on public.public_data_collection_logs
+  for insert to anon, authenticated
+  with check (true);
 
 insert into storage.buckets (id, name, public, file_size_limit, allowed_mime_types)
 values (
@@ -53,4 +59,17 @@ create policy "public can read public-data-csv"
   for select to anon, authenticated
   using (bucket_id = 'public-data-csv');
 
--- Storage 업로드는 service_role로만 수행합니다.
+drop policy if exists "anon can upload public-data-csv"
+  on storage.objects;
+create policy "anon can upload public-data-csv"
+  on storage.objects
+  for insert to anon, authenticated
+  with check (bucket_id = 'public-data-csv');
+
+drop policy if exists "anon can update public-data-csv"
+  on storage.objects;
+create policy "anon can update public-data-csv"
+  on storage.objects
+  for update to anon, authenticated
+  using (bucket_id = 'public-data-csv')
+  with check (bucket_id = 'public-data-csv');

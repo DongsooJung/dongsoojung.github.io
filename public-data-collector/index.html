@@ -262,6 +262,9 @@
             <div class="api-list" id="api-list"></div>
           </div>
           <div class="side-controls">
+            <label class="field">공공데이터포털 인증키
+              <input id="api-key" type="password" autocomplete="off" placeholder="인코딩/디코딩 키 모두 가능" style="min-height:46px;border:1px solid var(--line);border-radius:14px;padding:0 12px;background:var(--white);color:var(--ink)">
+            </label>
             <label class="field">주기 반복
               <select id="interval">
                 <option value="0">수동 (버튼만)</option>
@@ -297,19 +300,14 @@
     </section>
 
     <footer>
-      STARGATE · 공공데이터포털 API 수집기는 serviceKey 이중 인코딩을 피하도록 URL을 직접 구성합니다.
-      배포 환경에는 <code>DATA_GO_KR_API_KEY</code>, <code>SUPABASE_SERVICE_KEY</code>가 필요합니다.
+      STARGATE · 브라우저에서 data.go.kr를 직접 호출하고 Supabase Storage에 CSV를 올립니다.
+      인증키는 이 브라우저 localStorage에만 저장됩니다. 주기 배치용 GitHub Actions도 함께 제공합니다.
     </footer>
   </div>
 
+  <script src="./collector.js"></script>
   <script>
-    const API_ENDPOINT = '/api/public-data-collector';
-    const FALLBACK_APIS = [
-      { id:'apt_trade', name:'부동산_실거래가', description:'국토부 아파트 매매 실거래가 (기본: 강남구·전월)' },
-      { id:'store_dong', name:'서울_상권정보', description:'소상공인 상가업소 행정동 목록 (기본: 역삼1동)' },
-      { id:'store_upjong', name:'소상공인_상권분석', description:'업종·행정동 상가업소 (기본: 음식업·대치2동)' },
-      { id:'village_fcst', name:'기상청_단기예보', description:'단기예보 조회 (기본: 강남구 격자)' },
-    ];
+    const PDC = window.StargatePublicDataCollector;
 
     const els = {
       apiList: document.getElementById('api-list'),
@@ -322,10 +320,12 @@
       interval: document.getElementById('interval'),
       autoRun: document.getElementById('auto-run'),
       saveSupabase: document.getElementById('save-supabase'),
+      apiKey: document.getElementById('api-key'),
     };
 
     let timerId = null;
     let busy = false;
+    let lastPayload = null;
 
     function setStatus(message, type = '') {
       els.status.textContent = message;
@@ -374,6 +374,7 @@
     }
 
     function renderResults(payload) {
+      lastPayload = payload;
       if (!payload?.results?.length) {
         els.results.innerHTML = '<p class="empty">아직 수집 결과가 없습니다.</p>';
         return;
@@ -391,7 +392,7 @@
           `;
         }
         return `
-          <article class="result" data-index="${index}">
+          <article class="result">
             <div class="result-head">
               <h3>${item.name}</h3>
               <span class="pill">${item.rowCount.toLocaleString('ko-KR')}행</span>
@@ -411,7 +412,7 @@
 
       els.results.querySelectorAll('[data-download]').forEach((btn) => {
         btn.addEventListener('click', () => {
-          const item = payload.results[Number(btn.dataset.download)];
+          const item = lastPayload.results[Number(btn.dataset.download)];
           if (item?.csv) downloadCsv(item.fileName, item.csv);
         });
       });
@@ -419,7 +420,7 @@
 
     function renderLogs(logs) {
       if (!logs?.length) {
-        els.logs.innerHTML = '<p class="empty">저장된 기록이 없거나 Supabase 연결이 없습니다. SQL 스키마를 먼저 적용했는지 확인해 주세요.</p>';
+        els.logs.innerHTML = '<p class="empty">저장된 기록이 없습니다. Supabase에서 SQL 스키마를 적용한 뒤 수집해 주세요.</p>';
         return;
       }
       els.logs.innerHTML = logs.map((log) => `
@@ -441,20 +442,25 @@
     }
 
     async function loadMeta() {
+      renderApis(PDC.API_CATALOG);
+      const saved = PDC.getStoredKey();
+      if (saved && !els.apiKey.value) els.apiKey.value = saved;
       try {
-        const response = await fetch(`${API_ENDPOINT}?limit=20`, { cache: 'no-store' });
-        if (!response.ok) throw new Error('meta_' + response.status);
-        const data = await response.json();
-        renderApis(data.apis?.length ? data.apis : FALLBACK_APIS);
-        renderLogs(data.logs || []);
-        const flags = [];
-        flags.push(data.dataGoKrConfigured ? '공공데이터 키 연결됨' : '공공데이터 키 미설정');
-        flags.push(data.supabaseConfigured ? 'Supabase 연결됨' : 'Supabase 키 미설정');
-        setStatus(flags.join(' · '));
+        const probe = await PDC.probeSchema();
+        if (!probe.ok && probe.missingTable) {
+          renderLogs([]);
+          setStatus('Supabase 스키마 미적용 · supabase/public_data_collector.sql 을 SQL Editor에서 실행해 주세요.', 'err');
+          els.logs.innerHTML = '<p class="empty">테이블/버킷이 아직 없습니다. 스키마 적용 전에는 CSV 로컬 다운로드만 가능합니다.</p>';
+          return;
+        }
+        const logs = await PDC.listLogs(20);
+        renderLogs(logs);
+        setStatus(saved
+          ? '인증키 저장됨 · Supabase 로그를 불러왔습니다.'
+          : '인증키를 입력한 뒤 수집 버튼을 눌러 주세요.');
       } catch (error) {
-        renderApis(FALLBACK_APIS);
         renderLogs([]);
-        setStatus('카탈로그를 불러오지 못했습니다. 로컬 기본 목록으로 표시합니다.', 'err');
+        setStatus('로그를 불러오지 못했습니다. SQL 스키마 적용 여부를 확인해 주세요.', 'err');
       }
     }
 
@@ -465,6 +471,13 @@
         setStatus('수집할 API를 하나 이상 선택해 주세요.', 'err');
         return;
       }
+      const apiKey = els.apiKey.value.trim();
+      if (!apiKey) {
+        setStatus('공공데이터포털 인증키를 입력해 주세요.', 'err');
+        els.apiKey.focus();
+        return;
+      }
+      PDC.setStoredKey(apiKey);
 
       busy = true;
       els.collectBtn.disabled = true;
@@ -472,24 +485,20 @@
       setStatus('공공데이터 API를 호출하고 CSV를 저장하는 중입니다…', 'run');
 
       try {
-        const response = await fetch(API_ENDPOINT, {
-          method: 'POST',
-          headers: { 'content-type': 'application/json' },
-          body: JSON.stringify({
-            apis,
-            saveToSupabase: els.saveSupabase.checked,
-            includeCsv: true,
-            previewLimit: 12,
-          }),
+        const data = await PDC.collect({
+          apis,
+          apiKey,
+          saveToSupabase: els.saveSupabase.checked,
+          previewLimit: 12,
+          onProgress: (message) => setStatus(message, 'run'),
         });
-        const data = await response.json();
         renderResults(data);
         if (data.ok) {
           const okCount = data.results.filter((row) => row.ok).length;
           setStatus(`${okCount}개 API 수집을 마쳤습니다.`, 'ok');
           await loadMeta();
         } else {
-          const firstError = data.results?.find((row) => !row.ok)?.error || data.error || '수집 실패';
+          const firstError = data.results?.find((row) => !row.ok)?.error || '수집 실패';
           setStatus(firstError, 'err');
         }
       } catch (error) {
@@ -529,6 +538,7 @@
     els.interval.addEventListener('change', () => {
       if (els.autoRun.checked) syncTimer();
     });
+    els.apiKey.addEventListener('change', () => PDC.setStoredKey(els.apiKey.value.trim()));
 
     loadMeta();
   </script>

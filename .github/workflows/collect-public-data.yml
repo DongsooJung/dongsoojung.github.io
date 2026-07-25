@@ -1,0 +1,43 @@
+name: Collect public data CSV
+
+on:
+  schedule:
+    # 매일 00:10 KST (전일 15:10 UTC)
+    - cron: '10 15 * * *'
+  workflow_dispatch:
+    inputs:
+      apis:
+        description: '수집할 API id 목록 (쉼표 구분, 비우면 전체)'
+        required: false
+        default: 'apt_trade,store_dong,store_upjong,village_fcst'
+
+permissions:
+  contents: read
+
+jobs:
+  collect:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Collect and upload CSV to Supabase
+        env:
+          DATA_GO_KR_API_KEY: ${{ secrets.DATA_GO_KR_API_KEY }}
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
+          SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
+          COLLECT_APIS: ${{ inputs.apis }}
+        run: |
+          if [ -z "$DATA_GO_KR_API_KEY" ]; then
+            echo "DATA_GO_KR_API_KEY 시크릿이 없습니다."
+            exit 1
+          fi
+          if [ -z "$SUPABASE_SERVICE_KEY" ] && [ -z "$SUPABASE_ANON_KEY" ]; then
+            echo "SUPABASE_SERVICE_KEY 또는 SUPABASE_ANON_KEY 시크릿이 필요합니다."
+            exit 1
+          fi
+          node scripts/collect-public-data.mjs
