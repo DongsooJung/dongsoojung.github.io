@@ -1,0 +1,43 @@
+{
+  "expo": {
+    "name": "하루 견적서",
+    "slug": "quote-maker",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "dark",
+    "scheme": "quotemaker",
+    "newArchEnabled": true,
+    "splash": {
+      "image": "./assets/splash-icon.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#0a0d14"
+    },
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "co.kr.stargateedu.quotemaker"
+    },
+    "android": {
+      "package": "co.kr.stargateedu.quotemaker",
+      "adaptiveIcon": {
+        "backgroundColor": "#0a0d14",
+        "foregroundImage": "./assets/android-icon-foreground.png",
+        "backgroundImage": "./assets/android-icon-background.png",
+        "monochromeImage": "./assets/android-icon-monochrome.png"
+      },
+      "predictiveBackGestureEnabled": false
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "plugins": [
+      "expo-sharing",
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "견적서 로고 이미지를 선택하기 위해 사진 접근이 필요합니다."
+        }
+      ]
+    ]
+  }
+}
