@@ -7,7 +7,7 @@
   <meta name="description" content="도시·공간·부동산·거시경제·무역·관광 공공데이터를 분석하는 STARGATE 연구 대시보드 허브.">
   <meta name="theme-color" content="#080c14">
   <link rel="canonical" href="https://stargateedu.co.kr/research/">
-  <link rel="stylesheet" href="/assets/intelligence-hub.css?v=20260720">
+  <link rel="stylesheet" href="/assets/intelligence-hub.css?v=20260725">
 </head>
 <body class="research">
   <div class="wrap">
@@ -34,8 +34,8 @@
         </div>
       </div>
       <div class="stats" aria-label="연구 허브 현황">
-        <div class="stat"><strong>9</strong><span>연구·데이터·도구 프로젝트</span></div>
-        <div class="stat"><strong>6</strong><span>연구·데이터 영역</span></div>
+        <div class="stat"><strong>10</strong><span>연구·데이터·도구 프로젝트</span></div>
+        <div class="stat"><strong>7</strong><span>연구·데이터 영역</span></div>
         <div class="stat"><strong>LIVE</strong><span>실시간·월간 갱신</span></div>
       </div>
     </header>
@@ -67,6 +67,7 @@
             <button class="filter" type="button" data-filter="urban" aria-pressed="false">도시·공간</button>
             <button class="filter" type="button" data-filter="economy" aria-pressed="false">경제·무역</button>
             <button class="filter" type="button" data-filter="tourism" aria-pressed="false">관광·이동</button>
+            <button class="filter" type="button" data-filter="community" aria-pressed="false">커뮤니티</button>
             <button class="filter" type="button" data-filter="ai" aria-pressed="false">AI 아키텍처</button>
             <button class="filter" type="button" data-filter="tools" aria-pressed="false">연구 도구</button>
           </div>
@@ -74,6 +75,15 @@
         </div>
         <div class="result-count" data-result-count aria-live="polite"></div>
         <div class="grid">
+          <a class="project" href="/naver-cafe-research/" data-card data-category="community">
+            <div class="visual" style="--visual:radial-gradient(circle at 22% 18%,rgba(94,226,170,.48),transparent 52%),radial-gradient(circle at 82% 78%,rgba(103,232,249,.35),transparent 48%),linear-gradient(145deg,#08231f,#0c2c3c)">◉</div>
+            <div class="project-body">
+              <div class="meta"><span class="pill accent">Live Refresh</span><span class="pill">Community</span></div>
+              <h3>부동산 스터디 인기글 관측소</h3>
+              <p>버튼 한 번으로 네이버 카페 공개 인기글 20건을 새로 가져와 조회·댓글·주제 흐름을 분석합니다.</p>
+              <div class="project-footer"><span>네이버 카페 · 실시간/매시간</span><b>관측소 열기 →</b></div>
+            </div>
+          </a>
           <a class="project" href="/rag-graphrag/" data-card data-category="ai">
             <div class="visual" style="--visual:radial-gradient(circle at 24% 18%,rgba(82,211,255,.5),transparent 52%),radial-gradient(circle at 80% 76%,rgba(165,123,255,.42),transparent 50%),linear-gradient(145deg,#0b1930,#132847)">◎</div>
             <div class="project-body">
@@ -176,6 +186,6 @@
 
     <footer><span>© 2026 Dongsoo Jung · Stargate Corporation</span><span><a href="/">Portal</a> · <a href="https://github.com/DongsooJung">GitHub</a></span></footer>
   </div>
-  <script src="/assets/intelligence-hub.js?v=20260720" defer></script>
+  <script src="/assets/intelligence-hub.js?v=20260725" defer></script>
 </body>
 </html>

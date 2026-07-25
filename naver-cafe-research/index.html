@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>네이버 부동산 스터디 인기글 관측소 | STARGATE Research</title>
+  <meta name="description" content="네이버 카페 부동산 스터디의 공개 인기글 20건을 버튼 한 번으로 갱신하고 조회·댓글·주제 흐름을 분석하는 연구 대시보드.">
+  <meta name="theme-color" content="#07111f">
+  <link rel="canonical" href="https://stargateedu.co.kr/naver-cafe-research/">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="네이버 부동산 스터디 인기글 관측소">
+  <meta property="og:description" content="버튼 한 번으로 최신 공개 인기글을 갱신하고 부동산·정책 담론을 관측합니다.">
+  <meta property="og:url" content="https://stargateedu.co.kr/naver-cafe-research/">
+  <meta property="og:image" content="https://stargateedu.co.kr/naver-cafe-research/og.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="네이버 부동산 스터디 인기글 관측소">
+  <meta name="twitter:description" content="버튼 한 번으로 최신 공개 인기글을 갱신하고 부동산·정책 담론을 관측합니다.">
+  <meta name="twitter:image" content="https://stargateedu.co.kr/naver-cafe-research/og.png">
+  <link rel="stylesheet" href="./styles.css?v=20260725">
+</head>
+<body>
+  <div class="page-shell">
+    <nav class="topbar" aria-label="주요 메뉴">
+      <a class="brand" href="/"><span class="brand-mark">D</span><span>DONGSOO.<b>PORTAL</b><small>RESEARCH</small></span></a>
+      <div class="top-links">
+        <a href="/research/">연구 대시보드</a>
+        <a href="/strategy/">전략 인사이트</a>
+        <a href="https://cafe.naver.com/f-e/cafes/12730407/popular" target="_blank" rel="noopener">원문 인기글 ↗</a>
+      </div>
+    </nav>
+
+    <header class="hero">
+      <div class="hero-copy">
+        <div class="eyebrow"><span class="live-dot" aria-hidden="true"></span> Community Intelligence</div>
+        <h1>부동산 담론을<br><em>지금 이 순간</em> 관측합니다.</h1>
+        <p>네이버 카페 ‘부동산 스터디’의 공개 인기글 20건을 새로 가져와 조회·댓글·주제 흐름을 한 화면에서 비교합니다.</p>
+        <div class="hero-actions">
+          <button class="refresh-button" type="button" data-refresh>
+            <span class="refresh-icon" aria-hidden="true">↻</span>
+            <span data-refresh-label>최신 데이터 가져오기</span>
+          </button>
+          <button class="secondary-button" type="button" data-download disabled>CSV 내려받기</button>
+        </div>
+        <p class="refresh-note">공개 데이터만 수집하며 로그인·가입·캡차를 우회하지 않습니다. 연속 요청은 분당 20회로 제한됩니다.</p>
+      </div>
+      <aside class="signal-card" aria-label="수집 상태">
+        <div class="signal-head">
+          <span>COLLECTOR STATUS</span>
+          <strong data-source-badge>저장 데이터</strong>
+        </div>
+        <div class="signal-time">
+          <span>마지막 갱신</span>
+          <time data-fetched-at>확인 중</time>
+        </div>
+        <ol class="pipeline" aria-label="데이터 수집 워크플로우">
+          <li class="done"><span>1</span><div><b>공개 데이터 요청</b><small>네이버 인기글 공개 API</small></div></li>
+          <li><span>2</span><div><b>브라우저 읽기 브리지</b><small>교차 출처 제한 대응</small></div></li>
+          <li><span>3</span><div><b>저장 데이터 대체</b><small>실시간 요청 실패 시 자동 전환</small></div></li>
+        </ol>
+      </aside>
+    </header>
+
+    <main>
+      <section class="status" data-status role="status" aria-live="polite">
+        <span class="status-dot" aria-hidden="true"></span>
+        <span data-status-text>저장된 최신 데이터를 불러오는 중입니다.</span>
+      </section>
+
+      <section class="metrics" aria-label="인기글 요약 지표">
+        <article>
+          <span>수집 게시글</span>
+          <strong data-metric-count>—</strong>
+          <small>인기글 1페이지</small>
+        </article>
+        <article>
+          <span>누적 조회</span>
+          <strong data-metric-views>—</strong>
+          <small>현재 표시 글 합계</small>
+        </article>
+        <article>
+          <span>누적 댓글</span>
+          <strong data-metric-comments>—</strong>
+          <small>토론 참여 신호</small>
+        </article>
+        <article>
+          <span>조회수 1위</span>
+          <strong class="metric-title" data-metric-top>—</strong>
+          <small data-metric-top-value>—</small>
+        </article>
+      </section>
+
+      <section class="analysis-card" aria-labelledby="analysis-title">
+        <div>
+          <div class="eyebrow">Signal Brief</div>
+          <h2 id="analysis-title">현재 담론 요약</h2>
+          <p data-brief>데이터를 불러오면 부동산·정책·생활 주제 비중과 참여 신호를 자동으로 요약합니다.</p>
+        </div>
+        <div class="topic-bars" data-topic-bars aria-label="주제별 게시글 비중"></div>
+      </section>
+
+      <section class="list-section" aria-labelledby="popular-title">
+        <div class="section-head">
+          <div>
+            <div class="eyebrow">Popular Articles</div>
+            <h2 id="popular-title">인기글 20</h2>
+          </div>
+          <div class="controls">
+            <label class="search-control">
+              <span class="sr-only">제목 또는 작성자 검색</span>
+              <input type="search" placeholder="제목·작성자 검색" data-search>
+            </label>
+            <label class="sort-control">
+              <span class="sr-only">정렬 방식</span>
+              <select data-sort>
+                <option value="rank">인기 순서</option>
+                <option value="views">조회 많은 순</option>
+                <option value="comments">댓글 많은 순</option>
+                <option value="latest">최신 작성 순</option>
+              </select>
+            </label>
+          </div>
+        </div>
+
+        <div class="topic-filters" role="group" aria-label="주제 필터">
+          <button class="topic-filter active" type="button" data-topic="all" aria-pressed="true">전체</button>
+          <button class="topic-filter" type="button" data-topic="real-estate" aria-pressed="false">부동산</button>
+          <button class="topic-filter" type="button" data-topic="policy" aria-pressed="false">정책·정치</button>
+          <button class="topic-filter" type="button" data-topic="life" aria-pressed="false">생활·기타</button>
+        </div>
+
+        <div class="list-meta">
+          <span data-result-count>0개 게시글</span>
+          <span>최근 7일 기준 · 원문은 새 창에서 열립니다.</span>
+        </div>
+        <div class="article-list" data-article-list></div>
+        <div class="empty-state" data-empty hidden>
+          <strong>조건에 맞는 게시글이 없습니다.</strong>
+          <span>검색어나 주제 필터를 바꿔보세요.</span>
+        </div>
+      </section>
+
+      <section class="method" aria-labelledby="method-title">
+        <div>
+          <div class="eyebrow">Collection Method</div>
+          <h2 id="method-title">차단에 강한 3단계 수집</h2>
+        </div>
+        <div class="method-grid">
+          <article><span>01</span><h3>공개 API 우선</h3><p>화면 OCR보다 정확한 공개 인기글 응답을 먼저 사용합니다.</p></article>
+          <article><span>02</span><h3>읽기 브리지</h3><p>정적 사이트의 브라우저 제한은 공개 읽기 브리지로 처리합니다.</p></article>
+          <article><span>03</span><h3>OCR 보조</h3><p>구조화 응답이 막힌 화면은 사용자가 볼 수 있는 범위에서만 OCR로 확인합니다.</p></article>
+          <article><span>04</span><h3>시간별 캐시</h3><p>실시간 요청 실패에도 마지막 성공 데이터가 유지됩니다.</p></article>
+        </div>
+        <p class="method-disclosure">실시간 버튼은 Jina AI Reader를 읽기 전용 교차 출처 브리지로 사용할 수 있습니다. 공개 네이버 API 주소만 전달하며 계정·쿠키·개인정보는 전송하지 않습니다.</p>
+      </section>
+    </main>
+
+    <footer>
+      <span>© 2026 Dongsoo Jung · Stargate Corporation</span>
+      <span><a href="/research/">Research</a> · <a href="/">Portal</a></span>
+    </footer>
+  </div>
+  <template id="article-template">
+    <article class="article-row">
+      <div class="rank" data-rank></div>
+      <div class="article-main">
+        <div class="article-tags"><span data-topic-label></span><span data-new hidden>NEW</span></div>
+        <h3><a data-title target="_blank" rel="noopener"></a></h3>
+        <div class="article-byline"><span data-author></span><time data-date></time></div>
+      </div>
+      <div class="article-signals">
+        <span><b data-views></b><small>조회</small></span>
+        <span><b data-comments></b><small>댓글</small></span>
+        <span><b data-likes></b><small>좋아요</small></span>
+      </div>
+    </article>
+  </template>
+  <script src="./app.js?v=20260725" defer></script>
+</body>
+</html>
