@@ -1,0 +1,347 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>금융위원회 기업재무 대시보드 | STARGATE Research</title>
+<meta name="description" content="금융위원회 기업 재무정보(요약재무제표) API를 100건씩 조회하고 매출·이익·부채비율을 인터랙티브로 시각화합니다.">
+<meta property="og:title" content="금융위원회 기업재무 대시보드">
+<meta property="og:description" content="요약재무제표 100건 단위 탐색 · 매출·순이익·부채비율 인터랙티브 차트">
+<meta property="og:url" content="https://www.stargateedu.co.kr/fsc-financial/">
+<meta property="og:type" content="website">
+<link rel="canonical" href="https://www.stargateedu.co.kr/fsc-financial/">
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+<link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" rel="stylesheet">
+<style>
+:root{
+  --bg:#081018; --panel:#0e1824; --panel2:#122033;
+  --line:#1c2d42; --line2:#27405c;
+  --ink:#e8eef5; --sub:#9aadc0; --muted:#6d8299;
+  --acc:#3ec9a7; --acc2:#7aa2ff; --gold:#d4a843;
+  --pos:#22a385; --neg:#c45b63;
+  --grad:linear-gradient(135deg,#2fb99a 0%,#3a7bd5 100%);
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{
+  font-family:"Pretendard","Apple SD Gothic Neo","Noto Sans KR",sans-serif;
+  color:var(--ink); line-height:1.55; -webkit-font-smoothing:antialiased;
+  background:var(--bg);
+  background-image:
+    radial-gradient(900px 520px at 8% -8%, rgba(62,201,167,.16), transparent 58%),
+    radial-gradient(700px 420px at 96% 0%, rgba(58,123,213,.12), transparent 55%),
+    linear-gradient(180deg,#081018 0%, #0a1420 100%);
+  background-attachment:fixed;
+}
+a{color:var(--acc);text-decoration:none} a:hover{text-decoration:underline}
+.wrap{max-width:1180px;margin:0 auto;padding:22px 22px 80px}
+
+.nav{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:4px 0 0;font-size:13px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:800;letter-spacing:.04em;color:var(--ink);text-decoration:none}
+.brand .logo{
+  width:32px;height:32px;border-radius:9px;background:var(--grad);
+  display:inline-flex;align-items:center;justify-content:center;color:#061018;font-weight:900;font-size:13px;
+}
+.nav .links{display:flex;gap:14px;flex-wrap:wrap}
+.nav .links a{color:var(--sub)} .nav .links a:hover{color:var(--ink)}
+
+header.head{padding:36px 0 8px;animation:rise .7s ease both}
+header.head .eyebrow{
+  margin:0 0 10px;font-size:11px;font-weight:750;letter-spacing:.18em;color:var(--acc);text-transform:uppercase;
+}
+header.head h1{margin:0;font-size:clamp(28px,4.2vw,40px);letter-spacing:-.5px;line-height:1.15}
+header.head h1 .grad{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+header.head .lead{color:var(--sub);font-size:14.5px;margin:12px 0 0;max-width:68ch}
+.meta-line{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px;font-size:12px;color:var(--muted)}
+.meta-line .pill{
+  border:1px solid var(--line);border-radius:999px;padding:4px 11px;background:rgba(14,24,36,.7)
+}
+.meta-line .pill b{color:var(--sub);font-weight:600}
+
+.panel{
+  margin-top:22px;border:1px solid var(--line);border-radius:16px;
+  background:linear-gradient(180deg,var(--panel2),var(--panel));
+  padding:18px;animation:rise .75s ease .08s both;
+}
+.panel h2{margin:0 0 4px;font-size:15px}
+.panel .cap{margin:0 0 14px;color:var(--muted);font-size:12.5px}
+.controls{display:grid;grid-template-columns:1.4fr .7fr .9fr auto;gap:10px;align-items:end}
+.field{display:flex;flex-direction:column;gap:6px;min-width:0}
+.field label{font-size:11.5px;color:var(--muted)}
+.field input,.field select{
+  width:100%;border:1px solid var(--line2);background:#0b1522;color:var(--ink);
+  border-radius:10px;padding:10px 12px;font:inherit;font-size:13px;
+}
+.field input:focus,.field select:focus{outline:2px solid rgba(62,201,167,.45);outline-offset:1px}
+.key-row{display:flex;gap:6px}
+.key-row input{flex:1}
+.key-row button{
+  border:1px solid var(--line2);background:#122033;color:var(--sub);border-radius:10px;
+  padding:0 12px;cursor:pointer;font:inherit;font-size:12px;
+}
+.actions{display:flex;gap:8px;flex-wrap:wrap}
+.btn{
+  border:1px solid transparent;border-radius:10px;padding:10px 14px;font:inherit;font-size:13px;
+  font-weight:650;cursor:pointer;transition:transform .15s ease, box-shadow .15s ease, background .15s ease;
+}
+.btn:disabled{opacity:.55;cursor:wait}
+.btn-primary{background:var(--grad);color:#061018;box-shadow:0 8px 22px rgba(47,185,154,.22)}
+.btn-primary:hover:not(:disabled){transform:translateY(-1px)}
+.btn-ghost{background:transparent;border-color:var(--line2);color:var(--sub)}
+.btn-ghost:hover:not(:disabled){color:var(--ink);border-color:var(--acc)}
+.pager{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-top:14px}
+.pager .info{font-size:12.5px;color:var(--sub)}
+.pager .info b{color:var(--ink)}
+#status{font-size:12.5px;color:var(--sub);margin-top:10px;min-height:1.2em}
+#notice{font-size:12.5px;margin-top:8px;min-height:1.2em;color:var(--muted)}
+#notice[data-kind="ok"]{color:var(--pos)}
+#notice[data-kind="warn"]{color:var(--gold)}
+#notice[data-kind="err"]{color:var(--neg)}
+#notice[data-kind="info"]{color:var(--acc2)}
+
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:18px;animation:rise .8s ease .12s both}
+.tile{
+  border:1px solid var(--line);border-radius:14px;padding:16px 16px 14px;
+  background:linear-gradient(180deg,var(--panel2),var(--panel));
+}
+.tile .lb{font-size:12px;color:var(--sub)}
+.tile .val{font-size:24px;font-weight:750;letter-spacing:-.4px;margin-top:6px}
+.tile .hint{font-size:11.5px;color:var(--muted);margin-top:4px}
+.tile.feature{border-color:#2a4d5e;box-shadow:0 0 0 1px rgba(62,201,167,.18)}
+
+#viz{opacity:.55;transform:translateY(8px);transition:opacity .45s ease, transform .45s ease}
+#viz.ready{opacity:1;transform:none}
+.section-title{display:flex;align-items:baseline;justify-content:space-between;gap:10px;flex-wrap:wrap;margin:28px 0 12px}
+.section-title h2{margin:0;font-size:18px}
+.section-title .cap{color:var(--muted);font-size:12px}
+
+.cards{display:grid;grid-template-columns:1.2fr .8fr;gap:12px}
+.card{
+  border:1px solid var(--line);border-radius:16px;padding:16px;
+  background:linear-gradient(180deg,var(--panel2),var(--panel));min-width:0;
+}
+.card.full{grid-column:1/-1}
+.card h3{margin:0;font-size:14.5px}
+.card .cap{color:var(--muted);font-size:12px;margin:4px 0 10px}
+.chart-box{position:relative;height:320px}
+.card.half .chart-box{height:280px}
+
+.tbl-card{margin-top:12px}
+.tbl-scroll{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:12.5px;min-width:980px}
+th,td{padding:9px 10px;border-bottom:1px solid var(--line);white-space:nowrap}
+th{
+  color:var(--muted);font-weight:600;font-size:11.5px;text-align:right;cursor:pointer;user-select:none;
+}
+th:first-child,th:nth-child(2),th:nth-child(3),th:nth-child(4),
+td:first-child,td:nth-child(2),td:nth-child(3),td:nth-child(4){text-align:left}
+th.active{color:var(--acc)}
+th.active[data-dir="asc"]::after{content:" ↑"}
+th.active[data-dir="desc"]::after{content:" ↓"}
+td{color:var(--ink);text-align:right;font-variant-numeric:tabular-nums}
+td code{font-size:11.5px;color:var(--acc2)}
+td.pos{color:var(--pos)} td.neg{color:var(--neg)}
+tr:hover td{background:rgba(62,201,167,.05)}
+.empty{padding:40px 0;text-align:center;color:var(--muted);font-size:13px}
+
+.note{
+  margin-top:16px;border:1px solid var(--line);border-radius:14px;padding:14px 16px;
+  font-size:12.5px;color:var(--sub);line-height:1.7;background:var(--panel);
+}
+.note b{color:var(--ink)}
+.note code{background:#0b1522;border:1px solid var(--line);border-radius:5px;padding:1px 5px;font-size:11.5px}
+
+footer{
+  margin-top:48px;padding-top:18px;border-top:1px solid var(--line);
+  color:var(--muted);font-size:12px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;
+}
+
+@keyframes rise{
+  from{opacity:0;transform:translateY(14px)}
+  to{opacity:1;transform:none}
+}
+
+@media (max-width:960px){
+  .controls{grid-template-columns:1fr 1fr}
+  .actions{grid-column:1/-1}
+  .kpis{grid-template-columns:repeat(2,1fr)}
+  .cards{grid-template-columns:1fr}
+}
+@media (max-width:560px){
+  .controls{grid-template-columns:1fr}
+  .kpis{grid-template-columns:1fr}
+  header.head h1{font-size:28px}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}
+}
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <nav class="nav" aria-label="주요 탐색">
+      <a class="brand" href="/fsc-financial/">
+        <span class="logo" aria-hidden="true">F</span>
+        <span>STARGATE · FSC FINANCIAL</span>
+      </a>
+      <div class="links">
+        <a href="/research/">연구 대시보드</a>
+        <a href="/public-data-collector/">수집 기록소</a>
+        <a href="/">홈</a>
+      </div>
+    </nav>
+
+    <header class="head">
+      <p class="eyebrow">금융위원회 · 공공데이터포털</p>
+      <h1><span class="grad">기업재무정보</span> 인터랙티브 대시보드</h1>
+      <p class="lead">
+        요약재무제표를 <b style="color:var(--ink);font-weight:650">100건씩</b> 가져와
+        매출·당기순이익·총자산·부채비율을 차트와 표로 탐색합니다.
+        법인등록번호(crno)로 단일 기업도 조회할 수 있습니다.
+      </p>
+      <div class="meta-line">
+        <span class="pill"><b>API</b> GetFinaStatInfoService_V2</span>
+        <span class="pill"><b>페이지</b> numOfRows=100</span>
+        <span class="pill"><b>모드</b> <span id="sourceMode">샘플(캐시)</span></span>
+      </div>
+    </header>
+
+    <section class="panel" aria-label="조회 설정">
+      <h2>100건 단위 조회</h2>
+      <p class="cap">serviceKey는 브라우저 localStorage에만 저장됩니다. 금융위원회 기업재무정보 활용신청이 승인된 키를 사용하세요.</p>
+      <div class="controls">
+        <div class="field">
+          <label for="apiKey">공공데이터포털 serviceKey</label>
+          <div class="key-row">
+            <input id="apiKey" type="password" autocomplete="off" placeholder="활용신청 승인된 디코딩 키" />
+            <button type="button" id="toggleKey" title="키 표시/숨김">표시</button>
+          </div>
+        </div>
+        <div class="field">
+          <label for="bizYear">사업연도</label>
+          <select id="bizYear">
+            <option value="2024">2024</option>
+            <option value="2023" selected>2023</option>
+            <option value="2022">2022</option>
+            <option value="2021">2021</option>
+            <option value="2020">2020</option>
+            <option value="">전체</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="crno">법인등록번호 (선택)</label>
+          <input id="crno" type="text" inputmode="numeric" placeholder="예: 1101110000086" />
+        </div>
+        <div class="actions">
+          <button class="btn btn-primary" id="loadBtn" type="button">100건 불러오기</button>
+          <button class="btn btn-ghost" id="seedBtn" type="button">샘플</button>
+          <button class="btn btn-ghost" id="csvBtn" type="button">CSV</button>
+        </div>
+      </div>
+      <div class="pager">
+        <div class="info">
+          <b id="pageLabel">1 / —</b>
+          <span id="totalLabel">페이지당 100건</span>
+        </div>
+        <div class="actions">
+          <button class="btn btn-ghost" id="prevBtn" type="button" disabled>← 이전 100건</button>
+          <button class="btn btn-ghost" id="nextBtn" type="button" disabled>다음 100건 →</button>
+        </div>
+      </div>
+      <div id="status" aria-live="polite"></div>
+      <div id="notice" aria-live="polite"></div>
+    </section>
+
+    <div id="viz">
+      <div class="kpis">
+        <article class="tile feature">
+          <div class="lb">현재 페이지 건수</div>
+          <div class="val" id="kpiCount">—</div>
+          <div class="hint">최대 100건</div>
+        </article>
+        <article class="tile">
+          <div class="lb">매출액 중앙값</div>
+          <div class="val" id="kpiSales">—</div>
+          <div class="hint">0원 제외</div>
+        </article>
+        <article class="tile">
+          <div class="lb">당기순이익 중앙값</div>
+          <div class="val" id="kpiProfit">—</div>
+          <div class="hint">현재 페이지</div>
+        </article>
+        <article class="tile">
+          <div class="lb">부채비율 중앙값</div>
+          <div class="val" id="kpiDebt">—</div>
+          <div class="hint">0–500% 구간</div>
+        </article>
+      </div>
+
+      <div class="section-title">
+        <h2>시각화</h2>
+        <span class="cap">막대 · 부채비율 분포 · 자산–이익 산점도</span>
+      </div>
+      <div class="cards">
+        <section class="card">
+          <h3>매출·순이익 TOP 15</h3>
+          <p class="cap">법인등록번호 끝 6자리 · 단위 억원</p>
+          <div class="chart-box"><canvas id="chartSales" aria-label="매출 순이익 막대 차트"></canvas></div>
+        </section>
+        <section class="card half">
+          <h3>부채비율 분포</h3>
+          <p class="cap">현재 페이지 기업 구간별 건수</p>
+          <div class="chart-box"><canvas id="chartDebt" aria-label="부채비율 도넛 차트"></canvas></div>
+        </section>
+        <section class="card full">
+          <h3>총자산 × 당기순이익</h3>
+          <p class="cap">점 위에 마우스를 올리면 법인번호·부채비율을 확인할 수 있습니다</p>
+          <div class="chart-box" style="height:360px"><canvas id="chartScatter" aria-label="자산 이익 산점도"></canvas></div>
+        </section>
+      </div>
+
+      <div class="section-title">
+        <h2>상세 표</h2>
+        <span class="cap">열 헤더 클릭으로 정렬</span>
+      </div>
+      <section class="card tbl-card">
+        <div class="tbl-scroll">
+          <table>
+            <thead>
+              <tr>
+                <th>#</th>
+                <th data-sort="crno">법인등록번호</th>
+                <th data-sort="bizYear">연도</th>
+                <th>재무제표구분</th>
+                <th data-sort="enpSaleAmt">매출액</th>
+                <th data-sort="enpCrtmNpf">당기순이익</th>
+                <th data-sort="enpBzopPft">영업이익</th>
+                <th data-sort="enpTastAmt">총자산</th>
+                <th data-sort="enpTdbtAmt">총부채</th>
+                <th data-sort="enpTcptAmt">총자본</th>
+                <th data-sort="fnclDebtRto">부채비율</th>
+                <th data-sort="basDt">기준일</th>
+              </tr>
+            </thead>
+            <tbody id="tbody"></tbody>
+          </table>
+        </div>
+        <div class="empty" id="empty" hidden>표시할 데이터가 없습니다.</div>
+      </section>
+    </div>
+
+    <aside class="note">
+      <b>데이터 출처</b> 금융위원회 「기업 재무정보」 요약재무제표 API
+      (<code>getSummFinaStat_V2</code>). 금액 단위는 원(KRW)이며 화면에서는 억·조로 축약합니다.
+      응답에 기업명이 없어 법인등록번호(<code>crno</code>)로 식별합니다.
+      활용신청·키 발급: <a href="https://www.data.go.kr/" target="_blank" rel="noopener">data.go.kr</a>
+    </aside>
+
+    <footer>
+      <span>STARGATE Research · 기업재무 대시보드</span>
+      <span><a href="/research/">← 연구 대시보드</a></span>
+    </footer>
+  </div>
+
+  <script src="./chart.umd.min.js"></script>
+  <script src="./app.js"></script>
+</body>
+</html>
