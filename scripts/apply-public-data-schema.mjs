@@ -42,7 +42,7 @@ async function createBucketViaRest() {
     log('SKIP bucket REST: service key 없음');
     return false;
   }
-  const response = await fetch(`${URL}/storage/v1/bucket`, {
+  const response = await fetch(`${SUPABASE_URL}/storage/v1/bucket`, {
     method: 'POST',
     headers: {
       apikey: SERVICE_KEY,
