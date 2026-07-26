@@ -36,6 +36,7 @@ jobs:
           git config user.name "stargate-data-bot"
           git config user.email "actions@users.noreply.github.com"
           git add class101/data
-          git commit -m "data: archive CLASS101 recommendations $(date -u +%F)"
+          archive_date=$(python -c "import json; print(json.load(open('class101/data/latest.json', encoding='utf-8'))['archiveDate'])")
+          git commit -m "data: archive CLASS101 recommendations ${archive_date}"
           git pull --rebase origin main
           git push
