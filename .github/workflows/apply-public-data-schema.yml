@@ -1,0 +1,44 @@
+name: Apply public-data Supabase schema
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  apply:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Install psql client
+        run: sudo apt-get update && sudo apt-get install -y postgresql-client
+
+      - name: Apply schema / create bucket
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          WEOLBU_SUPABASE_URL: ${{ secrets.WEOLBU_SUPABASE_URL }}
+          SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
+          WEOLBU_SUPABASE_SERVICE_KEY: ${{ secrets.WEOLBU_SUPABASE_SERVICE_KEY }}
+          SUPABASE_SECRET_KEY: ${{ secrets.SUPABASE_SECRET_KEY }}
+          SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
+          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          SUPABASE_DB_URL: ${{ secrets.SUPABASE_DB_URL }}
+          SUPABASE_PROJECT_REF: ${{ secrets.SUPABASE_PROJECT_REF }}
+        run: |
+          export SUPABASE_URL="${SUPABASE_URL:-${WEOLBU_SUPABASE_URL:-https://inftexpcnfinglwlrvsj.supabase.co}}"
+          export SUPABASE_SERVICE_KEY="${SUPABASE_SERVICE_KEY:-${WEOLBU_SUPABASE_SERVICE_KEY:-$SUPABASE_SECRET_KEY}}"
+          export DATABASE_URL="${DATABASE_URL:-$SUPABASE_DB_URL}"
+          export SUPABASE_PROJECT_REF="${SUPABASE_PROJECT_REF:-inftexpcnfinglwlrvsj}"
+          echo "URL set: ${SUPABASE_URL:+yes}"
+          echo "SERVICE_KEY set: ${SUPABASE_SERVICE_KEY:+yes}"
+          echo "ACCESS_TOKEN set: ${SUPABASE_ACCESS_TOKEN:+yes}"
+          echo "DATABASE_URL set: ${DATABASE_URL:+yes}"
+          node scripts/apply-public-data-schema.mjs
