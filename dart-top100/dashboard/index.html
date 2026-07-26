@@ -509,11 +509,12 @@ async function loadData(){
       if(ch==='"'){instr=!instr;continue;}if(instr)continue;
       if(ch==="{")d++;else if(ch==="}"){d--;if(d===0){end=i+1;break;}}}
     const D=JSON.parse(html.slice(s,end));
+    const eok=v=>v===null||v===undefined?null:Math.round(v/1e8);
     RAW={unit:"억원",note:D.meta.note,year:D.meta.year,
       rows:D.companies.map(c=>[c.rank,c.corp_name,
-        Math.round(c.revenue.Q1/1e8),Math.round(c.revenue.Q2/1e8),Math.round(c.revenue.Q3/1e8),Math.round(c.revenue.Q4/1e8),
-        Math.round(c.operating_profit.Q1/1e8),Math.round(c.operating_profit.Q2/1e8),
-        Math.round(c.operating_profit.Q3/1e8),Math.round(c.operating_profit.Q4/1e8)])};
+        eok(c.revenue.Q1),eok(c.revenue.Q2),eok(c.revenue.Q3),eok(c.revenue.Q4),
+        eok(c.operating_profit.Q1),eok(c.operating_profit.Q2),
+        eok(c.operating_profit.Q3),eok(c.operating_profit.Q4)])};
     boot();
   }catch(e){
     document.getElementById("dataNote").innerHTML="⚠️ 데이터를 불러오지 못했습니다: "+e.message;

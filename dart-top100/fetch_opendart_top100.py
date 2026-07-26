@@ -25,6 +25,7 @@ ROOT = Path(__file__).resolve().parent
 INDEX_PATH = ROOT / "index.html"
 DATA_DIR = ROOT / "data"
 API_BASE = "https://opendart.fss.or.kr/api"
+DEFAULT_BUSINESS_YEAR = 2026
 REPORT_CODES = {
     "Q1": "11013",
     "H1": "11012",
@@ -320,21 +321,22 @@ def metric_periods(
     return {"Q1": q1, "Q2": q2_current, "Q3": q3_current, "Q4": q4}, selected_fs
 
 
-def sum_periods(companies: list[dict[str, Any]], field: str) -> dict[str, int]:
-    return {
-        quarter: sum(
+def sum_periods(companies: list[dict[str, Any]], field: str) -> dict[str, int | None]:
+    totals: dict[str, int | None] = {}
+    for quarter in ("Q1", "Q2", "Q3", "Q4"):
+        values = [
             int(company[field][quarter])
             for company in companies
             if company[field].get(quarter) is not None
-        )
-        for quarter in ("Q1", "Q2", "Q3", "Q4")
-    }
+        ]
+        totals[quarter] = sum(values) if values else None
+    return totals
 
 
 def main() -> None:
     key = api_key()
     try:
-        year = int(os.environ.get("DART_BUSINESS_YEAR", "2025"))
+        year = int(os.environ.get("DART_BUSINESS_YEAR", str(DEFAULT_BUSINESS_YEAR)))
     except ValueError:
         fail("DART_BUSINESS_YEAR must be a four-digit year")
     if not 2015 <= year <= datetime.now(timezone.utc).year:
@@ -384,10 +386,26 @@ def main() -> None:
         company["rank"] = rank
 
     skipped = len(unresolved) + len(missing_financials)
+    available_quarters = [
+        quarter
+        for quarter in ("Q1", "Q2", "Q3", "Q4")
+        if any(
+            company["revenue"].get(quarter) is not None
+            or company["operating_profit"].get(quarter) is not None
+            for company in companies
+        )
+    ]
     note = (
         "OpenDART 정기보고서 기준. 연결재무제표 우선, 미제공 시 별도재무제표를 사용하며 "
         "분기 수치는 누적 금액을 검증·차감해 계산했습니다."
     )
+    if year == datetime.now(timezone.utc).year and len(available_quarters) < 4:
+        quarter_names = {"Q1": "1분기", "Q2": "2분기", "Q3": "3분기", "Q4": "4분기"}
+        disclosed = "·".join(quarter_names[quarter] for quarter in available_quarters) or "없음"
+        note += (
+            f" {year}년은 현재 공시된 {disclosed} 데이터만 반영했으며, "
+            "미공시 분기는 빈값으로 표시합니다."
+        )
     if skipped:
         note += f" 법인코드 또는 재무정보를 확인하지 못한 {skipped}개 기업은 합산에서 제외했습니다."
 
@@ -397,6 +415,7 @@ def main() -> None:
             "generated_at": datetime.now(timezone.utc).replace(microsecond=0).isoformat(),
             "year": year,
             "unit": "KRW",
+            "available_quarters": available_quarters,
             "note": note,
         },
         "totals": {
@@ -411,9 +430,9 @@ def main() -> None:
     data_path = DATA_DIR / f"{year}.json"
     data_path.write_text(replacement + "\n", encoding="utf-8")
 
-    # The landing page keeps 2025 embedded as its fast, offline-safe default.
+    # The landing page keeps the current default year embedded for a fast load.
     # Historical runs only update their year-specific JSON file.
-    if year == 2025:
+    if year == DEFAULT_BUSINESS_YEAR:
         INDEX_PATH.write_text(html[:json_start] + replacement + html[json_end:], encoding="utf-8")
     print(
         f"Updated {data_path.relative_to(ROOT)} for {year}: "
