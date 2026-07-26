@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>화성 실거래 데이터 허브 | STARGATE</title>
-  <meta name="description" content="2026년 6월 화성시 4개 구 아파트 실거래가를 100건씩 탐색하고 CSV로 내려받는 공공데이터 대시보드">
+  <meta name="description" content="2026년 6월 화성시 4개 구 아파트 실거래가를 100건씩 탐색하고 VWorld 법정동 지도와 CSV로 확인하는 공공데이터 대시보드">
   <meta name="theme-color" content="#f3f0e8">
   <meta property="og:title" content="화성의 거래를 한 번에 읽다">
   <meta property="og:description" content="2026년 6월 화성시 아파트 실거래 데이터 2,672건">
@@ -89,6 +89,50 @@
       letter-spacing:.16em;text-overflow:ellipsis;white-space:nowrap}
     .metrics .accent-metric{background:var(--acid)}
     .metrics .accent-metric span,.metrics .accent-metric em{color:var(--ink)}
+    .map-section{width:min(1440px,calc(100% - 64px));margin:0 auto;padding:96px 0 12px}
+    .map-source{max-width:360px;color:var(--muted);font-size:11px;line-height:1.6;text-align:right}
+    .map-source b{color:var(--ink)}
+    .map-layout{display:grid;grid-template-columns:minmax(0,1.65fr) minmax(300px,.55fr);
+      border:1px solid var(--ink);background:rgba(255,254,249,.58)}
+    .map-canvas{position:relative;min-height:630px;padding:24px;background:
+      radial-gradient(circle at 52% 48%,rgba(217,255,67,.17),transparent 42%),var(--paper-deep);
+      overflow:hidden}
+    .map-canvas:before{content:"VWORLD / 2026";position:absolute;top:20px;left:22px;color:rgba(21,25,20,.33);
+      font:800 9px/1 Arial,sans-serif;letter-spacing:.17em}
+    .legal-map{width:100%;height:100%;min-height:580px;display:block}
+    .legal-map path{stroke:var(--ink);stroke-width:1.2;vector-effect:non-scaling-stroke;cursor:pointer;
+      transition:fill .16s ease,opacity .16s ease,stroke-width .16s ease}
+    .legal-map path:hover,.legal-map path:focus{stroke-width:3;outline:none}
+    .legal-map path.is-muted{opacity:.18}
+    .legal-map path.is-selected{stroke:var(--ink);stroke-width:4;filter:drop-shadow(3px 4px 0 rgba(21,25,20,.28))}
+    .map-tooltip{position:absolute;z-index:3;min-width:154px;padding:11px 13px;background:var(--ink);
+      color:var(--white);pointer-events:none;transform:translate(12px,-50%);
+      font-size:11px;line-height:1.5;box-shadow:4px 4px 0 var(--acid)}
+    .map-tooltip b{display:block;color:var(--acid);font-size:14px}
+    .map-legend{position:absolute;left:22px;bottom:18px;display:flex;gap:11px;padding:9px 11px;
+      background:rgba(255,254,249,.9);border:1px solid var(--line);font-size:9px}
+    .map-legend span{display:inline-flex;align-items:center;gap:5px}
+    .legend-chip{width:13px;height:13px;border:1px solid rgba(21,25,20,.45)}
+    .map-panel{padding:28px;border-left:1px solid var(--ink);background:var(--white)}
+    .map-panel-top{padding-bottom:22px;border-bottom:1px solid var(--line)}
+    .map-panel-top span{color:var(--muted);font-size:10px;letter-spacing:.08em}
+    .map-panel-top strong{display:block;margin-top:9px;font-size:28px;letter-spacing:-.05em}
+    .map-panel-top p{margin:10px 0 0;color:var(--muted);font-size:11px;line-height:1.6}
+    .district-list{display:grid;margin-top:22px}
+    .district-card{width:100%;padding:15px 0;display:grid;grid-template-columns:13px 1fr auto;gap:11px;
+      align-items:center;border:0;border-bottom:1px solid var(--line);background:transparent;color:var(--ink);
+      text-align:left;cursor:pointer}
+    .district-card:hover b,.district-card.active b{text-decoration:underline;text-underline-offset:4px}
+    .district-swatch{width:10px;height:10px;border-radius:50%;background:var(--district-color)}
+    .district-card b{font-size:13px}.district-card small{display:block;margin-top:4px;color:var(--muted);font-size:9px}
+    .district-card strong{font:800 20px/1 Arial,sans-serif}
+    .selection-card{margin-top:26px;padding:18px;background:var(--forest);color:var(--white)}
+    .selection-card span{color:rgba(255,255,255,.58);font-size:9px;letter-spacing:.12em}
+    .selection-card strong{display:block;margin:9px 0 5px;color:var(--acid);font-size:21px}
+    .selection-card p{margin:0;color:rgba(255,255,255,.66);font-size:11px}
+    .selection-card button{width:100%;margin-top:16px;padding:10px;border:1px solid rgba(255,255,255,.45);
+      background:transparent;color:var(--white);font-size:10px;cursor:pointer}
+    .selection-card button:hover{background:var(--white);color:var(--ink)}
     .data-section{width:min(1440px,calc(100% - 64px));margin:0 auto;padding:96px 0 84px}
     .section-head{display:flex;align-items:flex-end;justify-content:space-between;gap:24px;margin-bottom:28px}
     .section-head .eyebrow{margin-bottom:10px}
@@ -120,10 +164,12 @@
     footer p{margin:0;color:rgba(255,255,255,.65);font-size:10px;letter-spacing:.08em}
     footer p span{margin-left:14px;color:rgba(255,255,255,.35)}
     @media(max-width:980px){
-      .topbar,.hero,.data-section{width:min(100% - 36px,760px)}
+      .topbar,.hero,.map-section,.data-section{width:min(100% - 36px,760px)}
       .hero{grid-template-columns:1fr;gap:50px;padding-top:56px}
       .hero-panel{max-width:600px}.metrics{grid-template-columns:repeat(2,1fr)}
       .metrics article:nth-child(2){border-right:0}.metrics article:nth-child(-n+2){border-bottom:1px solid var(--ink)}
+      .map-layout{grid-template-columns:1fr}.map-canvas{min-height:540px}
+      .map-panel{border-left:0;border-top:1px solid var(--ink)}
     }
     @media(max-width:620px){
       .topbar{height:68px}.back-link{display:none}.source-status{font-size:0}
@@ -134,6 +180,9 @@
       .progress-number strong{font-size:47px}.metrics{grid-template-columns:1fr}
       .metrics article{min-height:142px;border-right:0;border-bottom:1px solid var(--ink)}
       .section-head{align-items:flex-start;flex-direction:column}.filters{justify-content:flex-start}
+      .map-section{padding-top:62px}.map-source{text-align:left}.map-canvas{min-height:420px;padding:10px}
+      .legal-map{min-height:400px}.map-legend{left:10px;bottom:10px;gap:6px;flex-wrap:wrap;max-width:250px}
+      .map-panel{padding:22px}
       footer{padding:24px 20px;align-items:flex-start;flex-direction:column;justify-content:center}
       footer p span{display:block;margin:6px 0 0}
     }
@@ -183,6 +232,40 @@
       <article class="accent-metric"><span>최고가</span><strong id="metric-top">—</strong><em id="metric-top-name">TOP DEAL</em></article>
     </section>
 
+    <section class="map-section" aria-labelledby="map-title">
+      <div class="section-head">
+        <div><p class="eyebrow">VWORLD LEGAL-DONG MAP</p><h2 id="map-title">법정동으로 읽는 100건</h2></div>
+        <p class="map-source"><b>VWorld 공간정보 오픈플랫폼</b><br>LT_C_ADEMD_INFO · 화성시 39개 법정동 경계</p>
+      </div>
+      <div class="map-layout">
+        <div class="map-canvas" id="map-canvas">
+          <svg class="legal-map" id="legal-map" viewBox="0 0 1000 620" role="img"
+            aria-label="화성시 39개 법정동 경계와 현재 100건의 거래 분포"></svg>
+          <div class="map-tooltip" id="map-tooltip" hidden></div>
+          <div class="map-legend" aria-label="거래 건수 색상 범례">
+            <span><i class="legend-chip" style="background:#dedbd1"></i>0건</span>
+            <span><i class="legend-chip" style="background:#d9ff43"></i>1–2건</span>
+            <span><i class="legend-chip" style="background:#84b85d"></i>3–5건</span>
+            <span><i class="legend-chip" style="background:#193c29"></i>6건+</span>
+          </div>
+        </div>
+        <aside class="map-panel" aria-label="법정동 지도 요약">
+          <div class="map-panel-top">
+            <span>LEGAL-DONG COVERAGE</span>
+            <strong><span id="active-dong-count">0</span> / 39</strong>
+            <p>현재 100건에서 거래가 확인되는 법정동입니다. 지도 영역을 누르면 해당 구·법정동 거래만 볼 수 있습니다.</p>
+          </div>
+          <div class="district-list" id="district-list"></div>
+          <div class="selection-card">
+            <span>SELECTED AREA</span>
+            <strong id="selected-area">화성시 전체</strong>
+            <p id="selected-count">현재 100건 전체 보기</p>
+            <button type="button" id="clear-map-filter">지도 선택 초기화</button>
+          </div>
+        </aside>
+      </div>
+    </section>
+
     <section class="data-section">
       <div class="section-head">
         <div><p class="eyebrow">TRANSACTION LOG</p><h2>실거래 내역</h2></div>
@@ -199,20 +282,23 @@
   </main>
 
   <footer>
-    <p>Source · 국토교통부 아파트 매매 실거래가 자료 <span>2026.02.01 화성시 법정동 개편 반영</span></p>
+    <p>Source · 국토교통부 실거래가 · VWorld 법정동 경계 <span>2026.02.01 화성시 법정구역 개편 반영</span></p>
     <p>DATA MONTH 2026-06 · UNIT KRW 10K</p>
   </footer>
 
   <script>
   (() => {
-    const state={summary:null,rows:[],offset:0,filter:'전체',loading:false};
+    const state={summary:null,legalDongs:null,rows:[],offset:0,filter:'전체',selectedDong:null,loading:false};
     const $=id=>document.getElementById(id);
     const money=new Intl.NumberFormat('ko-KR');
     const decimal=new Intl.NumberFormat('ko-KR',{maximumFractionDigits:1});
+    const districtColors={만세구:'#d46a45',효행구:'#5f8d65',병점구:'#5d78bd',동탄구:'#7858a6'};
     const safe=value=>String(value??'').replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
     const wonLabel=value=>{const eok=Math.floor(value/10000),rest=value%10000;return eok?(rest?`${eok}억 ${money.format(rest)}만`:`${eok}억`):`${money.format(value)}만`};
     const dateLabel=value=>{const parts=value.split('-');return `${Number(parts[1])}.${String(Number(parts[2])).padStart(2,'0')}`};
     const csvEscape=value=>{const text=String(value??'');return /[",\n]/.test(text)?`"${text.replaceAll('"','""')}"`:text};
+    const rowDong=row=>row.neighborhood.split(' ')[0];
+    const dongKey=(district,name)=>`${district}|${name}`;
 
     function stats(rows){
       if(!rows.length)return{average:0,median:0,top:null};
@@ -224,14 +310,118 @@
       };
     }
 
-    function filteredRows(){return state.filter==='전체'?state.rows:state.rows.filter(row=>row.district_name===state.filter)}
+    function filteredRows(){
+      return state.rows.filter(row=>{
+        const districtMatch=state.filter==='전체'||row.district_name===state.filter;
+        const dongMatch=!state.selectedDong||dongKey(row.district_name,rowDong(row))===state.selectedDong;
+        return districtMatch&&dongMatch;
+      });
+    }
 
     function renderFilters(){
-      const districts=['전체',...new Set(state.rows.map(row=>row.district_name))];
+      const mappedDistricts=state.legalDongs?.features.map(feature=>feature.properties.district)||state.rows.map(row=>row.district_name);
+      const districts=['전체',...new Set(mappedDistricts)];
       $('filters').innerHTML=districts.map(name=>`<button type="button" data-district="${safe(name)}" class="${name===state.filter?'active':''}">${safe(name)}</button>`).join('');
       $('filters').querySelectorAll('button').forEach(button=>button.addEventListener('click',()=>{
-        state.filter=button.dataset.district;render();
+        state.filter=button.dataset.district;state.selectedDong=null;render();
       }));
+    }
+
+    function renderMap(){
+      if(!state.legalDongs)return;
+      const features=state.legalDongs.features,counts=new Map();
+      state.rows.forEach(row=>{
+        const key=dongKey(row.district_name,rowDong(row));
+        counts.set(key,(counts.get(key)||0)+1);
+      });
+
+      const points=[];
+      const collect=value=>{
+        if(typeof value?.[0]==='number')points.push(value);
+        else value?.forEach(collect);
+      };
+      features.forEach(feature=>collect(feature.geometry.coordinates));
+      const meanLat=points.reduce((sum,point)=>sum+point[1],0)/points.length;
+      const cosLat=Math.cos(meanLat*Math.PI/180);
+      const xs=points.map(point=>point[0]*cosLat),ys=points.map(point=>point[1]);
+      const bounds={minX:Math.min(...xs),maxX:Math.max(...xs),minY:Math.min(...ys),maxY:Math.max(...ys)};
+      const width=1000,height=620,pad=30;
+      const scale=Math.min((width-pad*2)/(bounds.maxX-bounds.minX),(height-pad*2)/(bounds.maxY-bounds.minY));
+      const project=point=>[
+        pad+(point[0]*cosLat-bounds.minX)*scale,
+        height-pad-(point[1]-bounds.minY)*scale
+      ];
+      const ringPath=ring=>ring.map((point,index)=>`${index?'L':'M'}${project(point).map(value=>value.toFixed(1)).join(',')}`).join(' ')+' Z';
+      const geometryPath=geometry=>{
+        if(geometry.type==='Polygon')return geometry.coordinates.map(ringPath).join(' ');
+        return geometry.coordinates.flatMap(polygon=>polygon.map(ringPath)).join(' ');
+      };
+      const fillFor=count=>count>=6?'#193c29':count>=3?'#84b85d':count>=1?'#d9ff43':'#dedbd1';
+
+      $('legal-map').innerHTML=features.map(feature=>{
+        const {district,name}=feature.properties,key=dongKey(district,name),count=counts.get(key)||0;
+        const muted=(state.filter!=='전체'&&state.filter!==district)||(state.selectedDong&&state.selectedDong!==key);
+        return `<path d="${geometryPath(feature.geometry)}" fill="${fillFor(count)}" fill-rule="evenodd"
+          class="${muted?'is-muted ':''}${state.selectedDong===key?'is-selected':''}"
+          data-key="${safe(key)}" data-district="${safe(district)}" data-name="${safe(name)}" data-count="${count}"
+          tabindex="0" role="button" aria-label="${safe(district)} ${safe(name)}, 현재 ${count}건"></path>`;
+      }).join('');
+
+      const tooltip=$('map-tooltip'),canvas=$('map-canvas');
+      const showTooltip=(path,event)=>{
+        tooltip.innerHTML=`<b>${safe(path.dataset.name)}</b>${safe(path.dataset.district)} · 현재 ${money.format(Number(path.dataset.count))}건`;
+        tooltip.hidden=false;
+        const box=canvas.getBoundingClientRect();
+        const pathBox=path.getBoundingClientRect();
+        const x=event?.clientX??pathBox.left+pathBox.width/2;
+        const y=event?.clientY??pathBox.top+pathBox.height/2;
+        tooltip.style.left=`${Math.min(box.width-185,Math.max(5,x-box.left))}px`;
+        tooltip.style.top=`${Math.min(box.height-35,Math.max(35,y-box.top))}px`;
+      };
+      $('legal-map').querySelectorAll('path').forEach(path=>{
+        path.addEventListener('pointermove',event=>showTooltip(path,event));
+        path.addEventListener('pointerleave',()=>tooltip.hidden=true);
+        path.addEventListener('focus',()=>showTooltip(path));
+        path.addEventListener('blur',()=>tooltip.hidden=true);
+        path.addEventListener('click',()=>{
+          state.filter=path.dataset.district;state.selectedDong=path.dataset.key;render();
+          document.querySelector('.data-section').scrollIntoView({behavior:'smooth',block:'start'});
+        });
+        path.addEventListener('keydown',event=>{
+          if(event.key==='Enter'||event.key===' '){event.preventDefault();path.click()}
+        });
+      });
+
+      const districts=['만세구','효행구','병점구','동탄구'].filter(district=>
+        features.some(feature=>feature.properties.district===district)
+      );
+      $('district-list').innerHTML=districts.map(district=>{
+        const currentCount=state.rows.filter(row=>row.district_name===district).length;
+        const dongCount=features.filter(feature=>feature.properties.district===district).length;
+        return `<button type="button" class="district-card ${state.filter===district&&!state.selectedDong?'active':''}"
+          data-district="${safe(district)}" style="--district-color:${districtColors[district]||'#151914'}">
+          <i class="district-swatch"></i><span><b>${safe(district)}</b><small>${dongCount}개 법정동</small></span><strong>${currentCount}</strong>
+        </button>`;
+      }).join('');
+      $('district-list').querySelectorAll('button').forEach(button=>button.addEventListener('click',()=>{
+        state.filter=button.dataset.district;state.selectedDong=null;render();
+      }));
+
+      $('active-dong-count').textContent=money.format(features.filter(feature=>
+        (counts.get(dongKey(feature.properties.district,feature.properties.name))||0)>0
+      ).length);
+      const selectedRows=filteredRows();
+      if(state.selectedDong){
+        const [district,name]=state.selectedDong.split('|');
+        $('selected-area').textContent=`${district} ${name}`;
+        $('selected-count').textContent=`현재 100건 중 ${money.format(selectedRows.length)}건`;
+      }else if(state.filter!=='전체'){
+        $('selected-area').textContent=state.filter;
+        $('selected-count').textContent=`현재 100건 중 ${money.format(selectedRows.length)}건`;
+      }else{
+        $('selected-area').textContent='화성시 전체';
+        $('selected-count').textContent=`현재 ${money.format(state.rows.length)}건 전체 보기`;
+      }
     }
 
     function render(){
@@ -255,6 +445,7 @@
         <td><span class="deal-type">${safe(row.deal_type||'미기재')}</span></td></tr>`).join('');
       $('empty').hidden=rows.length>0;
       renderFilters();
+      renderMap();
     }
 
     async function loadBatch(offset){
@@ -264,7 +455,7 @@
         const batch=state.summary.batches.find(item=>item.offset===offset)||state.summary.batches[0];
         const response=await fetch(`data/${batch.file}?v=${encodeURIComponent(state.summary.updatedAt)}`,{cache:'no-store'});
         if(!response.ok)throw new Error(`HTTP ${response.status}`);
-        state.rows=await response.json();state.offset=batch.offset;state.filter='전체';
+        state.rows=await response.json();state.offset=batch.offset;state.filter='전체';state.selectedDong=null;
         $('notice').textContent=`공공 API 수집본 ${money.format(batch.offset+1)}–${money.format(batch.offset+batch.count)}건 · ${state.rows.length}건 표시`;
         render();
       }catch(error){$('notice').textContent=`데이터를 불러오지 못했습니다: ${error.message}`}
@@ -290,9 +481,13 @@
 
     async function init(){
       try{
-        const response=await fetch('data/summary.json',{cache:'no-store'});
-        if(!response.ok)throw new Error(`HTTP ${response.status}`);
-        state.summary=await response.json();
+        const [summaryResponse,mapResponse]=await Promise.all([
+          fetch('data/summary.json',{cache:'no-store'}),
+          fetch('data/hwaseong-legal-dong.geojson',{cache:'force-cache'})
+        ]);
+        if(!summaryResponse.ok)throw new Error(`HTTP ${summaryResponse.status}`);
+        state.summary=await summaryResponse.json();
+        if(mapResponse.ok)state.legalDongs=await mapResponse.json();
         await loadBatch(0);
       }catch(error){$('notice').textContent=`요약 데이터를 불러오지 못했습니다: ${error.message}`}
     }
@@ -303,6 +498,7 @@
       loadBatch(next);
     });
     $('csv-btn').addEventListener('click',downloadCsv);
+    $('clear-map-filter').addEventListener('click',()=>{state.filter='전체';state.selectedDong=null;render()});
     init();
   })();
   </script>
