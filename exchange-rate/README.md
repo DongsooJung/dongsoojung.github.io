@@ -13,11 +13,12 @@
    FRED/EIA의 **브렌트유 일일 현물가격(USD/배럴)** 을 연간 평균으로 집계.
 5. **금 · 구리 · 천연가스** — 세계은행 **Pink Sheet** 월별 가격을 연평균하고
    2018년=100 비교지수와 최신 실제 단가를 표시.
-6. **오늘 데이터 새로고침** — 캐시를 우회해 환율·금리·물가·시장 JSON을 다시 읽고
+6. **비트코인** — Binance Vision **BTCUSDT 월봉**으로 월평균·고가·저가를 집계.
+7. **오늘 데이터 새로고침** — 캐시를 우회해 환율·금리·물가·비트코인·시장 JSON을 다시 읽고
    각 데이터의 실제 최신 관측일을 화면에 표시.
 
 - 대시보드: [`/exchange-rate/`](https://www.stargateedu.co.kr/exchange-rate/)
-- 데이터: [`data.json`](./data.json)(환율) · [`bok_data.json`](./bok_data.json)(금리·물가) · [`market_data.json`](./market_data.json)(DRAM·유가·원자재) · [`rate_gap.json`](./rate_gap.json)(한·미 금리차)
+- 데이터: [`data.json`](./data.json)(환율) · [`bok_data.json`](./bok_data.json)(금리·물가) · [`bitcoin_data.json`](./bitcoin_data.json)(비트코인) · [`market_data.json`](./market_data.json)(DRAM·유가·원자재) · [`rate_gap.json`](./rate_gap.json)(한·미 금리차)
 
 ## 구성
 
@@ -28,11 +29,13 @@
 | `fetch_bok.py` | 한국은행 ECOS 기준금리·CPI 수집 → `bok_data.json`/`bok-fallback.js` |
 | `fetch_markets.py` | Stanford DAM DRAM·FRED/EIA 브렌트유·세계은행 원자재 수집 → 연평균 집계 |
 | `fetch_rate_gap.py` | FRED 한·미 익일물 금리 수집 → `rate_gap.json`/`rate-gap-fallback.js` |
+| `fetch_bitcoin.py` | Binance Vision BTCUSDT 월봉 수집 → `bitcoin_data.json`/`bitcoin-fallback.js` |
 | `data.json` | 월별 통화별 `{avg, min, max}` 매매기준율 |
 | `bok_data.json` | 월별 `{baseRate, cpi, cpiYoY}` 금리·물가 |
+| `bitcoin_data.json` | 월별 `{usd, usdMin, usdMax}` 비트코인 시세 |
 | `market_data.json` | 연도별 DRAM·유가·금·구리·천연가스 가격 |
 | `rate_gap.json` | 월별 `{koreaRate, usRate, gap}` 한·미 익일물 금리와 차이 |
-| `fallback-data.js` · `bok-fallback.js` · `market-fallback.js` · `rate-gap-fallback.js` | JSON 로드 실패 시 내장 폴백 |
+| `fallback-data.js` · `bok-fallback.js` · `bitcoin-fallback.js` · `market-fallback.js` · `rate-gap-fallback.js` | JSON 로드 실패 시 내장 폴백 |
 | `chart.umd.min.js` | Chart.js (오프라인 번들) |
 
 ## 데이터 스키마
@@ -84,6 +87,7 @@ python3 exchange-rate/fetch_data.py
 BOK_API_KEY=<인증키>  python3 exchange-rate/fetch_bok.py
 python3 exchange-rate/fetch_markets.py
 python3 exchange-rate/fetch_rate_gap.py
+python3 exchange-rate/fetch_bitcoin.py
 ```
 
 ## 집계 로직
