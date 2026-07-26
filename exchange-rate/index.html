@@ -106,6 +106,9 @@ header.head .lead{color:var(--sub);font-size:14px;margin:8px 0 0;max-width:74ch}
   padding:7px 13px;font-size:12.5px;cursor:pointer;font-family:inherit}
 .dl:hover{color:var(--ink);border-color:var(--acc)}
 .tbl-scroll{overflow-x:auto;margin-top:12px}
+.detail-actions{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.detail-body[hidden]{display:none!important}
+.detail-body{margin-top:4px}
 table{width:100%;border-collapse:collapse;font-size:13px;min-width:640px}
 th,td{padding:8px 12px;text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
 th{color:var(--muted);font-weight:600;font-size:12px;border-bottom:1px solid var(--line2)}
@@ -267,15 +270,15 @@ footer{margin-top:56px;padding-top:20px;border-top:1px solid var(--line);color:v
 
     <div class="sec-divider" style="grid-column:1/-1;margin-top:12px;display:flex;align-items:baseline;gap:10px;flex-wrap:wrap">
       <h2 style="font-size:19px;margin:0">글로벌 원자재 · 금 · 구리 · 천연가스</h2>
-      <span class="cap" style="margin:0">세계은행 Pink Sheet 월별 가격의 연평균 · 2018년=100 비교지수</span>
+      <span class="cap" style="margin:0" id="commoditySectionCap">세계은행 Pink Sheet 월별 가격의 연평균 · 기준연도=100 비교지수</span>
     </div>
 
     <section class="kpis" id="commodityKpis" style="grid-column:1/-1" aria-label="금·구리·천연가스 연간 지표"></section>
 
     <div class="card full">
       <h2>금·구리·천연가스 연간 가격지수</h2>
-      <div class="cap">2018년 연평균=100 · 단위가 다른 세 원자재의 방향과 변동폭 비교</div>
-      <div class="chart-box"><canvas id="commodityChart" role="img" aria-label="금, 구리, 미국 천연가스의 2018년 기준 연간 가격지수 선 그래프"></canvas></div>
+      <div class="cap" id="commodityChartCap">기준 연도 연평균=100 · 단위가 다른 세 원자재의 방향과 변동폭 비교</div>
+      <div class="chart-box"><canvas id="commodityChart" role="img" aria-label="금, 구리, 미국 천연가스의 기준 연도 대비 연간 가격지수 선 그래프"></canvas></div>
     </div>
 
     <div class="card full">
@@ -284,19 +287,24 @@ footer{margin-top:56px;padding-top:20px;border-top:1px solid var(--line);color:v
       <div class="chart-box"><canvas id="rateGapChart" role="img" aria-label="지난 30년간 한국 콜머니·은행간 익일물 금리와 미국 실효 연방기금금리, 한국에서 미국을 뺀 금리차의 월별 시계열 선 그래프"></canvas></div>
     </div>
 
-    <div class="card full">
+    <div class="card full" id="detailCard">
       <div class="thead-row">
         <div>
           <h2>월별 상세 데이터</h2>
           <div class="cap" style="margin-bottom:0">통화별 월평균 매매기준율 · 괄호는 선택 통화 전월비 · 기준금리/물가는 우측 열</div>
         </div>
-        <button class="dl" id="csvBtn">⬇ CSV 다운로드</button>
+        <div class="detail-actions">
+          <button class="dl" id="toggleDetailBtn" type="button" aria-expanded="false" aria-controls="detailBody">▾ 상세 데이터 보기</button>
+          <button class="dl" id="csvBtn" type="button">⬇ CSV 다운로드</button>
+        </div>
       </div>
-      <div class="tbl-scroll">
-        <table id="dataTable" aria-label="월별 통화별 월평균 매매기준율 표">
-          <thead><tr id="tblHead"></tr></thead>
-          <tbody></tbody>
-        </table>
+      <div class="detail-body" id="detailBody" hidden>
+        <div class="tbl-scroll">
+          <table id="dataTable" aria-label="월별 통화별 월평균 매매기준율 표">
+            <thead><tr id="tblHead"></tr></thead>
+            <tbody></tbody>
+          </table>
+        </div>
       </div>
     </div>
   </section>
@@ -326,8 +334,8 @@ footer{margin-top:56px;padding-top:20px;border-top:1px solid var(--line);color:v
     <br><br>
     <b>금 · 구리 · 천연가스</b> — 세계은행
     <a href="https://www.worldbank.org/en/research/commodity-markets" target="_blank" rel="noopener">Commodity Price Data (Pink Sheet)</a>의
-    금(USD/트로이온스), 구리(USD/톤), 미국 천연가스(USD/MMBtu) 월별 가격을 연평균하고 2018년=100 지수로 비교합니다.
-    당해연도는 최근 발표 월까지의 YTD 평균입니다.
+    금(USD/트로이온스), 구리(USD/톤), 미국 천연가스(USD/MMBtu) 월별 가격을 연평균하고
+    <b>1999년=100</b> 지수로 비교합니다. 당해연도는 최근 발표 월까지의 YTD 평균입니다.
     <br><br>
     <b>비트코인</b> — Binance Vision 공개 API의
     <a href="https://data-api.binance.vision/" target="_blank" rel="noopener">BTCUSDT 월봉</a>을 사용합니다.
@@ -1148,10 +1156,17 @@ function renderCommodityKPIs(){
     <div class="delta"><span>${source&&source.workbookUpdated?`파일 갱신 ${source.workbookUpdated}`:'Pink Sheet'}</span></div>`;
   el.appendChild(tile);
 }
+function commodityBaseYear(){
+  return MARKET?.coverage?.indexBaseYear
+    || MARKET?.sources?.commodities?.indexBaseYear
+    || (marketRows().find(r => r.goldUsdPerOz!=null || r.copperUsdPerMt!=null || r.gasUsdPerMmbtu!=null)?.year)
+    || 1999;
+}
 function buildCommodity(){
   const defs = [
     ['금','goldUsdPerOz',MK.gold],['구리','copperUsdPerMt',MK.copper],['미국 천연가스','gasUsdPerMmbtu',MK.gas]
   ];
+  const baseYear = commodityBaseYear();
   charts.commodity = new Chart(document.getElementById('commodityChart'), {
     type:'line',data:{labels:[],datasets:defs.map(([label,key,color])=>({
       label,data:[],borderColor:color,backgroundColor:color,$labelColor:color,$key:key,
@@ -1161,21 +1176,43 @@ function buildCommodity(){
     options:{responsive:true,maintainAspectRatio:false,layout:{padding:{right:64,top:6}},interaction:{mode:'index',intersect:false},
       scales:{x:{grid:{display:false},border:{color:BASELINE},ticks:{color:MUTED,maxRotation:0}},
         y:{border:{display:false},grid:{color:c=>c.tick.value===100?BASELINE:GRID,drawTicks:false},
-           ticks:{color:MUTED,padding:8,callback:v=>v},title:{display:true,text:'가격지수 (2018=100)',color:MUTED,font:{size:10.5}}}},
+           ticks:{color:MUTED,padding:8,callback:v=>v},title:{display:true,text:`가격지수 (${baseYear}=100)`,color:MUTED,font:{size:10.5}}}},
       plugins:{legend:legendStyle,tooltip:{...tooltipStyle,callbacks:{
-        title:items=>`${items[0].label}년 · 2018=100`,label:it=>it.parsed.y==null?'':` ${fmt(it.parsed.y,1)} · ${it.dataset.label}`,
+        title:items=>`${items[0].label}년 · ${commodityBaseYear()}=100`,label:it=>it.parsed.y==null?'':` ${fmt(it.parsed.y,1)} · ${it.dataset.label}`,
       }}}},plugins:[crosshair,endLabels],
   });
   charts.commodity.$endLabels = true;
 }
 function updateCommodity(){
   if (!charts.commodity) return;
-  const rows=marketRows(); charts.commodity.data.labels=rows.map(r=>String(r.year));
+  const rows=marketRows();
+  const baseYear = commodityBaseYear();
+  const secCap = document.getElementById('commoditySectionCap');
+  const chartCap = document.getElementById('commodityChartCap');
+  if (secCap) secCap.textContent = `세계은행 Pink Sheet 월별 가격의 연평균 · ${baseYear}년=100 비교지수 · ${rows[0]?.year||'—'}~${rows[rows.length-1]?.year||'—'}`;
+  if (chartCap) chartCap.textContent = `${baseYear}년 연평균=100 · 단위가 다른 세 원자재의 방향과 변동폭 비교`;
+  if (charts.commodity.options?.scales?.y?.title) {
+    charts.commodity.options.scales.y.title.text = `가격지수 (${baseYear}=100)`;
+  }
+  charts.commodity.data.labels=rows.map(r=>String(r.year));
   charts.commodity.data.datasets.forEach(ds=>{
-    const baseRow=rows.find(r=>r[ds.$key]!=null), base=baseRow?baseRow[ds.$key]:null;
+    const baseRow=rows.find(r=>r.year===baseYear && r[ds.$key]!=null) || rows.find(r=>r[ds.$key]!=null);
+    const base=baseRow?baseRow[ds.$key]:null;
     ds.data=rows.map(r=>r[ds.$key]==null||!base?null:r[ds.$key]/base*100);
   });
   charts.commodity.update();
+}
+function setupDetailToggle(){
+  const btn = document.getElementById('toggleDetailBtn');
+  const body = document.getElementById('detailBody');
+  if (!btn || !body) return;
+  const setOpen = (open) => {
+    body.hidden = !open;
+    btn.setAttribute('aria-expanded', String(open));
+    btn.textContent = open ? '▴ 상세 데이터 숨기기' : '▾ 상세 데이터 보기';
+  };
+  setOpen(false);
+  btn.addEventListener('click', () => setOpen(body.hidden));
 }
 function downloadMarketCSV(){
   const lines = ['year,partial,dram_usd_per_gb,dram_observations,brent_usd_per_barrel,brent_observations,gold_usd_per_oz,copper_usd_per_mt,natural_gas_usd_per_mmbtu'];
@@ -1341,6 +1378,7 @@ async function refreshAllData(){
   document.getElementById('marketCsvBtn').addEventListener('click', downloadMarketCSV);
   document.getElementById('btcCsvBtn').addEventListener('click', downloadBtcCSV);
   document.getElementById('refreshAllBtn').addEventListener('click', refreshAllData);
+  setupDetailToggle();
 })();
 </script>
 </body>

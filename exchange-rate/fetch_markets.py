@@ -19,12 +19,14 @@ from datetime import date, datetime, timezone
 from pathlib import Path
 
 
-START_YEAR = 2018
-HTTP_TIMEOUT = 60
+# 환율·금리 커버리지(1999~)와 맞추고, 원자재·유가는 그 이전부터도 가능하다.
+START_YEAR = 1999
+HTTP_TIMEOUT = 90
 DRAM_URL = "https://dam.stanford.edu/assets/memory-prices/memory-prices.csv"
 BRENT_URL = "https://fred.stlouisfed.org/graph/fredgraph.csv?id=DCOILBRENTEU"
 WORLD_BANK_URL = "https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx"
 DATA_PATH = Path(__file__).parent / "market_data.json"
+INDEX_BASE_YEAR = 1999  # 원자재 가격지수 기준 연도
 
 
 def download_bytes(url):
@@ -91,7 +93,7 @@ def fetch_brent():
 
 
 def fetch_world_bank():
-    """세계은행 Pink Sheet에서 금·구리·미국 천연가스 월가격을 읽는다."""
+    """세계은행 Pink Sheet에서 금·구리·미국 천연가스·브렌트유 월가격을 읽는다."""
     try:
         import openpyxl
     except ImportError as exc:
@@ -106,6 +108,7 @@ def fetch_world_bank():
         "gasUsdPerMmbtu": headers.index("Natural gas, US"),
         "copperUsdPerMt": headers.index("Copper"),
         "goldUsdPerOz": headers.index("Gold"),
+        "brentUsdPerBbl": headers.index("Crude oil, Brent"),
     }
     yearly = {key: defaultdict(list) for key in columns}
     last_period = None
@@ -128,68 +131,137 @@ def fetch_world_bank():
         if last_period is None or observed > last_period:
             last_period = observed
     workbook_updated = str(sheet["A4"].value or "").replace("Updated on ", "")
-    if not any(yearly[key] for key in yearly):
+    commodity_keys = ("gasUsdPerMmbtu", "copperUsdPerMt", "goldUsdPerOz")
+    if not any(yearly[key] for key in commodity_keys):
         raise RuntimeError("세계은행 원자재 데이터가 비어 있습니다.")
     return yearly, last_period, workbook_updated
 
 
+def load_existing():
+    if not DATA_PATH.exists():
+        return {}
+    try:
+        return json.loads(DATA_PATH.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError):
+        return {}
+
+
 def main():
+    existing = load_existing()
+    dram, dram_last = {}, None
+    brent, brent_last = {}, None
+    commodities = {
+        "goldUsdPerOz": defaultdict(list),
+        "copperUsdPerMt": defaultdict(list),
+        "gasUsdPerMmbtu": defaultdict(list),
+    }
+    commodity_last, workbook_updated = None, None
+
     try:
         dram, dram_last = fetch_dram()
+    except Exception as exc:
+        print(f"DRAM 갱신 실패 — 기존 값 유지: {exc}", file=sys.stderr)
+    try:
         brent, brent_last = fetch_brent()
+    except Exception as exc:
+        print(f"브렌트유 갱신 실패 — 기존 값 유지: {exc}", file=sys.stderr)
+    try:
         commodities, commodity_last, workbook_updated = fetch_world_bank()
     except Exception as exc:
-        print(f"시장 데이터 갱신 실패 — 기존 데이터를 유지합니다: {exc}", file=sys.stderr)
+        print(f"원자재 갱신 실패 — 기존 값 유지: {exc}", file=sys.stderr)
+
+    # 일부 소스만 실패해도 나머지와 기존 JSON을 합친다.
+    existing_by_year = {
+        int(row["year"]): row for row in existing.get("series", []) if "year" in row
+    }
+    years = sorted(
+        set(dram)
+        | set(brent)
+        | set(commodities.get("goldUsdPerOz", {}))
+        | set(commodities.get("copperUsdPerMt", {}))
+        | set(commodities.get("gasUsdPerMmbtu", {}))
+        | set(existing_by_year)
+    )
+    years = [y for y in years if y >= START_YEAR]
+    if not years:
+        print("시장 데이터가 비어 있어 기존 파일을 유지합니다.", file=sys.stderr)
         return 0
 
-    years = sorted(set(dram) | set(brent) | set(commodities["goldUsdPerOz"]) |
-                   set(commodities["copperUsdPerMt"]) | set(commodities["gasUsdPerMmbtu"]))
     current_year = date.today().year
     series = []
     for year in years:
+        prev = existing_by_year.get(year, {})
         row = {"year": year, "partial": year == current_year}
         if dram.get(year):
             row["dramUsdPerGb"] = round(mean(dram[year]), 3)
             row["dramObservations"] = len(dram[year])
+        elif prev.get("dramUsdPerGb") is not None:
+            row["dramUsdPerGb"] = prev["dramUsdPerGb"]
+            if prev.get("dramObservations") is not None:
+                row["dramObservations"] = prev["dramObservations"]
+        # 브렌트유: FRED 우선, 없으면 세계은행 Pink Sheet, 그래도 없으면 기존 JSON
         if brent.get(year):
             row["brentUsdPerBbl"] = round(mean(brent[year]), 2)
             row["brentObservations"] = len(brent[year])
+        elif commodities.get("brentUsdPerBbl", {}).get(year):
+            vals = commodities["brentUsdPerBbl"][year]
+            row["brentUsdPerBbl"] = round(mean(vals), 2)
+            row["brentObservations"] = len(vals)
+        elif prev.get("brentUsdPerBbl") is not None:
+            row["brentUsdPerBbl"] = prev["brentUsdPerBbl"]
+            if prev.get("brentObservations") is not None:
+                row["brentObservations"] = prev["brentObservations"]
         observation_keys = {
             "goldUsdPerOz": "goldObservations",
             "copperUsdPerMt": "copperObservations",
             "gasUsdPerMmbtu": "gasObservations",
         }
         for key, observation_key in observation_keys.items():
-            values = commodities[key].get(year, [])
+            values = commodities.get(key, {}).get(year, [])
             if values:
                 row[key] = round(mean(values), 2)
                 row[observation_key] = len(values)
+            elif prev.get(key) is not None:
+                row[key] = prev[key]
+                if prev.get(observation_key) is not None:
+                    row[observation_key] = prev[observation_key]
         series.append(row)
 
+    old_sources = existing.get("sources", {})
     payload = {
         "updatedAt": datetime.now(timezone.utc).strftime("%Y-%m-%d"),
         "sourceMode": "public-csv",
+        "coverage": {
+            "start": series[0]["year"],
+            "end": series[-1]["year"],
+            "years": len(series),
+            "indexBaseYear": INDEX_BASE_YEAR,
+        },
         "sources": {
             "dram": {
                 "name": "Stanford DAM Memory Prices",
                 "metric": "DRAM 최저 소비자 소매가격",
                 "unit": "USD/GB",
                 "url": "https://dam.stanford.edu/memory-prices.html",
-                "observedAt": dram_last,
+                "observedAt": dram_last or old_sources.get("dram", {}).get("observedAt"),
             },
             "brent": {
-                "name": "FRED DCOILBRENTEU (원출처: U.S. EIA)",
-                "metric": "Brent Europe 현물가격",
+                "name": "FRED DCOILBRENTEU / World Bank Pink Sheet Brent",
+                "metric": "Brent Europe 현물·월별 가격",
                 "unit": "USD/barrel",
-                "url": "https://fred.stlouisfed.org/series/DCOILBRENTEU",
-                "observedAt": brent_last,
+                "url": "https://www.worldbank.org/en/research/commodity-markets",
+                "observedAt": brent_last
+                or commodity_last
+                or old_sources.get("brent", {}).get("observedAt"),
             },
             "commodities": {
                 "name": "World Bank Commodity Price Data (Pink Sheet)",
-                "metrics": "Gold · Copper · Natural gas, US",
+                "metrics": "Gold · Copper · Natural gas, US · Crude oil, Brent",
                 "url": "https://www.worldbank.org/en/research/commodity-markets",
-                "observedAt": commodity_last,
-                "workbookUpdated": workbook_updated,
+                "observedAt": commodity_last or old_sources.get("commodities", {}).get("observedAt"),
+                "workbookUpdated": workbook_updated
+                or old_sources.get("commodities", {}).get("workbookUpdated"),
+                "indexBaseYear": INDEX_BASE_YEAR,
             },
         },
         "series": series,
@@ -199,7 +271,10 @@ def main():
         "window.MARKET_FALLBACK = " + json.dumps(payload, ensure_ascii=False) + ";\n",
         encoding="utf-8",
     )
-    print(f"완료: DRAM·브렌트유·금·구리·천연가스 {len(series)}개 연도 갱신.")
+    print(
+        f"완료: DRAM·브렌트유·금·구리·천연가스 {len(series)}개 연도 갱신 "
+        f"({series[0]['year']}~{series[-1]['year']})."
+    )
     return 0
 
 
