@@ -7,9 +7,9 @@ on:
   workflow_dispatch:
     inputs:
       business_year:
-        description: '조회할 사업연도(기본값: 2025)'
+        description: '조회할 사업연도(기본값: 2026)'
         required: false
-        default: '2025'
+        default: '2026'
 
 permissions:
   contents: write
@@ -27,12 +27,12 @@ jobs:
       - name: Refresh OpenDART financial data
         env:
           OPENDART_API_KEY: ${{ secrets.OPENDART_API_KEY || secrets.DART_API_KEY }}
-          DART_BUSINESS_YEAR: ${{ inputs.business_year || '2025' }}
+          DART_BUSINESS_YEAR: ${{ inputs.business_year || '2026' }}
         run: python3 dart-top100/fetch_opendart_top100.py
 
       - name: Commit updated dashboard data
         env:
-          DART_BUSINESS_YEAR: ${{ inputs.business_year || '2025' }}
+          DART_BUSINESS_YEAR: ${{ inputs.business_year || '2026' }}
         run: |
           FILES=("dart-top100/index.html" "dart-top100/data")
           if git diff --quiet -- "${FILES[@]}" && [ -z "$(git ls-files --others --exclude-standard -- dart-top100/data)" ]; then
@@ -42,5 +42,5 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add "${FILES[@]}"
-          git commit -m "chore(dart): ${DART_BUSINESS_YEAR:-2025}년 OpenDART 실적 갱신"
+          git commit -m "chore(dart): ${DART_BUSINESS_YEAR:-2026}년 OpenDART 실적 갱신"
           git push
