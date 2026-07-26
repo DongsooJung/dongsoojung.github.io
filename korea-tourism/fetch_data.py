@@ -3,10 +3,12 @@
 
 공공데이터포털 '출입국관광통계서비스'(data.go.kr/data/15000297)를 호출해
 korea-tourism/data.json 을 갱신한다. GitHub Actions에서 매월 실행되며,
-API 응답값이 기존 시드 값을 덮어쓴다.
+API 응답값이 기존 시드 값을 덮어쓴다. 기본 수집 시작은 2010-01이고
+START_YM 환경변수로 더 과거(예: 2005-01)부터 백필할 수 있다.
 
 사용법:
     TOUR_API_KEY=<data.go.kr 인증키(Decoding)> python3 fetch_data.py
+    START_YM=2005-01 TOUR_API_KEY=... python3 fetch_data.py
 """
 
 import json
@@ -34,8 +36,21 @@ COUNTRIES = {
     "vietnam": {"natCd": "240", "label": "베트남", "match": ["베트남", "베 트 남"]},
 }
 
-START_YM = (2024, 1)
+DEFAULT_START_YM = (2010, 1)  # 출입국관광통계 샘플·공표 범위(2005~)를 고려한 기본 시작
+RECENT_MONTHS = 3             # 잠정치→확정치 반영을 위해 항상 재수집하는 최근 개월 수
 DATA_PATH = Path(__file__).parent / "data.json"
+
+
+def parse_start_ym(default=DEFAULT_START_YM):
+    """환경변수 START_YM(YYYY-MM 또는 YYYYMM)으로 시작 연월을 덮어쓸 수 있다."""
+    raw = os.environ.get("START_YM", "").strip().replace("-", "")
+    if not raw:
+        return default
+    if len(raw) == 6 and raw.isdigit():
+        y, m = int(raw[:4]), int(raw[4:])
+        if 1 <= m <= 12:
+            return y, m
+    raise SystemExit(f"START_YM 형식 오류: {os.environ.get('START_YM')!r} (예: 2010-01)")
 
 
 def month_range(start, end):
@@ -45,6 +60,21 @@ def month_range(start, end):
         m += 1
         if m > 12:
             y, m = y + 1, 1
+
+
+def prev_month(y, m):
+    return (y - 1, 12) if m == 1 else (y, m - 1)
+
+
+def needs_fetch(row, key, ym_dash, recent):
+    """확정된 과거 월은 건너뛰고, 결측·근사치·최근 월만 재수집."""
+    if ym_dash in recent:
+        return True
+    if row.get(key) is None:
+        return True
+    if key in (row.get("approx") or []):
+        return True
+    return False
 
 
 def fetch_month(service_key, ym, nat_cd, url=None):
@@ -113,16 +143,29 @@ def main():
     data = json.loads(DATA_PATH.read_text(encoding="utf-8"))
     by_ym = {row["ym"]: row for row in data["series"]}
 
+    start_ym = parse_start_ym()
     today = date.today()
     end = (today.year, today.month)
+    recent = set()
+    ry, rm = end
+    for _ in range(RECENT_MONTHS):
+        recent.add(f"{ry:04d}-{rm:02d}")
+        ry, rm = prev_month(ry, rm)
+
+    print(f"수집 범위: {start_ym[0]:04d}-{start_ym[1]:02d} ~ {end[0]:04d}-{end[1]:02d} "
+          f"(최근 {RECENT_MONTHS}개월·결측·근사치만 재수집)")
     updated = 0
+    fetched = 0
 
     for key, info in COUNTRIES.items():
-        for ym in month_range(START_YM, end):
+        for ym in month_range(start_ym, end):
             ym_dash = f"{ym[:4]}-{ym[4:]}"
             row = by_ym.setdefault(ym_dash, {"ym": ym_dash, "china": None, "taiwan": None, "vietnam": None})
+            if not needs_fetch(row, key, ym_dash, recent):
+                continue
             try:
                 result = fetch_month(service_key, ym, info["natCd"])
+                fetched += 1
             except Exception as exc:  # 개별 월 실패는 건너뛰고 계속
                 print(f"  ! {ym_dash} {info['label']}: {exc}", file=sys.stderr)
                 continue
@@ -155,7 +198,9 @@ def main():
     DATA_PATH.write_text(json.dumps(data, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     fallback = DATA_PATH.parent / "fallback-data.js"
     fallback.write_text("window.FALLBACK_DATA = " + json.dumps(data, ensure_ascii=False) + ";\n", encoding="utf-8")
-    print(f"완료: {updated}개 값 갱신, 총 {len(data['series'])}개월.")
+    print(f"완료: {updated}개 값 갱신, API 호출 {fetched}회, 총 {len(data['series'])}개월 "
+          f"({data['series'][0]['ym'] if data['series'] else '—'} ~ "
+          f"{data['series'][-1]['ym'] if data['series'] else '—'}).")
     return 0
 
 

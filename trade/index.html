@@ -168,13 +168,8 @@ footer{margin-top:56px;padding-top:20px;border-top:1px solid var(--line);color:v
   </header>
 
   <div class="controls">
-    <div class="fgroup" role="group" aria-label="기간 필터">
+    <div class="fgroup" id="rangeFilters" role="group" aria-label="기간 필터">
       <span class="lbl">기간</span>
-      <button class="fbtn" data-range="all" aria-pressed="true">전체</button>
-      <button class="fbtn" data-range="last12" aria-pressed="false">최근 12개월</button>
-      <button class="fbtn" data-range="2024" aria-pressed="false">2024년</button>
-      <button class="fbtn" data-range="2025" aria-pressed="false">2025년</button>
-      <button class="fbtn" data-range="2026" aria-pressed="false">2026년</button>
     </div>
   </div>
 
@@ -426,7 +421,34 @@ function filteredSeries(){
   const s = DATA.series;
   if (state.range === 'all') return s;
   if (state.range === 'last12') return s.slice(-12);
+  if (state.range === 'last5y') return s.slice(-60);
   return s.filter(r => r.ym.startsWith(state.range));
+}
+
+function availableYears(){
+  return [...new Set((DATA.series || []).map(r => r.ym.slice(0, 4)))].sort();
+}
+
+function renderRangeFilters(){
+  const box = document.getElementById('rangeFilters');
+  const years = availableYears();
+  const presets = [
+    { range:'all', label:'전체' },
+    { range:'last12', label:'최근 12개월' },
+    { range:'last5y', label:'최근 5년' },
+    ...years.map(y => ({ range:y, label:`${y}년` })),
+  ];
+  if (!presets.some(p => p.range === state.range)) state.range = 'all';
+  box.innerHTML = '<span class="lbl">기간</span>' + presets.map(p =>
+    `<button class="fbtn" data-range="${p.range}" aria-pressed="${p.range===state.range}">${p.label}</button>`
+  ).join('');
+  box.querySelectorAll('.fbtn').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      state.range = btn.dataset.range;
+      box.querySelectorAll('.fbtn').forEach(b=>b.setAttribute('aria-pressed', String(b===btn)));
+      renderTrend(); renderBal(); renderCty(); renderTable();
+    });
+  });
 }
 function momOf(ym, key){
   const idx = DATA.series.findIndex(r=>r.ym===ym);
@@ -729,13 +751,6 @@ document.getElementById('csvCtyBtn').addEventListener('click', ()=>{
 });
 
 /* ─── 컨트롤 ───────────────────────────────────────── */
-document.querySelectorAll('[data-range]').forEach(btn=>{
-  btn.addEventListener('click', ()=>{
-    state.range = btn.dataset.range;
-    document.querySelectorAll('[data-range]').forEach(b=>b.setAttribute('aria-pressed', String(b===btn)));
-    renderTrend(); renderBal(); renderCty(); renderTable();
-  });
-});
 document.querySelectorAll('[data-metric]').forEach(btn=>{
   btn.addEventListener('click', ()=>{
     state.metric = btn.dataset.metric;
@@ -807,9 +822,11 @@ async function refreshData(){
     DATA = fresh;
     populateSelectors();
     renderMeta();
+    renderRangeFilters();
     renderAll();
     const checked = new Intl.DateTimeFormat('ko-KR',{dateStyle:'medium',timeStyle:'short',timeZone:'Asia/Seoul'}).format(new Date());
-    status.textContent = `${checked} 재조회 완료 · 기준 ${DATA.updatedAt||'—'} · 최신 월 ${ymKorean(DATA.latestYm)}`;
+    const first = DATA.series.length ? ymKorean(DATA.series[0].ym) : '—';
+    status.textContent = `${checked} 재조회 완료 · 기준 ${DATA.updatedAt||'—'} · ${first} ~ ${ymKorean(DATA.latestYm)}`;
     status.className = 'refresh-status ok';
   }catch(error){
     console.error(error);
@@ -826,6 +843,7 @@ async function refreshData(){
   if (!DATA){ document.getElementById('kpis').innerHTML = '<div class="tile"><div class="lb">데이터를 불러오지 못했습니다</div></div>'; return; }
   populateSelectors();
   renderMeta();
+  renderRangeFilters();
   renderAll();
   document.getElementById('refreshBtn').addEventListener('click', refreshData);
 })();

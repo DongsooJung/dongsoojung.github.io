@@ -63,15 +63,37 @@ $data = Get-Content $DataPath -Raw -Encoding UTF8 | ConvertFrom-Json
 $byYm = @{}
 foreach ($row in $data.series) { $byYm[$row.ym] = $row }
 
-# 3) 2024-01 ~ 이번 달 수집
+# 3) 2010-01(또는 START_YM) ~ 이번 달 수집 — 확정된 과거 월은 건너뜀
+$StartYmRaw = if ($env:START_YM) { $env:START_YM.Trim() } else { "2010-01" }
+$StartYmRaw = $StartYmRaw -replace "-", ""
+if ($StartYmRaw.Length -ne 6) { Write-Host "START_YM 형식 오류: $env:START_YM"; exit 1 }
+$startYear = [int]$StartYmRaw.Substring(0, 4)
+$startMonth = [int]$StartYmRaw.Substring(4, 2)
+$RecentMonths = 3
 $updated = 0
+$fetched = 0
 $now = Get-Date
+$recentSet = @{}
+$ry = $now
+for ($i = 0; $i -lt $RecentMonths; $i++) {
+    $recentSet[$ry.ToString("yyyy-MM")] = $true
+    $ry = $ry.AddMonths(-1)
+}
+Write-Host ("수집 범위: {0:0000}-{1:00} ~ {2:yyyy-MM} (최근 {3}개월·결측·근사치만 재수집)" -f $startYear, $startMonth, $now, $RecentMonths)
 foreach ($c in $Countries) {
-    $cur = Get-Date -Year 2024 -Month 1 -Day 1
+    $cur = Get-Date -Year $startYear -Month $startMonth -Day 1
     while ($cur -le $now) {
         $ym = $cur.ToString("yyyyMM"); $ymDash = $cur.ToString("yyyy-MM")
+        if (-not $byYm.ContainsKey($ymDash)) {
+            $byYm[$ymDash] = [pscustomobject]@{ ym = $ymDash; china = $null; taiwan = $null; vietnam = $null }
+        }
+        $row = $byYm[$ymDash]
+        $hasApprox = $row.PSObject.Properties["approx"] -and $row.approx -and ($row.approx -contains $c.key)
+        $need = $recentSet.ContainsKey($ymDash) -or ($null -eq $row.$($c.key)) -or $hasApprox
+        if (-not $need) { $cur = $cur.AddMonths(1); continue }
         try {
             $r = Invoke-TourApi $ApiUrl $ym $c.natCd
+            $fetched++
         } catch {
             Write-Host "  ! $ymDash $($c.label): $($_.Exception.Message)" -ForegroundColor Yellow
             $cur = $cur.AddMonths(1); continue
@@ -81,10 +103,6 @@ foreach ($c in $Countries) {
             $ok = $false
             foreach ($m in $c.match) { if ($natCompact -like "*$m*") { $ok = $true } }
             if (-not $ok) { Write-Host "  !! 국적코드 $($c.natCd) 응답이 '$($r.nat)' — 중단" -ForegroundColor Red; exit 1 }
-            if (-not $byYm.ContainsKey($ymDash)) {
-                $byYm[$ymDash] = [pscustomobject]@{ ym = $ymDash; china = $null; taiwan = $null; vietnam = $null }
-            }
-            $row = $byYm[$ymDash]
             if ($row.$($c.key) -ne $r.num) {
                 $row.$($c.key) = $r.num; $updated++
                 Write-Host ("  {0} {1}: {2:N0}명" -f $ymDash, $c.label, $r.num)
@@ -110,7 +128,8 @@ $jsonOut = $data | ConvertTo-Json -Depth 6
 $enc = New-Object System.Text.UTF8Encoding $false
 [System.IO.File]::WriteAllText($DataPath, $jsonOut + "`n", $enc)
 [System.IO.File]::WriteAllText($FallbackPath, "window.FALLBACK_DATA = " + ($data | ConvertTo-Json -Depth 6 -Compress) + ";`n", $enc)
-Write-Host "`n완료: $updated 개 값 갱신, 총 $($series.Count) 개월." -ForegroundColor Green
+$rangeHint = if ($series.Count -gt 0) { "$($series[0].ym) ~ $($series[-1].ym)" } else { "—" }
+Write-Host "`n완료: $updated 개 값 갱신, API 호출 $fetched 회, 총 $($series.Count) 개월 ($rangeHint)." -ForegroundColor Green
 
 # 5) git 커밋·푸시 (가능하면)
 if ($updated -gt 0 -and (Get-Command git -ErrorAction SilentlyContinue)) {
