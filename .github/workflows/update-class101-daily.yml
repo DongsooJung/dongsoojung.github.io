@@ -1,0 +1,41 @@
+name: Update CLASS101 daily archive
+
+on:
+  schedule:
+    # 매일 00:30 UTC = 09:30 KST
+    - cron: "30 0 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: update-class101-daily
+  cancel-in-progress: false
+
+jobs:
+  archive:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Collect public recommendation lineup
+        run: python class101/fetch_class101.py
+
+      - name: Commit today's archive
+        run: |
+          if git diff --quiet -- class101/data; then
+            echo "No archive changes"
+            exit 0
+          fi
+          git config user.name "stargate-data-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add class101/data
+          git commit -m "data: archive CLASS101 recommendations $(date -u +%F)"
+          git pull --rebase origin main
+          git push

@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>CLASS101 공개 추천 라인업 | STARGATE Intelligence</title>
+  <meta name="description" content="클래스101 공개 추천 클래스의 크리에이터, 카테고리와 섹션 노출 순위를 매일 기록하는 전략 대시보드">
+  <link rel="canonical" href="https://stargateedu.co.kr/class101/">
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <header class="shell topbar">
+    <a class="brand" href="/">STAR<span>GATE</span></a>
+    <nav aria-label="주요 메뉴">
+      <a href="/strategy/">전략 인사이트</a>
+      <a href="https://class101.net/" target="_blank" rel="noopener">CLASS101 ↗</a>
+    </nav>
+  </header>
+
+  <main class="shell">
+    <section class="hero">
+      <p class="eyebrow">EDUCATION MARKET SIGNAL / DAILY</p>
+      <h1>CLASS101의 공개 추천 라인업을 매일 기록합니다.</h1>
+      <p class="hero-copy">
+        클래스101 한국어 공개 페이지의 추천 클래스를 고유 클래스 기준으로 정리합니다.
+        여러 섹션에 반복 노출되는 클래스는 하나로 합치고 노출 위치를 함께 보존합니다.
+      </p>
+      <p class="hero-meta" id="snapshot-time">데이터 불러오는 중…</p>
+    </section>
+
+    <section class="metrics" aria-label="수집 요약">
+      <article class="metric"><span>고유 클래스</span><strong id="course-count">—</strong></article>
+      <article class="metric"><span>총 노출 건수</span><strong id="placement-count">—</strong></article>
+      <article class="metric"><span>추천 섹션</span><strong id="section-count">—</strong></article>
+      <article class="metric"><span>크리에이터</span><strong id="creator-count">—</strong></article>
+    </section>
+
+    <section class="toolbar" aria-label="클래스 필터">
+      <input id="search-input" type="search" placeholder="클래스명·크리에이터 검색" aria-label="검색">
+      <select id="category-filter" aria-label="카테고리">
+        <option value="">전체 카테고리</option>
+      </select>
+      <select id="section-filter" aria-label="추천 섹션">
+        <option value="">전체 추천 섹션</option>
+      </select>
+      <button id="reload-button" type="button">새로고침</button>
+      <button id="csv-button" class="primary" type="button">CSV 다운로드</button>
+    </section>
+
+    <section aria-labelledby="courses-title">
+      <div class="result-head">
+        <h2 id="courses-title">공개 추천 클래스</h2>
+        <span id="result-summary" aria-live="polite"></span>
+      </div>
+      <div id="course-grid" class="course-grid"></div>
+      <div id="empty-state" class="empty" hidden>
+        <strong>표시할 클래스가 없습니다.</strong>
+        <p>검색어나 필터를 변경해 주세요.</p>
+      </div>
+    </section>
+
+    <aside class="notice">
+      본 페이지는 CLASS101과 무관한 비공식 공개 데이터 아카이브입니다.
+      로그인 없이 공개된 추천 랜딩 페이지의 정보만 기록하며 전체 클래스 카탈로그를 의미하지 않습니다.
+      정확한 최신 정보는 각 클래스의 원문 페이지에서 확인해 주세요.
+    </aside>
+  </main>
+
+  <footer class="shell">
+    <span>© STARGATE Intelligence</span>
+    <span>Source: class101.net 공개 추천 페이지 · 매일 09:30 KST</span>
+  </footer>
+
+  <template id="course-card-template">
+    <article class="course-card">
+      <div class="thumb"><img src="" alt=""></div>
+      <div class="card-body">
+        <div class="card-meta"><span class="rank"></span><span class="category"></span></div>
+        <h3></h3>
+        <p class="creator"></p>
+        <div class="tags"></div>
+      </div>
+      <a class="stretched" target="_blank" rel="noopener"></a>
+    </article>
+  </template>
+  <script src="./app.js" defer></script>
+</body>
+</html>
