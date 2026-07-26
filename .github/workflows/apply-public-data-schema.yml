@@ -2,6 +2,12 @@ name: Apply public-data Supabase schema
 
 on:
   workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - 'supabase/public_data_collector.sql'
+      - 'scripts/apply-public-data-schema.mjs'
+      - '.github/workflows/apply-public-data-schema.yml'
 
 permissions:
   contents: read

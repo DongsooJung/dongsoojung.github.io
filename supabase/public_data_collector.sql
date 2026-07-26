@@ -73,3 +73,5 @@ create policy "anon can update public-data-csv"
   for update to anon, authenticated
   using (bucket_id = 'public-data-csv')
   with check (bucket_id = 'public-data-csv');
+
+-- applied via Actions on push
