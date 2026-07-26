@@ -58,7 +58,7 @@ header.head .lead{color:var(--sub);font-size:14px;margin:8px 0 0;max-width:74ch}
 .refresh-status.ok{color:#75cf91}.refresh-status.error{color:#ef8b8b}
 @keyframes spin{to{transform:rotate(360deg)}}
 
-.controls{display:flex;gap:22px;flex-wrap:wrap;align-items:flex-start;margin:22px 0 16px}
+.controls{display:flex;gap:18px;flex-wrap:wrap;align-items:flex-start;margin:22px 0 16px}
 .fgroup{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
 .fgroup .lbl{font-size:12px;color:var(--muted);margin-right:2px}
 .fbtn{border:1px solid var(--line2);background:var(--panel);color:var(--sub);
@@ -67,6 +67,18 @@ header.head .lead{color:var(--sub);font-size:14px;margin:8px 0 0;max-width:74ch}
 .fbtn:hover{color:var(--ink);border-color:var(--acc)}
 .fbtn[aria-pressed="true"]{background:var(--grad1);color:#0b1020;border-color:transparent;font-weight:700}
 .fbtn .dot{width:9px;height:9px;border-radius:50%;display:inline-block}
+.range-panel{width:100%;border:1px solid var(--line);background:linear-gradient(180deg,var(--panel2),var(--panel));
+  border-radius:14px;padding:14px 16px;display:flex;flex-wrap:wrap;gap:12px 18px;align-items:center;margin:0 0 16px}
+.range-panel .lbl{font-size:12px;color:var(--muted)}
+.range-panel select,.year-select{
+  border:1px solid var(--line2);background:var(--bg);color:var(--ink);border-radius:10px;
+  padding:8px 12px;font:inherit;font-size:13px;min-width:96px}
+.range-panel select:focus,.year-select:focus{outline:none;border-color:var(--acc)}
+.range-actions{display:flex;gap:8px;flex-wrap:wrap;margin-left:auto}
+.dl-primary{border:1px solid transparent;background:var(--grad1);color:#0b1020;border-radius:10px;
+  padding:9px 14px;font:700 13px inherit;cursor:pointer;display:inline-flex;align-items:center;gap:7px}
+.dl-primary:hover{filter:brightness(1.08)}
+.range-hint{width:100%;font-size:12px;color:var(--muted);margin:0}
 
 .kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
 .tile{border:1px solid var(--line);background:linear-gradient(180deg,var(--panel2),var(--panel));
@@ -135,8 +147,8 @@ footer{margin-top:56px;padding-top:20px;border-top:1px solid var(--line);color:v
       <a href="https://www.ecb.europa.eu/stats/policy_and_exchange_rates/euro_reference_exchange_rates/" target="_blank" rel="noopener">일일 기준환율</a>과 한국은행
       <a href="https://ecos.bok.or.kr/" target="_blank" rel="noopener">ECOS 경제통계</a>의
       기준금리·소비자물가를 집계·분석합니다. 원화 환율(USD·JPY·EUR·CNY)과
-      통화정책·물가, <b>비트코인 월별 시세</b>, 지난 30년 한·미 단기금리 차와 DRAM·유가·금·구리·천연가스 연간 가격을 한 화면에서 보고,
-      GitHub Actions가 영업일마다 자동 갱신합니다.</p>
+      통화정책·물가(1999년~), <b>비트코인 월별 시세</b>, 지난 30년 한·미 단기금리 차와 DRAM·유가·금·구리·천연가스 연간 가격을 한 화면에서 보고,
+      기간 프리셋·연도 구간을 고른 뒤 CSV로 내려받을 수 있습니다. GitHub Actions가 영업일마다 자동 갱신합니다.</p>
     <div class="meta-line">
       <span class="pill">데이터 기준 <b id="metaUpdated">—</b></span>
       <span class="pill">커버리지 <b id="metaRange">—</b></span>
@@ -156,14 +168,31 @@ footer{margin-top:56px;padding-top:20px;border-top:1px solid var(--line);color:v
       <span class="lbl">통화</span>
       <span id="curBtns" style="display:contents"></span>
     </div>
-    <div class="fgroup" role="group" aria-label="기간 필터">
+  </div>
+
+  <div class="range-panel" aria-label="기간 선택">
+    <div class="fgroup" role="group" aria-label="기간 프리셋">
       <span class="lbl">기간</span>
       <button class="fbtn" data-range="all" aria-pressed="true">전체</button>
-      <button class="fbtn" data-range="last12" aria-pressed="false">최근 12개월</button>
-      <button class="fbtn" data-range="2024" aria-pressed="false">2024년</button>
-      <button class="fbtn" data-range="2025" aria-pressed="false">2025년</button>
-      <button class="fbtn" data-range="2026" aria-pressed="false">2026년</button>
+      <button class="fbtn" data-range="last12" aria-pressed="false">최근 1년</button>
+      <button class="fbtn" data-range="last5y" aria-pressed="false">최근 5년</button>
+      <button class="fbtn" data-range="last10y" aria-pressed="false">최근 10년</button>
+      <button class="fbtn" data-range="last20y" aria-pressed="false">최근 20년</button>
     </div>
+    <div class="fgroup" aria-label="연도 구간 선택">
+      <span class="lbl">시작</span>
+      <select id="fromYear" class="year-select" aria-label="시작 연도"></select>
+      <span class="lbl">종료</span>
+      <select id="toYear" class="year-select" aria-label="종료 연도"></select>
+      <button class="fbtn" id="applyYearRange" type="button">구간 적용</button>
+    </div>
+    <div class="fgroup" role="group" aria-label="연도 바로가기" id="yearQuick" style="display:contents"></div>
+    <div class="range-actions">
+      <button class="dl" id="downloadFxBtn" type="button">⬇ 환율 CSV</button>
+      <button class="dl" id="downloadMacroBtn" type="button">⬇ 금리·물가 CSV</button>
+      <button class="dl-primary" id="downloadAllBtn" type="button">⬇ 선택 기간 전체 다운로드</button>
+    </div>
+    <p class="range-hint" id="rangeHint">커버리지 로딩 중…</p>
   </div>
 
   <section class="kpis" id="kpis" aria-label="핵심 지표"></section>
@@ -401,7 +430,7 @@ let MACRO = {};                         // ym -> {baseRate,cpi,cpiYoY}
 let MARKET = null;                      // {series:[{year,dramUsdPerGb,brentUsdPerBbl}]}
 let RATE_GAP = null;                    // {series:[{ym,koreaRate,usRate,gap}]}
 let BTC = null;                         // {series:[{ym,usd,usdMin,usdMax}]}
-let state = { range:'all', cur:'USD' };
+let state = { range:'all', fromYear:null, toYear:null, cur:'USD' };
 let charts = {};
 
 const MC = { base:'#e0a24e', cpi:'#5eb0e0', yoy:'#e0685e' };  // 금리·물가 색
@@ -428,11 +457,124 @@ const curMeta = code => CURS.find(c=>c.code===code) || {code, label:code, per:1,
 const rateOf = (r, code, f='avg') => (r.rates && r.rates[code]) ? r.rates[code][f] : null;
 function perLabel(code){ const p=curMeta(code).per; return p>1?`${p}${code==='JPY'?'엔':''}당`:'1단위당'; }
 
-function filteredSeries(){
-  const s = DATA.series;
+function availableYears(){
+  const years = new Set();
+  (DATA?.series || []).forEach(r => years.add(+r.ym.slice(0,4)));
+  (BOK?.series || []).forEach(r => years.add(+r.ym.slice(0,4)));
+  return [...years].sort((a,b)=>a-b);
+}
+function filterByYm(series){
+  const s = series || [];
+  if (!s.length) return s;
   if (state.range === 'all') return s;
   if (state.range === 'last12') return s.slice(-12);
-  return s.filter(r => r.ym.startsWith(state.range));
+  if (state.range === 'last5y') return s.slice(-60);
+  if (state.range === 'last10y') return s.slice(-120);
+  if (state.range === 'last20y') return s.slice(-240);
+  if (state.range === 'custom' && state.fromYear && state.toYear){
+    const a = Math.min(state.fromYear, state.toYear);
+    const b = Math.max(state.fromYear, state.toYear);
+    return s.filter(r => {
+      const y = +r.ym.slice(0,4);
+      return y >= a && y <= b;
+    });
+  }
+  if (/^\d{4}$/.test(state.range)) return s.filter(r => r.ym.startsWith(state.range));
+  return s;
+}
+function filteredSeries(){ return filterByYm(DATA?.series || []); }
+function rangeLabel(){
+  if (state.range === 'all') return '전체';
+  if (state.range === 'last12') return '최근1년';
+  if (state.range === 'last5y') return '최근5년';
+  if (state.range === 'last10y') return '최근10년';
+  if (state.range === 'last20y') return '최근20년';
+  if (state.range === 'custom') return `${state.fromYear}-${state.toYear}`;
+  return state.range;
+}
+function updateRangeHint(){
+  const el = document.getElementById('rangeHint');
+  if (!el) return;
+  const fx = DATA?.series || [];
+  const bok = BOK?.series || [];
+  const sel = filteredSeries();
+  const macro = filteredMacro();
+  const fxEnd = fx.length ? fx[fx.length-1].ym : '—';
+  const bokEnd = bok.length ? bok[bok.length-1].ym : '—';
+  el.textContent =
+    `데이터 커버리지 · 환율 ${fx[0]?.ym || '—'} ~ ${fxEnd} (${fx.length}개월)`
+    + ` · 금리/물가 ${bok[0]?.ym || '—'} ~ ${bokEnd} (${bok.length}개월)`
+    + ` · 선택 ${rangeLabel()} → 환율 ${sel.length}개월 · 금리/물가 ${macro.length}개월`;
+}
+function syncRangeButtons(){
+  document.querySelectorAll('.range-panel .fbtn[data-range]').forEach(b=>{
+    b.setAttribute('aria-pressed', String(b.dataset.range === state.range));
+  });
+}
+function renderYearControls(){
+  const years = availableYears();
+  const from = document.getElementById('fromYear');
+  const to = document.getElementById('toYear');
+  const quick = document.getElementById('yearQuick');
+  if (!from || !to || !years.length) return;
+  const opts = years.map(y=>`<option value="${y}">${y}년</option>`).join('');
+  from.innerHTML = opts;
+  to.innerHTML = opts;
+  from.value = String(state.fromYear || years[0]);
+  to.value = String(state.toYear || years[years.length-1]);
+  state.fromYear = +from.value;
+  state.toYear = +to.value;
+  // show a compact set of decade/year shortcuts
+  const favorites = years.filter(y => y % 5 === 0 || y === years[0] || y === years[years.length-1]);
+  const uniq = [...new Set(favorites)];
+  quick.innerHTML = `<span class="lbl">연도</span>` + uniq.map(y =>
+    `<button class="fbtn" type="button" data-range="${y}" aria-pressed="${state.range===String(y)}">${y}</button>`
+  ).join('');
+  quick.querySelectorAll('.fbtn[data-range]').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      state.range = btn.dataset.range;
+      state.fromYear = +btn.dataset.range;
+      state.toYear = +btn.dataset.range;
+      from.value = btn.dataset.range;
+      to.value = btn.dataset.range;
+      syncRangeButtons();
+      renderAll();
+    });
+  });
+}
+function downloadBlob(filename, lines){
+  const blob = new Blob(['\ufeff'+lines.join('\n')], {type:'text/csv;charset=utf-8'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = filename;
+  a.click();
+  URL.revokeObjectURL(a.href);
+}
+function downloadFxCSV(){
+  const rows = filteredSeries();
+  const cols = CURS.map(c=>c.code);
+  const lines = ['ym,'+cols.map(c=>`${c}_avg,${c}_min,${c}_max`).join(',')];
+  rows.forEach(r=> lines.push([r.ym,
+    ...cols.flatMap(c=>[rateOf(r,c,'avg')??'',rateOf(r,c,'min')??'',rateOf(r,c,'max')??''])
+  ].join(',')));
+  downloadBlob(`exchange-rate_fx_${rangeLabel()}.csv`, lines);
+}
+function downloadMacroCSV(){
+  const rows = filteredMacro();
+  const lines = ['ym,base_rate,cpi,cpi_yoy'];
+  rows.forEach(r=> lines.push([r.ym, r.baseRate??'', r.cpi??'', r.cpiYoY??''].join(',')));
+  downloadBlob(`exchange-rate_macro_${rangeLabel()}.csv`, lines);
+}
+function downloadSelectedAll(){
+  // 환율 + 금리·물가 + 선택 통화 전월비를 한 파일로
+  const rows = filteredSeries();
+  const cols = CURS.map(c=>c.code);
+  const lines = ['ym,'+cols.map(c=>`${c}_avg,${c}_min,${c}_max`).join(',')+',base_rate,cpi,cpi_yoy'];
+  rows.forEach(r=> lines.push([r.ym,
+    ...cols.flatMap(c=>[rateOf(r,c,'avg')??'',rateOf(r,c,'min')??'',rateOf(r,c,'max')??'']),
+    macroVal(r.ym,'baseRate')??'', macroVal(r.ym,'cpi')??'', macroVal(r.ym,'cpiYoY')??''
+  ].join(',')));
+  downloadBlob(`exchange-rate_selected_${rangeLabel()}.csv`, lines);
 }
 function momOf(ym, code){
   const idx = DATA.series.findIndex(r=>r.ym===ym);
@@ -694,21 +836,7 @@ function renderTable(){
     tbody.appendChild(tr);
   });
 }
-function downloadCSV(){
-  const rows = filteredSeries();
-  const cols = CURS.map(c=>c.code);
-  const lines = ['ym,'+cols.map(c=>`${c}_avg,${c}_min,${c}_max`).join(',')+',base_rate,cpi,cpi_yoy'];
-  rows.forEach(r=> lines.push([r.ym,
-    ...cols.flatMap(c=>[rateOf(r,c,'avg')??'',rateOf(r,c,'min')??'',rateOf(r,c,'max')??'']),
-    macroVal(r.ym,'baseRate')??'', macroVal(r.ym,'cpi')??'', macroVal(r.ym,'cpiYoY')??''
-  ].join(',')));
-  const blob = new Blob(['﻿'+lines.join('\n')], {type:'text/csv;charset=utf-8'});
-  const a = document.createElement('a');
-  a.href = URL.createObjectURL(blob);
-  a.download = `exchange-rate_${state.range}.csv`;
-  a.click();
-  URL.revokeObjectURL(a.href);
-}
+function downloadCSV(){ downloadSelectedAll(); }
 
 /* ─── 거시 지표 (금리 · 물가) ───────────────────────── */
 function ymMinus(ym, n){
@@ -717,12 +845,7 @@ function ymMinus(ym, n){
   return `${y}-${String(m).padStart(2,'0')}`;
 }
 const macroVal = (ym, key) => MACRO[ym] ? (MACRO[ym][key] ?? null) : null;
-function filteredMacro(){
-  const s = BOK ? BOK.series : [];
-  if (state.range === 'all') return s;
-  if (state.range === 'last12') return s.slice(-12);
-  return s.filter(r => r.ym.startsWith(state.range));
-}
+function filteredMacro(){ return filterByYm(BOK ? BOK.series : []); }
 function macroSparkAround(ym, key){
   if (!BOK) return [];
   const i = BOK.series.findIndex(r=>r.ym===ym);
@@ -833,12 +956,7 @@ function updateMacro(){
 
 /* ─── 비트코인 월별 시세 ───────────────────────────── */
 function btcRowsAll(){ return BTC && Array.isArray(BTC.series) ? BTC.series : []; }
-function filteredBtc(){
-  const s = btcRowsAll();
-  if (state.range === 'all') return s;
-  if (state.range === 'last12') return s.slice(-12);
-  return s.filter(r => r.ym.startsWith(state.range));
-}
+function filteredBtc(){ return filterByYm(btcRowsAll()); }
 function btcMom(ym){
   const all = btcRowsAll();
   const idx = all.findIndex(r=>r.ym===ym);
@@ -1067,12 +1185,7 @@ function downloadMarketCSV(){
 }
 
 /* ─── 한·미 익일물 단기금리 차 · 30년 ────────────────── */
-function filteredRateGap(){
-  const s = RATE_GAP ? RATE_GAP.series : [];
-  if (state.range === 'all') return s;
-  if (state.range === 'last12') return s.slice(-12);
-  return s.filter(r => r.ym.startsWith(state.range));
-}
+function filteredRateGap(){ return filterByYm(RATE_GAP ? RATE_GAP.series : []); }
 
 function rateGapTick(value, index){
   const ym = this.getLabelForValue(value);
@@ -1168,7 +1281,7 @@ function renderCurButtons(){
     box.appendChild(b);
   });
 }
-function renderAll(){ renderKPIs(); updateCharts(); renderMacroKPIs(); updateMacro(); renderBtcKPIs(); updateBtc(); renderMarketKPIs(); updateMarket(); renderCommodityKPIs(); updateCommodity(); updateRateGap(); renderTable(); }
+function renderAll(){ renderKPIs(); updateCharts(); renderMacroKPIs(); updateMacro(); renderBtcKPIs(); updateBtc(); renderMarketKPIs(); updateMarket(); renderCommodityKPIs(); updateCommodity(); updateRateGap(); renderTable(); updateRangeHint(); syncRangeButtons(); }
 
 async function refreshAllData(){
   const button=document.getElementById('refreshAllBtn'), status=document.getElementById('refreshStatus');
@@ -1202,17 +1315,29 @@ async function refreshAllData(){
   CURS = DATA.currencies || [];
   MACRO = {}; (BOK && BOK.series || []).forEach(r=>{ MACRO[r.ym] = r; });
   if (CURS.length && !CURS.find(c=>c.code===state.cur)) state.cur = CURS[0].code;
-  renderMeta(); renderCurButtons(); renderHead(); renderTitles();
+  renderMeta(); renderCurButtons(); renderYearControls(); renderHead(); renderTitles();
   buildMain(); buildIdx(); buildMom(); buildMacro(); buildBtc(); buildMarket(); buildCommodity(); buildRateGap();
   renderAll();
-  document.querySelectorAll('.controls .fbtn[data-range]').forEach(btn=>{
+  document.querySelectorAll('.range-panel .fbtn[data-range]').forEach(btn=>{
     btn.addEventListener('click', ()=>{
       state.range = btn.dataset.range;
-      document.querySelectorAll('.controls .fbtn[data-range]').forEach(b=>b.setAttribute('aria-pressed', String(b===btn)));
+      syncRangeButtons();
       renderAll();
     });
   });
+  document.getElementById('applyYearRange').addEventListener('click', ()=>{
+    const from = +document.getElementById('fromYear').value;
+    const to = +document.getElementById('toYear').value;
+    state.fromYear = Math.min(from, to);
+    state.toYear = Math.max(from, to);
+    state.range = (state.fromYear === state.toYear) ? String(state.fromYear) : 'custom';
+    syncRangeButtons();
+    renderAll();
+  });
   document.getElementById('csvBtn').addEventListener('click', downloadCSV);
+  document.getElementById('downloadFxBtn').addEventListener('click', downloadFxCSV);
+  document.getElementById('downloadMacroBtn').addEventListener('click', downloadMacroCSV);
+  document.getElementById('downloadAllBtn').addEventListener('click', downloadSelectedAll);
   document.getElementById('marketCsvBtn').addEventListener('click', downloadMarketCSV);
   document.getElementById('btcCsvBtn').addEventListener('click', downloadBtcCSV);
   document.getElementById('refreshAllBtn').addEventListener('click', refreshAllData);

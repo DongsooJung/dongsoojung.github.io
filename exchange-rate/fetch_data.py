@@ -18,7 +18,8 @@ from datetime import date
 from pathlib import Path
 
 API_URL = "https://api.frankfurter.app"
-START_DATE = date(2024, 1, 1)
+# ECB 유로 기준환율 공표 시작(1999-01-04). CNY는 초기 일부 기간에 없을 수 있다.
+START_DATE = date(1999, 1, 4)
 DATA_PATH = Path(__file__).parent / "data.json"
 
 CURRENCIES = {
@@ -37,7 +38,7 @@ def fetch_ecb_rates(start, end):
         url,
         headers={"Accept": "application/json", "User-Agent": "stargateedu-dashboard/2.0"},
     )
-    with urllib.request.urlopen(request, timeout=60) as response:
+    with urllib.request.urlopen(request, timeout=120) as response:
         payload = json.load(response)
 
     rates = payload.get("rates")
@@ -47,19 +48,24 @@ def fetch_ecb_rates(start, end):
 
 
 def to_krw_rates(row):
-    """EUR 기준 교차환율을 통화 1단위당 KRW로 바꾼다(JPY는 100엔)."""
-    required = ("USD", "JPY", "KRW", "CNY")
+    """EUR 기준 교차환율을 통화 1단위당 KRW로 바꾼다(JPY는 100엔).
+
+    CNY는 ECB 공표가 늦은 초기 구간에서 빠질 수 있어 선택적으로 포함한다.
+    """
+    required = ("USD", "JPY", "KRW")
     missing = [code for code in required if not row.get(code)]
     if missing:
         raise ValueError(f"필수 통화 누락: {', '.join(missing)}")
 
     krw = float(row["KRW"])
-    return {
+    out = {
         "USD": krw / float(row["USD"]),
         "JPY": krw / float(row["JPY"]) * 100,
         "EUR": krw,
-        "CNY": krw / float(row["CNY"]),
     }
+    if row.get("CNY"):
+        out["CNY"] = krw / float(row["CNY"])
+    return out
 
 
 def aggregate(daily):
@@ -134,6 +140,11 @@ def main():
         "sourceMode": "ecb",
         "updatedAt": latest_date,
         "observedAt": latest_date,
+        "coverage": {
+            "start": series[0]["ym"] if series else None,
+            "end": series[-1]["ym"] if series else None,
+            "months": len(series),
+        },
         "unit": "원 (KRW) · ECB 일일 기준환율의 월평균",
         "currencies": [
             {"code": code, **meta} for code, meta in CURRENCIES.items()
@@ -141,7 +152,9 @@ def main():
         "notes": (
             "ECB가 영업일마다 공표하는 EUR 기준환율에서 KRW 교차환율을 계산했습니다. "
             "USD·EUR·CNY는 1단위당 원화, JPY는 100엔당 원화입니다. "
-            "시장 체결가가 아닌 일일 공식 기준환율이며 GitHub Actions가 매일 갱신합니다."
+            "CNY는 초기 일부 기간에 공표되지 않아 비어 있을 수 있습니다. "
+            "시장 체결가가 아닌 일일 공식 기준환율이며 GitHub Actions가 매일 갱신합니다. "
+            f"커버리지: {series[0]['ym'] if series else '—'} ~ {series[-1]['ym'] if series else '—'}."
         ),
         "latest": {"date": latest_date, "rates": latest_rates},
         "series": series,
