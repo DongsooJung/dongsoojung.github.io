@@ -313,7 +313,7 @@
     const response = await supabaseFetch(`/storage/v1/object/${STORAGE_BUCKET}/${storagePath}`, {
       method: 'POST',
       headers: {
-        'Content-Type': 'text/csv; charset=utf-8',
+        'Content-Type': 'text/csv',
         'x-upsert': 'true',
       },
       body: csv,
@@ -360,7 +360,8 @@
       try {
         const { items, params } = await paginate(api, key);
         const csv = toCsv(items);
-        const fileName = `${api.name}_${stamp.fileStamp}.csv`;
+        // Storage object key는 ASCII만 허용된다.
+        const fileName = `${api.id}_${stamp.fileStamp}.csv`;
         const storagePath = `${stamp.isoDate}/${api.id}/${fileName}`;
         let publicUrl = null;
 

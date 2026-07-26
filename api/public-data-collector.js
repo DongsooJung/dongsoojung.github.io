@@ -352,7 +352,7 @@ async function uploadCsv(config, path, csv) {
     headers: {
       apikey: config.key,
       Authorization: `Bearer ${config.key}`,
-      'Content-Type': 'text/csv; charset=utf-8',
+      'Content-Type': 'text/csv',
       'x-upsert': 'true',
     },
     body: csv,
@@ -449,7 +449,8 @@ async function collectSelected(body = {}) {
     try {
       const { items, params } = await paginate(api, overrides[id], apiKey);
       const csv = toCsv(items);
-      const fileName = `${api.name}_${stamp.fileStamp}.csv`;
+      // Storage object key는 ASCII만 허용된다.
+      const fileName = `${api.id}_${stamp.fileStamp}.csv`;
       const storagePath = `${stamp.isoDate}/${api.id}/${fileName}`;
       let publicUrl = null;
       let log = null;
