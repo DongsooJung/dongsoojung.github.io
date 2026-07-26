@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
-"""Refresh the embedded OpenDART data in dart-top100/index.html.
+"""Refresh ranked listed-company data for the OpenDART dashboard.
 
 The API key is read only from OPENDART_API_KEY (or DART_API_KEY) and is never
-written to the repository or printed to logs.
+written to the repository or printed to logs. Full-year JSON is retained for
+exports, while the browser reads 100-company chunks for responsive rendering.
 """
 
 from __future__ import annotations
@@ -18,7 +19,7 @@ import zipfile
 from collections import defaultdict
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Any, Iterable, NoReturn
+from typing import Any, NoReturn
 from xml.etree import ElementTree
 
 ROOT = Path(__file__).resolve().parent
@@ -26,29 +27,13 @@ INDEX_PATH = ROOT / "index.html"
 DATA_DIR = ROOT / "data"
 API_BASE = "https://opendart.fss.or.kr/api"
 DEFAULT_BUSINESS_YEAR = 2026
+API_BATCH_SIZE = 100
+DATA_CHUNK_SIZE = 100
 REPORT_CODES = {
     "Q1": "11013",
     "H1": "11012",
     "Q3": "11014",
     "FY": "11011",
-}
-
-# DART company names occasionally differ from the dashboard's display names.
-COMPANY_ALIASES = {
-    "F&F": ("에프앤에프",),
-    "HD현대": ("에이치디현대",),
-    "HD한국조선해양": ("에이치디한국조선해양",),
-    "HD현대중공업": ("에이치디현대중공업",),
-    "HD현대인프라코어": ("에이치디현대인프라코어",),
-    "HD현대건설기계": ("에이치디현대건설기계",),
-    "포스코홀딩스": ("POSCO홀딩스",),
-    "KT": ("케이티",),
-    "KT&G": ("케이티앤지",),
-    "SK": ("에스케이",),
-    "GS": ("지에스",),
-    "CJ": ("씨제이",),
-    "LS": ("엘에스",),
-    "OCI홀딩스": ("오씨아이홀딩스",),
 }
 
 REVENUE_EXACT = (
@@ -109,13 +94,6 @@ def request_json(endpoint: str, params: dict[str, str]) -> dict[str, Any]:
     return payload
 
 
-def normalize_name(value: str) -> str:
-    value = value.strip().upper()
-    for token in ("주식회사", "㈜", "(주)", "（주）"):
-        value = value.replace(token.upper(), "")
-    return re.sub(r"[^0-9A-Z가-힣]", "", value)
-
-
 def normalize_account(value: str) -> str:
     return re.sub(r"[^0-9A-Z가-힣]", "", value.strip().upper())
 
@@ -172,44 +150,6 @@ def load_corporations(key: str) -> list[dict[str, str]]:
     return corporations
 
 
-def resolve_companies(
-    seeds: Iterable[dict[str, Any]], corporations: list[dict[str, str]]
-) -> tuple[list[dict[str, Any]], list[str]]:
-    # Prefer listed companies when duplicate normalized names exist.
-    by_name: dict[str, list[dict[str, str]]] = defaultdict(list)
-    for corporation in corporations:
-        by_name[normalize_name(corporation["corp_name"])].append(corporation)
-
-    resolved: list[dict[str, Any]] = []
-    unresolved: list[str] = []
-    for seed in seeds:
-        display_name = str(seed["corp_name"])
-        candidates = [display_name, *COMPANY_ALIASES.get(display_name, ())]
-        matches: list[dict[str, str]] = []
-        for candidate in candidates:
-            matches.extend(by_name.get(normalize_name(candidate), ()))
-        if not matches:
-            unresolved.append(display_name)
-            continue
-        matches.sort(
-            key=lambda row: (
-                bool(row.get("stock_code")),
-                row.get("modify_date", ""),
-            ),
-            reverse=True,
-        )
-        match = matches[0]
-        resolved.append(
-            {
-                "display_name": display_name,
-                "corp_name": match["corp_name"],
-                "corp_code": match["corp_code"],
-                "stock_code": match.get("stock_code") or None,
-            }
-        )
-    return resolved, unresolved
-
-
 def account_score(account_name: str, metric: str) -> int | None:
     name = normalize_account(account_name)
     exact = REVENUE_EXACT if metric == "revenue" else OPERATING_PROFIT_EXACT
@@ -255,20 +195,43 @@ def fetch_reports(key: str, year: int, corp_codes: list[str]) -> dict[str, dict[
     grouped: dict[str, dict[str, list[dict[str, Any]]]] = {
         period: defaultdict(list) for period in REPORT_CODES
     }
-    codes = ",".join(corp_codes)
-    for period, report_code in REPORT_CODES.items():
-        payload = request_json(
-            "fnlttMultiAcnt.json",
-            {
-                "crtfc_key": key,
-                "corp_code": codes,
-                "bsns_year": str(year),
-                "reprt_code": report_code,
-            },
-        )
-        for row in payload.get("list") or []:
-            grouped[period][str(row.get("corp_code", ""))].append(row)
+    total_batches = (len(corp_codes) + API_BATCH_SIZE - 1) // API_BATCH_SIZE
+    for batch_index, offset in enumerate(range(0, len(corp_codes), API_BATCH_SIZE), start=1):
+        codes = ",".join(corp_codes[offset:offset + API_BATCH_SIZE])
+        print(f"Fetching OpenDART batch {batch_index}/{total_batches} for {year}")
+        for period, report_code in REPORT_CODES.items():
+            payload = request_json(
+                "fnlttMultiAcnt.json",
+                {
+                    "crtfc_key": key,
+                    "corp_code": codes,
+                    "bsns_year": str(year),
+                    "reprt_code": report_code,
+                },
+            )
+            for row in payload.get("list") or []:
+                grouped[period][str(row.get("corp_code", ""))].append(row)
     return grouped
+
+
+def listed_companies(corporations: list[dict[str, str]]) -> list[dict[str, Any]]:
+    listed: dict[str, dict[str, Any]] = {}
+    for corporation in corporations:
+        stock_code = corporation.get("stock_code", "").strip()
+        corp_code = corporation.get("corp_code", "").strip()
+        if not re.fullmatch(r"\d{6}", stock_code) or not corp_code:
+            continue
+        candidate = {
+            "display_name": corporation["corp_name"],
+            "corp_name": corporation["corp_name"],
+            "corp_code": corp_code,
+            "stock_code": stock_code,
+            "modify_date": corporation.get("modify_date", ""),
+        }
+        previous = listed.get(corp_code)
+        if previous is None or candidate["modify_date"] > previous["modify_date"]:
+            listed[corp_code] = candidate
+    return sorted(listed.values(), key=lambda row: (row["stock_code"], row["corp_code"]))
 
 
 def metric_periods(
@@ -342,15 +305,11 @@ def main() -> None:
     if not 2015 <= year <= datetime.now(timezone.utc).year:
         fail("DART_BUSINESS_YEAR is outside OpenDART's supported range")
 
-    html, old_data, json_start, json_end = load_embedded_data()
-    seeds = old_data.get("companies") or []
-    if not seeds:
-        fail("the embedded DATA block contains no seed companies")
-
+    html, _, json_start, json_end = load_embedded_data()
     corporations = load_corporations(key)
-    resolved, unresolved = resolve_companies(seeds, corporations)
+    resolved = listed_companies(corporations)
     if not resolved:
-        fail("none of the seed company names could be mapped to OpenDART corporation codes")
+        fail("no listed companies were found in OpenDART corpCode.xml")
 
     reports = fetch_reports(key, year, [company["corp_code"] for company in resolved])
     companies: list[dict[str, Any]] = []
@@ -385,7 +344,7 @@ def main() -> None:
     for rank, company in enumerate(companies, start=1):
         company["rank"] = rank
 
-    skipped = len(unresolved) + len(missing_financials)
+    skipped = len(missing_financials)
     available_quarters = [
         quarter
         for quarter in ("Q1", "Q2", "Q3", "Q4")
@@ -416,6 +375,10 @@ def main() -> None:
             "year": year,
             "unit": "KRW",
             "available_quarters": available_quarters,
+            "company_universe_count": len(resolved),
+            "total_company_count": len(companies),
+            "chunk_size": DATA_CHUNK_SIZE,
+            "chunk_count": (len(companies) + DATA_CHUNK_SIZE - 1) // DATA_CHUNK_SIZE,
             "note": note,
         },
         "totals": {
@@ -430,13 +393,63 @@ def main() -> None:
     data_path = DATA_DIR / f"{year}.json"
     data_path.write_text(replacement + "\n", encoding="utf-8")
 
+    chunk_dir = DATA_DIR / str(year)
+    chunk_dir.mkdir(parents=True, exist_ok=True)
+    for old_chunk in chunk_dir.glob("chunk-*.json"):
+        old_chunk.unlink()
+    chunk_names: list[str] = []
+    for chunk_index, offset in enumerate(range(0, len(companies), DATA_CHUNK_SIZE), start=1):
+        chunk_name = f"chunk-{chunk_index:03d}.json"
+        chunk_names.append(chunk_name)
+        chunk_payload = {
+            "meta": {
+                "year": year,
+                "chunk_index": chunk_index,
+                "chunk_count": new_data["meta"]["chunk_count"],
+                "chunk_size": DATA_CHUNK_SIZE,
+                "total_company_count": len(companies),
+            },
+            "companies": companies[offset:offset + DATA_CHUNK_SIZE],
+        }
+        (chunk_dir / chunk_name).write_text(
+            json.dumps(chunk_payload, ensure_ascii=False, separators=(",", ":")) + "\n",
+            encoding="utf-8",
+        )
+
+    manifest = {
+        "meta": new_data["meta"],
+        "totals": new_data["totals"],
+        "company_count": len(companies),
+        "chunk_size": DATA_CHUNK_SIZE,
+        "chunks": chunk_names,
+    }
+    (chunk_dir / "manifest.json").write_text(
+        json.dumps(manifest, ensure_ascii=False, separators=(",", ":")) + "\n",
+        encoding="utf-8",
+    )
+
     # The landing page keeps the current default year embedded for a fast load.
-    # Historical runs only update their year-specific JSON file.
+    # Only its first chunk is embedded so the page stays responsive.
     if year == DEFAULT_BUSINESS_YEAR:
-        INDEX_PATH.write_text(html[:json_start] + replacement + html[json_end:], encoding="utf-8")
+        first_companies = companies[:DATA_CHUNK_SIZE]
+        embedded_data = {
+            "meta": new_data["meta"],
+            "totals": {
+                "revenue": sum_periods(first_companies, "revenue"),
+                "operating_profit": sum_periods(first_companies, "operating_profit"),
+            },
+            "companies": first_companies,
+        }
+        embedded_replacement = json.dumps(
+            embedded_data, ensure_ascii=False, separators=(",", ":")
+        )
+        INDEX_PATH.write_text(
+            html[:json_start] + embedded_replacement + html[json_end:],
+            encoding="utf-8",
+        )
     print(
         f"Updated {data_path.relative_to(ROOT)} for {year}: "
-        f"{len(companies)} companies, {skipped} skipped"
+        f"{len(companies)} companies in {len(chunk_names)} chunks, {skipped} skipped"
     )
 
 

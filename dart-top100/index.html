@@ -86,6 +86,12 @@ button:focus-visible {
 button:disabled { cursor: wait; opacity: 0.65; }
 .excel-button { background: #15803d; }
 .year-status { min-height: 1.4em; color: var(--text-muted); font-size: 12px; }
+.load-more {
+  display: flex; flex-wrap: wrap; align-items: center; justify-content: center;
+  gap: 10px; padding-top: 14px;
+}
+.load-more button { min-width: 180px; }
+.load-more-status { color: var(--text-muted); font-size: 12px; }
 .tiles { display: flex; flex-wrap: wrap; gap: 12px; margin: 0 0 16px; }
 .tile {
   flex: 1 1 160px; background: var(--surface-1);
@@ -179,13 +185,46 @@ function niceTicks(min, max, n) {
 
 // ---- 상태 ----
 let selected = null; // null = Top100 합산, 아니면 companies 배열 원소
-const state = { sorted: DATA.companies.slice() };
+const state = {
+  sorted: DATA.companies.slice(),
+  filter: '',
+  manifest: {
+    chunks: Array.from(
+      {length: Number(DATA.meta.chunk_count || 1)},
+      (_, index) => `chunk-${String(index + 1).padStart(3, '0')}.json`
+    )
+  },
+  nextChunkIndex: 1,
+  loadingMore: false
+};
 let chartObserver = null;
+
+function totalCompanyCount() {
+  return Number(DATA.meta.total_company_count || DATA.companies.length);
+}
+
+function sumLoadedCompanies(field) {
+  const totals = {};
+  for (const quarter of Q) {
+    const values = DATA.companies
+      .map(company => company[field]?.[quarter])
+      .filter(value => value !== null && value !== undefined);
+    totals[quarter] = values.length ? values.reduce((sum, value) => sum + value, 0) : null;
+  }
+  return totals;
+}
+
+function refreshLoadedTotals() {
+  DATA.totals = {
+    revenue: sumLoadedCompanies('revenue'),
+    operating_profit: sumLoadedCompanies('operating_profit')
+  };
+}
 
 function currentSeries() {
   if (selected) return { rev: selected.revenue, op: selected.operating_profit, name: selected.corp_name };
   return { rev: DATA.totals.revenue, op: DATA.totals.operating_profit,
-           name: `매출 상위 ${DATA.companies.length}개 기업 합산` };
+           name: `현재 불러온 상위 ${DATA.companies.length}개 기업 합산` };
 }
 
 function disclosedQuarters() {
@@ -202,7 +241,7 @@ function build() {
   const meta = DATA.meta;
   document.title = `${meta.year}년 매출액 상위 기업 분기별 매출액·영업이익`;
   app.append(
-    el('h1', {text: `${meta.year}년 매출액 상위 ${DATA.companies.length}개 기업 — 분기별 매출액·영업이익`}),
+    el('h1', {id: 'pageTitle', text: `${meta.year}년 매출액 상위 ${DATA.companies.length}개 기업 — 분기별 매출액·영업이익`}),
     el('p', {class: 'sub', text: `출처: ${meta.source === 'SAMPLE' ? '샘플 데이터' : 'OpenDART(금융감독원 전자공시)'} · ${meta.note || ''}`})
   );
   if (meta.source === 'SAMPLE') {
@@ -227,7 +266,7 @@ function build() {
     class: 'excel-button',
     type: 'button',
     text: '엑셀로 내보내기',
-    title: '현재 화면의 연도 데이터를 Excel 파일로 다운로드',
+    title: '선택한 연도의 전체 기업 데이터를 Excel 파일로 다운로드',
     onclick: exportExcel
   });
   const yearControls = el('div', {class: 'controls'});
@@ -242,7 +281,7 @@ function build() {
 
   // 컨트롤: 기업 선택
   const sel = el('select', {id: 'corpSel', 'aria-label': '기업 선택'});
-  sel.append(el('option', {value: '', text: `전체 — 상위 ${DATA.companies.length}개 합산`}));
+  sel.append(el('option', {id: 'allCompaniesOption', value: '', text: `전체 — 현재 불러온 ${DATA.companies.length}개 합산`}));
   for (const c of DATA.companies)
     sel.append(el('option', {value: String(c.rank), text: `${c.rank}. ${c.corp_name}`}));
   sel.addEventListener('change', () => {
@@ -275,16 +314,32 @@ function build() {
 
   // 테이블 카드
   const tcard = el('div', {class: 'card'});
-  tcard.append(el('h2', {text: `상위 ${DATA.companies.length}개 기업 순위 (단위: 억 원)`}),
+  tcard.append(el('h2', {id: 'rankTitle', text: `상위 ${DATA.companies.length}개 기업 순위 (단위: 억 원)`}),
                el('p', {class: 'note', text: '행을 클릭하면 해당 기업의 차트를 표시합니다.'}));
-  const search = el('input', {type: 'search', placeholder: '기업명 검색', 'aria-label': '기업명 검색',
+  const search = el('input', {id: 'corpSearch', type: 'search', placeholder: '불러온 기업에서 검색', 'aria-label': '기업명 검색',
                               oninput: () => renderTable(search.value.trim())});
   const sc = el('div', {class: 'controls'}); sc.append(search);
-  tcard.append(sc, el('div', {class: 'tablewrap', id: 'tablewrap'}));
+  const loadMore = el('div', {class: 'load-more'});
+  loadMore.append(
+    el('button', {
+      id: 'loadMoreCompanies',
+      type: 'button',
+      text: '100개 더 불러오기',
+      onclick: loadMoreCompanies
+    }),
+    el('span', {
+      id: 'loadMoreStatus',
+      class: 'load-more-status',
+      role: 'status',
+      'aria-live': 'polite'
+    })
+  );
+  tcard.append(sc, el('div', {class: 'tablewrap', id: 'tablewrap'}), loadMore);
   app.append(tcard);
 
   renderDynamic();
   renderTable('');
+  updateLoadedCompanyControls();
   if (chartObserver) chartObserver.disconnect();
   chartObserver = new ResizeObserver(() => renderChart());
   chartObserver.observe(document.getElementById('chart'));
@@ -296,23 +351,35 @@ async function refreshYearData(year) {
   button.disabled = true;
   status.textContent = `${year}년 데이터를 불러오는 중…`;
   try {
-    let nextData;
-    if (year === DEFAULT_DATA.meta.year) {
-      nextData = JSON.parse(JSON.stringify(DEFAULT_DATA));
-    } else {
-      const response = await fetch(`data/${year}.json?refresh=${Date.now()}`, {cache: 'no-store'});
-      if (!response.ok) throw new Error(`HTTP ${response.status}`);
-      nextData = await response.json();
+    const refresh = Date.now();
+    const manifestResponse = await fetch(
+      `data/${year}/manifest.json?refresh=${refresh}`,
+      {cache: 'no-store'}
+    );
+    if (!manifestResponse.ok) throw new Error(`HTTP ${manifestResponse.status}`);
+    const manifest = await manifestResponse.json();
+    if (!manifest.meta || Number(manifest.meta.year) !== year ||
+        !Array.isArray(manifest.chunks) || !manifest.chunks.length) {
+      throw new Error('매니페스트 형식 오류');
     }
-    if (!nextData.meta || Number(nextData.meta.year) !== year ||
-        !nextData.totals || !Array.isArray(nextData.companies)) {
+    const firstChunkResponse = await fetch(
+      `data/${year}/${manifest.chunks[0]}?refresh=${refresh}`,
+      {cache: 'no-store'}
+    );
+    if (!firstChunkResponse.ok) throw new Error(`HTTP ${firstChunkResponse.status}`);
+    const firstChunk = await firstChunkResponse.json();
+    if (!Array.isArray(firstChunk.companies)) {
       throw new Error('데이터 형식 오류');
     }
-    DATA.meta = nextData.meta;
-    DATA.totals = nextData.totals;
-    DATA.companies = nextData.companies;
+    DATA.meta = manifest.meta;
+    DATA.companies = firstChunk.companies;
+    refreshLoadedTotals();
     selected = null;
     state.sorted = DATA.companies.slice();
+    state.filter = '';
+    state.manifest = manifest;
+    state.nextChunkIndex = 1;
+    state.loadingMore = false;
     const url = new URL(window.location.href);
     url.searchParams.set('year', String(year));
     window.history.replaceState({}, '', url);
@@ -321,11 +388,95 @@ async function refreshYearData(year) {
       ? new Date(DATA.meta.generated_at).toLocaleString('ko-KR')
       : '갱신 시각 미상';
     document.getElementById('yearStatus').textContent =
-      `${year}년 ${DATA.companies.length}개 기업 · ${loadedAt} 기준`;
+      `${year}년 상위 ${DATA.companies.length}개 기업 · ${loadedAt} 기준`;
   } catch (error) {
     status.textContent = `${year}년 데이터를 불러오지 못했습니다. 잠시 후 다시 시도해 주세요.`;
     button.disabled = false;
   }
+}
+
+async function loadMoreCompanies() {
+  if (state.loadingMore || state.nextChunkIndex >= state.manifest.chunks.length) return;
+  const button = document.getElementById('loadMoreCompanies');
+  const status = document.getElementById('loadMoreStatus');
+  const chunkName = state.manifest.chunks[state.nextChunkIndex];
+  state.loadingMore = true;
+  button.disabled = true;
+  button.textContent = '불러오는 중…';
+  status.textContent = `다음 100개 기업 데이터를 불러오는 중입니다.`;
+  let failed = false;
+  try {
+    const response = await fetch(
+      `data/${DATA.meta.year}/${chunkName}?refresh=${Date.now()}`,
+      {cache: 'no-store'}
+    );
+    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+    const chunk = await response.json();
+    if (!chunk.meta || Number(chunk.meta.year) !== Number(DATA.meta.year) ||
+        !Array.isArray(chunk.companies)) {
+      throw new Error('데이터 형식 오류');
+    }
+    const known = new Set(DATA.companies.map(company => company.corp_code));
+    const additions = chunk.companies.filter(company => !known.has(company.corp_code));
+    DATA.companies.push(...additions);
+    DATA.companies.sort((a, b) => a.rank - b.rank);
+    state.sorted = DATA.companies.slice();
+    state.nextChunkIndex += 1;
+    refreshLoadedTotals();
+    syncCompanySelector();
+    updateLoadedCompanyControls();
+    renderDynamic();
+    renderTable(state.filter);
+  } catch (error) {
+    failed = true;
+  } finally {
+    state.loadingMore = false;
+    updateLoadedCompanyControls();
+    if (failed) {
+      status.textContent = '추가 데이터를 불러오지 못했습니다. 잠시 후 다시 시도해 주세요.';
+    }
+  }
+}
+
+function syncCompanySelector() {
+  const selector = document.getElementById('corpSel');
+  if (!selector) return;
+  const selectedRank = selected ? String(selected.rank) : '';
+  selector.textContent = '';
+  selector.append(el('option', {
+    id: 'allCompaniesOption',
+    value: '',
+    text: `전체 — 현재 불러온 ${DATA.companies.length}개 합산`
+  }));
+  for (const company of DATA.companies) {
+    selector.append(el('option', {
+      value: String(company.rank),
+      text: `${company.rank}. ${company.corp_name}`
+    }));
+  }
+  selector.value = selectedRank;
+}
+
+function updateLoadedCompanyControls() {
+  const loaded = DATA.companies.length;
+  const total = totalCompanyCount();
+  const pageTitle = document.getElementById('pageTitle');
+  const rankTitle = document.getElementById('rankTitle');
+  const allOption = document.getElementById('allCompaniesOption');
+  const button = document.getElementById('loadMoreCompanies');
+  const status = document.getElementById('loadMoreStatus');
+  if (pageTitle) pageTitle.textContent =
+    `${DATA.meta.year}년 매출액 상위 ${loaded}개 기업 — 분기별 매출액·영업이익`;
+  if (rankTitle) rankTitle.textContent = `상위 ${loaded}개 기업 순위 (단위: 억 원)`;
+  if (allOption) allOption.textContent = `전체 — 현재 불러온 ${loaded}개 합산`;
+  if (!button || !status) return;
+  const hasMore = state.nextChunkIndex < state.manifest.chunks.length;
+  button.disabled = state.loadingMore || !hasMore;
+  button.textContent = state.loadingMore ? '불러오는 중…' :
+    (hasMore ? '100개 더 불러오기' : '전체 기업 불러오기 완료');
+  status.textContent = hasMore
+    ? `현재 ${loaded.toLocaleString('ko-KR')}개 / 전체 ${total.toLocaleString('ko-KR')}개`
+    : `전체 ${loaded.toLocaleString('ko-KR')}개 기업을 불러왔습니다.`;
 }
 
 function exportExcel() {
@@ -455,6 +606,7 @@ function renderChart() {
 }
 
 function renderTable(filter) {
+  state.filter = filter || '';
   const wrap = document.getElementById('tablewrap');
   wrap.textContent = '';
   const table = el('table', {});
