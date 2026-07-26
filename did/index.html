@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>DID 정책효과 — Stargate Visual Lab</title>
+<meta name="description" content="이중차분(Difference-in-Differences) 평행추세와 이벤트 스터디 계수 시각화. Plotly.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%93%90%3C/text%3E%3C/svg%3E">
+<script src="https://cdn.plot.ly/plotly-2.35.2.min.js" charset="utf-8"></script>
+<style>
+:root{--bg:#0a0d14;--panel:#0f172a;--panel2:#111c33;--line:#1f2a44;--line2:#263452;
+  --ink:#e6edf3;--sub:#9aa7b8;--muted:#6b7a90;--acc:#7aa2ff;--good:#63d6a0;--warm:#ffb86b;
+  --grad1:linear-gradient(135deg,#4f7fff,#7aa2ff 55%,#b388ff);}
+*{box-sizing:border-box}html,body{margin:0}
+body{font-family:"Pretendard","Apple SD Gothic Neo","Segoe UI",system-ui,sans-serif;background:var(--bg);color:var(--ink);line-height:1.55;
+  background-image:radial-gradient(1000px 600px at 10% -10%,rgba(79,127,255,.16),transparent 60%),radial-gradient(800px 500px at 100% 0,rgba(179,136,255,.1),transparent 60%);background-attachment:fixed;-webkit-font-smoothing:antialiased}
+a{color:var(--acc);text-decoration:none}.wrap{max-width:1080px;margin:0 auto;padding:24px 22px 90px}
+.nav{display:flex;justify-content:space-between;align-items:center;font-size:13px;color:var(--sub)}
+.nav a{color:var(--sub)}.nav a:hover{color:var(--ink)}
+h1{font-size:30px;letter-spacing:-.4px;margin:26px 0 6px;background:var(--grad1);-webkit-background-clip:text;background-clip:text;color:transparent}
+.lead{color:var(--sub);font-size:15px;margin:0 0 8px;max-width:72ch}
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0 22px}
+.chip{border:1px solid var(--line2);background:var(--panel);color:var(--sub);padding:5px 10px;border-radius:999px;font-size:12px}
+.card{border:1px solid var(--line);background:linear-gradient(180deg,var(--panel2),var(--panel));border-radius:16px;padding:16px;margin-bottom:16px}
+.card h2{margin:0 0 2px;font-size:16px}.card .d{color:var(--sub);font-size:12.5px;margin-bottom:8px}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:16px}
+.stat{border:1px solid var(--line);background:var(--panel);border-radius:12px;padding:14px}
+.stat .l{color:var(--muted);font-size:12px}.stat .v{font-size:22px;font-weight:700;margin-top:4px}
+.stat .v.good{color:var(--good)}
+.plot{width:100%;height:360px}
+@media(max-width:720px){.stats{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="nav"><a href="/research/">← 연구 대시보드</a><a href="https://www.stargateedu.co.kr/">포털</a></div>
+  <h1>DID 정책효과 · 이벤트 스터디</h1>
+  <p class="lead">이중차분(Difference-in-Differences)으로 정책 개입의 인과효과를 추정합니다. 처치군·통제군의 <b>개입 전 평행추세</b>가 성립하고, 개입 후 처치군만 상승하면 그 격차가 정책효과입니다. 아래는 데모 시드 데이터.</p>
+  <div class="chips"><span class="chip">Difference-in-Differences</span><span class="chip">Event Study</span><span class="chip">Parallel Trends</span></div>
+
+  <div class="stats" id="stats"></div>
+
+  <div class="card">
+    <h2>① 평행추세 & 처치효과</h2>
+    <div class="d">처치군(개입 대상)과 통제군의 결과변수 추이. 세로 점선 = 정책 시행 시점(t=0).</div>
+    <div id="trend" class="plot"></div>
+  </div>
+
+  <div class="card">
+    <h2>② 이벤트 스터디 계수 (95% CI)</h2>
+    <div class="d">기간별 처치효과 βₜ. 개입 전(음수 기간) 계수가 0 근처면 평행추세 가정을 지지하고, 개입 후 양(+)으로 상승하면 효과가 누적됩니다.</div>
+    <div id="event" class="plot"></div>
+  </div>
+</div>
+
+<script>
+const ACC='#7aa2ff', GOOD='#63d6a0', WARM='#ffb86b', LINE='#21304f', SUB='#9aa7b8';
+const baseLayout=(extra)=>Object.assign({
+  paper_bgcolor:'rgba(0,0,0,0)', plot_bgcolor:'rgba(0,0,0,0)',
+  font:{color:SUB,family:'Pretendard,system-ui,sans-serif',size:12},
+  margin:{l:52,r:16,t:10,b:40}, showlegend:true,
+  legend:{orientation:'h',y:1.12,x:0,font:{size:12}},
+  xaxis:{gridcolor:LINE,zerolinecolor:LINE}, yaxis:{gridcolor:LINE,zerolinecolor:LINE}
+}, extra||{});
+const cfg={responsive:true,displayModeBar:false};
+
+// 기간 -6..+6, 개입 t=0
+const t=[]; for(let i=-6;i<=6;i++) t.push(i);
+// 통제군: 완만한 공통추세
+const control = t.map(x=> 100 + x*1.2);
+// 처치군: 개입 전 동일 추세(+상수 격차), 개입 후 추가 상승
+const treat = t.map(x=> 100 + x*1.2 + 6 + (x>=0 ? (x+1)*2.4 : 0));
+
+Plotly.newPlot('trend',[
+  {x:t,y:control,name:'통제군',mode:'lines+markers',line:{color:SUB,width:2},marker:{size:6}},
+  {x:t,y:treat,name:'처치군',mode:'lines+markers',line:{color:ACC,width:2.5},marker:{size:6}}
+], baseLayout({
+  xaxis:{title:'개입 기준 상대 기간 (t)',gridcolor:LINE,zerolinecolor:LINE},
+  yaxis:{title:'결과변수',gridcolor:LINE,zerolinecolor:LINE},
+  shapes:[{type:'line',x0:0,x1:0,yref:'paper',y0:0,y1:1,line:{color:WARM,width:1.5,dash:'dash'}}],
+  annotations:[{x:0,y:1,yref:'paper',yanchor:'bottom',text:'정책 시행',showarrow:false,font:{color:WARM,size:11}}]
+}), cfg);
+
+// 이벤트 스터디 계수: 개입 전 ~0, 개입 후 상승
+const beta = t.map(x=> x<0 ? (Math.sin(x)*0.6) : (x>=0 ? (x+1)*2.4 : 0));
+const ciH = t.map(()=>1.6), ciL = t.map(()=>1.6);
+const post = t.map(x=> x>=0);
+Plotly.newPlot('event',[
+  {x:t,y:beta,type:'scatter',mode:'markers',name:'βₜ 추정치',
+   marker:{size:9,color:post.map(p=>p?GOOD:SUB),line:{color:'#0a0d14',width:1}},
+   error_y:{type:'data',array:ciH,arrayminus:ciL,color:'#3a4a6b',thickness:1.4,width:4}}
+], baseLayout({
+  showlegend:false,
+  xaxis:{title:'개입 기준 상대 기간 (t)',gridcolor:LINE,zerolinecolor:LINE},
+  yaxis:{title:'처치효과 βₜ',gridcolor:LINE,zerolinecolor:LINE},
+  shapes:[
+    {type:'line',x0:-6.5,x1:6.5,y0:0,y1:0,line:{color:'#3a4a6b',width:1}},
+    {type:'line',x0:-0.5,x1:-0.5,yref:'paper',y0:0,y1:1,line:{color:WARM,width:1.5,dash:'dash'}}
+  ]
+}), cfg);
+
+// KPI
+const att = (treat[t.indexOf(6)]-treat[t.indexOf(-1)]) - (control[t.indexOf(6)]-control[t.indexOf(-1)]);
+document.getElementById('stats').innerHTML=[
+  ['처치효과 (ATT, t=+6)', '+'+att.toFixed(1), true],
+  ['개입 전 평행추세', '지지됨', false],
+  ['관측 기간', '13기 (−6…+6)', false]
+].map(([l,v,g])=>`<div class="stat"><div class="l">${l}</div><div class="v${g?' good':''}">${v}</div></div>`).join('');
+</script>
+</body>
+</html>

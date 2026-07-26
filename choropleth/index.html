@@ -1,0 +1,186 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>서울 자치구 실거래 지도 — Stargate Visual Lab</title>
+<meta name="description" content="서울 25개 자치구 아파트 실거래: 평단가·거래량·전년대비 변동률 다중레이어 지도 + queen 인접행렬 Moran's I. 서울 열린데이터광장.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%8C%8F%3C/text%3E%3C/svg%3E">
+<script src="https://cdn.plot.ly/plotly-2.35.2.min.js" charset="utf-8"></script>
+<style>
+:root{--bg:#0a0d14;--panel:#0f172a;--panel2:#111c33;--line:#1f2a44;--line2:#263452;
+  --ink:#e6edf3;--sub:#9aa7b8;--muted:#6b7a90;--acc:#7aa2ff;--good:#63d6a0;--warm:#ffb86b;--pink:#f778ba;
+  --grad1:linear-gradient(135deg,#4f7fff,#7aa2ff 55%,#b388ff);}
+*{box-sizing:border-box}html,body{margin:0}
+body{font-family:"Pretendard","Apple SD Gothic Neo","Segoe UI",system-ui,sans-serif;background:var(--bg);color:var(--ink);line-height:1.55;
+  background-image:radial-gradient(1000px 600px at 10% -10%,rgba(79,127,255,.16),transparent 60%),radial-gradient(800px 500px at 100% 0,rgba(179,136,255,.1),transparent 60%);background-attachment:fixed;-webkit-font-smoothing:antialiased}
+a{color:var(--acc);text-decoration:none}.wrap{max-width:1080px;margin:0 auto;padding:24px 22px 90px}
+.nav{display:flex;justify-content:space-between;align-items:center;font-size:13px;color:var(--sub)}
+.nav a{color:var(--sub)}.nav a:hover{color:var(--ink)}
+h1{font-size:30px;letter-spacing:-.4px;margin:26px 0 6px;background:var(--grad1);-webkit-background-clip:text;background-clip:text;color:transparent}
+.lead{color:var(--sub);font-size:15px;margin:0 0 8px;max-width:70ch}
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0 22px}
+.chip{border:1px solid var(--line2);background:var(--panel);color:var(--sub);padding:5px 10px;border-radius:999px;font-size:12px}
+.card{border:1px solid var(--line);background:linear-gradient(180deg,var(--panel2),var(--panel));border-radius:16px;padding:16px;margin-bottom:16px}
+.card .hd{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+.card h2{margin:0 0 2px;font-size:16px}.card .d{color:var(--sub);font-size:12.5px;margin-bottom:8px}
+.toggle{display:flex;gap:6px;background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:3px}
+.toggle button{background:none;border:0;color:var(--sub);font:inherit;font-size:12.5px;padding:6px 12px;border-radius:7px;cursor:pointer}
+.toggle button.on{background:var(--grad1);color:#0b1020;font-weight:700}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:16px}
+.stat{border:1px solid var(--line);background:var(--panel);border-radius:12px;padding:14px}
+.stat .l{color:var(--muted);font-size:12px}.stat .v{font-size:21px;font-weight:700;margin-top:4px}
+.note{color:var(--muted);font-size:12px;margin-top:2px}
+#map{width:100%;height:520px}#moranPlot{width:100%;height:420px}
+@media(max-width:720px){.stats{grid-template-columns:repeat(2,1fr)}#map{height:420px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="nav"><a href="/research/">← 연구 대시보드</a><a href="https://www.stargateedu.co.kr/">포털</a></div>
+  <h1>서울 자치구 아파트 실거래 지도</h1>
+  <p class="lead">서울 25개 자치구 아파트 실거래를 <b>평단가·거래량·전년 대비 변동률</b> 3개 레이어로 봅니다. 서울 열린데이터광장 실거래 집계. 실제 경계의 <b>queen 인접행렬</b>로 레이어별 공간 자기상관(Moran's I)을 계산합니다.</p>
+  <div class="chips"><span class="chip">서울 열린데이터 실거래</span><span class="chip">3-Layer</span><span class="chip">Queen Contiguity W</span><span class="chip">Moran's I</span><span class="chip">LISA Quadrants</span></div>
+
+  <div class="stats" id="stats"></div>
+
+  <div class="card">
+    <div class="hd">
+      <div><h2 id="mapTitle">평단가</h2><div class="d" id="mapDesc">색이 짙을수록 높음. 드래그·휠 탐색, hover로 값 확인.</div></div>
+      <div class="toggle" id="toggle">
+        <button data-m="price" class="on">평단가</button>
+        <button data-m="vol">거래량</button>
+        <button data-m="yoy">변동률</button>
+      </div>
+    </div>
+    <div id="map"></div>
+  </div>
+
+  <div class="card">
+    <h2>Moran 산점도 · 공간 자기상관</h2>
+    <div class="d">가로축 = 표준화 값(z), 세로축 = 이웃 평균(공간 시차 Wz). 기울기가 Moran's I. 우상(HH)·좌하(LL)=군집, 우하(HL)·좌상(LH)=공간 이상치.</div>
+    <div id="moranPlot"></div>
+    <p class="note" id="moranNote">계산 중…</p>
+  </div>
+</div>
+
+<script>
+const ACC='#7aa2ff',GOOD='#63d6a0',WARM='#ffb86b',PINK='#f778ba',SUB='#9aa7b8',LINE='#21304f';
+const DARK={paper_bgcolor:'rgba(0,0,0,0)',font:{color:SUB,family:'Pretendard,system-ui,sans-serif'},
+  margin:{l:0,r:0,t:0,b:0},mapbox:{style:'carto-darkmatter',center:{lat:37.5651,lon:126.9895},zoom:9.4}};
+const cfg={responsive:true,displayModeBar:false};
+
+const LAYER={
+  price:{title:'평단가',unit:'만원/평',cbar:'만원/평',fmt:v=>Math.round(v).toLocaleString()+'만원',
+         scale:[[0,'#12203f'],[0.45,'#31519e'],[0.75,'#4f7fff'],[1,'#b388ff']],div:false},
+  vol:{title:'2026 아파트 거래량',unit:'건',cbar:'건',fmt:v=>Math.round(v).toLocaleString()+'건',
+       scale:[[0,'#0f2018'],[0.5,'#1f8f5f'],[1,'#63d6a0']],div:false},
+  yoy:{title:'전년 대비 변동률',unit:'%',cbar:'%',fmt:v=>(v>0?'+':'')+v+'%',
+       scale:[[0,'#f778ba'],[0.5,'#152036'],[1,'#63d6a0']],div:true}
+};
+
+function coordSet(geom){const s=new Set();(function rec(a){
+  if(Array.isArray(a)&&a.length&&typeof a[0]==='number'){s.add(a[0].toFixed(5)+','+a[1].toFixed(5));}
+  else if(Array.isArray(a)){a.forEach(rec);}})(geom.coordinates);return s;}
+
+Promise.all([
+  fetch('/assets/seoul_gu.json').then(r=>r.json()),
+  fetch('/assets/gu_prices.json').then(r=>r.json())
+]).then(([geo,prices])=>{
+  const F=geo.features;
+  const en=F.map(f=>f.properties.name_eng), ko=F.map(f=>f.properties.name);
+  const D=prices.districts, META=prices.meta;
+  const VALS={
+    price:en.map(e=>D[e].price),
+    vol:en.map(e=>D[e].vol),
+    yoy:en.map(e=>D[e].yoy)
+  };
+
+  // queen 인접행렬 (한 번만)
+  const sets=F.map(f=>coordSet(f.geometry));
+  const nb=F.map(()=>[]);
+  for(let i=0;i<F.length;i++)for(let j=i+1;j<F.length;j++){
+    let hit=false; for(const c of sets[i]){if(sets[j].has(c)){hit=true;break;}}
+    if(hit){nb[i].push(j);nb[j].push(i);}
+  }
+  const totalEdges=nb.reduce((s,a)=>s+a.length,0)/2;
+
+  function moran(v){
+    const mean=v.reduce((a,b)=>a+b,0)/v.length;
+    const sd=Math.sqrt(v.reduce((s,x)=>s+(x-mean)**2,0)/v.length)||1;
+    const z=v.map(x=>(x-mean)/sd);
+    const lag=z.map((_,i)=> nb[i].length? nb[i].reduce((s,j)=>s+z[j],0)/nb[i].length : 0);
+    const I=z.reduce((s,zi,i)=>s+zi*lag[i],0)/z.reduce((s,zi)=>s+zi*zi,0);
+    return {z,lag,I,mean};
+  }
+
+  function kpis(m){
+    const v=VALS[m], L=LAYER[m], M=moran(v);
+    if(m==='price'){
+      const mx=v.indexOf(Math.max(...v));
+      return [['평균 평단가',Math.round(M.mean).toLocaleString()+'만원'],
+        ['최고 · '+ko[mx].replace('구',''),L.fmt(Math.max(...v))],
+        ['최고/최저 격차',(Math.max(...v)/Math.min(...v)).toFixed(1)+'배'],
+        ["Moran's I",M.I.toFixed(3)]];
+    }
+    if(m==='vol'){
+      const mx=v.indexOf(Math.max(...v));
+      return [['총 거래량(26)',v.reduce((a,b)=>a+b,0).toLocaleString()+'건'],
+        ['최다 · '+ko[mx].replace('구',''),L.fmt(Math.max(...v))],
+        ['평균 거래량',Math.round(M.mean).toLocaleString()+'건'],
+        ["Moran's I",M.I.toFixed(3)]];
+    }
+    const mx=v.indexOf(Math.max(...v)), mn=v.indexOf(Math.min(...v));
+    return [['평균 변동률',(M.mean>0?'+':'')+M.mean.toFixed(1)+'%'],
+      ['최고 상승 · '+ko[mx].replace('구',''),L.fmt(Math.max(...v))],
+      ['최대 하락 · '+ko[mn].replace('구',''),L.fmt(Math.min(...v))],
+      ["Moran's I",M.I.toFixed(3)]];
+  }
+
+  function render(m){
+    const v=VALS[m], L=LAYER[m], M=moran(v);
+    // 지도
+    const trace={type:'choroplethmapbox',geojson:geo,featureidkey:'properties.name_eng',
+      locations:en,z:v,text:ko,colorscale:L.scale,
+      marker:{line:{color:'#0a0d14',width:1}},
+      colorbar:{title:{text:L.cbar,side:'right'},tickfont:{color:SUB},outlinewidth:0,len:.85,thickness:12},
+      hovertemplate:'<b>%{text}</b><br>'+L.title+' %{customdata}<extra></extra>',
+      customdata:v.map(L.fmt)};
+    if(L.div){ const a=Math.max(...v.map(Math.abs)); trace.zmid=0; trace.zmin=-a; trace.zmax=a; }
+    Plotly.react('map',[trace],DARK,cfg);
+
+    // Moran 산점도
+    const quad=M.z.map((zi,i)=> zi>=0?(M.lag[i]>=0?'HH':'HL'):(M.lag[i]>=0?'LH':'LL'));
+    const qc={HH:PINK,LL:ACC,HL:WARM,LH:GOOD};
+    const xr=[Math.min(...M.z)-.3,Math.max(...M.z)+.3];
+    Plotly.react('moranPlot',[
+      {x:M.z,y:M.lag,mode:'markers+text',type:'scatter',
+       text:ko.map(k=>k.replace('구','')),textposition:'top center',textfont:{size:9,color:SUB},
+       marker:{size:11,color:quad.map(q=>qc[q]),line:{color:'#0a0d14',width:1}},
+       customdata:ko.map((k,i)=>k+' · '+L.fmt(v[i])),
+       hovertemplate:'%{customdata}<br>z=%{x:.2f} · Wz=%{y:.2f}<extra></extra>'},
+      {x:xr,y:[M.I*xr[0],M.I*xr[1]],mode:'lines',line:{color:'#e6edf3',width:1.6,dash:'dash'},hoverinfo:'skip'}
+    ],{paper_bgcolor:'rgba(0,0,0,0)',plot_bgcolor:'rgba(0,0,0,0)',showlegend:false,
+       font:{color:SUB,family:'Pretendard,system-ui,sans-serif',size:12},margin:{l:52,r:16,t:10,b:44},
+       xaxis:{title:'표준화 '+L.title+' z',gridcolor:LINE,zeroline:true,zerolinecolor:'#3a4a6b'},
+       yaxis:{title:'공간 시차 Wz (이웃 평균)',gridcolor:LINE,zeroline:true,zerolinecolor:'#3a4a6b'}},cfg);
+
+    // 텍스트/KPI
+    document.getElementById('mapTitle').textContent=L.title+' ('+L.unit+')';
+    document.getElementById('stats').innerHTML=kpis(m).map(([l,val])=>
+      `<div class="stat"><div class="l">${l}</div><div class="v">${val}</div></div>`).join('');
+    const sign=M.I>0.3?'뚜렷한 양(+)의':M.I>0.05?'약한 양(+)의':M.I<-0.05?'음(−)의':'거의 없는';
+    document.getElementById('moranNote').textContent=
+      `${L.title} Moran's I = ${M.I.toFixed(3)} → ${sign} 공간 자기상관. queen 인접행렬 25개 구·${totalEdges}개 인접쌍(행표준화). `+
+      `데이터: ${META.source} · ${META.period} · ${META.metric}.`;
+    document.querySelectorAll('#toggle button').forEach(b=>b.classList.toggle('on',b.dataset.m===m));
+  }
+
+  document.getElementById('toggle').addEventListener('click',e=>{
+    const b=e.target.closest('button'); if(b) render(b.dataset.m);
+  });
+  render('price');
+}).catch(e=>{ document.getElementById('map').textContent='데이터 로드 실패: '+e; });
+</script>
+</body>
+</html>

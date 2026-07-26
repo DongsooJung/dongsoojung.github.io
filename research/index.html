@@ -29,12 +29,11 @@
         <p>실시간 API와 공공데이터를 수집·가공해 도시 혼잡, 부동산 경매, 환율, 무역, 관광의 변화를 탐색할 수 있는 연구 대시보드입니다.</p>
         <div class="hero-actions">
           <a class="btn primary" href="#dashboards">대시보드 탐색 →</a>
-          <a class="btn" href="/stargate-visual/">Visual Lab 열기</a>
           <a class="btn" href="/strategy/">전략 인사이트로 이동</a>
         </div>
       </div>
-      <div class="stats" aria-label="연구 허브 현황">
-        <div class="stat"><strong>11</strong><span>연구·데이터·도구 프로젝트</span></div>
+        <div class="stats" aria-label="연구 허브 현황">
+        <div class="stat"><strong>16</strong><span>연구·데이터·도구 프로젝트</span></div>
         <div class="stat"><strong>7</strong><span>연구·데이터 영역</span></div>
         <div class="stat"><strong>LIVE</strong><span>실시간·월간 갱신</span></div>
       </div>
@@ -138,13 +137,49 @@
               <div class="project-footer"><span>GeoPandas · PostGIS</span><b>GitHub ↗</b></div>
             </div>
           </a>
-          <a class="project" href="/stargate-visual/" data-card data-category="urban">
-            <div class="visual" style="--visual:radial-gradient(circle at 22% 20%,rgba(79,127,255,.5),transparent 55%),linear-gradient(145deg,#0c1428,#182849)">📊</div>
+          <a class="project" href="/viz-dashboard/" data-card data-category="urban">
+            <div class="visual" style="--visual:radial-gradient(circle at 22% 20%,rgba(79,127,255,.5),transparent 55%),linear-gradient(145deg,#0c1428,#182849)">🗺️</div>
             <div class="project-body">
-              <div class="meta"><span class="pill accent">Lab</span><span class="pill">Visualization</span></div>
-              <h3>Stargate Visual Lab</h3>
-              <p>공간계량·부동산 분석과 Recharts·D3·Plotly 시각화를 모은 연구 아카이브입니다.</p>
-              <div class="project-footer"><span>Spatial Analytics · 실험</span><b>열기 →</b></div>
+              <div class="meta"><span class="pill accent">Live</span><span class="pill">Visualization</span></div>
+              <h3>지역 분석 대시보드</h3>
+              <p>접근성-가격 헤도닉 회귀(D3), 월별 가격지수·거래량 복합차트(Recharts), 자치구×분기 변동률 히트맵(Plotly). React + Vite.</p>
+              <div class="project-footer"><span>Recharts · D3 · Plotly</span><b>열기 →</b></div>
+            </div>
+          </a>
+          <a class="project" href="/choropleth/" data-card data-category="urban">
+            <div class="visual" style="--visual:radial-gradient(circle at 78% 24%,rgba(67,200,255,.45),transparent 54%),linear-gradient(145deg,#0a1a2e,#0e2d4a)">🌏</div>
+            <div class="project-body">
+              <div class="meta"><span class="pill accent">Live</span><span class="pill">Spatial</span></div>
+              <h3>Choropleth 지도</h3>
+              <p>서울 25개 자치구 평단가 단계구분도(Plotly choroplethmapbox). 공간 자기상관(Moran's I) 요약, 드래그·휠 탐색.</p>
+              <div class="project-footer"><span>Plotly · GeoJSON</span><b>열기 →</b></div>
+            </div>
+          </a>
+          <a class="project" href="/did/" data-card data-category="urban">
+            <div class="visual" style="--visual:radial-gradient(circle at 30% 25%,rgba(255,184,67,.42),transparent 52%),linear-gradient(145deg,#1a1208,#2e2010)">📐</div>
+            <div class="project-body">
+              <div class="meta"><span class="pill accent">Research</span><span class="pill">Econometrics</span></div>
+              <h3>DID 정책효과</h3>
+              <p>이중차분(Difference-in-Differences) 평행추세·처치효과와 이벤트 스터디 계수(95% CI) 플롯.</p>
+              <div class="project-footer"><span>Event Study · Plotly</span><b>열기 →</b></div>
+            </div>
+          </a>
+          <a class="project" href="/airbnb/" data-card data-category="urban">
+            <div class="visual" style="--visual:radial-gradient(circle at 22% 20%,rgba(255,100,100,.45),transparent 52%),linear-gradient(145deg,#1f0c0c,#3a1515)">🏠</div>
+            <div class="project-body">
+              <div class="meta"><span class="pill accent">Live</span><span class="pill">Real Estate · ML</span></div>
+              <h3>Airbnb 수익 예측</h3>
+              <p>서울 에어비앤비 가격 분포·자치구별 점유율·6개월 수익 예측(신뢰구간) 대시보드.</p>
+              <div class="project-footer"><span>Real Estate · ML</span><b>열기 →</b></div>
+            </div>
+          </a>
+          <a class="project" href="/volume/" data-card data-category="urban">
+            <div class="visual" style="--visual:radial-gradient(circle at 75% 25%,rgba(67,255,150,.4),transparent 52%),linear-gradient(145deg,#081a14,#0d2b1e)">📈</div>
+            <div class="project-body">
+              <div class="meta"><span class="pill accent">Live</span><span class="pill">Real Estate</span></div>
+              <h3>서울 부동산 월별 거래량</h3>
+              <p>유형별(아파트·연립다세대·오피스텔·단독다가구) 월별 거래량 추이·구성비·전년 동월 비교. 실거래 자동 갱신.</p>
+              <div class="project-footer"><span>Plotly · 유형별</span><b>열기 →</b></div>
             </div>
           </a>
           <a class="project" href="/exchange-rate/" data-card data-category="economy">

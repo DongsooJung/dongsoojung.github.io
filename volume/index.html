@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>서울 부동산 월별 거래량 — Stargate Visual Lab</title>
+<meta name="description" content="서울 부동산 월별 거래량: 유형별(아파트·연립다세대·오피스텔·단독다가구) 추이·구성비·전년동월 비교. 서울 열린데이터광장 실거래.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%93%88%3C/text%3E%3C/svg%3E">
+<script src="https://cdn.plot.ly/plotly-2.35.2.min.js" charset="utf-8"></script>
+<style>
+:root{--bg:#0a0d14;--panel:#0f172a;--panel2:#111c33;--line:#1f2a44;--line2:#263452;
+  --ink:#e6edf3;--sub:#9aa7b8;--muted:#6b7a90;--acc:#7aa2ff;--good:#63d6a0;--warm:#ffb86b;--pink:#f778ba;
+  --grad1:linear-gradient(135deg,#4f7fff,#7aa2ff 55%,#b388ff);}
+*{box-sizing:border-box}html,body{margin:0}
+body{font-family:"Pretendard","Apple SD Gothic Neo","Segoe UI",system-ui,sans-serif;background:var(--bg);color:var(--ink);line-height:1.55;
+  background-image:radial-gradient(1000px 600px at 10% -10%,rgba(79,127,255,.16),transparent 60%),radial-gradient(800px 500px at 100% 0,rgba(179,136,255,.1),transparent 60%);background-attachment:fixed;-webkit-font-smoothing:antialiased}
+a{color:var(--acc);text-decoration:none}.wrap{max-width:1080px;margin:0 auto;padding:24px 22px 90px}
+.nav{display:flex;justify-content:space-between;align-items:center;font-size:13px;color:var(--sub)}
+.nav a{color:var(--sub)}.nav a:hover{color:var(--ink)}
+h1{font-size:30px;letter-spacing:-.4px;margin:26px 0 6px;background:var(--grad1);-webkit-background-clip:text;background-clip:text;color:transparent}
+.lead{color:var(--sub);font-size:15px;margin:0 0 8px;max-width:72ch}
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0 22px}
+.chip{border:1px solid var(--line2);background:var(--panel);color:var(--sub);padding:5px 10px;border-radius:999px;font-size:12px}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:16px}
+.stat{border:1px solid var(--line);background:var(--panel);border-radius:12px;padding:14px}
+.stat .l{color:var(--muted);font-size:12px}.stat .v{font-size:21px;font-weight:700;margin-top:4px}
+.stat .v.up{color:var(--good)}.stat .v.down{color:var(--pink)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.card{border:1px solid var(--line);background:linear-gradient(180deg,var(--panel2),var(--panel));border-radius:16px;padding:16px;margin-bottom:16px}
+.card.wide{grid-column:1/-1}
+.card h2{margin:0 0 2px;font-size:16px}.card .d{color:var(--sub);font-size:12.5px;margin-bottom:8px}
+.plot{width:100%;height:330px}
+.note{color:var(--muted);font-size:12px;margin-top:10px}
+@media(max-width:820px){.stats{grid-template-columns:repeat(2,1fr)}.grid2{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="nav"><a href="/research/">← 연구 대시보드</a><a href="https://www.stargateedu.co.kr/">포털</a></div>
+  <h1>서울 부동산 월별 거래량</h1>
+  <p class="lead">서울 부동산 실거래를 <b>유형별(아파트·연립다세대·오피스텔·단독다가구)</b> 월별 거래량으로 봅니다. 서울 열린데이터광장 실거래 집계 · 월간 자동 갱신. (당월은 접수 진행 중이라 잠정치)</p>
+  <div class="chips"><span class="chip">서울 열린데이터 실거래</span><span class="chip">유형별 스택</span><span class="chip">전년 동월 비교</span><span class="chip">월간 자동갱신</span></div>
+
+  <div class="stats" id="stats"></div>
+
+  <div class="card wide">
+    <h2>유형별 월별 거래량</h2><div class="d">스택 막대 = 유형별 건수, 흰 선 = 총 거래량.</div>
+    <div id="stack" class="plot" style="height:360px"></div>
+  </div>
+
+  <div class="grid2">
+    <div class="card">
+      <h2>유형 구성비</h2><div class="d" id="donutDesc">최근 완결월 기준.</div>
+      <div id="donut" class="plot"></div>
+    </div>
+    <div class="card">
+      <h2>전년 동월 대비 총거래량</h2><div class="d">같은 달의 올해·전년 비교(겹치는 달).</div>
+      <div id="yoy" class="plot"></div>
+    </div>
+  </div>
+  <p class="note" id="note">불러오는 중…</p>
+</div>
+
+<script>
+const COL={'아파트':'#7aa2ff','연립다세대':'#63d6a0','오피스텔':'#ffb86b','단독다가구':'#f778ba','기타':'#8b949e'};
+const SUB='#9aa7b8',LINE='#21304f';
+const base=(ex)=>Object.assign({paper_bgcolor:'rgba(0,0,0,0)',plot_bgcolor:'rgba(0,0,0,0)',
+  font:{color:SUB,family:'Pretendard,system-ui,sans-serif',size:12},margin:{l:54,r:16,t:10,b:44},
+  xaxis:{gridcolor:LINE},yaxis:{gridcolor:LINE}},ex||{});
+const cfg={responsive:true,displayModeBar:false};
+const label=(m)=>m.slice(2); // 2026-05 -> 26-05
+
+fetch('/assets/seoul_monthly_type.json').then(r=>r.json()).then(d=>{
+  const months=d.months, types=d.types.filter(t=>d.series[t].some(v=>v>0)); // 전부0(기타) 제외
+  const total=d.total;
+
+  // ① 유형별 스택 막대 + 총합 라인
+  const traces=types.map(t=>({x:months.map(label),y:d.series[t],name:t,type:'bar',
+     marker:{color:COL[t]},hovertemplate:'%{x} · '+t+' %{y:,}건<extra></extra>'}));
+  traces.push({x:months.map(label),y:total,name:'총 거래량',type:'scatter',mode:'lines',
+     line:{color:'#e6edf3',width:1.6},hovertemplate:'%{x} 총 %{y:,}건<extra></extra>'});
+  Plotly.newPlot('stack',traces,base({barmode:'stack',
+     legend:{orientation:'h',y:1.14,x:0,font:{size:11}},
+     xaxis:{gridcolor:LINE,tickangle:-40},yaxis:{title:'거래량(건)',gridcolor:LINE}}),cfg);
+
+  // 최근 완결월 = 마지막에서 두 번째(당월 잠정 제외)
+  const li = months.length-2, lm=months[li];
+  document.getElementById('donutDesc').textContent=`${lm} 기준 (당월 ${months[months.length-1]}은 잠정치라 제외).`;
+
+  // ② 구성비 도넛
+  Plotly.newPlot('donut',[{type:'pie',hole:.55,
+     labels:types,values:types.map(t=>d.series[t][li]),
+     marker:{colors:types.map(t=>COL[t]),line:{color:'#0a0d14',width:1.5}},
+     textinfo:'label+percent',textfont:{size:11,color:'#0b1020'},
+     hovertemplate:'%{label} %{value:,}건 (%{percent})<extra></extra>'}],
+     base({showlegend:false,margin:{l:8,r:8,t:8,b:8}}),cfg);
+
+  // ③ 전년 동월 대비 (달력월 매칭)
+  const byMon={}; months.forEach((m,i)=>{const [y,mm]=m.split('-'); (byMon[mm]=byMon[mm]||{})[y]=total[i];});
+  const years=[...new Set(months.map(m=>m.split('-')[0]))].sort();
+  const cal=Object.keys(byMon).sort();
+  const yoyTraces=years.map((y,k)=>({x:cal.map(mm=>parseInt(mm)+'월'),y:cal.map(mm=>byMon[mm][y]??null),
+     name:y,type:'bar',marker:{color:k===years.length-1?'#7aa2ff':'#3a4a6b'},
+     hovertemplate:'%{x} '+y+' %{y:,}건<extra></extra>'}));
+  Plotly.newPlot('yoy',yoyTraces,base({barmode:'group',
+     legend:{orientation:'h',y:1.16,x:0},xaxis:{gridcolor:LINE},yaxis:{title:'총 거래량(건)',gridcolor:LINE}}),cfg);
+
+  // KPI
+  const totLast=total[li];
+  const [ly,lmm]=lm.split('-'); const prevY=(parseInt(ly)-1)+'';
+  const prevSame=byMon[lmm] && byMon[lmm][prevY];
+  const yoyPct=prevSame? Math.round((totLast/prevSame-1)*100):null;
+  const aptShare=Math.round(d.series['아파트'][li]/totLast*100);
+  const peakI=total.slice(0,-1).indexOf(Math.max(...total.slice(0,-1)));
+  const stat=[
+    [`${lm} 총거래`, totLast.toLocaleString()+'건', ''],
+    ['전년 동월 대비', yoyPct==null?'—':(yoyPct>0?'+':'')+yoyPct+'%', yoyPct==null?'':(yoyPct>=0?'up':'down')],
+    ['아파트 비중', aptShare+'%',''],
+    ['최다 거래월', label(months[peakI]).replace('-','.'), '']
+  ];
+  document.getElementById('stats').innerHTML=stat.map(([l,v,c])=>
+    `<div class="stat"><div class="l">${l}</div><div class="v ${c}">${v}</div></div>`).join('');
+  document.getElementById('note').textContent=
+    `데이터: ${d.meta.source} · ${d.meta.period} · ${months[0]}~${months[months.length-1]} (${months.length}개월). 유형: ${types.join('·')}.`;
+}).catch(e=>{document.getElementById('note').textContent='데이터 로드 실패: '+e;});
+</script>
+</body>
+</html>
