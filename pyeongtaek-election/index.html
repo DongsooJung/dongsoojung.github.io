@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>평택시 국회의원 선거구 · 읍면동 지도 — VWorld</title>
+<meta name="description" content="제22대 국회의원선거 기준 평택시 갑·을·병 선거구를 읍면동 단위로 확인하는 인터랙티브 지도. VWorld 행정구역 경계 기반." />
+<meta property="og:title" content="평택시 국회의원 선거구 · 읍면동 지도" />
+<meta property="og:description" content="평택시 갑·을·병 선거구를 읍면동 경계로 탐색하는 인터랙티브 지도" />
+<meta property="og:url" content="https://www.stargateedu.co.kr/pyeongtaek-election/" />
+<meta property="og:type" content="website" />
+<link rel="canonical" href="https://www.stargateedu.co.kr/pyeongtaek-election/" />
+<link rel="preconnect" href="https://cdn.jsdelivr.net" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.css" />
+<style>
+  @import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css");
+  @import url("https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@500;700&display=swap");
+
+  :root{
+    --bg:#071018;
+    --panel:rgba(10,22,34,.88);
+    --panel-solid:#0c1a28;
+    --line:rgba(120,170,200,.18);
+    --ink:#e8f1f6;
+    --muted:#8aa0b0;
+    --accent:#3ec6b8;
+    --gap:#2f8fff;
+    --eul:#f0a23a;
+    --byeong:#e35d7a;
+    --map-h:min(72vh,720px);
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0;min-height:100%}
+  body{
+    font-family:"Pretendard Variable",Pretendard,"Apple SD Gothic Neo",sans-serif;
+    color:var(--ink);
+    background:
+      radial-gradient(900px 520px at 8% -8%, rgba(62,198,184,.16), transparent 55%),
+      radial-gradient(800px 480px at 92% 0%, rgba(47,143,255,.14), transparent 50%),
+      linear-gradient(180deg,#071018 0%,#0a1622 45%,#08141c 100%);
+    background-attachment:fixed;
+    line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+  }
+  a{color:var(--accent);text-decoration:none}
+  a:hover{text-decoration:underline}
+
+  .nav{
+    max-width:1240px;margin:0 auto;padding:16px 20px 0;
+    display:flex;justify-content:space-between;align-items:center;gap:12px;
+  }
+  .brand{display:flex;align-items:center;gap:10px;font-weight:700;letter-spacing:.2px}
+  .brand .mark{
+    width:34px;height:34px;border-radius:10px;
+    background:linear-gradient(135deg,#2f8fff,#3ec6b8);
+    display:grid;place-items:center;color:#041018;font-weight:900;
+  }
+  .nav .links{display:flex;gap:14px;font-size:13px;color:var(--muted)}
+  .nav .links a{color:var(--muted)}
+  .nav .links a:hover{color:var(--ink)}
+
+  header{
+    max-width:1240px;margin:0 auto;padding:22px 20px 10px;
+  }
+  header .kicker{
+    font-family:"JetBrains Mono",monospace;font-size:11px;letter-spacing:.14em;
+    text-transform:uppercase;color:var(--accent);margin:0 0 8px;
+  }
+  header h1{
+    margin:0 0 8px;font-size:clamp(26px,4vw,40px);letter-spacing:-.03em;line-height:1.15;
+    font-family:"Instrument Serif",Georgia,serif;font-weight:400;
+  }
+  header h1 em{font-style:italic;color:#9fe8df}
+  header .lead{margin:0;max-width:68ch;color:var(--muted);font-size:15px}
+  .meta-row{
+    display:flex;flex-wrap:wrap;gap:8px;margin-top:14px;
+  }
+  .chip{
+    border:1px solid var(--line);background:rgba(12,26,40,.7);
+    border-radius:999px;padding:5px 11px;font-size:12px;color:var(--muted);
+  }
+  .chip strong{color:var(--ink);font-weight:650}
+
+  .layout{
+    max-width:1240px;margin:0 auto;padding:14px 20px 40px;
+    display:grid;grid-template-columns:minmax(260px,300px) 1fr;gap:14px;
+  }
+  @media (max-width:900px){
+    .layout{grid-template-columns:1fr}
+    :root{--map-h:min(58vh,560px)}
+  }
+
+  .side,.map-shell{
+    border:1px solid var(--line);
+    background:linear-gradient(180deg,rgba(14,30,44,.92),rgba(10,22,34,.92));
+    border-radius:18px;overflow:hidden;
+  }
+  .side{padding:14px;display:flex;flex-direction:column;gap:12px;min-height:var(--map-h)}
+  .side h2{margin:0;font-size:14px;letter-spacing:.02em}
+  .side .hint{margin:0;font-size:12.5px;color:var(--muted)}
+
+  .filters{display:grid;gap:8px}
+  .filters button{
+    appearance:none;border:1px solid var(--line);background:rgba(7,16,24,.55);
+    color:var(--ink);border-radius:12px;padding:10px 12px;text-align:left;
+    cursor:pointer;font:inherit;display:flex;align-items:center;justify-content:space-between;gap:8px;
+    transition:border-color .15s, transform .15s, background .15s;
+  }
+  .filters button:hover{border-color:rgba(62,198,184,.45);transform:translateY(-1px)}
+  .filters button.on{background:rgba(62,198,184,.1);border-color:rgba(62,198,184,.45)}
+  .filters button .left{display:flex;align-items:center;gap:10px}
+  .swatch{width:12px;height:12px;border-radius:4px;box-shadow:0 0 0 3px rgba(255,255,255,.06)}
+  .filters .cnt{font-family:"JetBrains Mono",monospace;font-size:12px;color:var(--muted)}
+
+  .search{
+    width:100%;border:1px solid var(--line);background:rgba(7,16,24,.65);
+    color:var(--ink);border-radius:12px;padding:10px 12px;font:inherit;outline:none;
+  }
+  .search:focus{border-color:rgba(62,198,184,.55)}
+
+  .list{
+    flex:1;min-height:180px;overflow:auto;display:grid;gap:6px;
+    padding-right:2px;scrollbar-width:thin;scrollbar-color:rgba(62,198,184,.35) transparent;
+  }
+  .item{
+    border:1px solid transparent;background:rgba(255,255,255,.02);
+    border-radius:10px;padding:8px 10px;cursor:pointer;display:flex;justify-content:space-between;gap:8px;
+    transition:background .15s, border-color .15s;
+  }
+  .item:hover,.item.active{background:rgba(62,198,184,.08);border-color:rgba(62,198,184,.35)}
+  .item .name{font-size:13.5px;font-weight:600}
+  .item .tag{font-size:11px;color:var(--muted);font-family:"JetBrains Mono",monospace}
+
+  .map-shell{position:relative;min-height:var(--map-h)}
+  #map{width:100%;height:var(--map-h);background:#0a1520}
+  .map-toolbar{
+    position:absolute;z-index:500;top:12px;left:12px;right:12px;
+    display:flex;flex-wrap:wrap;gap:8px;pointer-events:none;
+  }
+  .map-toolbar > *{pointer-events:auto}
+  .pill-btn,.status-pill{
+    border:1px solid var(--line);background:rgba(8,18,28,.86);backdrop-filter:blur(8px);
+    color:var(--ink);border-radius:999px;padding:7px 12px;font-size:12px;font:inherit;
+  }
+  .pill-btn{cursor:pointer}
+  .pill-btn:hover{border-color:rgba(62,198,184,.5)}
+  .status-pill{color:var(--muted)}
+  .status-pill.ok{color:#9fe8df}
+  .status-pill.warn{color:#ffd089}
+
+  .info-card{
+    position:absolute;z-index:500;left:12px;bottom:12px;width:min(320px,calc(100% - 24px));
+    border:1px solid var(--line);background:rgba(8,18,28,.9);backdrop-filter:blur(10px);
+    border-radius:14px;padding:12px 14px;box-shadow:0 12px 36px rgba(0,0,0,.35);
+    transform:translateY(8px);opacity:0;pointer-events:none;transition:opacity .2s, transform .2s;
+  }
+  .info-card.show{opacity:1;transform:translateY(0);pointer-events:auto}
+  .info-card .label{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:0 0 4px}
+  .info-card h3{margin:0 0 4px;font-size:20px;font-family:"Instrument Serif",Georgia,serif;font-weight:400}
+  .info-card p{margin:0;font-size:13px;color:var(--muted)}
+  .info-card .row{display:flex;gap:8px;margin-top:8px;flex-wrap:wrap}
+  .badge{
+    display:inline-flex;align-items:center;gap:6px;border-radius:999px;
+    padding:4px 10px;font-size:12px;border:1px solid var(--line);
+  }
+
+  .legend{
+    position:absolute;z-index:500;right:12px;bottom:12px;
+    border:1px solid var(--line);background:rgba(8,18,28,.88);backdrop-filter:blur(8px);
+    border-radius:12px;padding:10px 12px;font-size:12px;color:var(--muted);
+  }
+  .legend div{display:flex;align-items:center;gap:8px;margin:4px 0}
+  .legend i{width:12px;height:12px;border-radius:3px;display:inline-block}
+
+  .note{
+    max-width:1240px;margin:0 auto;padding:0 20px 50px;
+    color:var(--muted);font-size:12.5px;
+  }
+  .note code{font-family:"JetBrains Mono",monospace;font-size:11.5px;color:#c9dbe8}
+
+  .leaflet-container{font:inherit;background:#0a1520}
+  .leaflet-control-zoom a{
+    background:rgba(8,18,28,.9)!important;color:var(--ink)!important;
+    border-color:var(--line)!important;
+  }
+  .leaflet-control-attribution{
+    background:rgba(8,18,28,.75)!important;color:var(--muted)!important;
+    max-width:55%;
+  }
+  .leaflet-tooltip.emd-tip{
+    background:#071018;color:#fff;border:1px solid rgba(62,198,184,.45);
+    border-radius:8px;box-shadow:0 6px 18px rgba(0,0,0,.4);font-weight:650;padding:6px 10px;
+  }
+  .leaflet-tooltip.emd-tip::before{border-top-color:rgba(62,198,184,.45)}
+
+  @media (prefers-reduced-motion:reduce){
+    .filters button,.item,.info-card{transition:none}
+  }
+</style>
+</head>
+<body>
+  <nav class="nav">
+    <div class="brand"><span class="mark">P</span><span>PYEONGTAEK <span style="color:var(--accent)">MAP</span></span></div>
+    <div class="links">
+      <a href="/research/">← 연구 대시보드</a>
+      <a href="/">포털</a>
+    </div>
+  </nav>
+
+  <header>
+    <p class="kicker">22nd National Assembly · VWorld boundaries</p>
+    <h1>평택시 국회의원 선거구 <em>읍면동</em> 지도</h1>
+    <p class="lead">제22대 국회의원선거 획정안 기준 갑·을·병 3개 선거구를 읍면동 경계로 나눠 봅니다. 지도에서 구역을 클릭하거나 왼쪽 목록으로 바로 이동할 수 있습니다.</p>
+    <div class="meta-row">
+      <span class="chip"><strong>3</strong> 선거구</span>
+      <span class="chip"><strong>25</strong> 읍면동</span>
+      <span class="chip">행정동 경계 · EPSG:4326</span>
+      <span class="chip">NEC 선거구역 기준</span>
+    </div>
+  </header>
+
+  <div class="layout">
+    <aside class="side">
+      <div>
+        <h2>선거구 필터</h2>
+        <p class="hint">선택 시 해당 선거구만 강조합니다.</p>
+      </div>
+      <div class="filters" id="filters"></div>
+      <input class="search" id="search" type="search" placeholder="읍면동 검색…" autocomplete="off" />
+      <div class="list" id="list" role="list"></div>
+    </aside>
+
+    <section class="map-shell" aria-label="평택시 선거구 지도">
+      <div id="map"></div>
+      <div class="map-toolbar">
+        <button class="pill-btn" id="btnFit" type="button">전체 보기</button>
+        <button class="pill-btn" id="btnReload" type="button">VWorld 다시 불러오기</button>
+        <span class="status-pill" id="status">경계 로딩 중…</span>
+      </div>
+      <div class="info-card" id="info">
+        <p class="label">선택 읍면동</p>
+        <h3 id="infoName">—</h3>
+        <p id="infoMeta">지도를 클릭하거나 목록에서 선택하세요.</p>
+        <div class="row" id="infoBadges"></div>
+      </div>
+      <div class="legend" id="legend"></div>
+    </section>
+  </div>
+
+  <p class="note">
+    자료: 경기도선거관리위원회 평택시 국회의원 선거구(갑·을·병) 구역 · 읍면동 경계는 VWorld Data API(<code>LT_C_ADEMD_INFO</code>)를 우선 호출하고, 실패 시 캐시 GeoJSON을 사용합니다.
+    지도 타일은 VWorld Base → Carto Positron 순으로 폴백합니다. 키 도메인 등록이 필요할 수 있습니다.
+  </p>
+
+<script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+const VWORLD_KEY = "6009C294-6D75-303C-A627-F8585ADBF867";
+// VWorld 콘솔에 등록된 서비스 도메인과 맞춥니다.
+const VWORLD_DOMAIN = location.hostname.includes("stargateedu.co.kr")
+  ? "www.stargateedu.co.kr"
+  : (location.hostname || "localhost");
+const LOCAL_GEOJSON = "./data/emd.geojson";
+const SGG_CODE = "41220";
+
+const DISTRICTS = {
+  all: { label: "전체", color: "#8aa0b0", names: null },
+  갑: {
+    label: "평택시갑",
+    color: "#2f8fff",
+    names: ["진위면","서탄면","중앙동","서정동","송탄동","지산동","송북동","신장1동","신장2동","통복동","세교동"]
+  },
+  을: {
+    label: "평택시을",
+    color: "#f0a23a",
+    names: ["팽성읍","안중읍","포승읍","청북읍","고덕면","오성면","현덕면","고덕동"]
+  },
+  병: {
+    label: "평택시병",
+    color: "#e35d7a",
+    names: ["신평동","원평동","비전1동","비전2동","용이동","동삭동"]
+  }
+};
+
+const nameToDistrict = {};
+for (const [key, meta] of Object.entries(DISTRICTS)) {
+  if (!meta.names) continue;
+  for (const n of meta.names) nameToDistrict[n] = key;
+}
+
+const el = {
+  filters: document.getElementById("filters"),
+  list: document.getElementById("list"),
+  search: document.getElementById("search"),
+  status: document.getElementById("status"),
+  info: document.getElementById("info"),
+  infoName: document.getElementById("infoName"),
+  infoMeta: document.getElementById("infoMeta"),
+  infoBadges: document.getElementById("infoBadges"),
+  legend: document.getElementById("legend"),
+  btnFit: document.getElementById("btnFit"),
+  btnReload: document.getElementById("btnReload")
+};
+
+let activeFilter = "all";
+let selectedName = null;
+let geoLayer = null;
+let featureIndex = new Map();
+let currentGeo = null;
+
+const map = L.map("map", {
+  zoomControl: true,
+  preferCanvas: true,
+  minZoom: 9,
+  maxZoom: 16
+}).setView([37.00, 127.10], 11);
+
+const vworldBase = L.tileLayer(
+  `https://xdworld.vworld.kr/2d/Base/service/{z}/{x}/{y}.png?apiKey=${VWORLD_KEY}`,
+  { attribution: '&copy; <a href="https://www.vworld.kr/" target="_blank" rel="noopener">VWorld</a>', maxZoom: 18, errorTileUrl: "" }
+);
+const carto = L.tileLayer(
+  "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png",
+  { attribution: '&copy; OpenStreetMap &copy; CARTO', subdomains: "abcd", maxZoom: 19 }
+);
+
+let usingVworldTiles = true;
+vworldBase.on("tileerror", () => {
+  if (!usingVworldTiles) return;
+  usingVworldTiles = false;
+  if (map.hasLayer(vworldBase)) map.removeLayer(vworldBase);
+  carto.addTo(map);
+  setStatus("VWorld 타일 실패 → Carto 폴백", "warn");
+});
+vworldBase.addTo(map);
+
+function setStatus(text, kind) {
+  el.status.textContent = text;
+  el.status.classList.remove("ok", "warn");
+  if (kind) el.status.classList.add(kind);
+}
+
+function styleFeature(feature, opts = {}) {
+  const d = feature.properties.district;
+  const color = (DISTRICTS[d] || DISTRICTS.all).color;
+  const dimmed = activeFilter !== "all" && activeFilter !== d;
+  const selected = selectedName && feature.properties.emd_nm === selectedName;
+  return {
+    color: selected ? "#fff" : color,
+    weight: selected ? 2.6 : dimmed ? 0.6 : 1.2,
+    opacity: dimmed ? 0.25 : 0.95,
+    fillColor: color,
+    fillOpacity: selected ? 0.72 : dimmed ? 0.08 : (opts.hover ? 0.62 : 0.42)
+  };
+}
+
+function enrichFeature(f) {
+  const p = f.properties || {};
+  const name = p.emd_nm || p.emd_kor_nm || p.emdnm || p.full_nm || "";
+  const district = p.district || nameToDistrict[name] || "미분류";
+  const emd_cd = p.emd_cd || p.emd_cd_ || p.emdcd || "";
+  return {
+    ...f,
+    properties: {
+      ...p,
+      emd_nm: name,
+      emd_cd,
+      district,
+      district_label: district === "미분류" ? "미분류" : `평택시${district}`
+    }
+  };
+}
+
+function normalizeVworld(fc) {
+  const features = (fc.features || []).map((f) => {
+    const p = f.properties || {};
+    const name = p.emd_kor_nm || p.emd_nm || "";
+    return enrichFeature({
+      type: "Feature",
+      geometry: f.geometry,
+      properties: {
+        emd_nm: name,
+        emd_cd: p.emd_cd || "",
+        sgg_nm: "평택시",
+        sgg_cd: SGG_CODE
+      }
+    });
+  }).filter((f) => f.properties.emd_nm && nameToDistrict[f.properties.emd_nm]);
+  return { type: "FeatureCollection", features };
+}
+
+async function fetchVworldGeoJSON() {
+  const params = new URLSearchParams({
+    service: "data",
+    version: "2.0",
+    request: "GetFeature",
+    format: "json",
+    size: "1000",
+    page: "1",
+    geometry: "true",
+    attribute: "true",
+    crs: "EPSG:4326",
+    data: "LT_C_ADEMD_INFO",
+    key: VWORLD_KEY,
+    domain: VWORLD_DOMAIN,
+    attrFilter: `emd_cd:like:${SGG_CODE}`
+  });
+  const url = `https://api.vworld.kr/req/data?${params.toString()}`;
+  const res = await fetch(url, { mode: "cors" });
+  if (!res.ok) throw new Error(`VWorld HTTP ${res.status}`);
+  const json = await res.json();
+  const status = json?.response?.status;
+  if (status && String(status).toUpperCase() !== "OK") {
+    throw new Error(`VWorld status ${status}`);
+  }
+  const fc = json?.response?.result?.featureCollection;
+  if (!fc?.features?.length) throw new Error("VWorld empty features");
+  return normalizeVworld(fc);
+}
+
+async function fetchLocalGeoJSON() {
+  const res = await fetch(LOCAL_GEOJSON);
+  if (!res.ok) throw new Error(`local ${res.status}`);
+  const fc = await res.json();
+  return {
+    type: "FeatureCollection",
+    features: (fc.features || []).map(enrichFeature)
+  };
+}
+
+function renderFilters(geo) {
+  const counts = { all: geo.features.length, 갑: 0, 을: 0, 병: 0 };
+  for (const f of geo.features) {
+    const d = f.properties.district;
+    if (counts[d] != null) counts[d] += 1;
+  }
+  el.filters.innerHTML = ["all", "갑", "을", "병"].map((key) => {
+    const meta = DISTRICTS[key];
+    const on = activeFilter === key ? "on" : "";
+    return `<button type="button" data-key="${key}" class="${on}">
+      <span class="left"><span class="swatch" style="background:${meta.color}"></span>${meta.label}</span>
+      <span class="cnt">${counts[key]}</span>
+    </button>`;
+  }).join("");
+  el.filters.querySelectorAll("button").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      activeFilter = btn.dataset.key;
+      renderFilters(geo);
+      renderList();
+      refreshStyles();
+      fitActive();
+    });
+  });
+}
+
+function visibleFeatures() {
+  const q = el.search.value.trim();
+  return (currentGeo?.features || []).filter((f) => {
+    const d = f.properties.district;
+    if (activeFilter !== "all" && d !== activeFilter) return false;
+    if (q && !f.properties.emd_nm.includes(q)) return false;
+    return true;
+  });
+}
+
+function renderList() {
+  const items = visibleFeatures().slice().sort((a, b) => a.properties.emd_nm.localeCompare(b.properties.emd_nm, "ko"));
+  el.list.innerHTML = items.map((f) => {
+    const p = f.properties;
+    const active = selectedName === p.emd_nm ? "active" : "";
+    return `<div class="item ${active}" role="listitem" data-name="${p.emd_nm}">
+      <span class="name">${p.emd_nm}</span>
+      <span class="tag" style="color:${(DISTRICTS[p.district]||{}).color||'#8aa0b0'}">${p.district_label}</span>
+    </div>`;
+  }).join("") || `<div class="hint">검색 결과가 없습니다.</div>`;
+  el.list.querySelectorAll(".item").forEach((node) => {
+    node.addEventListener("click", () => selectFeature(node.dataset.name, true));
+  });
+}
+
+function renderLegend() {
+  el.legend.innerHTML = ["갑", "을", "병"].map((k) =>
+    `<div><i style="background:${DISTRICTS[k].color}"></i>${DISTRICTS[k].label}</div>`
+  ).join("");
+}
+
+function showInfo(props) {
+  el.infoName.textContent = props.emd_nm;
+  el.infoMeta.textContent = `행정동 코드 ${props.emd_cd || "—"} · ${props.sgg_nm || "평택시"}`;
+  const color = (DISTRICTS[props.district] || DISTRICTS.all).color;
+  el.infoBadges.innerHTML = `<span class="badge" style="border-color:${color};color:${color}">
+    <span class="swatch" style="background:${color}"></span>${props.district_label}
+  </span>`;
+  el.info.classList.add("show");
+}
+
+function refreshStyles() {
+  if (!geoLayer) return;
+  geoLayer.eachLayer((layer) => layer.setStyle(styleFeature(layer.feature)));
+}
+
+function selectFeature(name, fly) {
+  selectedName = name;
+  const layer = featureIndex.get(name);
+  if (!layer) return;
+  showInfo(layer.feature.properties);
+  refreshStyles();
+  renderList();
+  if (fly) {
+    const b = layer.getBounds();
+    map.fitBounds(b.pad(0.45), { maxZoom: 13, animate: true });
+  }
+}
+
+function fitActive() {
+  if (!geoLayer) return;
+  const layers = [];
+  geoLayer.eachLayer((layer) => {
+    const d = layer.feature.properties.district;
+    if (activeFilter === "all" || d === activeFilter) layers.push(layer);
+  });
+  if (!layers.length) return;
+  const group = L.featureGroup(layers);
+  map.fitBounds(group.getBounds().pad(0.08), { animate: true });
+}
+
+function mountGeo(geo, sourceLabel) {
+  currentGeo = geo;
+  featureIndex = new Map();
+  if (geoLayer) map.removeLayer(geoLayer);
+
+  geoLayer = L.geoJSON(geo, {
+    style: (f) => styleFeature(f),
+    onEachFeature(feature, layer) {
+      featureIndex.set(feature.properties.emd_nm, layer);
+      layer.bindTooltip(feature.properties.emd_nm, {
+        sticky: true,
+        className: "emd-tip",
+        direction: "top",
+        opacity: 0.95
+      });
+      layer.on({
+        mouseover(e) {
+          e.target.setStyle(styleFeature(feature, { hover: true }));
+          e.target.bringToFront();
+        },
+        mouseout(e) {
+          e.target.setStyle(styleFeature(feature));
+        },
+        click() {
+          selectFeature(feature.properties.emd_nm, false);
+        }
+      });
+    }
+  }).addTo(map);
+
+  renderFilters(geo);
+  renderList();
+  renderLegend();
+  fitActive();
+  setStatus(`${sourceLabel} · ${geo.features.length}개 읍면동`, "ok");
+}
+
+async function loadBoundaries(preferVworld = true) {
+  setStatus("경계 로딩 중…");
+  if (preferVworld) {
+    try {
+      const geo = await fetchVworldGeoJSON();
+      if (geo.features.length >= 20) {
+        mountGeo(geo, "VWorld API");
+        return;
+      }
+      throw new Error(`too few features: ${geo.features.length}`);
+    } catch (err) {
+      console.warn("VWorld fallback:", err);
+      setStatus("VWorld 실패 → 캐시 경계 사용", "warn");
+    }
+  }
+  const local = await fetchLocalGeoJSON();
+  mountGeo(local, preferVworld ? "캐시 GeoJSON" : "캐시 GeoJSON(수동)");
+}
+
+el.search.addEventListener("input", () => renderList());
+el.btnFit.addEventListener("click", () => {
+  activeFilter = "all";
+  selectedName = null;
+  el.info.classList.remove("show");
+  if (currentGeo) {
+    renderFilters(currentGeo);
+    renderList();
+    refreshStyles();
+    fitActive();
+  }
+});
+el.btnReload.addEventListener("click", () => loadBoundaries(true));
+
+loadBoundaries(true).catch((err) => {
+  console.error(err);
+  setStatus("경계 데이터를 불러오지 못했습니다", "warn");
+});
+</script>
+</body>
+</html>
