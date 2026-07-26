@@ -49,6 +49,15 @@ header.head .lead{color:var(--sub);font-size:14px;margin:8px 0 0;max-width:72ch}
 .meta-line{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px;font-size:12px;color:var(--muted)}
 .meta-line .pill{border:1px solid var(--line2);background:var(--panel);border-radius:999px;padding:4px 10px}
 .meta-line .pill b{color:var(--sub);font-weight:600}
+.refresh-row{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:14px}
+.refresh-data{border:1px solid transparent;background:var(--grad1);color:#0b1020;border-radius:10px;
+  padding:9px 15px;font:700 13px inherit;cursor:pointer;display:inline-flex;align-items:center;gap:8px;transition:.15s}
+.refresh-data:hover{filter:brightness(1.08);transform:translateY(-1px)}
+.refresh-data:disabled{opacity:.65;cursor:wait;transform:none}
+.refresh-data.loading .refresh-mark{animation:spin .8s linear infinite}
+.refresh-status{font-size:12px;color:var(--muted)}
+.refresh-status.ok{color:#75cf91}.refresh-status.error{color:#ef8b8b}
+@keyframes spin{to{transform:rotate(360deg)}}
 
 /* 필터 행 — 아래 모든 카드에 공통 적용 */
 .filters{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:22px 0 16px}
@@ -130,6 +139,12 @@ footer{margin-top:56px;padding-top:20px;border-top:1px solid var(--line);color:v
       <span class="pill">커버리지 <b id="metaRange">—</b></span>
       <span class="pill">단위 <b>명 (입국자 수)</b></span>
       <span class="pill" id="metaMode">—</span>
+    </div>
+    <div class="refresh-row">
+      <button class="refresh-data" id="refreshBtn" type="button" aria-describedby="refreshStatus">
+        <span class="refresh-mark" aria-hidden="true">↻</span><span>API 데이터 새로고침</span>
+      </button>
+      <span class="refresh-status" id="refreshStatus" role="status" aria-live="polite">공공데이터 API로 갱신된 최신 파일을 다시 불러옵니다.</span>
     </div>
   </header>
 
@@ -565,6 +580,35 @@ function renderMeta(){
 
 function renderAll(){ renderKPIs(); updateCharts(); renderTable(); }
 
+async function refreshData(){
+  const button = document.getElementById('refreshBtn');
+  const status = document.getElementById('refreshStatus');
+  button.disabled = true;
+  button.classList.add('loading');
+  status.className = 'refresh-status';
+  status.textContent = '최신 API 데이터를 다시 불러오는 중입니다…';
+  try{
+    const r = await fetch(`./data.json?t=${Date.now()}`, {cache:'no-store'});
+    if (!r.ok) throw new Error(r.status);
+    const fresh = await r.json();
+    if (!fresh || !Array.isArray(fresh.series)) throw new Error('invalid payload');
+    DATA = fresh;
+    renderMeta();
+    renderAll();
+    const checked = new Intl.DateTimeFormat('ko-KR',{dateStyle:'medium',timeStyle:'short',timeZone:'Asia/Seoul'}).format(new Date());
+    const last = DATA.series.length ? ymKorean(DATA.series[DATA.series.length-1].ym) : '—';
+    status.textContent = `${checked} 재조회 완료 · 기준 ${DATA.updatedAt||'—'} · 최신 월 ${last}`;
+    status.className = 'refresh-status ok';
+  }catch(error){
+    console.error(error);
+    status.textContent = '새로고침에 실패했습니다. 잠시 후 다시 시도해 주세요.';
+    status.className = 'refresh-status error';
+  }finally{
+    button.disabled = false;
+    button.classList.remove('loading');
+  }
+}
+
 (async function init(){
   DATA = await loadData();
   renderMeta();
@@ -578,6 +622,7 @@ function renderAll(){ renderKPIs(); updateCharts(); renderTable(); }
     });
   });
   document.getElementById('csvBtn').addEventListener('click', downloadCSV);
+  document.getElementById('refreshBtn').addEventListener('click', refreshData);
 })();
 </script>
 </body>

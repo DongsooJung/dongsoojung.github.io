@@ -49,6 +49,15 @@ header.head .lead{color:var(--sub);font-size:14px;margin:8px 0 0;max-width:74ch}
 .meta-line .pill{border:1px solid var(--line);border-radius:999px;padding:4px 11px;background:rgba(15,23,42,.6)}
 .meta-line .pill b{color:var(--sub);font-weight:600}
 .pill.warn{border-color:#5a4a22;color:#d9b45c}
+.refresh-row{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:14px}
+.refresh-data{border:1px solid transparent;background:var(--grad1);color:#0b1020;border-radius:10px;
+  padding:9px 15px;font:700 13px inherit;cursor:pointer;display:inline-flex;align-items:center;gap:8px;transition:.15s}
+.refresh-data:hover{filter:brightness(1.08);transform:translateY(-1px)}
+.refresh-data:disabled{opacity:.65;cursor:wait;transform:none}
+.refresh-data.loading .refresh-mark{animation:spin .8s linear infinite}
+.refresh-status{font-size:12px;color:var(--muted)}
+.refresh-status.ok{color:#75cf91}.refresh-status.error{color:#ef8b8b}
+@keyframes spin{to{transform:rotate(360deg)}}
 
 .banner{border:1px solid #5a4a22;background:rgba(90,74,34,.14);color:#d9b45c;border-radius:12px;
   padding:11px 15px;font-size:12.5px;margin-top:16px;line-height:1.6}
@@ -144,6 +153,12 @@ footer{margin-top:56px;padding-top:20px;border-top:1px solid var(--line);color:v
       <span class="pill">커버리지 <b id="metaRange">—</b></span>
       <span class="pill">단위 <b>미화 달러 · 수출 FOB / 수입 CIF</b></span>
       <span class="pill" id="metaMode">—</span>
+    </div>
+    <div class="refresh-row">
+      <button class="refresh-data" id="refreshBtn" type="button" aria-describedby="refreshStatus">
+        <span class="refresh-mark" aria-hidden="true">↻</span><span>API 데이터 새로고침</span>
+      </button>
+      <span class="refresh-status" id="refreshStatus" role="status" aria-live="polite">관세청 API로 갱신된 최신 파일을 다시 불러옵니다.</span>
     </div>
     <div class="banner" id="seedBanner" hidden>
       <b>지금 보이는 값은 시드(예시) 데이터입니다.</b> 공표 통계 기반 근사치와 추세 연장 예시치로 구성했으며,
@@ -738,38 +753,81 @@ document.getElementById('ctySel').addEventListener('change', e=>{
 });
 
 /* ─── 초기화 ───────────────────────────────────────── */
-(async function init(){
-  DATA = await loadData();
-  if (!DATA){ document.getElementById('kpis').innerHTML = '<div class="tile"><div class="lb">데이터를 불러오지 못했습니다</div></div>'; return; }
-  DATA.latestYm = DATA.latestYm || DATA.series[DATA.series.length-1].ym;
-  state.month = DATA.latestYm;
-
+function renderMeta(){
   document.getElementById('metaUpdated').textContent = DATA.updatedAt || '—';
   document.getElementById('metaRange').textContent =
     `${ymKorean(DATA.series[0].ym)} ~ ${ymKorean(DATA.series[DATA.series.length-1].ym)} (${DATA.series.length}개월)`;
   const mode = document.getElementById('metaMode');
+  const seedBanner = document.getElementById('seedBanner');
   if (DATA.sourceMode === 'api'){
     mode.textContent = '관세청 API 자동 갱신';
+    mode.classList.remove('warn');
+    seedBanner.hidden = true;
   } else {
     mode.textContent = '시드(예시) 데이터 — API 키 등록 시 자동 대체';
     mode.classList.add('warn');
-    document.getElementById('seedBanner').hidden = false;
+    seedBanner.hidden = false;
   }
+}
 
-  // 기준 월 셀렉트 — 국가 데이터가 있는 월만, 최신이 위
+function populateSelectors(){
+  const prevMonth = state.month;
+  const prevCty = state.cty;
+  DATA.latestYm = DATA.latestYm || DATA.series[DATA.series.length-1].ym;
+
   const monthSel = document.getElementById('monthSel');
   const yms = Object.keys(DATA.countries||{}).sort().reverse();
+  state.month = yms.includes(prevMonth) ? prevMonth : DATA.latestYm;
   monthSel.innerHTML = yms.map(ym=>
     `<option value="${ym}"${ym===state.month?' selected':''}>${ymKorean(ym)}${ym===DATA.latestYm?' (최신)':''}</option>`).join('');
 
-  // 국가 셀렉트 — 최신 월 수출액 순
   const ctySel = document.getElementById('ctySel');
   const latestRows = cRows(DATA.latestYm).slice().sort((a,b)=>b.exp-a.exp);
-  state.cty = latestRows.length ? latestRows[0].cd : null;
+  state.cty = latestRows.some(r=>r.cd===prevCty) ? prevCty : (latestRows.length ? latestRows[0].cd : null);
   ctySel.innerHTML = latestRows.map(r=>
     `<option value="${r.cd}"${r.cd===state.cty?' selected':''}>${r.name}</option>`).join('');
+}
 
+function renderAll(){
   renderKPIs(); renderTrend(); renderBal(); renderRank(); renderCty(); renderCtyTable(); renderTable();
+}
+
+async function refreshData(){
+  const button = document.getElementById('refreshBtn');
+  const status = document.getElementById('refreshStatus');
+  button.disabled = true;
+  button.classList.add('loading');
+  status.className = 'refresh-status';
+  status.textContent = '최신 API 데이터를 다시 불러오는 중입니다…';
+  try{
+    const r = await fetch(`./data.json?t=${Date.now()}`, {cache:'no-store'});
+    if (!r.ok) throw new Error(r.status);
+    const fresh = await r.json();
+    if (!fresh || !Array.isArray(fresh.series) || !fresh.series.length) throw new Error('invalid payload');
+    DATA = fresh;
+    populateSelectors();
+    renderMeta();
+    renderAll();
+    const checked = new Intl.DateTimeFormat('ko-KR',{dateStyle:'medium',timeStyle:'short',timeZone:'Asia/Seoul'}).format(new Date());
+    status.textContent = `${checked} 재조회 완료 · 기준 ${DATA.updatedAt||'—'} · 최신 월 ${ymKorean(DATA.latestYm)}`;
+    status.className = 'refresh-status ok';
+  }catch(error){
+    console.error(error);
+    status.textContent = '새로고침에 실패했습니다. 잠시 후 다시 시도해 주세요.';
+    status.className = 'refresh-status error';
+  }finally{
+    button.disabled = false;
+    button.classList.remove('loading');
+  }
+}
+
+(async function init(){
+  DATA = await loadData();
+  if (!DATA){ document.getElementById('kpis').innerHTML = '<div class="tile"><div class="lb">데이터를 불러오지 못했습니다</div></div>'; return; }
+  populateSelectors();
+  renderMeta();
+  renderAll();
+  document.getElementById('refreshBtn').addEventListener('click', refreshData);
 })();
 </script>
 </body>
