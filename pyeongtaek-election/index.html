@@ -7,9 +7,9 @@
 <meta name="description" content="제22대 국회의원선거 기준 평택시 갑·을·병 선거구를 읍면동 단위로 확인하는 인터랙티브 지도. VWorld 행정구역 경계 기반." />
 <meta property="og:title" content="평택시 국회의원 선거구 · 읍면동 지도" />
 <meta property="og:description" content="평택시 갑·을·병 선거구를 읍면동 경계로 탐색하는 인터랙티브 지도" />
-<meta property="og:url" content="https://stargateedu.co.kr/pyeongtaek-election/" />
+<meta property="og:url" content="https://www.stargateedu.co.kr/pyeongtaek-election/" />
 <meta property="og:type" content="website" />
-<link rel="canonical" href="https://stargateedu.co.kr/pyeongtaek-election/" />
+<link rel="canonical" href="https://www.stargateedu.co.kr/pyeongtaek-election/" />
 <link rel="preconnect" href="https://cdn.jsdelivr.net" />
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.css" />
 <style>
@@ -255,7 +255,10 @@
 <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.js"></script>
 <script>
 const VWORLD_KEY = "6009C294-6D75-303C-A627-F8585ADBF867";
-const VWORLD_DOMAIN = location.hostname || "localhost";
+// VWorld 콘솔에 등록된 서비스 도메인과 맞춥니다.
+const VWORLD_DOMAIN = location.hostname.includes("stargateedu.co.kr")
+  ? "www.stargateedu.co.kr"
+  : (location.hostname || "localhost");
 const LOCAL_GEOJSON = "./data/emd.geojson";
 const SGG_CODE = "41220";
 
