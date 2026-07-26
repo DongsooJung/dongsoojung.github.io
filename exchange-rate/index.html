@@ -109,6 +109,24 @@ header.head .lead{color:var(--sub);font-size:14px;margin:8px 0 0;max-width:74ch}
 .detail-actions{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
 .detail-body[hidden]{display:none!important}
 .detail-body{margin-top:4px}
+.stats-body[hidden]{display:none!important}
+.stats-body{margin-top:16px}
+.stats-summary{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:8px;margin-bottom:14px}
+.stat-chip{border:1px solid var(--line);background:rgba(10,13,20,.32);border-radius:10px;padding:11px 12px;min-width:0}
+.stat-chip .lb{display:block;color:var(--muted);font-size:11.5px;margin-bottom:3px}
+.stat-chip strong{display:block;color:var(--ink);font-size:16px;font-variant-numeric:tabular-nums;white-space:nowrap}
+.stat-chip small{display:block;color:var(--muted);font-size:10.5px;margin-top:2px;white-space:nowrap}
+.stats-grid{display:grid;grid-template-columns:1.35fr 1fr;gap:12px}
+.stats-pane{border:1px solid var(--line);border-radius:12px;background:rgba(10,13,20,.22);overflow:hidden}
+.stats-pane-head{display:flex;align-items:baseline;justify-content:space-between;gap:10px;padding:12px 14px 0}
+.stats-pane-head h3{margin:0;font-size:13.5px}
+.stats-pane-head span{color:var(--muted);font-size:11px}
+.stats-table-scroll{overflow:auto;max-height:460px;margin-top:6px}
+.stats-table-scroll table{min-width:560px}
+.stats-table-scroll thead th{position:sticky;top:0;z-index:1;background:var(--panel2)}
+.period-partial{display:inline-block;margin-left:5px;padding:1px 5px;border:1px solid var(--line2);
+  border-radius:999px;color:var(--muted);font-size:9.5px;vertical-align:1px}
+.period-change.up{color:#9bb7ff} .period-change.down{color:var(--sub)}
 table{width:100%;border-collapse:collapse;font-size:13px;min-width:640px}
 th,td{padding:8px 12px;text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
 th{color:var(--muted);font-weight:600;font-size:12px;border-bottom:1px solid var(--line2)}
@@ -125,9 +143,14 @@ tr:hover td{background:rgba(122,162,255,.05)}
 footer{margin-top:56px;padding-top:20px;border-top:1px solid var(--line);color:var(--muted);
   font-size:12px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px}
 
-@media (max-width:960px){ .kpis{grid-template-columns:repeat(2,1fr)} .cards{grid-template-columns:1fr} }
+@media (max-width:960px){
+  .kpis{grid-template-columns:repeat(2,1fr)} .cards{grid-template-columns:1fr}
+  .stats-summary{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .stats-grid{grid-template-columns:1fr}
+}
 @media (max-width:520px){
   .kpis{grid-template-columns:1fr}
+  .stats-summary{grid-template-columns:repeat(2,minmax(0,1fr))}
   header.head h1{font-size:24px}
   .chart-box{height:300px} .card.half .chart-box{height:260px}
 }
@@ -285,6 +308,49 @@ footer{margin-top:56px;padding-top:20px;border-top:1px solid var(--line);color:v
       <h2>한·미 단기금리 차 · 30년</h2>
       <div class="cap">월별 · 한국 콜머니·은행간 익일물 금리 − 미국 실효 연방기금금리 · 0선 위는 한국 금리가 높음 · 상단 기간 필터 연동</div>
       <div class="chart-box"><canvas id="rateGapChart" role="img" aria-label="지난 30년간 한국 콜머니·은행간 익일물 금리와 미국 실효 연방기금금리, 한국에서 미국을 뺀 금리차의 월별 시계열 선 그래프"></canvas></div>
+    </div>
+
+    <div class="card full" id="usdStatsCard">
+      <div class="thead-row">
+        <div>
+          <h2>원·달러 환율 기초 통계</h2>
+          <div class="cap" id="usdStatsCap" style="margin-bottom:0">USD/KRW 분기·연간 집계 · 상단 기간 필터 연동</div>
+        </div>
+        <button class="dl" id="toggleUsdStatsBtn" type="button" aria-expanded="true" aria-controls="usdStatsBody">▴ 통계표 숨기기</button>
+      </div>
+      <div class="stats-body" id="usdStatsBody">
+        <div class="stats-summary" id="usdStatsSummary" aria-label="선택 기간 원달러 기초 통계"></div>
+        <div class="stats-grid">
+          <section class="stats-pane" aria-labelledby="quarterStatsTitle">
+            <div class="stats-pane-head">
+              <h3 id="quarterStatsTitle">분기별 원·달러 환율</h3>
+              <span id="quarterStatsCount"></span>
+            </div>
+            <div class="stats-table-scroll">
+              <table aria-label="분기별 원달러 환율 가중평균과 최저 최고 표">
+                <thead>
+                  <tr><th>분기</th><th>가중 평균</th><th>최저</th><th>최고</th><th>전분기 대비</th><th>관측일</th></tr>
+                </thead>
+                <tbody id="quarterStatsBody"></tbody>
+              </table>
+            </div>
+          </section>
+          <section class="stats-pane" aria-labelledby="annualStatsTitle">
+            <div class="stats-pane-head">
+              <h3 id="annualStatsTitle">연도별 원·달러 환율</h3>
+              <span id="annualStatsCount"></span>
+            </div>
+            <div class="stats-table-scroll">
+              <table aria-label="연도별 원달러 환율 가중평균과 최저 최고 표">
+                <thead>
+                  <tr><th>연도</th><th>가중 평균</th><th>최저</th><th>최고</th><th>전년 대비</th><th>관측일</th></tr>
+                </thead>
+                <tbody id="annualStatsBody"></tbody>
+              </table>
+            </div>
+          </section>
+        </div>
+      </div>
     </div>
 
     <div class="card full" id="detailCard">
@@ -803,6 +869,119 @@ function updateCharts(){
 }
 
 /* ─── 테이블 & CSV ─────────────────────────────────── */
+function aggregateUsdPeriods(rows, grain){
+  const groups = new Map();
+  rows.forEach(row=>{
+    const usd = row.rates && row.rates.USD;
+    if (!usd || usd.avg==null) return;
+    const year = row.ym.slice(0,4);
+    const month = +row.ym.slice(5,7);
+    const quarter = Math.ceil(month/3);
+    const key = grain === 'quarter' ? `${year}-Q${quarter}` : year;
+    if (!groups.has(key)) groups.set(key, []);
+    groups.get(key).push(row);
+  });
+  const periods = [...groups.entries()].map(([key, periodRows])=>{
+    const observations = periodRows.reduce((sum,row)=>sum+(Number(row.days)||0),0);
+    const weightedSum = periodRows.reduce((sum,row)=>{
+      const days = Number(row.days)||0;
+      return sum + rateOf(row,'USD')*days;
+    },0);
+    const averages = periodRows.map(row=>rateOf(row,'USD')).filter(Number.isFinite);
+    const lows = periodRows.map(row=>rateOf(row,'USD','min')).filter(Number.isFinite);
+    const highs = periodRows.map(row=>rateOf(row,'USD','max')).filter(Number.isFinite);
+    const average = observations
+      ? weightedSum/observations
+      : averages.reduce((sum,value)=>sum+value,0)/averages.length;
+    return {
+      key,
+      average,
+      min:lows.length?Math.min(...lows):null,
+      max:highs.length?Math.max(...highs):null,
+      observations,
+      months:new Set(periodRows.map(row=>row.ym)).size,
+      complete:new Set(periodRows.map(row=>row.ym)).size === (grain==='quarter'?3:12),
+      change:null,
+    };
+  }).sort((a,b)=>a.key.localeCompare(b.key));
+  periods.forEach((period,index)=>{
+    const previous = periods[index-1];
+    period.change = previous && previous.average
+      ? (period.average/previous.average-1)*100
+      : null;
+  });
+  return periods;
+}
+
+function median(values){
+  if (!values.length) return null;
+  const sorted=[...values].sort((a,b)=>a-b);
+  const middle=Math.floor(sorted.length/2);
+  return sorted.length%2 ? sorted[middle] : (sorted[middle-1]+sorted[middle])/2;
+}
+
+function usdPeriodChange(value){
+  if (value==null) return '<span class="period-change">—</span>';
+  const normalized=Math.abs(value)<0.005?0:value;
+  const className=normalized>0?'up':(normalized<0?'down':'');
+  return `<span class="period-change ${className}">${normalized>0?'+':''}${normalized.toLocaleString('ko-KR',{minimumFractionDigits:2,maximumFractionDigits:2})}%</span>`;
+}
+
+function renderUsdPeriodRows(targetId, periods){
+  const tbody=document.getElementById(targetId);
+  tbody.innerHTML=[...periods].reverse().map(period=>`
+    <tr>
+      <td>${period.key}${period.complete?'':'<span class="period-partial">부분</span>'}</td>
+      <td>${fmt(period.average)}</td>
+      <td>${fmt(period.min)}</td>
+      <td>${fmt(period.max)}</td>
+      <td>${usdPeriodChange(period.change)}</td>
+      <td>${period.observations.toLocaleString('ko-KR')}일</td>
+    </tr>`).join('');
+}
+
+function renderUsdStats(){
+  const rows=filteredSeries().filter(row=>rateOf(row,'USD')!=null);
+  const summary=document.getElementById('usdStatsSummary');
+  if (!summary) return;
+  const quarterPeriods=aggregateUsdPeriods(rows,'quarter');
+  const annualPeriods=aggregateUsdPeriods(rows,'annual');
+  const observations=rows.reduce((sum,row)=>sum+(Number(row.days)||0),0);
+  const weightedAverage=observations
+    ? rows.reduce((sum,row)=>sum+rateOf(row,'USD')*(Number(row.days)||0),0)/observations
+    : null;
+  const monthlyAverages=rows.map(row=>rateOf(row,'USD')).filter(Number.isFinite);
+  const monthlyMedian=median(monthlyAverages);
+  const weightedVariance=weightedAverage==null || !observations ? null
+    : rows.reduce((sum,row)=>{
+        const days=Number(row.days)||0;
+        return sum+days*Math.pow(rateOf(row,'USD')-weightedAverage,2);
+      },0)/observations;
+  const standardDeviation=weightedVariance==null?null:Math.sqrt(weightedVariance);
+  const lows=rows.map(row=>rateOf(row,'USD','min')).filter(Number.isFinite);
+  const highs=rows.map(row=>rateOf(row,'USD','max')).filter(Number.isFinite);
+  const periodMin=lows.length?Math.min(...lows):null;
+  const periodMax=highs.length?Math.max(...highs):null;
+  const first=rows[0]?.ym, last=rows[rows.length-1]?.ym;
+  const items=[
+    ['가중 평균',fmt(weightedAverage),'ECB 영업일 가중'],
+    ['월평균 중앙값',fmt(monthlyMedian),`${monthlyAverages.length.toLocaleString('ko-KR')}개월`],
+    ['월평균 표준편차',fmt(standardDeviation),'영업일 가중'],
+    ['기간 최저',fmt(periodMin),'월중 일별 최저'],
+    ['기간 최고',fmt(periodMax),'월중 일별 최고'],
+    ['표본 규모',observations.toLocaleString('ko-KR')+'일',`${rows.length.toLocaleString('ko-KR')}개월`],
+  ];
+  summary.innerHTML=items.map(([label,value,note])=>
+    `<div class="stat-chip"><span class="lb">${label}</span><strong>${value}</strong><small>${note}</small></div>`
+  ).join('');
+  document.getElementById('usdStatsCap').textContent=
+    `USD/KRW · ${rangeLabel()} · ${first?ymKorean(first):'—'} ~ ${last?ymKorean(last):'—'} · 분기·연 평균은 ECB 영업일 수 가중`;
+  document.getElementById('quarterStatsCount').textContent=`${quarterPeriods.length.toLocaleString('ko-KR')}개 분기`;
+  document.getElementById('annualStatsCount').textContent=`${annualPeriods.length.toLocaleString('ko-KR')}개 연도`;
+  renderUsdPeriodRows('quarterStatsBody',quarterPeriods);
+  renderUsdPeriodRows('annualStatsBody',annualPeriods);
+}
+
 function renderHead(){
   const tr = document.getElementById('tblHead');
   tr.innerHTML = '<th>월</th>'
@@ -1214,6 +1393,18 @@ function setupDetailToggle(){
   setOpen(false);
   btn.addEventListener('click', () => setOpen(body.hidden));
 }
+function setupUsdStatsToggle(){
+  const btn=document.getElementById('toggleUsdStatsBtn');
+  const body=document.getElementById('usdStatsBody');
+  if (!btn || !body) return;
+  const setOpen=(open)=>{
+    body.hidden=!open;
+    btn.setAttribute('aria-expanded',String(open));
+    btn.textContent=open?'▴ 통계표 숨기기':'▾ 통계표 보기';
+  };
+  setOpen(true);
+  btn.addEventListener('click',()=>setOpen(body.hidden));
+}
 function downloadMarketCSV(){
   const lines = ['year,partial,dram_usd_per_gb,dram_observations,brent_usd_per_barrel,brent_observations,gold_usd_per_oz,copper_usd_per_mt,natural_gas_usd_per_mmbtu'];
   marketRows().forEach(r=>lines.push([r.year,r.partial?'Y':'N',r.dramUsdPerGb??'',r.dramObservations??'',r.brentUsdPerBbl??'',r.brentObservations??'',r.goldUsdPerOz??'',r.copperUsdPerMt??'',r.gasUsdPerMmbtu??''].join(',')));
@@ -1318,7 +1509,7 @@ function renderCurButtons(){
     box.appendChild(b);
   });
 }
-function renderAll(){ renderKPIs(); updateCharts(); renderMacroKPIs(); updateMacro(); renderBtcKPIs(); updateBtc(); renderMarketKPIs(); updateMarket(); renderCommodityKPIs(); updateCommodity(); updateRateGap(); renderTable(); updateRangeHint(); syncRangeButtons(); }
+function renderAll(){ renderKPIs(); updateCharts(); renderMacroKPIs(); updateMacro(); renderBtcKPIs(); updateBtc(); renderMarketKPIs(); updateMarket(); renderCommodityKPIs(); updateCommodity(); updateRateGap(); renderUsdStats(); renderTable(); updateRangeHint(); syncRangeButtons(); }
 
 async function refreshAllData(){
   const button=document.getElementById('refreshAllBtn'), status=document.getElementById('refreshStatus');
@@ -1378,6 +1569,7 @@ async function refreshAllData(){
   document.getElementById('marketCsvBtn').addEventListener('click', downloadMarketCSV);
   document.getElementById('btcCsvBtn').addEventListener('click', downloadBtcCSV);
   document.getElementById('refreshAllBtn').addEventListener('click', refreshAllData);
+  setupUsdStatsToggle();
   setupDetailToggle();
 })();
 </script>
