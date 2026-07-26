@@ -35,13 +35,23 @@
     <div class="links">
       <a href="#projects">プロジェクト</a>
       <a href="#about">紹介</a>
-      <a href="/" lang="ko">한국어</a>
-      <a href="/en/" lang="en">EN</a>
-      <a href="/zh/" lang="zh-Hans">中文</a>
-      <a href="/ja/" lang="ja" aria-current="page">日本語</a>
+      <label class="lang-select">
+        <span class="visually-hidden">言語を選択</span>
+        <select id="lang-select" aria-label="言語を選択">
+          <option value="/" lang="ko">한국어</option>
+          <option value="/en/" lang="en">English</option>
+          <option value="/zh/" lang="zh-Hans">中文</option>
+          <option value="/ja/" lang="ja" selected>日本語</option>
+        </select>
+      </label>
       <a href="https://github.com/DongsooJung" target="_blank" rel="noopener">GitHub ↗</a>
     </div>
   </nav>
+  <script>
+    document.getElementById('lang-select')?.addEventListener('change', (e) => {
+      if (e.target.value) location.href = e.target.value;
+    });
+  </script>
 
   <div class="quick-links">
     <a class="chip" style="border-color:#63d6a0;color:#b8e7d0;background:rgba(99,214,160,.08)" href="https://git.stargateedu.co.kr/" target="_blank" rel="noopener">⚙ GitHub</a>

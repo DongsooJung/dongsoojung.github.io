@@ -20,6 +20,20 @@ a{color:var(--acc);text-decoration:none}a:hover{text-decoration:underline}
 .brand .name{font-size:15px}.brand .tag{font-size:11px;color:var(--muted);margin-left:6px}
 .nav .links{display:flex;gap:12px;font-size:13px;color:var(--sub);align-items:center;flex-wrap:wrap;justify-content:flex-end}
 .nav .links a{color:var(--sub)}.nav .links a:hover,.nav .links a[aria-current="page"]{color:var(--ink)}
+.lang-select{display:inline-flex;align-items:center;position:relative;flex:0 0 auto}
+.lang-select select{
+  appearance:none;-webkit-appearance:none;min-height:32px;padding:6px 28px 6px 11px;
+  border:1px solid var(--line2);border-radius:999px;background:var(--panel);color:var(--ink);
+  font:600 12px/1 inherit;cursor:pointer;max-width:7.5rem
+}
+.lang-select select:hover,.lang-select select:focus-visible{border-color:var(--acc);outline:none}
+.lang-select::after{
+  content:"";position:absolute;right:11px;top:50%;width:6px;height:6px;
+  border-right:1.5px solid var(--muted);border-bottom:1.5px solid var(--muted);
+  transform:translateY(-65%) rotate(45deg);pointer-events:none
+}
+.visually-hidden{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;
+  clip:rect(0,0,0,0);white-space:nowrap;border:0}
 .quick-links{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
 .hero{padding:62px 0 36px;display:grid;grid-template-columns:1.25fr .9fr;gap:40px;align-items:center}
 .hero h1{margin:0;font-size:44px;line-height:1.1;letter-spacing:-.5px;background:var(--grad1);-webkit-background-clip:text;background-clip:text;color:transparent}
