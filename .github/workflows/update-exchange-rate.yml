@@ -47,10 +47,15 @@ jobs:
         continue-on-error: true
         run: python3 exchange-rate/fetch_rate_gap.py
 
+      - name: Fetch Bitcoin monthly prices (Binance Vision)
+        if: always()
+        continue-on-error: true
+        run: python3 exchange-rate/fetch_bitcoin.py
+
       - name: Commit updated data
         if: always()
         run: |
-          FILES="exchange-rate/data.json exchange-rate/fallback-data.js exchange-rate/bok_data.json exchange-rate/bok-fallback.js exchange-rate/market_data.json exchange-rate/market-fallback.js exchange-rate/rate_gap.json exchange-rate/rate-gap-fallback.js"
+          FILES="exchange-rate/data.json exchange-rate/fallback-data.js exchange-rate/bok_data.json exchange-rate/bok-fallback.js exchange-rate/market_data.json exchange-rate/market-fallback.js exchange-rate/rate_gap.json exchange-rate/rate-gap-fallback.js exchange-rate/bitcoin_data.json exchange-rate/bitcoin-fallback.js"
           if git diff --quiet $FILES; then
             echo "변경 없음 — 커밋 생략"
             exit 0
@@ -58,6 +63,6 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add $FILES
-          git commit -m "chore(exchange-rate): 환율·금리·물가·DRAM·유가 데이터 자동 갱신"
+          git commit -m "chore(exchange-rate): 환율·금리·물가·비트코인·DRAM·유가 데이터 자동 갱신"
           git pull --rebase origin main
           git push
