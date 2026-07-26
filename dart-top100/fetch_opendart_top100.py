@@ -17,6 +17,7 @@ import urllib.parse
 import urllib.request
 import zipfile
 from collections import defaultdict
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, NoReturn
@@ -195,12 +196,15 @@ def fetch_reports(key: str, year: int, corp_codes: list[str]) -> dict[str, dict[
     grouped: dict[str, dict[str, list[dict[str, Any]]]] = {
         period: defaultdict(list) for period in REPORT_CODES
     }
-    total_batches = (len(corp_codes) + API_BATCH_SIZE - 1) // API_BATCH_SIZE
+    requests: list[tuple[int, str, str, str]] = []
     for batch_index, offset in enumerate(range(0, len(corp_codes), API_BATCH_SIZE), start=1):
         codes = ",".join(corp_codes[offset:offset + API_BATCH_SIZE])
-        print(f"Fetching OpenDART batch {batch_index}/{total_batches} for {year}")
         for period, report_code in REPORT_CODES.items():
-            payload = request_json(
+            requests.append((batch_index, period, report_code, codes))
+
+    def fetch_one(request: tuple[int, str, str, str]) -> tuple[int, str, dict[str, Any]]:
+        batch_index, period, report_code, codes = request
+        payload = request_json(
                 "fnlttMultiAcnt.json",
                 {
                     "crtfc_key": key,
@@ -209,8 +213,22 @@ def fetch_reports(key: str, year: int, corp_codes: list[str]) -> dict[str, dict[
                     "reprt_code": report_code,
                 },
             )
+        return batch_index, period, payload
+
+    total_requests = len(requests)
+    completed = 0
+    with ThreadPoolExecutor(max_workers=4) as executor:
+        futures = [executor.submit(fetch_one, request) for request in requests]
+        for future in as_completed(futures):
+            batch_index, period, payload = future.result()
             for row in payload.get("list") or []:
                 grouped[period][str(row.get("corp_code", ""))].append(row)
+            completed += 1
+            print(
+                f"Fetched OpenDART request {completed}/{total_requests} "
+                f"(batch {batch_index}, {period}, {year})",
+                flush=True,
+            )
     return grouped
 
 
