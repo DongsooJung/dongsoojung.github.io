@@ -23,6 +23,7 @@ from xml.etree import ElementTree
 
 ROOT = Path(__file__).resolve().parent
 INDEX_PATH = ROOT / "index.html"
+DATA_DIR = ROOT / "data"
 API_BASE = "https://opendart.fss.or.kr/api"
 REPORT_CODES = {
     "Q1": "11013",
@@ -406,9 +407,16 @@ def main() -> None:
     }
 
     replacement = json.dumps(new_data, ensure_ascii=False, separators=(",", ":"))
-    INDEX_PATH.write_text(html[:json_start] + replacement + html[json_end:], encoding="utf-8")
+    DATA_DIR.mkdir(parents=True, exist_ok=True)
+    data_path = DATA_DIR / f"{year}.json"
+    data_path.write_text(replacement + "\n", encoding="utf-8")
+
+    # The landing page keeps 2025 embedded as its fast, offline-safe default.
+    # Historical runs only update their year-specific JSON file.
+    if year == 2025:
+        INDEX_PATH.write_text(html[:json_start] + replacement + html[json_end:], encoding="utf-8")
     print(
-        f"Updated dart-top100/index.html for {year}: "
+        f"Updated {data_path.relative_to(ROOT)} for {year}: "
         f"{len(companies)} companies, {skipped} skipped"
     )
 
