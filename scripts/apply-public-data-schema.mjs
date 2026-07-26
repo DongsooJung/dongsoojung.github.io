@@ -9,8 +9,11 @@
  */
 import { readFileSync } from 'node:fs';
 import { spawnSync } from 'node:child_process';
+import { fileURLToPath } from 'node:url';
+import { dirname, join } from 'node:path';
 
-const URL = (
+const __dirname = dirname(fileURLToPath(import.meta.url));
+const SUPABASE_URL = (
   process.env.SUPABASE_URL ||
   process.env.WEOLBU_SUPABASE_URL ||
   'https://inftexpcnfinglwlrvsj.supabase.co'
@@ -25,10 +28,10 @@ const ACCESS_TOKEN = (process.env.SUPABASE_ACCESS_TOKEN || '').trim();
 const DB_URL = (process.env.DATABASE_URL || process.env.SUPABASE_DB_URL || '').trim();
 const PROJECT_REF =
   process.env.SUPABASE_PROJECT_REF ||
-  (URL.match(/^https:\/\/([a-z0-9]+)\.supabase\.co/i) || [])[1] ||
+  (SUPABASE_URL.match(/^https:\/\/([a-z0-9]+)\.supabase\.co/i) || [])[1] ||
   'inftexpcnfinglwlrvsj';
 
-const SQL = readFileSync(new URL('../supabase/public_data_collector.sql', import.meta.url), 'utf8');
+const SQL = readFileSync(join(__dirname, '../supabase/public_data_collector.sql'), 'utf8');
 
 function log(msg) {
   console.log(msg);
@@ -108,7 +111,7 @@ async function probeTable() {
   const key = SERVICE_KEY || process.env.SUPABASE_ANON_KEY || '';
   if (!key) return false;
   const response = await fetch(
-    `${URL}/rest/v1/public_data_collection_logs?select=id&limit=1`,
+    `${SUPABASE_URL}/rest/v1/public_data_collection_logs?select=id&limit=1`,
     {
       headers: {
         apikey: key,
