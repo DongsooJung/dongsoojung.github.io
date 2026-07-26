@@ -29,6 +29,7 @@ DATA_DIR = ROOT / "data"
 API_BASE = "https://opendart.fss.or.kr/api"
 DEFAULT_BUSINESS_YEAR = 2026
 API_BATCH_SIZE = 100
+API_MAX_WORKERS = 16
 DATA_CHUNK_SIZE = 100
 REPORT_CODES = {
     "Q1": "11013",
@@ -217,7 +218,7 @@ def fetch_reports(key: str, year: int, corp_codes: list[str]) -> dict[str, dict[
 
     total_requests = len(requests)
     completed = 0
-    with ThreadPoolExecutor(max_workers=4) as executor:
+    with ThreadPoolExecutor(max_workers=API_MAX_WORKERS) as executor:
         futures = [executor.submit(fetch_one, request) for request in requests]
         for future in as_completed(futures):
             batch_index, period, payload = future.result()
@@ -302,6 +303,49 @@ def metric_periods(
     return {"Q1": q1, "Q2": q2_current, "Q3": q3_current, "Q4": q4}, selected_fs
 
 
+def normalize_report_scale(
+    revenue: dict[str, int | None],
+    operating_profit: dict[str, int | None],
+) -> None:
+    """Correct occasional filing-level thousand-unit inconsistencies.
+
+    Some issuers submit one cumulative report in thousands while adjacent
+    reports use won. A 100x+ discontinuity in cumulative revenue identifies
+    the mismatch; the same scale factor is then applied to operating profit.
+    """
+    quarters = ("Q1", "Q2", "Q3", "Q4")
+    for index in range(1, len(quarters)):
+        quarter = quarters[index]
+        prior_revenue = [revenue[q] for q in quarters[:index]]
+        current_revenue = revenue[quarter]
+        if current_revenue is None or any(value is None for value in prior_revenue):
+            continue
+        prior_total = sum(int(value) for value in prior_revenue if value is not None)
+        if prior_total <= 1_000_000_000 or abs(current_revenue) <= prior_total * 100:
+            continue
+        reported_cumulative = prior_total + current_revenue
+        factor = next(
+            (
+                candidate
+                for candidate in (1_000, 1_000_000)
+                if 0.5 <= abs(reported_cumulative / candidate) / prior_total <= 10
+            ),
+            None,
+        )
+        if factor is None:
+            continue
+        revenue[quarter] = round(reported_cumulative / factor) - prior_total
+
+        prior_profit = [operating_profit[q] for q in quarters[:index]]
+        current_profit = operating_profit[quarter]
+        if current_profit is not None and all(value is not None for value in prior_profit):
+            prior_profit_total = sum(int(value) for value in prior_profit if value is not None)
+            reported_profit_cumulative = prior_profit_total + current_profit
+            operating_profit[quarter] = (
+                round(reported_profit_cumulative / factor) - prior_profit_total
+            )
+
+
 def sum_periods(companies: list[dict[str, Any]], field: str) -> dict[str, int | None]:
     totals: dict[str, int | None] = {}
     for quarter in ("Q1", "Q2", "Q3", "Q4"):
@@ -339,6 +383,7 @@ def main() -> None:
         }
         revenue, revenue_fs = metric_periods(company_reports, "revenue")
         operating_profit, op_fs = metric_periods(company_reports, "operating_profit")
+        normalize_report_scale(revenue, operating_profit)
         revenue_annual = sum(value for value in revenue.values() if value is not None)
         operating_profit_annual = sum(value for value in operating_profit.values() if value is not None)
         if not any(value is not None for value in revenue.values()):
