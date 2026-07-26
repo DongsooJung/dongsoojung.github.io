@@ -15,6 +15,7 @@
 사용법:
     CUSTOMS_API_KEY=<data.go.kr 인증키(Decoding)> python3 fetch_data.py
     CUSTOMS_PROXY_BASE=https://<도메인>/api/customs  (선택 — 해외 IP 차단 우회)
+    START_YM=2010-01  (선택 — 기본 2010-01, 과거 백필 시작 연월)
 
 인증키 발급: https://www.data.go.kr/data/15101612/openapi.do (활용신청)
 """
@@ -33,10 +34,22 @@ from pathlib import Path
 API_URL = "https://apis.data.go.kr/1220000/nationtrade/getNationtradeList"
 PROXY_BASE = os.environ.get("CUSTOMS_PROXY_BASE", "").strip().rstrip("/")
 
-START_YM = (2024, 1)
+DEFAULT_START_YM = (2010, 1)  # 관세청 GW API 샘플(2016)보다 앞선 구간까지 백필 가능
 TOP_N = 40          # 월별로 저장할 국가 수(수출액 기준) — 이하는 표·차트에 쓰이지 않아 생략
 RECENT_MONTHS = 3   # 정정·취하 반영을 위해 항상 재수집하는 최근 개월 수
 DATA_PATH = Path(__file__).parent / "data.json"
+
+
+def parse_start_ym(default=DEFAULT_START_YM):
+    """환경변수 START_YM(YYYY-MM 또는 YYYYMM)으로 시작 연월을 덮어쓸 수 있다."""
+    raw = os.environ.get("START_YM", "").strip().replace("-", "")
+    if not raw:
+        return default
+    if len(raw) == 6 and raw.isdigit():
+        y, m = int(raw[:4]), int(raw[4:])
+        if 1 <= m <= 12:
+            return y, m
+    raise SystemExit(f"START_YM 형식 오류: {os.environ.get('START_YM')!r} (예: 2010-01)")
 
 
 def month_iter(start, end):
@@ -144,6 +157,7 @@ def main():
     by_ym = {row["ym"]: row for row in data["series"]}
     countries = data.setdefault("countries", {})
 
+    start_ym = parse_start_ym()
     today = date.today()
     # 전월 자료까지 공표(매월 15일경 현행화) — 이달 15일 이전엔 전전월까지만 시도
     end = prev_month(today.year, today.month)
@@ -156,11 +170,15 @@ def main():
         recent.add(f"{ry:04d}-{rm:02d}")
         ry, rm = prev_month(ry, rm)
 
+    print(f"수집 범위: {start_ym[0]:04d}-{start_ym[1]:02d} ~ {end[0]:04d}-{end[1]:02d} "
+          f"(최근 {RECENT_MONTHS}개월·결측·approx만 재수집)", file=sys.stderr)
     updated = 0
-    for y, m in month_iter(START_YM, end):
+    for y, m in month_iter(start_ym, end):
         ym_dash = f"{y:04d}-{m:02d}"
         existing = by_ym.get(ym_dash)
-        if existing and ym_dash not in recent and not existing.get("approx"):
+        # 총계만 있고 국가 상세가 없는 과거 월도 백필 대상으로 본다
+        if (existing and ym_dash not in recent and not existing.get("approx")
+                and ym_dash in countries and countries[ym_dash]):
             continue
         print(f"  · {ym_dash} 수집 중…", file=sys.stderr)
         try:

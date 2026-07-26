@@ -4,9 +4,9 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>방한 외래관광객 대시보드 — 중국 · 대만 · 베트남 | Stargate</title>
-<meta name="description" content="2024년 이후 중국·대만·베트남 국적별 월별 방한 외래관광객 시계열 대시보드. 한국관광공사 데이터랩·공공데이터포털 출입국관광통계 기반.">
+<meta name="description" content="중국·대만·베트남 국적별 월별 방한 외래관광객 시계열 대시보드. 한국관광공사 데이터랩·공공데이터포털 출입국관광통계 기반(2010년~ 수집).">
 <meta property="og:title" content="방한 외래관광객 대시보드 — 중국 · 대만 · 베트남">
-<meta property="og:description" content="2024년 이후 국적별 월별 방한 관광객 인터랙티브 시계열 · 공공데이터 API 자동 갱신">
+<meta property="og:description" content="국적별 월별 방한 관광객 인터랙티브 시계열 · 공공데이터 API 자동 갱신(2010년~)">
 <meta property="og:url" content="https://www.stargateedu.co.kr/korea-tourism/">
 <meta property="og:type" content="website">
 <link rel="canonical" href="https://www.stargateedu.co.kr/korea-tourism/">
@@ -49,6 +49,15 @@ header.head .lead{color:var(--sub);font-size:14px;margin:8px 0 0;max-width:72ch}
 .meta-line{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px;font-size:12px;color:var(--muted)}
 .meta-line .pill{border:1px solid var(--line2);background:var(--panel);border-radius:999px;padding:4px 10px}
 .meta-line .pill b{color:var(--sub);font-weight:600}
+.refresh-row{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:14px}
+.refresh-data{border:1px solid transparent;background:var(--grad1);color:#0b1020;border-radius:10px;
+  padding:9px 15px;font:700 13px inherit;cursor:pointer;display:inline-flex;align-items:center;gap:8px;transition:.15s}
+.refresh-data:hover{filter:brightness(1.08);transform:translateY(-1px)}
+.refresh-data:disabled{opacity:.65;cursor:wait;transform:none}
+.refresh-data.loading .refresh-mark{animation:spin .8s linear infinite}
+.refresh-status{font-size:12px;color:var(--muted)}
+.refresh-status.ok{color:#75cf91}.refresh-status.error{color:#ef8b8b}
+@keyframes spin{to{transform:rotate(360deg)}}
 
 /* 필터 행 — 아래 모든 카드에 공통 적용 */
 .filters{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:22px 0 16px}
@@ -122,7 +131,7 @@ footer{margin-top:56px;padding-top:20px;border-top:1px solid var(--line);color:v
 
   <header class="head">
     <h1>방한 외래관광객 대시보드 <span class="grad">중국 · 대만 · 베트남</span></h1>
-    <p class="lead">2024년 1월부터의 국적별 월별 방한 외래관광객 입국자 수 시계열.
+    <p class="lead">국적별 월별 방한 외래관광객 입국자 수 시계열(기본 수집 시작 2010년 1월).
       한국관광공사 한국관광 데이터랩 공표 통계를 기반으로, 공공데이터포털
       <a href="https://www.data.go.kr/data/15000297/openapi.do" target="_blank" rel="noopener">출입국관광통계 API</a>를 통해 매월 자동 갱신됩니다.</p>
     <div class="meta-line">
@@ -131,15 +140,16 @@ footer{margin-top:56px;padding-top:20px;border-top:1px solid var(--line);color:v
       <span class="pill">단위 <b>명 (입국자 수)</b></span>
       <span class="pill" id="metaMode">—</span>
     </div>
+    <div class="refresh-row">
+      <button class="refresh-data" id="refreshBtn" type="button" aria-describedby="refreshStatus">
+        <span class="refresh-mark" aria-hidden="true">↻</span><span>API 데이터 새로고침</span>
+      </button>
+      <span class="refresh-status" id="refreshStatus" role="status" aria-live="polite">공공데이터 API로 갱신된 최신 파일을 다시 불러옵니다.</span>
+    </div>
   </header>
 
-  <div class="filters" role="group" aria-label="기간 필터">
+  <div class="filters" id="rangeFilters" role="group" aria-label="기간 필터">
     <span class="lbl">기간</span>
-    <button class="fbtn" data-range="all" aria-pressed="true">전체</button>
-    <button class="fbtn" data-range="last12" aria-pressed="false">최근 12개월</button>
-    <button class="fbtn" data-range="2024" aria-pressed="false">2024년</button>
-    <button class="fbtn" data-range="2025" aria-pressed="false">2025년</button>
-    <button class="fbtn" data-range="2026" aria-pressed="false">2026년</button>
   </div>
 
   <section class="kpis" id="kpis" aria-label="핵심 지표"></section>
@@ -185,7 +195,7 @@ footer{margin-top:56px;padding-top:20px;border-top:1px solid var(--line);color:v
     방한 외래관광객 통계 기준이며, GitHub Actions가 매월 5일 공공데이터포털
     <a href="https://www.data.go.kr/data/15000297/openapi.do" target="_blank" rel="noopener">출입국관광통계서비스</a>를 호출해
     <code>data.json</code>을 자동 갱신합니다. 현재 표시 중인 시드 데이터는 공표 통계를 인용한 보도 기반
-    요약치(일부 천~만 단위 반올림)로 일부 월이 비어 있으며, API 키 등록 시 2024년 1월부터 전체 월이
+    요약치(일부 천~만 단위 반올림)로 일부 월이 비어 있으며, API 키 등록 시 2010년 1월부터 전체 월이
     정밀치로 대체됩니다. 통계 공표 일정상 최근 1~2개월 수치는 비어 있을 수 있고,
     잠정치는 이후 확정치로 소급 수정될 수 있습니다. 설정 방법은
     <a href="https://github.com/DongsooJung/dongsoojung.github.io/tree/main/korea-tourism" target="_blank" rel="noopener">README</a> 참고.
@@ -319,7 +329,34 @@ function filteredSeries(){
   const s = DATA.series;
   if (state.range === 'all') return s;
   if (state.range === 'last12') return s.slice(-12);
+  if (state.range === 'last5y') return s.slice(-60);
   return s.filter(r => r.ym.startsWith(state.range));
+}
+
+function availableYears(){
+  return [...new Set((DATA.series || []).map(r => r.ym.slice(0, 4)))].sort();
+}
+
+function renderRangeFilters(){
+  const box = document.getElementById('rangeFilters');
+  const years = availableYears();
+  const presets = [
+    { range:'all', label:'전체' },
+    { range:'last12', label:'최근 12개월' },
+    { range:'last5y', label:'최근 5년' },
+    ...years.map(y => ({ range:y, label:`${y}년` })),
+  ];
+  if (!presets.some(p => p.range === state.range)) state.range = 'all';
+  box.innerHTML = '<span class="lbl">기간</span>' + presets.map(p =>
+    `<button class="fbtn" data-range="${p.range}" aria-pressed="${p.range===state.range}">${p.label}</button>`
+  ).join('');
+  box.querySelectorAll('.fbtn').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      state.range = btn.dataset.range;
+      box.querySelectorAll('.fbtn').forEach(b=>b.setAttribute('aria-pressed', String(b===btn)));
+      renderAll();
+    });
+  });
 }
 const rowSum = r => COUNTRIES.every(c => r[c.key]!=null)
   ? COUNTRIES.reduce((a,c)=> a + r[c.key], 0) : null;
@@ -565,19 +602,45 @@ function renderMeta(){
 
 function renderAll(){ renderKPIs(); updateCharts(); renderTable(); }
 
+async function refreshData(){
+  const button = document.getElementById('refreshBtn');
+  const status = document.getElementById('refreshStatus');
+  button.disabled = true;
+  button.classList.add('loading');
+  status.className = 'refresh-status';
+  status.textContent = '최신 API 데이터를 다시 불러오는 중입니다…';
+  try{
+    const r = await fetch(`./data.json?t=${Date.now()}`, {cache:'no-store'});
+    if (!r.ok) throw new Error(r.status);
+    const fresh = await r.json();
+    if (!fresh || !Array.isArray(fresh.series)) throw new Error('invalid payload');
+    DATA = fresh;
+    renderMeta();
+    renderRangeFilters();
+    renderAll();
+    const checked = new Intl.DateTimeFormat('ko-KR',{dateStyle:'medium',timeStyle:'short',timeZone:'Asia/Seoul'}).format(new Date());
+    const last = DATA.series.length ? ymKorean(DATA.series[DATA.series.length-1].ym) : '—';
+    const first = DATA.series.length ? ymKorean(DATA.series[0].ym) : '—';
+    status.textContent = `${checked} 재조회 완료 · 기준 ${DATA.updatedAt||'—'} · ${first} ~ ${last}`;
+    status.className = 'refresh-status ok';
+  }catch(error){
+    console.error(error);
+    status.textContent = '새로고침에 실패했습니다. 잠시 후 다시 시도해 주세요.';
+    status.className = 'refresh-status error';
+  }finally{
+    button.disabled = false;
+    button.classList.remove('loading');
+  }
+}
+
 (async function init(){
   DATA = await loadData();
   renderMeta();
+  renderRangeFilters();
   buildMain(); buildYoy(); buildYear();
   renderAll();
-  document.querySelectorAll('.fbtn').forEach(btn=>{
-    btn.addEventListener('click', ()=>{
-      state.range = btn.dataset.range;
-      document.querySelectorAll('.fbtn').forEach(b=>b.setAttribute('aria-pressed', String(b===btn)));
-      renderAll();
-    });
-  });
   document.getElementById('csvBtn').addEventListener('click', downloadCSV);
+  document.getElementById('refreshBtn').addEventListener('click', refreshData);
 })();
 </script>
 </body>

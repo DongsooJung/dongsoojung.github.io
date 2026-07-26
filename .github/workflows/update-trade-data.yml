@@ -18,6 +18,10 @@ on:
         description: '(선택) 서울 리전 프록시 URL (예: https://<도메인>/api/customs) — 관세청의 해외 IP 차단 우회'
         required: false
         default: ''
+      start_ym:
+        description: '(선택) 수집 시작 연월 YYYY-MM — 기본 2010-01. 과거 백필 시 더 이른 값 지정'
+        required: false
+        default: ''
 
 permissions:
   contents: write
@@ -54,6 +58,7 @@ jobs:
         env:
           CUSTOMS_API_KEY: ${{ secrets.CUSTOMS_API_KEY || inputs.api_key }}
           CUSTOMS_PROXY_BASE: ${{ secrets.CUSTOMS_PROXY_BASE || inputs.proxy_base }}
+          START_YM: ${{ inputs.start_ym }}
         run: python3 trade/fetch_data.py
 
       - name: Commit updated data

@@ -1,6 +1,7 @@
 # 방한 외래관광객 대시보드 (중국 · 대만 · 베트남)
 
-2024년 1월부터의 국적별 월별 방한 외래관광객 수를 보여주는 인터랙티브 시계열 대시보드입니다.
+2010년 1월부터(기본)의 국적별 월별 방한 외래관광객 수를 보여주는 인터랙티브 시계열 대시보드입니다.
+과거 백필이 필요하면 `START_YM=2005-01`처럼 시작 연월을 더 앞당길 수 있습니다.
 
 - **라이브**: https://www.stargateedu.co.kr/korea-tourism/
 - **데이터**: 같은 폴더의 `data.json` (대시보드는 이 파일만 읽습니다)
@@ -23,9 +24,14 @@
 
 1. 이 저장소를 클론: `git clone https://github.com/DongsooJung/dongsoojung.github.io.git`
 2. `korea-tourism\Run.bat` 더블클릭 (Windows PowerShell 내장 기능만 사용, 파이썬 불필요)
-3. 인증키 입력 → 2024-01부터 전체 월 자동 수집 → git이 있으면 자동 커밋·푸시
+3. 인증키 입력 → 2010-01부터(결측·근사치·최근 3개월) 자동 수집 → git이 있으면 자동 커밋·푸시
 
-명령줄로는: `$env:TOUR_API_KEY="<인증키>"; powershell -File korea-tourism\fetch_local.ps1`
+명령줄로는:
+```powershell
+$env:TOUR_API_KEY="<인증키>"
+# (선택) 더 과거부터: $env:START_YM="2005-01"
+powershell -File korea-tourism\fetch_local.ps1
+```
 
 ## API 키 등록 (1회 설정)
 
@@ -36,8 +42,9 @@
    - Name: `TOUR_API_KEY`
    - Secret: 복사한 인증키
 5. **Actions 탭 → Update tourism data → Run workflow**로 1회 수동 실행해 확인
+   - 과거 구간을 한꺼번에 채우려면 `start_ym`(예: `2010-01` 또는 `2005-01`) 입력을 사용
 
-이후에는 매월 5일에 자동으로 갱신됩니다.
+이후에는 매월 5일에 자동으로 갱신됩니다. 확정된 과거 월은 재호출하지 않고, 최근 3개월·결측·근사치만 다시 수집합니다.
 
 ## 파일 구성
 

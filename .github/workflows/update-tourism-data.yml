@@ -10,6 +10,10 @@ on:
         description: '(선택) data.go.kr 인증키 — TOUR_API_KEY 시크릿이 없을 때 1회용으로 사용. 공개 저장소에서는 실행 기록에 남으므로 사용 후 키 재발급 권장'
         required: false
         default: ''
+      start_ym:
+        description: '(선택) 수집 시작 연월 YYYY-MM — 기본 2010-01. 과거 백필 시 더 이른 값(예: 2005-01) 지정'
+        required: false
+        default: ''
 
 permissions:
   contents: write
@@ -27,6 +31,7 @@ jobs:
       - name: Fetch tourism statistics
         env:
           TOUR_API_KEY: ${{ secrets.TOUR_API_KEY || inputs.api_key }}
+          START_YM: ${{ inputs.start_ym }}
         run: python3 korea-tourism/fetch_data.py
 
       - name: Commit updated data
