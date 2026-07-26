@@ -3,11 +3,11 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>화성 실거래 데이터 허브 | STARGATE</title>
-  <meta name="description" content="2026년 6월 화성시 4개 구 아파트 실거래가를 100건씩 탐색하고 VWorld 법정동 지도와 CSV로 확인하는 공공데이터 대시보드">
+  <title>전국 동네 실거래 데이터 허브 | STARGATE</title>
+  <meta name="description" content="전국 읍면동을 입력해 법정동 단위 아파트 실거래량과 VWorld 지도를 확인하고 CSV로 내려받는 공공데이터 대시보드">
   <meta name="theme-color" content="#f3f0e8">
-  <meta property="og:title" content="화성의 거래를 한 번에 읽다">
-  <meta property="og:description" content="2026년 6월 화성시 아파트 실거래 데이터 2,672건">
+  <meta property="og:title" content="동네의 거래를 한 번에 읽다">
+  <meta property="og:description" content="전국 읍면동 입력으로 확인하는 법정동 단위 아파트 실거래량">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://www.stargateedu.co.kr/hwaseong-real-estate/">
   <meta property="og:image" content="https://www.stargateedu.co.kr/hwaseong-real-estate/og.png">
@@ -77,6 +77,35 @@
     .pipeline b,.pipeline small{display:block}
     .pipeline b{font-size:14px}
     .pipeline small{margin-top:4px;color:rgba(255,255,255,.5);font-size:11px}
+    .region-search{width:min(1440px,calc(100% - 64px));margin:0 auto;padding:0 0 72px}
+    .region-console{padding:34px;border:1px solid var(--ink);background:var(--white);
+      box-shadow:9px 9px 0 var(--ink)}
+    .region-console-head{display:flex;align-items:flex-end;justify-content:space-between;gap:24px;margin-bottom:24px}
+    .region-console-head .eyebrow{margin-bottom:9px}
+    .region-console h2{font-size:clamp(30px,3.4vw,48px)}
+    .region-console-head p{max-width:430px;margin:0;color:var(--muted);font-size:12px;line-height:1.65}
+    .region-form{display:grid;grid-template-columns:minmax(280px,1fr) minmax(170px,.3fr) auto;gap:10px}
+    .region-field{display:grid;gap:7px}
+    .region-field span{font:800 9px/1 Arial,sans-serif;letter-spacing:.13em;color:var(--muted)}
+    .region-field input{width:100%;height:54px;padding:0 16px;border:1px solid var(--ink);
+      border-radius:0;background:var(--paper);color:var(--ink);font:750 15px/1 "Pretendard",sans-serif}
+    .region-field input:focus{outline:3px solid var(--acid);outline-offset:-4px}
+    .region-submit{align-self:end;height:54px;padding:0 25px;border:1px solid var(--ink);
+      background:var(--acid);color:var(--ink);font-weight:850;cursor:pointer}
+    .region-submit:disabled{opacity:.55;cursor:wait}
+    .region-examples{display:flex;align-items:center;gap:7px;flex-wrap:wrap;margin-top:16px}
+    .region-examples>span{margin-right:2px;color:var(--muted);font-size:10px}
+    .region-examples button,.reset-region{padding:8px 11px;border:1px solid var(--line);background:transparent;
+      color:var(--muted);font-size:10px;cursor:pointer}
+    .region-examples button:hover,.reset-region:hover{border-color:var(--ink);color:var(--ink)}
+    .region-status{min-height:18px;margin:16px 0 0;color:var(--muted);font-size:11px}
+    .region-resolution{margin-top:22px;padding:18px 20px;display:grid;
+      grid-template-columns:minmax(0,1fr) auto;gap:18px;align-items:center;background:var(--forest);color:var(--white)}
+    .region-resolution[hidden]{display:none}
+    .region-resolution span{color:var(--acid);font:750 10px/1.3 Arial,sans-serif;letter-spacing:.08em}
+    .region-resolution strong{display:block;margin-top:7px;font-size:17px}
+    .region-resolution p{margin:6px 0 0;color:rgba(255,255,255,.65);font-size:11px;line-height:1.55}
+    .reset-region{border-color:rgba(255,255,255,.4);color:var(--white)}
     .metrics{width:100%;display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid var(--ink);
       border-bottom:1px solid var(--ink);background:rgba(255,254,249,.42)}
     .metrics article{min-height:192px;padding:32px clamp(22px,3vw,52px);display:flex;
@@ -163,11 +192,13 @@
       gap:24px;border-top:1px solid var(--ink);background:var(--ink);color:var(--white)}
     footer p{margin:0;color:rgba(255,255,255,.65);font-size:10px;letter-spacing:.08em}
     footer p span{margin-left:14px;color:rgba(255,255,255,.35)}
+    footer #footer-month{margin:0;color:inherit}
     @media(max-width:980px){
-      .topbar,.hero,.map-section,.data-section{width:min(100% - 36px,760px)}
+      .topbar,.hero,.region-search,.map-section,.data-section{width:min(100% - 36px,760px)}
       .hero{grid-template-columns:1fr;gap:50px;padding-top:56px}
       .hero-panel{max-width:600px}.metrics{grid-template-columns:repeat(2,1fr)}
       .metrics article:nth-child(2){border-right:0}.metrics article:nth-child(-n+2){border-bottom:1px solid var(--ink)}
+      .region-form{grid-template-columns:1fr 180px}.region-submit{grid-column:1/-1}
       .map-layout{grid-template-columns:1fr}.map-canvas{min-height:540px}
       .map-panel{border-left:0;border-top:1px solid var(--ink)}
     }
@@ -179,6 +210,9 @@
       .hero-panel{min-height:420px;padding:26px;box-shadow:8px 8px 0 var(--acid)}
       .progress-number strong{font-size:47px}.metrics{grid-template-columns:1fr}
       .metrics article{min-height:142px;border-right:0;border-bottom:1px solid var(--ink)}
+      .region-search{padding-bottom:56px}.region-console{padding:22px;box-shadow:6px 6px 0 var(--ink)}
+      .region-console-head{align-items:flex-start;flex-direction:column}.region-form{grid-template-columns:1fr}
+      .region-submit{grid-column:auto}.region-resolution{grid-template-columns:1fr}.reset-region{width:100%}
       .section-head{align-items:flex-start;flex-direction:column}.filters{justify-content:flex-start}
       .map-section{padding-top:62px}.map-source{text-align:left}.map-canvas{min-height:420px;padding:10px}
       .legal-map{min-height:400px}.map-legend{left:10px;bottom:10px;gap:6px;flex-wrap:wrap;max-width:250px}
@@ -191,8 +225,8 @@
 </head>
 <body>
   <header class="topbar">
-    <a class="brand" href="#top" aria-label="화성 부동산 데이터 허브 홈">
-      <span class="brand-mark" aria-hidden="true">H</span><span>HWASEONG DATA</span>
+    <a class="brand" href="#top" aria-label="전국 부동산 데이터 허브 홈">
+      <span class="brand-mark" aria-hidden="true">R</span><span>REGION DATA</span>
     </a>
     <nav class="top-links" aria-label="보조 탐색">
       <a class="back-link" href="/">STARGATE 홈</a>
@@ -203,9 +237,9 @@
   <main>
     <section class="hero" id="top">
       <div>
-        <p class="eyebrow">2026. 06 · APARTMENT SALES</p>
-        <h1>화성의 거래를<br><span>한 번에 읽다.</span></h1>
-        <p class="hero-lead">만세·효행·병점·동탄구의 아파트 실거래를 공공 API에서 수집한 순서대로 100건씩 탐색하고 CSV로 저장합니다.</p>
+        <p class="eyebrow">KOREA · APARTMENT SALES</p>
+        <h1>동네의 거래를<br><span>한 번에 읽다.</span></h1>
+        <p class="hero-lead">전국의 시·군·구와 읍·면·동을 입력하면 VWorld가 법정동을 해석하고, 국토부 아파트 실거래를 100건씩 보여줍니다.</p>
         <div class="hero-actions">
           <button class="sync-btn" id="next-btn" type="button"><span>다음 100건 불러오기</span><span aria-hidden="true">↗</span></button>
           <button class="csv-btn" id="csv-btn" type="button">현재 CSV 내려받기</button>
@@ -218,15 +252,51 @@
         <div class="progress-number"><strong id="range-number">0–0</strong><span id="total-label">/ 0건</span></div>
         <div class="progress-track"><span id="progress-bar" style="width:0"></span></div>
         <div class="pipeline">
-          <div><span class="pipe-index">01</span><span><b>공공 API</b><small>4개 구 2,672건 수집</small></span></div>
+          <div><span class="pipe-index">01</span><span><b>지역 해석</b><small>행정동 입력을 법정동에 연결</small></span></div>
           <div><span class="pipe-index">02</span><span><b>100건 배치</b><small>버튼으로 다음 묶음 탐색</small></span></div>
-          <div><span class="pipe-index">03</span><span><b>Supabase</b><small>서버 쓰기 환경 준비</small></span></div>
+          <div><span class="pipe-index">03</span><span><b>법정동 지도</b><small>VWorld 경계와 거래량 결합</small></span></div>
         </div>
       </aside>
     </section>
 
+    <section class="region-search" aria-labelledby="region-search-title">
+      <div class="region-console">
+        <div class="region-console-head">
+          <div><p class="eyebrow">NATIONWIDE REGION SEARCH</p><h2 id="region-search-title">어느 동네의 거래를 볼까요?</h2></div>
+          <p>시·도와 시·군·구, 읍·면·동을 함께 입력하면 같은 이름의 지역도 정확히 구분합니다. 행정동은 국토부 집계 기준인 법정동으로 연결합니다.</p>
+        </div>
+        <form class="region-form" id="region-form">
+          <label class="region-field">
+            <span>REGION</span>
+            <input id="region-input" name="query" value="서울 관악구 대학동"
+              placeholder="예: 서울 관악구 대학동" autocomplete="off" required>
+          </label>
+          <label class="region-field">
+            <span>DEAL MONTH</span>
+            <input id="region-month" name="dealMonth" type="month" value="2026-06" min="2006-01" required>
+          </label>
+          <button class="region-submit" id="region-submit" type="submit">거래량 조회</button>
+        </form>
+        <div class="region-examples">
+          <span>예시</span>
+          <button type="button" data-region-example="서울 관악구 대학동">서울 관악구 대학동</button>
+          <button type="button" data-region-example="경기 화성시 향남읍">경기 화성시 향남읍</button>
+          <button type="button" data-region-example="부산 해운대구 우동">부산 해운대구 우동</button>
+        </div>
+        <p class="region-status" id="region-status" role="status">지역을 입력하면 해당 법정동의 월 거래량과 실거래 목록을 불러옵니다.</p>
+        <div class="region-resolution" id="region-resolution" hidden>
+          <div>
+            <span id="resolution-type">REGION RESOLUTION</span>
+            <strong id="resolution-title"></strong>
+            <p id="resolution-note"></p>
+          </div>
+          <button class="reset-region" id="reset-region" type="button">화성시 기본 화면</button>
+        </div>
+      </div>
+    </section>
+
     <section class="metrics" aria-label="현재 100건 요약">
-      <article><span>현재 화면</span><strong id="metric-count">0<small>건</small></strong><em>PAGE SIZE</em></article>
+      <article><span id="metric-count-label">현재 화면</span><strong id="metric-count">0<small>건</small></strong><em id="metric-count-meta">PAGE SIZE</em></article>
       <article><span>평균 거래가</span><strong id="metric-average">—</strong><em>AVERAGE</em></article>
       <article><span>중앙 거래가</span><strong id="metric-median">—</strong><em>MEDIAN</em></article>
       <article class="accent-metric"><span>최고가</span><strong id="metric-top">—</strong><em id="metric-top-name">TOP DEAL</em></article>
@@ -235,7 +305,7 @@
     <section class="map-section" aria-labelledby="map-title">
       <div class="section-head">
         <div><p class="eyebrow">VWORLD LEGAL-DONG MAP</p><h2 id="map-title">법정동으로 읽는 100건</h2></div>
-        <p class="map-source"><b>VWorld 공간정보 오픈플랫폼</b><br>LT_C_ADEMD_INFO · 화성시 39개 법정동 경계</p>
+        <p class="map-source" id="map-source"><b>VWorld 공간정보 오픈플랫폼</b><br>LT_C_ADEMD_INFO · 화성시 39개 법정동 경계</p>
       </div>
       <div class="map-layout">
         <div class="map-canvas" id="map-canvas">
@@ -252,8 +322,8 @@
         <aside class="map-panel" aria-label="법정동 지도 요약">
           <div class="map-panel-top">
             <span>LEGAL-DONG COVERAGE</span>
-            <strong><span id="active-dong-count">0</span> / 39</strong>
-            <p>현재 100건에서 거래가 확인되는 법정동입니다. 지도 영역을 누르면 해당 구·법정동 거래만 볼 수 있습니다.</p>
+            <strong><span id="active-dong-count">0</span> / <span id="legal-dong-total">39</span></strong>
+            <p id="map-panel-note">현재 100건에서 거래가 확인되는 법정동입니다. 지도 영역을 누르면 해당 구·법정동 거래만 볼 수 있습니다.</p>
           </div>
           <div class="district-list" id="district-list"></div>
           <div class="selection-card">
@@ -283,11 +353,13 @@
 
   <footer>
     <p>Source · 국토교통부 실거래가 · VWorld 법정동 경계 <span>2026.02.01 화성시 법정구역 개편 반영</span></p>
-    <p>DATA MONTH 2026-06 · UNIT KRW 10K</p>
+    <p>DATA MONTH <span id="footer-month">2026-06</span> · UNIT KRW 10K</p>
   </footer>
 
+  <script src="app.js"></script>
   <script>
   (() => {
+    if(window.REGION_DASHBOARD_V2)return;
     const state={summary:null,legalDongs:null,rows:[],offset:0,filter:'전체',selectedDong:null,loading:false};
     const $=id=>document.getElementById(id);
     const money=new Intl.NumberFormat('ko-KR');
