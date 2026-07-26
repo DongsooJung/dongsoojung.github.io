@@ -84,6 +84,7 @@ button:focus-visible {
   outline-offset: 2px;
 }
 button:disabled { cursor: wait; opacity: 0.65; }
+.excel-button { background: #15803d; }
 .year-status { min-height: 1.4em; color: var(--text-muted); font-size: 12px; }
 .tiles { display: flex; flex-wrap: wrap; gap: 12px; margin: 0 0 16px; }
 .tile {
@@ -221,11 +222,20 @@ function build() {
     text: '새로고침',
     onclick: () => refreshYearData(Number(yearSel.value))
   });
+  const excelButton = el('button', {
+    id: 'excelExport',
+    class: 'excel-button',
+    type: 'button',
+    text: '엑셀로 내보내기',
+    title: '현재 화면의 연도 데이터를 Excel 파일로 다운로드',
+    onclick: exportExcel
+  });
   const yearControls = el('div', {class: 'controls'});
   yearControls.append(
     el('label', {for: 'yearSel', text: '사업연도'}),
     yearSel,
     refreshButton,
+    excelButton,
     el('span', {class: 'year-status', id: 'yearStatus', role: 'status', 'aria-live': 'polite'})
   );
   app.append(yearControls);
@@ -316,6 +326,18 @@ async function refreshYearData(year) {
     status.textContent = `${year}년 데이터를 불러오지 못했습니다. 잠시 후 다시 시도해 주세요.`;
     button.disabled = false;
   }
+}
+
+function exportExcel() {
+  const year = Number(DATA.meta.year);
+  const link = document.createElement('a');
+  link.href = `exports/opendart-${year}-corporate-financials.xlsx`;
+  link.download = `OpenDART_${year}_기업실적.xlsx`;
+  document.body.append(link);
+  link.click();
+  link.remove();
+  const status = document.getElementById('yearStatus');
+  if (status) status.textContent = `${year}년 Excel 파일 다운로드를 시작했습니다.`;
 }
 
 function renderDynamic() {
