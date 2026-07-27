@@ -194,13 +194,16 @@ def choose_row(rows: list[dict[str, Any]], metric: str, fs_div: str) -> dict[str
 
 
 def fetch_reports(key: str, year: int, corp_codes: list[str]) -> dict[str, dict[str, list[dict[str, Any]]]]:
+    report_codes = report_codes_for_year(year)
+    if not report_codes:
+        fail(f"no standard filing period is available yet for {year}")
     grouped: dict[str, dict[str, list[dict[str, Any]]]] = {
-        period: defaultdict(list) for period in REPORT_CODES
+        period: defaultdict(list) for period in report_codes
     }
     requests: list[tuple[int, str, str, str]] = []
     for batch_index, offset in enumerate(range(0, len(corp_codes), API_BATCH_SIZE), start=1):
         codes = ",".join(corp_codes[offset:offset + API_BATCH_SIZE])
-        for period, report_code in REPORT_CODES.items():
+        for period, report_code in report_codes.items():
             requests.append((batch_index, period, report_code, codes))
 
     def fetch_one(request: tuple[int, str, str, str]) -> tuple[int, str, dict[str, Any]]:
@@ -251,6 +254,26 @@ def listed_companies(corporations: list[dict[str, str]]) -> list[dict[str, Any]]
         if previous is None or candidate["modify_date"] > previous["modify_date"]:
             listed[corp_code] = candidate
     return sorted(listed.values(), key=lambda row: (row["stock_code"], row["corp_code"]))
+
+
+def report_codes_for_year(year: int) -> dict[str, str]:
+    now = datetime.now(timezone.utc)
+    if year < now.year:
+        return REPORT_CODES
+    if year > now.year:
+        return {}
+
+    # Keep current-year rankings comparable across calendar-year reporters.
+    # Include each period after its standard filing window has closed.
+    month_day = (now.month, now.day)
+    available: dict[str, str] = {}
+    if month_day >= (5, 16):
+        available["Q1"] = REPORT_CODES["Q1"]
+    if month_day >= (8, 16):
+        available["H1"] = REPORT_CODES["H1"]
+    if month_day >= (11, 16):
+        available["Q3"] = REPORT_CODES["Q3"]
+    return available
 
 
 def metric_periods(
@@ -379,7 +402,7 @@ def main() -> None:
     for company in resolved:
         company_reports = {
             period: reports[period].get(company["corp_code"], [])
-            for period in REPORT_CODES
+            for period in reports
         }
         revenue, revenue_fs = metric_periods(company_reports, "revenue")
         operating_profit, op_fs = metric_periods(company_reports, "operating_profit")
