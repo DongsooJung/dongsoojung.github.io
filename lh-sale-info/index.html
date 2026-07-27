@@ -1,0 +1,454 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>LH 분양정보 관측소 | STARGATE Research</title>
+  <meta name="description" content="한국토지주택공사 분양임대공고문 Open API에서 분양주택 정보를 30건씩 조회하고 Supabase에 저장하는 연구 대시보드.">
+  <meta name="theme-color" content="#12161c">
+  <meta property="og:title" content="LH 분양정보 관측소 · STARGATE">
+  <meta property="og:description" content="공지사항이 아닌 LH 분양정보를 30건씩 모아 Supabase에 기록합니다.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://www.stargateedu.co.kr/lh-sale-info/">
+  <link rel="canonical" href="https://www.stargateedu.co.kr/lh-sale-info/">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,500&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --ink:#171b22;
+      --ink-soft:#2a3140;
+      --paper:#f3efe6;
+      --paper-2:#e8e1d4;
+      --foam:#f7f4ee;
+      --copper:#b56a3a;
+      --copper-deep:#8c4a24;
+      --slate:#3d4a5c;
+      --muted:#667085;
+      --line:rgba(23,27,34,.14);
+      --ok:#2f6b4f;
+      --warn:#9a6b1f;
+      --danger:#9b2c2c;
+      --shadow:0 28px 70px rgba(23,27,34,.14);
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;
+      color:var(--ink);
+      font-family:"DM Sans",sans-serif;
+      background:
+        radial-gradient(980px 460px at 8% -10%, rgba(181,106,58,.22), transparent 58%),
+        radial-gradient(760px 420px at 96% 0%, rgba(61,74,92,.16), transparent 55%),
+        linear-gradient(180deg, #f7f4ee 0%, var(--paper) 46%, #ddd5c6 100%);
+      min-height:100vh;
+    }
+    button,input,select{font:inherit}
+    a{color:inherit}
+    .wrap{width:min(1140px, calc(100% - 40px)); margin:0 auto}
+
+    .topbar{
+      height:74px; display:flex; align-items:center; justify-content:space-between;
+      border-bottom:1px solid var(--line);
+    }
+    .brand{
+      display:inline-flex; align-items:center; gap:12px; text-decoration:none;
+      font-weight:700; letter-spacing:.04em; font-size:13px;
+    }
+    .brand-mark{
+      width:34px; height:34px; border-radius:10px; display:grid; place-items:center;
+      background:linear-gradient(145deg, var(--copper), var(--ink));
+      color:#f7f4ee; font-family:"Instrument Serif",serif; font-size:18px;
+    }
+    .top-links{display:flex; gap:14px; align-items:center; color:var(--muted); font-size:13px}
+    .top-links a{text-decoration:none}
+    .top-links a:hover{color:var(--copper-deep)}
+
+    .hero{
+      min-height:calc(100vh - 74px);
+      display:grid; grid-template-columns:1.05fr .95fr; gap:48px; align-items:center;
+      padding:48px 0 56px; position:relative;
+    }
+    .brand-hero{
+      margin:0 0 14px; font-family:"Instrument Serif",serif;
+      font-size:clamp(48px,8vw,84px); line-height:.92; letter-spacing:-.03em;
+      animation:rise .85s ease both;
+    }
+    .brand-hero em{font-style:italic; color:var(--copper-deep)}
+    h1{
+      margin:0; font-size:clamp(26px,3.6vw,38px); line-height:1.18; letter-spacing:-.03em;
+      font-weight:700; max-width:16ch; animation:rise .85s ease .08s both;
+    }
+    .lead{
+      margin:16px 0 28px; max-width:38ch; color:var(--muted); font-size:16px; line-height:1.7;
+      animation:rise .85s ease .16s both;
+    }
+    .cta-row{display:flex; flex-wrap:wrap; gap:12px; animation:rise .85s ease .24s both}
+    .btn{
+      min-height:52px; border:1px solid var(--ink); border-radius:999px; padding:0 22px;
+      cursor:pointer; display:inline-flex; align-items:center; justify-content:center; gap:8px;
+      transition:transform .18s ease, box-shadow .18s ease, background .18s ease;
+      background:transparent; color:var(--ink);
+    }
+    .btn:hover:not(:disabled){transform:translateY(-2px); box-shadow:0 10px 0 rgba(23,27,34,.1)}
+    .btn:disabled{opacity:.55; cursor:wait}
+    .btn-primary{background:var(--ink); color:var(--foam)}
+    .btn-ghost{background:transparent}
+
+    .hero-visual{
+      position:relative; min-height:440px; overflow:hidden;
+      background:
+        linear-gradient(155deg, rgba(23,27,34,.94), rgba(61,74,92,.88)),
+        repeating-linear-gradient(90deg, rgba(247,244,238,.07) 0 1px, transparent 1px 26px),
+        repeating-linear-gradient(0deg, rgba(247,244,238,.05) 0 1px, transparent 1px 26px);
+      box-shadow:var(--shadow); animation:fadein 1s ease .2s both;
+      clip-path: polygon(0 0, 100% 0, 100% 88%, 0 100%);
+    }
+    .hero-visual::after{
+      content:""; position:absolute; inset:auto -12% -18% 34%; height:68%;
+      background:radial-gradient(circle, rgba(181,106,58,.5), transparent 66%);
+      filter:blur(10px);
+    }
+    .ticker{
+      position:absolute; inset:28px; display:grid; gap:10px; z-index:1; color:var(--foam);
+    }
+    .ticker .row{
+      display:flex; justify-content:space-between; gap:12px; padding:14px 16px;
+      border:1px solid rgba(247,244,238,.16); background:rgba(247,244,238,.06);
+      backdrop-filter:blur(6px); transform:translateY(8px); opacity:0;
+      animation:slideup .7s ease forwards;
+    }
+    .ticker .row:nth-child(1){animation-delay:.35s}
+    .ticker .row:nth-child(2){animation-delay:.5s}
+    .ticker .row:nth-child(3){animation-delay:.65s}
+    .ticker .row:nth-child(4){animation-delay:.8s}
+    .ticker .muted{color:rgba(247,244,238,.68); font-size:13px}
+    .ticker strong{font-size:15px; letter-spacing:.01em}
+
+    .section{padding:12px 0 72px}
+    .section h2{
+      margin:0 0 8px; font-family:"Instrument Serif",serif; font-size:34px; letter-spacing:-.03em; font-weight:400;
+    }
+    .section-lead{margin:0 0 22px; color:var(--muted); max-width:54ch; line-height:1.65}
+
+    .panel{
+      border:1px solid var(--line); background:rgba(247,244,238,.78);
+      backdrop-filter:blur(10px); padding:22px; box-shadow:0 10px 30px rgba(23,27,34,.05);
+    }
+    .controls{
+      display:grid; grid-template-columns:1.35fr .7fr .7fr .7fr; gap:12px; margin-bottom:12px;
+    }
+    .controls-2{display:grid; grid-template-columns:1fr 1fr 1fr auto; gap:12px; align-items:end}
+    label.field{display:grid; gap:6px; font-size:12.5px; color:var(--muted)}
+    select,input[type="text"],input[type="password"]{
+      min-height:46px; border:1px solid var(--line); border-radius:12px;
+      padding:0 12px; background:var(--foam); color:var(--ink);
+    }
+    .key-row{display:flex; gap:6px}
+    .key-row input{flex:1}
+    .key-row button,.mini{
+      border:1px solid var(--line); background:var(--paper-2); color:var(--slate);
+      border-radius:12px; padding:0 12px; cursor:pointer; min-height:46px;
+    }
+    .actions{display:flex; gap:8px; flex-wrap:wrap}
+    .pager{
+      display:flex; align-items:center; justify-content:space-between; gap:12px;
+      flex-wrap:wrap; margin-top:14px;
+    }
+    .pager .info{font-size:13px; color:var(--muted)}
+    .pager .info b{color:var(--ink)}
+    #liveStatus,#notice{font-size:13px; margin-top:10px; min-height:1.2em; color:var(--muted)}
+    #liveStatus[data-kind="ok"],#notice[data-kind="ok"]{color:var(--ok)}
+    #liveStatus[data-kind="err"],#notice[data-kind="err"]{color:var(--danger)}
+    #notice[data-kind="warn"]{color:var(--warn)}
+
+    .kpis{display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin:22px 0}
+    .tile{
+      border:1px solid var(--line); padding:16px; background:rgba(247,244,238,.9);
+      animation:rise .7s ease both;
+    }
+    .tile:nth-child(2){animation-delay:.05s}
+    .tile:nth-child(3){animation-delay:.1s}
+    .tile:nth-child(4){animation-delay:.15s}
+    .tile .lb{font-size:12px; color:var(--muted)}
+    .tile .val{font-size:28px; font-weight:700; letter-spacing:-.04em; margin-top:6px}
+    .tile .hint{font-size:12px; color:var(--muted); margin-top:4px}
+    .tile.feature{border-color:rgba(181,106,58,.45); box-shadow:inset 0 0 0 1px rgba(181,106,58,.18)}
+
+    #viz{opacity:.5; transform:translateY(10px); transition:opacity .45s ease, transform .45s ease}
+    #viz.ready{opacity:1; transform:none}
+
+    .meta-line{display:flex; gap:8px; flex-wrap:wrap; margin:12px 0 0; font-size:12px; color:var(--muted)}
+    .pill{
+      border:1px solid var(--line); border-radius:999px; padding:4px 11px; background:rgba(247,244,238,.7)
+    }
+    .pill b{color:var(--ink-soft); font-weight:600}
+
+    .tbl-wrap{overflow-x:auto; border:1px solid var(--line); background:rgba(247,244,238,.88)}
+    table{width:100%; border-collapse:collapse; font-size:13px; min-width:980px}
+    th,td{padding:12px 12px; border-bottom:1px solid var(--line); vertical-align:top}
+    th{text-align:left; font-size:12px; color:var(--muted); font-weight:600; background:rgba(232,225,212,.55)}
+    td strong{display:block; font-size:13.5px}
+    td .sub{margin-top:3px; color:var(--muted); font-size:11.5px}
+    td a{color:var(--copper-deep); text-decoration:none; font-weight:600}
+    td a:hover{text-decoration:underline}
+    .tag{
+      display:inline-flex; align-items:center; min-height:24px; padding:0 8px;
+      border:1px solid var(--line); font-size:12px; background:var(--foam);
+    }
+    .tag.open{border-color:rgba(47,107,79,.35); color:var(--ok); background:rgba(47,107,79,.08)}
+    .tag.closed{color:var(--muted)}
+    .empty{padding:48px 16px; text-align:center; color:var(--muted)}
+
+    .logs{
+      margin-top:18px; border:1px solid var(--line); background:rgba(247,244,238,.75); padding:18px;
+    }
+    .logs h3{margin:0 0 10px; font-size:15px}
+    .logs ul{list-style:none; margin:0; padding:0; display:grid; gap:8px}
+    .logs li{display:grid; grid-template-columns:10px 1fr; gap:10px; align-items:start; font-size:13px}
+    .logs .dot{width:10px; height:10px; border-radius:50%; margin-top:5px; background:var(--muted)}
+    .logs .dot.ok{background:var(--ok)}
+    .logs .dot.err{background:var(--danger)}
+    .logs small{display:block; color:var(--muted); margin-top:2px}
+    .logs .muted{color:var(--muted)}
+
+    .note{
+      margin-top:18px; border:1px solid var(--line); padding:14px 16px;
+      font-size:13px; color:var(--muted); line-height:1.7; background:rgba(247,244,238,.7);
+    }
+    .note b{color:var(--ink)}
+    .note code{background:var(--foam); border:1px solid var(--line); border-radius:5px; padding:1px 5px; font-size:12px}
+
+    footer{
+      margin-top:28px; padding:18px 0 40px; border-top:1px solid var(--line);
+      color:var(--muted); font-size:12px; display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px;
+    }
+
+    @keyframes rise{
+      from{opacity:0; transform:translateY(16px)}
+      to{opacity:1; transform:none}
+    }
+    @keyframes fadein{
+      from{opacity:0; transform:scale(.98)}
+      to{opacity:1; transform:none}
+    }
+    @keyframes slideup{
+      to{opacity:1; transform:none}
+    }
+
+    @media (max-width:960px){
+      .hero{grid-template-columns:1fr; gap:28px; min-height:auto; padding:36px 0 40px}
+      .hero-visual{min-height:320px; clip-path:none}
+      .controls,.controls-2{grid-template-columns:1fr 1fr}
+      .kpis{grid-template-columns:1fr 1fr}
+    }
+    @media (max-width:560px){
+      .wrap{width:min(100% - 28px, 1140px)}
+      .controls,.controls-2,.kpis{grid-template-columns:1fr}
+      .top-links a:nth-child(2){display:none}
+    }
+    @media (prefers-reduced-motion:reduce){
+      *,*::before,*::after{animation-duration:.01ms!important; transition-duration:.01ms!important}
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <nav class="topbar" aria-label="주요 메뉴">
+      <a class="brand" href="/lh-sale-info/">
+        <span class="brand-mark" aria-hidden="true">L</span>
+        <span>STARGATE · LH SALE</span>
+      </a>
+      <div class="top-links">
+        <a href="/research/">연구 대시보드</a>
+        <a href="/public-data-collector/">수집 기록소</a>
+        <a href="/">홈</a>
+      </div>
+    </nav>
+
+    <header class="hero">
+      <div>
+        <p class="brand-hero">STARGATE<br><em>LH Sale</em></p>
+        <h1>분양정보를 30건씩 모아 기록합니다.</h1>
+        <p class="lead">
+          공지사항이 아니라 한국토지주택공사 분양임대공고문 Open API에서
+          분양주택 정보를 읽고 Supabase에 저장하는 연구 관측소입니다.
+        </p>
+        <div class="cta-row">
+          <a class="btn btn-primary" href="#collector">30건 불러오기 →</a>
+          <a class="btn btn-ghost" href="/research/">연구 허브</a>
+        </div>
+        <div class="meta-line">
+          <span class="pill"><b>API</b> lhLeaseNoticeInfo1</span>
+          <span class="pill"><b>기본</b> 분양주택(05)</span>
+          <span class="pill"><b>페이지</b> <span id="sourceMode">대기</span></span>
+        </div>
+      </div>
+      <div class="hero-visual" aria-hidden="true">
+        <div class="ticker">
+          <div class="row"><span class="muted">SOURCE</span><strong>data.go.kr · LH</strong></div>
+          <div class="row"><span class="muted">TYPE</span><strong>분양주택 · 신혼희망타운</strong></div>
+          <div class="row"><span class="muted">BATCH</span><strong>PG_SZ = 30</strong></div>
+          <div class="row"><span class="muted">STORE</span><strong>Supabase upsert</strong></div>
+        </div>
+      </div>
+    </header>
+
+    <main class="section" id="collector">
+      <h2>분양정보 수집</h2>
+      <p class="section-lead">
+        청약센터 공지사항 API가 아닌 <b>분양임대공고문</b>을 사용합니다.
+        기본 유형은 분양주택(05)이며, 한 페이지에 30건씩 조회·저장합니다.
+      </p>
+
+      <section class="panel" aria-label="조회 설정">
+        <div class="controls">
+          <label class="field" for="apiKey">
+            공공데이터포털 serviceKey
+            <div class="key-row">
+              <input id="apiKey" type="password" autocomplete="off" placeholder="디코딩 인증키">
+              <button type="button" id="toggleKey" class="mini">표시</button>
+            </div>
+          </label>
+          <label class="field" for="typeCode">
+            공고유형
+            <select id="typeCode">
+              <option value="05" selected>분양주택 (05)</option>
+              <option value="39">신혼희망타운 (39)</option>
+              <option value="01">토지 (01)</option>
+              <option value="all">분양 관련 전체</option>
+            </select>
+          </label>
+          <label class="field" for="regionCode">
+            지역
+            <select id="regionCode">
+              <option value="">전국</option>
+              <option value="11">서울</option>
+              <option value="41">경기</option>
+              <option value="28">인천</option>
+              <option value="26">부산</option>
+              <option value="27">대구</option>
+              <option value="29">광주</option>
+              <option value="30">대전</option>
+              <option value="31">울산</option>
+              <option value="36">세종</option>
+              <option value="42">강원</option>
+              <option value="43">충북</option>
+              <option value="44">충남</option>
+              <option value="45">전북</option>
+              <option value="46">전남</option>
+              <option value="47">경북</option>
+              <option value="48">경남</option>
+              <option value="50">제주</option>
+            </select>
+          </label>
+          <label class="field" for="statusFilter">
+            상태
+            <select id="statusFilter">
+              <option value="">전체</option>
+              <option value="공고중">공고중</option>
+              <option value="접수중">접수중</option>
+              <option value="접수마감">접수마감</option>
+              <option value="정정공고중">정정공고중</option>
+            </select>
+          </label>
+        </div>
+        <div class="controls-2">
+          <label class="field" for="startDate">
+            게시일 시작 (YYYY.MM.DD)
+            <input id="startDate" type="text" placeholder="2024.01.01">
+          </label>
+          <label class="field" for="endDate">
+            마감일 기준 (YYYY.MM.DD)
+            <input id="endDate" type="text" placeholder="2026.12.31">
+          </label>
+          <div class="actions">
+            <button class="btn btn-primary" id="loadBtn" type="button">30건 불러오기·저장</button>
+          </div>
+          <div class="actions">
+            <button class="btn btn-ghost" id="saveBtn" type="button">다시 저장</button>
+            <button class="btn btn-ghost" id="csvBtn" type="button">CSV</button>
+          </div>
+        </div>
+        <div class="pager">
+          <div class="info">
+            <b id="pageLabel">1 / —</b>
+            <span id="totalLabel">페이지당 30건</span>
+          </div>
+          <div class="actions">
+            <button class="btn btn-ghost" id="prevBtn" type="button" disabled>← 이전 30건</button>
+            <button class="btn btn-ghost" id="nextBtn" type="button" disabled>다음 30건 →</button>
+          </div>
+        </div>
+        <div id="liveStatus" aria-live="polite"></div>
+        <div id="notice" aria-live="polite"></div>
+      </section>
+
+      <div id="viz">
+        <div class="kpis" aria-label="요약">
+          <article class="tile feature">
+            <div class="lb">현재 페이지</div>
+            <div class="val" id="kpiCount">—</div>
+            <div class="hint">최대 30건</div>
+          </article>
+          <article class="tile">
+            <div class="lb">전체 건수</div>
+            <div class="val" id="kpiTotal">—</div>
+            <div class="hint">API ALL_CNT</div>
+          </article>
+          <article class="tile">
+            <div class="lb">공고중·접수중</div>
+            <div class="val" id="kpiOpen">—</div>
+            <div class="hint">현재 페이지</div>
+          </article>
+          <article class="tile">
+            <div class="lb">Supabase 저장</div>
+            <div class="val" id="kpiSaved">0</div>
+            <div class="hint">최근 upsert</div>
+          </article>
+        </div>
+
+        <div class="tbl-wrap" role="region" aria-label="분양정보 표">
+          <table>
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>공고명</th>
+                <th>유형</th>
+                <th>지역</th>
+                <th>상태</th>
+                <th>게시일</th>
+                <th>마감일</th>
+                <th>상세</th>
+              </tr>
+            </thead>
+            <tbody id="tbody"></tbody>
+          </table>
+          <div class="empty" id="empty">아직 불러온 분양정보가 없습니다. 위에서 30건을 조회하세요.</div>
+        </div>
+
+        <section class="logs" aria-label="수집 로그">
+          <h3>최근 Supabase 수집 로그</h3>
+          <ul id="logList">
+            <li class="muted">로그를 불러오는 중…</li>
+          </ul>
+        </section>
+      </div>
+
+      <div class="note">
+        <b>스키마 적용:</b> Supabase SQL Editor에서 <code>supabase/lh_sale_info.sql</code>을 실행하세요.
+        테이블 <code>lh_sale_notices</code>, <code>lh_sale_fetch_logs</code>가 생성됩니다.
+        LH API가 403이면 공공데이터포털에서
+        <b>한국토지주택공사_분양임대공고문 조회 서비스</b> 활용신청이 승인됐는지 확인하세요.
+        (청약센터 공지사항 API와는 별개입니다.)
+      </div>
+    </main>
+
+    <footer>
+      <span>© 2026 Dongsoo Jung · Stargate Corporation</span>
+      <span><a href="/research/">Research</a> · <a href="https://www.data.go.kr/data/15058530/openapi.do" target="_blank" rel="noopener">OpenAPI</a></span>
+    </footer>
+  </div>
+  <script src="./app.js" defer></script>
+</body>
+</html>
