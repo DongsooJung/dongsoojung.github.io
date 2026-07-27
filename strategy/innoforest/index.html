@@ -1,0 +1,375 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#07110e">
+  <title>혁신의 숲 기업 데이터 20 | STARGATE Intelligence</title>
+  <meta name="description" content="혁신의 숲 데이터룸에서 수집한 기업 20곳의 매출액과 고용인원을 검색하고 비교하는 STARGATE 전략 대시보드.">
+  <link rel="canonical" href="https://stargateedu.co.kr/strategy/innoforest/">
+  <style>
+    :root{
+      --bg:#07110e;--panel:#0b1914;--panel2:#10241c;--line:#1c392d;
+      --text:#ecf7f1;--muted:#8ca99a;--subtle:#5f7d6e;--accent:#55df9a;
+      --accent2:#b4ef70;--cyan:#58c9c7;--warn:#f4c86b;
+    }
+    *{box-sizing:border-box}
+    html{color-scheme:dark;scroll-behavior:smooth}
+    body{
+      margin:0;min-height:100vh;color:var(--text);
+      font:14px/1.55 "Pretendard","Malgun Gothic",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+      background:
+        radial-gradient(900px 560px at 12% -10%,rgba(85,223,154,.15),transparent 62%),
+        radial-gradient(720px 520px at 92% 8%,rgba(88,201,199,.1),transparent 64%),
+        var(--bg);
+      -webkit-font-smoothing:antialiased;
+    }
+    a{color:inherit}
+    button,input,select{font:inherit}
+    a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible{
+      outline:2px solid var(--accent);outline-offset:3px
+    }
+    .wrap{width:min(1440px,100%);margin:0 auto;padding:0 clamp(16px,3vw,38px)}
+    .topbar{
+      position:sticky;top:0;z-index:30;border-bottom:1px solid rgba(28,57,45,.8);
+      background:rgba(7,17,14,.86);backdrop-filter:blur(14px)
+    }
+    .topbar .wrap{height:64px;display:flex;align-items:center;gap:18px}
+    .brand{display:flex;align-items:center;gap:10px;text-decoration:none;font-weight:850;letter-spacing:-.35px}
+    .brand-mark{
+      width:29px;height:29px;border-radius:9px;display:grid;place-items:center;color:#07110e;
+      background:linear-gradient(135deg,var(--accent),var(--accent2));font-size:13px
+    }
+    .brand small{display:block;color:var(--muted);font-size:9px;letter-spacing:1.2px}
+    .nav{margin-left:auto;display:flex;align-items:center;gap:20px}
+    .nav a{color:var(--muted);font-size:13px;font-weight:700;text-decoration:none}
+    .nav a:hover{color:var(--text)}
+    .hero{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(330px,.8fr);gap:28px;padding:64px 0 30px}
+    .eyebrow{
+      display:inline-flex;align-items:center;gap:8px;padding:5px 11px;border:1px solid rgba(85,223,154,.3);
+      border-radius:999px;background:rgba(85,223,154,.07);color:var(--accent);
+      font-size:11px;font-weight:850;letter-spacing:1.35px;text-transform:uppercase
+    }
+    .eyebrow::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--accent);box-shadow:0 0 12px var(--accent)}
+    h1,h2{color:var(--text)}
+    h1{margin:17px 0 12px;font-size:clamp(34px,5.2vw,64px);line-height:1.03;letter-spacing:-2.5px}
+    h1 em{font-style:normal;color:var(--accent)}
+    .lede{max-width:720px;margin:0;color:var(--muted);font-size:clamp(14px,1.5vw,17px)}
+    .source-line{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-top:22px;color:var(--subtle);font-size:12px}
+    .source-line a{color:var(--muted);font-weight:750;text-underline-offset:3px}
+    .signal{
+      position:relative;overflow:hidden;align-self:end;min-height:210px;padding:24px;border:1px solid var(--line);
+      border-radius:18px;background:linear-gradient(145deg,rgba(16,36,28,.96),rgba(11,25,20,.78))
+    }
+    .signal::after{
+      content:"";position:absolute;right:-70px;bottom:-90px;width:260px;height:260px;border-radius:50%;
+      border:1px solid rgba(85,223,154,.18);box-shadow:0 0 0 35px rgba(85,223,154,.025),0 0 0 70px rgba(85,223,154,.018)
+    }
+    .signal-label{color:var(--muted);font-size:11px;font-weight:800;letter-spacing:1px;text-transform:uppercase}
+    .signal-value{position:relative;z-index:1;margin-top:12px;font-size:52px;font-weight:900;letter-spacing:-2px}
+    .signal-value span{color:var(--accent);font-size:20px;letter-spacing:-.4px}
+    .signal p{position:relative;z-index:1;max-width:260px;margin:8px 0 0;color:var(--muted)}
+    .summary{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:12px 0 30px}
+    .metric{padding:18px 19px;border:1px solid var(--line);border-radius:14px;background:rgba(11,25,20,.82)}
+    .metric strong{display:block;font-size:27px;line-height:1.2;font-weight:900;letter-spacing:-.9px;font-variant-numeric:tabular-nums}
+    .metric span{display:block;margin-top:5px;color:var(--muted);font-size:11.5px}
+    .metric.featured strong{color:var(--accent)}
+    .panel{margin-bottom:42px;border:1px solid var(--line);border-radius:18px;background:rgba(11,25,20,.83);overflow:hidden}
+    .panel-head{display:flex;align-items:flex-end;gap:20px;flex-wrap:wrap;padding:23px 24px;border-bottom:1px solid var(--line)}
+    .panel-head h2{margin:0;font-size:22px;letter-spacing:-.7px}
+    .panel-head p{margin:4px 0 0;color:var(--muted);font-size:12.5px}
+    .tools{margin-left:auto;display:flex;gap:9px;flex-wrap:wrap}
+    .search{position:relative}
+    .search::before{content:"⌕";position:absolute;left:13px;top:9px;color:var(--subtle);font-size:17px}
+    input,select{
+      height:42px;border:1px solid var(--line);border-radius:9px;background:var(--panel2);color:var(--text)
+    }
+    input{width:min(280px,68vw);padding:9px 12px 9px 36px}
+    select{padding:9px 32px 9px 12px}
+    input::placeholder{color:var(--subtle)}
+    .table-scroll{overflow:auto}
+    table{width:100%;min-width:900px;border-collapse:collapse}
+    th,td{padding:14px 17px;border-bottom:1px solid rgba(28,57,45,.72);text-align:left}
+    th{color:var(--subtle);background:rgba(16,36,28,.72);font-size:10.5px;letter-spacing:.8px;text-transform:uppercase}
+    tbody tr{transition:background .14s}
+    tbody tr:hover{background:rgba(85,223,154,.035)}
+    tbody tr:last-child td{border-bottom:0}
+    .rank{width:58px;color:var(--subtle);font-variant-numeric:tabular-nums}
+    .company{display:flex;align-items:center;gap:11px;min-width:230px}
+    .monogram{
+      flex:0 0 38px;width:38px;height:38px;border:1px solid rgba(85,223,154,.22);
+      border-radius:11px;display:grid;place-items:center;color:var(--accent);
+      background:linear-gradient(145deg,rgba(85,223,154,.12),rgba(88,201,199,.05));font-weight:900
+    }
+    .company strong{display:block;font-size:14px}
+    .company small{display:block;margin-top:1px;color:var(--muted)}
+    .numeric{font-weight:780;font-variant-numeric:tabular-nums;white-space:nowrap}
+    .bar-cell{min-width:220px}
+    .bar-track{height:7px;border-radius:999px;background:#142c22;overflow:hidden}
+    .bar-fill{height:100%;border-radius:inherit;background:linear-gradient(90deg,var(--accent),var(--accent2));min-width:2px}
+    .source-link{
+      display:inline-flex;align-items:center;gap:4px;color:var(--accent);font-size:12px;font-weight:780;
+      text-decoration:none;white-space:nowrap
+    }
+    .source-link:hover{text-decoration:underline;text-underline-offset:3px}
+    .empty{display:none;padding:60px 20px;text-align:center;color:var(--muted)}
+    .empty.on{display:block}
+    .footnote{
+      display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;margin:-12px 0 38px;
+      color:var(--subtle);font-size:11.5px
+    }
+    .footnote a{color:var(--muted)}
+    footer{
+      display:flex;justify-content:space-between;gap:18px;flex-wrap:wrap;padding:24px 0 34px;
+      border-top:1px solid var(--line);color:var(--subtle);font-size:12px
+    }
+    footer a{color:var(--muted);text-decoration:none}
+    .error{padding:70px 20px;text-align:center;color:var(--warn)}
+    @media(max-width:900px){
+      .hero{grid-template-columns:1fr;padding-top:42px}
+      .signal{min-height:170px}
+      .summary{grid-template-columns:repeat(2,1fr)}
+    }
+    @media(max-width:620px){
+      .nav a:not(:first-child){display:none}
+      h1{letter-spacing:-1.8px}
+      .summary{gap:9px}
+      .metric{padding:15px}
+      .metric strong{font-size:22px}
+      .panel-head{padding:19px 16px}
+      .tools{width:100%;margin-left:0}
+      .search{flex:1}
+      input{width:100%}
+      select{max-width:42%}
+    }
+  </style>
+</head>
+<body>
+  <nav class="topbar" aria-label="주요 메뉴">
+    <div class="wrap">
+      <a class="brand" href="/">
+        <span class="brand-mark">D</span>
+        <span>DONGSOO.PORTAL<small>INTELLIGENCE</small></span>
+      </a>
+      <div class="nav">
+        <a href="/strategy/">전략 허브</a>
+        <a href="/research/">연구 대시보드</a>
+        <a href="/">포털</a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="wrap">
+    <header class="hero">
+      <div>
+        <span class="eyebrow">Startup Intelligence · 20 Companies</span>
+        <h1>성장기업을<br><em>한눈에 비교합니다.</em></h1>
+        <p class="lede">
+          혁신의 숲 데이터룸에서 수집한 기업 20곳의 매출액과 고용인원을
+          검색하고 정렬해 빠르게 비교할 수 있습니다.
+        </p>
+        <div class="source-line">
+          <span id="collectedAt">데이터 불러오는 중</span>
+          <span>·</span>
+          <a href="https://www.innoforest.co.kr/dataroom" target="_blank" rel="noopener">혁신의 숲 데이터룸 ↗</a>
+        </div>
+      </div>
+      <aside class="signal" aria-label="최대 매출 기업">
+        <div class="signal-label">Top revenue in this snapshot</div>
+        <div class="signal-value" id="topRevenue">—</div>
+        <p id="topRevenueCompany">데이터를 계산하고 있습니다.</p>
+      </aside>
+    </header>
+
+    <main>
+      <section class="summary" aria-label="기업 데이터 요약">
+        <article class="metric featured"><strong id="companyCount">—</strong><span>수집 기업</span></article>
+        <article class="metric"><strong id="revenueTotal">—</strong><span>표기 매출액 합계</span></article>
+        <article class="metric"><strong id="employeeTotal">—</strong><span>고용인원 합계</span></article>
+        <article class="metric"><strong id="employeeMedian">—</strong><span>고용인원 중앙값</span></article>
+      </section>
+
+      <section class="panel" aria-labelledby="companyTableTitle">
+        <div class="panel-head">
+          <div>
+            <h2 id="companyTableTitle">기업 20곳</h2>
+            <p id="resultLabel" aria-live="polite">데이터를 불러오고 있습니다.</p>
+          </div>
+          <div class="tools">
+            <label class="search">
+              <span hidden>기업 또는 서비스 검색</span>
+              <input id="query" type="search" placeholder="기업 또는 서비스 검색" autocomplete="off">
+            </label>
+            <label>
+              <span hidden>정렬 기준</span>
+              <select id="sort">
+                <option value="rank">조회 순서</option>
+                <option value="revenue-desc">매출액 높은 순</option>
+                <option value="employees-desc">고용인원 많은 순</option>
+                <option value="name">기업명 가나다순</option>
+              </select>
+            </label>
+          </div>
+        </div>
+        <div class="table-scroll" id="tableWrap">
+          <table>
+            <thead>
+              <tr>
+                <th scope="col">순서</th>
+                <th scope="col">기업 / 서비스</th>
+                <th scope="col">매출액</th>
+                <th scope="col">상대 규모</th>
+                <th scope="col">고용인원</th>
+                <th scope="col">원문</th>
+              </tr>
+            </thead>
+            <tbody id="companyRows"></tbody>
+          </table>
+        </div>
+        <div class="empty" id="empty">검색 조건에 맞는 기업이 없습니다.</div>
+      </section>
+
+      <div class="footnote">
+        <span id="sourceNote">매출액과 고용인원은 혁신의 숲 표기값을 그대로 사용합니다.</span>
+        <span>기업 상세 정보는 원문 링크에서 확인할 수 있습니다.</span>
+      </div>
+    </main>
+
+    <footer>
+      <span>© 2026 Dongsoo Jung · Stargate Corporation</span>
+      <span><a href="/strategy/">Strategy</a> · <a href="/">Portal</a></span>
+    </footer>
+  </div>
+
+  <script>
+    const state = { companies: [], source: null };
+    const $ = (id) => document.getElementById(id);
+    const number = new Intl.NumberFormat('ko-KR', { maximumFractionDigits: 1 });
+    const integer = new Intl.NumberFormat('ko-KR');
+
+    function median(values) {
+      const sorted = values.slice().sort((a, b) => a - b);
+      const middle = Math.floor(sorted.length / 2);
+      return sorted.length % 2
+        ? sorted[middle]
+        : (sorted[middle - 1] + sorted[middle]) / 2;
+    }
+
+    function initials(name) {
+      return Array.from(name.replace(/\s/g, '')).slice(0, 2).join('');
+    }
+
+    function buildCell(tag, className, text) {
+      const cell = document.createElement(tag);
+      if (className) cell.className = className;
+      if (text !== undefined) cell.textContent = text;
+      return cell;
+    }
+
+    function renderRows() {
+      const query = $('query').value.trim().toLocaleLowerCase('ko-KR');
+      const sort = $('sort').value;
+      let rows = state.companies.filter((company) =>
+        !query || `${company.name} ${company.product}`.toLocaleLowerCase('ko-KR').includes(query)
+      );
+
+      rows = rows.slice().sort((a, b) => {
+        if (sort === 'revenue-desc') return b.revenue_krw_100m - a.revenue_krw_100m;
+        if (sort === 'employees-desc') return b.employee_count - a.employee_count;
+        if (sort === 'name') return a.name.localeCompare(b.name, 'ko');
+        return a.rank - b.rank;
+      });
+
+      const body = $('companyRows');
+      body.replaceChildren();
+      const maxRevenue = Math.max(...state.companies.map((company) => company.revenue_krw_100m), 1);
+
+      rows.forEach((company) => {
+        const row = document.createElement('tr');
+        row.append(buildCell('td', 'rank', String(company.rank).padStart(2, '0')));
+
+        const companyCell = buildCell('td', 'company');
+        const monogram = buildCell('span', 'monogram', initials(company.name));
+        monogram.setAttribute('aria-hidden', 'true');
+        const label = document.createElement('span');
+        label.append(buildCell('strong', '', company.name));
+        label.append(buildCell('small', '', company.product || '서비스명 미표기'));
+        companyCell.append(monogram, label);
+        row.append(companyCell);
+
+        row.append(buildCell('td', 'numeric', company.revenue));
+
+        const barCell = buildCell('td', 'bar-cell');
+        const track = buildCell('div', 'bar-track');
+        const fill = buildCell('div', 'bar-fill');
+        fill.style.width = `${Math.max((company.revenue_krw_100m / maxRevenue) * 100, 1.5)}%`;
+        track.append(fill);
+        barCell.append(track);
+        row.append(barCell);
+
+        row.append(buildCell('td', 'numeric', company.employees));
+
+        const sourceCell = document.createElement('td');
+        const link = buildCell('a', 'source-link', '상세 보기 ↗');
+        link.href = company.source_url;
+        link.target = '_blank';
+        link.rel = 'noopener';
+        link.setAttribute('aria-label', `${company.name} 혁신의 숲 상세 페이지`);
+        sourceCell.append(link);
+        row.append(sourceCell);
+        body.append(row);
+      });
+
+      $('tableWrap').hidden = rows.length === 0;
+      $('empty').classList.toggle('on', rows.length === 0);
+      $('resultLabel').textContent = `전체 ${state.companies.length}곳 중 ${rows.length}곳 표시`;
+    }
+
+    function renderSummary() {
+      const companies = state.companies;
+      const revenue = companies.reduce((sum, company) => sum + company.revenue_krw_100m, 0);
+      const employees = companies.reduce((sum, company) => sum + company.employee_count, 0);
+      const top = companies.slice().sort((a, b) => b.revenue_krw_100m - a.revenue_krw_100m)[0];
+
+      $('companyCount').textContent = `${integer.format(companies.length)}곳`;
+      $('revenueTotal').textContent = `${number.format(revenue)}억원`;
+      $('employeeTotal').textContent = `${integer.format(employees)}명`;
+      $('employeeMedian').textContent = `${number.format(median(companies.map((company) => company.employee_count)))}명`;
+      $('topRevenue').innerHTML = `${number.format(top.revenue_krw_100m)}<span>억원</span>`;
+      $('topRevenueCompany').textContent = `${top.name}${top.product ? ` · ${top.product}` : ''}`;
+    }
+
+    function renderSource() {
+      const collected = new Date(state.source.collected_at);
+      const formatted = new Intl.DateTimeFormat('ko-KR', {
+        dateStyle: 'long', timeStyle: 'short', timeZone: 'Asia/Seoul'
+      }).format(collected);
+      $('collectedAt').textContent = `수집 ${formatted}`;
+      $('sourceNote').textContent = state.source.note;
+    }
+
+    async function boot() {
+      try {
+        const response = await fetch('./data/latest.json', { cache: 'no-store' });
+        if (!response.ok) throw new Error(`데이터 응답 오류 (${response.status})`);
+        const payload = await response.json();
+        if (!Array.isArray(payload.companies) || payload.companies.length !== 20) {
+          throw new Error('기업 데이터가 20개가 아닙니다.');
+        }
+        state.companies = payload.companies;
+        state.source = payload.source;
+        renderSummary();
+        renderSource();
+        renderRows();
+      } catch (error) {
+        $('tableWrap').innerHTML = `<div class="error">데이터를 불러오지 못했습니다.<br>${String(error.message || error)}</div>`;
+        $('resultLabel').textContent = '데이터 로드 실패';
+      }
+    }
+
+    $('query').addEventListener('input', renderRows);
+    $('sort').addEventListener('change', renderRows);
+    boot();
+  </script>
+</body>
+</html>
