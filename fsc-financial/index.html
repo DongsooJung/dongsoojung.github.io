@@ -66,6 +66,10 @@ header.head .lead{color:var(--sub);font-size:14.5px;margin:12px 0 0;max-width:68
 .panel h2{margin:0 0 4px;font-size:15px}
 .panel .cap{margin:0 0 14px;color:var(--muted);font-size:12.5px}
 .controls{display:grid;grid-template-columns:1.4fr .7fr .9fr auto;gap:10px;align-items:end}
+.controls-compact{grid-template-columns:.7fr 1.1fr auto}
+.advanced{margin-top:12px;border-top:1px solid var(--line);padding-top:10px;color:var(--muted);font-size:12.5px}
+.advanced summary{cursor:pointer;color:var(--sub);user-select:none}
+.advanced summary:hover{color:var(--ink)}
 .field{display:flex;flex-direction:column;gap:6px;min-width:0}
 .field label{font-size:11.5px;color:var(--muted)}
 .field input,.field select{
@@ -162,13 +166,13 @@ footer{
 }
 
 @media (max-width:960px){
-  .controls{grid-template-columns:1fr 1fr}
+  .controls,.controls-compact{grid-template-columns:1fr 1fr}
   .actions{grid-column:1/-1}
   .kpis{grid-template-columns:repeat(2,1fr)}
   .cards{grid-template-columns:1fr}
 }
 @media (max-width:560px){
-  .controls{grid-template-columns:1fr}
+  .controls,.controls-compact{grid-template-columns:1fr}
   .kpis{grid-template-columns:1fr}
   header.head h1{font-size:28px}
 }
@@ -202,21 +206,14 @@ footer{
       <div class="meta-line">
         <span class="pill"><b>API</b> GetFinaStatInfoService_V2</span>
         <span class="pill"><b>페이지</b> numOfRows=100</span>
-        <span class="pill"><b>모드</b> <span id="sourceMode">샘플(캐시)</span></span>
+        <span class="pill"><b>모드</b> <span id="sourceMode">실시간 API</span></span>
       </div>
     </header>
 
     <section class="panel" aria-label="조회 설정">
       <h2>100건 단위 조회</h2>
-      <p class="cap">serviceKey는 브라우저 localStorage에만 저장됩니다. 금융위원회 기업재무정보 활용신청이 승인된 키를 사용하세요.</p>
-      <div class="controls">
-        <div class="field">
-          <label for="apiKey">공공데이터포털 serviceKey</label>
-          <div class="key-row">
-            <input id="apiKey" type="password" autocomplete="off" placeholder="활용신청 승인된 디코딩 키" />
-            <button type="button" id="toggleKey" title="키 표시/숨김">표시</button>
-          </div>
-        </div>
+      <p class="cap">페이지 열면 기본 공공데이터 키로 자동 조회합니다. 키 입력은 필요 없습니다.</p>
+      <div class="controls controls-compact">
         <div class="field">
           <label for="bizYear">사업연도</label>
           <select id="bizYear">
@@ -238,6 +235,16 @@ footer{
           <button class="btn btn-ghost" id="csvBtn" type="button">CSV</button>
         </div>
       </div>
+      <details class="advanced">
+        <summary>고급 · serviceKey 변경 (선택)</summary>
+        <div class="field" style="margin-top:10px">
+          <label for="apiKey">공공데이터포털 serviceKey</label>
+          <div class="key-row">
+            <input id="apiKey" type="password" autocomplete="off" placeholder="기본 키 사용 중 (변경 시에만 입력)" />
+            <button type="button" id="toggleKey" title="키 표시/숨김">표시</button>
+          </div>
+        </div>
+      </details>
       <div class="pager">
         <div class="info">
           <b id="pageLabel">1 / —</b>
