@@ -7,22 +7,22 @@ window.STARGATE_CATALOG = Object.freeze({
   "koi-advanced": {
     name: { ko: "정보올림피아드 심화 (자료구조·알고리즘)", en: "Advanced Computing Olympiad: Data Structures & Algorithms" },
     type: "course", billing: "one_time", delivery: "digital", priceKRW: 429000,
-    accessPeriod: { ko: "결제 완료일로부터 12개월", en: "12 months from payment" }
+    accessPeriod: { ko: "결제 완료일로부터 최대 3개월", en: "up to 3 months from payment" }
   },
   "algorithms-bundle": {
     name: { ko: "알고리즘 종합 패키지 (입문+심화)", en: "Complete Algorithms Package: Beginner + Advanced" },
     type: "course", billing: "one_time", delivery: "digital", priceKRW: 690600,
-    accessPeriod: { ko: "결제 완료일로부터 12개월", en: "12 months from payment" }
+    accessPeriod: { ko: "결제 완료일로부터 최대 3개월", en: "up to 3 months from payment" }
   },
   "kmo-number-comb": {
     name: { ko: "KMO 대비 정수론·조합", en: "KMO Number Theory & Combinatorics" },
     type: "course", billing: "one_time", delivery: "digital", priceKRW: 384000,
-    accessPeriod: { ko: "결제 완료일로부터 12개월", en: "12 months from payment" }
+    accessPeriod: { ko: "결제 완료일로부터 최대 3개월", en: "up to 3 months from payment" }
   },
   "koi-cpp-beginner": {
     name: { ko: "정보올림피아드 입문 (C++ 기초)", en: "Computing Olympiad Fundamentals: C++ Basics" },
     type: "course", billing: "one_time", delivery: "digital", priceKRW: 297000,
-    accessPeriod: { ko: "결제 완료일로부터 12개월", en: "12 months from payment" }
+    accessPeriod: { ko: "결제 완료일로부터 최대 3개월", en: "up to 3 months from payment" }
   },
   "problem-bank-monthly": {
     name: { ko: "문제은행 월 구독", en: "Monthly Problem Bank" },
@@ -57,7 +57,7 @@ window.STARGATE_CATALOG = Object.freeze({
   "algorithms-ebook-set": {
     name: { ko: "알고리즘 문제집 eBook 세트", en: "Algorithms Workbook eBook Set" },
     type: "book", billing: "one_time", delivery: "digital", priceKRW: 47600,
-    accessPeriod: { ko: "결제 완료일로부터 12개월", en: "12 months from payment" }
+    accessPeriod: { ko: "결제 완료일로부터 최대 3개월", en: "up to 3 months from payment" }
   },
   "vacation-live-intensive": {
     name: { ko: "방학 집중 라이브특강 (4주)", en: "Vacation Live Intensive (4 Weeks)" },
