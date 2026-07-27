@@ -1,0 +1,49 @@
+name: Collect LH sale info
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '20 1 * * *' # 10:20 KST
+
+permissions:
+  contents: write
+
+jobs:
+  collect:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Collect LH sale notices (OpenAPI → portal fallback)
+        env:
+          DATA_GO_KR_API_KEY: ${{ secrets.DATA_GO_KR_API_KEY }}
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          WEOLBU_SUPABASE_URL: ${{ secrets.WEOLBU_SUPABASE_URL }}
+          SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
+          WEOLBU_SUPABASE_SERVICE_KEY: ${{ secrets.WEOLBU_SUPABASE_SERVICE_KEY }}
+          SUPABASE_SECRET_KEY: ${{ secrets.SUPABASE_SECRET_KEY }}
+          SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
+          LH_PAGE_SIZE: '30'
+          LH_TYPE_CODE: '05'
+        run: |
+          export SUPABASE_URL="${SUPABASE_URL:-${WEOLBU_SUPABASE_URL:-https://inftexpcnfinglwlrvsj.supabase.co}}"
+          export SUPABASE_SERVICE_KEY="${SUPABASE_SERVICE_KEY:-${WEOLBU_SUPABASE_SERVICE_KEY:-$SUPABASE_SECRET_KEY}}"
+          mkdir -p lh-sale-info/data
+          node scripts/collect-lh-sale-info.mjs
+
+      - name: Commit snapshot if changed
+        run: |
+          if git diff --quiet -- lh-sale-info/data/latest.json; then
+            echo 'No snapshot changes'
+            exit 0
+          fi
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add lh-sale-info/data/latest.json
+          git commit -m "data: refresh LH sale-info snapshot"
+          git push
