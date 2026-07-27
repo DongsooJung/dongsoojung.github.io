@@ -15,7 +15,7 @@ permissions:
   contents: write
 
 concurrency:
-  group: update-dart-top100
+  group: update-dart-top100-${{ github.ref }}-${{ inputs.business_year || '2026' }}
   cancel-in-progress: false
 
 jobs:
