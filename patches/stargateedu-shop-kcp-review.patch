@@ -1,10 +1,10 @@
 From 8d0bf4faa68e82ca34e6c7231e3db9a1207d4efa Mon Sep 17 00:00:00 2001
 From: Cursor Agent <cursoragent@cursor.com>
 Date: Mon, 27 Jul 2026 02:01:00 +0000
-Subject: [PATCH] =?UTF-8?q?feat:=20KCP=20=EA=B2=B0=EC=A0=9C=20=EC=A4=80?=
- =?UTF-8?q?=EB=B9=84=C2=B7=EC=95=BD=EA=B4=80=C2=B7=EC=82=AC=EC=97=85?=
- =?UTF-8?q?=EC=9E=90=C2=B7=EC=A0=95=EA=B8=B0=EA=B2=B0=EC=A0=9C=20=EA=B3=A0?=
- =?UTF-8?q?=EC=A7=80=20=EC=A0=95=EB=B9=84?=
+Subject: [PATCH 1/2] =?UTF-8?q?feat:=20KCP=20=EA=B2=B0=EC=A0=9C=20?=
+ =?UTF-8?q?=EC=A4=80=EB=B9=84=C2=B7=EC=95=BD=EA=B4=80=C2=B7=EC=82=AC?=
+ =?UTF-8?q?=EC=97=85=EC=9E=90=C2=B7=EC=A0=95=EA=B8=B0=EA=B2=B0=EC=A0=9C=20?=
+ =?UTF-8?q?=EA=B3=A0=EC=A7=80=20=EC=A0=95=EB=B9=84?=
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -1521,6 +1521,297 @@ index 0000000..8e46e03
 +    }
 +  ]
 +}
+-- 
+2.43.0
+
+
+From 683e046e69c4c30da02ff12368dd43d179e2f905 Mon Sep 17 00:00:00 2001
+From: Cursor Agent <cursoragent@cursor.com>
+Date: Mon, 27 Jul 2026 02:03:36 +0000
+Subject: [PATCH 2/2] =?UTF-8?q?feat:=20=EC=98=A8=EB=9D=BC=EC=9D=B8=20?=
+ =?UTF-8?q?=EA=B0=95=EC=9D=98=20=EC=88=98=EA=B0=95=20=EA=B8=B0=EA=B0=84(?=
+ =?UTF-8?q?=EA=B2=B0=EC=A0=9C=20=ED=9B=84=2012=EA=B0=9C=EC=9B=94)=20?=
+ =?UTF-8?q?=EA=B3=A0=EC=A7=80=20=EC=B6=94=EA=B0=80?=
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+상품 카드·결제 준비 화면·약관·카탈로그에 수강·이용 기간을 명시합니다.
+---
+ api/_lib/catalog.js | 12 ++++++++----
+ checkout.html       |  1 +
+ en/index.html       | 10 +++++-----
+ faq.html            |  2 ++
+ index.html          | 10 +++++-----
+ js/catalog.js       | 46 ++++++++++++++++++++++++++++++---------------
+ js/kcp-checkout.js  |  6 ++++++
+ terms.html          |  6 +++++-
+ 8 files changed, 63 insertions(+), 30 deletions(-)
+
+diff --git a/api/_lib/catalog.js b/api/_lib/catalog.js
+index 3fae844..7def8af 100644
+--- a/api/_lib/catalog.js
++++ b/api/_lib/catalog.js
+@@ -2,22 +2,26 @@ const CATALOG = Object.freeze({
+   "koi-advanced": {
+     name: "정보올림피아드 심화 (자료구조·알고리즘)",
+     priceKRW: 429000,
+-    billing: "one_time"
++    billing: "one_time",
++    accessPeriodMonths: 12
+   },
+   "algorithms-bundle": {
+     name: "알고리즘 종합 패키지 (입문+심화)",
+     priceKRW: 690600,
+-    billing: "one_time"
++    billing: "one_time",
++    accessPeriodMonths: 12
+   },
+   "kmo-number-comb": {
+     name: "KMO 대비 정수론·조합",
+     priceKRW: 384000,
+-    billing: "one_time"
++    billing: "one_time",
++    accessPeriodMonths: 12
+   },
+   "koi-cpp-beginner": {
+     name: "정보올림피아드 입문 (C++ 기초)",
+     priceKRW: 297000,
+-    billing: "one_time"
++    billing: "one_time",
++    accessPeriodMonths: 12
+   },
+   "problem-bank-monthly": {
+     name: "문제은행 월 구독",
+diff --git a/checkout.html b/checkout.html
+index b2b1844..bb475f0 100644
+--- a/checkout.html
++++ b/checkout.html
+@@ -41,6 +41,7 @@ h1{color:var(--navy);font-size:clamp(28px,5vw,40px);margin:8px 0 6px}.lead{color
+         <div class="rows">
+           <div class="row"><span id="typeLabel">상품 유형</span><strong id="productType"></strong></div>
+           <div class="row"><span id="deliveryLabel">제공 방식</span><strong id="delivery"></strong></div>
++          <div class="row"><span id="periodLabel">수강·이용 기간</span><strong id="period"></strong></div>
+           <div class="row"><span id="billingLabel">결제 주기</span><strong id="billing"></strong></div>
+           <div class="row"><span id="totalLabel">총 결제금액</span><strong class="total" id="price"></strong></div>
+         </div>
+diff --git a/en/index.html b/en/index.html
+index 268c8ba..67c400a 100644
+--- a/en/index.html
++++ b/en/index.html
+@@ -138,12 +138,12 @@
+ 
+ <section class="block alt" id="courses">
+   <div class="wrap">
+-    <div class="head"><h2>Bestselling Courses</h2><p>Our most popular programs right now</p></div>
++    <div class="head"><h2>Bestselling Courses</h2><p>Most popular programs · online course access: 12 months from payment</p></div>
+     <div class="grid">
+-      <div class="card"><div class="thumb"><span class="badge">BEST</span>Advanced Computing Olympiad</div><div class="body"><div class="lbl">Online Course · Advanced</div><h3>Advanced Computing Olympiad: Data Structures & Algorithms</h3><div class="price"><span class="dc">22%</span><span class="now">₩429,000</span><span class="was">₩550,000</span></div><div class="meta">⭐ 4.9 · 1,240 learners</div></div></div>
+-      <div class="card"><div class="thumb"><span class="badge">HOT</span>Complete Algorithms Package</div><div class="body"><div class="lbl">Online Course · Package</div><h3>Complete Algorithms Package: Beginner + Advanced</h3><div class="price"><span class="dc">27%</span><span class="now">₩690,600</span><span class="was">₩946,000</span></div><div class="meta">⭐ 4.8 · 860 learners</div></div></div>
+-      <div class="card"><div class="thumb">KMO Number Theory & Combinatorics</div><div class="body"><div class="lbl">Online Course · Competition Prep</div><h3>KMO Number Theory & Combinatorics</h3><div class="price"><span class="dc">20%</span><span class="now">₩384,000</span><span class="was">₩480,000</span></div><div class="meta">⭐ 4.9 · 540 learners</div></div></div>
+-      <div class="card"><div class="thumb">Computing Olympiad Fundamentals</div><div class="body"><div class="lbl">Online Course · Beginner</div><h3>Computing Olympiad Fundamentals: C++ Basics</h3><div class="price"><span class="dc">25%</span><span class="now">₩297,000</span><span class="was">₩396,000</span></div><div class="meta">⭐ 4.9 · 2,100 learners</div></div></div>
++      <div class="card"><div class="thumb"><span class="badge">BEST</span>Advanced Computing Olympiad</div><div class="body"><div class="lbl">Online Course · Advanced</div><h3>Advanced Computing Olympiad: Data Structures & Algorithms</h3><div class="price"><span class="dc">22%</span><span class="now">₩429,000</span><span class="was">₩550,000</span></div><div class="meta">Access 12 months · ⭐ 4.9 · 1,240 learners</div></div></div>
++      <div class="card"><div class="thumb"><span class="badge">HOT</span>Complete Algorithms Package</div><div class="body"><div class="lbl">Online Course · Package</div><h3>Complete Algorithms Package: Beginner + Advanced</h3><div class="price"><span class="dc">27%</span><span class="now">₩690,600</span><span class="was">₩946,000</span></div><div class="meta">Access 12 months · ⭐ 4.8 · 860 learners</div></div></div>
++      <div class="card"><div class="thumb">KMO Number Theory & Combinatorics</div><div class="body"><div class="lbl">Online Course · Competition Prep</div><h3>KMO Number Theory & Combinatorics</h3><div class="price"><span class="dc">20%</span><span class="now">₩384,000</span><span class="was">₩480,000</span></div><div class="meta">Access 12 months · ⭐ 4.9 · 540 learners</div></div></div>
++      <div class="card"><div class="thumb">Computing Olympiad Fundamentals</div><div class="body"><div class="lbl">Online Course · Beginner</div><h3>Computing Olympiad Fundamentals: C++ Basics</h3><div class="price"><span class="dc">25%</span><span class="now">₩297,000</span><span class="was">₩396,000</span></div><div class="meta">Access 12 months · ⭐ 4.9 · 2,100 learners</div></div></div>
+     </div>
+   </div>
+ </section>
+diff --git a/faq.html b/faq.html
+index c955c88..53724d5 100644
+--- a/faq.html
++++ b/faq.html
+@@ -416,6 +416,8 @@ const FAQ = [
+    a:"서울대학교 공학 박사 과정 수료, 대구과학고 졸업, 시·도 정보올림피아드 대상 수상, 7년 이상의 수학·KOI 지도 경력을 보유한 대표 강사가 직접 지도합니다."},
+   {cat:"수강료", q:"수강료는 어떻게 되나요?",
+    a:"학년·과목·목표·수업 빈도에 따라 다르게 책정되어 상담 후 개별 안내드립니다. 커리큘럼 제안과 함께 정확한 견적을 제공합니다."},
++  {cat:"수강료", q:"온라인 강의 수강 기간은 어떻게 되나요?",
++   a:"온라인 강의는 결제 완료일로부터 12개월간 수강할 수 있습니다. 구독 상품은 결제한 주기(월/년) 동안 이용되며, 라이브·캠프는 상품별 고지 일정을 따릅니다."},
+   {cat:"수강료", q:"결제와 환불 규정은 어떻게 되나요?",
+    a:"수업 시작 전 결제를 원칙으로 하며, 환불은 관련 법령상 학습비 반환 기준을 준용합니다. 상세 규정은 상담 시 안내드립니다."}
+ ];
+diff --git a/index.html b/index.html
+index 55021f5..dee0228 100644
+--- a/index.html
++++ b/index.html
+@@ -138,12 +138,12 @@
+ 
+ <section class="block alt" id="courses">
+   <div class="wrap">
+-    <div class="head"><h2>베스트셀러 강의</h2><p>지금 가장 많이 찾는 과정</p></div>
++    <div class="head"><h2>베스트셀러 강의</h2><p>지금 가장 많이 찾는 과정 · 온라인 강의 수강 기간 결제 완료일로부터 12개월</p></div>
+     <div class="grid">
+-      <div class="card"><div class="thumb"><span class="badge">BEST</span>정보올림피아드 심화</div><div class="body"><div class="lbl">온라인 강의 · 심화</div><h3>정보올림피아드 심화 (자료구조·알고리즘)</h3><div class="price"><span class="dc">22%</span><span class="now">429,000</span><span class="was">550,000</span></div><div class="meta">⭐ 4.9 · 수강생 1,240명</div></div></div>
+-      <div class="card"><div class="thumb"><span class="badge">HOT</span>알고리즘 종합 패키지</div><div class="body"><div class="lbl">온라인 강의 · 패키지</div><h3>알고리즘 종합 패키지 (입문+심화)</h3><div class="price"><span class="dc">27%</span><span class="now">690,600</span><span class="was">946,000</span></div><div class="meta">⭐ 4.8 · 수강생 860명</div></div></div>
+-      <div class="card"><div class="thumb">KMO 대비 정수론·조합</div><div class="body"><div class="lbl">온라인 강의 · 대회대비</div><h3>KMO 대비 정수론·조합</h3><div class="price"><span class="dc">20%</span><span class="now">384,000</span><span class="was">480,000</span></div><div class="meta">⭐ 4.9 · 수강생 540명</div></div></div>
+-      <div class="card"><div class="thumb">정보올림피아드 입문</div><div class="body"><div class="lbl">온라인 강의 · 입문</div><h3>정보올림피아드 입문 (C++ 기초)</h3><div class="price"><span class="dc">25%</span><span class="now">297,000</span><span class="was">396,000</span></div><div class="meta">⭐ 4.9 · 수강생 2,100명</div></div></div>
++      <div class="card"><div class="thumb"><span class="badge">BEST</span>정보올림피아드 심화</div><div class="body"><div class="lbl">온라인 강의 · 심화</div><h3>정보올림피아드 심화 (자료구조·알고리즘)</h3><div class="price"><span class="dc">22%</span><span class="now">429,000</span><span class="was">550,000</span></div><div class="meta">수강 기간 12개월 · ⭐ 4.9 · 수강생 1,240명</div></div></div>
++      <div class="card"><div class="thumb"><span class="badge">HOT</span>알고리즘 종합 패키지</div><div class="body"><div class="lbl">온라인 강의 · 패키지</div><h3>알고리즘 종합 패키지 (입문+심화)</h3><div class="price"><span class="dc">27%</span><span class="now">690,600</span><span class="was">946,000</span></div><div class="meta">수강 기간 12개월 · ⭐ 4.8 · 수강생 860명</div></div></div>
++      <div class="card"><div class="thumb">KMO 대비 정수론·조합</div><div class="body"><div class="lbl">온라인 강의 · 대회대비</div><h3>KMO 대비 정수론·조합</h3><div class="price"><span class="dc">20%</span><span class="now">384,000</span><span class="was">480,000</span></div><div class="meta">수강 기간 12개월 · ⭐ 4.9 · 수강생 540명</div></div></div>
++      <div class="card"><div class="thumb">정보올림피아드 입문</div><div class="body"><div class="lbl">온라인 강의 · 입문</div><h3>정보올림피아드 입문 (C++ 기초)</h3><div class="price"><span class="dc">25%</span><span class="now">297,000</span><span class="was">396,000</span></div><div class="meta">수강 기간 12개월 · ⭐ 4.9 · 수강생 2,100명</div></div></div>
+     </div>
+   </div>
+ </section>
+diff --git a/js/catalog.js b/js/catalog.js
+index f018db1..8c3687b 100644
+--- a/js/catalog.js
++++ b/js/catalog.js
+@@ -1,67 +1,83 @@
+ /**
+  * Public storefront catalog.
+  * Prices are display values only. The payment provider must be the source of truth.
++ * accessPeriod: human-readable access window shown on product/checkout (심사 필수 고지).
+  */
+ window.STARGATE_CATALOG = Object.freeze({
+   "koi-advanced": {
+     name: { ko: "정보올림피아드 심화 (자료구조·알고리즘)", en: "Advanced Computing Olympiad: Data Structures & Algorithms" },
+-    type: "course", billing: "one_time", delivery: "digital", priceKRW: 429000
++    type: "course", billing: "one_time", delivery: "digital", priceKRW: 429000,
++    accessPeriod: { ko: "결제 완료일로부터 12개월", en: "12 months from payment" }
+   },
+   "algorithms-bundle": {
+     name: { ko: "알고리즘 종합 패키지 (입문+심화)", en: "Complete Algorithms Package: Beginner + Advanced" },
+-    type: "course", billing: "one_time", delivery: "digital", priceKRW: 690600
++    type: "course", billing: "one_time", delivery: "digital", priceKRW: 690600,
++    accessPeriod: { ko: "결제 완료일로부터 12개월", en: "12 months from payment" }
+   },
+   "kmo-number-comb": {
+     name: { ko: "KMO 대비 정수론·조합", en: "KMO Number Theory & Combinatorics" },
+-    type: "course", billing: "one_time", delivery: "digital", priceKRW: 384000
++    type: "course", billing: "one_time", delivery: "digital", priceKRW: 384000,
++    accessPeriod: { ko: "결제 완료일로부터 12개월", en: "12 months from payment" }
+   },
+   "koi-cpp-beginner": {
+     name: { ko: "정보올림피아드 입문 (C++ 기초)", en: "Computing Olympiad Fundamentals: C++ Basics" },
+-    type: "course", billing: "one_time", delivery: "digital", priceKRW: 297000
++    type: "course", billing: "one_time", delivery: "digital", priceKRW: 297000,
++    accessPeriod: { ko: "결제 완료일로부터 12개월", en: "12 months from payment" }
+   },
+   "problem-bank-monthly": {
+     name: { ko: "문제은행 월 구독", en: "Monthly Problem Bank" },
+-    type: "subscription", billing: "monthly", delivery: "digital", priceKRW: 39000
++    type: "subscription", billing: "monthly", delivery: "digital", priceKRW: 39000,
++    accessPeriod: { ko: "결제 주기 1개월(갱신 시 연장)", en: "1 month per billing cycle" }
+   },
+   "problem-bank-annual": {
+     name: { ko: "문제은행 연 구독", en: "Annual Problem Bank" },
+-    type: "subscription", billing: "annual", delivery: "digital", priceKRW: 390000
++    type: "subscription", billing: "annual", delivery: "digital", priceKRW: 390000,
++    accessPeriod: { ko: "결제 주기 12개월(갱신 시 연장)", en: "12 months per billing cycle" }
+   },
+   "mock-exam-monthly": {
+     name: { ko: "월간 모의고사", en: "Monthly Mock Exams" },
+-    type: "subscription", billing: "monthly", delivery: "digital", priceKRW: 49000
++    type: "subscription", billing: "monthly", delivery: "digital", priceKRW: 49000,
++    accessPeriod: { ko: "결제 주기 1개월(갱신 시 연장)", en: "1 month per billing cycle" }
+   },
+   "koi-beginner-textbook": {
+     name: { ko: "정보올림피아드 입문 교재", en: "Computing Olympiad Fundamentals Textbook" },
+-    type: "book", billing: "one_time", delivery: "physical", priceKRW: 28800
++    type: "book", billing: "one_time", delivery: "physical", priceKRW: 28800,
++    accessPeriod: { ko: "배송·수령 완료(일회성)", en: "One-time delivery" }
+   },
+   "algorithms-workbook-1": {
+     name: { ko: "알고리즘 문제집 상권", en: "Algorithms Workbook, Volume 1" },
+-    type: "book", billing: "one_time", delivery: "physical", priceKRW: 31500
++    type: "book", billing: "one_time", delivery: "physical", priceKRW: 31500,
++    accessPeriod: { ko: "배송·수령 완료(일회성)", en: "One-time delivery" }
+   },
+   "koi-past-papers": {
+     name: { ko: "KOI 기출·해설집 (2015-2025)", en: "KOI Past Papers & Solutions (2015–2025)" },
+-    type: "book", billing: "one_time", delivery: "physical", priceKRW: 37800
++    type: "book", billing: "one_time", delivery: "physical", priceKRW: 37800,
++    accessPeriod: { ko: "배송·수령 완료(일회성)", en: "One-time delivery" }
+   },
+   "algorithms-ebook-set": {
+     name: { ko: "알고리즘 문제집 eBook 세트", en: "Algorithms Workbook eBook Set" },
+-    type: "book", billing: "one_time", delivery: "digital", priceKRW: 47600
++    type: "book", billing: "one_time", delivery: "digital", priceKRW: 47600,
++    accessPeriod: { ko: "결제 완료일로부터 12개월", en: "12 months from payment" }
+   },
+   "vacation-live-intensive": {
+     name: { ko: "방학 집중 라이브특강 (4주)", en: "Vacation Live Intensive (4 Weeks)" },
+-    type: "live", billing: "one_time", delivery: "live", priceKRW: 281600
++    type: "live", billing: "one_time", delivery: "live", priceKRW: 281600,
++    accessPeriod: { ko: "개강일부터 4주", en: "4 weeks from class start" }
+   },
+   "koi-final-camp": {
+     name: { ko: "KOI 직전 파이널 캠프", en: "KOI Final Camp" },
+-    type: "live", billing: "one_time", delivery: "in_person", priceKRW: 405000
++    type: "live", billing: "one_time", delivery: "in_person", priceKRW: 405000,
++    accessPeriod: { ko: "캠프 일정(별도 고지) 기간", en: "Camp schedule (as announced)" }
+   },
+   "strategy-consulting": {
+     name: { ko: "입시·대회 전략 컨설팅", en: "Admissions & Competition Strategy" },
+-    type: "consulting", billing: "one_time", delivery: "appointment", priceKRW: 250000
++    type: "consulting", billing: "one_time", delivery: "appointment", priceKRW: 250000,
++    accessPeriod: { ko: "예약·계약된 회차", en: "Booked session(s)" }
+   },
+   "ongoing-mentoring": {
+     name: { ko: "1:1 정기 멘토링", en: "Ongoing 1:1 Mentoring" },
+-    type: "consulting", billing: "monthly", delivery: "appointment", priceKRW: 752000
++    type: "consulting", billing: "monthly", delivery: "appointment", priceKRW: 752000,
++    accessPeriod: { ko: "월 4회 · 결제 주기 1개월", en: "4 sessions / month" }
+   }
+ });
+ 
+diff --git a/js/kcp-checkout.js b/js/kcp-checkout.js
+index cb2cfe0..6e7cfe7 100644
+--- a/js/kcp-checkout.js
++++ b/js/kcp-checkout.js
+@@ -19,6 +19,7 @@
+       summary: "선택 상품",
+       type: "상품 유형",
+       delivery: "제공 방식",
++      period: "수강·이용 기간",
+       billing: "결제 주기",
+       total: "총 결제금액",
+       pay: "KCP로 결제하기",
+@@ -54,6 +55,7 @@
+       summary: "Selected product",
+       type: "Product type",
+       delivery: "Delivery",
++      period: "Access period",
+       billing: "Billing",
+       total: "Total",
+       pay: "Pay with KCP",
+@@ -93,6 +95,7 @@
+   document.getElementById("summaryLabel").textContent = copy.summary;
+   document.getElementById("typeLabel").textContent = copy.type;
+   document.getElementById("deliveryLabel").textContent = copy.delivery;
++  document.getElementById("periodLabel").textContent = copy.period;
+   document.getElementById("billingLabel").textContent = copy.billing;
+   document.getElementById("totalLabel").textContent = copy.total;
+   document.getElementById("payButton").textContent = copy.pay;
+@@ -127,6 +130,9 @@
+   document.getElementById("productName").textContent = product.name[lang] || product.name.ko;
+   document.getElementById("productType").textContent = copy.types[product.type] || product.type;
+   document.getElementById("delivery").textContent = copy.deliveries[product.delivery] || product.delivery;
++  document.getElementById("period").textContent =
++    (product.accessPeriod && (product.accessPeriod[lang] || product.accessPeriod.ko)) ||
++    (lang === "en" ? "See product details" : "상품 상세 안내 기준");
+   document.getElementById("billing").textContent = copy.billings[product.billing] || product.billing;
+   document.getElementById("price").textContent = new Intl.NumberFormat(lang === "en" ? "en-US" : "ko-KR", {
+     style: "currency",
+diff --git a/terms.html b/terms.html
+index f46062c..b6edf19 100644
+--- a/terms.html
++++ b/terms.html
+@@ -99,9 +99,13 @@
+   <li>세부 환불 기준은 <a href="https://stargateedu.co.kr/refund/" rel="noopener">환불규정 센터</a>를 따릅니다.</li>
+ </ol>
+ 
+-<h2>제8조 (배송·제공)</h2>
++<h2>제8조 (배송·제공 및 수강 기간)</h2>
+ <ol>
+   <li>디지털 콘텐츠는 결제 확인 후 이메일 또는 서비스 내 안내에 따라 제공됩니다.</li>
++  <li><strong>온라인 강의</strong>의 수강 기간은 결제 완료일로부터 <strong>12개월</strong>입니다. 기간 만료 후에는 재생·다운로드 등 이용이 제한될 수 있습니다.</li>
++  <li>전자책·디지털 자료의 이용 기간은 결제 완료일로부터 12개월을 원칙으로 하며, 상품 페이지에 달리 표시된 경우 그 표시가 우선합니다.</li>
++  <li>구독 상품은 결제한 주기(월 1개월 / 연 12개월) 동안 이용할 수 있으며, 갱신 결제 시 동일 기간만큼 연장됩니다.</li>
++  <li>라이브 특강·캠프·컨설팅은 상품별 고지된 회차·일정 기간을 따릅니다.</li>
+   <li>실물 교재는 배송지·배송비·배송 가능 지역을 결제·주문 과정에서 안내하며, 통상 영업일 기준 2~5일 내 출고를 목표로 합니다.</li>
+ </ol>
+ 
 -- 
 2.43.0
 

@@ -19,6 +19,7 @@
       summary: "선택 상품",
       type: "상품 유형",
       delivery: "제공 방식",
+      period: "수강·이용 기간",
       billing: "결제 주기",
       total: "총 결제금액",
       pay: "KCP로 결제하기",
@@ -54,6 +55,7 @@
       summary: "Selected product",
       type: "Product type",
       delivery: "Delivery",
+      period: "Access period",
       billing: "Billing",
       total: "Total",
       pay: "Pay with KCP",
@@ -93,6 +95,7 @@
   document.getElementById("summaryLabel").textContent = copy.summary;
   document.getElementById("typeLabel").textContent = copy.type;
   document.getElementById("deliveryLabel").textContent = copy.delivery;
+  document.getElementById("periodLabel").textContent = copy.period;
   document.getElementById("billingLabel").textContent = copy.billing;
   document.getElementById("totalLabel").textContent = copy.total;
   document.getElementById("payButton").textContent = copy.pay;
@@ -127,6 +130,9 @@
   document.getElementById("productName").textContent = product.name[lang] || product.name.ko;
   document.getElementById("productType").textContent = copy.types[product.type] || product.type;
   document.getElementById("delivery").textContent = copy.deliveries[product.delivery] || product.delivery;
+  document.getElementById("period").textContent =
+    (product.accessPeriod && (product.accessPeriod[lang] || product.accessPeriod.ko)) ||
+    (lang === "en" ? "See product details" : "상품 상세 안내 기준");
   document.getElementById("billing").textContent = copy.billings[product.billing] || product.billing;
   document.getElementById("price").textContent = new Intl.NumberFormat(lang === "en" ? "en-US" : "ko-KR", {
     style: "currency",

@@ -2,22 +2,26 @@ const CATALOG = Object.freeze({
   "koi-advanced": {
     name: "정보올림피아드 심화 (자료구조·알고리즘)",
     priceKRW: 429000,
-    billing: "one_time"
+    billing: "one_time",
+    accessPeriodMonths: 12
   },
   "algorithms-bundle": {
     name: "알고리즘 종합 패키지 (입문+심화)",
     priceKRW: 690600,
-    billing: "one_time"
+    billing: "one_time",
+    accessPeriodMonths: 12
   },
   "kmo-number-comb": {
     name: "KMO 대비 정수론·조합",
     priceKRW: 384000,
-    billing: "one_time"
+    billing: "one_time",
+    accessPeriodMonths: 12
   },
   "koi-cpp-beginner": {
     name: "정보올림피아드 입문 (C++ 기초)",
     priceKRW: 297000,
-    billing: "one_time"
+    billing: "one_time",
+    accessPeriodMonths: 12
   },
   "problem-bank-monthly": {
     name: "문제은행 월 구독",
