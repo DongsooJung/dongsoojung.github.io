@@ -78,15 +78,32 @@
     .panel-head{display:flex;align-items:flex-end;gap:20px;flex-wrap:wrap;padding:23px 24px;border-bottom:1px solid var(--line)}
     .panel-head h2{margin:0;font-size:22px;letter-spacing:-.7px}
     .panel-head p{margin:4px 0 0;color:var(--muted);font-size:12.5px}
-    .tools{margin-left:auto;display:flex;gap:9px;flex-wrap:wrap}
+    .tools{margin-left:auto;display:flex;gap:9px;flex-wrap:wrap;align-items:center}
     .search{position:relative}
     .search::before{content:"⌕";position:absolute;left:13px;top:9px;color:var(--subtle);font-size:17px}
-    input,select{
+    input,select,button.action{
       height:42px;border:1px solid var(--line);border-radius:9px;background:var(--panel2);color:var(--text)
     }
     input{width:min(280px,68vw);padding:9px 12px 9px 36px}
     select{padding:9px 32px 9px 12px}
     input::placeholder{color:var(--subtle)}
+    button.action{
+      display:inline-flex;align-items:center;gap:7px;padding:0 14px;cursor:pointer;
+      font-weight:780;white-space:nowrap;transition:background .14s,border-color .14s,color .14s,opacity .14s
+    }
+    button.action:hover{border-color:rgba(85,223,154,.45);color:var(--accent)}
+    button.action:disabled{opacity:.55;cursor:wait}
+    button.action.primary{
+      border-color:rgba(85,223,154,.35);background:rgba(85,223,154,.12);color:var(--accent)
+    }
+    button.action.primary:hover{background:rgba(85,223,154,.18);border-color:rgba(85,223,154,.55)}
+    .toast{
+      position:fixed;left:50%;bottom:28px;z-index:40;transform:translate(-50%,12px);
+      padding:11px 16px;border:1px solid rgba(85,223,154,.35);border-radius:999px;
+      background:rgba(11,25,20,.94);color:var(--text);font-size:13px;font-weight:700;
+      box-shadow:0 12px 40px rgba(0,0,0,.35);opacity:0;pointer-events:none;transition:opacity .18s,transform .18s
+    }
+    .toast.on{opacity:1;transform:translate(-50%,0)}
     .table-scroll{overflow:auto}
     table{width:100%;min-width:900px;border-collapse:collapse}
     th,td{padding:14px 17px;border-bottom:1px solid rgba(28,57,45,.72);text-align:left}
@@ -138,9 +155,10 @@
       .metric strong{font-size:22px}
       .panel-head{padding:19px 16px}
       .tools{width:100%;margin-left:0}
-      .search{flex:1}
+      .search{flex:1 1 100%}
       input{width:100%}
-      select{max-width:42%}
+      select{flex:1 1 140px;max-width:none}
+      button.action{flex:1 1 calc(50% - 5px);justify-content:center}
     }
   </style>
 </head>
@@ -209,6 +227,8 @@
                 <option value="name">기업명 가나다순</option>
               </select>
             </label>
+            <button class="action" id="refreshButton" type="button" title="최신 스냅샷 다시 불러오기">새로고침</button>
+            <button class="action primary" id="csvButton" type="button" title="현재 표시 목록을 CSV로 저장">CSV 저장</button>
           </div>
         </div>
         <div class="table-scroll" id="tableWrap">
@@ -241,11 +261,21 @@
     </footer>
   </div>
 
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
   <script>
-    const state = { companies: [], source: null };
+    const state = { companies: [], source: null, loading: false };
     const $ = (id) => document.getElementById(id);
     const number = new Intl.NumberFormat('ko-KR', { maximumFractionDigits: 1 });
     const integer = new Intl.NumberFormat('ko-KR');
+
+    function showToast(message, duration = 2200) {
+      const toast = $('toast');
+      toast.textContent = message;
+      toast.classList.add('on');
+      clearTimeout(toast.timer);
+      toast.timer = setTimeout(() => toast.classList.remove('on'), duration);
+    }
 
     function median(values) {
       const sorted = values.slice().sort((a, b) => a - b);
@@ -266,20 +296,23 @@
       return cell;
     }
 
-    function renderRows() {
+    function getVisibleCompanies() {
       const query = $('query').value.trim().toLocaleLowerCase('ko-KR');
       const sort = $('sort').value;
       let rows = state.companies.filter((company) =>
         !query || `${company.name} ${company.product}`.toLocaleLowerCase('ko-KR').includes(query)
       );
 
-      rows = rows.slice().sort((a, b) => {
+      return rows.slice().sort((a, b) => {
         if (sort === 'revenue-desc') return b.revenue_krw_100m - a.revenue_krw_100m;
         if (sort === 'employees-desc') return b.employee_count - a.employee_count;
         if (sort === 'name') return a.name.localeCompare(b.name, 'ko');
         return a.rank - b.rank;
       });
+    }
 
+    function renderRows() {
+      const rows = getVisibleCompanies();
       const body = $('companyRows');
       body.replaceChildren();
       const maxRevenue = Math.max(...state.companies.map((company) => company.revenue_krw_100m), 1);
@@ -323,6 +356,7 @@
       $('tableWrap').hidden = rows.length === 0;
       $('empty').classList.toggle('on', rows.length === 0);
       $('resultLabel').textContent = `전체 ${state.companies.length}곳 중 ${rows.length}곳 표시`;
+      $('csvButton').disabled = rows.length === 0 || state.loading;
     }
 
     function renderSummary() {
@@ -348,7 +382,57 @@
       $('sourceNote').textContent = state.source.note;
     }
 
-    async function boot() {
+    function csvEscape(value) {
+      const text = String(value ?? '');
+      return /[",\n\r]/.test(text) ? `"${text.replace(/"/g, '""')}"` : text;
+    }
+
+    function downloadCsv() {
+      const rows = getVisibleCompanies();
+      if (!rows.length) {
+        showToast('저장할 기업이 없습니다.');
+        return;
+      }
+
+      const header = ['순서', '기업ID', '기업명', '서비스명', '매출액', '매출액(억원)', '고용인원', '고용인원(명)', '원문URL'];
+      const lines = [
+        header.map(csvEscape).join(','),
+        ...rows.map((company) => [
+          company.rank,
+          company.id,
+          company.name,
+          company.product || '',
+          company.revenue,
+          company.revenue_krw_100m,
+          company.employees,
+          company.employee_count,
+          company.source_url
+        ].map(csvEscape).join(','))
+      ];
+
+      const stamp = new Date().toISOString().slice(0, 10);
+      const blob = new Blob(['\uFEFF' + lines.join('\r\n')], { type: 'text/csv;charset=utf-8' });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = `innoforest-companies-${stamp}.csv`;
+      document.body.append(link);
+      link.click();
+      link.remove();
+      URL.revokeObjectURL(url);
+      showToast(`CSV ${rows.length}곳을 저장했습니다.`);
+    }
+
+    function setLoading(loading) {
+      state.loading = loading;
+      $('refreshButton').disabled = loading;
+      $('csvButton').disabled = loading || !state.companies.length;
+      $('refreshButton').textContent = loading ? '불러오는 중…' : '새로고침';
+    }
+
+    async function boot({ announce = false } = {}) {
+      if (state.loading) return;
+      setLoading(true);
       try {
         const response = await fetch('./data/latest.json', { cache: 'no-store' });
         if (!response.ok) throw new Error(`데이터 응답 오류 (${response.status})`);
@@ -361,14 +445,22 @@
         renderSummary();
         renderSource();
         renderRows();
+        if (announce) showToast('최신 데이터로 새로고침했습니다.');
       } catch (error) {
-        $('tableWrap').innerHTML = `<div class="error">데이터를 불러오지 못했습니다.<br>${String(error.message || error)}</div>`;
-        $('resultLabel').textContent = '데이터 로드 실패';
+        if (!state.companies.length) {
+          $('tableWrap').innerHTML = `<div class="error">데이터를 불러오지 못했습니다.<br>${String(error.message || error)}</div>`;
+          $('resultLabel').textContent = '데이터 로드 실패';
+        }
+        showToast(`새로고침 실패: ${String(error.message || error)}`, 3200);
+      } finally {
+        setLoading(false);
       }
     }
 
     $('query').addEventListener('input', renderRows);
     $('sort').addEventListener('change', renderRows);
+    $('refreshButton').addEventListener('click', () => boot({ announce: true }));
+    $('csvButton').addEventListener('click', downloadCsv);
     boot();
   </script>
 </body>
