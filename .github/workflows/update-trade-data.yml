@@ -71,7 +71,7 @@ jobs:
           if [ -z "$CUSTOMS_PROXY_BASE" ] && [ -n "$ONE_OFF_PROXY_BASE" ]; then
             export CUSTOMS_PROXY_BASE="$ONE_OFF_PROXY_BASE"
           fi
-          echo "key_present=$([ -n \"$CUSTOMS_API_KEY\" ] && echo yes || echo no) start=$START_YM"
+          if [ -n "$CUSTOMS_API_KEY" ]; then echo "key_present=yes start=$START_YM"; else echo "key_present=no start=$START_YM"; fi
           python3 trade/fetch_data.py
 
       - name: Commit updated data
