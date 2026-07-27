@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,follow">
+<title>KCP 결제 준비 · Stargate Edu</title>
+<style>
+:root{--navy:#0B2A4A;--navy2:#123A63;--gold:#C9A227;--ink:#1A2233;--gray:#667085;--line:#E4E7EC;--bg:#F7F9FC;--white:#fff;--ok:#16794d;--danger:#9c2f2b}
+*{box-sizing:border-box}body{margin:0;font-family:Inter,'Pretendard','Noto Sans KR',system-ui,sans-serif;color:var(--ink);background:var(--bg);line-height:1.6}
+a{color:var(--navy)}.top{background:#fff;border-bottom:1px solid var(--line)}.topin{max-width:980px;margin:auto;padding:18px 22px;display:flex;justify-content:space-between;align-items:center}
+.logo{font-size:20px;font-weight:900;color:var(--navy);text-decoration:none}.logo b{color:var(--gold)}.back{font-size:14px;color:var(--navy);font-weight:700;text-decoration:none}
+main{max-width:980px;margin:40px auto;padding:0 20px}.eyebrow{color:var(--gold);font-weight:800;font-size:12px;letter-spacing:.8px}
+h1{color:var(--navy);font-size:clamp(28px,5vw,40px);margin:8px 0 6px}.lead{color:var(--gray);margin:0 0 24px}
+.checkout{display:grid;grid-template-columns:1.15fr .85fr;gap:22px}.panel{background:#fff;border:1px solid var(--line);border-radius:16px;padding:24px;box-shadow:0 12px 32px rgba(11,42,74,.06)}
+.label{font-size:12px;font-weight:800;color:var(--gold);text-transform:uppercase;letter-spacing:.7px}.product{font-size:22px;color:var(--navy);line-height:1.35;margin:8px 0 18px}
+.rows{border-top:1px solid var(--line)}.row{display:flex;justify-content:space-between;gap:18px;padding:12px 0;border-bottom:1px solid var(--line);font-size:14px}.row span:first-child{color:var(--gray)}
+.total{font-size:24px;font-weight:900;color:var(--navy)}.secure{display:flex;gap:10px;align-items:flex-start;background:#eef8f3;border:1px solid #cfe8dc;color:var(--ok);padding:13px;border-radius:10px;font-size:13px;margin-bottom:16px}
+.consents{display:grid;gap:10px;margin:0 0 16px}.consent{display:flex;gap:10px;align-items:flex-start;font-size:13px;color:#344054}.consent input{margin-top:3px}
+.subnote{display:none;background:#fff8e6;border:1px solid #f0d48a;color:#765b00;padding:12px;border-radius:10px;font-size:12.5px;margin-bottom:14px}.subnote.show{display:block}
+.pay{display:block;width:100%;border:0;border-radius:10px;background:var(--navy);color:#fff;padding:15px;text-align:center;font-size:15px;font-weight:900;cursor:pointer}.pay:disabled{background:#D0D5DD;color:#667085;cursor:not-allowed}
+.support{display:block;text-align:center;margin-top:12px;color:var(--navy);font-size:13px;font-weight:700;text-decoration:none}
+.note{font-size:12px;color:var(--gray);margin-top:14px}.status{display:none;margin-top:14px;padding:12px;border-radius:9px;font-size:13px}.status.show{display:block}.status.wait{background:#fff8e6;color:#765b00}.status.error{background:#fff;border:1px solid #f2b8b5;color:var(--danger)}.status.info{background:#eef4ff;color:#1d4f91}
+.biz{margin-top:18px;padding-top:14px;border-top:1px solid var(--line);font-size:12px;color:#667085;line-height:1.7}
+.page-error{display:none;background:#fff;border:1px solid #f2b8b5;color:var(--danger);border-radius:12px;padding:22px}
+@media(max-width:760px){main{margin-top:28px}.checkout{grid-template-columns:1fr}.panel{padding:18px}}
+</style>
+</head>
+<body>
+<header class="top"><div class="topin"><a class="logo" id="homeLink" href="./">STARGATE<b>EDU</b></a><a class="back" id="backLink" href="./">← 쇼핑 계속하기</a></div></header>
+<main>
+  <div id="pageError" class="page-error"></div>
+  <div id="checkoutView">
+    <div class="eyebrow">NHN KCP SECURE CHECKOUT</div>
+    <h1 id="title">결제 준비</h1>
+    <p class="lead" id="lead">상품·금액·약관 동의를 확인한 뒤 NHN KCP 결제창으로 이동합니다.</p>
+    <div class="checkout">
+      <section class="panel" aria-labelledby="productName">
+        <div class="label" id="summaryLabel">선택 상품</div>
+        <h2 class="product" id="productName"></h2>
+        <div class="rows">
+          <div class="row"><span id="typeLabel">상품 유형</span><strong id="productType"></strong></div>
+          <div class="row"><span id="deliveryLabel">제공 방식</span><strong id="delivery"></strong></div>
+          <div class="row"><span id="billingLabel">결제 주기</span><strong id="billing"></strong></div>
+          <div class="row"><span id="totalLabel">총 결제금액</span><strong class="total" id="price"></strong></div>
+        </div>
+        <div class="biz" id="bizInfo"></div>
+      </section>
+      <aside class="panel">
+        <div class="secure"><span>🔒</span><span id="secureText">카드 정보는 NHN KCP가 직접 처리하며 이 사이트에는 저장되지 않습니다.</span></div>
+        <div class="subnote" id="subscriptionNote"></div>
+        <div class="consents">
+          <label class="consent"><input type="checkbox" id="agreeTerms"><span id="agreeTermsText">이용약관에 동의합니다.</span></label>
+          <label class="consent"><input type="checkbox" id="agreePrivacy"><span id="agreePrivacyText">개인정보처리방침에 동의합니다.</span></label>
+          <label class="consent"><input type="checkbox" id="agreeRefund"><span id="agreeRefundText">환불규정에 동의합니다.</span></label>
+          <label class="consent" id="agreeSubWrap" hidden><input type="checkbox" id="agreeSubscription"><span id="agreeSubscriptionText">정기결제(자동결제) 고지에 동의합니다.</span></label>
+        </div>
+        <button class="pay" id="payButton" type="button" disabled>KCP로 결제하기</button>
+        <div class="status" id="status" role="status" aria-live="polite"></div>
+        <a class="support" id="supportLink" href="mailto:ceo@stargateedu.co.kr">결제·주문 문의</a>
+        <p class="note" id="note">결제 전 반드시 약관·개인정보·환불규정을 확인해 주세요. 실물 교재는 배송비·배송 가능 지역을 별도로 안내합니다.</p>
+      </aside>
+    </div>
+  </div>
+</main>
+<form id="kcpForm" method="post" accept-charset="UTF-8" style="display:none"></form>
+<script src="./js/catalog.js"></script>
+<script src="./js/business-info.js"></script>
+<script src="./js/payment-config.js"></script>
+<script src="./js/kcp-checkout.js"></script>
+</body>
+</html>

@@ -1,0 +1,1526 @@
+From 8d0bf4faa68e82ca34e6c7231e3db9a1207d4efa Mon Sep 17 00:00:00 2001
+From: Cursor Agent <cursoragent@cursor.com>
+Date: Mon, 27 Jul 2026 02:01:00 +0000
+Subject: [PATCH] =?UTF-8?q?feat:=20KCP=20=EA=B2=B0=EC=A0=9C=20=EC=A4=80?=
+ =?UTF-8?q?=EB=B9=84=C2=B7=EC=95=BD=EA=B4=80=C2=B7=EC=82=AC=EC=97=85?=
+ =?UTF-8?q?=EC=9E=90=C2=B7=EC=A0=95=EA=B8=B0=EA=B2=B0=EC=A0=9C=20=EA=B3=A0?=
+ =?UTF-8?q?=EC=A7=80=20=EC=A0=95=EB=B9=84?=
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+심사에 필요한 사업자 공개정보와 약관·개인정보·정기결제 고지를 맞추고,
+NHN KCP Lite Pay 거래등록·승인 API 연동 지점을 자격증명 없이 안전하게 준비합니다.
+---
+ .env.example         |   7 ++
+ README.md            |  59 +++++++++---
+ api/_lib/catalog.js  |  87 ++++++++++++++++++
+ api/_lib/kcp.js      | 154 +++++++++++++++++++++++++++++++
+ api/kcp/approve.js   |  73 +++++++++++++++
+ api/kcp/ready.js     | 106 +++++++++++++++++++++
+ api/kcp/return.js    | 124 +++++++++++++++++++++++++
+ checkout.html        | 123 +++++++------------------
+ en/index.html        |   5 +-
+ faq.html             |   3 +-
+ index.html           |   7 +-
+ js/business-info.js  |  17 ++++
+ js/kcp-checkout.js   | 214 +++++++++++++++++++++++++++++++++++++++++++
+ js/payment-config.js |  27 +-----
+ privacy.html         |  42 +++++----
+ success.html         |  27 +++++-
+ terms.html           |  60 ++++++++----
+ vercel.json          |  18 ++++
+ 18 files changed, 984 insertions(+), 169 deletions(-)
+ create mode 100644 .env.example
+ create mode 100644 api/_lib/catalog.js
+ create mode 100644 api/_lib/kcp.js
+ create mode 100644 api/kcp/approve.js
+ create mode 100644 api/kcp/ready.js
+ create mode 100644 api/kcp/return.js
+ create mode 100644 js/business-info.js
+ create mode 100644 js/kcp-checkout.js
+ create mode 100644 vercel.json
+
+diff --git a/.env.example b/.env.example
+new file mode 100644
+index 0000000..b1e2448
+--- /dev/null
++++ b/.env.example
+@@ -0,0 +1,7 @@
++# Never commit real values. Configure these in Vercel Project Settings > Environment Variables.
++KCP_SITE_CD=T0000
++KCP_CERT_INFO="-----BEGIN CERTIFICATE-----\n...\n-----END CERTIFICATE-----"
++KCP_PRIVATE_KEY="-----BEGIN PRIVATE KEY-----\n...\n-----END PRIVATE KEY-----"
++KCP_ENV=test
++CHECKOUT_SIGNING_SECRET=replace_with_at_least_32_random_bytes
++SITE_ORIGIN=https://shop.stargateedu.co.kr
+diff --git a/README.md b/README.md
+index dae3a3c..8b7aaff 100644
+--- a/README.md
++++ b/README.md
+@@ -1,15 +1,48 @@
+ # Stargate Edu Shop
+ 
+-정보·수학 올림피아드(KOI·KMO) 전문 온라인 스쿨 랜딩페이지.
+-
+-- 배포: GitHub Pages
+-- 커스텀 도메인: **shop.stargateedu.co.kr**
+-- 브랜드 컬러: 딥네이비 `#0B2A4A` / 골드 `#C9A227`
+-
+-## 구조
+-- `index.html` — 한국어 메인 랜딩(히어로·베스트셀러·구독·교재·라이브·컨설팅)
+-- `en/index.html` — 전체 영문 랜딩 및 글로벌 상품 안내
+-- 한국어/영어 페이지 상단의 `KO`·`EN` 버튼으로 언어 전환
+-- 각 언어 페이지에 canonical·hreflang 다국어 SEO 적용
+-- `CNAME` — 커스텀 도메인 설정
+-- `404.html` — 오류 페이지
++정적 스토어프론트 + NHN KCP(Lite Pay) 결제 연동 준비 저장소입니다.
++
++- Live domain: `https://shop.stargateedu.co.kr`
++- Portal refund center: `https://stargateedu.co.kr/refund/`
++
++## 심사·운영에 필요한 공개 정보
++
++푸터/결제 준비 화면에 아래 정보가 노출됩니다.
++
++- 상호: 주식회사 별의문
++- 대표: 정동수
++- 사업자등록번호: 848-86-03835
++- 통신판매업신고: 2025-서울강남-05246호
++- 주소: 서울특별시 강남구 삼성로63길 8-15, 204호 (대치동)
++- 전화: 070-8018-8227
++- 개인정보보호책임자: 정동수
++- 이메일: ceo@stargateedu.co.kr
++
++## 결제 흐름 (NHN KCP Lite Pay)
++
++1. `/checkout.html?product=...` — 약관·개인정보·환불(구독 시 정기결제) 동의 후 준비
++2. `POST /api/kcp/ready` — 서버 카탈로그 금액 검증 + KCP 거래등록
++3. KCP 결제창 인증
++4. `POST /api/kcp/return` — 인증 데이터 수신 브리지
++5. `POST /api/kcp/approve` — 서버에서 승인(금액·주문번호 재검증)
++
++자격증명이 없으면 ready API는 `503 KCP_CREDENTIALS_MISSING`을 반환하며, 실결제 없이 심사 UI·약관 고지는 확인 가능합니다.
++
++## Vercel 환경변수
++
++`.env.example` 참고:
++
++- `KCP_SITE_CD`
++- `KCP_CERT_INFO` (PEM, `\n` 허용)
++- `KCP_PRIVATE_KEY` (PEM, 서명용)
++- `KCP_ENV` = `test` | `live`
++- `CHECKOUT_SIGNING_SECRET`
++- `SITE_ORIGIN=https://shop.stargateedu.co.kr`
++
++정적 GitHub Pages만으로는 `/api/*`가 동작하지 않으므로, 결제 API는 Vercel에 연결해야 합니다.
++
++## 남은 외부 의존성
++
++- NHN KCP 계약·사이트코드·서비스 인증서·개인키 발급
++- 정기결제(배치키) 별도 계약이 필요한 자동결제 연장
++- DNS를 Vercel로 연결하거나 Pages + API 도메인을 분리 운영
+diff --git a/api/_lib/catalog.js b/api/_lib/catalog.js
+new file mode 100644
+index 0000000..3fae844
+--- /dev/null
++++ b/api/_lib/catalog.js
+@@ -0,0 +1,87 @@
++const CATALOG = Object.freeze({
++  "koi-advanced": {
++    name: "정보올림피아드 심화 (자료구조·알고리즘)",
++    priceKRW: 429000,
++    billing: "one_time"
++  },
++  "algorithms-bundle": {
++    name: "알고리즘 종합 패키지 (입문+심화)",
++    priceKRW: 690600,
++    billing: "one_time"
++  },
++  "kmo-number-comb": {
++    name: "KMO 대비 정수론·조합",
++    priceKRW: 384000,
++    billing: "one_time"
++  },
++  "koi-cpp-beginner": {
++    name: "정보올림피아드 입문 (C++ 기초)",
++    priceKRW: 297000,
++    billing: "one_time"
++  },
++  "problem-bank-monthly": {
++    name: "문제은행 월 구독",
++    priceKRW: 39000,
++    billing: "monthly"
++  },
++  "problem-bank-annual": {
++    name: "문제은행 연 구독",
++    priceKRW: 390000,
++    billing: "annual"
++  },
++  "mock-exam-monthly": {
++    name: "월간 모의고사",
++    priceKRW: 49000,
++    billing: "monthly"
++  },
++  "koi-beginner-textbook": {
++    name: "정보올림피아드 입문 교재",
++    priceKRW: 28800,
++    billing: "one_time"
++  },
++  "algorithms-workbook-1": {
++    name: "알고리즘 문제집 상권",
++    priceKRW: 31500,
++    billing: "one_time"
++  },
++  "koi-past-papers": {
++    name: "KOI 기출·해설집 (2015-2025)",
++    priceKRW: 37800,
++    billing: "one_time"
++  },
++  "algorithms-ebook-set": {
++    name: "알고리즘 문제집 eBook 세트",
++    priceKRW: 47600,
++    billing: "one_time"
++  },
++  "vacation-live-intensive": {
++    name: "방학 집중 라이브특강 (4주)",
++    priceKRW: 281600,
++    billing: "one_time"
++  },
++  "koi-final-camp": {
++    name: "KOI 직전 파이널 캠프",
++    priceKRW: 405000,
++    billing: "one_time"
++  },
++  "strategy-consulting": {
++    name: "입시·대회 전략 컨설팅",
++    priceKRW: 250000,
++    billing: "one_time"
++  },
++  "ongoing-mentoring": {
++    name: "1:1 정기 멘토링",
++    priceKRW: 752000,
++    billing: "monthly"
++  }
++});
++
++function getProduct(productId) {
++  return CATALOG[productId] || null;
++}
++
++function isSubscription(billing) {
++  return billing === "monthly" || billing === "annual";
++}
++
++module.exports = { CATALOG, getProduct, isSubscription };
+diff --git a/api/_lib/kcp.js b/api/_lib/kcp.js
+new file mode 100644
+index 0000000..db3358b
+--- /dev/null
++++ b/api/_lib/kcp.js
+@@ -0,0 +1,154 @@
++const crypto = require("node:crypto");
++const { getProduct, isSubscription } = require("./catalog");
++
++const ENDPOINTS = Object.freeze({
++  test: {
++    register: "https://stg-spl.kcp.co.kr/std/brpay/treg",
++    payment: "https://stg-spl.kcp.co.kr/gw/enc/v1/payment"
++  },
++  live: {
++    register: "https://spl.kcp.co.kr/std/brpay/treg",
++    payment: "https://spl.kcp.co.kr/gw/enc/v1/payment"
++  }
++});
++
++function requiredEnv(name) {
++  const value = process.env[name];
++  if (!value) throw new Error(`Missing required environment variable: ${name}`);
++  return value;
++}
++
++function hasKcpCredentials() {
++  return Boolean(
++    process.env.KCP_SITE_CD &&
++      process.env.KCP_CERT_INFO &&
++      process.env.KCP_PRIVATE_KEY &&
++      process.env.CHECKOUT_SIGNING_SECRET
++  );
++}
++
++function getKcpEnv() {
++  return process.env.KCP_ENV === "live" ? "live" : "test";
++}
++
++function normalizePem(value) {
++  return String(value || "")
++    .replace(/\\n/g, "\n")
++    .replace(/\r/g, "")
++    .trim();
++}
++
++function base64url(value) {
++  return Buffer.from(value).toString("base64url");
++}
++
++function signCheckout(payload) {
++  const body = base64url(JSON.stringify(payload));
++  const signature = crypto
++    .createHmac("sha256", requiredEnv("CHECKOUT_SIGNING_SECRET"))
++    .update(body)
++    .digest("base64url");
++  return `${body}.${signature}`;
++}
++
++function verifyCheckout(token) {
++  if (typeof token !== "string" || !token.includes(".")) {
++    throw new Error("Invalid checkout token");
++  }
++  const [body, signature] = token.split(".");
++  const expected = crypto
++    .createHmac("sha256", requiredEnv("CHECKOUT_SIGNING_SECRET"))
++    .update(body)
++    .digest("base64url");
++  const a = Buffer.from(signature);
++  const b = Buffer.from(expected);
++  if (a.length !== b.length || !crypto.timingSafeEqual(a, b)) {
++    throw new Error("Invalid checkout signature");
++  }
++  const payload = JSON.parse(Buffer.from(body, "base64url").toString("utf8"));
++  if (!payload.exp || Date.now() > payload.exp) {
++    throw new Error("Checkout session expired");
++  }
++  return payload;
++}
++
++function createOrderId(productId) {
++  const suffix = crypto.randomBytes(6).toString("hex");
++  return `SG${Date.now().toString(36)}${productId.replace(/[^a-z0-9]/gi, "").slice(0, 12)}${suffix}`.slice(
++    0,
++    50
++  );
++}
++
++function getSiteOrigin(req) {
++  const configured = process.env.SITE_ORIGIN;
++  if (configured) return configured.replace(/\/$/, "");
++  const proto = req.headers["x-forwarded-proto"] || "https";
++  const host = req.headers["x-forwarded-host"] || req.headers.host;
++  if (!host) throw new Error("Unable to determine site origin");
++  return `${proto}://${host}`;
++}
++
++function createKcpSignData({ siteCd, goodMny, payMethod, regType, orderId }) {
++  const plain = `${siteCd}^${goodMny}^${payMethod}^${regType}^${orderId}`;
++  const signer = crypto.createSign("RSA-SHA256");
++  signer.update(plain);
++  signer.end();
++  return signer.sign(normalizePem(requiredEnv("KCP_PRIVATE_KEY")), "base64");
++}
++
++async function kcpRequest(kind, payload) {
++  const endpoints = ENDPOINTS[getKcpEnv()];
++  const response = await fetch(endpoints[kind], {
++    method: "POST",
++    headers: { "Content-Type": "application/json; charset=UTF-8" },
++    body: JSON.stringify(payload),
++    signal: AbortSignal.timeout(15000)
++  });
++  const data = await response.json().catch(() => ({}));
++  if (!response.ok || (data.res_cd && data.res_cd !== "0000")) {
++    const error = new Error(data.res_msg || data.error || "KCP request failed");
++    error.statusCode = response.status || 502;
++    error.providerCode = data.res_cd || data.error_code;
++    throw error;
++  }
++  return data;
++}
++
++function sendJson(res, status, data) {
++  res.statusCode = status;
++  res.setHeader("Content-Type", "application/json; charset=utf-8");
++  res.setHeader("Cache-Control", "no-store");
++  res.end(JSON.stringify(data));
++}
++
++function parseJsonBody(req) {
++  if (req.body && typeof req.body === "object") return req.body;
++  if (typeof req.body === "string") return JSON.parse(req.body || "{}");
++  return {};
++}
++
++function parseFormBody(raw) {
++  const params = new URLSearchParams(String(raw || ""));
++  const out = {};
++  for (const [key, value] of params.entries()) out[key] = value;
++  return out;
++}
++
++module.exports = {
++  createKcpSignData,
++  createOrderId,
++  getKcpEnv,
++  getProduct,
++  getSiteOrigin,
++  hasKcpCredentials,
++  isSubscription,
++  kcpRequest,
++  normalizePem,
++  parseFormBody,
++  parseJsonBody,
++  requiredEnv,
++  sendJson,
++  signCheckout,
++  verifyCheckout
++};
+diff --git a/api/kcp/approve.js b/api/kcp/approve.js
+new file mode 100644
+index 0000000..d3cce94
+--- /dev/null
++++ b/api/kcp/approve.js
+@@ -0,0 +1,73 @@
++const {
++  getProduct,
++  kcpRequest,
++  normalizePem,
++  parseJsonBody,
++  requiredEnv,
++  sendJson,
++  verifyCheckout
++} = require("../_lib/kcp");
++
++module.exports = async function handler(req, res) {
++  if (req.method !== "POST") {
++    res.setHeader("Allow", "POST");
++    return sendJson(res, 405, { error: "Method not allowed" });
++  }
++
++  try {
++    const body = parseJsonBody(req);
++    const checkout = verifyCheckout(body.checkoutToken);
++    const product = getProduct(checkout.productId);
++    const encData = typeof body.enc_data === "string" ? body.enc_data : "";
++    const encInfo = typeof body.enc_info === "string" ? body.enc_info : "";
++    const tranCd = typeof body.tran_cd === "string" ? body.tran_cd : "";
++
++    if (!product || !encData || !encInfo || !tranCd) {
++      return sendJson(res, 400, { error: "Invalid payment approval request" });
++    }
++    if (product.priceKRW !== checkout.amount) {
++      return sendJson(res, 409, { error: "Payment amount mismatch" });
++    }
++
++    const approved = await kcpRequest("payment", {
++      site_cd: requiredEnv("KCP_SITE_CD"),
++      kcp_cert_info: normalizePem(requiredEnv("KCP_CERT_INFO")),
++      enc_data: encData,
++      enc_info: encInfo,
++      tran_cd: tranCd,
++      ordr_idxx: checkout.orderId,
++      ordr_mony: String(checkout.amount),
++      pay_type: "PACA",
++      ordr_no: checkout.orderId
++    });
++
++    if (String(approved.amount || "") !== String(checkout.amount)) {
++      console.error("KCP amount mismatch", {
++        orderId: checkout.orderId,
++        expected: checkout.amount,
++        actual: approved.amount
++      });
++      return sendJson(res, 409, { error: "Payment amount mismatch" });
++    }
++
++    return sendJson(res, 200, {
++      success: true,
++      orderId: checkout.orderId,
++      tno: approved.tno,
++      amount: approved.amount,
++      cardName: approved.card_name || null,
++      approvedAt: approved.app_time || null,
++      subscription: Boolean(checkout.subscription)
++    });
++  } catch (error) {
++    console.error("KCP approve failed", {
++      message: error.message,
++      statusCode: error.statusCode,
++      providerCode: error.providerCode
++    });
++    return sendJson(res, error.statusCode || 500, {
++      error: "결제 승인에 실패했습니다.",
++      code: error.providerCode || "PAYMENT_APPROVE_FAILED"
++    });
++  }
++};
+diff --git a/api/kcp/ready.js b/api/kcp/ready.js
+new file mode 100644
+index 0000000..b3182bc
+--- /dev/null
++++ b/api/kcp/ready.js
+@@ -0,0 +1,106 @@
++const {
++  createKcpSignData,
++  createOrderId,
++  getProduct,
++  getSiteOrigin,
++  hasKcpCredentials,
++  isSubscription,
++  kcpRequest,
++  normalizePem,
++  parseJsonBody,
++  requiredEnv,
++  sendJson,
++  signCheckout
++} = require("../_lib/kcp");
++
++module.exports = async function handler(req, res) {
++  if (req.method !== "POST") {
++    res.setHeader("Allow", "POST");
++    return sendJson(res, 405, { error: "Method not allowed" });
++  }
++
++  try {
++    if (!hasKcpCredentials()) {
++      return sendJson(res, 503, {
++        error:
++          "KCP 운영/테스트 자격증명이 아직 등록되지 않았습니다. Vercel 환경변수(KCP_SITE_CD, KCP_CERT_INFO, KCP_PRIVATE_KEY, CHECKOUT_SIGNING_SECRET)를 설정한 뒤 다시 시도해 주세요.",
++        code: "KCP_CREDENTIALS_MISSING",
++        configured: false
++      });
++    }
++
++    const body = parseJsonBody(req);
++    const productId = typeof body.productId === "string" ? body.productId : "";
++    const lang = body.lang === "en" ? "en" : "ko";
++    const product = getProduct(productId);
++    if (!product) return sendJson(res, 400, { error: "Unknown product" });
++
++    const siteCd = requiredEnv("KCP_SITE_CD");
++    const orderId = createOrderId(productId);
++    const payMethod = "CARD";
++    const ua = String(req.headers["user-agent"] || "");
++    const regType = /Android|iPhone|iPad|iPod|Mobile/i.test(ua) ? "mobile" : "web";
++    const goodMny = String(product.priceKRW);
++    const origin = getSiteOrigin(req);
++
++    const checkoutToken = signCheckout({
++      orderId,
++      productId,
++      amount: product.priceKRW,
++      payMethod,
++      regType,
++      subscription: isSubscription(product.billing),
++      lang,
++      exp: Date.now() + 15 * 60 * 1000
++    });
++
++    const retUrl = `${origin}/api/kcp/return?checkoutToken=${encodeURIComponent(checkoutToken)}`;
++    const failUrl = `${origin}/checkout.html?product=${encodeURIComponent(productId)}&lang=${lang}&payment=fail`;
++
++    const registerPayload = {
++      site_cd: siteCd,
++      kcp_cert_info: normalizePem(requiredEnv("KCP_CERT_INFO")),
++      kcp_sign_data: createKcpSignData({
++        siteCd,
++        goodMny,
++        payMethod,
++        regType,
++        orderId
++      }),
++      ordr_idxx: orderId,
++      pay_method: payMethod,
++      good_mny: goodMny,
++      good_name: product.name.slice(0, 100),
++      reg_type: regType,
++      ret_URL: retUrl,
++      fail_url: failUrl
++    };
++
++    const registered = await kcpRequest("register", registerPayload);
++    const payUrl = registered.pay_url || registered.PayUrl;
++    if (!payUrl) {
++      return sendJson(res, 502, {
++        error: "KCP 거래등록 응답에 결제창 URL이 없습니다.",
++        code: "KCP_PAY_URL_MISSING"
++      });
++    }
++
++    return sendJson(res, 200, {
++      configured: true,
++      payUrl,
++      orderId,
++      checkoutToken,
++      form: { ordr_idxx: orderId, param_opt_1: checkoutToken }
++    });
++  } catch (error) {
++    console.error("KCP ready failed", {
++      message: error.message,
++      statusCode: error.statusCode,
++      providerCode: error.providerCode
++    });
++    return sendJson(res, error.statusCode || 500, {
++      error: "결제 준비에 실패했습니다.",
++      code: error.providerCode || "PAYMENT_READY_FAILED"
++    });
++  }
++};
+diff --git a/api/kcp/return.js b/api/kcp/return.js
+new file mode 100644
+index 0000000..7e39db8
+--- /dev/null
++++ b/api/kcp/return.js
+@@ -0,0 +1,124 @@
++const { getProduct, parseFormBody, sendJson, verifyCheckout } = require("../_lib/kcp");
++
++function readRawBody(req) {
++  return new Promise((resolve, reject) => {
++    if (typeof req.body === "string") return resolve(req.body);
++    if (req.body && typeof req.body === "object") {
++      return resolve(new URLSearchParams(req.body).toString());
++    }
++    const chunks = [];
++    req.on("data", (chunk) => chunks.push(chunk));
++    req.on("end", () => resolve(Buffer.concat(chunks).toString("utf8")));
++    req.on("error", reject);
++  });
++}
++
++function escapeHtml(value) {
++  return String(value || "")
++    .replace(/&/g, "&amp;")
++    .replace(/</g, "&lt;")
++    .replace(/>/g, "&gt;")
++    .replace(/"/g, "&quot;");
++}
++
++module.exports = async function handler(req, res) {
++  if (req.method !== "POST" && req.method !== "GET") {
++    res.setHeader("Allow", "GET, POST");
++    return sendJson(res, 405, { error: "Method not allowed" });
++  }
++
++  try {
++    const raw = req.method === "POST" ? await readRawBody(req) : "";
++    const form = req.method === "POST" ? parseFormBody(raw) : Object.fromEntries(new URL(req.url, "http://localhost").searchParams);
++    const checkoutToken = form.param_opt_1 || form.checkoutToken || "";
++    const checkout = checkoutToken ? verifyCheckout(checkoutToken) : null;
++    const product = checkout ? getProduct(checkout.productId) : null;
++    const lang = (checkout && checkout.lang) || "ko";
++    const productId = (checkout && checkout.productId) || "";
++
++    const encData = form.enc_data || "";
++    const encInfo = form.enc_info || "";
++    const tranCd = form.tran_cd || "";
++    const resCd = form.res_cd || "";
++
++    if (resCd && resCd !== "0000") {
++      res.statusCode = 302;
++      res.setHeader(
++        "Location",
++        `/checkout.html?product=${encodeURIComponent(productId)}&lang=${lang}&payment=fail`
++      );
++      return res.end();
++    }
++
++    if (!checkout || !product || !encData || !encInfo || !tranCd) {
++      res.statusCode = 302;
++      res.setHeader("Location", `/checkout.html?lang=${lang}&payment=fail`);
++      return res.end();
++    }
++
++    // Bridge page: browser holds checkoutToken in sessionStorage, then posts approve.
++    const html = `<!DOCTYPE html>
++<html lang="${escapeHtml(lang)}">
++<head>
++<meta charset="UTF-8">
++<meta name="viewport" content="width=device-width,initial-scale=1">
++<title>결제 승인 처리 · Stargate Edu</title>
++<style>
++body{font-family:Inter,'Noto Sans KR',sans-serif;background:#F7F9FC;color:#1A2233;display:grid;place-items:center;min-height:100vh;margin:0}
++.card{background:#fff;border:1px solid #E4E7EC;border-radius:16px;padding:28px;max-width:420px;box-shadow:0 12px 32px rgba(11,42,74,.06)}
++h1{font-size:20px;margin:0 0 8px;color:#0B2A4A}p{color:#667085;font-size:14px;line-height:1.6}
++</style>
++</head>
++<body>
++<div class="card">
++  <h1>결제를 승인하고 있습니다</h1>
++  <p>잠시만 기다려 주세요. 창을 닫지 마세요.</p>
++</div>
++<script>
++(async function () {
++  var tokenKey = "stargate:kcp:" + ${JSON.stringify(productId)};
++  var checkoutToken = sessionStorage.getItem(tokenKey) || ${JSON.stringify(checkoutToken)};
++  try {
++    var response = await fetch("/api/kcp/approve", {
++      method: "POST",
++      headers: { "Content-Type": "application/json" },
++      body: JSON.stringify({
++        checkoutToken: checkoutToken,
++        enc_data: ${JSON.stringify(encData)},
++        enc_info: ${JSON.stringify(encInfo)},
++        tran_cd: ${JSON.stringify(tranCd)}
++      })
++    });
++    var data = await response.json().catch(function () { return {}; });
++    if (!response.ok || !data.success) {
++      location.replace("/checkout.html?product=" + encodeURIComponent(${JSON.stringify(productId)}) + "&lang=" + encodeURIComponent(${JSON.stringify(lang)}) + "&payment=fail");
++      return;
++    }
++    sessionStorage.removeItem(tokenKey);
++    var q = new URLSearchParams({
++      order: data.orderId || "",
++      tno: data.tno || "",
++      amount: String(data.amount || ""),
++      product: ${JSON.stringify(productId)},
++      lang: ${JSON.stringify(lang)}
++    });
++    location.replace("/success.html?" + q.toString());
++  } catch (error) {
++    location.replace("/checkout.html?product=" + encodeURIComponent(${JSON.stringify(productId)}) + "&lang=" + encodeURIComponent(${JSON.stringify(lang)}) + "&payment=fail");
++  }
++})();
++</script>
++</body>
++</html>`;
++
++    res.statusCode = 200;
++    res.setHeader("Content-Type", "text/html; charset=utf-8");
++    res.setHeader("Cache-Control", "no-store");
++    res.end(html);
++  } catch (error) {
++    console.error("KCP return bridge failed", { message: error.message });
++    res.statusCode = 302;
++    res.setHeader("Location", "/checkout.html?payment=fail");
++    res.end();
++  }
++};
+diff --git a/checkout.html b/checkout.html
+index 7a4bed0..b2b1844 100644
+--- a/checkout.html
++++ b/checkout.html
+@@ -4,32 +4,36 @@
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width,initial-scale=1">
+ <meta name="robots" content="noindex,follow">
+-<title>결제 · Stargate Edu</title>
++<title>KCP 결제 준비 · Stargate Edu</title>
+ <style>
+-:root{--navy:#0B2A4A;--navy2:#123A63;--gold:#C9A227;--ink:#1A2233;--gray:#667085;--line:#E4E7EC;--bg:#F7F9FC;--white:#fff;--ok:#16794d}
++:root{--navy:#0B2A4A;--navy2:#123A63;--gold:#C9A227;--ink:#1A2233;--gray:#667085;--line:#E4E7EC;--bg:#F7F9FC;--white:#fff;--ok:#16794d;--danger:#9c2f2b}
+ *{box-sizing:border-box}body{margin:0;font-family:Inter,'Pretendard','Noto Sans KR',system-ui,sans-serif;color:var(--ink);background:var(--bg);line-height:1.6}
+-a{text-decoration:none}.top{background:#fff;border-bottom:1px solid var(--line)}.topin{max-width:960px;margin:auto;padding:18px 22px;display:flex;justify-content:space-between;align-items:center}
+-.logo{font-size:20px;font-weight:900;color:var(--navy)}.logo b{color:var(--gold)}.back{font-size:14px;color:var(--navy);font-weight:700}
+-main{max-width:960px;margin:48px auto;padding:0 20px}.eyebrow{color:var(--gold);font-weight:800;font-size:13px;letter-spacing:.8px}
+-h1{color:var(--navy);font-size:clamp(28px,5vw,42px);margin:8px 0 6px}.lead{color:var(--gray);margin:0 0 28px}
+-.checkout{display:grid;grid-template-columns:1.2fr .8fr;gap:22px}.panel{background:#fff;border:1px solid var(--line);border-radius:16px;padding:26px;box-shadow:0 12px 32px rgba(11,42,74,.06)}
++a{color:var(--navy)}.top{background:#fff;border-bottom:1px solid var(--line)}.topin{max-width:980px;margin:auto;padding:18px 22px;display:flex;justify-content:space-between;align-items:center}
++.logo{font-size:20px;font-weight:900;color:var(--navy);text-decoration:none}.logo b{color:var(--gold)}.back{font-size:14px;color:var(--navy);font-weight:700;text-decoration:none}
++main{max-width:980px;margin:40px auto;padding:0 20px}.eyebrow{color:var(--gold);font-weight:800;font-size:12px;letter-spacing:.8px}
++h1{color:var(--navy);font-size:clamp(28px,5vw,40px);margin:8px 0 6px}.lead{color:var(--gray);margin:0 0 24px}
++.checkout{display:grid;grid-template-columns:1.15fr .85fr;gap:22px}.panel{background:#fff;border:1px solid var(--line);border-radius:16px;padding:24px;box-shadow:0 12px 32px rgba(11,42,74,.06)}
+ .label{font-size:12px;font-weight:800;color:var(--gold);text-transform:uppercase;letter-spacing:.7px}.product{font-size:22px;color:var(--navy);line-height:1.35;margin:8px 0 18px}
+ .rows{border-top:1px solid var(--line)}.row{display:flex;justify-content:space-between;gap:18px;padding:12px 0;border-bottom:1px solid var(--line);font-size:14px}.row span:first-child{color:var(--gray)}
+-.total{font-size:25px;font-weight:900;color:var(--navy)}.secure{display:flex;gap:10px;align-items:flex-start;background:#eef8f3;border:1px solid #cfe8dc;color:var(--ok);padding:13px;border-radius:10px;font-size:13px;margin-bottom:18px}
+-.pay{display:block;width:100%;border:0;border-radius:10px;background:var(--gold);color:#3a2e00;padding:15px;text-align:center;font-size:15px;font-weight:900;cursor:pointer}
+-.pay[aria-disabled="true"]{background:#D0D5DD;color:#667085;cursor:not-allowed}.support{display:block;text-align:center;margin-top:12px;color:var(--navy);font-size:13px;font-weight:700}
+-.note{font-size:12px;color:var(--gray);margin-top:16px}.pending{margin-top:14px;padding:12px;border-radius:9px;background:#fff8e6;color:#765b00;font-size:13px}.error{display:none;background:#fff;border:1px solid #f2b8b5;color:#9c2f2b;border-radius:12px;padding:22px}
+-@media(max-width:720px){main{margin-top:30px}.checkout{grid-template-columns:1fr}.panel{padding:20px}}
++.total{font-size:24px;font-weight:900;color:var(--navy)}.secure{display:flex;gap:10px;align-items:flex-start;background:#eef8f3;border:1px solid #cfe8dc;color:var(--ok);padding:13px;border-radius:10px;font-size:13px;margin-bottom:16px}
++.consents{display:grid;gap:10px;margin:0 0 16px}.consent{display:flex;gap:10px;align-items:flex-start;font-size:13px;color:#344054}.consent input{margin-top:3px}
++.subnote{display:none;background:#fff8e6;border:1px solid #f0d48a;color:#765b00;padding:12px;border-radius:10px;font-size:12.5px;margin-bottom:14px}.subnote.show{display:block}
++.pay{display:block;width:100%;border:0;border-radius:10px;background:var(--navy);color:#fff;padding:15px;text-align:center;font-size:15px;font-weight:900;cursor:pointer}.pay:disabled{background:#D0D5DD;color:#667085;cursor:not-allowed}
++.support{display:block;text-align:center;margin-top:12px;color:var(--navy);font-size:13px;font-weight:700;text-decoration:none}
++.note{font-size:12px;color:var(--gray);margin-top:14px}.status{display:none;margin-top:14px;padding:12px;border-radius:9px;font-size:13px}.status.show{display:block}.status.wait{background:#fff8e6;color:#765b00}.status.error{background:#fff;border:1px solid #f2b8b5;color:var(--danger)}.status.info{background:#eef4ff;color:#1d4f91}
++.biz{margin-top:18px;padding-top:14px;border-top:1px solid var(--line);font-size:12px;color:#667085;line-height:1.7}
++.page-error{display:none;background:#fff;border:1px solid #f2b8b5;color:var(--danger);border-radius:12px;padding:22px}
++@media(max-width:760px){main{margin-top:28px}.checkout{grid-template-columns:1fr}.panel{padding:18px}}
+ </style>
+ </head>
+ <body>
+ <header class="top"><div class="topin"><a class="logo" id="homeLink" href="./">STARGATE<b>EDU</b></a><a class="back" id="backLink" href="./">← 쇼핑 계속하기</a></div></header>
+ <main>
+-  <div id="error" class="error"></div>
++  <div id="pageError" class="page-error"></div>
+   <div id="checkoutView">
+-    <div class="eyebrow" id="eyebrow">SECURE CHECKOUT</div>
+-    <h1 id="title">주문 확인</h1>
+-    <p class="lead" id="lead">상품과 금액을 확인한 후 안전한 외부 결제창으로 이동합니다.</p>
++    <div class="eyebrow">NHN KCP SECURE CHECKOUT</div>
++    <h1 id="title">결제 준비</h1>
++    <p class="lead" id="lead">상품·금액·약관 동의를 확인한 뒤 NHN KCP 결제창으로 이동합니다.</p>
+     <div class="checkout">
+       <section class="panel" aria-labelledby="productName">
+         <div class="label" id="summaryLabel">선택 상품</div>
+@@ -40,86 +44,29 @@ h1{color:var(--navy);font-size:clamp(28px,5vw,42px);margin:8px 0 6px}.lead{color
+           <div class="row"><span id="billingLabel">결제 주기</span><strong id="billing"></strong></div>
+           <div class="row"><span id="totalLabel">총 결제금액</span><strong class="total" id="price"></strong></div>
+         </div>
++        <div class="biz" id="bizInfo"></div>
+       </section>
+       <aside class="panel">
+-        <div class="secure"><span>🔒</span><span id="secureText">카드 정보는 결제사가 직접 처리하며 이 사이트에는 저장되지 않습니다.</span></div>
+-        <a class="pay" id="payButton" href="#" aria-disabled="true">안전하게 결제하기</a>
+-        <div class="pending" id="pending">현재 결제 링크 등록 단계입니다. 아래 문의 버튼으로 우선 주문할 수 있습니다.</div>
++        <div class="secure"><span>🔒</span><span id="secureText">카드 정보는 NHN KCP가 직접 처리하며 이 사이트에는 저장되지 않습니다.</span></div>
++        <div class="subnote" id="subscriptionNote"></div>
++        <div class="consents">
++          <label class="consent"><input type="checkbox" id="agreeTerms"><span id="agreeTermsText">이용약관에 동의합니다.</span></label>
++          <label class="consent"><input type="checkbox" id="agreePrivacy"><span id="agreePrivacyText">개인정보처리방침에 동의합니다.</span></label>
++          <label class="consent"><input type="checkbox" id="agreeRefund"><span id="agreeRefundText">환불규정에 동의합니다.</span></label>
++          <label class="consent" id="agreeSubWrap" hidden><input type="checkbox" id="agreeSubscription"><span id="agreeSubscriptionText">정기결제(자동결제) 고지에 동의합니다.</span></label>
++        </div>
++        <button class="pay" id="payButton" type="button" disabled>KCP로 결제하기</button>
++        <div class="status" id="status" role="status" aria-live="polite"></div>
+         <a class="support" id="supportLink" href="mailto:ceo@stargateedu.co.kr">결제·주문 문의</a>
+-        <p class="note" id="note">결제를 진행하면 이용약관과 환불정책에 동의한 것으로 간주됩니다. 실물 교재는 배송비·배송 가능 지역을 결제창에서 확인하세요.</p>
++        <p class="note" id="note">결제 전 반드시 약관·개인정보·환불규정을 확인해 주세요. 실물 교재는 배송비·배송 가능 지역을 별도로 안내합니다.</p>
+       </aside>
+     </div>
+   </div>
+ </main>
++<form id="kcpForm" method="post" accept-charset="UTF-8" style="display:none"></form>
+ <script src="./js/catalog.js"></script>
++<script src="./js/business-info.js"></script>
+ <script src="./js/payment-config.js"></script>
+-<script>
+-(function(){
+-  "use strict";
+-  var params=new URLSearchParams(location.search);
+-  var lang=params.get("lang")==="en"?"en":"ko";
+-  var productId=params.get("product")||"";
+-  var catalog=window.STARGATE_CATALOG||{};
+-  var product=catalog[productId];
+-  var payment=window.STARGATE_PAYMENT||{links:{},supportEmail:"ceo@stargateedu.co.kr"};
+-  var copy={
+-    ko:{title:"주문 확인",lead:"상품과 금액을 확인한 후 안전한 외부 결제창으로 이동합니다.",summary:"선택 상품",type:"상품 유형",delivery:"제공 방식",billing:"결제 주기",total:"총 결제금액",pay:"안전하게 결제하기",pending:"현재 결제 링크 등록 단계입니다. 아래 문의 버튼으로 우선 주문할 수 있습니다.",support:"결제·주문 문의",back:"← 쇼핑 계속하기",secure:"카드 정보는 결제사가 직접 처리하며 이 사이트에는 저장되지 않습니다.",note:"결제를 진행하면 이용약관과 환불정책에 동의한 것으로 간주됩니다. 실물 교재는 배송비·배송 가능 지역을 결제창에서 확인하세요.",error:"선택한 상품을 찾을 수 없습니다.",types:{course:"온라인 강의",subscription:"구독",book:"교재",live:"라이브 과정",consulting:"컨설팅"},deliveries:{digital:"디지털 제공",physical:"실물 배송",live:"실시간 온라인",in_person:"오프라인",appointment:"예약제"},billings:{one_time:"1회 결제",monthly:"매월",annual:"매년"}},
+-    en:{title:"Review your order",lead:"Confirm your selection before continuing to the secure hosted checkout.",summary:"Selected product",type:"Product type",delivery:"Delivery",billing:"Billing",total:"Total",pay:"Continue to secure payment",pending:"The hosted payment link is being activated. You can place an order through support in the meantime.",support:"Payment & order support",back:"← Continue shopping",secure:"Your payment provider processes card details directly. This site never stores them.",note:"By continuing, you agree to the Terms and Refund Policy. Shipping fees and eligible destinations for printed books are confirmed at checkout.",error:"The selected product could not be found.",types:{course:"Online course",subscription:"Subscription",book:"Book",live:"Live program",consulting:"Consulting"},deliveries:{digital:"Digital access",physical:"Physical shipping",live:"Live online",in_person:"In person",appointment:"By appointment"},billings:{one_time:"One-time",monthly:"Monthly",annual:"Annual"}}
+-  }[lang];
+-  document.documentElement.lang=lang;
+-  document.title=copy.title+" · Stargate Edu";
+-  document.getElementById("title").textContent=copy.title;
+-  document.getElementById("lead").textContent=copy.lead;
+-  document.getElementById("summaryLabel").textContent=copy.summary;
+-  document.getElementById("typeLabel").textContent=copy.type;
+-  document.getElementById("deliveryLabel").textContent=copy.delivery;
+-  document.getElementById("billingLabel").textContent=copy.billing;
+-  document.getElementById("totalLabel").textContent=copy.total;
+-  document.getElementById("payButton").textContent=copy.pay;
+-  document.getElementById("pending").textContent=copy.pending;
+-  document.getElementById("supportLink").textContent=copy.support;
+-  document.getElementById("backLink").textContent=copy.back;
+-  document.getElementById("secureText").textContent=copy.secure;
+-  document.getElementById("note").textContent=copy.note;
+-  var home=lang==="en"?"./en/":"./";
+-  document.getElementById("homeLink").href=home;
+-  document.getElementById("backLink").href=home;
+-
+-  if(!product){
+-    document.getElementById("checkoutView").style.display="none";
+-    var error=document.getElementById("error");
+-    error.style.display="block";
+-    error.textContent=copy.error;
+-    return;
+-  }
+-  document.getElementById("productName").textContent=product.name[lang];
+-  document.getElementById("productType").textContent=copy.types[product.type]||product.type;
+-  document.getElementById("delivery").textContent=copy.deliveries[product.delivery]||product.delivery;
+-  document.getElementById("billing").textContent=copy.billings[product.billing]||product.billing;
+-  document.getElementById("price").textContent=new Intl.NumberFormat(lang==="en"?"en-US":"ko-KR",{style:"currency",currency:"KRW",maximumFractionDigits:0}).format(product.priceKRW);
+-
+-  var subject=(lang==="en"?"Order inquiry: ":"상품 주문 문의: ")+product.name[lang];
+-  document.getElementById("supportLink").href="mailto:"+encodeURIComponent(payment.supportEmail||"ceo@stargateedu.co.kr")+"?subject="+encodeURIComponent(subject)+"&body="+encodeURIComponent("Product ID: "+productId);
+-
+-  var candidate=payment.links&&payment.links[productId];
+-  var pay=document.getElementById("payButton");
+-  if(candidate){
+-    try{
+-      var url=new URL(candidate);
+-      if(url.protocol==="https:"){
+-        pay.href=url.href;
+-        pay.removeAttribute("aria-disabled");
+-        document.getElementById("pending").style.display="none";
+-        pay.addEventListener("click",function(){
+-          if(Array.isArray(window.dataLayer)){window.dataLayer.push({event:"add_payment_info",product_id:productId,value:product.priceKRW,currency:"KRW"});}
+-        });
+-      }
+-    }catch(e){}
+-  }
+-  pay.addEventListener("click",function(event){
+-    if(pay.getAttribute("aria-disabled")==="true")event.preventDefault();
+-  });
+-})();
+-</script>
++<script src="./js/kcp-checkout.js"></script>
+ </body>
+ </html>
+diff --git a/en/index.html b/en/index.html
+index 73923ae..268c8ba 100644
+--- a/en/index.html
++++ b/en/index.html
+@@ -196,14 +196,15 @@
+     <div class="fcol">
+       <div class="logo">STARGATE<b>EDU</b></div>
+       <div>Online School for Computing & Mathematics Olympiads</div>
+-      <div style="margin-top:10px;color:#6f8298;font-size:12px;">Business: Stargate · CEO: Dongsoo Jung<br>Business Registration: 848-86-03835<br>E-commerce Registration: 2025-서울강남-05246호</div>
++      <div style="margin-top:10px;color:#6f8298;font-size:12px;">Legal name: Byeol-eui-mun Co., Ltd. (주식회사 별의문) · CEO: Dongsoo Jung<br>Business Registration: 848-86-03835 · Mail-order: 2025-서울강남-05246호<br>Address: 8-15, Samseong-ro 63-gil #204, Gangnam-gu, Seoul (Daechi-dong)<br>Phone: 070-8018-8227 · Privacy Officer: Dongsoo Jung · Email: ceo@stargateedu.co.kr</div>
+     </div>
+     <div class="fcol"><h4>Customer Support</h4><div>Weekdays 10:00–18:00 KST</div><div>Kakao Channel Support</div><div>Contact Us</div></div>
+     <div class="fcol"><h4>Quick Links</h4><div><a href="#courses">Online Courses</a></div><div><a href="#sub">Problem Bank & Mock Exams</a></div><div><a href="#consult">1:1 Consulting</a></div></div>
+     <div class="fcol"><h4>Policies</h4><div><a href="#">Terms of Service</a></div><div><a href="#">Privacy Policy</a></div><div><a href="https://stargateedu.co.kr/refund/">Refund Policy</a></div></div>
+   </div>
+-  <div class="copy">© 2026 Stargate Edu. All rights reserved. · shop.stargateedu.co.kr/en/<div class="business-info">사업자번호 : 848-86-03835, 통신판매업신고번호 2025-서울강남-05246호</div></div>
++  <div class="copy">© 2026 Stargate Edu. All rights reserved. · shop.stargateedu.co.kr/en/<div class="business-info">상호: 주식회사 별의문 · 대표: 정동수 · 사업자등록번호: 848-86-03835 · 통신판매업신고: 2025-서울강남-05246호 · 주소: 서울특별시 강남구 삼성로63길 8-15, 204호 (대치동) · 전화: 070-8018-8227 · 개인정보보호책임자: 정동수 · 이메일: ceo@stargateedu.co.kr</div></div>
+ </footer>
++<script src="../js/business-info.js"></script>
+ <script src="../js/catalog.js"></script>
+ <script src="../js/storefront.js" data-lang="en"></script>
+ </body>
+diff --git a/faq.html b/faq.html
+index 7dd6030..c955c88 100644
+--- a/faq.html
++++ b/faq.html
+@@ -316,7 +316,8 @@ input:focus,select:focus,textarea:focus{outline:none;border-color:var(--teal);bo
+     <div class="foot-info">
+       상호 <b style="color:var(--ink-2)">주식회사 별의문</b><br>
+       사업자등록번호 <span class="mono">848-86-03835</span><br>
+-      주소 서울 강남구 강남대로112길 47<br>
++      주소 서울특별시 강남구 삼성로63길 8-15, 204호 (대치동)<br>
++      전화 <a class="mono" href="tel:070-8018-8227">070-8018-8227</a><br>
+       문의 <a class="mono" href="mailto:ceo@stargateedu.co.kr">ceo@stargateedu.co.kr</a>
+     </div>
+   </div>
+diff --git a/index.html b/index.html
+index 744363f..55021f5 100644
+--- a/index.html
++++ b/index.html
+@@ -196,14 +196,15 @@
+     <div class="fcol">
+       <div class="logo">STARGATE<b>EDU</b></div>
+       <div>정보·수학 올림피아드 전문 온라인 스쿨</div>
+-      <div style="margin-top:10px;color:#6f8298;font-size:12px;">상호: 스타게이트 · 대표: 정동수<br>사업자등록번호: 848-86-03835<br>통신판매업신고: 2025-서울강남-05246호</div>
++      <div style="margin-top:10px;color:#6f8298;font-size:12px;">상호: 주식회사 별의문 · 대표: 정동수<br>사업자등록번호: 848-86-03835 · 통신판매업신고: 2025-서울강남-05246호<br>주소: 서울특별시 강남구 삼성로63길 8-15, 204호 (대치동)<br>전화: 070-8018-8227 · 개인정보보호책임자: 정동수 · 이메일: ceo@stargateedu.co.kr</div>
+     </div>
+-    <div class="fcol"><h4>고객센터</h4><div>평일 10:00–18:00</div><div><a href="/faq.html">자주 묻는 질문</a></div><div><a href="mailto:ceo@stargateedu.co.kr?subject=STARGATE%20EDU%20상담%20문의">1:1 이메일 문의</a></div></div>
++    <div class="fcol"><h4>고객센터</h4><div>평일 10:00–18:00</div><div><a href="tel:070-8018-8227">070-8018-8227</a></div><div><a href="/faq.html">자주 묻는 질문</a></div><div><a href="mailto:ceo@stargateedu.co.kr?subject=STARGATE%20EDU%20상담%20문의">1:1 이메일 문의</a></div></div>
+     <div class="fcol"><h4>바로가기</h4><div><a href="#courses">온라인 강의</a></div><div><a href="#sub">문제은행·모의고사</a></div><div><a href="#consult">1:1 컨설팅</a></div></div>
+     <div class="fcol"><h4>정책</h4><div><a href="/terms.html">이용약관</a></div><div><a href="/privacy.html">개인정보처리방침</a></div><div><a href="https://stargateedu.co.kr/refund/">환불정책</a></div></div>
+   </div>
+-  <div class="copy">ⓒ 2026 Stargate Edu. All rights reserved. · shop.stargateedu.co.kr<div class="business-info">사업자번호 : 848-86-03835, 통신판매업신고번호 2025-서울강남-05246호</div></div>
++  <div class="copy">ⓒ 2026 Stargate Edu. All rights reserved. · shop.stargateedu.co.kr<div class="business-info">상호: 주식회사 별의문 · 대표: 정동수 · 사업자등록번호: 848-86-03835 · 통신판매업신고: 2025-서울강남-05246호 · 주소: 서울특별시 강남구 삼성로63길 8-15, 204호 (대치동) · 전화: 070-8018-8227 · 개인정보보호책임자: 정동수 · 이메일: ceo@stargateedu.co.kr</div></div>
+ </footer>
++<script src="./js/business-info.js"></script>
+ <script src="./js/catalog.js"></script>
+ <script src="./js/storefront.js" data-lang="ko"></script>
+ </body>
+diff --git a/js/business-info.js b/js/business-info.js
+new file mode 100644
+index 0000000..7ff89f2
+--- /dev/null
++++ b/js/business-info.js
+@@ -0,0 +1,17 @@
++/**
++ * Canonical business identity for footer / checkout disclosure.
++ * Source: business registration + mail-order filing (848-86-03835 / 2025-서울강남-05246).
++ */
++window.STARGATE_BUSINESS = Object.freeze({
++  legalName: "주식회사 별의문",
++  brandName: "Stargate Edu",
++  representative: "정동수",
++  businessNumber: "848-86-03835",
++  mailOrderNumber: "2025-서울강남-05246호",
++  address: "서울특별시 강남구 삼성로63길 8-15, 204호 (대치동)",
++  phone: "070-8018-8227",
++  email: "ceo@stargateedu.co.kr",
++  privacyOfficer: "정동수",
++  footerLine:
++    "상호: 주식회사 별의문 · 대표: 정동수 · 사업자등록번호: 848-86-03835 · 통신판매업신고: 2025-서울강남-05246호 · 주소: 서울특별시 강남구 삼성로63길 8-15, 204호 (대치동) · 전화: 070-8018-8227 · 개인정보보호책임자: 정동수 · 이메일: ceo@stargateedu.co.kr"
++});
+diff --git a/js/kcp-checkout.js b/js/kcp-checkout.js
+new file mode 100644
+index 0000000..cb2cfe0
+--- /dev/null
++++ b/js/kcp-checkout.js
+@@ -0,0 +1,214 @@
++(function () {
++  "use strict";
++
++  var params = new URLSearchParams(location.search);
++  var lang = params.get("lang") === "en" ? "en" : "ko";
++  var productId = params.get("product") || "";
++  var paymentState = params.get("payment") || "";
++  var catalog = window.STARGATE_CATALOG || {};
++  var product = catalog[productId];
++  var config = window.STARGATE_PAYMENT || {};
++  var business = window.STARGATE_BUSINESS || {};
++  var apiBase = String(config.apiBase || "").replace(/\/$/, "");
++  var tokenKey = "stargate:kcp:" + productId;
++
++  var copy = {
++    ko: {
++      title: "결제 준비",
++      lead: "상품·금액·약관 동의를 확인한 뒤 NHN KCP 결제창으로 이동합니다.",
++      summary: "선택 상품",
++      type: "상품 유형",
++      delivery: "제공 방식",
++      billing: "결제 주기",
++      total: "총 결제금액",
++      pay: "KCP로 결제하기",
++      processing: "KCP 결제창을 준비하고 있습니다…",
++      fail: "결제 인증에 실패했거나 취소되었습니다. 다시 시도해 주세요.",
++      missingCreds:
++        "심사·운영용 KCP 자격증명이 서버에 아직 등록되지 않았습니다. 환경변수 설정 전에도 약관 동의와 주문 문의는 가능합니다.",
++      genericError: "결제를 처리하지 못했습니다. 잠시 후 다시 시도하거나 고객센터로 문의해 주세요.",
++      support: "결제·주문 문의",
++      back: "← 쇼핑 계속하기",
++      secure: "카드 정보는 NHN KCP가 직접 처리하며 이 사이트에는 저장되지 않습니다.",
++      note: "결제 전 반드시 약관·개인정보·환불규정을 확인해 주세요. 실물 교재는 배송비·배송 가능 지역을 별도로 안내합니다.",
++      productError: "선택한 상품을 찾을 수 없습니다.",
++      agreeTerms: '이용약관에 동의합니다. (<a href="/terms.html" target="_blank" rel="noopener">전문 보기</a>)',
++      agreePrivacy: '개인정보처리방침에 동의합니다. (<a href="/privacy.html" target="_blank" rel="noopener">전문 보기</a>)',
++      agreeRefund: '환불규정에 동의합니다. (<a href="https://stargateedu.co.kr/refund/" target="_blank" rel="noopener">전문 보기</a>)',
++      agreeSubscription: "정기결제(자동결제) 고지에 동의합니다. 매 결제 주기마다 동일 금액이 자동 청구되며, 해지 전까지 갱신됩니다.",
++      subscriptionNote:
++        "본 상품은 정기결제(구독) 상품입니다. 첫 결제 후 선택한 주기(월/년)마다 자동 청구되며, 해지는 다음 결제일 전까지 이메일(ceo@stargateedu.co.kr) 또는 고객센터로 요청할 수 있습니다. 연 구독 중도 해지 시 연 구독가 기준 월할 정산 후 잔액을 환불합니다.",
++      types: { course: "온라인 강의", subscription: "구독", book: "교재", live: "라이브 과정", consulting: "컨설팅" },
++      deliveries: {
++        digital: "디지털 제공",
++        physical: "실물 배송",
++        live: "실시간 온라인",
++        in_person: "오프라인",
++        appointment: "예약제"
++      },
++      billings: { one_time: "1회 결제", monthly: "매월 자동결제", annual: "매년 자동결제" }
++    },
++    en: {
++      title: "Payment preparation",
++      lead: "Confirm the product, amount, and required consents before opening the NHN KCP checkout.",
++      summary: "Selected product",
++      type: "Product type",
++      delivery: "Delivery",
++      billing: "Billing",
++      total: "Total",
++      pay: "Pay with KCP",
++      processing: "Preparing the KCP checkout…",
++      fail: "Payment authentication failed or was canceled. Please try again.",
++      missingCreds:
++        "KCP credentials are not configured on the server yet. You can still review consents and contact support to place an order.",
++      genericError: "We could not process the payment. Please try again later or contact support.",
++      support: "Payment & order support",
++      back: "← Continue shopping",
++      secure: "NHN KCP processes card details directly. This site never stores them.",
++      note: "Please review the Terms, Privacy Policy, and Refund Policy before paying.",
++      productError: "The selected product could not be found.",
++      agreeTerms: 'I agree to the Terms. (<a href="/terms.html" target="_blank" rel="noopener">View</a>)',
++      agreePrivacy: 'I agree to the Privacy Policy. (<a href="/privacy.html" target="_blank" rel="noopener">View</a>)',
++      agreeRefund: 'I agree to the Refund Policy. (<a href="https://stargateedu.co.kr/refund/" target="_blank" rel="noopener">View</a>)',
++      agreeSubscription:
++        "I agree to recurring billing. The same amount will be charged each billing cycle until cancellation.",
++      subscriptionNote:
++        "This is a subscription product. After the first payment, billing renews automatically each month/year until you cancel via email (ceo@stargateedu.co.kr). Annual plans are refunded on a pro-rata monthly basis against the annual price.",
++      types: { course: "Online course", subscription: "Subscription", book: "Book", live: "Live program", consulting: "Consulting" },
++      deliveries: {
++        digital: "Digital access",
++        physical: "Physical shipping",
++        live: "Live online",
++        in_person: "In person",
++        appointment: "By appointment"
++      },
++      billings: { one_time: "One-time", monthly: "Monthly auto-pay", annual: "Annual auto-pay" }
++    }
++  }[lang];
++
++  document.documentElement.lang = lang;
++  document.title = copy.title + " · Stargate Edu";
++  document.getElementById("title").textContent = copy.title;
++  document.getElementById("lead").textContent = copy.lead;
++  document.getElementById("summaryLabel").textContent = copy.summary;
++  document.getElementById("typeLabel").textContent = copy.type;
++  document.getElementById("deliveryLabel").textContent = copy.delivery;
++  document.getElementById("billingLabel").textContent = copy.billing;
++  document.getElementById("totalLabel").textContent = copy.total;
++  document.getElementById("payButton").textContent = copy.pay;
++  document.getElementById("supportLink").textContent = copy.support;
++  document.getElementById("backLink").textContent = copy.back;
++  document.getElementById("secureText").textContent = copy.secure;
++  document.getElementById("note").textContent = copy.note;
++  document.getElementById("agreeTermsText").innerHTML = copy.agreeTerms;
++  document.getElementById("agreePrivacyText").innerHTML = copy.agreePrivacy;
++  document.getElementById("agreeRefundText").innerHTML = copy.agreeRefund;
++  document.getElementById("agreeSubscriptionText").textContent = copy.agreeSubscription;
++  document.getElementById("subscriptionNote").textContent = copy.subscriptionNote;
++  document.getElementById("bizInfo").textContent = business.footerLine || "";
++  document.getElementById("homeLink").href = lang === "en" ? "./en/" : "./";
++  document.getElementById("backLink").href = lang === "en" ? "./en/" : "./";
++  document.getElementById("supportLink").href =
++    "mailto:" +
++    (business.email || config.supportEmail || "ceo@stargateedu.co.kr") +
++    "?subject=" +
++    encodeURIComponent((lang === "en" ? "Order inquiry: " : "상품 주문 문의: ") + (product && product.name ? product.name[lang] || product.name.ko : productId));
++
++  var pageError = document.getElementById("pageError");
++  var checkoutView = document.getElementById("checkoutView");
++  if (!product) {
++    checkoutView.style.display = "none";
++    pageError.style.display = "block";
++    pageError.textContent = copy.productError;
++    return;
++  }
++
++  var isSubscription = product.billing === "monthly" || product.billing === "annual";
++  document.getElementById("productName").textContent = product.name[lang] || product.name.ko;
++  document.getElementById("productType").textContent = copy.types[product.type] || product.type;
++  document.getElementById("delivery").textContent = copy.deliveries[product.delivery] || product.delivery;
++  document.getElementById("billing").textContent = copy.billings[product.billing] || product.billing;
++  document.getElementById("price").textContent = new Intl.NumberFormat(lang === "en" ? "en-US" : "ko-KR", {
++    style: "currency",
++    currency: "KRW",
++    maximumFractionDigits: 0
++  }).format(product.priceKRW);
++
++  if (isSubscription) {
++    document.getElementById("subscriptionNote").classList.add("show");
++    document.getElementById("agreeSubWrap").hidden = false;
++  }
++
++  var statusEl = document.getElementById("status");
++  var payButton = document.getElementById("payButton");
++  var checks = [
++    document.getElementById("agreeTerms"),
++    document.getElementById("agreePrivacy"),
++    document.getElementById("agreeRefund")
++  ];
++  if (isSubscription) checks.push(document.getElementById("agreeSubscription"));
++
++  function syncPayEnabled() {
++    payButton.disabled = !checks.every(function (el) {
++      return el.checked;
++    });
++  }
++  checks.forEach(function (el) {
++    el.addEventListener("change", syncPayEnabled);
++  });
++  syncPayEnabled();
++
++  function showStatus(type, message) {
++    statusEl.className = "status show " + type;
++    statusEl.textContent = message;
++  }
++
++  if (paymentState === "fail" || paymentState === "cancel") {
++    showStatus("error", copy.fail);
++  }
++
++  payButton.addEventListener("click", async function () {
++    if (payButton.disabled) return;
++    payButton.disabled = true;
++    showStatus("wait", copy.processing);
++    try {
++      var response = await fetch(apiBase + "/api/kcp/ready", {
++        method: "POST",
++        headers: { "Content-Type": "application/json" },
++        body: JSON.stringify({ productId: productId, lang: lang })
++      });
++      var data = await response.json().catch(function () {
++        return {};
++      });
++      if (response.status === 503 && data.code === "KCP_CREDENTIALS_MISSING") {
++        showStatus("info", copy.missingCreds);
++        payButton.disabled = false;
++        return;
++      }
++      if (!response.ok || !data.payUrl || !data.checkoutToken) {
++        showStatus("error", data.error || copy.genericError);
++        payButton.disabled = false;
++        return;
++      }
++      sessionStorage.setItem(tokenKey, data.checkoutToken);
++      var form = document.getElementById("kcpForm");
++      form.action = data.payUrl;
++      form.innerHTML = "";
++      var fields = Object.assign({}, data.form || {}, {
++        ordr_idxx: data.orderId,
++        param_opt_1: data.checkoutToken
++      });
++      Object.keys(fields).forEach(function (key) {
++        var input = document.createElement("input");
++        input.type = "hidden";
++        input.name = key;
++        input.value = fields[key];
++        form.appendChild(input);
++      });
++      form.submit();
++    } catch (error) {
++      showStatus("error", copy.genericError);
++      payButton.disabled = false;
++    }
++  });
++})();
+diff --git a/js/payment-config.js b/js/payment-config.js
+index 2d1dec3..184491a 100644
+--- a/js/payment-config.js
++++ b/js/payment-config.js
+@@ -1,28 +1,11 @@
+ /**
+- * Public hosted-checkout configuration.
+- * Add only provider-generated HTTPS checkout URLs.
+- * Never place secret or API keys in this GitHub Pages repository.
++ * Public payment configuration for the static storefront.
++ * Secrets never belong in this repository — configure them in Vercel env vars.
+  */
+ window.STARGATE_PAYMENT = Object.freeze({
+-  provider: "Global Payment",
++  provider: "NHN KCP",
+   supportEmail: "ceo@stargateedu.co.kr",
++  apiBase: "",
+   successUrl: "https://shop.stargateedu.co.kr/success.html",
+-  cancelUrl: "https://shop.stargateedu.co.kr/cancel.html",
+-  links: Object.freeze({
+-    "koi-advanced": "",
+-    "algorithms-bundle": "",
+-    "kmo-number-comb": "",
+-    "koi-cpp-beginner": "",
+-    "problem-bank-monthly": "",
+-    "problem-bank-annual": "",
+-    "mock-exam-monthly": "",
+-    "koi-beginner-textbook": "",
+-    "algorithms-workbook-1": "",
+-    "koi-past-papers": "",
+-    "algorithms-ebook-set": "",
+-    "vacation-live-intensive": "",
+-    "koi-final-camp": "",
+-    "strategy-consulting": "",
+-    "ongoing-mentoring": ""
+-  })
++  cancelUrl: "https://shop.stargateedu.co.kr/cancel.html"
+ });
+diff --git a/privacy.html b/privacy.html
+index 5536320..04f31ea 100644
+--- a/privacy.html
++++ b/privacy.html
+@@ -6,9 +6,7 @@
+ <title>개인정보처리방침 · Stargate Edu Shop</title>
+ <meta name="description" content="스타게이트 에듀 스토어 개인정보처리방침">
+ <meta name="robots" content="noindex,follow">
+-<link rel="manifest" href="/manifest.json">
+ <meta name="theme-color" content="#0B2A4A">
+-<link rel="icon" type="image/png" sizes="192x192" href="/icons/icon-192.png">
+ <style>
+   :root{--navy:#0B2A4A;--navy2:#123A63;--gold:#C9A227;--ink:#1A2233;--gray:#667085;--line:#E4E7EC;--bg:#F7F9FC;}
+   *{box-sizing:border-box;margin:0;padding:0;}
+@@ -32,7 +30,7 @@
+   th{background:var(--navy);color:#fff;padding:8px 10px;text-align:left;font-weight:600;}
+   td{border:1px solid var(--line);padding:8px 10px;}
+   .note{background:var(--bg);border-left:4px solid var(--gold);padding:12px 16px;border-radius:0 8px 8px 0;margin:16px 0;font-size:13.5px;color:#475467;}
+-  footer{border-top:1px solid var(--line);padding:24px 0 40px;color:var(--gray);font-size:12.5px;text-align:center;}
++  footer{border-top:1px solid var(--line);padding:24px 0 40px;color:var(--gray);font-size:12.5px;text-align:center;line-height:1.7;}
+ </style>
+ </head>
+ <body>
+@@ -45,7 +43,7 @@
+ <section class="hero">
+   <div class="wrap">
+     <h1>개인정보처리방침</h1>
+-    <p>스타게이트 에듀 스토어 (shop.stargateedu.co.kr) · 시행일: 2026년 7월 11일</p>
++    <p>스타게이트 에듀 스토어 (shop.stargateedu.co.kr) · 시행일: 2026년 7월 27일</p>
+   </div>
+ </section>
+ <main>
+@@ -56,38 +54,40 @@
+ 본 방침은 웹사이트 shop.stargateedu.co.kr 및 동일 콘텐츠를 제공하는 모바일 앱(이하 "서비스")에 적용됩니다.</p>
+ 
+ <h2>1. 처리하는 개인정보의 항목 및 수집 방법</h2>
+-<p>현재 서비스는 회원가입 기능 없이 운영되며, 서비스 이용 과정에서 아래 정보가 수집될 수 있습니다.</p>
+ <table>
+   <tr><th>구분</th><th>수집 항목</th><th>수집 방법</th></tr>
+-  <tr><td>문의·상담</td><td>이메일 주소, 성명(선택), 문의 내용</td><td>이메일·카카오 채널을 통한 이용자의 자발적 제공</td></tr>
++  <tr><td>문의·상담</td><td>이메일 주소, 성명(선택), 문의 내용</td><td>이메일·고객센터를 통한 이용자의 자발적 제공</td></tr>
++  <tr><td>주문·결제</td><td>주문번호, 상품명, 결제금액, 결제수단 유형, 결제 승인·취소 결과(카드번호 등 민감 결제정보는 결제대행사가 처리)</td><td>결제 과정 및 결제대행사 응답</td></tr>
++  <tr><td>배송(실물 상품)</td><td>수령인 성명, 연락처, 배송지 주소</td><td>주문 시 이용자 입력</td></tr>
+   <tr><td>자동 수집</td><td>접속 IP, 브라우저·기기 정보, 접속 일시, 서비스 이용 기록(쿠키)</td><td>서비스 이용 시 자동 생성·수집</td></tr>
+ </table>
+-<div class="note">향후 회원가입·결제 기능 도입 시 수집 항목(성명, 연락처, 결제정보 등)이 추가될 수 있으며,
+-이 경우 본 방침을 개정하고 시행 7일 전(중요 변경은 30일 전) 고지합니다.</div>
++<div class="note">회사는 신용카드 번호·CVC 등 결제 민감정보를 직접 저장하지 않으며, NHN KCP 결제창에서 처리됩니다.</div>
+ 
+ <h2>2. 개인정보의 처리 목적</h2>
+ <ul>
++  <li>상품 주문·결제·제공·배송 및 정기결제 관리</li>
+   <li>강의·교재·컨설팅 등 상품 문의 응대 및 상담 제공</li>
++  <li>환불·교환·소비자 분쟁 대응 및 법령상 의무 이행</li>
+   <li>서비스 운영·개선, 접속 통계 분석 및 부정 이용 방지</li>
+-  <li>법령상 의무 이행</li>
+ </ul>
+ 
+ <h2>3. 개인정보의 보유 및 이용 기간</h2>
+ <ul>
+   <li>문의·상담 정보: 처리 완료 후 1년 보관 후 파기</li>
+   <li>접속 기록: 「통신비밀보호법」에 따라 3개월 보관</li>
+-  <li>전자상거래 관련 기록(향후 결제 도입 시): 계약·청약철회 5년, 대금결제·재화공급 5년, 소비자 불만·분쟁처리 3년</li>
++  <li>전자상거래 관련 기록: 계약·청약철회 5년, 대금결제·재화공급 5년, 소비자 불만·분쟁처리 3년</li>
+ </ul>
+ 
+ <h2>4. 개인정보의 제3자 제공</h2>
+ <p>회사는 이용자의 개인정보를 제3자에게 제공하지 않습니다. 다만 이용자가 사전에 동의한 경우 또는
+ 법령의 규정에 의한 경우는 예외로 합니다.</p>
+ 
+-<h2>5. 개인정보 처리의 위탁 및 국외 이전</h2>
+-<p>서비스 호스팅 과정에서 아래와 같이 개인정보(자동 수집 항목)의 처리가 국외 사업자에게 위탁·이전될 수 있습니다.</p>
++<h2>5. 개인정보 처리의 위탁</h2>
+ <table>
+-  <tr><th>수탁자(소재지)</th><th>위탁 업무</th><th>이전 항목</th></tr>
+-  <tr><td>GitHub, Inc. (미국)</td><td>웹사이트 호스팅(GitHub Pages)</td><td>접속 IP, 접속 로그</td></tr>
++  <tr><th>수탁자</th><th>위탁 업무</th><th>이전/보관 항목</th></tr>
++  <tr><td>NHN KCP</td><td>전자지급결제대행(결제 인증·승인·정산)</td><td>주문번호, 결제금액, 결제수단 관련 정보</td></tr>
++  <tr><td>GitHub, Inc. (미국)</td><td>웹사이트 호스팅(GitHub Pages) 또는 정적 배포</td><td>접속 IP, 접속 로그</td></tr>
++  <tr><td>Vercel Inc. (미국, 사용 시)</td><td>결제 API 서버리스 호스팅</td><td>주문·결제 처리 로그(카드번호 제외)</td></tr>
+ </table>
+ 
+ <h2>6. 개인정보의 파기 절차 및 방법</h2>
+@@ -101,33 +101,37 @@
+ 
+ <h2>8. 쿠키 등 자동 수집 장치의 설치·운영 및 거부</h2>
+ <p>서비스는 이용 편의 및 통계 분석을 위해 쿠키를 사용할 수 있습니다.
+-이용자는 브라우저 설정(도구 &gt; 인터넷 옵션 &gt; 개인정보)을 통해 쿠키 저장을 거부할 수 있으며,
++이용자는 브라우저 설정을 통해 쿠키 저장을 거부할 수 있으며,
+ 이 경우 일부 기능 이용에 제한이 있을 수 있습니다.</p>
+ 
+ <h2>9. 개인정보의 안전성 확보 조치</h2>
+ <ul>
+   <li>전 구간 HTTPS(TLS) 암호화 통신 적용</li>
++  <li>결제 민감정보는 결제대행사 구간에서 처리하고 가맹점 서버에 저장하지 않음</li>
+   <li>개인정보 취급 인원 최소화 및 접근 권한 관리</li>
+-  <li>호스팅 인프라(GitHub Pages)의 물리적·기술적 보호조치 활용</li>
+ </ul>
+ 
+ <h2>10. 개인정보 보호책임자</h2>
+ <table>
+   <tr><th>구분</th><th>내용</th></tr>
+   <tr><td>보호책임자</td><td>정동수 (대표)</td></tr>
+-  <tr><td>연락처</td><td><a href="mailto:ceo@stargateedu.co.kr">ceo@stargateedu.co.kr</a></td></tr>
++  <tr><td>전화</td><td><a href="tel:070-8018-8227">070-8018-8227</a></td></tr>
++  <tr><td>이메일</td><td><a href="mailto:ceo@stargateedu.co.kr">ceo@stargateedu.co.kr</a></td></tr>
++  <tr><td>주소</td><td>서울특별시 강남구 삼성로63길 8-15, 204호 (대치동)</td></tr>
+ </table>
+ <p>기타 개인정보 침해 신고·상담은 개인정보침해신고센터(privacy.kisa.or.kr, 국번없이 118),
+ 개인정보분쟁조정위원회(kopico.go.kr, 1833-6972)에 문의할 수 있습니다.</p>
+ 
+ <h2>11. 개인정보처리방침의 변경</h2>
+-<p>본 방침은 2026년 7월 11일부터 시행됩니다. 내용의 추가·삭제·수정이 있을 경우
++<p>본 방침은 2026년 7월 27일부터 시행됩니다. 내용의 추가·삭제·수정이 있을 경우
+ 시행 7일 전(권리에 중대한 영향을 미치는 변경은 30일 전)부터 본 페이지를 통해 고지합니다.</p>
+ 
+ </div>
+ </main>
+ <footer>
+-  <div class="wrap">ⓒ 2026 Stargate Edu (주식회사 별의문) · <a href="/">shop.stargateedu.co.kr</a></div>
++  <div class="wrap">ⓒ 2026 Stargate Edu (주식회사 별의문) · <a href="/">shop.stargateedu.co.kr</a><br>
++  상호: 주식회사 별의문 · 대표: 정동수 · 사업자등록번호: 848-86-03835 · 통신판매업신고: 2025-서울강남-05246호<br>
++  주소: 서울특별시 강남구 삼성로63길 8-15, 204호 (대치동) · 전화: 070-8018-8227</div>
+ </footer>
+ </body>
+ </html>
+diff --git a/success.html b/success.html
+index 7157973..d67b03b 100644
+--- a/success.html
++++ b/success.html
+@@ -1,5 +1,26 @@
+ <!DOCTYPE html>
+ <html lang="ko"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex,nofollow"><title>결제 완료 · Stargate Edu</title>
+-<style>body{margin:0;font-family:Inter,'Pretendard','Noto Sans KR',system-ui,sans-serif;background:#F7F9FC;color:#1A2233;display:grid;min-height:100vh;place-items:center}.box{max-width:620px;margin:20px;background:#fff;border:1px solid #E4E7EC;border-radius:20px;padding:42px;text-align:center;box-shadow:0 16px 42px rgba(11,42,74,.08)}.icon{font-size:54px}h1{color:#0B2A4A;margin:12px 0 8px}p{color:#667085}.btn{display:inline-block;margin-top:20px;padding:13px 24px;border-radius:9px;background:#C9A227;color:#3a2e00;text-decoration:none;font-weight:800}</style></head>
+-<body><main class="box"><div class="icon">✓</div><h1 id="title">결제가 완료되었습니다</h1><p id="message">결제사 확인 후 등록한 이메일로 주문 및 이용 안내가 발송됩니다.</p><a class="btn" id="home" href="./">쇼핑몰로 돌아가기</a></main>
+-<script>(function(){var en=new URLSearchParams(location.search).get("lang")==="en";if(en){document.documentElement.lang="en";document.title="Payment complete · Stargate Edu";document.getElementById("title").textContent="Payment complete";document.getElementById("message").textContent="Your order and access instructions will be sent to the email registered with the payment provider.";document.getElementById("home").textContent="Return to the shop";document.getElementById("home").href="./en/";}})();</script></body></html>
++<style>body{margin:0;font-family:Inter,'Pretendard','Noto Sans KR',system-ui,sans-serif;background:#F7F9FC;color:#1A2233;display:grid;min-height:100vh;place-items:center}.box{max-width:620px;margin:20px;background:#fff;border:1px solid #E4E7EC;border-radius:20px;padding:42px;text-align:center;box-shadow:0 16px 42px rgba(11,42,74,.08)}.icon{font-size:54px}h1{color:#0B2A4A;margin:12px 0 8px}p{color:#667085;line-height:1.6}.meta{margin-top:18px;text-align:left;background:#F7F9FC;border:1px solid #E4E7EC;border-radius:12px;padding:14px 16px;font-size:13px;color:#344054}.meta div{display:flex;justify-content:space-between;gap:12px;padding:6px 0;border-bottom:1px solid #E4E7EC}.meta div:last-child{border-bottom:0}.btn{display:inline-block;margin-top:20px;padding:13px 24px;border-radius:9px;background:#C9A227;color:#3a2e00;text-decoration:none;font-weight:800}</style></head>
++<body><main class="box"><div class="icon">✓</div><h1 id="title">결제가 완료되었습니다</h1><p id="message">주문 확인 메일이 발송되며, 디지털 상품은 안내에 따라 제공됩니다.</p><div class="meta" id="meta" hidden></div><a class="btn" id="home" href="./">쇼핑몰로 돌아가기</a></main>
++<script>(function(){
++  var q=new URLSearchParams(location.search);
++  var en=q.get("lang")==="en";
++  if(en){
++    document.documentElement.lang="en";
++    document.title="Payment complete · Stargate Edu";
++    document.getElementById("title").textContent="Payment complete";
++    document.getElementById("message").textContent="A confirmation email will follow. Digital products are delivered according to the product guide.";
++    document.getElementById("home").textContent="Return to the shop";
++    document.getElementById("home").href="./en/";
++  }
++  var rows=[
++    [en?"Order":"주문번호", q.get("order")||""],
++    [en?"KCP TNO":"KCP 거래번호", q.get("tno")||""],
++    [en?"Amount":"결제금액", q.get("amount")||""]
++  ].filter(function(r){return r[1];});
++  if(rows.length){
++    var meta=document.getElementById("meta");
++    meta.hidden=false;
++    meta.innerHTML=rows.map(function(r){return "<div><span>"+r[0]+"</span><strong>"+r[1]+"</strong></div>";}).join("");
++  }
++})();</script></body></html>
+diff --git a/terms.html b/terms.html
+index 47d1f58..f46062c 100644
+--- a/terms.html
++++ b/terms.html
+@@ -6,9 +6,7 @@
+ <title>이용약관 · Stargate Edu Shop</title>
+ <meta name="description" content="스타게이트 에듀 스토어 이용약관">
+ <meta name="robots" content="noindex,follow">
+-<link rel="manifest" href="/manifest.json">
+ <meta name="theme-color" content="#0B2A4A">
+-<link rel="icon" type="image/png" sizes="192x192" href="/icons/icon-192.png">
+ <style>
+   :root{--navy:#0B2A4A;--navy2:#123A63;--gold:#C9A227;--ink:#1A2233;--gray:#667085;--line:#E4E7EC;--bg:#F7F9FC;}
+   *{box-sizing:border-box;margin:0;padding:0;}
+@@ -29,7 +27,7 @@
+   ul,ol{padding-left:22px;margin:8px 0;}
+   li{margin:4px 0;}
+   .note{background:var(--bg);border-left:4px solid var(--gold);padding:12px 16px;border-radius:0 8px 8px 0;margin:16px 0;font-size:13.5px;color:#475467;}
+-  footer{border-top:1px solid var(--line);padding:24px 0 40px;color:var(--gray);font-size:12.5px;text-align:center;}
++  footer{border-top:1px solid var(--line);padding:24px 0 40px;color:var(--gray);font-size:12.5px;text-align:center;line-height:1.7;}
+ </style>
+ </head>
+ <body>
+@@ -42,7 +40,7 @@
+ <section class="hero">
+   <div class="wrap">
+     <h1>이용약관</h1>
+-    <p>스타게이트 에듀 스토어 (shop.stargateedu.co.kr) · 시행일: 2026년 7월 11일</p>
++    <p>스타게이트 에듀 스토어 (shop.stargateedu.co.kr) · 시행일: 2026년 7월 27일</p>
+   </div>
+ </section>
+ <main>
+@@ -60,6 +58,7 @@
+   <li>"이용자"란 서비스에 접속하여 이 약관에 따라 서비스를 이용하는 자를 말합니다.</li>
+   <li>"디지털 콘텐츠"란 온라인으로 제공되는 강의 영상, 전자문서(eBook), 문제은행 등
+   무형의 재화를 말합니다.</li>
++  <li>"정기결제"란 이용자가 동의한 결제수단으로 월·년 등 약정 주기마다 이용요금이 자동 청구되는 결제를 말합니다.</li>
+ </ol>
+ 
+ <h2>제3조 (약관의 효력 및 변경)</h2>
+@@ -71,21 +70,42 @@
+ 
+ <h2>제4조 (서비스의 제공 및 변경)</h2>
+ <ol>
+-  <li>서비스는 연중무휴 1일 24시간 제공을 원칙으로 합니다. 다만 시스템 점검, 호스팅 사업자의 사정 등
++  <li>서비스는 연중무휴 1일 24시간 제공을 원칙으로 합니다. 다만 시스템 점검, 호스팅·결제대행 사업자의 사정 등
+   부득이한 경우 일시 중단될 수 있습니다.</li>
+-  <li>현재 서비스는 상품 소개·상담 신청 중심으로 운영되며, 온라인 결제 기능은 추후 도입 예정입니다.
+-  결제 기능 도입 시 관련 조항(구매계약 성립, 대금 지급 방법 등)이 적용됩니다.</li>
++  <li>회사는 강의·교재·구독·라이브·컨설팅 등 상품을 온라인으로 판매하며, 결제대금은 NHN KCP 등 전자지급결제대행사를 통해 수납합니다.</li>
+ </ol>
+ 
+-<h2>제5조 (구매, 청약철회 및 환불)</h2>
++<h2>제5조 (구매계약의 성립 및 대금 지급)</h2>
++<ol>
++  <li>이용자가 상품을 선택하고 약관·개인정보·환불규정(구독 상품의 경우 정기결제 고지 포함)에 동의한 뒤 결제를 완료하면 구매계약이 성립합니다.</li>
++  <li>대금 지급 방법은 신용카드 등 회사가 결제대행사를 통해 제공하는 수단으로 합니다.</li>
++  <li>결제창에 표시된 금액과 회사가 서버에 등록한 상품 금액이 일치하지 않으면 회사는 승인을 거절할 수 있습니다.</li>
++</ol>
++
++<h2>제6조 (정기결제)</h2>
++<ol>
++  <li>월 구독·연 구독·정기 멘토링 등 구독형 상품은 이용자의 명시적 동의 하에 정기결제가 적용됩니다.</li>
++  <li>정기결제는 선택한 주기(월/년)마다 동일 금액이 자동 청구되며, 해지 의사가 접수되어 다음 결제일 전에 처리되면 이후 청구가 중단됩니다.</li>
++  <li>이용자는 고객센터 이메일(<a href="mailto:ceo@stargateedu.co.kr">ceo@stargateedu.co.kr</a>) 또는 안내에 따른 방법으로 언제든지 해지를 요청할 수 있습니다.</li>
++  <li>결제수단 유효기간 만료·한도 초과 등으로 자동결제가 실패하면 서비스 이용이 제한될 수 있으며, 회사는 이를 안내합니다.</li>
++</ol>
++
++<h2>제7조 (청약철회 및 환불)</h2>
+ <ol>
+   <li>상품 구매·결제에 관한 사항은 「전자상거래 등에서의 소비자보호에 관한 법률」을 따릅니다.</li>
+   <li>이용자는 디지털 콘텐츠의 제공이 개시되기 전까지 청약을 철회할 수 있습니다. 다만 제공이 개시된
+   디지털 콘텐츠로서 법령상 청약철회가 제한되는 경우, 회사는 그 사실을 구매 전에 고지합니다.</li>
+-  <li>세부 환불 기준은 <a href="https://stargateedu.co.kr/refund" rel="noopener">환불규정 센터</a>를 따릅니다.</li>
++  <li>연 구독 중도 해지 시 연 구독가를 12개월로 나눈 금액을 이용 개월 수(개시월 포함)만큼 공제하고 잔액을 환불합니다.</li>
++  <li>세부 환불 기준은 <a href="https://stargateedu.co.kr/refund/" rel="noopener">환불규정 센터</a>를 따릅니다.</li>
++</ol>
++
++<h2>제8조 (배송·제공)</h2>
++<ol>
++  <li>디지털 콘텐츠는 결제 확인 후 이메일 또는 서비스 내 안내에 따라 제공됩니다.</li>
++  <li>실물 교재는 배송지·배송비·배송 가능 지역을 결제·주문 과정에서 안내하며, 통상 영업일 기준 2~5일 내 출고를 목표로 합니다.</li>
+ </ol>
+ 
+-<h2>제6조 (지식재산권)</h2>
++<h2>제9조 (지식재산권)</h2>
+ <ol>
+   <li>서비스 및 디지털 콘텐츠(강의 영상, 교재, 문제 등)에 대한 저작권 및 지식재산권은 회사에 귀속됩니다.</li>
+   <li>이용자는 회사의 사전 서면 동의 없이 콘텐츠를 복제, 배포, 전송, 2차적 저작물 작성 등의 방법으로
+@@ -93,27 +113,27 @@
+   <li>구매한 디지털 콘텐츠의 무단 공유·재판매는 금지되며, 위반 시 이용 제한 및 법적 조치가 따를 수 있습니다.</li>
+ </ol>
+ 
+-<h2>제7조 (이용자의 의무)</h2>
++<h2>제10조 (이용자의 의무)</h2>
+ <ul>
+   <li>타인의 정보 도용, 회사·제3자의 지식재산권 침해 행위 금지</li>
+   <li>서비스의 정상적 운영을 방해하는 행위(무단 크롤링, 자동화 접근 남용 등) 금지</li>
+   <li>관계 법령, 이 약관, 이용안내 등 회사가 공지한 사항의 준수</li>
+ </ul>
+ 
+-<h2>제8조 (개인정보 보호)</h2>
++<h2>제11조 (개인정보 보호)</h2>
+ <p>회사는 이용자의 개인정보를 관계 법령에 따라 보호하며, 그 처리에 관한 사항은
+ <a href="/privacy.html">개인정보처리방침</a>을 따릅니다.</p>
+ 
+-<h2>제9조 (면책)</h2>
++<h2>제12조 (면책)</h2>
+ <ol>
+-  <li>회사는 천재지변, 호스팅 사업자의 장애 등 불가항력으로 인한 서비스 중단에 대하여
++  <li>회사는 천재지변, 호스팅·결제대행 사업자의 장애 등 불가항력으로 인한 서비스 중단에 대하여
+   책임을 지지 않습니다.</li>
+   <li>회사는 이용자의 귀책사유로 인한 서비스 이용 장애에 대하여 책임을 지지 않습니다.</li>
+   <li>교육 콘텐츠의 학습 성과(대회 수상, 합격 등)는 이용자의 학습에 따라 달라질 수 있으며,
+   회사는 특정 성과를 보증하지 않습니다.</li>
+ </ol>
+ 
+-<h2>제10조 (분쟁 해결 및 관할)</h2>
++<h2>제13조 (분쟁 해결 및 관할)</h2>
+ <ol>
+   <li>회사와 이용자 간 분쟁은 상호 협의로 원만히 해결하도록 노력합니다.</li>
+   <li>협의가 이루어지지 않을 경우 「민사소송법」상의 관할법원에 제소할 수 있으며,
+@@ -121,14 +141,18 @@
+   <li>이 약관은 대한민국 법령에 따라 해석됩니다.</li>
+ </ol>
+ 
+-<div class="note"><b>부칙</b> — 이 약관은 2026년 7월 11일부터 시행합니다.<br>
+-문의: 주식회사 별의문 · 대표 정동수 · <a href="mailto:ceo@stargateedu.co.kr">ceo@stargateedu.co.kr</a></div>
++<div class="note"><b>부칙</b> — 이 약관은 2026년 7월 27일부터 시행합니다.<br>
++문의: 주식회사 별의문 · 대표 정동수 · 전화 <a href="tel:070-8018-8227">070-8018-8227</a> ·
++<a href="mailto:ceo@stargateedu.co.kr">ceo@stargateedu.co.kr</a><br>
++주소: 서울특별시 강남구 삼성로63길 8-15, 204호 (대치동)</div>
+ 
+ </div>
+ </main>
+ <footer>
+   <div class="wrap">ⓒ 2026 Stargate Edu (주식회사 별의문) · <a href="/">shop.stargateedu.co.kr</a> ·
+-  <a href="/privacy.html">개인정보처리방침</a></div>
++  <a href="/privacy.html">개인정보처리방침</a><br>
++  상호: 주식회사 별의문 · 대표: 정동수 · 사업자등록번호: 848-86-03835 · 통신판매업신고: 2025-서울강남-05246호<br>
++  주소: 서울특별시 강남구 삼성로63길 8-15, 204호 (대치동) · 전화: 070-8018-8227 · 개인정보보호책임자: 정동수</div>
+ </footer>
+ </body>
+ </html>
+diff --git a/vercel.json b/vercel.json
+new file mode 100644
+index 0000000..8e46e03
+--- /dev/null
++++ b/vercel.json
+@@ -0,0 +1,18 @@
++{
++  "functions": {
++    "api/**/*.js": {
++      "runtime": "nodejs20.x",
++      "maxDuration": 15
++    }
++  },
++  "headers": [
++    {
++      "source": "/api/(.*)",
++      "headers": [
++        { "key": "Cache-Control", "value": "no-store" },
++        { "key": "X-Content-Type-Options", "value": "nosniff" },
++        { "key": "Referrer-Policy", "value": "same-origin" }
++      ]
++    }
++  ]
++}
+-- 
+2.43.0
+

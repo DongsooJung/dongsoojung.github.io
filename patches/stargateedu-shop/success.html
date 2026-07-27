@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="ko"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex,nofollow"><title>결제 완료 · Stargate Edu</title>
+<style>body{margin:0;font-family:Inter,'Pretendard','Noto Sans KR',system-ui,sans-serif;background:#F7F9FC;color:#1A2233;display:grid;min-height:100vh;place-items:center}.box{max-width:620px;margin:20px;background:#fff;border:1px solid #E4E7EC;border-radius:20px;padding:42px;text-align:center;box-shadow:0 16px 42px rgba(11,42,74,.08)}.icon{font-size:54px}h1{color:#0B2A4A;margin:12px 0 8px}p{color:#667085;line-height:1.6}.meta{margin-top:18px;text-align:left;background:#F7F9FC;border:1px solid #E4E7EC;border-radius:12px;padding:14px 16px;font-size:13px;color:#344054}.meta div{display:flex;justify-content:space-between;gap:12px;padding:6px 0;border-bottom:1px solid #E4E7EC}.meta div:last-child{border-bottom:0}.btn{display:inline-block;margin-top:20px;padding:13px 24px;border-radius:9px;background:#C9A227;color:#3a2e00;text-decoration:none;font-weight:800}</style></head>
+<body><main class="box"><div class="icon">✓</div><h1 id="title">결제가 완료되었습니다</h1><p id="message">주문 확인 메일이 발송되며, 디지털 상품은 안내에 따라 제공됩니다.</p><div class="meta" id="meta" hidden></div><a class="btn" id="home" href="./">쇼핑몰로 돌아가기</a></main>
+<script>(function(){
+  var q=new URLSearchParams(location.search);
+  var en=q.get("lang")==="en";
+  if(en){
+    document.documentElement.lang="en";
+    document.title="Payment complete · Stargate Edu";
+    document.getElementById("title").textContent="Payment complete";
+    document.getElementById("message").textContent="A confirmation email will follow. Digital products are delivered according to the product guide.";
+    document.getElementById("home").textContent="Return to the shop";
+    document.getElementById("home").href="./en/";
+  }
+  var rows=[
+    [en?"Order":"주문번호", q.get("order")||""],
+    [en?"KCP TNO":"KCP 거래번호", q.get("tno")||""],
+    [en?"Amount":"결제금액", q.get("amount")||""]
+  ].filter(function(r){return r[1];});
+  if(rows.length){
+    var meta=document.getElementById("meta");
+    meta.hidden=false;
+    meta.innerHTML=rows.map(function(r){return "<div><span>"+r[0]+"</span><strong>"+r[1]+"</strong></div>";}).join("");
+  }
+})();</script></body></html>
