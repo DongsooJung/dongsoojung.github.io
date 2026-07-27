@@ -59,10 +59,20 @@ jobs:
 
       - name: Fetch nation trade stats (관세청)
         env:
-          CUSTOMS_API_KEY: ${{ secrets.CUSTOMS_API_KEY || github.event.inputs.api_key }}
-          CUSTOMS_PROXY_BASE: ${{ secrets.CUSTOMS_PROXY_BASE || github.event.inputs.proxy_base }}
-          START_YM: ${{ github.event.inputs.start_ym || '2010-01' }}
-        run: python3 trade/fetch_data.py
+          CUSTOMS_API_KEY: ${{ secrets.CUSTOMS_API_KEY }}
+          CUSTOMS_PROXY_BASE: ${{ secrets.CUSTOMS_PROXY_BASE }}
+          START_YM: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.start_ym || '2010-01' }}
+          ONE_OFF_API_KEY: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.api_key || '' }}
+          ONE_OFF_PROXY_BASE: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.proxy_base || '' }}
+        run: |
+          if [ -z "$CUSTOMS_API_KEY" ] && [ -n "$ONE_OFF_API_KEY" ]; then
+            export CUSTOMS_API_KEY="$ONE_OFF_API_KEY"
+          fi
+          if [ -z "$CUSTOMS_PROXY_BASE" ] && [ -n "$ONE_OFF_PROXY_BASE" ]; then
+            export CUSTOMS_PROXY_BASE="$ONE_OFF_PROXY_BASE"
+          fi
+          echo "key_present=$([ -n \"$CUSTOMS_API_KEY\" ] && echo yes || echo no) start=$START_YM"
+          python3 trade/fetch_data.py
 
       - name: Commit updated data
         run: |

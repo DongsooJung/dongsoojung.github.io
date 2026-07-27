@@ -34,9 +34,15 @@ jobs:
 
       - name: Fetch tourism statistics
         env:
-          TOUR_API_KEY: ${{ secrets.TOUR_API_KEY || github.event.inputs.api_key }}
-          START_YM: ${{ github.event.inputs.start_ym || '2010-01' }}
-        run: python3 korea-tourism/fetch_data.py
+          TOUR_API_KEY: ${{ secrets.TOUR_API_KEY }}
+          START_YM: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.start_ym || '2010-01' }}
+          ONE_OFF_API_KEY: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.api_key || '' }}
+        run: |
+          if [ -z "$TOUR_API_KEY" ] && [ -n "$ONE_OFF_API_KEY" ]; then
+            export TOUR_API_KEY="$ONE_OFF_API_KEY"
+          fi
+          echo "key_present=$([ -n \"$TOUR_API_KEY\" ] && echo yes || echo no) start=$START_YM"
+          python3 korea-tourism/fetch_data.py
 
       - name: Commit updated data
         run: |
