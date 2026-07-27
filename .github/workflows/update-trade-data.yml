@@ -22,6 +22,10 @@ on:
         description: '(선택) 수집 시작 연월 YYYY-MM — 기본 2010-01. 과거 백필 시 더 이른 값 지정'
         required: false
         default: ''
+  push:
+    branches: [main]
+    paths:
+      - '.github/triggers/backfill-trade'
 
 permissions:
   contents: write
@@ -33,14 +37,13 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Mask one-off key in logs
-        run: |
-          [ -n "${{ inputs.api_key }}" ] && echo "::add-mask::${{ inputs.api_key }}"
-          true
+        if: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.api_key != '' }}
+        run: echo "::add-mask::${{ github.event.inputs.api_key }}"
 
       - name: Diagnose gateway (debug)
-        if: ${{ inputs.debug == 'true' }}
+        if: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.debug == 'true' }}
         env:
-          KEY: ${{ secrets.CUSTOMS_API_KEY || inputs.api_key }}
+          KEY: ${{ secrets.CUSTOMS_API_KEY || github.event.inputs.api_key }}
         run: |
           NT="https://apis.data.go.kr/1220000/nationtrade/getNationtradeList?serviceKey=$KEY&strtYymm=202606&endYymm=202606"
           probe() {
@@ -56,9 +59,9 @@ jobs:
 
       - name: Fetch nation trade stats (관세청)
         env:
-          CUSTOMS_API_KEY: ${{ secrets.CUSTOMS_API_KEY || inputs.api_key }}
-          CUSTOMS_PROXY_BASE: ${{ secrets.CUSTOMS_PROXY_BASE || inputs.proxy_base }}
-          START_YM: ${{ inputs.start_ym }}
+          CUSTOMS_API_KEY: ${{ secrets.CUSTOMS_API_KEY || github.event.inputs.api_key }}
+          CUSTOMS_PROXY_BASE: ${{ secrets.CUSTOMS_PROXY_BASE || github.event.inputs.proxy_base }}
+          START_YM: ${{ github.event.inputs.start_ym || '2010-01' }}
         run: python3 trade/fetch_data.py
 
       - name: Commit updated data
