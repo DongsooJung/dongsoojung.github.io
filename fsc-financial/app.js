@@ -2,6 +2,9 @@
   const ENDPOINT =
     'https://apis.data.go.kr/1160100/service/GetFinaStatInfoService_V2/getSummFinaStat_V2';
   const KEY_STORAGE = 'stargate-data-go-kr-key';
+  // 기본 공공데이터포털 키 — 입력 없이도 바로 조회
+  const DEFAULT_SERVICE_KEY =
+    'fcc95a3d84cbb220391765c9ba129573f32b5e86bfc746483e0e96a806b35c9c';
   const PAGE_SIZE = 100;
   const OK_CODES = new Set(['00', '0', '000', 'NORMAL_SERVICE', 'NORMAL SERVICE.']);
   const PCT_ENCODED = /%[0-9A-Fa-f]{2}/;
@@ -85,14 +88,26 @@
     els.notice.dataset.kind = kind;
   }
 
+  function resolveServiceKey() {
+    const typed = decodeServiceKey(els.key?.value);
+    if (typed) return typed;
+    const saved = decodeServiceKey(localStorage.getItem(KEY_STORAGE) || '');
+    if (saved) return saved;
+    return DEFAULT_SERVICE_KEY;
+  }
+
   function saveKey() {
     const key = decodeServiceKey(els.key.value);
-    if (key) localStorage.setItem(KEY_STORAGE, key);
+    if (key && key !== DEFAULT_SERVICE_KEY) {
+      localStorage.setItem(KEY_STORAGE, key);
+    }
   }
 
   function loadKey() {
     const saved = localStorage.getItem(KEY_STORAGE) || '';
-    if (saved) els.key.value = saved;
+    // 입력란은 비워 두고, 조회 시 DEFAULT_SERVICE_KEY를 자동 사용
+    els.key.value = saved && saved !== DEFAULT_SERVICE_KEY ? saved : '';
+    els.key.placeholder = '기본 키 사용 중 (변경 시에만 입력)';
   }
 
   function updatePager() {
@@ -363,14 +378,13 @@
     });
     if (data.bizYear) els.year.value = String(data.bizYear);
     setStatus(`샘플 ${items.length}건 표시 (2023 요약재무제표)`);
-    setNotice('API 키를 입력하면 다른 사업연도·페이지를 100건씩 실시간으로 불러옵니다.', 'info');
+    setNotice('오프라인 샘플입니다. 실시간 조회는 「100건 불러오기」를 누르세요.', 'info');
   }
 
   async function fetchPage(pageNo) {
-    const key = decodeServiceKey(els.key.value);
+    const key = resolveServiceKey();
     if (!key) {
-      setNotice('공공데이터포털 serviceKey를 입력하세요. (금융위원회 기업재무정보 활용신청 필요)', 'warn');
-      els.key.focus();
+      setNotice('서비스 키를 확인할 수 없습니다.', 'warn');
       return;
     }
     saveKey();
@@ -490,7 +504,12 @@
   }
 
   bind();
-  loadSeed().catch((e) => {
-    setNotice(`샘플 로드 실패: ${e.message}. API 키로 직접 조회하세요.`, 'warn');
+  // 기본 키로 첫 페이지를 자동 조회. 실패 시에만 샘플로 폴백
+  fetchPage(1).then(() => {
+    if (!state.items.length) {
+      return loadSeed().catch((e) => {
+        setNotice(`샘플 로드 실패: ${e.message}`, 'warn');
+      });
+    }
   });
 })();
