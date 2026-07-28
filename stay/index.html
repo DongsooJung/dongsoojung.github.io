@@ -3,11 +3,11 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Daechi Stay | A quiet Seoul stay in Gangnam</title>
-  <meta name="description" content="A calm, globally friendly city stay in Daechi-dong, Gangnam, Seoul.">
+  <title>Daechi Stay | Gangnam eats &amp; Korea guide</title>
+  <meta name="description" content="A quiet Daechi-dong stay in Gangnam with host-curated restaurants and Korea guidebooks for international travelers.">
   <meta name="theme-color" content="#18231d">
-  <meta property="og:title" content="Daechi Stay">
-  <meta property="og:description" content="Your Seoul rhythm, from here.">
+  <meta property="og:title" content="Daechi Stay · Eat &amp; Guide">
+  <meta property="og:description" content="Gangnam base, host-curated eats, and Korea guides you can buy before you land.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://www.stargateedu.co.kr/stay/">
   <meta property="og:image" content="https://www.stargateedu.co.kr/stay/og.png">
@@ -29,57 +29,201 @@
     .nav{height:84px;display:flex;align-items:center;justify-content:space-between;gap:24px}
     .brand{display:flex;align-items:center;gap:11px;font-size:12px;font-weight:600;letter-spacing:.2em}
     .brand-mark{width:31px;height:31px;border:1px solid currentColor;border-radius:50%;display:grid;place-items:center;font-family:"Cormorant Garamond",serif;font-size:19px;letter-spacing:0}
-    .nav-links{display:flex;gap:34px;font-size:13px}.nav-links a{position:relative}
+    .nav-links{display:flex;gap:28px;font-size:13px}.nav-links a{position:relative}
     .nav-links a:after{content:"";position:absolute;left:0;right:100%;bottom:-7px;height:1px;background:currentColor;transition:.25s}
     .nav-links a:hover:after,.nav-links a:focus-visible:after{right:0}
     .lang-toggle{border:1px solid var(--line);background:transparent;border-radius:999px;padding:9px 15px;cursor:pointer;font-size:12px;font-weight:600}
     .hero{min-height:calc(100svh - 84px);position:relative;color:#fff;display:flex;align-items:center;overflow:hidden}
-    .hero-image{position:absolute;inset:0;background:url("assets/hero-interior.png") center/cover no-repeat;transform:scale(1.01)}
+    .hero-image{position:absolute;inset:0;background:url("assets/hero-interior.png") center/cover no-repeat;transform:scale(1.04);animation:heroZoom 18s ease-out both}
     .hero-shade{position:absolute;inset:0;background:linear-gradient(90deg,rgba(12,22,17,.84) 0%,rgba(12,22,17,.59) 38%,rgba(12,22,17,.08) 73%)}
-    .hero-content{position:relative;padding:90px 0 118px}.eyebrow{margin:0 0 21px;color:var(--terra);text-transform:uppercase;letter-spacing:.22em;font-size:11px;font-weight:600}.eyebrow.light{color:#f0b098}
-    h1,h2,h3,p{margin-top:0}h1{font-family:"Cormorant Garamond",serif;font-weight:500;font-size:clamp(64px,8.1vw,118px);line-height:.82;letter-spacing:-.045em;max-width:790px;margin-bottom:35px}h1 span{display:block}
+    .hero-content{position:relative;padding:90px 0 118px;animation:rise .7s ease both}
+    .eyebrow{margin:0 0 21px;color:var(--terra);text-transform:uppercase;letter-spacing:.22em;font-size:11px;font-weight:600}.eyebrow.light{color:#f0b098}
+    h1,h2,h3,p{margin-top:0}h1{font-family:"Cormorant Garamond",serif;font-weight:500;font-size:clamp(56px,7.4vw,108px);line-height:.84;letter-spacing:-.045em;max-width:820px;margin-bottom:35px}h1 span{display:block}
     .hero-intro{max-width:620px;font-size:clamp(16px,1.5vw,20px);line-height:1.7;color:rgba(255,255,255,.86)}
-    .hero-actions{display:flex;flex-wrap:wrap;gap:12px;margin:34px 0 45px}.button{min-height:50px;padding:0 23px;border:1px solid transparent;display:inline-flex;align-items:center;justify-content:center;gap:22px;font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;transition:.25s}
-    .button.primary{color:var(--ink);background:var(--ivory)}.button.primary:hover{background:#fff;transform:translateY(-2px)}.button.ghost{color:#fff;border-color:rgba(255,255,255,.45)}.button.ghost:hover{border-color:#fff;background:rgba(255,255,255,.08)}
-    .proof{list-style:none;padding:0;margin:0;display:flex;gap:26px;flex-wrap:wrap;color:rgba(255,255,255,.74);font-size:12px}.proof li:before{content:"·";color:#f0b098;margin-right:10px}.image-note{position:absolute;right:18px;bottom:15px;margin:0;font-size:10px;letter-spacing:.06em;color:rgba(255,255,255,.58)}
-    .section{padding:120px 0}.section-heading{display:grid;grid-template-columns:1.1fr .9fr;gap:100px;align-items:end;margin-bottom:66px}h2{font-family:"Cormorant Garamond",serif;font-weight:500;font-size:clamp(42px,5vw,70px);line-height:1.02;letter-spacing:-.03em;margin-bottom:0}.section-heading>p,.lead{color:#58625c;line-height:1.8;margin-bottom:0}
-    .feature-grid{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid var(--line)}.feature-card{padding:35px 38px 38px 0;min-height:310px;border-right:1px solid var(--line);position:relative}.feature-card+.feature-card{padding-left:38px}.feature-card:last-child{border-right:0}.feature-number{color:var(--terra);font-size:10px;letter-spacing:.16em}
-    .feature-icon{width:64px;height:64px;margin:37px 0 31px;position:relative}.icon-bed{border:1px solid var(--moss);border-radius:60% 60% 8px 8px}.icon-bed:after{content:"";position:absolute;left:12px;right:12px;bottom:15px;height:1px;background:var(--moss);box-shadow:0 -9px var(--moss)}.icon-home{border:1px solid var(--moss);border-radius:50%}.icon-home:before,.icon-home:after{content:"";position:absolute;background:var(--moss)}.icon-home:before{width:1px;height:44px;left:31px;top:9px;transform:rotate(45deg)}.icon-home:after{height:1px;width:44px;top:31px;left:9px;transform:rotate(45deg)}.icon-work:before{content:"";position:absolute;width:52px;height:36px;left:6px;top:12px;border:1px solid var(--moss);border-radius:4px}.icon-work:after{content:"";position:absolute;width:28px;height:1px;background:var(--moss);bottom:10px;left:18px;box-shadow:0 5px var(--moss)}
-    .feature-card h3,.timeline h3{font-family:"Cormorant Garamond",serif;font-size:27px;font-weight:600;margin-bottom:12px}.feature-card p,.timeline p{color:#687069;line-height:1.7;font-size:14px;margin:0}
-    .neighborhood{background:var(--ink);color:#fff;padding:100px 0}.neighborhood-grid{display:grid;grid-template-columns:1.05fr .95fr;align-items:center;gap:90px}.map-card{min-height:590px;position:relative;overflow:hidden;background:#27332d;border:1px solid rgba(255,255,255,.13)}.map-grid{position:absolute;inset:0;opacity:.16;background-image:linear-gradient(rgba(255,255,255,.5) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.5) 1px,transparent 1px);background-size:64px 64px;transform:rotate(12deg) scale(1.3)}.route{position:absolute;height:5px;background:#9cab89;transform-origin:left center;border-radius:8px}.route-a{width:540px;top:180px;left:40px;transform:rotate(28deg)}.route-b{width:650px;top:430px;left:-70px;background:#c58a69;transform:rotate(-22deg)}
-    .map-dot{position:absolute;font-size:9px;letter-spacing:.11em;display:flex;align-items:center;gap:8px}.map-dot i{width:8px;height:8px;background:var(--ivory);border-radius:50%}.dot-home{left:46%;top:45%;flex-direction:column;gap:6px;transform:translate(-50%,-50%)}.dot-home b{width:55px;height:55px;display:grid;place-items:center;background:var(--terra);border-radius:50%;font-family:"Cormorant Garamond",serif;font-size:25px}.dot-home em{font-style:normal;white-space:nowrap}.dot-coex{right:12%;top:25%}.dot-park{left:12%;bottom:24%}.map-river{position:absolute;right:-15px;bottom:52px;color:rgba(255,255,255,.3);font-size:10px;letter-spacing:.35em;transform:rotate(-12deg)}
-    .neighborhood-copy h2{margin-bottom:28px}.neighborhood-copy .lead{color:rgba(255,255,255,.68);font-size:16px}.transit-list{margin-top:50px;border-top:1px solid rgba(255,255,255,.18)}.transit-list div{padding:18px 0;display:flex;justify-content:space-between;gap:20px;border-bottom:1px solid rgba(255,255,255,.18)}.transit-list span{color:#f0b098;font-size:12px}.transit-list strong{font-size:13px;font-weight:500}
-    .rhythm{padding-bottom:140px}.timeline{display:grid;grid-template-columns:repeat(3,1fr);margin-top:45px;border-top:1px solid var(--line)}.timeline article{padding:32px 45px 0 0;position:relative}.timeline time{color:var(--terra);font-size:11px;letter-spacing:.13em}.timeline-dot{position:absolute;width:9px;height:9px;border:2px solid var(--paper);border-radius:50%;background:var(--terra);top:-5px;left:0;box-shadow:0 0 0 1px var(--terra)}.timeline h3{margin-top:40px}
-    .essentials{background:var(--ivory);padding:105px 0}.essentials-grid{display:grid;grid-template-columns:.8fr 1.2fr;gap:120px}.essentials-grid h2{font-size:clamp(42px,4vw,62px)}.essentials dl{margin:0;border-top:1px solid var(--line)}.essentials dl div{display:grid;grid-template-columns:130px 1fr;gap:20px;padding:21px 0;border-bottom:1px solid var(--line)}.essentials dt{color:var(--terra);font-size:12px;font-weight:600}.essentials dd{margin:0;font-size:14px}
-    .inquiry{background:var(--moss);color:#fff;padding:110px 0}.inquiry-grid{display:grid;grid-template-columns:.8fr 1.2fr;gap:110px}.inquiry h2{margin-bottom:25px}.inquiry-grid>div>p:last-child{color:rgba(255,255,255,.7);line-height:1.7}.inquiry form{display:grid;gap:18px}.form-row{display:grid;grid-template-columns:1fr 1fr;gap:18px}.inquiry label{display:grid;gap:8px;color:rgba(255,255,255,.72);font-size:11px;letter-spacing:.08em;text-transform:uppercase}.inquiry input,.inquiry select,.inquiry textarea{width:100%;color:#fff;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.26);border-radius:0;padding:14px;outline:none}.inquiry input:focus,.inquiry select:focus,.inquiry textarea:focus{border-color:#fff;box-shadow:0 0 0 2px rgba(255,255,255,.12)}.inquiry select option{color:var(--ink)}.button.submit{background:var(--ivory);color:var(--ink);width:100%;margin-top:4px}.button.submit:hover{background:#fff}.inquiry small{color:rgba(255,255,255,.52);font-size:10px}
-    .footer{min-height:150px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:24px;align-items:center;font-size:11px;color:#687069}.footer p{margin:0;text-align:center}.footer p:last-child{text-align:right}
-    @media(max-width:850px){.nav-links{display:none}.hero{min-height:760px}.hero-image{background-position:58% center}.hero-shade{background:linear-gradient(90deg,rgba(12,22,17,.86),rgba(12,22,17,.35))}.section-heading,.neighborhood-grid,.essentials-grid,.inquiry-grid{grid-template-columns:1fr;gap:45px}.feature-grid{grid-template-columns:1fr}.feature-card,.feature-card+.feature-card{padding:30px 0;border-right:0;border-bottom:1px solid var(--line);min-height:0;display:grid;grid-template-columns:50px 82px 1fr;align-items:center;gap:10px}.feature-icon{margin:0}.feature-card h3,.feature-card p{grid-column:3}.feature-card h3{margin:0}.map-card{min-height:460px;order:2}.timeline{grid-template-columns:1fr;border-top:0}.timeline article{border-top:1px solid var(--line);padding:30px 0 35px 28px}.timeline-dot{top:26px}}
-    @media(max-width:560px){.shell{width:min(100% - 32px,1180px)}.nav{height:70px}.brand{font-size:10px}.hero{min-height:calc(100svh - 70px)}.hero-content{padding:70px 0 100px}h1{font-size:61px}.proof{display:grid;gap:8px}.section{padding:80px 0}.section-heading{margin-bottom:35px}.feature-card,.feature-card+.feature-card{grid-template-columns:35px 60px 1fr}.feature-icon{transform:scale(.78);transform-origin:left center}.neighborhood{padding:75px 0}.map-card{min-height:380px}.form-row{grid-template-columns:1fr}.essentials-grid{gap:35px}.essentials dl div{grid-template-columns:95px 1fr}.footer{padding:35px 0;grid-template-columns:1fr;justify-items:center}.footer p:last-child{text-align:center}}
-    @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*:before,*:after{transition:none!important}}
+    .hero-actions{display:flex;flex-wrap:wrap;gap:12px;margin:34px 0 45px}
+    .button{min-height:50px;padding:0 23px;border:1px solid transparent;display:inline-flex;align-items:center;justify-content:center;gap:14px;font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;transition:.25s}
+    .button.primary{color:var(--ink);background:var(--ivory)}.button.primary:hover{background:#fff;transform:translateY(-2px)}
+    .button.ghost{color:#fff;border-color:rgba(255,255,255,.45)}.button.ghost:hover{border-color:#fff;background:rgba(255,255,255,.08)}
+    .button.ink{color:#fff;background:var(--ink)}.button.ink:hover{background:#24312a;transform:translateY(-2px)}
+    .button.terra{color:#fff;background:var(--terra)}.button.terra:hover{background:#a34f33;transform:translateY(-2px)}
+    .button.outline{color:var(--ink);border-color:var(--line);background:transparent}.button.outline:hover{border-color:var(--ink);background:rgba(24,35,29,.04)}
+    .button.full{width:100%}
+    .proof{list-style:none;padding:0;margin:0;display:flex;gap:26px;flex-wrap:wrap;color:rgba(255,255,255,.74);font-size:12px}.proof li:before{content:"·";color:#f0b098;margin-right:10px}
+    .image-note{position:absolute;right:18px;bottom:15px;margin:0;font-size:10px;letter-spacing:.06em;color:rgba(255,255,255,.58)}
+    .section{padding:120px 0}.section-heading{display:grid;grid-template-columns:1.1fr .9fr;gap:100px;align-items:end;margin-bottom:66px}
+    h2{font-family:"Cormorant Garamond",serif;font-weight:500;font-size:clamp(42px,5vw,70px);line-height:1.02;letter-spacing:-.03em;margin-bottom:0}
+    .section-heading>p,.lead{color:#58625c;line-height:1.8;margin-bottom:0}
+    .feature-grid{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid var(--line)}
+    .feature-card{padding:35px 38px 38px 0;min-height:310px;border-right:1px solid var(--line);position:relative}
+    .feature-card+.feature-card{padding-left:38px}.feature-card:last-child{border-right:0}
+    .feature-number{color:var(--terra);font-size:10px;letter-spacing:.16em}
+    .feature-icon{width:64px;height:64px;margin:37px 0 31px;position:relative}
+    .icon-bed{border:1px solid var(--moss);border-radius:60% 60% 8px 8px}.icon-bed:after{content:"";position:absolute;left:12px;right:12px;bottom:15px;height:1px;background:var(--moss);box-shadow:0 -9px var(--moss)}
+    .icon-home{border:1px solid var(--moss);border-radius:50%}.icon-home:before,.icon-home:after{content:"";position:absolute;background:var(--moss)}.icon-home:before{width:1px;height:44px;left:31px;top:9px;transform:rotate(45deg)}.icon-home:after{height:1px;width:44px;top:31px;left:9px;transform:rotate(45deg)}
+    .icon-work:before{content:"";position:absolute;width:52px;height:36px;left:6px;top:12px;border:1px solid var(--moss);border-radius:4px}.icon-work:after{content:"";position:absolute;width:28px;height:1px;background:var(--moss);bottom:10px;left:18px;box-shadow:0 5px var(--moss)}
+    .feature-card h3,.timeline h3{font-family:"Cormorant Garamond",serif;font-size:27px;font-weight:600;margin-bottom:12px}
+    .feature-card p,.timeline p{color:#687069;line-height:1.7;font-size:14px;margin:0}
+    .neighborhood{background:var(--ink);color:#fff;padding:100px 0}
+    .neighborhood-grid{display:grid;grid-template-columns:1.05fr .95fr;align-items:center;gap:90px}
+    .map-card{min-height:590px;position:relative;overflow:hidden;background:#27332d;border:1px solid rgba(255,255,255,.13)}
+    .map-grid{position:absolute;inset:0;opacity:.16;background-image:linear-gradient(rgba(255,255,255,.5) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.5) 1px,transparent 1px);background-size:64px 64px;transform:rotate(12deg) scale(1.3)}
+    .route{position:absolute;height:5px;background:#9cab89;transform-origin:left center;border-radius:8px}
+    .route-a{width:540px;top:180px;left:40px;transform:rotate(28deg)}.route-b{width:650px;top:430px;left:-70px;background:#c58a69;transform:rotate(-22deg)}
+    .map-dot{position:absolute;font-size:9px;letter-spacing:.11em;display:flex;align-items:center;gap:8px}
+    .map-dot i{width:8px;height:8px;background:var(--ivory);border-radius:50%}
+    .dot-home{left:46%;top:45%;flex-direction:column;gap:6px;transform:translate(-50%,-50%)}
+    .dot-home b{width:55px;height:55px;display:grid;place-items:center;background:var(--terra);border-radius:50%;font-family:"Cormorant Garamond",serif;font-size:25px}
+    .dot-home em{font-style:normal;white-space:nowrap}.dot-coex{right:12%;top:25%}.dot-park{left:12%;bottom:24%}
+    .map-river{position:absolute;right:-15px;bottom:52px;color:rgba(255,255,255,.3);font-size:10px;letter-spacing:.35em;transform:rotate(-12deg)}
+    .neighborhood-copy h2{margin-bottom:28px}.neighborhood-copy .lead{color:rgba(255,255,255,.68);font-size:16px}
+    .transit-list{margin-top:50px;border-top:1px solid rgba(255,255,255,.18)}
+    .transit-list div{padding:18px 0;display:flex;justify-content:space-between;gap:20px;border-bottom:1px solid rgba(255,255,255,.18)}
+    .transit-list span{color:#f0b098;font-size:12px}.transit-list strong{font-size:13px;font-weight:500}
+    .rhythm{padding-bottom:80px}.timeline{display:grid;grid-template-columns:repeat(3,1fr);margin-top:45px;border-top:1px solid var(--line)}
+    .timeline article{padding:32px 45px 0 0;position:relative}.timeline time{color:var(--terra);font-size:11px;letter-spacing:.13em}
+    .timeline-dot{position:absolute;width:9px;height:9px;border:2px solid var(--paper);border-radius:50%;background:var(--terra);top:-5px;left:0;box-shadow:0 0 0 1px var(--terra)}.timeline h3{margin-top:40px}
+
+    /* Eat */
+    .eat{background:var(--paper);padding:0 0 40px}
+    .eat-head{padding-top:40px}
+    .filter-row{display:flex;flex-wrap:wrap;gap:10px;margin:0 0 28px}
+    .filter-btn{min-height:40px;padding:0 16px;border:1px solid var(--line);background:transparent;cursor:pointer;font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:#58625c;transition:.2s}
+    .filter-btn[aria-pressed="true"],.filter-btn:hover{color:var(--ink);border-color:var(--ink);background:rgba(24,35,29,.04)}
+    .eat-list{border-top:1px solid var(--line)}
+    .eat-item{display:grid;grid-template-columns:88px 1fr auto;gap:28px;align-items:start;padding:28px 0;border-bottom:1px solid var(--line);opacity:0;transform:translateY(14px);transition:opacity .45s ease,transform .45s ease}
+    .eat-item.is-in{opacity:1;transform:none}
+    .eat-item[hidden]{display:none}
+    .eat-meta{display:grid;gap:8px}
+    .eat-type{color:var(--terra);font-size:11px;letter-spacing:.14em;text-transform:uppercase}
+    .eat-item h3{font-family:"Cormorant Garamond",serif;font-size:30px;font-weight:600;margin:0 0 8px;letter-spacing:-.02em}
+    .eat-item p{margin:0;color:#687069;line-height:1.7;font-size:14px;max-width:54ch}
+    .eat-tip{margin-top:12px;font-size:13px;color:var(--ink);line-height:1.6}
+    .eat-tip strong{color:var(--terra);font-weight:600;letter-spacing:.04em;text-transform:uppercase;font-size:11px;margin-right:8px}
+    .eat-stats{display:grid;gap:8px;justify-items:end;text-align:right;font-size:12px;color:#687069;min-width:120px}
+    .eat-stats b{color:var(--ink);font-weight:600}
+    .eat-actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:18px;grid-column:2 / -1}
+    .eat-upsell{margin:48px 0 0;padding:34px 0;border-top:1px solid var(--line);display:grid;grid-template-columns:1.3fr .7fr;gap:40px;align-items:center}
+    .eat-upsell h3{font-family:"Cormorant Garamond",serif;font-size:clamp(28px,3vw,40px);margin:0 0 12px;font-weight:500}
+    .eat-upsell p{margin:0;color:#687069;line-height:1.7}
+    .eat-upsell .cta-stack{display:grid;gap:10px}
+
+    /* Guide shop */
+    .guide{background:var(--ink);color:#fff;padding:110px 0}
+    .guide .eyebrow{color:#f0b098}
+    .guide-head{display:grid;grid-template-columns:1.1fr .9fr;gap:80px;align-items:end;margin-bottom:54px}
+    .guide-head p{color:rgba(255,255,255,.68);line-height:1.8;margin:0}
+    .guide-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border-top:1px solid rgba(255,255,255,.18)}
+    .guide-sku{padding:36px 34px 40px 0;border-right:1px solid rgba(255,255,255,.18);display:flex;flex-direction:column;min-height:100%;opacity:0;transform:translateY(16px);transition:opacity .5s ease,transform .5s ease}
+    .guide-sku.is-in{opacity:1;transform:none}
+    .guide-sku+.guide-sku{padding-left:34px}.guide-sku:last-child{border-right:0}
+    .guide-cover{height:180px;margin-bottom:28px;border:1px solid rgba(255,255,255,.16);display:grid;place-items:end start;padding:18px;position:relative;overflow:hidden}
+    .guide-cover:before{content:"";position:absolute;inset:0;opacity:.9;background:linear-gradient(145deg,rgba(184,92,62,.55),rgba(83,100,81,.35) 45%,rgba(242,235,221,.08));transition:transform .6s ease}
+    .guide-sku:hover .guide-cover:before{transform:scale(1.06)}
+    .guide-cover span{position:relative;font-family:"Cormorant Garamond",serif;font-size:28px;line-height:1;max-width:10ch}
+    .guide-sku .tag{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#f0b098;margin-bottom:12px}
+    .guide-sku h3{font-family:"Cormorant Garamond",serif;font-size:32px;font-weight:500;margin:0 0 12px;letter-spacing:-.02em}
+    .guide-sku .blurb{color:rgba(255,255,255,.68);font-size:14px;line-height:1.7;margin:0 0 18px;flex:1}
+    .guide-sku ul{list-style:none;padding:0;margin:0 0 22px;display:grid;gap:8px;font-size:13px;color:rgba(255,255,255,.78)}
+    .guide-sku ul li:before{content:"—";color:#f0b098;margin-right:10px}
+    .price-row{display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin-bottom:16px}
+    .price{font-family:"Cormorant Garamond",serif;font-size:40px;letter-spacing:-.02em}
+    .price small{font-family:"Noto Sans KR",sans-serif;font-size:12px;letter-spacing:.06em;color:rgba(255,255,255,.55);margin-left:6px;text-transform:uppercase}
+    .price-note{font-size:11px;color:rgba(255,255,255,.5)}
+    .guide-bundle{margin-top:48px;padding:28px 0 0;border-top:1px solid rgba(255,255,255,.18);display:grid;grid-template-columns:1.4fr .6fr;gap:30px;align-items:center}
+    .guide-bundle h3{font-family:"Cormorant Garamond",serif;font-size:clamp(26px,3vw,36px);margin:0 0 10px;font-weight:500}
+    .guide-bundle p{margin:0;color:rgba(255,255,255,.68);line-height:1.7}
+    .code-pill{display:inline-block;margin-top:14px;padding:8px 12px;border:1px solid rgba(240,176,152,.45);color:#f0b098;font-size:12px;letter-spacing:.12em}
+
+    .essentials{background:var(--ivory);padding:105px 0}
+    .essentials-grid{display:grid;grid-template-columns:.8fr 1.2fr;gap:120px}
+    .essentials-grid h2{font-size:clamp(42px,4vw,62px)}
+    .essentials dl{margin:0;border-top:1px solid var(--line)}
+    .essentials dl div{display:grid;grid-template-columns:130px 1fr;gap:20px;padding:21px 0;border-bottom:1px solid var(--line)}
+    .essentials dt{color:var(--terra);font-size:12px;font-weight:600}.essentials dd{margin:0;font-size:14px}
+    .inquiry{background:var(--moss);color:#fff;padding:110px 0}
+    .inquiry-grid{display:grid;grid-template-columns:.8fr 1.2fr;gap:110px}
+    .inquiry h2{margin-bottom:25px}
+    .inquiry-grid>div>p{color:rgba(255,255,255,.7);line-height:1.7}
+    .inquiry form{display:grid;gap:18px}
+    .form-row{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+    .inquiry label{display:grid;gap:8px;color:rgba(255,255,255,.72);font-size:11px;letter-spacing:.08em;text-transform:uppercase}
+    .inquiry input,.inquiry select,.inquiry textarea{width:100%;color:#fff;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.26);border-radius:0;padding:14px;outline:none}
+    .inquiry input:focus,.inquiry select:focus,.inquiry textarea:focus{border-color:#fff;box-shadow:0 0 0 2px rgba(255,255,255,.12)}
+    .inquiry select option{color:var(--ink)}
+    .button.submit{background:var(--ivory);color:var(--ink);width:100%;margin-top:4px}.button.submit:hover{background:#fff}
+    .inquiry small{color:rgba(255,255,255,.52);font-size:10px}
+    .inquiry-extras{display:flex;flex-wrap:wrap;gap:10px;margin-top:18px}
+    .footer{min-height:150px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:24px;align-items:center;font-size:11px;color:#687069}
+    .footer p{margin:0;text-align:center}.footer p:last-child{text-align:right}
+    @keyframes rise{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+    @keyframes heroZoom{from{transform:scale(1.08)}to{transform:scale(1.01)}}
+    @media(max-width:850px){
+      .nav-links{display:none}.hero{min-height:760px}.hero-image{background-position:58% center}
+      .hero-shade{background:linear-gradient(90deg,rgba(12,22,17,.86),rgba(12,22,17,.35))}
+      .section-heading,.neighborhood-grid,.essentials-grid,.inquiry-grid,.guide-head,.eat-upsell,.guide-bundle{grid-template-columns:1fr;gap:45px}
+      .feature-grid{grid-template-columns:1fr}
+      .feature-card,.feature-card+.feature-card{padding:30px 0;border-right:0;border-bottom:1px solid var(--line);min-height:0;display:grid;grid-template-columns:50px 82px 1fr;align-items:center;gap:10px}
+      .feature-icon{margin:0}.feature-card h3,.feature-card p{grid-column:3}.feature-card h3{margin:0}
+      .map-card{min-height:460px;order:2}.timeline{grid-template-columns:1fr;border-top:0}
+      .timeline article{border-top:1px solid var(--line);padding:30px 0 35px 28px}.timeline-dot{top:26px}
+      .eat-item{grid-template-columns:1fr;gap:14px}.eat-stats{justify-items:start;text-align:left}.eat-actions{grid-column:1}
+      .guide-grid{grid-template-columns:1fr}.guide-sku,.guide-sku+.guide-sku{padding:32px 0;border-right:0;border-bottom:1px solid rgba(255,255,255,.18)}
+    }
+    @media(max-width:560px){
+      .shell{width:min(100% - 32px,1180px)}.nav{height:70px}.brand{font-size:10px}
+      .hero{min-height:calc(100svh - 70px)}.hero-content{padding:70px 0 100px}h1{font-size:54px}
+      .proof{display:grid;gap:8px}.section{padding:80px 0}.section-heading{margin-bottom:35px}
+      .feature-card,.feature-card+.feature-card{grid-template-columns:35px 60px 1fr}
+      .feature-icon{transform:scale(.78);transform-origin:left center}
+      .neighborhood{padding:75px 0}.map-card{min-height:380px}.form-row{grid-template-columns:1fr}
+      .essentials-grid{gap:35px}.essentials dl div{grid-template-columns:95px 1fr}
+      .footer{padding:35px 0;grid-template-columns:1fr;justify-items:center}.footer p:last-child{text-align:center}
+      .guide{padding:80px 0}
+    }
+    @media(prefers-reduced-motion:reduce){
+      html{scroll-behavior:auto}
+      *,*:before,*:after{transition:none!important;animation:none!important}
+      .eat-item,.guide-sku,.hero-content{opacity:1;transform:none}
+    }
   </style>
 </head>
 <body>
   <nav class="nav shell" aria-label="Main navigation">
     <a class="brand" href="#top" aria-label="Daechi Stay home"><span class="brand-mark">D</span><span>DAECHI STAY</span></a>
-    <div class="nav-links"><a href="#stay" data-en="The stay" data-ko="숙소">The stay</a><a href="#neighborhood" data-en="Neighborhood" data-ko="동네">Neighborhood</a><a href="#essentials" data-en="Essentials" data-ko="이용 안내">Essentials</a></div>
+    <div class="nav-links">
+      <a href="#stay" data-en="Stay" data-ko="숙소">Stay</a>
+      <a href="#eat" data-en="Eat" data-ko="맛집">Eat</a>
+      <a href="#guide" data-en="Guide" data-ko="가이드">Guide</a>
+      <a href="#inquiry" data-en="Book" data-ko="예약">Book</a>
+    </div>
     <button class="lang-toggle" id="langToggle" type="button" aria-label="한국어로 보기">한국어</button>
   </nav>
 
   <header class="hero" id="top">
     <div class="hero-image" role="img" aria-label="Warm, modern Seoul apartment interior"></div><div class="hero-shade"></div>
     <div class="hero-content shell">
-      <p class="eyebrow light" data-en="A quiet address in Gangnam · Seoul" data-ko="서울 강남, 조용한 대치동 스테이">A quiet address in Gangnam · Seoul</p>
-      <h1 data-en="<span>Your Seoul rhythm,</span><span>from here.</span>" data-ko="<span>서울의 리듬을,</span><span>여기서부터.</span>"><span>Your Seoul rhythm,</span><span>from here.</span></h1>
-      <p class="hero-intro" data-en="A considered city stay in Daechi-dong—close to Seoul’s energy, designed for the way global travelers actually live." data-ko="서울의 활기와 가깝고 일상처럼 편안한 대치동 시티 스테이. 글로벌 여행자의 생활 방식에 맞춰 세심하게 준비했습니다.">A considered city stay in Daechi-dong—close to Seoul’s energy, designed for the way global travelers actually live.</p>
-      <div class="hero-actions"><a class="button primary" href="#inquiry" data-en="Check availability" data-ko="예약 가능일 문의">Check availability</a><a class="button ghost" href="#stay"><span data-en="Explore the stay" data-ko="숙소 둘러보기">Explore the stay</span> <span aria-hidden="true">↓</span></a></div>
-      <ul class="proof"><li data-en="English-speaking host" data-ko="영어 응대 가능">English-speaking host</li><li data-en="Self check-in" data-ko="셀프 체크인">Self check-in</li><li data-en="Fast Wi-Fi" data-ko="빠른 Wi-Fi">Fast Wi-Fi</li></ul>
+      <p class="eyebrow light" data-en="Daechi-dong · Gangnam · Seoul" data-ko="서울 강남 대치동">Daechi-dong · Gangnam · Seoul</p>
+      <h1 data-en="<span>Gangnam base.</span><span>Local table.</span><span>Korea in hand.</span>" data-ko="<span>강남의 베이스.</span><span>동네 식탁.</span><span>한국을 손에.</span>"><span>Gangnam base.</span><span>Local table.</span><span>Korea in hand.</span></h1>
+      <p class="hero-intro" data-en="A quiet Daechi stay for international travelers—plus host-curated Gangnam eats and Korea guidebooks you can buy before you land." data-ko="방한 외국인을 위한 조용한 대치동 스테이. 호스트가 고른 강남 맛집과, 도착 전에 살 수 있는 한국 가이드북까지.">A quiet Daechi stay for international travelers—plus host-curated Gangnam eats and Korea guidebooks you can buy before you land.</p>
+      <div class="hero-actions">
+        <a class="button primary" href="#inquiry" data-en="Book the stay" data-ko="숙소 예약 문의">Book the stay</a>
+        <a class="button ghost" href="#eat"><span data-en="See host eats" data-ko="맛집 보기">See host eats</span> <span aria-hidden="true">↓</span></a>
+      </div>
+      <ul class="proof">
+        <li data-en="English-speaking host" data-ko="영어 응대 가능">English-speaking host</li>
+        <li data-en="Self check-in" data-ko="셀프 체크인">Self check-in</li>
+        <li data-en="Guides from $12" data-ko="가이드북 $12부터">Guides from $12</li>
+      </ul>
     </div>
     <p class="image-note" data-en="Concept imagery · actual stay photos coming soon" data-ko="콘셉트 이미지 · 실제 숙소 사진 업데이트 예정">Concept imagery · actual stay photos coming soon</p>
   </header>
 
   <main>
     <section class="section shell" id="stay">
-      <div class="section-heading"><div><p class="eyebrow">The stay</p><h2 data-en="Room to arrive. Space to settle in." data-ko="도착의 긴장을 풀고, 일상처럼 머무는 공간.">Room to arrive. Space to settle in.</h2></div><p data-en="Start slowly with morning light, work comfortably when you need to, and return to a calm home base after a full Seoul day. Every detail is chosen for a stay that feels intuitive from the first night." data-ko="아침 햇살로 천천히 하루를 시작하고, 필요할 때는 편안하게 일하고, 서울을 충분히 누린 뒤 조용한 집으로 돌아오세요. 첫날부터 직관적으로 사용할 수 있도록 준비했습니다.">Start slowly with morning light, work comfortably when you need to, and return to a calm home base after a full Seoul day. Every detail is chosen for a stay that feels intuitive from the first night.</p></div>
+      <div class="section-heading">
+        <div><p class="eyebrow">The stay</p><h2 data-en="Room to arrive. Space to settle in." data-ko="도착의 긴장을 풀고, 일상처럼 머무는 공간.">Room to arrive. Space to settle in.</h2></div>
+        <p data-en="Start slowly with morning light, work comfortably when you need to, and return to a calm home base after a full Seoul day. Every detail is chosen for a stay that feels intuitive from the first night." data-ko="아침 햇살로 천천히 하루를 시작하고, 필요할 때는 편안하게 일하고, 서울을 충분히 누린 뒤 조용한 집으로 돌아오세요. 첫날부터 직관적으로 사용할 수 있도록 준비했습니다.">Start slowly with morning light, work comfortably when you need to, and return to a calm home base after a full Seoul day. Every detail is chosen for a stay that feels intuitive from the first night.</p>
+      </div>
       <div class="feature-grid">
         <article class="feature-card"><span class="feature-number">01</span><div class="feature-icon icon-bed" aria-hidden="true"></div><h3 data-en="Rest well" data-ko="편안한 휴식">Rest well</h3><p data-en="A quiet bedroom, quality linen, and blackout curtains." data-ko="조용한 침실, 좋은 리넨과 암막 커튼.">A quiet bedroom, quality linen, and blackout curtains.</p></article>
         <article class="feature-card"><span class="feature-number">02</span><div class="feature-icon icon-home" aria-hidden="true"></div><h3 data-en="Live lightly" data-ko="가벼운 생활">Live lightly</h3><p data-en="A well-equipped kitchen, washer, and thoughtful everyday essentials." data-ko="주방, 세탁기와 꼭 필요한 생활용품.">A well-equipped kitchen, washer, and thoughtful everyday essentials.</p></article>
@@ -97,37 +241,367 @@
     <section class="section shell rhythm"><p class="eyebrow" data-en="A day from Daechi" data-ko="대치동에서 보내는 하루">A day from Daechi</p><div class="timeline">
       <article><time>08:00</time><span class="timeline-dot"></span><h3 data-en="Coffee like a local" data-ko="동네처럼 커피 한 잔">Coffee like a local</h3><p data-en="Start with a quiet neighborhood café and a walk through the residential streets." data-ko="조용한 카페와 주택가 산책으로 하루를 시작하세요.">Start with a quiet neighborhood café and a walk through the residential streets.</p></article>
       <article><time>11:00</time><span class="timeline-dot"></span><h3 data-en="Design, culture, city" data-ko="디자인, 문화, 도시">Design, culture, city</h3><p data-en="Head toward COEX, Bongeunsa, or Seonjeongneung for an easy half day." data-ko="코엑스와 봉은사, 선정릉으로 여유로운 반나절을 보내세요.">Head toward COEX, Bongeunsa, or Seonjeongneung for an easy half day.</p></article>
-      <article><time>19:00</time><span class="timeline-dot"></span><h3 data-en="Come home to Gangnam" data-ko="강남의 집으로">Come home to Gangnam</h3><p data-en="Pick up dinner nearby, reset, and plan tomorrow at your own pace." data-ko="근처에서 저녁을 준비하고 내일을 천천히 계획하세요.">Pick up dinner nearby, reset, and plan tomorrow at your own pace.</p></article>
+      <article><time>19:00</time><span class="timeline-dot"></span><h3 data-en="Host dinner route" data-ko="호스트 저녁 루트">Host dinner route</h3><p data-en="Use the Eat list below—or unlock the full map inside the Korea guide." data-ko="아래 맛집 리스트를 쓰거나, 가이드북에서 전체 지도를 열어보세요.">Use the Eat list below—or unlock the full map inside the Korea guide.</p></article>
     </div></section>
 
+    <section class="eat shell" id="eat" aria-labelledby="eat-title">
+      <div class="section-heading eat-head">
+        <div>
+          <p class="eyebrow" data-en="Eat Gangnam" data-ko="강남 맛집">Eat Gangnam</p>
+          <h2 id="eat-title" data-en="Host picks near your stay." data-ko="숙소 근처, 호스트 추천.">Host picks near your stay.</h2>
+        </div>
+        <p data-en="Eight first-timer-friendly places within about an hour of Daechi. Free preview below—maps, ordering phrases, and seasonal swaps live in the paid guide." data-ko="대치에서 약 1시간 안쪽, 첫 방문에 실패하기 어려운 8곳. 아래는 미리보기이고, 지도·주문 표현·시즌 교체 리스트는 유료 가이드에 있습니다.">Eight first-timer-friendly places within about an hour of Daechi. Free preview below—maps, ordering phrases, and seasonal swaps live in the paid guide.</p>
+      </div>
+
+      <div class="filter-row" role="group" aria-label="Filter restaurants by type">
+        <button class="filter-btn" type="button" data-filter="all" aria-pressed="true">All</button>
+        <button class="filter-btn" type="button" data-filter="bbq" aria-pressed="false">BBQ</button>
+        <button class="filter-btn" type="button" data-filter="classic" aria-pressed="false">Classic</button>
+        <button class="filter-btn" type="button" data-filter="cafe" aria-pressed="false">Cafe</button>
+        <button class="filter-btn" type="button" data-filter="late" aria-pressed="false">Late</button>
+        <button class="filter-btn" type="button" data-filter="easy" aria-pressed="false">Easy</button>
+      </div>
+
+      <div class="eat-list" id="eatList">
+        <article class="eat-item" data-type="bbq" data-reveal>
+          <div class="eat-meta"><span class="eat-type">Korean BBQ</span></div>
+          <div>
+            <h3>Samwon Garden</h3>
+            <p data-en="Apgujeong landmark grill—reliable for a first Korean BBQ night with set menus and leafy wraps." data-ko="압구정 랜드마크 고기집. 세트 메뉴와 쌈으로 첫 삼겹살 저녁에 실패가 적습니다.">Apgujeong landmark grill—reliable for a first Korean BBQ night with set menus and leafy wraps.</p>
+            <p class="eat-tip"><strong>Host tip</strong><span data-en="Go early or reserve; ask for the beginner set if it is your first BBQ." data-ko="예약하거나 일찍 가세요. 첫 BBQ면 입문 세트를 요청하세요.">Go early or reserve; ask for the beginner set if it is your first BBQ.</span></p>
+            <div class="eat-actions">
+              <a class="button outline" href="https://www.google.com/maps/search/?api=1&amp;query=Samwon+Garden+Apgujeong" target="_blank" rel="noopener" data-track="maps_open" data-sku="samwon">Maps</a>
+              <a class="button terra" href="#guide" data-track="eat_to_guide" data-sku="samwon" data-en="Unlock full list" data-ko="전체 리스트 잠금해제">Unlock full list</a>
+            </div>
+          </div>
+          <div class="eat-stats"><span><b>$$–$$$</b></span><span data-en="~35 min" data-ko="약 35분">~35 min</span><span>Apgujeong</span></div>
+        </article>
+
+        <article class="eat-item" data-type="bbq" data-reveal>
+          <div class="eat-meta"><span class="eat-type">Korean BBQ</span></div>
+          <div>
+            <h3>Maple Tree House</h3>
+            <p data-en="Tourist-friendly BBQ with English support—good when you want grilled meat without guessing the order flow." data-ko="영어 응대가 편한 BBQ. 주문 흐름을 몰라도 고기 저녁을 즐기기 좋습니다.">Tourist-friendly BBQ with English support—good when you want grilled meat without guessing the order flow.</p>
+            <p class="eat-tip"><strong>Host tip</strong><span data-en="Share the bill early; portions are generous for two." data-ko="2인이면 양이 넉넉합니다. 미리 분할 결제를 요청하세요.">Share the bill early; portions are generous for two.</span></p>
+            <div class="eat-actions">
+              <a class="button outline" href="https://www.google.com/maps/search/?api=1&amp;query=Maple+Tree+House+Apgujeong" target="_blank" rel="noopener" data-track="maps_open" data-sku="maple">Maps</a>
+              <a class="button terra" href="#guide" data-track="eat_to_guide" data-sku="maple" data-en="Unlock full list" data-ko="전체 리스트 잠금해제">Unlock full list</a>
+            </div>
+          </div>
+          <div class="eat-stats"><span><b>$$–$$$</b></span><span data-en="~40 min" data-ko="약 40분">~40 min</span><span>Apgujeong</span></div>
+        </article>
+
+        <article class="eat-item" data-type="classic" data-reveal>
+          <div class="eat-meta"><span class="eat-type">Classic Korean</span></div>
+          <div>
+            <h3>Gangnam haejangguk lanes</h3>
+            <p data-en="Around Gangnam Station, look for busy hangover-soup (haejangguk) rooms after late nights—brothy, fast, and local." data-ko="강남역 일대 해장국집. 늦은 밤 다음 날 국물 한 그릇으로 회복하기 좋습니다.">Around Gangnam Station, look for busy hangover-soup (haejangguk) rooms after late nights—brothy, fast, and local.</p>
+            <p class="eat-tip"><strong>Host tip</strong><span data-en="Point to a photo menu; say “an-mato-un-mae-un” for less spicy." data-ko="사진 메뉴를 가리키고, 덜 매운 맛은 “안 매운맛”이라고 하세요.">Point to a photo menu; say “an-mato-un-mae-un” for less spicy.</span></p>
+            <div class="eat-actions">
+              <a class="button outline" href="https://www.google.com/maps/search/?api=1&amp;query=Haejangguk+Gangnam+Station" target="_blank" rel="noopener" data-track="maps_open" data-sku="haejang">Maps</a>
+              <a class="button terra" href="#guide" data-track="eat_to_guide" data-sku="haejang" data-en="Unlock full list" data-ko="전체 리스트 잠금해제">Unlock full list</a>
+            </div>
+          </div>
+          <div class="eat-stats"><span><b>$–$$</b></span><span data-en="~25 min" data-ko="약 25분">~25 min</span><span>Gangnam Stn</span></div>
+        </article>
+
+        <article class="eat-item" data-type="classic" data-reveal>
+          <div class="eat-meta"><span class="eat-type">Classic Korean</span></div>
+          <div>
+            <h3>Seolleung / Seonjeongneung lunch belt</h3>
+            <p data-en="Office-lunch energy near the royal tombs—bibimbap, doenjang stew, and quick banchan spreads." data-ko="선정릉 근처 직장인 점심 벨트. 비빔밥·된장찌개·반찬이 빠른 한식.">Office-lunch energy near the royal tombs—bibimbap, doenjang stew, and quick banchan spreads.</p>
+            <p class="eat-tip"><strong>Host tip</strong><span data-en="Weekday 11:40–12:40 is peak; arrive at 11:20 or after 13:00." data-ko="평일 11:40–12:40이 피크. 11:20 전이나 13시 이후가 편합니다.">Weekday 11:40–12:40 is peak; arrive at 11:20 or after 13:00.</span></p>
+            <div class="eat-actions">
+              <a class="button outline" href="https://www.google.com/maps/search/?api=1&amp;query=Seolleung+Korean+restaurant" target="_blank" rel="noopener" data-track="maps_open" data-sku="seolleung">Maps</a>
+              <a class="button terra" href="#guide" data-track="eat_to_guide" data-sku="seolleung" data-en="Unlock full list" data-ko="전체 리스트 잠금해제">Unlock full list</a>
+            </div>
+          </div>
+          <div class="eat-stats"><span><b>$–$$</b></span><span data-en="~20 min" data-ko="약 20분">~20 min</span><span>Seolleung</span></div>
+        </article>
+
+        <article class="eat-item" data-type="cafe" data-reveal>
+          <div class="eat-meta"><span class="eat-type">Cafe &amp; dessert</span></div>
+          <div>
+            <h3>Daechi neighborhood cafés</h3>
+            <p data-en="Quiet residential cafés for laptop mornings—less flashy than Garosu-gil, easier to breathe." data-ko="대치 주택가 카페. 가로수길보다 화려하진 않지만 숨 고르기 좋습니다.">Quiet residential cafés for laptop mornings—less flashy than Garosu-gil, easier to breathe.</p>
+            <p class="eat-tip"><strong>Host tip</strong><span data-en="Ask for a window seat; many open around 09:00 and get calm after school rush." data-ko="창가 자리를 요청하세요. 보통 9시 오픈, 하교 러시 이후가 조용합니다.">Ask for a window seat; many open around 09:00 and get calm after school rush.</span></p>
+            <div class="eat-actions">
+              <a class="button outline" href="https://www.google.com/maps/search/?api=1&amp;query=Cafe+Daechi-dong" target="_blank" rel="noopener" data-track="maps_open" data-sku="daechi-cafe">Maps</a>
+              <a class="button terra" href="#guide" data-track="eat_to_guide" data-sku="daechi-cafe" data-en="Unlock full list" data-ko="전체 리스트 잠금해제">Unlock full list</a>
+            </div>
+          </div>
+          <div class="eat-stats"><span><b>$</b></span><span data-en="5–15 min walk" data-ko="도보 5–15분">5–15 min walk</span><span>Daechi</span></div>
+        </article>
+
+        <article class="eat-item" data-type="easy" data-reveal>
+          <div class="eat-meta"><span class="eat-type">Easy first day</span></div>
+          <div>
+            <h3>COEX / Starfield food halls</h3>
+            <p data-en="Climate-controlled, English-friendly food courts under COEX—ideal after luggage day or rainy Seoul weather." data-ko="코엑스·스타필드 푸드홀. 짐 푼 날이나 비 오는 날 영어 메뉴로 부담 없이.">Climate-controlled, English-friendly food courts under COEX—ideal after luggage day or rainy Seoul weather.</p>
+            <p class="eat-tip"><strong>Host tip</strong><span data-en="Grab T-money, then eat downstairs before museum or K-pop square wandering." data-ko="티머니를 먼저 충전하고, 박물관·K-pop 스퀘어 전에 지하에서 식사하세요.">Grab T-money, then eat downstairs before museum or K-pop square wandering.</span></p>
+            <div class="eat-actions">
+              <a class="button outline" href="https://www.google.com/maps/search/?api=1&amp;query=COEX+Starfield+food+court" target="_blank" rel="noopener" data-track="maps_open" data-sku="coex">Maps</a>
+              <a class="button terra" href="#guide" data-track="eat_to_guide" data-sku="coex" data-en="Unlock full list" data-ko="전체 리스트 잠금해제">Unlock full list</a>
+            </div>
+          </div>
+          <div class="eat-stats"><span><b>$–$$</b></span><span data-en="~20 min" data-ko="약 20분">~20 min</span><span>Samsung</span></div>
+        </article>
+
+        <article class="eat-item" data-type="late" data-reveal>
+          <div class="eat-meta"><span class="eat-type">Late night</span></div>
+          <div>
+            <h3>Hanti / Yeoksam pojang streets</h3>
+            <p data-en="Late snacks—tteokbokki, odeng, chicken—near Hanti and Yeoksam when the city is still awake." data-ko="한티·역삼 포장마차 거리. 떡볶이·오뎅·치킨으로 늦은 밤 한 끼.">Late snacks—tteokbokki, odeng, chicken—near Hanti and Yeoksam when the city is still awake.</p>
+            <p class="eat-tip"><strong>Host tip</strong><span data-en="Cash still helps at tiny stalls; convenience stores nearby cover card gaps." data-ko="작은 포장은 현금이 편합니다. 카드는 근처 편의점을 이용하세요.">Cash still helps at tiny stalls; convenience stores nearby cover card gaps.</span></p>
+            <div class="eat-actions">
+              <a class="button outline" href="https://www.google.com/maps/search/?api=1&amp;query=Pojangmacha+Hanti+Station" target="_blank" rel="noopener" data-track="maps_open" data-sku="hanti-late">Maps</a>
+              <a class="button terra" href="#guide" data-track="eat_to_guide" data-sku="hanti-late" data-en="Unlock full list" data-ko="전체 리스트 잠금해제">Unlock full list</a>
+            </div>
+          </div>
+          <div class="eat-stats"><span><b>$</b></span><span data-en="~15 min" data-ko="약 15분">~15 min</span><span>Hanti</span></div>
+        </article>
+
+        <article class="eat-item" data-type="easy" data-reveal>
+          <div class="eat-meta"><span class="eat-type">Vegetarian-friendly</span></div>
+          <div>
+            <h3>Temple-side &amp; veg-friendly Gangnam picks</h3>
+            <p data-en="Near Bongeunsa and select Gangnam kitchens with tofu, namul, and bibimbap without meat—confirm “chaeshik” when ordering." data-ko="봉은사 인근과 강남 일부 채식 친화 메뉴. 주문 시 “채식”을 확인하세요.">Near Bongeunsa and select Gangnam kitchens with tofu, namul, and bibimbap without meat—confirm “chaeshik” when ordering.</p>
+            <p class="eat-tip"><strong>Host tip</strong><span data-en="The paid guide includes allergy cards in English/Korean you can show staff." data-ko="유료 가이드에 직원에게 보여줄 영·한 알레르기 카드가 포함됩니다.">The paid guide includes allergy cards in English/Korean you can show staff.</span></p>
+            <div class="eat-actions">
+              <a class="button outline" href="https://www.google.com/maps/search/?api=1&amp;query=Vegetarian+restaurant+Bongeunsa" target="_blank" rel="noopener" data-track="maps_open" data-sku="veg">Maps</a>
+              <a class="button terra" href="#guide" data-track="eat_to_guide" data-sku="veg" data-en="Unlock full list" data-ko="전체 리스트 잠금해제">Unlock full list</a>
+            </div>
+          </div>
+          <div class="eat-stats"><span><b>$$</b></span><span data-en="~25 min" data-ko="약 25분">~25 min</span><span>Bongeunsa</span></div>
+        </article>
+      </div>
+
+      <div class="eat-upsell">
+        <div>
+          <h3 data-en="Want the full map, phrases, and monthly updates?" data-ko="전체 지도, 주문 표현, 월간 업데이트가 필요하신가요?">Want the full map, phrases, and monthly updates?</h3>
+          <p data-en="The free list is a taste. The Gangnam &amp; Daechi Pocket Guide adds pin-ready maps, ordering scripts, and swaps when places close." data-ko="무료 리스트는 맛보기입니다. 대치·강남 포켓 가이드에 지도 핀, 주문 스크립트, 폐업 교체 리스트가 들어갑니다.">The free list is a taste. The Gangnam &amp; Daechi Pocket Guide adds pin-ready maps, ordering scripts, and swaps when places close.</p>
+        </div>
+        <div class="cta-stack">
+          <a class="button terra full" href="#guide" data-track="eat_upsell_guide" data-en="Buy the pocket guide · $12" data-ko="포켓 가이드 구매 · $12">Buy the pocket guide · $12</a>
+          <a class="button outline full" href="#inquiry" data-track="eat_upsell_stay" data-en="Book stay · guide free on 3+ nights" data-ko="3박+ 예약 시 가이드 무료">Book stay · guide free on 3+ nights</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="guide" id="guide" aria-labelledby="guide-title">
+      <div class="shell">
+        <div class="guide-head">
+          <div>
+            <p class="eyebrow" data-en="Guide shop" data-ko="가이드 샵">Guide shop</p>
+            <h2 id="guide-title" data-en="Korea guides you can buy before you land." data-ko="도착 전에 사는 한국 가이드.">Korea guides you can buy before you land.</h2>
+          </div>
+          <p data-en="PDF delivered by email after payment. Confirmed stay guests get code STAYGUEST for 30% off—or a free pocket guide on stays of 3 nights or more." data-ko="결제 후 이메일로 PDF 발송. 예약 확정 게스트는 STAYGUEST로 30% 할인, 3박 이상은 포켓 가이드 무료.">PDF delivered by email after payment. Confirmed stay guests get code STAYGUEST for 30% off—or a free pocket guide on stays of 3 nights or more.</p>
+        </div>
+
+        <div class="guide-grid">
+          <article class="guide-sku" data-reveal data-product="pocket">
+            <div class="guide-cover" aria-hidden="true"><span>Gangnam &amp; Daechi</span></div>
+            <div class="tag" data-en="Best starter" data-ko="입문 추천">Best starter</div>
+            <h3 data-en="Pocket Guide" data-ko="포켓 가이드">Pocket Guide</h3>
+            <p class="blurb" data-en="Host-curated eats, transit from ICN to Daechi, and a neighborhood map sized for your phone." data-ko="호스트 큐레이션 맛집, 인천→대치 이동, 폰에 맞는 동네 지도.">Host-curated eats, transit from ICN to Daechi, and a neighborhood map sized for your phone.</p>
+            <ul>
+              <li data-en="18 restaurant pins + host tips" data-ko="맛집 핀 18곳 + 호스트 팁">18 restaurant pins + host tips</li>
+              <li data-en="Ordering &amp; allergy phrase cards" data-ko="주문·알레르기 카드">Ordering &amp; allergy phrase cards</li>
+              <li data-en="Updated quarterly" data-ko="분기별 업데이트">Updated quarterly</li>
+            </ul>
+            <div class="price-row"><div class="price">$12<small>USD</small></div><span class="price-note" data-en="PDF · instant email" data-ko="PDF · 이메일 즉시">PDF · instant email</span></div>
+            <button class="button primary full buy-btn" type="button" data-product="pocket" data-name="Gangnam &amp; Daechi Pocket Guide" data-price="12" data-track="guide_buy">Buy Pocket Guide</button>
+          </article>
+
+          <article class="guide-sku" data-reveal data-product="week">
+            <div class="guide-cover" aria-hidden="true"><span>First Week in Seoul</span></div>
+            <div class="tag" data-en="Most complete" data-ko="가장 알찬">Most complete</div>
+            <h3 data-en="First Week in Seoul" data-ko="서울 첫 일주일">First Week in Seoul</h3>
+            <p class="blurb" data-en="Three sample itineraries, etiquette, T-money, Wi-Fi, and day trips beyond Gangnam." data-ko="3일 샘플 일정, 예절, 티머니, Wi-Fi, 강남 밖 당일 코스.">Three sample itineraries, etiquette, T-money, Wi-Fi, and day trips beyond Gangnam.</p>
+            <ul>
+              <li data-en="Includes Pocket Guide eats list" data-ko="포켓 가이드 맛집 포함">Includes Pocket Guide eats list</li>
+              <li data-en="Emergency &amp; pharmacy notes" data-ko="응급·약국 메모">Emergency &amp; pharmacy notes</li>
+              <li data-en="Printable packing checklist" data-ko="인쇄용 패킹 체크리스트">Printable packing checklist</li>
+            </ul>
+            <div class="price-row"><div class="price">$19<small>USD</small></div><span class="price-note" data-en="PDF · 40+ pages" data-ko="PDF · 40쪽+">PDF · 40+ pages</span></div>
+            <button class="button primary full buy-btn" type="button" data-product="week" data-name="First Week in Seoul" data-price="19" data-track="guide_buy">Buy First Week</button>
+          </article>
+
+          <article class="guide-sku" data-reveal data-product="companion">
+            <div class="guide-cover" aria-hidden="true"><span>Stay Guest Companion</span></div>
+            <div class="tag" data-en="Bundle value" data-ko="번들 가치">Bundle value</div>
+            <h3 data-en="Stay Guest Companion" data-ko="스테이 게스트 컴패니언">Stay Guest Companion</h3>
+            <p class="blurb" data-en="Pocket + First Week, plus check-in walkthrough and house rules in one file for your trip." data-ko="포켓+첫 주 가이드에 체크인 안내·하우스 룰을 한 파일로.">Pocket + First Week, plus check-in walkthrough and house rules in one file for your trip.</p>
+            <ul>
+              <li data-en="Both guides + stay PDF" data-ko="가이드 2종 + 숙소 PDF">Both guides + stay PDF</li>
+              <li data-en="Priority host Q&amp;A window" data-ko="호스트 Q&amp;A 우선 응답">Priority host Q&amp;A window</li>
+              <li data-en="Best if you book the stay" data-ko="숙소 예약과 함께면 최적">Best if you book the stay</li>
+            </ul>
+            <div class="price-row"><div class="price">$29<small>USD</small></div><span class="price-note" data-en="Save $2 vs separate" data-ko="개별 구매 대비 $2 절약">Save $2 vs separate</span></div>
+            <button class="button primary full buy-btn" type="button" data-product="companion" data-name="Stay Guest Companion" data-price="29" data-track="guide_buy">Buy Companion Bundle</button>
+          </article>
+        </div>
+
+        <div class="guide-bundle">
+          <div>
+            <h3 data-en="Stay 3+ nights — pocket guide on us." data-ko="3박 이상이면 포켓 가이드 제공.">Stay 3+ nights — pocket guide on us.</h3>
+            <p data-en="Request availability below and mention you want the guest guide. After confirmation we email the PDF with your check-in details." data-ko="아래에서 예약 가능일을 문의하며 게스트 가이드를 요청하세요. 확정 후 체크인 안내와 함께 PDF를 보냅니다.">Request availability below and mention you want the guest guide. After confirmation we email the PDF with your check-in details.</p>
+            <span class="code-pill">CODE · STAYGUEST · 30% OFF</span>
+          </div>
+          <a class="button primary full" href="#inquiry" data-track="guide_to_stay" data-en="Book stay &amp; claim guide" data-ko="숙소 예약하고 가이드 받기">Book stay &amp; claim guide</a>
+        </div>
+      </div>
+    </section>
+
     <section class="essentials" id="essentials"><div class="shell essentials-grid"><div><p class="eyebrow" data-en="Good to know" data-ko="이용 안내">Good to know</p><h2 data-en="The essentials, made simple." data-ko="꼭 필요한 정보만 간단하게.">The essentials, made simple.</h2></div><dl>
-      <div><dt data-en="Check-in" data-ko="체크인">Check-in</dt><dd data-en="Self check-in · details shared before arrival" data-ko="셀프 체크인 · 도착 전 상세 안내">Self check-in · details shared before arrival</dd></div><div><dt data-en="Languages" data-ko="언어">Languages</dt><dd>English · 한국어</dd></div><div><dt data-en="Best for" data-ko="추천">Best for</dt><dd data-en="Solo travelers · couples · business stays" data-ko="1인 여행 · 커플 · 비즈니스 체류">Solo travelers · couples · business stays</dd></div><div><dt data-en="Support" data-ko="지원">Support</dt><dd data-en="Direct local help from your Seoul host" data-ko="서울 호스트의 직접적인 현지 도움">Direct local help from your Seoul host</dd></div>
+      <div><dt data-en="Check-in" data-ko="체크인">Check-in</dt><dd data-en="Self check-in · details shared before arrival" data-ko="셀프 체크인 · 도착 전 상세 안내">Self check-in · details shared before arrival</dd></div>
+      <div><dt data-en="Languages" data-ko="언어">Languages</dt><dd>English · 한국어</dd></div>
+      <div><dt data-en="Best for" data-ko="추천">Best for</dt><dd data-en="Solo travelers · couples · business stays" data-ko="1인 여행 · 커플 · 비즈니스 체류">Solo travelers · couples · business stays</dd></div>
+      <div><dt data-en="Guides" data-ko="가이드">Guides</dt><dd data-en="PDF shop above · guest code STAYGUEST" data-ko="위 PDF 샵 · 게스트 코드 STAYGUEST">PDF shop above · guest code STAYGUEST</dd></div>
+      <div><dt data-en="Support" data-ko="지원">Support</dt><dd data-en="Direct local help from your Seoul host" data-ko="서울 호스트의 직접적인 현지 도움">Direct local help from your Seoul host</dd></div>
     </dl></div></section>
 
-    <section class="inquiry" id="inquiry"><div class="shell inquiry-grid"><div><p class="eyebrow light" data-en="Plan your stay" data-ko="여행 계획">Plan your stay</p><h2 data-en="Tell us when Seoul is calling." data-ko="서울에 오는 날짜를 알려주세요.">Tell us when Seoul is calling.</h2><p data-en="Share your dates and group size. Your email app will open with a ready-to-send availability request." data-ko="일정과 인원을 남기면 이메일 앱에 예약 가능일 문의가 자동으로 작성됩니다.">Share your dates and group size. Your email app will open with a ready-to-send availability request.</p></div>
-      <form id="inquiryForm"><div class="form-row"><label><span data-en="Arrival" data-ko="도착일">Arrival</span><input name="arrival" type="date" required></label><label><span data-en="Departure" data-ko="출발일">Departure</span><input name="departure" type="date" required></label></div><label><span data-en="Guests" data-ko="인원">Guests</span><select name="guests"><option>1</option><option selected>2</option><option>3</option><option>4</option></select></label><label><span data-en="Anything we should know?" data-ko="호스트에게 전할 내용">Anything we should know?</span><textarea name="message" rows="3"></textarea></label><button class="button submit" type="submit"><span data-en="Request availability" data-ko="예약 가능일 문의">Request availability</span><span aria-hidden="true">↗</span></button><small data-en="No payment is taken here. Your stay is confirmed directly by the host." data-ko="이 페이지에서는 결제되지 않으며, 호스트 확인 후 예약이 확정됩니다.">No payment is taken here. Your stay is confirmed directly by the host.</small></form>
+    <section class="inquiry" id="inquiry"><div class="shell inquiry-grid"><div>
+      <p class="eyebrow light" data-en="Plan your stay" data-ko="여행 계획">Plan your stay</p>
+      <h2 data-en="Tell us when Seoul is calling." data-ko="서울에 오는 날짜를 알려주세요.">Tell us when Seoul is calling.</h2>
+      <p data-en="Share your dates and group size. Add “need pocket guide” if you want the free 3-night bundle. Your email app opens with a ready-to-send request." data-ko="일정과 인원을 남기세요. 3박 무료 가이드가 필요하면 “need pocket guide”를 적어 주세요. 이메일 앱에 문의가 자동 작성됩니다.">Share your dates and group size. Add “need pocket guide” if you want the free 3-night bundle. Your email app opens with a ready-to-send request.</p>
+      <div class="inquiry-extras">
+        <a class="button ghost" href="#guide" data-track="inquiry_to_guide" data-en="Or buy a guide only" data-ko="가이드만 구매">Or buy a guide only</a>
+      </div>
+    </div>
+      <form id="inquiryForm">
+        <div class="form-row">
+          <label><span data-en="Arrival" data-ko="도착일">Arrival</span><input name="arrival" type="date" required></label>
+          <label><span data-en="Departure" data-ko="출발일">Departure</span><input name="departure" type="date" required></label>
+        </div>
+        <label><span data-en="Guests" data-ko="인원">Guests</span><select name="guests"><option>1</option><option selected>2</option><option>3</option><option>4</option></select></label>
+        <label><span data-en="Guide preference" data-ko="가이드 선택">Guide preference</span>
+          <select name="guide">
+            <option value="none" data-en="No guide for now" data-ko="가이드 없음">No guide for now</option>
+            <option value="free3" selected data-en="Free pocket guide (3+ nights)" data-ko="포켓 가이드 무료 (3박+)">Free pocket guide (3+ nights)</option>
+            <option value="discount" data-en="I'll use code STAYGUEST" data-ko="STAYGUEST 코드 사용">I'll use code STAYGUEST</option>
+            <option value="companion" data-en="Interested in Companion bundle" data-ko="컴패니언 번들 관심">Interested in Companion bundle</option>
+          </select>
+        </label>
+        <label><span data-en="Anything we should know?" data-ko="호스트에게 전할 내용">Anything we should know?</span><textarea name="message" rows="3" placeholder="Dietary needs, late arrival, etc."></textarea></label>
+        <button class="button submit" type="submit" data-track="book_cta"><span data-en="Request availability" data-ko="예약 가능일 문의">Request availability</span><span aria-hidden="true">↗</span></button>
+        <small data-en="No payment is taken here for the stay. Guide PDFs are sold separately above (or included with qualifying bookings)." data-ko="숙소 결제는 이 페이지에서 하지 않습니다. 가이드 PDF는 위에서 별도 구매하거나, 조건 충족 예약 시 포함됩니다.">No payment is taken here for the stay. Guide PDFs are sold separately above (or included with qualifying bookings).</small>
+      </form>
     </div></section>
   </main>
 
-  <footer class="footer shell"><a class="brand" href="#top"><span class="brand-mark">D</span><span>DAECHI STAY</span></a><p data-en="A slower place to land in a fast-moving city." data-ko="빠르게 움직이는 도시에서, 천천히 도착하는 곳.">A slower place to land in a fast-moving city.</p><p>Daechi-dong · Gangnam · Seoul</p></footer>
+  <footer class="footer shell">
+    <a class="brand" href="#top"><span class="brand-mark">D</span><span>DAECHI STAY</span></a>
+    <p data-en="A slower place to land in a fast-moving city." data-ko="빠르게 움직이는 도시에서, 천천히 도착하는 곳.">A slower place to land in a fast-moving city.</p>
+    <p>Daechi-dong · Gangnam · Seoul</p>
+  </footer>
 
   <script>
-    (()=>{
-      let language="en";
-      const toggle=document.getElementById("langToggle");
-      toggle.addEventListener("click",()=>{
-        language=language==="en"?"ko":"en";
-        document.documentElement.lang=language;
-        toggle.textContent=language==="en"?"한국어":"EN";
-        toggle.setAttribute("aria-label",language==="en"?"한국어로 보기":"View in English");
-        document.querySelectorAll("[data-en]").forEach(el=>{el.innerHTML=el.dataset[language]});
+    (() => {
+      // Set live Gumroad / Stripe Payment Links to enable instant checkout.
+      // Empty string → mailto purchase request (works today).
+      const GUIDE_PAY = {
+        pocket: "",
+        week: "",
+        companion: ""
+      };
+      const GUIDE_MAIL = "stay@stargateedu.co.kr";
+
+      let language = "en";
+      const toggle = document.getElementById("langToggle");
+
+      const applyLang = () => {
+        document.documentElement.lang = language;
+        toggle.textContent = language === "en" ? "한국어" : "EN";
+        toggle.setAttribute("aria-label", language === "en" ? "한국어로 보기" : "View in English");
+        document.querySelectorAll("[data-en]").forEach((el) => {
+          el.innerHTML = el.dataset[language];
+        });
+        document.querySelectorAll("#inquiryForm select[name='guide'] option").forEach((opt) => {
+          if (opt.dataset.en) opt.textContent = opt.dataset[language];
+        });
+      };
+
+      toggle.addEventListener("click", () => {
+        language = language === "en" ? "ko" : "en";
+        applyLang();
       });
-      document.getElementById("inquiryForm").addEventListener("submit",event=>{
+
+      const track = (eventName, detail = {}) => {
+        try {
+          const payload = { event: eventName, ts: Date.now(), ...detail };
+          const key = "daechi-stay-events";
+          const prev = JSON.parse(localStorage.getItem(key) || "[]");
+          prev.push(payload);
+          localStorage.setItem(key, JSON.stringify(prev.slice(-80)));
+          window.dispatchEvent(new CustomEvent("daechi-track", { detail: payload }));
+          if (window.gtag) window.gtag("event", eventName, detail);
+        } catch (_) { /* ignore */ }
+      };
+
+      document.querySelectorAll("[data-track]").forEach((el) => {
+        el.addEventListener("click", () => {
+          track(el.getAttribute("data-track"), {
+            sku: el.getAttribute("data-sku") || el.getAttribute("data-product") || undefined
+          });
+        });
+      });
+
+      const filterButtons = document.querySelectorAll(".filter-btn");
+      const eatItems = document.querySelectorAll(".eat-item");
+      filterButtons.forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const filter = btn.getAttribute("data-filter");
+          filterButtons.forEach((b) => b.setAttribute("aria-pressed", String(b === btn)));
+          eatItems.forEach((item) => {
+            const show = filter === "all" || item.getAttribute("data-type") === filter;
+            item.hidden = !show;
+          });
+          track("eat_filter", { filter });
+        });
+      });
+
+      const reveal = () => {
+        document.querySelectorAll("[data-reveal]").forEach((el) => {
+          const rect = el.getBoundingClientRect();
+          if (rect.top < window.innerHeight * 0.9) el.classList.add("is-in");
+        });
+      };
+      reveal();
+      window.addEventListener("scroll", reveal, { passive: true });
+
+      document.querySelectorAll(".buy-btn").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const product = btn.getAttribute("data-product");
+          const name = btn.getAttribute("data-name");
+          const price = btn.getAttribute("data-price");
+          track("guide_buy", { product, price });
+          const payUrl = (GUIDE_PAY[product] || "").trim();
+          if (payUrl) {
+            const win = window.open(payUrl, "_blank", "noopener");
+            if (!win) location.href = payUrl;
+            return;
+          }
+          const subject = encodeURIComponent(`Guide purchase · ${name} · $${price}`);
+          const body = encodeURIComponent(
+            `Hi Daechi Stay,\n\nI'd like to buy: ${name} ($${price} USD).\nPreferred delivery email: \nPromo code (if any): STAYGUEST\n\nThanks!`
+          );
+          location.href = `mailto:${GUIDE_MAIL}?subject=${subject}&body=${body}`;
+        });
+      });
+
+      document.getElementById("inquiryForm").addEventListener("submit", (event) => {
         event.preventDefault();
-        const data=new FormData(event.currentTarget);
-        const subject=encodeURIComponent("Daechi Stay availability request");
-        const body=encodeURIComponent(`Arrival: ${data.get("arrival")}\nDeparture: ${data.get("departure")}\nGuests: ${data.get("guests")}\n\n${data.get("message")||""}`);
-        location.href=`mailto:stay@stargateedu.co.kr?subject=${subject}&body=${body}`;
+        const data = new FormData(event.currentTarget);
+        track("book_cta", {
+          guests: data.get("guests"),
+          guide: data.get("guide")
+        });
+        const subject = encodeURIComponent("Daechi Stay availability request");
+        const body = encodeURIComponent(
+          `Arrival: ${data.get("arrival")}\nDeparture: ${data.get("departure")}\nGuests: ${data.get("guests")}\nGuide preference: ${data.get("guide")}\n\n${data.get("message") || ""}`
+        );
+        location.href = `mailto:${GUIDE_MAIL}?subject=${subject}&body=${body}`;
       });
     })();
   </script>
