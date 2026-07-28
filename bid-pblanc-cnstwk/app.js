@@ -31,6 +31,14 @@
     /(^|\.)github\.io$/i.test(location.hostname) ||
     /(^|\.)stargateedu\.co\.kr$/i.test(location.hostname);
   const PROXY_URL = IS_STATIC_HOST ? REMOTE_PROXY_URL : SAME_ORIGIN_PROXY_URL;
+  // 페이지 입력 없이 사용하는 저장된 공공데이터포털 디코딩 키 (브리지 폴백용)
+  const STORED_SERVICE_KEY =
+    'fcc95a3d84cbb220391765c9ba129573f32b5e86bfc746483e0e96a806b35c9c';
+  const API_OP = {
+    cnstwk: 'getBidPblancListInfoCnstwk',
+    servc: 'getBidPblancListInfoServc',
+  }[KIND];
+  const API_URL = `https://apis.data.go.kr/1230000/ad/BidPublicInfoService/${API_OP}`;
 
   const SUPABASE_URL = 'https://inftexpcnfinglwlrvsj.supabase.co';
   const SUPABASE_ANON_KEY =
@@ -511,6 +519,47 @@
     }
   }
 
+  function asInt(value, fallback = 0) {
+    const n = Number(String(value ?? '').replace(/,/g, ''));
+    return Number.isFinite(n) ? n : fallback;
+  }
+
+  function parseBidPayload(text) {
+    let stripped = String(text || '').trim();
+    if (!stripped) throw new Error('빈 응답을 받았습니다.');
+    // jina 등 브리지가 마크다운으로 감싼 경우 JSON 본문만 추출
+    if (!stripped.startsWith('{') && !stripped.startsWith('[')) {
+      const match = stripped.match(/\{[\s\S]*"response"[\s\S]*\}\s*$/);
+      if (match) stripped = match[0];
+      else {
+        const fence = stripped.match(/```(?:json)?\s*([\s\S]*?)```/i);
+        if (fence) stripped = fence[1].trim();
+      }
+    }
+    if (/^forbidden$/i.test(stripped)) {
+      throw new Error('나라장터 API 403 Forbidden');
+    }
+    const data = JSON.parse(stripped);
+    const header = data?.header || data?.response?.header;
+    if (header) {
+      const code = String(header.resultCode || '').trim();
+      const msg = String(header.resultMsg || '').trim();
+      if (code && !['00', '000', '0', 'NORMAL_SERVICE', 'NORMAL SERVICE.'].includes(code)) {
+        throw new Error(`[${code}] ${msg || '상세 메시지 없음'}`);
+      }
+    }
+    let body = data?.response?.body || data?.body || data;
+    let rawItems = body?.items ?? body?.item ?? [];
+    if (rawItems && typeof rawItems === 'object' && !Array.isArray(rawItems)) {
+      rawItems = rawItems.item ?? [rawItems];
+    }
+    if (!Array.isArray(rawItems)) rawItems = [];
+    return {
+      items: rawItems,
+      totalCount: asInt(body?.totalCount, rawItems.length),
+    };
+  }
+
   async function fetchViaProxy(pageNo, saveToSupabase = true) {
     const response = await fetch(PROXY_URL, {
       method: 'POST',
@@ -529,7 +578,51 @@
     if (!response.ok || data.ok === false) {
       throw new Error(data.error || `proxy_${response.status}`);
     }
-    return data;
+    return { ...data, source: 'proxy' };
+  }
+
+  async function fetchViaBridge(pageNo) {
+    const div = els.inqryDiv.value || '1';
+    const params = new URLSearchParams({
+      serviceKey: STORED_SERVICE_KEY,
+      pageNo: String(pageNo),
+      numOfRows: String(PAGE_SIZE),
+      inqryDiv: div,
+      type: 'json',
+    });
+    if (div === '2') {
+      const no = els.bidNtceNo.value.trim();
+      if (!no) throw new Error('입찰공고번호 조회는 공고번호가 필요합니다.');
+      params.set('bidNtceNo', no);
+    } else {
+      params.set('inqryBgnDt', els.inqryBgnDt.value.trim() || daysAgoYmdHm(7).slice(0, 8) + '0000');
+      params.set('inqryEndDt', els.inqryEndDt.value.trim() || formatYmdHm().slice(0, 8) + '2359');
+    }
+    const target = `${API_URL}?${params.toString()}`;
+    // 브라우저 CORS/해외 IP 차단 우회 브리지 (저장된 키 사용)
+    const bridgeUrl = `https://r.jina.ai/http://${target.replace(/^https?:\/\//, '')}`;
+    const response = await fetch(bridgeUrl, {
+      headers: { Accept: 'application/json, text/plain, */*' },
+    });
+    const text = await response.text();
+    if (!response.ok) throw new Error(`bridge_${response.status}: ${text.slice(0, 120)}`);
+    const parsed = parseBidPayload(text);
+    const items = parsed.items.map((row) => normalizeItem(row, pageNo)).filter(Boolean);
+    let saved = 0;
+    let saveWarning = '';
+    try {
+      saved = await upsertToSupabase(items);
+    } catch (error) {
+      saveWarning = error.message;
+    }
+    return {
+      ok: true,
+      items,
+      totalCount: parsed.totalCount,
+      saved,
+      saveWarning,
+      source: 'bridge',
+    };
   }
 
   async function loadPage(pageNo) {
@@ -541,21 +634,32 @@
     els.loadBtn.disabled = true;
     els.saveBtn.disabled = true;
     updatePager();
-    setStatus('조회 중… (서버 저장 키 · Vercel 프록시)');
+    setStatus('조회 중… (서버 저장 키)');
     setNotice('');
 
     try {
-      const proxy = await fetchViaProxy(pageNo, true);
-      state.items = (proxy.items || []).map((row) => normalizeItem(row, pageNo)).filter(Boolean);
-      state.totalCount = proxy.totalCount || state.items.length;
-      state.lastSaved = proxy.saved || 0;
-      els.sourceMode.textContent = IS_STATIC_HOST ? 'Vercel 프록시' : '같은 오리진 API';
+      let result;
+      try {
+        result = await fetchViaProxy(pageNo, true);
+      } catch (proxyError) {
+        setStatus(`프록시 불가 → 저장 키 브리지 조회 (${proxyError.message})`, 'warn');
+        result = await fetchViaBridge(pageNo);
+      }
+      state.items = (result.items || []).map((row) => normalizeItem(row, pageNo)).filter(Boolean);
+      state.totalCount = result.totalCount || state.items.length;
+      state.lastSaved = result.saved || 0;
+      els.sourceMode.textContent =
+        result.source === 'bridge'
+          ? '저장 키 브리지'
+          : IS_STATIC_HOST
+            ? 'Vercel 프록시'
+            : '같은 오리진 API';
       renderAll();
       setStatus(
         `${state.items.length}건 로드 · Supabase ${state.lastSaved}건 저장`,
         'ok',
       );
-      if (proxy.saveWarning) setNotice(proxy.saveWarning, 'warn');
+      if (result.saveWarning) setNotice(result.saveWarning, 'warn');
       await loadLogs();
     } catch (error) {
       setStatus('');
