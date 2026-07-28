@@ -9,6 +9,9 @@
  */
 
 const SUPABASE_FALLBACK_URL = 'https://inftexpcnfinglwlrvsj.supabase.co';
+// 공개 anon 키(정적 대시보드에도 동일하게 노출됨). RLS 정책으로 insert/update만 허용.
+const SUPABASE_FALLBACK_KEY =
+  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImluZnRleHBjbmZpbmdsd2xydnNqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzI5MTMyMzgsImV4cCI6MjA4ODQ4OTIzOH0.HONuULp0L3B5T0gTiwJMnowjJonJzzNHhUV_LtpDQoI';
 const API_URL =
   'https://apis.data.go.kr/1230000/ad/BidPublicInfoService/getBidPblancListInfoCnstwk';
 const TABLE = 'bid_pblanc_cnstwk';
@@ -37,10 +40,17 @@ function setCors(req, res) {
 }
 
 function supabaseConfig() {
-  const key = process.env.SUPABASE_SERVICE_KEY || process.env.SUPABASE_ANON_KEY;
+  const key = String(
+    process.env.SUPABASE_SERVICE_KEY ||
+      process.env.SUPABASE_ANON_KEY ||
+      SUPABASE_FALLBACK_KEY ||
+      '',
+  ).trim();
   if (!key) return null;
   return {
-    url: (process.env.SUPABASE_URL || SUPABASE_FALLBACK_URL).replace(/\/$/, ''),
+    url: String(process.env.SUPABASE_URL || SUPABASE_FALLBACK_URL)
+      .trim()
+      .replace(/\/$/, ''),
     key,
   };
 }
@@ -364,7 +374,10 @@ export default async function handler(req, res) {
   try {
     const config = supabaseConfig();
 
-    if (req.method === 'GET') {
+    const wantsCollect =
+      req.method === 'GET' && String(req.query?.action || '') === 'collect';
+
+    if (req.method === 'GET' && !wantsCollect) {
       return res.status(200).json({
         ok: true,
         pageSize: PAGE_SIZE,
@@ -377,11 +390,18 @@ export default async function handler(req, res) {
       });
     }
 
-    if (req.method !== 'POST') {
+    if (req.method !== 'POST' && !wantsCollect) {
       return res.status(405).json({ ok: false, error: 'method_not_allowed' });
     }
 
-    const body = req.body || {};
+    let body = wantsCollect ? req.query || {} : req.body || {};
+    if (typeof body === 'string') {
+      try {
+        body = JSON.parse(body);
+      } catch (_) {
+        body = {};
+      }
+    }
     const pageNo = Math.max(1, Number(body.pageNo) || 1);
     const pageSize = Math.min(100, Math.max(1, Number(body.pageSize) || PAGE_SIZE));
     const saveToSupabase = body.saveToSupabase !== false;

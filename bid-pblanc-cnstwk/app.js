@@ -6,7 +6,13 @@
 (function () {
   const API_URL =
     'https://apis.data.go.kr/1230000/ad/BidPublicInfoService/getBidPblancListInfoCnstwk';
-  const PROXY_URL = '/api/bid-pblanc-cnstwk';
+  // GitHub Pages는 정적 호스팅이라 /api/* 로 POST 하면 405가 납니다.
+  // 같은 오리진에 프록시가 있으면 그걸 쓰고, 없으면 Vercel(icn1) 절대 URL로 넘어갑니다.
+  const REMOTE_PROXY_URL = 'https://stargate-bid-api.vercel.app/api/bid-pblanc-cnstwk';
+  const SAME_ORIGIN_PROXY_URL = '/api/bid-pblanc-cnstwk';
+  const IS_STATIC_HOST = /(^|\.)github\.io$/i.test(location.hostname) ||
+    /(^|\.)stargateedu\.co\.kr$/i.test(location.hostname);
+  const PROXY_URL = IS_STATIC_HOST ? REMOTE_PROXY_URL : SAME_ORIGIN_PROXY_URL;
   const SUPABASE_URL = 'https://inftexpcnfinglwlrvsj.supabase.co';
   const SUPABASE_ANON_KEY =
     'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImluZnRleHBjbmZpbmdsd2xydnNqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzI5MTMyMzgsImV4cCI6MjA4ODQ4OTIzOH0.HONuULp0L3B5T0gTiwJMnowjJonJzzNHhUV_LtpDQoI';
