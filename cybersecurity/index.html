@@ -1,0 +1,550 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>3AI Cybersecurity Suite | STARGATE Portal</title>
+  <meta name="description" content="단 1초의 지연도 허용하지 않는 LLM 기반 위협 탐지 및 로그 분석 자동화 솔루션. 아마존 KDP 출간 도서의 보안 방법론을 소프트웨어로 구현한 3AI Cybersecurity Suite.">
+  <meta name="theme-color" content="#061018">
+  <meta property="og:title" content="3AI Cybersecurity Suite">
+  <meta property="og:description" content="LLM 기반 위협 탐지 · 시맨틱 로그 분석 · SOC 자동화">
+  <meta property="og:url" content="https://stargateedu.co.kr/cybersecurity/">
+  <meta property="og:type" content="website">
+  <link rel="canonical" href="https://stargateedu.co.kr/cybersecurity/">
+  <link rel="icon" href="/assets/icons/favicon.ico" sizes="48x48">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg:#061018;
+      --bg-2:#0a1a24;
+      --ink:#e8f4f2;
+      --sub:#8aa8a8;
+      --muted:#5f7a7a;
+      --line:rgba(120,180,170,.18);
+      --teal:#2dd4bf;
+      --teal-dim:rgba(45,212,191,.12);
+      --signal:#5eead4;
+      --steel:#7eb8d4;
+      --alert:#e85d5d;
+      --alert-dim:rgba(232,93,93,.14);
+      --good:#34d399;
+      --warn:#f0b429;
+      --panel:rgba(10,28,36,.72);
+      --font-display:"Space Grotesk",system-ui,sans-serif;
+      --font-body:"IBM Plex Sans KR","Apple SD Gothic Neo",sans-serif;
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;color:var(--ink);background:var(--bg);
+      font-family:var(--font-body);line-height:1.65;
+      -webkit-font-smoothing:antialiased;
+    }
+    body::before{
+      content:"";position:fixed;inset:0;z-index:-2;pointer-events:none;
+      background:
+        radial-gradient(920px 520px at 12% -8%,rgba(45,212,191,.16),transparent 62%),
+        radial-gradient(780px 480px at 92% 8%,rgba(126,184,212,.12),transparent 58%),
+        radial-gradient(700px 420px at 50% 110%,rgba(232,93,93,.07),transparent 60%),
+        linear-gradient(180deg,#061018 0%,#07151e 42%,#061018 100%);
+    }
+    body::after{
+      content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:.22;
+      background-image:
+        linear-gradient(rgba(45,212,191,.05) 1px,transparent 1px),
+        linear-gradient(90deg,rgba(45,212,191,.05) 1px,transparent 1px);
+      background-size:40px 40px;
+      mask-image:linear-gradient(to bottom,black,transparent 78%);
+    }
+    a{color:inherit;text-decoration:none}
+    img{max-width:100%;display:block}
+    .wrap{width:min(1120px,calc(100% - 40px));margin:0 auto}
+    .nav{
+      height:72px;display:flex;align-items:center;justify-content:space-between;
+      border-bottom:1px solid var(--line);
+    }
+    .brand{display:flex;align-items:center;gap:12px;font-family:var(--font-display);font-weight:700;letter-spacing:.02em}
+    .logo{
+      width:36px;height:36px;border-radius:10px;display:grid;place-items:center;
+      background:linear-gradient(135deg,#134e4a,#2dd4bf);color:#041016;font-size:13px;font-weight:700;
+    }
+    .brand small{display:block;color:var(--muted);font-size:10px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;margin-top:2px}
+    .nav-links{display:flex;gap:18px;align-items:center;color:var(--sub);font-size:13px;font-weight:600}
+    .nav-links a:hover,.nav-links a[aria-current="page"]{color:var(--teal)}
+    .nav-back{padding:8px 12px;border:1px solid var(--line);border-radius:10px}
+    .nav-back:hover{border-color:var(--teal);color:var(--ink)}
+
+    /* Hero — one composition, brand-first, full-bleed visual */
+    .hero{
+      position:relative;min-height:calc(100vh - 72px);display:grid;
+      grid-template-columns:minmax(0,1.05fr) minmax(280px,.95fr);
+      gap:48px;align-items:center;padding:64px 0 72px;
+    }
+    .hero-copy{position:relative;z-index:1}
+    .product-mark{
+      font-family:var(--font-display);font-size:clamp(42px,7vw,72px);
+      line-height:.95;letter-spacing:-.04em;font-weight:700;margin:0 0 22px;
+      color:var(--ink);
+    }
+    .product-mark span{
+      display:block;background:linear-gradient(100deg,var(--teal),var(--steel));
+      -webkit-background-clip:text;background-clip:text;color:transparent;
+    }
+    .hero h1{
+      margin:0 0 18px;font-size:clamp(22px,3.2vw,32px);line-height:1.35;
+      font-weight:600;letter-spacing:-.02em;max-width:34ch;
+    }
+    .hero-lead{
+      margin:0;max-width:48ch;color:var(--sub);font-size:15px;line-height:1.75;
+    }
+    .hero-actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:28px}
+    .btn{
+      display:inline-flex;align-items:center;justify-content:center;gap:8px;
+      padding:13px 18px;border-radius:12px;border:1px solid var(--line);
+      font-size:13px;font-weight:700;transition:transform .2s ease,border-color .2s ease,background .2s ease;
+      background:rgba(8,24,32,.55);
+    }
+    .btn.primary{
+      border:0;color:#041016;
+      background:linear-gradient(135deg,#14b8a6,var(--teal));
+      box-shadow:0 12px 32px rgba(45,212,191,.18);
+    }
+    .btn:hover{transform:translateY(-2px);border-color:var(--teal);color:var(--ink)}
+    .btn.primary:hover{color:#041016}
+
+    .hero-visual{
+      position:relative;min-height:420px;border-radius:0;
+      isolation:isolate;overflow:hidden;
+    }
+    .hero-visual::before{
+      content:"";position:absolute;inset:-8% -4%;z-index:-1;
+      background:
+        radial-gradient(ellipse at 70% 30%,rgba(45,212,191,.22),transparent 55%),
+        radial-gradient(ellipse at 20% 80%,rgba(232,93,93,.12),transparent 50%),
+        linear-gradient(160deg,#0a1f2a 0%,#07141c 55%,#0c2430 100%);
+    }
+    .dash-mock{
+      position:absolute;inset:8% 4% 6% 8%;
+      border:1px solid var(--line);background:rgba(4,16,22,.78);
+      backdrop-filter:blur(8px);padding:18px;display:grid;gap:12px;
+      animation:float-in .9s ease both;
+    }
+    .dash-top{display:flex;justify-content:space-between;align-items:center;gap:12px}
+    .dash-title{font-family:var(--font-display);font-size:13px;font-weight:700;letter-spacing:.04em}
+    .pulse{
+      display:inline-flex;align-items:center;gap:7px;color:var(--alert);
+      font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;
+    }
+    .pulse::before{
+      content:"";width:8px;height:8px;border-radius:50%;background:var(--alert);
+      animation:pulse 1.6s ease infinite;
+    }
+    .dash-grid{display:grid;grid-template-columns:1.2fr .8fr;gap:10px;flex:1}
+    .panel-block{
+      border:1px solid var(--line);background:rgba(8,28,36,.7);padding:14px;
+    }
+    .panel-block h3{margin:0 0 10px;font-size:11px;color:var(--muted);letter-spacing:.08em;text-transform:uppercase;font-weight:600}
+    .metric-row{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+    .metric b{display:block;font-family:var(--font-display);font-size:22px;letter-spacing:-.03em}
+    .metric span{display:block;font-size:10px;color:var(--muted);margin-top:2px}
+    .metric.good b{color:var(--good)}
+    .metric.warn b{color:var(--warn)}
+    .metric.alert b{color:var(--alert)}
+    .chain{display:grid;gap:7px}
+    .chain-item{
+      display:flex;justify-content:space-between;gap:8px;padding:8px 10px;
+      border-left:2px solid var(--teal);background:var(--teal-dim);font-size:11px;
+    }
+    .chain-item.hot{border-left-color:var(--alert);background:var(--alert-dim)}
+    .chain-item span{color:var(--muted)}
+    .scanline{
+      position:absolute;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--teal),transparent);
+      opacity:.45;animation:scan 4.2s linear infinite;
+    }
+
+    .section{padding:88px 0}
+    .section-label{
+      color:var(--teal);font-size:11px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;
+      margin:0 0 12px;font-family:var(--font-display);
+    }
+    .section h2{
+      margin:0 0 14px;font-family:var(--font-display);font-size:clamp(28px,4vw,40px);
+      letter-spacing:-.03em;line-height:1.15;font-weight:700;max-width:18ch;
+    }
+    .section-lead{margin:0;max-width:62ch;color:var(--sub);font-size:15px}
+    .section-head{margin-bottom:36px}
+
+    .compare-wrap{overflow-x:auto;border:1px solid var(--line)}
+    table.compare{width:100%;border-collapse:collapse;min-width:680px}
+    .compare th,.compare td{padding:16px 18px;border-bottom:1px solid var(--line);text-align:left;font-size:13px;vertical-align:top}
+    .compare th{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);background:rgba(8,28,36,.85);font-weight:700}
+    .compare th:nth-child(3),.compare td:nth-child(3){background:rgba(45,212,191,.06)}
+    .compare td:first-child{font-weight:700;color:var(--ink);width:18%}
+    .compare td{color:var(--sub)}
+    .compare tr:last-child td{border-bottom:0}
+    .hi{color:var(--signal);font-weight:700}
+
+    .engines{display:grid;gap:0;border-top:1px solid var(--line)}
+    .engine{
+      display:grid;grid-template-columns:140px 1fr;gap:28px;padding:32px 0;
+      border-bottom:1px solid var(--line);align-items:start;
+    }
+    .engine-no{
+      font-family:var(--font-display);font-size:48px;font-weight:700;letter-spacing:-.04em;
+      color:transparent;-webkit-text-stroke:1px rgba(45,212,191,.45);line-height:1;
+    }
+    .engine h3{margin:0 0 10px;font-family:var(--font-display);font-size:22px;letter-spacing:-.02em}
+    .engine p{margin:0;color:var(--sub);font-size:14px;max-width:62ch}
+
+    .workflow{display:grid;grid-template-columns:repeat(4,1fr);gap:0;border:1px solid var(--line)}
+    .step{
+      padding:24px 20px;border-right:1px solid var(--line);position:relative;
+      background:linear-gradient(180deg,rgba(45,212,191,.04),transparent 70%);
+    }
+    .step:last-child{border-right:0}
+    .step-num{
+      font-family:var(--font-display);font-size:12px;font-weight:700;color:var(--teal);
+      letter-spacing:.12em;margin-bottom:14px;
+    }
+    .step h3{margin:0 0 10px;font-size:16px;font-family:var(--font-display);letter-spacing:-.02em}
+    .step p{margin:0;color:var(--sub);font-size:13px}
+    .step ul{margin:12px 0 0;padding:0 0 0 16px;color:var(--muted);font-size:12px}
+
+    .foundation{
+      display:grid;grid-template-columns:1.05fr .95fr;gap:40px;align-items:center;
+    }
+    .mock-pair{
+      position:relative;min-height:340px;overflow:hidden;
+      background:
+        linear-gradient(135deg,rgba(10,30,40,.9),rgba(6,18,26,.95)),
+        repeating-linear-gradient(-12deg,transparent,transparent 10px,rgba(45,212,191,.03) 10px,rgba(45,212,191,.03) 11px);
+      border:1px solid var(--line);
+    }
+    .book-block,.dash-block{
+      position:absolute;border:1px solid var(--line);background:rgba(6,20,28,.92);padding:18px;
+    }
+    .book-block{
+      width:46%;left:8%;top:14%;transform:rotate(-4deg);
+      box-shadow:18px 24px 50px rgba(0,0,0,.35);
+      animation:rise .8s ease .15s both;
+    }
+    .dash-block{
+      width:58%;right:6%;bottom:10%;transform:rotate(2deg);
+      box-shadow:18px 24px 50px rgba(0,0,0,.35);
+      animation:rise .8s ease .35s both;
+    }
+    .book-spine{
+      height:8px;width:40%;background:linear-gradient(90deg,var(--teal),var(--steel));margin-bottom:14px;
+    }
+    .book-block strong{display:block;font-family:var(--font-display);font-size:18px;line-height:1.2;margin-bottom:8px}
+    .book-block span{color:var(--muted);font-size:12px}
+    .dash-block .bars{display:grid;gap:8px;margin-top:12px}
+    .bar{height:8px;background:rgba(45,212,191,.12);position:relative;overflow:hidden}
+    .bar i{position:absolute;inset:0 auto 0 0;width:var(--w);background:linear-gradient(90deg,#0f766e,var(--teal))}
+    .quote{
+      margin:0 0 22px;font-size:18px;line-height:1.7;color:var(--ink);font-weight:500;
+      border-left:2px solid var(--teal);padding-left:18px;
+    }
+    .foundation-note{margin:0;color:var(--sub);font-size:14px}
+
+    .cta-band{
+      margin:20px 0 0;padding:56px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);
+      text-align:center;background:
+        radial-gradient(600px 220px at 50% 0%,rgba(45,212,191,.1),transparent 70%);
+    }
+    .cta-band h2{
+      margin:0 0 12px;font-family:var(--font-display);font-size:clamp(26px,4vw,38px);
+      letter-spacing:-.03em;max-width:18ch;margin-inline:auto;
+    }
+    .cta-band p{margin:0 auto 24px;max-width:42ch;color:var(--sub)}
+    .cta-links{display:flex;flex-wrap:wrap;gap:10px 18px;justify-content:center;margin-top:28px;font-size:13px;color:var(--sub)}
+    .cta-links a{color:var(--teal);font-weight:600}
+    .cta-links a:hover{text-decoration:underline}
+
+    footer{
+      padding:36px 0 56px;display:flex;flex-wrap:wrap;gap:12px 24px;justify-content:space-between;
+      color:var(--muted);font-size:12px;
+    }
+    footer a{color:var(--sub)}
+    footer a:hover{color:var(--teal)}
+
+    .reveal{opacity:0;transform:translateY(18px);transition:opacity .7s ease,transform .7s ease}
+    .reveal.visible{opacity:1;transform:none}
+
+    @keyframes pulse{
+      0%,100%{opacity:1;transform:scale(1)}
+      50%{opacity:.45;transform:scale(.85)}
+    }
+    @keyframes scan{
+      0%{top:8%} 100%{top:90%}
+    }
+    @keyframes float-in{
+      from{opacity:0;transform:translateY(24px)}
+      to{opacity:1;transform:none}
+    }
+    @keyframes rise{
+      from{opacity:0;transform:translateY(28px) rotate(0deg)}
+      to{opacity:1}
+    }
+
+    @media (max-width:920px){
+      .hero{grid-template-columns:1fr;padding:42px 0 48px;min-height:auto;gap:28px}
+      .hero-visual{min-height:340px;order:-1}
+      .product-mark{font-size:clamp(36px,11vw,56px)}
+      .engine{grid-template-columns:72px 1fr;gap:16px}
+      .workflow{grid-template-columns:1fr 1fr}
+      .step:nth-child(2){border-right:0}
+      .step:nth-child(1),.step:nth-child(2){border-bottom:1px solid var(--line)}
+      .foundation{grid-template-columns:1fr;gap:28px}
+      .mock-pair{min-height:300px}
+    }
+    @media (max-width:640px){
+      .wrap{width:calc(100% - 28px)}
+      .nav-links a:not(.nav-back){display:none}
+      .dash-grid{grid-template-columns:1fr}
+      .workflow{grid-template-columns:1fr}
+      .step{border-right:0;border-bottom:1px solid var(--line)}
+      .step:last-child{border-bottom:0}
+      .engine-no{font-size:34px}
+      .hero-actions .btn{width:100%}
+    }
+    @media (prefers-reduced-motion:reduce){
+      .reveal,.dash-mock,.book-block,.dash-block,.pulse::before,.scanline{animation:none!important;transition:none!important;opacity:1;transform:none}
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <nav class="nav" aria-label="주요 메뉴">
+      <a class="brand" href="/">
+        <span class="logo" aria-hidden="true">3AI</span>
+        <span>STARGATE<small>Cybersecurity</small></span>
+      </a>
+      <div class="nav-links">
+        <a href="#why">왜 3AI인가</a>
+        <a href="#engines">핵심 엔진</a>
+        <a href="#workflow">프로세스</a>
+        <a href="#foundation">도서 · 솔루션</a>
+        <a class="nav-back" href="/">← 포털</a>
+      </div>
+    </nav>
+
+    <header class="hero" id="top">
+      <div class="hero-copy">
+        <p class="product-mark" aria-label="제품명">PRODUCT<br><span>3AI Cybersecurity Suite</span></p>
+        <h1>단 1초의 지연도 허용하지 않는, LLM 기반 위협 탐지 및 로그 분석 자동화 솔루션</h1>
+        <p class="hero-lead">아마존 KDP 출간 도서의 검증된 보안 방법론을 100% 소프트웨어 아키텍처로 구현했습니다. 압도적인 데이터 처리량과 시맨틱 분석으로 SOC 업무 효율을 끌어올립니다.</p>
+        <div class="hero-actions">
+          <a class="btn primary" href="mailto:ceo@stargateedu.co.kr?subject=3AI%20Cybersecurity%20Suite%20무료%20데모%20신청&body=%EC%95%88%EB%85%95%ED%95%98%EC%84%B8%EC%9A%94.%0A3AI%20Cybersecurity%20Suite%20%EB%AC%B4%EB%A3%8C%20%EB%8D%B0%EB%AA%A8%EB%A5%BC%20%EC%8B%A0%EC%B2%AD%ED%95%A9%EB%8B%88%EB%8B%A4.">무료 데모 신청하기</a>
+          <a class="btn" href="/cybersecurity/whitepaper.pdf" download>도서 아키텍처 백서 다운로드 (PDF)</a>
+        </div>
+      </div>
+      <div class="hero-visual" aria-hidden="true">
+        <div class="dash-mock">
+          <div class="dash-top">
+            <div class="dash-title">SOC LIVE · THREAT BOARD</div>
+            <div class="pulse">High Risk</div>
+          </div>
+          <div class="dash-grid">
+            <div class="panel-block">
+              <h3>Kill Chain Inference</h3>
+              <div class="chain">
+                <div class="chain-item"><b>Credential Dump</b><span>T1003</span></div>
+                <div class="chain-item"><b>Lateral Movement</b><span>T1021</span></div>
+                <div class="chain-item hot"><b>Exfil Candidate</b><span>T1048</span></div>
+              </div>
+            </div>
+            <div class="panel-block">
+              <h3>Realtime</h3>
+              <div class="metric-row">
+                <div class="metric good"><b>3m</b><span>탐지 시간</span></div>
+                <div class="metric warn"><b>&lt;15%</b><span>오탐률</span></div>
+                <div class="metric alert"><b>100K</b><span>EPS</span></div>
+              </div>
+            </div>
+          </div>
+          <div class="scanline"></div>
+        </div>
+      </div>
+    </header>
+
+    <section class="section" id="why">
+      <div class="section-head reveal">
+        <div class="section-label">Why 3AI</div>
+        <h2>왜 3AI Cybersecurity Suite인가?</h2>
+        <p class="section-lead">기존의 룰 기반 SIEM은 하루 평균 10,000건 이상의 경고를 발생시키며, 이 중 85% 이상이 오탐입니다. 3AI Suite는 LLM의 문맥 이해 능력으로 파편화된 로그 속에서 실제 위협만을 정확히 추출합니다.</p>
+      </div>
+      <div class="compare-wrap reveal">
+        <table class="compare">
+          <thead>
+            <tr>
+              <th>비교 항목</th>
+              <th>기존 SIEM (Rule 기반)</th>
+              <th>3AI Cybersecurity Suite (LLM 기반)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>위협 탐지 소요 시간</td>
+              <td>평균 45분</td>
+              <td class="hi">평균 3분 이내</td>
+            </tr>
+            <tr>
+              <td>오탐률 (False Positive)</td>
+              <td>80% 이상</td>
+              <td class="hi">15% 미만</td>
+            </tr>
+            <tr>
+              <td>로그 연관성 분석</td>
+              <td>단일 이벤트 중심 (정규표현식)</td>
+              <td class="hi">다차원 문맥 분석 (RAG 및 Vector DB)</td>
+            </tr>
+            <tr>
+              <td>대응 리포트 생성</td>
+              <td>수동 작성 (건당 1~2시간)</td>
+              <td class="hi">10초 이내 자동 생성 (MITRE ATT&amp;CK 맵핑)</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="section" id="engines">
+      <div class="section-head reveal">
+        <div class="section-label">Core Features</div>
+        <h2>3대 핵심 엔진</h2>
+        <p class="section-lead">시맨틱 분석, 자율 헌팅, IR 문서화까지 — SOC의 병목을 엔진 단위로 자동화합니다.</p>
+      </div>
+      <div class="engines">
+        <article class="engine reveal">
+          <div class="engine-no" aria-hidden="true">01</div>
+          <div>
+            <h3>시맨틱 로그 분석 엔진</h3>
+            <p>정형화되지 않은 비정형 네트워크·애플리케이션·엔드포인트(EDR) 로그를 자연어 형태로 파싱합니다. 정상 행위로 위장한 APT 징후를 문맥적으로 분석해 탐지율을 40% 이상 향상시킵니다.</p>
+          </div>
+        </article>
+        <article class="engine reveal">
+          <div class="engine-no" aria-hidden="true">02</div>
+          <div>
+            <h3>자율형 위협 헌팅</h3>
+            <p>아마존 KDP 출간 도서의 딥러닝 기반 위협 식별 알고리즘을 적용했습니다. “최근 24시간 내 내부망 자격 증명 탈취 시도를 요약해 줘” 같은 자연어 프롬프트 한 줄로 심층 분석 결과를 제공합니다.</p>
+          </div>
+        </article>
+        <article class="engine reveal">
+          <div class="engine-no" aria-hidden="true">03</div>
+          <div>
+            <h3>원클릭 침해사고 대응(IR) 리포팅</h3>
+            <p>탐지된 위협의 원인(Root Cause), 타임라인, 영향도, 대응 가이드까지 포함한 종합 리포트를 PDF·Word·HTML 3종 포맷으로 즉시 출력합니다.</p>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" id="workflow">
+      <div class="section-head reveal">
+        <div class="section-label">Workflow</div>
+        <h2>작동 프로세스</h2>
+        <p class="section-lead">데이터 수집부터 위협 식별·대응까지 4단계로 자동화합니다.</p>
+      </div>
+      <div class="workflow reveal">
+        <article class="step">
+          <div class="step-num">STEP 01</div>
+          <h3>다중 채널 로그 수집</h3>
+          <p>초당 100,000 EPS 처리. 방화벽, IDS/IPS, 웹 서버, AWS·Azure 등 50여 개 이상 이기종 시스템 로그를 실시간 수집·정규화합니다.</p>
+        </article>
+        <article class="step">
+          <div class="step-num">STEP 02</div>
+          <h3>RAG 기반 컨텍스트 매핑</h3>
+          <p>도서 방법론 적용 구간. 로그를 벡터화해 Vector DB에 저장하고, 최신 CTI 및 도서 수록 보안워크 룰셋과 교차 검증합니다.</p>
+        </article>
+        <article class="step">
+          <div class="step-num">STEP 03</div>
+          <h3>LLM 위협 추론</h3>
+          <p>분산된 저위험 경고들을 연결해 하나의 Kill Chain으로 구성되는지 LLM이 논리적으로 추론합니다.</p>
+        </article>
+        <article class="step">
+          <div class="step-num">STEP 04</div>
+          <h3>자동 대응 및 알림</h3>
+          <p>고위험 위협은 대시보드에 즉시 표출되며, Slack·이메일·Webhook으로 실시간 알림과 완화 스크립트를 제공합니다.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" id="foundation">
+      <div class="foundation">
+        <div class="mock-pair reveal" aria-label="도서와 솔루션 대시보드 목업">
+          <div class="book-block">
+            <div class="book-spine"></div>
+            <strong>Amazon KDP<br>Security Research</strong>
+            <span>GIS · 공간계량 · 위협 지형도</span>
+          </div>
+          <div class="dash-block">
+            <div class="dash-title" style="font-family:var(--font-display);font-size:13px;font-weight:700">3AI Suite · Live Defense</div>
+            <div class="bars">
+              <div class="bar"><i style="--w:86%"></i></div>
+              <div class="bar"><i style="--w:64%"></i></div>
+              <div class="bar"><i style="--w:92%"></i></div>
+              <div class="bar"><i style="--w:48%"></i></div>
+            </div>
+          </div>
+        </div>
+        <div class="reveal">
+          <div class="section-label">The Foundation</div>
+          <h2>도서와 솔루션의 결합</h2>
+          <blockquote class="quote">본 솔루션의 코어 알고리즘은 아마존 KDP에 출간된 저서의 연구 결과를 기반으로 설계되었습니다. 학술적 연구와 실증적 데이터(GIS 공간계량 및 통계 분석론)를 사이버 공간의 위협 지형도 분석에 융합한 시도입니다.</blockquote>
+          <p class="foundation-note">도서에서 다룬 7가지 핵심 위협 모델링을 알고리즘화했으며, 사용자는 책의 이론이 3AI Suite 안에서 실시간 방어막으로 작동하는 과정을 직접 확인할 수 있습니다.</p>
+          <div class="hero-actions" style="margin-top:22px">
+            <a class="btn" href="/cybersecurity/whitepaper.pdf" download>백서 PDF 다운로드</a>
+            <a class="btn" href="https://www.amazon.com/s?k=cybersecurity+LLM+threat+detection" target="_blank" rel="noopener">Amazon KDP 도서 구매처 ↗</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="cta-band" id="cta">
+      <h2>귀사의 보안팀에 AI 전문가를 영입하십시오.</h2>
+      <p>3AI Cybersecurity Suite로 보안 관제의 패러다임을 바꿀 수 있습니다.</p>
+      <div class="hero-actions" style="justify-content:center">
+        <a class="btn primary" href="mailto:ceo@stargateedu.co.kr?subject=3AI%20Cybersecurity%20Suite%20문의">문의하기</a>
+        <a class="btn" href="https://stargateedu.co.kr/">포털 접속</a>
+      </div>
+      <div class="cta-links">
+        <span>포털: <a href="https://stargateedu.co.kr/">stargateedu.co.kr</a></span>
+        <span>이메일: <a href="mailto:ceo@stargateedu.co.kr">ceo@stargateedu.co.kr</a></span>
+        <span>전화: <a href="tel:07080188227">070-8018-8227</a></span>
+        <span>도서: <a href="https://www.amazon.com/s?k=cybersecurity+LLM+threat+detection" target="_blank" rel="noopener">Amazon KDP</a></span>
+      </div>
+    </section>
+
+    <footer>
+      <span>© 2026 Stargate Corporation · 주식회사 별의문</span>
+      <span>
+        <a href="/">Portal</a> ·
+        <a href="mailto:ceo@stargateedu.co.kr">ceo@stargateedu.co.kr</a> ·
+        <a href="tel:07080188227">070-8018-8227</a>
+      </span>
+    </footer>
+  </div>
+
+  <script>
+    (() => {
+      const nodes = document.querySelectorAll('.reveal');
+      if (!('IntersectionObserver' in window)) {
+        nodes.forEach((el) => el.classList.add('visible'));
+        return;
+      }
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+            io.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.16, rootMargin: '0px 0px -40px 0px' });
+      nodes.forEach((el) => io.observe(el));
+    })();
+  </script>
+</body>
+</html>

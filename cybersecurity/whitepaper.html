@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>3AI Cybersecurity Suite 아키텍처 백서</title>
+  <meta name="description" content="3AI Cybersecurity Suite 소프트웨어 아키텍처 백서 — LLM 위협 탐지, RAG 컨텍스트 매핑, IR 자동화.">
+  <link rel="canonical" href="https://stargateedu.co.kr/cybersecurity/whitepaper.html">
+  <style>
+    :root{--ink:#102018;--sub:#42564e;--line:#d7e2dc;--teal:#0f766e;--bg:#f7faf8}
+    *{box-sizing:border-box}
+    body{margin:0;font-family:"IBM Plex Sans KR","Apple SD Gothic Neo",sans-serif;color:var(--ink);background:var(--bg);line-height:1.65}
+    .wrap{width:min(820px,calc(100% - 40px));margin:0 auto;padding:48px 0 80px}
+    .toolbar{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:28px}
+    .btn{display:inline-flex;align-items:center;padding:10px 14px;border:1px solid var(--line);border-radius:10px;background:#fff;color:var(--ink);text-decoration:none;font-size:13px;font-weight:700;cursor:pointer}
+    .btn.primary{background:var(--teal);border-color:var(--teal);color:#fff}
+    h1{font-size:clamp(28px,4vw,40px);letter-spacing:-.03em;line-height:1.2;margin:0 0 10px}
+    .meta{color:var(--sub);font-size:13px;margin-bottom:32px}
+    h2{font-size:22px;margin:36px 0 12px;letter-spacing:-.02em}
+    p,li{color:var(--sub);font-size:15px}
+    ul{padding-left:18px}
+    table{width:100%;border-collapse:collapse;margin:16px 0 8px;background:#fff}
+    th,td{border:1px solid var(--line);padding:10px 12px;text-align:left;font-size:13px;vertical-align:top}
+    th{background:#eef5f1;color:var(--ink)}
+    .note{margin-top:40px;padding-top:20px;border-top:1px solid var(--line);font-size:12px;color:#6b7f76}
+    @media print{
+      body{background:#fff}
+      .toolbar{display:none}
+      .wrap{width:100%;padding:0}
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="toolbar">
+      <button class="btn primary" type="button" onclick="window.print()">PDF로 저장 / 인쇄</button>
+      <a class="btn" href="/cybersecurity/">← 제품 페이지</a>
+      <a class="btn" href="/">포털</a>
+    </div>
+
+    <h1>3AI Cybersecurity Suite<br>아키텍처 백서</h1>
+    <p class="meta">STARGATE Corporation · 주식회사 별의문 · 2026<br>
+      LLM 기반 위협 탐지 · 시맨틱 로그 분석 · SOC 자동화</p>
+
+    <h2>1. 개요</h2>
+    <p>3AI Cybersecurity Suite는 아마존 KDP 출간 도서의 보안 방법론을 소프트웨어 아키텍처로 구현한 LLM 기반 위협 탐지 및 로그 분석 자동화 솔루션입니다. 룰 기반 SIEM의 높은 오탐과 수동 문서화 부담을 줄이고, SOC의 탐지·추론·대응 사이클을 단축하는 것을 목표로 합니다.</p>
+
+    <h2>2. 설계 원칙</h2>
+    <ul>
+      <li>시맨틱 우선: 정규식 단일 이벤트 매칭이 아닌 문맥·연관성 중심 분석</li>
+      <li>RAG 교차검증: Vector DB + CTI + 도서 프레임워크 룰셋의 실시간 매핑</li>
+      <li>Kill Chain 추론: 저위험 경고의 연결 패턴을 LLM이 논리적으로 재구성</li>
+      <li>IR 자동화: Root Cause·타임라인·영향도·대응 가이드의 다포맷 즉시 출력</li>
+    </ul>
+
+    <h2>3. 핵심 엔진</h2>
+    <table>
+      <thead>
+        <tr><th>엔진</th><th>역할</th><th>성과 지표</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Semantic Log Analyzer</td>
+          <td>비정형 네트워크·앱·EDR 로그 자연어 파싱 및 APT 위장 행위 탐지</td>
+          <td>탐지율 +40% 이상</td>
+        </tr>
+        <tr>
+          <td>Autonomous Threat Hunting</td>
+          <td>자연어 프롬프트 기반 심층 헌팅 (쿼리 작성 불필요)</td>
+          <td>탐지 평균 3분 이내</td>
+        </tr>
+        <tr>
+          <td>One-Click IR Reporting</td>
+          <td>MITRE ATT&amp;CK 맵핑 포함 종합 리포트 자동 생성</td>
+          <td>10초 이내 / PDF·Word·HTML</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h2>4. 데이터 파이프라인 (4단계)</h2>
+    <ol>
+      <li><strong>Data Ingestion</strong> — 100,000 EPS, 50+ 이기종 소스 정규화</li>
+      <li><strong>Context Mapping</strong> — 벡터화 · Vector DB · CTI/프레임워크 교차검증</li>
+      <li><strong>Threat Reasoning</strong> — 저위험 경고 연결 · Kill Chain 추론</li>
+      <li><strong>Automated Response</strong> — 대시보드 경보 · Slack/Email/Webhook · 완화 스크립트</li>
+    </ol>
+
+    <h2>5. 기존 SIEM 대비</h2>
+    <table>
+      <thead>
+        <tr><th>항목</th><th>Rule SIEM</th><th>3AI Suite</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>탐지 소요</td><td>평균 45분</td><td>평균 3분 이내</td></tr>
+        <tr><td>오탐률</td><td>80%+</td><td>15% 미만</td></tr>
+        <tr><td>연관 분석</td><td>단일 이벤트 / Regex</td><td>RAG · Vector DB 문맥 분석</td></tr>
+        <tr><td>리포트</td><td>수동 1~2시간</td><td>10초 자동 생성</td></tr>
+      </tbody>
+    </table>
+
+    <h2>6. 연구 기반</h2>
+    <p>코어 알고리즘은 아마존 KDP 출간 저서의 연구 결과와 GIS 공간계량·통계 분석론을 사이버 위협 지형도 분석에 융합한 모델을 따릅니다. 도서의 7가지 핵심 위협 모델링이 런타임 방어 로직으로 알고리즘화되어 있습니다.</p>
+
+    <h2>7. 도입 문의</h2>
+    <p>
+      포털: <a href="https://stargateedu.co.kr/">https://stargateedu.co.kr/</a><br>
+      제품: <a href="https://stargateedu.co.kr/cybersecurity/">https://stargateedu.co.kr/cybersecurity/</a><br>
+      이메일: <a href="mailto:ceo@stargateedu.co.kr">ceo@stargateedu.co.kr</a><br>
+      전화: 070-8018-8227
+    </p>
+
+    <p class="note">본 문서는 제품 소개용 아키텍처 요약본입니다. 브라우저의 인쇄 기능에서 “PDF로 저장”을 선택해 다운로드할 수 있습니다.</p>
+  </div>
+</body>
+</html>
