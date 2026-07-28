@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="ko"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>경기도 시·군별 학원 밀집도 지도</title>
+<style>
+ :root{ --bg:#faf9f5; --surface:#fff; --border:rgba(0,0,0,0.12); --text:#1f1e1c; --muted:#6b6a64; }
+ @media (prefers-color-scheme: dark){ :root{ --bg:#1c1b19; --surface:#262522; --border:rgba(255,255,255,0.14); --text:#f3f1ea; --muted:#a9a89f; } }
+ *{box-sizing:border-box;} body{margin:0;background:var(--bg);color:var(--text);font-family:"Pretendard","Apple SD Gothic Neo","Malgun Gothic",sans-serif;line-height:1.6;}
+ .wrap{max-width:920px;margin:0 auto;padding:32px 24px 56px;}
+ h1{font-size:22px;font-weight:600;margin:0 0 4px;} .sub{color:var(--muted);font-size:14px;margin:0 0 20px;}
+ .legend{display:flex;gap:10px;font-size:12px;color:var(--muted);margin-bottom:10px;}
+ .legend span{display:flex;align-items:center;gap:4px;} .sw{width:12px;height:12px;border-radius:3px;display:inline-block;}
+ .cols{display:grid;grid-template-columns:1.35fr 0.65fr;gap:18px;align-items:start;}
+ .panel{background:var(--surface);border:0.5px solid var(--border);border-radius:14px;padding:16px;}
+ #readout{margin-top:12px;font-size:14px;color:var(--muted);min-height:20px;}
+ .foot{font-size:12px;color:var(--muted);margin-top:16px;text-align:right;}
+ @media(max-width:680px){.cols{grid-template-columns:1fr;}}
+</style></head><body><div class="wrap">
+ <h1>경기도 시·군별 학원 밀집도 지도</h1>
+ <p class="sub">실데이터 · 경기데이터드림 학원 및 교습소 현황 · 총 34,012개 · 기준 2026-02-22</p>
+ <div class="legend"><span><i class="sw" style="background:#042C53"></i>많음</span><span><i class="sw" style="background:#378ADD"></i>중간</span><span><i class="sw" style="background:#E6F1FB"></i>적음</span></div>
+ <div class="cols">
+  <div class="panel"><div id="map" style="width:100%;"></div><div id="readout">시·군에 마우스를 올리면 학원 수가 표시됩니다.</div></div>
+  <div class="panel"><b style="font-size:14px;font-weight:600;">학원 수 상위</b><div id="rank" style="margin-top:10px;"></div></div>
+ </div>
+ <p class="foot">Stargate Corporation · 경기데이터드림 실데이터</p>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
+<script>
+const counts = {"수원시":3492,"용인시":3095,"고양시":3017,"성남시":2997,"화성시":2565,"부천시":1874,"남양주시":1728,"안양시":1606,"김포시":1430,"시흥시":1248,"안산시":1225,"평택시":1105,"의정부시":1098,"파주시":983,"광명시":855,"하남시":746,"군포시":743,"광주시":691,"구리시":572,"이천시":552,"오산시":461,"양주시":422,"의왕시":334,"안성시":248,"양평군":198,"여주시":167,"과천시":161,"포천시":153,"동두천시":126,"가평군":80,"연천군":40};
+function parent(n){var i=n.lastIndexOf('시'); if(i>=0) return n.slice(0,i+1); var j=n.indexOf('군'); if(j>=0) return n.slice(0,j+1); return n;}
+const isDark=matchMedia('(prefers-color-scheme: dark)').matches;
+const scheme=isDark?d3.schemeBlues[7].slice().reverse():d3.schemeBlues[7];
+const mx=Math.max(...Object.values(counts));
+const color=d3.scaleQuantize([0,mx],scheme);
+const W=760,H=600;
+const svg=d3.select('#map').append('svg').attr('viewBox','0 0 '+W+' '+H).attr('width','100%').attr('role','img').attr('aria-label','경기도 시군별 학원 밀집도 지도');
+const tip=d3.select('#readout');
+d3.json('https://cdn.jsdelivr.net/gh/southkorea/southkorea-maps@master/kostat/2013/json/skorea_municipalities_geo_simple.json').then(function(geo){
+  const feats=geo.features.filter(function(f){return counts[parent(f.properties.name)]!=null;});
+  const path=d3.geoPath(d3.geoMercator().fitSize([W,H-10],{type:'FeatureCollection',features:feats}));
+  svg.selectAll('path').data(feats).join('path').attr('d',path)
+    .attr('fill',function(d){return color(counts[parent(d.properties.name)]||0);})
+    .attr('stroke',isDark?'rgba(255,255,255,0.25)':'#fff').attr('stroke-width',0.5).style('cursor','pointer')
+    .on('mousemove',function(e,d){var p=parent(d.properties.name);tip.html('<b>'+p+'</b> · 학원 '+counts[p].toLocaleString()+'개');d3.select(this).attr('stroke-width',1.4).attr('stroke',isDark?'#fff':'#333');})
+    .on('mouseout',function(){d3.select(this).attr('stroke-width',0.5).attr('stroke',isDark?'rgba(255,255,255,0.25)':'#fff');});
+  var seen={};
+  svg.selectAll('text').data(feats.filter(function(f){var p=parent(f.properties.name);if(seen[p])return false;seen[p]=1;return true;})).join('text')
+    .attr('transform',function(d){return 'translate('+path.centroid(d)+')';}).attr('text-anchor','middle').attr('dy','0.32em')
+    .attr('font-size',function(d){return counts[parent(d.properties.name)]>=1700?10:8;}).attr('pointer-events','none')
+    .attr('fill',function(d){var v=counts[parent(d.properties.name)]||0;return (isDark? v>1500 : v<1800)?'#dceaf9':'#042C53';})
+    .text(function(d){return parent(d.properties.name).replace(/(시|군)$/,'');});
+  var top=Object.entries(counts).sort((a,b)=>b[1]-a[1]);
+  document.getElementById('rank').innerHTML=top.slice(0,14).map(function(t,n){var w=Math.round(t[1]/top[0][1]*100);
+    return '<div style="margin-bottom:6px;"><div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:2px;"><span><span style="color:var(--muted)">'+(n+1)+'.</span> '+t[0]+'</span><span style="font-weight:500">'+t[1].toLocaleString()+'</span></div><div style="height:5px;background:var(--bg);border-radius:3px;"><div style="height:5px;width:'+w+'%;background:#185FA5;border-radius:3px;"></div></div></div>';}).join('');
+});
+</script></body></html>
