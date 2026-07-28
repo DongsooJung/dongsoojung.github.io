@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="ko"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>서울 학원 수요 지도 · 주간 갱신</title>
+<style>
+ :root{ --bg:#faf9f5; --surface:#fff; --border:rgba(0,0,0,0.12); --text:#1f1e1c; --muted:#6b6a64; --up:#A32D2D; --dn:#185FA5; }
+ @media (prefers-color-scheme: dark){ :root{ --bg:#1c1b19; --surface:#262522; --border:rgba(255,255,255,0.14); --text:#f3f1ea; --muted:#a9a89f; --up:#F09595; --dn:#85B7EB; } }
+ *{box-sizing:border-box;} body{margin:0;background:var(--bg);color:var(--text);font-family:"Pretendard","Apple SD Gothic Neo","Malgun Gothic",sans-serif;line-height:1.6;}
+ .wrap{max-width:900px;margin:0 auto;padding:32px 24px 56px;}
+ h1{font-size:22px;font-weight:600;margin:0 0 4px;} .sub{color:var(--muted);font-size:13px;margin:0 0 20px;}
+ .legend{display:flex;gap:10px;font-size:12px;color:var(--muted);margin-bottom:10px;}
+ .legend span{display:flex;align-items:center;gap:4px;} .sw{width:12px;height:12px;border-radius:3px;display:inline-block;}
+ .cols{display:grid;grid-template-columns:1.3fr 0.7fr;gap:18px;align-items:start;}
+ .panel{background:var(--surface);border:0.5px solid var(--border);border-radius:14px;padding:16px;}
+ #readout{margin-top:12px;font-size:13px;color:var(--muted);min-height:20px;}
+ .foot{font-size:12px;color:var(--muted);margin-top:16px;text-align:right;}
+ @media(max-width:680px){.cols{grid-template-columns:1fr;}}
+</style></head><body><div class="wrap">
+ <h1>서울 자치구별 학원 수요 지도 · 주간 갱신</h1>
+ <p class="sub">학원 25,522개 · 학령인구·학원수 실데이터 + 소득지수 · 화살표=지난 회차 대비 변화 · 갱신 2026-07-29 04:55 · 누적 2회</p>
+ <div class="cols">
+  <div class="panel">
+   <div class="legend"><span><i class="sw" style="background:#3C3489"></i>높음</span><span><i class="sw" style="background:#CECBF6"></i>낮음</span><span style="color:var(--up)">▲상승</span><span style="color:var(--dn)">▼하락</span></div>
+   <div id="map" style="width:100%;"></div>
+   <div id="readout">구 위에 마우스를 올리면 상세와 변화가 표시됩니다.</div>
+  </div>
+  <div class="panel"><b style="font-size:14px;font-weight:600;">수요지수 순위 (변화)</b><div id="rank" style="margin-top:10px;"></div></div>
+ </div>
+ <p class="foot">Stargate Corporation · 주간 자동 갱신 파이프라인</p>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
+<script>
+const values={"종로구": 32, "중구": 23, "용산구": 81, "성동구": 32, "광진구": 30, "동대문구": 13, "중랑구": 11, "성북구": 27, "강북구": 6, "도봉구": 8, "노원구": 28, "은평구": 21, "서대문구": 19, "마포구": 28, "양천구": 35, "강서구": 32, "구로구": 16, "금천구": 0, "영등포구": 27, "동작구": 21, "관악구": 14, "서초구": 85, "강남구": 100, "송파구": 68, "강동구": 46}, counts={"종로구": 291, "중구": 161, "용산구": 242, "성동구": 578, "광진구": 731, "동대문구": 733, "중랑구": 559, "성북구": 990, "강북구": 380, "도봉구": 597, "노원구": 1427, "은평구": 1076, "서대문구": 740, "마포구": 1172, "양천구": 2115, "강서구": 1393, "구로구": 791, "금천구": 364, "영등포구": 863, "동작구": 926, "관악구": 726, "서초구": 1817, "강남구": 3421, "송파구": 1970, "강동구": 1417}, schoolpop={"종로구": 19291, "중구": 12313, "용산구": 23515, "성동구": 35545, "광진구": 40204, "동대문구": 37048, "중랑구": 36802, "성북구": 56866, "강북구": 28710, "도봉구": 31372, "노원구": 66791, "은평구": 55684, "서대문구": 38212, "마포구": 44337, "양천구": 64677, "강서구": 66131, "구로구": 43107, "금천구": 16030, "영등포구": 41144, "동작구": 41099, "관악구": 39640, "서초구": 78963, "강남구": 114589, "송파구": 103515, "강동구": 80747}, delta={"종로구": 0, "중구": 0, "용산구": 0, "성동구": 0, "광진구": 0, "동대문구": 0, "중랑구": 0, "성북구": 0, "강북구": 0, "도봉구": 0, "노원구": 0, "은평구": 0, "서대문구": 0, "마포구": 0, "양천구": 0, "강서구": 0, "구로구": 0, "금천구": 0, "영등포구": 0, "동작구": 0, "관악구": 0, "서초구": 0, "강남구": 0, "송파구": 0, "강동구": 0};
+const isDark=matchMedia('(prefers-color-scheme: dark)').matches;
+const scheme=isDark?d3.schemePurples[7].slice().reverse():d3.schemePurples[7];
+const color=d3.scaleQuantize([0,100],scheme);
+const up=isDark?'#F09595':'#A32D2D', dn=isDark?'#85B7EB':'#185FA5';
+function arrow(v){return v>0?'<span style="color:'+up+'">▲'+v+'</span>':(v<0?'<span style="color:'+dn+'">▼'+Math.abs(v)+'</span>':'<span style="color:var(--muted)">–</span>');}
+const W=560,H=440;
+const svg=d3.select('#map').append('svg').attr('viewBox','0 0 '+W+' '+H).attr('width','100%').attr('role','img').attr('aria-label','서울 학원 수요 주간 갱신 지도');
+const tip=d3.select('#readout');
+d3.json('https://cdn.jsdelivr.net/gh/southkorea/seoul-maps@master/kostat/2013/json/seoul_municipalities_geo_simple.json').then(function(geo){
+  const path=d3.geoPath(d3.geoMercator().fitSize([W,H-10],geo));
+  svg.selectAll('path').data(geo.features).join('path').attr('d',path)
+   .attr('fill',function(d){return color(values[d.properties.name]||0);})
+   .attr('stroke',isDark?'rgba(255,255,255,0.25)':'#fff').attr('stroke-width',0.6).style('cursor','pointer')
+   .on('mousemove',function(e,d){var n=d.properties.name;tip.html('<b>'+n+'</b> · 수요지수 '+(values[n]||'-')+' '+arrow(delta[n]||0)+' · 학원 '+((counts[n]||0).toLocaleString())+'개 · 학령인구 약 '+Math.round((schoolpop[n]||0)/1000)+'천명');d3.select(this).attr('stroke-width',1.6).attr('stroke',isDark?'#fff':'#333');})
+   .on('mouseout',function(){d3.select(this).attr('stroke-width',0.6).attr('stroke',isDark?'rgba(255,255,255,0.25)':'#fff');});
+  svg.selectAll('text').data(geo.features).join('text').attr('transform',function(d){return 'translate('+path.centroid(d)+')';})
+   .attr('text-anchor','middle').attr('dy','0.32em').attr('font-size',function(d){return (values[d.properties.name]||0)>=70?11:9.5;})
+   .attr('fill',function(d){var v=values[d.properties.name]||0;return (isDark?v>60:v<70)?'#e9e7f8':'#3C3489';})
+   .attr('pointer-events','none').text(function(d){return d.properties.name.replace('구','');});
+  var top=Object.entries(values).sort((a,b)=>b[1]-a[1]);var mx=top[0][1]||1;
+  document.getElementById('rank').innerHTML=top.slice(0,12).map(function(t,n){var w=Math.round(t[1]/mx*100);
+    return '<div style="margin-bottom:6px;"><div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:2px;"><span><span style="color:var(--muted)">'+(n+1)+'.</span> '+t[0]+' '+arrow(delta[t[0]]||0)+'</span><span style="font-weight:500">'+t[1]+'</span></div><div style="height:5px;background:var(--bg);border-radius:3px;"><div style="height:5px;width:'+w+'%;background:#534AB7;border-radius:3px;"></div></div></div>';}).join('');
+});
+</script></body></html>
