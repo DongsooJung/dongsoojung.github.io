@@ -3,14 +3,14 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>나라장터 공사 입찰공고 | STARGATE Research</title>
-  <meta name="description" content="조달청 나라장터 공사 입찰공고목록을 100건씩 조회하고 Supabase에 저장하는 인터랙티브 연구 대시보드.">
+  <title>나라장터 용역 입찰공고 | STARGATE Research</title>
+  <meta name="description" content="조달청 나라장터 용역 입찰공고목록을 100건씩 조회하고 Supabase에 저장하는 인터랙티브 연구 대시보드.">
   <meta name="theme-color" content="#0b1218">
-  <meta property="og:title" content="나라장터 공사 입찰공고 · STARGATE">
-  <meta property="og:description" content="getBidPblancListInfoCnstwk · 100건 단위 조회 · Supabase upsert · 인터랙티브 차트">
+  <meta property="og:title" content="나라장터 용역 입찰공고 · STARGATE">
+  <meta property="og:description" content="getBidPblancListInfoServc · 100건 단위 조회 · Supabase upsert · 인터랙티브 차트">
   <meta property="og:type" content="website">
-  <meta property="og:url" content="https://www.stargateedu.co.kr/bid-pblanc-cnstwk/">
-  <link rel="canonical" href="https://www.stargateedu.co.kr/bid-pblanc-cnstwk/">
+  <meta property="og:url" content="https://www.stargateedu.co.kr/bid-pblanc-servc/">
+  <link rel="canonical" href="https://www.stargateedu.co.kr/bid-pblanc-servc/">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Source+Serif+4:opsz,wght@8..60,500;8..60,700&display=swap" rel="stylesheet">
@@ -270,23 +270,23 @@
 <body>
   <div class="wrap">
     <nav class="topbar" aria-label="주요 메뉴">
-      <a class="brand" href="/bid-pblanc-cnstwk/">
+      <a class="brand" href="/bid-pblanc-servc/">
         <span class="brand-mark" aria-hidden="true">B</span>
-        <span>STARGATE · BID CNSTWK</span>
+        <span>STARGATE · BID SERVC</span>
       </a>
       <div class="top-links">
         <a href="/research/">연구 대시보드</a>
-        <a href="/bid-pblanc-servc/">용역 공고</a>
+        <a href="/bid-pblanc-cnstwk/">공사 공고</a>
         <a href="/">홈</a>
       </div>
     </nav>
 
     <header class="hero">
       <div>
-        <p class="brand-hero">STARGATE<br><em>Bid Works</em></p>
-        <h1>공사 입찰공고를 100건씩 모아 기록합니다.</h1>
+        <p class="brand-hero">STARGATE<br><em>Bid Servc</em></p>
+        <h1>용역 입찰공고를 100건씩 모아 기록합니다.</h1>
         <p class="lead">
-          조달청 나라장터 입찰공고정보서비스의 공사조회 API로
+          조달청 나라장터 입찰공고정보서비스의 용역조회 API로
           공고번호·발주·수요기관·계약방법을 읽고 Supabase에 저장합니다.
         </p>
         <div class="cta-row">
@@ -294,7 +294,7 @@
           <a class="btn btn-ghost" href="/research/">연구 허브</a>
         </div>
         <div class="meta-line">
-          <span class="pill"><b>API</b> getBidPblancListInfoCnstwk</span>
+          <span class="pill"><b>API</b> getBidPblancListInfoServc</span>
           <span class="pill"><b>배치</b> numOfRows=100</span>
           <span class="pill"><b>모드</b> <span id="sourceMode">대기</span></span>
         </div>
@@ -302,7 +302,7 @@
       <div class="hero-visual" aria-hidden="true">
         <div class="ticker">
           <div class="row"><span class="muted">SOURCE</span><strong>data.go.kr · 조달청</strong></div>
-          <div class="row"><span class="muted">SCOPE</span><strong>공사 입찰공고</strong></div>
+          <div class="row"><span class="muted">SCOPE</span><strong>용역 입찰공고</strong></div>
           <div class="row"><span class="muted">BATCH</span><strong>numOfRows = 100</strong></div>
           <div class="row"><span class="muted">STORE</span><strong>Supabase upsert</strong></div>
         </div>
@@ -312,7 +312,7 @@
     <main class="section" id="collector">
       <h2>입찰공고 수집</h2>
       <p class="section-lead">
-        등록일시·입찰공고번호·변경일시 조건으로 공사 입찰공고를 조회합니다.
+        등록일시·입찰공고번호·변경일시 조건으로 용역 입찰공고를 조회합니다.
         한 페이지에 최대 100건을 가져와 표와 차트로 탐색하고 Supabase에 upsert합니다.
       </p>
 
@@ -353,7 +353,7 @@
             <button class="btn btn-ghost" id="csvBtn" type="button">CSV</button>
           </div>
           <div class="actions">
-            <a class="btn btn-ghost" href="/bid-pblanc-servc/">용역 공고 →</a>
+            <a class="btn btn-ghost" href="/bid-pblanc-cnstwk/">공사 공고 →</a>
           </div>
         </div>
         <div class="pager">
@@ -446,10 +446,10 @@
       </div>
 
       <div class="note">
-        <b>스키마 적용:</b> Supabase SQL Editor에서 <code>supabase/bid_pblanc_cnstwk.sql</code>을 실행하세요.
-        테이블 <code>bid_pblanc_cnstwk</code>, <code>bid_pblanc_cnstwk_fetch_logs</code>가 생성됩니다.
+        <b>스키마 적용:</b> Supabase SQL Editor에서 <code>supabase/bid_pblanc_servc.sql</code>을 실행하세요.
+        테이블 <code>bid_pblanc_servc</code>, <code>bid_pblanc_servc_fetch_logs</code>가 생성됩니다.
         API 엔드포인트:
-        <code>…/BidPublicInfoService/getBidPblancListInfoCnstwk</code>
+        <code>…/BidPublicInfoService/getBidPblancListInfoServc</code>
         · 조회구분 1=등록일시, 2=입찰공고번호, 3=변경일시.
         인증키는 Vercel에 저장된 <code>DATA_GO_KR_API_KEY</code>를 사용하므로 페이지에서 입력할 필요가 없습니다.
         GitHub Pages에서는 <code>stargate-bid-api.vercel.app</code> 프록시를 통해 조회합니다.
@@ -464,7 +464,7 @@
       </span>
     </footer>
   </div>
-  <script>window.__BID_KIND__='cnstwk';</script>
+  <script>window.__BID_KIND__='servc';</script>
   <script src="./chart.umd.min.js" defer></script>
   <script src="./app.js" defer></script>
 </body>

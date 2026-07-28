@@ -23,9 +23,10 @@
 - `bidNtceNo`: 공고번호 (구분 2)
 - `type=json`
 
-## 환경 변수
+## 인증
 
-`.env.example`의 `DATA_GO_KR_API_KEY`, `SUPABASE_URL`, `SUPABASE_SERVICE_KEY`(또는 `SUPABASE_ANON_KEY`)를 사용합니다.
+페이지에서 serviceKey를 입력하지 않습니다. Vercel(`stargate-bid-api`)에 저장된 `DATA_GO_KR_API_KEY`를 사용합니다.
+
 
 ## 스키마 적용
 

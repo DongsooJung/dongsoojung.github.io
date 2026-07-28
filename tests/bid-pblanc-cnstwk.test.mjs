@@ -1,14 +1,18 @@
 /**
- * 나라장터 공사 입찰공고 파서·정규화 단위 테스트
+ * 나라장터 입찰공고(공사/용역) 파서·정규화 단위 테스트
  */
 import test from 'node:test';
 import assert from 'node:assert/strict';
 
-const mod = await import('../api/bid-pblanc-cnstwk.js');
-const { parseBidPayload, normalizeItem, buildUrl, encodeServiceKey, PAGE_SIZE } = mod.__test;
+const cnstwk = await import('../api/bid-pblanc-cnstwk.js');
+const servc = await import('../api/bid-pblanc-servc.js');
+const core = await import('../api/_lib/bid-pblanc-core.js');
+
+const { parseBidPayload, normalizeItem, buildUrl, encodeServiceKey, PAGE_SIZE } = cnstwk.__test;
 
 test('PAGE_SIZE is 100', () => {
   assert.equal(PAGE_SIZE, 100);
+  assert.equal(servc.__test.PAGE_SIZE, 100);
 });
 
 test('encodeServiceKey encodes raw decoding key once', () => {
@@ -17,11 +21,26 @@ test('encodeServiceKey encodes raw decoding key once', () => {
   assert.equal(encodeServiceKey(encodeURIComponent(key)), encodeURIComponent(key));
 });
 
-test('buildUrl keeps serviceKey outside URLSearchParams', () => {
+test('buildUrl keeps serviceKey outside URLSearchParams for cnstwk', () => {
   const url = buildUrl({ pageNo: 1, numOfRows: 100, inqryDiv: 1, type: 'json' }, 'raw+key');
   assert.match(url, /serviceKey=raw%2Bkey/);
   assert.match(url, /numOfRows=100/);
   assert.match(url, /getBidPblancListInfoCnstwk/);
+});
+
+test('buildUrl for servc points to Servc operation', () => {
+  const url = servc.__test.buildUrl({ pageNo: 1, numOfRows: 100, inqryDiv: 1, type: 'json' }, 'k');
+  assert.match(url, /getBidPblancListInfoServc/);
+});
+
+test('resolveServiceKey prefers env over body', () => {
+  const prev = process.env.DATA_GO_KR_API_KEY;
+  process.env.DATA_GO_KR_API_KEY = 'server-key';
+  assert.equal(core.resolveServiceKey('client-key'), 'server-key');
+  delete process.env.DATA_GO_KR_API_KEY;
+  assert.equal(core.resolveServiceKey('client-key'), 'client-key');
+  if (prev == null) delete process.env.DATA_GO_KR_API_KEY;
+  else process.env.DATA_GO_KR_API_KEY = prev;
 });
 
 test('parseBidPayload reads JSON list and totalCount', () => {
@@ -97,4 +116,9 @@ test('parseBidPayload rejects API error codes', () => {
 
 test('parseBidPayload handles forbidden text', () => {
   assert.throws(() => parseBidPayload('Forbidden'), /403/);
+});
+
+test('KIND_CONFIG has cnstwk and servc', () => {
+  assert.equal(core.KIND_CONFIG.cnstwk.table, 'bid_pblanc_cnstwk');
+  assert.equal(core.KIND_CONFIG.servc.table, 'bid_pblanc_servc');
 });
