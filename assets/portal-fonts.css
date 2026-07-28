@@ -1,0 +1,111 @@
+/* Shared portal typography — load Google Fonts in each page <head> first. */
+:root{
+  --font-sans:"IBM Plex Sans KR","IBM Plex Sans","Apple SD Gothic Neo","Noto Sans SC","Hiragino Sans","Noto Sans JP",sans-serif;
+  --font-display:"Hahmlet","IBM Plex Sans KR","Source Serif 4",serif;
+  --font-mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+}
+
+body{
+  font-family:var(--font-sans);
+  font-weight:400;
+  line-height:1.6;
+  letter-spacing:-0.01em;
+  font-feature-settings:"kern" 1,"liga" 1;
+  text-rendering:optimizeLegibility;
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+}
+
+.brand .name,
+.hero h1,
+.sec h2,
+.hub-card h3,
+.id .meta .nm,
+.box h3{
+  font-family:var(--font-display);
+  font-weight:600;
+  letter-spacing:-0.03em;
+  font-feature-settings:"kern" 1,"liga" 1;
+}
+
+.brand .logo,
+.brand .tag,
+.nav .links,
+.chip,
+.btn,
+.hub-kicker,
+.proj .tag,
+.proj .go,
+.proj .badge,
+.kv,
+.theme-toggle,
+.lang-select select,
+.project-toggle,
+footer{
+  font-family:var(--font-sans);
+}
+
+.chip.mono,
+.quick-links .chip{
+  font-family:var(--font-mono);
+  font-weight:500;
+  letter-spacing:0.01em;
+  font-variant-numeric:tabular-nums;
+}
+
+.hero h1{
+  font-size:clamp(2.05rem,3.6vw,2.85rem);
+  line-height:1.18;
+  letter-spacing:-0.035em;
+  font-weight:600;
+  color:var(--ink);
+  background:none;
+  -webkit-background-clip:unset;
+  background-clip:unset;
+}
+
+.hero p.lead{
+  font-size:1.05rem;
+  line-height:1.7;
+  letter-spacing:-0.005em;
+  font-weight:400;
+}
+
+.sec h2{
+  font-size:clamp(1.35rem,2vw,1.65rem);
+  line-height:1.25;
+}
+
+.hub-card h3{
+  font-size:clamp(1.35rem,1.8vw,1.55rem);
+  line-height:1.25;
+}
+
+.hub-kicker{
+  font-family:var(--font-mono);
+  font-weight:500;
+  letter-spacing:0.12em;
+}
+
+.proj .ttl{
+  font-family:var(--font-sans);
+  font-weight:600;
+  letter-spacing:-0.02em;
+  line-height:1.35;
+}
+
+.id .meta .nm{
+  font-size:1.15rem;
+  line-height:1.3;
+}
+
+.brand .name{
+  font-size:0.98rem;
+  letter-spacing:0.01em;
+  font-weight:600;
+}
+
+.brand .logo{
+  font-family:var(--font-display);
+  font-weight:700;
+}

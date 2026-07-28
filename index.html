@@ -22,6 +22,10 @@
 <link rel="icon" href="/assets/icons/favicon.ico" sizes="48x48">
 <link rel="icon" href="/assets/icons/icon-192.png" type="image/png" sizes="192x192">
 <link rel="apple-touch-icon" href="/assets/icons/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Hahmlet:wght@500;600;700&family=IBM+Plex+Mono:wght@500;600&family=IBM+Plex+Sans+KR:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/portal-fonts.css">
 <script>
 (() => {
   const key = 'stargate-theme';
@@ -45,6 +49,9 @@
   --acc:#7aa2ff; --acc2:#4f7fff; --warm:#ffb86b; --good:#63d6a0;
   --grad1:linear-gradient(135deg,#4f7fff 0%,#7aa2ff 55%,#b388ff 100%);
   --grad2:linear-gradient(135deg,#0b1220 0%,#101a33 100%);
+  --font-sans:"IBM Plex Sans KR","IBM Plex Sans","Apple SD Gothic Neo",sans-serif;
+  --font-display:"Hahmlet","IBM Plex Sans KR",serif;
+  --font-mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
 }
 :root[data-theme="light"]{
   color-scheme:light;
@@ -59,8 +66,11 @@
 html,body{margin:0;padding:0}
 html{background:var(--bg)}
 body{
-  font-family:"Pretendard","Apple SD Gothic Neo","Segoe UI",system-ui,-apple-system,sans-serif;
-  color:var(--ink); background:var(--bg); line-height:1.55;
+  font-family:var(--font-sans);
+  color:var(--ink); background:var(--bg); line-height:1.6;
+  letter-spacing:-.01em;
+  font-feature-settings:"kern" 1,"liga" 1;
+  text-rendering:optimizeLegibility;
   -webkit-font-smoothing:antialiased;
   background-image:
     radial-gradient(1000px 600px at 10% -10%, rgba(79,127,255,.18), transparent 60%),
@@ -80,11 +90,12 @@ a{color:var(--acc); text-decoration:none} a:hover{text-decoration:underline}
 
 /* Top nav */
 .nav{display:flex;align-items:center;gap:18px;padding:8px 4px 0}
-.brand{display:flex;align-items:center;gap:10px;font-weight:700;letter-spacing:.2px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:600;letter-spacing:.01em}
 .brand .logo{width:34px;height:34px;border-radius:9px;background:var(--grad1);
-  display:inline-flex;align-items:center;justify-content:center;color:#0b1020;font-weight:900}
-.brand .name{font-size:15px}
-.brand .tag{font-size:11px;color:var(--muted);margin-left:6px}
+  display:inline-flex;align-items:center;justify-content:center;color:#0b1020;
+  font-family:var(--font-display);font-weight:700;font-size:17px}
+.brand .name{font-family:var(--font-display);font-size:15px;font-weight:600;letter-spacing:.01em}
+.brand .tag{font-family:var(--font-mono);font-size:10.5px;color:var(--muted);margin-left:6px;font-weight:500;letter-spacing:.04em}
 .nav .links{display:flex;gap:14px;margin-left:auto;font-size:13px;color:var(--sub);align-items:center}
 .nav .links a{color:var(--sub)} .nav .links a:hover,.nav .links a[aria-current="page"]{color:var(--ink)}
 .lang-select{display:inline-flex;align-items:center;position:relative;flex:0 0 auto}
@@ -109,16 +120,21 @@ a{color:var(--acc); text-decoration:none} a:hover{text-decoration:underline}
 .theme-toggle:hover,.theme-toggle:focus-visible{border-color:var(--acc);transform:translateY(-1px);outline:none}
 .theme-toggle .icon{font-size:14px;line-height:1}
 .quick-links{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+.quick-links .chip,.chip.mono{
+  font-family:var(--font-mono);font-weight:500;letter-spacing:.01em;font-variant-numeric:tabular-nums
+}
 :root[data-theme="light"] .quick-links .chip{background:#fff!important;color:var(--ink)!important}
 
 /* Hero */
 .hero{padding:62px 0 36px;display:grid;grid-template-columns:1.25fr .9fr;gap:40px;align-items:center}
-.hero h1{margin:0;font-size:44px;line-height:1.1;letter-spacing:-.5px;
-  background:var(--grad1);-webkit-background-clip:text;background-clip:text;color:transparent}
-.hero p.lead{color:var(--sub);font-size:17px;margin:14px 0 18px;max-width:60ch}
+.hero h1{margin:0;font-family:var(--font-display);font-weight:600;
+  font-size:clamp(2.05rem,3.6vw,2.85rem);line-height:1.18;letter-spacing:-.035em;color:var(--ink)}
+.hero h1 .accent{color:var(--acc)}
+.hero p.lead{color:var(--sub);font-size:1.05rem;line-height:1.7;letter-spacing:-.005em;margin:14px 0 18px;max-width:60ch}
 .hero .chips{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0 22px}
 .chip{border:1px solid var(--line2);background:var(--panel);
   color:var(--sub);padding:6px 10px;border-radius:999px;font-size:12px;text-decoration:none;
+  font-family:var(--font-sans);font-weight:500;
   transition:border-color .18s ease,color .18s ease,transform .18s ease}
 .chip:hover,.chip:focus-visible{border-color:var(--acc);color:var(--ink);transform:translateY(-1px);text-decoration:none}
 .hero .cta{display:flex;gap:10px;flex-wrap:wrap}
@@ -135,17 +151,18 @@ a{color:var(--acc); text-decoration:none} a:hover{text-decoration:underline}
 :root[data-theme="light"] .card{box-shadow:0 18px 50px rgba(41,61,92,.12)}
 .id{display:flex;gap:16px;align-items:center;margin-bottom:14px}
 .id .avatar{width:62px;height:62px;border-radius:50%;background:var(--grad1);
-  display:flex;align-items:center;justify-content:center;color:#0b1020;font-weight:900;font-size:22px}
-.id .meta .nm{font-size:18px;font-weight:700}
-.id .meta .ro{font-size:12px;color:var(--sub)}
+  display:flex;align-items:center;justify-content:center;color:#0b1020;
+  font-family:var(--font-display);font-weight:700;font-size:22px}
+.id .meta .nm{font-family:var(--font-display);font-size:1.15rem;font-weight:600;letter-spacing:-.02em}
+.id .meta .ro{font-size:12px;color:var(--sub);font-weight:500}
 .kv{display:grid;grid-template-columns:90px 1fr;row-gap:8px;column-gap:10px;font-size:13px}
-.kv dt{color:var(--muted)}
+.kv dt{color:var(--muted);font-family:var(--font-mono);font-size:11px;letter-spacing:.04em;text-transform:uppercase}
 .kv dd{margin:0;color:var(--ink)}
 
 /* Section */
 .sec{margin-top:56px}
-.sec h2{font-size:22px;letter-spacing:-.2px;margin:0 0 4px}
-.sec .desc{color:var(--sub);font-size:13px;margin-bottom:18px}
+.sec h2{font-family:var(--font-display);font-size:clamp(1.35rem,2vw,1.65rem);font-weight:600;letter-spacing:-.03em;margin:0 0 4px;line-height:1.25}
+.sec .desc{color:var(--sub);font-size:13.5px;margin-bottom:18px;line-height:1.65}
 
 /* Intelligence hubs */
 .hub-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
@@ -156,8 +173,8 @@ a{color:var(--acc); text-decoration:none} a:hover{text-decoration:underline}
 .hub-card.strategy{--hub:#ff9f5a;--glow:rgba(255,111,15,.18)}
 .hub-card.research{--hub:#73b7ff;--glow:rgba(52,120,246,.2)}
 .hub-card:hover{transform:translateY(-2px);border-color:var(--hub);box-shadow:0 18px 48px var(--glow);text-decoration:none}
-.hub-kicker{position:relative;z-index:1;color:var(--hub);font-size:10px;font-weight:850;letter-spacing:1px;text-transform:uppercase}
-.hub-card h3{position:relative;z-index:1;font-size:24px;letter-spacing:-.7px;margin:10px 0 7px}
+.hub-kicker{position:relative;z-index:1;color:var(--hub);font-family:var(--font-mono);font-size:10px;font-weight:500;letter-spacing:.12em;text-transform:uppercase}
+.hub-card h3{position:relative;z-index:1;font-family:var(--font-display);font-size:clamp(1.35rem,1.8vw,1.55rem);font-weight:600;letter-spacing:-.03em;margin:10px 0 7px;line-height:1.25}
 .hub-card p{position:relative;z-index:1;color:var(--sub);font-size:12.5px;max-width:48ch;margin:0}
 .hub-meta{position:relative;z-index:1;margin-top:auto;padding-top:25px;display:flex;align-items:center;justify-content:space-between;gap:12px}
 .hub-meta span{color:var(--muted);font-size:10.5px}
@@ -175,8 +192,8 @@ a{color:var(--acc); text-decoration:none} a:hover{text-decoration:underline}
   radial-gradient(300px 180px at 80% 80%, rgba(179,136,255,.45), transparent 60%),
   linear-gradient(135deg,#0d1426,#121b33)}
 .proj .body{padding:14px 16px 16px;display:flex;flex-direction:column;gap:6px;flex:1}
-.proj .ttl{font-weight:700;font-size:15px}
-.proj .sub{color:var(--sub);font-size:12.5px;line-height:1.5}
+.proj .ttl{font-weight:600;font-size:15px;letter-spacing:-.02em;line-height:1.35}
+.proj .sub{color:var(--sub);font-size:12.5px;line-height:1.55}
 .proj .row{display:flex;justify-content:space-between;align-items:center;margin-top:10px}
 .proj .tag{font-size:11px;color:var(--muted);border:1px solid var(--line2);
   padding:3px 8px;border-radius:999px}
@@ -198,7 +215,7 @@ a{color:var(--acc); text-decoration:none} a:hover{text-decoration:underline}
 /* About */
 .about{display:grid;grid-template-columns:1fr 1fr;gap:16px}
 .box{border:1px solid var(--line);background:var(--panel);border-radius:14px;padding:18px}
-.box h3{margin:0 0 8px;font-size:15px}
+.box h3{margin:0 0 8px;font-family:var(--font-display);font-size:1.05rem;font-weight:600;letter-spacing:-.02em}
 .box ul{margin:0;padding-left:18px;color:var(--sub);font-size:13px;line-height:1.7}
 
 /* Footer */
@@ -213,7 +230,7 @@ footer .business-info{flex-basis:100%;padding-top:10px;border-top:1px solid var(
 }
 @media (max-width: 820px){
   .hero{grid-template-columns:1fr;padding:32px 0 10px}
-  .hero h1{font-size:34px}
+  .hero h1{font-size:clamp(1.85rem,7vw,2.2rem)}
   .about{grid-template-columns:1fr}
   .hub-grid{grid-template-columns:1fr}
 }
@@ -257,10 +274,10 @@ footer .business-info{flex-basis:100%;padding-top:10px;border-top:1px solid var(
   </nav>
 
   <div class="quick-links">
-    <a class="chip" style="border-color:#63d6a0;color:#b8e7d0;background:rgba(99,214,160,.08);font-family:'JetBrains Mono',monospace" href="https://git.stargateedu.co.kr/" target="_blank" rel="noopener">⚙ GitHub</a>
-    <a class="chip" style="border-color:#c4a265;color:#e7cf9a;background:rgba(196,162,101,.08);font-family:'JetBrains Mono',monospace" href="https://blog.stargateedu.co.kr/" target="_blank" rel="noopener">✍ Blog</a>
-    <a class="chip" style="border-color:#ffb86b;color:#ffd9a8;background:rgba(255,184,107,.08);font-family:'JetBrains Mono',monospace" href="https://shop.stargateedu.co.kr/" target="_blank" rel="noopener">🛒 Shop</a>
-    <a id="visitor-summary-link" class="chip" style="border-color:#7aa2ff;color:#dbe6ff;background:rgba(79,127,255,.14);font-family:'JetBrains Mono',monospace;font-weight:800" href="/admin/visitors/" rel="nofollow" aria-label="방문자 통계 대시보드">📈 오늘 <strong id="visitor-today-count" style="color:#fff">-</strong> · 누적 <strong id="visitor-total-count" style="color:#fff">-</strong></a>
+    <a class="chip mono" style="border-color:#63d6a0;color:#b8e7d0;background:rgba(99,214,160,.08)" href="https://git.stargateedu.co.kr/" target="_blank" rel="noopener">GitHub</a>
+    <a class="chip mono" style="border-color:#c4a265;color:#e7cf9a;background:rgba(196,162,101,.08)" href="https://blog.stargateedu.co.kr/" target="_blank" rel="noopener">Blog</a>
+    <a class="chip mono" style="border-color:#ffb86b;color:#ffd9a8;background:rgba(255,184,107,.08)" href="https://shop.stargateedu.co.kr/" target="_blank" rel="noopener">Shop</a>
+    <a id="visitor-summary-link" class="chip mono" style="border-color:#7aa2ff;color:#dbe6ff;background:rgba(79,127,255,.14);font-weight:600" href="/admin/visitors/" rel="nofollow" aria-label="방문자 통계 대시보드">오늘 <strong id="visitor-today-count" style="color:#fff">-</strong> · 누적 <strong id="visitor-total-count" style="color:#fff">-</strong></a>
   </div>
 
   <section class="hero">
