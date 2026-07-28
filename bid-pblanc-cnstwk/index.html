@@ -1,0 +1,472 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>나라장터 공사 입찰공고 | STARGATE Research</title>
+  <meta name="description" content="조달청 나라장터 공사 입찰공고목록을 100건씩 조회하고 Supabase에 저장하는 인터랙티브 연구 대시보드.">
+  <meta name="theme-color" content="#0b1218">
+  <meta property="og:title" content="나라장터 공사 입찰공고 · STARGATE">
+  <meta property="og:description" content="getBidPblancListInfoCnstwk · 100건 단위 조회 · Supabase upsert · 인터랙티브 차트">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://www.stargateedu.co.kr/bid-pblanc-cnstwk/">
+  <link rel="canonical" href="https://www.stargateedu.co.kr/bid-pblanc-cnstwk/">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Source+Serif+4:opsz,wght@8..60,500;8..60,700&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg:#0b1218;
+      --panel:#111a22;
+      --panel2:#16222d;
+      --ink:#e8eef4;
+      --sub:#95a7b8;
+      --muted:#6d8092;
+      --line:rgba(232,238,244,.1);
+      --line2:rgba(232,238,244,.16);
+      --amber:#e2a24a;
+      --amber-deep:#c4842e;
+      --teal:#3db89a;
+      --steel:#6f8fad;
+      --danger:#d16060;
+      --ok:#3ca06f;
+      --shadow:0 28px 70px rgba(0,0,0,.35);
+      --grad:linear-gradient(135deg,#e2a24a 0%,#c4842e 45%,#3db89a 100%);
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;
+      color:var(--ink);
+      font-family:"Outfit",sans-serif;
+      background:
+        radial-gradient(980px 520px at 6% -12%, rgba(226,162,74,.18), transparent 58%),
+        radial-gradient(760px 420px at 98% 0%, rgba(61,184,154,.12), transparent 55%),
+        linear-gradient(180deg, #0b1218 0%, #0e1620 50%, #0a1016 100%);
+      min-height:100vh;
+      -webkit-font-smoothing:antialiased;
+    }
+    button,input,select{font:inherit}
+    a{color:inherit}
+    .wrap{width:min(1180px, calc(100% - 40px)); margin:0 auto}
+
+    .topbar{
+      height:72px; display:flex; align-items:center; justify-content:space-between;
+      border-bottom:1px solid var(--line);
+    }
+    .brand{
+      display:inline-flex; align-items:center; gap:12px; text-decoration:none;
+      font-weight:700; letter-spacing:.04em; font-size:13px;
+    }
+    .brand-mark{
+      width:34px; height:34px; border-radius:10px; display:grid; place-items:center;
+      background:var(--grad); color:#0b1218; font-family:"Source Serif 4",serif; font-size:18px; font-weight:700;
+    }
+    .top-links{display:flex; gap:14px; align-items:center; color:var(--muted); font-size:13px}
+    .top-links a{text-decoration:none}
+    .top-links a:hover{color:var(--amber)}
+
+    .hero{
+      min-height:calc(100vh - 72px);
+      display:grid; grid-template-columns:1.05fr .95fr; gap:48px; align-items:center;
+      padding:48px 0 56px; position:relative;
+    }
+    .brand-hero{
+      margin:0 0 14px; font-family:"Source Serif 4",serif;
+      font-size:clamp(46px,7.5vw,78px); line-height:.94; letter-spacing:-.03em;
+      animation:rise .85s ease both;
+    }
+    .brand-hero em{font-style:italic; color:var(--amber)}
+    h1{
+      margin:0; font-size:clamp(24px,3.4vw,36px); line-height:1.2; letter-spacing:-.03em;
+      font-weight:700; max-width:18ch; animation:rise .85s ease .08s both;
+    }
+    .lead{
+      margin:16px 0 28px; max-width:42ch; color:var(--sub); font-size:15.5px; line-height:1.7;
+      animation:rise .85s ease .16s both;
+    }
+    .cta-row{display:flex; flex-wrap:wrap; gap:12px; animation:rise .85s ease .24s both}
+    .btn{
+      min-height:50px; border:1px solid var(--line2); border-radius:999px; padding:0 22px;
+      cursor:pointer; display:inline-flex; align-items:center; justify-content:center; gap:8px;
+      transition:transform .18s ease, box-shadow .18s ease, background .18s ease;
+      background:transparent; color:var(--ink);
+    }
+    .btn:hover:not(:disabled){transform:translateY(-2px); box-shadow:0 10px 0 rgba(0,0,0,.18)}
+    .btn:disabled{opacity:.55; cursor:wait}
+    .btn-primary{background:var(--grad); color:#0b1218; border-color:transparent; font-weight:700}
+    .btn-ghost{background:rgba(255,255,255,.03)}
+
+    .hero-visual{
+      position:relative; min-height:440px; overflow:hidden;
+      background:
+        linear-gradient(155deg, rgba(17,26,34,.96), rgba(22,34,45,.9)),
+        repeating-linear-gradient(90deg, rgba(226,162,74,.07) 0 1px, transparent 1px 28px),
+        repeating-linear-gradient(0deg, rgba(61,184,154,.05) 0 1px, transparent 1px 28px);
+      box-shadow:var(--shadow); animation:fadein 1s ease .2s both;
+      clip-path: polygon(0 0, 100% 0, 100% 88%, 0 100%);
+    }
+    .hero-visual::after{
+      content:""; position:absolute; inset:auto -12% -18% 34%; height:68%;
+      background:radial-gradient(circle, rgba(226,162,74,.4), transparent 66%);
+      filter:blur(10px);
+    }
+    .ticker{
+      position:absolute; inset:28px; display:grid; gap:10px; z-index:1; color:var(--ink);
+    }
+    .ticker .row{
+      display:flex; justify-content:space-between; gap:12px; padding:14px 16px;
+      border:1px solid rgba(232,238,244,.12); background:rgba(232,238,244,.04);
+      backdrop-filter:blur(6px); transform:translateY(8px); opacity:0;
+      animation:slideup .7s ease forwards;
+    }
+    .ticker .row:nth-child(1){animation-delay:.35s}
+    .ticker .row:nth-child(2){animation-delay:.5s}
+    .ticker .row:nth-child(3){animation-delay:.65s}
+    .ticker .row:nth-child(4){animation-delay:.8s}
+    .ticker .muted{color:var(--muted); font-size:13px}
+    .ticker strong{font-size:15px; letter-spacing:.01em}
+
+    .section{padding:12px 0 72px}
+    .section h2{
+      margin:0 0 8px; font-family:"Source Serif 4",serif; font-size:34px; letter-spacing:-.03em; font-weight:500;
+    }
+    .section-lead{margin:0 0 22px; color:var(--sub); max-width:58ch; line-height:1.65}
+
+    .panel{
+      border:1px solid var(--line); background:rgba(17,26,34,.82);
+      backdrop-filter:blur(10px); padding:22px; box-shadow:0 10px 30px rgba(0,0,0,.18);
+    }
+    .controls{
+      display:grid; grid-template-columns:1.4fr .7fr .9fr .9fr; gap:12px; margin-bottom:12px;
+    }
+    .controls-2{display:grid; grid-template-columns:1fr 1fr 1fr auto; gap:12px; align-items:end}
+    label.field{display:grid; gap:6px; font-size:12.5px; color:var(--muted)}
+    select,input[type="text"],input[type="password"]{
+      min-height:46px; border:1px solid var(--line2); border-radius:12px;
+      padding:0 12px; background:#0d151c; color:var(--ink);
+    }
+    select:focus,input:focus{outline:2px solid rgba(226,162,74,.4); outline-offset:1px}
+    .key-row{display:flex; gap:6px}
+    .key-row input{flex:1}
+    .key-row button,.mini{
+      border:1px solid var(--line2); background:#16222d; color:var(--sub);
+      border-radius:12px; padding:0 12px; cursor:pointer; min-height:46px;
+    }
+    .actions{display:flex; gap:8px; flex-wrap:wrap}
+    .pager{
+      display:flex; align-items:center; justify-content:space-between; gap:12px;
+      flex-wrap:wrap; margin-top:14px;
+    }
+    .pager .info{font-size:13px; color:var(--muted)}
+    .pager .info b{color:var(--ink)}
+    #liveStatus,#notice{font-size:13px; margin-top:10px; min-height:1.2em; color:var(--muted)}
+    #liveStatus[data-kind="ok"],#notice[data-kind="ok"]{color:var(--ok)}
+    #liveStatus[data-kind="err"],#notice[data-kind="err"]{color:var(--danger)}
+    #notice[data-kind="warn"]{color:var(--amber)}
+
+    .kpis{display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin:22px 0}
+    .tile{
+      border:1px solid var(--line); padding:16px; background:rgba(17,26,34,.9);
+      animation:rise .7s ease both;
+    }
+    .tile:nth-child(2){animation-delay:.05s}
+    .tile:nth-child(3){animation-delay:.1s}
+    .tile:nth-child(4){animation-delay:.15s}
+    .tile .lb{font-size:12px; color:var(--muted)}
+    .tile .val{font-size:28px; font-weight:700; letter-spacing:-.04em; margin-top:6px}
+    .tile .hint{font-size:12px; color:var(--muted); margin-top:4px}
+    .tile.feature{border-color:rgba(226,162,74,.4); box-shadow:inset 0 0 0 1px rgba(226,162,74,.14)}
+
+    #viz{opacity:.5; transform:translateY(10px); transition:opacity .45s ease, transform .45s ease}
+    #viz.ready{opacity:1; transform:none}
+
+    .charts{
+      display:grid; grid-template-columns:1.2fr .8fr; gap:14px; margin-bottom:18px;
+    }
+    .chart-card{
+      border:1px solid var(--line); background:rgba(17,26,34,.88); padding:16px;
+    }
+    .chart-card h3{margin:0 0 4px; font-size:14px; font-weight:650}
+    .chart-card .cap{margin:0 0 10px; color:var(--muted); font-size:12px}
+    .chart-box{position:relative; height:280px}
+    .chart-box.tall{height:300px}
+
+    .meta-line{display:flex; gap:8px; flex-wrap:wrap; margin:12px 0 0; font-size:12px; color:var(--muted)}
+    .pill{
+      border:1px solid var(--line); border-radius:999px; padding:4px 11px; background:rgba(17,26,34,.7)
+    }
+    .pill b{color:var(--sub); font-weight:600}
+
+    .tbl-wrap{overflow-x:auto; border:1px solid var(--line); background:rgba(17,26,34,.88)}
+    table{width:100%; border-collapse:collapse; font-size:13px; min-width:1080px}
+    th,td{padding:12px 12px; border-bottom:1px solid var(--line); vertical-align:top}
+    th{text-align:left; font-size:12px; color:var(--muted); font-weight:600; background:rgba(22,34,45,.75); position:sticky; top:0}
+    td strong{display:block; font-size:13.5px}
+    td .sub{margin-top:3px; color:var(--muted); font-size:11.5px}
+    td a{color:var(--amber); text-decoration:none; font-weight:600}
+    td a:hover{text-decoration:underline}
+    .tag{
+      display:inline-flex; align-items:center; min-height:24px; padding:0 8px;
+      border:1px solid var(--line); font-size:12px; background:#0d151c;
+    }
+    .money{font-variant-numeric:tabular-nums; white-space:nowrap}
+    .empty{padding:48px 16px; text-align:center; color:var(--muted)}
+
+    .logs{
+      margin-top:18px; border:1px solid var(--line); background:rgba(17,26,34,.75); padding:18px;
+    }
+    .logs h3{margin:0 0 10px; font-size:15px}
+    .logs ul{list-style:none; margin:0; padding:0; display:grid; gap:8px}
+    .logs li{display:grid; grid-template-columns:10px 1fr; gap:10px; align-items:start; font-size:13px}
+    .logs .dot{width:10px; height:10px; border-radius:50%; margin-top:5px; background:var(--muted)}
+    .logs .dot.ok{background:var(--ok)}
+    .logs .dot.err{background:var(--danger)}
+    .logs small{display:block; color:var(--muted); margin-top:2px}
+    .logs .muted{color:var(--muted)}
+
+    .note{
+      margin-top:18px; border:1px solid var(--line); padding:14px 16px;
+      font-size:13px; color:var(--sub); line-height:1.7; background:rgba(17,26,34,.7);
+    }
+    .note b{color:var(--ink)}
+    .note code{background:#0d151c; border:1px solid var(--line); border-radius:5px; padding:1px 5px; font-size:12px}
+
+    footer{
+      margin-top:28px; padding:18px 0 40px; border-top:1px solid var(--line);
+      color:var(--muted); font-size:12px; display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px;
+    }
+    footer a{color:var(--amber); text-decoration:none}
+
+    @keyframes rise{
+      from{opacity:0; transform:translateY(16px)}
+      to{opacity:1; transform:none}
+    }
+    @keyframes fadein{
+      from{opacity:0; transform:scale(.98)}
+      to{opacity:1; transform:none}
+    }
+    @keyframes slideup{
+      to{opacity:1; transform:none}
+    }
+
+    @media (max-width:980px){
+      .hero{grid-template-columns:1fr; gap:28px; min-height:auto; padding:36px 0 40px}
+      .hero-visual{min-height:300px; clip-path:none}
+      .controls,.controls-2,.charts{grid-template-columns:1fr 1fr}
+      .kpis{grid-template-columns:1fr 1fr}
+    }
+    @media (max-width:560px){
+      .wrap{width:min(100% - 28px, 1180px)}
+      .controls,.controls-2,.kpis,.charts{grid-template-columns:1fr}
+      .top-links a:nth-child(2){display:none}
+      .chart-box,.chart-box.tall{height:240px}
+    }
+    @media (prefers-reduced-motion:reduce){
+      *,*::before,*::after{animation-duration:.01ms!important; transition-duration:.01ms!important}
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <nav class="topbar" aria-label="주요 메뉴">
+      <a class="brand" href="/bid-pblanc-cnstwk/">
+        <span class="brand-mark" aria-hidden="true">B</span>
+        <span>STARGATE · BID CNSTWK</span>
+      </a>
+      <div class="top-links">
+        <a href="/research/">연구 대시보드</a>
+        <a href="/lh-sale-info/">LH 분양</a>
+        <a href="/">홈</a>
+      </div>
+    </nav>
+
+    <header class="hero">
+      <div>
+        <p class="brand-hero">STARGATE<br><em>Bid Works</em></p>
+        <h1>공사 입찰공고를 100건씩 모아 기록합니다.</h1>
+        <p class="lead">
+          조달청 나라장터 입찰공고정보서비스의 공사조회 API로
+          공고번호·발주·수요기관·계약방법을 읽고 Supabase에 저장합니다.
+        </p>
+        <div class="cta-row">
+          <a class="btn btn-primary" href="#collector">100건 불러오기 →</a>
+          <a class="btn btn-ghost" href="/research/">연구 허브</a>
+        </div>
+        <div class="meta-line">
+          <span class="pill"><b>API</b> getBidPblancListInfoCnstwk</span>
+          <span class="pill"><b>배치</b> numOfRows=100</span>
+          <span class="pill"><b>모드</b> <span id="sourceMode">대기</span></span>
+        </div>
+      </div>
+      <div class="hero-visual" aria-hidden="true">
+        <div class="ticker">
+          <div class="row"><span class="muted">SOURCE</span><strong>data.go.kr · 조달청</strong></div>
+          <div class="row"><span class="muted">SCOPE</span><strong>공사 입찰공고</strong></div>
+          <div class="row"><span class="muted">BATCH</span><strong>numOfRows = 100</strong></div>
+          <div class="row"><span class="muted">STORE</span><strong>Supabase upsert</strong></div>
+        </div>
+      </div>
+    </header>
+
+    <main class="section" id="collector">
+      <h2>입찰공고 수집</h2>
+      <p class="section-lead">
+        등록일시·입찰공고번호·변경일시 조건으로 공사 입찰공고를 조회합니다.
+        한 페이지에 최대 100건을 가져와 표와 차트로 탐색하고 Supabase에 upsert합니다.
+      </p>
+
+      <section class="panel" aria-label="조회 설정">
+        <div class="controls">
+          <label class="field" for="apiKey">
+            공공데이터포털 serviceKey
+            <div class="key-row">
+              <input id="apiKey" type="password" autocomplete="off" placeholder="디코딩 인증키">
+              <button type="button" id="toggleKey" class="mini">표시</button>
+            </div>
+          </label>
+          <label class="field" for="inqryDiv">
+            조회구분
+            <select id="inqryDiv">
+              <option value="1" selected>1 · 등록일시</option>
+              <option value="2">2 · 입찰공고번호</option>
+              <option value="3">3 · 변경일시</option>
+            </select>
+          </label>
+          <label class="field" for="inqryBgnDt">
+            시작일시 (YYYYMMDDHHMM)
+            <input id="inqryBgnDt" type="text" placeholder="202607210000">
+          </label>
+          <label class="field" for="inqryEndDt">
+            종료일시 (YYYYMMDDHHMM)
+            <input id="inqryEndDt" type="text" placeholder="202607282359">
+          </label>
+        </div>
+        <div class="controls-2">
+          <label class="field" for="bidNtceNo">
+            입찰공고번호 (구분 2)
+            <input id="bidNtceNo" type="text" placeholder="예: 20260123456">
+          </label>
+          <label class="field" for="keyword">
+            공고명 필터 (클라이언트)
+            <input id="keyword" type="text" placeholder="키워드 포함">
+          </label>
+          <div class="actions">
+            <button class="btn btn-primary" id="loadBtn" type="button">100건 불러오기·저장</button>
+          </div>
+          <div class="actions">
+            <button class="btn btn-ghost" id="saveBtn" type="button">다시 저장</button>
+            <button class="btn btn-ghost" id="csvBtn" type="button">CSV</button>
+          </div>
+        </div>
+        <div class="pager">
+          <div class="info">
+            <b id="pageLabel">1 / —</b>
+            <span id="totalLabel">페이지당 100건</span>
+          </div>
+          <div class="actions">
+            <button class="btn btn-ghost" id="prevBtn" type="button" disabled>← 이전 100건</button>
+            <button class="btn btn-ghost" id="nextBtn" type="button" disabled>다음 100건 →</button>
+          </div>
+        </div>
+        <div id="liveStatus" aria-live="polite"></div>
+        <div id="notice" aria-live="polite"></div>
+      </section>
+
+      <div id="viz">
+        <div class="kpis" aria-label="요약">
+          <article class="tile feature">
+            <div class="lb">현재 페이지</div>
+            <div class="val" id="kpiCount">—</div>
+            <div class="hint">최대 100건</div>
+          </article>
+          <article class="tile">
+            <div class="lb">전체 건수</div>
+            <div class="val" id="kpiTotal">—</div>
+            <div class="hint">API totalCount</div>
+          </article>
+          <article class="tile">
+            <div class="lb">추정가격 합계</div>
+            <div class="val" id="kpiPrice">—</div>
+            <div class="hint">현재 페이지 · 억원</div>
+          </article>
+          <article class="tile">
+            <div class="lb">Supabase 저장</div>
+            <div class="val" id="kpiSaved">0</div>
+            <div class="hint">최근 upsert</div>
+          </article>
+        </div>
+
+        <div class="charts" aria-label="인터랙티브 시각화">
+          <section class="chart-card">
+            <h3>발주기관 TOP</h3>
+            <p class="cap">클릭하면 해당 기관 공고만 표에 강조합니다.</p>
+            <div class="chart-box tall"><canvas id="chartInstt" aria-label="발주기관 막대차트"></canvas></div>
+          </section>
+          <section class="chart-card">
+            <h3>계약체결방법 비중</h3>
+            <p class="cap">도넛 조각을 클릭해 방법을 필터합니다.</p>
+            <div class="chart-box"><canvas id="chartMethod" aria-label="계약방법 도넛차트"></canvas></div>
+          </section>
+          <section class="chart-card">
+            <h3>추정가격 구간</h3>
+            <p class="cap">공고별 추정가격 분포(억원).</p>
+            <div class="chart-box"><canvas id="chartPrice" aria-label="추정가격 히스토그램"></canvas></div>
+          </section>
+          <section class="chart-card">
+            <h3>일별 공고 추이</h3>
+            <p class="cap">현재 페이지의 등록일 기준 건수.</p>
+            <div class="chart-box"><canvas id="chartDaily" aria-label="일별 공고 라인차트"></canvas></div>
+          </section>
+        </div>
+
+        <div class="tbl-wrap" role="region" aria-label="입찰공고 표">
+          <table>
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>공고명</th>
+                <th>발주기관</th>
+                <th>수요기관</th>
+                <th>계약방법</th>
+                <th>추정가격</th>
+                <th>공고일시</th>
+                <th>마감일시</th>
+                <th>상세</th>
+              </tr>
+            </thead>
+            <tbody id="tbody"></tbody>
+          </table>
+          <div class="empty" id="empty">아직 불러온 입찰공고가 없습니다. 위에서 100건을 조회하세요.</div>
+        </div>
+
+        <section class="logs" aria-label="수집 로그">
+          <h3>최근 Supabase 수집 로그</h3>
+          <ul id="logList">
+            <li class="muted">로그를 불러오는 중…</li>
+          </ul>
+        </section>
+      </div>
+
+      <div class="note">
+        <b>스키마 적용:</b> Supabase SQL Editor에서 <code>supabase/bid_pblanc_cnstwk.sql</code>을 실행하세요.
+        테이블 <code>bid_pblanc_cnstwk</code>, <code>bid_pblanc_cnstwk_fetch_logs</code>가 생성됩니다.
+        API 엔드포인트:
+        <code>…/BidPublicInfoService/getBidPblancListInfoCnstwk</code>
+        · 조회구분 1=등록일시, 2=입찰공고번호, 3=변경일시.
+        해외 IP에서는 data.go.kr가 403을 반환할 수 있어 Vercel(icn1) 프록시 <code>/api/bid-pblanc-cnstwk</code>를 우선 사용합니다.
+      </div>
+    </main>
+
+    <footer>
+      <span>© 2026 Dongsoo Jung · Stargate Corporation</span>
+      <span>
+        <a href="/research/">Research</a> ·
+        <a href="https://www.data.go.kr/data/15129394/openapi.do" target="_blank" rel="noopener">OpenAPI</a>
+      </span>
+    </footer>
+  </div>
+  <script src="./chart.umd.min.js" defer></script>
+  <script src="./app.js" defer></script>
+</body>
+</html>
