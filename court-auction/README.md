@@ -61,15 +61,23 @@ python3 fetch_court_auction.py --sample
 없음). 국내 네트워크 PC에서 cron으로 매일 돌리면 "매일 새로 등록되는 경매"가
 쌓이고, 대시보드의 **일간 보기**가 이를 시각화합니다.
 
+**Windows — 작업 스케줄러 원클릭 등록 (권장):**
+국내 PC에서 `schedule_daily.bat` 을 실행하면 매일 오전 8시에
+`일간 증분 수집 → 커밋 → 푸시` 를 무인으로 도는 예약 작업(`CourtAuctionDaily`)이
+등록됩니다. 해제는 `schedule_daily.bat remove`. 신규 물건이 없는 날은 커밋을
+건너뛰므로 빈 커밋이 쌓이지 않습니다.
+
+**mac / Linux — cron 예시:**
 ```cron
-# 매일 오전 8시 수집 후 커밋·푸시 (예시)
+# 매일 오전 8시 수집 후 커밋·푸시
 0 8 * * *  cd /path/to/court-auction && \
-  python3 fetch_court_auction.py --daily && \
-  git commit -am "chore: 법원경매 일간 수집 $(date +\%F)" && git push
+  ./run_domestic.sh daily && git -C .. add court-auction && \
+  git -C .. commit -m "chore: court auction daily $(date +\%F)" && git -C .. push
 ```
 
-> GitHub Actions 등 해외 클라우드에서 돌리면 법원경매정보가 해외 IP를 차단하므로
-> 수집이 실패합니다. 자동화는 반드시 국내 네트워크 환경에서 실행하세요.
+> GitHub Actions 등 해외 클라우드 러너에서 돌리면 법원경매정보가 해외 IP를 차단하므로
+> 수집이 실패합니다. 자동화는 반드시 **국내 네트워크** 환경에서 실행하세요
+> (원한다면 국내 PC에 GitHub self-hosted 러너를 설치해 CI로 돌리는 것도 가능합니다).
 
 실행하면 구분별 엑셀과 JSON이 갱신되고, 대시보드(`index.html`)는 JSON을 읽어
 자동으로 최신 내용을 표시합니다.
@@ -117,8 +125,9 @@ python3 -m http.server 8000
 | 파일 | 설명 |
 |---|---|
 | `fetch_court_auction.py` | 수집기 (API 호출 → 정규화 → 엑셀/JSON 저장; `--category` 구분, `--daily` 일간 증분) |
-| `run_domestic.bat` / `.ps1` | 국내 Windows 원클릭 실행기 (설치→수집→커밋·푸시) |
+| `run_domestic.bat` / `.ps1` | 국내 Windows 원클릭 실행기 (설치→수집→커밋·푸시). `daily push` 인자로 무인 실행 |
 | `run_domestic.sh` | 국내 mac/Linux 원클릭 실행기 |
+| `schedule_daily.bat` / `.ps1` | Windows 작업 스케줄러에 매일 자동 수집 등록/해제 |
 | `data.json` | 대시보드용 데이터 — 주택 |
 | `data_commercial.json` | 대시보드용 데이터 — 상업용 |
 | `index.html` | 정적 대시보드 (주택/상업용 토글) |
