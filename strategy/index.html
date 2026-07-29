@@ -5,9 +5,10 @@
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>전략 인사이트 | STARGATE Intelligence</title>
   <meta name="description" content="당근·숨고·크몽 등 플랫폼 기업 재무와 산업·시장 데이터를 분석하는 STARGATE 전략 인사이트 허브.">
-  <meta name="theme-color" content="#080c14">
+  <meta name="theme-color" content="#080c14" data-light-color="#f5f7fb" data-dark-color="#080c14">
   <link rel="canonical" href="https://stargateedu.co.kr/strategy/">
-  <link rel="stylesheet" href="/assets/intelligence-hub.css?v=20260729">
+  <script src="/assets/theme-boot.js"></script>
+  <link rel="stylesheet" href="/assets/intelligence-hub.css?v=20260729b">
 </head>
 <body class="strategy">
   <div class="wrap">
@@ -19,7 +20,13 @@
         <a href="/#projects">전체 프로젝트</a>
         <a href="/#about">About</a>
       </div>
-      <a class="back" href="/">← 포털</a>
+      <div class="nav-end">
+        <button class="theme-toggle" type="button" data-theme-toggle aria-pressed="false" aria-label="화이트 모드로 전환">
+          <span class="icon" data-theme-icon aria-hidden="true">☀️</span>
+          <span data-theme-label>화이트</span>
+        </button>
+        <a class="back" href="/">← 포털</a>
+      </div>
     </nav>
 
     <header class="hero">
@@ -233,6 +240,7 @@
 
     <footer><span>© 2026 Dongsoo Jung · Stargate Corporation</span><span><a href="/">Portal</a> · <a href="https://github.com/DongsooJung">GitHub</a></span></footer>
   </div>
+  <script src="/assets/theme.js?v=20260729" defer></script>
   <script src="/assets/intelligence-hub.js?v=20260729" defer></script>
 </body>
 </html>

@@ -7,7 +7,7 @@
 <meta name="description" content="밀리의 서재로 읽은 책들을 독후감 형식으로 기록하는 독서 블로그">
 <link rel="canonical" href="https://www.stargateedu.co.kr/reading/">
 <meta name="robots" content="index,follow,max-image-preview:large">
-<meta name="theme-color" content="#0e1116" id="themeColor">
+<meta name="theme-color" content="#0e1116" id="themeColor" data-light-color="#f5f7fb" data-dark-color="#0e1116">
 <meta property="og:type" content="website">
 <meta property="og:locale" content="ko_KR">
 <meta property="og:title" content="밀리의 서재 독서기록 · Stargate 독후감 블로그">
@@ -16,13 +16,16 @@
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="밀리의 서재 독서기록 · Stargate 독후감 블로그">
 <meta name="twitter:description" content="완독한 책을 별점, 밑줄, 서평으로 정리한 개인 독서 아카이브">
+<script src="/assets/theme-boot.js"></script>
 <style>
   :root{
+    color-scheme:dark;
     --bg:#0e1116; --panel:#161b22; --panel2:#1c232d; --line:#2a323d;
     --txt:#e8edf2; --muted:#93a1b0; --accent:#5b8cff; --accent2:#8b5bff;
     --gold:#ffc24b; --good:#3fb950; --radius:16px; --maxw:1080px;
   }
-  [data-theme="light"]{
+  :root[data-theme="light"]{
+    color-scheme:light;
     --bg:#f5f7fb; --panel:#ffffff; --panel2:#f0f3f8; --line:#e2e8f0;
     --txt:#1a2230; --muted:#5a6a7d; --accent:#3366ff; --accent2:#7c3aed;
   }
@@ -173,7 +176,7 @@
   }
 </style>
 </head>
-<body data-theme="dark">
+<body>
 
 <a class="skip-link" href="#main">본문 바로가기</a>
 
@@ -185,8 +188,10 @@
     </a>
     <div class="nav-actions">
       <a class="home-link" href="/" aria-label="STARGATE EDU 메인으로 이동">STARGATE EDU</a>
-      <button class="iconbtn" type="button" onclick="toggleTheme()" title="테마 전환"
-        aria-label="밝은 테마로 전환" id="themeBtn">🌙</button>
+      <button class="iconbtn" type="button" data-theme-toggle title="테마 전환"
+        aria-label="밝은 테마로 전환" aria-pressed="false">
+        <span data-theme-icon aria-hidden="true">🌙</span>
+      </button>
     </div>
   </div>
 </header>
@@ -535,37 +540,9 @@ document.addEventListener("keydown",e=>{
 });
 window.addEventListener("popstate",syncFromHash);
 
-function applyTheme(theme){
-  document.body.setAttribute("data-theme",theme);
-  document.getElementById("themeBtn").textContent=theme==="dark"?"🌙":"☀️";
-  document.getElementById("themeBtn").setAttribute("aria-label",theme==="dark"?"밝은 테마로 전환":"어두운 테마로 전환");
-  document.getElementById("themeColor").setAttribute("content",theme==="dark"?"#0e1116":"#f5f7fb");
-}
-
-function readSavedTheme(){
-  try{return localStorage.getItem("reading-theme");}
-  catch{return null;}
-}
-
-function saveTheme(theme){
-  try{localStorage.setItem("reading-theme",theme);}
-  catch{/* Storage can be unavailable in restricted browser contexts. */}
-}
-
-function toggleTheme(){
-  const cur=document.body.getAttribute("data-theme");
-  const next=cur==="dark"?"light":"dark";
-  saveTheme(next);
-  applyTheme(next);
-}
-
-const savedTheme=readSavedTheme();
-const initialTheme=savedTheme==="light"||savedTheme==="dark"
-  ? savedTheme
-  : (matchMedia("(prefers-color-scheme: light)").matches?"light":"dark");
-applyTheme(initialTheme);
 document.getElementById("copyrightYear").textContent=new Date().getFullYear();
 loadPosts();
 </script>
+<script src="/assets/theme.js?v=20260729" defer></script>
 </body>
 </html>

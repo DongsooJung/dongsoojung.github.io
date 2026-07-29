@@ -5,12 +5,14 @@
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>고객 문자 발송 | STARGATE Research</title>
   <meta name="description" content="SOLAPI를 통해 최대 10명의 고객에게 개인화 문자를 안전하게 발송하는 STARGATE 연구 운영 도구.">
-  <meta name="theme-color" content="#080c14">
+  <meta name="theme-color" content="#080c14" data-light-color="#f5f7fb" data-dark-color="#080c14">
   <meta name="robots" content="noindex,nofollow">
   <link rel="canonical" href="https://stargateedu.co.kr/sms/">
-  <link rel="stylesheet" href="/assets/intelligence-hub.css?v=20260725">
+  <script src="/assets/theme-boot.js"></script>
+  <link rel="stylesheet" href="/assets/intelligence-hub.css?v=20260729b">
   <style>
     body.sms{--accent:#68e3b4;--accent2:#2ba876;--accent-soft:rgba(43,168,118,.13)}
+    :root[data-theme="light"] body.sms{--accent:#0f9f6e;--accent2:#0b7a55;--accent-soft:rgba(15,159,110,.1)}
     .sms-shell{padding:58px 0 72px}
     .sms-head{display:flex;justify-content:space-between;align-items:end;gap:28px;margin-bottom:26px}
     .sms-head h1{font-size:clamp(36px,5vw,58px);margin:12px 0 12px;letter-spacing:-2px}
@@ -26,7 +28,7 @@
     .panel-body{padding:22px}
     .field{display:grid;gap:8px;margin-bottom:18px}
     .field label,.field-label{color:var(--sub);font-size:11px;font-weight:800}
-    input,textarea{width:100%;border:1px solid var(--line2);border-radius:12px;background:#0b1220;color:var(--ink);padding:11px 12px;outline:none;font:inherit;transition:.18s border-color,.18s box-shadow}
+    input,textarea{width:100%;border:1px solid var(--line2);border-radius:12px;background:var(--input-bg);color:var(--ink);padding:11px 12px;outline:none;font:inherit;transition:.18s border-color,.18s box-shadow}
     input:focus,textarea:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
     textarea{resize:vertical;min-height:122px;line-height:1.65}
     .hint{display:flex;justify-content:space-between;gap:12px;color:var(--muted);font-size:10px}
@@ -36,16 +38,16 @@
     .mini-btn{border:1px solid var(--line2);border-radius:11px;background:var(--panel2);color:var(--ink);padding:11px 13px;font-size:11px;font-weight:850;cursor:pointer}
     .mini-btn:hover,.mini-btn:focus-visible{border-color:var(--accent);outline:none}
     .table-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:14px}
-    .recipient-table{width:100%;border-collapse:collapse;min-width:560px;background:#0b1220}
+    .recipient-table{width:100%;border-collapse:collapse;min-width:560px;background:var(--input-bg)}
     .recipient-table th,.recipient-table td{padding:8px;border-bottom:1px solid var(--line);text-align:left}
     .recipient-table tr:last-child td{border-bottom:0}
-    .recipient-table th{color:var(--muted);font-size:9px;text-transform:uppercase;letter-spacing:.6px;background:#0d1628}
+    .recipient-table th{color:var(--muted);font-size:9px;text-transform:uppercase;letter-spacing:.6px;background:var(--matrix-head)}
     .recipient-table th:first-child,.recipient-table td:first-child{width:40px;text-align:center;color:var(--muted);font-size:10px}
     .recipient-table input{padding:9px 10px;border-radius:9px;font-size:12px}
     .recipient-table tr.ready td:first-child{color:var(--accent);font-weight:900}
     .side{display:grid;gap:18px;position:sticky;top:18px}
     .preview-list{display:grid;gap:8px;max-height:270px;overflow:auto}
-    .preview{padding:12px;border:1px solid var(--line);border-radius:12px;background:#0b1220}
+    .preview{padding:12px;border:1px solid var(--line);border-radius:12px;background:var(--input-bg)}
     .preview strong{display:flex;justify-content:space-between;gap:10px;font-size:11px}
     .preview strong span{color:var(--muted);font-weight:600}
     .preview p{color:var(--sub);font-size:10.5px;line-height:1.55;margin:7px 0 0;white-space:pre-wrap}
@@ -72,7 +74,13 @@
         <a href="/sms/" aria-current="page">문자 발송</a>
         <a href="/#projects">전체 프로젝트</a>
       </div>
-      <a class="back" href="/research/">← 연구</a>
+      <div class="nav-end">
+        <button class="theme-toggle" type="button" data-theme-toggle aria-pressed="false" aria-label="화이트 모드로 전환">
+          <span class="icon" data-theme-icon aria-hidden="true">☀️</span>
+          <span data-theme-label>화이트</span>
+        </button>
+        <a class="back" href="/research/">← 연구</a>
+      </div>
     </nav>
 
     <main class="sms-shell">
@@ -309,5 +317,6 @@
       checkApi();
     })();
   </script>
+  <script src="/assets/theme.js?v=20260729" defer></script>
 </body>
 </html>

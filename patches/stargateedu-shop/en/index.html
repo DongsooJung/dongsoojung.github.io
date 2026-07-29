@@ -16,23 +16,41 @@
 <meta property="og:url" content="https://shop.stargateedu.co.kr/en/">
 <meta property="og:locale" content="en_US">
 <meta property="og:locale:alternate" content="ko_KR">
+<meta name="theme-color" content="#F7F9FC">
+<script>
+(()=>{const k='stargate-theme';try{const s=localStorage.getItem(k);const t=s==='light'||s==='dark'?s:(matchMedia('(prefers-color-scheme: light)').matches?'light':'dark');document.documentElement.dataset.theme=t}catch{document.documentElement.dataset.theme='light'}})();
+</script>
 <style>
-  :root{--navy:#0B2A4A;--navy2:#123A63;--gold:#C9A227;--ink:#1A2233;--gray:#667085;--line:#E4E7EC;--bg:#F7F9FC;--white:#fff;}
+  :root{
+    color-scheme:light;
+    --navy:#0B2A4A;--navy2:#123A63;--gold:#C9A227;--ink:#1A2233;--gray:#667085;
+    --line:#E4E7EC;--bg:#F7F9FC;--white:#fff;--header-bg:rgba(255,255,255,.94);
+    --nav-link:#344054;--card:#fff;--plan-text:#475467;--thumb-a:#DCE6F2;--thumb-b:#B9CEE6;--thumb-ink:#5a7699
+  }
+  :root[data-theme="dark"]{
+    color-scheme:dark;
+    --navy:#8ec5ff;--navy2:#5b9bd8;--gold:#D4B44A;--ink:#e8eef8;--gray:#9aa7bd;
+    --line:#2a3b55;--bg:#101827;--white:#0b1220;--header-bg:rgba(11,18,32,.94);
+    --nav-link:#c5d0e4;--card:#141d2e;--plan-text:#b7c3d6;--thumb-a:#1a2a40;--thumb-b:#243652;--thumb-ink:#9bb0cb
+  }
   *{box-sizing:border-box;margin:0;padding:0;}
-  html{scroll-behavior:smooth;}
-  body{font-family:Inter,ui-sans-serif,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;color:var(--ink);background:var(--white);line-height:1.6;}
+  html{scroll-behavior:smooth;background:var(--white)}
+  body{font-family:'Pretendard','Noto Sans KR','Malgun Gothic','Apple SD Gothic Neo',sans-serif;color:var(--ink);background:var(--white);line-height:1.6;transition:background-color .2s ease,color .2s ease}
   a{text-decoration:none;color:inherit;}
   .wrap{max-width:1160px;margin:0 auto;padding:0 20px;}
-  header{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.94);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);}
+  header{position:sticky;top:0;z-index:50;background:var(--header-bg);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);}
   .gnb{display:flex;align-items:center;gap:24px;height:64px;}
   .logo{font-weight:800;color:var(--navy);font-size:20px;letter-spacing:-.5px;}
   .logo b{color:var(--gold);}
+  :root[data-theme="dark"] .logo{color:#e8eef8}
   nav{display:flex;gap:22px;font-size:14px;flex:1;flex-wrap:nowrap;white-space:nowrap;}
-  nav a{color:#344054;}nav a:hover{color:var(--navy);}
+  nav a{color:var(--nav-link);}nav a:hover{color:var(--navy);}
   .hbtns{display:flex;gap:10px;align-items:center;font-size:13px;color:var(--gray);}
   .mini{padding:8px 16px;border-radius:8px;background:var(--gold);color:#3a2e00;font-weight:700;}
-  .lang-switch{padding:7px 11px;border:1px solid var(--line);border-radius:8px;color:var(--navy);font-weight:700;background:#fff;}
-  .hero{background:linear-gradient(120deg,var(--navy) 0%,var(--navy2) 55%,#1c4d80 100%);color:#fff;position:relative;overflow:hidden;}
+  .lang-switch{padding:7px 11px;border:1px solid var(--line);border-radius:8px;color:var(--navy);font-weight:700;background:var(--card);}
+  .theme-toggle{display:inline-flex;align-items:center;gap:6px;min-height:34px;padding:7px 11px;border:1px solid var(--line);border-radius:8px;background:var(--card);color:var(--ink);font:700 12px inherit;cursor:pointer}
+  .theme-toggle:hover,.theme-toggle:focus-visible{border-color:var(--gold);outline:none}
+  .hero{background:linear-gradient(120deg,#0B2A4A 0%,#123A63 55%,#1c4d80 100%);color:#fff;position:relative;overflow:hidden;}
   .hero:after{content:"";position:absolute;right:-60px;top:-60px;width:360px;height:360px;background:radial-gradient(circle,rgba(201,162,39,.32),transparent 70%);}
   .hero .wrap{padding:80px 20px 74px;position:relative;z-index:2;}
   .eyebrow{color:var(--gold);font-size:14px;font-weight:700;letter-spacing:1px;}
@@ -52,13 +70,13 @@
   .head h2{font-size:28px;color:var(--navy);letter-spacing:-.6px;}
   .head p{color:var(--gray);font-size:15px;margin-top:8px;}
   .cats{display:grid;grid-template-columns:repeat(6,1fr);gap:14px;}
-  .cat{background:#fff;border:1px solid var(--line);border-radius:14px;padding:24px 10px;text-align:center;font-size:14px;color:#344054;font-weight:600;transition:.15s;}
+  .cat{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:24px 10px;text-align:center;font-size:14px;color:var(--nav-link);font-weight:600;transition:.15s;}
   .cat:hover{border-color:var(--gold);transform:translateY(-3px);box-shadow:0 10px 24px rgba(11,42,74,.08);}
   .cat .ico{display:block;font-size:26px;margin-bottom:10px;}
   .grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;}
-  .card{border:1px solid var(--line);border-radius:14px;overflow:hidden;background:#fff;transition:.15s;}
+  .card{border:1px solid var(--line);border-radius:14px;overflow:hidden;background:var(--card);transition:.15s;}
   .card:hover{transform:translateY(-4px);box-shadow:0 14px 30px rgba(11,42,74,.10);}
-  .thumb{height:120px;background:linear-gradient(135deg,#DCE6F2,#B9CEE6);display:flex;align-items:center;justify-content:center;color:#5a7699;font-size:13px;position:relative;text-align:center;padding:0 8px;}
+  .thumb{height:120px;background:linear-gradient(135deg,var(--thumb-a),var(--thumb-b));display:flex;align-items:center;justify-content:center;color:var(--thumb-ink);font-size:13px;position:relative;text-align:center;padding:0 8px;}
   .badge{position:absolute;top:10px;left:10px;background:var(--gold);color:#3a2e00;font-size:11px;font-weight:800;padding:3px 10px;border-radius:12px;}
   .card .body{padding:16px;}
   .card .lbl{font-size:11px;color:var(--gold);font-weight:800;letter-spacing:.3px;}
@@ -69,15 +87,15 @@
   .price .was{font-size:12px;color:#98A2B3;text-decoration:line-through;}
   .meta{font-size:12px;color:var(--gray);margin-top:8px;}
   .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;}
-  .plan{border:1px solid var(--line);border-radius:16px;padding:28px 24px;text-align:center;background:#fff;}
+  .plan{border:1px solid var(--line);border-radius:16px;padding:28px 24px;text-align:center;background:var(--card);}
   .plan.hot{border:2px solid var(--gold);box-shadow:0 12px 30px rgba(201,162,39,.15);}
   .plan h3{color:var(--navy);font-size:18px;}
   .plan .p{font-size:30px;font-weight:800;color:var(--navy);margin:14px 0 4px;}
   .plan .p small{font-size:14px;color:var(--gray);font-weight:500;}
-  .plan ul{list-style:none;margin:16px 0;color:#475467;font-size:13.5px;}
+  .plan ul{list-style:none;margin:16px 0;color:var(--plan-text);font-size:13.5px;}
   .plan ul li{padding:5px 0;border-bottom:1px dashed var(--line);}
   .plan .tag{display:inline-block;background:var(--gold);color:#3a2e00;font-size:11px;font-weight:800;padding:3px 12px;border-radius:12px;margin-bottom:8px;}
-  .cta-band{background:linear-gradient(120deg,var(--navy),#1c4d80);color:#fff;text-align:center;border-radius:20px;padding:48px 24px;margin:0 20px;}
+  .cta-band{background:linear-gradient(120deg,#0B2A4A,#1c4d80);color:#fff;text-align:center;border-radius:20px;padding:48px 24px;margin:0 20px;}
   .cta-band h2{font-size:26px;letter-spacing:-.5px;}
   .cta-band p{color:#C9D8E8;margin:10px 0 22px;}
   footer{background:#0e2338;color:#9fb3c8;font-size:13px;margin-top:64px;}
@@ -90,6 +108,7 @@
   .copy .business-info{margin-top:5px;color:#8fa3b8;}
   @media(max-width:860px){
     nav{display:none;} .cats{grid-template-columns:repeat(3,1fr);} .grid{grid-template-columns:repeat(2,1fr);} .grid3{grid-template-columns:1fr;}
+    .theme-toggle [data-theme-label]{display:none}
   }
 </style>
 </head>
@@ -100,7 +119,12 @@
     <nav>
       <a href="#courses">Online Courses</a><a href="#books">Books & Workbooks</a><a href="#sub">Problem Bank & Mock Exams</a><a href="#live">Live Classes</a><a href="#consult">1:1 Consulting</a>
     </nav>
-    <div class="hbtns"><a class="lang-switch" href="../" lang="ko" hreflang="ko" aria-label="View this shop in Korean">KO</a><a href="#">Sign In</a><a href="#courses" class="mini">Enroll</a></div>
+    <div class="hbtns">
+      <button class="theme-toggle" type="button" data-theme-toggle aria-pressed="true" aria-label="Switch to dark mode" data-light-label="Light" data-dark-label="Dark" data-light-aria="Switch to light mode" data-dark-aria="Switch to dark mode">
+        <span data-theme-icon aria-hidden="true">🌙</span><span data-theme-label>Dark</span>
+      </button>
+      <a class="lang-switch" href="../" lang="ko" hreflang="ko" aria-label="View this shop in Korean">KO</a><a href="#">Sign In</a><a href="#courses" class="mini">Enroll</a>
+    </div>
   </div>
 </header>
 
@@ -204,6 +228,7 @@
   </div>
   <div class="copy">© 2026 Stargate Edu. All rights reserved. · shop.stargateedu.co.kr/en/<div class="business-info">상호: 주식회사 별의문 · 대표: 정동수 · 사업자등록번호: 848-86-03835 · 통신판매업신고: 2025-서울강남-05246호 · 주소: 서울특별시 강남구 삼성로63길 8-15, 204호 (대치동) · 전화: 070-8018-8227 · 개인정보보호책임자: 정동수 · 이메일: ceo@stargateedu.co.kr</div></div>
 </footer>
+<script src="../js/theme.js"></script>
 <script src="../js/business-info.js"></script>
 <script src="../js/catalog.js"></script>
 <script src="../js/storefront.js" data-lang="en"></script>
