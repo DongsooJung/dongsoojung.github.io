@@ -740,10 +740,16 @@ footer .business-info{flex-basis:100%;padding-top:10px;border-top:1px solid var(
     return;
   }
 
-  const targetCards = cards.filter((card, index) =>
-    index >= firstHiddenIndex
-      || card.querySelector('.ttl')?.textContent.includes('화성 실거래 데이터 허브')
-  );
+  const alwaysHidden = [
+    '나라장터 공사 입찰공고',
+    '나라장터 용역 입찰공고',
+    'LH 분양정보 관측소',
+    '화성 실거래 데이터 허브',
+  ];
+  const targetCards = cards.filter((card, index) => {
+    const title = card.querySelector('.ttl')?.textContent || '';
+    return index >= firstHiddenIndex || alwaysHidden.some((item) => title.includes(item));
+  });
   const label = toggle.querySelector('span:last-child');
   const icon = toggle.querySelector('span:first-child');
 

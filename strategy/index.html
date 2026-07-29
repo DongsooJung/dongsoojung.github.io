@@ -5,9 +5,10 @@
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>전략 인사이트 | STARGATE Intelligence</title>
   <meta name="description" content="당근·숨고·크몽 등 플랫폼 기업 재무와 산업·시장 데이터를 분석하는 STARGATE 전략 인사이트 허브.">
-  <meta name="theme-color" content="#080c14">
+  <meta name="theme-color" content="#080c14" data-light-color="#f5f7fb" data-dark-color="#080c14">
   <link rel="canonical" href="https://stargateedu.co.kr/strategy/">
-  <link rel="stylesheet" href="/assets/intelligence-hub.css?v=20260720">
+  <script src="/assets/theme-boot.js"></script>
+  <link rel="stylesheet" href="/assets/intelligence-hub.css?v=20260729d">
 </head>
 <body class="strategy">
   <div class="wrap">
@@ -19,7 +20,13 @@
         <a href="/#projects">전체 프로젝트</a>
         <a href="/#about">About</a>
       </div>
-      <a class="back" href="/">← 포털</a>
+      <div class="nav-end">
+        <button class="theme-toggle" type="button" data-theme-toggle aria-pressed="false" aria-label="화이트 모드로 전환">
+          <span class="icon" data-theme-icon aria-hidden="true">☀️</span>
+          <span data-theme-label>화이트</span>
+        </button>
+        <a class="back" href="/">← 포털</a>
+      </div>
     </nav>
 
     <header class="hero">
@@ -95,115 +102,132 @@
           <label class="search"><span hidden>보고서 검색</span><input type="search" placeholder="기업·시장 검색" data-search></label>
         </div>
         <div class="result-count" data-result-count aria-live="polite"></div>
-        <div class="grid">
-          <a class="project" href="/strategy/innoforest/" data-card data-category="industry">
-            <div class="visual" style="--visual:radial-gradient(circle at 24% 20%,rgba(85,223,154,.54),transparent 54%),linear-gradient(145deg,#071b14,#123d2b)">🌲</div>
-            <div class="project-body">
-              <div class="meta"><span class="pill accent">Startup Data</span><span class="pill">20 Companies</span></div>
-              <h3>혁신의 숲 기업 데이터 20</h3>
-              <p>혁신의 숲 데이터룸에서 수집한 기업 20곳의 회사명·서비스·매출액·고용인원을 검색하고 규모별로 비교합니다.</p>
-              <div class="project-footer"><span>innoforest.co.kr · 2026-07-27 수집</span><b>대시보드 →</b></div>
+        <div class="card-groups">
+          <details class="card-group" data-card-group open>
+            <summary class="card-group-summary">
+              <span class="card-group-title"><strong>플랫폼 · 교육 서비스</strong><span>당근·숨고·크몽과 온라인 교육 트래커</span></span>
+              <span class="card-group-meta"><span data-group-count>6개</span><span class="chevron" aria-hidden="true"></span></span>
+            </summary>
+            <div class="grid">
+              <a class="project" href="/daangn-dashboard/?v=20260720-finance" data-card data-category="platform">
+                <div class="visual" style="--visual:radial-gradient(circle at 28% 24%,rgba(255,130,45,.55),transparent 52%),linear-gradient(145deg,#241006,#4a210c)">🥕</div>
+                <div class="project-body">
+                  <div class="meta"><span class="pill accent">Strategy</span><span class="pill">Finance</span></div>
+                  <h3>당근 최근 3개년 재무분석</h3>
+                  <p>2023~2025 연결·별도 매출과 영업이익, 흑자전환과 그룹 투자 부담을 분석합니다.</p>
+                  <div class="project-footer"><span>공식 IR · 2023–2025</span><b>보고서 →</b></div>
+                </div>
+              </a>
+              <a class="project" href="/soomgo-research/" data-card data-category="platform">
+                <div class="visual" style="--visual:linear-gradient(145deg,#0b3432,#0d7474)">📈</div>
+                <div class="project-body">
+                  <div class="meta"><span class="pill accent">Strategy</span><span class="pill">Platform</span></div>
+                  <h3>숨고 매출·재무 리서치</h3>
+                  <p>브레이브모바일의 매출과 영업이익을 통해 전문가 매칭 플랫폼의 성장과 손익을 분석합니다.</p>
+                  <div class="project-footer"><span>OpenDART · 2022–2025</span><b>보고서 →</b></div>
+                </div>
+              </a>
+              <a class="project" href="/kmong-research/" data-card data-category="platform">
+                <div class="visual" style="--visual:linear-gradient(145deg,#10224a,#275fd0)">📊</div>
+                <div class="project-body">
+                  <div class="meta"><span class="pill accent">Strategy</span><span class="pill">Marketplace</span></div>
+                  <h3>크몽 거래액·재무 리서치</h3>
+                  <p>거래액·매출·영업이익을 중심으로 프리랜서 서비스 시장과 B2B 확장성을 살펴봅니다.</p>
+                  <div class="project-footer"><span>Market Research · 2022–2025</span><b>보고서 →</b></div>
+                </div>
+              </a>
+              <a class="project" href="/strategy/weolbu/" data-card data-category="industry">
+                <div class="visual" style="--visual:radial-gradient(circle at 26% 22%,rgba(76,154,255,.48),transparent 54%),linear-gradient(145deg,#08111f,#16305e)">🎓</div>
+                <div class="project-body">
+                  <div class="meta"><span class="pill accent">Strategy</span><span class="pill">Live · Daily</span></div>
+                  <h3>월부 강의 라인업 일일 트래커</h3>
+                  <p>월급쟁이부자들 메인에 노출되는 강의의 제목·강사·신청일시·개강일·가격·평점을 매일 자동 수집해 신규 개설과 가격 변화를 시계열로 추적합니다.</p>
+                  <div class="project-footer"><span>weolbu.com · 매일 09:00 자동 수집</span><b>대시보드 →</b></div>
+                </div>
+              </a>
+              <a class="project" href="/class101/" data-card data-category="industry">
+                <div class="visual" style="--visual:radial-gradient(circle at 24% 20%,rgba(255,90,31,.55),transparent 54%),linear-gradient(145deg,#24100a,#4a1f11)">🟧</div>
+                <div class="project-body">
+                  <div class="meta"><span class="pill accent">Education</span><span class="pill">Live · Daily</span></div>
+                  <h3>CLASS101 공개 추천 라인업 아카이브</h3>
+                  <p>클래스101 한국어 공개 추천 페이지의 클래스·크리에이터·카테고리·섹션 노출을 매일 기록하고, 중복 클래스는 고유 ID 기준으로 합쳐 비교합니다.</p>
+                  <div class="project-footer"><span>class101.net · 매일 09:30 자동 수집</span><b>대시보드 →</b></div>
+                </div>
+              </a>
+              <a class="project" href="/inflearn/" data-card data-category="industry">
+                <div class="visual" style="--visual:radial-gradient(circle at 25% 20%,rgba(16,185,129,.5),transparent 54%),linear-gradient(145deg,#071b17,#123c31)">📗</div>
+                <div class="project-body">
+                  <div class="meta"><span class="pill accent">Education</span><span class="pill">Live · Daily</span></div>
+                  <h3>인프런 인기 강의 데일리 아카이브</h3>
+                  <p>인프런 메인 인기 강의 상위 100개의 제목·강사·가격·평점·수강생·게시일을 매일 수집해 검색하고 날짜별 엑셀로 내려받습니다.</p>
+                  <div class="project-footer"><span>inflearn.com · 매일 09:15 자동 수집</span><b>대시보드 →</b></div>
+                </div>
+              </a>
             </div>
-          </a>
-          <a class="project" href="/strategy/weolbu/" data-card data-category="industry">
-            <div class="visual" style="--visual:radial-gradient(circle at 26% 22%,rgba(76,154,255,.48),transparent 54%),linear-gradient(145deg,#08111f,#16305e)">🎓</div>
-            <div class="project-body">
-              <div class="meta"><span class="pill accent">Strategy</span><span class="pill">Live · Daily</span></div>
-              <h3>월부 강의 라인업 일일 트래커</h3>
-              <p>월급쟁이부자들 메인에 노출되는 강의의 제목·강사·신청일시·개강일·가격·평점을 매일 자동 수집해 신규 개설과 가격 변화를 시계열로 추적합니다.</p>
-              <div class="project-footer"><span>weolbu.com · 매일 09:00 자동 수집</span><b>대시보드 →</b></div>
+          </details>
+
+          <details class="card-group" data-card-group>
+            <summary class="card-group-summary">
+              <span class="card-group-title"><strong>산업·시장 · AI 도구</strong><span>스타트업·소비·공시·출판과 운영 도구</span></span>
+              <span class="card-group-meta"><span data-group-count>6개</span><span class="chevron" aria-hidden="true"></span></span>
+            </summary>
+            <div class="grid">
+              <a class="project" href="/strategy/innoforest/" data-card data-category="industry">
+                <div class="visual" style="--visual:radial-gradient(circle at 24% 20%,rgba(85,223,154,.54),transparent 54%),linear-gradient(145deg,#071b14,#123d2b)">🌲</div>
+                <div class="project-body">
+                  <div class="meta"><span class="pill accent">Startup Data</span><span class="pill">20 Companies</span></div>
+                  <h3>혁신의 숲 기업 데이터 20</h3>
+                  <p>혁신의 숲 데이터룸에서 수집한 기업 20곳의 회사명·서비스·매출액·고용인원을 검색하고 규모별로 비교합니다.</p>
+                  <div class="project-footer"><span>innoforest.co.kr · 2026-07-27 수집</span><b>대시보드 →</b></div>
+                </div>
+              </a>
+              <a class="project" href="/consumer-spending/" data-card data-category="industry">
+                <div class="visual" style="--visual:radial-gradient(circle at 24% 20%,rgba(82,211,200,.42),transparent 54%),linear-gradient(145deg,#071725,#11384a)">💳</div>
+                <div class="project-body">
+                  <div class="meta"><span class="pill accent">Consumer</span><span class="pill">Interactive</span></div>
+                  <h3>KB국민·신한 월별 소비 인텔리전스</h3>
+                  <p>두 카드사의 월별 집계 데이터를 공통 업종으로 정규화해 소비지수, 전월·전년비와 전략 시그널을 비교합니다.</p>
+                  <div class="project-footer"><span>KB DataRoot · Shinhan DataBada</span><b>대시보드 →</b></div>
+                </div>
+              </a>
+              <a class="project" href="/dart-top100/" data-card data-category="industry">
+                <div class="visual" style="--visual:radial-gradient(circle at 24% 20%,rgba(99,214,160,.45),transparent 54%),linear-gradient(145deg,#0c1730,#12224a)">📈</div>
+                <div class="project-body">
+                  <div class="meta"><span class="pill accent">OpenDART</span><span class="pill">Interactive</span></div>
+                  <h3>OpenDART 상위 100 기업 실적</h3>
+                  <p>금융감독원 전자공시 기반 상위 100개 기업의 분기별 매출액과 영업이익을 비교합니다.</p>
+                  <div class="project-footer"><span>Revenue · Operating Profit</span><b>대시보드 →</b></div>
+                </div>
+              </a>
+              <a class="project" href="/publishing-market-2025/" data-card data-category="industry">
+                <div class="visual" style="--visual:radial-gradient(circle at 24% 20%,rgba(232,200,122,.38),transparent 52%),linear-gradient(145deg,#111523,#242a45)">📚</div>
+                <div class="project-body">
+                  <div class="meta"><span class="pill accent">Industry</span><span class="pill">Dashboard</span></div>
+                  <h3>2025 한국 출판시장 분석</h3>
+                  <p>주요 출판기업의 매출과 영업이익률, 부문별 실적을 공시와 산업통계로 비교합니다.</p>
+                  <div class="project-footer"><span>DART · 대한출판문화협회</span><b>대시보드 →</b></div>
+                </div>
+              </a>
+              <a class="project" href="/onenote-notion-status/" data-card data-category="tools">
+                <div class="visual" style="--visual:radial-gradient(circle at 24% 20%,rgba(11,110,153,.52),transparent 54%),radial-gradient(circle at 78% 70%,rgba(15,92,76,.35),transparent 50%),linear-gradient(145deg,#0d1f24,#14302c)">◎</div>
+                <div class="project-body">
+                  <div class="meta"><span class="pill accent">Ops</span><span class="pill">Live · Status</span></div>
+                  <h3>OneNote · Notion 상태판</h3>
+                  <p>웹 OneNote와 Notion의 공식 상태·도달성·응답 지연을 실시간으로 점검하고, 60초 자동 갱신과 최근 점검 기록을 제공합니다.</p>
+                  <div class="project-footer"><span>Status API · Web Probe</span><b>대시보드 →</b></div>
+                </div>
+              </a>
+              <a class="project" href="https://damooaai-6vqmrysf.manus.space/" target="_blank" rel="noopener" data-card data-category="tools">
+                <div class="visual" style="--visual:radial-gradient(circle at 24% 20%,rgba(169,139,255,.5),transparent 55%),linear-gradient(145deg,#10152a,#1d2447)">🧠</div>
+                <div class="project-body">
+                  <div class="meta"><span class="pill accent">AI Ops</span><span class="pill">Dashboard</span></div>
+                  <h3>다모아 AI · AI 툴 대시보드</h3>
+                  <p>흩어진 AI 도구의 활용 현황, 월 구독 비용, 절감 후보와 결제 일정을 한 화면에서 관리합니다.</p>
+                  <div class="project-footer"><span>Manus · AI Tool Operations</span><b>열기 ↗</b></div>
+                </div>
+              </a>
             </div>
-          </a>
-          <a class="project" href="/class101/" data-card data-category="industry">
-            <div class="visual" style="--visual:radial-gradient(circle at 24% 20%,rgba(255,90,31,.55),transparent 54%),linear-gradient(145deg,#24100a,#4a1f11)">🟧</div>
-            <div class="project-body">
-              <div class="meta"><span class="pill accent">Education</span><span class="pill">Live · Daily</span></div>
-              <h3>CLASS101 공개 추천 라인업 아카이브</h3>
-              <p>클래스101 한국어 공개 추천 페이지의 클래스·크리에이터·카테고리·섹션 노출을 매일 기록하고, 중복 클래스는 고유 ID 기준으로 합쳐 비교합니다.</p>
-              <div class="project-footer"><span>class101.net · 매일 09:30 자동 수집</span><b>대시보드 →</b></div>
-            </div>
-          </a>
-          <a class="project" href="/inflearn/" data-card data-category="industry">
-            <div class="visual" style="--visual:radial-gradient(circle at 25% 20%,rgba(16,185,129,.5),transparent 54%),linear-gradient(145deg,#071b17,#123c31)">📗</div>
-            <div class="project-body">
-              <div class="meta"><span class="pill accent">Education</span><span class="pill">Live · Daily</span></div>
-              <h3>인프런 인기 강의 데일리 아카이브</h3>
-              <p>인프런 메인 인기 강의 상위 100개의 제목·강사·가격·평점·수강생·게시일을 매일 수집해 검색하고 날짜별 엑셀로 내려받습니다.</p>
-              <div class="project-footer"><span>inflearn.com · 매일 09:15 자동 수집</span><b>대시보드 →</b></div>
-            </div>
-          </a>
-          <a class="project" href="/daangn-dashboard/?v=20260720-finance" data-card data-category="platform">
-            <div class="visual" style="--visual:radial-gradient(circle at 28% 24%,rgba(255,130,45,.55),transparent 52%),linear-gradient(145deg,#241006,#4a210c)">🥕</div>
-            <div class="project-body">
-              <div class="meta"><span class="pill accent">Strategy</span><span class="pill">Finance</span></div>
-              <h3>당근 최근 3개년 재무분석</h3>
-              <p>2023~2025 연결·별도 매출과 영업이익, 흑자전환과 그룹 투자 부담을 분석합니다.</p>
-              <div class="project-footer"><span>공식 IR · 2023–2025</span><b>보고서 →</b></div>
-            </div>
-          </a>
-          <a class="project" href="/soomgo-research/" data-card data-category="platform">
-            <div class="visual" style="--visual:linear-gradient(145deg,#0b3432,#0d7474)">📈</div>
-            <div class="project-body">
-              <div class="meta"><span class="pill accent">Strategy</span><span class="pill">Platform</span></div>
-              <h3>숨고 매출·재무 리서치</h3>
-              <p>브레이브모바일의 매출과 영업이익을 통해 전문가 매칭 플랫폼의 성장과 손익을 분석합니다.</p>
-              <div class="project-footer"><span>OpenDART · 2022–2025</span><b>보고서 →</b></div>
-            </div>
-          </a>
-          <a class="project" href="/kmong-research/" data-card data-category="platform">
-            <div class="visual" style="--visual:linear-gradient(145deg,#10224a,#275fd0)">📊</div>
-            <div class="project-body">
-              <div class="meta"><span class="pill accent">Strategy</span><span class="pill">Marketplace</span></div>
-              <h3>크몽 거래액·재무 리서치</h3>
-              <p>거래액·매출·영업이익을 중심으로 프리랜서 서비스 시장과 B2B 확장성을 살펴봅니다.</p>
-              <div class="project-footer"><span>Market Research · 2022–2025</span><b>보고서 →</b></div>
-            </div>
-          </a>
-          <a class="project" href="/consumer-spending/" data-card data-category="industry">
-            <div class="visual" style="--visual:radial-gradient(circle at 24% 20%,rgba(82,211,200,.42),transparent 54%),linear-gradient(145deg,#071725,#11384a)">💳</div>
-            <div class="project-body">
-              <div class="meta"><span class="pill accent">Consumer</span><span class="pill">Interactive</span></div>
-              <h3>KB국민·신한 월별 소비 인텔리전스</h3>
-              <p>두 카드사의 월별 집계 데이터를 공통 업종으로 정규화해 소비지수, 전월·전년비와 전략 시그널을 비교합니다.</p>
-              <div class="project-footer"><span>KB DataRoot · Shinhan DataBada</span><b>대시보드 →</b></div>
-            </div>
-          </a>
-          <a class="project" href="/dart-top100/" data-card data-category="industry">
-            <div class="visual" style="--visual:radial-gradient(circle at 24% 20%,rgba(99,214,160,.45),transparent 54%),linear-gradient(145deg,#0c1730,#12224a)">📈</div>
-            <div class="project-body">
-              <div class="meta"><span class="pill accent">OpenDART</span><span class="pill">Interactive</span></div>
-              <h3>OpenDART 상위 100 기업 실적</h3>
-              <p>금융감독원 전자공시 기반 상위 100개 기업의 분기별 매출액과 영업이익을 비교합니다.</p>
-              <div class="project-footer"><span>Revenue · Operating Profit</span><b>대시보드 →</b></div>
-            </div>
-          </a>
-          <a class="project" href="/publishing-market-2025/" data-card data-category="industry">
-            <div class="visual" style="--visual:radial-gradient(circle at 24% 20%,rgba(232,200,122,.38),transparent 52%),linear-gradient(145deg,#111523,#242a45)">📚</div>
-            <div class="project-body">
-              <div class="meta"><span class="pill accent">Industry</span><span class="pill">Dashboard</span></div>
-              <h3>2025 한국 출판시장 분석</h3>
-              <p>주요 출판기업의 매출과 영업이익률, 부문별 실적을 공시와 산업통계로 비교합니다.</p>
-              <div class="project-footer"><span>DART · 대한출판문화협회</span><b>대시보드 →</b></div>
-            </div>
-          </a>
-          <a class="project" href="/onenote-notion-status/" data-card data-category="tools">
-            <div class="visual" style="--visual:radial-gradient(circle at 24% 20%,rgba(11,110,153,.52),transparent 54%),radial-gradient(circle at 78% 70%,rgba(15,92,76,.35),transparent 50%),linear-gradient(145deg,#0d1f24,#14302c)">◎</div>
-            <div class="project-body">
-              <div class="meta"><span class="pill accent">Ops</span><span class="pill">Live · Status</span></div>
-              <h3>OneNote · Notion 상태판</h3>
-              <p>웹 OneNote와 Notion의 공식 상태·도달성·응답 지연을 실시간으로 점검하고, 60초 자동 갱신과 최근 점검 기록을 제공합니다.</p>
-              <div class="project-footer"><span>Status API · Web Probe</span><b>대시보드 →</b></div>
-            </div>
-          </a>
-          <a class="project" href="https://damooaai-6vqmrysf.manus.space/" target="_blank" rel="noopener" data-card data-category="tools">
-            <div class="visual" style="--visual:radial-gradient(circle at 24% 20%,rgba(169,139,255,.5),transparent 55%),linear-gradient(145deg,#10152a,#1d2447)">🧠</div>
-            <div class="project-body">
-              <div class="meta"><span class="pill accent">AI Ops</span><span class="pill">Dashboard</span></div>
-              <h3>다모아 AI · AI 툴 대시보드</h3>
-              <p>흩어진 AI 도구의 활용 현황, 월 구독 비용, 절감 후보와 결제 일정을 한 화면에서 관리합니다.</p>
-              <div class="project-footer"><span>Manus · AI Tool Operations</span><b>열기 ↗</b></div>
-            </div>
-          </a>
+          </details>
         </div>
         <div class="empty" data-empty>조건에 맞는 전략 콘텐츠가 없습니다.</div>
       </section>
@@ -216,6 +240,7 @@
 
     <footer><span>© 2026 Dongsoo Jung · Stargate Corporation</span><span><a href="/">Portal</a> · <a href="https://github.com/DongsooJung">GitHub</a></span></footer>
   </div>
-  <script src="/assets/intelligence-hub.js?v=20260720" defer></script>
+  <script src="/assets/theme.js?v=20260729" defer></script>
+  <script src="/assets/intelligence-hub.js?v=20260729d" defer></script>
 </body>
 </html>
