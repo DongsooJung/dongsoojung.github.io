@@ -129,8 +129,19 @@
     <label>구분
       <span class="seg" id="fCat"></span>
     </label>
-    <label>공고월
+    <label>보기
+      <span class="seg" id="fView"></span>
+    </label>
+    <label id="lblMonth">공고월
       <select id="fMonth"><option value="">전체 (2026년)</option></select>
+    </label>
+    <label id="lblRange" style="display:none">기간
+      <select id="fRange">
+        <option value="30">최근 30일</option>
+        <option value="60" selected>최근 60일</option>
+        <option value="90">최근 90일</option>
+        <option value="0">전체</option>
+      </select>
     </label>
     <label>시도
       <select id="fSido"><option value="">전체</option></select>
@@ -144,28 +155,48 @@
   <div class="kpis" id="kpis"></div>
 
   <div class="grid">
-    <div class="card full">
+    <!-- ===== 월간 보기 ===== -->
+    <div class="card full view-month">
       <h2>월별 공고 물건 수</h2>
       <div class="desc" id="trendDesc">2026년 각 월에 공고된 경매 물건 수</div>
       <div class="chart" id="chTrend"></div>
     </div>
-    <div class="card">
+    <div class="card view-month">
       <h2>용도별 물건 수</h2>
       <div class="desc">필터 적용 범위 내 용도별 분포</div>
       <div class="chart" id="chUsage"></div>
     </div>
-    <div class="card">
+    <div class="card view-month">
       <h2>시도별 물건 수 (상위 10)</h2>
       <div class="desc">필터 적용 범위 내 지역별 분포</div>
       <div class="chart" id="chSido"></div>
     </div>
-    <div class="card full">
+    <div class="card full view-month">
       <h2>감정가 구간별 분포</h2>
       <div class="desc">필터 적용 범위 내 감정가 구간별 물건 수</div>
       <div class="chart" id="chPrice"></div>
     </div>
+
+    <!-- ===== 일간 보기 ===== -->
+    <div class="card full view-day" style="display:none">
+      <h2>일별 신규 등록 추이</h2>
+      <div class="desc" id="dailyDesc">매일 새로 등록(수집)된 경매 물건 수 — 최근 60일</div>
+      <div class="chart" id="chDaily"></div>
+    </div>
+    <div class="card view-day" style="display:none">
+      <h2>요일별 신규 등록</h2>
+      <div class="desc">선택 기간 내 요일별 신규 등록 합계</div>
+      <div class="chart" id="chDow"></div>
+    </div>
+    <div class="card view-day" style="display:none">
+      <h2>최근 7일 일별 신규</h2>
+      <div class="desc">가장 최근 7개 등록일의 신규 건수</div>
+      <div class="chart" id="chWeek"></div>
+    </div>
+
+    <!-- ===== 공통: 물건 목록 ===== -->
     <div class="card full">
-      <h2>물건 목록</h2>
+      <h2 id="tblTitle">물건 목록</h2>
       <div class="desc" id="tblDesc"></div>
       <div class="tbl-wrap"><table id="tbl"></table></div>
       <div class="tbl-foot">
@@ -204,9 +235,13 @@ const DATASETS = {
 };
 let DATA = null;          // 현재 구분의 records
 let META = null;
-let state = { cat:"주택", month:"", sido:"", usage:"", page:1, sortKey:"공고일", sortDir:-1 };
+let state = { cat:"주택", view:"월간", month:"", range:60, sido:"", usage:"", page:1, sortKey:"공고일", sortDir:-1 };
 const PAGE = 20;
 let resizeBound = false;
+const VIEWS = ["월간", "일간"];
+// 등록일(수집일) 우선, 없으면 공고일로 대체
+const dayField = r => String(r.수집일 || r.공고일 || "").slice(0,10);
+const DOW = ["일","월","화","수","목","금","토"];
 
 /* ---------- 데이터 로드 & 구분 전환 ---------- */
 function initCatToggle(){
@@ -221,6 +256,28 @@ function initCatToggle(){
 function syncCatToggle(){
   for (const b of $("fCat").children) b.classList.toggle("on", b.textContent === state.cat);
 }
+function initViewToggle(){
+  const seg = $("fView");
+  for (const v of VIEWS){
+    const b = document.createElement("button");
+    b.type = "button"; b.textContent = v;
+    b.onclick = () => { if (state.view !== v){ state.view = v; state.page = 1; applyViewUI(); renderAll(); } };
+    seg.append(b);
+  }
+  $("fRange").onchange = e => { state.range = +e.target.value; state.page = 1; renderAll(); };
+}
+function applyViewUI(){
+  const daily = state.view === "일간";
+  for (const b of $("fView").children) b.classList.toggle("on", b.textContent === state.view);
+  for (const c of document.querySelectorAll(".view-month")) c.style.display = daily ? "none" : "";
+  for (const c of document.querySelectorAll(".view-day"))   c.style.display = daily ? "" : "none";
+  $("lblMonth").style.display = daily ? "none" : "";
+  $("lblRange").style.display = daily ? "" : "none";
+  $("tblTitle").textContent = daily ? "최근 신규 등록 목록" : "물건 목록";
+  // 기본 정렬: 일간은 수집일 내림차순, 월간은 공고일 내림차순
+  state.sortKey = daily ? "수집일" : "공고일";
+  state.sortDir = -1;
+}
 function loadDataset(cat){
   const ds = DATASETS[cat];
   fetch(ds.json)
@@ -233,7 +290,7 @@ function loadDataset(cat){
       $("subtitle").textContent = ds.desc;
       $("xlsxLink").href = ds.xlsx;
       syncCatToggle();
-      initFilters(); renderAll();
+      initFilters(); applyViewUI(); renderAll();
       const foot = $("foot"); foot.replaceChildren();
       foot.append(document.createTextNode(
         `구분: ${META.category || cat} · 데이터 기준: ${META.basis} · 출처: ${META.source} · 생성 ${META.generated_at} · 총 ${fmt(META.count)}건`));
@@ -241,6 +298,7 @@ function loadDataset(cat){
     .catch(() => { $("loadErr").style.display = "block"; });
 }
 initCatToggle();
+initViewToggle();
 loadDataset("주택");
 
 /* ---------- 필터 ---------- */
@@ -257,8 +315,9 @@ function initFilters(){
   $("fSido").onchange  = e => { state.sido  = e.target.value; state.page = 1; renderAll(); };
   $("fUsage").onchange = e => { state.usage = e.target.value; state.page = 1; renderAll(); };
   $("fReset").onclick  = () => {
-    state = {...state, month:"", sido:"", usage:"", page:1};
+    state = {...state, month:"", sido:"", usage:"", range:60, page:1};
     $("fMonth").value = $("fSido").value = $("fUsage").value = "";
+    $("fRange").value = "60";
     renderAll();
   };
   if (!resizeBound){
@@ -277,14 +336,55 @@ function filtered(includeMonth = true){
 }
 
 /* ---------- 렌더 ---------- */
+const mmdd = d => (d && d.length>=10) ? d.slice(5).replace("-","/") : d;
+function sidoUsageFiltered(){
+  return DATA.filter(r =>
+    (!state.sido  || r.시도 === state.sido) &&
+    (!state.usage || r.용도 === state.usage));
+}
+function dateDomain(rows){
+  const dates = rows.map(dayField).filter(d => d.length===10);
+  if (!dates.length) return [];
+  const max = dates.reduce((a,b)=>a>b?a:b);
+  let min;
+  if (state.range > 0){
+    const d = new Date(max+"T00:00:00"); d.setDate(d.getDate() - (state.range-1));
+    min = d.toISOString().slice(0,10);
+    const dmin = dates.reduce((a,b)=>a<b?a:b);
+    if (dmin > min) min = dmin;
+  } else {
+    min = dates.reduce((a,b)=>a<b?a:b);
+  }
+  const out = [], cur = new Date(min+"T00:00:00"), end = new Date(max+"T00:00:00");
+  while (cur <= end){ out.push(cur.toISOString().slice(0,10)); cur.setDate(cur.getDate()+1); }
+  return out;
+}
+function dailyFiltered(){
+  const rows = sidoUsageFiltered();
+  const domain = dateDomain(rows);
+  if (!domain.length) return rows;
+  const lo = domain[0], hi = domain[domain.length-1];
+  return rows.filter(r => { const d = dayField(r); return d >= lo && d <= hi; });
+}
+function currentRows(){ return state.view === "일간" ? dailyFiltered() : filtered(); }
+
 function renderAll(){
-  const rows = filtered();
-  renderKPIs(rows);
-  renderTrend();
-  renderBars("chUsage", groupCount(rows, "용도"), v => fmt(v));
-  renderBars("chSido",  groupCount(rows, "시도").slice(0,10), v => fmt(v));
-  renderPriceHist(rows);
-  renderTable(rows);
+  if (state.view === "일간"){
+    const rows = dailyFiltered();
+    renderDailyKPIs(rows);
+    renderDailyTrend();
+    renderDow(rows);
+    renderWeek();
+    renderTable(rows);
+  } else {
+    const rows = filtered();
+    renderKPIs(rows);
+    renderTrend();
+    renderBars("chUsage", groupCount(rows, "용도"), v => fmt(v));
+    renderBars("chSido",  groupCount(rows, "시도").slice(0,10), v => fmt(v));
+    renderPriceHist(rows);
+    renderTable(rows);
+  }
 }
 
 function groupCount(rows, key){
@@ -513,9 +613,129 @@ function empty(box){
   box.append(p);
 }
 
+/* ---------- 일간 보기 ---------- */
+function renderDailyKPIs(rows){
+  const k = $("kpis"); k.replaceChildren();
+  const byDay = new Map();
+  for (const r of rows){ const d = dayField(r); if (d.length===10) byDay.set(d,(byDay.get(d)||0)+1); }
+  const days = [...byDay.keys()].sort();
+  const n = rows.length;
+  const lastDay = days[days.length-1] || "-";
+  const lastCount = byDay.get(lastDay) || 0;
+  let last7 = 0;
+  if (days.length){
+    const hi = new Date(lastDay+"T00:00:00");
+    for (const [d,c] of byDay){ if ((hi - new Date(d+"T00:00:00"))/86400000 < 7) last7 += c; }
+  }
+  const avg = days.length ? n/days.length : 0;
+  let peak = ["-",0]; for (const [d,c] of byDay) if (c>peak[1]) peak=[d,c];
+  tile(k, "최근 등록일 신규", fmt(lastCount)+"건", lastDay!=="-"?{text:mmdd(lastDay)+" 기준", dir:"flat"}:null);
+  tile(k, "최근 7일 신규", fmt(last7)+"건");
+  tile(k, "일평균 신규", avg.toFixed(1)+"건");
+  tile(k, "최다 등록일", peak[0]!=="-"?mmdd(peak[0]):"-", peak[1]?{text:fmt(peak[1])+"건 등록", dir:"flat"}:null);
+}
+
+/* 일별 신규 등록 추이 (면적 + 선 + 크로스헤어) */
+function renderDailyTrend(){
+  const box = $("chDaily"); box.replaceChildren();
+  const base = sidoUsageFiltered();
+  const domain = dateDomain(base);
+  const scope = `${state.sido||"전국"}${state.usage?" · "+state.usage:""}`;
+  $("dailyDesc").textContent = state.range>0
+    ? `매일 새로 등록(수집)된 ${state.cat} 경매 물건 수 — 최근 ${state.range}일 · ${scope}`
+    : `매일 새로 등록(수집)된 ${state.cat} 경매 물건 수 — 전체 기간 · ${scope}`;
+  if (domain.length < 2){ empty(box); return; }
+  const counts = new Map(domain.map(d=>[d,0]));
+  for (const r of base){ const d = dayField(r); if (counts.has(d)) counts.set(d, counts.get(d)+1); }
+  const series = domain.map(d => counts.get(d));
+  const W = box.clientWidth || 800, H = 260;
+  const m = {t:22,r:14,b:28,l:44}, iw = W-m.l-m.r, ih = H-m.t-m.b;
+  const max = Math.max(...series,1), ticks = niceTicks(max), top = ticks[ticks.length-1];
+  const N = domain.length;
+  const xAt = i => m.l + (N===1?iw/2:iw*i/(N-1));
+  const yAt = v => m.t + ih - (v/top)*ih;
+  const svg = el("svg",{viewBox:`0 0 ${W} ${H}`,width:"100%",height:H,role:"img","aria-label":"일별 신규 등록 추이"});
+  for (const t of ticks){
+    const y = yAt(t);
+    svg.append(el("line",{x1:m.l,x2:W-m.r,y1:y,y2:y,class:t===0?"base-l":"grid-l"}));
+    const tx = el("text",{x:m.l-8,y:y+4,"text-anchor":"end",class:"axis-t"}); tx.textContent = fmt(t); svg.append(tx);
+  }
+  let dLine = "";
+  domain.forEach((d,i)=>{ dLine += (i?"L":"M")+xAt(i)+","+yAt(series[i])+" "; });
+  const dArea = dLine + `L${xAt(N-1)},${yAt(0)} L${xAt(0)},${yAt(0)} Z`;
+  svg.append(el("path",{d:dArea, fill:css("--area")}));
+  svg.append(el("path",{d:dLine, fill:"none", stroke:css("--series"), "stroke-width":2,
+    "stroke-linejoin":"round","stroke-linecap":"round"}));
+  const step = Math.max(1, Math.round(N/7));
+  domain.forEach((d,i)=>{ if(i%step===0||i===N-1){
+    const tx = el("text",{x:xAt(i),y:H-8,"text-anchor":"middle",class:"axis-t"}); tx.textContent = mmdd(d); svg.append(tx);
+  }});
+  const cross = el("line",{x1:0,x2:0,y1:m.t,y2:m.t+ih,class:"grid-l"}); cross.style.display="none";
+  const dot = el("circle",{r:4,fill:css("--series"),stroke:css("--surface"),"stroke-width":2}); dot.style.display="none";
+  const endDot = el("circle",{cx:xAt(N-1),cy:yAt(series[N-1]),r:4,fill:css("--series"),stroke:css("--surface"),"stroke-width":2});
+  svg.append(cross,dot,endDot);
+  const overlay = el("rect",{x:m.l,y:m.t,width:iw,height:ih,fill:"transparent"});
+  overlay.addEventListener("pointermove", e=>{
+    const pt = svg.getBoundingClientRect();
+    const rx = (e.clientX-pt.left)*(W/pt.width);
+    let i = N===1?0:Math.round((rx-m.l)/(iw/(N-1))); i = Math.max(0,Math.min(N-1,i));
+    const x = xAt(i), y = yAt(series[i]);
+    cross.setAttribute("x1",x); cross.setAttribute("x2",x); cross.style.display="";
+    dot.setAttribute("cx",x); dot.setAttribute("cy",y); dot.style.display="";
+    const wd = DOW[new Date(domain[i]+"T00:00:00").getDay()];
+    showTip(e, fmt(series[i])+"건", `${domain[i]} (${wd}) 신규 등록`);
+  });
+  overlay.addEventListener("pointerleave", ()=>{ cross.style.display="none"; dot.style.display="none"; hideTip(); });
+  svg.append(overlay);
+  box.append(svg);
+}
+
+/* 세로 막대 (요일별·최근 7일 공용) */
+function columnChart(id, entries, opts){
+  const box = $(id); box.replaceChildren();
+  if (!entries.length){ empty(box); return; }
+  const W = box.clientWidth || 480, H = 220;
+  const m = {t:22,r:10,b:26,l:40}, iw = W-m.l-m.r, ih = H-m.t-m.b;
+  const max = Math.max(...entries.map(e=>e[1]),1), ticks = niceTicks(max), top = ticks[ticks.length-1];
+  const svg = el("svg",{viewBox:`0 0 ${W} ${H}`,width:"100%",height:H,role:"img"});
+  for (const t of ticks){
+    const y = m.t + ih - (t/top)*ih;
+    svg.append(el("line",{x1:m.l,x2:W-m.r,y1:y,y2:y,class:t===0?"base-l":"grid-l"}));
+    const tx = el("text",{x:m.l-8,y:y+4,"text-anchor":"end",class:"axis-t"}); tx.textContent = fmt(t); svg.append(tx);
+  }
+  const band = iw/entries.length, bw = Math.min(28, band*0.6);
+  entries.forEach(([label,val],i)=>{
+    const x = m.l+band*i+(band-bw)/2, h = (val/top)*ih, y = m.t+ih-h;
+    const bar = el("path",{d:roundTopRect(x,y,bw,Math.max(h,val?2:0),4),fill:css("--series")});
+    const hit = el("rect",{x:m.l+band*i,y:m.t,width:band,height:ih,fill:"transparent"});
+    for (const t2 of [bar,hit]){
+      t2.addEventListener("pointermove", e=>showTip(e, fmt(val)+"건", opts.tipLabel(label)));
+      t2.addEventListener("pointerleave", hideTip);
+    }
+    const cap = el("text",{x:x+bw/2,y:y-6,"text-anchor":"middle",class:"val-t"}); cap.textContent = fmt(val);
+    const ax = el("text",{x:m.l+band*i+band/2,y:H-8,"text-anchor":"middle",class:"axis-t"});
+    ax.textContent = opts.axisLabel ? opts.axisLabel(label) : label;
+    svg.append(hit,bar,cap,ax);
+  });
+  box.append(svg);
+}
+function renderDow(rows){
+  const cnt = [0,0,0,0,0,0,0];
+  for (const r of rows){ const d = dayField(r); if (d.length===10) cnt[new Date(d+"T00:00:00").getDay()]++; }
+  columnChart("chDow", DOW.map((name,i)=>[name,cnt[i]]), {tipLabel:l=>l+"요일 신규 등록"});
+}
+function renderWeek(){
+  const base = sidoUsageFiltered();
+  const last = dateDomain(base).slice(-7);
+  const counts = new Map(last.map(d=>[d,0]));
+  for (const r of base){ const d = dayField(r); if (counts.has(d)) counts.set(d, counts.get(d)+1); }
+  columnChart("chWeek", last.map(d=>[d,counts.get(d)]),
+    {tipLabel:l=>`${l} (${DOW[new Date(l+"T00:00:00").getDay()]})`, axisLabel:mmdd});
+}
+
 /* ---------- 테이블 ---------- */
 const TCOLS = [
-  ["공고일",""], ["사건번호",""], ["법원",""], ["용도",""], ["소재지",""],
+  ["공고일",""], ["수집일",""], ["사건번호",""], ["법원",""], ["용도",""], ["소재지",""],
   ["감정가","num"], ["최저매각가","num"], ["유찰횟수","num"], ["매각기일",""], ["상태",""],
 ];
 function renderTable(rows){
@@ -539,8 +759,8 @@ function renderTable(rows){
     }
     th.onclick = () => {
       if (state.sortKey === key) state.sortDir *= -1;
-      else { state.sortKey = key; state.sortDir = key === "공고일" ? -1 : 1; }
-      state.page = 1; renderTable(filtered());
+      else { state.sortKey = key; state.sortDir = (key === "공고일" || key === "수집일") ? -1 : 1; }
+      state.page = 1; renderTable(currentRows());
     };
     trh.append(th);
   }
@@ -562,8 +782,8 @@ function renderTable(rows){
   $("pgInfo").textContent = `${state.page} / ${pages} 페이지`;
   $("pgPrev").disabled = state.page <= 1;
   $("pgNext").disabled = state.page >= pages;
-  $("pgPrev").onclick = () => { state.page--; renderTable(filtered()); };
-  $("pgNext").onclick = () => { state.page++; renderTable(filtered()); };
+  $("pgPrev").onclick = () => { state.page--; renderTable(currentRows()); };
+  $("pgNext").onclick = () => { state.page++; renderTable(currentRows()); };
 }
 </script>
 </body>
