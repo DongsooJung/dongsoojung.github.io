@@ -211,13 +211,17 @@ a{color:var(--acc); text-decoration:none} a:hover{text-decoration:underline}
 .sec .desc{color:var(--sub);font-size:13.5px;margin-bottom:18px;line-height:1.65}
 
 /* Intelligence hubs */
-.hub-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.hub-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
 .hub-card{position:relative;overflow:hidden;border:1px solid var(--line2);border-radius:20px;padding:25px;
   background:linear-gradient(145deg,var(--panel2),var(--panel));min-height:225px;display:flex;flex-direction:column;
   transition:.18s transform,.18s border-color,.18s box-shadow}
 .hub-card::after{content:"";position:absolute;width:210px;height:210px;border-radius:50%;right:-75px;top:-95px;background:var(--glow);opacity:.6}
 .hub-card.strategy{--hub:#ff9f5a;--glow:rgba(255,111,15,.18)}
 .hub-card.research{--hub:#73b7ff;--glow:rgba(52,120,246,.2)}
+.hub-card.portfolio{--hub:#5ad4a2;--glow:rgba(31,157,106,.2)}
+:root[data-theme="light"] .hub-card.portfolio{--hub:#0f8a5f;--glow:rgba(15,138,95,.14)}
+:root[data-theme="ocean"] .hub-card.portfolio{--hub:#5ee4d8;--glow:rgba(34,184,199,.18)}
+:root[data-theme="mono"] .hub-card.portfolio{--hub:#262626;--glow:rgba(38,38,38,.1)}
 .hub-card:hover{transform:translateY(-2px);border-color:var(--hub);box-shadow:0 18px 48px var(--glow);text-decoration:none}
 .hub-kicker{position:relative;z-index:1;color:var(--hub);font-family:var(--font-mono);font-size:10px;font-weight:500;letter-spacing:.12em;text-transform:uppercase}
 .hub-card h3{position:relative;z-index:1;font-family:var(--font-display);font-size:clamp(1.35rem,1.8vw,1.55rem);font-weight:600;letter-spacing:-.03em;margin:10px 0 7px;line-height:1.25}
@@ -274,6 +278,9 @@ footer .business-info{flex-basis:100%;padding-top:10px;border-top:1px solid var(
   .theme-toggle{order:2;margin-left:auto}
   .nav .links{order:3;width:100%;margin-left:0;padding:10px 0 4px;overflow-x:auto;white-space:nowrap}
 }
+@media (max-width: 1100px){
+  .hub-grid{grid-template-columns:1fr 1fr}
+}
 @media (max-width: 820px){
   .hero{grid-template-columns:1fr;padding:32px 0 10px}
   .hero h1{font-size:clamp(1.85rem,7vw,2.2rem)}
@@ -295,6 +302,7 @@ footer .business-info{flex-basis:100%;padding-top:10px;border-top:1px solid var(
       <span class="tag">v1 · 2026</span>
     </div>
     <div class="links">
+      <a href="/portfolio/">포트폴리오</a>
       <a href="/strategy/">전략</a>
       <a href="/research/">연구</a>
       <a href="/schedule/">주요일정</a>
@@ -346,7 +354,10 @@ footer .business-info{flex-basis:100%;padding-top:10px;border-top:1px solid var(
         <a class="chip" href="https://dongsoojung.github.io/stargate-ai-gallery/files/arch-001.html#card-mcp">Docker · MCP</a>
       </div>
       <div class="cta">
-        <a class="btn primary" href="/strategy/">
+        <a class="btn primary" href="/portfolio/">
+          ◈ 포트폴리오
+        </a>
+        <a class="btn ghost" href="/strategy/">
           ↗ 전략 인사이트
         </a>
         <a class="btn ghost" href="/research/">
@@ -377,8 +388,14 @@ footer .business-info{flex-basis:100%;padding-top:10px;border-top:1px solid var(
 
   <section class="sec" id="intelligence">
     <h2>STARGATE Intelligence</h2>
-    <div class="desc">기업·산업 분석과 도시·공간·경제 데이터 연구를 목적별 허브에서 탐색합니다.</div>
+    <div class="desc">포트폴리오·전략·연구를 목적별 허브에서 탐색합니다. 외부 링크용 URL은 포트폴리오 허브를 사용하세요.</div>
     <div class="hub-grid">
+      <a class="hub-card portfolio" href="/portfolio/">
+        <div class="hub-kicker">Selected Works</div>
+        <h3>포트폴리오</h3>
+        <p>AI 제품·교육·연구·데이터 대표 작업물을 카테고리별로 선별한 공개 포트폴리오입니다.</p>
+        <div class="hub-meta"><span>제품·교육·연구·데이터 · 24개 작품</span><b>포트폴리오 →</b></div>
+      </a>
       <a class="hub-card strategy" href="/strategy/">
         <div class="hub-kicker">Strategy Intelligence</div>
         <h3>전략 인사이트</h3>
@@ -397,7 +414,7 @@ footer .business-info{flex-basis:100%;padding-top:10px;border-top:1px solid var(
 
   <section class="sec" id="projects">
     <h2>프로젝트 · Projects</h2>
-    <div class="desc">공개 가능한 산출물 모음. 클릭하면 각 프로젝트 페이지로 이동합니다.</div>
+    <div class="desc">공개 가능한 산출물 모음. 클릭하면 각 프로젝트 페이지로 이동합니다. 외부 공유용 선별본은 <a href="/portfolio/">포트폴리오</a>를 사용하세요.</div>
     <div class="project-toggle-row">
       <button class="project-toggle" id="project-visibility-toggle" type="button" aria-expanded="false" aria-controls="projects-grid">
         <span aria-hidden="true">▾</span><span>숨긴 프로젝트 보기</span>
@@ -711,6 +728,7 @@ footer .business-info{flex-basis:100%;padding-top:10px;border-top:1px solid var(
         <h3>연락 / 링크</h3>
         <ul>
           <li>Email: <a href="mailto:jds068888@gmail.com">jds068888@gmail.com</a></li>
+          <li>포트폴리오: <a href="/portfolio/">www.stargateedu.co.kr/portfolio/</a></li>
           <li>GitHub: <a href="https://github.com/DongsooJung" target="_blank" rel="noopener">github.com/DongsooJung</a></li>
           <li>Gallery: <a href="https://dongsoojung.github.io/stargate-ai-gallery/">stargate-ai-gallery</a></li>
           <li>포털 소스: <a href="https://github.com/DongsooJung/dongsoojung.github.io" target="_blank" rel="noopener">github.com/DongsooJung/dongsoojung.github.io</a></li>
