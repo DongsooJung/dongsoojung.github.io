@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>공공 API 관측소 | STARGATE Research</title>
+  <meta name="description" content="LH·국토부·조달청·금융위원회·법원경매 등 공공 API로 수집하는 STARGATE 연구 하위 대시보드.">
+  <meta name="theme-color" content="#080c14" data-light-color="#f5f7fb" data-dark-color="#080c14">
+  <link rel="canonical" href="https://www.stargateedu.co.kr/research/api/">
+  <script src="/assets/theme-boot.js"></script>
+  <link rel="stylesheet" href="/assets/intelligence-hub.css?v=20260729c">
+</head>
+<body class="research">
+  <div class="wrap">
+    <nav class="nav" aria-label="주요 메뉴">
+      <a class="brand" href="/"><span class="logo">D</span><span>DONGSOO.<span style="color:var(--accent)">PORTAL</span><small>INTELLIGENCE</small></span></a>
+      <div class="nav-links">
+        <a href="/strategy/">전략</a>
+        <a href="/research/" aria-current="page">연구 대시보드</a>
+        <a href="/#projects">전체 프로젝트</a>
+        <a href="/#about">About</a>
+      </div>
+      <div class="nav-end">
+        <button class="theme-toggle" type="button" data-theme-toggle aria-pressed="false" aria-label="화이트 모드로 전환">
+          <span class="icon" data-theme-icon aria-hidden="true">☀️</span>
+          <span data-theme-label>화이트</span>
+        </button>
+        <a class="back" href="/research/">← 연구</a>
+      </div>
+    </nav>
+
+    <header class="hero">
+      <div>
+        <div class="eyebrow">Research · Public API</div>
+        <h1>공공 API<br>관측소</h1>
+        <p>연구 대시보드의 하위 허브입니다. LH·국토부·조달·금융위·법원경매 등 API로 수집·저장하는 관측 도구를 모았습니다.</p>
+        <div class="hero-actions">
+          <a class="btn primary" href="#api-list">API 대시보드 보기 →</a>
+          <a class="btn" href="/research/">전체 연구 허브</a>
+        </div>
+      </div>
+      <div class="stats" aria-label="공공 API 현황">
+        <div class="stat"><strong>7</strong><span>API 수집 대시보드</span></div>
+        <div class="stat"><strong>LIVE</strong><span>조회·저장·탐색</span></div>
+        <div class="stat"><strong>/api</strong><span>서버 프록시 연동</span></div>
+      </div>
+    </header>
+
+    <main>
+      <section class="section" id="api-list" aria-labelledby="api-list-title">
+        <div class="section-head">
+          <div><h2 id="api-list-title">하위 대시보드</h2><p>공공데이터·OpenAPI를 호출해 화면에서 바로 조회하거나 Supabase에 적재합니다.</p></div>
+          <a class="switch-link" href="/research/#api-observatory">연구 허브에서 보기 →</a>
+        </div>
+        <div class="grid">
+          <a class="project" href="/lh-sale-info/">
+            <div class="visual" style="--visual:radial-gradient(circle at 22% 18%,rgba(181,106,58,.5),transparent 52%),radial-gradient(circle at 82% 78%,rgba(61,74,92,.35),transparent 50%),linear-gradient(145deg,#171b22,#3d4a5c)">⌂</div>
+            <div class="project-body">
+              <div class="meta"><span class="pill accent">API</span><span class="pill">LH · Supabase</span></div>
+              <h3>LH 분양정보 관측소</h3>
+              <p>LH 분양임대공고문을 30건씩 조회하고 Supabase에 upsert합니다.</p>
+              <div class="project-footer"><span>한국토지주택공사 · data.go.kr</span><b>열기 →</b></div>
+            </div>
+          </a>
+          <a class="project" href="/hwaseong-real-estate/">
+            <div class="visual" style="--visual:radial-gradient(circle at 78% 24%,rgba(217,255,67,.4),transparent 54%),linear-gradient(145deg,#193c29,#0c2115)">🏙️</div>
+            <div class="project-body">
+              <div class="meta"><span class="pill accent">API</span><span class="pill">국토부</span></div>
+              <h3>화성 실거래 데이터 허브</h3>
+              <p>화성시 아파트 매매 실거래를 100건씩 탐색하고 CSV로 저장합니다.</p>
+              <div class="project-footer"><span>국토교통부 RTMS</span><b>열기 →</b></div>
+            </div>
+          </a>
+          <a class="project" href="/court-auction/">
+            <div class="visual" style="--visual:radial-gradient(circle at 20% 20%,rgba(79,127,255,.5),transparent 60%),radial-gradient(circle at 80% 80%,rgba(255,184,107,.4),transparent 60%),linear-gradient(145deg,#0d1426,#1a2540)">🏛️</div>
+            <div class="project-body">
+              <div class="meta"><span class="pill accent">API</span><span class="pill">Court</span></div>
+              <h3>법원경매 부동산 대시보드</h3>
+              <p>주택·상업용 경매 물건을 월별 수집해 필터와 감정가 분포로 탐색합니다.</p>
+              <div class="project-footer"><span>법원경매정보</span><b>열기 →</b></div>
+            </div>
+          </a>
+          <a class="project" href="/public-data-collector/">
+            <div class="visual" style="--visual:radial-gradient(circle at 22% 24%,rgba(15,122,104,.5),transparent 60%),radial-gradient(circle at 80% 80%,rgba(226,164,75,.28),transparent 60%),linear-gradient(145deg,#0d1b1a,#16302d)">📥</div>
+            <div class="project-body">
+              <div class="meta"><span class="pill accent">API</span><span class="pill">Collector</span></div>
+              <h3>공공데이터 수집 기록소</h3>
+              <p>부동산·상권·기상 API를 수집해 CSV로 변환하고 Supabase Storage에 저장합니다.</p>
+              <div class="project-footer"><span>data.go.kr · Supabase</span><b>열기 →</b></div>
+            </div>
+          </a>
+          <a class="project" href="/bid-pblanc-cnstwk/">
+            <div class="visual" style="--visual:radial-gradient(circle at 22% 18%,rgba(226,162,74,.5),transparent 52%),radial-gradient(circle at 82% 78%,rgba(61,184,154,.28),transparent 50%),linear-gradient(145deg,#0b1218,#16222d)">▣</div>
+            <div class="project-body">
+              <div class="meta"><span class="pill accent">API</span><span class="pill">조달 · 공사</span></div>
+              <h3>나라장터 공사 입찰공고</h3>
+              <p>공사 입찰공고를 100건씩 조회·저장하고 발주·계약·추정가격을 탐색합니다.</p>
+              <div class="project-footer"><span>조달청 BidPublicInfo</span><b>열기 →</b></div>
+            </div>
+          </a>
+          <a class="project" href="/bid-pblanc-servc/">
+            <div class="visual" style="--visual:radial-gradient(circle at 24% 20%,rgba(61,184,154,.48),transparent 52%),radial-gradient(circle at 80% 78%,rgba(226,162,74,.28),transparent 50%),linear-gradient(145deg,#0b1218,#123230)">◇</div>
+            <div class="project-body">
+              <div class="meta"><span class="pill accent">API</span><span class="pill">조달 · 용역</span></div>
+              <h3>나라장터 용역 입찰공고</h3>
+              <p>용역 입찰공고를 100건씩 조회·저장합니다. 서버 저장 키로 인증합니다.</p>
+              <div class="project-footer"><span>조달청 Servc</span><b>열기 →</b></div>
+            </div>
+          </a>
+          <a class="project" href="/fsc-financial/">
+            <div class="visual" style="--visual:radial-gradient(circle at 22% 20%,rgba(62,201,167,.48),transparent 52%),radial-gradient(circle at 82% 78%,rgba(58,123,213,.35),transparent 50%),linear-gradient(145deg,#081820,#123246)">◎</div>
+            <div class="project-body">
+              <div class="meta"><span class="pill accent">API</span><span class="pill">Finance</span></div>
+              <h3>금융위원회 기업재무 대시보드</h3>
+              <p>요약재무제표를 100건씩 조회하고 매출·순이익·부채비율을 차트로 탐색합니다.</p>
+              <div class="project-footer"><span>금융위원회 · data.go.kr</span><b>열기 →</b></div>
+            </div>
+          </a>
+        </div>
+      </section>
+
+      <section class="cta-band">
+        <div><h2>도시·공간·경제 연구 전체 보기</h2><p>학원·선거·시각화·AI 도구까지 연구 허브에서 이어서 탐색하세요.</p></div>
+        <a class="btn primary" href="/research/">연구 대시보드 →</a>
+      </section>
+    </main>
+
+    <footer><span>© 2026 Dongsoo Jung · Stargate Corporation</span><span><a href="/research/">Research</a> · <a href="/">Portal</a></span></footer>
+  </div>
+  <script src="/assets/theme.js?v=20260729" defer></script>
+</body>
+</html>

@@ -7,13 +7,20 @@
   const empty = document.querySelector('[data-empty]');
   let active = 'all';
 
+  const categoriesOf = (card) =>
+    (card.dataset.category || '')
+      .split(/\s+/)
+      .map((item) => item.trim())
+      .filter(Boolean);
+
   const apply = () => {
     const query = (input?.value || '').trim().toLowerCase();
     const filtering = active !== 'all' || !!query;
     let visible = 0;
 
     cards.forEach((card) => {
-      const categoryMatch = active === 'all' || card.dataset.category === active;
+      const cats = categoriesOf(card);
+      const categoryMatch = active === 'all' || cats.includes(active);
       const textMatch = !query || card.textContent.toLowerCase().includes(query);
       card.hidden = !(categoryMatch && textMatch);
       if (!card.hidden) visible += 1;
