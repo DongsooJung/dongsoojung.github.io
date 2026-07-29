@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>크몽(Kmong) 실시간 시장 모니터링 대시보드</title>
+<meta name="theme-color" content="#0b1020">
+<link rel="manifest" href="/manifest.webmanifest">
+<link rel="icon" href="/assets/icons/favicon.ico" sizes="48x48">
+<link rel="apple-touch-icon" href="/assets/icons/apple-touch-icon.png">
+<meta name="description" content="크몽 카테고리별 인기 키워드, 첫페이지 강의(제목/강사/가격/평점), 강사 랭킹을 매일 자동 수집하여 보여주는 실시간 시장 모니터링 대시보드" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700;900&display=swap" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+</head>
+<body>
+<style>
+  :root {
+    --primary: #2563EB; --primary-light: #DBEAFE;
+    --secondary: #10B981; --secondary-light: #D1FAE5;
+    --accent: #F59E0B; --danger: #EF4444;
+    --bg: #F0F4FF; --card: #FFFFFF;
+    --text-main: #111827; --text-sub: #4B5563; --text-muted: #9CA3AF;
+    --border: #E5E7EB; --radius: 16px;
+    --shadow: 0 4px 24px rgba(37,99,235,0.08);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Noto Sans KR', sans-serif; background: var(--bg); color: var(--text-main); line-height: 1.7; }
+  .hero { background: linear-gradient(135deg, #1e3a8a 0%, #2563EB 50%, #0ea5e9 100%); color: #fff; padding: 72px 24px 48px; text-align: center; }
+  .hero-badge { display: inline-block; background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.3); border-radius: 100px; padding: 6px 18px; font-size: 13px; font-weight: 500; margin-bottom: 20px; }
+  .hero h1 { font-size: clamp(26px, 4.5vw, 46px); font-weight: 900; letter-spacing: -1px; line-height: 1.25; margin-bottom: 14px; }
+  .hero h1 span { color: #FCD34D; }
+  .hero p { font-size: clamp(14px, 2vw, 17px); opacity: 0.85; max-width: 640px; margin: 0 auto 20px; }
+  .hero-meta { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; font-size: 13px; opacity: 0.75; }
+  .container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+  section { padding: 48px 0; }
+  section:nth-child(even) { background: #fff; }
+  .section-label { font-size: 12px; font-weight: 700; letter-spacing: 2px; color: var(--primary); text-transform: uppercase; margin-bottom: 8px; }
+  .section-title { font-size: clamp(20px, 2.6vw, 28px); font-weight: 800; margin-bottom: 10px; letter-spacing: -0.5px; }
+  .section-desc { font-size: 14.5px; color: var(--text-sub); max-width: 680px; margin-bottom: 28px; }
+</style>
+<style>
+  .kpi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 18px; margin-bottom: 8px; }
+  .kpi-card { background: var(--card); border-radius: var(--radius); padding: 24px 22px; box-shadow: var(--shadow); border: 1px solid var(--border); position: relative; overflow: hidden; }
+  .kpi-card::after { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px; }
+  .kpi-card.blue::after { background: var(--primary); }
+  .kpi-card.green::after { background: var(--secondary); }
+  .kpi-card.amber::after { background: var(--accent); }
+  .kpi-label { font-size: 12px; font-weight: 600; color: var(--text-muted); letter-spacing: 0.5px; margin-bottom: 10px; }
+  .kpi-value { font-size: clamp(24px, 3.4vw, 34px); font-weight: 900; letter-spacing: -1px; }
+  .kpi-sub { font-size: 12px; color: var(--text-muted); margin-top: 6px; }
+  select { font-size: 14px; padding: 9px 14px; border: 1px solid var(--border); border-radius: 10px; background: #fff; color: var(--text-main); min-width: 220px; }
+  .kw-pill-wrap { display: flex; flex-wrap: wrap; gap: 8px; }
+  .kw-pill { display: inline-flex; align-items: center; gap: 8px; background: var(--primary-light); color: #1e40af; border-radius: 100px; padding: 7px 14px; font-size: 13.5px; font-weight: 500; }
+  .kw-rank { font-weight: 800; font-size: 11px; background: var(--primary); color: #fff; border-radius: 100px; width: 18px; height: 18px; display: inline-flex; align-items: center; justify-content: center; }
+  .badge { display: inline-flex; align-items: center; gap: 4px; padding: 3px 10px; border-radius: 100px; font-size: 11.5px; font-weight: 700; }
+  .badge-green { background: var(--secondary-light); color: #065F46; }
+  .badge-red { background: #FEE2E2; color: #991B1B; }
+  .badge-blue { background: var(--primary-light); color: #1e40af; }
+  .badge-gray { background: #F3F4F6; color: #6B7280; }
+</style>
+<style>
+  .card { background: var(--card); border-radius: var(--radius); padding: 24px; box-shadow: var(--shadow); border: 1px solid var(--border); margin-bottom: 20px; }
+  .card-head { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; margin-bottom: 16px; }
+  .card-title { font-size: 15px; font-weight: 700; }
+  .table-wrap { overflow-x: auto; }
+  table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+  thead { background: linear-gradient(90deg, #1e3a8a, #2563EB); }
+  thead th { color: #fff; font-weight: 600; padding: 11px 14px; text-align: left; white-space: nowrap; }
+  tbody tr { border-bottom: 1px solid var(--border); }
+  tbody tr:last-child { border-bottom: none; }
+  tbody tr:hover { background: #F8FAFF; }
+  tbody td { padding: 10px 14px; vertical-align: middle; }
+  tbody td a { color: var(--primary); text-decoration: none; font-weight: 600; }
+  tbody td a:hover { text-decoration: underline; }
+  .chart-wrap { position: relative; height: 320px; }
+  .muted { color: var(--text-muted); font-size: 12.5px; }
+  .loading { padding: 24px; text-align: center; color: var(--text-muted); font-size: 13.5px; }
+  footer { background: #111827; color: #9CA3AF; text-align: center; padding: 28px 24px; font-size: 12.5px; }
+  footer strong { color: #E5E7EB; }
+  @media (max-width: 640px) { thead th, tbody td { padding: 8px 10px; font-size: 12.5px; } }
+</style>
+<div class="hero">
+  <div class="container">
+    <div class="hero-badge">🔴 매일 자동 수집 · Supabase 라이브</div>
+    <h1>크몽<span>(Kmong)</span> 실시간<br/>시장 모니터링 대시보드</h1>
+    <p>387개 전체 카테고리의 인기 검색 키워드와 첫페이지 강의(제목·강사·가격·평점)를 매일 자동 수집하여 보여줍니다.</p>
+    <div class="hero-meta" id="hero-meta">데이터 불러오는 중...</div>
+  </div>
+</div>
+
+<section>
+  <div class="container">
+    <div class="section-label">Overview</div>
+    <h2 class="section-title">오늘의 수집 현황</h2>
+    <p class="section-desc">매일 아침 카테고리 전체를 순회하며 첫페이지 강의와 인기 키워드를 갱신합니다.</p>
+    <div class="kpi-grid" id="kpi-grid">
+      <div class="kpi-card blue"><div class="kpi-label">최신 수집일</div><div class="kpi-value" id="kpi-date">-</div></div>
+      <div class="kpi-card green"><div class="kpi-label">수집 카테고리</div><div class="kpi-value" id="kpi-cats">-</div></div>
+      <div class="kpi-card amber"><div class="kpi-label">첫페이지 강의</div><div class="kpi-value" id="kpi-listings">-</div></div>
+      <div class="kpi-card blue"><div class="kpi-label">인기 키워드</div><div class="kpi-value" id="kpi-keywords">-</div></div>
+    </div>
+  </div>
+</section>
+<section>
+  <div class="container">
+    <div class="section-label">Keywords</div>
+    <h2 class="section-title">인기 키워드</h2>
+    <p class="section-desc">크몽 검색창에 노출되는 카테고리별 인기 검색어입니다.</p>
+
+    <div class="card">
+      <div class="card-head"><div class="card-title">사이트 전체 인기 키워드</div></div>
+      <div id="kw-global" class="loading">불러오는 중...</div>
+    </div>
+
+    <div class="card">
+      <div class="card-head">
+        <div class="card-title">카테고리별 인기 키워드</div>
+        <select id="kw-cat-select"></select>
+      </div>
+      <div id="kw-cat" class="loading">카테고리를 선택하세요</div>
+    </div>
+  </div>
+</section>
+<section>
+  <div class="container">
+    <div class="section-label">First page listings</div>
+    <h2 class="section-title">카테고리별 첫페이지 강의</h2>
+    <p class="section-desc">인기순 정렬 기준 첫페이지에 노출되는 강의의 제목, 강사, 가격, 평점입니다.</p>
+    <div class="card">
+      <div class="card-head">
+        <select id="ls-cat-select"></select>
+        <span class="muted" id="ls-summary"></span>
+      </div>
+      <div class="table-wrap">
+        <div id="ls-table" class="loading">카테고리를 선택하세요</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <div class="section-label">Category stats</div>
+    <h2 class="section-title">카테고리별 가격 · 리뷰 통계</h2>
+    <p class="section-desc">리뷰 수 기준 상위 카테고리의 평균가와 평점을 비교합니다.</p>
+    <div class="card">
+      <div class="card-title" style="margin-bottom:16px;">리뷰 수 상위 15개 카테고리 평균가</div>
+      <div class="chart-wrap"><canvas id="catChart"></canvas></div>
+    </div>
+    <div class="card">
+      <div class="card-title" style="margin-bottom:16px;">전체 카테고리 통계</div>
+      <div class="table-wrap"><div id="cat-table" class="loading">불러오는 중...</div></div>
+    </div>
+  </div>
+</section>
+<section>
+  <div class="container">
+    <div class="section-label">Sellers</div>
+    <h2 class="section-title">강사(판매자) 노출 랭킹</h2>
+    <p class="section-desc">여러 카테고리 첫페이지에 반복적으로 노출되는 강사(판매자) 순위입니다.</p>
+    <div class="card">
+      <div class="table-wrap"><div id="seller-table" class="loading">불러오는 중...</div></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <div class="section-label">Collection log</div>
+    <h2 class="section-title">최근 수집 실행 로그</h2>
+    <p class="section-desc">자동 수집 파이프라인(Supabase Edge Function + pg_cron)의 실행 이력입니다.</p>
+    <div class="card">
+      <div class="table-wrap"><div id="run-table" class="loading">불러오는 중...</div></div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>© 2026 <strong>Stargate Corporation</strong> · 데이터 출처: kmong.com 공개 API (매일 자동 수집)</p>
+  <p style="margin-top:6px;">본 페이지의 수치는 참고용이며 투자·사업 판단의 유일한 근거로 사용하지 마십시오.</p>
+</footer>
+<script>
+(function () {
+  var SUPABASE_URL = 'https://inftexpcnfinglwlrvsj.supabase.co';
+  var ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImluZnRleHBjbmZpbmdsd2xydnNqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzI5MTMyMzgsImV4cCI6MjA4ODQ4OTIzOH0.HONuULp0L3B5T0gTiwJMnowjJonJzzNHhUV_LtpDQoI';
+
+  async function rpc(fn, params) {
+    var res = await fetch(SUPABASE_URL + '/rest/v1/rpc/' + fn, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'apikey': ANON_KEY,
+        'Authorization': 'Bearer ' + ANON_KEY,
+      },
+      body: JSON.stringify(params || {}),
+    });
+    if (!res.ok) throw new Error(fn + ' 호출 실패 (' + res.status + ')');
+    return res.json();
+  }
+
+  function esc(s) {
+    return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+    });
+  }
+
+  function fmt(n) {
+    if (n === null || n === undefined) return '-';
+    var num = Number(n);
+    return Number.isNaN(num) ? String(n) : num.toLocaleString('ko-KR');
+  }
+
+  function deltaBadge(delta, isNew) {
+    if (isNew) return '<span class="badge badge-blue">신규</span>';
+    if (delta === null || delta === undefined) return '<span class="badge badge-gray">-</span>';
+    var d = Number(delta);
+    if (d > 0) return '<span class="badge badge-green">▲' + d + '</span>';
+    if (d < 0) return '<span class="badge badge-red">▼' + Math.abs(d) + '</span>';
+    return '<span class="badge badge-gray">-</span>';
+  }
+
+  function keywordPills(rows) {
+    if (!rows.length) return '<p class="muted">데이터 없음</p>';
+    return '<div class="kw-pill-wrap">' + rows.map(function (r) {
+      var delta = r.rank_delta !== undefined ? deltaBadge(r.rank_delta, r.prev_rank === null || r.prev_rank === undefined) : '';
+      return '<span class="kw-pill"><span class="kw-rank">' + r.rank + '</span>' + esc(r.keyword) + ' ' + delta + '</span>';
+    }).join('') + '</div>';
+  }
+
+  function renderTable(container, headers, rows) {
+    if (!rows.length) { container.innerHTML = '<p class="muted" style="padding:16px;">데이터 없음</p>'; return; }
+    var html = '<table><thead><tr>' + headers.map(function (h) { return '<th>' + h + '</th>'; }).join('') + '</tr></thead><tbody>';
+    html += rows.join('');
+    html += '</tbody></table>';
+    container.innerHTML = html;
+  }
+
+  async function loadOverview() {
+    var o = await rpc('kmong_get_overview');
+    document.getElementById('kpi-date').textContent = o.latest_date || '-';
+    document.getElementById('kpi-cats').textContent = fmt(o.category_count);
+    document.getElementById('kpi-listings').textContent = fmt(o.listing_count);
+    document.getElementById('kpi-keywords').textContent = fmt(o.keyword_count);
+    var r = o.last_run;
+    document.getElementById('hero-meta').innerHTML = r
+      ? ('<span>📅 최신 수집: ' + o.latest_date + '</span><span>⚙️ 상태: ' + r.status + ' (' + r.categories_ok + '/' + (Number(r.categories_ok) + Number(r.categories_failed)) + ')</span><span>⏱️ 소요: ' + r.duration_sec + '초</span>')
+      : '<span>수집 기록 없음</span>';
+  }
+
+  var categories = [];
+  async function loadCategories() {
+    categories = await rpc('kmong_get_categories');
+    var subs = categories.filter(function (c) { return String(c.depth) === '2'; });
+    var opts = subs.map(function (c) { return '<option value="' + esc(c.code) + '">' + esc(c.name) + '</option>'; }).join('');
+    document.getElementById('kw-cat-select').innerHTML = opts;
+    document.getElementById('ls-cat-select').innerHTML = opts;
+    if (subs.length) {
+      document.getElementById('kw-cat-select').value = subs[0].code;
+      document.getElementById('ls-cat-select').value = subs[0].code;
+      loadCategoryKeywords(subs[0].code);
+      loadCategoryListings(subs[0].code);
+    }
+  }
+
+  async function loadGlobalKeywords() {
+    var el = document.getElementById('kw-global');
+    try {
+      var rows = await rpc('kmong_get_category_keywords', { p_category_code: null, p_limit: 20 });
+      el.innerHTML = keywordPills(rows);
+    } catch (e) { el.innerHTML = '<p class="muted">불러오기 실패: ' + esc(e.message) + '</p>'; }
+  }
+
+  async function loadCategoryKeywords(code) {
+    var el = document.getElementById('kw-cat');
+    el.innerHTML = '<div class="loading">불러오는 중...</div>';
+    try {
+      var rows = await rpc('kmong_get_category_keywords', { p_category_code: code, p_limit: 20 });
+      el.innerHTML = keywordPills(rows);
+    } catch (e) { el.innerHTML = '<p class="muted">불러오기 실패: ' + esc(e.message) + '</p>'; }
+  }
+
+  async function loadCategoryListings(code) {
+    var el = document.getElementById('ls-table');
+    var summaryEl = document.getElementById('ls-summary');
+    el.innerHTML = '<div class="loading">불러오는 중...</div>';
+    summaryEl.textContent = '';
+    try {
+      var rows = await rpc('kmong_get_latest_listings', { p_category_code: code, p_limit: 40 });
+      if (rows.length) {
+        var avgPrice = Math.round(rows.reduce(function (s, r) { return s + (r.price || 0); }, 0) / rows.length);
+        summaryEl.textContent = '표시 ' + rows.length + '건 · 평균가 약 ' + fmt(avgPrice) + '원';
+      }
+      var trs = rows.map(function (r) {
+        return '<tr><td>' + r.rank + '</td><td>' + deltaBadge(r.rank_delta, r.is_new) + '</td>'
+          + '<td><a href="' + esc(r.url) + '" target="_blank" rel="noopener">' + esc(r.title) + '</a></td>'
+          + '<td>' + esc(r.seller || '-') + '</td><td>' + esc(r.seller_level || '-') + '</td>'
+          + '<td>' + esc(r.price_text || '-') + '</td><td>' + (r.rating || '-') + '</td><td>' + fmt(r.review_count) + '</td></tr>';
+      });
+      renderTable(el, ['순위', '변동', '제목', '강사', '레벨', '가격', '평점', '리뷰수'], trs);
+    } catch (e) { el.innerHTML = '<p class="muted">불러오기 실패: ' + esc(e.message) + '</p>'; }
+  }
+
+  async function loadCategoryStats() {
+    var el = document.getElementById('cat-table');
+    try {
+      var rows = await rpc('kmong_get_category_stats', { p_limit: 400 });
+      var trs = rows.map(function (r) {
+        return '<tr><td>' + esc(r.category_name) + '</td><td>' + fmt(r.listing_count) + '</td><td>' + fmt(r.avg_price) + '원</td>'
+          + '<td>' + fmt(r.median_price) + '원</td><td>' + (r.avg_rating || '-') + '</td><td>' + fmt(r.total_reviews) + '</td></tr>';
+      });
+      renderTable(el, ['카테고리', '수집건수', '평균가', '중앙값', '평균평점', '총 리뷰수'], trs);
+
+      var top15 = rows.slice(0, 15);
+      new Chart(document.getElementById('catChart'), {
+        type: 'bar',
+        data: {
+          labels: top15.map(function (r) { return r.category_name; }),
+          datasets: [{ label: '평균가(원)', data: top15.map(function (r) { return Math.round(r.avg_price || 0); }), backgroundColor: '#2563EB', borderRadius: 6 }]
+        },
+        options: {
+          responsive: true, maintainAspectRatio: false,
+          plugins: { legend: { display: false }, tooltip: { callbacks: { label: function (c) { return ' ' + c.raw.toLocaleString('ko-KR') + '원'; } } } },
+          scales: { y: { beginAtZero: true, ticks: { callback: function (v) { return v.toLocaleString('ko-KR'); } } }, x: { ticks: { maxRotation: 60, minRotation: 45, font: { size: 10.5 } } } }
+        }
+      });
+    } catch (e) { el.innerHTML = '<p class="muted">불러오기 실패: ' + esc(e.message) + '</p>'; }
+  }
+
+  async function loadSellers() {
+    var el = document.getElementById('seller-table');
+    try {
+      var rows = await rpc('kmong_get_seller_ranking', { p_limit: 100 });
+      var trs = rows.map(function (r) {
+        return '<tr><td>' + esc(r.seller) + '</td><td>' + fmt(r.exposure_count) + '</td><td>' + fmt(r.gig_count) + '</td>'
+          + '<td>' + fmt(r.category_count) + '</td><td>' + (r.avg_rank || '-') + '</td><td>' + fmt(r.avg_price) + '원</td>'
+          + '<td>' + (r.avg_rating || '-') + '</td><td>' + fmt(r.total_reviews) + '</td></tr>';
+      });
+      renderTable(el, ['강사', '노출횟수', '보유 강의', '진출 카테고리', '평균순위', '평균가', '평균평점', '총 리뷰수'], trs);
+    } catch (e) { el.innerHTML = '<p class="muted">불러오기 실패: ' + esc(e.message) + '</p>'; }
+  }
+
+  async function loadRuns() {
+    var el = document.getElementById('run-table');
+    try {
+      var rows = await rpc('kmong_get_run_summary', { p_limit: 30 });
+      var trs = rows.map(function (r) {
+        return '<tr><td>' + esc(r.started_at) + '</td><td>' + esc(r.status) + '</td><td>' + fmt(r.categories_ok) + '</td>'
+          + '<td>' + fmt(r.categories_failed) + '</td><td>' + fmt(r.listings_saved) + '</td><td>' + fmt(r.keywords_saved) + '</td><td>' + (r.duration_sec || '-') + '초</td></tr>';
+      });
+      renderTable(el, ['실행 일시', '상태', '성공', '실패', '강의 저장', '키워드 저장', '소요'], trs);
+    } catch (e) { el.innerHTML = '<p class="muted">불러오기 실패: ' + esc(e.message) + '</p>'; }
+  }
+
+  document.getElementById('kw-cat-select').addEventListener('change', function (e) {
+    if (e.target.value) loadCategoryKeywords(e.target.value);
+  });
+  document.getElementById('ls-cat-select').addEventListener('change', function (e) {
+    if (e.target.value) loadCategoryListings(e.target.value);
+  });
+
+  Chart.defaults.font.family = "'Noto Sans KR', sans-serif";
+  Chart.defaults.color = '#4B5563';
+
+  loadOverview().catch(function (e) { document.getElementById('hero-meta').textContent = '불러오기 실패: ' + e.message; });
+  loadCategories();
+  loadGlobalKeywords();
+  loadCategoryStats();
+  loadSellers();
+  loadRuns();
+})();
+</script>
+</body>
+</html>
