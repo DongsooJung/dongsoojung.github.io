@@ -3,13 +3,13 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>평택시 국회의원 선거구 · 읍면동 지도 — VWorld</title>
-<meta name="description" content="제22대 국회의원선거 기준 평택시 갑·을·병 선거구를 읍면동 단위로 확인하는 인터랙티브 지도. VWorld 행정구역 경계 기반." />
-<meta property="og:title" content="평택시 국회의원 선거구 · 읍면동 지도" />
-<meta property="og:description" content="평택시 갑·을·병 선거구를 읍면동 경계로 탐색하는 인터랙티브 지도" />
-<meta property="og:url" content="https://www.stargateedu.co.kr/pyeongtaek-election/" />
+<title>화성시 국회의원 선거구 · 읍면동 지도 — VWorld</title>
+<meta name="description" content="제22대 국회의원선거 기준 화성시 갑·을·병·정 4개 선거구를 읍면동 단위로 확인하는 인터랙티브 지도. VWorld 행정구역 경계 기반." />
+<meta property="og:title" content="화성시 국회의원 선거구 · 읍면동 지도" />
+<meta property="og:description" content="화성시 갑·을·병·정 4개 선거구를 읍면동 경계로 탐색하는 인터랙티브 지도" />
+<meta property="og:url" content="https://www.stargateedu.co.kr/hwaseong-election/" />
 <meta property="og:type" content="website" />
-<link rel="canonical" href="https://www.stargateedu.co.kr/pyeongtaek-election/" />
+<link rel="canonical" href="https://www.stargateedu.co.kr/hwaseong-election/" />
 <link rel="preconnect" href="https://cdn.jsdelivr.net" />
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.css" />
 <style>
@@ -27,6 +27,7 @@
     --gap:#2f8fff;
     --eul:#f0a23a;
     --byeong:#e35d7a;
+    --jeong:#3ec6b8;
     --map-h:min(72vh,720px);
   }
   *{box-sizing:border-box}
@@ -200,7 +201,7 @@
 </head>
 <body>
   <nav class="nav">
-    <div class="brand"><span class="mark">P</span><span>PYEONGTAEK <span style="color:var(--accent)">MAP</span></span></div>
+    <div class="brand"><span class="mark">H</span><span>HWASEONG <span style="color:var(--accent)">MAP</span></span></div>
     <div class="links">
       <a href="/research/">← 연구 대시보드</a>
       <a href="/pyeongtaek-election/">평택</a>
@@ -213,11 +214,11 @@
 
   <header>
     <p class="kicker">22nd National Assembly · VWorld boundaries</p>
-    <h1>평택시 국회의원 선거구 <em>읍면동</em> 지도</h1>
-    <p class="lead">제22대 국회의원선거 획정안 기준 갑·을·병 3개 선거구를 읍면동 경계로 나눠 봅니다. 지도에서 구역을 클릭하거나 왼쪽 목록으로 바로 이동할 수 있습니다.</p>
+    <h1>화성시 국회의원 선거구 <em>읍면동</em> 지도</h1>
+    <p class="lead">제22대 국회의원선거 획정안 기준 갑·을·병·정 4개 선거구를 읍면동 경계로 나눠 봅니다. 지도에서 구역을 클릭하거나 왼쪽 목록으로 바로 이동할 수 있습니다.</p>
     <div class="meta-row">
-      <span class="chip"><strong>3</strong> 선거구</span>
-      <span class="chip"><strong>25</strong> 읍면동</span>
+      <span class="chip"><strong>4</strong> 선거구</span>
+      <span class="chip"><strong>29</strong> 읍면동</span>
       <span class="chip">행정동 경계 · EPSG:4326</span>
       <span class="chip">NEC 선거구역 기준</span>
     </div>
@@ -234,7 +235,7 @@
       <div class="list" id="list" role="list"></div>
     </aside>
 
-    <section class="map-shell" aria-label="평택시 선거구 지도">
+    <section class="map-shell" aria-label="화성시 선거구 지도">
       <div id="map"></div>
       <div class="map-toolbar">
         <button class="pill-btn" id="btnFit" type="button">전체 보기</button>
@@ -252,37 +253,29 @@
   </div>
 
   <p class="note">
-    자료: 경기도선거관리위원회 평택시 국회의원 선거구(갑·을·병) 구역 · 읍면동 경계는 VWorld Data API(<code>LT_C_ADEMD_INFO</code>)를 우선 호출하고, 실패 시 캐시 GeoJSON을 사용합니다.
-    지도 타일은 VWorld Base → Carto Positron 순으로 폴백합니다. 키 도메인 등록이 필요할 수 있습니다.
+    자료: 중앙선거관리위원회 화성시 국회의원 선거구(갑·을·병·정) 구역 · 읍면동 경계는 VWorld Data API(<code>LT_C_ADEMD_INFO</code>)를 우선 호출하고, 실패 시 캐시 GeoJSON을 사용합니다.
+    지도 타일은 VWorld Base → Carto Positron 순으로 폴백합니다.
   </p>
 
 <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.js"></script>
 <script>
 const VWORLD_KEY = "6009C294-6D75-303C-A627-F8585ADBF867";
-// VWorld 콘솔에 등록된 서비스 도메인과 맞춥니다.
 const VWORLD_DOMAIN = location.hostname.includes("stargateedu.co.kr")
   ? "www.stargateedu.co.kr"
   : (location.hostname || "localhost");
 const LOCAL_GEOJSON = "./data/emd.geojson";
-const SGG_CODE = "41220";
+const EMD_PREFIXES = ["41591", "41593", "41595", "41597"];
+const CITY_NAME = "화성시";
+const FILTER_KEYS = ["all", "갑", "을", "병", "정"];
+const LEGEND_KEYS = ["갑", "을", "병", "정"];
+const MIN_FEATURES = 25;
 
 const DISTRICTS = {
   all: { label: "전체", color: "#8aa0b0", names: null },
-  갑: {
-    label: "평택시갑",
-    color: "#2f8fff",
-    names: ["진위면","서탄면","중앙동","서정동","송탄동","지산동","송북동","신장1동","신장2동","통복동","세교동"]
-  },
-  을: {
-    label: "평택시을",
-    color: "#f0a23a",
-    names: ["팽성읍","안중읍","포승읍","청북읍","고덕면","오성면","현덕면","고덕동"]
-  },
-  병: {
-    label: "평택시병",
-    color: "#e35d7a",
-    names: ["신평동","원평동","비전1동","비전2동","용이동","동삭동"]
-  }
+  "갑": { label: "화성시갑", color: "#2f8fff", names: ["우정읍", "향남읍", "남양읍", "매송면", "비봉면", "마도면", "송산면", "서신면", "팔탄면", "장안면", "양감면", "정남면", "새솔동"] },
+  "을": { label: "화성시을", color: "#f0a23a", names: ["동탄4동", "동탄6동", "동탄7동", "동탄8동", "동탄9동"] },
+  "병": { label: "화성시병", color: "#e35d7a", names: ["봉담읍", "진안동", "병점1동", "병점2동", "기배동", "화산동"] },
+  "정": { label: "화성시정", color: "#3ec6b8", names: ["반월동", "동탄1동", "동탄2동", "동탄3동", "동탄5동"] },
 };
 
 const nameToDistrict = {};
@@ -316,7 +309,7 @@ const map = L.map("map", {
   preferCanvas: true,
   minZoom: 9,
   maxZoom: 16
-}).setView([37.00, 127.10], 11);
+}).setView([37.1661, 126.8729], 10);
 
 const vworldBase = L.tileLayer(
   `https://xdworld.vworld.kr/2d/Base/service/{z}/{x}/{y}.png?apiKey=${VWORLD_KEY}`,
@@ -369,7 +362,7 @@ function enrichFeature(f) {
       emd_nm: name,
       emd_cd,
       district,
-      district_label: district === "미분류" ? "미분류" : `평택시${district}`
+      district_label: district === "미분류" ? "미분류" : `${CITY_NAME}${district}`
     }
   };
 }
@@ -384,15 +377,14 @@ function normalizeVworld(fc) {
       properties: {
         emd_nm: name,
         emd_cd: p.emd_cd || "",
-        sgg_nm: "평택시",
-        sgg_cd: SGG_CODE
+        sgg_nm: CITY_NAME
       }
     });
   }).filter((f) => f.properties.emd_nm && nameToDistrict[f.properties.emd_nm]);
   return { type: "FeatureCollection", features };
 }
 
-async function fetchVworldGeoJSON() {
+async function fetchVworldByPrefix(prefix) {
   const params = new URLSearchParams({
     service: "data",
     version: "2.0",
@@ -406,7 +398,7 @@ async function fetchVworldGeoJSON() {
     data: "LT_C_ADEMD_INFO",
     key: VWORLD_KEY,
     domain: VWORLD_DOMAIN,
-    attrFilter: `emd_cd:like:${SGG_CODE}`
+    attrFilter: `emd_cd:like:${prefix}`
   });
   const url = `https://api.vworld.kr/req/data?${params.toString()}`;
   const res = await fetch(url, { mode: "cors" });
@@ -421,6 +413,21 @@ async function fetchVworldGeoJSON() {
   return normalizeVworld(fc);
 }
 
+async function fetchVworldGeoJSON() {
+  const chunks = await Promise.all(EMD_PREFIXES.map((p) => fetchVworldByPrefix(p)));
+  const seen = new Set();
+  const features = [];
+  for (const fc of chunks) {
+    for (const f of fc.features) {
+      const key = f.properties.emd_cd || f.properties.emd_nm;
+      if (seen.has(key)) continue;
+      seen.add(key);
+      features.push(f);
+    }
+  }
+  return { type: "FeatureCollection", features };
+}
+
 async function fetchLocalGeoJSON() {
   const res = await fetch(LOCAL_GEOJSON);
   if (!res.ok) throw new Error(`local ${res.status}`);
@@ -432,12 +439,12 @@ async function fetchLocalGeoJSON() {
 }
 
 function renderFilters(geo) {
-  const counts = { all: geo.features.length, 갑: 0, 을: 0, 병: 0 };
+  const counts = { all: geo.features.length, "갑": 0, "을": 0, "병": 0, "정": 0 };
   for (const f of geo.features) {
     const d = f.properties.district;
     if (counts[d] != null) counts[d] += 1;
   }
-  el.filters.innerHTML = ["all", "갑", "을", "병"].map((key) => {
+  el.filters.innerHTML = FILTER_KEYS.map((key) => {
     const meta = DISTRICTS[key];
     const on = activeFilter === key ? "on" : "";
     return `<button type="button" data-key="${key}" class="${on}">
@@ -482,14 +489,14 @@ function renderList() {
 }
 
 function renderLegend() {
-  el.legend.innerHTML = ["갑", "을", "병"].map((k) =>
+  el.legend.innerHTML = LEGEND_KEYS.map((k) =>
     `<div><i style="background:${DISTRICTS[k].color}"></i>${DISTRICTS[k].label}</div>`
   ).join("");
 }
 
 function showInfo(props) {
   el.infoName.textContent = props.emd_nm;
-  el.infoMeta.textContent = `행정동 코드 ${props.emd_cd || "—"} · ${props.sgg_nm || "평택시"}`;
+  el.infoMeta.textContent = `행정동 코드 ${props.emd_cd || "—"} · ${props.sgg_nm || CITY_NAME}`;
   const color = (DISTRICTS[props.district] || DISTRICTS.all).color;
   el.infoBadges.innerHTML = `<span class="badge" style="border-color:${color};color:${color}">
     <span class="swatch" style="background:${color}"></span>${props.district_label}
@@ -569,7 +576,7 @@ async function loadBoundaries(preferVworld = true) {
   if (preferVworld) {
     try {
       const geo = await fetchVworldGeoJSON();
-      if (geo.features.length >= 20) {
+      if (geo.features.length >= MIN_FEATURES) {
         mountGeo(geo, "VWorld API");
         return;
       }
