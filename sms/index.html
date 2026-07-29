@@ -9,7 +9,7 @@
   <meta name="robots" content="noindex,nofollow">
   <link rel="canonical" href="https://stargateedu.co.kr/sms/">
   <script src="/assets/theme-boot.js"></script>
-  <link rel="stylesheet" href="/assets/intelligence-hub.css?v=20260729d">
+  <link rel="stylesheet" href="/assets/intelligence-hub.css?v=20260729e">
   <style>
     body.sms{--accent:#68e3b4;--accent2:#2ba876;--accent-soft:rgba(43,168,118,.13)}
     :root[data-theme="light"] body.sms{--accent:#0f9f6e;--accent2:#0b7a55;--accent-soft:rgba(15,159,110,.1)}
@@ -75,7 +75,16 @@
         <a href="/#projects">전체 프로젝트</a>
       </div>
       <div class="nav-end">
-        <button class="theme-toggle" type="button" data-theme-toggle aria-pressed="false" aria-label="화이트 모드로 전환">
+        <label class="theme-switch">
+          <span class="visually-hidden" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)">디자인 테마</span>
+          <select data-theme-select aria-label="디자인 테마 선택">
+            <option value="dark">다크</option>
+            <option value="light">화이트</option>
+            <option value="ocean">오션</option>
+            <option value="mono">모노</option>
+          </select>
+        </label>
+        <button class="theme-toggle" type="button" data-theme-toggle aria-pressed="false" aria-label="다음 디자인으로 전환">
           <span class="icon" data-theme-icon aria-hidden="true">☀️</span>
           <span data-theme-label>화이트</span>
         </button>
@@ -317,6 +326,6 @@
       checkApi();
     })();
   </script>
-  <script src="/assets/theme.js?v=20260729" defer></script>
+  <script src="/assets/theme.js?v=20260729e" defer></script>
 </body>
 </html>

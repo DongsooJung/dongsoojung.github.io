@@ -1,11 +1,20 @@
 (() => {
   const KEY = 'stargate-theme';
+  const THEMES = ['dark', 'light', 'ocean', 'mono'];
+  const META = {
+    dark: { label: '다크', icon: '🌙', color: '#0b1020', next: 'light' },
+    light: { label: '화이트', icon: '☀️', color: '#f6f8fc', next: 'ocean' },
+    ocean: { label: '오션', icon: '🌊', color: '#071a1f', next: 'mono' },
+    mono: { label: '모노', icon: '◼', color: '#f3f2ef', next: 'dark' },
+  };
   const root = document.documentElement;
+
+  const normalize = (theme) => (THEMES.includes(theme) ? theme : 'dark');
 
   const readSaved = () => {
     try {
       const saved = localStorage.getItem(KEY);
-      if (saved === 'light' || saved === 'dark') return saved;
+      if (THEMES.includes(saved)) return saved;
       const legacy = localStorage.getItem('reading-theme');
       if (legacy === 'light' || legacy === 'dark') return legacy;
     } catch (_) {}
@@ -16,27 +25,33 @@
     readSaved() || (matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
 
   const apply = (theme, { persist = false } = {}) => {
-    const current = theme === 'light' ? 'light' : 'dark';
+    const current = normalize(theme);
+    const metaInfo = META[current];
     root.dataset.theme = current;
     if (document.body) document.body.dataset.theme = current;
 
     const meta = document.querySelector('meta[name="theme-color"]');
     if (meta) {
-      const light = meta.dataset.lightColor || '#f6f8fc';
-      const dark = meta.dataset.darkColor || '#0b1020';
-      meta.content = current === 'light' ? light : dark;
+      const custom = meta.dataset[`${current}Color`];
+      meta.content = custom || metaInfo.color;
     }
 
     document.querySelectorAll('[data-theme-toggle]').forEach((btn) => {
-      const nextIsLight = current === 'dark';
+      const next = META[metaInfo.next];
       const icon = btn.querySelector('[data-theme-icon]');
       const label = btn.querySelector('[data-theme-label]');
-      if (icon) icon.textContent = nextIsLight ? '☀️' : '🌙';
-      if (label) label.textContent = nextIsLight ? '화이트' : '다크';
-      if (!label && !icon) btn.textContent = nextIsLight ? '☀️' : '🌙';
-      btn.setAttribute('aria-pressed', String(current === 'light'));
-      btn.setAttribute('aria-label', `${nextIsLight ? '화이트' : '다크'} 모드로 전환`);
-      btn.title = `${nextIsLight ? '화이트' : '다크'} 모드로 전환`;
+      if (icon) icon.textContent = next.icon;
+      if (label) label.textContent = next.label;
+      if (!label && !icon) btn.textContent = next.icon;
+      btn.setAttribute('aria-pressed', String(current === 'light' || current === 'mono'));
+      btn.setAttribute('aria-label', `${next.label} 디자인으로 전환 (현재 ${metaInfo.label})`);
+      btn.title = `현재 ${metaInfo.label} · 다음 ${next.label}`;
+      btn.dataset.themeCurrent = current;
+    });
+
+    document.querySelectorAll('[data-theme-select]').forEach((select) => {
+      if (select.value !== current) select.value = current;
+      select.setAttribute('aria-label', `디자인 테마 선택 (현재 ${metaInfo.label})`);
     });
 
     if (persist) {
@@ -54,7 +69,14 @@
 
   document.querySelectorAll('[data-theme-toggle]').forEach((btn) => {
     btn.addEventListener('click', () => {
-      apply(root.dataset.theme === 'light' ? 'dark' : 'light', { persist: true });
+      const current = normalize(root.dataset.theme);
+      apply(META[current].next, { persist: true });
+    });
+  });
+
+  document.querySelectorAll('[data-theme-select]').forEach((select) => {
+    select.addEventListener('change', () => {
+      apply(select.value, { persist: true });
     });
   });
 
@@ -62,5 +84,5 @@
     if (!readSaved()) apply(event.matches ? 'light' : 'dark');
   });
 
-  window.StargateTheme = { apply, resolve, KEY };
+  window.StargateTheme = { apply, resolve, KEY, THEMES, META };
 })();
