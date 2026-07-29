@@ -38,7 +38,7 @@
       agreeRefund: '환불규정에 동의합니다. (<a href="https://stargateedu.co.kr/refund/" target="_blank" rel="noopener">전문 보기</a>)',
       agreeSubscription: "정기결제(자동결제) 고지에 동의합니다. 매 결제 주기마다 동일 금액이 자동 청구되며, 해지 전까지 갱신됩니다.",
       subscriptionNote:
-        "본 상품은 정기결제(구독) 상품입니다. 첫 결제 후 선택한 주기(월/년)마다 자동 청구되며, 해지는 다음 결제일 전까지 이메일(ceo@stargateedu.co.kr) 또는 고객센터로 요청할 수 있습니다. 연 구독 중도 해지 시 연 구독가 기준 월할 정산 후 잔액을 환불합니다.",
+        "본 상품은 정기결제(구독) 상품입니다. 첫 결제 후 선택한 주기(월/년)마다 자동 청구되며, 해지는 다음 결제일 전까지 이메일(ceo@stargateedu.co.kr) 또는 고객센터로 요청할 수 있습니다. 연 구독 중도 해지 시 연 구독가 기준 일할(30일) 정산 후 잔액을 환불합니다.",
       types: { course: "온라인 강의", subscription: "구독", book: "교재", live: "라이브 과정", consulting: "컨설팅" },
       deliveries: {
         digital: "디지털 제공",
@@ -75,7 +75,7 @@
       agreeSubscription:
         "I agree to recurring billing. The same amount will be charged each billing cycle until cancellation.",
       subscriptionNote:
-        "This is a subscription product. After the first payment, billing renews automatically each month/year until you cancel via email (ceo@stargateedu.co.kr). Annual plans are refunded on a pro-rata monthly basis against the annual price.",
+        "This is a subscription product. After the first payment, billing renews automatically each month/year until you cancel via email (ceo@stargateedu.co.kr). Annual plans are refunded on a pro-rata daily basis against a 30-day cycle.",
       types: { course: "Online course", subscription: "Subscription", book: "Book", live: "Live program", consulting: "Consulting" },
       deliveries: {
         digital: "Digital access",

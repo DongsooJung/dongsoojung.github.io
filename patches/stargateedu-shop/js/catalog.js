@@ -32,7 +32,7 @@ window.STARGATE_CATALOG = Object.freeze({
   "problem-bank-annual": {
     name: { ko: "문제은행 연 구독", en: "Annual Problem Bank" },
     type: "subscription", billing: "annual", delivery: "digital", priceKRW: 390000,
-    accessPeriod: { ko: "결제 주기 12개월(갱신 시 연장)", en: "12 months per billing cycle" }
+    accessPeriod: { ko: "결제 주기 30일(갱신 시 연장)", en: "30 days per billing cycle" }
   },
   "mock-exam-monthly": {
     name: { ko: "월간 모의고사", en: "Monthly Mock Exams" },
