@@ -35,6 +35,10 @@
       if (filtering && groupVisible > 0) group.open = true;
     });
 
+    const visibleGroups = groups.filter((group) => !group.hidden);
+    groups.forEach((group) => group.classList.remove('has-divider-after'));
+    visibleGroups.slice(0, -1).forEach((group) => group.classList.add('has-divider-after'));
+
     if (count) count.textContent = `총 ${visible}개 콘텐츠`;
     if (empty) empty.classList.toggle('show', visible === 0);
   };
