@@ -57,7 +57,7 @@ window.STARGATE_CATALOG = Object.freeze({
   "algorithms-ebook-set": {
     name: { ko: "알고리즘 문제집 eBook 세트", en: "Algorithms Workbook eBook Set" },
     type: "book", billing: "one_time", delivery: "digital", priceKRW: 47600,
-    accessPeriod: { ko: "결제 완료일로부터 최대 3개월", en: "up to 3 months from payment" }
+    accessPeriod: { ko: "결제 완료일로부터 30일", en: "30 days from payment" }
   },
   "vacation-live-intensive": {
     name: { ko: "방학 집중 라이브특강 (4주)", en: "Vacation Live Intensive (4 Weeks)" },
