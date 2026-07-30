@@ -211,11 +211,12 @@ a{color:var(--acc); text-decoration:none} a:hover{text-decoration:underline}
 .sec .desc{color:var(--sub);font-size:13.5px;margin-bottom:18px;line-height:1.65}
 
 /* Intelligence hubs */
-.hub-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+.hub-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px}
 .hub-card{position:relative;overflow:hidden;border:1px solid var(--line2);border-radius:20px;padding:25px;
   background:linear-gradient(145deg,var(--panel2),var(--panel));min-height:225px;display:flex;flex-direction:column;
   transition:.18s transform,.18s border-color,.18s box-shadow}
 .hub-card::after{content:"";position:absolute;width:210px;height:210px;border-radius:50%;right:-75px;top:-95px;background:var(--glow);opacity:.6}
+.hub-card.cardnews{--hub:#b795ff;--glow:rgba(145,111,255,.22)}
 .hub-card.strategy{--hub:#ff9f5a;--glow:rgba(255,111,15,.18)}
 .hub-card.research{--hub:#73b7ff;--glow:rgba(52,120,246,.2)}
 .hub-card.portfolio{--hub:#5ad4a2;--glow:rgba(31,157,106,.2)}
@@ -304,6 +305,7 @@ footer .business-info{flex-basis:100%;padding-top:10px;border-top:1px solid var(
     <div class="links">
       <a href="/portfolio/">포트폴리오</a>
       <a href="/portfolio/blog/">블로그</a>
+      <a href="/cardnews/">카드뉴스</a>
       <a href="/strategy/">전략</a>
       <a href="/research/">연구</a>
       <a href="/schedule/">주요일정</a>
@@ -361,6 +363,9 @@ footer .business-info{flex-basis:100%;padding-top:10px;border-top:1px solid var(
         <a class="btn ghost" href="/strategy/">
           ↗ 전략 인사이트
         </a>
+        <a class="btn ghost" href="/cardnews/">
+          ◫ 카드뉴스
+        </a>
         <a class="btn ghost" href="/research/">
           ◉ 연구 대시보드
         </a>
@@ -391,6 +396,12 @@ footer .business-info{flex-basis:100%;padding-top:10px;border-top:1px solid var(
     <h2>STARGATE Intelligence</h2>
     <div class="desc">포트폴리오·전략·연구를 목적별 허브에서 탐색합니다. 외부 링크용 URL은 포트폴리오 허브를 사용하세요.</div>
     <div class="hub-grid">
+      <a class="hub-card cardnews" href="/cardnews/">
+        <div class="hub-kicker">Visual Briefing</div>
+        <h3>카드뉴스 매거진</h3>
+        <p>AI·교육·도시·비즈니스 핵심을 3분 안에 읽는 블로그형 카드뉴스 대시보드입니다.</p>
+        <div class="hub-meta"><span>AI·교육·도시·정책 · 8개 스토리</span><b>카드뉴스 →</b></div>
+      </a>
       <a class="hub-card portfolio" href="/portfolio/">
         <div class="hub-kicker">Selected Works</div>
         <h3>포트폴리오</h3>
