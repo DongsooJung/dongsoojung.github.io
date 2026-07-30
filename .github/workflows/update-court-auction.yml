@@ -1,0 +1,54 @@
+name: Update court auction data
+
+on:
+  workflow_dispatch:
+    inputs:
+      month:
+        description: "조회월 (YYYY-MM, 비우면 현재 월)"
+        required: false
+        type: string
+  schedule:
+    - cron: "15 22 * * 1-5"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: update-court-auction
+  cancel-in-progress: false
+
+jobs:
+  collect:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+          cache-dependency-path: court-auction/package-lock.json
+      - name: Install parser
+        working-directory: court-auction
+        run: npm ci --no-audit --no-fund
+      - name: Parse current court notices
+        working-directory: court-auction
+        env:
+          INPUT_MONTH: ${{ inputs.month }}
+        run: |
+          if [ -n "$INPUT_MONTH" ]; then
+            npm run collect -- --month="$INPUT_MONTH"
+          else
+            npm run collect -- --month=current
+          fi
+      - name: Commit changed live data
+        run: |
+          if git diff --quiet -- court-auction/data.json court-auction/data_commercial.json; then
+            echo "No data changes"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add court-auction/data.json court-auction/data_commercial.json
+          git commit -m "data: update court auction notices"
+          git push
