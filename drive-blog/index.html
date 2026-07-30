@@ -53,7 +53,11 @@
       <div class="eyebrow">DRIVE · PUBLIC KNOWLEDGE ARCHIVE</div>
       <h1>생각을 기록하고,<br><span>지식으로 연결합니다.</span></h1>
       <p>AI 교육, 수학·알고리즘, 데이터 분석, 스마트시티와 업무 자동화에 관한 STARGATE의 공개 연구 기록입니다.</p>
-      <div class="hero-actions"><a class="btn primary" href="#article">대표 글 읽기</a><a class="btn ghost" href="https://drive.google.com/drive/folders/18wK4G_-jzJHsLsvM3Ka5oWjrQChoK9Y4" target="_blank" rel="noopener">Google Drive 폴더</a></div>
+      <div class="hero-actions">
+        <a class="btn primary" href="#article">대표 글 읽기</a>
+        <a class="btn ghost" href="/portfolio/blog/">포트폴리오 블로그</a>
+        <a class="btn ghost" href="https://drive.google.com/drive/folders/18wK4G_-jzJHsLsvM3Ka5oWjrQChoK9Y4" target="_blank" rel="noopener">Google Drive 폴더</a>
+      </div>
     </div>
   </header>
   <main class="wrap">
@@ -68,6 +72,21 @@
           <div class="card-actions"><a class="btn dark" href="#article">웹에서 읽기</a><a class="btn" href="https://docs.google.com/document/d/18VgljsswrJXGJ_gL63z1QvsIWIoZvdWQuFTncueB1-A/edit" target="_blank" rel="noopener">Drive 원문 ↗</a></div>
         </section>
       </div>
+    </section>
+
+    <section class="sync" aria-labelledby="sync-title" style="margin-top:48px">
+      <div class="section-head">
+        <div>
+          <div class="eyebrow">GOOGLE DRIVE API</div>
+          <h2 id="sync-title">최신 목록 동기화</h2>
+          <p>Google 계정으로 연결하면 지정 공개 폴더의 최신 파일 메타데이터를 불러옵니다. Notion·Drive 통합 피드는 <a href="/portfolio/blog/" style="color:var(--gold);font-weight:800">포트폴리오 블로그</a>에서도 확인할 수 있습니다.</p>
+        </div>
+      </div>
+      <div style="display:flex;gap:12px;flex-wrap:wrap;align-items:center;margin-bottom:18px">
+        <button class="btn dark" id="drive-sync" type="button">Drive 연결 및 새로고침</button>
+        <span class="meta" id="drive-status" role="status">연결 대기</span>
+      </div>
+      <div class="cards" id="drive-results"></div>
     </section>
 
     <article id="article">
@@ -87,7 +106,83 @@
     </article>
 
   </main>
-  <footer>© 2026 Stargate Corp. · <a href="/">STARGATE EDU 메인</a></footer>
+  <footer>© 2026 Stargate Corp. · <a href="/portfolio/blog/">포트폴리오 블로그</a> · <a href="/">STARGATE EDU 메인</a></footer>
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
   <script src="/assets/theme.js?v=20260729" defer></script>
+  <script>
+    (() => {
+      const CLIENT_ID = '131457847918-38qti9ho3tan2vkenfvgmdfodn9g506c.apps.googleusercontent.com';
+      const FOLDER_ID = '18wK4G_-jzJHsLsvM3Ka5oWjrQChoK9Y4';
+      const button = document.getElementById('drive-sync');
+      const status = document.getElementById('drive-status');
+      const results = document.getElementById('drive-results');
+      let tokenClient;
+
+      const escapeHtml = (value) => String(value).replace(/[&<>"']/g, (char) => ({
+        '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;'
+      }[char]));
+      const typeLabel = (mime) => mime.includes('document') ? 'Google Docs'
+        : mime.includes('pdf') ? 'PDF'
+        : mime.includes('presentation') ? 'Slides'
+        : mime.includes('spreadsheet') ? 'Sheets'
+        : 'Drive 파일';
+
+      async function loadFiles(accessToken) {
+        const q = encodeURIComponent(`'${FOLDER_ID}' in parents and trashed = false`);
+        const fields = encodeURIComponent('files(id,name,mimeType,modifiedTime,webViewLink,description)');
+        const endpoint = `https://www.googleapis.com/drive/v3/files?q=${q}&orderBy=modifiedTime%20desc&pageSize=50&fields=${fields}`;
+        const response = await fetch(endpoint, {
+          headers: { Authorization: 'Bearer ' + accessToken },
+          cache: 'no-store',
+        });
+        if (!response.ok) throw new Error('Drive API ' + response.status);
+        const payload = await response.json();
+        const files = Array.isArray(payload.files) ? payload.files : [];
+        if (!files.length) {
+          results.innerHTML = '';
+          status.textContent = '표시할 공개 문서가 없습니다.';
+          return;
+        }
+        results.innerHTML = files.map((file) => {
+          const updated = file.modifiedTime
+            ? new Intl.DateTimeFormat('ko-KR', { dateStyle: 'medium', timeZone: 'Asia/Seoul' }).format(new Date(file.modifiedTime))
+            : '';
+          const url = file.webViewLink || ('https://drive.google.com/open?id=' + encodeURIComponent(file.id));
+          return '<section class="card"><span class="tag">' + escapeHtml(typeLabel(file.mimeType || '')) +
+            '</span><h3>' + escapeHtml(file.name) + '</h3><p>' +
+            escapeHtml(file.description || 'STARGATE 공개 Google Drive 문서') +
+            '</p><div class="meta">수정 ' + escapeHtml(updated) +
+            '</div><div class="card-actions"><a class="btn dark" href="' + escapeHtml(url) +
+            '" target="_blank" rel="noopener">원문 열기 ↗</a></div></section>';
+        }).join('');
+        status.textContent = files.length + '개 문서 동기화 완료';
+      }
+
+      button.addEventListener('click', () => {
+        if (!(window.google && google.accounts && google.accounts.oauth2)) {
+          status.textContent = 'Google 로그인 모듈을 불러오는 중입니다. 잠시 후 다시 시도해 주세요.';
+          return;
+        }
+        button.disabled = true;
+        status.textContent = 'Google 인증을 시작합니다.';
+        tokenClient ||= google.accounts.oauth2.initTokenClient({
+          client_id: CLIENT_ID,
+          scope: 'https://www.googleapis.com/auth/drive.metadata.readonly',
+          callback: async (response) => {
+            try {
+              if (response.error) throw new Error(response.error);
+              status.textContent = 'Drive 목록을 불러오는 중입니다.';
+              await loadFiles(response.access_token);
+            } catch (error) {
+              status.textContent = '동기화 실패: OAuth 허용 출처와 폴더 권한을 확인해 주세요.';
+            } finally {
+              button.disabled = false;
+            }
+          },
+        });
+        tokenClient.requestAccessToken({ prompt: 'consent' });
+      });
+    })();
+  </script>
 </body>
 </html>

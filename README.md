@@ -9,6 +9,8 @@
 
 - `index.html` — 포털 랜딩 페이지 (프로젝트 카드 그리드 + About)
 - `portfolio/` — 외부 링크용 선별 포트폴리오 허브 (`https://www.stargateedu.co.kr/portfolio/`)
+- `portfolio/blog/` — Notion API + Google Drive API 연동 포트폴리오 블로그
+- `api/portfolio-notion.js` — Notion 공개 글 라이브 프록시 (Vercel env: `NOTION_API_KEY`)
 - `404.html` — 커스텀 404
 - `CNAME` — 커스텀 도메인 `stargateedu.co.kr`
 - `manifest.webmanifest` / `sw.js` / `offline.html` / `assets/icons/` — PWA (앱 설치 요건)
