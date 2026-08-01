@@ -4,6 +4,7 @@ Google Trends 급상승(Trending Now) 검색어를 수집해 **상위 100개**�
 검색량·카테고리·연관어로 인터랙티브 시각화합니다.
 
 - 페이지: https://www.stargateedu.co.kr/google-trends/
+- 전략 허브: https://www.stargateedu.co.kr/strategy/ (상호 링크)
 - 라이브 API: `/api/google-trends?geo=KR&hours=48&limit=100`
 - 원본: [trends.google.com/trending](https://trends.google.com/trending?geo=KR)
 
