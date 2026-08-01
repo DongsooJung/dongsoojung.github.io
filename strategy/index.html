@@ -45,13 +45,14 @@
         <p>공식 공시와 IR 자료를 기반으로 기업의 성장성·수익성·사업모델을 분석합니다. 개별 재무 수치를 넘어 전략적 전환점과 다음 질문까지 연결합니다.</p>
         <div class="hero-actions">
           <a class="btn primary" href="#reports">전략 보고서 보기 →</a>
+          <a class="btn" href="/google-trends/">Google Trends TOP 100</a>
           <a class="btn" href="/onenote-notion-status/">OneNote · Notion 상태판</a>
           <a class="btn" href="/dart-top100/">OpenDART TOP 100</a>
           <a class="btn" href="/research/">연구 대시보드로 이동</a>
         </div>
       </div>
       <div class="stats" aria-label="전략 허브 현황">
-        <div class="stat"><strong>12</strong><span>기업·산업·AI 프로젝트</span></div>
+        <div class="stat"><strong>13</strong><span>기업·산업·AI 프로젝트</span></div>
         <div class="stat"><strong>3</strong><span>로컬 서비스 플랫폼</span></div>
         <div class="stat"><strong>2022–25</strong><span>주요 분석 기간</span></div>
       </div>
@@ -87,6 +88,7 @@
               <tr><td>혁신의 숲</td><td>스타트업 성장 데이터</td><td>기업별 매출액, 고용인원, 상대 규모</td><td>기업 20곳 비교 대시보드</td></tr>
               <tr><td>출판시장</td><td>콘텐츠·교육 산업</td><td>기업별 매출, 이익률, 시장규모</td><td>2025 산업 대시보드</td></tr>
               <tr><td>국민 소비</td><td>카드 결제·소비시장</td><td>월별 지수, 업종별 증감, 카드사 비교</td><td>KB국민·신한 소비 대시보드</td></tr>
+              <tr><td>Google Trends</td><td>급상승 검색·관심도</td><td>검색량 TOP 100, 카테고리, 연관어</td><td>인터랙티브 트렌드 대시보드</td></tr>
               <tr><td>월부(교육)</td><td>온라인 재테크·부동산 교육</td><td>강의 라인업, 개설 주기, 가격·평점</td><td>일일 자동 수집 트래커</td></tr>
               <tr><td>클래스101(교육)</td><td>구독형 온라인 클래스 플랫폼</td><td>공개 추천 라인업, 크리에이터, 카테고리·섹션 노출</td><td>고유 클래스 기준 일일 아카이브</td></tr>
               <tr><td>인프런(교육)</td><td>온라인 직무·기술 교육</td><td>인기 강의, 강사, 가격·평점, 게시일</td><td>상위 100개 일일 아카이브</td></tr>
@@ -99,7 +101,10 @@
       <section class="section" id="reports" aria-labelledby="reports-title">
         <div class="section-head">
           <div><h2 id="reports-title">전략 보고서</h2><p>기업재무와 산업 데이터를 의사결정 관점으로 재구성한 분석입니다.</p></div>
-          <a class="switch-link" href="/research/">연구 대시보드 보기 →</a>
+          <div style="display:flex;gap:14px;flex-wrap:wrap;align-items:center">
+            <a class="switch-link" href="/google-trends/">Google Trends TOP 100 →</a>
+            <a class="switch-link" href="/research/">연구 대시보드 보기 →</a>
+          </div>
         </div>
         <div class="toolbar">
           <div class="filters" role="group" aria-label="전략 보고서 필터">
@@ -177,10 +182,19 @@
 
           <details class="card-group" data-card-group>
             <summary class="card-group-summary">
-              <span class="card-group-title"><strong>산업·시장 · AI 도구</strong><span>스타트업·소비·공시·출판과 운영 도구</span></span>
-              <span class="card-group-meta"><span data-group-count>6개</span><span class="chevron" aria-hidden="true"></span></span>
+              <span class="card-group-title"><strong>산업·시장 · AI 도구</strong><span>트렌드·스타트업·소비·공시·출판과 운영 도구</span></span>
+              <span class="card-group-meta"><span data-group-count>7개</span><span class="chevron" aria-hidden="true"></span></span>
             </summary>
             <div class="grid">
+              <a class="project" href="/google-trends/" data-card data-category="industry">
+                <div class="visual" style="--visual:radial-gradient(circle at 22% 18%,rgba(91,156,255,.5),transparent 52%),radial-gradient(circle at 82% 78%,rgba(62,201,167,.32),transparent 48%),linear-gradient(145deg,#0a1220,#152a45)">📈</div>
+                <div class="project-body">
+                  <div class="meta"><span class="pill accent">Trends</span><span class="pill">Daily · TOP 100</span></div>
+                  <h3>Google Trends 상위 100</h3>
+                  <p>급상승 검색어 상위 100개의 검색량·카테고리·연관어를 인터랙티브로 분석해 시장 관심 시그널을 포착합니다.</p>
+                  <div class="project-footer"><span>Google Trends · Chart.js</span><b>대시보드 →</b></div>
+                </div>
+              </a>
               <a class="project" href="/strategy/innoforest/" data-card data-category="industry">
                 <div class="visual" style="--visual:radial-gradient(circle at 24% 20%,rgba(85,223,154,.54),transparent 54%),linear-gradient(145deg,#071b14,#123d2b)">🌲</div>
                 <div class="project-body">
