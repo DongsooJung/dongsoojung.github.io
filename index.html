@@ -218,6 +218,7 @@ a{color:var(--acc); text-decoration:none} a:hover{text-decoration:underline}
 .hub-card::after{content:"";position:absolute;width:210px;height:210px;border-radius:50%;right:-75px;top:-95px;background:var(--glow);opacity:.6}
 .hub-card.cardnews{--hub:#b795ff;--glow:rgba(145,111,255,.22)}
 .hub-card.strategy{--hub:#ff9f5a;--glow:rgba(255,111,15,.18)}
+.hub-card.bidpilot{--hub:#58d19a;--glow:rgba(44,181,124,.2)}
 .hub-card.research{--hub:#73b7ff;--glow:rgba(52,120,246,.2)}
 .hub-card.portfolio{--hub:#5ad4a2;--glow:rgba(31,157,106,.2)}
 :root[data-theme="light"] .hub-card.portfolio{--hub:#0f8a5f;--glow:rgba(15,138,95,.14)}
@@ -307,6 +308,7 @@ footer .business-info{flex-basis:100%;padding-top:10px;border-top:1px solid var(
       <a href="/portfolio/blog/">블로그</a>
       <a href="/cardnews/">카드뉴스</a>
       <a href="/strategy/">전략</a>
+      <a href="/bidpilot/">AI 수주</a>
       <a href="/research/">연구</a>
       <a href="/schedule/">주요일정</a>
       <a href="/faq/">FAQ</a>
@@ -366,6 +368,9 @@ footer .business-info{flex-basis:100%;padding-top:10px;border-top:1px solid var(
         <a class="btn ghost" href="/strategy/">
           ↗ 전략 인사이트
         </a>
+        <a class="btn ghost" href="/bidpilot/">
+          ◎ AI 수주 대시보드
+        </a>
         <a class="btn ghost" href="/cardnews/">
           ◫ 카드뉴스
         </a>
@@ -415,7 +420,13 @@ footer .business-info{flex-basis:100%;padding-top:10px;border-top:1px solid var(
         <div class="hub-kicker">Strategy Intelligence</div>
         <h3>전략 인사이트</h3>
         <p>당근·숨고·크몽 등 플랫폼 기업의 매출·영업이익과 산업·시장 데이터를 의사결정 관점으로 분석합니다.</p>
-        <div class="hub-meta"><span>기업·플랫폼·산업·AI · 13개 프로젝트</span><b>전략 허브 →</b></div>
+        <div class="hub-meta"><span>기업·플랫폼·산업·AI · 14개 프로젝트</span><b>전략 허브 →</b></div>
+      </a>
+      <a class="hub-card bidpilot" href="/bidpilot/">
+        <div class="hub-kicker">AI Business Development</div>
+        <h3>BidPilot · AI 수주 전략</h3>
+        <p>주식회사 별의문의 대표성과, 위시켓 프로젝트 매칭, 제안 우선순위와 수주 파이프라인을 한 화면에서 관리합니다.</p>
+        <div class="hub-meta"><span>포트폴리오 · 매칭 · 제안 · 계약</span><b>대시보드 →</b></div>
       </a>
       <a class="hub-card research" href="/research/">
         <div class="hub-kicker">Research Observatory</div>
@@ -447,6 +458,16 @@ footer .business-info{flex-basis:100%;padding-top:10px;border-top:1px solid var(
           <div class="ttl">STARGATE 본사 · 주식회사 별의문</div>
           <div class="sub">AI · 공간계량 · 도시공학 컴퍼니 본사. 헤더로 본사·블로그·쇼핑몰 3사이트 통합 네비게이션.</div>
           <div class="row"><span class="tag">Corp Site · 3-Site Nav</span><span class="go">열기 →</span></div>
+        </div>
+      </a>
+
+      <a class="proj" href="/bidpilot/">
+        <div class="badge">AI BIZ · NEW</div>
+        <div class="thumb" style="background:radial-gradient(300px 150px at 25% 25%,rgba(58,190,132,.42),transparent 60%),linear-gradient(135deg,#071b2a,#123e42)"><span class="emo">◎</span></div>
+        <div class="body">
+          <div class="ttl">BidPilot · AI 소프트웨어 수주 전략</div>
+          <div class="sub">주식회사 별의문의 대표성과·위시켓 프로젝트 매칭·제안 우선순위·계약 파이프라인 대시보드.</div>
+          <div class="row"><span class="tag">AI Business · Wishket · Pipeline</span><span class="go">열기 →</span></div>
         </div>
       </a>
 
