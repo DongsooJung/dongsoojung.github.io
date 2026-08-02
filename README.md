@@ -7,13 +7,12 @@
 
 ## 구성
 
-- `index.html` — 포털 랜딩 페이지 (노션 블로그 피드 + 프로젝트 카드 그리드 + About)
+- `index.html` — 포털 랜딩 페이지 (프로젝트 카드 그리드 + About)
 - `portfolio/` — 외부 링크용 선별 포트폴리오 허브 (`https://www.stargateedu.co.kr/portfolio/`)
 - `portfolio/blog/` — Notion API + Google Drive API 연동 포트폴리오 블로그
 - `api/portfolio-notion.js` — Notion 공개 글 라이브 프록시 (Vercel env: `NOTION_API_KEY`)
-- `blog/` — 홈 "최신 글" 피드용 노션 파이프라인 (포트폴리오 블로그와 별개 DB)
-  - `sync_notion_blog.py` — 노션 「📰 포털 블로그 포스트」 DB에서 상태=발행 글을 읽어 `posts.json` 생성
-  - `posts.json` — 홈 피드가 렌더링하는 데이터 (Actions가 자동 커밋)
+- `blog/` — [blog.stargateedu.co.kr/posts/](https://blog.stargateedu.co.kr/posts/) 리디렉션
+  (노션 블로그는 2026-08 에 blog 서브도메인 [stargate-blog-hub](https://github.com/DongsooJung/stargate-blog-hub) 로 이전)
 - `404.html` — 커스텀 404
 - `CNAME` — 커스텀 도메인 `stargateedu.co.kr`
 - `manifest.webmanifest` / `sw.js` / `offline.html` / `assets/icons/` — PWA (앱 설치 요건)
@@ -27,23 +26,6 @@
 ```powershell
 Start-Process "index.html"
 ```
-
-## 노션 블로그 발행
-
-홈 상단 "최신 글 · Notion Blog" 피드는 노션에서 바로 발행합니다.
-
-1. 노션 「📰 포털 블로그 포스트」 DB(🌐 홈페이지 & 블로그 대시보드 하위)에 글 작성
-   - 속성: 제목 · 요약 · 카테고리(교육·입시/AI·테크/창업·경영/도시·연구/출판·서평/공지) · 발행일 · 외부링크(선택)
-2. **상태**를 `발행`으로 변경
-3. 매일 KST 03:00 자동 반영 — 즉시 반영하려면 Actions에서 `Update Notion blog posts` 수동 실행
-
-### 최초 1회 설정
-
-1. [notion.so/my-integrations](https://www.notion.so/my-integrations)에서 내부 통합 생성 → 시크릿 복사
-2. 노션에서 해당 DB 열기 → `⋯` → 연결(Connections) → 만든 통합 추가
-3. 저장소 Secrets에 `NOTION_TOKEN` 등록 (DB 변경 시 `NOTION_DATABASE_ID` 추가)
-
-> 독서 기록(`/reading/`)의 Notion 연동과는 별개 DB·워크플로입니다.
 
 ## SOLAPI 고객 문자 발송
 
