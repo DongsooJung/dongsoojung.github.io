@@ -1,0 +1,14 @@
+{
+  "name": "stargate-court-auction-collector",
+  "private": true,
+  "version": "2.0.0",
+  "description": "대한민국법원 매각공고 파싱 기반 경매 대시보드 데이터 수집기",
+  "type": "module",
+  "scripts": {
+    "collect": "node collect.mjs",
+    "collect:current": "node collect.mjs --month=current"
+  },
+  "dependencies": {
+    "court-auction-notice-search": "0.3.3"
+  }
+}

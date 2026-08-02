@@ -1,0 +1,838 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Google Trends 상위 100 · 급상승 검색어 대시보드 | STARGATE</title>
+<meta name="description" content="Google Trends 급상승 검색어 상위 100개를 검색량·카테고리·연관어로 인터랙티브 분석하는 대시보드.">
+<meta property="og:title" content="Google Trends 상위 100 분석 대시보드">
+<meta property="og:description" content="급상승 검색어 TOP 100 · 검색량 막대 · 카테고리 분포 · 연관 검색어 탐색">
+<meta property="og:url" content="https://www.stargateedu.co.kr/google-trends/">
+<meta property="og:type" content="website">
+<link rel="canonical" href="https://www.stargateedu.co.kr/google-trends/">
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+<link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" rel="stylesheet">
+<style>
+:root{
+  --bg:#0a1018; --panel:#101a28; --panel2:#152235;
+  --line:#1e3048; --line2:#2a4462;
+  --ink:#e8eef6; --sub:#9aadc2; --muted:#6d8199;
+  --acc:#5b9cff; --acc2:#3ec9a7; --gold:#d4a843; --rose:#e07a7a;
+  --pos:#2fb457; --neg:#e66767;
+  --grad:linear-gradient(135deg,#3a7bd5 0%,#5b9cff 45%,#3ec9a7 100%);
+  --bar:#5b9cff; --bar2:#3ec9a7;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{
+  font-family:"Pretendard","Apple SD Gothic Neo","Noto Sans KR",sans-serif;
+  color:var(--ink); line-height:1.55; -webkit-font-smoothing:antialiased;
+  background:var(--bg);
+  background-image:
+    radial-gradient(920px 540px at 6% -10%, rgba(58,123,213,.18), transparent 58%),
+    radial-gradient(720px 440px at 98% 0%, rgba(62,201,167,.10), transparent 55%),
+    linear-gradient(180deg,#0a1018 0%, #0c1420 100%);
+  background-attachment:fixed;
+}
+a{color:var(--acc);text-decoration:none} a:hover{text-decoration:underline}
+.wrap{max-width:1200px;margin:0 auto;padding:22px 22px 80px}
+
+.nav{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:4px 0 0;font-size:13px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:800;letter-spacing:.04em;color:var(--ink);text-decoration:none}
+.brand .logo{
+  width:32px;height:32px;border-radius:9px;background:var(--grad);
+  display:inline-flex;align-items:center;justify-content:center;color:#061018;font-weight:900;font-size:13px;
+}
+.nav .links{display:flex;gap:14px;flex-wrap:wrap}
+.nav .links a{color:var(--sub)} .nav .links a:hover{color:var(--ink)}
+
+header.head{padding:34px 0 8px;animation:rise .7s ease both}
+header.head .eyebrow{
+  margin:0 0 10px;font-size:11px;font-weight:750;letter-spacing:.18em;color:var(--acc2);text-transform:uppercase;
+}
+header.head h1{margin:0;font-size:clamp(28px,4.2vw,40px);letter-spacing:-.5px;line-height:1.15}
+header.head h1 .grad{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+header.head .lead{color:var(--sub);font-size:14.5px;margin:12px 0 0;max-width:70ch}
+.meta-line{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px;font-size:12px;color:var(--muted)}
+.meta-line .pill{
+  border:1px solid var(--line);border-radius:999px;padding:4px 11px;background:rgba(16,26,40,.75)
+}
+.meta-line .pill b{color:var(--sub);font-weight:600}
+
+.panel{
+  margin-top:22px;border:1px solid var(--line);border-radius:16px;
+  background:linear-gradient(180deg,var(--panel2),var(--panel));
+  padding:18px;animation:rise .75s ease .06s both;
+}
+.panel h2{margin:0 0 4px;font-size:15px}
+.panel .cap{margin:0 0 14px;color:var(--muted);font-size:12.5px}
+.controls{display:grid;grid-template-columns:1.1fr .9fr .7fr auto;gap:10px;align-items:end}
+.field{display:flex;flex-direction:column;gap:6px;min-width:0}
+.field label{font-size:11.5px;color:var(--muted)}
+.field input,.field select{
+  width:100%;border:1px solid var(--line2);background:#0b1522;color:var(--ink);
+  border-radius:10px;padding:10px 12px;font:inherit;font-size:13px;
+}
+.field input:focus,.field select:focus{outline:2px solid rgba(91,156,255,.45);outline-offset:1px}
+.actions{display:flex;gap:8px;flex-wrap:wrap}
+.btn{
+  border:1px solid transparent;border-radius:10px;padding:10px 14px;font:inherit;font-size:13px;
+  font-weight:650;cursor:pointer;transition:transform .15s ease, filter .15s ease;
+}
+.btn:disabled{opacity:.55;cursor:wait}
+.btn-primary{background:var(--grad);color:#061018;box-shadow:0 8px 22px rgba(58,123,213,.22)}
+.btn-primary:hover:not(:disabled){transform:translateY(-1px);filter:brightness(1.05)}
+.btn-ghost{background:transparent;border-color:var(--line2);color:var(--sub)}
+.btn-ghost:hover:not(:disabled){color:var(--ink);border-color:var(--acc)}
+#status{font-size:12.5px;color:var(--sub);margin-top:10px;min-height:1.2em}
+#status[data-kind="ok"]{color:var(--pos)}
+#status[data-kind="warn"]{color:var(--gold)}
+#status[data-kind="err"]{color:var(--neg)}
+
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:18px;animation:rise .8s ease .1s both}
+.tile{
+  border:1px solid var(--line);border-radius:14px;padding:16px 16px 14px;
+  background:linear-gradient(180deg,var(--panel2),var(--panel));
+  transition:transform .2s ease, border-color .2s ease;
+}
+.tile:hover{transform:translateY(-2px);border-color:var(--line2)}
+.tile .lb{font-size:12px;color:var(--sub)}
+.tile .val{font-size:24px;font-weight:750;letter-spacing:-.4px;margin-top:6px;word-break:keep-all}
+.tile .hint{font-size:11.5px;color:var(--muted);margin-top:4px}
+.tile.feature{border-color:#2a4d6e;box-shadow:0 0 0 1px rgba(91,156,255,.16)}
+
+#viz{opacity:.5;transform:translateY(8px);transition:opacity .45s ease, transform .45s ease}
+#viz.ready{opacity:1;transform:none}
+.section-title{display:flex;align-items:baseline;justify-content:space-between;gap:10px;flex-wrap:wrap;margin:28px 0 12px}
+.section-title h2{margin:0;font-size:18px}
+.section-title .cap{color:var(--muted);font-size:12px}
+
+.cards{display:grid;grid-template-columns:1.25fr .75fr;gap:12px}
+.card{
+  border:1px solid var(--line);border-radius:16px;padding:16px;
+  background:linear-gradient(180deg,var(--panel2),var(--panel));min-width:0;
+}
+.card.full{grid-column:1/-1}
+.card h3{margin:0;font-size:14.5px}
+.card .cap{color:var(--muted);font-size:12px;margin:4px 0 10px}
+.chart-box{position:relative;height:340px}
+.card.half .chart-box{height:300px}
+
+.tbl-tools{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:12px}
+.tbl-tools input{
+  flex:1;min-width:180px;border:1px solid var(--line2);background:#0b1522;color:var(--ink);
+  border-radius:10px;padding:9px 12px;font:inherit;font-size:13px;
+}
+.tbl-scroll{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:12.5px;min-width:860px}
+th,td{padding:9px 10px;border-bottom:1px solid var(--line);white-space:nowrap}
+th{
+  color:var(--muted);font-weight:600;font-size:11.5px;text-align:right;cursor:pointer;user-select:none;
+}
+th:nth-child(1),th:nth-child(2),th:nth-child(4),
+td:nth-child(1),td:nth-child(2),td:nth-child(4){text-align:left}
+th.active{color:var(--acc)}
+th.active[data-dir="asc"]::after{content:" ↑"}
+th.active[data-dir="desc"]::after{content:" ↓"}
+td{color:var(--ink);text-align:right;font-variant-numeric:tabular-nums}
+td .rank{display:inline-flex;min-width:28px;justify-content:center;font-weight:700;color:var(--acc)}
+td .title-btn{
+  background:none;border:0;padding:0;color:var(--ink);font:inherit;font-weight:600;
+  cursor:pointer;text-align:left;max-width:280px;overflow:hidden;text-overflow:ellipsis;
+}
+td .title-btn:hover{color:var(--acc);text-decoration:underline}
+td .cat{
+  display:inline-block;border:1px solid var(--line2);border-radius:999px;
+  padding:2px 8px;font-size:11px;color:var(--sub);background:rgba(11,21,34,.6);
+}
+td .vol-bar-wrap{display:inline-flex;align-items:center;gap:8px;min-width:140px;justify-content:flex-end}
+td .vol-bar{
+  width:72px;height:6px;border-radius:99px;background:rgba(91,156,255,.15);overflow:hidden;
+}
+td .vol-bar > i{display:block;height:100%;background:var(--grad);border-radius:99px}
+tr:hover td{background:rgba(91,156,255,.05)}
+tr.selected td{background:rgba(62,201,167,.08)}
+.empty{padding:36px 0;text-align:center;color:var(--muted);font-size:13px}
+
+.detail{
+  margin-top:12px;border:1px dashed var(--line2);border-radius:12px;padding:14px 16px;
+  background:rgba(11,21,34,.45);display:none;
+}
+.detail.open{display:block;animation:rise .35s ease both}
+.detail h4{margin:0 0 6px;font-size:14px}
+.detail .meta{font-size:12px;color:var(--muted);margin-bottom:10px}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{
+  border:1px solid var(--line2);border-radius:999px;padding:5px 11px;font-size:12px;
+  color:var(--sub);background:#0b1522;cursor:pointer;
+}
+.chip:hover{color:var(--ink);border-color:var(--acc)}
+
+.note{
+  margin-top:16px;border:1px solid var(--line);border-radius:14px;padding:14px 16px;
+  font-size:12.5px;color:var(--sub);line-height:1.7;background:var(--panel);
+}
+.note b{color:var(--ink)}
+.note code{background:#0b1522;border:1px solid var(--line);border-radius:5px;padding:1px 5px;font-size:11.5px}
+
+footer{
+  margin-top:48px;padding-top:18px;border-top:1px solid var(--line);
+  color:var(--muted);font-size:12px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;
+}
+
+@keyframes rise{
+  from{opacity:0;transform:translateY(14px)}
+  to{opacity:1;transform:none}
+}
+@keyframes spin{to{transform:rotate(360deg)}}
+.refresh-mark{display:inline-block}
+.btn.loading .refresh-mark{animation:spin .8s linear infinite}
+
+@media (max-width:960px){
+  .controls{grid-template-columns:1fr 1fr}
+  .actions{grid-column:1/-1}
+  .kpis{grid-template-columns:repeat(2,1fr)}
+  .cards{grid-template-columns:1fr}
+}
+@media (max-width:560px){
+  .controls{grid-template-columns:1fr}
+  .kpis{grid-template-columns:1fr}
+  header.head h1{font-size:28px}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}
+}
+</style>
+<link rel="stylesheet" href="/assets/site-theme.css">
+<script src="/assets/site-theme.js"></script>
+</head>
+<body>
+  <div class="wrap">
+    <nav class="nav" aria-label="주요 탐색">
+      <a class="brand" href="/google-trends/">
+        <span class="logo" aria-hidden="true">G</span>
+        <span>STARGATE · GOOGLE TRENDS</span>
+      </a>
+      <div class="links">
+        <a href="/strategy/">전략 대시보드</a>
+        <a href="/research/">연구 대시보드</a>
+        <a href="/korea-tourism/">관광</a>
+        <a href="/trade/">무역</a>
+        <a href="/">홈</a>
+      </div>
+    </nav>
+
+    <header class="head">
+      <p class="eyebrow">Google Trends · Rising Searches</p>
+      <h1><span class="grad">급상승 검색어</span> 상위 100 분석</h1>
+      <p class="lead">
+        Google Trends의 급상승(Trending) 검색어를 가져와 검색량·카테고리·연관어로
+        상위 100개를 인터랙티브하게 탐색합니다. 지역·시간 창을 바꿔 실시간 재수집할 수 있습니다.
+      </p>
+      <div class="meta-line">
+        <span class="pill"><b>소스</b> trends.google.com/trending</span>
+        <span class="pill"><b>표시</b> TOP 100</span>
+        <span class="pill"><b>모드</b> <span id="sourceMode">캐시</span></span>
+        <span class="pill"><b>갱신</b> <span id="updatedLabel">—</span></span>
+      </div>
+    </header>
+
+    <section class="panel" aria-label="조회 설정">
+      <h2>수집 · 필터</h2>
+      <p class="cap">기본은 대한민국 48시간 창의 상위 100건입니다. 새로고침 시 API 프록시(또는 로컬 캐시)를 사용합니다.</p>
+      <div class="controls">
+        <div class="field">
+          <label for="geo">지역</label>
+          <select id="geo">
+            <option value="KR" selected>대한민국 (KR)</option>
+            <option value="US">미국 (US)</option>
+            <option value="JP">일본 (JP)</option>
+            <option value="TW">대만 (TW)</option>
+            <option value="GB">영국 (GB)</option>
+            <option value="IN">인도 (IN)</option>
+            <option value="DE">독일 (DE)</option>
+            <option value="FR">프랑스 (FR)</option>
+            <option value="BR">브라질 (BR)</option>
+            <option value="KR,US,JP">KR+US+JP 합산</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="hours">시간 창</label>
+          <select id="hours">
+            <option value="4">최근 4시간</option>
+            <option value="24">최근 24시간</option>
+            <option value="48" selected>최근 48시간</option>
+            <option value="168">최근 7일</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="catFilter">카테고리</label>
+          <select id="catFilter">
+            <option value="">전체</option>
+          </select>
+        </div>
+        <div class="actions">
+          <button class="btn btn-primary" id="refreshBtn" type="button">
+            <span class="refresh-mark" aria-hidden="true">↻</span> 새로고침
+          </button>
+          <button class="btn btn-ghost" id="cacheBtn" type="button">캐시 로드</button>
+          <button class="btn btn-ghost" id="csvBtn" type="button">CSV</button>
+        </div>
+      </div>
+      <div id="status" aria-live="polite"></div>
+    </section>
+
+    <div id="viz">
+      <div class="kpis">
+        <article class="tile feature">
+          <div class="lb">1위 검색어</div>
+          <div class="val" id="kpiTop">—</div>
+          <div class="hint" id="kpiTopHint">검색량 —</div>
+        </article>
+        <article class="tile">
+          <div class="lb">표시 건수</div>
+          <div class="val" id="kpiCount">—</div>
+          <div class="hint">필터 적용 후</div>
+        </article>
+        <article class="tile">
+          <div class="lb">검색량 합계</div>
+          <div class="val" id="kpiSum">—</div>
+          <div class="hint">approx traffic</div>
+        </article>
+        <article class="tile">
+          <div class="lb">평균 검색량</div>
+          <div class="val" id="kpiAvg">—</div>
+          <div class="hint">현재 목록</div>
+        </article>
+      </div>
+
+      <div class="section-title">
+        <h2>시각화</h2>
+        <span class="cap">상위 막대 · 카테고리 분포 · 표 클릭 시 연관어</span>
+      </div>
+      <div class="cards">
+        <section class="card">
+          <h3>검색량 TOP 20</h3>
+          <p class="cap">가로 막대 · 클릭 시 상세 연관어</p>
+          <div class="chart-box"><canvas id="chartBars" aria-label="검색량 막대 차트"></canvas></div>
+        </section>
+        <section class="card half">
+          <h3>카테고리 분포</h3>
+          <p class="cap">현재 필터 기준 건수</p>
+          <div class="chart-box"><canvas id="chartCats" aria-label="카테고리 도넛 차트"></canvas></div>
+        </section>
+        <section class="card full">
+          <h3>검색량 순위 곡선</h3>
+          <p class="cap">1~100위 검색량 추이 · 롱테일 확인</p>
+          <div class="chart-box" style="height:260px"><canvas id="chartRank" aria-label="순위 검색량 곡선"></canvas></div>
+        </section>
+      </div>
+
+      <div class="section-title">
+        <h2>상위 100 상세</h2>
+        <span class="cap">검색 · 열 정렬 · 행 클릭으로 연관어</span>
+      </div>
+      <section class="card tbl-card">
+        <div class="tbl-tools">
+          <input id="q" type="search" placeholder="검색어·연관어·카테고리 필터…" autocomplete="off">
+          <span class="cap" id="tableInfo" style="margin:0;color:var(--muted);font-size:12px"></span>
+        </div>
+        <div class="tbl-scroll">
+          <table>
+            <thead>
+              <tr>
+                <th data-sort="rank" class="active" data-dir="asc">#</th>
+                <th data-sort="title">검색어</th>
+                <th data-sort="volume">검색량</th>
+                <th data-sort="category">카테고리</th>
+                <th data-sort="relatedCount">연관어</th>
+                <th data-sort="startedAt">시작(로컬)</th>
+                <th>탐색</th>
+              </tr>
+            </thead>
+            <tbody id="tbody"></tbody>
+          </table>
+        </div>
+        <div class="empty" id="empty" hidden>표시할 데이터가 없습니다.</div>
+        <div class="detail" id="detail" aria-live="polite">
+          <h4 id="detailTitle">—</h4>
+          <div class="meta" id="detailMeta"></div>
+          <div class="chips" id="detailChips"></div>
+        </div>
+      </section>
+    </div>
+
+    <aside class="note">
+      <b>데이터 출처</b> Google Trends Trending Now
+      (<code>trends.google.com/trending</code>). 공식 공개 API가 없어 페이지 임베드 데이터를 수집하며,
+      검색량은 Google이 표기하는 근사 트래픽(approx)입니다.
+      라이브 재수집은 <code>/api/google-trends</code> 프록시를 사용하고, 실패 시 저장된
+      <code>data.json</code> 캐시로 폴백합니다. 본 대시보드는 Google과 무관하며 비상업·연구 목적의
+      시각화입니다.
+      시장·기업 전략 맥락은 <a href="/strategy/">전략 대시보드</a>에서 이어서 볼 수 있습니다.
+    </aside>
+
+    <footer>
+      <span>STARGATE · Google Trends TOP 100</span>
+      <span>
+        <a href="/strategy/">전략 대시보드</a>
+        · <a href="/research/">연구 대시보드</a>
+        · <a href="/">홈</a>
+      </span>
+    </footer>
+  </div>
+
+<script src="./chart.umd.min.js"></script>
+<script src="./fallback-data.js"></script>
+<script>
+(() => {
+  "use strict";
+
+  const API = "/api/google-trends";
+  const CACHE = "./data.json";
+  const PALETTE = [
+    "#5b9cff","#3ec9a7","#d4a843","#e07a7a","#9b8cff",
+    "#57c3e0","#f0a06a","#7dd3a0","#c78bff","#8aa0b8"
+  ];
+
+  const els = {
+    geo: document.getElementById("geo"),
+    hours: document.getElementById("hours"),
+    catFilter: document.getElementById("catFilter"),
+    q: document.getElementById("q"),
+    refreshBtn: document.getElementById("refreshBtn"),
+    cacheBtn: document.getElementById("cacheBtn"),
+    csvBtn: document.getElementById("csvBtn"),
+    status: document.getElementById("status"),
+    sourceMode: document.getElementById("sourceMode"),
+    updatedLabel: document.getElementById("updatedLabel"),
+    viz: document.getElementById("viz"),
+    tbody: document.getElementById("tbody"),
+    empty: document.getElementById("empty"),
+    tableInfo: document.getElementById("tableInfo"),
+    detail: document.getElementById("detail"),
+    detailTitle: document.getElementById("detailTitle"),
+    detailMeta: document.getElementById("detailMeta"),
+    detailChips: document.getElementById("detailChips"),
+    kpiTop: document.getElementById("kpiTop"),
+    kpiTopHint: document.getElementById("kpiTopHint"),
+    kpiCount: document.getElementById("kpiCount"),
+    kpiSum: document.getElementById("kpiSum"),
+    kpiAvg: document.getElementById("kpiAvg"),
+  };
+
+  let raw = null;
+  let items = [];
+  let filtered = [];
+  let sortKey = "rank";
+  let sortDir = "asc";
+  let selectedTitle = null;
+  let charts = { bars: null, cats: null, rank: null };
+
+  const fmt = new Intl.NumberFormat("ko-KR");
+  const fmtVol = (n) => {
+    n = Number(n) || 0;
+    if (n >= 1_000_000) return (n / 1_000_000).toFixed(n % 1_000_000 ? 1 : 0) + "M";
+    if (n >= 1_000) return (n / 1_000).toFixed(n % 1_000 ? 1 : 0) + "K";
+    return fmt.format(n);
+  };
+  const fmtTime = (ts) => {
+    if (!ts) return "—";
+    try {
+      return new Date(ts * 1000).toLocaleString("ko-KR", {
+        month: "2-digit", day: "2-digit", hour: "2-digit", minute: "2-digit"
+      });
+    } catch { return "—"; }
+  };
+
+  function setStatus(msg, kind) {
+    els.status.textContent = msg || "";
+    if (kind) els.status.dataset.kind = kind;
+    else delete els.status.dataset.kind;
+  }
+
+  function chartDefaults() {
+    Chart.defaults.color = "#9aadc2";
+    Chart.defaults.borderColor = "rgba(30,48,72,.9)";
+    Chart.defaults.font.family = "Pretendard, Apple SD Gothic Neo, sans-serif";
+  }
+
+  function destroyCharts() {
+    for (const k of Object.keys(charts)) {
+      if (charts[k]) { charts[k].destroy(); charts[k] = null; }
+    }
+  }
+
+  function applyPayload(payload, modeLabel) {
+    raw = payload;
+    items = Array.isArray(payload.items) ? payload.items.slice() : [];
+    els.sourceMode.textContent = modeLabel || payload.sourceMode || "api";
+    els.updatedLabel.textContent = payload.updatedAt
+      ? new Date(payload.updatedAt).toLocaleString("ko-KR")
+      : "—";
+    if (payload.geo) {
+      const g = Array.isArray(payload.geo) ? payload.geo.join(",") : String(payload.geo);
+      if ([...els.geo.options].some((o) => o.value === g)) els.geo.value = g;
+    }
+    if (payload.hours && [...els.hours.options].some((o) => o.value === String(payload.hours))) {
+      els.hours.value = String(payload.hours);
+    }
+    rebuildCatOptions();
+    renderAll();
+    els.viz.classList.add("ready");
+  }
+
+  function rebuildCatOptions() {
+    const prev = els.catFilter.value;
+    const cats = [...new Set(items.map((x) => x.category || "미분류"))].sort((a, b) => a.localeCompare(b, "ko"));
+    els.catFilter.innerHTML = `<option value="">전체</option>` +
+      cats.map((c) => `<option value="${escapeAttr(c)}">${escapeHtml(c)}</option>`).join("");
+    if (cats.includes(prev)) els.catFilter.value = prev;
+  }
+
+  function escapeHtml(s) {
+    return String(s).replace(/[&<>"']/g, (c) => ({
+      "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
+    }[c]));
+  }
+  function escapeAttr(s) { return escapeHtml(s); }
+
+  function getFiltered() {
+    const cat = els.catFilter.value;
+    const q = els.q.value.trim().toLowerCase();
+    let list = items.slice();
+    if (cat) list = list.filter((x) => (x.category || "미분류") === cat);
+    if (q) {
+      list = list.filter((x) => {
+        const blob = [
+          x.title,
+          x.category,
+          ...(x.related || [])
+        ].join(" ").toLowerCase();
+        return blob.includes(q);
+      });
+    }
+    list.sort((a, b) => {
+      const dir = sortDir === "asc" ? 1 : -1;
+      let av = a[sortKey], bv = b[sortKey];
+      if (sortKey === "relatedCount") {
+        av = (a.related || []).length;
+        bv = (b.related || []).length;
+      }
+      if (typeof av === "string" || typeof bv === "string") {
+        return String(av || "").localeCompare(String(bv || ""), "ko") * dir;
+      }
+      return ((Number(av) || 0) - (Number(bv) || 0)) * dir;
+    });
+    return list;
+  }
+
+  function renderKpis(list) {
+    const top = list[0];
+    els.kpiTop.textContent = top ? top.title : "—";
+    els.kpiTopHint.textContent = top ? `검색량 ${fmtVol(top.volume)}` : "검색량 —";
+    els.kpiCount.textContent = fmt.format(list.length);
+    const sum = list.reduce((s, x) => s + (Number(x.volume) || 0), 0);
+    els.kpiSum.textContent = fmtVol(sum);
+    els.kpiAvg.textContent = list.length ? fmtVol(Math.round(sum / list.length)) : "—";
+  }
+
+  function renderCharts(list) {
+    chartDefaults();
+    destroyCharts();
+    const topN = list.slice(0, 20);
+    const maxVol = Math.max(...topN.map((x) => x.volume || 0), 1);
+
+    charts.bars = new Chart(document.getElementById("chartBars"), {
+      type: "bar",
+      data: {
+        labels: topN.map((x) => x.title),
+        datasets: [{
+          label: "검색량",
+          data: topN.map((x) => x.volume),
+          backgroundColor: topN.map((_, i) => PALETTE[i % PALETTE.length] + "cc"),
+          borderRadius: 6,
+          borderSkipped: false,
+        }]
+      },
+      options: {
+        indexAxis: "y",
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: { display: false },
+          tooltip: {
+            callbacks: {
+              label: (ctx) => ` 검색량 ${fmtVol(ctx.raw)}`
+            }
+          }
+        },
+        scales: {
+          x: {
+            grid: { color: "rgba(30,48,72,.7)" },
+            ticks: { callback: (v) => fmtVol(v) }
+          },
+          y: { grid: { display: false }, ticks: { autoSkip: false, font: { size: 11 } } }
+        },
+        onClick: (_e, elsHit) => {
+          if (!elsHit.length) return;
+          const it = topN[elsHit[0].index];
+          if (it) showDetail(it);
+        }
+      }
+    });
+
+    const catMap = {};
+    for (const it of list) {
+      const c = it.category || "미분류";
+      catMap[c] = (catMap[c] || 0) + 1;
+    }
+    const catEntries = Object.entries(catMap).sort((a, b) => b[1] - a[1]);
+    charts.cats = new Chart(document.getElementById("chartCats"), {
+      type: "doughnut",
+      data: {
+        labels: catEntries.map((x) => x[0]),
+        datasets: [{
+          data: catEntries.map((x) => x[1]),
+          backgroundColor: catEntries.map((_, i) => PALETTE[i % PALETTE.length]),
+          borderWidth: 0,
+          hoverOffset: 6,
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        cutout: "58%",
+        plugins: {
+          legend: { position: "bottom", labels: { boxWidth: 10, font: { size: 11 } } }
+        },
+        onClick: (_e, elsHit) => {
+          if (!elsHit.length) return;
+          const label = catEntries[elsHit[0].index][0];
+          els.catFilter.value = label;
+          renderAll();
+        }
+      }
+    });
+
+    const curve = list.slice(0, 100);
+    charts.rank = new Chart(document.getElementById("chartRank"), {
+      type: "line",
+      data: {
+        labels: curve.map((_, i) => i + 1),
+        datasets: [{
+          label: "검색량",
+          data: curve.map((x) => x.volume),
+          borderColor: "#5b9cff",
+          backgroundColor: "rgba(91,156,255,.18)",
+          fill: true,
+          tension: 0.25,
+          pointRadius: 0,
+          pointHoverRadius: 4,
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: { display: false },
+          tooltip: {
+            callbacks: {
+              title: (items) => {
+                const i = items[0].dataIndex;
+                return `#${i + 1} ${curve[i]?.title || ""}`;
+              },
+              label: (ctx) => ` 검색량 ${fmtVol(ctx.raw)}`
+            }
+          }
+        },
+        scales: {
+          x: {
+            title: { display: true, text: "순위", color: "#6d8199" },
+            grid: { color: "rgba(30,48,72,.5)" }
+          },
+          y: {
+            grid: { color: "rgba(30,48,72,.7)" },
+            ticks: { callback: (v) => fmtVol(v) }
+          }
+        }
+      }
+    });
+
+    void maxVol;
+  }
+
+  function renderTable(list) {
+    filtered = list;
+    els.tableInfo.textContent = `${fmt.format(list.length)}건 표시`;
+    if (!list.length) {
+      els.tbody.innerHTML = "";
+      els.empty.hidden = false;
+      return;
+    }
+    els.empty.hidden = true;
+    const maxVol = Math.max(...list.map((x) => x.volume || 0), 1);
+    els.tbody.innerHTML = list.map((it) => {
+      const pct = Math.max(4, Math.round((it.volume / maxVol) * 100));
+      const sel = selectedTitle === it.title ? " selected" : "";
+      return `<tr class="${sel}" data-title="${escapeAttr(it.title)}">
+        <td><span class="rank">${it.rank ?? "—"}</span></td>
+        <td><button type="button" class="title-btn" data-act="detail">${escapeHtml(it.title)}</button></td>
+        <td><span class="vol-bar-wrap"><span class="vol-bar"><i style="width:${pct}%"></i></span>${fmtVol(it.volume)}</span></td>
+        <td><span class="cat">${escapeHtml(it.category || "미분류")}</span></td>
+        <td>${(it.related || []).length}</td>
+        <td>${fmtTime(it.startedAt)}</td>
+        <td><a href="${escapeAttr(it.exploreUrl || "#")}" target="_blank" rel="noopener">Trends ↗</a></td>
+      </tr>`;
+    }).join("");
+  }
+
+  function showDetail(it) {
+    selectedTitle = it.title;
+    els.detail.classList.add("open");
+    els.detailTitle.textContent = `#${it.rank ?? "—"} ${it.title}`;
+    els.detailMeta.textContent =
+      `검색량 ${fmtVol(it.volume)} · ${it.category || "미분류"} · 지역 ${it.geo || "—"} · 시작 ${fmtTime(it.startedAt)}`;
+    const related = (it.related || []).length ? it.related : [it.title];
+    els.detailChips.innerHTML = related.map((r) =>
+      `<button type="button" class="chip" data-q="${escapeAttr(r)}">${escapeHtml(r)}</button>`
+    ).join("");
+    // refresh selected row highlight
+    renderTable(filtered);
+  }
+
+  function renderAll() {
+    const list = getFiltered();
+    renderKpis(list);
+    renderCharts(list);
+    renderTable(list);
+    if (selectedTitle) {
+      const hit = list.find((x) => x.title === selectedTitle) || items.find((x) => x.title === selectedTitle);
+      if (hit) showDetail(hit);
+      else els.detail.classList.remove("open");
+    }
+  }
+
+  async function loadCache() {
+    setStatus("캐시(data.json) 로드 중…");
+    try {
+      const res = await fetch(CACHE + "?t=" + Date.now(), { cache: "no-store" });
+      if (!res.ok) throw new Error("cache_http_" + res.status);
+      const data = await res.json();
+      applyPayload(data, data.sourceMode === "api" ? "캐시(API)" : "캐시");
+      setStatus(`캐시 로드 완료 · ${data.items?.length || 0}건`, "ok");
+      return true;
+    } catch (err) {
+      if (window.GOOGLE_TRENDS_FALLBACK) {
+        applyPayload(window.GOOGLE_TRENDS_FALLBACK, "폴백");
+        setStatus("data.json 실패 → 폴백 데이터 사용", "warn");
+        return true;
+      }
+      setStatus("캐시 로드 실패: " + err.message, "err");
+      return false;
+    }
+  }
+
+  async function loadLive() {
+    const geo = els.geo.value;
+    const hours = els.hours.value;
+    els.refreshBtn.disabled = true;
+    els.refreshBtn.classList.add("loading");
+    setStatus(`Google Trends 수집 중… (${geo}, ${hours}h)`);
+    try {
+      const url = `${API}?geo=${encodeURIComponent(geo)}&hours=${encodeURIComponent(hours)}&limit=100`;
+      const res = await fetch(url, { cache: "no-store" });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) throw new Error(data.message || data.error || ("http_" + res.status));
+      applyPayload(data, "라이브 API");
+      setStatus(`라이브 수집 완료 · ${data.items?.length || 0}건 (원본 ${data.fetchedCount || "—"})`, "ok");
+    } catch (err) {
+      setStatus("라이브 실패 → 캐시 폴백: " + err.message, "warn");
+      await loadCache();
+    } finally {
+      els.refreshBtn.disabled = false;
+      els.refreshBtn.classList.remove("loading");
+    }
+  }
+
+  function downloadCsv() {
+    const list = getFiltered();
+    const header = ["rank","title","volume","category","geo","related","startedAt","exploreUrl"];
+    const lines = [header.join(",")];
+    for (const it of list) {
+      const row = [
+        it.rank,
+        csvEscape(it.title),
+        it.volume,
+        csvEscape(it.category),
+        it.geo,
+        csvEscape((it.related || []).join("|")),
+        it.startedAt || "",
+        csvEscape(it.exploreUrl || ""),
+      ];
+      lines.push(row.join(","));
+    }
+    const blob = new Blob(["\uFEFF" + lines.join("\n")], { type: "text/csv;charset=utf-8" });
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = `google-trends-top100-${els.geo.value.replace(/,/g,"-")}.csv`;
+    a.click();
+    URL.revokeObjectURL(a.href);
+  }
+  function csvEscape(v) {
+    const s = String(v ?? "");
+    return /[",\n]/.test(s) ? `"${s.replace(/"/g, '""')}"` : s;
+  }
+
+  // events
+  els.refreshBtn.addEventListener("click", loadLive);
+  els.cacheBtn.addEventListener("click", loadCache);
+  els.csvBtn.addEventListener("click", downloadCsv);
+  els.geo.addEventListener("change", () => {});
+  els.hours.addEventListener("change", () => {});
+  els.catFilter.addEventListener("change", renderAll);
+  els.q.addEventListener("input", () => {
+    clearTimeout(els.q._t);
+    els.q._t = setTimeout(renderAll, 120);
+  });
+
+  document.querySelectorAll("th[data-sort]").forEach((th) => {
+    th.addEventListener("click", () => {
+      const key = th.dataset.sort;
+      if (sortKey === key) sortDir = sortDir === "asc" ? "desc" : "asc";
+      else { sortKey = key; sortDir = key === "title" || key === "category" ? "asc" : "desc"; }
+      document.querySelectorAll("th[data-sort]").forEach((x) => {
+        x.classList.toggle("active", x === th);
+        if (x === th) x.dataset.dir = sortDir; else delete x.dataset.dir;
+      });
+      renderAll();
+    });
+  });
+
+  els.tbody.addEventListener("click", (e) => {
+    const btn = e.target.closest("[data-act='detail']");
+    const tr = e.target.closest("tr[data-title]");
+    if (!tr) return;
+    const title = tr.getAttribute("data-title");
+    const it = items.find((x) => x.title === title);
+    if (it) showDetail(it);
+    if (btn) e.preventDefault();
+  });
+
+  els.detailChips.addEventListener("click", (e) => {
+    const chip = e.target.closest(".chip");
+    if (!chip) return;
+    els.q.value = chip.dataset.q || "";
+    renderAll();
+  });
+
+  // boot
+  loadCache().then((ok) => {
+    if (!ok && window.GOOGLE_TRENDS_FALLBACK) {
+      applyPayload(window.GOOGLE_TRENDS_FALLBACK, "폴백");
+    }
+  });
+})();
+</script>
+</body>
+</html>

@@ -9,10 +9,25 @@
 <link rel="icon" href="/assets/icons/favicon.ico" sizes="48x48">
 <link rel="apple-touch-icon" href="/assets/icons/apple-touch-icon.png">
 <meta name="description" content="크몽 카테고리별 인기 키워드, 첫페이지 강의(제목/강사/가격/평점), 강사 랭킹을 매일 자동 수집하여 보여주는 실시간 시장 모니터링 대시보드" />
+<meta name="author" content="Dongsoo Jung" />
+<link rel="canonical" href="https://stargateedu.co.kr/kmong-dashboard/" />
+<meta property="og:title" content="크몽(Kmong) 실시간 시장 모니터링 대시보드" />
+<meta property="og:description" content="387개 카테고리의 인기 키워드와 첫페이지 강의(제목·강사·가격·평점)를 매일 자동 수집합니다." />
+<meta property="og:url" content="https://stargateedu.co.kr/kmong-dashboard/" />
+<meta property="og:type" content="website" />
+<meta property="og:image" content="https://stargateedu.co.kr/kmong-dashboard/og.png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="크몽(Kmong) 실시간 시장 모니터링 대시보드" />
+<meta name="twitter:description" content="387개 카테고리의 인기 키워드와 첫페이지 강의를 매일 자동 수집합니다." />
+<meta name="twitter:image" content="https://stargateedu.co.kr/kmong-dashboard/og.png" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700;900&display=swap" rel="stylesheet" />
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <link rel="stylesheet" href="/assets/site-theme.css">
+  <script src="/assets/site-theme.js"></script>
 </head>
 <body>
 <style>
@@ -33,6 +48,10 @@
   .hero h1 span { color: #FCD34D; }
   .hero p { font-size: clamp(14px, 2vw, 17px); opacity: 0.85; max-width: 640px; margin: 0 auto 20px; }
   .hero-meta { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; font-size: 13px; opacity: 0.75; }
+  .hero-links { display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; margin-top: 22px; }
+  .hero-chip { display: inline-block; padding: 7px 16px; border-radius: 100px; font-size: 13px; font-weight: 500; text-decoration: none; color: #fff; background: rgba(255,255,255,0.14); border: 1px solid rgba(255,255,255,0.32); transition: background 0.15s; }
+  .hero-chip:hover { background: rgba(255,255,255,0.26); }
+  .hero-chip strong { color: #FCD34D; font-weight: 700; }
   .container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
   section { padding: 48px 0; }
   section:nth-child(even) { background: #fff; }
@@ -87,6 +106,11 @@
     <h1>크몽<span>(Kmong)</span> 실시간<br/>시장 모니터링 대시보드</h1>
     <p>387개 전체 카테고리의 인기 검색 키워드와 첫페이지 강의(제목·강사·가격·평점)를 매일 자동 수집하여 보여줍니다.</p>
     <div class="hero-meta" id="hero-meta">데이터 불러오는 중...</div>
+    <div class="hero-links">
+      <a class="hero-chip" href="/">← 포털 홈</a>
+      <a class="hero-chip" href="/kmong-research/">크몽 재무 리서치</a>
+      <a class="hero-chip" id="visitor-summary-link" href="/admin/visitors/" rel="nofollow" aria-label="방문자 통계 대시보드">오늘 <strong id="visitor-today-count">-</strong> · 누적 <strong id="visitor-total-count">-</strong></a>
+    </div>
   </div>
 </div>
 
@@ -371,5 +395,6 @@
   loadRuns();
 })();
 </script>
+<script src="/assets/visitor-counter.js?v=20260729" defer></script>
 </body>
 </html>

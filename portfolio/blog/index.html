@@ -1,0 +1,453 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>포트폴리오 블로그 | Notion · Google Drive · STARGATE</title>
+  <meta name="description" content="Notion API와 Google Drive API로 연동한 STARGATE 포트폴리오 블로그. 공개 독후감·지식 문서를 한 피드에서 탐색합니다.">
+  <meta name="author" content="Dongsoo Jung">
+  <meta property="og:title" content="포트폴리오 블로그 | Notion · Google Drive">
+  <meta property="og:description" content="Notion·Drive API로 연동하는 STARGATE 포트폴리오 블로그">
+  <meta property="og:url" content="https://www.stargateedu.co.kr/portfolio/blog/">
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="theme-color" content="#080c14" data-light-color="#f5f7fb" data-dark-color="#080c14">
+  <link rel="canonical" href="https://www.stargateedu.co.kr/portfolio/blog/">
+  <link rel="icon" href="/assets/icons/favicon.ico" sizes="48x48">
+  <script src="/assets/theme-boot.js"></script>
+  <link rel="stylesheet" href="/assets/intelligence-hub.css?v=20260730a">
+  <style>
+    body.portfolio-blog{--accent:#5ad4a2;--accent2:#1f9d6a;--accent-soft:rgba(31,157,106,.14)}
+    :root[data-theme="light"] body.portfolio-blog{--accent:#0f8a5f;--accent2:#0b6b4a;--accent-soft:rgba(15,138,95,.1)}
+    :root[data-theme="ocean"] body.portfolio-blog{--accent:#5ee4d8;--accent2:#22b8c7;--accent-soft:rgba(34,184,199,.16)}
+    :root[data-theme="mono"] body.portfolio-blog{--accent:#262626;--accent2:#404040;--accent-soft:rgba(38,38,38,.08)}
+    .sync-bar{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin:8px 0 18px}
+    .sync-bar .status{color:var(--muted);font-size:12px;font-weight:650}
+    .source-tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}
+    .source-tab{border:1px solid var(--line);background:var(--panel);color:var(--sub);border-radius:999px;padding:8px 13px;font-size:12px;font-weight:800;cursor:pointer}
+    .source-tab.active{background:var(--accent-soft);border-color:var(--accent);color:var(--ink)}
+    .feed{display:grid;gap:14px}
+    .post{display:grid;grid-template-columns:120px 1fr;gap:0;border:1px solid var(--line);border-radius:18px;overflow:hidden;background:linear-gradient(180deg,var(--panel2),var(--panel));transition:.18s ease}
+    .post:hover{transform:translateY(-2px);border-color:var(--accent);box-shadow:0 16px 42px var(--accent-soft)}
+    .post-visual{display:grid;place-items:center;font-size:34px;background:var(--visual,linear-gradient(145deg,#0d1b1a,#16302d));border-right:1px solid var(--line)}
+    .post-body{padding:18px;display:flex;flex-direction:column;gap:8px;min-width:0}
+    .post-meta{display:flex;gap:6px;flex-wrap:wrap}
+    .post h3{margin:0;font-size:17px;letter-spacing:-.3px;line-height:1.35}
+    .post p{margin:0;color:var(--sub);font-size:12.5px;line-height:1.6}
+    .post-foot{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:auto;padding-top:10px;color:var(--muted);font-size:11px}
+    .post-foot a{color:var(--accent);font-weight:800}
+    .detail{margin-top:28px;border:1px solid var(--line);border-radius:20px;padding:24px;background:var(--panel);display:none}
+    .detail.show{display:block}
+    .detail h2{margin:0 0 8px;font-size:24px;letter-spacing:-.6px}
+    .detail .lead{color:var(--sub);margin:0 0 16px;font-size:14px;line-height:1.7}
+    .detail .body{white-space:pre-wrap;color:var(--ink);font-size:14px;line-height:1.8}
+    .empty-feed{padding:34px;border:1px dashed var(--line2);border-radius:16px;text-align:center;color:var(--muted);font-size:13px}
+    .hint{margin-top:10px;color:var(--muted);font-size:11.5px;line-height:1.6}
+    code.inline{font-size:11px;color:var(--accent)}
+    @media(max-width:640px){
+      .post{grid-template-columns:1fr}
+      .post-visual{height:96px;border-right:0;border-bottom:1px solid var(--line)}
+    }
+  </style>
+</head>
+<body class="portfolio portfolio-blog">
+  <div class="wrap">
+    <nav class="nav" aria-label="주요 메뉴">
+      <a class="brand" href="/"><span class="logo">D</span><span>DONGSOO.<span style="color:var(--accent)">PORTAL</span><small>BLOG</small></span></a>
+      <div class="nav-links">
+        <a href="/portfolio/">포트폴리오</a>
+        <a href="/portfolio/blog/" aria-current="page">블로그</a>
+        <a href="/strategy/">전략</a>
+        <a href="/research/">연구</a>
+      </div>
+      <div class="nav-end">
+        <label class="theme-switch">
+          <span class="visually-hidden" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)">디자인 테마</span>
+          <select data-theme-select aria-label="디자인 테마 선택">
+            <option value="dark">다크</option>
+            <option value="light">화이트</option>
+            <option value="ocean">오션</option>
+            <option value="mono">모노</option>
+          </select>
+        </label>
+        <button class="theme-toggle" type="button" data-theme-toggle aria-pressed="false" aria-label="다음 디자인으로 전환">
+          <span class="icon" data-theme-icon aria-hidden="true">☀️</span>
+          <span data-theme-label>화이트</span>
+        </button>
+        <a class="back" href="/portfolio/">← 포트폴리오</a>
+      </div>
+    </nav>
+
+    <header class="hero">
+      <div>
+        <div class="eyebrow">Notion API · Google Drive API</div>
+        <h1>포트폴리오를<br>블로그로 읽습니다.</h1>
+        <p>Notion 공개 기록과 Google Drive 지식 문서를 하나의 피드로 연결합니다. Notion은 서버/스냅샷으로, Drive는 Google 로그인 동기화로 최신화합니다.</p>
+        <div class="hero-actions">
+          <a class="btn primary" href="#feed">피드 보기 →</a>
+          <a class="btn" href="/portfolio/">작품 허브</a>
+          <a class="btn" href="/reading/">독서 기록</a>
+          <a class="btn" href="/drive-blog/">Drive 아카이브</a>
+        </div>
+      </div>
+      <div class="stats" aria-label="블로그 현황">
+        <div class="stat"><strong id="stat-total">-</strong><span>통합 글</span></div>
+        <div class="stat"><strong id="stat-notion">-</strong><span>Notion</span></div>
+        <div class="stat"><strong id="stat-drive">-</strong><span>Drive</span></div>
+      </div>
+    </header>
+
+    <main>
+      <section class="section" id="feed" aria-labelledby="feed-title">
+        <div class="section-head">
+          <div>
+            <h2 id="feed-title">통합 피드</h2>
+            <p>Notion 공개 글 + Drive 문서를 날짜순으로 합칩니다.</p>
+          </div>
+          <a class="switch-link" href="/portfolio/">포트폴리오 →</a>
+        </div>
+
+        <div class="sync-bar">
+          <button class="btn" type="button" id="notion-refresh">Notion 새로고침</button>
+          <button class="btn primary" type="button" id="drive-sync">Drive 연결 및 동기화</button>
+          <span class="status" id="sync-status" role="status">스냅샷 로딩 중…</span>
+        </div>
+        <p class="hint">
+          Notion 토큰은 브라우저에 노출되지 않습니다. 라이브 API(<code class="inline">/api/portfolio-notion</code>)가 없으면
+          커밋된 스냅샷을 사용합니다. Drive는 Google OAuth Client ID로 폴더 메타데이터만 읽습니다.
+        </p>
+
+        <div class="source-tabs" role="tablist" aria-label="소스 필터">
+          <button class="source-tab active" type="button" data-source="all" aria-pressed="true">전체</button>
+          <button class="source-tab" type="button" data-source="notion" aria-pressed="false">Notion</button>
+          <button class="source-tab" type="button" data-source="drive" aria-pressed="false">Drive</button>
+        </div>
+        <div class="toolbar">
+          <label class="search" style="min-width:min(100%,360px)"><span hidden>검색</span><input type="search" id="feed-search" placeholder="제목·요약·태그 검색"></label>
+        </div>
+
+        <div class="feed" id="feed-list" aria-live="polite"></div>
+        <div class="empty-feed" id="feed-empty" hidden>조건에 맞는 글이 없습니다.</div>
+
+        <article class="detail" id="post-detail" aria-live="polite">
+          <div class="post-meta" id="detail-meta"></div>
+          <h2 id="detail-title"></h2>
+          <p class="lead" id="detail-summary"></p>
+          <div class="body" id="detail-body"></div>
+          <div class="post-foot" style="margin-top:18px">
+            <span id="detail-date"></span>
+            <a id="detail-link" href="#" target="_blank" rel="noopener">원문 열기 ↗</a>
+          </div>
+        </article>
+      </section>
+
+      <section class="cta-band">
+        <div>
+          <h2>연동 URL</h2>
+          <p>외부 공유: <strong>https://www.stargateedu.co.kr/portfolio/blog/</strong> · Notion DB를 Integration에 공유하고 <code class="inline">웹공개</code>를 켜면 피드에 반영됩니다.</p>
+        </div>
+        <a class="btn primary" href="/portfolio/">포트폴리오 →</a>
+      </section>
+    </main>
+
+    <footer>
+      <span>© 2026 Dongsoo Jung · Stargate Corporation</span>
+      <span><a href="/portfolio/">Portfolio</a> · <a href="/reading/">Reading</a> · <a href="/drive-blog/">Drive</a></span>
+    </footer>
+  </div>
+
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
+  <script src="/assets/theme.js?v=20260730a" defer></script>
+  <script>
+  (() => {
+    const CLIENT_ID = '131457847918-38qti9ho3tan2vkenfvgmdfodn9g506c.apps.googleusercontent.com';
+    const FOLDER_ID = '18wK4G_-jzJHsLsvM3Ka5oWjrQChoK9Y4';
+    const DRIVE_CACHE_KEY = 'stargate-portfolio-drive-files';
+
+    const feedList = document.getElementById('feed-list');
+    const feedEmpty = document.getElementById('feed-empty');
+    const syncStatus = document.getElementById('sync-status');
+    const searchInput = document.getElementById('feed-search');
+    const detail = document.getElementById('post-detail');
+    const sourceTabs = [...document.querySelectorAll('[data-source]')];
+
+    let notionPosts = [];
+    let driveFiles = [];
+    let activeSource = 'all';
+    let tokenClient = null;
+    const postMap = new Map();
+
+    const escapeHtml = (value) => String(value ?? '').replace(/[&<>"']/g, (char) => ({
+      '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;'
+    }[char]));
+
+    const formatDate = (value) => {
+      if (!value) return '';
+      try {
+        return new Intl.DateTimeFormat('ko-KR', { dateStyle: 'medium', timeZone: 'Asia/Seoul' })
+          .format(new Date(value));
+      } catch (_) {
+        return String(value).slice(0, 10);
+      }
+    };
+
+    const typeLabel = (mime = '') => {
+      if (mime.includes('document')) return 'Google Docs';
+      if (mime.includes('pdf')) return 'PDF';
+      if (mime.includes('presentation')) return 'Slides';
+      if (mime.includes('spreadsheet')) return 'Sheets';
+      if (mime.includes('folder')) return 'Folder';
+      return 'Drive 파일';
+    };
+
+    const visualFor = (item) => {
+      if (item.source === 'notion') {
+        return { emoji: '📘', visual: 'radial-gradient(circle at 22% 20%,rgba(90,212,162,.45),transparent 55%),linear-gradient(145deg,#0d1b1a,#16302d)' };
+      }
+      return { emoji: '📁', visual: 'radial-gradient(circle at 78% 24%,rgba(217,164,65,.4),transparent 54%),linear-gradient(145deg,#17130d,#352816)' };
+    };
+
+    function setStatus(message) {
+      syncStatus.textContent = message;
+    }
+
+    function updateStats() {
+      document.getElementById('stat-notion').textContent = String(notionPosts.length);
+      document.getElementById('stat-drive').textContent = String(driveFiles.length);
+      document.getElementById('stat-total').textContent = String(notionPosts.length + driveFiles.length);
+    }
+
+    function unifiedItems() {
+      const notionItems = notionPosts.map((post) => ({
+        ...post,
+        source: 'notion',
+        sortKey: post.publishedAt || post.updatedAt || '',
+      }));
+      const driveItems = driveFiles.map((file) => ({
+        ...file,
+        source: 'drive',
+        sortKey: file.updatedAt || file.publishedAt || '',
+      }));
+      return [...notionItems, ...driveItems].sort((a, b) => String(b.sortKey).localeCompare(String(a.sortKey)));
+    }
+
+    function renderFeed() {
+      const query = (searchInput.value || '').trim().toLowerCase();
+      const items = unifiedItems().filter((item) => {
+        if (activeSource !== 'all' && item.source !== activeSource) return false;
+        if (!query) return true;
+        const hay = [item.title, item.summary, item.body, item.category, ...(item.tags || []), item.typeLabel]
+          .filter(Boolean).join(' ').toLowerCase();
+        return hay.includes(query);
+      });
+
+      postMap.clear();
+      feedEmpty.hidden = items.length > 0;
+      feedList.innerHTML = items.map((item) => {
+        postMap.set(item.id, item);
+        const { emoji, visual } = visualFor(item);
+        const badge = item.source === 'notion' ? 'Notion' : (item.typeLabel || 'Drive');
+        const category = item.category || item.typeLabel || item.source;
+        const summary = item.summary || (item.body ? String(item.body).slice(0, 120) + '…' : '요약 없음');
+        return `
+          <article class="post" data-id="${escapeHtml(item.id)}" style="--visual:${visual}">
+            <div class="post-visual" aria-hidden="true">${emoji}</div>
+            <div class="post-body">
+              <div class="post-meta">
+                <span class="pill accent">${escapeHtml(badge)}</span>
+                <span class="pill">${escapeHtml(category)}</span>
+              </div>
+              <h3>${escapeHtml(item.title)}</h3>
+              <p>${escapeHtml(summary)}</p>
+              <div class="post-foot">
+                <span>${escapeHtml(formatDate(item.publishedAt || item.updatedAt))}</span>
+                <a href="${escapeHtml(item.url || '#')}" target="_blank" rel="noopener">원문 ↗</a>
+              </div>
+            </div>
+          </article>`;
+      }).join('');
+    }
+
+    function showDetail(item) {
+      if (!item) return;
+      detail.classList.add('show');
+      document.getElementById('detail-meta').innerHTML =
+        `<span class="pill accent">${escapeHtml(item.source === 'notion' ? 'Notion' : 'Drive')}</span>` +
+        (item.category || item.typeLabel ? `<span class="pill">${escapeHtml(item.category || item.typeLabel)}</span>` : '');
+      document.getElementById('detail-title').textContent = item.title || '';
+      document.getElementById('detail-summary').textContent = item.summary || '';
+      document.getElementById('detail-body').textContent = item.body || item.summary || '본문은 원문 링크에서 확인하세요.';
+      document.getElementById('detail-date').textContent = formatDate(item.publishedAt || item.updatedAt);
+      const link = document.getElementById('detail-link');
+      link.href = item.url || '#';
+      detail.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    async function loadJson(url) {
+      const response = await fetch(url, { cache: 'no-store' });
+      if (!response.ok) throw new Error(`${url} → HTTP ${response.status}`);
+      return response.json();
+    }
+
+    async function loadNotion({ preferLive = false } = {}) {
+      const errors = [];
+      if (preferLive) {
+        try {
+          const live = await loadJson('/api/portfolio-notion');
+          notionPosts = Array.isArray(live.posts) ? live.posts : [];
+          setStatus(`Notion 라이브 ${notionPosts.length}건 · ${live.meta?.generatedAt?.slice(0, 19) || 'now'}`);
+          return 'live';
+        } catch (error) {
+          errors.push(error.message || String(error));
+        }
+      }
+      try {
+        const snap = await loadJson('/portfolio/data/notion-posts.json');
+        notionPosts = Array.isArray(snap.posts) ? snap.posts : [];
+        setStatus(`Notion 스냅샷 ${notionPosts.length}건` + (errors.length ? ` (라이브 실패: ${errors[0]})` : ''));
+        return 'snapshot';
+      } catch (error) {
+        notionPosts = [];
+        setStatus(`Notion 로딩 실패: ${error.message || error}`);
+        return 'error';
+      }
+    }
+
+    async function loadDriveSnapshot() {
+      try {
+        const cached = localStorage.getItem(DRIVE_CACHE_KEY);
+        if (cached) {
+          const parsed = JSON.parse(cached);
+          if (Array.isArray(parsed?.files) && parsed.files.length) {
+            driveFiles = parsed.files;
+            return 'cache';
+          }
+        }
+      } catch (_) {}
+
+      const snap = await loadJson('/portfolio/data/drive-files.json');
+      driveFiles = (Array.isArray(snap.files) ? snap.files : []).map((file) => ({
+        id: file.id,
+        source: 'drive',
+        title: file.title || file.name || 'Drive 문서',
+        summary: file.summary || file.description || 'STARGATE 공개 Google Drive 문서',
+        mimeType: file.mimeType || '',
+        typeLabel: file.typeLabel || typeLabel(file.mimeType || ''),
+        publishedAt: file.publishedAt || (file.updatedAt || '').slice(0, 10),
+        updatedAt: file.updatedAt || null,
+        url: file.url || file.webViewLink || `https://drive.google.com/open?id=${encodeURIComponent(file.id)}`,
+      }));
+      return 'snapshot';
+    }
+
+    function persistDrive(files) {
+      driveFiles = files;
+      try {
+        localStorage.setItem(DRIVE_CACHE_KEY, JSON.stringify({
+          meta: { syncedAt: new Date().toISOString(), folderId: FOLDER_ID },
+          files,
+        }));
+      } catch (_) {}
+    }
+
+    async function loadDriveWithToken(accessToken) {
+      const q = encodeURIComponent(`'${FOLDER_ID}' in parents and trashed = false`);
+      const fields = encodeURIComponent('files(id,name,mimeType,modifiedTime,webViewLink,description)');
+      const endpoint = `https://www.googleapis.com/drive/v3/files?q=${q}&orderBy=modifiedTime%20desc&pageSize=50&fields=${fields}`;
+      const response = await fetch(endpoint, {
+        headers: { Authorization: `Bearer ${accessToken}` },
+        cache: 'no-store',
+      });
+      if (!response.ok) throw new Error(`Drive API ${response.status}`);
+      const payload = await response.json();
+      const files = (Array.isArray(payload.files) ? payload.files : []).map((file) => ({
+        id: file.id,
+        source: 'drive',
+        title: file.name || 'Drive 문서',
+        summary: file.description || 'STARGATE 공개 Google Drive 문서',
+        mimeType: file.mimeType || '',
+        typeLabel: typeLabel(file.mimeType || ''),
+        publishedAt: (file.modifiedTime || '').slice(0, 10),
+        updatedAt: file.modifiedTime || null,
+        url: file.webViewLink || `https://drive.google.com/open?id=${encodeURIComponent(file.id)}`,
+      }));
+      persistDrive(files);
+      setStatus(`Drive ${files.length}개 문서 동기화 완료`);
+      updateStats();
+      renderFeed();
+    }
+
+    function startDriveSync() {
+      if (!(window.google && google.accounts && google.accounts.oauth2)) {
+        setStatus('Google 로그인 모듈을 불러오는 중입니다. 잠시 후 다시 시도해 주세요.');
+        return;
+      }
+      const button = document.getElementById('drive-sync');
+      button.disabled = true;
+      setStatus('Google 인증을 시작합니다…');
+      tokenClient ||= google.accounts.oauth2.initTokenClient({
+        client_id: CLIENT_ID,
+        scope: 'https://www.googleapis.com/auth/drive.metadata.readonly',
+        callback: async (response) => {
+          try {
+            if (response.error) throw new Error(response.error);
+            setStatus('Drive 목록을 불러오는 중입니다…');
+            await loadDriveWithToken(response.access_token);
+          } catch (error) {
+            setStatus(`Drive 동기화 실패: OAuth 허용 출처(${location.origin})와 폴더 권한을 확인해 주세요.`);
+            console.error(error);
+          } finally {
+            button.disabled = false;
+          }
+        },
+      });
+      tokenClient.requestAccessToken({ prompt: 'consent' });
+    }
+
+    sourceTabs.forEach((tab) => {
+      tab.addEventListener('click', () => {
+        activeSource = tab.dataset.source;
+        sourceTabs.forEach((item) => {
+          const on = item === tab;
+          item.classList.toggle('active', on);
+          item.setAttribute('aria-pressed', String(on));
+        });
+        renderFeed();
+      });
+    });
+
+    searchInput.addEventListener('input', renderFeed);
+    feedList.addEventListener('click', (event) => {
+      const card = event.target.closest('.post');
+      if (!card) return;
+      if (event.target.closest('a')) return;
+      showDetail(postMap.get(card.dataset.id));
+    });
+
+    document.getElementById('notion-refresh').addEventListener('click', async () => {
+      const button = document.getElementById('notion-refresh');
+      button.disabled = true;
+      setStatus('Notion API를 호출합니다…');
+      await loadNotion({ preferLive: true });
+      updateStats();
+      renderFeed();
+      button.disabled = false;
+    });
+
+    document.getElementById('drive-sync').addEventListener('click', startDriveSync);
+
+    (async () => {
+      await Promise.all([
+        loadNotion({ preferLive: true }),
+        loadDriveSnapshot().catch((error) => {
+          driveFiles = [];
+          setStatus(`Drive 스냅샷 로딩 실패: ${error.message || error}`);
+        }),
+      ]);
+      updateStats();
+      renderFeed();
+    })();
+  })();
+  </script>
+</body>
+</html>

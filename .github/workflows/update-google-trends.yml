@@ -1,0 +1,50 @@
+name: Update Google Trends data
+
+on:
+  schedule:
+    # 매일 10:00 KST (01:00 UTC)
+    - cron: '0 1 * * *'
+  workflow_dispatch:
+    inputs:
+      geo:
+        description: '지역 코드 (쉼표 구분, 예: KR 또는 KR,US,JP)'
+        required: false
+        default: 'KR'
+      hours:
+        description: '시간 창 (4 / 24 / 48 / 168)'
+        required: false
+        default: '48'
+      limit:
+        description: '상위 N건'
+        required: false
+        default: '100'
+
+permissions:
+  contents: write
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Fetch Google Trends top N
+        env:
+          GEO: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.geo || 'KR' }}
+          HOURS: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.hours || '48' }}
+          LIMIT: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.limit || '100' }}
+        run: |
+          echo "geo=$GEO hours=$HOURS limit=$LIMIT"
+          python3 google-trends/fetch_data.py
+
+      - name: Commit updated data
+        run: |
+          if git diff --quiet google-trends/data.json google-trends/fallback-data.js; then
+            echo "변경 없음 — 커밋 생략"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add google-trends/data.json google-trends/fallback-data.js
+          git commit -m "chore(google-trends): 급상승 검색어 상위 100 자동 갱신"
+          git push

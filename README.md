@@ -8,9 +8,12 @@
 ## 구성
 
 - `index.html` — 포털 랜딩 페이지 (노션 블로그 피드 + 프로젝트 카드 그리드 + About)
-- `blog/` — 노션 API 블로그 파이프라인
+- `portfolio/` — 외부 링크용 선별 포트폴리오 허브 (`https://www.stargateedu.co.kr/portfolio/`)
+- `portfolio/blog/` — Notion API + Google Drive API 연동 포트폴리오 블로그
+- `api/portfolio-notion.js` — Notion 공개 글 라이브 프록시 (Vercel env: `NOTION_API_KEY`)
+- `blog/` — 홈 "최신 글" 피드용 노션 파이프라인 (포트폴리오 블로그와 별개 DB)
   - `sync_notion_blog.py` — 노션 「📰 포털 블로그 포스트」 DB에서 상태=발행 글을 읽어 `posts.json` 생성
-  - `posts.json` — 홈 "최신 글" 피드가 렌더링하는 데이터 (Actions가 자동 커밋)
+  - `posts.json` — 홈 피드가 렌더링하는 데이터 (Actions가 자동 커밋)
 - `404.html` — 커스텀 404
 - `CNAME` — 커스텀 도메인 `stargateedu.co.kr`
 - `manifest.webmanifest` / `sw.js` / `offline.html` / `assets/icons/` — PWA (앱 설치 요건)
