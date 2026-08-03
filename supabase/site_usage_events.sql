@@ -220,9 +220,37 @@ as $$
   from totals;
 $$;
 
+create or replace function public.get_site_button_click_counts(p_page_path text)
+returns jsonb
+language sql
+stable
+security definer
+set search_path = public
+as $$
+  select coalesce(jsonb_agg(jsonb_build_object(
+    'element_label', element_label,
+    'target_url', target_url,
+    'clicks', clicks
+  ) order by clicks desc, element_label, target_url), '[]'::jsonb)
+  from (
+    select
+      coalesce(element_label, '(이름 없는 버튼)') as element_label,
+      target_url,
+      count(*)::bigint as clicks
+    from public.site_usage_events
+    where event_type = 'click'
+      and page_path = left(coalesce(nullif(trim(p_page_path), ''), '/'), 512)
+    group by coalesce(element_label, '(이름 없는 버튼)'), target_url
+    order by clicks desc, element_label, target_url
+    limit 500
+  ) button_counts;
+$$;
+
 revoke all on function public.record_site_usage_event(uuid, uuid, uuid, text, text, text, text, text, text, text) from public;
 revoke all on function public.get_site_usage_stats(integer) from public;
+revoke all on function public.get_site_button_click_counts(text) from public;
 grant execute on function public.record_site_usage_event(uuid, uuid, uuid, text, text, text, text, text, text, text) to anon, authenticated;
 grant execute on function public.get_site_usage_stats(integer) to anon, authenticated;
+grant execute on function public.get_site_button_click_counts(text) to anon, authenticated;
 
 commit;
