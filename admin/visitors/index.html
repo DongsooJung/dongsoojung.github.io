@@ -4,11 +4,12 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="robots" content="noindex,nofollow">
-<title>방문자 관리자 대시보드 | STARGATE</title>
+<title>사이트 사용 분석 대시보드 | STARGATE</title>
 <style>
 :root{--bg:#0a0d14;--panel:#0f172a;--panel2:#111c33;--line:#263452;--ink:#e6edf3;--sub:#9aa7b8;--muted:#6b7a90;--acc:#7aa2ff;--good:#63d6a0;--warm:#ffb86b}
 *{box-sizing:border-box}html,body{margin:0;padding:0}body{font-family:"Pretendard","Apple SD Gothic Neo","Segoe UI",system-ui,sans-serif;color:var(--ink);background:radial-gradient(900px 520px at 10% -10%,rgba(79,127,255,.18),transparent 60%),var(--bg);min-height:100vh;line-height:1.55}
 a{color:inherit;text-decoration:none}.wrap{max-width:1080px;margin:0 auto;padding:28px 20px 70px}.top{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap}.brand{font-weight:800}.back{padding:9px 13px;border:1px solid var(--line);border-radius:999px;color:var(--sub);font-size:13px;background:var(--panel)}.hero{margin-top:42px}.kicker{color:var(--good);font-size:12px;font-weight:800;letter-spacing:1.2px}.hero h1{font-size:clamp(30px,5vw,48px);line-height:1.12;margin:8px 0 10px}.hero p{color:var(--sub);margin:0}.status{display:inline-flex;align-items:center;gap:8px;margin-top:14px;color:var(--sub);font-size:12px}.dot{width:8px;height:8px;border-radius:50%;background:var(--warm)}.status.ok .dot{background:var(--good);box-shadow:0 0 0 5px rgba(99,214,160,.1)}.status.warn .dot{background:var(--warm)}.status.error .dot{background:#ff6b7a}.metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:30px}.card{border:1px solid var(--line);border-radius:18px;background:linear-gradient(180deg,var(--panel2),var(--panel));padding:22px;box-shadow:0 18px 44px rgba(0,0,0,.22)}.label{color:var(--sub);font-size:12px;font-weight:700}.value{font-size:34px;font-weight:850;margin-top:8px;letter-spacing:-1px;font-variant-numeric:tabular-nums}.hint{color:var(--muted);font-size:11px;margin-top:5px}.section{margin-top:28px}.section h2{font-size:19px;margin:0 0 12px}.chart{display:flex;align-items:flex-end;gap:6px;height:250px;padding:22px 16px 10px;border:1px solid var(--line);border-radius:18px;background:var(--panel);overflow-x:auto}.bar-wrap{min-width:22px;flex:1;height:100%;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;gap:7px}.bar{width:100%;min-height:2px;border-radius:7px 7px 2px 2px;background:linear-gradient(180deg,var(--acc),#4f7fff);position:relative}.bar:hover::after{content:attr(data-tip);position:absolute;left:50%;bottom:calc(100% + 8px);transform:translateX(-50%);white-space:nowrap;background:#05070c;border:1px solid var(--line);padding:5px 7px;border-radius:7px;font-size:11px;color:var(--ink);z-index:5}.day{font-size:9px;color:var(--muted);writing-mode:vertical-rl;transform:rotate(180deg);height:34px}.table{margin-top:14px;border:1px solid var(--line);border-radius:16px;overflow:hidden;background:var(--panel)}.row{display:grid;grid-template-columns:1fr 120px;padding:12px 16px;border-bottom:1px solid rgba(38,52,82,.65);font-size:13px}.row:last-child{border-bottom:0}.row span:last-child{text-align:right;font-weight:750}.footer{margin-top:24px;color:var(--muted);font-size:11px}.refresh{border:0;border-radius:12px;padding:11px 15px;background:linear-gradient(135deg,#4f7fff,#7aa2ff);color:#081020;font-weight:800;cursor:pointer}.refresh:disabled{opacity:.55}@media(max-width:720px){.metrics{grid-template-columns:1fr}.chart{height:220px}.row{grid-template-columns:1fr 90px}}
+.usage-metrics{grid-template-columns:repeat(4,1fr);margin-top:14px}.usage-grid{display:grid;grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr);gap:14px;margin-top:14px}.usage-panel{border:1px solid var(--line);border-radius:18px;background:var(--panel);overflow:hidden}.usage-panel h3{font-size:14px;margin:0;padding:15px 16px;border-bottom:1px solid var(--line)}.usage-row{display:grid;grid-template-columns:minmax(0,1fr) 78px 78px;gap:10px;padding:11px 16px;border-bottom:1px solid rgba(38,52,82,.65);font-size:12px;align-items:center}.usage-row:last-child{border-bottom:0}.usage-row.header{color:var(--muted);font-size:10px;font-weight:750;letter-spacing:.04em}.usage-row span:not(:first-child){text-align:right;font-variant-numeric:tabular-nums}.usage-label{min-width:0}.usage-label strong,.usage-label small{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.usage-label small{color:var(--muted);margin-top:2px}.empty-row{padding:18px 16px;color:var(--muted);font-size:12px}@media(max-width:900px){.usage-metrics{grid-template-columns:repeat(2,1fr)}.usage-grid{grid-template-columns:1fr}}@media(max-width:720px){.usage-metrics{grid-template-columns:1fr}.usage-row{grid-template-columns:minmax(0,1fr) 64px 64px;padding:10px 12px}}
 </style>
   <link rel="stylesheet" href="/assets/site-theme.css">
   <script src="/assets/site-theme.js"></script>
@@ -16,24 +17,99 @@ a{color:inherit;text-decoration:none}.wrap{max-width:1080px;margin:0 auto;paddin
 <body>
 <div class="wrap">
   <div class="top"><div class="brand">STARGATE · ADMIN</div><div style="display:flex;gap:8px"><button class="refresh" id="refresh">새로고침</button><a class="back" href="/">← 메인으로</a></div></div>
-  <section class="hero"><div class="kicker">VISITOR ANALYTICS</div><h1>방문자 관리자 대시보드</h1><p>한국시간 기준 오늘·누적 방문자를 확인합니다.</p><div class="status" id="status"><span class="dot"></span><span>데이터를 불러오는 중입니다.</span></div></section>
+  <section class="hero"><div class="kicker">SITE USAGE ANALYTICS</div><h1>사이트 사용 분석 대시보드</h1><p>한국시간 기준 방문자와 페이지별·버튼별 실제 사용률을 확인합니다.</p><div class="status" id="status"><span class="dot"></span><span>데이터를 불러오는 중입니다.</span></div></section>
   <section class="metrics"><article class="card"><div class="label">TODAY · 오늘</div><div class="value" id="today">—</div><div class="hint" id="today-date">한국시간 기준</div></article><article class="card"><div class="label">TOTAL · 누적</div><div class="value" id="total">—</div><div class="hint">고유 브라우저·일 단위 누적</div></article><article class="card"><div class="label">30 DAYS · 최근 30일</div><div class="value" id="monthly">—</div><div class="hint">일별 방문 합계</div></article></section>
   <section class="section"><h2>최근 30일 방문 추이</h2><div class="chart" id="chart"></div><div class="table" id="table"></div></section>
-  <div class="footer">Supabase 기반으로 집계합니다. 동일 브라우저는 하루 1회만 기록됩니다.</div>
+  <section class="section" aria-labelledby="usage-title">
+    <h2 id="usage-title">버튼 사용 분석 · 최근 30일</h2>
+    <div class="metrics usage-metrics">
+      <article class="card"><div class="label">PAGE VIEWS · 조회</div><div class="value" id="usage-views">—</div><div class="hint">추적 페이지 총 조회</div></article>
+      <article class="card"><div class="label">CLICKS · 클릭</div><div class="value" id="usage-clicks">—</div><div class="hint">버튼·링크 총 클릭</div></article>
+      <article class="card"><div class="label">CLICKERS · 사용자</div><div class="value" id="usage-clickers">—</div><div class="hint">클릭한 고유 브라우저</div></article>
+      <article class="card"><div class="label">ENGAGEMENT · 사용률</div><div class="value" id="usage-rate">—</div><div class="hint">방문자 중 클릭 사용자 비율</div></article>
+    </div>
+    <div class="usage-grid">
+      <article class="usage-panel"><h3>페이지별 사용률</h3><div id="usage-pages"></div></article>
+      <article class="usage-panel"><h3>버튼별 클릭 순위</h3><div id="usage-buttons"></div></article>
+    </div>
+  </section>
+  <div class="footer">Supabase 기반으로 집계합니다. 방문자는 동일 브라우저 기준이며, 클릭 데이터에는 입력 내용이나 개인정보를 저장하지 않습니다.</div>
 </div>
 <script>
 (() => {
   const supabaseUrl='https://inftexpcnfinglwlrvsj.supabase.co';
   const publishableKey='sb_publishable_-D0A-aWNMTMTHXeL0oqBXg_9Tz0bdvs';
-  const snapshotKey='stargate-visitor-supabase-snapshot-v1';
+  const snapshotKey='stargate-analytics-snapshot-v2';
   const $=id=>document.getElementById(id);
   const status=$('status'), refresh=$('refresh');
   function day(offset=0){const d=new Date(Date.now()+offset*86400000);const p=new Intl.DateTimeFormat('en-CA',{timeZone:'Asia/Seoul',year:'numeric',month:'2-digit',day:'2-digit'}).formatToParts(d);const v=Object.fromEntries(p.map(x=>[x.type,x.value]));return `${v.year}-${v.month}-${v.day}`}
   function fmt(n){return (Number(n)||0).toLocaleString('ko-KR')}
   function setStatus(text,state=''){status.className='status'+(state?' '+state:'');status.querySelector('span:last-child').textContent=text}
-  function render(stats){const rows=Array.isArray(stats.daily)?stats.daily:[];const dates=rows.map(row=>row.date);const daily=rows.map(row=>Number(row.visits)||0);const max=Math.max(...daily,1);$('today').textContent=fmt(stats.today);$('total').textContent=fmt(stats.total);$('monthly').textContent=fmt(stats.period);$('today-date').textContent=day()+' · 한국시간';$('chart').replaceChildren(...daily.map((n,i)=>{const w=document.createElement('div');w.className='bar-wrap';const b=document.createElement('div');b.className='bar';b.style.height=Math.max(2,Math.round(n/max*170))+'px';b.dataset.tip=dates[i]+' · '+fmt(n)+'명';const s=document.createElement('span');s.className='day';s.textContent=dates[i].slice(5);w.append(b,s);return w}));$('table').replaceChildren(...rows.slice(-10).reverse().map(row=>{const r=document.createElement('div');r.className='row';const a=document.createElement('span');a.textContent=row.date;const b=document.createElement('span');b.textContent=fmt(row.visits)+'명';r.append(a,b);return r}))}
-  async function fetchStats(){const response=await fetch(supabaseUrl+'/rest/v1/rpc/get_site_visit_stats',{method:'POST',cache:'no-store',headers:{apikey:publishableKey,Authorization:'Bearer '+publishableKey,'Content-Type':'application/json',Accept:'application/json'},body:JSON.stringify({p_days:30})});if(!response.ok)throw new Error('HTTP_'+response.status);return response.json()}
-  async function load(){refresh.disabled=true;setStatus('Supabase에서 방문 통계를 불러오는 중입니다.');try{const stats=await fetchStats();render(stats);try{localStorage.setItem(snapshotKey,JSON.stringify({stats,at:new Date().toISOString()}))}catch{}setStatus('정상 연결 · Supabase · '+new Intl.DateTimeFormat('ko-KR',{dateStyle:'medium',timeStyle:'medium',timeZone:'Asia/Seoul'}).format(new Date()),'ok')}catch(error){let cached=null;try{cached=JSON.parse(localStorage.getItem(snapshotKey)||'null')}catch{}if(cached?.stats){render(cached.stats);setStatus('서버 지연으로 마지막 정상 데이터를 표시합니다.','warn')}else{setStatus('Supabase 방문자 통계 연결에 실패했습니다.','error')}}finally{refresh.disabled=false}}
+  function renderVisits(stats){
+    const rows=Array.isArray(stats.daily)?stats.daily:[];
+    const dates=rows.map(row=>row.date);
+    const daily=rows.map(row=>Number(row.visits)||0);
+    const max=Math.max(...daily,1);
+    $('today').textContent=fmt(stats.today);
+    $('total').textContent=fmt(stats.total);
+    $('monthly').textContent=fmt(stats.period);
+    $('today-date').textContent=day()+' · 한국시간';
+    $('chart').replaceChildren(...daily.map((n,i)=>{
+      const w=document.createElement('div');w.className='bar-wrap';
+      const b=document.createElement('div');b.className='bar';b.style.height=Math.max(2,Math.round(n/max*170))+'px';b.dataset.tip=dates[i]+' · '+fmt(n)+'명';
+      const s=document.createElement('span');s.className='day';s.textContent=dates[i].slice(5);w.append(b,s);return w;
+    }));
+    $('table').replaceChildren(...rows.slice(-10).reverse().map(row=>{
+      const r=document.createElement('div');r.className='row';
+      const a=document.createElement('span');a.textContent=row.date;
+      const b=document.createElement('span');b.textContent=fmt(row.visits)+'명';r.append(a,b);return r;
+    }));
+  }
+  function usageRow(label,sub,leftValue,rightValue,header=false){
+    const row=document.createElement('div');row.className='usage-row'+(header?' header':'');
+    const name=document.createElement('span');name.className='usage-label';
+    if(header){name.textContent=label}else{const strong=document.createElement('strong');strong.textContent=label;const small=document.createElement('small');small.textContent=sub||'—';name.append(strong,small)}
+    const left=document.createElement('span');left.textContent=leftValue;
+    const right=document.createElement('span');right.textContent=rightValue;
+    row.append(name,left,right);return row;
+  }
+  function renderUsage(stats){
+    $('usage-views').textContent=fmt(stats.page_views);
+    $('usage-clicks').textContent=fmt(stats.clicks);
+    $('usage-clickers').textContent=fmt(stats.clicking_visitors);
+    $('usage-rate').textContent=(Number(stats.engagement_rate)||0).toLocaleString('ko-KR',{maximumFractionDigits:1})+'%';
+    const pages=Array.isArray(stats.pages)?stats.pages:[];
+    const buttons=Array.isArray(stats.buttons)?stats.buttons:[];
+    const pageRows=[usageRow('페이지','', '클릭','사용률',true),...pages.map(row=>usageRow(row.page_path,fmt(row.page_views)+'회 조회',fmt(row.clicks),`${Number(row.engagement_rate)||0}%`))];
+    const buttonRows=[usageRow('버튼','', '클릭','사용자',true),...buttons.slice(0,30).map(row=>usageRow(row.element_label,row.page_path+(row.target_url?' · '+row.target_url:''),fmt(row.clicks),fmt(row.clicking_visitors)))];
+    if(!pages.length){const empty=document.createElement('div');empty.className='empty-row';empty.textContent='아직 페이지 사용 데이터가 없습니다.';pageRows.push(empty)}
+    if(!buttons.length){const empty=document.createElement('div');empty.className='empty-row';empty.textContent='아직 버튼 클릭 데이터가 없습니다.';buttonRows.push(empty)}
+    $('usage-pages').replaceChildren(...pageRows);
+    $('usage-buttons').replaceChildren(...buttonRows);
+  }
+  async function fetchRpc(name,payload){
+    const response=await fetch(supabaseUrl+'/rest/v1/rpc/'+name,{method:'POST',cache:'no-store',headers:{apikey:publishableKey,Authorization:'Bearer '+publishableKey,'Content-Type':'application/json',Accept:'application/json'},body:JSON.stringify(payload)});
+    if(!response.ok)throw new Error(name+'_HTTP_'+response.status);
+    return response.json();
+  }
+  async function load(){
+    refresh.disabled=true;setStatus('Supabase에서 방문·클릭 통계를 불러오는 중입니다.');
+    let cached=null;try{cached=JSON.parse(localStorage.getItem(snapshotKey)||'null')}catch{}
+    const [visitsResult,usageResult]=await Promise.allSettled([
+      fetchRpc('get_site_visit_stats',{p_days:30}),
+      fetchRpc('get_site_usage_stats',{p_days:30}),
+    ]);
+    const visits=visitsResult.status==='fulfilled'?visitsResult.value:cached?.visits;
+    const usage=usageResult.status==='fulfilled'?usageResult.value:cached?.usage;
+    if(visits)renderVisits(visits);
+    if(usage)renderUsage(usage);
+    if(visitsResult.status==='fulfilled'&&usageResult.status==='fulfilled'){
+      try{localStorage.setItem(snapshotKey,JSON.stringify({visits,usage,at:new Date().toISOString()}))}catch{}
+      setStatus('정상 연결 · Supabase · '+new Intl.DateTimeFormat('ko-KR',{dateStyle:'medium',timeStyle:'medium',timeZone:'Asia/Seoul'}).format(new Date()),'ok');
+    }else if(visits||usage){setStatus('일부 서버 지연으로 확인 가능한 통계만 표시합니다.','warn')}
+    else{setStatus('Supabase 분석 통계 연결에 실패했습니다.','error')}
+    refresh.disabled=false;
+  }
   refresh.addEventListener('click',load);load();
 })();
 </script>

@@ -93,5 +93,6 @@ function filter(){const q=search.value.trim().toLowerCase();let n=0;cards.forEac
 document.querySelectorAll(".filter").forEach(btn=>btn.onclick=()=>{document.querySelector(".filter.active").classList.remove("active");btn.classList.add("active");active=btn.dataset.filter;filter()});search.oninput=filter;
 const hash=location.hash.slice(1);if(stories[hash])openStory(hash);
 </script>
+<script src="/assets/usage-analytics.js?v=20260803" defer></script>
 </body>
 </html>
