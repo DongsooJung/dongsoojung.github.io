@@ -1,14 +1,14 @@
 {
-  "updatedAt": "2026-07-31",
+  "updatedAt": "2026-08-03",
   "sourceMode": "binance-vision",
-  "observedAt": "2026-07-31",
+  "observedAt": "2026-08-03",
   "sources": {
     "bitcoin": {
       "name": "Binance Vision BTCUSDT Monthly Klines",
       "metric": "BTC/USDT 월봉 · 평균=(고가+저가)/2",
       "unit": "USD",
       "url": "https://data-api.binance.vision/",
-      "observedAt": "2026-07-31"
+      "observedAt": "2026-08-03"
     }
   },
   "series": [
@@ -977,12 +977,21 @@
     },
     {
       "ym": "2026-07",
-      "partial": true,
+      "partial": false,
       "usd": 62378.17,
       "usdOpen": 58624.71,
-      "usdClose": 63017.4,
+      "usdClose": 62887.88,
       "usdMin": 57800.19,
       "usdMax": 66956.15
+    },
+    {
+      "ym": "2026-08",
+      "partial": true,
+      "usd": 63177.5,
+      "usdOpen": 62887.88,
+      "usdClose": 63822.01,
+      "usdMin": 62275.0,
+      "usdMax": 64080.0
     }
   ]
 }
