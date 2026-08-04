@@ -4,10 +4,10 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>정동수 · Dongsoo Jung — Stargate Corp / AI Lab</title>
-<meta name="description" content="정동수(Dongsoo Jung) 개인 포털 · Stargate Corporation CEO · 대치동 KOI 강사. KOI·알고리즘 심화 강의와 AI·공간계량·교육 프로젝트 아카이브.">
+<meta name="description" content="정동수(Dongsoo Jung) 전문가 포털. AI·공간데이터로 도시와 산업을 분석하고 알고리즘 교육으로 확산합니다. 공간계량·GIS·DID 연구, 공공데이터 대시보드, KOI 교육 포트폴리오.">
 <meta name="author" content="Dongsoo Jung">
 <meta property="og:title" content="정동수 · Dongsoo Jung — Stargate Corp">
-<meta property="og:description" content="AI 기업 CEO · KOI 강사 · KOI 알고리즘 심화 강의 및 프로젝트 포털">
+<meta property="og:description" content="AI × 도시공간 데이터 × 알고리즘 교육 전문가 포털">
 <meta property="og:url" content="https://stargateedu.co.kr/">
 <meta property="og:type" content="website">
 <meta name="twitter:card" content="summary_large_image">
@@ -22,6 +22,23 @@
 <link rel="icon" href="/assets/icons/favicon.ico" sizes="48x48">
 <link rel="icon" href="/assets/icons/icon-192.png" type="image/png" sizes="192x192">
 <link rel="apple-touch-icon" href="/assets/icons/apple-touch-icon.png">
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@type":"Person",
+  "name":"정동수",
+  "alternateName":"Dongsoo Jung",
+  "url":"https://stargateedu.co.kr/",
+  "jobTitle":"CEO · AI/Urban Data Researcher · KOI Instructor",
+  "worksFor":{"@type":"Organization","name":"주식회사 별의문 (Stargate Corporation)"},
+  "alumniOf":[
+    {"@type":"CollegeOrUniversity","name":"서울대학교"},
+    {"@type":"CollegeOrUniversity","name":"북한대학원대학교"}
+  ],
+  "knowsAbout":["Artificial Intelligence","Spatial Econometrics","GIS","Difference-in-Differences","Urban Analytics","Algorithms Education"],
+  "sameAs":["https://github.com/DongsooJung"]
+}
+</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Hahmlet:wght@500;600;700&family=IBM+Plex+Mono:wght@500;600&family=IBM+Plex+Sans+KR:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -210,6 +227,17 @@ a{color:var(--acc); text-decoration:none} a:hover{text-decoration:underline}
 .sec h2{font-family:var(--font-display);font-size:clamp(1.35rem,2vw,1.65rem);font-weight:600;letter-spacing:-.03em;margin:0 0 4px;line-height:1.25}
 .sec .desc{color:var(--sub);font-size:13.5px;margin-bottom:18px;line-height:1.65}
 
+/* Expertise */
+.expertise-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+.expertise-card{border:1px solid var(--line);background:linear-gradient(180deg,var(--panel2),var(--panel));border-radius:16px;padding:20px}
+.expertise-card .num{font-family:var(--font-mono);font-size:10px;color:var(--acc);letter-spacing:.1em}
+.expertise-card h3{font-family:var(--font-display);font-size:1.1rem;margin:8px 0 7px;letter-spacing:-.025em}
+.expertise-card p{color:var(--sub);font-size:12.5px;line-height:1.65;margin:0}
+.evidence{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-top:16px}
+.evidence div{border:1px solid var(--line);border-radius:12px;background:var(--panel);padding:13px 14px}
+.evidence strong{display:block;font-family:var(--font-display);font-size:15px;color:var(--ink);margin-bottom:3px}
+.evidence span{display:block;color:var(--muted);font-size:10.5px;line-height:1.45}
+
 /* Intelligence hubs */
 .hub-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px}
 .hub-card{position:relative;overflow:hidden;border:1px solid var(--line2);border-radius:20px;padding:25px;
@@ -288,6 +316,7 @@ footer .business-info{flex-basis:100%;padding-top:10px;border-top:1px solid var(
   .hero h1{font-size:clamp(1.85rem,7vw,2.2rem)}
   .about{grid-template-columns:1fr}
   .hub-grid{grid-template-columns:1fr}
+  .expertise-grid,.evidence{grid-template-columns:1fr}
 }
 @media (prefers-reduced-motion:reduce){
   body,.theme-toggle{transition:none}
@@ -346,17 +375,16 @@ footer .business-info{flex-basis:100%;padding-top:10px;border-top:1px solid var(
 
   <section class="hero">
     <div>
-      <h1>AI · 연구 · 교육을<br>한 곳에서.</h1>
+      <h1>AI와 공간데이터로<br><span class="accent">도시·산업 문제를 해결합니다.</span></h1>
       <p class="lead">
-        Stargate Corporation CEO, 대치동 KOI 수학정보올림피아드 강사.
-        연구·사업·교육 작업물을 공개 아카이브로 연결합니다.
+        공간계량·GIS·DID 연구, 공공데이터 기반 AI 제품, KOI 알고리즘 교육을
+        하나의 검증 가능한 포트폴리오로 연결합니다.
       </p>
       <div class="chips">
-        <a class="chip" href="https://dongsoojung.github.io/stargate-ai-gallery/files/arch-002.html">AI Engineering</a>
-        <a class="chip" href="https://dongsoojung.github.io/stargate-ai-gallery/files/land-003.html">Urban Analytics</a>
-        <a class="chip" href="https://dongsoojung.github.io/stargate-ai-gallery/files/land-001.html">KOI · PS</a>
-        <a class="chip" href="/cybersecurity/">AI 사이버 보안</a>
-        <a class="chip" href="https://dongsoojung.github.io/stargate-ai-gallery/files/arch-001.html#card-mcp">Docker · MCP</a>
+        <a class="chip" href="/research/">공간계량 · GIS</a>
+        <a class="chip" href="/did/">DID · 정책효과</a>
+        <a class="chip" href="/research/api/">AI · 공공데이터</a>
+        <a class="chip" href="/koi-coach/">KOI · 알고리즘</a>
       </div>
       <div class="cta">
         <a class="btn primary" href="/portfolio/">
@@ -388,15 +416,44 @@ footer .business-info{flex-basis:100%;padding-top:10px;border-top:1px solid var(
         <div class="avatar">정</div>
         <div class="meta">
           <div class="nm">정동수 · Dongsoo Jung</div>
-          <div class="ro">Stargate Corp CEO · AI Engineer</div>
+          <div class="ro">Stargate Corp CEO · 도시공간 데이터 연구자</div>
         </div>
       </div>
       <dl class="kv">
+        <dt>학력</dt><dd>서울대 스마트도시공학 박사과정 수료 · 행정학 석사</dd>
+        <dt>전문</dt><dd>공간계량 · 헤도닉 가격모형 · DID · Python/GIS</dd>
         <dt>경력</dt><dd>공군 시설장교(서울공항 PM) · 공군참모총장상 · 토목기사</dd>
-        <dt>강의</dt><dd>대치동 KOI 수학정보올림피아드</dd>
-        <dt>관심</dt><dd>AI Agents · 공간계량 · MCP · 사이버보안</dd>
+        <dt>교육</dt><dd>대치동 KOI 수학정보올림피아드 강사</dd>
       </dl>
     </aside>
+  </section>
+
+  <section class="sec" id="expertise">
+    <h2>핵심 전문영역</h2>
+    <div class="desc">문제 정의부터 데이터 수집·실증분석·시각화·교육까지 연결합니다.</div>
+    <div class="expertise-grid">
+      <article class="expertise-card">
+        <div class="num">01 · URBAN ANALYTICS</div>
+        <h3>도시·공간분석</h3>
+        <p>공간계량모형, 헤도닉 가격모형, DID와 GIS를 활용해 접근성·주택가격·정책효과를 분석합니다.</p>
+      </article>
+      <article class="expertise-card">
+        <div class="num">02 · AI &amp; DATA ENGINEERING</div>
+        <h3>AI·공공데이터 엔지니어링</h3>
+        <p>공공데이터 API와 Python 기반 수집 파이프라인을 구축하고 의사결정용 인터랙티브 대시보드로 구현합니다.</p>
+      </article>
+      <article class="expertise-card">
+        <div class="num">03 · ALGORITHM EDUCATION</div>
+        <h3>알고리즘·정보교육</h3>
+        <p>KOI 문제해결, 핵심 알고리즘과 수학적 사고를 교재·문제은행·학생별 진도관리 체계로 교육합니다.</p>
+      </article>
+    </div>
+    <div class="evidence" aria-label="전문성 주요 증빙">
+      <div><strong>803억 원</strong><span>서울공항 활주로 재포장 프로젝트 관리</span></div>
+      <div><strong>215억 원</strong><span>격납고 건설 프로젝트 관리</span></div>
+      <div><strong>3개 대학원 전공</strong><span>북한 경제·IT, 행정학, 스마트도시공학</span></div>
+      <div><strong>연구→제품→교육</strong><span>분석 결과를 서비스와 학습 자산으로 전환</span></div>
+    </div>
   </section>
 
 
@@ -439,8 +496,8 @@ footer .business-info{flex-basis:100%;padding-top:10px;border-top:1px solid var(
 
 
   <section class="sec" id="projects">
-    <h2>프로젝트 · Projects</h2>
-    <div class="desc">공개 가능한 산출물 모음. 클릭하면 각 프로젝트 페이지로 이동합니다. 외부 공유용 선별본은 <a href="/portfolio/">포트폴리오</a>를 사용하세요.</div>
+    <h2>대표 프로젝트 · Selected Cases</h2>
+    <div class="desc">전문 분야와 방법론을 확인할 수 있는 대표 산출물 6개를 선별했습니다. 전체 작업은 아래 버튼에서 펼쳐볼 수 있습니다.</div>
     <div class="project-toggle-row">
       <button class="project-toggle" id="project-visibility-toggle" type="button" aria-expanded="false" aria-controls="projects-grid">
         <span aria-hidden="true">▾</span><span>숨긴 프로젝트 보기</span>
@@ -496,7 +553,7 @@ footer .business-info{flex-basis:100%;padding-top:10px;border-top:1px solid var(
         <div class="thumb" style="background:linear-gradient(135deg,#3b2a1c,#8B5A3C 60%,#C9A77B)"><span class="emo">🏠</span></div>
         <div class="body">
           <div class="ttl">Stay with Dongsoo · 대치동 스테이</div>
-          <div class="sub">박사 호스트가 직접 운영하는 대치동 프리미엄 단기 숙소. Airbnb(외국인)·위홈(내국인) 이중 채널 예약 페이지.</div>
+          <div class="sub">스마트도시공학 박사과정 수료 호스트가 직접 운영하는 대치동 단기 숙소. Airbnb(외국인)·위홈(내국인) 이중 채널 예약 페이지.</div>
           <div class="row"><span class="tag">Airbnb · WeHome</span><span class="go">열기 →</span></div>
         </div>
       </a>
@@ -773,25 +830,27 @@ footer .business-info{flex-basis:100%;padding-top:10px;border-top:1px solid var(
   </section>
 
   <section class="sec" id="about">
-    <h2>About</h2>
-    <div class="desc">역할과 관심사 요약. 협업·강의·컨설팅 문의는 아래 메일로 부탁드립니다.</div>
+    <h2>프로필 · Profile</h2>
+    <div class="desc">도시·공간 연구, 공공 프로젝트 관리, AI 제품개발과 알고리즘 교육을 연결해 온 경력입니다.</div>
     <div class="about">
       <div class="box">
-        <h3>현재 하는 일</h3>
+        <h3>학력 · 연구</h3>
         <ul>
-          <li>Stargate Corporation CEO — AI/공간 데이터 기반 프로덕트 기획·개발</li>
-          <li>대치동 KOI 수학정보올림피아드 강사 — 알고리즘·수학 교육</li>
-          <li>Claude Desktop / Cowork / Claude Code 환경에서 멀티 MCP 워크플로우 구축</li>
+          <li>서울대 지구환경시스템공학부 학사</li>
+          <li>북한대학원대학교 북한학 석사 — 경제·IT</li>
+          <li>서울대 행정대학원 행정학 석사</li>
+          <li>서울대 건설환경공학부 스마트도시공학 박사과정 수료</li>
         </ul>
       </div>
       <div class="box">
-        <h3>연락 / 링크</h3>
+        <h3>경력 · 협업 문의</h3>
         <ul>
-          <li>Email: <a href="mailto:jds068888@gmail.com">jds068888@gmail.com</a></li>
+          <li>주식회사 별의문 대표이사 — AI·공간데이터 제품 기획·개발</li>
+          <li>공군 시설장교 3년 3개월 — 서울공항 대형 시설사업 PM</li>
+          <li>수원 군공항·김포 스마트재생·부천 역세권 연구 경험</li>
+          <li>Email: <a href="mailto:ceo@stargateedu.co.kr">ceo@stargateedu.co.kr</a></li>
           <li>포트폴리오: <a href="/portfolio/">www.stargateedu.co.kr/portfolio/</a></li>
           <li>GitHub: <a href="https://github.com/DongsooJung" target="_blank" rel="noopener">github.com/DongsooJung</a></li>
-          <li>Gallery: <a href="https://dongsoojung.github.io/stargate-ai-gallery/">stargate-ai-gallery</a></li>
-          <li>포털 소스: <a href="https://github.com/DongsooJung/dongsoojung.github.io" target="_blank" rel="noopener">github.com/DongsooJung/dongsoojung.github.io</a></li>
         </ul>
       </div>
     </div>
@@ -802,7 +861,7 @@ footer .business-info{flex-basis:100%;padding-top:10px;border-top:1px solid var(
     <span>
       <a href="https://stargateedu.co.kr/" target="_blank" rel="noopener">stargateedu.co.kr</a> ·
       <a href="https://github.com/DongsooJung" target="_blank" rel="noopener">GitHub</a> ·
-      <a href="mailto:jds068888@gmail.com">jds068888@gmail.com</a>
+      <a href="mailto:ceo@stargateedu.co.kr">ceo@stargateedu.co.kr</a>
     </span>
     <span class="business-info">상호 : 주식회사 별의문 · 대표자명 : 정동수 · 사업자번호 : 848-86-03835 · 통신판매업신고번호 : 2025-서울강남-05246호 · 주소 : 서울특별시 강남구 삼성로63길 8-15, 204호 (대치동) · 전화 : 070-8018-8227 · 개인정보보호책임자 : 정동수 · 이메일 : ceo@stargateedu.co.kr</span>
   </footer>
@@ -876,23 +935,17 @@ footer .business-info{flex-basis:100%;padding-top:10px;border-top:1px solid var(
   if (!toggle || !grid) return;
 
   const cards = [...grid.querySelectorAll(':scope > .proj')];
-  const firstHiddenIndex = cards.findIndex((card) =>
-    card.querySelector('.ttl')?.textContent.includes('하루 견적서 · Quote Maker')
-  );
-  if (firstHiddenIndex < 0) {
-    toggle.hidden = true;
-    return;
-  }
-
-  const alwaysHidden = [
-    '나라장터 공사 입찰공고',
-    '나라장터 용역 입찰공고',
-    'LH 분양정보 관측소',
-    '화성 실거래 데이터 허브',
+  const selectedProjects = [
+    '서울 실시간 도시데이터',
+    '법원경매 × 국토부 실거래',
+    'Spatial Econometrics Lab',
+    '월간 거시경제 대시보드',
+    '무역 월별 대시보드',
+    'KOI Coach',
   ];
-  const targetCards = cards.filter((card, index) => {
+  const targetCards = cards.filter((card) => {
     const title = card.querySelector('.ttl')?.textContent || '';
-    return index >= firstHiddenIndex || alwaysHidden.some((item) => title.includes(item));
+    return !selectedProjects.some((item) => title.includes(item));
   });
   const label = toggle.querySelector('span:last-child');
   const icon = toggle.querySelector('span:first-child');
@@ -901,8 +954,8 @@ footer .business-info{flex-basis:100%;padding-top:10px;border-top:1px solid var(
     targetCards.forEach((card) => card.classList.toggle('is-project-hidden', !expanded));
     toggle.setAttribute('aria-expanded', String(expanded));
     label.textContent = expanded
-      ? '숨긴 프로젝트 다시 접기'
-      : '숨긴 프로젝트 보기';
+      ? '전체 프로젝트 다시 접기'
+      : '전체 프로젝트 보기';
     icon.textContent = expanded ? '▴' : '▾';
   }
 
