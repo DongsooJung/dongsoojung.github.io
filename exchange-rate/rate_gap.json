@@ -1,13 +1,13 @@
 {
   "source": "FRED (OECD 한국 익일물 금리 · Federal Reserve 미국 실효 연방기금금리)",
   "sourceMode": "api",
-  "updatedAt": "2026-07-18",
+  "updatedAt": "2026-08-04",
   "unit": "% · 금리차는 %p",
   "definition": "금리차 = 한국 콜머니·은행간 익일물 월평균 − 미국 실효 연방기금금리 월평균",
   "coverage": {
-    "start": "1996-07",
+    "start": "1996-08",
     "end": "2026-06",
-    "months": 360
+    "months": 359
   },
   "meta": {
     "korea": {
@@ -24,12 +24,6 @@
     }
   },
   "series": [
-    {
-      "ym": "1996-07",
-      "koreaRate": 12.94,
-      "usRate": 5.4,
-      "gap": 7.54
-    },
     {
       "ym": "1996-08",
       "koreaRate": 15.39,
