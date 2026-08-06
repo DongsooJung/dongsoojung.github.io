@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Google Trends 연구 대시보드 | STARGATE RESEARCH</title>
+  <meta name="description" content="키워드·지역·기간을 바꿔 Google 검색 관심도, 지역 분포, 관련 검색어를 비교하는 STARGATE 인터랙티브 연구 대시보드입니다.">
+  <link rel="canonical" href="https://stargateedu.co.kr/google-trends/compare.html">
+  <style>
+    :root{--ink:#0a1228;--navy:#0b1738;--panel:#101c3f;--gold:#d9a441;--gold2:#f3ce86;--paper:#f4f6fb;--line:#dfe5f0;--text:#17203a;--muted:#65708c;--blue:#3b82f6;--green:#10b981;--radius:20px}
+    *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;font-family:"Noto Sans KR","Malgun Gothic",system-ui,sans-serif;background:var(--paper);color:var(--text);line-height:1.6;word-break:keep-all}button,input,select{font:inherit}.wrap{width:min(1240px,calc(100% - 36px));margin:auto}
+    .top{position:sticky;top:0;z-index:20;background:rgba(8,17,41,.94);backdrop-filter:blur(12px);color:#fff;border-bottom:1px solid rgba(217,164,65,.24)}.top .wrap{min-height:62px;display:flex;align-items:center;justify-content:space-between;gap:18px}.brand{font-weight:900;text-decoration:none;letter-spacing:.3px}.brand b{color:var(--gold2)}.topnav{display:flex;gap:18px;font-size:13px}.topnav a{color:#dce3f6;text-decoration:none}.topnav a:hover{color:var(--gold2)}
+    .hero{padding:72px 0 62px;color:#fff;background:radial-gradient(800px 420px at 12% -20%,rgba(217,164,65,.25),transparent 66%),linear-gradient(145deg,#071128,var(--panel));overflow:hidden}.hero-grid{display:grid;grid-template-columns:1.25fr .75fr;gap:34px;align-items:end}.eyebrow{display:inline-flex;padding:6px 12px;border-radius:999px;color:var(--gold2);border:1px solid rgba(243,206,134,.35);background:rgba(217,164,65,.1);font-size:11px;font-weight:900;letter-spacing:1px}.hero h1{margin:18px 0 14px;font-size:clamp(34px,5vw,58px);line-height:1.12;letter-spacing:-1.8px}.hero h1 span{color:var(--gold2)}.lead{max-width:760px;margin:0;color:#cbd4ea;font-size:17px}.source-card{padding:22px;border:1px solid rgba(255,255,255,.14);border-radius:18px;background:rgba(255,255,255,.055)}.source-card strong{display:block;color:var(--gold2);margin-bottom:7px}.source-card p{margin:0;color:#cbd4ea;font-size:13px}.live-pill{display:inline-flex;align-items:center;gap:7px;margin-top:16px;font-size:12px;color:#a7f3d0}.live-pill:before{content:"";width:8px;height:8px;border-radius:50%;background:var(--green);box-shadow:0 0 0 5px rgba(16,185,129,.13)}
+    main{padding:28px 0 72px}.controls{position:relative;z-index:3;margin-top:-50px;padding:22px;border:1px solid var(--line);border-radius:var(--radius);background:#fff;box-shadow:0 18px 45px rgba(10,18,40,.12)}.control-grid{display:grid;grid-template-columns:2fr 1fr 1fr auto;gap:12px;align-items:end}.field label{display:block;margin:0 0 7px;color:var(--muted);font-size:12px;font-weight:800}.field input,.field select{width:100%;height:46px;border:1px solid #d7deeb;border-radius:12px;background:#fff;padding:0 13px;color:var(--text);outline:none}.field input:focus,.field select:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(217,164,65,.14)}.apply{height:46px;padding:0 21px;border:0;border-radius:12px;background:var(--gold);color:var(--navy);font-weight:900;cursor:pointer}.apply:hover{filter:brightness(1.04);transform:translateY(-1px)}.hint{margin:11px 0 0;color:var(--muted);font-size:12px}
+    .metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:18px}.metric{padding:17px 19px;border:1px solid var(--line);border-radius:16px;background:#fff}.metric span{display:block;color:var(--muted);font-size:11px;font-weight:800}.metric strong{display:block;margin-top:5px;color:var(--navy);font-size:18px}.metric strong.small{font-size:14px;line-height:1.45}
+    .workspace{display:grid;grid-template-columns:220px 1fr;gap:18px;margin-top:18px}.tabs{align-self:start;display:grid;gap:8px;padding:10px;border:1px solid var(--line);border-radius:16px;background:#fff;position:sticky;top:82px}.tab{display:flex;align-items:center;gap:10px;width:100%;padding:13px;border:0;border-radius:11px;background:transparent;color:var(--muted);text-align:left;font-weight:800;cursor:pointer}.tab:hover{background:#f3f5fa;color:var(--navy)}.tab.active{background:var(--navy);color:#fff}.chart-card{min-width:0;border:1px solid var(--line);border-radius:var(--radius);background:#fff;overflow:hidden;box-shadow:0 10px 28px rgba(10,18,40,.05)}.chart-head{display:flex;justify-content:space-between;align-items:flex-start;gap:18px;padding:20px 22px;border-bottom:1px solid var(--line)}.chart-head h2{margin:0;color:var(--navy);font-size:20px}.chart-head p{margin:5px 0 0;color:var(--muted);font-size:12px}.open-link{flex:none;display:inline-flex;padding:9px 12px;border-radius:10px;background:#eef3ff;color:#1d4ed8;text-decoration:none;font-size:12px;font-weight:900}.embed-shell{min-height:620px;background:#fff}.embed-shell iframe{display:block;width:100%;height:620px;border:0}.loading{min-height:620px;display:grid;place-items:center;color:var(--muted);font-size:14px}.loading span:before{content:"";display:inline-block;width:16px;height:16px;margin-right:9px;border:2px solid #d8deea;border-top-color:var(--gold);border-radius:50%;vertical-align:-3px;animation:spin .7s linear infinite}@keyframes spin{to{transform:rotate(360deg)}}
+    .method{margin-top:18px;padding:22px;border-radius:18px;background:var(--navy);color:#d8e0f2}.method-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px}.method h3{margin:0 0 7px;color:#fff}.method p{margin:0;font-size:13px}.method a{color:var(--gold2)}.caution{color:#f9dba2}
+    footer{padding:28px 0;background:#071128;color:#8f9ab7;text-align:center;font-size:12px}footer a{color:var(--gold2)}
+    @media(max-width:900px){.hero-grid,.method-grid{grid-template-columns:1fr}.control-grid{grid-template-columns:1fr 1fr}.apply{grid-column:1/-1}.metrics{grid-template-columns:1fr 1fr}.workspace{grid-template-columns:1fr}.tabs{position:static;grid-template-columns:repeat(3,1fr)}.tab{justify-content:center}.embed-shell,.loading{min-height:560px}.embed-shell iframe{height:560px}}
+    @media(max-width:560px){.topnav{display:none}.hero{padding-top:58px}.control-grid,.metrics{grid-template-columns:1fr}.tabs{grid-template-columns:1fr}.chart-head{flex-direction:column}.open-link{width:100%;justify-content:center}.embed-shell,.loading{min-height:520px}.embed-shell iframe{height:520px}}
+  </style>
+</head>
+<body>
+  <nav class="top"><div class="wrap"><a class="brand" href="/google-trends/">STARGATE <b>RESEARCH</b></a><div class="topnav"><a href="/google-trends/">급상승 TOP 100</a><a href="#dashboard">키워드 비교</a><a href="#method">연구 방법</a><a href="/">홈</a></div></div></nav>
+  <header class="hero"><div class="wrap hero-grid"><div><span class="eyebrow">SEARCH INTELLIGENCE · GOOGLE TRENDS</span><h1>검색 관심도를<br><span>연구 데이터</span>로 읽습니다</h1><p class="lead">AI·교육·정책 키워드의 시간 추세, 지역 분포, 관련 검색어를 같은 조건에서 비교하세요. 입력한 조건은 Google Trends의 공식 시각화 데이터에 바로 반영됩니다.</p></div><aside class="source-card"><strong>Google Trends 연결</strong><p>공식 Trends 임베드 데이터를 사용하며 값은 검색량이 아닌 상대적 관심도 지수입니다.</p><div class="live-pill">LIVE · Google 제공 데이터</div></aside></div></header>
+  <main id="dashboard"><div class="wrap">
+    <section class="controls" aria-label="Google Trends 조회 조건">
+      <div class="control-grid">
+        <div class="field"><label for="keywords">비교 키워드 · 쉼표로 최대 5개</label><input id="keywords" value="인공지능, 코딩교육, 정보올림피아드" maxlength="120" autocomplete="off"></div>
+        <div class="field"><label for="geo">분석 지역</label><select id="geo"><option value="KR">대한민국</option><option value="">전 세계</option><option value="US">미국</option><option value="JP">일본</option><option value="SG">싱가포르</option></select></div>
+        <div class="field"><label for="period">분석 기간</label><select id="period"><option value="today 12-m">최근 12개월</option><option value="today 3-m">최근 90일</option><option value="today 5-y">최근 5년</option><option value="now 7-d">최근 7일</option></select></div>
+        <button class="apply" id="apply" type="button">분석 실행</button>
+      </div>
+      <p class="hint">키워드는 정확한 비교를 위해 2~5개를 권장합니다. 조회 결과는 Google Trends 기준으로 정규화됩니다.</p>
+    </section>
+    <section class="metrics" aria-label="현재 분석 조건">
+      <article class="metric"><span>DATA SOURCE</span><strong>Google Trends</strong></article>
+      <article class="metric"><span>REGION</span><strong id="metric-geo">대한민국</strong></article>
+      <article class="metric"><span>TIME WINDOW</span><strong id="metric-period">최근 12개월</strong></article>
+      <article class="metric"><span>KEYWORDS</span><strong class="small" id="metric-keywords">인공지능 · 코딩교육 · 정보올림피아드</strong></article>
+    </section>
+    <section class="workspace">
+      <div class="tabs" role="tablist" aria-label="분석 유형">
+        <button class="tab active" data-view="TIMESERIES" role="tab" aria-selected="true">↗ 시간 추세</button>
+        <button class="tab" data-view="GEO_MAP" role="tab" aria-selected="false">⌖ 지역 분포</button>
+        <button class="tab" data-view="RELATED_QUERIES" role="tab" aria-selected="false">⌕ 관련 검색어</button>
+      </div>
+      <article class="chart-card">
+        <div class="chart-head"><div><h2 id="chart-title">시간별 관심도</h2><p id="chart-desc">선택 기간 동안 키워드별 상대 검색 관심도(0~100)를 비교합니다.</p></div><a class="open-link" id="open-trends" href="#" target="_blank" rel="noopener">Google Trends 상세보기 ↗</a></div>
+        <div class="embed-shell" id="embed-shell"><div class="loading"><span>Google Trends 데이터를 불러오는 중입니다.</span></div></div>
+      </article>
+    </section>
+    <section class="method" id="method"><div class="method-grid"><div><h3>해석 기준</h3><p>100은 선택한 지역·기간에서의 최고 관심 시점, 50은 그 절반 수준을 뜻합니다. 0은 검색량이 0이라는 뜻이 아니라 충분한 데이터가 없을 수 있음을 의미합니다.</p></div><div><h3>API 운영 상태</h3><p class="caution">공식 Google Trends API는 현재 제한된 알파 승인 방식입니다. 이 화면은 공개 사용 가능한 Google 공식 임베드로 운영하며, 알파 권한 확보 후 동일 UI에 API 응답 캐시와 CSV 내보내기를 연결할 수 있습니다. <a href="https://developers.google.com/search/apis/trends" target="_blank" rel="noopener">공식 API 안내 ↗</a></p></div></div></section>
+  </div></main>
+  <footer><div class="wrap">© 2026 Stargate Corp · <a href="/google-trends/">Google Trends TOP 100</a> · 데이터 출처 <a href="https://trends.google.com/trends/" target="_blank" rel="noopener">Google Trends</a></div></footer>
+  <script>
+    (()=>{
+      const $=s=>document.querySelector(s), shell=$("#embed-shell"), keywordInput=$("#keywords"), geoSelect=$("#geo"), periodSelect=$("#period");
+      const labels={geo:{KR:"대한민국",US:"미국",JP:"일본",SG:"싱가포르","":"전 세계"},period:{"today 12-m":"최근 12개월","today 3-m":"최근 90일","today 5-y":"최근 5년","now 7-d":"최근 7일"}};
+      const viewCopy={TIMESERIES:["시간별 관심도","선택 기간 동안 키워드별 상대 검색 관심도(0~100)를 비교합니다."],GEO_MAP:["지역별 관심도","하위 지역별로 어떤 키워드의 관심도가 높은지 비교합니다."],RELATED_QUERIES:["관련 검색어","선택 키워드와 함께 검색되는 인기·급상승 검색어를 확인합니다."]};
+      let view="TIMESERIES";
+      function keywords(){return [...new Set(keywordInput.value.split(",").map(v=>v.trim()).filter(Boolean))].slice(0,5)}
+      function request(){const ks=keywords();return {comparisonItem:ks.map(keyword=>({keyword,geo:geoSelect.value,time:periodSelect.value})),category:0,property:""}}
+      function exploreUrl(){const ks=keywords().map(encodeURIComponent).join(",");const p=new URLSearchParams({date:periodSelect.value,geo:geoSelect.value,q:ks});return `https://trends.google.com/trends/explore?${p.toString().replace(/%252C/g,",")}`}
+      function render(){const ks=keywords();if(ks.length<1){keywordInput.focus();return}keywordInput.value=ks.join(", ");$("#metric-geo").textContent=labels.geo[geoSelect.value];$("#metric-period").textContent=labels.period[periodSelect.value];$("#metric-keywords").textContent=ks.join(" · ");$("#chart-title").textContent=viewCopy[view][0];$("#chart-desc").textContent=viewCopy[view][1];$("#open-trends").href=exploreUrl();shell.innerHTML='<div class="loading"><span>Google Trends 데이터를 불러오는 중입니다.</span></div>';const params=new URLSearchParams({req:JSON.stringify(request()),tz:"-540"});const frame=document.createElement("iframe");frame.title=`Google Trends ${viewCopy[view][0]}`;frame.loading="lazy";frame.referrerPolicy="strict-origin-when-cross-origin";frame.src=`https://trends.google.com/trends/embed/explore/${view}?${params.toString()}`;frame.addEventListener("load",()=>shell.replaceChildren(frame));setTimeout(()=>{if(!frame.isConnected)shell.replaceChildren(frame)},1600)}
+      $("#apply").addEventListener("click",render);keywordInput.addEventListener("keydown",e=>{if(e.key==="Enter")render()});document.querySelectorAll(".tab").forEach(tab=>tab.addEventListener("click",()=>{document.querySelectorAll(".tab").forEach(t=>{t.classList.toggle("active",t===tab);t.setAttribute("aria-selected",String(t===tab))});view=tab.dataset.view;render()}));render();
+    })();
+  </script>
+</body>
+</html>
