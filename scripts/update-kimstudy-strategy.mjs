@@ -1,161 +1,202 @@
 import { mkdir, writeFile } from "node:fs/promises";
 import { dirname, resolve } from "node:path";
 
+const ORIGIN = "https://academy.kimstudy.com";
+const ROBOTS_URL = `${ORIGIN}/robots.txt`;
+const SITEMAP_URL = `${ORIGIN}/sitemap.xml`;
+const OUTPUT_PATH = resolve("strategy/kimstudy-math/data/latest.json");
+const USER_AGENT = "Mozilla/5.0 (compatible; STARGATE-StrategyBot/1.0; +https://stargateedu.co.kr/strategy/kimstudy-math/)";
 const PAGE_SIZE = 100;
-const MAX_RECORDS = 5_000;
-const DEMO_RECORDS = 200;
-const outputPath = resolve("strategy/kimstudy-math/data/latest.json");
-const exportUrl = (
-  process.env.AUTHORIZED_STUDENT_EXPORT_URL ??
-  process.env.AUTHORIZED_CANDIDATE_EXPORT_URL
-)?.trim();
+const MAX_RECORDS = 200;
+const CANDIDATE_LIMIT = 240;
+const CONCURRENCY = 6;
 
-const subjects = ["수학", "정보·코딩", "과학", "영어", "학습코칭"];
-const regions = ["서울 강남", "서울 송파", "서울 서초", "경기 성남", "온라인"];
-const schoolLevels = ["초5", "초6", "중1", "중2", "중3", "고1", "고2", "고3", "재수"];
-const goals = ["내신 향상", "수능 대비", "경시·올림피아드", "코딩 입문", "특목고 준비"];
-
-function sampleCandidates() {
-  const now = Date.now();
-  return Array.from({ length: DEMO_RECORDS }, (_, index) => ({
-    externalId: `STUDENT-${String(index + 1).padStart(3, "0")}`,
-    displayName: `익명 학생 ${String(index + 1).padStart(3, "0")}`,
-    subject: subjects[index % subjects.length],
-    region: regions[(index * 3) % regions.length],
-    schoolLevel: schoolLevels[(index * 5) % schoolLevels.length],
-    goal: goals[(index * 7) % goals.length],
-    weeklySessions: 1 + (index % 3),
-    budgetMonthly: 35 + ((index * 5) % 55),
-    scheduleFit: 55 + ((index * 11) % 46),
-    guardianVerified: index % 6 !== 0,
-    remote: index % 3 === 0,
-    requestedAt: new Date(now - ((index * 13) % 22) * 86_400_000).toISOString(),
-    profileUrl: null,
-  }));
+async function fetchText(url, attempts = 2) {
+  let lastError;
+  for (let attempt = 1; attempt <= attempts; attempt += 1) {
+    try {
+      const response = await fetch(url, {
+        headers: { accept: "*/*", "user-agent": USER_AGENT },
+        redirect: "follow",
+        signal: AbortSignal.timeout(25_000),
+      });
+      if (!response.ok) throw new Error(`HTTP ${response.status}`);
+      return await response.text();
+    } catch (error) {
+      lastError = error;
+    }
+  }
+  throw lastError;
 }
 
-async function loadCandidates() {
-  if (!exportUrl) return { candidates: sampleCandidates(), mode: "demo" };
-
-  const url = new URL(exportUrl);
-  if (url.protocol !== "https:") {
-    throw new Error("승인 데이터 URL은 HTTPS여야 합니다.");
+function assertRobotsAllowed(robotsText) {
+  const normalized = robotsText.replace(/\r/g, "");
+  const genericBlock = normalized.match(/User-agent:\s*\*[\s\S]*?(?=\nUser-agent:|$)/i)?.[0] ?? "";
+  if (/Disallow:\s*\/\s*$/im.test(genericBlock) && !/Allow:\s*\/\s*$/im.test(genericBlock)) {
+    throw new Error("academy.kimstudy.com robots.txt가 공개 수집을 허용하지 않습니다.");
   }
-  if (/(^|\.)kimstudy\.com$/i.test(url.hostname)) {
-    throw new Error(
-      "kimstudy.com 페이지 직접 수집은 허용하지 않습니다. 공식 API 또는 별도로 승인된 학생 문의 내보내기 URL을 사용하세요."
-    );
+  if (!/Allow:\s*\/\s*$/im.test(genericBlock)) {
+    throw new Error("academy.kimstudy.com robots.txt에서 명시적 전체 허용을 확인하지 못했습니다.");
   }
-
-  const response = await fetch(url, {
-    headers: {
-      accept: "application/json",
-      "user-agent": "STARGATE-EDU-Kimstudy-Strategy/1.0",
-    },
-    signal: AbortSignal.timeout(20_000),
-  });
-  if (!response.ok) {
-    throw new Error(`승인 데이터 요청 실패: HTTP ${response.status}`);
-  }
-
-  const payload = await response.json();
-  const candidates = Array.isArray(payload) ? payload : payload.candidates ?? payload.students;
-  if (!Array.isArray(candidates)) {
-    throw new Error("승인 데이터는 배열 또는 candidates/students 배열을 포함해야 합니다.");
-  }
-
-  return { candidates, mode: "authorized" };
 }
 
-function number(value, fallback = 0) {
-  const parsed = Number(value);
-  return Number.isFinite(parsed) ? parsed : fallback;
+function stripHtml(value = "") {
+  return value
+    .replace(/<br\s*\/?\s*>/gi, " ")
+    .replace(/<[^>]+>/g, " ")
+    .replace(/&nbsp;/gi, " ")
+    .replace(/&amp;/gi, "&")
+    .replace(/&quot;/gi, '"')
+    .replace(/&#39;/gi, "'")
+    .replace(/\s+/g, " ")
+    .trim();
 }
 
-function clamp(value, min, max) {
-  return Math.min(max, Math.max(min, value));
+function extractSummaryValue(html, label) {
+  const escaped = label.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  const match = html.match(new RegExp(`${escaped}<\\/div>[\\s\\S]{0,500}?<div[^>]*text-grayscale-700[^>]*>([\\s\\S]*?)<\\/div>`, "i"));
+  return stripHtml(match?.[1] ?? "");
 }
 
-function scoreCandidate(candidate) {
-  const subject = String(candidate.subject ?? "기타").slice(0, 40);
-  const schoolLevel = String(candidate.schoolLevel ?? candidate.grade ?? "미기재").slice(0, 30);
-  const goal = String(candidate.goal ?? "상담 필요").slice(0, 60);
-  const guardianVerified = Boolean(candidate.guardianVerified ?? candidate.verified);
-  const budgetMonthly = Math.max(0, number(candidate.budgetMonthly ?? candidate.budget));
-  const weeklySessions = Math.round(clamp(number(candidate.weeklySessions, 1), 1, 7));
-  const scheduleFit = clamp(number(candidate.scheduleFit, 60), 0, 100);
-  const requestedAt = new Date(candidate.requestedAt ?? Date.now());
-  const safeRequestedAt = Number.isNaN(requestedAt.getTime()) ? new Date() : requestedAt;
-  const requestAgeDays = Math.max(0, Math.floor((Date.now() - safeRequestedAt.getTime()) / 86_400_000));
-  const recencyScore = requestAgeDays <= 3 ? 20 : requestAgeDays <= 7 ? 16 : requestAgeDays <= 14 ? 11 : 6;
-  const budgetScore = budgetMonthly >= 60 ? 20 : budgetMonthly >= 45 ? 16 : budgetMonthly >= 30 ? 12 : 7;
-  const subjectFit = /수학|정보|코딩|과학|학습코칭/.test(subject) ? 20 : 10;
-  const score = Math.round(
-    (guardianVerified ? 15 : 5) +
-      recencyScore +
-      budgetScore +
-      (scheduleFit / 100) * 25 +
-      subjectFit
-  );
+function extractPayText(html) {
+  const match = html.match(/>급여<\/div>[\s\S]{0,500}?<div[^>]*>([\s\S]*?)<\/div>/i);
+  return stripHtml(match?.[1] ?? "");
+}
 
+function offerIdFromUrl(url) {
+  return Number(url.match(/\/offer\/info\/(\d+)/)?.[1] ?? 0);
+}
+
+function jsonLdValue(text, key) {
+  const escaped = key.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  return text.match(new RegExp(`"${escaped}"\\s*:\\s*"([^"\\r\\n]*)"`, "i"))?.[1]?.replace(/\\"/g, '"') ?? "";
+}
+
+function tolerantJobPosting(text) {
+  if (!/"@type"\s*:\s*"JobPosting"/i.test(text)) return null;
+  const organization = text.split(/"hiringOrganization"\s*:/i)[1] ?? "";
+  const location = text.split(/"jobLocation"\s*:/i)[1] ?? "";
+  const salary = text.split(/"baseSalary"\s*:/i)[1] ?? "";
+  const numeric = (source, key) => {
+    const value = source.match(new RegExp(`"${key}"\\s*:\\s*([0-9.]+)`, "i"))?.[1];
+    return value === undefined ? null : Number(value);
+  };
   return {
-    id: String(candidate.externalId ?? candidate.id ?? crypto.randomUUID()).slice(0, 80),
-    name: String(candidate.displayName ?? candidate.name ?? "익명 학생").slice(0, 80),
-    schoolLevel,
-    subject,
-    goal,
-    region: String(candidate.region ?? "미기재").slice(0, 60),
-    weeklySessions,
-    budgetMonthly: Math.round(budgetMonthly),
-    scheduleFit: Math.round(scheduleFit),
-    guardianVerified,
-    remote: Boolean(candidate.remote),
-    requestedAt: safeRequestedAt.toISOString(),
-    requestAgeDays,
-    profileUrl: candidate.profileUrl ? String(candidate.profileUrl).slice(0, 500) : null,
-    score: Math.min(100, score),
-    status: score >= 85 ? "priority" : score >= 70 ? "review" : "hold",
+    "@type": "JobPosting",
+    title: jsonLdValue(text, "title"),
+    datePosted: jsonLdValue(text, "datePosted"),
+    validThrough: jsonLdValue(text, "validThrough"),
+    employmentType: jsonLdValue(text, "employmentType"),
+    hiringOrganization: { name: jsonLdValue(organization, "name") },
+    jobLocation: { address: { addressLocality: jsonLdValue(location, "addressLocality"), addressRegion: jsonLdValue(location, "addressRegion") } },
+    baseSalary: { value: { minValue: numeric(salary, "minValue"), maxValue: numeric(salary, "maxValue") } },
   };
 }
 
-const { candidates, mode } = await loadCandidates();
-const screened = candidates
-  .slice(0, MAX_RECORDS)
-  .map(scoreCandidate)
-  .sort((a, b) => b.score - a.score)
-  .map((candidate, index) => ({ ...candidate, rank: index + 1 }));
+function parsePosting(html, sourceUrl) {
+  const blocks = [...html.matchAll(/<script\s+type=["']application\/ld\+json["'][^>]*>([\s\S]*?)<\/script>/gi)];
+  let job;
+  for (const block of blocks) {
+    try {
+      const parsed = JSON.parse(block[1]);
+      const candidates = Array.isArray(parsed) ? parsed : [parsed];
+      job = candidates.find((item) => item?.["@type"] === "JobPosting");
+    } catch {
+      job = tolerantJobPosting(block[1]);
+    }
+    if (job) break;
+  }
+  if (!job) return null;
 
-const updatedAt = new Date();
-const nextRunAt = new Date(updatedAt);
-nextRunAt.setUTCDate(nextRunAt.getUTCDate() + ((8 - nextRunAt.getUTCDay()) % 7 || 7));
-nextRunAt.setUTCHours(0, 15, 0, 0);
+  const address = job.jobLocation?.address ?? {};
+  const salary = job.baseSalary?.value ?? {};
+  const payText = extractPayText(html);
+  const payType = payText.match(/시급|월급|연봉|건별|비율제|협의/)?.[0] ?? "미기재";
+  const target = extractSummaryValue(html, "학습대상") || "미기재";
+  const fields = extractSummaryValue(html, "모집분야") || "수학";
+  const deadlineText = extractSummaryValue(html, "지원마감") || String(job.validThrough ?? "").slice(0, 10) || "상시·미기재";
+  const validThrough = String(job.validThrough ?? deadlineText.match(/\d{4}-\d{2}-\d{2}/)?.[0] ?? "").slice(0, 10);
+  const today = new Date().toISOString().slice(0, 10);
+  const status = validThrough ? (validThrough >= today ? "open" : "closed") : "ongoing";
+
+  return {
+    id: offerIdFromUrl(sourceUrl),
+    academy: String(job.hiringOrganization?.name ?? "미기재").slice(0, 100),
+    title: String(job.title ?? "수학 강사 채용").slice(0, 180),
+    subject: fields.includes("수학") ? "수학" : fields.slice(0, 80),
+    target: target.slice(0, 100),
+    region: [address.addressRegion, address.addressLocality].filter(Boolean).join(" ") || "미기재",
+    employmentType: String(job.employmentType ?? "미기재"),
+    payType,
+    payMin: Number.isFinite(Number(salary.minValue)) ? Number(salary.minValue) : null,
+    payMax: Number.isFinite(Number(salary.maxValue)) ? Number(salary.maxValue) : null,
+    payText: payText.slice(0, 140),
+    datePosted: String(job.datePosted ?? "").slice(0, 10),
+    validThrough,
+    deadlineText,
+    status,
+    sourceUrl,
+  };
+}
+
+async function runPool(urls) {
+  const results = [];
+  let cursor = 0;
+  async function worker() {
+    while (cursor < urls.length && results.length < MAX_RECORDS) {
+      const url = urls[cursor++];
+      try {
+        const posting = parsePosting(await fetchText(url), url);
+        if (posting?.subject.includes("수학")) results.push(posting);
+      } catch (error) {
+        console.warn(`수집 건너뜀 ${url}: ${error.message}`);
+      }
+    }
+  }
+  await Promise.all(Array.from({ length: CONCURRENCY }, worker));
+  return results.slice(0, MAX_RECORDS).sort((a, b) => b.id - a.id);
+}
+
+const robotsText = await fetchText(ROBOTS_URL);
+assertRobotsAllowed(robotsText);
+const sitemapIndex = await fetchText(SITEMAP_URL);
+const offerSitemapUrl = [...sitemapIndex.matchAll(/<loc>([^<]*\/sitemap\/offer-info\/[^<]+)<\/loc>/gi)][0]?.[1];
+if (!offerSitemapUrl) throw new Error("공고 사이트맵 URL을 찾지 못했습니다.");
+const offerSitemap = await fetchText(offerSitemapUrl);
+const urls = [...offerSitemap.matchAll(/<loc>(https:\/\/academy\.kimstudy\.com\/offer\/info\/[^<]+)<\/loc>/gi)]
+  .map((match) => match[1].replace(/&amp;/g, "&"))
+  .filter((url) => decodeURIComponent(url).includes("수학"))
+  .sort((a, b) => offerIdFromUrl(b) - offerIdFromUrl(a))
+  .slice(0, CANDIDATE_LIMIT);
+
+const postings = await runPool(urls);
+const openCount = postings.filter((item) => item.status === "open").length;
+const ongoingCount = postings.filter((item) => item.status === "ongoing").length;
+const regions = postings.reduce((acc, item) => {
+  const key = item.region.split(" ")[0] || "기타";
+  acc[key] = (acc[key] ?? 0) + 1;
+  return acc;
+}, {});
 
 const output = {
-  source: mode === "authorized" ? "승인된 과외학생 문의 데이터" : "익명 학생 데모 데이터",
-  mode,
-  updatedAt: updatedAt.toISOString(),
-  nextRunAt: nextRunAt.toISOString(),
-  batchSize: screened.length,
+  source: "김과외 김강사 공개 채용공고",
+  sourceUrl: ORIGIN,
+  mode: "public-robots-allowed",
+  updatedAt: new Date().toISOString(),
   pageSize: PAGE_SIZE,
-  pageCount: Math.ceil(screened.length / PAGE_SIZE),
+  pageCount: Math.ceil(postings.length / PAGE_SIZE),
+  recordCount: postings.length,
   collectionPolicy: {
-    target: "kimstudy.com",
-    robotsStatus: "blocked-for-generic-bots",
-    acquisition: mode === "authorized" ? "authorized-export" : "anonymous-demo",
-    note: "김과외 공개 페이지 직접 대량 수집은 robots.txt에 따라 중지하며, 공식 API 또는 권한이 확인된 내보내기만 적재합니다.",
+    target: "academy.kimstudy.com",
+    robotsStatus: "allowed",
+    robotsUrl: ROBOTS_URL,
+    personalDataExcluded: true,
+    note: "공개 채용공고의 직무·지역·급여·일정만 수집하며 전화번호, 상세주소, 지원자 개인정보는 저장하지 않습니다.",
   },
-  summary: {
-    priority: screened.filter((item) => item.status === "priority").length,
-    review: screened.filter((item) => item.status === "review").length,
-    hold: screened.filter((item) => item.status === "hold").length,
-    averageScore: screened.length
-      ? Math.round(screened.reduce((sum, item) => sum + item.score, 0) / screened.length)
-      : 0,
-  },
-  candidates: screened,
+  summary: { active: openCount + ongoingCount, open: openCount, ongoing: ongoingCount, closed: postings.length - openCount - ongoingCount, regions },
+  postings,
 };
 
-await mkdir(dirname(outputPath), { recursive: true });
-await writeFile(outputPath, `${JSON.stringify(output, null, 2)}\n`, "utf8");
-console.log(`전략 후보 ${screened.length}명 스크리닝 완료 (${mode}, 페이지당 ${PAGE_SIZE}명)`);
-
+await mkdir(dirname(OUTPUT_PATH), { recursive: true });
+await writeFile(OUTPUT_PATH, `${JSON.stringify(output, null, 2)}\n`, "utf8");
+console.log(`김과외 수학 공개 채용공고 ${postings.length}건 수집 완료 (페이지당 ${PAGE_SIZE}건)`);

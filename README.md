@@ -9,7 +9,7 @@
 
 - `index.html` — 포털 랜딩 페이지 (프로젝트 카드 그리드 + About)
 - `portfolio/` — 외부 링크용 선별 포트폴리오 허브 (`https://www.stargateedu.co.kr/portfolio/`)
-- `strategy/kimstudy-math/` — 수학·과외시장 전략 데이터 테이블(페이지당 100건, 승인 내보내기 연동)
+- `strategy/kimstudy-math/` — 김강사 공개 수학 채용공고 200건 전략 테이블(페이지당 100건, 매일 자동 수집)
 - `portfolio/blog/` — Notion API + Google Drive API 연동 포트폴리오 블로그
 - `api/portfolio-notion.js` — Notion 공개 글 라이브 프록시 (Vercel env: `NOTION_API_KEY`)
 - `blog/` — [blog.stargateedu.co.kr/posts/](https://blog.stargateedu.co.kr/posts/) 리디렉션
