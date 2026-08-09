@@ -1,0 +1,46 @@
+name: Update used-car market dashboard
+
+on:
+  schedule:
+    - cron: "30 0 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: update-used-car-market
+  cancel-in-progress: true
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Load licensed CSV or JSON feed in 100-row pages
+        env:
+          USED_CAR_FEED_URL: ${{ secrets.USED_CAR_FEED_URL }}
+          USED_CAR_FEED_TOKEN: ${{ secrets.USED_CAR_FEED_TOKEN }}
+          USED_CAR_FEED_LICENSED: ${{ vars.USED_CAR_FEED_LICENSED }}
+        run: node scripts/update-used-car-market.mjs
+
+      - name: Commit daily market snapshot
+        run: |
+          if git diff --quiet -- strategy/used-car/data/latest.json; then
+            echo "No used-car data changes to commit."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add strategy/used-car/data/latest.json
+          git commit -m "data: update daily used-car market"
+          git push
+
