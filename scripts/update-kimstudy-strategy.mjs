@@ -1,202 +1,97 @@
 import { mkdir, writeFile } from "node:fs/promises";
 import { dirname, resolve } from "node:path";
 
-const ORIGIN = "https://academy.kimstudy.com";
-const ROBOTS_URL = `${ORIGIN}/robots.txt`;
-const SITEMAP_URL = `${ORIGIN}/sitemap.xml`;
-const OUTPUT_PATH = resolve("strategy/kimstudy-math/data/latest.json");
-const USER_AGENT = "Mozilla/5.0 (compatible; STARGATE-StrategyBot/1.0; +https://stargateedu.co.kr/strategy/kimstudy-math/)";
 const PAGE_SIZE = 100;
-const MAX_RECORDS = 200;
-const CANDIDATE_LIMIT = 240;
-const CONCURRENCY = 6;
+const MAX_RECORDS = 5_000;
+const DEMO_RECORDS = 200;
+const OUTPUT_PATH = resolve("strategy/kimstudy-math/data/latest.json");
+const FEED_URL = (process.env.AUTHORIZED_KIMSTUDY_STUDENT_EXPORT_URL ?? process.env.AUTHORIZED_STUDENT_EXPORT_URL)?.trim();
+const FEED_TOKEN = process.env.AUTHORIZED_STUDENT_EXPORT_TOKEN?.trim();
+const subjects = ["수학", "정보·코딩", "과학", "영어", "국어", "학습코칭"];
+const regions = ["서울 강남", "서울 송파", "서울 서초", "경기 성남", "경기 수원", "온라인"];
+const levels = ["초5", "초6", "중1", "중2", "중3", "고1", "고2", "고3", "재수"];
+const goals = ["내신 향상", "수능 대비", "경시·올림피아드", "코딩 입문", "특목고 준비", "학습 습관"];
 
-async function fetchText(url, attempts = 2) {
-  let lastError;
-  for (let attempt = 1; attempt <= attempts; attempt += 1) {
-    try {
-      const response = await fetch(url, {
-        headers: { accept: "*/*", "user-agent": USER_AGENT },
-        redirect: "follow",
-        signal: AbortSignal.timeout(25_000),
-      });
-      if (!response.ok) throw new Error(`HTTP ${response.status}`);
-      return await response.text();
-    } catch (error) {
-      lastError = error;
-    }
-  }
-  throw lastError;
+function demoStudents() {
+  const now = Date.now();
+  return Array.from({ length: DEMO_RECORDS }, (_, index) => ({
+    externalId: `DEMO-STUDENT-${String(index + 1).padStart(3, "0")}`,
+    displayName: `익명 학생 ${String(index + 1).padStart(3, "0")}`,
+    subject: subjects[index % subjects.length],
+    region: regions[(index * 5) % regions.length],
+    schoolLevel: levels[(index * 7) % levels.length],
+    goal: goals[(index * 11) % goals.length],
+    weeklySessions: 1 + (index % 3),
+    budgetMonthly: 30 + ((index * 5) % 70),
+    remote: index % 3 === 0,
+    scheduleFit: 55 + ((index * 13) % 46),
+    guardianVerified: index % 6 !== 0,
+    requestedAt: new Date(now - ((index * 17) % 28) * 86_400_000).toISOString(),
+    sourceUrl: null,
+  }));
 }
 
-function assertRobotsAllowed(robotsText) {
-  const normalized = robotsText.replace(/\r/g, "");
-  const genericBlock = normalized.match(/User-agent:\s*\*[\s\S]*?(?=\nUser-agent:|$)/i)?.[0] ?? "";
-  if (/Disallow:\s*\/\s*$/im.test(genericBlock) && !/Allow:\s*\/\s*$/im.test(genericBlock)) {
-    throw new Error("academy.kimstudy.com robots.txt가 공개 수집을 허용하지 않습니다.");
-  }
-  if (!/Allow:\s*\/\s*$/im.test(genericBlock)) {
-    throw new Error("academy.kimstudy.com robots.txt에서 명시적 전체 허용을 확인하지 못했습니다.");
-  }
+function parseCsv(text) {
+  const rows = []; let row = [], field = "", quoted = false; const source = text.replace(/^\uFEFF/, "");
+  for (let i = 0; i < source.length; i += 1) { const c = source[i]; if (quoted) { if (c === '"' && source[i + 1] === '"') { field += '"'; i += 1; } else if (c === '"') quoted = false; else field += c; } else if (c === '"') quoted = true; else if (c === ",") { row.push(field); field = ""; } else if (c === "\n") { row.push(field.replace(/\r$/, "")); rows.push(row); row = []; field = ""; } else field += c; }
+  if (field || row.length) { row.push(field.replace(/\r$/, "")); rows.push(row); }
+  const [headers = [], ...body] = rows.filter((r) => r.some((v) => v.trim()));
+  return body.map((cells) => Object.fromEntries(headers.map((h, i) => [h.trim(), cells[i] ?? ""])));
 }
 
-function stripHtml(value = "") {
-  return value
-    .replace(/<br\s*\/?\s*>/gi, " ")
-    .replace(/<[^>]+>/g, " ")
-    .replace(/&nbsp;/gi, " ")
-    .replace(/&amp;/gi, "&")
-    .replace(/&quot;/gi, '"')
-    .replace(/&#39;/gi, "'")
-    .replace(/\s+/g, " ")
-    .trim();
+async function loadStudents() {
+  if (!FEED_URL) return { rows: demoStudents(), mode: "demo", source: "익명 학생 샘플" };
+  const url = new URL(FEED_URL);
+  if (url.protocol !== "https:") throw new Error("승인 데이터 URL은 HTTPS여야 합니다.");
+  if (/(^|\.)kimstudy\.com$/i.test(url.hostname)) throw new Error("김과외 공개 화면 직접 수집은 허용하지 않습니다. 공식 API 또는 동의 기반 내보내기 URL을 사용하세요.");
+  const headers = { accept: "application/json,text/csv", "user-agent": "STARGATE-Kimstudy-Student-Demand/2.0" };
+  if (FEED_TOKEN) headers.authorization = `Bearer ${FEED_TOKEN}`;
+  const response = await fetch(url, { headers, signal: AbortSignal.timeout(30_000) });
+  if (!response.ok) throw new Error(`승인 학생 데이터 요청 실패: HTTP ${response.status}`);
+  const text = await response.text();
+  const payload = /^[\s\r\n]*[\[{]/.test(text) ? JSON.parse(text) : parseCsv(text);
+  const rows = Array.isArray(payload) ? payload : payload.students ?? payload.candidates ?? payload.inquiries ?? payload.data;
+  if (!Array.isArray(rows)) throw new Error("피드는 배열 또는 students/candidates/inquiries/data 배열이어야 합니다.");
+  return { rows, mode: "authorized", source: url.hostname };
 }
 
-function extractSummaryValue(html, label) {
-  const escaped = label.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-  const match = html.match(new RegExp(`${escaped}<\\/div>[\\s\\S]{0,500}?<div[^>]*text-grayscale-700[^>]*>([\\s\\S]*?)<\\/div>`, "i"));
-  return stripHtml(match?.[1] ?? "");
-}
+const pick = (row, keys, fallback = "") => keys.map((key) => row[key]).find((value) => value !== undefined && value !== null && value !== "") ?? fallback;
+const number = (value, fallback = 0) => { const parsed = Number(String(value ?? "").replace(/[^0-9.-]/g, "")); return Number.isFinite(parsed) ? parsed : fallback; };
+const bool = (value) => value === true || /^(1|true|yes|y|확인|가능)$/i.test(String(value ?? ""));
 
-function extractPayText(html) {
-  const match = html.match(/>급여<\/div>[\s\S]{0,500}?<div[^>]*>([\s\S]*?)<\/div>/i);
-  return stripHtml(match?.[1] ?? "");
-}
-
-function offerIdFromUrl(url) {
-  return Number(url.match(/\/offer\/info\/(\d+)/)?.[1] ?? 0);
-}
-
-function jsonLdValue(text, key) {
-  const escaped = key.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-  return text.match(new RegExp(`"${escaped}"\\s*:\\s*"([^"\\r\\n]*)"`, "i"))?.[1]?.replace(/\\"/g, '"') ?? "";
-}
-
-function tolerantJobPosting(text) {
-  if (!/"@type"\s*:\s*"JobPosting"/i.test(text)) return null;
-  const organization = text.split(/"hiringOrganization"\s*:/i)[1] ?? "";
-  const location = text.split(/"jobLocation"\s*:/i)[1] ?? "";
-  const salary = text.split(/"baseSalary"\s*:/i)[1] ?? "";
-  const numeric = (source, key) => {
-    const value = source.match(new RegExp(`"${key}"\\s*:\\s*([0-9.]+)`, "i"))?.[1];
-    return value === undefined ? null : Number(value);
-  };
+function normalize(row, index) {
+  const requested = new Date(pick(row, ["requestedAt", "createdAt", "문의일", "등록일"], Date.now()));
+  const requestedAt = Number.isNaN(requested.getTime()) ? new Date() : requested;
+  const subject = String(pick(row, ["subject", "희망과목", "과목"], "미기재")).slice(0, 50);
+  const budgetMonthly = Math.max(0, number(pick(row, ["budgetMonthly", "budget", "월예산", "예산"], 0)));
+  const scheduleFit = Math.max(0, Math.min(100, number(pick(row, ["scheduleFit", "일정적합도"], 60))));
+  const guardianVerified = bool(pick(row, ["guardianVerified", "verified", "보호자확인"], false));
+  const ageDays = Math.max(0, Math.floor((Date.now() - requestedAt.getTime()) / 86_400_000));
+  const score = Math.min(100, Math.round((guardianVerified ? 15 : 5) + (ageDays <= 3 ? 20 : ageDays <= 7 ? 16 : ageDays <= 14 ? 11 : 6) + (budgetMonthly >= 60 ? 20 : budgetMonthly >= 45 ? 16 : budgetMonthly >= 30 ? 12 : 7) + scheduleFit * .25 + (/수학|정보|코딩|과학|학습코칭/.test(subject) ? 20 : 10)));
   return {
-    "@type": "JobPosting",
-    title: jsonLdValue(text, "title"),
-    datePosted: jsonLdValue(text, "datePosted"),
-    validThrough: jsonLdValue(text, "validThrough"),
-    employmentType: jsonLdValue(text, "employmentType"),
-    hiringOrganization: { name: jsonLdValue(organization, "name") },
-    jobLocation: { address: { addressLocality: jsonLdValue(location, "addressLocality"), addressRegion: jsonLdValue(location, "addressRegion") } },
-    baseSalary: { value: { minValue: numeric(salary, "minValue"), maxValue: numeric(salary, "maxValue") } },
+    id: String(pick(row, ["externalId", "id", "문의번호"], `STUDENT-${index + 1}`)).slice(0, 80),
+    name: String(pick(row, ["displayName", "name", "학생명"], "익명 학생")).slice(0, 80),
+    schoolLevel: String(pick(row, ["schoolLevel", "grade", "학년"], "미기재")).slice(0, 30),
+    subject,
+    goal: String(pick(row, ["goal", "학습목표", "목표"], "상담 필요")).slice(0, 80),
+    region: String(pick(row, ["region", "location", "지역"], "미기재")).slice(0, 60),
+    weeklySessions: Math.max(1, Math.min(7, Math.round(number(pick(row, ["weeklySessions", "주당횟수"], 1))))),
+    budgetMonthly: Math.round(budgetMonthly), scheduleFit: Math.round(scheduleFit), guardianVerified,
+    remote: bool(pick(row, ["remote", "online", "온라인가능"], false)),
+    requestedAt: requestedAt.toISOString(), requestAgeDays: ageDays, score,
+    status: score >= 85 ? "priority" : score >= 70 ? "review" : "hold",
   };
 }
 
-function parsePosting(html, sourceUrl) {
-  const blocks = [...html.matchAll(/<script\s+type=["']application\/ld\+json["'][^>]*>([\s\S]*?)<\/script>/gi)];
-  let job;
-  for (const block of blocks) {
-    try {
-      const parsed = JSON.parse(block[1]);
-      const candidates = Array.isArray(parsed) ? parsed : [parsed];
-      job = candidates.find((item) => item?.["@type"] === "JobPosting");
-    } catch {
-      job = tolerantJobPosting(block[1]);
-    }
-    if (job) break;
-  }
-  if (!job) return null;
-
-  const address = job.jobLocation?.address ?? {};
-  const salary = job.baseSalary?.value ?? {};
-  const payText = extractPayText(html);
-  const payType = payText.match(/시급|월급|연봉|건별|비율제|협의/)?.[0] ?? "미기재";
-  const target = extractSummaryValue(html, "학습대상") || "미기재";
-  const fields = extractSummaryValue(html, "모집분야") || "수학";
-  const deadlineText = extractSummaryValue(html, "지원마감") || String(job.validThrough ?? "").slice(0, 10) || "상시·미기재";
-  const validThrough = String(job.validThrough ?? deadlineText.match(/\d{4}-\d{2}-\d{2}/)?.[0] ?? "").slice(0, 10);
-  const today = new Date().toISOString().slice(0, 10);
-  const status = validThrough ? (validThrough >= today ? "open" : "closed") : "ongoing";
-
-  return {
-    id: offerIdFromUrl(sourceUrl),
-    academy: String(job.hiringOrganization?.name ?? "미기재").slice(0, 100),
-    title: String(job.title ?? "수학 강사 채용").slice(0, 180),
-    subject: fields.includes("수학") ? "수학" : fields.slice(0, 80),
-    target: target.slice(0, 100),
-    region: [address.addressRegion, address.addressLocality].filter(Boolean).join(" ") || "미기재",
-    employmentType: String(job.employmentType ?? "미기재"),
-    payType,
-    payMin: Number.isFinite(Number(salary.minValue)) ? Number(salary.minValue) : null,
-    payMax: Number.isFinite(Number(salary.maxValue)) ? Number(salary.maxValue) : null,
-    payText: payText.slice(0, 140),
-    datePosted: String(job.datePosted ?? "").slice(0, 10),
-    validThrough,
-    deadlineText,
-    status,
-    sourceUrl,
-  };
-}
-
-async function runPool(urls) {
-  const results = [];
-  let cursor = 0;
-  async function worker() {
-    while (cursor < urls.length && results.length < MAX_RECORDS) {
-      const url = urls[cursor++];
-      try {
-        const posting = parsePosting(await fetchText(url), url);
-        if (posting?.subject.includes("수학")) results.push(posting);
-      } catch (error) {
-        console.warn(`수집 건너뜀 ${url}: ${error.message}`);
-      }
-    }
-  }
-  await Promise.all(Array.from({ length: CONCURRENCY }, worker));
-  return results.slice(0, MAX_RECORDS).sort((a, b) => b.id - a.id);
-}
-
-const robotsText = await fetchText(ROBOTS_URL);
-assertRobotsAllowed(robotsText);
-const sitemapIndex = await fetchText(SITEMAP_URL);
-const offerSitemapUrl = [...sitemapIndex.matchAll(/<loc>([^<]*\/sitemap\/offer-info\/[^<]+)<\/loc>/gi)][0]?.[1];
-if (!offerSitemapUrl) throw new Error("공고 사이트맵 URL을 찾지 못했습니다.");
-const offerSitemap = await fetchText(offerSitemapUrl);
-const urls = [...offerSitemap.matchAll(/<loc>(https:\/\/academy\.kimstudy\.com\/offer\/info\/[^<]+)<\/loc>/gi)]
-  .map((match) => match[1].replace(/&amp;/g, "&"))
-  .filter((url) => decodeURIComponent(url).includes("수학"))
-  .sort((a, b) => offerIdFromUrl(b) - offerIdFromUrl(a))
-  .slice(0, CANDIDATE_LIMIT);
-
-const postings = await runPool(urls);
-const openCount = postings.filter((item) => item.status === "open").length;
-const ongoingCount = postings.filter((item) => item.status === "ongoing").length;
-const regions = postings.reduce((acc, item) => {
-  const key = item.region.split(" ")[0] || "기타";
-  acc[key] = (acc[key] ?? 0) + 1;
-  return acc;
-}, {});
-
+const { rows, mode, source } = await loadStudents();
+const seen = new Set();
+const students = rows.slice(0, MAX_RECORDS).map(normalize).filter((row) => { const key = row.id.toLowerCase(); if (seen.has(key)) return false; seen.add(key); return true; }).sort((a, b) => b.score - a.score || new Date(b.requestedAt) - new Date(a.requestedAt)).map((row, index) => ({ rank: index + 1, ...row }));
+const updatedAt = new Date(); const nextRunAt = new Date(updatedAt.getTime() + 86_400_000); nextRunAt.setUTCHours(0, 15, 0, 0);
 const output = {
-  source: "김과외 김강사 공개 채용공고",
-  sourceUrl: ORIGIN,
-  mode: "public-robots-allowed",
-  updatedAt: new Date().toISOString(),
-  pageSize: PAGE_SIZE,
-  pageCount: Math.ceil(postings.length / PAGE_SIZE),
-  recordCount: postings.length,
-  collectionPolicy: {
-    target: "academy.kimstudy.com",
-    robotsStatus: "allowed",
-    robotsUrl: ROBOTS_URL,
-    personalDataExcluded: true,
-    note: "공개 채용공고의 직무·지역·급여·일정만 수집하며 전화번호, 상세주소, 지원자 개인정보는 저장하지 않습니다.",
-  },
-  summary: { active: openCount + ongoingCount, open: openCount, ongoing: ongoingCount, closed: postings.length - openCount - ongoingCount, regions },
-  postings,
+  source, mode, updatedAt: updatedAt.toISOString(), nextRunAt: nextRunAt.toISOString(), recordCount: students.length,
+  pageSize: PAGE_SIZE, pageCount: Math.ceil(students.length / PAGE_SIZE),
+  collectionPolicy: { target: "kimstudy.com", acquisition: mode === "authorized" ? "authorized-export" : "anonymous-demo", personalDataExcluded: true, note: mode === "authorized" ? "학생·보호자 동의 또는 공식 API로 승인된 문의 데이터만 적재합니다." : "김과외 공개 화면은 직접 수집하지 않으며, 현재 데이터는 기능 확인용 익명 샘플입니다." },
+  summary: { priority: students.filter((r) => r.status === "priority").length, review: students.filter((r) => r.status === "review").length, hold: students.filter((r) => r.status === "hold").length, capital: students.filter((r) => /^(서울|경기|인천)/.test(r.region)).length, averageBudget: students.length ? Math.round(students.reduce((sum, r) => sum + r.budgetMonthly, 0) / students.length) : 0 },
+  students,
 };
-
-await mkdir(dirname(OUTPUT_PATH), { recursive: true });
-await writeFile(OUTPUT_PATH, `${JSON.stringify(output, null, 2)}\n`, "utf8");
-console.log(`김과외 수학 공개 채용공고 ${postings.length}건 수집 완료 (페이지당 ${PAGE_SIZE}건)`);
+await mkdir(dirname(OUTPUT_PATH), { recursive: true }); await writeFile(OUTPUT_PATH, `${JSON.stringify(output, null, 2)}\n`, "utf8"); console.log(`김과외 과외학생 문의 ${students.length}건 갱신 완료 (${mode}, 페이지당 ${PAGE_SIZE}건)`);

@@ -21,7 +21,10 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: "22"
-      - name: Collect public math job postings in 100-row pages
+      - name: Load authorized student inquiries in 100-row pages
+        env:
+          AUTHORIZED_KIMSTUDY_STUDENT_EXPORT_URL: ${{ secrets.AUTHORIZED_KIMSTUDY_STUDENT_EXPORT_URL }}
+          AUTHORIZED_STUDENT_EXPORT_TOKEN: ${{ secrets.AUTHORIZED_STUDENT_EXPORT_TOKEN }}
         run: node scripts/update-kimstudy-strategy.mjs
       - name: Commit refreshed strategy data
         run: |
