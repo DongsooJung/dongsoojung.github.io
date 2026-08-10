@@ -53,18 +53,10 @@ a{color:var(--acc);text-decoration:none}a:hover{text-decoration:underline}
 .brand .name{font-family:var(--font-display);font-size:15px;font-weight:600}.brand .tag{font-family:var(--font-mono);font-size:10.5px;color:var(--muted);margin-left:6px;letter-spacing:.04em}
 .nav .links{display:flex;gap:14px;font-size:13px;color:var(--sub);align-items:center}
 .nav .links a{color:var(--sub)}.nav .links a:hover,.nav .links a[aria-current="page"]{color:var(--ink)}
-.lang-select{display:inline-flex;align-items:center;position:relative;flex:0 0 auto}
-.lang-select select{
-  appearance:none;-webkit-appearance:none;min-height:32px;padding:6px 28px 6px 11px;
-  border:1px solid var(--line2);border-radius:999px;background:var(--panel);color:var(--ink);
-  font:600 12px/1 inherit;cursor:pointer;max-width:7.5rem
-}
-.lang-select select:hover,.lang-select select:focus-visible{border-color:var(--acc);outline:none}
-.lang-select::after{
-  content:"";position:absolute;right:11px;top:50%;width:6px;height:6px;
-  border-right:1.5px solid var(--muted);border-bottom:1.5px solid var(--muted);
-  transform:translateY(-65%) rotate(45deg);pointer-events:none
-}
+.lang-switch{display:inline-flex;align-items:center;border:1px solid var(--line2);border-radius:999px;overflow:hidden;flex:0 0 auto}
+.lang-switch a{padding:6px 10px;font:700 11px/1 var(--font-mono);letter-spacing:.04em;color:var(--sub)}
+.lang-switch a:hover{text-decoration:none;color:var(--ink)}
+.lang-switch a[aria-current="page"]{background:var(--grad1);color:#0b1020}
 .visually-hidden{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;
   clip:rect(0,0,0,0);white-space:nowrap;border:0}
 .hero{padding:62px 0 36px;display:grid;grid-template-columns:1.25fr .9fr;gap:40px;align-items:center}
@@ -119,24 +111,13 @@ footer .business-info{flex-basis:100%;padding-top:10px;border-top:1px solid var(
     <div class="links">
       <a href="#projects">Projects</a>
       <a href="#about">About</a>
-      <label class="lang-select">
-        <span class="visually-hidden">Select language</span>
-        <select id="lang-select" aria-label="Select language">
-          <option value="/" lang="ko">한국어</option>
-          <option value="/en/" lang="en" selected>English</option>
-          <option value="/zh/" lang="zh-Hans">中文</option>
-          <option value="/ja/" lang="ja">日本語</option>
-        </select>
-      </label>
+      <span class="lang-switch" aria-label="Select language">
+        <a href="/" lang="ko">KOR</a>
+        <a href="/en/" lang="en" aria-current="page">ENG</a>
+      </span>
       <a href="https://github.com/DongsooJung" target="_blank" rel="noopener">GitHub ↗</a>
     </div>
   </nav>
-  <script>
-    document.getElementById('lang-select')?.addEventListener('change', (e) => {
-      if (e.target.value) location.href = e.target.value;
-    });
-  </script>
-
   <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:14px">
     <a class="chip mono" style="border-color:#63d6a0;color:#b8e7d0;background:rgba(99,214,160,.08)" href="https://git.stargateedu.co.kr/" target="_blank" rel="noopener">GitHub</a>
     <a class="chip mono" style="border-color:#c4a265;color:#e7cf9a;background:rgba(196,162,101,.08)" href="https://blog.stargateedu.co.kr/" target="_blank" rel="noopener">Blog</a>
