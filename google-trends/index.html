@@ -88,6 +88,14 @@ header.head .lead{color:var(--sub);font-size:14.5px;margin:12px 0 0;max-width:70
 #status[data-kind="ok"]{color:var(--pos)}
 #status[data-kind="warn"]{color:var(--gold)}
 #status[data-kind="err"]{color:var(--neg)}
+.health-badge{
+  display:inline-flex;align-items:center;gap:5px;border-radius:999px;padding:2px 8px;
+  font-size:10.5px;font-weight:800;letter-spacing:.06em;border:1px solid var(--line2)
+}
+.health-badge::before{content:"";width:6px;height:6px;border-radius:50%;background:currentColor}
+.health-badge[data-state="live"]{color:var(--pos);background:rgba(47,180,87,.10);border-color:rgba(47,180,87,.35)}
+.health-badge[data-state="cache"]{color:var(--gold);background:rgba(212,168,67,.10);border-color:rgba(212,168,67,.35)}
+.health-badge[data-state="stale"]{color:var(--neg);background:rgba(230,103,103,.10);border-color:rgba(230,103,103,.35)}
 
 .kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:18px;animation:rise .8s ease .1s both}
 .tile{
@@ -232,8 +240,10 @@ footer{
       <div class="meta-line">
         <span class="pill"><b>소스</b> trends.google.com/trending</span>
         <span class="pill"><b>표시</b> TOP 100</span>
+        <span class="pill"><b>상태</b> <span id="healthBadge" class="health-badge" data-state="cache">CACHE</span></span>
         <span class="pill"><b>모드</b> <span id="sourceMode">캐시</span></span>
-        <span class="pill"><b>갱신</b> <span id="updatedLabel">—</span></span>
+        <span class="pill"><b>갱신</b> <span id="updatedLabel">—</span> <span id="ageLabel"></span></span>
+        <span class="pill"><b>분류</b> <span id="correctionLabel">자동 보정 —</span></span>
       </div>
     </header>
 
@@ -367,8 +377,9 @@ footer{
       (<code>trends.google.com/trending</code>). 공식 Google Trends API는 제한된 알파 승인 방식이므로, 현재는 공개 Trending Now 데이터를 수집하며,
       검색량은 Google이 표기하는 근사 트래픽(approx)입니다.
       라이브 재수집은 <code>/api/google-trends</code> 프록시를 사용하고, 실패 시 저장된
-      <code>data.json</code> 캐시로 폴백합니다. 본 대시보드는 Google과 무관하며 비상업·연구 목적의
-      시각화입니다.
+      <code>data.json</code> 캐시로 폴백합니다. 상단 상태 배지는 라이브·캐시·24시간 초과 데이터를 구분하며,
+      카테고리는 원본 분류 중 명백한 오분류를 고정밀 규칙으로 보정해 표시합니다.
+      본 대시보드는 Google과 무관하며 비상업·연구 목적의 시각화입니다.
       시장·기업 전략 맥락은 <a href="/strategy/">전략 대시보드</a>에서 이어서 볼 수 있습니다.
     </aside>
 
@@ -405,7 +416,10 @@ footer{
     csvBtn: document.getElementById("csvBtn"),
     status: document.getElementById("status"),
     sourceMode: document.getElementById("sourceMode"),
+    healthBadge: document.getElementById("healthBadge"),
     updatedLabel: document.getElementById("updatedLabel"),
+    ageLabel: document.getElementById("ageLabel"),
+    correctionLabel: document.getElementById("correctionLabel"),
     viz: document.getElementById("viz"),
     tbody: document.getElementById("tbody"),
     empty: document.getElementById("empty"),
@@ -428,6 +442,7 @@ footer{
   let sortDir = "asc";
   let selectedTitle = null;
   let charts = { bars: null, cats: null, rank: null };
+  let lastLiveError = "";
 
   const fmt = new Intl.NumberFormat("ko-KR");
   const fmtVol = (n) => {
@@ -451,6 +466,43 @@ footer{
     else delete els.status.dataset.kind;
   }
 
+  function setHealth(state, label, detail) {
+    els.healthBadge.dataset.state = state;
+    els.healthBadge.textContent = label;
+    els.healthBadge.title = detail || "";
+  }
+
+  function getFreshness(updatedAt) {
+    const timestamp = Date.parse(updatedAt || "");
+    if (!Number.isFinite(timestamp)) return { stale: true, text: "· 시각 미확인" };
+    const hours = Math.max(0, (Date.now() - timestamp) / 3600000);
+    if (hours < 1) return { stale: false, text: "· 1시간 이내" };
+    if (hours < 24) return { stale: false, text: "· " + Math.floor(hours) + "시간 전" };
+    return { stale: true, text: "· " + Math.floor(hours / 24) + "일 전" };
+  }
+
+  const CATEGORY_OVERRIDES = {
+    "민생지원금":"정치", "전당 대회":"정치", "계엄":"정치", "태극기":"정치", "한동훈":"정치",
+    "암":"건강", "건강":"건강", "간호사":"건강",
+    "열대야":"기후·날씨", "불":"기후·날씨",
+    "채무":"금융", "상속":"금융", "공매도":"금융",
+    "여행":"여행", "일본":"여행",
+    "lg전자":"전자제품", "반도체":"전자제품", "lck":"게임",
+    "수건":"쇼핑", "양말":"쇼핑", "장교":"기타", "서울특별시":"기타"
+  };
+
+  function correctCategory(item) {
+    const title = String(item.title || "").trim().toLowerCase();
+    const corrected = CATEGORY_OVERRIDES[title];
+    if (!corrected || corrected === item.category) return { ...item, categoryCorrected: false };
+    return {
+      ...item,
+      categoryOriginal: item.category || "미분류",
+      category: corrected,
+      categoryCorrected: true
+    };
+  }
+
   function chartDefaults() {
     Chart.defaults.color = "#9aadc2";
     Chart.defaults.borderColor = "rgba(30,48,72,.9)";
@@ -465,11 +517,23 @@ footer{
 
   function applyPayload(payload, modeLabel) {
     raw = payload;
-    items = Array.isArray(payload.items) ? payload.items.slice() : [];
-    els.sourceMode.textContent = modeLabel || payload.sourceMode || "api";
+    items = Array.isArray(payload.items) ? payload.items.map(correctCategory) : [];
+    const mode = modeLabel || payload.sourceMode || "api";
+    const freshness = getFreshness(payload.updatedAt);
+    const correctedCount = items.filter((x) => x.categoryCorrected).length;
+    els.sourceMode.textContent = mode;
     els.updatedLabel.textContent = payload.updatedAt
       ? new Date(payload.updatedAt).toLocaleString("ko-KR")
       : "—";
+    els.ageLabel.textContent = freshness.text;
+    els.correctionLabel.textContent = "자동 보정 " + correctedCount + "건";
+    if (/라이브/i.test(mode)) {
+      setHealth("live", "LIVE", "Google Trends 프록시에서 새 데이터를 수신했습니다.");
+    } else if (freshness.stale) {
+      setHealth("stale", "STALE", "마지막 데이터가 24시간 이상 경과했습니다.");
+    } else {
+      setHealth("cache", "CACHE", "저장된 캐시 데이터입니다.");
+    }
     if (payload.geo) {
       const g = Array.isArray(payload.geo) ? payload.geo.join(",") : String(payload.geo);
       if ([...els.geo.options].some((o) => o.value === g)) els.geo.value = g;
@@ -679,7 +743,7 @@ footer{
         <td><span class="rank">${it.rank ?? "—"}</span></td>
         <td><button type="button" class="title-btn" data-act="detail">${escapeHtml(it.title)}</button></td>
         <td><span class="vol-bar-wrap"><span class="vol-bar"><i style="width:${pct}%"></i></span>${fmtVol(it.volume)}</span></td>
-        <td><span class="cat">${escapeHtml(it.category || "미분류")}</span></td>
+        <td><span class="cat" title="${it.categoryCorrected ? "자동 보정 · 원분류: " + escapeAttr(it.categoryOriginal) : "원본 분류"}">${escapeHtml(it.category || "미분류")}${it.categoryCorrected ? " · 보정" : ""}</span></td>
         <td>${(it.related || []).length}</td>
         <td>${fmtTime(it.startedAt)}</td>
         <td><a href="${escapeAttr(it.exploreUrl || "#")}" target="_blank" rel="noopener">Trends ↗</a></td>
@@ -720,7 +784,7 @@ footer{
       if (!res.ok) throw new Error("cache_http_" + res.status);
       const data = await res.json();
       applyPayload(data, data.sourceMode === "api" ? "캐시(API)" : "캐시");
-      setStatus(`캐시 로드 완료 · ${data.items?.length || 0}건`, "ok");
+      setStatus(`캐시 로드 완료 · ${data.items?.length || 0}건 · LIVE가 아닌 저장 데이터`, "warn");
       return true;
     } catch (err) {
       if (window.GOOGLE_TRENDS_FALLBACK) {
@@ -747,8 +811,18 @@ footer{
       applyPayload(data, "라이브 API");
       setStatus(`라이브 수집 완료 · ${data.items?.length || 0}건 (원본 ${data.fetchedCount || "—"})`, "ok");
     } catch (err) {
-      setStatus("라이브 실패 → 캐시 폴백: " + err.message, "warn");
-      await loadCache();
+      lastLiveError = err.message;
+      const cacheLoaded = await loadCache();
+      const freshness = getFreshness(raw?.updatedAt);
+      setHealth(
+        freshness.stale ? "stale" : "cache",
+        freshness.stale ? "STALE" : "CACHE",
+        "라이브 API 실패 · 캐시 사용: " + lastLiveError
+      );
+      setStatus(
+        "라이브 수집 실패 → " + (cacheLoaded ? "캐시로 복구" : "복구 실패") + " · " + lastLiveError,
+        cacheLoaded ? "warn" : "err"
+      );
     } finally {
       els.refreshBtn.disabled = false;
       els.refreshBtn.classList.remove("loading");
