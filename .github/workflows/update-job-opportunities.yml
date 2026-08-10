@@ -1,0 +1,33 @@
+name: Update daily job opportunities
+on:
+  schedule:
+    - cron: "0 0 * * *"
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: update-job-opportunities
+  cancel-in-progress: true
+jobs:
+  curate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Select the daily top 20 from an authorized feed
+        env:
+          JOB_FEED_URL: ${{ secrets.JOB_FEED_URL }}
+          JOB_FEED_TOKEN: ${{ secrets.JOB_FEED_TOKEN }}
+          JOB_FEED_LICENSED: ${{ vars.JOB_FEED_LICENSED }}
+        run: node scripts/update-job-opportunities.mjs
+      - name: Commit JSON and CSV snapshots
+        run: |
+          if git diff --quiet -- strategy/job-opportunities/data; then exit 0; fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add strategy/job-opportunities/data
+          git commit -m "data: curate daily job opportunities"
+          git push
