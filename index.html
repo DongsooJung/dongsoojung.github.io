@@ -148,19 +148,10 @@ a{color:var(--acc); text-decoration:none} a:hover{text-decoration:underline}
 .brand .tag{font-family:var(--font-mono);font-size:10.5px;color:var(--muted);margin-left:6px;font-weight:500;letter-spacing:.04em}
 .nav .links{display:flex;gap:14px;margin-left:auto;font-size:13px;color:var(--sub);align-items:center}
 .nav .links a{color:var(--sub)} .nav .links a:hover,.nav .links a[aria-current="page"]{color:var(--ink)}
-.lang-select{display:inline-flex;align-items:center;position:relative;flex:0 0 auto}
-.lang-select select{
-  appearance:none;-webkit-appearance:none;min-height:27px;padding:4px 24px 4px 9px;
-  border:1px solid var(--line2);border-radius:999px;background:var(--panel);color:var(--ink);
-  font:600 10.5px/1 inherit;cursor:pointer;max-width:7rem;
-  box-shadow:0 8px 24px rgba(0,0,0,.12);transition:.18s border-color,.18s transform
-}
-.lang-select select:hover,.lang-select select:focus-visible{border-color:var(--acc);transform:translateY(-1px);outline:none}
-.lang-select::after{
-  content:"";position:absolute;right:11px;top:50%;width:6px;height:6px;
-  border-right:1.5px solid var(--muted);border-bottom:1.5px solid var(--muted);
-  transform:translateY(-65%) rotate(45deg);pointer-events:none
-}
+.lang-switch{display:inline-flex;align-items:center;border:1px solid var(--line2);border-radius:999px;overflow:hidden;flex:0 0 auto}
+.lang-switch a{padding:6px 10px;font:700 11px/1 var(--font-mono);letter-spacing:.04em;color:var(--sub)}
+.lang-switch a:hover{text-decoration:none;color:var(--ink)}
+.lang-switch a[aria-current="page"]{background:var(--grad1);color:#0b1020}
 .visually-hidden{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;
   clip:rect(0,0,0,0);white-space:nowrap;border:0}
 .theme-switch{position:relative;display:inline-flex;align-items:center;flex:0 0 auto}
@@ -342,15 +333,10 @@ footer .business-info{flex-basis:100%;padding-top:10px;border-top:1px solid var(
       <a href="/schedule/">주요일정</a>
       <a href="/faq/">FAQ</a>
       <a href="#about">About</a>
-      <label class="lang-select">
-        <span class="visually-hidden">언어 선택</span>
-        <select id="lang-select" aria-label="언어 선택">
-          <option value="/" lang="ko" selected>한국어</option>
-          <option value="/en/" lang="en">English</option>
-          <option value="/zh/" lang="zh-Hans">中文</option>
-          <option value="/ja/" lang="ja">日本語</option>
-        </select>
-      </label>
+      <span class="lang-switch" aria-label="언어 선택">
+        <a href="/" lang="ko" aria-current="page">KOR</a>
+        <a href="/en/" lang="en">ENG</a>
+      </span>
     </div>
     <label class="theme-switch">
       <span class="visually-hidden">디자인 테마</span>
@@ -868,14 +854,6 @@ footer .business-info{flex-basis:100%;padding-top:10px;border-top:1px solid var(
 
 </div>
 <script>
-
-(() => {
-  const langSelect = document.getElementById('lang-select');
-  if (!langSelect) return;
-  langSelect.addEventListener('change', () => {
-    if (langSelect.value) location.href = langSelect.value;
-  });
-})();
 
 (() => {
   const key = 'stargate-theme';
