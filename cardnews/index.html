@@ -125,8 +125,6 @@ async function loadSupabaseStories(){
   grid.insertBefore(fragment,grid.firstChild);cards=[...grid.querySelectorAll(".story")];filter();
   const deepLink=location.hash.slice(1);if(stories[deepLink]&&!dialog.open)openStory(deepLink)
 }
-const hash=location.hash.slice(1);if(stories[hash]&&!dialog.open)openStory(hash)
-}
 const hash=location.hash.slice(1);if(stories[hash])openStory(hash);loadSupabaseStories();
 </script>
 <script src="/assets/usage-analytics.js?v=20260803b" defer></script>
