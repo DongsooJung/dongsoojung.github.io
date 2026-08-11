@@ -136,7 +136,7 @@ function parseCsv(text) {
 }
 
 async function loadListings() {
-  if (!feedUrl) return { listings: demoListings(), mode: "demo", source: "합성 층화표본 데이터" };
+  if (!feedUrl) return { listings: [], mode: "waiting", source: "승인 실매물 피드 연결 대기" };
   const url = new URL(feedUrl);
   if (url.protocol !== "https:") throw new Error("매물 피드는 HTTPS URL이어야 합니다.");
   if (!licensedDirectFeed && /(^|\.)(encar\.com|kbchachacha\.com)$/i.test(url.hostname)) {
@@ -210,32 +210,17 @@ const output = {
   recordCount: normalized.length,
   priceUnit: "만원",
   policy: {
-    acquisition: mode === "authorized" ? "licensed-feed" : "synthetic-stratified-sample",
+    acquisition: mode === "authorized" ? "licensed-feed" : "feed-not-connected",
     note: mode === "authorized"
       ? "제휴·라이선스가 확인된 CSV/JSON 피드만 적재합니다."
-      : "실매물·실측 시장통계가 아닌 재현 가능한 합성 층화표본입니다. 제조사·연료·차령·지역 구성비를 할당해 기능과 분석 흐름을 검증합니다.",
+      : "승인된 실매물 피드가 연결되지 않아 가격 통계·매물 목록·CSV를 공개하지 않습니다.",
   },
   sampling: mode === "authorized" ? {
     design: "authorized-feed-census",
     note: "승인 피드에 포함된 유효 매물 전체를 요약합니다. 모집단 포괄률은 공급계약 범위에 따릅니다.",
   } : {
-    design: "synthetic-stratified-quota",
-    seed: SAMPLE_SEED,
-    sampleSize: normalized.length,
-    primaryStratum: "제조사",
-    allocationMargins: ["연료", "차령", "지역"],
-    confidenceLevel: 0.95,
-    maxMarginOfErrorPct,
-    weighting: "할당 구성비와 생성 표본 구성비가 일치하여 기본가중치 1.0 적용",
-    populationFrame: "분석 기능 검증용 가상 모집단 구성비",
-    limitation: "가상 구성비를 사용하므로 실제 국내 중고차 시장의 점유율·가격을 추정할 수 없습니다.",
-    targets: {
-      make: makeTargets.map(([label, share]) => ({ label, share })),
-      fuel: fuelTargets.map(([label, share]) => ({ label, share })),
-      ageBand: ageTargets.map(([label, share]) => ({ label, share })),
-      region: regionTargets.map(([label, share]) => ({ label, share })),
-    },
-    observed: { make: distribution("make"), fuel: distribution("fuel"), ageBand: distribution("ageBand"), region: distribution("region") },
+    design: "feed-not-connected",
+    note: "실데이터 연결 후 공급 범위와 표본설계를 산정합니다.",
   },
   summary: {
     averagePrice: average,

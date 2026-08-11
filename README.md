@@ -10,7 +10,7 @@
 - `index.html` — 포털 랜딩 페이지 (프로젝트 카드 그리드 + About)
 - `portfolio/` — 외부 링크용 선별 포트폴리오 허브 (`https://www.stargateedu.co.kr/portfolio/`)
 - `strategy/kimstudy-math/` — 승인된 김과외 과외학생 문의·수요 전략 테이블(페이지당 100건, 매일 자동 갱신)
-- `strategy/used-car/` — 중고차 일일 가격 전략 대시보드(합성 층화표본 300건·승인 CSV/JSON 피드, 95% 신뢰구간·표본오차, 페이지당 100건, 매일 09:30 KST 갱신)
+- `strategy/used-car/` — 중고차 일일 가격 전략 대시보드(승인 실매물 CSV/JSON 피드 연결 시에만 통계·목록 공개, 페이지당 100건, 매일 09:30 KST 갱신)
 - `strategy/job-opportunities/` — 채용·체험공고 적합도 일일 TOP 20(JSON·CSV·날짜별 보관, 매일 09:00 KST 갱신)
 - `portfolio/blog/` — Notion API + Google Drive API 연동 포트폴리오 블로그
 - `api/portfolio-notion.js` — Notion 공개 글 라이브 프록시 (Vercel env: `NOTION_API_KEY`)
