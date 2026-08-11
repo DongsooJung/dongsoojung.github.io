@@ -10,6 +10,17 @@
 
   if (!summaryLink || !todayElement || !totalElement) return;
 
+  const quickLinks = document.querySelector('.quick-links');
+  if (quickLinks && !quickLinks.querySelector('a[href="/airbnb/"]')) {
+    const airbnbLink = document.createElement('a');
+    airbnbLink.className = 'chip mono';
+    airbnbLink.href = '/airbnb/';
+    airbnbLink.textContent = 'Busan Airbnb';
+    airbnbLink.setAttribute('aria-label', '부산 Airbnb 소자본 운영 분석 대시보드');
+    airbnbLink.style.cssText = 'border-color:#63d6a0;color:#bdf5d9;background:rgba(99,214,160,.09);font-weight:600';
+    quickLinks.append(airbnbLink);
+  }
+
   const headers = {
     apikey: publishableKey,
     Authorization: `Bearer ${publishableKey}`,
