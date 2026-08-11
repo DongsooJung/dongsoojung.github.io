@@ -28,7 +28,7 @@ dialog{width:min(760px,calc(100% - 28px));max-height:88vh;border:1px solid var(-
 <div class="wrap">
 <header>
   <a class="brand" href="/"><span class="logo">S</span><span>STARGATE <small>INSIGHT MAGAZINE</small></span></a>
-  <nav class="topnav" aria-label="주요 메뉴"><a href="#stories">최신</a><a href="#categories">카테고리</a><a class="home" href="/">메인 포털 ↗</a></nav>
+  <nav class="topnav" aria-label="주요 메뉴"><a href="#stories">최신</a><a href="#categories">카테고리</a><a href="/cardnews/admin/">발행 스튜디오</a><a class="home" href="/">메인 포털 ↗</a></nav>
 </header>
 <main>
 <section class="hero">
@@ -88,10 +88,41 @@ document.querySelectorAll("[data-open]").forEach(el=>el.addEventListener("click"
 function closeDialog(){dialog.close();history.replaceState(null,"",location.pathname)}
 document.getElementById("close").onclick=closeDialog;document.getElementById("close2").onclick=closeDialog;dialog.addEventListener("click",e=>{if(e.target===dialog)closeDialog()});
 document.getElementById("share").onclick=async()=>{const url=location.origin+location.pathname+"#"+current;try{await navigator.clipboard.writeText(url);document.getElementById("share").textContent="복사 완료 ✓";setTimeout(()=>document.getElementById("share").textContent="링크 복사",1400)}catch(e){}};
-let active="all";const search=document.getElementById("search"),cards=[...document.querySelectorAll(".story")],count=document.getElementById("count"),empty=document.getElementById("empty");
+let active="all";const search=document.getElementById("search"),count=document.getElementById("count"),empty=document.getElementById("empty"),grid=document.getElementById("grid");let cards=[...document.querySelectorAll(".story")];
 function filter(){const q=search.value.trim().toLowerCase();let n=0;cards.forEach(card=>{const show=(active==="all"||card.dataset.cat===active)&&(!q||card.dataset.title.toLowerCase().includes(q));card.hidden=!show;if(show)n++});count.textContent=n+" STORIES";empty.style.display=n?"none":"block"}
 document.querySelectorAll(".filter").forEach(btn=>btn.onclick=()=>{document.querySelector(".filter.active").classList.remove("active");btn.classList.add("active");active=btn.dataset.filter;filter()});search.oninput=filter;
-const hash=location.hash.slice(1);if(stories[hash])openStory(hash);
+
+function addBreakText(node,value){String(value||"").split("\n").forEach((line,index)=>{if(index)node.append(document.createElement("br"));node.append(document.createTextNode(line))})}
+function buildCmsCard(item){
+  const button=document.createElement("button");button.className="story";button.dataset.cat=item.category;button.dataset.title=item.title;button.dataset.open=item.id;
+  const coverEl=document.createElement("div");coverEl.className="cover "+item.theme;
+  const catEl=document.createElement("span");catEl.className="cat";catEl.textContent=item.category.toUpperCase()+" · AUTO";
+  const noEl=document.createElement("span");noEl.className="num";noEl.textContent="NEW";
+  const coverTitleEl=document.createElement("h3");addBreakText(coverTitleEl,item.coverTitle||item.title);
+  coverEl.append(catEl,noEl,coverTitleEl);
+  const body=document.createElement("div");body.className="story-body";
+  const h3=document.createElement("h3");h3.textContent=item.title;
+  const p=document.createElement("p");p.textContent=item.summary;
+  const foot=document.createElement("div");foot.className="story-foot";
+  const meta=document.createElement("span");meta.textContent=item.publishAt+" · "+item.readTime;
+  const read=document.createElement("b");read.textContent="읽기 →";foot.append(meta,read);body.append(h3,p,foot);button.append(coverEl,body);
+  button.addEventListener("click",()=>openStory(item.id));return button
+}
+function validCmsItem(v){return v&&/^[a-z0-9가-힣-]{2,60}$/i.test(v.id||"")&&["AI","교육","도시","비즈니스","정책"].includes(v.category)&&["ai","edu","city","business","policy","data"].includes(v.theme)&&typeof v.title==="string"&&typeof v.summary==="string"&&Array.isArray(v.slides)&&v.slides.length>=2&&/^\d{4}-\d{2}-\d{2}$/.test(v.publishAt||"")}
+async function loadCmsStories(){
+  let issues=[];
+  try{
+    const response=await fetch("https://api.github.com/repos/DongsooJung/dongsoojung.github.io/issues?state=open&per_page=100&creator=DongsooJung",{headers:{Accept:"application/vnd.github+json"}});
+    if(!response.ok)throw new Error("CMS "+response.status);issues=await response.json();sessionStorage.setItem("stargate-cardnews-cms",JSON.stringify(issues))
+  }catch(error){try{issues=JSON.parse(sessionStorage.getItem("stargate-cardnews-cms")||"[]")}catch(_){}}
+  const now=Date.now(),items=issues.filter(issue=>!issue.pull_request&&issue.user?.login==="DongsooJung"&&/^\[CARDNEWS\]/.test(issue.title||"")).map(issue=>{try{const match=(issue.body||"").match(/```json\s*([\s\S]*?)```/i);return match?JSON.parse(match[1]):null}catch(_){return null}}).filter(validCmsItem).filter(item=>new Date(item.publishAt+"T00:00:00+09:00").getTime()<=now).sort((a,b)=>b.publishAt.localeCompare(a.publishAt));
+  if(!items.length)return;
+  const fragment=document.createDocumentFragment();
+  items.forEach(item=>{if(stories[item.id])return;stories[item.id]={cat:item.category+" · 자동발행",cls:item.theme,title:item.title,summary:item.summary,slides:item.slides.map(String)};fragment.append(buildCmsCard(item))});
+  grid.insertBefore(fragment,grid.firstChild);cards=[...grid.querySelectorAll(".story")];filter();
+  const hash=location.hash.slice(1);if(stories[hash]&&!dialog.open)openStory(hash)
+}
+const hash=location.hash.slice(1);if(stories[hash])openStory(hash);loadCmsStories();
 </script>
 <script src="/assets/usage-analytics.js?v=20260803b" defer></script>
 </body>
