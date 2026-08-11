@@ -3,120 +3,130 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Airbnb 수익 예측 — Stargate Visual Lab</title>
-<meta name="description" content="서울 에어비앤비 가격 분포·자치구별 점유율·월 수익 예측 대시보드. Plotly.">
+<title>부산 Airbnb 소자본 운영 분석 — Stargate Visual Lab</title>
+<meta name="description" content="부산 영도·동구 공유숙박 후보 매물과 월 수익 시나리오를 비교하는 Stargate Visual Lab 대시보드.">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%8F%A0%3C/text%3E%3C/svg%3E">
-<script src="https://cdn.plot.ly/plotly-2.35.2.min.js" charset="utf-8"></script>
 <style>
-:root{--bg:#0a0d14;--panel:#0f172a;--panel2:#111c33;--line:#1f2a44;--line2:#263452;
-  --ink:#e6edf3;--sub:#9aa7b8;--muted:#6b7a90;--acc:#7aa2ff;--good:#63d6a0;--warm:#ffb86b;
-  --grad1:linear-gradient(135deg,#4f7fff,#7aa2ff 55%,#b388ff);}
-*{box-sizing:border-box}html,body{margin:0}
-body{font-family:"Pretendard","Apple SD Gothic Neo","Segoe UI",system-ui,sans-serif;background:var(--bg);color:var(--ink);line-height:1.55;
-  background-image:radial-gradient(1000px 600px at 10% -10%,rgba(79,127,255,.16),transparent 60%),radial-gradient(800px 500px at 100% 0,rgba(179,136,255,.1),transparent 60%);background-attachment:fixed;-webkit-font-smoothing:antialiased}
-a{color:var(--acc);text-decoration:none}.wrap{max-width:1080px;margin:0 auto;padding:24px 22px 90px}
-.nav{display:flex;justify-content:space-between;align-items:center;font-size:13px;color:var(--sub)}
-.nav a{color:var(--sub)}.nav a:hover{color:var(--ink)}
-h1{font-size:30px;letter-spacing:-.4px;margin:26px 0 6px;background:var(--grad1);-webkit-background-clip:text;background-clip:text;color:transparent}
-.lead{color:var(--sub);font-size:15px;margin:0 0 8px;max-width:72ch}
-.chips{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0 22px}
-.chip{border:1px solid var(--line2);background:var(--panel);color:var(--sub);padding:5px 10px;border-radius:999px;font-size:12px}
-.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:16px}
-.stat{border:1px solid var(--line);background:var(--panel);border-radius:12px;padding:14px}
-.stat .l{color:var(--muted);font-size:12px}.stat .v{font-size:22px;font-weight:700;margin-top:4px}
-.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
-.card{border:1px solid var(--line);background:linear-gradient(180deg,var(--panel2),var(--panel));border-radius:16px;padding:16px;margin-bottom:16px}
-.card.wide{grid-column:1/-1}
-.card h2{margin:0 0 2px;font-size:16px}.card .d{color:var(--sub);font-size:12.5px;margin-bottom:8px}
-.plot{width:100%;height:320px}
-@media(max-width:820px){.stats{grid-template-columns:repeat(2,1fr)}.grid2{grid-template-columns:1fr}}
+:root{--bg:#0a0d14;--panel:#0f172a;--panel2:#111c33;--line:#1f2a44;--line2:#263452;--ink:#e6edf3;--sub:#9aa7b8;--muted:#6b7a90;--acc:#7aa2ff;--good:#63d6a0;--warm:#ffb86b;--bad:#ff7d8d;--grad:linear-gradient(135deg,#4f7fff,#7aa2ff 55%,#b388ff)}
+*{box-sizing:border-box}html,body{margin:0}body{font-family:"Pretendard","Apple SD Gothic Neo","Segoe UI",system-ui,sans-serif;background:var(--bg);color:var(--ink);line-height:1.55;background-image:radial-gradient(1000px 600px at 10% -10%,rgba(79,127,255,.16),transparent 60%),radial-gradient(800px 500px at 100% 0,rgba(179,136,255,.1),transparent 60%);background-attachment:fixed;-webkit-font-smoothing:antialiased}a{color:var(--acc);text-decoration:none}.wrap{max-width:1120px;margin:0 auto;padding:24px 22px 90px}.nav{display:flex;justify-content:space-between;align-items:center;font-size:13px;color:var(--sub)}.nav a{color:var(--sub)}.nav a:hover{color:var(--ink)}h1{font-size:32px;letter-spacing:-.6px;margin:26px 0 6px;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}.lead{color:var(--sub);font-size:15px;margin:0 0 8px;max-width:80ch}.updated{font-size:12px;color:var(--muted);margin-top:6px}.chips{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0 22px}.chip{border:1px solid var(--line2);background:var(--panel);color:var(--sub);padding:5px 10px;border-radius:999px;font-size:12px}.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:18px}.stat{border:1px solid var(--line);background:var(--panel);border-radius:12px;padding:14px}.stat .l{color:var(--muted);font-size:12px}.stat .v{font-size:22px;font-weight:750;margin-top:4px}.stat .s{font-size:11px;color:var(--sub);margin-top:3px}.card{border:1px solid var(--line);background:linear-gradient(180deg,var(--panel2),var(--panel));border-radius:16px;padding:18px;margin-bottom:16px}.card h2{margin:0 0 4px;font-size:18px}.card .d{color:var(--sub);font-size:12.5px;margin-bottom:12px}.alert{border:1px solid rgba(255,184,107,.35);background:rgba(255,184,107,.08);border-radius:14px;padding:14px 16px;margin-bottom:16px}.alert strong{color:var(--warm)}.alert p{margin:4px 0 0;color:var(--sub);font-size:13px}.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}.table-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:12px}table{width:100%;border-collapse:collapse;min-width:820px;background:rgba(8,14,27,.32)}th,td{padding:12px 11px;border-bottom:1px solid var(--line);font-size:13px;text-align:left;vertical-align:top}th{font-size:11px;color:var(--muted);letter-spacing:.03em;text-transform:uppercase}tr:last-child td{border-bottom:0}.rank{font-weight:800;color:var(--good)}.tag{display:inline-block;padding:3px 7px;border-radius:999px;border:1px solid var(--line2);font-size:11px;color:var(--sub);margin-right:4px}.good{color:var(--good)}.warm{color:var(--warm)}.bad{color:var(--bad)}.controls{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.field{border:1px solid var(--line);border-radius:12px;padding:11px;background:rgba(9,15,29,.45)}.field label{display:block;font-size:11px;color:var(--muted);margin-bottom:6px}.field input,.field select{width:100%;background:#0a1020;color:var(--ink);border:1px solid var(--line2);border-radius:8px;padding:9px 10px;font-size:14px}.scenario-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:14px}.scenario{border:1px solid var(--line);border-radius:14px;padding:14px;background:rgba(8,14,27,.46)}.scenario .n{font-size:12px;color:var(--sub)}.scenario .gross{font-size:21px;font-weight:800;margin:5px 0}.scenario .profit{font-size:17px;font-weight:750}.scenario .meta{font-size:11px;color:var(--muted);margin-top:5px}.meter{height:8px;background:#101827;border-radius:999px;overflow:hidden;margin-top:9px}.meter span{display:block;height:100%;background:linear-gradient(90deg,#4f7fff,#63d6a0)}.checklist{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}.check{border:1px solid var(--line);border-radius:12px;padding:12px;background:rgba(8,14,27,.35);font-size:13px}.check b{display:block;margin-bottom:3px}.sources{font-size:12px;color:var(--sub)}.sources li{margin:6px 0}.note{font-size:11px;color:var(--muted);margin-top:10px}.footer{margin-top:26px;font-size:11px;color:var(--muted);text-align:center}@media(max-width:820px){.stats{grid-template-columns:repeat(2,1fr)}.grid2,.controls,.scenario-grid,.checklist{grid-template-columns:1fr}h1{font-size:28px}}
 </style>
-  <link rel="stylesheet" href="/assets/site-theme.css">
-  <script src="/assets/site-theme.js"></script>
+<link rel="stylesheet" href="/assets/site-theme.css">
+<script src="/assets/site-theme.js"></script>
 </head>
 <body>
 <div class="wrap">
   <div class="nav"><a href="/research/">← 연구 대시보드</a><a href="https://www.stargateedu.co.kr/">포털</a></div>
-  <h1>서울 Airbnb 수익 예측</h1>
-  <p class="lead">서울 단기숙박 시장의 가격 분포, 자치구별 점유율, 향후 6개월 수익 예측을 한 화면에서 봅니다. 데모 시드 데이터 기반.</p>
-  <div class="chips"><span class="chip">Revenue Forecast</span><span class="chip">Occupancy</span><span class="chip">RevPAR</span><span class="chip">Real Estate · ML</span></div>
+  <h1>부산 Airbnb · 공유숙박 소자본 운영 분석</h1>
+  <p class="lead">영도·동구의 저보증금 월세 후보를 기준으로 관광수요, 월 손익, 회수기간, 합법 운영 체크포인트를 한 화면에서 검토합니다. 매물은 투자 검토 후보이며 숙박영업 허가가 확인된 매물이 아닙니다.</p>
+  <div class="updated">기준일: 2026-08-11 · Stargate Visual Lab</div>
+  <div class="chips"><span class="chip">Busan</span><span class="chip">Airbnb</span><span class="chip">Home Sharing</span><span class="chip">Low-capital Test</span><span class="chip">Scenario Calculator</span></div>
 
-  <div class="stats" id="stats"></div>
+  <div class="stats">
+    <div class="stat"><div class="l">2026 상반기 외국인 방문객</div><div class="v">242만+</div><div class="s">부산시 집계</div></div>
+    <div class="stat"><div class="l">전년 동기 대비</div><div class="v">+43.9%</div><div class="s">외국인 방문객 증가</div></div>
+    <div class="stat"><div class="l">후보 최저 보증금</div><div class="v">200만원</div><div class="s">범일동 후보</div></div>
+    <div class="stat"><div class="l">후보 최저 월세</div><div class="v">20만원</div><div class="s">범일동 후보</div></div>
+  </div>
+
+  <div class="alert">
+    <strong>법적 상태 먼저 확인</strong>
+    <p>위홈의 비외도민업 신규 특례 안내에는 신규 등록 가능 기한이 2026-07-31로 표시되어 있습니다. 오늘 신규 진입자는 특례 연장 여부, 외국인관광 도시민박업 또는 기존 숙박업 구조 등 합법 경로를 위홈·관할 구청에 먼저 확인해야 합니다. 임차 운영이면 소유주 동의와 공동주택의 이웃 동의 요건도 중요합니다.</p>
+  </div>
+
+  <div class="card">
+    <h2>오늘 검토 후보 3건</h2>
+    <div class="d">가격이 낮고 방 2개 이상인 후보를 우선 비교. ‘운영 적합성’은 입지·구조·월 고정비 기준의 사전평가이며 영업 가능 판정이 아닙니다.</div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>순위</th><th>지역 / 주소</th><th>보증금 / 월세</th><th>구조</th><th>검토 포인트</th><th>운영 적합성</th><th>링크</th></tr></thead>
+        <tbody>
+          <tr><td class="rank">1</td><td><b>영도 청학동</b><br>청학서로 89</td><td><b>300 / 25</b>만원</td><td>방 2 · 약 49.6㎡<br><span class="tag">단독주택</span></td><td>고정비가 매우 낮아 테스트 운영에 유리. 실거주/동의/등록 경로 확인 필요.</td><td class="good">저자본 테스트 1순위</td><td><a href="https://realty.daangn.com/articles/3259734" target="_blank" rel="noopener">매물 확인 ↗</a></td></tr>
+          <tr><td class="rank">2</td><td><b>영도 동삼동</b><br>와치로155번길 48</td><td><b>1000 / 50</b>만원</td><td>방 3 · 단독주택<br><span class="tag">바다뷰 가능성</span></td><td>3룸이라 상품화 여지가 큼. 노후도·수리비·교통 접근성 실사 필요.</td><td class="good">사업성 1순위</td><td><a href="https://realty.daangn.com/articles/1198391" target="_blank" rel="noopener">매물 확인 ↗</a></td></tr>
+          <tr><td class="rank">3</td><td><b>동구 범일동</b><br>성남이로60번길 4</td><td><b>200 / 20</b>만원</td><td>방 2 · 약 49.5㎡<br><span class="tag">공동주택</span></td><td>초기 현금 투입은 최소. 공동주택 동의요건과 게스트 동선 검토가 핵심.</td><td class="warm">비용은 최저 / 허들 있음</td><td><a href="https://realty.daangn.com/articles/3207454" target="_blank" rel="noopener">매물 확인 ↗</a></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="note">※ 부동산 매물은 수시로 변경·삭제됩니다. 계약 전 임대인에게 ‘공유숙박/숙박영업 사용 동의’를 서면으로 확인하고 건축물 용도·관리규약·인허가 가능 여부를 별도 검증하세요.</div>
+  </div>
+
+  <div class="card">
+    <h2>월 손익 시뮬레이터</h2>
+    <div class="d">기본값은 보수적인 검토용 가정입니다. 숫자를 바꾸면 15/20/25박 시나리오가 즉시 갱신됩니다.</div>
+    <div class="controls">
+      <div class="field"><label>후보 선택</label><select id="property"><option value="250000">청학동 300/25</option><option value="500000">동삼동 1000/50</option><option value="200000">범일동 200/20</option></select></div>
+      <div class="field"><label>평균 1박 요금 (원)</label><input id="adr" type="number" value="95000" step="5000" min="10000"></div>
+      <div class="field"><label>월 관리·공과금 (원)</label><input id="utilities" type="number" value="180000" step="10000" min="0"></div>
+      <div class="field"><label>플랫폼 수수료 (%)</label><input id="fee" type="number" value="3" step="0.5" min="0" max="30"></div>
+      <div class="field"><label>청소 1회 비용 (원)</label><input id="clean" type="number" value="35000" step="5000" min="0"></div>
+      <div class="field"><label>평균 숙박일수 (박/예약)</label><input id="stay" type="number" value="2.5" step="0.5" min="1"></div>
+      <div class="field"><label>소모품·세탁 등 매출비율 (%)</label><input id="variable" type="number" value="5" step="1" min="0" max="30"></div>
+      <div class="field"><label>초기투자금 (원)</label><input id="initial" type="number" value="15000000" step="1000000" min="0"></div>
+      <div class="field"><label>기타 월 고정비 (원)</label><input id="other" type="number" value="100000" step="10000" min="0"></div>
+    </div>
+    <div id="scenarios" class="scenario-grid"></div>
+    <div class="note">세전 영업현금흐름 단순모형입니다. 보증금의 기회비용, 인테리어 감가상각, 부가세·소득세, 보험, 중개보수, 민원/공실 리스크는 별도입니다.</div>
+  </div>
 
   <div class="grid2">
     <div class="card">
-      <h2>1박 가격 분포</h2><div class="d">리스팅 1박 요금(만원) 히스토그램. 우측 롱테일(고급 숙소).</div>
-      <div id="price" class="plot"></div>
+      <h2>실행 전 체크</h2>
+      <div class="d">계약금을 넣기 전에 최소한 아래 순서로 확인.</div>
+      <div class="checklist">
+        <div class="check"><b>1. 합법 운영 경로</b>위홈 신규특례 접수 가능 여부, 외도민업 또는 숙박업 신고 가능성 확인.</div>
+        <div class="check"><b>2. 임대인 서면동의</b>임대차계약서 특약 또는 별도 공유숙박 동의서 확보.</div>
+        <div class="check"><b>3. 건축물·관리규약</b>주택용도, 공동주택 규약, 인접세대 동의 필요 여부 확인.</div>
+        <div class="check"><b>4. 실제 예약단가 검증</b>인근 경쟁숙소의 주중/주말/성수기 가격과 후기 수를 직접 비교.</div>
+        <div class="check"><b>5. 6개월 실험</b>1호점 데이터로 ADR·점유율·청소턴·민원비용을 기록.</div>
+        <div class="check"><b>6. 확장 기준</b>순영업현금흐름이 목표치를 3개월 연속 넘을 때만 2호점 검토.</div>
+      </div>
     </div>
+
     <div class="card">
-      <h2>자치구별 점유율</h2><div class="d">상위 8개 자치구 평균 점유율(%).</div>
-      <div id="occ" class="plot"></div>
-    </div>
-    <div class="card wide">
-      <h2>월 수익 예측 (실적 + 6개월 전망)</h2><div class="d">실적(파랑) 이후 예측(점선)과 80% 신뢰구간(음영).</div>
-      <div id="fc" class="plot" style="height:340px"></div>
+      <h2>현재 시장 신호</h2>
+      <div class="d">수요는 강하지만 공급·규제도 같이 봐야 합니다.</div>
+      <p style="font-size:13px;color:var(--sub);margin-top:0">2026년 상반기 부산 방문 외국인은 242만629명으로 전년 동기 대비 43.9% 증가했습니다. 6월에는 약 48만4천 명이 방문했습니다. 관광수요 자체는 강한 편입니다.</p>
+      <p style="font-size:13px;color:var(--sub)">하지만 ‘관광객 증가 = 모든 숙소 수익 증가’는 아닙니다. 저가 월세 후보는 고정비가 낮다는 장점이 있는 대신 위치·상품성·허가 가능성에서 약점이 있을 수 있으므로, 계약 전 실제 경쟁숙소와 허가 경로를 같이 검증해야 합니다.</p>
     </div>
   </div>
+
+  <div class="card">
+    <h2>출처 · 확인 링크</h2>
+    <ul class="sources">
+      <li><a href="https://www.wehome.me/trust/ko/typea/" target="_blank" rel="noopener">위홈 비외도민업 특례 안내</a> — 신규 등록 가능 기한·운영 범위 확인</li>
+      <li><a href="https://www.wehome.me/trust/ko/wehome-busan/" target="_blank" rel="noopener">위홈 부산 공유숙박 특례 안내</a> — 부산지역 운영조건·오픈호스팅 안내</li>
+      <li><a href="https://www.wehome.me/trust/ko/inspection/" target="_blank" rel="noopener">위홈 신규호스트 현장심사 안내</a> — 임차인 소유주 동의·공동주택 이웃동의·안전시설</li>
+      <li><a href="https://www.yna.co.kr/view/AKR20260730027500051" target="_blank" rel="noopener">연합뉴스 2026-07-30</a> — 부산 상반기 외국인 관광객 242만명, 전년 대비 43.9% 증가</li>
+      <li>부동산 후보: 당근부동산 개별 매물 링크. 매물은 삭제되거나 조건이 바뀔 수 있음.</li>
+    </ul>
+  </div>
+
+  <div class="footer">STARGATE Visual Lab · 투자 권유가 아닌 사업 검토용 시뮬레이션</div>
 </div>
-
 <script>
-const ACC='#7aa2ff', GOOD='#63d6a0', WARM='#ffb86b', LINE='#21304f', SUB='#9aa7b8';
-function mulberry32(a){return function(){a|=0;a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
-const rng=mulberry32(20260711);
-const baseLayout=(extra)=>Object.assign({
-  paper_bgcolor:'rgba(0,0,0,0)',plot_bgcolor:'rgba(0,0,0,0)',
-  font:{color:SUB,family:'Pretendard,system-ui,sans-serif',size:12},
-  margin:{l:52,r:16,t:10,b:40},
-  xaxis:{gridcolor:LINE,zerolinecolor:LINE},yaxis:{gridcolor:LINE,zerolinecolor:LINE}
-},extra||{});
-const cfg={responsive:true,displayModeBar:false};
-
-// ① 가격 분포 (로그정규 근사)
-const prices=[]; for(let i=0;i<600;i++){let u=0;for(let k=0;k<3;k++)u+=rng();const v=Math.exp(1.9+ (u/3-0.5)*1.1);prices.push(Math.round(v*10))}
-Plotly.newPlot('price',[{x:prices,type:'histogram',nbinsx:32,marker:{color:ACC,line:{color:'#0a0d14',width:1}},opacity:.9}],
-  baseLayout({xaxis:{title:'1박 요금(만원)',gridcolor:LINE},yaxis:{title:'리스팅 수',gridcolor:LINE},bargap:.04}),cfg);
-
-// ② 자치구별 점유율
-const gu=['마포','용산','종로','중구','강남','성동','서대문','광진'];
-const occ=gu.map((_,i)=>Math.round(58+Math.cos(i/1.5)*10+rng()*8));
-const pair=gu.map((g,i)=>[g,occ[i]]).sort((a,b)=>a[1]-b[1]);
-Plotly.newPlot('occ',[{y:pair.map(p=>p[0]),x:pair.map(p=>p[1]),type:'bar',orientation:'h',
-  marker:{color:pair.map(p=>p[1]),colorscale:[[0,'#31519e'],[1,'#7aa2ff']],line:{color:'#0a0d14',width:1}},
-  hovertemplate:'%{y} · %{x}%<extra></extra>'}],
-  baseLayout({xaxis:{title:'점유율(%)',gridcolor:LINE,range:[0,85]},yaxis:{gridcolor:'rgba(0,0,0,0)'},margin:{l:56,r:16,t:10,b:40}}),cfg);
-
-// ③ 월 수익 예측
-const months=['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'];
-const fut=['+1월','+2월','+3월','+4월','+5월','+6월'];
-const actual=months.map((_,i)=>Math.round(820+Math.sin(i/2)*120+i*14+(rng()-0.5)*60));
-const last=actual[actual.length-1];
-const fc=fut.map((_,i)=>Math.round(last+ (i+1)*22 + Math.sin((11+i)/2)*90));
-const band=fc.map((v,i)=>Math.round(60+ (i+1)*22));
-const allX=months.concat(fut);
-Plotly.newPlot('fc',[
-  // CI 밴드
-  {x:fut.concat([...fut].reverse()),
-   y:fc.map((v,i)=>v+band[i]).concat([...fc.map((v,i)=>v-band[i])].reverse()),
-   fill:'toself',fillcolor:'rgba(122,162,255,.13)',line:{color:'rgba(0,0,0,0)'},name:'80% CI',hoverinfo:'skip'},
-  {x:months,y:actual,mode:'lines+markers',name:'실적',line:{color:ACC,width:2.5},marker:{size:6}},
-  {x:[months[months.length-1]].concat(fut),y:[last].concat(fc),mode:'lines+markers',name:'예측',
-   line:{color:GOOD,width:2.5,dash:'dot'},marker:{size:6}}
-], baseLayout({
-  legend:{orientation:'h',y:1.14,x:0},
-  xaxis:{gridcolor:LINE,categoryorder:'array',categoryarray:allX},
-  yaxis:{title:'월 수익(만원)',gridcolor:LINE}
-}), cfg);
-
-// KPI
-const avgP=Math.round(prices.reduce((a,b)=>a+b,0)/prices.length);
-const avgOcc=Math.round(occ.reduce((a,b)=>a+b,0)/occ.length);
-const revpar=Math.round(avgP*avgOcc/100*10)/10;
-document.getElementById('stats').innerHTML=[
-  ['평균 1박 요금', avgP.toLocaleString()+'만원'],
-  ['평균 점유율', avgOcc+'%'],
-  ['RevPAR', revpar+'만원'],
-  ['6개월 후 예측수익', fc[5].toLocaleString()+'만원']
-].map(([l,v])=>`<div class="stat"><div class="l">${l}</div><div class="v">${v}</div></div>`).join('');
+const $=id=>document.getElementById(id);
+const fmt=n=>Math.round(n).toLocaleString('ko-KR')+'원';
+function calc(nights){
+  const rent=+$('property').value||0, adr=+$('adr').value||0, utilities=+$('utilities').value||0;
+  const fee=(+$('fee').value||0)/100, clean=+$('clean').value||0, stay=Math.max(1,+$('stay').value||1);
+  const variable=(+$('variable').value||0)/100, initial=+$('initial').value||0, other=+$('other').value||0;
+  const gross=adr*nights;
+  const turns=Math.ceil(nights/stay);
+  const expense=rent+utilities+other+(gross*fee)+(gross*variable)+(turns*clean);
+  const profit=gross-expense;
+  const margin=gross>0?profit/gross*100:0;
+  const payback=profit>0?initial/profit:null;
+  return {nights,gross,expense,profit,margin,payback,turns};
+}
+function render(){
+  const rows=[15,20,25].map(calc);
+  $('scenarios').innerHTML=rows.map(r=>{
+    const ratio=Math.max(0,Math.min(100,r.margin));
+    const cls=r.profit>=1000000?'good':r.profit>0?'warm':'bad';
+    return `<div class="scenario"><div class="n">월 ${r.nights}박 예약</div><div class="gross">매출 ${fmt(r.gross)}</div><div class="profit ${cls}">영업현금흐름 ${fmt(r.profit)}</div><div class="meta">총비용 ${fmt(r.expense)} · 청소 ${r.turns}회 · 마진 ${r.margin.toFixed(1)}%${r.payback?` · 단순 회수 ${r.payback.toFixed(1)}개월`:''}</div><div class="meter"><span style="width:${ratio}%"></span></div></div>`;
+  }).join('');
+}
+['property','adr','utilities','fee','clean','stay','variable','initial','other'].forEach(id=>$(id).addEventListener('input',render));
+render();
 </script>
 </body>
 </html>
