@@ -1,6 +1,10 @@
 name: Update Busan Airbnb dashboard
 
 on:
+  push:
+    paths:
+      - 'airbnb/deploy-marker.txt'
+      - 'scripts/update_airbnb_dashboard.py'
   schedule:
     - cron: '30 0 * * *' # 09:30 KST
   workflow_dispatch:
