@@ -109,20 +109,25 @@ function buildCmsCard(item){
   button.addEventListener("click",()=>openStory(item.id));return button
 }
 function validCmsItem(v){return v&&/^[a-z0-9가-힣-]{2,60}$/i.test(v.id||"")&&["AI","교육","도시","비즈니스","정책"].includes(v.category)&&["ai","edu","city","business","policy","data"].includes(v.theme)&&typeof v.title==="string"&&typeof v.summary==="string"&&Array.isArray(v.slides)&&v.slides.length>=2&&/^\d{4}-\d{2}-\d{2}$/.test(v.publishAt||"")}
-async function loadCmsStories(){
-  let issues=[];
+async function loadSupabaseStories(){
+  const endpoint="https://flxntafmvcdhpagzrvii.supabase.co/rest/v1/cardnews_posts?select=slug,category,theme,title,cover_title,summary,publish_at,read_time,slides&order=publish_at.desc";
+  const key="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZseG50YWZtdmNkaHBhZ3pydmlpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjIzMzc2NjgsImV4cCI6MjA3NzkxMzY2OH0.JOqS4I18z1al-omPSgRQor-eUx2Qd-IhT-6aAAtdDl8";
+  let rows=[];
   try{
-    const response=await fetch("https://api.github.com/repos/DongsooJung/dongsoojung.github.io/issues?state=open&per_page=100&creator=DongsooJung",{headers:{Accept:"application/vnd.github+json"}});
-    if(!response.ok)throw new Error("CMS "+response.status);issues=await response.json();sessionStorage.setItem("stargate-cardnews-cms",JSON.stringify(issues))
-  }catch(error){try{issues=JSON.parse(sessionStorage.getItem("stargate-cardnews-cms")||"[]")}catch(_){}}
-  const now=Date.now(),items=issues.filter(issue=>!issue.pull_request&&issue.user?.login==="DongsooJung"&&/^\[CARDNEWS\]/.test(issue.title||"")).map(issue=>{try{const match=(issue.body||"").match(/```json\s*([\s\S]*?)```/i);return match?JSON.parse(match[1]):null}catch(_){return null}}).filter(validCmsItem).filter(item=>new Date(item.publishAt+"T00:00:00+09:00").getTime()<=now).sort((a,b)=>b.publishAt.localeCompare(a.publishAt));
+    const response=await fetch(endpoint,{headers:{apikey:key,Authorization:"Bearer "+key}});
+    if(!response.ok)throw new Error("CMS "+response.status);rows=await response.json();sessionStorage.setItem("stargate-cardnews-supabase",JSON.stringify(rows))
+  }catch(error){try{rows=JSON.parse(sessionStorage.getItem("stargate-cardnews-supabase")||"[]")}catch(_){}}
+  const dateText=value=>new Intl.DateTimeFormat("en-CA",{timeZone:"Asia/Seoul"}).format(new Date(value));
+  const items=rows.map(row=>({id:row.slug,category:row.category,theme:row.theme,title:row.title,coverTitle:row.cover_title,summary:row.summary,publishAt:dateText(row.publish_at),readTime:row.read_time,slides:row.slides})).filter(validCmsItem);
   if(!items.length)return;
   const fragment=document.createDocumentFragment();
   items.forEach(item=>{if(stories[item.id])return;stories[item.id]={cat:item.category+" · 자동발행",cls:item.theme,title:item.title,summary:item.summary,slides:item.slides.map(String)};fragment.append(buildCmsCard(item))});
   grid.insertBefore(fragment,grid.firstChild);cards=[...grid.querySelectorAll(".story")];filter();
-  const hash=location.hash.slice(1);if(stories[hash]&&!dialog.open)openStory(hash)
+  const deepLink=location.hash.slice(1);if(stories[deepLink]&&!dialog.open)openStory(deepLink)
 }
-const hash=location.hash.slice(1);if(stories[hash])openStory(hash);loadCmsStories();
+const hash=location.hash.slice(1);if(stories[hash]&&!dialog.open)openStory(hash)
+}
+const hash=location.hash.slice(1);if(stories[hash])openStory(hash);loadSupabaseStories();
 </script>
 <script src="/assets/usage-analytics.js?v=20260803b" defer></script>
 </body>
