@@ -12,20 +12,30 @@ on:
 permissions:
   contents: write
 
+concurrency:
+  group: busan-airbnb-dashboard
+  cancel-in-progress: false
+
 jobs:
   refresh:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
+      - name: Checkout latest main
         uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
 
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.12'
 
-      - name: Refresh listing status
-        run: python scripts/update_airbnb_dashboard.py
+      - name: Sync and refresh listing status
+        shell: bash
+        run: |
+          git pull --rebase origin main
+          python scripts/update_airbnb_dashboard.py
 
       - name: Commit dashboard refresh
         shell: bash
@@ -38,4 +48,5 @@ jobs:
             exit 0
           fi
           git commit -m "Refresh Busan Airbnb dashboard"
-          git push
+          git pull --rebase origin main
+          git push origin HEAD:main
