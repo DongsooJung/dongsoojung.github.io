@@ -1,0 +1,149 @@
+name: Remote Server Deploy
+
+on:
+  workflow_dispatch:
+    inputs:
+      health_url:
+        description: URL to verify after deployment
+        required: true
+        default: https://www.stargateedu.co.kr
+
+permissions:
+  contents: read
+
+concurrency:
+  group: remote-server-deploy
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
+      REMOTE_USER: ${{ secrets.REMOTE_USER }}
+      REMOTE_PORT: ${{ secrets.REMOTE_PORT }}
+      REMOTE_SSH_KEY: ${{ secrets.REMOTE_SSH_KEY }}
+      REMOTE_PATH: ${{ secrets.REMOTE_PATH }}
+      NOTION_TOKEN: ${{ secrets.NOTION_TOKEN }}
+      NOTION_DATA_SOURCE_ID: 134d9599-9c49-44c6-93a3-19f42615be7c
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Validate deployment secrets
+        shell: bash
+        run: |
+          set -euo pipefail
+          : "${REMOTE_HOST:?REMOTE_HOST secret is required}"
+          : "${REMOTE_USER:?REMOTE_USER secret is required}"
+          : "${REMOTE_SSH_KEY:?REMOTE_SSH_KEY secret is required}"
+          : "${REMOTE_PATH:?REMOTE_PATH secret is required}"
+
+      - name: Configure SSH
+        shell: bash
+        run: |
+          set -euo pipefail
+          port="${REMOTE_PORT:-22}"
+          mkdir -p ~/.ssh
+          chmod 700 ~/.ssh
+          printf '%s\n' "$REMOTE_SSH_KEY" > ~/.ssh/id_ed25519
+          chmod 600 ~/.ssh/id_ed25519
+          ssh-keyscan -p "$port" -H "$REMOTE_HOST" >> ~/.ssh/known_hosts
+
+      - name: Create remote backup
+        id: backup
+        shell: bash
+        run: |
+          set -euo pipefail
+          port="${REMOTE_PORT:-22}"
+          ts="$(date -u +%Y%m%dT%H%M%SZ)"
+          backup_dir="${REMOTE_PATH%/}.deploy-backups"
+          backup_file="$backup_dir/deploy-$ts.tar.gz"
+          echo "backup_file=$backup_file" >> "$GITHUB_OUTPUT"
+
+          ssh -p "$port" "$REMOTE_USER@$REMOTE_HOST" \
+            "set -e; mkdir -p '$REMOTE_PATH' '$backup_dir'; tar -C '$REMOTE_PATH' -czf '$backup_file' .; ls -1t '$backup_dir'/deploy-*.tar.gz 2>/dev/null | tail -n +8 | xargs -r rm -f"
+
+      - name: Sync files to remote server
+        shell: bash
+        run: |
+          set -euo pipefail
+          port="${REMOTE_PORT:-22}"
+          rsync -az \
+            --exclude '.git/' \
+            --exclude '.github/' \
+            --exclude '.env' \
+            --exclude '.env.*' \
+            --exclude 'node_modules/' \
+            --exclude 'ops/' \
+            -e "ssh -p $port" \
+            ./ "$REMOTE_USER@$REMOTE_HOST:$REMOTE_PATH/"
+
+      - name: Restart containerized service when configured
+        shell: bash
+        run: |
+          set -euo pipefail
+          port="${REMOTE_PORT:-22}"
+          ssh -p "$port" "$REMOTE_USER@$REMOTE_HOST" \
+            "set -e; cd '$REMOTE_PATH'; if [ -f compose.yml ] || [ -f compose.yaml ] || [ -f docker-compose.yml ] || [ -f docker-compose.yaml ]; then docker compose up -d --build; fi"
+
+      - name: Verify deployed service
+        shell: bash
+        run: |
+          set -euo pipefail
+          curl --fail --location --silent --show-error \
+            --connect-timeout 10 \
+            --max-time 45 \
+            --retry 5 \
+            --retry-delay 5 \
+            "${{ inputs.health_url }}" > /dev/null
+
+      - name: Roll back when deployment fails
+        if: failure() && steps.backup.outputs.backup_file != ''
+        shell: bash
+        run: |
+          set -euo pipefail
+          port="${REMOTE_PORT:-22}"
+          backup_file="${{ steps.backup.outputs.backup_file }}"
+          ssh -p "$port" "$REMOTE_USER@$REMOTE_HOST" \
+            "set -e; mkdir -p '$REMOTE_PATH'; find '$REMOTE_PATH' -mindepth 1 -maxdepth 1 -exec rm -rf {} +; tar -xzf '$backup_file' -C '$REMOTE_PATH'; cd '$REMOTE_PATH'; if [ -f compose.yml ] || [ -f compose.yaml ] || [ -f docker-compose.yml ] || [ -f docker-compose.yaml ]; then docker compose up -d --build; fi"
+
+      - name: Log deployment to Notion
+        if: always() && env.NOTION_TOKEN != ''
+        shell: bash
+        env:
+          JOB_STATUS: ${{ job.status }}
+          HEALTH_URL: ${{ inputs.health_url }}
+        run: |
+          set -euo pipefail
+          if [ "$JOB_STATUS" = "success" ]; then
+            notion_status="완료"
+          else
+            notion_status="실패"
+          fi
+
+          details="repo=${GITHUB_REPOSITORY}; sha=${GITHUB_SHA}; host=${REMOTE_HOST}; path=${REMOTE_PATH}; health=${HEALTH_URL}; github_status=${JOB_STATUS}"
+          payload=$(jq -n \
+            --arg ds "$NOTION_DATA_SOURCE_ID" \
+            --arg title "remote-deploy" \
+            --arg status "$notion_status" \
+            --arg details "$details" \
+            --arg now "$(date -u +%Y-%m-%dT%H:%M:%SZ)" \
+            '{
+              parent: {data_source_id: $ds},
+              properties: {
+                "작업명": {title: [{text: {content: $title}}]},
+                "상태": {select: {name: $status}},
+                "상세내용": {rich_text: [{text: {content: $details}}]},
+                "실행시간": {date: {start: $now}}
+              }
+            }')
+
+          curl --fail-with-body -sS \
+            -X POST https://api.notion.com/v1/pages \
+            -H "Authorization: Bearer $NOTION_TOKEN" \
+            -H "Content-Type: application/json" \
+            -H "Notion-Version: 2026-03-11" \
+            --data "$payload"
