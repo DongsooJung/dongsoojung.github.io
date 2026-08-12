@@ -2,13 +2,13 @@ from __future__ import annotations
 
 import html as html_lib
 import json
+import math
 import re
 import time
 from collections import deque
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from urllib.error import HTTPError, URLError
-from urllib.parse import urljoin
 from urllib.request import Request, urlopen
 
 DASHBOARD = Path("airbnb/index.html")
@@ -19,18 +19,36 @@ MAX_PAGES = 70
 MAX_CANDIDATES = 20
 TOP_DISPLAY = 10
 
-# 부산 각 권역의 공개 매물 페이지를 출발점으로 삼고, 페이지의 관련 매물 링크를
-# 저빈도로 따라가며 후보를 확장한다. 검색엔진/API 키에 의존하지 않는 폴백 구조다.
+# 수익모델 기본 가정. 실제 OTA 매출이 아니라 후보 비교용 보수적 시나리오다.
+PLATFORM_FEE_RATE = 0.03
+VARIABLE_COST_RATE = 0.05
+UTILITIES_WON = 180_000
+CLEANING_WON = 35_000
+AVG_STAY_NIGHTS = 2.5
+
+DISTRICT_MARKET = {
+    "해운대구": (120_000, 0.67),
+    "수영구": (115_000, 0.66),
+    "중구": (100_000, 0.64),
+    "영도구": (95_000, 0.63),
+    "동구": (92_000, 0.62),
+    "기장군": (100_000, 0.59),
+    "부산진구": (90_000, 0.60),
+    "서구": (90_000, 0.58),
+    "남구": (88_000, 0.58),
+    "동래구": (85_000, 0.56),
+}
+
 SEED_URLS = [
-    f"{BASE}/articles/3259734",  # 영도 청학동
-    f"{BASE}/articles/1198391",  # 영도 동삼동
-    f"{BASE}/articles/3207454",  # 동구 범일동
-    f"{BASE}/articles/3462277",  # 기장 일광
-    f"{BASE}/articles/4008705",  # 부산진 전포
-    f"{BASE}/articles/3834829",  # 동구 범일
-    f"{BASE}/articles/3917769",  # 수영 광안
-    f"{BASE}/articles/4015207",  # 수영 망미
-    f"{BASE}/articles/3074397",  # 기장 일광
+    f"{BASE}/articles/3259734",
+    f"{BASE}/articles/1198391",
+    f"{BASE}/articles/3207454",
+    f"{BASE}/articles/3462277",
+    f"{BASE}/articles/4008705",
+    f"{BASE}/articles/3834829",
+    f"{BASE}/articles/3917769",
+    f"{BASE}/articles/4015207",
+    f"{BASE}/articles/3074397",
 ]
 
 BASELINE = [
@@ -40,7 +58,7 @@ BASELINE = [
 ]
 
 UA = (
-    "Mozilla/5.0 (compatible; StargateDashboard/2.0; "
+    "Mozilla/5.0 (compatible; StargateDashboard/3.0; "
     "+https://www.stargateedu.co.kr/airbnb/)"
 )
 
@@ -54,7 +72,7 @@ def request_html(url: str, timeout: int = 15) -> tuple[str | None, bool | None]:
             return raw.decode(charset, errors="replace"), response.status < 400
     except HTTPError as exc:
         if exc.code in (401, 403, 429):
-            return None, True  # 차단 가능성: 삭제로 오판하지 않음
+            return None, True
         if exc.code in (404, 410):
             return None, False
         return None, None
@@ -138,8 +156,6 @@ def score_candidate(item: dict, text: str) -> tuple[int, list[str]]:
 
     score = 20
     reasons: list[str] = []
-
-    # 초기자본/고정비 35점
     score += max(0, round(12 * (1 - deposit / 1000)))
     score += max(0, round(23 * (1 - rent / 100)))
     if rent <= 50:
@@ -147,19 +163,16 @@ def score_candidate(item: dict, text: str) -> tuple[int, list[str]]:
     if deposit <= 500:
         reasons.append("낮은 보증금")
 
-    # 객실 구성 10점
     score += min(10, 3 + (rooms - 2) * 4)
     if rooms >= 3:
         reasons.append("3룸+")
 
-    # 주택 용도/인허가 리스크 25점 중심
     lscore, risk = legal_score(kind, text)
     score += lscore
     item["legal_risk"] = risk
     if risk == "상대적으로 낮음":
         reasons.append("주택용도")
 
-    # 관광 입지 15점
     tourism = 0
     if district in {"영도구", "동구", "중구", "서구"}:
         tourism += 8
@@ -172,7 +185,6 @@ def score_candidate(item: dict, text: str) -> tuple[int, list[str]]:
     if hits:
         reasons.append("관광/교통 키워드")
 
-    # 신선도 10점
     if days <= 1:
         score += 10
         reasons.append("최근 등록")
@@ -182,7 +194,6 @@ def score_candidate(item: dict, text: str) -> tuple[int, list[str]]:
     elif days <= 30:
         score += 4
 
-    # 게시자 설명 속 에어비앤비 가능 문구는 법적 확인 전제의 약한 가점만 부여
     if "에어비앤비" in text and "가능" in text and "불가" not in text:
         score += 4
         item["host_claim"] = True
@@ -191,6 +202,77 @@ def score_candidate(item: dict, text: str) -> tuple[int, list[str]]:
         item["host_claim"] = False
 
     return max(0, min(100, score)), reasons[:4]
+
+
+def add_profitability(item: dict, text: str) -> None:
+    base_adr, base_occ = DISTRICT_MARKET.get(item["district"], (88_000, 0.57))
+    rooms = item["rooms"]
+
+    room_adr_factor = 1.0 + max(0, rooms - 2) * 0.18
+    area = item.get("area_m2") or 0
+    area_factor = 1.0
+    if area >= 70:
+        area_factor += 0.08
+    elif area >= 50:
+        area_factor += 0.04
+
+    premium_hits = sum(1 for k in ("바다", "오션", "해수욕장", "광안리", "해운대", "흰여울", "남포", "부산역") if k in text)
+    premium_factor = 1.0 + min(0.12, premium_hits * 0.03)
+    adr = round(base_adr * room_adr_factor * area_factor * premium_factor / 1000) * 1000
+
+    occ = base_occ
+    if item["freshness_days"] <= 7:
+        occ += 0.01
+    if rooms >= 3:
+        occ += 0.01
+    if item["legal_risk"] in {"높음", "확인필요"}:
+        occ -= 0.03
+    occ = max(0.45, min(0.72, occ))
+
+    sold_nights = 30 * occ
+    gross = round(adr * sold_nights)
+    reservations = max(1, math.ceil(sold_nights / AVG_STAY_NIGHTS))
+    cleaning = reservations * CLEANING_WON
+    platform_fee = round(gross * PLATFORM_FEE_RATE)
+    variable_cost = round(gross * VARIABLE_COST_RATE)
+    rent_won = item["rent"] * 10_000
+    operating_cost = rent_won + UTILITIES_WON + cleaning + platform_fee + variable_cost
+    net = gross - operating_cost
+
+    setup_cost = 8_000_000 + max(0, rooms - 2) * 2_000_000
+    if area >= 70:
+        setup_cost += 1_500_000
+    initial_cash = item["deposit"] * 10_000 + setup_cost
+    roi = (net * 12 / initial_cash * 100) if initial_cash > 0 else 0.0
+    payback = (initial_cash / net) if net > 0 else None
+
+    profit_score = 0
+    profit_score += min(45, max(0, round(net / 40_000)))
+    profit_score += min(35, max(0, round(roi / 2)))
+    if payback is not None:
+        profit_score += max(0, min(20, round(20 * (1 - min(payback, 36) / 36))))
+    profit_score = max(0, min(100, profit_score))
+
+    overall = round(item["score"] * 0.55 + profit_score * 0.45)
+    if item["legal_risk"] == "중간":
+        overall -= 3
+    elif item["legal_risk"] in {"높음", "확인필요"}:
+        overall -= 8
+
+    item.update({
+        "property_score": item["score"],
+        "estimated_adr_won": adr,
+        "estimated_occupancy": round(occ, 3),
+        "estimated_sold_nights": round(sold_nights, 1),
+        "estimated_monthly_revenue_won": gross,
+        "estimated_monthly_operating_cost_won": operating_cost,
+        "estimated_monthly_net_won": net,
+        "estimated_initial_cash_won": initial_cash,
+        "estimated_annual_roi_pct": round(roi, 1),
+        "estimated_payback_months": round(payback, 1) if payback is not None else None,
+        "profit_score": profit_score,
+        "score": max(0, min(100, overall)),
+    })
 
 
 def parse_listing(url: str, source: str) -> dict | None:
@@ -220,7 +302,6 @@ def parse_listing(url: str, source: str) -> dict | None:
     kind = building_type(title, text)
     days = freshness_days(text)
 
-    # 소자본 기본 필터
     if deposit > 1000 or rent > 100 or rooms < 2:
         return None
     if "에어비앤비 불가" in text or "숙박업 불가" in text:
@@ -243,6 +324,7 @@ def parse_listing(url: str, source: str) -> dict | None:
         "title": re.sub(r"\s*\|\s*당근부동산.*$", "", title).strip(),
     }
     item["score"], item["reasons"] = score_candidate(item, text)
+    add_profitability(item, text)
     return item
 
 
@@ -273,7 +355,7 @@ def crawl_candidates() -> tuple[list[dict], int, int]:
         if url in seen:
             continue
         seen.add(url)
-        source, reachable = request_html(url)
+        source, _ = request_html(url)
         if source is None:
             continue
         successful_pages += 1
@@ -291,14 +373,14 @@ def crawl_candidates() -> tuple[list[dict], int, int]:
 
     ranked = sorted(
         found.values(),
-        key=lambda x: (x["score"], -x["rent"], -x["rooms"], -x["deposit"]),
+        key=lambda x: (x["score"], x["estimated_monthly_net_won"], x["estimated_annual_roi_pct"]),
         reverse=True,
     )[:MAX_CANDIDATES]
     return ranked, len(seen), successful_pages
 
 
-def money(v: int) -> str:
-    return f"{v:,}"
+def money(v: int | float) -> str:
+    return f"{round(v):,}"
 
 
 def discovery_section(candidates: list[dict], crawled: int, successful: int) -> str:
@@ -308,30 +390,33 @@ def discovery_section(candidates: list[dict], crawled: int, successful: int) -> 
         reasons = " · ".join(item.get("reasons") or []) or "기본 조건 충족"
         area = f'{item["area_m2"]:.1f}㎡' if item.get("area_m2") else "면적 확인"
         claim = " · 게시자 가능 언급" if item.get("host_claim") else ""
+        payback = f'{item["estimated_payback_months"]:.1f}개월' if item.get("estimated_payback_months") is not None else "적자"
         rows.append(
             "<tr>"
             f'<td class="rank">{idx}</td>'
             f'<td><b>{html_lib.escape(item["district"])} {html_lib.escape(item["dong"])}</b><br>{new_badge}<span class="tag">{html_lib.escape(item["building_type"])}</span></td>'
-            f'<td><b>{money(item["deposit"])}/{money(item["rent"])}</b>만원</td>'
-            f'<td>방 {item["rooms"]} · {area}</td>'
-            f'<td><b class="good">{item["score"]}점</b><br><span class="note">{html_lib.escape(reasons)}</span></td>'
-            f'<td>{html_lib.escape(item["legal_risk"])}{claim}</td>'
+            f'<td><b>{money(item["deposit"])}/{money(item["rent"])}</b>만원<br><span class="note">방 {item["rooms"]} · {area}</span></td>'
+            f'<td>ADR {money(item["estimated_adr_won"])}원<br><span class="note">점유율 {item["estimated_occupancy"]*100:.0f}% · {item["estimated_sold_nights"]:.1f}박</span></td>'
+            f'<td><b>{money(item["estimated_monthly_revenue_won"])}원</b><br><span class="note">비용 {money(item["estimated_monthly_operating_cost_won"])}원</span></td>'
+            f'<td><b class="good">{money(item["estimated_monthly_net_won"])}원</b><br><span class="note">ROI {item["estimated_annual_roi_pct"]:.1f}% · 회수 {payback}</span></td>'
+            f'<td><b class="good">{item["score"]}점</b><br><span class="note">물건 {item["property_score"]} · 수익 {item["profit_score"]}</span></td>'
+            f'<td>{html_lib.escape(item["legal_risk"])}{claim}<br><span class="note">{html_lib.escape(reasons)}</span></td>'
             f'<td><a href="{item["url"]}" target="_blank" rel="noopener">확인 ↗</a></td>'
             "</tr>"
         )
 
-    body = "".join(rows) or '<tr><td colspan="7">오늘 자동 필터를 통과한 신규 후보가 없습니다. 기존 기준 후보를 확인하세요.</td></tr>'
+    body = "".join(rows) or '<tr><td colspan="9">오늘 자동 필터를 통과한 후보가 없습니다. 기존 기준 후보를 확인하세요.</td></tr>'
     return f'''<!-- AIRBNB_DISCOVERY_START -->
   <div class="card" id="daily-discovery">
-    <h2>매일 자동 발굴 · 투자점수 TOP {min(TOP_DISPLAY, len(candidates))}</h2>
-    <div class="d">공개 부산 매물의 관련 매물 링크를 저빈도로 탐색해 보증금 ≤1,000만 원, 월세 ≤100만 원, 방 2개 이상을 필터링합니다. 총 {crawled}개 URL 탐색 · {successful}개 페이지 응답 · 조건충족 {len(candidates)}건. 점수는 고정비·객실·주택용도·관광입지·신선도 기준이며 숙박영업 가능 판정이 아닙니다.</div>
+    <h2>매일 자동 발굴 · 예상수익/ROI TOP {min(TOP_DISPLAY, len(candidates))}</h2>
+    <div class="d">공개 부산 매물에서 보증금 ≤1,000만 원, 월세 ≤100만 원, 방 2개 이상을 필터링한 뒤 권역별 ADR·점유율 가정과 월세·공과금·청소·플랫폼 수수료·소모품을 반영해 예상 순이익과 ROI를 계산합니다. 총 {crawled}개 URL 탐색 · {successful}개 페이지 응답 · 조건충족 {len(candidates)}건.</div>
     <div class="table-wrap">
-      <table>
-        <thead><tr><th>순위</th><th>지역/유형</th><th>보증금/월세</th><th>구조</th><th>투자점수</th><th>인허가 리스크</th><th>매물</th></tr></thead>
+      <table style="min-width:1260px">
+        <thead><tr><th>순위</th><th>지역/유형</th><th>보증금/월세·구조</th><th>ADR/점유율</th><th>예상 월매출</th><th>예상 순이익/ROI</th><th>종합점수</th><th>인허가/근거</th><th>매물</th></tr></thead>
         <tbody>{body}</tbody>
       </table>
     </div>
-    <div class="note">※ NEW는 전일 저장 목록에 없던 URL입니다. ‘게시자 가능 언급’은 매물 설명상의 주장일 뿐 합법 영업을 보증하지 않습니다. 계약 전 관할 구청·건축물대장·임대인 서면동의·관리규약을 별도 확인하세요. 원자료: <a href="candidates.json">candidates.json</a></div>
+    <div class="note">※ 모든 수익 수치는 비교용 추정치입니다. 기본비용: 공과금 18만원/월, 플랫폼 3%, 소모품 5%, 청소 3.5만원/예약, 평균 2.5박/예약. 초기투자금은 보증금 + 기본 세팅비(2룸 800만원, 방 추가 시 가산)로 계산합니다. 실제 매출·세금·허가·리모델링비는 다를 수 있습니다. 원자료: <a href="candidates.json">candidates.json</a></div>
   </div>
 <!-- AIRBNB_DISCOVERY_END -->'''
 
@@ -342,7 +427,7 @@ def update_dashboard(candidates: list[dict], crawled: int, successful: int, stat
 
     updated = (
         f'<div class="updated">기준일: {today} · Stargate Visual Lab · '
-        f'매일 09:30 KST 자동발굴 · {status_text}</div>'
+        f'매일 09:30 KST 자동발굴/ROI 계산 · {status_text}</div>'
     )
     page, count = re.subn(r'<div class="updated">.*?</div>', updated, page, count=1, flags=re.S)
     if count != 1:
@@ -361,6 +446,7 @@ def update_dashboard(candidates: list[dict], crawled: int, successful: int, stat
     if candidates:
         min_deposit = min(item["deposit"] for item in candidates)
         min_rent = min(item["rent"] for item in candidates)
+        best_net = max(item["estimated_monthly_net_won"] for item in candidates)
         page = re.sub(
             r'(<div class="stat"><div class="l">후보 최저 보증금</div><div class="v">).*?(</div>)',
             rf'\g<1>{money(min_deposit)}만원\2', page, count=1,
@@ -369,12 +455,20 @@ def update_dashboard(candidates: list[dict], crawled: int, successful: int, stat
             r'(<div class="stat"><div class="l">후보 최저 월세</div><div class="v">).*?(</div>)',
             rf'\g<1>{money(min_rent)}만원\2', page, count=1,
         )
+        page = page.replace("후보 최저 월세", "후보 최저 월세", 1)
+        if "자동후보 최고 예상순익" not in page:
+            page = page.replace(
+                '<div class="stats">',
+                '<div class="stats">',
+                1,
+            )
 
     DASHBOARD.write_text(page, encoding="utf-8")
 
 
 def main() -> None:
-    today = datetime.now(KST).strftime("%Y-%m-%d")
+    now = datetime.now(KST)
+    today = now.strftime("%Y-%m-%d")
 
     baseline_checked = []
     for name, url in BASELINE:
@@ -387,19 +481,32 @@ def main() -> None:
 
     candidates, crawled, successful = crawl_candidates()
     new_count = sum(bool(item.get("is_new")) for item in candidates)
-    status_text = f"기준후보 {reachable}/{len(BASELINE)} 응답 · 자동후보 {len(candidates)}건 · 신규 {new_count}건"
+    best_net = max((item["estimated_monthly_net_won"] for item in candidates), default=0)
+    status_text = (
+        f"기준후보 {reachable}/{len(BASELINE)} 응답 · 자동후보 {len(candidates)}건 · 신규 {new_count}건 · "
+        f"최고 예상순익 {money(best_net)}원/월"
+    )
     if removed:
         status_text += f" · 삭제추정 {removed}"
     if unknown:
         status_text += f" · 확인보류 {unknown}"
 
     payload = {
-        "checked_at_kst": datetime.now(KST).isoformat(timespec="seconds"),
+        "checked_at_kst": now.isoformat(timespec="seconds"),
         "filters": {"max_deposit_manwon": 1000, "max_rent_manwon": 100, "min_rooms": 2},
+        "profit_model": {
+            "platform_fee_rate": PLATFORM_FEE_RATE,
+            "variable_cost_rate": VARIABLE_COST_RATE,
+            "utilities_won_per_month": UTILITIES_WON,
+            "cleaning_won_per_reservation": CLEANING_WON,
+            "average_stay_nights": AVG_STAY_NIGHTS,
+            "district_adr_occupancy_assumptions": DISTRICT_MARKET,
+            "ranking_weight": {"property_score": 0.55, "profit_score": 0.45},
+        },
         "crawl": {"visited_urls": crawled, "successful_pages": successful, "max_pages": MAX_PAGES},
         "baseline": [{"name": name, "reachable": status} for name, status in baseline_checked],
         "candidates": candidates,
-        "disclaimer": "투자점수는 사전 탐색용이며 숙박업 인허가 가능성을 보증하지 않습니다.",
+        "disclaimer": "예상 매출·순이익·ROI는 비교용 모델이며 실제 숙박업 인허가 또는 수익을 보증하지 않습니다.",
     }
     DATA_FILE.write_text(json.dumps(payload, ensure_ascii=False, indent=2), encoding="utf-8")
     update_dashboard(candidates, crawled, successful, status_text, today)
@@ -407,7 +514,11 @@ def main() -> None:
     print(today, status_text)
     print(f"crawl: visited={crawled}, successful={successful}")
     for item in candidates[:TOP_DISPLAY]:
-        print(f"- {item['score']:3d} {item['district']} {item['dong']} {item['deposit']}/{item['rent']} 방{item['rooms']} {item['url']}")
+        print(
+            f"- {item['score']:3d} {item['district']} {item['dong']} {item['deposit']}/{item['rent']} "
+            f"방{item['rooms']} ADR={item['estimated_adr_won']:,} OCC={item['estimated_occupancy']:.0%} "
+            f"NET={item['estimated_monthly_net_won']:,} ROI={item['estimated_annual_roi_pct']:.1f}% {item['url']}"
+        )
 
 
 if __name__ == "__main__":
