@@ -42,7 +42,7 @@ jobs:
               --retry-delay 3 \
               -w '%{http_code}' "$url")
 
-            if [[ "$code" =~ ^2|3 ]]; then
+            if [[ "$code" =~ ^[23][0-9][0-9]$ ]]; then
               echo "OK $code $url" | tee -a health-results.txt
             else
               echo "FAIL $code $url" | tee -a health-results.txt
