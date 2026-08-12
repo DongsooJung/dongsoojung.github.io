@@ -1,0 +1,90 @@
+name: Remote Service Health Check
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '17 * * * *'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: remote-service-health-check
+  cancel-in-progress: true
+
+jobs:
+  health-check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      NOTION_TOKEN: ${{ secrets.NOTION_TOKEN }}
+      NOTION_DATA_SOURCE_ID: 134d9599-9c49-44c6-93a3-19f42615be7c
+
+    steps:
+      - name: Check public endpoints
+        id: check
+        shell: bash
+        run: |
+          set +e
+          : > health-results.txt
+          failed=0
+
+          for url in \
+            https://www.stargateedu.co.kr \
+            https://portal.stargateedu.co.kr \
+            https://blog.stargateedu.co.kr \
+            https://shop.stargateedu.co.kr
+          do
+            code=$(curl -L -sS -o /dev/null \
+              --connect-timeout 10 \
+              --max-time 30 \
+              --retry 2 \
+              --retry-delay 3 \
+              -w '%{http_code}' "$url")
+
+            if [[ "$code" =~ ^2|3 ]]; then
+              echo "OK $code $url" | tee -a health-results.txt
+            else
+              echo "FAIL $code $url" | tee -a health-results.txt
+              failed=1
+            fi
+          done
+
+          if [ "$failed" -ne 0 ]; then
+            exit 1
+          fi
+
+      - name: Log failure to Notion
+        if: failure() && env.NOTION_TOKEN != ''
+        shell: bash
+        run: |
+          details=$(tr '\n' ' ' < health-results.txt | head -c 1500)
+          payload=$(jq -n \
+            --arg ds "$NOTION_DATA_SOURCE_ID" \
+            --arg title "remote-health-check" \
+            --arg details "$details" \
+            --arg now "$(date -u +%Y-%m-%dT%H:%M:%SZ)" \
+            '{
+              parent: {data_source_id: $ds},
+              properties: {
+                "작업명": {title: [{text: {content: $title}}]},
+                "상태": {select: {name: "실패"}},
+                "상세내용": {rich_text: [{text: {content: $details}}]},
+                "실행시간": {date: {start: $now}}
+              }
+            }')
+
+          curl --fail-with-body -sS \
+            -X POST https://api.notion.com/v1/pages \
+            -H "Authorization: Bearer $NOTION_TOKEN" \
+            -H "Content-Type: application/json" \
+            -H "Notion-Version: 2026-03-11" \
+            --data "$payload"
+
+      - name: Upload health result
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: remote-health-${{ github.run_id }}
+          path: health-results.txt
+          retention-days: 7
