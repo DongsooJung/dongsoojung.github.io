@@ -56,6 +56,7 @@ jobs:
 
       - name: Log failure to Notion
         if: failure() && env.NOTION_TOKEN != ''
+        continue-on-error: true
         shell: bash
         run: |
           details=$(tr '\n' ' ' < health-results.txt | head -c 1500)
