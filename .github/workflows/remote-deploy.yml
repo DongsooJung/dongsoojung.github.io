@@ -112,6 +112,7 @@ jobs:
 
       - name: Log deployment to Notion
         if: always() && env.NOTION_TOKEN != ''
+        continue-on-error: true
         shell: bash
         env:
           JOB_STATUS: ${{ job.status }}
