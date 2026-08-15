@@ -1,0 +1,52 @@
+name: Execution Dashboard Smoke Test
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'execution/**'
+      - '.github/workflows/execution-smoke.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Validate execution files
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -s execution/index.html
+          test -s execution/status.json
+          grep -q '45-Day' execution/index.html
+          grep -q '2026-09-30' execution/status.json
+          python -m json.tool execution/status.json >/dev/null
+
+      - name: Check internal execution links
+        shell: bash
+        run: |
+          set -euo pipefail
+          for path in strategy research bidpilot google-trends; do
+            test -e "$path/index.html" || { echo "Missing /$path/"; exit 1; }
+          done
+
+      - name: Probe deployed route
+        shell: bash
+        run: |
+          set -euo pipefail
+          URL='https://stargateedu.co.kr/execution/'
+          for i in 1 2 3 4 5; do
+            code=$(curl -L -sS -o /tmp/execution.html -w '%{http_code}' "$URL" || true)
+            if [ "$code" = '200' ] && grep -q '45-Day' /tmp/execution.html; then
+              echo "Execution dashboard is live"
+              exit 0
+            fi
+            sleep 15
+          done
+          echo "Execution dashboard deployment probe failed"
+          exit 1
