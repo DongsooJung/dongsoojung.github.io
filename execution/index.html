@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>2026 Q3 Execution OS · STARGATE</title>
+<meta name="description" content="STARGATE 2026 Q3 45-Day Execution Sprint. 2026.08.15–09.30 실행·수주·제품·데이터·자동화 KPI 대시보드.">
+<meta name="theme-color" content="#0a0d14">
+<link rel="canonical" href="https://www.stargateedu.co.kr/execution/">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Hahmlet:wght@600;700&family=IBM+Plex+Mono:wght@500;600&family=IBM+Plex+Sans+KR:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{color-scheme:dark;--bg:#0a0d14;--panel:#0f172a;--panel2:#111c33;--line:#1f2a44;--line2:#263452;--ink:#e6edf3;--sub:#9aa7b8;--muted:#6b7a90;--acc:#7aa2ff;--acc2:#4f7fff;--good:#63d6a0;--warn:#ffb86b;--bad:#ff7b7b;--grad:linear-gradient(135deg,#4f7fff,#7aa2ff 55%,#b388ff);--sans:"IBM Plex Sans KR",sans-serif;--display:"Hahmlet",serif;--mono:"IBM Plex Mono",monospace}
+*{box-sizing:border-box}html{background:var(--bg);scroll-behavior:smooth}body{margin:0;color:var(--ink);background:radial-gradient(1000px 650px at 10% -10%,rgba(79,127,255,.16),transparent 60%),radial-gradient(800px 500px at 100% 0,rgba(179,136,255,.1),transparent 60%),var(--bg);font-family:var(--sans);line-height:1.6}.wrap{max-width:1180px;margin:auto;padding:24px 22px 90px}.nav{display:flex;align-items:center;gap:12px}.brand{display:flex;align-items:center;gap:10px;color:var(--ink);font-weight:700;text-decoration:none}.logo{width:34px;height:34px;border-radius:9px;background:var(--grad);display:grid;place-items:center;color:#0b1020;font-family:var(--display)}.navlinks{margin-left:auto;display:flex;gap:12px;flex-wrap:wrap}.nav a{color:var(--sub);text-decoration:none;font-size:13px}.nav a:hover{color:var(--ink)}.hero{padding:62px 0 26px;display:grid;grid-template-columns:1.35fr .65fr;gap:28px;align-items:end}.eyebrow{font:600 11px var(--mono);letter-spacing:.12em;color:var(--acc);text-transform:uppercase}.hero h1{font:700 clamp(2.2rem,5vw,4rem)/1.08 var(--display);margin:10px 0 14px;letter-spacing:-.04em}.hero p{max-width:720px;color:var(--sub);font-size:1.02rem}.datebox{border:1px solid var(--line);background:linear-gradient(180deg,var(--panel2),var(--panel));border-radius:18px;padding:20px}.datebox b{display:block;font:600 12px var(--mono);color:var(--acc);margin-bottom:8px}.datebox .days{font:700 2.2rem var(--mono)}.progress{height:8px;background:#17213a;border-radius:999px;overflow:hidden;margin-top:14px}.progress>span{display:block;height:100%;background:var(--grad);width:0}.small{font-size:12px;color:var(--muted)}.objective{border:1px solid var(--line);border-radius:16px;padding:18px 20px;margin:10px 0 24px;background:rgba(15,23,42,.68)}.objective strong{font-family:var(--display);font-size:1.1rem}.objective span{color:var(--sub)}.grid{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}.kpi{border:1px solid var(--line);background:linear-gradient(180deg,var(--panel2),var(--panel));border-radius:14px;padding:16px}.kpi label{font:600 10px var(--mono);letter-spacing:.08em;color:var(--muted);text-transform:uppercase}.kpi .value{font:700 1.6rem var(--mono);margin:5px 0}.kpi .target{font-size:11px;color:var(--sub)}.kpi input{width:64px;background:#0a1222;border:1px solid var(--line2);color:var(--ink);border-radius:7px;padding:5px 7px;font:600 12px var(--mono)}.section{margin-top:34px}.sectionhead{display:flex;align-items:end;justify-content:space-between;gap:16px;margin-bottom:14px}.section h2{font:700 1.45rem var(--display);margin:0}.sectionhead p{margin:0;color:var(--muted);font-size:12px}.sprints{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}.sprint{border:1px solid var(--line);background:rgba(15,23,42,.78);border-radius:16px;padding:18px}.sprinttop{display:flex;justify-content:space-between;gap:12px;align-items:flex-start}.sprint h3{margin:3px 0 2px;font:700 1.05rem var(--display)}.range{font:600 11px var(--mono);color:var(--acc)}.badge{font:600 10px var(--mono);border:1px solid var(--line2);border-radius:999px;padding:3px 7px;color:var(--sub)}.tasks{padding:0;margin:14px 0 0;list-style:none}.tasks li{display:flex;gap:9px;align-items:flex-start;padding:7px 0;border-top:1px solid rgba(38,52,82,.55);font-size:13px}.dot{width:8px;height:8px;border-radius:50%;background:var(--muted);margin-top:7px;flex:0 0 auto}.p0 .dot{background:var(--warn)}.p1 .dot{background:var(--acc)}.p2 .dot{background:var(--good)}.statusgrid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.panel{border:1px solid var(--line);background:rgba(15,23,42,.78);border-radius:16px;padding:18px}.panel h3{font:700 1rem var(--display);margin:0 0 12px}.nowitem{display:grid;grid-template-columns:42px 1fr auto;gap:10px;align-items:center;padding:10px 0;border-top:1px solid var(--line)}.prio{font:700 10px var(--mono);border-radius:6px;padding:4px 6px;text-align:center;background:#1c2741;color:var(--sub)}.prio.p0{color:var(--warn)}.prio.p1{color:var(--acc)}.prio.p2{color:var(--good)}.deadline{font:600 11px var(--mono);color:var(--muted)}.links{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}.linkcard{border:1px solid var(--line);border-radius:14px;padding:15px;background:var(--panel);color:var(--ink);text-decoration:none;transition:.15s transform,.15s border-color}.linkcard:hover{transform:translateY(-2px);border-color:var(--acc)}.linkcard b{display:block;font-size:13px}.linkcard span{font-size:11px;color:var(--muted)}.rule{border-left:3px solid var(--acc);padding:10px 14px;background:rgba(122,162,255,.08);border-radius:0 10px 10px 0;color:var(--sub);font-size:13px}.rule strong{color:var(--ink)}.legend{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}.legend span{font:600 10px var(--mono);border:1px solid var(--line2);padding:4px 7px;border-radius:999px}.footer{margin-top:44px;border-top:1px solid var(--line);padding-top:18px;color:var(--muted);font-size:11px;display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap}@media(max-width:900px){.hero{grid-template-columns:1fr}.grid{grid-template-columns:repeat(2,1fr)}.kpi:last-child{grid-column:span 2}.sprints,.statusgrid{grid-template-columns:1fr}.links{grid-template-columns:repeat(2,1fr)}}@media(max-width:560px){.wrap{padding:18px 14px 70px}.navlinks{gap:8px}.navlinks a:nth-child(2),.navlinks a:nth-child(3){display:none}.hero{padding-top:42px}.grid{grid-template-columns:1fr 1fr}.links{grid-template-columns:1fr}.nowitem{grid-template-columns:38px 1fr}.deadline{grid-column:2}.hero h1{font-size:2.35rem}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <nav class="nav" aria-label="주요 탐색">
+    <a class="brand" href="/"><span class="logo">S</span><span>STARGATE</span></a>
+    <div class="navlinks"><a href="/strategy/">Strategy</a><a href="/research/">Research</a><a href="/bidpilot/">BidPilot</a><a href="/">Home</a></div>
+  </nav>
+
+  <header class="hero">
+    <div>
+      <div class="eyebrow">2026 Q3 · Execution OS</div>
+      <h1>45-Day<br>Execution Sprint</h1>
+      <p>연구 → 제품 → 영업 → 매출. 2026년 3분기 잔여기간을 프로젝트 수 증가가 아니라 <strong>완료율·수주율·제품화율</strong> 중심으로 운영합니다.</p>
+    </div>
+    <aside class="datebox">
+      <b>2026.08.15 — 09.30</b>
+      <div class="days"><span id="dayNo">1</span> / 47</div>
+      <div class="progress" aria-label="기간 진행률"><span id="timeProgress"></span></div>
+      <div class="small" id="progressText">Q3 sprint progress</div>
+    </aside>
+  </header>
+
+  <div class="objective"><strong>PRIMARY OBJECTIVE</strong><br><span>Research → Product → Revenue</span></div>
+
+  <section class="grid" aria-label="핵심 KPI">
+    <div class="kpi"><label>Revenue Leads</label><div class="value"><input data-kpi="revenue" type="number" min="0" value="0"> / 3</div><div class="target">신규 매출원·유효 유료전환</div></div>
+    <div class="kpi"><label>Proposals</label><div class="value"><input data-kpi="proposals" type="number" min="0" value="0"> / 15</div><div class="target">Wishket·AI·개발 고품질 제안</div></div>
+    <div class="kpi"><label>Products</label><div class="value"><input data-kpi="products" type="number" min="0" value="0"> / 3</div><div class="target">판매 가능한 교육·콘텐츠 상품</div></div>
+    <div class="kpi"><label>Data Products</label><div class="value"><input data-kpi="data" type="number" min="0" value="0"> / 5</div><div class="target">LIVE/BETA 명확화된 핵심 데이터</div></div>
+    <div class="kpi"><label>Automations</label><div class="value"><input data-kpi="automation" type="number" min="0" value="0"> / 5</div><div class="target">반복 업무 자동·반자동화</div></div>
+  </section>
+
+  <section class="section">
+    <div class="sectionhead"><h2>4 Sprints</h2><p>개발보다 전환과 회수를 우선</p></div>
+    <div class="sprints">
+      <article class="sprint"><div class="sprinttop"><div><span class="range">08.15 → 08.23</span><h3>S1 · 정리·출시</h3></div><span class="badge">FOUNDATION</span></div><ul class="tasks"><li class="p0"><span class="dot"></span><span><b>메가스터디 지원 패키지</b> — 강사 프로필·시범강의·수학 교재 샘플</span></li><li class="p0"><span class="dot"></span><span><b>Web Core QA</b> — 메인/전략/연구 역할 정리, 모바일 점검</span></li><li class="p1"><span class="dot"></span><span><b>교육상품 전환</b> — KOI 전자책·샘플·상담 CTA 연결</span></li><li class="p1"><span class="dot"></span><span><b>Infrastructure</b> — Workspace·GitHub·Cursor Builds 점검</span></li></ul></article>
+      <article class="sprint"><div class="sprinttop"><div><span class="range">08.24 → 09.06</span><h3>S2 · 수주·매출</h3></div><span class="badge">SALES</span></div><ul class="tasks"><li class="p0"><span class="dot"></span><span><b>Wishket</b> — 매일 3건 선별, 2주 고품질 제안 10건</span></li><li class="p0"><span class="dot"></span><span><b>Pipeline</b> — 발견→검토→지원→인터뷰→계약 상태 관리</span></li><li class="p1"><span class="dot"></span><span><b>교육 매출</b> — KOI/KMO·수학교재·컨설팅 중 2개 집중</span></li><li class="p1"><span class="dot"></span><span><b>Content Funnel</b> — 콘텐츠→Landing→상담/구매 연결</span></li></ul></article>
+      <article class="sprint"><div class="sprinttop"><div><span class="range">09.07 → 09.20</span><h3>S3 · 데이터 제품화</h3></div><span class="badge">PRODUCT</span></div><ul class="tasks"><li class="p1"><span class="dot"></span><span><b>Core 5</b> — 경매·채용·중고차·투표소 GIS·Google Trends</span></li><li class="p2"><span class="dot"></span><span><b>Pipeline 표준화</b> — SOURCE→ETL→DB→API→DASHBOARD→INSIGHT</span></li><li class="p0"><span class="dot"></span><span><b>데이터 신뢰성</b> — LIVE/BETA/SAMPLE/BLOCKED 상태 강제</span></li><li class="p1"><span class="dot"></span><span><b>완료 기준</b> — 3 LIVE + 2 BETA</span></li></ul></article>
+      <article class="sprint"><div class="sprinttop"><div><span class="range">09.21 → 09.30</span><h3>S4 · Q3 Close</h3></div><span class="badge">CLOSE</span></div><ul class="tasks"><li class="p0"><span class="dot"></span><span><b>Android 인증</b> — 앱·서명키·외부배포 상태 9/30 전 점검</span></li><li class="p0"><span class="dot"></span><span><b>수주 회수</b> — 미응답 Follow-up·인터뷰·계약·Q4 이월</span></li><li class="p1"><span class="dot"></span><span><b>Q3 정산</b> — 매출·비용·구독·현금흐름</span></li><li class="p1"><span class="dot"></span><span><b>Q4 Focus</b> — 10~12월 최우선 목표 3개만 선정</span></li></ul></article>
+    </div>
+  </section>
+
+  <section class="section statusgrid">
+    <div class="panel"><h3>NOW · Top Priorities</h3><div class="nowitem"><span class="prio p0">P0</span><span>메가스터디 강사 지원·수학 교재 샘플</span><span class="deadline">08.16</span></div><div class="nowitem"><span class="prio p0">P0</span><span>Wishket 고적합 프로젝트 수주 파이프라인</span><span class="deadline">DAILY</span></div><div class="nowitem"><span class="prio p1">P1</span><span>KOI 전자책·교육상품 판매 전환</span><span class="deadline">08.23</span></div><div class="nowitem"><span class="prio p1">P1</span><span>웹 인프라·Cursor Builds 전환 점검</span><span class="deadline">08.17</span></div></div>
+    <div class="panel"><h3>Critical Deadlines</h3><div class="nowitem"><span class="prio p0">P0</span><span>메가스터디 지원 마감</span><span class="deadline">08.16</span></div><div class="nowitem"><span class="prio p0">P0</span><span>Cursor Builds 자동 전환</span><span class="deadline">08.17</span></div><div class="nowitem"><span class="prio p0">P0</span><span>서울대 부채증명서 회신 요청기한</span><span class="deadline">08.31</span></div><div class="nowitem"><span class="prio p0">P0</span><span>Android 앱·서명키 인증 점검</span><span class="deadline">09.30</span></div></div>
+  </section>
+
+  <section class="section"><div class="sectionhead"><h2>Operating Rule</h2><p>프로젝트 과잉 확장을 차단</p></div><div class="rule"><strong>동시 P0 프로젝트 ≤ 3.</strong> 새로운 아이디어는 P3 backlog에 두고, 기존 P0 하나가 완료되기 전에는 승격하지 않습니다.</div><div class="legend"><span style="color:var(--warn)">P0 · Revenue / Deadline</span><span style="color:var(--acc)">P1 · Product</span><span style="color:var(--good)">P2 · Research</span><span>P3 · Experiment</span></div></section>
+
+  <section class="section"><div class="sectionhead"><h2>Connected Assets</h2><p>기존 자산을 실행계획에 연결</p></div><div class="links"><a class="linkcard" href="/strategy/"><b>Strategy Intelligence</b><span>사업·산업·수익화 프로젝트</span></a><a class="linkcard" href="/research/"><b>Research Observatory</b><span>도시·경제·공공데이터 연구</span></a><a class="linkcard" href="/bidpilot/"><b>BidPilot</b><span>입찰·제안·수주 파이프라인</span></a><a class="linkcard" href="/google-trends/"><b>Google Trends</b><span>트렌드 데이터 제품</span></a></div></section>
+
+  <footer class="footer"><span>STARGATE · 2026 Q3 Execution OS</span><span>KPI 입력값은 이 브라우저에 자동 저장됩니다.</span></footer>
+</div>
+<script>
+(()=>{const start=new Date('2026-08-15T00:00:00+09:00'),end=new Date('2026-09-30T23:59:59+09:00'),now=new Date(),total=47;let day=Math.floor((now-start)/86400000)+1;day=Math.max(1,Math.min(total,day));const pct=Math.max(0,Math.min(100,((now-start)/(end-start))*100));document.getElementById('dayNo').textContent=day;document.getElementById('timeProgress').style.width=pct.toFixed(1)+'%';document.getElementById('progressText').textContent=pct.toFixed(0)+'% elapsed · '+Math.max(0,total-day)+' days remaining';document.querySelectorAll('[data-kpi]').forEach(el=>{const key='q3exec-'+el.dataset.kpi;const saved=localStorage.getItem(key);if(saved!==null)el.value=saved;el.addEventListener('change',()=>localStorage.setItem(key,el.value));});})();
+</script>
+</body>
+</html>
