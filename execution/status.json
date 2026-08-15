@@ -1,0 +1,30 @@
+{
+  "period": {
+    "label": "2026 Q3 · 45-Day Execution Sprint",
+    "start": "2026-08-15",
+    "end": "2026-09-30",
+    "objective": "Research → Product → Sales → Revenue"
+  },
+  "kpis": {
+    "proposals": {"current": 0, "target": 15, "unit": "건"},
+    "products": {"current": 0, "target": 3, "unit": "개"},
+    "dataProducts": {"current": 0, "target": 5, "unit": "개"},
+    "automations": {"current": 0, "target": 5, "unit": "개"},
+    "qualifiedLeads": {"current": 0, "target": 3, "unit": "건"},
+    "contracts": {"current": 0, "target": 1, "unit": "건"}
+  },
+  "sprints": [
+    {"id": 1, "name": "정리·출시", "start": "2026-08-15", "end": "2026-08-23", "goal": "지원·판매·제안 가능한 상태 완성"},
+    {"id": 2, "name": "수주·매출", "start": "2026-08-24", "end": "2026-09-06", "goal": "고품질 제안 10건과 첫 유료 전환"},
+    {"id": 3, "name": "데이터 제품화", "start": "2026-09-07", "end": "2026-09-20", "goal": "Core Data Products 3 LIVE / 2 BETA"},
+    {"id": 4, "name": "Q3 Close", "start": "2026-09-21", "end": "2026-09-30", "goal": "성과 회수·Android 인증·Q4 이월"}
+  ],
+  "priorityRule": "동시 P0 프로젝트는 최대 3개",
+  "criticalDeadlines": [
+    {"date": "2026-08-16", "task": "메가스터디 강사 지원 패키지 완료"},
+    {"date": "2026-08-17", "task": "Cursor Builds 전환 대응"},
+    {"date": "2026-08-31", "task": "서울대학교 부채증명서 회신 기한 확인"},
+    {"date": "2026-09-30", "task": "Android 개발자 인증·앱·서명키 점검"}
+  ],
+  "updatedAt": "2026-08-15T22:25:00+09:00"
+}
