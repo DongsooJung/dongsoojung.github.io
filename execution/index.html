@@ -65,10 +65,11 @@
 
   <section class="section"><div class="sectionhead"><h2>Connected Assets</h2><p>기존 자산을 실행계획에 연결</p></div><div class="links"><a class="linkcard" href="/strategy/"><b>Strategy Intelligence</b><span>사업·산업·수익화 프로젝트</span></a><a class="linkcard" href="/research/"><b>Research Observatory</b><span>도시·경제·공공데이터 연구</span></a><a class="linkcard" href="/bidpilot/"><b>BidPilot</b><span>입찰·제안·수주 파이프라인</span></a><a class="linkcard" href="/google-trends/"><b>Google Trends</b><span>트렌드 데이터 제품</span></a></div></section>
 
-  <footer class="footer"><span>STARGATE · 2026 Q3 Execution OS</span><span>KPI 입력값은 이 브라우저에 자동 저장됩니다.</span></footer>
+  <footer class="footer"><span>STARGATE · 2026 Q3 Execution OS</span><span>KPI는 Supabase 중앙 지표에서 자동 동기화됩니다.</span></footer>
 </div>
 <script>
 (()=>{const start=new Date('2026-08-15T00:00:00+09:00'),end=new Date('2026-09-30T23:59:59+09:00'),now=new Date(),total=47;let day=Math.floor((now-start)/86400000)+1;day=Math.max(1,Math.min(total,day));const pct=Math.max(0,Math.min(100,((now-start)/(end-start))*100));document.getElementById('dayNo').textContent=day;document.getElementById('timeProgress').style.width=pct.toFixed(1)+'%';document.getElementById('progressText').textContent=pct.toFixed(0)+'% elapsed · '+Math.max(0,total-day)+' days remaining';document.querySelectorAll('[data-kpi]').forEach(el=>{const key='q3exec-'+el.dataset.kpi;const saved=localStorage.getItem(key);if(saved!==null)el.value=saved;el.addEventListener('change',()=>localStorage.setItem(key,el.value));});})();
 </script>
+<script src="/execution/kpi-sync.js?v=20260816" defer></script>
 </body>
 </html>
