@@ -22,6 +22,7 @@
 - `.well-known/assetlinks.json` — Android 앱(TWA) 도메인 소유 증명
 - `privacy.html` — 개인정보처리방침 (Play Store 필수)
 - `app/` — Google Play용 Stargate 앱(TWA) 빌드 설정 → [app/README.md](app/README.md)
+- `kakao-send/` — 카카오 OAuth + Talk Message REST API 기반 `나에게 보내기` 웹앱
 - `.nojekyll` — GitHub Pages가 `.well-known/`을 서빙하도록 Jekyll 비활성화
 
 ## 로컬 확인

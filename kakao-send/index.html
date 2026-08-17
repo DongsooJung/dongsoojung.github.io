@@ -1,0 +1,165 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="카카오 REST API로 내 카카오톡에 텍스트와 링크를 안전하게 전송합니다.">
+  <meta name="theme-color" content="#fee500">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; connect-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline'; base-uri 'none'; form-action 'self'; frame-ancestors 'none'">
+  <title>카카오톡 나에게 보내기 · STARGATE</title>
+  <style>
+    :root{color-scheme:light;--yellow:#fee500;--brown:#3c1e1e;--ink:#181600;--muted:#6d6855;--line:#e7dfae;--surface:#fff;--bg:#fffdf0;--ok:#16794a;--danger:#b3261e}
+    *{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 20% 0,#fff8ba 0,transparent 42%),var(--bg);color:var(--ink);font-family:system-ui,-apple-system,"Segoe UI","Noto Sans KR",sans-serif;min-height:100vh}
+    a{color:inherit}.shell{width:min(720px,calc(100% - 32px));margin:0 auto;padding:28px 0 56px}.top{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:28px}.brand{display:flex;align-items:center;gap:10px;font-weight:800;letter-spacing:-.02em}.brand-mark{display:grid;place-items:center;width:38px;height:38px;border-radius:13px;background:var(--brown);color:var(--yellow);font-size:20px}.home{font-size:14px;color:var(--muted);text-decoration:none}.home:hover{text-decoration:underline}
+    .card{background:rgba(255,255,255,.94);border:1px solid var(--line);border-radius:24px;box-shadow:0 18px 50px rgba(77,61,0,.09);overflow:hidden}.hero{padding:32px 32px 25px;background:linear-gradient(135deg,var(--yellow),#fff4a3)}.eyebrow{margin:0 0 10px;font-size:12px;font-weight:800;letter-spacing:.12em;color:#675a00}.hero h1{font-size:clamp(28px,6vw,42px);line-height:1.16;letter-spacing:-.045em;margin:0}.hero p{max-width:540px;margin:14px 0 0;line-height:1.7;color:#514b23}.content{padding:28px 32px 32px}
+    .status{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;padding:16px;border:1px solid var(--line);border-radius:16px;background:#fffdf3;margin-bottom:24px}.status-copy{display:flex;gap:11px}.dot{width:10px;height:10px;border-radius:50%;margin-top:6px;background:#a7a18b;box-shadow:0 0 0 4px #eeeadd}.status[data-state="on"] .dot{background:var(--ok);box-shadow:0 0 0 4px #d7f1e4}.status strong{display:block;font-size:15px}.status small{display:block;color:var(--muted);margin-top:4px;line-height:1.5}.link-button{border:0;background:transparent;padding:3px;color:var(--muted);text-decoration:underline;cursor:pointer}
+    .login{display:grid;gap:14px;text-align:center;padding:8px 0 4px}.login p{color:var(--muted);line-height:1.65;margin:0}.kakao-button,.send-button{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;border:0;border-radius:14px;padding:15px 18px;font:inherit;font-weight:800;cursor:pointer;transition:transform .15s ease,filter .15s ease}.kakao-button{background:var(--yellow);color:var(--brown);text-decoration:none}.kakao-button:hover,.send-button:hover{filter:brightness(.98);transform:translateY(-1px)}.bubble{font-size:20px}
+    form{display:grid;gap:20px}.field{display:grid;gap:8px}.field-row{display:flex;justify-content:space-between;gap:12px}.field label{font-size:14px;font-weight:750}.hint,.counter{font-size:12px;color:var(--muted)}textarea,input{width:100%;border:1px solid #d9d0a0;border-radius:13px;background:#fff;color:var(--ink);font:inherit;outline:0}textarea{min-height:180px;resize:vertical;padding:15px;line-height:1.6}input{padding:12px 14px}textarea:focus,input:focus{border-color:#9e8d00;box-shadow:0 0 0 3px rgba(254,229,0,.25)}.options{display:grid;grid-template-columns:1.5fr 1fr;gap:14px}.send-button{background:var(--brown);color:#fff;padding:16px}.send-button:disabled,.kakao-button[aria-disabled="true"]{opacity:.55;cursor:not-allowed;transform:none}.notice{min-height:24px;margin:0;font-size:14px;line-height:1.6;color:var(--muted)}.notice.ok{color:var(--ok);font-weight:700}.notice.error{color:var(--danger);font-weight:700}.privacy{margin:24px 2px 0;font-size:12px;line-height:1.65;color:var(--muted)}[hidden]{display:none!important}
+    @media(max-width:600px){.shell{width:min(100% - 20px,720px);padding-top:18px}.top{margin-bottom:18px}.hero,.content{padding:24px 20px}.options{grid-template-columns:1fr}.status{align-items:flex-start}.home{font-size:12px}.hero h1{font-size:30px}}
+    @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important}}
+  </style>
+</head>
+<body>
+  <main class="shell">
+    <header class="top">
+      <div class="brand"><span class="brand-mark" aria-hidden="true">✦</span><span>STARGATE TOOLS</span></div>
+      <a class="home" href="https://www.stargateedu.co.kr/">메인 홈페이지로 →</a>
+    </header>
+
+    <section class="card" aria-labelledby="page-title">
+      <div class="hero">
+        <p class="eyebrow">KAKAO REST API</p>
+        <h1 id="page-title">카카오톡<br>나에게 보내기</h1>
+        <p>메모, 링크, 할 일을 내 카카오톡 채팅방으로 보냅니다. 카카오 로그인 후 본인 계정에만 전송됩니다.</p>
+      </div>
+
+      <div class="content">
+        <div class="status" id="status-box" data-state="off" aria-live="polite">
+          <div class="status-copy">
+            <span class="dot" aria-hidden="true"></span>
+            <div><strong id="status-title">로그인 상태 확인 중</strong><small id="status-detail">잠시만 기다려 주세요.</small></div>
+          </div>
+          <button class="link-button" id="logout-button" type="button" hidden>로그아웃</button>
+        </div>
+
+        <div class="login" id="login-panel" hidden>
+          <p>메시지 전송 권한은 카카오 동의 화면에서 직접 확인할 수 있습니다.</p>
+          <a class="kakao-button" id="login-button" href="/api/auth/login"><span class="bubble" aria-hidden="true">💬</span>카카오로 로그인</a>
+        </div>
+
+        <form id="send-form" hidden>
+          <div class="field">
+            <div class="field-row"><label for="message">보낼 메시지</label><span class="counter"><span id="message-count">0</span> / 1,000</span></div>
+            <textarea id="message" name="message" maxlength="1000" required placeholder="예: 오늘 오후 3시 상담 자료 확인하기"></textarea>
+          </div>
+          <div class="options">
+            <div class="field">
+              <label for="link-url">함께 보낼 링크</label>
+              <input id="link-url" name="linkUrl" type="url" value="https://www.stargateedu.co.kr/" placeholder="https://">
+            </div>
+            <div class="field">
+              <label for="button-title">버튼 문구</label>
+              <input id="button-title" name="buttonTitle" maxlength="20" value="홈페이지 열기">
+            </div>
+          </div>
+          <button class="send-button" id="send-button" type="submit">내 카카오톡으로 보내기</button>
+          <p class="notice" id="notice" role="status"></p>
+        </form>
+      </div>
+    </section>
+
+    <p class="privacy">액세스 토큰은 JavaScript나 로컬 저장소에 저장하지 않습니다. 서버에서 암호화한 보안 쿠키로만 유지되며 로그아웃하면 삭제됩니다.</p>
+  </main>
+
+  <script>
+    const statusBox = document.querySelector('#status-box');
+    const statusTitle = document.querySelector('#status-title');
+    const statusDetail = document.querySelector('#status-detail');
+    const loginPanel = document.querySelector('#login-panel');
+    const sendForm = document.querySelector('#send-form');
+    const logoutButton = document.querySelector('#logout-button');
+    const sendButton = document.querySelector('#send-button');
+    const message = document.querySelector('#message');
+    const count = document.querySelector('#message-count');
+    const notice = document.querySelector('#notice');
+
+    function setNotice(text, type = '') {
+      notice.textContent = text;
+      notice.className = `notice ${type}`.trim();
+    }
+
+    function showLoggedOut(detail = '카카오 계정으로 로그인해 주세요.') {
+      statusBox.dataset.state = 'off';
+      statusTitle.textContent = '로그인되지 않음';
+      statusDetail.textContent = detail;
+      loginPanel.hidden = false;
+      sendForm.hidden = true;
+      logoutButton.hidden = true;
+    }
+
+    function showLoggedIn(user) {
+      statusBox.dataset.state = 'on';
+      statusTitle.textContent = `${user.nickname}님 로그인됨`;
+      statusDetail.textContent = '내 카카오톡으로 메시지를 보낼 수 있습니다.';
+      loginPanel.hidden = true;
+      sendForm.hidden = false;
+      logoutButton.hidden = false;
+    }
+
+    async function loadSession() {
+      const auth = new URLSearchParams(location.search).get('auth');
+      if (auth) history.replaceState({}, '', '/');
+      try {
+        const response = await fetch('/api/session', { headers: { Accept: 'application/json' } });
+        const data = await response.json();
+        if (response.ok && data.authenticated) return showLoggedIn(data.user);
+        if (auth === 'state_error') return showLoggedOut('로그인 보안 확인에 실패했습니다. 다시 시도해 주세요.');
+        if (auth === 'token_error') return showLoggedOut('카카오 인증을 완료하지 못했습니다. Redirect URI와 동의항목을 확인해 주세요.');
+        if (auth === 'config_error' || response.status === 503) return showLoggedOut('서버 연동 설정을 확인하고 있습니다. 잠시 후 다시 시도해 주세요.');
+        showLoggedOut();
+      } catch {
+        showLoggedOut('서버에 연결하지 못했습니다. 잠시 후 다시 시도해 주세요.');
+      }
+    }
+
+    message.addEventListener('input', () => { count.textContent = String(message.value.length); });
+
+    sendForm.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      setNotice('카카오톡으로 보내는 중입니다…');
+      sendButton.disabled = true;
+      try {
+        const response = await fetch('/api/send', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+          body: JSON.stringify({
+            message: message.value,
+            linkUrl: document.querySelector('#link-url').value,
+            buttonTitle: document.querySelector('#button-title').value,
+          }),
+        });
+        const data = await response.json();
+        if (!response.ok) throw new Error(data.message || '전송에 실패했습니다.');
+        setNotice(data.message, 'ok');
+        message.value = '';
+        count.textContent = '0';
+      } catch (error) {
+        setNotice(error.message, 'error');
+        if (/로그인/.test(error.message)) showLoggedOut('로그인이 만료되었습니다. 다시 로그인해 주세요.');
+      } finally {
+        sendButton.disabled = false;
+      }
+    });
+
+    logoutButton.addEventListener('click', async () => {
+      logoutButton.disabled = true;
+      try { await fetch('/api/logout', { method: 'POST', headers: { Accept: 'application/json' } }); } catch {}
+      showLoggedOut('안전하게 로그아웃했습니다.');
+      logoutButton.disabled = false;
+      setNotice('');
+    });
+
+    loadSession();
+  </script>
+</body>
+</html>
