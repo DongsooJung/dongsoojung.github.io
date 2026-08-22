@@ -8,23 +8,6 @@
   const todayElement = document.getElementById('visitor-today-count');
   const totalElement = document.getElementById('visitor-total-count');
 
-  const quickLinks = document.querySelector('.quick-links');
-
-  const hubGrid = document.querySelector('#intelligence .hub-grid');
-  if (hubGrid && !hubGrid.querySelector('a[href="/execution/"]')) {
-    const executionCard = document.createElement('a');
-    executionCard.className = 'hub-card strategy';
-    executionCard.href = '/execution/';
-    executionCard.setAttribute('aria-label', '2026 Q3 45-Day Execution OS 열기');
-    executionCard.innerHTML = `
-      <div class="hub-kicker">Q3 Execution · 45 Days</div>
-      <h3>2026 Q3 Execution OS</h3>
-      <p>8월 15일부터 9월 30일까지 수주·제품·데이터·자동화 KPI와 P0 우선순위를 한 화면에서 관리합니다.</p>
-      <div class="hub-meta"><span>Revenue · Proposal · Product · Data · Automation</span><b>실행판 →</b></div>
-    `;
-    hubGrid.prepend(executionCard);
-  }
-
   if (!summaryLink || !todayElement || !totalElement) return;
 
   const headers = {
