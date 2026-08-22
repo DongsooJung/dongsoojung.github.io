@@ -9,15 +9,6 @@
   const totalElement = document.getElementById('visitor-total-count');
 
   const quickLinks = document.querySelector('.quick-links');
-  if (quickLinks && !quickLinks.querySelector('a[href="/execution/"]')) {
-    const executionLink = document.createElement('a');
-    executionLink.className = 'chip mono';
-    executionLink.href = '/execution/';
-    executionLink.textContent = 'Q3 · 45 DAYS';
-    executionLink.setAttribute('aria-label', '2026 Q3 45-Day Execution OS');
-    executionLink.style.cssText = 'border-color:#7aa2ff;color:#dbe6ff;background:rgba(79,127,255,.14);font-weight:600';
-    quickLinks.prepend(executionLink);
-  }
 
   const hubGrid = document.querySelector('#intelligence .hub-grid');
   if (hubGrid && !hubGrid.querySelector('a[href="/execution/"]')) {
@@ -35,16 +26,6 @@
   }
 
   if (!summaryLink || !todayElement || !totalElement) return;
-
-  if (quickLinks && !quickLinks.querySelector('a[href="/airbnb/"]')) {
-    const airbnbLink = document.createElement('a');
-    airbnbLink.className = 'chip mono';
-    airbnbLink.href = '/airbnb/';
-    airbnbLink.textContent = 'Busan Airbnb';
-    airbnbLink.setAttribute('aria-label', '부산 Airbnb 소자본 운영 분석 대시보드');
-    airbnbLink.style.cssText = 'border-color:#63d6a0;color:#bdf5d9;background:rgba(99,214,160,.09);font-weight:600';
-    quickLinks.append(airbnbLink);
-  }
 
   const headers = {
     apikey: publishableKey,
