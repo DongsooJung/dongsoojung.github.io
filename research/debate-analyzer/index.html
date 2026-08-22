@@ -8,18 +8,23 @@
 <style>
 :root{--n:#0b1738;--n2:#172657;--g:#d9a441;--g2:#f1c77a;--bg:#f4f7fb;--line:#dfe5f0;--text:#182038;--muted:#68728c;--green:#087c58;--blue:#3168d5}*{box-sizing:border-box}body{margin:0;font-family:"Noto Sans KR","Malgun Gothic",system-ui,sans-serif;color:var(--text);background:var(--bg);line-height:1.6;word-break:keep-all}button,input,textarea{font:inherit}.wrap{width:min(1180px,calc(100% - 34px));margin:auto}.top{position:sticky;top:0;z-index:10;background:rgba(11,23,56,.96);color:white}.top .wrap{min-height:62px;display:flex;align-items:center;justify-content:space-between}.brand{color:white;text-decoration:none;font-weight:900}.brand b{color:var(--g2)}.nav{display:flex;gap:16px}.nav a{color:#dce3f4;text-decoration:none;font-size:13px}.hero{padding:68px 0 60px;color:white;background:radial-gradient(700px 380px at 10% 0,rgba(217,164,65,.23),transparent 65%),linear-gradient(145deg,var(--n),var(--n2))}.tag{display:inline-block;padding:6px 11px;border:1px solid rgba(241,199,122,.42);border-radius:99px;color:var(--g2);font-size:11px;font-weight:900;letter-spacing:1px}.hero h1{margin:18px 0 12px;font-size:clamp(36px,6vw,60px);line-height:1.12;letter-spacing:-2px}.hero h1 span{color:var(--g2)}.hero p{max-width:820px;margin:0;color:#cfd6e9;font-size:17px}.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:24px}.chip{padding:7px 10px;border:1px solid rgba(255,255,255,.14);border-radius:9px;background:rgba(255,255,255,.06);font-size:12px}main{padding:32px 0 76px}.panel{background:white;border:1px solid var(--line);border-radius:18px;box-shadow:0 14px 38px rgba(11,23,56,.07)}.workspace{padding:24px}.head{display:flex;justify-content:space-between;align-items:end;gap:18px;margin-bottom:18px}.head h2{margin:0;font-size:24px}.head p{margin:3px 0 0;color:var(--muted);font-size:13px}.actions{display:flex;gap:8px;flex-wrap:wrap}.btn{border:0;border-radius:11px;padding:11px 15px;font-weight:900;cursor:pointer}.primary{background:var(--g);color:var(--n)}.secondary{background:#eef2f8;border:1px solid var(--line);color:var(--n)}.inputs,.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}.speaker{padding:14px;border:1px solid var(--line);border-radius:14px;background:#fafbfe}.speaker label{display:block;margin-bottom:6px;color:var(--muted);font-size:12px;font-weight:900}.speaker input,.speaker textarea{width:100%;border:1px solid #cbd4e3;border-radius:10px;background:white;color:var(--text)}.speaker input{padding:9px 10px;margin-bottom:9px;font-weight:900}.speaker textarea{min-height:235px;padding:11px;resize:vertical;font-size:13px;line-height:1.65}.count{text-align:right;color:var(--muted);font-size:11px}.criteria{display:grid;grid-template-columns:repeat(5,1fr);gap:9px;margin-top:14px}.criterion{padding:11px;border:1px solid var(--line);border-radius:11px;background:white}.criterion b{display:block;font-size:12px}.criterion span{color:var(--muted);font-size:11px}.notice{margin-top:14px;padding:12px 14px;border-left:4px solid var(--g);border-radius:10px;background:#fff7e6;color:#704a08;font-size:12px}.empty{margin-top:17px;padding:28px;text-align:center;border:1px dashed #cbd4e3;border-radius:13px;color:var(--muted)}#results{display:none;margin-top:20px}.card{padding:19px}.cardtop{display:flex;align-items:center;justify-content:space-between}.card h3{margin:0}.score{width:62px;height:62px;display:grid;place-items:center;border-radius:50%;background:var(--n);color:var(--g2);font-size:20px;font-weight:900}.bars{display:grid;gap:8px;margin-top:16px}.metric{display:grid;grid-template-columns:90px 1fr 30px;gap:8px;align-items:center;font-size:12px}.track{height:7px;background:#e9edf4;border-radius:99px;overflow:hidden}.fill{height:100%;background:linear-gradient(90deg,var(--blue),var(--g))}.part{margin-top:14px;padding-top:12px;border-top:1px solid var(--line)}.part b{font-size:12px}.part p,.part ul{margin:5px 0 0;color:var(--muted);font-size:12px}.part ul{padding-left:17px}.compare{margin-top:14px;padding:20px;overflow:auto}.compare h2{margin:0 0 13px}.compare table{width:100%;min-width:720px;border-collapse:collapse;font-size:13px}.compare th,.compare td{padding:11px;border-bottom:1px solid var(--line);text-align:center}.compare th:first-child,.compare td:first-child{text-align:left}.compare th{background:#f7f9fc;color:var(--muted);font-size:11px}.winner{color:var(--green);font-weight:900}.export{display:flex;justify-content:flex-end;gap:8px;margin-top:13px}.footer{padding:30px 0;background:#07102a;color:#929db8;text-align:center;font-size:12px}.footer a{color:var(--g2)}@media(max-width:920px){.inputs,.cards{grid-template-columns:1fr}.criteria{grid-template-columns:repeat(2,1fr)}.nav{display:none}.speaker textarea{min-height:170px}}@media(max-width:560px){.head{align-items:flex-start;flex-direction:column}.criteria{grid-template-columns:1fr}.workspace{padding:16px}}
 </style>
+<style>
+.ingest{padding:22px;margin-bottom:16px}.ingest-grid{display:grid;grid-template-columns:1.25fr .75fr;gap:16px}.field label,.weights-title{display:block;margin-bottom:7px;color:var(--muted);font-size:12px;font-weight:900}.field input,.field textarea{width:100%;border:1px solid #cbd4e3;border-radius:10px;background:#fff;color:var(--text)}.field input{padding:10px 11px}.field textarea{min-height:150px;padding:11px;resize:vertical;font-size:13px;line-height:1.6}.file-row{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-top:9px}.file-label{display:inline-flex!important;align-items:center;padding:10px 13px!important;margin:0!important;border:1px solid var(--line);border-radius:10px;background:#eef2f8;color:var(--n)!important;cursor:pointer}.file-label input{position:absolute;width:1px;height:1px;opacity:0}.import-status{font-size:12px;color:var(--muted)}.weights{display:grid;gap:8px;padding:13px;border:1px solid var(--line);border-radius:12px;background:#fafbfe}.weight{display:grid;grid-template-columns:95px 1fr 42px;gap:8px;align-items:center;font-size:12px}.weight input{width:100%;accent-color:var(--g)}.weight output{text-align:right;font-weight:900}.advanced{display:grid;grid-template-columns:.8fr 1.2fr;gap:14px;margin-top:14px}.advanced-card{padding:20px}.advanced-card h2{margin:0 0 12px;font-size:20px}.topic-list{display:grid;gap:10px}.topic-row{display:grid;grid-template-columns:92px 1fr 36px;gap:8px;align-items:center;font-size:12px}.topic-track{height:9px;background:#e9edf4;border-radius:99px;overflow:hidden}.topic-fill{height:100%;background:linear-gradient(90deg,#5f7ee6,#d9a441)}.claim-list{display:grid;gap:9px;max-height:520px;overflow:auto}.claim{padding:11px;border:1px solid var(--line);border-radius:11px;background:#fafbfe}.claim-top{display:flex;justify-content:space-between;gap:8px;margin-bottom:5px}.claim strong{font-size:12px}.claim p{margin:0;color:var(--muted);font-size:12px}.status-pill{flex:none;padding:3px 7px;border-radius:99px;background:#fff0d0;color:#7d5100;font-size:10px;font-weight:900}.status-pill.sourced{background:#e3f6ee;color:#087c58}.source-tools{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}.source-tools a{padding:4px 7px;border:1px solid var(--line);border-radius:7px;color:var(--blue);text-decoration:none;font-size:10px;font-weight:800}.weighted-table{margin-top:14px;padding:20px;overflow:auto}.weighted-table h2{margin:0 0 12px;font-size:20px}.weighted-table table{width:100%;border-collapse:collapse;min-width:620px;font-size:13px}.weighted-table th,.weighted-table td{padding:10px;border-bottom:1px solid var(--line);text-align:center}.weighted-table th:first-child,.weighted-table td:first-child{text-align:left}.provenance{margin-top:10px;color:var(--muted);font-size:11px;overflow-wrap:anywhere}@media(max-width:900px){.ingest-grid,.advanced{grid-template-columns:1fr}}@media(max-width:560px){.weight{grid-template-columns:82px 1fr 38px}.ingest{padding:16px}}
+</style>
 </head>
 <body>
 <nav class="top"><div class="wrap"><a class="brand" href="/research/">STARGATE <b>RESEARCH</b></a><div class="nav"><a href="#tool">분석기</a><a href="#criteria">평가기준</a><a href="/research/">연구 허브</a><a href="/">홈</a></div></div></nav>
-<header class="hero"><div class="wrap"><span class="tag">POLITICAL DEBATE · EXPLAINABLE AI MVP</span><h1>3자 정치토론<br><span>AI 비교 분석기</span></h1><p>TV 토론 자막이나 전사문을 붙여넣으면 핵심 주장 요약, 5개 기준 점수, 평가 근거와 개선 피드백을 한 화면에서 비교합니다.</p><div class="chips"><span class="chip">3명 동시 비교</span><span class="chip">100점 환산</span><span class="chip">근거 문장 추출</span><span class="chip">브라우저 내 처리</span></div></div></header>
-<main><div class="wrap"><section class="panel workspace" id="tool"><div class="head"><div><h2>토론 전사문 입력</h2><p>발언자별 텍스트를 분리해 입력하세요. 80자 이상을 권장합니다.</p></div><div class="actions"><button class="btn secondary" id="sample">예시 불러오기</button><button class="btn primary" id="analyze">5개 기준 분석</button></div></div><div class="inputs">
+<header class="hero"><div class="wrap"><span class="tag">POLITICAL DEBATE · EXPLAINABLE AI V0.2</span><h1>3자 정치토론<br><span>AI 비교 분석기</span></h1><p>TV 토론 자막이나 전사문을 붙여넣으면 핵심 주장 요약, 5개 기준 점수, 쟁점 분포, 검증 필요 주장과 개선 피드백을 한 화면에서 비교합니다.</p><div class="chips"><span class="chip">SRT·VTT·TXT 입력</span><span class="chip">발언자 자동 분리</span><span class="chip">쟁점 의미 분석</span><span class="chip">팩트체크 후보 추출</span><span class="chip">가중치 평가</span></div></div></header>
+<main><div class="wrap">
+<section class="panel ingest" id="importer"><div class="head"><div><h2>통합 자막 가져오기</h2><p>‘이름: 발언’ 형식의 전사문 또는 SRT·VTT·TXT 파일을 불러오면 최대 3명의 발언을 자동 분리합니다.</p></div></div><div class="ingest-grid"><div><div class="field"><label for="source-url">방송·영상 원문 URL <span style="font-weight:400">(선택·출처 기록용)</span></label><input id="source-url" type="url" placeholder="https://www.youtube.com/watch?v=..."></div><div class="field" style="margin-top:10px"><label for="full-transcript">통합 전사문</label><textarea id="full-transcript" placeholder="후보A: 청년 주거비를 낮추겠습니다.&#10;후보B: 재원 대책이 빠져 있습니다.&#10;후보C: 지역별 수요조사가 우선입니다."></textarea></div><div class="file-row"><label class="file-label">SRT·VTT·TXT 선택<input id="caption-file" type="file" accept=".srt,.vtt,.txt,text/plain"></label><button class="btn primary" id="split-transcript" type="button">발언자 자동 분리</button><span class="import-status" id="import-status" role="status">파일은 서버로 전송되지 않습니다.</span></div></div><div><span class="weights-title">평가 가중치</span><div class="weights" id="weights"><label class="weight">근거·사실성<input type="range" min="0" max="40" value="20" data-weight="evidence"><output>20%</output></label><label class="weight">논리·일관성<input type="range" min="0" max="40" value="20" data-weight="logic"><output>20%</output></label><label class="weight">대응·반박력<input type="range" min="0" max="40" value="20" data-weight="response"><output>20%</output></label><label class="weight">정책 구체성<input type="range" min="0" max="40" value="20" data-weight="policy"><output>20%</output></label><label class="weight">전달·토론태도<input type="range" min="0" max="40" value="20" data-weight="delivery"><output>20%</output></label></div><p class="provenance">가중치는 합계와 무관하게 자동 정규화됩니다. 연구 목적에 맞춰 각 기준의 상대적 중요도를 조정할 수 있습니다.</p></div></div></section>
+<section class="panel workspace" id="tool"><div class="head"><div><h2>토론 전사문 입력</h2><p>자동 분리 결과를 검토하거나 토론자별 텍스트를 직접 입력하세요.</p></div><div class="actions"><button class="btn secondary" id="sample">예시 불러오기</button><button class="btn primary" id="analyze">2차 AI 분석 실행</button></div></div><div class="inputs">
 <div class="speaker"><label>토론자 A</label><input id="name0" value="토론자 A" maxlength="30"><textarea id="text0" placeholder="토론자 A의 전사문"></textarea><div class="count" id="count0">0자</div></div>
 <div class="speaker"><label>토론자 B</label><input id="name1" value="토론자 B" maxlength="30"><textarea id="text1" placeholder="토론자 B의 전사문"></textarea><div class="count" id="count1">0자</div></div>
 <div class="speaker"><label>토론자 C</label><input id="name2" value="토론자 C" maxlength="30"><textarea id="text2" placeholder="토론자 C의 전사문"></textarea><div class="count" id="count2">0자</div></div></div>
 <div class="criteria" id="criteria"><div class="criterion"><b>① 근거·사실성</b><span>수치·통계·출처</span></div><div class="criterion"><b>② 논리·일관성</b><span>인과·주장 연결</span></div><div class="criterion"><b>③ 대응·반박력</b><span>질문·상대 주장 대응</span></div><div class="criterion"><b>④ 정책 구체성</b><span>대상·일정·재원·수단</span></div><div class="criterion"><b>⑤ 전달·토론태도</b><span>명료성·존중·절제</span></div></div>
 <div class="notice">연구용 MVP입니다. 점수는 공개된 텍스트 지표이며 발언의 진위를 자동 검증하지 않습니다. 방송 자막 이용 시 저작권과 이용약관을 확인하고, 결과는 최종 판단이 아닌 보조자료로 사용하세요.</div><div class="empty" id="empty">전사문을 입력하거나 예시를 불러온 뒤 분석을 실행하세요.</div></section>
-<section id="results"><div class="cards" id="cards"></div><div class="panel compare"><h2>토론자 비교표</h2><div id="table"></div><div class="export"><button class="btn secondary" id="copy">결과 복사</button><button class="btn secondary" id="download">CSV 다운로드</button></div></div></section></div></main>
-<footer class="footer">© 2026 Stargate Corp · <a href="/research/">연구 대시보드</a> · 분석 모델 v0.1</footer>
+<section id="results"><div class="cards" id="cards"></div><div class="advanced"><article class="panel advanced-card"><h2>전체 토론 쟁점 분포</h2><div class="topic-list" id="topic-list"></div><p class="provenance" id="topic-note"></p></article><article class="panel advanced-card"><h2>팩트체크 후보 주장</h2><div class="claim-list" id="claim-list"></div></article></div><div class="panel weighted-table"><h2>가중치 적용 비교</h2><div id="weighted-table"></div><p class="provenance" id="source-note"></p></div><div class="panel compare"><h2>토론자 비교표</h2><div id="table"></div><div class="export"><button class="btn secondary" id="copy">결과 복사</button><button class="btn secondary" id="download">CSV 다운로드</button><button class="btn secondary" id="download-json">JSON 연구데이터</button></div></div></section></div></main>
+<footer class="footer">© 2026 Stargate Corp · <a href="/research/">연구 대시보드</a> · 분석 모델 v0.2</footer>
 <script>
 const defs=[['evidence','근거·사실성'],['logic','논리·일관성'],['response','대응·반박력'],['policy','정책 구체성'],['delivery','전달·토론태도']];
 const keys={evidence:['통계','자료','보고서','조사','연구','수치','에 따르면','근거','출처','%'],logic:['따라서','그러므로','왜냐하면','때문에','반면','그러나','결과적으로','첫째','둘째','즉'],response:['질문','답변','반박','말씀','지적','동의','상대','후보','방금'],policy:['예산','재원','일정','단계','법안','조례','시행','지원','투자','확대','감축','도입','개편','대상','기한'],respect:['존중','동의','경청','취지는','우려','합의'],attack:['거짓말','무능','선동','궤변','한심','막말','헛소리']};
@@ -32,4 +37,135 @@ function render(){let input=[0,1,2].map(i=>({name:document.querySelector('#name'
 document.querySelector('#sample').onclick=()=>samples.forEach((x,i)=>{document.querySelector('#name'+i).value=x.n;document.querySelector('#text'+i).value=x.t;document.querySelector('#count'+i).textContent=x.t.length+'자'});document.querySelector('#analyze').onclick=render;[0,1,2].forEach(i=>document.querySelector('#text'+i).oninput=e=>document.querySelector('#count'+i).textContent=e.target.value.length+'자');
 document.querySelector('#copy').onclick=async()=>{let out=latest.map(x=>`${x.name} | 종합 ${x.total}점\n${defs.map(([k,l])=>l+' '+x.s[k]+'점').join(' · ')}\n요약: ${x.summary}\n피드백: ${x.tip}`).join('\n\n');await navigator.clipboard.writeText(out);document.querySelector('#copy').textContent='복사 완료'};
 document.querySelector('#download').onclick=()=>{let rows=[['토론자',...defs.map(x=>x[1]),'종합','요약','피드백'],...latest.map(x=>[x.name,...defs.map(([k])=>x.s[k]),x.total,x.summary,x.tip])],csv='\ufeff'+rows.map(r=>r.map(v=>'"'+String(v).replace(/"/g,'""')+'"').join(',')).join('\n'),a=document.createElement('a');a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv'}));a.download='debate-analysis.csv';a.click();URL.revokeObjectURL(a.href)};
-</script></body></html>
+</script>
+<script>
+const topicDictionary={
+  '경제·재정':['경제','성장','물가','금리','세금','예산','재정','투자','소득','기업','시장','수출','원'],
+  '주거·부동산':['주거','주택','아파트','임대','전세','월세','공급','재개발','부동산','토지','호'],
+  '복지·보건':['복지','연금','건강','의료','돌봄','장애','고령','아동','병원','보험'],
+  '교육·과학':['교육','학교','대학','교사','학생','과학','기술','AI','연구','입시'],
+  '노동·일자리':['노동','일자리','고용','임금','근로','청년','취업','노조','산업'],
+  '외교·안보':['외교','안보','국방','북한','미국','중국','일본','동맹','평화','군'],
+  '기후·에너지':['기후','환경','탄소','에너지','원전','재생','전력','미세먼지'],
+  '행정·정치개혁':['정부','국회','법안','규제','행정','지방','공론','선거','개혁','투명']
+};
+let v2Data=null;
+function cleanCaption(raw){
+  return raw.replace(/<v\s+([^>]+)>/gi,'$1: ').replace(/^WEBVTT.*$/gmi,'').replace(/^\s*\d+\s*$/gm,'').replace(/^\s*\d{1,2}:\d{2}(?::\d{2})?[,.]\d{3}\s*-->.*$/gm,'').replace(/<[^>]+>/g,'').replace(/\[[^\]]{1,30}\]/g,'').replace(/\r/g,'').replace(/\n{3,}/g,'\n\n').trim();
+}
+function splitSpeakers(raw){
+  const text=cleanCaption(raw), lines=text.split(/\n+/).map(function(v){return v.trim()}).filter(Boolean);
+  const groups=new Map(); let current='';
+  lines.forEach(function(line){
+    const match=line.match(/^(.{1,24}?)(?:\s*[:：]\s*|\s+[\-–—]\s+)(.+)$/);
+    if(match && !/^https?$/i.test(match[1])){
+      current=match[1].replace(/^(후보|토론자|발언자)\s*/,'').trim()||match[1].trim();
+      if(!groups.has(current)) groups.set(current,[]);
+      groups.get(current).push(match[2].trim());
+    }else if(current){
+      groups.get(current).push(line);
+    }
+  });
+  return [...groups.entries()].map(function(entry){return{name:entry[0],text:entry[1].join(' ')}})
+    .sort(function(a,b){return b.text.length-a.text.length}).slice(0,3);
+}
+function fillSpeakers(items){
+  if(items.length<2){
+    document.querySelector('#import-status').textContent='발언자 표기를 찾지 못했습니다. “이름: 발언” 형식을 확인해 주세요.';
+    return;
+  }
+  [0,1,2].forEach(function(i){
+    const item=items[i]||{name:'토론자 '+('ABC'[i]),text:''};
+    document.querySelector('#name'+i).value=item.name;
+    document.querySelector('#text'+i).value=item.text;
+    document.querySelector('#count'+i).textContent=item.text.length.toLocaleString()+'자';
+  });
+  document.querySelector('#import-status').textContent=items.length+'명의 발언을 자동 분리했습니다. 결과를 검토해 주세요.';
+  document.querySelector('#tool').scrollIntoView({behavior:'smooth',block:'start'});
+}
+document.querySelector('#split-transcript').onclick=function(){
+  fillSpeakers(splitSpeakers(document.querySelector('#full-transcript').value));
+};
+document.querySelector('#caption-file').onchange=async function(event){
+  const file=event.target.files[0]; if(!file)return;
+  if(file.size>5*1024*1024){alert('5MB 이하의 자막 파일을 선택해 주세요.');return}
+  const text=await file.text();
+  document.querySelector('#full-transcript').value=text;
+  document.querySelector('#import-status').textContent=file.name+' · '+text.length.toLocaleString()+'자 불러오기 완료';
+  fillSpeakers(splitSpeakers(text));
+};
+function normalizedWeights(){
+  const values={}; let total=0;
+  document.querySelectorAll('[data-weight]').forEach(function(input){values[input.dataset.weight]=Number(input.value);total+=Number(input.value)});
+  if(!total)return Object.fromEntries(defs.map(function(d){return[d[0],.2]}));
+  Object.keys(values).forEach(function(k){values[k]=values[k]/total});
+  return values;
+}
+document.querySelectorAll('[data-weight]').forEach(function(input){
+  input.oninput=function(){input.nextElementSibling.value=input.value+'%';if(latest.length)renderV2()};
+});
+function analyzeTopics(text){
+  const result={}; Object.entries(topicDictionary).forEach(function(entry){result[entry[0]]=hits(text,entry[1])}); return result;
+}
+function topTopic(topicScores){
+  const top=Object.entries(topicScores).sort(function(a,b){return b[1]-a[1]})[0];
+  return top&&top[1]>0?top[0]:'일반 정책';
+}
+function claimCandidates(items){
+  const claims=[];
+  items.forEach(function(item){
+    sents(item.text).forEach(function(sentence){
+      const numeric=/\d|%|억|조|만\s*(명|호|원)/.test(sentence);
+      const sourced=hits(sentence,keys.evidence)>0;
+      const policy=hits(sentence,keys.policy)>0;
+      if(numeric||sourced||policy)claims.push({speaker:item.name,text:sentence,numeric:numeric,sourced:sourced,topic:topTopic(analyzeTopics(sentence))});
+    });
+  });
+  return claims.sort(function(a,b){return Number(b.numeric)+Number(b.sourced)*2-Number(a.numeric)-Number(a.sourced)*2}).slice(0,15);
+}
+function officialLinks(claim){
+  const q=encodeURIComponent(claim.text.slice(0,70));
+  const links=['<a target="_blank" rel="noopener" href="https://kosis.kr/search/search.do?query='+q+'">KOSIS</a>'];
+  if(claim.topic==='행정·정치개혁'||/법|조례|규제/.test(claim.text))links.push('<a target="_blank" rel="noopener" href="https://www.law.go.kr/lsSc.do?query='+q+'">국가법령</a>');
+  links.push('<a target="_blank" rel="noopener" href="https://www.bigkinds.or.kr/v2/news/search.do">빅카인즈</a>');
+  return links.join('');
+}
+function renderV2(){
+  if(!latest.length)return;
+  const weights=normalizedWeights(), aggregate={};
+  Object.keys(topicDictionary).forEach(function(k){aggregate[k]=0});
+  latest.forEach(function(item){
+    item.topics=analyzeTopics(item.text);
+    Object.keys(aggregate).forEach(function(k){aggregate[k]+=item.topics[k]});
+    item.weighted=clamp(defs.reduce(function(sum,d){return sum+item.s[d[0]]*weights[d[0]]},0));
+  });
+  const maxTopic=Math.max(1,...Object.values(aggregate)), topicTotal=Object.values(aggregate).reduce(function(a,b){return a+b},0);
+  document.querySelector('#topic-list').innerHTML=Object.entries(aggregate).sort(function(a,b){return b[1]-a[1]}).map(function(entry){
+    return '<div class="topic-row"><span>'+esc(entry[0])+'</span><div class="topic-track"><div class="topic-fill" style="width:'+(entry[1]/maxTopic*100)+'%"></div></div><b>'+entry[1]+'</b></div>';
+  }).join('');
+  document.querySelector('#topic-note').textContent=topicTotal?'키워드 문맥 빈도 기반 쟁점 분류입니다. 중복 분류될 수 있습니다.':'식별된 정책 쟁점이 없습니다.';
+  const claims=claimCandidates(latest);
+  document.querySelector('#claim-list').innerHTML=claims.length?claims.map(function(c){
+    return '<div class="claim"><div class="claim-top"><strong>'+esc(c.speaker)+' · '+esc(c.topic)+'</strong><span class="status-pill '+(c.sourced?'sourced':'')+'">'+(c.sourced?'출처 표현 있음':'검증 필요')+'</span></div><p>'+esc(c.text)+'</p><div class="source-tools">'+officialLinks(c)+'</div></div>';
+  }).join(''):'<p class="provenance">수치·출처·정책 실행 표현이 포함된 검증 후보를 찾지 못했습니다.</p>';
+  const best=Math.max(...latest.map(function(x){return x.weighted}));
+  document.querySelector('#weighted-table').innerHTML='<table><thead><tr><th>토론자</th><th>가중 종합</th><th>최다 쟁점</th><th>검증 후보</th></tr></thead><tbody>'+latest.map(function(x){
+    const count=claims.filter(function(c){return c.speaker===x.name}).length;
+    return '<tr><td class="'+(x.weighted===best?'winner':'')+'">'+esc(x.name)+(x.weighted===best?' · 1위':'')+'</td><td><b>'+x.weighted+'</b></td><td>'+esc(topTopic(x.topics))+'</td><td>'+count+'건</td></tr>';
+  }).join('')+'</tbody></table>';
+  const source=document.querySelector('#source-url').value.trim();
+  document.querySelector('#source-note').textContent=source?'분석 원문: '+source:'원문 URL이 입력되지 않았습니다. 재현성을 위해 방송·영상 주소 기록을 권장합니다.';
+  v2Data={version:'0.2',createdAt:new Date().toISOString(),sourceUrl:source,weights:weights,topics:aggregate,claims:claims,participants:latest.map(function(x){return{name:x.name,scores:x.s,weightedScore:x.weighted,summary:x.summary,feedback:x.tip,topics:x.topics}})};
+}
+const originalAnalyze=document.querySelector('#analyze').onclick;
+document.querySelector('#analyze').onclick=function(){
+  const valid=[0,1,2].every(function(i){return document.querySelector('#text'+i).value.trim().length>=40});
+  originalAnalyze(); if(valid)renderV2();
+};
+document.querySelector('#download-json').onclick=function(){
+  if(!v2Data){alert('먼저 분석을 실행해 주세요.');return}
+  const blob=new Blob([JSON.stringify(v2Data,null,2)],{type:'application/json;charset=utf-8'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='debate-analysis-v0.2.json';a.click();URL.revokeObjectURL(a.href);
+};
+</script>
+</body></html>
