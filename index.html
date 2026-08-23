@@ -250,6 +250,13 @@ a{color:var(--acc); text-decoration:none} a:hover{text-decoration:underline}
 .hub-meta{position:relative;z-index:1;margin-top:auto;padding-top:25px;display:flex;align-items:center;justify-content:space-between;gap:12px}
 .hub-meta span{color:var(--muted);font-size:10.5px}
 .hub-meta b{color:var(--hub);font-size:12px}
+.hub-card.has-sub{padding-bottom:18px}
+.hub-card-link{position:relative;z-index:1;display:flex;flex-direction:column;flex:1;color:inherit;text-decoration:none}
+.hub-card-link:hover{text-decoration:none}
+.hub-sublinks{position:relative;z-index:2;margin-top:14px;padding-top:12px;border-top:1px dashed var(--line2);display:flex;flex-direction:column;gap:6px}
+.hub-sublink{display:flex;align-items:center;justify-content:space-between;gap:8px;font-family:var(--font-mono);font-size:11.5px;color:var(--sub);border:1px solid var(--line2);border-radius:10px;padding:7px 10px;text-decoration:none;transition:.15s border-color,.15s color}
+.hub-sublink:hover{border-color:var(--hub);color:var(--hub);text-decoration:none}
+.hub-sublink b{color:var(--hub);font-size:11px;white-space:nowrap}
 
 /* Project grid */
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:16px}
@@ -448,12 +455,18 @@ footer .business-info{flex-basis:100%;padding-top:10px;border-top:1px solid var(
     <h2>STARGATE Intelligence</h2>
     <div class="desc">포트폴리오·전략·연구를 목적별 허브에서 탐색합니다. 외부 링크용 URL은 포트폴리오 허브를 사용하세요.</div>
     <div class="hub-grid">
-      <a class="hub-card strategy" href="/strategy/">
-        <div class="hub-kicker">Strategy Intelligence</div>
-        <h3>전략 인사이트</h3>
-        <p>당근·숨고·크몽 등 플랫폼 기업의 매출·영업이익과 산업·시장 데이터를 의사결정 관점으로 분석합니다.</p>
-        <div class="hub-meta"><span>기업·플랫폼·산업·AI · 15개 프로젝트</span><b>전략 허브 →</b></div>
-      </a>
+      <div class="hub-card strategy has-sub">
+        <a class="hub-card-link" href="/strategy/">
+          <div class="hub-kicker">Strategy Intelligence</div>
+          <h3>전략 인사이트</h3>
+          <p>당근·숨고·크몽 등 플랫폼 기업의 매출·영업이익과 산업·시장 데이터를 의사결정 관점으로 분석합니다.</p>
+          <div class="hub-meta"><span>기업·플랫폼·산업·AI · 15개 프로젝트</span><b>전략 허브 →</b></div>
+        </a>
+        <div class="hub-sublinks">
+          <a class="hub-sublink" href="/execution/" aria-label="2026 Q3 45-Day Execution OS 열기"><span>Q3 · 45 Days Execution OS</span><b>실행판 →</b></a>
+          <a class="hub-sublink" href="/airbnb/" aria-label="부산 Airbnb 소자본 운영 분석 대시보드 열기"><span>부산 Airbnb 소자본 운영 분석</span><b>분석 →</b></a>
+        </div>
+      </div>
       <a class="hub-card bidpilot" href="/bidpilot/">
         <div class="hub-kicker">AI Business Development</div>
         <h3>BidPilot · AI 수주 전략</h3>
@@ -988,7 +1001,7 @@ if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => navigator.serviceWorker.register('/sw.js'));
 }
 </script>
-<script src="/assets/visitor-counter.js?v=20260725" defer></script>
+<script src="/assets/visitor-counter.js?v=20260822" defer></script>
 <script src="/assets/usage-analytics.js?v=20260803b" defer></script>
 </body>
 </html>

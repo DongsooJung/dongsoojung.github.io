@@ -8,6 +8,9 @@
   const todayElement = document.getElementById('visitor-today-count');
   const totalElement = document.getElementById('visitor-total-count');
 
+  // Q3 실행판 · 부산 Airbnb 링크는 상단 칩/허브 카드 대신
+  // index.html 의 '전략 인사이트' 허브 카드 하위 링크(.hub-sublinks)로 이동했습니다.
+
   if (!summaryLink || !todayElement || !totalElement) return;
 
   const headers = {
