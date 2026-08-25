@@ -230,19 +230,13 @@ a{color:var(--acc); text-decoration:none} a:hover{text-decoration:underline}
 .evidence span{display:block;color:var(--muted);font-size:10.5px;line-height:1.45}
 
 /* Intelligence hubs */
-.hub-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px}
+.hub-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
 .hub-card{position:relative;overflow:hidden;border:1px solid var(--line2);border-radius:20px;padding:25px;
   background:linear-gradient(145deg,var(--panel2),var(--panel));min-height:225px;display:flex;flex-direction:column;
   transition:.18s transform,.18s border-color,.18s box-shadow}
 .hub-card::after{content:"";position:absolute;width:210px;height:210px;border-radius:50%;right:-75px;top:-95px;background:var(--glow);opacity:.6}
-.hub-card.cardnews{--hub:#b795ff;--glow:rgba(145,111,255,.22)}
 .hub-card.strategy{--hub:#ff9f5a;--glow:rgba(255,111,15,.18)}
-.hub-card.bidpilot{--hub:#58d19a;--glow:rgba(44,181,124,.2)}
 .hub-card.research{--hub:#73b7ff;--glow:rgba(52,120,246,.2)}
-.hub-card.portfolio{--hub:#5ad4a2;--glow:rgba(31,157,106,.2)}
-:root[data-theme="light"] .hub-card.portfolio{--hub:#0f8a5f;--glow:rgba(15,138,95,.14)}
-:root[data-theme="ocean"] .hub-card.portfolio{--hub:#5ee4d8;--glow:rgba(34,184,199,.18)}
-:root[data-theme="mono"] .hub-card.portfolio{--hub:#262626;--glow:rgba(38,38,38,.1)}
 .hub-card:hover{transform:translateY(-2px);border-color:var(--hub);box-shadow:0 18px 48px var(--glow);text-decoration:none}
 .hub-kicker{position:relative;z-index:1;color:var(--hub);font-family:var(--font-mono);font-size:10px;font-weight:500;letter-spacing:.12em;text-transform:uppercase}
 .hub-card h3{position:relative;z-index:1;font-family:var(--font-display);font-size:clamp(1.35rem,1.8vw,1.55rem);font-weight:600;letter-spacing:-.03em;margin:10px 0 7px;line-height:1.25}
@@ -250,13 +244,6 @@ a{color:var(--acc); text-decoration:none} a:hover{text-decoration:underline}
 .hub-meta{position:relative;z-index:1;margin-top:auto;padding-top:25px;display:flex;align-items:center;justify-content:space-between;gap:12px}
 .hub-meta span{color:var(--muted);font-size:10.5px}
 .hub-meta b{color:var(--hub);font-size:12px}
-.hub-card.has-sub{padding-bottom:18px}
-.hub-card-link{position:relative;z-index:1;display:flex;flex-direction:column;flex:1;color:inherit;text-decoration:none}
-.hub-card-link:hover{text-decoration:none}
-.hub-sublinks{position:relative;z-index:2;margin-top:14px;padding-top:12px;border-top:1px dashed var(--line2);display:flex;flex-direction:column;gap:6px}
-.hub-sublink{display:flex;align-items:center;justify-content:space-between;gap:8px;font-family:var(--font-mono);font-size:11.5px;color:var(--sub);border:1px solid var(--line2);border-radius:10px;padding:7px 10px;text-decoration:none;transition:.15s border-color,.15s color}
-.hub-sublink:hover{border-color:var(--hub);color:var(--hub);text-decoration:none}
-.hub-sublink b{color:var(--hub);font-size:11px;white-space:nowrap}
 
 /* Project grid */
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:16px}
@@ -427,41 +414,17 @@ footer .business-info{flex-basis:100%;padding-top:10px;border-top:1px solid var(
     <h2>원하는 작업으로 바로 이동</h2>
     <div class="desc">설명보다 실행에 집중했습니다. 필요한 메뉴를 선택해 바로 확인하세요.</div>
     <div class="hub-grid">
-      <div class="hub-card strategy has-sub">
-        <a class="hub-card-link" href="/strategy/">
-          <div class="hub-kicker">Strategy Intelligence</div>
-          <h3>전략 인사이트</h3>
-          <p>당근·숨고·크몽 등 플랫폼 기업의 매출·영업이익과 산업·시장 데이터를 의사결정 관점으로 분석합니다.</p>
-          <div class="hub-meta"><span>기업·플랫폼·산업·AI · 15개 프로젝트</span><b>전략 허브 →</b></div>
-        </a>
-        <div class="hub-sublinks">
-          <a class="hub-sublink" href="/execution/" aria-label="2026 Q3 45-Day Execution OS 열기"><span>Q3 · 45 Days Execution OS</span><b>실행판 →</b></a>
-          <a class="hub-sublink" href="/airbnb/" aria-label="부산 Airbnb 소자본 운영 분석 대시보드 열기"><span>부산 Airbnb 소자본 운영 분석</span><b>분석 →</b></a>
-        </div>
-      </div>
-      <a class="hub-card bidpilot" href="/bidpilot/">
-        <div class="hub-kicker">AI Business Development</div>
-        <h3>BidPilot · AI 수주 전략</h3>
-        <p>주식회사 별의문의 대표성과, 위시켓 프로젝트 매칭, 제안 우선순위와 수주 파이프라인을 한 화면에서 관리합니다.</p>
-        <div class="hub-meta"><span>포트폴리오 · 매칭 · 제안 · 계약</span><b>대시보드 →</b></div>
+      <a class="hub-card strategy" href="/strategy/">
+        <div class="hub-kicker">Strategy Intelligence</div>
+        <h3>전략 인사이트</h3>
+        <p>당근·숨고·크몽 등 플랫폼 기업의 매출·영업이익과 산업·시장 데이터를 의사결정 관점으로 분석합니다.</p>
+        <div class="hub-meta"><span>기업·플랫폼·산업·AI · 15개 프로젝트</span><b>전략 허브 →</b></div>
       </a>
       <a class="hub-card research" href="/research/">
         <div class="hub-kicker">Research Observatory</div>
         <h3>연구 대시보드</h3>
         <p>서울 도시데이터, 환율·무역·관광 등 공공데이터를 인터랙티브 대시보드로 탐색합니다.</p>
         <div class="hub-meta"><span>도시·공간·경제·도구 · 19개 프로젝트</span><b>연구 허브 →</b></div>
-      </a>
-      <a class="hub-card cardnews" href="/cardnews/">
-        <div class="hub-kicker">Visual Briefing</div>
-        <h3>카드뉴스 매거진</h3>
-        <p>AI·교육·도시·비즈니스 핵심을 3분 안에 읽는 블로그형 카드뉴스 대시보드입니다.</p>
-        <div class="hub-meta"><span>AI·교육·도시·정책 · 8개 스토리</span><b>카드뉴스 →</b></div>
-      </a>
-      <a class="hub-card portfolio" href="/portfolio/">
-        <div class="hub-kicker">Selected Works</div>
-        <h3>포트폴리오</h3>
-        <p>AI 제품·교육·연구·데이터 대표 작업물을 카테고리별로 선별한 공개 포트폴리오입니다.</p>
-        <div class="hub-meta"><span>제품·교육·연구·데이터 · 24개 작품</span><b>포트폴리오 →</b></div>
       </a>
     </div>
     <div class="cta" style="margin-top:18px">
