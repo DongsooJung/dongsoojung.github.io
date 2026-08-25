@@ -14,7 +14,7 @@
     .card{background:rgba(255,255,255,.94);border:1px solid var(--line);border-radius:24px;box-shadow:0 18px 50px rgba(77,61,0,.09);overflow:hidden}.hero{padding:32px 32px 25px;background:linear-gradient(135deg,var(--yellow),#fff4a3)}.eyebrow{margin:0 0 10px;font-size:12px;font-weight:800;letter-spacing:.12em;color:#675a00}.hero h1{font-size:clamp(28px,6vw,42px);line-height:1.16;letter-spacing:-.045em;margin:0}.hero p{max-width:540px;margin:14px 0 0;line-height:1.7;color:#514b23}.content{padding:28px 32px 32px}
     .status{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;padding:16px;border:1px solid var(--line);border-radius:16px;background:#fffdf3;margin-bottom:24px}.status-copy{display:flex;gap:11px}.dot{width:10px;height:10px;border-radius:50%;margin-top:6px;background:#a7a18b;box-shadow:0 0 0 4px #eeeadd}.status[data-state="on"] .dot{background:var(--ok);box-shadow:0 0 0 4px #d7f1e4}.status strong{display:block;font-size:15px}.status small{display:block;color:var(--muted);margin-top:4px;line-height:1.5}.link-button{border:0;background:transparent;padding:3px;color:var(--muted);text-decoration:underline;cursor:pointer}
     .login{display:grid;gap:14px;text-align:center;padding:8px 0 4px}.login p{color:var(--muted);line-height:1.65;margin:0}.kakao-button,.send-button{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;border:0;border-radius:14px;padding:15px 18px;font:inherit;font-weight:800;cursor:pointer;transition:transform .15s ease,filter .15s ease}.kakao-button{background:var(--yellow);color:var(--brown);text-decoration:none}.kakao-button:hover,.send-button:hover{filter:brightness(.98);transform:translateY(-1px)}.bubble{font-size:20px}
-    form{display:grid;gap:20px}.field{display:grid;gap:8px}.field-row{display:flex;justify-content:space-between;gap:12px}.field label{font-size:14px;font-weight:750}.hint,.counter{font-size:12px;color:var(--muted)}textarea,input{width:100%;border:1px solid #d9d0a0;border-radius:13px;background:#fff;color:var(--ink);font:inherit;outline:0}textarea{min-height:180px;resize:vertical;padding:15px;line-height:1.6}input{padding:12px 14px}textarea:focus,input:focus{border-color:#9e8d00;box-shadow:0 0 0 3px rgba(254,229,0,.25)}.options{display:grid;grid-template-columns:1.5fr 1fr;gap:14px}.send-button{background:var(--brown);color:#fff;padding:16px}.send-button:disabled,.kakao-button[aria-disabled="true"]{opacity:.55;cursor:not-allowed;transform:none}.notice{min-height:24px;margin:0;font-size:14px;line-height:1.6;color:var(--muted)}.notice.ok{color:var(--ok);font-weight:700}.notice.error{color:var(--danger);font-weight:700}.privacy{margin:24px 2px 0;font-size:12px;line-height:1.65;color:var(--muted)}[hidden]{display:none!important}
+    form{display:grid;gap:20px}.field{display:grid;gap:8px}.field-row{display:flex;justify-content:space-between;gap:12px}.field label{font-size:14px;font-weight:750}.hint,.counter{font-size:12px;color:var(--muted)}textarea{width:100%;border:1px solid #d9d0a0;border-radius:13px;background:#fff;color:var(--ink);font:inherit;outline:0;min-height:180px;resize:vertical;padding:15px;line-height:1.6}textarea:focus{border-color:#9e8d00;box-shadow:0 0 0 3px rgba(254,229,0,.25)}.fixed-link{margin:-10px 0 0;font-size:12px;color:var(--muted)}.send-button{background:var(--brown);color:#fff;padding:16px}.send-button:disabled,.kakao-button[aria-disabled="true"]{opacity:.55;cursor:not-allowed;transform:none}.notice{min-height:24px;margin:0;font-size:14px;line-height:1.6;color:var(--muted)}.notice.ok{color:var(--ok);font-weight:700}.notice.error{color:var(--danger);font-weight:700}.privacy{margin:24px 2px 0;font-size:12px;line-height:1.65;color:var(--muted)}[hidden]{display:none!important}
     @media(max-width:600px){.shell{width:min(100% - 20px,720px);padding-top:18px}.top{margin-bottom:18px}.hero,.content{padding:24px 20px}.options{grid-template-columns:1fr}.status{align-items:flex-start}.home{font-size:12px}.hero h1{font-size:30px}}
     @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important}}
   </style>
@@ -49,19 +49,10 @@
 
         <form id="send-form" hidden>
           <div class="field">
-            <div class="field-row"><label for="message">보낼 메시지</label><span class="counter"><span id="message-count">0</span> / 1,000</span></div>
-            <textarea id="message" name="message" maxlength="1000" required placeholder="예: 오늘 오후 3시 상담 자료 확인하기"></textarea>
+            <div class="field-row"><label for="message">보낼 메시지</label><span class="counter"><span id="message-count">0</span> / 200</span></div>
+            <textarea id="message" name="message" maxlength="200" required placeholder="예: 오늘 오후 3시 상담 자료 확인하기"></textarea>
           </div>
-          <div class="options">
-            <div class="field">
-              <label for="link-url">함께 보낼 링크</label>
-              <input id="link-url" name="linkUrl" type="url" value="https://www.stargateedu.co.kr/" placeholder="https://">
-            </div>
-            <div class="field">
-              <label for="button-title">버튼 문구</label>
-              <input id="button-title" name="buttonTitle" maxlength="20" value="홈페이지 열기">
-            </div>
-          </div>
+          <p class="fixed-link">메시지 버튼은 등록된 제품 링크인 https://stargateedu.co.kr/ 로 연결됩니다.</p>
           <button class="send-button" id="send-button" type="submit">내 카카오톡으로 보내기</button>
           <p class="notice" id="notice" role="status"></p>
         </form>
@@ -114,6 +105,7 @@
         const data = await response.json();
         if (response.ok && data.authenticated) return showLoggedIn(data.user);
         if (auth === 'state_error') return showLoggedOut('로그인 보안 확인에 실패했습니다. 다시 시도해 주세요.');
+        if (auth === 'client_secret_error') return showLoggedOut('카카오 클라이언트 시크릿 설정이 일치하지 않습니다. Vercel 환경변수를 확인해 주세요.');
         if (auth === 'token_error') return showLoggedOut('카카오 인증을 완료하지 못했습니다. Redirect URI와 동의항목을 확인해 주세요.');
         if (auth === 'config_error' || response.status === 503) return showLoggedOut('서버 연동 설정을 확인하고 있습니다. 잠시 후 다시 시도해 주세요.');
         showLoggedOut();
@@ -132,19 +124,23 @@
         const response = await fetch('/api/send', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-          body: JSON.stringify({
-            message: message.value,
-            linkUrl: document.querySelector('#link-url').value,
-            buttonTitle: document.querySelector('#button-title').value,
-          }),
+          body: JSON.stringify({ message: message.value }),
         });
         const data = await response.json();
-        if (!response.ok) throw new Error(data.message || '전송에 실패했습니다.');
+        if (!response.ok) {
+          const error = new Error(data.message || '전송에 실패했습니다.');
+          error.code = data.code || '';
+          throw error;
+        }
         setNotice(data.message, 'ok');
         message.value = '';
         count.textContent = '0';
       } catch (error) {
         setNotice(error.message, 'error');
+        if (error.code === 'KAKAO_CONSENT_REQUIRED') {
+          loginPanel.hidden = false;
+          document.querySelector('#login-button').textContent = '카카오톡 전송 권한 다시 동의';
+        }
         if (/로그인/.test(error.message)) showLoggedOut('로그인이 만료되었습니다. 다시 로그인해 주세요.');
       } finally {
         sendButton.disabled = false;

@@ -8,25 +8,40 @@ const {
   setSession,
 } = require('./_lib/kakao');
 
-function safeUrl(value, fallback) {
-  try {
-    const url = new URL(String(value || fallback));
-    return ['http:', 'https:'].includes(url.protocol) ? url.toString() : fallback;
-  } catch {
-    return fallback;
-  }
-}
+const MAX_MESSAGE_LENGTH = 200;
+const MESSAGE_LINK_URL = 'https://stargateedu.co.kr/';
 
-function validate(body, origin) {
+function validate(body) {
   const text = String(body?.message || '').trim();
-  const buttonTitle = String(body?.buttonTitle || '홈페이지 열기').trim().slice(0, 20);
-  if (!text || text.length > 1000) return { error: '메시지는 1자 이상 1,000자 이하로 입력해 주세요.' };
+  if (!text || text.length > MAX_MESSAGE_LENGTH) {
+    return { error: '메시지는 1자 이상 200자 이하로 입력해 주세요.' };
+  }
   return {
     text,
-    buttonTitle: buttonTitle || '홈페이지 열기',
-    linkUrl: safeUrl(body?.linkUrl, 'https://www.stargateedu.co.kr/'),
-    origin,
+    buttonTitle: '홈페이지 열기',
+    linkUrl: MESSAGE_LINK_URL,
   };
+}
+
+function mapKakaoError(data, status) {
+  const code = Number(data?.code);
+  const requiredScopes = Array.isArray(data?.required_scopes) ? data.required_scopes : [];
+  if (code === -402 || requiredScopes.includes('talk_message')) {
+    return { status: 403, code: 'KAKAO_CONSENT_REQUIRED', message: '카카오톡 메시지 전송 권한 동의가 필요합니다.' };
+  }
+  if (status === 401 || code === -401) {
+    return { status: 401, code: 'KAKAO_LOGIN_EXPIRED', message: '로그인이 만료되었습니다. 다시 로그인해 주세요.' };
+  }
+  if (code === -2) {
+    return { status: 400, code: 'KAKAO_INVALID_TEMPLATE', message: '메시지 형식 또는 제품 링크 도메인 설정을 확인해 주세요.' };
+  }
+  if (code === -3) {
+    return { status: 403, code: 'KAKAO_API_NOT_ALLOWED', message: '카카오 앱의 메시지 API 설정을 확인해 주세요.' };
+  }
+  if (code === -501) {
+    return { status: 400, code: 'KAKAO_TALK_REQUIRED', message: '카카오톡에 가입된 계정으로 로그인해 주세요.' };
+  }
+  return { status: 502, code: 'KAKAO_SEND_FAILED', message: '카카오톡 메시지를 보내지 못했습니다.' };
 }
 
 async function sendMemo(accessToken, input) {
@@ -59,11 +74,11 @@ module.exports = async function handler(req, res) {
       return res.status(403).json({ ok: false, message: '허용되지 않은 요청 출처입니다.' });
     }
 
-    const input = validate(req.body, config.origin);
+    const input = validate(req.body);
     if (input.error) return res.status(400).json({ ok: false, message: input.error });
 
     let session = await currentSession(req, res, config);
-    if (!session) return res.status(401).json({ ok: false, message: '카카오 로그인이 필요합니다.' });
+    if (!session) return res.status(401).json({ ok: false, code: 'KAKAO_LOGIN_REQUIRED', message: '카카오 로그인이 필요합니다.' });
 
     let response = await sendMemo(session.accessToken, input);
     if (response.status === 401 && session.refreshToken) {
@@ -74,15 +89,10 @@ module.exports = async function handler(req, res) {
 
     const data = await response.json().catch(() => ({}));
     if (!response.ok || data.result_code !== 0) {
-      if (response.status === 401) clearSession(res);
-      const detail = String(data.msg || data.message || '').slice(0, 160);
-      console.error('Kakao memo send failed', response.status, data.code || '', detail);
-      return res.status(response.status === 401 ? 401 : 502).json({
-        ok: false,
-        message: response.status === 401
-          ? '로그인이 만료되었습니다. 다시 로그인해 주세요.'
-          : '카카오톡 메시지를 보내지 못했습니다. 앱 동의항목을 확인해 주세요.',
-      });
+      const mapped = mapKakaoError(data, response.status);
+      if (mapped.status === 401) clearSession(res);
+      console.error('Kakao memo send failed', response.status, data.code || '');
+      return res.status(mapped.status).json({ ok: false, code: mapped.code, message: mapped.message });
     }
 
     return res.status(200).json({ ok: true, message: '카카오톡 나에게 보내기를 완료했습니다.' });
@@ -91,9 +101,10 @@ module.exports = async function handler(req, res) {
     console.error('Kakao send error', error.message);
     return res.status(unavailable ? 503 : 502).json({
       ok: false,
+      code: unavailable ? 'KAKAO_NOT_CONFIGURED' : 'KAKAO_CONNECTION_FAILED',
       message: unavailable ? error.message : '카카오 API 연결에 실패했습니다. 잠시 후 다시 시도해 주세요.',
     });
   }
 };
 
-module.exports._private = { safeUrl, validate };
+module.exports._private = { MAX_MESSAGE_LENGTH, MESSAGE_LINK_URL, mapKakaoError, validate };

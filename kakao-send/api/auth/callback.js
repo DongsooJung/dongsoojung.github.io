@@ -35,6 +35,9 @@ module.exports = async function handler(req, res) {
     return res.redirect(302, '/?auth=success');
   } catch (error) {
     console.error('Kakao OAuth callback failed', error.status || '', error.detail || error.message);
+    if (/client credentials|client_secret|KOE010|invalid_client/i.test(String(error.detail || ''))) {
+      return res.redirect(302, '/?auth=client_secret_error');
+    }
     return res.redirect(302, '/?auth=token_error');
   }
 };
