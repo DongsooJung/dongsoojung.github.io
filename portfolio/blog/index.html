@@ -113,7 +113,7 @@
           <span class="status" id="sync-status" role="status">스냅샷 로딩 중…</span>
         </div>
         <p class="hint">
-          Notion 토큰은 브라우저에 노출되지 않습니다. 라이브 API(<code class="inline">/api/portfolio-notion</code>)가 없으면
+          Notion 토큰은 브라우저에 노출되지 않습니다. 라이브 API(<code class="inline">portfolio-stargate2.vercel.app/api/portfolio-notion</code>)가 없으면
           커밋된 스냅샷을 사용합니다. Drive는 Google OAuth Client ID로 폴더 메타데이터만 읽습니다.
         </p>
 
@@ -289,16 +289,24 @@
       return response.json();
     }
 
+    const LIVE_API_ENDPOINTS = [
+      '/api/portfolio-notion',
+      'https://portfolio-stargate2.vercel.app/api/portfolio-notion',
+    ];
+
     async function loadNotion({ preferLive = false } = {}) {
       const errors = [];
       if (preferLive) {
-        try {
-          const live = await loadJson('/api/portfolio-notion');
-          notionPosts = Array.isArray(live.posts) ? live.posts : [];
-          setStatus(`Notion 라이브 ${notionPosts.length}건 · ${live.meta?.generatedAt?.slice(0, 19) || 'now'}`);
-          return 'live';
-        } catch (error) {
-          errors.push(error.message || String(error));
+        for (const endpoint of LIVE_API_ENDPOINTS) {
+          try {
+            const live = await loadJson(endpoint);
+            notionPosts = Array.isArray(live.posts) ? live.posts : [];
+            const source = endpoint.startsWith('http') ? 'Vercel API' : '라이브 API';
+            setStatus(`Notion ${source} ${notionPosts.length}건 · ${live.meta?.generatedAt?.slice(0, 19) || 'now'}`);
+            return 'live';
+          } catch (error) {
+            errors.push(`${endpoint}: ${error.message || error}`);
+          }
         }
       }
       try {
