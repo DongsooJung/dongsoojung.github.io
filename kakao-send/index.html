@@ -145,13 +145,16 @@
       loginLabel.textContent = '카카오톡 전송 권한 다시 동의';
     }
 
-    async function activateLegacyFallback() {
+    async function activateLegacyFallback(reason) {
       legacyMode = true;
       try {
         await loadLegacySdk();
         if (!window.Kakao) throw new Error('SDK_LOAD_FAILED');
         if (!Kakao.isInitialized()) Kakao.init(LEGACY_JS_KEY);
-        showLoggedOut('REST 토큰 교환을 사용할 수 없어 임시 JavaScript SDK 로그인으로 전환했습니다.');
+        const detail = reason === 'state_error'
+          ? '로그인 보안 상태를 확인하지 못해 안전한 JavaScript SDK 로그인으로 전환했습니다.'
+          : 'REST 토큰 교환을 사용할 수 없어 안전한 JavaScript SDK 로그인으로 전환했습니다.';
+        showLoggedOut(detail);
         statusTitle.textContent = '임시 JavaScript SDK 로그인';
         loginLabel.textContent = 'JavaScript SDK로 로그인';
         privacyCopy.textContent = '임시 복구 모드에서는 Kakao SDK가 액세스 토큰을 현재 페이지 메모리에서만 관리합니다. 저장하지 않으며 로그아웃 시 SDK 토큰을 만료시킵니다.';
@@ -182,15 +185,14 @@
     async function loadSession() {
       const auth = new URLSearchParams(location.search).get('auth');
       if (auth) history.replaceState({}, '', location.pathname);
-      if (auth === 'client_secret_error') {
-        await activateLegacyFallback();
+      if (auth === 'client_secret_error' || auth === 'state_error') {
+        await activateLegacyFallback(auth);
         return;
       }
       try {
         const response = await fetch('/api/session', { headers: { Accept: 'application/json' } });
         const data = await response.json();
         if (response.ok && data.authenticated) return showLoggedIn(data.user);
-        if (auth === 'state_error') return showLoggedOut('로그인 보안 확인에 실패했습니다. 다시 시도해 주세요.');
         if (auth === 'token_error') return showLoggedOut('카카오 인증을 완료하지 못했습니다. Redirect URI와 동의항목을 확인해 주세요.');
         if (auth === 'config_error' || response.status === 503) return showLoggedOut('서버 연동 설정을 확인하고 있습니다. 잠시 후 다시 시도해 주세요.');
         showLoggedOut();

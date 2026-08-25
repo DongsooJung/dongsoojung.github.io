@@ -33,7 +33,7 @@ Vercel Production 환경 변수에 반드시 추가해야 합니다. 시크릿 �
 
 ## 클라이언트 시크릿 오류 임시 fallback
 
-REST OAuth 콜백이 `auth=client_secret_error`를 반환하면 정적 페이지가 Kakao Legacy
+REST OAuth 콜백이 `auth=client_secret_error` 또는 `auth=state_error`를 반환하면 정적 페이지가 Kakao Legacy
 JavaScript SDK v1을 지연 로드해 로그인과 나에게 보내기를 처리합니다. 정상 REST 로그인에서는
 SDK를 로드하지 않습니다.
 

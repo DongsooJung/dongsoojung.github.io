@@ -28,5 +28,6 @@ test('client-secret fallback keeps the Legacy SDK constrained', () => {
   assert.match(html, /data:\s*\{\s*template_object:/);
   assert.match(html, /https:\/\/stargateedu\.co\.kr\//);
   assert.match(html, /https:\/\/t1\.kakaocdn\.net\/kakao_js_sdk\/v1\/kakao\.min\.js/);
+  assert.match(html, /auth === 'client_secret_error' \|\| auth === 'state_error'/);
   assert.doesNotMatch(html, /console\.(?:log|debug|info)\s*\(/);
 });
