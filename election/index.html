@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>수도권 국회의원 선거구 · 읍면동 지도 허브 — STARGATE</title>
+<meta name="description" content="제22대 국회의원선거 기준 수원·성남·화성·평택 4개 시, 16개 선거구를 읍면동 경계로 탐색하는 인터랙티브 지도 모음. VWorld 행정구역 경계 기반." />
+<meta name="keywords" content="선거구, 국회의원 선거구, 읍면동 지도, 수원 선거구, 성남 선거구, 화성 선거구, 평택 선거구, 제22대 국회의원선거" />
+<meta property="og:title" content="수도권 국회의원 선거구 · 읍면동 지도 허브" />
+<meta property="og:description" content="수원·성남·화성·평택 16개 선거구를 읍면동 단위로 확인하는 인터랙티브 지도" />
+<meta property="og:url" content="https://www.stargateedu.co.kr/election/" />
+<meta property="og:type" content="website" />
+<link rel="canonical" href="https://www.stargateedu.co.kr/election/" />
+<link rel="icon" href="/assets/icons/favicon.ico" sizes="48x48" />
+<style>
+  @import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css");
+  @import url("https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@500;700&display=swap");
+
+  :root{
+    --bg:#071018;
+    --panel:rgba(10,22,34,.88);
+    --line:rgba(120,170,200,.18);
+    --ink:#e8f1f6;
+    --muted:#8aa0b0;
+    --accent:#3ec6b8;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0;background:var(--bg);color:var(--ink);
+    font-family:"Pretendard Variable",Pretendard,"Apple SD Gothic Neo",system-ui,sans-serif;
+    background-image:radial-gradient(900px 520px at 50% -5%, rgba(62,198,184,.16), transparent 62%);
+    min-height:100vh;
+  }
+  .wrap{max-width:1080px;margin:0 auto;padding:0 22px 72px}
+  nav.nav{
+    display:flex;align-items:center;justify-content:space-between;gap:18px;flex-wrap:wrap;
+    padding:18px 22px;border-bottom:1px solid var(--line);max-width:1080px;margin:0 auto;
+  }
+  .brand{display:flex;align-items:center;gap:10px;font-weight:700;letter-spacing:.02em}
+  .brand .mark{
+    width:28px;height:28px;border-radius:8px;display:grid;place-items:center;
+    background:linear-gradient(135deg,#0f2a3a,#1d5c58);color:var(--accent);
+    font-family:"JetBrains Mono",monospace;font-size:13px;
+  }
+  .links{display:flex;gap:14px;flex-wrap:wrap;font-size:14px}
+  .links a{color:var(--muted);text-decoration:none}
+  .links a:hover{color:var(--accent)}
+  header{padding:56px 0 34px}
+  .kicker{
+    font-family:"JetBrains Mono",monospace;font-size:11px;letter-spacing:.14em;
+    text-transform:uppercase;color:var(--accent);margin:0 0 12px
+  }
+  h1{font-size:clamp(30px,5vw,46px);line-height:1.18;margin:0 0 16px;font-weight:700}
+  h1 em{font-family:"Instrument Serif",serif;font-style:italic;color:var(--accent);font-weight:400}
+  .lead{color:var(--muted);font-size:16px;line-height:1.75;max-width:660px;margin:0 0 22px}
+  .meta-row{display:flex;gap:9px;flex-wrap:wrap}
+  .chip{
+    border:1px solid var(--line);border-radius:999px;padding:6px 13px;
+    font-size:12px;color:var(--muted);background:rgba(10,22,34,.5)
+  }
+  .chip strong{color:var(--ink)}
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(268px,1fr));gap:18px;margin-top:12px}
+  a.card{
+    display:block;text-decoration:none;color:inherit;background:var(--panel);
+    border:1px solid var(--line);border-radius:18px;padding:24px;
+    transition:transform .18s ease,border-color .18s ease,box-shadow .18s ease
+  }
+  a.card:hover{transform:translateY(-3px);border-color:var(--accent);box-shadow:0 18px 44px rgba(62,198,184,.14)}
+  .card .city{font-size:21px;font-weight:700;margin:0 0 6px}
+  .card .desc{color:var(--muted);font-size:13.5px;line-height:1.7;margin:0 0 16px;min-height:44px}
+  .stats{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
+  .stat{
+    font-family:"JetBrains Mono",monospace;font-size:11px;color:var(--muted);
+    border:1px solid var(--line);border-radius:7px;padding:4px 9px
+  }
+  .stat b{color:var(--accent);font-size:13px}
+  .go{color:var(--accent);font-size:13px;font-weight:600}
+  section.note{
+    margin-top:44px;border:1px solid var(--line);border-radius:16px;
+    padding:26px;background:rgba(10,22,34,.5)
+  }
+  section.note h2{font-size:17px;margin:0 0 14px}
+  section.note p{color:var(--muted);font-size:13.5px;line-height:1.85;margin:0 0 10px}
+  section.note ul{color:var(--muted);font-size:13.5px;line-height:1.9;margin:0;padding-left:20px}
+  footer{margin-top:46px;padding-top:22px;border-top:1px solid var(--line);color:var(--muted);font-size:12.5px}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="brand"><span class="mark">E</span><span>ELECTION <span style="color:var(--accent)">MAPS</span></span></div>
+  <div class="links">
+    <a href="/">포털</a>
+    <a href="/research/">연구 대시보드</a>
+    <a href="/suwon-election/">수원</a>
+    <a href="/seongnam-election/">성남</a>
+    <a href="/hwaseong-election/">화성</a>
+    <a href="/pyeongtaek-election/">평택</a>
+  </div>
+</nav>
+
+<div class="wrap">
+  <header>
+    <p class="kicker">22nd National Assembly · VWorld boundaries</p>
+    <h1>수도권 국회의원 선거구 <em>읍면동</em> 지도</h1>
+    <p class="lead">
+      제22대 국회의원선거 선거구역 획정안을 기준으로 경기 남부 4개 시의 선거구를
+      읍면동 행정동 경계 위에 그렸습니다. 국토교통부 VWorld 행정구역 API에서 경계를 실시간으로
+      가져오고, 응답이 없을 때는 저장된 GeoJSON으로 자동 전환하여 항상 지도가 표시됩니다.
+    </p>
+    <div class="meta-row">
+      <span class="chip"><strong>4</strong> 개 시</span>
+      <span class="chip"><strong>16</strong> 개 선거구</span>
+      <span class="chip"><strong>148</strong> 개 읍면동</span>
+      <span class="chip">행정동 경계 · EPSG:4326</span>
+      <span class="chip">NEC 선거구역 기준</span>
+    </div>
+  </header>
+
+  <div class="grid">
+
+    <a class="card" href="/suwon-election/">
+      <div class="city">수원시</div>
+      <p class="desc">갑·을·병·정·무 5개 선거구. 경기도청 소재지이자 도내 최대 인구 도시입니다.</p>
+      <div class="stats"><span class="stat"><b>5</b> 선거구</span><span class="stat"><b>44</b> 읍면동</span></div>
+      <div class="go">지도 열기 →</div>
+    </a>
+
+    <a class="card" href="/seongnam-election/">
+      <div class="city">성남시</div>
+      <p class="desc">수정·중원·분당갑·분당을 4개 선거구. 판교 테크노밸리를 포함한 3개 구 구조입니다.</p>
+      <div class="stats"><span class="stat"><b>4</b> 선거구</span><span class="stat"><b>50</b> 읍면동</span></div>
+      <div class="go">지도 열기 →</div>
+    </a>
+
+    <a class="card" href="/hwaseong-election/">
+      <div class="city">화성시</div>
+      <p class="desc">갑·을·병·정 4개 선거구. 2026년 2월 4개 일반구 신설 행정코드를 반영했습니다.</p>
+      <div class="stats"><span class="stat"><b>4</b> 선거구</span><span class="stat"><b>29</b> 읍면동</span></div>
+      <div class="go">지도 열기 →</div>
+    </a>
+
+    <a class="card" href="/pyeongtaek-election/">
+      <div class="city">평택시</div>
+      <p class="desc">갑·을·병 3개 선거구. 미군기지 이전과 산업단지 확장으로 인구 구조가 빠르게 변하는 지역입니다.</p>
+      <div class="stats"><span class="stat"><b>3</b> 선거구</span><span class="stat"><b>25</b> 읍면동</span></div>
+      <div class="go">지도 열기 →</div>
+    </a>
+
+  </div>
+
+  <section class="note">
+    <h2>데이터 출처와 방법</h2>
+    <p>
+      선거구와 읍면동의 대응 관계는 중앙선거관리위원회가 공표한 제22대 국회의원선거 선거구역표를
+      기준으로 정리했습니다. 행정동 경계는 국토교통부 공간정보 오픈플랫폼(VWorld)의
+      행정구역 읍면동 레이어에서 가져옵니다.
+    </p>
+    <ul>
+      <li>선거구 획정 기준 · 중앙선거관리위원회 제22대 국회의원선거 선거구역표</li>
+      <li>행정동 경계 · VWorld LT_C_ADEMD_INFO (EPSG:4326)</li>
+      <li>지도 렌더링 · Leaflet 1.9.4</li>
+      <li>경계 데이터는 행정구역 개편 시 갱신되며, 실제 투표소 관할과 다를 수 있습니다.</li>
+    </ul>
+  </section>
+
+  <footer>
+    주식회사 별의문 · STARGATE Research Observatory · 자료 기준일 2026-08-16<br />
+    본 지도는 정보 제공 목적의 연구 산출물이며 특정 정당·후보를 지지하거나 반대하지 않습니다.
+  </footer>
+</div>
+
+</body>
+</html>
