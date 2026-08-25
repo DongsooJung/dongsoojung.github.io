@@ -438,10 +438,10 @@ footer .business-info{flex-basis:100%;padding-top:10px;border-top:1px solid var(
 
   <section class="sec" id="projects">
     <h2>대표 프로젝트 · Selected Cases</h2>
-    <div class="desc">전문 분야와 방법론을 확인할 수 있는 대표 산출물 7개를 선별했습니다. 전체 작업은 아래 버튼에서 펼쳐볼 수 있습니다.</div>
+    <div class="desc">고객·결제 경로·반복매출·제품 완성도를 기준으로 수익화 가능성이 높은 대표 프로젝트 6개를 우선순위대로 선별했습니다.</div>
     <div class="project-toggle-row">
       <button class="project-toggle" id="project-visibility-toggle" type="button" aria-expanded="false" aria-controls="projects-grid">
-        <span aria-hidden="true">▾</span><span>숨긴 프로젝트 보기</span>
+        <span aria-hidden="true">▾</span><span>전체 프로젝트 보기</span>
       </button>
     </div>
     <div class="grid" id="projects-grid">
@@ -497,6 +497,26 @@ footer .business-info{flex-basis:100%;padding-top:10px;border-top:1px solid var(
           <div class="ttl">STARGATE 본사 블로그</div>
           <div class="sub">AI·교육·공간 데이터 연구와 프로젝트 소식, 수업 및 교재 콘텐츠를 모아 소개합니다.</div>
           <div class="row"><span class="tag">Blog · blog.stargateedu.co.kr</span><span class="go">읽기 →</span></div>
+        </div>
+      </a>
+
+      <a class="proj" href="/cybersecurity/">
+        <div class="badge">B2B · AI SECURITY</div>
+        <div class="thumb" style="background:radial-gradient(340px 170px at 22% 22%,rgba(45,212,191,.46),transparent 60%),radial-gradient(260px 150px at 82% 80%,rgba(232,93,93,.28),transparent 60%),linear-gradient(135deg,#061018,#0a2430)"><span class="emo">🛡</span></div>
+        <div class="body">
+          <div class="ttl">3AI Cybersecurity Suite</div>
+          <div class="sub">LLM 위협 탐지·시맨틱 로그 분석·IR 자동화를 결합한 SOC용 AI 보안 제품. 기업 도입·라이선스·유지보수형 매출로 확장합니다.</div>
+          <div class="row"><span class="tag">LLM · RAG · SOC</span><span class="go">제품 열기 →</span></div>
+        </div>
+      </a>
+
+      <a class="proj" href="https://stargate-math-ai.vercel.app" target="_blank" rel="noopener">
+        <div class="badge">AI · EDUCATION</div>
+        <div class="thumb" style="background:radial-gradient(340px 170px at 22% 22%,rgba(220,236,223,.44),transparent 60%),radial-gradient(260px 150px at 82% 80%,rgba(244,154,82,.3),transparent 60%),linear-gradient(135deg,#0d2a20,#176b4b)"><span class="emo">∑</span></div>
+        <div class="body">
+          <div class="ttl">STARGATE MATH 서술형 풀이 AI</div>
+          <div class="sub">조건 분석부터 풀이 전략·단계별 계산·검산까지 학생 눈높이로 설명하는 교육 AI. 개인 구독과 학원 좌석제로 확장 가능합니다.</div>
+          <div class="row"><span class="tag">Gemini · 단계별 풀이 · 검산</span><span class="go">문제 풀기 ↗</span></div>
         </div>
       </a>
 
@@ -882,18 +902,19 @@ footer .business-info{flex-basis:100%;padding-top:10px;border-top:1px solid var(
 
   const cards = [...grid.querySelectorAll(':scope > .proj')];
   const selectedProjects = [
-    '한국 F‑2·F‑5·F‑6 비자·외국인정책 연구',
-    '서울 실시간 도시데이터',
-    '법원경매 × 국토부 실거래',
-    'Spatial Econometrics Lab',
-    '월간 거시경제 대시보드',
-    '무역 월별 대시보드',
+    'Stargate Edu Shop · 온라인 스쿨 스토어',
+    '3AI Cybersecurity Suite',
     'KOI Coach',
+    '하루 견적서 · Quote Maker',
+    'STARGATE MATH 서술형 풀이 AI',
+    '법원경매 × 국토부 실거래',
   ];
-  const targetCards = cards.filter((card) => {
-    const title = card.querySelector('.ttl')?.textContent || '';
-    return !selectedProjects.some((item) => title.includes(item));
-  });
+  const selectedCards = selectedProjects
+    .map((item) => cards.find((card) => (card.querySelector('.ttl')?.textContent || '').includes(item)))
+    .filter(Boolean);
+  const selectedSet = new Set(selectedCards);
+  const targetCards = cards.filter((card) => !selectedSet.has(card));
+  [...selectedCards, ...targetCards].forEach((card) => grid.appendChild(card));
   const label = toggle.querySelector('span:last-child');
   const icon = toggle.querySelector('span:first-child');
 
