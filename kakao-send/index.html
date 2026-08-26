@@ -79,6 +79,7 @@
     const LEGACY_JS_KEY = '905616cdf1787cf31ec8d92a8ab81cd2';
     const LEGACY_SDK_URL = 'https://t1.kakaocdn.net/kakao_js_sdk/v1/kakao.min.js';
     const MESSAGE_LINK_URL = 'https://stargateedu.co.kr/';
+    const STATIC_HOSTS = new Set(['stargateedu.co.kr', 'www.stargateedu.co.kr']);
     let legacyMode = false;
     let legacyLoginBusy = false;
 
@@ -151,9 +152,11 @@
         await loadLegacySdk();
         if (!window.Kakao) throw new Error('SDK_LOAD_FAILED');
         if (!Kakao.isInitialized()) Kakao.init(LEGACY_JS_KEY);
-        const detail = reason === 'state_error'
-          ? '로그인 보안 상태를 확인하지 못해 안전한 JavaScript SDK 로그인으로 전환했습니다.'
-          : 'REST 토큰 교환을 사용할 수 없어 안전한 JavaScript SDK 로그인으로 전환했습니다.';
+        const detail = reason === 'static_host'
+          ? '등록된 Stargate 도메인에서 안전한 JavaScript SDK 로그인을 사용합니다.'
+          : reason === 'state_error'
+            ? '로그인 보안 상태를 확인하지 못해 안전한 JavaScript SDK 로그인으로 전환했습니다.'
+            : 'REST 토큰 교환을 사용할 수 없어 안전한 JavaScript SDK 로그인으로 전환했습니다.';
         showLoggedOut(detail);
         statusTitle.textContent = '임시 JavaScript SDK 로그인';
         loginLabel.textContent = 'JavaScript SDK로 로그인';
@@ -187,6 +190,10 @@
       if (auth) history.replaceState({}, '', location.pathname);
       if (auth === 'client_secret_error' || auth === 'state_error') {
         await activateLegacyFallback(auth);
+        return;
+      }
+      if (STATIC_HOSTS.has(location.hostname)) {
+        await activateLegacyFallback('static_host');
         return;
       }
       try {
