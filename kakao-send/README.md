@@ -52,3 +52,11 @@ SDK를 로드하지 않습니다.
 이 경로는 비밀값을 대체하기 위한 임시 복구 수단입니다. Legacy JavaScript SDK v1은
 2026년 12월 31일 지원 종료되므로 그 전에 JavaScript SDK v2 `Kakao.Auth.authorize()`와
 서버 인가 코드/토큰 교환 구조로 이전해야 합니다.
+
+## 운영 도메인
+
+메인 홈페이지 링크는 `https://stargateedu.co.kr/kakao-send/`를 사용합니다. 이 정적 경로에서는
+REST 서버 호출을 시도하지 않고 JavaScript SDK 로그인으로 바로 전환합니다. `www` 주소는
+canonical apex 주소로 리다이렉트되므로 카카오 개발자 콘솔의 **JavaScript SDK 도메인**과
+**제품 링크 웹 도메인**에 `https://stargateedu.co.kr`을 정확히 등록해야 합니다. URL 경로나
+마지막 슬래시는 도메인 등록값에 포함하지 않습니다.

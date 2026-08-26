@@ -29,5 +29,7 @@ test('client-secret fallback keeps the Legacy SDK constrained', () => {
   assert.match(html, /https:\/\/stargateedu\.co\.kr\//);
   assert.match(html, /https:\/\/t1\.kakaocdn\.net\/kakao_js_sdk\/v1\/kakao\.min\.js/);
   assert.match(html, /auth === 'client_secret_error' \|\| auth === 'state_error'/);
+  assert.match(html, /STATIC_HOSTS\.has\(location\.hostname\)/);
+  assert.match(html, /new Set\(\['stargateedu\.co\.kr', 'www\.stargateedu\.co\.kr'\]\)/);
   assert.doesNotMatch(html, /console\.(?:log|debug|info)\s*\(/);
 });
