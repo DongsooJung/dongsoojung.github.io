@@ -1,6 +1,10 @@
 name: Update airport congestion data
 
 on:
+  push:
+    paths:
+      - '.github/workflows/update-airport-congestion.yml'
+      - 'scripts/update-airport-congestion.mjs'
   schedule:
     - cron: '3,13,23,33,43,53 * * * *'
   workflow_dispatch:
