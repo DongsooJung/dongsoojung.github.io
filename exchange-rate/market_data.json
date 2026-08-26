@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-08-25",
+  "updatedAt": "2026-08-26",
   "sourceMode": "public-csv",
   "coverage": {
     "start": 1999,
@@ -13,14 +13,14 @@
       "metric": "DRAM 최저 소비자 소매가격",
       "unit": "USD/GB",
       "url": "https://dam.stanford.edu/memory-prices.html",
-      "observedAt": "2026-08-01"
+      "observedAt": "2026-07-01"
     },
     "brent": {
       "name": "FRED DCOILBRENTEU / World Bank Pink Sheet Brent",
       "metric": "Brent Europe 현물·월별 가격",
       "unit": "USD/barrel",
       "url": "https://www.worldbank.org/en/research/commodity-markets",
-      "observedAt": "2026-08-18"
+      "observedAt": "2026-08-25"
     },
     "commodities": {
       "name": "World Bank Commodity Price Data (Pink Sheet)",
@@ -413,10 +413,10 @@
     {
       "year": 2026,
       "partial": true,
-      "dramUsdPerGb": 3.773,
-      "dramObservations": 8,
-      "brentUsdPerBbl": 90.32,
-      "brentObservations": 159,
+      "dramUsdPerGb": 3.835,
+      "dramObservations": 7,
+      "brentUsdPerBbl": 90.4,
+      "brentObservations": 164,
       "goldUsdPerOz": 4605.43,
       "goldObservations": 7,
       "copperUsdPerMt": 13154.43,
