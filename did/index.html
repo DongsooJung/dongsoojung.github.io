@@ -37,20 +37,20 @@ h1{font-size:30px;letter-spacing:-.4px;margin:26px 0 6px;background:var(--grad1)
 <div class="wrap">
   <div class="nav"><a href="/research/">← 연구 대시보드</a><a href="https://www.stargateedu.co.kr/">포털</a></div>
   <h1>DID 정책효과 · 이벤트 스터디</h1>
-  <p class="lead">이중차분(Difference-in-Differences)으로 정책 개입의 인과효과를 추정합니다. 처치군·통제군의 <b>개입 전 평행추세</b>가 성립하고, 개입 후 처치군만 상승하면 그 격차가 정책효과입니다. 아래는 데모 시드 데이터.</p>
+  <p class="lead">Google Trends 급상승 검색어의 실제 일별 저장 스냅샷으로 비즈니스·산업과 스포츠 범주의 상대 관심도를 비교합니다. 현재 분할점은 탐색용이며, 외생적 정책 개입을 지정하지 않은 결과를 인과효과로 해석하면 안 됩니다.</p>
   <div class="chips"><span class="chip">Difference-in-Differences</span><span class="chip">Event Study</span><span class="chip">Parallel Trends</span></div>
 
   <div class="stats" id="stats"></div>
 
   <div class="card">
     <h2>① 평행추세 & 처치효과</h2>
-    <div class="d">처치군(개입 대상)과 통제군의 결과변수 추이. 세로 점선 = 정책 시행 시점(t=0).</div>
+    <div class="d">비즈니스·산업(처리 계열)과 스포츠(비교 계열)의 범주별 최대=100 정규화 추이. 세로 점선 = 탐색 분할점.</div>
     <div id="trend" class="plot"></div>
   </div>
 
   <div class="card">
-    <h2>② 이벤트 스터디 계수 (95% CI)</h2>
-    <div class="d">기간별 처치효과 βₜ. 개입 전(음수 기간) 계수가 0 근처면 평행추세 가정을 지지하고, 개입 후 양(+)으로 상승하면 효과가 누적됩니다.</div>
+    <h2>② 이벤트 스터디형 관측 격차</h2>
+    <div class="d">기간별 두 계열의 지수 격차. 신뢰구간을 추정한 인과계수가 아니라 실제 관측 격차이며, 정식 DID에는 정책일·처리집단 정의와 평행추세 검증이 추가로 필요합니다.</div>
     <div id="event" class="plot"></div>
   </div>
 </div>
@@ -66,48 +66,33 @@ const baseLayout=(extra)=>Object.assign({
 }, extra||{});
 const cfg={responsive:true,displayModeBar:false};
 
-// 기간 -6..+6, 개입 t=0
-const t=[]; for(let i=-6;i<=6;i++) t.push(i);
-// 통제군: 완만한 공통추세
-const control = t.map(x=> 100 + x*1.2);
-// 처치군: 개입 전 동일 추세(+상수 격차), 개입 후 추가 상승
-const treat = t.map(x=> 100 + x*1.2 + 6 + (x>=0 ? (x+1)*2.4 : 0));
-
-Plotly.newPlot('trend',[
-  {x:t,y:control,name:'통제군',mode:'lines+markers',line:{color:SUB,width:2},marker:{size:6}},
-  {x:t,y:treat,name:'처치군',mode:'lines+markers',line:{color:ACC,width:2.5},marker:{size:6}}
-], baseLayout({
-  xaxis:{title:'개입 기준 상대 기간 (t)',gridcolor:LINE,zerolinecolor:LINE},
-  yaxis:{title:'결과변수',gridcolor:LINE,zerolinecolor:LINE},
-  shapes:[{type:'line',x0:0,x1:0,yref:'paper',y0:0,y1:1,line:{color:WARM,width:1.5,dash:'dash'}}],
-  annotations:[{x:0,y:1,yref:'paper',yanchor:'bottom',text:'정책 시행',showarrow:false,font:{color:WARM,size:11}}]
-}), cfg);
-
-// 이벤트 스터디 계수: 개입 전 ~0, 개입 후 상승
-const beta = t.map(x=> x<0 ? (Math.sin(x)*0.6) : (x>=0 ? (x+1)*2.4 : 0));
-const ciH = t.map(()=>1.6), ciL = t.map(()=>1.6);
-const post = t.map(x=> x>=0);
-Plotly.newPlot('event',[
-  {x:t,y:beta,type:'scatter',mode:'markers',name:'βₜ 추정치',
-   marker:{size:9,color:post.map(p=>p?GOOD:SUB),line:{color:'#0a0d14',width:1}},
-   error_y:{type:'data',array:ciH,arrayminus:ciL,color:'#3a4a6b',thickness:1.4,width:4}}
-], baseLayout({
-  showlegend:false,
-  xaxis:{title:'개입 기준 상대 기간 (t)',gridcolor:LINE,zerolinecolor:LINE},
-  yaxis:{title:'처치효과 βₜ',gridcolor:LINE,zerolinecolor:LINE},
-  shapes:[
-    {type:'line',x0:-6.5,x1:6.5,y0:0,y1:0,line:{color:'#3a4a6b',width:1}},
-    {type:'line',x0:-0.5,x1:-0.5,yref:'paper',y0:0,y1:1,line:{color:WARM,width:1.5,dash:'dash'}}
-  ]
-}), cfg);
-
-// KPI
-const att = (treat[t.indexOf(6)]-treat[t.indexOf(-1)]) - (control[t.indexOf(6)]-control[t.indexOf(-1)]);
-document.getElementById('stats').innerHTML=[
-  ['처치효과 (ATT, t=+6)', '+'+att.toFixed(1), true],
-  ['개입 전 평행추세', '지지됨', false],
-  ['관측 기간', '13기 (−6…+6)', false]
-].map(([l,v,g])=>`<div class="stat"><div class="l">${l}</div><div class="v${g?' good':''}">${v}</div></div>`).join('');
+const mean=a=>a.reduce((s,v)=>s+v,0)/a.length;
+async function renderActual(){
+  const payload=await fetch('/google-trends/history.json',{cache:'no-store'}).then(r=>{if(!r.ok)throw new Error('HTTP '+r.status);return r.json()});
+  const rows=payload.rows||[];
+  if(rows.length<8) throw new Error('분석에 필요한 실제 관측치가 부족합니다.');
+  const split=Math.max(4,Math.floor(rows.length*.65));
+  const dates=rows.map(r=>r.date), treat=rows.map(r=>r.treated), control=rows.map(r=>r.control);
+  const gap=treat.map((v,i)=>v-control[i]), relative=rows.map((_,i)=>i-split);
+  const splitDate=dates[split];
+  Plotly.newPlot('trend',[
+    {x:dates,y:control,name:payload.controlLabel,mode:'lines+markers',line:{color:SUB,width:2},marker:{size:5}},
+    {x:dates,y:treat,name:payload.treatedLabel,mode:'lines+markers',line:{color:ACC,width:2.5},marker:{size:5}}
+  ],baseLayout({xaxis:{title:'저장일',gridcolor:LINE},yaxis:{title:'상대 관심도',gridcolor:LINE},
+    shapes:[{type:'line',x0:splitDate,x1:splitDate,yref:'paper',y0:0,y1:1,line:{color:WARM,width:1.5,dash:'dash'}}],
+    annotations:[{x:splitDate,y:1,yref:'paper',yanchor:'bottom',text:'탐색 분할',showarrow:false,font:{color:WARM,size:11}}]}),cfg);
+  Plotly.newPlot('event',[{x:relative,y:gap,type:'scatter',mode:'lines+markers',name:'관측 격차',
+    marker:{size:7,color:relative.map(v=>v>=0?GOOD:SUB)},line:{color:'#6078a8',width:1.5}}],
+    baseLayout({showlegend:false,xaxis:{title:'분할점 기준 상대 일',gridcolor:LINE},yaxis:{title:'비즈니스·산업 − 스포츠',gridcolor:LINE},
+      shapes:[{type:'line',x0:relative[0],x1:relative.at(-1),y0:0,y1:0,line:{color:'#3a4a6b',width:1}},
+      {type:'line',x0:-.5,x1:-.5,yref:'paper',y0:0,y1:1,line:{color:WARM,width:1.5,dash:'dash'}}]}),cfg);
+  const pre=mean(gap.slice(0,split)), post=mean(gap.slice(split)), delta=post-pre;
+  document.getElementById('stats').innerHTML=[
+    ['분할 전 평균 격차',pre.toFixed(1),false],['분할 후 평균 격차',post.toFixed(1),false],
+    ['격차 변화(탐색값)',(delta>=0?'+':'')+delta.toFixed(1),delta>0]
+  ].map(([l,v,g])=>`<div class="stat"><div class="l">${l}</div><div class="v${g?' good':''}">${v}</div></div>`).join('');
+}
+renderActual().catch(err=>{document.getElementById('stats').innerHTML=`<div class="card">실데이터를 불러오지 못했습니다: ${err.message}</div>`});
 </script>
 </body>
 </html>
