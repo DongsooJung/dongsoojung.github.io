@@ -404,9 +404,7 @@ async function fetchVworldByPrefix(prefix) {
     attrFilter: `emd_cd:like:${prefix}`
   });
   const url = `https://api.vworld.kr/req/data?${params.toString()}`;
-  const res = await fetch(url, { mode: "cors" });
-  if (!res.ok) throw new Error(`VWorld HTTP ${res.status}`);
-  const json = await res.json();
+  const json = await vworldJsonp(url);
   const status = json?.response?.status;
   if (status && String(status).toUpperCase() !== "OK") {
     throw new Error(`VWorld status ${status}`);
@@ -414,6 +412,45 @@ async function fetchVworldByPrefix(prefix) {
   const fc = json?.response?.result?.featureCollection;
   if (!fc?.features?.length) throw new Error("VWorld empty features");
   return normalizeVworld(fc);
+}
+
+function vworldJsonp(url, timeoutMs) {
+  return new Promise(function (resolve, reject) {
+    var cb = "__vw_" + Date.now().toString(36) + Math.random().toString(36).slice(2, 8);
+    var script = document.createElement("script");
+    var done = false;
+    function cleanup() {
+      done = true;
+      clearTimeout(timer);
+      try { delete window[cb]; } catch (e) { window[cb] = undefined; }
+      if (script.parentNode) script.parentNode.removeChild(script);
+    }
+    var timer = setTimeout(function () {
+      if (!done) { cleanup(); reject(new Error("VWorld JSONP timeout")); }
+    }, timeoutMs || 15000);
+    window[cb] = function (data) { if (!done) { cleanup(); resolve(data); } };
+    script.onerror = function () {
+      if (!done) { cleanup(); reject(new Error("VWorld JSONP network error")); }
+    };
+    script.src = url + (url.indexOf("?") === -1 ? "?" : "&") + "callback=" + cb;
+    document.head.appendChild(script);
+  });
+}
+
+function mergeBoundaries(vw, local) {
+  var vwFeatures = (vw && vw.features) || [];
+  var localFeatures = (local && local.features) || [];
+  if (!localFeatures.length) {
+    return { type: "FeatureCollection", features: vwFeatures, source: "VWorld API \u00b7 " + vwFeatures.length + "\uac1c" };
+  }
+  var seen = {};
+  vwFeatures.forEach(function (f) { seen[f.properties.emd_nm] = true; });
+  var extra = localFeatures.filter(function (f) { return !seen[f.properties.emd_nm]; });
+  var features = vwFeatures.concat(extra);
+  var source = extra.length
+    ? "VWorld " + vwFeatures.length + " + \uce90\uc2dc " + extra.length
+    : "VWorld API \u00b7 " + vwFeatures.length + "\uac1c";
+  return { type: "FeatureCollection", features: features, source: source };
 }
 
 async function fetchVworldGeoJSON() {
@@ -576,21 +613,26 @@ function mountGeo(geo, sourceLabel) {
 
 async function loadBoundaries(preferVworld = true) {
   setStatus("경계 로딩 중…");
+  const local = await fetchLocalGeoJSON().catch((e) => {
+    console.warn("local geojson:", e);
+    return null;
+  });
   if (preferVworld) {
     try {
       const geo = await fetchVworldGeoJSON();
-      if (geo.features.length >= MIN_FEATURES) {
-        mountGeo(geo, "VWorld API");
+      const merged = mergeBoundaries(geo, local);
+      if (merged.features.length >= 20) {
+        mountGeo(merged, merged.source);
         return;
       }
-      throw new Error(`too few features: ${geo.features.length}`);
+      throw new Error(`too few features: ${merged.features.length}`);
     } catch (err) {
       console.warn("VWorld fallback:", err);
       setStatus("VWorld 실패 → 캐시 경계 사용", "warn");
     }
   }
-  const local = await fetchLocalGeoJSON();
-  mountGeo(local, preferVworld ? "캐시 GeoJSON" : "캐시 GeoJSON(수동)");
+  if (!local) throw new Error("boundary source unavailable");
+  mountGeo(local, preferVworld ? "캐시 GeoJSON" : "캐시 GeoJSON(강제)");
 }
 
 el.search.addEventListener("input", () => renderList());
