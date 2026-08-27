@@ -1,0 +1,243 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>수익화 기회 TOP 20 | STARGATE Intelligence</title>
+  <meta name="description" content="실행 이력을 반영해 20개 수익화 기회를 재평가하고, 교육 고객군에 연결된 상위 4개를 하나의 판매 퍼널로 설계한 전략 대시보드.">
+  <meta name="theme-color" content="#080c14" data-light-color="#f5f7fb" data-dark-color="#080c14">
+  <link rel="canonical" href="https://stargateedu.co.kr/strategy/monetization-opportunities/">
+  <script src="/assets/theme-boot.js"></script>
+  <link rel="stylesheet" href="/assets/intelligence-hub.css?v=20260729f">
+  <style>
+    :root{--green:#36d399;--blue:#60a5fa;--amber:#f1c77a;--rose:#fb7185}
+    .hero{padding-bottom:34px}
+    .hero h1{max-width:900px}
+    .hero p{max-width:820px}
+    .date-chip{display:inline-flex;gap:8px;align-items:center;padding:8px 12px;border:1px solid var(--line);border-radius:999px;color:var(--muted);font-size:13px;background:var(--panel)}
+    .summary-grid{display:grid;grid-template-columns:1.35fr .65fr;gap:18px;margin:24px 0}
+    .insight-card,.score-card,.funnel-card,.table-card{border:1px solid var(--line);border-radius:22px;background:var(--panel);box-shadow:var(--shadow);overflow:hidden}
+    .insight-card{padding:28px;background:linear-gradient(135deg,rgba(241,199,122,.13),transparent 54%),var(--panel)}
+    .insight-card h2,.score-card h2,.funnel-card h2,.table-card h2{margin:0 0 10px;font-size:clamp(21px,2.4vw,30px)}
+    .insight-card blockquote{margin:18px 0 0;padding:18px 20px;border-left:3px solid var(--accent);border-radius:0 14px 14px 0;background:rgba(127,127,127,.08);font-size:clamp(18px,2.2vw,26px);line-height:1.5;font-weight:700}
+    .score-card{padding:24px}
+    .weights{display:grid;gap:12px;margin-top:18px}
+    .weight{display:grid;grid-template-columns:1fr auto;gap:7px;align-items:center;font-size:14px}
+    .weight b{font-variant-numeric:tabular-nums}
+    .track{grid-column:1/-1;height:7px;border-radius:10px;background:rgba(127,127,127,.16);overflow:hidden}
+    .track span{display:block;height:100%;width:var(--w);border-radius:inherit;background:linear-gradient(90deg,var(--accent),var(--blue))}
+    .kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:0 0 24px}
+    .kpi{padding:20px;border:1px solid var(--line);border-radius:18px;background:var(--panel)}
+    .kpi strong{display:block;font-size:30px;line-height:1;color:var(--accent)}
+    .kpi span{display:block;margin-top:8px;color:var(--muted);font-size:13px}
+    .funnel-card{padding:28px;margin-bottom:24px}
+    .funnel-head{display:flex;justify-content:space-between;gap:18px;align-items:end;margin-bottom:24px}
+    .funnel-head p{max-width:680px;margin:0;color:var(--muted)}
+    .funnel{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;align-items:stretch}
+    .stage{position:relative;padding:20px;border:1px solid var(--line);border-radius:18px;background:rgba(127,127,127,.06)}
+    .stage:not(:last-child)::after{content:"→";position:absolute;right:-12px;top:50%;z-index:2;width:24px;height:24px;display:grid;place-items:center;border-radius:50%;background:var(--accent);color:#081018;font-weight:900;transform:translateY(-50%)}
+    .stage .num{display:inline-grid;place-items:center;width:30px;height:30px;border-radius:10px;background:rgba(241,199,122,.15);color:var(--accent);font-weight:800}
+    .stage h3{margin:14px 0 6px;font-size:18px}
+    .stage p{margin:0;color:var(--muted);font-size:14px;line-height:1.55}
+    .stage small{display:block;margin-top:14px;color:var(--accent);font-weight:700}
+    .funnel-note{margin:16px 0 0;padding:14px 16px;border-radius:14px;background:rgba(54,211,153,.09);color:var(--text);font-size:14px}
+    .table-card{padding:0;margin-bottom:24px}
+    .table-head{display:flex;justify-content:space-between;gap:18px;align-items:end;padding:26px 26px 18px}
+    .table-head p{margin:0;color:var(--muted)}
+    .legend{display:flex;flex-wrap:wrap;gap:8px}
+    .legend button{font:inherit;cursor:pointer}
+    .chip{display:inline-flex;align-items:center;padding:7px 10px;border:1px solid var(--line);border-radius:999px;background:transparent;color:var(--muted);font-size:12px}
+    .chip.active{background:var(--accent);border-color:var(--accent);color:#081018;font-weight:800}
+    .opportunity-wrap{overflow-x:auto}
+    .opportunity{width:100%;border-collapse:collapse;min-width:760px}
+    .opportunity th,.opportunity td{padding:15px 16px;border-top:1px solid var(--line);text-align:left;vertical-align:middle}
+    .opportunity th{color:var(--muted);font-size:12px;text-transform:uppercase;letter-spacing:.06em;background:rgba(127,127,127,.04)}
+    .opportunity td{font-size:14px}
+    .opportunity tr[data-group="focus"]{background:rgba(241,199,122,.055)}
+    .rank{font-size:18px;font-weight:800;color:var(--muted);font-variant-numeric:tabular-nums}
+    .opportunity tr:nth-child(-n+4) .rank{color:var(--accent)}
+    .name{font-weight:750}
+    .score{font-size:20px;font-weight:900;font-variant-numeric:tabular-nums}
+    .scorebar{display:flex;align-items:center;gap:10px;min-width:112px}
+    .scorebar i{display:block;width:64px;height:6px;background:rgba(127,127,127,.17);border-radius:9px;overflow:hidden}
+    .scorebar i::after{content:"";display:block;width:var(--score);height:100%;background:linear-gradient(90deg,var(--accent),var(--green));border-radius:inherit}
+    .decision{display:inline-flex;padding:6px 9px;border-radius:10px;background:rgba(127,127,127,.1);font-size:12px;font-weight:750;white-space:nowrap}
+    tr[data-group="focus"] .decision{background:rgba(241,199,122,.17);color:var(--accent)}
+    tr[data-group="expand"] .decision{background:rgba(96,165,250,.14);color:var(--blue)}
+    tr[data-group="stop"] .decision{background:rgba(251,113,133,.13);color:var(--rose)}
+    .judgment{color:var(--muted);line-height:1.45}
+    .opportunity tr[hidden]{display:none}
+    .strategy-band{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:34px}
+    .strategy-item{padding:22px;border:1px solid var(--line);border-radius:18px;background:var(--panel)}
+    .strategy-item strong{display:block;margin-bottom:8px;font-size:17px}
+    .strategy-item p{margin:0;color:var(--muted);font-size:14px;line-height:1.6}
+    @media(max-width:900px){
+      .summary-grid{grid-template-columns:1fr}
+      .kpis{grid-template-columns:repeat(2,1fr)}
+      .funnel{grid-template-columns:1fr 1fr}
+      .stage:nth-child(2)::after{display:none}
+      .strategy-band{grid-template-columns:1fr}
+    }
+    @media(max-width:620px){
+      .summary-grid{margin-top:16px}
+      .insight-card,.score-card,.funnel-card{padding:20px}
+      .kpis{grid-template-columns:1fr 1fr}
+      .funnel{grid-template-columns:1fr}
+      .stage::after{display:none!important}
+      .table-head{align-items:flex-start;flex-direction:column;padding:20px}
+      .opportunity th,.opportunity td{padding:13px 12px}
+    }
+    @media(prefers-reduced-motion:no-preference){
+      .stage,.kpi{transition:transform .2s ease,border-color .2s ease}
+      .stage:hover,.kpi:hover{transform:translateY(-3px);border-color:var(--accent)}
+    }
+  </style>
+</head>
+<body class="strategy">
+  <div class="wrap">
+    <nav class="nav" aria-label="주요 메뉴">
+      <a class="brand" href="/"><span class="logo">D</span><span>DONGSOO.<span style="color:var(--accent)">PORTAL</span><small>INTELLIGENCE</small></span></a>
+      <div class="nav-links">
+        <a href="/portfolio/">포트폴리오</a>
+        <a href="/strategy/" aria-current="page">전략</a>
+        <a href="/bidpilot/">AI 수주</a>
+        <a href="/research/">연구 대시보드</a>
+        <a href="/#about">About</a>
+      </div>
+      <div class="nav-end">
+        <label class="theme-switch">
+          <span class="visually-hidden" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)">디자인 테마</span>
+          <select data-theme-select aria-label="디자인 테마 선택">
+            <option value="dark">다크</option><option value="light">화이트</option><option value="ocean">오션</option><option value="mono">모노</option>
+          </select>
+        </label>
+        <button class="theme-toggle" type="button" data-theme-toggle aria-pressed="false" aria-label="다음 디자인으로 전환"><span class="icon" data-theme-icon aria-hidden="true">☀️</span><span data-theme-label>화이트</span></button>
+        <a class="back" href="/strategy/">← 전략 허브</a>
+      </div>
+    </nav>
+
+    <header class="hero">
+      <div>
+        <div class="eyebrow">Monetization Strategy · TOP 20</div>
+        <h1>20개 기회를 평가하고,<br>상위 4개를 하나의 퍼널로 묶었습니다.</h1>
+        <p>첨부 대화의 실행 이력까지 반영해 수익화 기회를 다시 평가했습니다. 지금 필요한 것은 새 사업의 추가가 아니라, 이미 교육 고객군에 연결된 자산을 한 번의 고객 여정으로 전환하는 일입니다.</p>
+        <div class="hero-actions">
+          <a class="btn primary" href="#funnel">상위 4개 퍼널 보기 →</a>
+          <a class="btn" href="#ranking">전체 순위 보기</a>
+          <span class="date-chip">기준일 · 2026.08.27</span>
+        </div>
+      </div>
+      <div class="stats" aria-label="수익화 평가 요약">
+        <div class="stat"><strong>20</strong><span>재평가한 수익화 기회</span></div>
+        <div class="stat"><strong>4</strong><span>즉시 집중 핵심 상품</span></div>
+        <div class="stat"><strong>30일</strong><span>최우선 매출 검증 기간</span></div>
+      </div>
+    </header>
+
+    <main>
+      <section class="summary-grid" aria-label="핵심 결론과 평가 기준">
+        <article class="insight-card">
+          <div class="eyebrow">Executive Conclusion</div>
+          <h2>핵심 결론</h2>
+          <blockquote>“새 사업을 더 만들기”보다 교육 고객군에 연결된 상위 4개를 하나의 판매 퍼널로 묶습니다.</blockquote>
+        </article>
+        <article class="score-card">
+          <div class="eyebrow">Scoring Framework</div>
+          <h2>평가기준 · 100점</h2>
+          <div class="weights">
+            <div class="weight"><span>30일 내 매출 가능성</span><b>30점</b><div class="track"><span style="--w:100%"></span></div></div>
+            <div class="weight"><span>자산 완성도</span><b>25점</b><div class="track"><span style="--w:83.33%"></span></div></div>
+            <div class="weight"><span>수익성</span><b>20점</b><div class="track"><span style="--w:66.67%"></span></div></div>
+            <div class="weight"><span>수요 근거</span><b>15점</b><div class="track"><span style="--w:50%"></span></div></div>
+            <div class="weight"><span>확장성</span><b>10점</b><div class="track"><span style="--w:33.33%"></span></div></div>
+          </div>
+        </article>
+      </section>
+
+      <section class="kpis" aria-label="우선순위 현황">
+        <div class="kpi"><strong>95점</strong><span>1위 · KOI·수학올림피아드 강의</span></div>
+        <div class="kpi"><strong>90점</strong><span>상위 4개 평균 점수</span></div>
+        <div class="kpi"><strong>3개</strong><span>즉시 집중 외 2차 확장 후보</span></div>
+        <div class="kpi"><strong>4개</strong><span>중단 권고·동결·현금정리</span></div>
+      </section>
+
+      <section class="funnel-card" id="funnel" aria-labelledby="funnel-title">
+        <div class="funnel-head">
+          <div><div class="eyebrow">One Customer · Four Offers</div><h2 id="funnel-title">교육 고객군 통합 판매 퍼널</h2></div>
+          <p>낮은 진입장벽의 분석 서비스에서 신뢰를 만들고, 1:1 과외와 고단가 강의로 전환한 뒤 전자책으로 학습 지속성과 추천을 확보합니다.</p>
+        </div>
+        <div class="funnel" aria-label="상위 4개 판매 흐름">
+          <article class="stage"><span class="num">1</span><h3>성적·학생부 분석</h3><p>유료 진단으로 현재 상태와 개선 경로를 명확히 제시합니다.</p><small>#4 · 86점 · 진입 상품</small></article>
+          <article class="stage"><span class="num">2</span><h3>숨고 수학 과외</h3><p>진단 결과에 맞춘 1:1 실행 서비스로 빠르게 첫 매출을 만듭니다.</p><small>#2 · 91점 · 핵심 전환</small></article>
+          <article class="stage"><span class="num">3</span><h3>KOI·올림피아드 강의</h3><p>검증된 전문성을 고단가 그룹·심화 강의로 확장합니다.</p><small>#1 · 95점 · 주력 매출</small></article>
+          <article class="stage"><span class="num">4</span><h3>알고리즘 전자책</h3><p>예습·복습 자산을 제공하고 후기·추천·재구매 접점을 만듭니다.</p><small>#3 · 88점 · 확장 상품</small></article>
+        </div>
+        <p class="funnel-note"><strong>운영 원칙:</strong> 네 상품을 따로 광고하지 않고, 하나의 진단 신청 페이지와 상담 스크립트에서 고객 수준에 따라 다음 상품을 제안합니다.</p>
+      </section>
+
+      <section class="table-card" id="ranking" aria-labelledby="ranking-title">
+        <div class="table-head">
+          <div><div class="eyebrow">Priority Matrix</div><h2 id="ranking-title">20개 수익화 기회 순위</h2><p>점수·분류·판단을 기준으로 실행 순서를 고정합니다.</p></div>
+          <div class="legend" role="group" aria-label="순위 분류 필터">
+            <button class="chip active" type="button" data-row-filter="all" aria-pressed="true">전체 20</button>
+            <button class="chip" type="button" data-row-filter="focus" aria-pressed="false">즉시 집중 4</button>
+            <button class="chip" type="button" data-row-filter="expand" aria-pressed="false">2차 확장 3</button>
+            <button class="chip" type="button" data-row-filter="hold" aria-pressed="false">보류·옵션 9</button>
+            <button class="chip" type="button" data-row-filter="stop" aria-pressed="false">중단·정리 4</button>
+          </div>
+        </div>
+        <div class="opportunity-wrap">
+          <table class="opportunity">
+            <thead><tr><th>순위</th><th>수익화 기회</th><th>점수</th><th>분류</th><th>판단</th></tr></thead>
+            <tbody>
+              <tr data-group="focus"><td class="rank">01</td><td class="name">KOI·수학올림피아드 강의</td><td><div class="scorebar"><span class="score">95</span><i style="--score:95%"></i></div></td><td><span class="decision">즉시 집중</span></td><td class="judgment">검증된 본업·고단가·자료 보유</td></tr>
+              <tr data-group="focus"><td class="rank">02</td><td class="name">숨고 중고생 수학 과외</td><td><div class="scorebar"><span class="score">91</span><i style="--score:91%"></i></div></td><td><span class="decision">즉시 집중</span></td><td class="judgment">견적 생성 자산 보유, 게시·발송만 남음</td></tr>
+              <tr data-group="focus"><td class="rank">03</td><td class="name">크몽 알고리즘 전자책</td><td><div class="scorebar"><span class="score">88</span><i style="--score:88%"></i></div></td><td><span class="decision">즉시 집중</span></td><td class="judgment">등록 완료, 미리보기·초기 구매가 병목</td></tr>
+              <tr data-group="focus"><td class="rank">04</td><td class="name">성적·학생부 분석 서비스</td><td><div class="scorebar"><span class="score">86</span><i style="--score:86%"></i></div></td><td><span class="decision">즉시 집중</span></td><td class="judgment">과외·강의로 연결되는 유료 진단 상품</td></tr>
+              <tr data-group="expand"><td class="rank">05</td><td class="name">Notion 구축 컨설팅·템플릿</td><td><div class="scorebar"><span class="score">79</span><i style="--score:79%"></i></div></td><td><span class="decision">2차 확장</span></td><td class="judgment">포트폴리오는 있으나 교육 상품보다 영업비용 큼</td></tr>
+              <tr data-group="expand"><td class="rank">06</td><td class="name">HWPX 문서 자동화</td><td><div class="scorebar"><span class="score">77</span><i style="--score:77%"></i></div></td><td><span class="decision">2차 확장</span></td><td class="judgment">희소성은 높지만 고객획득 경로 미확립</td></tr>
+              <tr data-group="hold"><td class="rank">07</td><td class="name">n8n·업무 자동화 대행</td><td><div class="scorebar"><span class="score">73</span><i style="--score:73%"></i></div></td><td><span class="decision">조건부 보류</span></td><td class="judgment">공급 경쟁이 많고 사례 상품화 필요</td></tr>
+              <tr data-group="hold"><td class="rank">08</td><td class="name">공공조달·정부입찰</td><td><div class="scorebar"><span class="score">70</span><i style="--score:70%"></i></div></td><td><span class="decision">장기 옵션</span></td><td class="judgment">자격 적합, 리드타임이 길고 수주 변동성 큼</td></tr>
+              <tr data-group="hold"><td class="rank">09</td><td class="name">stargate11.com 유료화</td><td><div class="scorebar"><span class="score">68</span><i style="--score:68%"></i></div></td><td><span class="decision">조건부 보류</span></td><td class="judgment">제품은 있으나 유료수요 검증 부족</td></tr>
+              <tr data-group="expand"><td class="rank">10</td><td class="name">AI 활용 강의·기업교육</td><td><div class="scorebar"><span class="score">67</span><i style="--score:67%"></i></div></td><td><span class="decision">2차 확장</span></td><td class="judgment">고단가 가능, B2B 영업 자산 필요</td></tr>
+              <tr data-group="hold"><td class="rank">11</td><td class="name">정부지원금·초기창업패키지</td><td><div class="scorebar"><span class="score">61</span><i style="--score:61%"></i></div></td><td><span class="decision">장기 옵션</span></td><td class="judgment">매출이 아닌 자금조달이며 경쟁 의존</td></tr>
+              <tr data-group="hold"><td class="rank">12</td><td class="name">쿠팡 도서·셀러 사업</td><td><div class="scorebar"><span class="score">56</span><i style="--score:56%"></i></div></td><td><span class="decision">보류</span></td><td class="judgment">마진과 운영 효율이 낮을 가능성</td></tr>
+              <tr data-group="hold"><td class="rank">13</td><td class="name">부동산 경매 데이터 서비스</td><td><div class="scorebar"><span class="score">55</span><i style="--score:55%"></i></div></td><td><span class="decision">보류</span></td><td class="judgment">기술자산은 있으나 상품·고객이 없음</td></tr>
+              <tr data-group="stop"><td class="rank">14</td><td class="name">Stargate 투자유치</td><td><div class="scorebar"><span class="score">50</span><i style="--score:50%"></i></div></td><td><span class="decision">동결</span></td><td class="judgment">수익화가 아닌 장기 자본조달</td></tr>
+              <tr data-group="hold"><td class="rank">15</td><td class="name">수학 카드뉴스·인스타그램</td><td><div class="scorebar"><span class="score">48</span><i style="--score:48%"></i></div></td><td><span class="decision">보조 채널</span></td><td class="judgment">직접 매출보다 유입 채널</td></tr>
+              <tr data-group="hold"><td class="rank">16</td><td class="name">LinkedIn B2B 채널</td><td><div class="scorebar"><span class="score">46</span><i style="--score:46%"></i></div></td><td><span class="decision">보조 채널</span></td><td class="judgment">성과 검증 전까지 최소 운영</td></tr>
+              <tr data-group="stop"><td class="rank">17</td><td class="name">공간 하이브리드 임대</td><td><div class="scorebar"><span class="score">39</span><i style="--score:39%"></i></div></td><td><span class="decision">중단 권고</span></td><td class="judgment">이전으로 기존 입지 장점 약화</td></tr>
+              <tr data-group="stop"><td class="rank">18</td><td class="name">여행 홈페이지</td><td><div class="scorebar"><span class="score">34</span><i style="--score:34%"></i></div></td><td><span class="decision">중단 권고</span></td><td class="judgment">매몰비용 외 지속 근거 부족</td></tr>
+              <tr data-group="stop"><td class="rank">19</td><td class="name">공모전 상금</td><td><div class="scorebar"><span class="score">28</span><i style="--score:28%"></i></div></td><td><span class="decision">중단 권고</span></td><td class="judgment">일회성·낮은 기대값</td></tr>
+              <tr data-group="hold"><td class="rank">20</td><td class="name">디바이스 매각</td><td><div class="scorebar"><span class="score">22</span><i style="--score:22%"></i></div></td><td><span class="decision">현금정리</span></td><td class="judgment">수익화가 아닌 일회성 유동화</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="strategy-band" aria-label="실행 가드레일">
+        <article class="strategy-item"><strong>집중</strong><p>30일 동안 리드·상담·결제 데이터를 상위 4개 퍼널에만 쌓아 실제 전환율을 확인합니다.</p></article>
+        <article class="strategy-item"><strong>확장</strong><p>2차 확장 3개는 상위 퍼널이 반복 매출을 만든 뒤 사례와 영업 채널을 붙입니다.</p></article>
+        <article class="strategy-item"><strong>중단</strong><p>새 제품 개발, 장기 자본조달, 입지 의존 사업은 핵심 퍼널의 매출 검증 전까지 자원을 배정하지 않습니다.</p></article>
+      </section>
+    </main>
+
+    <footer><span>© 2026 Dongsoo Jung · Stargate Corporation</span><span><a href="/strategy/">Strategy Hub</a> · <a href="https://github.com/DongsooJung">GitHub</a></span></footer>
+  </div>
+  <script src="/assets/theme.js?v=20260729f" defer></script>
+  <script>
+    (function(){
+      var buttons=document.querySelectorAll("[data-row-filter]");
+      var rows=document.querySelectorAll(".opportunity tbody tr");
+      buttons.forEach(function(button){
+        button.addEventListener("click",function(){
+          var filter=button.getAttribute("data-row-filter");
+          buttons.forEach(function(item){item.classList.toggle("active",item===button);item.setAttribute("aria-pressed",item===button?"true":"false")});
+          rows.forEach(function(row){row.hidden=filter!=="all"&&row.getAttribute("data-group")!==filter});
+        });
+      });
+    })();
+  </script>
+  <script src="/assets/usage-analytics.js?v=20260803b" defer></script>
+</body>
+</html>
