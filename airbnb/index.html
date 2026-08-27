@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>부산 Airbnb 소자본 운영 분석 — Stargate Visual Lab</title>
-<meta name="description" content="부산 영도·동구 공유숙박 후보 매물과 월 수익 시나리오를 비교하는 Stargate Visual Lab 대시보드.">
+<meta name="description" content="부산 영도·동구 공유숙박 후보 공개 매물을 검증하는 Stargate Visual Lab 대시보드.">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%8F%A0%3C/text%3E%3C/svg%3E">
 <style>
 :root{--bg:#0a0d14;--panel:#0f172a;--panel2:#111c33;--line:#1f2a44;--line2:#263452;--ink:#e6edf3;--sub:#9aa7b8;--muted:#6b7a90;--acc:#7aa2ff;--good:#63d6a0;--warm:#ffb86b;--bad:#ff7d8d;--grad:linear-gradient(135deg,#4f7fff,#7aa2ff 55%,#b388ff)}
@@ -17,9 +17,9 @@
 <div class="wrap">
   <div class="nav"><a href="/research/">← 연구 대시보드</a><a href="https://www.stargateedu.co.kr/">포털</a></div>
   <h1>부산 Airbnb · 공유숙박 소자본 운영 분석</h1>
-  <p class="lead">영도·동구의 저보증금 월세 후보를 기준으로 관광수요, 월 손익, 회수기간, 합법 운영 체크포인트를 한 화면에서 검토합니다. 매물은 투자 검토 후보이며 숙박영업 허가가 확인된 매물이 아닙니다.</p>
-  <div class="updated">기준일: 2026-08-28 · Stargate Visual Lab · 매일 09:30 KST 자동발굴/ROI 계산 · 기준후보 3/3 응답 · 자동후보 11건 · 신규 2건 · 최고 예상순익 1,143,120원/월</div>
-  <div class="chips"><span class="chip">Busan</span><span class="chip">Airbnb</span><span class="chip">Home Sharing</span><span class="chip">Low-capital Test</span><span class="chip">Scenario Calculator</span></div>
+  <p class="lead">영도·동구의 공개 저보증금 월세 매물을 가격·구조·게시 시점과 합법 운영 체크포인트로 검토합니다. 매물은 투자 검토 후보이며 숙박영업 허가가 확인된 매물이 아닙니다.</p>
+  <div class="updated">기준일: 2026-08-27 · Stargate Visual Lab · 매일 09:30 KST 실매물 검증 · 기준후보 3/3 응답 · 실매물 후보 8건 · 신규 1건</div>
+  <div class="chips"><span class="chip">Busan</span><span class="chip">Airbnb</span><span class="chip">Home Sharing</span><span class="chip">Public Listings</span><span class="chip">Verified Fields</span></div>
 
   <div class="stats">
     <div class="stat"><div class="l">2026 상반기 외국인 방문객</div><div class="v">242만+</div><div class="s">부산시 집계</div></div>
@@ -51,35 +51,17 @@
 
   <!-- AIRBNB_DISCOVERY_START -->
   <div class="card" id="daily-discovery">
-    <h2>매일 자동 발굴 · 예상수익/ROI TOP 10</h2>
-    <div class="d">공개 부산 매물에서 보증금 ≤1,000만 원, 월세 ≤100만 원, 방 2개 이상을 필터링한 뒤 권역별 ADR·점유율 가정과 월세·공과금·청소·플랫폼 수수료·소모품을 반영해 예상 순이익과 ROI를 계산합니다. 총 70개 URL 탐색 · 37개 페이지 응답 · 조건충족 11건.</div>
+    <h2>매일 자동 발굴 · 실매물 검증 TOP 8</h2>
+    <div class="d">공개 부산 월세 매물에서 보증금 ≤1,000만 원, 월세 ≤100만 원, 방 2개 이상을 필터링합니다. 가격·구조·면적·건축물 용도·게시 시점처럼 원문에서 확인된 값만 표시합니다. 총 70개 URL 탐색 · 36개 페이지 응답 · 조건충족 8건.</div>
     <div class="table-wrap">
       <table style="min-width:1260px">
-        <thead><tr><th>순위</th><th>지역/유형</th><th>보증금/월세·구조</th><th>ADR/점유율</th><th>예상 월매출</th><th>예상 순이익/ROI</th><th>종합점수</th><th>인허가/근거</th><th>매물</th></tr></thead>
-        <tbody><tr><td class="rank">1</td><td><b>영도구 청학동</b><br><span class="tag">단독주택</span></td><td><b>300/25</b>만원<br><span class="note">방 2 · 49.6㎡</span></td><td>ADR 95,000원<br><span class="note">점유율 64% · 19.2박</span></td><td><b>1,824,000원</b><br><span class="note">비용 855,920원</span></td><td><b class="good">968,080원</b><br><span class="note">ROI 105.6% · 회수 11.4개월</span></td><td><b class="good">81점</b><br><span class="note">물건 88 · 수익 73</span></td><td>상대적으로 낮음<br><span class="note">낮은 월세 · 낮은 보증금 · 주택용도 · 7일 이내</span></td><td><a href="https://realty.daangn.com/articles/3259734" target="_blank" rel="noopener">확인 ↗</a></td></tr><tr><td class="rank">2</td><td><b>영도구 동삼동</b><br><span class="tag">단독주택</span></td><td><b>900/50</b>만원<br><span class="note">방 3 · 면적 확인</span></td><td>ADR 115,000원<br><span class="note">점유율 65% · 19.5박</span></td><td><b>2,242,500원</b><br><span class="note">비용 1,139,400원</span></td><td><b class="good">1,103,100원</b><br><span class="note">ROI 69.7% · 회수 17.2개월</span></td><td><b class="good">78점</b><br><span class="note">물건 82 · 수익 73</span></td><td>상대적으로 낮음<br><span class="note">낮은 월세 · 3룸+ · 주택용도 · 관광/교통 키워드</span></td><td><a href="https://realty.daangn.com/articles/1198391" target="_blank" rel="noopener">확인 ↗</a></td></tr><tr><td class="rank">3</td><td><b>영도구 청학동</b><br><span class="tag good">NEW</span><span class="tag">단독주택</span></td><td><b>500/25</b>만원<br><span class="note">방 2 · 42.9㎡</span></td><td>ADR 95,000원<br><span class="note">점유율 63% · 18.9박</span></td><td><b>1,795,500원</b><br><span class="note">비용 853,640원</span></td><td><b class="good">941,860원</b><br><span class="note">ROI 86.9% · 회수 13.8개월</span></td><td><b class="good">78점</b><br><span class="note">물건 83 · 수익 71</span></td><td>상대적으로 낮음<br><span class="note">낮은 월세 · 낮은 보증금 · 주택용도</span></td><td><a href="https://realty.daangn.com/articles/4222287" target="_blank" rel="noopener">확인 ↗</a></td></tr><tr><td class="rank">4</td><td><b>영도구 신선동</b><br><span class="tag">단독주택</span></td><td><b>500/30</b>만원<br><span class="note">방 2 · 49.5㎡</span></td><td>ADR 95,000원<br><span class="note">점유율 64% · 19.2박</span></td><td><b>1,824,000원</b><br><span class="note">비용 905,920원</span></td><td><b class="good">918,080원</b><br><span class="note">ROI 84.7% · 회수 14.2개월</span></td><td><b class="good">78점</b><br><span class="note">물건 85 · 수익 70</span></td><td>상대적으로 낮음<br><span class="note">낮은 월세 · 낮은 보증금 · 주택용도 · 7일 이내</span></td><td><a href="https://realty.daangn.com/articles/4298874" target="_blank" rel="noopener">확인 ↗</a></td></tr><tr><td class="rank">5</td><td><b>기장군 기장읍</b><br><span class="tag">단독주택</span></td><td><b>1,000/50</b>만원<br><span class="note">방 3 · 74.1㎡</span></td><td>ADR 127,000원<br><span class="note">점유율 60% · 18.0박</span></td><td><b>2,286,000원</b><br><span class="note">비용 1,142,880원</span></td><td><b class="good">1,143,120원</b><br><span class="note">ROI 63.8% · 회수 18.8개월</span></td><td><b class="good">73점</b><br><span class="note">물건 74 · 수익 71</span></td><td>상대적으로 낮음<br><span class="note">낮은 월세 · 3룸+ · 주택용도</span></td><td><a href="https://realty.daangn.com/articles/2977836" target="_blank" rel="noopener">확인 ↗</a></td></tr><tr><td class="rank">6</td><td><b>기장군 기장읍</b><br><span class="tag">단독주택</span></td><td><b>500/35</b>만원<br><span class="note">방 2 · 40.0㎡</span></td><td>ADR 100,000원<br><span class="note">점유율 59% · 17.7박</span></td><td><b>1,770,000원</b><br><span class="note">비용 951,600원</span></td><td><b class="good">818,400원</b><br><span class="note">ROI 75.5% · 회수 15.9개월</span></td><td><b class="good">73점</b><br><span class="note">물건 79 · 수익 66</span></td><td>상대적으로 낮음<br><span class="note">낮은 월세 · 낮은 보증금 · 주택용도</span></td><td><a href="https://realty.daangn.com/articles/4276798" target="_blank" rel="noopener">확인 ↗</a></td></tr><tr><td class="rank">7</td><td><b>동구 범일동</b><br><span class="tag">공동주택</span></td><td><b>200/20</b>만원<br><span class="note">방 2 · 49.5㎡</span></td><td>ADR 92,000원<br><span class="note">점유율 62% · 18.6박</span></td><td><b>1,711,200원</b><br><span class="note">비용 796,896원</span></td><td><b class="good">914,304원</b><br><span class="note">ROI 109.7% · 회수 10.9개월</span></td><td><b class="good">72점</b><br><span class="note">물건 77 · 수익 72</span></td><td>중간<br><span class="note">낮은 월세 · 낮은 보증금</span></td><td><a href="https://realty.daangn.com/articles/3207454" target="_blank" rel="noopener">확인 ↗</a></td></tr><tr><td class="rank">8</td><td><b>영도구 동삼동</b><br><span class="tag">공동주택</span></td><td><b>500/25</b>만원<br><span class="note">방 2 · 26.4㎡</span></td><td>ADR 95,000원<br><span class="note">점유율 63% · 18.9박</span></td><td><b>1,795,500원</b><br><span class="note">비용 853,640원</span></td><td><b class="good">941,860원</b><br><span class="note">ROI 86.9% · 회수 13.8개월</span></td><td><b class="good">69점</b><br><span class="note">물건 72 · 수익 71</span></td><td>중간<br><span class="note">낮은 월세 · 낮은 보증금</span></td><td><a href="https://realty.daangn.com/articles/4225569" target="_blank" rel="noopener">확인 ↗</a></td></tr><tr><td class="rank">9</td><td><b>영도구 동삼동</b><br><span class="tag">공동주택</span></td><td><b>500/51</b>만원<br><span class="note">방 3 · 47.4㎡</span></td><td>ADR 112,000원<br><span class="note">점유율 64% · 19.2박</span></td><td><b>2,150,400원</b><br><span class="note">비용 1,142,032원</span></td><td><b class="good">1,008,368원</b><br><span class="note">ROI 80.7% · 회수 14.9개월</span></td><td><b class="good">68점</b><br><span class="note">물건 70 · 수익 72</span></td><td>중간<br><span class="note">낮은 보증금 · 3룸+</span></td><td><a href="https://realty.daangn.com/articles/4165847" target="_blank" rel="noopener">확인 ↗</a></td></tr><tr><td class="rank">10</td><td><b>동구 초량동</b><br><span class="tag">공동주택</span></td><td><b>1,000/50</b>만원<br><span class="note">방 3 · 58.3㎡</span></td><td>ADR 113,000원<br><span class="note">점유율 64% · 19.2박</span></td><td><b>2,169,600원</b><br><span class="note">비용 1,133,568원</span></td><td><b class="good">1,036,032원</b><br><span class="note">ROI 62.2% · 회수 19.3개월</span></td><td><b class="good">64점</b><br><span class="note">물건 68 · 수익 66</span></td><td>중간<br><span class="note">낮은 월세 · 3룸+ · 7일 이내</span></td><td><a href="https://realty.daangn.com/articles/4297307" target="_blank" rel="noopener">확인 ↗</a></td></tr></tbody>
+        <thead><tr><th>순위</th><th>지역/유형</th><th>보증금/월세·구조</th><th>방/면적</th><th>게시 경과</th><th>조건점수</th><th>인허가 1차검토</th><th>매물</th></tr></thead>
+        <tbody><tr><td class="rank">1</td><td><b>영도구 청학동</b><br><span class="tag">단독주택</span></td><td><b>300/25</b>만원<br><span class="note">방 2 · 49.6㎡</span></td><td>방 2<br><span class="note">49.6㎡</span></td><td>4<span class="note">일 전</span></td><td><b class="good">88점</b><br><span class="note">공개 매물조건 기반</span></td><td>상대적으로 낮음<br><span class="note">낮은 월세 · 낮은 보증금 · 주택용도 · 7일 이내</span></td><td><a href="https://realty.daangn.com/articles/3259734" target="_blank" rel="noopener">확인 ↗</a></td></tr><tr><td class="rank">2</td><td><b>영도구 신선동</b><br><span class="tag">단독주택</span></td><td><b>500/30</b>만원<br><span class="note">방 2 · 49.5㎡</span></td><td>방 2<br><span class="note">49.5㎡</span></td><td>5<span class="note">일 전</span></td><td><b class="good">85점</b><br><span class="note">공개 매물조건 기반</span></td><td>상대적으로 낮음<br><span class="note">낮은 월세 · 낮은 보증금 · 주택용도 · 7일 이내</span></td><td><a href="https://realty.daangn.com/articles/4298874" target="_blank" rel="noopener">확인 ↗</a></td></tr><tr><td class="rank">3</td><td><b>영도구 청학동</b><br><span class="tag good">NEW</span><span class="tag">단독주택</span></td><td><b>500/25</b>만원<br><span class="note">방 2 · 42.9㎡</span></td><td>방 2<br><span class="note">42.9㎡</span></td><td>15<span class="note">일 전</span></td><td><b class="good">83점</b><br><span class="note">공개 매물조건 기반</span></td><td>상대적으로 낮음<br><span class="note">낮은 월세 · 낮은 보증금 · 주택용도</span></td><td><a href="https://realty.daangn.com/articles/4222287" target="_blank" rel="noopener">확인 ↗</a></td></tr><tr><td class="rank">4</td><td><b>영도구 동삼동</b><br><span class="tag">단독주택</span></td><td><b>900/50</b>만원<br><span class="note">방 3 · 면적 확인</span></td><td>방 3<br><span class="note">면적 확인</span></td><td>2<span class="note">일 전</span></td><td><b class="good">82점</b><br><span class="note">공개 매물조건 기반</span></td><td>상대적으로 낮음<br><span class="note">낮은 월세 · 3룸+ · 주택용도 · 관광/교통 키워드</span></td><td><a href="https://realty.daangn.com/articles/1198391" target="_blank" rel="noopener">확인 ↗</a></td></tr><tr><td class="rank">5</td><td><b>동구 범일동</b><br><span class="tag">공동주택</span></td><td><b>200/20</b>만원<br><span class="note">방 2 · 49.5㎡</span></td><td>방 2<br><span class="note">49.5㎡</span></td><td>30<span class="note">일 전</span></td><td><b class="good">77점</b><br><span class="note">공개 매물조건 기반</span></td><td>중간<br><span class="note">낮은 월세 · 낮은 보증금</span></td><td><a href="https://realty.daangn.com/articles/3207454" target="_blank" rel="noopener">확인 ↗</a></td></tr><tr><td class="rank">6</td><td><b>영도구 동삼동</b><br><span class="tag">공동주택</span></td><td><b>500/25</b>만원<br><span class="note">방 2 · 26.4㎡</span></td><td>방 2<br><span class="note">26.4㎡</span></td><td>11<span class="note">일 전</span></td><td><b class="good">72점</b><br><span class="note">공개 매물조건 기반</span></td><td>중간<br><span class="note">낮은 월세 · 낮은 보증금</span></td><td><a href="https://realty.daangn.com/articles/4225569" target="_blank" rel="noopener">확인 ↗</a></td></tr><tr><td class="rank">7</td><td><b>영도구 동삼동</b><br><span class="tag">공동주택</span></td><td><b>500/51</b>만원<br><span class="note">방 3 · 47.4㎡</span></td><td>방 3<br><span class="note">47.4㎡</span></td><td>22<span class="note">일 전</span></td><td><b class="good">70점</b><br><span class="note">공개 매물조건 기반</span></td><td>중간<br><span class="note">낮은 보증금 · 3룸+</span></td><td><a href="https://realty.daangn.com/articles/4165847" target="_blank" rel="noopener">확인 ↗</a></td></tr><tr><td class="rank">8</td><td><b>영도구 동삼동</b><br><span class="tag">공동주택</span></td><td><b>1,000/45</b>만원<br><span class="note">방 3 · 69.0㎡</span></td><td>방 3<br><span class="note">69.0㎡</span></td><td>4<span class="note">일 전</span></td><td><b class="good">69점</b><br><span class="note">공개 매물조건 기반</span></td><td>중간<br><span class="note">낮은 월세 · 3룸+ · 7일 이내</span></td><td><a href="https://realty.daangn.com/articles/3570240" target="_blank" rel="noopener">확인 ↗</a></td></tr></tbody>
       </table>
     </div>
-    <div class="note">※ 모든 수익 수치는 비교용 추정치입니다. 기본비용: 공과금 18만원/월, 플랫폼 3%, 소모품 5%, 청소 3.5만원/예약, 평균 2.5박/예약. 초기투자금은 보증금 + 기본 세팅비(2룸 800만원, 방 추가 시 가산)로 계산합니다. 실제 매출·세금·허가·리모델링비는 다를 수 있습니다. 원자료: <a href="candidates.json">candidates.json</a></div>
+    <div class="note">※ ADR·점유율·예상매출·순이익·ROI 가정값은 제거했습니다. 인허가 평가는 건축물 유형과 원문 문구를 이용한 1차 선별이며 관할기관 확인을 대체하지 않습니다. 원자료: <a href="candidates.json">candidates.json</a></div>
   </div>
 <!-- AIRBNB_DISCOVERY_END -->
-
-  <div class="card">
-    <h2>월 손익 시뮬레이터</h2>
-    <div class="d">기본값은 보수적인 검토용 가정입니다. 숫자를 바꾸면 15/20/25박 시나리오가 즉시 갱신됩니다.</div>
-    <div class="controls">
-      <div class="field"><label>후보 선택</label><select id="property"><option value="250000">청학동 300/25</option><option value="500000">동삼동 1000/50</option><option value="200000">범일동 200/20</option></select></div>
-      <div class="field"><label>평균 1박 요금 (원)</label><input id="adr" type="number" value="95000" step="5000" min="10000"></div>
-      <div class="field"><label>월 관리·공과금 (원)</label><input id="utilities" type="number" value="180000" step="10000" min="0"></div>
-      <div class="field"><label>플랫폼 수수료 (%)</label><input id="fee" type="number" value="3" step="0.5" min="0" max="30"></div>
-      <div class="field"><label>청소 1회 비용 (원)</label><input id="clean" type="number" value="35000" step="5000" min="0"></div>
-      <div class="field"><label>평균 숙박일수 (박/예약)</label><input id="stay" type="number" value="2.5" step="0.5" min="1"></div>
-      <div class="field"><label>소모품·세탁 등 매출비율 (%)</label><input id="variable" type="number" value="5" step="1" min="0" max="30"></div>
-      <div class="field"><label>초기투자금 (원)</label><input id="initial" type="number" value="15000000" step="1000000" min="0"></div>
-      <div class="field"><label>기타 월 고정비 (원)</label><input id="other" type="number" value="100000" step="10000" min="0"></div>
-    </div>
-    <div id="scenarios" class="scenario-grid"></div>
-    <div class="note">세전 영업현금흐름 단순모형입니다. 보증금의 기회비용, 인테리어 감가상각, 부가세·소득세, 보험, 중개보수, 민원/공실 리스크는 별도입니다.</div>
-  </div>
 
   <div class="grid2">
     <div class="card">
@@ -114,33 +96,7 @@
     </ul>
   </div>
 
-  <div class="footer">STARGATE Visual Lab · 투자 권유가 아닌 사업 검토용 시뮬레이션</div>
+  <div class="footer">STARGATE Visual Lab · 공개 매물 기반 사업 검토 자료</div>
 </div>
-<script>
-const $=id=>document.getElementById(id);
-const fmt=n=>Math.round(n).toLocaleString('ko-KR')+'원';
-function calc(nights){
-  const rent=+$('property').value||0, adr=+$('adr').value||0, utilities=+$('utilities').value||0;
-  const fee=(+$('fee').value||0)/100, clean=+$('clean').value||0, stay=Math.max(1,+$('stay').value||1);
-  const variable=(+$('variable').value||0)/100, initial=+$('initial').value||0, other=+$('other').value||0;
-  const gross=adr*nights;
-  const turns=Math.ceil(nights/stay);
-  const expense=rent+utilities+other+(gross*fee)+(gross*variable)+(turns*clean);
-  const profit=gross-expense;
-  const margin=gross>0?profit/gross*100:0;
-  const payback=profit>0?initial/profit:null;
-  return {nights,gross,expense,profit,margin,payback,turns};
-}
-function render(){
-  const rows=[15,20,25].map(calc);
-  $('scenarios').innerHTML=rows.map(r=>{
-    const ratio=Math.max(0,Math.min(100,r.margin));
-    const cls=r.profit>=1000000?'good':r.profit>0?'warm':'bad';
-    return `<div class="scenario"><div class="n">월 ${r.nights}박 예약</div><div class="gross">매출 ${fmt(r.gross)}</div><div class="profit ${cls}">영업현금흐름 ${fmt(r.profit)}</div><div class="meta">총비용 ${fmt(r.expense)} · 청소 ${r.turns}회 · 마진 ${r.margin.toFixed(1)}%${r.payback?` · 단순 회수 ${r.payback.toFixed(1)}개월`:''}</div><div class="meter"><span style="width:${ratio}%"></span></div></div>`;
-  }).join('');
-}
-['property','adr','utilities','fee','clean','stay','variable','initial','other'].forEach(id=>$(id).addEventListener('input',render));
-render();
-</script>
 </body>
 </html>

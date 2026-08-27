@@ -4,9 +4,9 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>방한 외래관광객 대시보드 — 중국 · 대만 · 베트남 | Stargate</title>
-<meta name="description" content="중국·대만·베트남 국적별 월별 방한 외래관광객 시계열 대시보드. 한국관광공사 데이터랩·공공데이터포털 출입국관광통계 기반(2010년~ 수집).">
+<meta name="description" content="중국·대만·베트남 국적별 월별 방한 외래관광객 시계열 대시보드. 한국관광공사 공식 월별 통계 XLSX 기반(2010년~).">
 <meta property="og:title" content="방한 외래관광객 대시보드 — 중국 · 대만 · 베트남">
-<meta property="og:description" content="국적별 월별 방한 관광객 인터랙티브 시계열 · 공공데이터 API 자동 갱신(2010년~)">
+<meta property="og:description" content="국적별 월별 방한 관광객 인터랙티브 시계열 · 한국관광공사 공식 통계 자동 갱신(2010년~)">
 <meta property="og:url" content="https://www.stargateedu.co.kr/korea-tourism/">
 <meta property="og:type" content="website">
 <link rel="canonical" href="https://www.stargateedu.co.kr/korea-tourism/">
@@ -133,9 +133,8 @@ footer{margin-top:56px;padding-top:20px;border-top:1px solid var(--line);color:v
 
   <header class="head">
     <h1>방한 외래관광객 대시보드 <span class="grad">중국 · 대만 · 베트남</span></h1>
-    <p class="lead">국적별 월별 방한 외래관광객 입국자 수 시계열(기본 수집 시작 2010년 1월).
-      한국관광공사 한국관광 데이터랩 공표 통계를 기반으로, 공공데이터포털
-      <a href="https://www.data.go.kr/data/15000297/openapi.do" target="_blank" rel="noopener">출입국관광통계 API</a>를 통해 매월 자동 갱신됩니다.</p>
+    <p class="lead">국적별 월별 방한 외래관광객 입국자 수 시계열(2010년 1월부터).
+      한국관광공사 한국관광 데이터랩이 공표하는 공식 월별 통계 파일을 검증·변환해 매월 자동 갱신합니다.</p>
     <div class="meta-line">
       <span class="pill">데이터 기준 <b id="metaUpdated">—</b></span>
       <span class="pill">커버리지 <b id="metaRange">—</b></span>
@@ -144,9 +143,9 @@ footer{margin-top:56px;padding-top:20px;border-top:1px solid var(--line);color:v
     </div>
     <div class="refresh-row">
       <button class="refresh-data" id="refreshBtn" type="button" aria-describedby="refreshStatus">
-        <span class="refresh-mark" aria-hidden="true">↻</span><span>API 데이터 새로고침</span>
+        <span class="refresh-mark" aria-hidden="true">↻</span><span>공식 통계 새로고침</span>
       </button>
-      <span class="refresh-status" id="refreshStatus" role="status" aria-live="polite">공공데이터 API로 갱신된 최신 파일을 다시 불러옵니다.</span>
+      <span class="refresh-status" id="refreshStatus" role="status" aria-live="polite">한국관광공사 공식 통계 파일을 다시 불러옵니다.</span>
     </div>
   </header>
 
@@ -194,11 +193,9 @@ footer{margin-top:56px;padding-top:20px;border-top:1px solid var(--line);color:v
 
   <div class="note">
     <b>데이터 출처 및 갱신</b> — 한국관광공사 <a href="https://datalab.visitkorea.or.kr/" target="_blank" rel="noopener">한국관광 데이터랩</a> 공표
-    방한 외래관광객 통계 기준이며, GitHub Actions가 매월 5일 공공데이터포털
-    <a href="https://www.data.go.kr/data/15000297/openapi.do" target="_blank" rel="noopener">출입국관광통계서비스</a>를 호출해
-    <code>data.json</code>을 자동 갱신합니다. 현재 표시 중인 시드 데이터는 공표 통계를 인용한 보도 기반
-    요약치(일부 천~만 단위 반올림)로 일부 월이 비어 있으며, API 키 등록 시 2010년 1월부터 전체 월이
-    정밀치로 대체됩니다. 통계 공표 일정상 최근 1~2개월 수치는 비어 있을 수 있고,
+    방한 외래관광객 통계 기준이며, GitHub Actions가 매월 공식 XLSX를 내려받아
+    <code>data.json</code>을 자동 갱신합니다. 현재 수치는 2010년 1월부터 최신 공표월까지의 원자료를
+    그대로 변환한 값이며 합성·반올림·역산 값은 포함하지 않습니다. 통계 공표 일정상 최근 월은 비어 있을 수 있고,
     잠정치는 이후 확정치로 소급 수정될 수 있습니다. 설정 방법은
     <a href="https://github.com/DongsooJung/dongsoojung.github.io/tree/main/korea-tourism" target="_blank" rel="noopener">README</a> 참고.
   </div>
@@ -207,8 +204,7 @@ footer{margin-top:56px;padding-top:20px;border-top:1px solid var(--line);color:v
     <span>© 2026 Dongsoo Jung · Stargate Corporation</span>
     <span>
       <a href="https://www.stargateedu.co.kr/">stargateedu.co.kr</a> ·
-      <a href="https://datalab.visitkorea.or.kr/" target="_blank" rel="noopener">한국관광 데이터랩</a> ·
-      <a href="https://www.data.go.kr/data/15000297/openapi.do" target="_blank" rel="noopener">공공데이터포털</a>
+      <a href="https://datalab.visitkorea.or.kr/" target="_blank" rel="noopener">한국관광 데이터랩</a>
     </span>
   </footer>
 
@@ -599,7 +595,7 @@ function renderMeta(){
   document.getElementById('metaRange').textContent =
     s.length ? `${ymKorean(s[0].ym)} ~ ${ymKorean(s[s.length-1].ym)}` : '—';
   document.getElementById('metaMode').textContent =
-    DATA.sourceMode === 'api' ? '자동 갱신: 공공데이터 API 연동 중' : '시드 데이터 (공표 통계 수기 집계)';
+    DATA.sourceMode === 'official-xlsx' ? '실데이터 · 한국관광공사 공식 XLSX' : '데이터 갱신 상태 확인 필요';
 }
 
 function renderAll(){ renderKPIs(); updateCharts(); renderTable(); }
@@ -610,7 +606,7 @@ async function refreshData(){
   button.disabled = true;
   button.classList.add('loading');
   status.className = 'refresh-status';
-  status.textContent = '최신 API 데이터를 다시 불러오는 중입니다…';
+  status.textContent = '최신 공식 통계를 다시 불러오는 중입니다…';
   try{
     const r = await fetch(`./data.json?t=${Date.now()}`, {cache:'no-store'});
     if (!r.ok) throw new Error(r.status);
