@@ -27,6 +27,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 100
 
       - name: Fetch Google Trends top N
         env:
@@ -36,15 +38,16 @@ jobs:
         run: |
           echo "geo=$GEO hours=$HOURS limit=$LIMIT"
           python3 google-trends/fetch_data.py
+          python3 scripts/build_google_trends_history.py
 
       - name: Commit updated data
         run: |
-          if git diff --quiet google-trends/data.json google-trends/fallback-data.js; then
+          if git diff --quiet google-trends/data.json google-trends/fallback-data.js google-trends/history.json; then
             echo "변경 없음 — 커밋 생략"
             exit 0
           fi
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add google-trends/data.json google-trends/fallback-data.js
+          git add google-trends/data.json google-trends/fallback-data.js google-trends/history.json
           git commit -m "chore(google-trends): 급상승 검색어 상위 100 자동 갱신"
           git push

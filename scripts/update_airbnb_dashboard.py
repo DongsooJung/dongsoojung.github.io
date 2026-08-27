@@ -2,7 +2,6 @@ from __future__ import annotations
 
 import html as html_lib
 import json
-import math
 import re
 import time
 from collections import deque
@@ -18,26 +17,6 @@ BASE = "https://realty.daangn.com"
 MAX_PAGES = 70
 MAX_CANDIDATES = 20
 TOP_DISPLAY = 10
-
-# 수익모델 기본 가정. 실제 OTA 매출이 아니라 후보 비교용 보수적 시나리오다.
-PLATFORM_FEE_RATE = 0.03
-VARIABLE_COST_RATE = 0.05
-UTILITIES_WON = 180_000
-CLEANING_WON = 35_000
-AVG_STAY_NIGHTS = 2.5
-
-DISTRICT_MARKET = {
-    "해운대구": (120_000, 0.67),
-    "수영구": (115_000, 0.66),
-    "중구": (100_000, 0.64),
-    "영도구": (95_000, 0.63),
-    "동구": (92_000, 0.62),
-    "기장군": (100_000, 0.59),
-    "부산진구": (90_000, 0.60),
-    "서구": (90_000, 0.58),
-    "남구": (88_000, 0.58),
-    "동래구": (85_000, 0.56),
-}
 
 SEED_URLS = [
     f"{BASE}/articles/3259734",
@@ -204,77 +183,6 @@ def score_candidate(item: dict, text: str) -> tuple[int, list[str]]:
     return max(0, min(100, score)), reasons[:4]
 
 
-def add_profitability(item: dict, text: str) -> None:
-    base_adr, base_occ = DISTRICT_MARKET.get(item["district"], (88_000, 0.57))
-    rooms = item["rooms"]
-
-    room_adr_factor = 1.0 + max(0, rooms - 2) * 0.18
-    area = item.get("area_m2") or 0
-    area_factor = 1.0
-    if area >= 70:
-        area_factor += 0.08
-    elif area >= 50:
-        area_factor += 0.04
-
-    premium_hits = sum(1 for k in ("바다", "오션", "해수욕장", "광안리", "해운대", "흰여울", "남포", "부산역") if k in text)
-    premium_factor = 1.0 + min(0.12, premium_hits * 0.03)
-    adr = round(base_adr * room_adr_factor * area_factor * premium_factor / 1000) * 1000
-
-    occ = base_occ
-    if item["freshness_days"] <= 7:
-        occ += 0.01
-    if rooms >= 3:
-        occ += 0.01
-    if item["legal_risk"] in {"높음", "확인필요"}:
-        occ -= 0.03
-    occ = max(0.45, min(0.72, occ))
-
-    sold_nights = 30 * occ
-    gross = round(adr * sold_nights)
-    reservations = max(1, math.ceil(sold_nights / AVG_STAY_NIGHTS))
-    cleaning = reservations * CLEANING_WON
-    platform_fee = round(gross * PLATFORM_FEE_RATE)
-    variable_cost = round(gross * VARIABLE_COST_RATE)
-    rent_won = item["rent"] * 10_000
-    operating_cost = rent_won + UTILITIES_WON + cleaning + platform_fee + variable_cost
-    net = gross - operating_cost
-
-    setup_cost = 8_000_000 + max(0, rooms - 2) * 2_000_000
-    if area >= 70:
-        setup_cost += 1_500_000
-    initial_cash = item["deposit"] * 10_000 + setup_cost
-    roi = (net * 12 / initial_cash * 100) if initial_cash > 0 else 0.0
-    payback = (initial_cash / net) if net > 0 else None
-
-    profit_score = 0
-    profit_score += min(45, max(0, round(net / 40_000)))
-    profit_score += min(35, max(0, round(roi / 2)))
-    if payback is not None:
-        profit_score += max(0, min(20, round(20 * (1 - min(payback, 36) / 36))))
-    profit_score = max(0, min(100, profit_score))
-
-    overall = round(item["score"] * 0.55 + profit_score * 0.45)
-    if item["legal_risk"] == "중간":
-        overall -= 3
-    elif item["legal_risk"] in {"높음", "확인필요"}:
-        overall -= 8
-
-    item.update({
-        "property_score": item["score"],
-        "estimated_adr_won": adr,
-        "estimated_occupancy": round(occ, 3),
-        "estimated_sold_nights": round(sold_nights, 1),
-        "estimated_monthly_revenue_won": gross,
-        "estimated_monthly_operating_cost_won": operating_cost,
-        "estimated_monthly_net_won": net,
-        "estimated_initial_cash_won": initial_cash,
-        "estimated_annual_roi_pct": round(roi, 1),
-        "estimated_payback_months": round(payback, 1) if payback is not None else None,
-        "profit_score": profit_score,
-        "score": max(0, min(100, overall)),
-    })
-
-
 def parse_listing(url: str, source: str) -> dict | None:
     title = html_lib.unescape(first(r"<title[^>]*>(.*?)</title>", source, re.I | re.S) or "")
     text = strip_html(source)
@@ -324,7 +232,6 @@ def parse_listing(url: str, source: str) -> dict | None:
         "title": re.sub(r"\s*\|\s*당근부동산.*$", "", title).strip(),
     }
     item["score"], item["reasons"] = score_candidate(item, text)
-    add_profitability(item, text)
     return item
 
 
@@ -373,7 +280,7 @@ def crawl_candidates() -> tuple[list[dict], int, int]:
 
     ranked = sorted(
         found.values(),
-        key=lambda x: (x["score"], x["estimated_monthly_net_won"], x["estimated_annual_roi_pct"]),
+        key=lambda x: (x["score"], -x["rent"], -x["deposit"]),
         reverse=True,
     )[:MAX_CANDIDATES]
     return ranked, len(seen), successful_pages
@@ -390,33 +297,31 @@ def discovery_section(candidates: list[dict], crawled: int, successful: int) -> 
         reasons = " · ".join(item.get("reasons") or []) or "기본 조건 충족"
         area = f'{item["area_m2"]:.1f}㎡' if item.get("area_m2") else "면적 확인"
         claim = " · 게시자 가능 언급" if item.get("host_claim") else ""
-        payback = f'{item["estimated_payback_months"]:.1f}개월' if item.get("estimated_payback_months") is not None else "적자"
         rows.append(
             "<tr>"
             f'<td class="rank">{idx}</td>'
             f'<td><b>{html_lib.escape(item["district"])} {html_lib.escape(item["dong"])}</b><br>{new_badge}<span class="tag">{html_lib.escape(item["building_type"])}</span></td>'
             f'<td><b>{money(item["deposit"])}/{money(item["rent"])}</b>만원<br><span class="note">방 {item["rooms"]} · {area}</span></td>'
-            f'<td>ADR {money(item["estimated_adr_won"])}원<br><span class="note">점유율 {item["estimated_occupancy"]*100:.0f}% · {item["estimated_sold_nights"]:.1f}박</span></td>'
-            f'<td><b>{money(item["estimated_monthly_revenue_won"])}원</b><br><span class="note">비용 {money(item["estimated_monthly_operating_cost_won"])}원</span></td>'
-            f'<td><b class="good">{money(item["estimated_monthly_net_won"])}원</b><br><span class="note">ROI {item["estimated_annual_roi_pct"]:.1f}% · 회수 {payback}</span></td>'
-            f'<td><b class="good">{item["score"]}점</b><br><span class="note">물건 {item["property_score"]} · 수익 {item["profit_score"]}</span></td>'
+            f'<td>방 {item["rooms"]}<br><span class="note">{area}</span></td>'
+            f'<td>{item["freshness_days"] if item["freshness_days"] < 999 else "확인필요"}<span class="note">{ "일 전" if item["freshness_days"] < 999 else ""}</span></td>'
+            f'<td><b class="good">{item["score"]}점</b><br><span class="note">공개 매물조건 기반</span></td>'
             f'<td>{html_lib.escape(item["legal_risk"])}{claim}<br><span class="note">{html_lib.escape(reasons)}</span></td>'
             f'<td><a href="{item["url"]}" target="_blank" rel="noopener">확인 ↗</a></td>'
             "</tr>"
         )
 
-    body = "".join(rows) or '<tr><td colspan="9">오늘 자동 필터를 통과한 후보가 없습니다. 기존 기준 후보를 확인하세요.</td></tr>'
+    body = "".join(rows) or '<tr><td colspan="8">오늘 자동 필터를 통과한 후보가 없습니다. 기존 기준 후보를 확인하세요.</td></tr>'
     return f'''<!-- AIRBNB_DISCOVERY_START -->
   <div class="card" id="daily-discovery">
-    <h2>매일 자동 발굴 · 예상수익/ROI TOP {min(TOP_DISPLAY, len(candidates))}</h2>
-    <div class="d">공개 부산 매물에서 보증금 ≤1,000만 원, 월세 ≤100만 원, 방 2개 이상을 필터링한 뒤 권역별 ADR·점유율 가정과 월세·공과금·청소·플랫폼 수수료·소모품을 반영해 예상 순이익과 ROI를 계산합니다. 총 {crawled}개 URL 탐색 · {successful}개 페이지 응답 · 조건충족 {len(candidates)}건.</div>
+    <h2>매일 자동 발굴 · 실매물 검증 TOP {min(TOP_DISPLAY, len(candidates))}</h2>
+    <div class="d">공개 부산 월세 매물에서 보증금 ≤1,000만 원, 월세 ≤100만 원, 방 2개 이상을 필터링합니다. 가격·구조·면적·건축물 용도·게시 시점처럼 원문에서 확인된 값만 표시합니다. 총 {crawled}개 URL 탐색 · {successful}개 페이지 응답 · 조건충족 {len(candidates)}건.</div>
     <div class="table-wrap">
       <table style="min-width:1260px">
-        <thead><tr><th>순위</th><th>지역/유형</th><th>보증금/월세·구조</th><th>ADR/점유율</th><th>예상 월매출</th><th>예상 순이익/ROI</th><th>종합점수</th><th>인허가/근거</th><th>매물</th></tr></thead>
+        <thead><tr><th>순위</th><th>지역/유형</th><th>보증금/월세·구조</th><th>방/면적</th><th>게시 경과</th><th>조건점수</th><th>인허가 1차검토</th><th>매물</th></tr></thead>
         <tbody>{body}</tbody>
       </table>
     </div>
-    <div class="note">※ 모든 수익 수치는 비교용 추정치입니다. 기본비용: 공과금 18만원/월, 플랫폼 3%, 소모품 5%, 청소 3.5만원/예약, 평균 2.5박/예약. 초기투자금은 보증금 + 기본 세팅비(2룸 800만원, 방 추가 시 가산)로 계산합니다. 실제 매출·세금·허가·리모델링비는 다를 수 있습니다. 원자료: <a href="candidates.json">candidates.json</a></div>
+    <div class="note">※ ADR·점유율·예상매출·순이익·ROI 가정값은 제거했습니다. 인허가 평가는 건축물 유형과 원문 문구를 이용한 1차 선별이며 관할기관 확인을 대체하지 않습니다. 원자료: <a href="candidates.json">candidates.json</a></div>
   </div>
 <!-- AIRBNB_DISCOVERY_END -->'''
 
@@ -427,7 +332,7 @@ def update_dashboard(candidates: list[dict], crawled: int, successful: int, stat
 
     updated = (
         f'<div class="updated">기준일: {today} · Stargate Visual Lab · '
-        f'매일 09:30 KST 자동발굴/ROI 계산 · {status_text}</div>'
+        f'매일 09:30 KST 실매물 검증 · {status_text}</div>'
     )
     page, count = re.subn(r'<div class="updated">.*?</div>', updated, page, count=1, flags=re.S)
     if count != 1:
@@ -443,10 +348,30 @@ def update_dashboard(candidates: list[dict], crawled: int, successful: int, stat
             raise RuntimeError("Could not find calculator anchor")
         page = page.replace(anchor, section + "\n\n  " + anchor, 1)
 
+    page = re.sub(
+        r'\n  <div class="card">\n    <h2>월 손익 시뮬레이터</h2>.*?(?=\n  <div class="grid2">)',
+        "",
+        page,
+        count=1,
+        flags=re.S,
+    )
+    page = re.sub(
+        r'\n<script>\nconst \$=id=>document\.getElementById\(id\);.*?</script>',
+        "",
+        page,
+        count=1,
+        flags=re.S,
+    )
+    page = page.replace("Low-capital Test</span><span class=\"chip\">Scenario Calculator", "Public Listings</span><span class=\"chip\">Verified Fields")
+    page = page.replace(
+        "영도·동구의 저보증금 월세 후보를 기준으로 관광수요, 월 손익, 회수기간, 합법 운영 체크포인트를 한 화면에서 검토합니다.",
+        "영도·동구의 공개 저보증금 월세 매물을 가격·구조·게시 시점과 합법 운영 체크포인트로 검토합니다.",
+    )
+    page = page.replace("투자 권유가 아닌 사업 검토용 시뮬레이션", "공개 매물 기반 사업 검토 자료")
+
     if candidates:
         min_deposit = min(item["deposit"] for item in candidates)
         min_rent = min(item["rent"] for item in candidates)
-        best_net = max(item["estimated_monthly_net_won"] for item in candidates)
         page = re.sub(
             r'(<div class="stat"><div class="l">후보 최저 보증금</div><div class="v">).*?(</div>)',
             rf'\g<1>{money(min_deposit)}만원\2', page, count=1,
@@ -481,10 +406,8 @@ def main() -> None:
 
     candidates, crawled, successful = crawl_candidates()
     new_count = sum(bool(item.get("is_new")) for item in candidates)
-    best_net = max((item["estimated_monthly_net_won"] for item in candidates), default=0)
     status_text = (
-        f"기준후보 {reachable}/{len(BASELINE)} 응답 · 자동후보 {len(candidates)}건 · 신규 {new_count}건 · "
-        f"최고 예상순익 {money(best_net)}원/월"
+        f"기준후보 {reachable}/{len(BASELINE)} 응답 · 실매물 후보 {len(candidates)}건 · 신규 {new_count}건"
     )
     if removed:
         status_text += f" · 삭제추정 {removed}"
@@ -494,19 +417,11 @@ def main() -> None:
     payload = {
         "checked_at_kst": now.isoformat(timespec="seconds"),
         "filters": {"max_deposit_manwon": 1000, "max_rent_manwon": 100, "min_rooms": 2},
-        "profit_model": {
-            "platform_fee_rate": PLATFORM_FEE_RATE,
-            "variable_cost_rate": VARIABLE_COST_RATE,
-            "utilities_won_per_month": UTILITIES_WON,
-            "cleaning_won_per_reservation": CLEANING_WON,
-            "average_stay_nights": AVG_STAY_NIGHTS,
-            "district_adr_occupancy_assumptions": DISTRICT_MARKET,
-            "ranking_weight": {"property_score": 0.55, "profit_score": 0.45},
-        },
+        "source_mode": "public-listings",
         "crawl": {"visited_urls": crawled, "successful_pages": successful, "max_pages": MAX_PAGES},
         "baseline": [{"name": name, "reachable": status} for name, status in baseline_checked],
         "candidates": candidates,
-        "disclaimer": "예상 매출·순이익·ROI는 비교용 모델이며 실제 숙박업 인허가 또는 수익을 보증하지 않습니다.",
+        "disclaimer": "공개 매물 원문에서 확인한 값만 수록하며 인허가 가능 여부는 별도 확인이 필요합니다.",
     }
     DATA_FILE.write_text(json.dumps(payload, ensure_ascii=False, indent=2), encoding="utf-8")
     update_dashboard(candidates, crawled, successful, status_text, today)
@@ -516,8 +431,7 @@ def main() -> None:
     for item in candidates[:TOP_DISPLAY]:
         print(
             f"- {item['score']:3d} {item['district']} {item['dong']} {item['deposit']}/{item['rent']} "
-            f"방{item['rooms']} ADR={item['estimated_adr_won']:,} OCC={item['estimated_occupancy']:.0%} "
-            f"NET={item['estimated_monthly_net_won']:,} ROI={item['estimated_annual_roi_pct']:.1f}% {item['url']}"
+            f"방{item['rooms']} 유형={item['building_type']} 게시경과={item['freshness_days']}일 {item['url']}"
         )
 
 
