@@ -1,110 +1,1094 @@
 {
-  "source": "한국관광공사 한국관광 데이터랩 공표 통계 (언론 보도 인용치 수집) / 공공데이터포털 출입국관광통계서비스",
-  "sourceMode": "seed",
-  "updatedAt": "2026-07-12",
-  "unit": "명",
-  "notes": "시드 데이터는 한국관광공사 공표 통계를 인용한 보도(세계여행신문 GTN, 트래블아이, nbn시사경제, 서울시티, 아주경제, LEMON.LAB, 야놀자리서치 등)에서 수집했습니다. approx에 표시된 값은 천~만 단위 반올림 또는 누적치 역산이며, 비어 있는 월은 국가별 수치를 확보하지 못한 달입니다. TOUR_API_KEY 등록 후 수집 스크립트/GitHub Actions가 출입국관광통계 API로 2010-01부터(START_YM으로 조정 가능) 전체 월을 정밀치로 대체합니다. 연간 교차검증: 2025년 중국 548.1만·대만 189.1만(공표)과 월별 합계 방향성 일치 확인.",
+  "updatedAt": "2026-08-27",
+  "sourceMode": "official-xlsx",
+  "source": "한국관광공사 한국관광 데이터랩 한국관광통계 공식 XLSX",
+  "sourceUrl": "https://datalab.visitkorea.or.kr/common/board/Download.do?bcIdx=311134&cbIdx=1127&streFileNm=3c2f608d-4d3e-45fe-a535-900f8047f2cc.xlsx",
   "series": [
     {
+      "ym": "2010-01",
+      "china": 91252,
+      "taiwan": 36399,
+      "vietnam": 4515
+    },
+    {
+      "ym": "2010-02",
+      "china": 140571,
+      "taiwan": 36651,
+      "vietnam": 6749
+    },
+    {
+      "ym": "2010-03",
+      "china": 141457,
+      "taiwan": 27894,
+      "vietnam": 7674
+    },
+    {
+      "ym": "2010-04",
+      "china": 147680,
+      "taiwan": 33518,
+      "vietnam": 7152
+    },
+    {
+      "ym": "2010-05",
+      "china": 154066,
+      "taiwan": 33326,
+      "vietnam": 7144
+    },
+    {
+      "ym": "2010-06",
+      "china": 150119,
+      "taiwan": 32827,
+      "vietnam": 7785
+    },
+    {
+      "ym": "2010-07",
+      "china": 195188,
+      "taiwan": 35951,
+      "vietnam": 7578
+    },
+    {
+      "ym": "2010-08",
+      "china": 241987,
+      "taiwan": 38061,
+      "vietnam": 8366
+    },
+    {
+      "ym": "2010-09",
+      "china": 176196,
+      "taiwan": 32284,
+      "vietnam": 7164
+    },
+    {
+      "ym": "2010-10",
+      "china": 181428,
+      "taiwan": 39829,
+      "vietnam": 9992
+    },
+    {
+      "ym": "2010-11",
+      "china": 136152,
+      "taiwan": 35091,
+      "vietnam": 9173
+    },
+    {
+      "ym": "2010-12",
+      "china": 119061,
+      "taiwan": 24521,
+      "vietnam": 6921
+    },
+    {
+      "ym": "2011-01",
+      "china": 113927,
+      "taiwan": 25391,
+      "vietnam": 4606
+    },
+    {
+      "ym": "2011-02",
+      "china": 157019,
+      "taiwan": 24471,
+      "vietnam": 9699
+    },
+    {
+      "ym": "2011-03",
+      "china": 163261,
+      "taiwan": 25832,
+      "vietnam": 10575
+    },
+    {
+      "ym": "2011-04",
+      "china": 153875,
+      "taiwan": 31982,
+      "vietnam": 11361
+    },
+    {
+      "ym": "2011-05",
+      "china": 152347,
+      "taiwan": 28601,
+      "vietnam": 7790
+    },
+    {
+      "ym": "2011-06",
+      "china": 179508,
+      "taiwan": 41292,
+      "vietnam": 9924
+    },
+    {
+      "ym": "2011-07",
+      "china": 244573,
+      "taiwan": 47198,
+      "vietnam": 10466
+    },
+    {
+      "ym": "2011-08",
+      "china": 276299,
+      "taiwan": 47235,
+      "vietnam": 9640
+    },
+    {
+      "ym": "2011-09",
+      "china": 231462,
+      "taiwan": 37205,
+      "vietnam": 8297
+    },
+    {
+      "ym": "2011-10",
+      "china": 214681,
+      "taiwan": 44002,
+      "vietnam": 8640
+    },
+    {
+      "ym": "2011-11",
+      "china": 174164,
+      "taiwan": 38496,
+      "vietnam": 7965
+    },
+    {
+      "ym": "2011-12",
+      "china": 159080,
+      "taiwan": 36503,
+      "vietnam": 6568
+    },
+    {
+      "ym": "2012-01",
+      "china": 167022,
+      "taiwan": 42925,
+      "vietnam": 6184
+    },
+    {
+      "ym": "2012-02",
+      "china": 173790,
+      "taiwan": 44714,
+      "vietnam": 9992
+    },
+    {
+      "ym": "2012-03",
+      "china": 183691,
+      "taiwan": 35624,
+      "vietnam": 9968
+    },
+    {
+      "ym": "2012-04",
+      "china": 222114,
+      "taiwan": 43201,
+      "vietnam": 10456
+    },
+    {
+      "ym": "2012-05",
+      "china": 210439,
+      "taiwan": 41785,
+      "vietnam": 9591
+    },
+    {
+      "ym": "2012-06",
+      "china": 234482,
+      "taiwan": 50578,
+      "vietnam": 10161
+    },
+    {
+      "ym": "2012-07",
+      "china": 322917,
+      "taiwan": 56117,
+      "vietnam": 9522
+    },
+    {
+      "ym": "2012-08",
+      "china": 359065,
+      "taiwan": 54741,
+      "vietnam": 9167
+    },
+    {
+      "ym": "2012-09",
+      "china": 283402,
+      "taiwan": 49629,
+      "vietnam": 7980
+    },
+    {
+      "ym": "2012-10",
+      "china": 279440,
+      "taiwan": 48573,
+      "vietnam": 9392
+    },
+    {
+      "ym": "2012-11",
+      "china": 204533,
+      "taiwan": 39495,
+      "vietnam": 7075
+    },
+    {
+      "ym": "2012-12",
+      "china": 195997,
+      "taiwan": 40851,
+      "vietnam": 7019
+    },
+    {
+      "ym": "2013-01",
+      "china": 196371,
+      "taiwan": 45171,
+      "vietnam": 5155
+    },
+    {
+      "ym": "2013-02",
+      "china": 249698,
+      "taiwan": 45437,
+      "vietnam": 9112
+    },
+    {
+      "ym": "2013-03",
+      "china": 276479,
+      "taiwan": 42102,
+      "vietnam": 10699
+    },
+    {
+      "ym": "2013-04",
+      "china": 335069,
+      "taiwan": 35107,
+      "vietnam": 10199
+    },
+    {
+      "ym": "2013-05",
+      "china": 278723,
+      "taiwan": 41361,
+      "vietnam": 9100
+    },
+    {
+      "ym": "2013-06",
+      "china": 399031,
+      "taiwan": 53808,
+      "vietnam": 10608
+    },
+    {
+      "ym": "2013-07",
+      "china": 569787,
+      "taiwan": 47728,
+      "vietnam": 12485
+    },
+    {
+      "ym": "2013-08",
+      "china": 642258,
+      "taiwan": 51403,
+      "vietnam": 11241
+    },
+    {
+      "ym": "2013-09",
+      "china": 483518,
+      "taiwan": 46894,
+      "vietnam": 11527
+    },
+    {
+      "ym": "2013-10",
+      "china": 343273,
+      "taiwan": 49564,
+      "vietnam": 10700
+    },
+    {
+      "ym": "2013-11",
+      "china": 276428,
+      "taiwan": 42561,
+      "vietnam": 8486
+    },
+    {
+      "ym": "2013-12",
+      "china": 276234,
+      "taiwan": 43526,
+      "vietnam": 7758
+    },
+    {
+      "ym": "2014-01",
+      "china": 296708,
+      "taiwan": 45282,
+      "vietnam": 5661
+    },
+    {
+      "ym": "2014-02",
+      "china": 326295,
+      "taiwan": 46705,
+      "vietnam": 12942
+    },
+    {
+      "ym": "2014-03",
+      "china": 423768,
+      "taiwan": 47097,
+      "vietnam": 11202
+    },
+    {
+      "ym": "2014-04",
+      "china": 531947,
+      "taiwan": 51360,
+      "vietnam": 14006
+    },
+    {
+      "ym": "2014-05",
+      "china": 517031,
+      "taiwan": 60105,
+      "vietnam": 13464
+    },
+    {
+      "ym": "2014-06",
+      "china": 573852,
+      "taiwan": 60849,
+      "vietnam": 12820
+    },
+    {
+      "ym": "2014-07",
+      "china": 692053,
+      "taiwan": 62042,
+      "vietnam": 12393
+    },
+    {
+      "ym": "2014-08",
+      "china": 757683,
+      "taiwan": 59902,
+      "vietnam": 12214
+    },
+    {
+      "ym": "2014-09",
+      "china": 564078,
+      "taiwan": 52942,
+      "vietnam": 11663
+    },
+    {
+      "ym": "2014-10",
+      "china": 562278,
+      "taiwan": 58542,
+      "vietnam": 14339
+    },
+    {
+      "ym": "2014-11",
+      "china": 460671,
+      "taiwan": 49286,
+      "vietnam": 11143
+    },
+    {
+      "ym": "2014-12",
+      "china": 420501,
+      "taiwan": 49571,
+      "vietnam": 9657
+    },
+    {
+      "ym": "2015-01",
+      "china": 394345,
+      "taiwan": 49798,
+      "vietnam": 7895
+    },
+    {
+      "ym": "2015-02",
+      "china": 516787,
+      "taiwan": 53719,
+      "vietnam": 9809
+    },
+    {
+      "ym": "2015-03",
+      "china": 515130,
+      "taiwan": 52304,
+      "vietnam": 18309
+    },
+    {
+      "ym": "2015-04",
+      "china": 641610,
+      "taiwan": 60752,
+      "vietnam": 18937
+    },
+    {
+      "ym": "2015-05",
+      "china": 618083,
+      "taiwan": 59061,
+      "vietnam": 14485
+    },
+    {
+      "ym": "2015-06",
+      "china": 315095,
+      "taiwan": 14816,
+      "vietnam": 10840
+    },
+    {
+      "ym": "2015-07",
+      "china": 255632,
+      "taiwan": 9879,
+      "vietnam": 9172
+    },
+    {
+      "ym": "2015-08",
+      "china": 513275,
+      "taiwan": 25622,
+      "vietnam": 12453
+    },
+    {
+      "ym": "2015-09",
+      "china": 591242,
+      "taiwan": 46353,
+      "vietnam": 14052
+    },
+    {
+      "ym": "2015-10",
+      "china": 650174,
+      "taiwan": 48929,
+      "vietnam": 18740
+    },
+    {
+      "ym": "2015-11",
+      "china": 507579,
+      "taiwan": 47463,
+      "vietnam": 16257
+    },
+    {
+      "ym": "2015-12",
+      "china": 465218,
+      "taiwan": 49494,
+      "vietnam": 11816
+    },
+    {
+      "ym": "2016-01",
+      "china": 521981,
+      "taiwan": 57700,
+      "vietnam": 8843
+    },
+    {
+      "ym": "2016-02",
+      "china": 546408,
+      "taiwan": 57876,
+      "vietnam": 17804
+    },
+    {
+      "ym": "2016-03",
+      "china": 601671,
+      "taiwan": 57848,
+      "vietnam": 18654
+    },
+    {
+      "ym": "2016-04",
+      "china": 682318,
+      "taiwan": 69151,
+      "vietnam": 24455
+    },
+    {
+      "ym": "2016-05",
+      "china": 705844,
+      "taiwan": 65168,
+      "vietnam": 18190
+    },
+    {
+      "ym": "2016-06",
+      "china": 758534,
+      "taiwan": 87722,
+      "vietnam": 24593
+    },
+    {
+      "ym": "2016-07",
+      "china": 917519,
+      "taiwan": 81459,
+      "vietnam": 24540
+    },
+    {
+      "ym": "2016-08",
+      "china": 873771,
+      "taiwan": 79481,
+      "vietnam": 20660
+    },
+    {
+      "ym": "2016-09",
+      "china": 726266,
+      "taiwan": 73846,
+      "vietnam": 23921
+    },
+    {
+      "ym": "2016-10",
+      "china": 680918,
+      "taiwan": 74516,
+      "vietnam": 28558
+    },
+    {
+      "ym": "2016-11",
+      "china": 516956,
+      "taiwan": 64210,
+      "vietnam": 22552
+    },
+    {
+      "ym": "2016-12",
+      "china": 535536,
+      "taiwan": 64488,
+      "vietnam": 18632
+    },
+    {
+      "ym": "2017-01",
+      "china": 565243,
+      "taiwan": 69623,
+      "vietnam": 13193
+    },
+    {
+      "ym": "2017-02",
+      "china": 590790,
+      "taiwan": 75830,
+      "vietnam": 19021
+    },
+    {
+      "ym": "2017-03",
+      "china": 360782,
+      "taiwan": 74512,
+      "vietnam": 25159
+    },
+    {
+      "ym": "2017-04",
+      "china": 227811,
+      "taiwan": 79203,
+      "vietnam": 31324
+    },
+    {
+      "ym": "2017-05",
+      "china": 253359,
+      "taiwan": 73641,
+      "vietnam": 25279
+    },
+    {
+      "ym": "2017-06",
+      "china": 254930,
+      "taiwan": 77986,
+      "vietnam": 31688
+    },
+    {
+      "ym": "2017-07",
+      "china": 281263,
+      "taiwan": 84678,
+      "vietnam": 31528
+    },
+    {
+      "ym": "2017-08",
+      "china": 339388,
+      "taiwan": 81867,
+      "vietnam": 27572
+    },
+    {
+      "ym": "2017-09",
+      "china": 318682,
+      "taiwan": 74379,
+      "vietnam": 28800
+    },
+    {
+      "ym": "2017-10",
+      "china": 345384,
+      "taiwan": 81625,
+      "vietnam": 38472
+    },
+    {
+      "ym": "2017-11",
+      "china": 299247,
+      "taiwan": 76534,
+      "vietnam": 28695
+    },
+    {
+      "ym": "2017-12",
+      "china": 332474,
+      "taiwan": 75738,
+      "vietnam": 24009
+    },
+    {
+      "ym": "2018-01",
+      "china": 305127,
+      "taiwan": 75820,
+      "vietnam": 16285
+    },
+    {
+      "ym": "2018-02",
+      "china": 345341,
+      "taiwan": 88076,
+      "vietnam": 24508
+    },
+    {
+      "ym": "2018-03",
+      "china": 403413,
+      "taiwan": 94084,
+      "vietnam": 37656
+    },
+    {
+      "ym": "2018-04",
+      "china": 366604,
+      "taiwan": 105177,
+      "vietnam": 50727
+    },
+    {
+      "ym": "2018-05",
+      "china": 370222,
+      "taiwan": 88304,
+      "vietnam": 33676
+    },
+    {
+      "ym": "2018-06",
+      "china": 379891,
+      "taiwan": 102863,
+      "vietnam": 48295
+    },
+    {
+      "ym": "2018-07",
+      "china": 410337,
+      "taiwan": 97696,
+      "vietnam": 46310
+    },
+    {
+      "ym": "2018-08",
+      "china": 478140,
+      "taiwan": 100517,
+      "vietnam": 37085
+    },
+    {
+      "ym": "2018-09",
+      "china": 434595,
+      "taiwan": 87351,
+      "vietnam": 37481
+    },
+    {
+      "ym": "2018-10",
+      "china": 475307,
+      "taiwan": 99972,
+      "vietnam": 55380
+    },
+    {
+      "ym": "2018-11",
+      "china": 404256,
+      "taiwan": 88165,
+      "vietnam": 40571
+    },
+    {
+      "ym": "2018-12",
+      "china": 416279,
+      "taiwan": 87308,
+      "vietnam": 29844
+    },
+    {
+      "ym": "2019-01",
+      "china": 392814,
+      "taiwan": 87954,
+      "vietnam": 20183
+    },
+    {
+      "ym": "2019-02",
+      "china": 453379,
+      "taiwan": 94559,
+      "vietnam": 42181
+    },
+    {
+      "ym": "2019-03",
+      "china": 487623,
+      "taiwan": 98510,
+      "vietnam": 46991
+    },
+    {
+      "ym": "2019-04",
+      "china": 493250,
+      "taiwan": 113072,
+      "vietnam": 63169
+    },
+    {
+      "ym": "2019-05",
+      "china": 500413,
+      "taiwan": 101779,
+      "vietnam": 44416
+    },
+    {
+      "ym": "2019-06",
+      "china": 475007,
+      "taiwan": 118437,
+      "vietnam": 58339
+    },
+    {
+      "ym": "2019-07",
+      "china": 519132,
+      "taiwan": 113587,
+      "vietnam": 52521
+    },
+    {
+      "ym": "2019-08",
+      "china": 578112,
+      "taiwan": 109273,
+      "vietnam": 43583
+    },
+    {
+      "ym": "2019-09",
+      "china": 541350,
+      "taiwan": 102758,
+      "vietnam": 43617
+    },
+    {
+      "ym": "2019-10",
+      "china": 567695,
+      "taiwan": 127944,
+      "vietnam": 64820
+    },
+    {
+      "ym": "2019-11",
+      "china": 505369,
+      "taiwan": 102241,
+      "vietnam": 43190
+    },
+    {
+      "ym": "2019-12",
+      "china": 508877,
+      "taiwan": 90379,
+      "vietnam": 30721
+    },
+    {
+      "ym": "2020-01",
+      "china": 481681,
+      "taiwan": 110354,
+      "vietnam": 30232
+    },
+    {
+      "ym": "2020-02",
+      "china": 104086,
+      "taiwan": 53042,
+      "vietnam": 30313
+    },
+    {
+      "ym": "2020-03",
+      "china": 16595,
+      "taiwan": 585,
+      "vietnam": 4048
+    },
+    {
+      "ym": "2020-04",
+      "china": 3935,
+      "taiwan": 155,
+      "vietnam": 6597
+    },
+    {
+      "ym": "2020-05",
+      "china": 5124,
+      "taiwan": 189,
+      "vietnam": 1381
+    },
+    {
+      "ym": "2020-06",
+      "china": 5051,
+      "taiwan": 240,
+      "vietnam": 1032
+    },
+    {
+      "ym": "2020-07",
+      "china": 9738,
+      "taiwan": 305,
+      "vietnam": 1060
+    },
+    {
+      "ym": "2020-08",
+      "china": 16275,
+      "taiwan": 655,
+      "vietnam": 1938
+    },
+    {
+      "ym": "2020-09",
+      "china": 15307,
+      "taiwan": 329,
+      "vietnam": 1447
+    },
+    {
+      "ym": "2020-10",
+      "china": 11477,
+      "taiwan": 299,
+      "vietnam": 853
+    },
+    {
+      "ym": "2020-11",
+      "china": 9174,
+      "taiwan": 299,
+      "vietnam": 1269
+    },
+    {
+      "ym": "2020-12",
+      "china": 7987,
+      "taiwan": 264,
+      "vietnam": 1769
+    },
+    {
+      "ym": "2021-01",
+      "china": 7346,
+      "taiwan": 253,
+      "vietnam": 1012
+    },
+    {
+      "ym": "2021-02",
+      "china": 11982,
+      "taiwan": 444,
+      "vietnam": 1702
+    },
+    {
+      "ym": "2021-03",
+      "china": 18980,
+      "taiwan": 326,
+      "vietnam": 2144
+    },
+    {
+      "ym": "2021-04",
+      "china": 16830,
+      "taiwan": 278,
+      "vietnam": 1349
+    },
+    {
+      "ym": "2021-05",
+      "china": 14221,
+      "taiwan": 349,
+      "vietnam": 1726
+    },
+    {
+      "ym": "2021-06",
+      "china": 12942,
+      "taiwan": 275,
+      "vietnam": 2133
+    },
+    {
+      "ym": "2021-07",
+      "china": 13469,
+      "taiwan": 304,
+      "vietnam": 1704
+    },
+    {
+      "ym": "2021-08",
+      "china": 17103,
+      "taiwan": 601,
+      "vietnam": 1994
+    },
+    {
+      "ym": "2021-09",
+      "china": 19144,
+      "taiwan": 294,
+      "vietnam": 1788
+    },
+    {
+      "ym": "2021-10",
+      "china": 14035,
+      "taiwan": 341,
+      "vietnam": 1511
+    },
+    {
+      "ym": "2021-11",
+      "china": 12472,
+      "taiwan": 375,
+      "vietnam": 2132
+    },
+    {
+      "ym": "2021-12",
+      "china": 11691,
+      "taiwan": 290,
+      "vietnam": 3751
+    },
+    {
+      "ym": "2022-01",
+      "china": 9489,
+      "taiwan": 309,
+      "vietnam": 2318
+    },
+    {
+      "ym": "2022-02",
+      "china": 16752,
+      "taiwan": 857,
+      "vietnam": 5002
+    },
+    {
+      "ym": "2022-03",
+      "china": 14726,
+      "taiwan": 410,
+      "vietnam": 5096
+    },
+    {
+      "ym": "2022-04",
+      "china": 10230,
+      "taiwan": 505,
+      "vietnam": 4041
+    },
+    {
+      "ym": "2022-05",
+      "china": 11253,
+      "taiwan": 786,
+      "vietnam": 6429
+    },
+    {
+      "ym": "2022-06",
+      "china": 12741,
+      "taiwan": 1008,
+      "vietnam": 12884
+    },
+    {
+      "ym": "2022-07",
+      "china": 17907,
+      "taiwan": 1756,
+      "vietnam": 18867
+    },
+    {
+      "ym": "2022-08",
+      "china": 30248,
+      "taiwan": 4401,
+      "vietnam": 24670
+    },
+    {
+      "ym": "2022-09",
+      "china": 29531,
+      "taiwan": 4555,
+      "vietnam": 22784
+    },
+    {
+      "ym": "2022-10",
+      "china": 22940,
+      "taiwan": 11358,
+      "vietnam": 32010
+    },
+    {
+      "ym": "2022-11",
+      "china": 24174,
+      "taiwan": 17914,
+      "vietnam": 27313
+    },
+    {
+      "ym": "2022-12",
+      "china": 27367,
+      "taiwan": 29066,
+      "vietnam": 23647
+    },
+    {
+      "ym": "2023-01",
+      "china": 24946,
+      "taiwan": 49477,
+      "vietnam": 21621
+    },
+    {
+      "ym": "2023-02",
+      "china": 45884,
+      "taiwan": 47970,
+      "vietnam": 28828
+    },
+    {
+      "ym": "2023-03",
+      "china": 73390,
+      "taiwan": 63504,
+      "vietnam": 34929
+    },
+    {
+      "ym": "2023-04",
+      "china": 105967,
+      "taiwan": 77187,
+      "vietnam": 40640
+    },
+    {
+      "ym": "2023-05",
+      "china": 128171,
+      "taiwan": 66654,
+      "vietnam": 29422
+    },
+    {
+      "ym": "2023-06",
+      "china": 168035,
+      "taiwan": 97365,
+      "vietnam": 35848
+    },
+    {
+      "ym": "2023-07",
+      "china": 224805,
+      "taiwan": 103566,
+      "vietnam": 38402
+    },
+    {
+      "ym": "2023-08",
+      "china": 259659,
+      "taiwan": 98854,
+      "vietnam": 39540
+    },
+    {
+      "ym": "2023-09",
+      "china": 263940,
+      "taiwan": 92411,
+      "vietnam": 36665
+    },
+    {
+      "ym": "2023-10",
+      "china": 249483,
+      "taiwan": 96845,
+      "vietnam": 46026
+    },
+    {
+      "ym": "2023-11",
+      "china": 221469,
+      "taiwan": 86141,
+      "vietnam": 37039
+    },
+    {
+      "ym": "2023-12",
+      "china": 253675,
+      "taiwan": 80633,
+      "vietnam": 31728
+    },
+    {
       "ym": "2024-01",
-      "china": 276000,
-      "taiwan": 93000,
-      "vietnam": null,
-      "approx": [
-        "china",
-        "taiwan"
-      ]
+      "china": 280035,
+      "taiwan": 93589,
+      "vietnam": 21397
     },
     {
       "ym": "2024-02",
-      "china": 344000,
-      "taiwan": 97000,
-      "vietnam": 40000,
-      "approx": [
-        "china",
-        "taiwan",
-        "vietnam"
-      ]
+      "china": 343719,
+      "taiwan": 96704,
+      "vietnam": 39674
     },
     {
       "ym": "2024-03",
-      "china": null,
-      "taiwan": 116000,
-      "vietnam": null,
-      "approx": [
-        "taiwan"
-      ]
+      "china": 391347,
+      "taiwan": 115578,
+      "vietnam": 48721
     },
     {
       "ym": "2024-04",
-      "china": 411000,
-      "taiwan": 118000,
-      "vietnam": 53000,
-      "approx": [
-        "china",
-        "taiwan",
-        "vietnam"
-      ]
+      "china": 411331,
+      "taiwan": 117606,
+      "vietnam": 53338
     },
     {
       "ym": "2024-05",
-      "china": 395000,
-      "taiwan": 117000,
-      "vietnam": null,
-      "approx": [
-        "china",
-        "taiwan"
-      ]
+      "china": 395222,
+      "taiwan": 116956,
+      "vietnam": 38778
+    },
+    {
+      "ym": "2024-06",
+      "china": 397325,
+      "taiwan": 144255,
+      "vietnam": 47323
     },
     {
       "ym": "2024-07",
-      "china": 459000,
-      "taiwan": 143000,
-      "vietnam": null,
-      "approx": [
-        "china",
-        "taiwan"
-      ]
+      "china": 459069,
+      "taiwan": 142721,
+      "vietnam": 45282
     },
     {
       "ym": "2024-08",
-      "china": 506000,
-      "taiwan": 149000,
-      "vietnam": null,
-      "approx": [
-        "china",
-        "taiwan"
-      ]
+      "china": 505559,
+      "taiwan": 148735,
+      "vietnam": 47019
+    },
+    {
+      "ym": "2024-09",
+      "china": 422809,
+      "taiwan": 126130,
+      "vietnam": 44680
     },
     {
       "ym": "2024-10",
-      "china": 392000,
-      "taiwan": 133000,
-      "vietnam": null,
-      "approx": [
-        "china",
-        "taiwan"
-      ]
+      "china": 392230,
+      "taiwan": 133433,
+      "vietnam": 48535
+    },
+    {
+      "ym": "2024-11",
+      "china": 297840,
+      "taiwan": 119505,
+      "vietnam": 40504
     },
     {
       "ym": "2024-12",
-      "china": 310000,
-      "taiwan": 120000,
-      "vietnam": null,
-      "approx": [
-        "china",
-        "taiwan"
-      ]
+      "china": 306787,
+      "taiwan": 118696,
+      "vietnam": 36169
     },
     {
       "ym": "2025-01",
-      "china": 340000,
-      "taiwan": 130000,
-      "vietnam": null,
-      "approx": [
-        "china",
-        "taiwan"
-      ]
+      "china": 364460,
+      "taiwan": 135434,
+      "vietnam": 24922
     },
     {
       "ym": "2025-02",
@@ -114,53 +1098,75 @@
     },
     {
       "ym": "2025-03",
-      "china": 417000,
-      "taiwan": 140000,
-      "vietnam": 53000,
-      "approx": [
-        "china",
-        "taiwan",
-        "vietnam"
-      ]
+      "china": 416849,
+      "taiwan": 140017,
+      "vietnam": 52874
     },
     {
       "ym": "2025-04",
-      "china": 440000,
-      "taiwan": 150000,
-      "vietnam": null,
-      "approx": [
-        "china",
-        "taiwan"
-      ]
+      "china": 443230,
+      "taiwan": 151613,
+      "vietnam": 52792
+    },
+    {
+      "ym": "2025-05",
+      "china": 484390,
+      "taiwan": 150272,
+      "vietnam": 41565
+    },
+    {
+      "ym": "2025-06",
+      "china": 477052,
+      "taiwan": 164885,
+      "vietnam": 45408
+    },
+    {
+      "ym": "2025-07",
+      "china": 602147,
+      "taiwan": 199280,
+      "vietnam": 47692
     },
     {
       "ym": "2025-08",
-      "china": 605000,
-      "taiwan": 192000,
-      "vietnam": null,
-      "approx": [
-        "china",
-        "taiwan"
-      ]
+      "china": 604618,
+      "taiwan": 191565,
+      "vietnam": 51664
+    },
+    {
+      "ym": "2025-09",
+      "china": 503186,
+      "taiwan": 154992,
+      "vietnam": 46001
+    },
+    {
+      "ym": "2025-10",
+      "china": 472477,
+      "taiwan": 161049,
+      "vietnam": 50483
     },
     {
       "ym": "2025-11",
-      "china": 378000,
-      "taiwan": 158000,
-      "vietnam": null,
-      "approx": [
-        "china",
-        "taiwan"
-      ]
+      "china": 377866,
+      "taiwan": 158374,
+      "vietnam": 44013
     },
     {
       "ym": "2025-12",
-      "china": 394000,
-      "taiwan": null,
-      "vietnam": null,
-      "approx": [
-        "china"
-      ]
+      "china": 393834,
+      "taiwan": 163918,
+      "vietnam": 34378
+    },
+    {
+      "ym": "2026-01",
+      "china": 418703,
+      "taiwan": 166779,
+      "vietnam": 22960
+    },
+    {
+      "ym": "2026-02",
+      "china": 504563,
+      "taiwan": 183753,
+      "vietnam": 50146
     },
     {
       "ym": "2026-03",
@@ -172,16 +1178,25 @@
       "ym": "2026-04",
       "china": 574283,
       "taiwan": 192854,
-      "vietnam": null
+      "vietnam": 62279
     },
     {
       "ym": "2026-05",
-      "china": 560000,
-      "taiwan": null,
-      "vietnam": null,
-      "approx": [
-        "china"
-      ]
+      "china": 563600,
+      "taiwan": 191795,
+      "vietnam": 42990
+    },
+    {
+      "ym": "2026-06",
+      "china": 649582,
+      "taiwan": 223127,
+      "vietnam": 46422
+    },
+    {
+      "ym": "2026-07",
+      "china": 776639,
+      "taiwan": 260532,
+      "vietnam": 47861
     }
   ]
 }
