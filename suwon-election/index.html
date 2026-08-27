@@ -197,6 +197,70 @@
   @media (prefers-reduced-motion:reduce){
     .filters button,.item,.info-card{transition:none}
   }
+
+  /* light-theme-override : pairs with assets/site-theme.css [data-theme="light"] */
+  :root[data-theme="light"]{
+    --bg:#f6f8fc;
+    --panel:rgba(255,255,255,.92);
+    --panel-solid:#ffffff;
+    --line:#d5dfeb;
+    --ink:#172033;
+    --muted:#5a6b7d;
+    --accent:#0d8577;
+  }
+  :root[data-theme="light"] body{
+    color:var(--ink);
+    background:
+      radial-gradient(900px 520px at 8% -8%, rgba(13,133,119,.10), transparent 55%),
+      radial-gradient(800px 480px at 92% 0%, rgba(47,143,255,.10), transparent 50%),
+      linear-gradient(180deg,#f6f8fc 0%,#eef3fa 45%,#f6f8fc 100%);
+  }
+  :root[data-theme="light"] header h1 em{color:#0d8577}
+  :root[data-theme="light"] .chip{background:rgba(255,255,255,.85)}
+  :root[data-theme="light"] .side,
+  :root[data-theme="light"] .map-shell{
+    background:linear-gradient(180deg,#ffffff,#f4f7fc);
+    box-shadow:0 10px 30px rgba(23,32,51,.06);
+  }
+  :root[data-theme="light"] .filters button{background:#f4f7fc}
+  :root[data-theme="light"] .filters button:hover{border-color:rgba(13,133,119,.5)}
+  :root[data-theme="light"] .filters button.on{
+    background:rgba(13,133,119,.1);border-color:rgba(13,133,119,.5);
+  }
+  :root[data-theme="light"] .search{background:#ffffff}
+  :root[data-theme="light"] .search:focus{border-color:rgba(13,133,119,.6)}
+  :root[data-theme="light"] .item{background:#ffffff;border-color:#e6ecf5}
+  :root[data-theme="light"] .item:hover,
+  :root[data-theme="light"] .item.active{
+    background:rgba(13,133,119,.09);border-color:rgba(13,133,119,.42);
+  }
+  :root[data-theme="light"] .swatch{box-shadow:0 0 0 3px rgba(23,32,51,.06)}
+  :root[data-theme="light"] #map,
+  :root[data-theme="light"] .leaflet-container{background:#eaeff6}
+  :root[data-theme="light"] .pill-btn,
+  :root[data-theme="light"] .status-pill{background:rgba(255,255,255,.92)}
+  :root[data-theme="light"] .pill-btn:hover{border-color:rgba(13,133,119,.55)}
+  :root[data-theme="light"] .status-pill.ok{color:#0d7a6d}
+  :root[data-theme="light"] .status-pill.warn{color:#9a5f00}
+  :root[data-theme="light"] .info-card{
+    background:rgba(255,255,255,.95);box-shadow:0 12px 36px rgba(23,32,51,.14);
+  }
+  :root[data-theme="light"] .legend{background:rgba(255,255,255,.94)}
+  :root[data-theme="light"] .note code{color:#245e78}
+  :root[data-theme="light"] .leaflet-control-zoom a{
+    background:rgba(255,255,255,.95)!important;color:var(--ink)!important;
+    border-color:var(--line)!important;
+  }
+  :root[data-theme="light"] .leaflet-control-attribution{
+    background:rgba(255,255,255,.85)!important;color:var(--muted)!important;
+  }
+  :root[data-theme="light"] .leaflet-tooltip.emd-tip{
+    background:#ffffff;color:#172033;border-color:rgba(13,133,119,.5);
+    box-shadow:0 6px 18px rgba(23,32,51,.18);
+  }
+  :root[data-theme="light"] .leaflet-tooltip.emd-tip::before{
+    border-top-color:rgba(13,133,119,.5);
+  }
 </style>
   <link rel="stylesheet" href="/assets/site-theme.css">
   <script src="/assets/site-theme.js"></script>
