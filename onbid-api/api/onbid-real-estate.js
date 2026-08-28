@@ -1,3 +1,4 @@
+// Vercel Git deployment verified from repository root: onbid-api
 const LIST_URL = 'https://apis.data.go.kr/B010003/OnbidRlstListSrvc2/getRlstCltrList2';
 const DETAIL_URL = 'https://apis.data.go.kr/B010003/OnbidRlstDtlSrvc2/getRlstDtlInf2';
 const PAGE_SIZE = 100;
