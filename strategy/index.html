@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>전략 인사이트 | STARGATE Intelligence</title>
-  <meta name="description" content="당근·숨고·크몽 등 플랫폼 기업 재무와 산업·시장 데이터를 분석하는 STARGATE 전략 인사이트 허브.">
+  <meta name="description" content="당근·숨고·크몽·네이버 커머스 등 플랫폼 기업 재무와 산업·시장 데이터를 분석하는 STARGATE 전략 인사이트 허브.">
   <meta name="theme-color" content="#080c14" data-light-color="#f5f7fb" data-dark-color="#080c14">
   <link rel="canonical" href="https://stargateedu.co.kr/strategy/">
   <script src="/assets/theme-boot.js"></script>
@@ -16,6 +16,9 @@
       .nav-links{display:none}
       .nav-end{width:100%;min-width:0;margin-left:0;justify-content:space-between;gap:8px;flex-wrap:wrap}
     }
+    .company-row{grid-template-columns:repeat(4,1fr)}
+    @media(max-width:700px){.company-row{grid-template-columns:repeat(2,1fr)}}
+    @media(max-width:560px){.company-row{grid-template-columns:1fr}}
   </style>
 </head>
 <body class="strategy">
@@ -68,8 +71,8 @@
         </div>
       </div>
       <div class="stats" aria-label="전략 허브 현황">
-        <div class="stat"><strong>21</strong><span>기업·산업·AI 프로젝트</span></div>
-        <div class="stat"><strong>3</strong><span>로컬 서비스 플랫폼</span></div>
+        <div class="stat"><strong>22</strong><span>기업·산업·AI 프로젝트</span></div>
+        <div class="stat"><strong>4</strong><span>핵심 플랫폼 리서치</span></div>
         <div class="stat"><strong>2022–25</strong><span>주요 분석 기간</span></div>
       </div>
     </header>
@@ -79,13 +82,14 @@
         <div class="feature-grid">
           <div>
             <div class="eyebrow">Featured Theme</div>
-            <h2 id="platform-title">로컬 서비스 플랫폼 3사</h2>
-            <p>당근·숨고·크몽을 광고, 전문가 매칭, 프리랜서 거래라는 서로 다른 수익모델로 비교합니다. 각 보고서에서 매출 성장, 영업손익, 흑자전환 시점과 투자 부담을 확인할 수 있습니다.</p>
+            <h2 id="platform-title">플랫폼·커머스 리서치 4선</h2>
+            <p>당근·숨고·크몽과 네이버 커머스를 서로 다른 수익모델로 비교합니다. 각 보고서에서 매출 성장, 수익구조, 흑자전환과 플랫폼 확장 신호를 확인할 수 있습니다.</p>
           </div>
           <div class="company-row" aria-label="분석 기업">
             <a class="company" href="/daangn-dashboard/?v=20260720-finance"><strong>🥕 당근</strong><span>지역 광고·커뮤니티</span></a>
             <a class="company" href="/soomgo-research/"><strong>📈 숨고</strong><span>전문가 매칭·리드</span></a>
             <a class="company" href="/kmong-research/"><strong>📊 크몽</strong><span>프리랜서 거래</span></a>
+            <a class="company" href="/strategy/naver-smartstore-commerce/"><strong>🟢 네이버</strong><span>스마트스토어·커머스</span></a>
           </div>
         </div>
       </section>
@@ -111,8 +115,8 @@
         <div class="card-groups">
           <details class="card-group" data-card-group open id="daangn-soomgo-kmong">
             <summary class="card-group-summary">
-              <span class="card-group-title"><strong>당근_숨고_크몽</strong><span>지역 광고·전문가 매칭·프리랜서 거래 재무분석</span></span>
-              <span class="card-group-meta"><span data-group-count>3개</span><span class="chevron" aria-hidden="true"></span></span>
+              <span class="card-group-title"><strong>당근_숨고_크몽_네이버커머스</strong><span>지역 광고·전문가 매칭·프리랜서·스마트스토어 커머스 재무분석</span></span>
+              <span class="card-group-meta"><span data-group-count>4개</span><span class="chevron" aria-hidden="true"></span></span>
             </summary>
             <div class="grid">
               <a class="project" href="/daangn-dashboard/?v=20260720-finance" data-card data-category="platform">
@@ -140,6 +144,15 @@
                   <h3>크몽 거래액·재무 리서치</h3>
                   <p>거래액·매출·영업이익을 중심으로 프리랜서 서비스 시장과 B2B 확장성을 살펴봅니다.</p>
                   <div class="project-footer"><span>Market Research · 2022–2025</span><b>보고서 →</b></div>
+                </div>
+              </a>
+              <a class="project" href="/strategy/naver-smartstore-commerce/" data-card data-category="platform">
+                <div class="visual" style="--visual:radial-gradient(circle at 25% 20%,rgba(3,199,90,.58),transparent 54%),linear-gradient(145deg,#071c11,#0b4a27)">N</div>
+                <div class="project-body">
+                  <div class="meta"><span class="pill accent">Strategy</span><span class="pill">Commerce</span></div>
+                  <h3>네이버 스마트스토어 커머스 매출 리서치</h3>
+                  <p>스마트스토어를 포함한 네이버 커머스 외부매출의 2022~2025 성장률, 매출 비중과 공시 범위를 공식 IR로 분석합니다.</p>
+                  <div class="project-footer"><span>NAVER IR · 2022–2025</span><b>보고서 →</b></div>
                 </div>
               </a>
             </div>
@@ -344,6 +357,7 @@
               <tr><td>당근</td><td>지역 기반 광고·생활 서비스</td><td>연결/별도 이익률, 신사업 부담</td><td>2023–2025 재무분석</td></tr>
               <tr><td>숨고</td><td>전문가 매칭·고객 리드</td><td>매출 성장, 손익분기 전환</td><td>2022–2025 재무 리서치</td></tr>
               <tr><td>크몽</td><td>프리랜서 서비스 거래</td><td>거래액, 매출, 영업손익</td><td>2022–2025 시장 리서치</td></tr>
+              <tr><td>네이버 커머스</td><td>스마트스토어·광고·중개·멤버십·글로벌 C2C</td><td>커머스 외부매출, 성장률, 전체 매출 비중</td><td>2022–2025 공식 IR 리서치</td></tr>
               <tr><td>혁신의 숲</td><td>스타트업 성장 데이터</td><td>기업별 매출액, 고용인원, 상대 규모</td><td>기업 20곳 비교 대시보드</td></tr>
               <tr><td>출판시장</td><td>콘텐츠·교육 산업</td><td>기업별 매출, 이익률, 시장규모</td><td>2025 산업 대시보드</td></tr>
               <tr><td>국민 소비</td><td>카드 결제·소비시장</td><td>월별 지수, 업종별 증감, 카드사 비교</td><td>KB국민·신한 소비 대시보드</td></tr>
