@@ -413,7 +413,7 @@ footer .business-info{flex-basis:100%;padding-top:10px;border-top:1px solid var(
 
   <section class="sec" id="projects">
     <h2>전체 프로젝트 · All Projects</h2>
-    <div class="desc">전체 프로젝트를 기본으로 표시합니다. ‘대표 프로젝트 보기’를 누르면 선별된 프로젝트만 모아볼 수 있습니다.</div>
+    <div class="desc">영문 A–Z, 한글 가나다, 숫자 순으로 전체 프로젝트를 표시합니다. ‘대표 프로젝트 보기’를 누르면 선별된 프로젝트만 모아볼 수 있습니다.</div>
     <div class="project-toggle-row">
       <button class="project-toggle" id="project-visibility-toggle" type="button" aria-expanded="true" aria-controls="projects-grid">
         <span aria-hidden="true">▴</span><span>대표 프로젝트 보기</span>
@@ -878,6 +878,20 @@ footer .business-info{flex-basis:100%;padding-top:10px;border-top:1px solid var(
   if (!toggle || !grid) return;
 
   const cards = [...grid.querySelectorAll(':scope > .proj')];
+  const englishOrder = new Intl.Collator('en', { sensitivity: 'base', numeric: true });
+  const koreanOrder = new Intl.Collator('ko', { sensitivity: 'base', numeric: true });
+  const titleGroup = (title) => /^[A-Za-z]/.test(title) ? 0
+    : /^\p{Script=Hangul}/u.test(title) ? 1
+    : /^\p{N}/u.test(title) ? 2 : 3;
+  const allCards = cards
+    .map((card) => {
+      const title = (card.querySelector('.ttl')?.textContent || '')
+        .normalize('NFKC').replace(/^[^\p{L}\p{N}]+/u, '').trim();
+      return { card, title, group: titleGroup(title) };
+    })
+    .sort((a, b) => a.group - b.group
+      || (a.group === 0 ? englishOrder : koreanOrder).compare(a.title, b.title))
+    .map(({ card }) => card);
   const selectedProjects = [
     '월간 거시경제 대시보드 · 환율 금리 물가 · BTC',
     '무역 월별 대시보드 · 국가별 수출입실적',
@@ -891,11 +905,12 @@ footer .business-info{flex-basis:100%;padding-top:10px;border-top:1px solid var(
     .filter(Boolean);
   const selectedSet = new Set(selectedCards);
   const targetCards = cards.filter((card) => !selectedSet.has(card));
-  [...selectedCards, ...targetCards].forEach((card) => grid.appendChild(card));
   const label = toggle.querySelector('span:last-child');
   const icon = toggle.querySelector('span:first-child');
 
   function setExpanded(expanded) {
+    const orderedCards = expanded ? allCards : [...selectedCards, ...targetCards];
+    orderedCards.forEach((card) => grid.appendChild(card));
     targetCards.forEach((card) => card.classList.toggle('is-project-hidden', !expanded));
     toggle.setAttribute('aria-expanded', String(expanded));
     label.textContent = expanded
