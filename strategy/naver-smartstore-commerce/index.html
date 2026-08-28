@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>네이버 스마트스토어 커머스 매출 리서치 2022–2025 | STARGATE Intelligence</title>
+  <meta name="description" content="네이버 공식 IR 자료로 분석한 스마트스토어 포함 커머스 외부매출 2022~2025 성장 보고서.">
+  <meta name="theme-color" content="#061d18" data-light-color="#f4f8f6" data-dark-color="#061d18">
+  <link rel="canonical" href="https://stargateedu.co.kr/strategy/naver-smartstore-commerce/">
+  <script src="/assets/theme-boot.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js" defer></script>
+  <style>
+    :root{color-scheme:dark;--bg:#06130f;--panel:#0b211a;--panel2:#102c23;--ink:#f1faf6;--sub:#a8c3b6;--muted:#789889;--line:#244a3d;--brand:#03c75a;--brand2:#79f2aa;--amber:#f4c56a;--blue:#65b8ff;--shadow:0 24px 70px rgba(0,0,0,.3)}
+    :root[data-theme="light"]{color-scheme:light;--bg:#f4f8f6;--panel:#fff;--panel2:#eaf5ef;--ink:#13241d;--sub:#4e685d;--muted:#71867d;--line:#ccded5;--brand:#009c46;--brand2:#087f43;--amber:#a86800;--blue:#1267a9;--shadow:0 20px 56px rgba(27,77,54,.12)}
+    :root[data-theme="ocean"]{color-scheme:dark;--bg:#06171b;--panel:#0b252c;--panel2:#10313a;--ink:#ebfbfd;--sub:#a4c9d0;--muted:#78a0a9;--line:#28505a;--brand:#42d6c5;--brand2:#82f0e3;--amber:#f4ca72;--blue:#6bbcff}
+    :root[data-theme="mono"]{color-scheme:light;--bg:#f3f2ef;--panel:#fff;--panel2:#e9e7e1;--ink:#191919;--sub:#555;--muted:#777;--line:#d4d0c8;--brand:#222;--brand2:#444;--amber:#555;--blue:#333}
+    *{box-sizing:border-box}html{scroll-behavior:smooth;background:var(--bg)}body{margin:0;background:var(--bg);color:var(--ink);font-family:"Pretendard","Apple SD Gothic Neo","Noto Sans KR",system-ui,sans-serif;line-height:1.65;-webkit-font-smoothing:antialiased}a{color:inherit}.wrap{width:min(1160px,calc(100% - 40px));margin:auto}
+    .nav{min-height:72px;display:flex;align-items:center;justify-content:space-between;gap:20px;border-bottom:1px solid var(--line)}.brand{display:flex;align-items:center;gap:10px;text-decoration:none;font-weight:900;letter-spacing:.02em}.brand-mark{width:34px;height:34px;border-radius:10px;display:grid;place-items:center;background:var(--brand);color:#04130b}.nav-actions{display:flex;gap:8px;align-items:center;flex-wrap:wrap}.nav a,.theme-toggle{border:1px solid var(--line);border-radius:999px;padding:8px 12px;background:transparent;color:var(--sub);font:700 12px inherit;text-decoration:none;cursor:pointer}.nav a:hover,.theme-toggle:hover{color:var(--ink);border-color:var(--brand)}
+    .hero{padding:72px 0 48px;display:grid;grid-template-columns:minmax(0,1.35fr) minmax(300px,.65fr);gap:40px;align-items:end}.eyebrow{color:var(--brand2);font-size:12px;font-weight:900;letter-spacing:.16em;text-transform:uppercase}.hero h1{margin:14px 0 16px;font-size:clamp(36px,6vw,72px);line-height:1.03;letter-spacing:-.055em}.hero h1 em{font-style:normal;color:var(--brand2)}.lead{max-width:760px;margin:0;color:var(--sub);font-size:clamp(16px,2vw,20px)}.hero-meta{margin-top:28px;display:flex;gap:10px;flex-wrap:wrap}.chip{border:1px solid var(--line);background:var(--panel);border-radius:999px;padding:7px 11px;color:var(--sub);font-size:12px;font-weight:800}.hero-side{border:1px solid var(--line);background:linear-gradient(145deg,var(--panel2),var(--panel));border-radius:24px;padding:28px;box-shadow:var(--shadow)}.hero-side small{color:var(--muted);font-weight:800}.hero-side strong{display:block;margin:6px 0 8px;font-size:clamp(34px,5vw,54px);line-height:1;color:var(--brand2)}.hero-side p{margin:0;color:var(--sub);font-size:13px}
+    .scope-note{margin:0 0 42px;border:1px solid color-mix(in srgb,var(--amber) 45%,var(--line));border-left:4px solid var(--amber);background:color-mix(in srgb,var(--amber) 8%,var(--panel));border-radius:14px;padding:18px 20px;color:var(--sub);font-size:14px}.scope-note strong{color:var(--ink)}
+    .kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:72px}.kpi{border:1px solid var(--line);background:var(--panel);border-radius:18px;padding:22px}.kpi span{color:var(--muted);font-size:12px;font-weight:800}.kpi strong{display:block;margin:7px 0 5px;font-size:clamp(25px,3vw,38px);line-height:1.15}.kpi small{color:var(--sub)}.up{color:var(--brand2)}
+    section{padding:66px 0;border-top:1px solid var(--line)}.section-head{display:flex;align-items:end;justify-content:space-between;gap:24px;margin-bottom:28px}.section-head h2{margin:6px 0 0;font-size:clamp(27px,4vw,42px);line-height:1.15;letter-spacing:-.035em}.section-head p{max-width:560px;margin:0;color:var(--sub)}
+    .chart-grid{display:grid;grid-template-columns:1.35fr .65fr;gap:18px}.card{border:1px solid var(--line);background:var(--panel);border-radius:20px;padding:24px;box-shadow:0 12px 36px rgba(0,0,0,.08)}.card h3{margin:0 0 4px;font-size:18px}.card .caption{margin:0 0 20px;color:var(--muted);font-size:12px}.canvas-wrap{position:relative;height:330px}.mini-bars{display:grid;gap:16px;margin-top:18px}.mini-row{display:grid;grid-template-columns:54px 1fr 56px;gap:12px;align-items:center;font-size:13px}.mini-track{height:12px;border-radius:999px;background:var(--panel2);overflow:hidden}.mini-fill{height:100%;border-radius:inherit;background:linear-gradient(90deg,var(--brand),var(--brand2))}.mini-row b{text-align:right}.callout{margin-top:18px;padding:16px;border-radius:14px;background:var(--panel2);color:var(--sub);font-size:13px}.callout strong{color:var(--ink)}
+    .table-wrap{overflow:auto;border:1px solid var(--line);border-radius:18px;background:var(--panel)}table{width:100%;min-width:760px;border-collapse:collapse}th,td{padding:16px 18px;text-align:right;border-bottom:1px solid var(--line);white-space:nowrap}th:first-child,td:first-child{text-align:left}th{background:var(--panel2);color:var(--sub);font-size:12px}td{font-variant-numeric:tabular-nums}tbody tr:last-child td{border-bottom:0}tbody tr:hover{background:color-mix(in srgb,var(--brand) 5%,transparent)}.data-note{margin:14px 0 0;color:var(--muted);font-size:12px}
+    .insights{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}.insight{border:1px solid var(--line);border-radius:18px;padding:24px;background:linear-gradient(145deg,var(--panel),var(--panel2))}.num{color:var(--brand2);font-weight:900;font-size:12px}.insight h3{margin:16px 0 8px;font-size:19px}.insight p{margin:0;color:var(--sub);font-size:14px}.signal{display:inline-block;margin-top:18px;color:var(--brand2);font-weight:900;font-size:12px}
+    .method{display:grid;grid-template-columns:.8fr 1.2fr;gap:18px}.definition{border:1px solid var(--line);background:var(--panel);border-radius:18px;padding:24px}.definition h3{margin-top:0}.definition ul{padding-left:18px;margin:12px 0 0;color:var(--sub);font-size:14px}.definition li+li{margin-top:8px}.refs{list-style:none;margin:0;padding:0;display:grid;gap:10px}.refs li{border:1px solid var(--line);background:var(--panel);border-radius:14px;padding:16px 18px;color:var(--sub);font-size:13px}.refs a{color:var(--brand2);font-weight:800}.ref-year{display:inline-grid;place-items:center;min-width:48px;margin-right:9px;padding:4px 7px;border-radius:7px;background:var(--panel2);color:var(--ink);font-weight:900}
+    .closing{display:flex;justify-content:space-between;gap:24px;align-items:center;padding:38px;border:1px solid var(--line);border-radius:22px;background:radial-gradient(circle at 85% 20%,color-mix(in srgb,var(--brand) 20%,transparent),transparent 35%),var(--panel)}.closing h2{margin:0 0 8px}.closing p{margin:0;color:var(--sub)}.btn{display:inline-flex;align-items:center;justify-content:center;min-width:170px;padding:13px 18px;border-radius:12px;background:var(--brand);color:#04130b;text-decoration:none;font-weight:900}.print-btn{border:1px solid var(--line);background:var(--panel2);color:var(--ink);padding:12px 16px;border-radius:12px;font-weight:800;cursor:pointer}footer{padding:34px 0 50px;color:var(--muted);font-size:12px;display:flex;justify-content:space-between;gap:20px}
+    @media(max-width:900px){.hero,.chart-grid,.method{grid-template-columns:1fr}.hero{padding-top:52px}.kpis{grid-template-columns:repeat(2,1fr)}.insights{grid-template-columns:1fr}.closing{align-items:flex-start;flex-direction:column}.hero-side{max-width:520px}.section-head{align-items:flex-start;flex-direction:column}}
+    @media(max-width:560px){.wrap{width:min(100% - 26px,1160px)}.nav{padding:12px 0;align-items:flex-start;flex-direction:column}.kpis{grid-template-columns:1fr}.hero h1{font-size:42px}.canvas-wrap{height:290px}.closing{padding:24px}.btn{width:100%}footer{flex-direction:column}}
+    @media print{.nav,.print-btn{display:none}.wrap{width:100%}.hero{padding-top:20px}.card,.kpi,.insight,.definition,.closing{break-inside:avoid}body{background:#fff;color:#111}section{padding:36px 0}}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <nav class="nav" aria-label="보고서 메뉴">
+      <a class="brand" href="/strategy/"><span class="brand-mark">N</span><span>STARGATE · COMMERCE INTELLIGENCE</span></a>
+      <div class="nav-actions"><a href="#data">연도별 데이터</a><a href="#insights">전략 해석</a><button class="theme-toggle" type="button" data-theme-toggle><span data-theme-icon>☀️</span> <span data-theme-label>화이트</span></button></div>
+    </nav>
+
+    <header class="hero">
+      <div>
+        <div class="eyebrow">NAVER Commerce · 2022—2025</div>
+        <h1>스마트스토어를 품은<br><em>커머스 성장 보고서</em></h1>
+        <p class="lead">네이버 공식 IR과 감사보고서로 커머스 외부매출의 4개 회계연도, 즉 2022년에서 2025년까지의 3개년 성장 구간을 분석했습니다.</p>
+        <div class="hero-meta"><span class="chip">공식 IR 기준</span><span class="chip">단위: 십억 원</span><span class="chip">업데이트 2026.08.28</span></div>
+      </div>
+      <aside class="hero-side" aria-label="핵심 성장 지표"><small>2025 커머스 외부매출</small><strong>3.69조 원</strong><p>전년 대비 26.2% 증가. 네이버 전체 매출의 30.6%를 차지했습니다.</p></aside>
+    </header>
+
+    <div class="scope-note"><strong>지표 범위 안내</strong> — 이 보고서의 ‘매출’은 스마트스토어 판매자들의 총 판매액(GMV)이 아닙니다. 네이버가 공시한 연결 기준 커머스 외부매출로, 커머스 광고·중개 및 판매·멤버십과 Poshmark 등 글로벌 C2C가 포함됩니다. 스마트스토어는 핵심 성장 동력이지만 개별 매출로 분리 공시되지 않습니다.</div>
+
+    <div class="kpis" aria-label="핵심 지표">
+      <article class="kpi"><span>2022 → 2025 누적 성장</span><strong class="up">+104.8%</strong><small>매출 규모 2.05배</small></article>
+      <article class="kpi"><span>3개년 연평균 성장률</span><strong>27.0%</strong><small>2022년을 기준점으로 산정</small></article>
+      <article class="kpi"><span>2025 전년 대비 성장</span><strong>+26.2%</strong><small>2024년 +14.8%에서 재가속</small></article>
+      <article class="kpi"><span>전체 매출 내 비중</span><strong>30.6%</strong><small>2022년 21.9% 대비 +8.7%p</small></article>
+    </div>
+
+    <main>
+      <section id="data">
+        <div class="section-head"><div><div class="eyebrow">Revenue trajectory</div><h2>커머스 매출은 3년 만에 두 배가 됐습니다.</h2></div><p>2023년 Poshmark 연결 편입과 회계처리 변경 효과로 큰 폭 성장한 뒤, 2025년 스마트스토어와 글로벌 C2C가 다시 성장률을 끌어올렸습니다.</p></div>
+        <div class="chart-grid">
+          <article class="card"><h3>연도별 커머스 외부매출</h3><p class="caption">2022–2025 · 단위: 십억 원 · 네이버 연결 기준</p><div class="canvas-wrap"><canvas id="revenueChart" aria-label="네이버 커머스 외부매출 추이"></canvas></div></article>
+          <aside class="card"><h3>네이버 전체 매출 내 비중</h3><p class="caption">커머스 외부매출 ÷ 연결 영업수익</p><div class="mini-bars">
+            <div class="mini-row"><span>2022</span><div class="mini-track"><div class="mini-fill" style="width:71.6%"></div></div><b>21.9%</b></div>
+            <div class="mini-row"><span>2023</span><div class="mini-track"><div class="mini-fill" style="width:85.9%"></div></div><b>26.3%</b></div>
+            <div class="mini-row"><span>2024</span><div class="mini-track"><div class="mini-fill" style="width:88.9%"></div></div><b>27.2%</b></div>
+            <div class="mini-row"><span>2025</span><div class="mini-track"><div class="mini-fill" style="width:100%"></div></div><b>30.6%</b></div>
+          </div><div class="callout"><strong>사업 포트폴리오의 중심 이동</strong><br>커머스 비중이 8.7%p 상승하며 검색플랫폼(2025년 34.6%)에 근접했습니다.</div></aside>
+        </div>
+
+        <div class="table-wrap" style="margin-top:18px">
+          <table>
+            <thead><tr><th>회계연도</th><th>커머스 외부매출</th><th>원화 환산</th><th>전년 대비</th><th>네이버 전체 매출</th><th>매출 비중</th></tr></thead>
+            <tbody>
+              <tr><td><strong>2022</strong></td><td>1,801.1</td><td>1조 8,011억 원</td><td>—</td><td>8,220.1</td><td>21.9%</td></tr>
+              <tr><td><strong>2023</strong></td><td>2,546.6</td><td>2조 5,466억 원</td><td class="up">+41.4%</td><td>9,670.6</td><td>26.3%</td></tr>
+              <tr><td><strong>2024</strong></td><td>2,923.0</td><td>2조 9,230억 원</td><td class="up">+14.8%</td><td>10,737.7</td><td>27.2%</td></tr>
+              <tr><td><strong>2025</strong></td><td>3,688.4</td><td>3조 6,884억 원</td><td class="up">+26.2%</td><td>12,035.0</td><td>30.6%</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="data-note">단위: 십억 원. 비중은 소수점 첫째 자리 반올림. 2022→2025 CAGR은 3개 연간 구간으로 계산했습니다.</p>
+      </section>
+
+      <section id="insights">
+        <div class="section-head"><div><div class="eyebrow">Strategic readout</div><h2>숫자에서 읽히는 세 가지 전환점</h2></div><p>공시 숫자를 판매자 전략에 바로 적용할 때는 ‘플랫폼 매출’과 ‘입점사 거래액’을 분리해 해석해야 합니다.</p></div>
+        <div class="insights">
+          <article class="insight"><div class="num">01 · SCALE</div><h3>커머스가 네이버의 제2 핵심 축으로 성장</h3><p>매출 비중은 21.9%에서 30.6%로 확대됐습니다. 검색 중심 포털에서 광고·거래·멤버십을 묶은 커머스 플랫폼으로 수익원이 이동하고 있습니다.</p><span class="signal">관찰 지표 · 매출 비중 +8.7%p</span></article>
+          <article class="insight"><div class="num">02 · QUALITY</div><h3>2023년 급증은 기저가 섞여 있습니다.</h3><p>2023년 보고 성장률 41.4%에는 Poshmark 연결 편입과 회계처리 변경이 포함됩니다. 네이버는 이를 제외한 커머스 성장률을 14.8%로 별도 제시했습니다.</p><span class="signal">주의 · 단순 시계열 비교 한계</span></article>
+          <article class="insight"><div class="num">03 · MOMENTUM</div><h3>2025년 스마트스토어 성장 모멘텀 재확인</h3><p>네이버는 2025년 스마트스토어 연간 GMV가 10% 성장했다고 밝혔습니다. 플러스스토어의 추천·발견 강화와 글로벌 C2C가 커머스 매출 26.2% 증가를 함께 이끌었습니다.</p><span class="signal">성장 신호 · Smartstore GMV +10%</span></article>
+        </div>
+      </section>
+
+      <section>
+        <div class="section-head"><div><div class="eyebrow">Method & sources</div><h2>산정 기준과 원문 출처</h2></div><button class="print-btn" type="button" onclick="window.print()">보고서 인쇄 / PDF 저장</button></div>
+        <div class="method">
+          <article class="definition"><h3>해석 시 유의사항</h3><ul><li>커머스 매출은 네이버가 벌어들인 수익이며 판매자가 발생시킨 총 거래액과 다릅니다.</li><li>2023년부터 Poshmark 실적이 포함돼 국내 스마트스토어만의 성장률로 볼 수 없습니다.</li><li>2026년부터 네이버 매출 분류가 재편되므로 이후 시계열 연결 시 재분류 기준 확인이 필요합니다.</li><li>본 보고서는 기업·시장 리서치이며 투자 권유 자료가 아닙니다.</li></ul></article>
+          <ol class="refs">
+            <li><span class="ref-year">2023</span>NAVER 4Q23 Earnings Results — FY2022·FY2023 커머스 외부매출 및 비교 기준. <a href="https://www.navercorp.com/api/article/download/966e8489-dc3b-4724-9fd5-39524bdcfe7d" target="_blank" rel="noopener">공식 IR PDF ↗</a></li>
+            <li><span class="ref-year">2024</span>NAVER 4Q24 Earnings Results — FY2023·FY2024 커머스 매출, 스마트스토어 정의 및 성장 동인. <a href="https://www.navercorp.com/api/article/download/8c766af7-6185-4eb1-aab6-373f659d0948" target="_blank" rel="noopener">공식 IR PDF ↗</a></li>
+            <li><span class="ref-year">2025</span>NAVER 4Q25 Earnings Results — FY2024·FY2025 커머스 매출, 스마트스토어 GMV 성장률 및 2026 분류 변경. <a href="https://www.navercorp.com/api/article/download/197f039a-83a5-4cdd-be24-02f61a5c003c" target="_blank" rel="noopener">공식 IR PDF ↗</a></li>
+            <li><span class="ref-year">감사</span>NAVER 2025 연결감사보고서 — 커머스 외부매출 3,688,406,896천 원 및 서비스별 매출 비중 교차검증. <a href="https://www.navercorp.com/api/article/download/fb35768c-b7e8-42de-b316-47997bf32590" target="_blank" rel="noopener">감사보고서 PDF ↗</a></li>
+          </ol>
+        </div>
+      </section>
+
+      <section><div class="closing"><div><h2>전략대시보드의 커머스 리서치로 연결했습니다.</h2><p>당근·숨고·크몽 보고서와 같은 묶음에서 네이버 커머스의 성장 궤적을 비교할 수 있습니다.</p></div><a class="btn" href="/strategy/#daangn-soomgo-kmong">전략 보고서 목록 →</a></div></section>
+    </main>
+
+    <footer><span>© 2026 Dongsoo Jung · Stargate Corporation</span><span>Research by STARGATE Intelligence · 공식 공시 기반</span></footer>
+  </div>
+  <script src="/assets/theme.js?v=20260729f" defer></script>
+  <script>
+    window.addEventListener('DOMContentLoaded',()=>{
+      const init=()=>{
+        if(!window.Chart){setTimeout(init,80);return}
+        const css=getComputedStyle(document.documentElement);
+        const ink=css.getPropertyValue('--ink').trim(),sub=css.getPropertyValue('--sub').trim(),line=css.getPropertyValue('--line').trim(),brand=css.getPropertyValue('--brand').trim(),brand2=css.getPropertyValue('--brand2').trim();
+        new Chart(document.getElementById('revenueChart'),{type:'line',data:{labels:['2022','2023','2024','2025'],datasets:[{label:'커머스 외부매출',data:[1801.1,2546.6,2923.0,3688.4],borderColor:brand,backgroundColor:brand+'25',pointBackgroundColor:brand2,pointBorderColor:ink,pointBorderWidth:2,pointRadius:6,borderWidth:4,tension:.3,fill:true}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>` ${c.raw.toLocaleString('ko-KR')}십억 원`}}},scales:{x:{grid:{display:false},ticks:{color:sub,font:{weight:'700'}}},y:{beginAtZero:true,grid:{color:line},ticks:{color:sub,callback:v=>v.toLocaleString('ko-KR')}}}}});
+      };init();
+    });
+  </script>
+</body>
+</html>
