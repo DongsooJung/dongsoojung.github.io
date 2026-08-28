@@ -8,8 +8,8 @@
     },
     {
       href:'https://blog.stargateedu.co.kr/',badge:'BLOG',emoji:'✍️',bg:'radial-gradient(320px 170px at 20% 25%,rgba(196,162,101,.45),transparent 60%),linear-gradient(135deg,#17130d,#352816)',
-      zh:['STARGATE 官方博客','分享人工智能、教育、空间数据研究、项目动态、课程与教材内容。','博客 · blog.stargateedu.co.kr','阅读 →'],
-      ja:['STARGATE 公式ブログ','AI・教育・空間データ研究、プロジェクトニュース、授業・教材コンテンツを紹介します。','ブログ · blog.stargateedu.co.kr','読む →']
+      zh:['STARGATE 官方博客','汇集房地产与经济、数学与AI、政治与数据频道的最新文章。','博客 · blog.stargateedu.co.kr','阅读 →'],
+      ja:['STARGATE 公式ブログ','不動産・経済、数学・AI、政治・データの各チャンネル最新記事をまとめて紹介します。','ブログ · blog.stargateedu.co.kr','読む →']
     },
     {
       href:'https://shop.stargateedu.co.kr/',badge:'SHOP · NEW',image:'/assets/shop-card.svg',
