@@ -1,0 +1,217 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>영문 Blogger 반자동화 · 글로벌 수익화 | STARGATE</title>
+<meta name="description" content="Google Blogger 영문 버전 반자동화 운영판. 계획 수신 → 영문권 Trends 리서치 → 초안 → 사람 승인 → 발행. 자동 실발행은 하지 않습니다.">
+<meta name="theme-color" content="#0a0d14">
+<link rel="canonical" href="https://stargateedu.co.kr/blogger-en/">
+<meta property="og:title" content="영문 Blogger 반자동화">
+<meta property="og:description" content="글로벌 대상 영어 Blogger 수익화 파이프라인. 사람 승인 전에는 발행하지 않습니다.">
+<meta property="og:url" content="https://stargateedu.co.kr/blogger-en/">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Hahmlet:wght@600;700&family=IBM+Plex+Mono:wght@500;600&family=IBM+Plex+Sans+KR:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  color-scheme:dark;
+  --bg:#0a0d14;--panel:#0f172a;--panel2:#111c33;--line:#1f2a44;--line2:#263452;
+  --ink:#e6edf3;--sub:#9aa7b8;--muted:#6b7a90;--acc:#7aa2ff;--acc2:#4f7fff;
+  --good:#63d6a0;--warn:#ffb86b;--bad:#ff7b7b;
+  --grad:linear-gradient(135deg,#4f7fff,#7aa2ff 55%,#b388ff);
+  --sans:"IBM Plex Sans KR",sans-serif;--display:"Hahmlet",serif;--mono:"IBM Plex Mono",monospace;
+}
+*{box-sizing:border-box}
+html{background:var(--bg)}
+body{margin:0;color:var(--ink);font-family:var(--sans);line-height:1.6;
+  background:radial-gradient(1000px 650px at 8% -10%,rgba(79,127,255,.16),transparent 60%),
+             radial-gradient(800px 500px at 100% 0,rgba(179,136,255,.1),transparent 60%),var(--bg)}
+a{color:var(--acc);text-decoration:none}a:hover{text-decoration:underline}
+.wrap{max-width:1180px;margin:auto;padding:24px 22px 90px}
+.nav{display:flex;align-items:center;gap:12px}
+.brand{display:flex;align-items:center;gap:10px;color:var(--ink);font-weight:700;text-decoration:none}
+.logo{width:34px;height:34px;border-radius:9px;background:var(--grad);display:grid;place-items:center;color:#0b1020;font-family:var(--display)}
+.navlinks{margin-left:auto;display:flex;gap:12px;flex-wrap:wrap}
+.nav a{color:var(--sub);font-size:13px}
+.nav a:hover{color:var(--ink)}
+.hero{padding:54px 0 18px;display:grid;grid-template-columns:1.4fr .8fr;gap:28px;align-items:end}
+.eyebrow{font:600 11px var(--mono);letter-spacing:.12em;color:var(--acc);text-transform:uppercase}
+h1{font:700 clamp(2.1rem,5vw,3.6rem)/1.08 var(--display);margin:10px 0 14px;letter-spacing:-.04em}
+.hero p{max-width:720px;color:var(--sub)}
+.stagebox{border:1px solid var(--line);background:linear-gradient(180deg,var(--panel2),var(--panel));border-radius:18px;padding:20px}
+.stagebox b{display:block;font:600 12px var(--mono);color:var(--acc);margin-bottom:8px}
+.stage{font:700 1.35rem var(--mono)}
+.grid{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-top:22px}
+.kpi{border:1px solid var(--line);background:linear-gradient(180deg,var(--panel2),var(--panel));border-radius:14px;padding:16px}
+.kpi label{font:600 10px var(--mono);letter-spacing:.08em;color:var(--muted);text-transform:uppercase}
+.kpi .value{font:700 1.55rem var(--mono);margin:6px 0 0}
+.section{margin-top:36px}
+.sectionhead{display:flex;align-items:end;justify-content:space-between;gap:16px;margin-bottom:14px}
+.section h2{font:700 1.4rem var(--display);margin:0}
+.sectionhead p{margin:0;color:var(--muted);font-size:12px}
+.flow{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}
+.step{border:1px solid var(--line);border-radius:14px;padding:16px;background:rgba(15,23,42,.78)}
+.step span{font:600 10px var(--mono);color:var(--acc)}
+.step b{display:block;margin:8px 0 6px}
+.step p{margin:0;color:var(--sub);font-size:13px}
+.panel{border:1px solid var(--line);background:rgba(15,23,42,.78);border-radius:16px;padding:18px}
+.two{display:grid;grid-template-columns:1.2fr .8fr;gap:12px}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th,td{text-align:left;padding:9px 8px;border-top:1px solid var(--line);vertical-align:top}
+th{font:600 10px var(--mono);color:var(--muted);letter-spacing:.06em;text-transform:uppercase}
+.badge{display:inline-flex;align-items:center;border:1px solid var(--line2);border-radius:999px;padding:3px 8px;font:600 10px var(--mono);color:var(--sub)}
+.badge.wait{color:var(--warn);border-color:rgba(255,184,107,.4)}
+.badge.go{color:var(--good);border-color:rgba(99,214,160,.4)}
+.badge.stop{color:var(--bad);border-color:rgba(255,123,123,.4)}
+.rule{border-left:3px solid var(--acc);padding:10px 14px;background:rgba(122,162,255,.08);border-radius:0 10px 10px 0;color:var(--sub);font-size:13px}
+.rule strong{color:var(--ink)}
+.links{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.linkcard{border:1px solid var(--line);border-radius:14px;padding:15px;background:var(--panel);color:var(--ink);text-decoration:none}
+.linkcard:hover{border-color:var(--acc);text-decoration:none}
+.linkcard b{display:block;font-size:13px}
+.linkcard span{font-size:11px;color:var(--muted)}
+.empty{color:var(--muted);font-size:13px;padding:8px 0}
+.footer{margin-top:44px;border-top:1px solid var(--line);padding-top:18px;color:var(--muted);font-size:11px;display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap}
+@media(max-width:900px){
+  .hero,.two,.flow,.grid,.links{grid-template-columns:1fr 1fr}
+  .grid .kpi:last-child,.hero{grid-template-columns:1fr}
+  .flow{grid-template-columns:1fr}
+}
+@media(max-width:560px){
+  .wrap{padding:18px 14px 70px}
+  .navlinks a:nth-child(n+3){display:none}
+  .links,.grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <nav class="nav" aria-label="주요 탐색">
+    <a class="brand" href="/"><span class="logo">S</span><span>STARGATE</span></a>
+    <div class="navlinks">
+      <a href="/google-trends/">Trends</a>
+      <a href="/en/">English portal</a>
+      <a href="/execution/">Execution</a>
+      <a href="/">Home</a>
+    </div>
+  </nav>
+
+  <header class="hero">
+    <div>
+      <div class="eyebrow">Blogger · English · Global</div>
+      <h1>영문 블로그<br>반자동화 준비</h1>
+      <p>Google Blogger 영어 버전으로 글로벌 검색 트래픽과 AdSense를 노립니다. 기계는 주제와 초안 브리핑만 만들고, <strong>사람 승인 전에는 한 줄도 발행하지 않습니다.</strong> 계획은 <code>PLAN.md</code>에 붙여 넣으면 됩니다.</p>
+    </div>
+    <aside class="stagebox">
+      <b>PIPELINE STAGE</b>
+      <div class="stage" id="stageLabel">awaiting_plan</div>
+      <p class="empty" id="stageMsg" style="margin:10px 0 0">PLAN.md를 기다리는 중. 리서치·초안은 가능, 실발행은 차단.</p>
+    </aside>
+  </header>
+
+  <section class="grid" aria-label="파이프라인 KPI">
+    <div class="kpi"><label>Topics</label><div class="value" id="kpiTopics">0</div></div>
+    <div class="kpi"><label>Drafts</label><div class="value" id="kpiDrafts">0</div></div>
+    <div class="kpi"><label>Needs review</label><div class="value" id="kpiReview">0</div></div>
+    <div class="kpi"><label>Approved</label><div class="value" id="kpiApproved">0</div></div>
+    <div class="kpi"><label>Published</label><div class="value" id="kpiPublished">0</div></div>
+  </section>
+
+  <section class="section">
+    <div class="sectionhead"><h2>반자동화 흐름</h2><p>5단계. 4단계에서 사람이 멈춥니다.</p></div>
+    <div class="flow">
+      <article class="step"><span>01</span><b>계획 수신</b><p><code>PLAN.md</code> 니치·독자·수익화·문체를 흡수합니다.</p></article>
+      <article class="step"><span>02</span><b>영문권 리서치</b><p>US·GB·AU·CA·IN·SG 급상승어. 연예·정치는 제외.</p></article>
+      <article class="step"><span>03</span><b>초안 브리핑</b><p>완성 글이 아니라 <code>[WRITE]</code> 골격. 저품질 AI 양산 방지.</p></article>
+      <article class="step"><span>04</span><b>사람 승인</b><p>1,200단어·출처·고지·영어 전용 게이트.</p></article>
+      <article class="step"><span>05</span><b>Blogger 발행</b><p>기본은 dry-run. live는 비밀값과 명시 플래그 필요.</p></article>
+    </div>
+  </section>
+
+  <section class="section two">
+    <div class="panel">
+      <h2 style="font:700 1.05rem var(--display);margin:0 0 12px">리서치 큐</h2>
+      <div id="topicTable"><p class="empty">아직 선택된 영문 주제가 없습니다. <code>node blogger-en/scripts/cli.mjs research --fixture</code></p></div>
+    </div>
+    <div class="panel">
+      <h2 style="font:700 1.05rem var(--display);margin:0 0 12px">검토 대기</h2>
+      <div id="queueTable"><p class="empty">초안이 없습니다. 계획이 오면 draft 명령으로 브리핑을 만듭니다.</p></div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="sectionhead"><h2>운영 규칙</h2><p>수익화보다 계정 정지가 더 비싸다</p></div>
+    <div class="rule"><strong>자동 실발행 금지.</strong> AdSense는 가치 없는 자동 생성 콘텐츠를 허용하지 않습니다. 이 파이프라인은 초안 브리핑만 만들 뿐, 승인·품질 게이트·<code>BLOGGER_ALLOW_LIVE=1</code> 없이는 Blogger에 올리지 않습니다.</div>
+  </section>
+
+  <section class="section">
+    <div class="sectionhead"><h2>연결 자산</h2><p>이미 있는 수집기·랜딩을 재사용</p></div>
+    <div class="links">
+      <a class="linkcard" href="/google-trends/"><b>Google Trends</b><span>영문권 GEO만 따로 저장</span></a>
+      <a class="linkcard" href="/en/"><b>English portal</b><span>저자·CTA 랜딩</span></a>
+      <a class="linkcard" href="https://blog.stargateedu.co.kr/"><b>한국어 본사 블로그</b><span>발행 대상이 아님</span></a>
+      <a class="linkcard" href="./PLAN.md"><b>PLAN.md</b><span>계획을 붙여 넣는 칸</span></a>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <span>STARGATE · Blogger EN semi-automation</span>
+    <span id="updatedAt">data not loaded</span>
+  </footer>
+</div>
+<script>
+async function loadJson(file, fallback) {
+  try {
+    const response = await fetch(file, { cache: 'no-store' });
+    if (!response.ok) throw new Error(String(response.status));
+    return await response.json();
+  } catch (_) {
+    return fallback;
+  }
+}
+function badge(stage) {
+  if (stage === 'plan_ready') return '<span class="badge go">plan_ready</span>';
+  if (stage === 'awaiting_plan') return '<span class="badge wait">awaiting_plan</span>';
+  return `<span class="badge">${stage || 'unknown'}</span>`;
+}
+function rows(items, cols) {
+  if (!items.length) return '';
+  const head = `<table><thead><tr>${cols.map((col) => `<th>${col.label}</th>`).join('')}</tr></thead><tbody>`;
+  const body = items.map((item) => `<tr>${cols.map((col) => `<td>${col.render(item)}</td>`).join('')}</tr>`).join('');
+  return `${head}${body}</tbody></table>`;
+}
+(async () => {
+  const [status, topics, queue] = await Promise.all([
+    loadJson('./data/status.json', { stage: 'awaiting_plan', topics: 0, drafts: 0, needsReview: 0, approved: 0, published: 0 }),
+    loadJson('./data/topics.json', { items: [] }),
+    loadJson('./data/queue.json', { items: [] }),
+  ]);
+  document.getElementById('stageLabel').textContent = status.stage || 'awaiting_plan';
+  document.getElementById('stageMsg').innerHTML = badge(status.stage) + ' · ' + (status.message || '계획이 오면 ingest 후 게이트가 열립니다.');
+  document.getElementById('kpiTopics').textContent = status.topics ?? (topics.items || []).length;
+  document.getElementById('kpiDrafts').textContent = status.drafts ?? (queue.items || []).length;
+  document.getElementById('kpiReview').textContent = status.needsReview ?? 0;
+  document.getElementById('kpiApproved').textContent = status.approved ?? 0;
+  document.getElementById('kpiPublished').textContent = status.published ?? 0;
+  document.getElementById('updatedAt').textContent = status.updatedAt ? `updated ${status.updatedAt}` : 'waiting for first ingest';
+
+  const topicItems = (topics.items || []).slice(0, 8);
+  const topicHtml = rows(topicItems, [
+    { label: 'Rank', render: (item) => item.rank || '' },
+    { label: 'Topic', render: (item) => `<b>${item.title || ''}</b><div class="empty">${item.geo || ''} · ${item.category || ''}</div>` },
+    { label: 'Score', render: (item) => item.score ?? '' },
+    { label: 'Volume', render: (item) => item.volume ?? '' },
+  ]);
+  if (topicHtml) document.getElementById('topicTable').innerHTML = topicHtml;
+
+  const queueItems = (queue.items || []).slice(0, 8);
+  const queueHtml = rows(queueItems, [
+    { label: 'Status', render: (item) => `<span class="badge ${item.status === 'approved' ? 'go' : item.status === 'rejected' ? 'stop' : 'wait'}">${item.status}</span>` },
+    { label: 'Title', render: (item) => item.title || item.id },
+  ]);
+  if (queueHtml) document.getElementById('queueTable').innerHTML = queueHtml;
+})();
+</script>
+</body>
+</html>

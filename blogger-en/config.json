@@ -1,0 +1,39 @@
+{
+  "project": "blogger-en",
+  "status": "awaiting_plan",
+  "language": "en",
+  "target": "global",
+  "blog": {
+    "id": "",
+    "url": "",
+    "name": ""
+  },
+  "cadencePerWeek": 3,
+  "geos": ["US", "GB", "AU", "CA", "IN", "SG"],
+  "hours": 48,
+  "topicLimit": 40,
+  "draftLimit": 3,
+  "minWords": 1200,
+  "maxWords": 2200,
+  "niches": [
+    "practical AI for knowledge workers",
+    "data literacy and decision-making",
+    "self-directed learning and education systems"
+  ],
+  "avoidCategoryIds": [4, 16],
+  "preferredCategoryIds": [3, 6, 7, 10, 12, 19, 20],
+  "monetization": {
+    "adsense": true,
+    "affiliates": [],
+    "productCtas": ["https://stargateedu.co.kr/en/"]
+  },
+  "review": {
+    "requireHumanApproval": true,
+    "allowLivePublish": false
+  },
+  "voice": {
+    "persona": "Dongsoo Jung — AI / urban data researcher and educator",
+    "tone": "Clear, specific, globally readable English. No hype. First-hand methods over listicles."
+  },
+  "defaultsNote": "Niches and voice are placeholders until PLAN.md is ingested. Do not publish live posts while status is awaiting_plan."
+}
