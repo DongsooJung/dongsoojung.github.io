@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>영문 Blogger 반자동화 · 글로벌 수익화 | STARGATE</title>
-<meta name="description" content="Google Blogger 영문 버전 반자동화 운영판. 계획 수신 → 영문권 Trends 리서치 → 초안 → 사람 승인 → 발행. 자동 실발행은 하지 않습니다.">
+<meta name="description" content="고객 Job·검색 의도 기준으로 영문 Blogger 글을 고르는 반자동화 운영판. 저자 니치가 아니라 고객 맞춤. 사람 승인 전에는 발행하지 않습니다.">
 <meta name="theme-color" content="#0a0d14">
 <link rel="canonical" href="https://stargateedu.co.kr/blogger-en/">
 <meta property="og:title" content="영문 Blogger 반자동화">
@@ -99,9 +99,9 @@ th{font:600 10px var(--mono);color:var(--muted);letter-spacing:.06em;text-transf
 
   <header class="hero">
     <div>
-      <div class="eyebrow">Blogger · English · Global</div>
-      <h1>영문 블로그<br>반자동화 준비</h1>
-      <p>Google Blogger 영어 버전으로 글로벌 검색 트래픽과 AdSense를 노립니다. 기계는 주제와 초안 브리핑만 만들고, <strong>사람 승인 전에는 한 줄도 발행하지 않습니다.</strong> 계획은 <code>PLAN.md</code>에 붙여 넣으면 됩니다.</p>
+      <div class="eyebrow">Blogger · English · Customer-first</div>
+      <h1>고객이 검색한 일만<br>글로 씁니다</h1>
+      <p>내가 쓰고 싶은 주제는 큐에 넣지 않습니다. Google Blogger 영어 글은 <strong>고객의 Job · Pain · 검색 의도</strong>에 매칭된 것만 초안이 됩니다. 사람 승인 전에는 발행하지 않습니다.</p>
     </div>
     <aside class="stagebox">
       <b>PIPELINE STAGE</b>
@@ -121,10 +121,10 @@ th{font:600 10px var(--mono);color:var(--muted);letter-spacing:.06em;text-transf
   <section class="section">
     <div class="sectionhead"><h2>반자동화 흐름</h2><p>5단계. 4단계에서 사람이 멈춥니다.</p></div>
     <div class="flow">
-      <article class="step"><span>01</span><b>계획 수신</b><p><code>PLAN.md</code> 니치·독자·수익화·문체를 흡수합니다.</p></article>
-      <article class="step"><span>02</span><b>영문권 리서치</b><p>US·GB·AU·CA·IN·SG 급상승어. 연예·정치는 제외.</p></article>
-      <article class="step"><span>03</span><b>초안 브리핑</b><p>완성 글이 아니라 <code>[WRITE]</code> 골격. 저품질 AI 양산 방지.</p></article>
-      <article class="step"><span>04</span><b>사람 승인</b><p>1,200단어·출처·고지·영어 전용 게이트.</p></article>
+      <article class="step"><span>01</span><b>고객 정의</b><p><code>PLAN.md</code>에 Job · Pain · Outcome · Intents. 저자 니치가 아닙니다.</p></article>
+      <article class="step"><span>02</span><b>고객 검색 수요</b><p>영문권 급상승어 중 그 고객의 검색어와 겹치는 것만 남깁니다.</p></article>
+      <article class="step"><span>03</span><b>고객 브리핑</b><p>그 고객이 고용한 전문가처럼 쓸 <code>[WRITE]</code> 골격.</p></article>
+      <article class="step"><span>04</span><b>사람 승인</b><p>고객 누락·저자 에세이·1,200단어 미달은 반려.</p></article>
       <article class="step"><span>05</span><b>Blogger 발행</b><p>기본은 dry-run. live는 비밀값과 명시 플래그 필요.</p></article>
     </div>
   </section>
@@ -142,7 +142,7 @@ th{font:600 10px var(--mono);color:var(--muted);letter-spacing:.06em;text-transf
 
   <section class="section">
     <div class="sectionhead"><h2>운영 규칙</h2><p>수익화보다 계정 정지가 더 비싸다</p></div>
-    <div class="rule"><strong>자동 실발행 금지.</strong> AdSense는 가치 없는 자동 생성 콘텐츠를 허용하지 않습니다. 이 파이프라인은 초안 브리핑만 만들 뿐, 승인·품질 게이트·<code>BLOGGER_ALLOW_LIVE=1</code> 없이는 Blogger에 올리지 않습니다.</div>
+    <div class="rule"><strong>고객 맞춤. 저자 맞춤 아님.</strong> 고객 프로필에 안 맞는 급상승어는 버립니다. 초안에 저자 연구·포트폴리오 소개가 들어가면 발행 게이트가 막습니다. 실발행은 승인·<code>BLOGGER_ALLOW_LIVE=1</code>이 있을 때만입니다.</div>
   </section>
 
   <section class="section">
@@ -199,7 +199,7 @@ function rows(items, cols) {
   const topicItems = (topics.items || []).slice(0, 8);
   const topicHtml = rows(topicItems, [
     { label: 'Rank', render: (item) => item.rank || '' },
-    { label: 'Topic', render: (item) => `<b>${item.title || ''}</b><div class="empty">${item.geo || ''} · ${item.category || ''}</div>` },
+    { label: 'Topic', render: (item) => `<b>${item.title || ''}</b><div class="empty">${item.customer?.name || 'unmatched'} · ${item.geo || ''} · ${item.category || ''}</div>` },
     { label: 'Score', render: (item) => item.score ?? '' },
     { label: 'Volume', render: (item) => item.volume ?? '' },
   ]);
@@ -208,7 +208,7 @@ function rows(items, cols) {
   const queueItems = (queue.items || []).slice(0, 8);
   const queueHtml = rows(queueItems, [
     { label: 'Status', render: (item) => `<span class="badge ${item.status === 'approved' ? 'go' : item.status === 'rejected' ? 'stop' : 'wait'}">${item.status}</span>` },
-    { label: 'Title', render: (item) => item.title || item.id },
+    { label: 'Title', render: (item) => `${item.title || item.id}<div class="empty">${item.customer?.name || ''}</div>` },
   ]);
   if (queueHtml) document.getElementById('queueTable').innerHTML = queueHtml;
 })();

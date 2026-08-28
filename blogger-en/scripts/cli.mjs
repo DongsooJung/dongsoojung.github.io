@@ -106,14 +106,29 @@ async function cmdDraft(flags) {
   const topics = await readJson(TOPICS_PATH, { items: [] });
   const limit = Number(flags.limit || config.draftLimit || 3);
   const created = [];
-  for (const topic of (topics.items || []).slice(0, limit)) {
-    const draft = buildDraft(topic, config);
-    await writeText(path.join(DRAFTS_DIR, `${draft.id}.md`), draft.body);
-    await upsertQueueItem(draft);
-    created.push({ id: draft.id, title: draft.title, status: draft.status });
+  const skipped = [];
+  for (const topic of (topics.items || []).slice(0, limit * 3)) {
+    if (created.length >= limit) break;
+    try {
+      const draft = buildDraft(topic, config);
+      await writeText(path.join(DRAFTS_DIR, `${draft.id}.md`), draft.body);
+      await upsertQueueItem(draft);
+      created.push({
+        id: draft.id,
+        title: draft.title,
+        status: draft.status,
+        customer: draft.customer?.name || null,
+      });
+    } catch (error) {
+      if (error && error.code === 'no-customer-match') {
+        skipped.push(topic.title);
+        continue;
+      }
+      throw error;
+    }
   }
   await snapshotStatus(config);
-  console.log(JSON.stringify({ created: created.length, items: created }, null, 2));
+  console.log(JSON.stringify({ created: created.length, skipped, items: created }, null, 2));
   return created.length ? 0 : 1;
 }
 

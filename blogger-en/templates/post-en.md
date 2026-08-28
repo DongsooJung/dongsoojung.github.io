@@ -2,36 +2,35 @@
 id: draft-template
 status: needs_review
 language: en
-slug: a-clear-guide-to-topic
-title: "A Clear Guide to Topic"
+slug: customer-job-query
+title: "Query: customer outcome"
+customerId: "customer-id"
 ---
 
-# A Clear Guide to Topic
+# Query: customer outcome
 
-> Fill every section. Do not publish placeholder text.
+> Customer brief, not an author essay.
 
-**Meta description:** A practical English guide for a global reader.
+## Customer
 
-## Disclosure
+- **Who:**
+- **Job to be done:**
+- **Pain:**
+- **Success:**
 
-This post may contain ads or affiliate links. Educational content is not financial, legal, or medical advice.
-
-## Why this topic
-
-[WRITE]
+[WRITE] What this customer typed the query to get done today. No author backstory.
 
 ## Draft body
 
-[WRITE] Introduction
+[WRITE] Introduction — start with the customer's situation
 [WRITE] Method
-[WRITE] Pitfalls
-[WRITE] Global note
-[WRITE] Close
+[WRITE] Objections
+[WRITE] Close — one next action for this customer
 
 ## Publish checklist
 
+- [ ] Written for the named customer, not the author's preferred topic
 - [ ] English only
 - [ ] 1,200+ original words
-- [ ] Two sources or first-hand notes
-- [ ] Disclosure above the first ad
+- [ ] Two sources the customer can check
 - [ ] Human approved

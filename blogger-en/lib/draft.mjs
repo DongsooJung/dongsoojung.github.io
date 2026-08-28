@@ -1,30 +1,47 @@
 import { jsonLd, keywordSet, metaDescription, titleCase, toSlug } from './seo.mjs';
+import { matchCustomer } from './customers.mjs';
 
 export function draftId(title, date = new Date()) {
   const stamp = date.toISOString().slice(0, 10).replaceAll('-', '');
   return `draft-${stamp}-${toSlug(title, 48)}`;
 }
 
-export function workingTitle(topic) {
-  const base = titleCase(topic.title);
-  if (/^(how|what|why|when)\b/i.test(base)) return base;
-  if (topic.category === 'Finance') return `How to Think About ${base} Without the Hype`;
-  if (topic.category === 'Jobs & education') return `${base}: A Practical Study System`;
-  if (topic.category === 'Electronics' || topic.category === 'Science') {
-    return `${base}: What Actually Matters`;
-  }
-  return `A Clear Guide to ${base}`;
+export function resolveCustomer(topic, config = {}) {
+  if (topic?.customer?.id) return topic.customer;
+  const matched = matchCustomer(topic, config.customers || []);
+  if (!matched) return null;
+  return {
+    id: matched.id,
+    name: matched.name,
+    job: matched.job,
+    pain: matched.pain,
+    outcome: matched.outcome,
+    matchScore: matched.score,
+    hits: matched.hits || [],
+  };
 }
 
-export function outlineFor(topic, config) {
-  const niche = (config.niches || [])[0] || 'practical knowledge work';
+export function workingTitle(topic, customer) {
+  const query = titleCase(topic.title);
+  if (customer?.outcome) {
+    const outcome = customer.outcome.replace(/\.$/, '');
+    if (outcome.length <= 72) return `${query}: ${outcome}`;
+  }
+  if (/^(how|what|why|when)\b/i.test(query)) return query;
+  return query;
+}
+
+export function outlineFor(topic, customer) {
+  const who = customer?.name || 'the searcher';
+  const job = customer?.job || `get a usable answer to "${topic.title}"`;
+  const pain = customer?.pain || 'generic posts that talk about the writer instead of the job';
+  const outcome = customer?.outcome || 'one action they can take this week';
   return [
-    `What ${topic.title} actually is, in one paragraph a global reader can use.`,
-    `Why this is moving now in ${topic.geo || 'English-speaking markets'} (search demand, not gossip).`,
-    `A method I would use this week, with numbers or a checklist.`,
-    `Common mistakes and what to skip (policy, scams, shallow listicles).`,
-    `How this connects to ${niche}.`,
-    `Sources, definitions, and what I will update if the facts change.`,
+    `Open on ${who}'s job: ${job}. Do not open on the author's biography or research agenda.`,
+    `Name the pain in their words: ${pain}.`,
+    `Give the method that produces this outcome: ${outcome}.`,
+    `Handle the objection they will have after the first paragraph (cost, time, risk, "is this for my country?").`,
+    `Close with one next action for ${who}, not a pitch for the author's other interests.`,
   ];
 }
 
@@ -36,6 +53,7 @@ export function monetizationSlots(config) {
     adsense,
     inArticleAd: adsense ? 'after-intro-and-midpoint' : 'off',
     affiliates,
+    products,
     productCtas: products,
     disclosureRequired: adsense || affiliates.length > 0 || products.length > 0,
   };
@@ -43,11 +61,17 @@ export function monetizationSlots(config) {
 
 export function buildDraft(topic, config, options = {}) {
   const createdAt = options.now || new Date();
-  const title = workingTitle(topic);
+  const customer = resolveCustomer(topic, config);
+  if ((config.requireCustomerMatch !== false) && (config.customers || []).length && !customer) {
+    const error = new Error(`no-customer-match:${topic.title}`);
+    error.code = 'no-customer-match';
+    throw error;
+  }
+  const title = workingTitle(topic, customer);
   const slug = toSlug(title);
   const keywords = keywordSet(topic.title, topic.related);
-  const description = metaDescription(topic.title, (config.niches || [])[0]);
-  const outline = outlineFor(topic, config);
+  const description = metaDescription(topic.title, customer?.job || customer?.name);
+  const outline = outlineFor(topic, customer);
   const slots = monetizationSlots(config);
   const id = draftId(title, createdAt);
   const body = renderDraftMarkdown({
@@ -55,6 +79,7 @@ export function buildDraft(topic, config, options = {}) {
     title,
     slug,
     topic,
+    customer,
     config,
     outline,
     keywords,
@@ -74,7 +99,8 @@ export function buildDraft(topic, config, options = {}) {
     keywords,
     wordCount,
     minWords: config.minWords || 1200,
-    topic,
+    topic: { ...topic, customer },
+    customer,
     outline,
     monetization: slots,
     jsonLd: jsonLd({
@@ -94,13 +120,26 @@ export function buildDraft(topic, config, options = {}) {
   };
 }
 
-export function renderDraftMarkdown({ id, title, slug, topic, config, outline, keywords, description, slots, createdAt }) {
-  const persona = config.voice?.persona || 'Dongsoo Jung';
-  const tone = config.voice?.tone || 'Clear, specific English.';
+export function renderDraftMarkdown({
+  id,
+  title,
+  slug,
+  topic,
+  customer,
+  config,
+  outline,
+  keywords,
+  description,
+  slots,
+  createdAt,
+}) {
   const productLines = (slots.productCtas || []).map((url) => `- Product CTA: ${url}`).join('\n') || '- Product CTA: none yet';
   const affiliateLines = (slots.affiliates || []).map((item) => `- Affiliate: ${item}`).join('\n') || '- Affiliate: none yet';
   const related = (topic.related || []).map((item) => `- ${item}`).join('\n') || '- (none)';
   const outlineMd = outline.map((item, index) => `${index + 1}. ${item}`).join('\n');
+  const customerName = customer?.name || 'unassigned — do not publish';
+  const voice = config.voice?.tone
+    || 'Write as a specialist hired by this customer. Do not write the article you personally wanted to write.';
 
   return `---
 id: ${id}
@@ -109,27 +148,29 @@ language: en
 slug: ${slug}
 title: ${JSON.stringify(title)}
 primaryKeyword: ${JSON.stringify(topic.title)}
+customerId: ${JSON.stringify(customer?.id || '')}
 createdAt: ${createdAt.toISOString()}
 ---
 
 # ${title}
 
-> **Human review required.** This file is a briefing + skeleton, not a finished article. Fill every \`[WRITE]\` block with first-hand explanation before approval. Thin or spun AI text must not be published (AdSense + Blogger policy).
+> **Customer brief, not an author essay.** Fill every \`[WRITE]\` block as if this customer hired you. If a sentence is about the author's research, portfolio, or preferred niche, delete it. Thin or spun AI text must not be published.
 
 **Meta description:** ${description}
 
-**Persona:** ${persona}
-**Tone:** ${tone}
+**Voice rule:** ${voice}
 **Search demand:** ${topic.volume || 0} · ${topic.geo || 'n/a'} · ${topic.category || 'Uncategorized'}
 **Explore:** ${topic.exploreUrl || ''}
 
-## Disclosure
+## Customer
 
-This post may contain ads or affiliate links. If I recommend a tool I use, I will say so in plain English. Educational content is not financial, legal, or medical advice.
+- **Who:** ${customerName}
+- **Job to be done:** ${customer?.job || '[WRITE]'}
+- **Pain:** ${customer?.pain || '[WRITE]'}
+- **Success:** ${customer?.outcome || '[WRITE]'}
+- **Intent hits:** ${(customer?.hits || []).join(', ') || topic.title}
 
-## Why this topic
-
-[WRITE] One paragraph: what a global English reader is trying to get done when they search "${topic.title}".
+[WRITE] One paragraph in the customer's words: what they typed "${topic.title}" to get done today. No author backstory.
 
 ## Outline
 
@@ -137,17 +178,15 @@ ${outlineMd}
 
 ## Draft body
 
-[WRITE] Introduction (120–180 words). Define the term. State the reader outcome.
+[WRITE] Introduction (120–180 words). Start with ${customerName}'s situation. Promise the outcome. Do not mention the author's other projects.
 
-[WRITE] Method. Give a sequence someone can run this week. Use numbers.
+[WRITE] Method. Sequence they can run this week. Numbers, not slogans.
 
-[WRITE] Pitfalls. Name 3 things that waste time or violate platform policy.
+[WRITE] Objections. Cost, time, country differences, "is this for someone like me?"
 
-[WRITE] Global note. What changes if the reader is in the US vs India vs UK.
+[WRITE] Close. One next action for ${customerName}. Optional product CTA only if it finishes their job.
 
-[WRITE] Close. One next action + link to a deeper resource.
-
-## Related queries
+## Related queries this customer also uses
 
 ${related}
 
@@ -163,11 +202,12 @@ ${productLines}
 
 ## Publish checklist
 
+- [ ] Written for ${customerName}, not for the author's preferred topic list.
 - [ ] English only. No untranslated Korean.
 - [ ] At least ${config.minWords || 1200} words of original explanation.
-- [ ] At least two named sources or first-hand observations.
+- [ ] At least two named sources the customer can check.
 - [ ] Disclosure visible above the first ad.
-- [ ] Title is specific, not clickbait.
+- [ ] Title matches the customer's search, not a clever author headline.
 - [ ] No medical/investment guarantees.
 - [ ] Human approved in the queue before Blogger API is called.
 `;

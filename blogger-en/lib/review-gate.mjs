@@ -1,5 +1,6 @@
 const PLACEHOLDER = /\[WRITE\]/;
 const HANGUL = /[\uac00-\ud7a3]/;
+const AUTHOR_CENTRIC = /\bi wanted to write\b|how this connects to (my |our )?(niche|research|portfolio)|\bmy research agenda\b/i;
 
 export function evaluateDraft(draft, config = {}) {
   const errors = [];
@@ -14,6 +15,12 @@ export function evaluateDraft(draft, config = {}) {
   if (PLACEHOLDER.test(body)) errors.push('unfilled-write-blocks');
   if (HANGUL.test(body) || HANGUL.test(draft?.title || '')) errors.push('contains-hangul');
   if (wordCount < minWords) errors.push(`below-min-words:${wordCount}<${minWords}`);
+  if (config.requireCustomerMatch !== false && (config.customers || []).length && !draft?.customer?.id) {
+    errors.push('missing-customer');
+  }
+  if (AUTHOR_CENTRIC.test(body) && !PLACEHOLDER.test(body)) {
+    errors.push('author-centric');
+  }
   if (!draft?.monetization?.disclosureRequired) {
     warnings.push('no-monetization-disclosure-flag');
   }

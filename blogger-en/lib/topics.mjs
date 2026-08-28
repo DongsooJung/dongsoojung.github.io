@@ -1,3 +1,5 @@
+import { matchCustomer, requireCustomerMatch } from './customers.mjs';
+
 const HANGUL = /[\uac00-\ud7a3]/;
 const LATIN = /[A-Za-z]/;
 
@@ -65,18 +67,24 @@ export function scoreTopic(item, config = {}) {
   if (id != null && avoid.has(id)) return { score: 0, reason: 'avoid-category' };
   if (!isEnglishTitle(item?.title)) return { score: 0, reason: 'not-english' };
 
+  const customer = matchCustomer(item, config.customers || []);
+  if (requireCustomerMatch(config) && (config.customers || []).length && !customer) {
+    return { score: 0, reason: 'no-customer-match' };
+  }
+
   const volume = Math.max(0, Number(item.volume) || 0);
   const volumeScore = Math.min(40, Math.log10(volume + 1) * 10);
   const rpm = RPM_WEIGHT[id] ?? 4;
-  const preferredBonus = id != null && preferred.has(id) ? 8 : 0;
+  const preferredBonus = id != null && preferred.has(id) ? 4 : 0;
   const relatedBonus = Math.min(6, (item.related || []).filter(isEnglishTitle).length);
-  const nicheBonus = nicheOverlap(item.title, config.niches) ? 10 : 0;
-  const score = Number((volumeScore + rpm * 3 + preferredBonus + relatedBonus + nicheBonus).toFixed(2));
+  const customerScore = customer ? Math.min(36, customer.score) : 0;
+  const score = Number((volumeScore + rpm * 2 + preferredBonus + relatedBonus + customerScore).toFixed(2));
   return {
     score,
     reason: 'ranked',
     rpmFit: rpm,
     categoryEn: CATEGORY_EN[id] || item.category || 'Uncategorized',
+    customer,
   };
 }
 
@@ -96,6 +104,17 @@ export function selectTopics(items, config = {}, limit) {
       exploreUrl: item.exploreUrl || '',
       score: scored.score,
       rpmFit: scored.rpmFit,
+      customer: scored.customer
+        ? {
+            id: scored.customer.id,
+            name: scored.customer.name,
+            job: scored.customer.job,
+            pain: scored.customer.pain,
+            outcome: scored.customer.outcome,
+            matchScore: scored.customer.score,
+            hits: scored.customer.hits || [],
+          }
+        : null,
     });
   }
   ranked.sort((a, b) => b.score - a.score || b.volume - a.volume || a.title.localeCompare(b.title));
@@ -109,15 +128,4 @@ export function selectTopics(items, config = {}, limit) {
     if (unique.length >= cap) break;
   }
   return unique;
-}
-
-function nicheOverlap(title, niches) {
-  const hay = String(title || '').toLowerCase();
-  return (niches || []).some((niche) => {
-    const tokens = String(niche)
-      .toLowerCase()
-      .split(/[^\p{L}\p{N}]+/u)
-      .filter((token) => token.length > 3);
-    return tokens.some((token) => hay.includes(token));
-  });
 }

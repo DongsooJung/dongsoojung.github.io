@@ -1,4 +1,7 @@
-const AWAITING_MARKERS = ['(대기)', '(pending)', 'tbd', 'todo', '대기'];
+import { isPlaceholderText, slugify } from './text.mjs';
+import { parseCustomers } from './customers.mjs';
+
+export { isPlaceholderText, slugify };
 
 export function parseFrontmatter(text) {
   const match = String(text || '').match(/^---\r?\n([\s\S]*?)\r?\n---\r?\n?([\s\S]*)$/);
@@ -88,23 +91,6 @@ export function parseMarkdownSections(body) {
   return sections;
 }
 
-export function slugify(value) {
-  return String(value || '')
-    .normalize('NFKD')
-    .replace(/[^\w\s-]/g, '')
-    .trim()
-    .toLowerCase()
-    .replace(/[_\s]+/g, '-')
-    .replace(/-+/g, '-');
-}
-
-export function isPlaceholderText(value) {
-  const text = String(value || '').trim();
-  if (!text) return true;
-  const lower = text.toLowerCase();
-  return AWAITING_MARKERS.some((marker) => lower === marker || lower.startsWith(marker));
-}
-
 export function ingestPlanMarkdown(markdown) {
   const { meta, body } = parseFrontmatter(markdown);
   const sections = parseMarkdownSections(body);
@@ -134,8 +120,14 @@ export function ingestPlanMarkdown(markdown) {
     awaitingSectionCount: Object.keys(sections).filter((key) => key !== '_preamble' && key !== 'plan-intake').length - filledSections.length,
   };
 
+  if (sections.customers && !isPlaceholderText(sections.customers)) {
+    overlay.customers = parseCustomers(sections.customers);
+  }
   if (sections.niche && !isPlaceholderText(sections.niche)) {
     overlay.niches = splitPillars(sections.niche);
+  }
+  if (overlay.customers?.length && !overlay.niches) {
+    overlay.niches = overlay.customers.map((customer) => customer.job).filter(Boolean).slice(0, 8);
   }
   if (sections.voice && !isPlaceholderText(sections.voice)) {
     overlay.voice = { persona: overlay.voice?.persona, tone: sections.voice };
@@ -155,6 +147,7 @@ export function mergeConfig(base, overlay) {
   if (overlay.cadencePerWeek) next.cadencePerWeek = overlay.cadencePerWeek;
   if (overlay.geos) next.geos = overlay.geos;
   if (overlay.niches) next.niches = overlay.niches;
+  if (overlay.customers) next.customers = overlay.customers;
   if (overlay.monetization) {
     next.monetization = {
       ...(next.monetization || {}),

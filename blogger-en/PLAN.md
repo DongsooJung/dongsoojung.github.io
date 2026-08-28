@@ -27,19 +27,23 @@ node blogger-en/scripts/cli.mjs ingest
 node blogger-en/scripts/cli.mjs status
 ```
 
-빈 칸과 `(대기)` 는 아직 계획이 오지 않았다는 뜻입니다. 계획이 오기 전에는 **리서치·초안만** 돌아가고, Blogger 실발행은 막혀 있습니다.
+**규칙은 하나입니다. 내가 쓰고 싶은 글이 아니라, 아래 고객이 오늘 끝내야 하는 일을 기준으로 글을 고릅니다.** 고객 섹션이 비어 있으면 실발행은 막혀 있습니다.
 
-## Niche
+## Customers
 
-(대기) 영문 블로그가 다룰 주제 기둥 3~5개. 예: AI tools for operators / personal finance for immigrants / exam prep.
+(대기) 고객을 `### 이름` 블록으로 적습니다. Job / Pain / Outcome / Intents / Geo 가 있어야 주제에 매칭됩니다.
 
-## Audience
+### 예시 형식 (이 예시는 지우세요)
 
-(대기) 누구를 설득해서 광고·제휴·제품 수익을 낼지. 국가, 직업, 검색 의도, 지불 의지.
+- Job: (그 사람이 검색해서 끝내려고 하는 일)
+- Pain: (지금 막히는 지점)
+- Outcome: (글 읽고 나서 할 수 있어야 하는 것)
+- Intents: 검색어1, 검색어2
+- Geo: US, GB
 
 ## Content pillars
 
-(대기) 글 유형 비율. 예: 40% how-to, 30% explainer, 20% comparison, 10% opinion.
+(대기) 그 고객이 필요한 글 유형 비율. 예: 50% how-to, 30% comparison, 20% explainer. 저자 에세이 비율은 0.
 
 ## Cadence
 
@@ -47,16 +51,16 @@ node blogger-en/scripts/cli.mjs status
 
 ## Monetization
 
-(대기) AdSense / Amazon Associates / 자사 제품 CTA / 뉴스레터. 공개 고지 문장.
+(대기) AdSense / Amazon Associates / 자사 제품 CTA. CTA는 고객의 일을 끝낼 때만.
 
 ## Voice
 
-(대기) 문체, 1인칭 여부, 금지 표현, 출처 규칙.
+(대기) 이 고객에게 고용된 전문가처럼 쓸 것. 포트폴리오·연구 소개 금지.
 
 ## Do not
 
-(대기) 건드리지 말 주제, 자동 발행 금지, 의료·투자 조언 제한, 저작권.
+(대기) 내가 쓰고 싶지만 고객이 검색하지 않는 주제. 자동 발행. 의료·투자 보장.
 
 ## Blogger
 
-(대기) 블로그 URL, Blog ID, 커스텀 도메인, 언어를 English로 고정했는지, AdSense 연결 여부.
+(대기) 블로그 URL, Blog ID, 커스텀 도메인, 언어 English, AdSense 연결 여부.

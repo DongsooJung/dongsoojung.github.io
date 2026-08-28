@@ -28,9 +28,15 @@ export function keywordSet(title, related = []) {
   return [...new Set(words)].slice(0, 12);
 }
 
-export function metaDescription(title, niche) {
-  const focus = niche ? ` for ${niche}` : '';
-  return `A practical English guide to ${title}${focus}. Written for a global audience with clear steps, sources, and no hype.`.slice(0, 160);
+export function metaDescription(title, customerJob) {
+  const job = customerJob ? ` ${decapitalize(String(customerJob).replace(/\.$/, ''))}.` : '';
+  return `For the searcher, not the author's portfolio. ${title}:${job}`.slice(0, 160);
+}
+
+function decapitalize(value) {
+  const text = String(value || '').trim().replace(/\.$/, '');
+  if (!text) return text;
+  return text.charAt(0).toLowerCase() + text.slice(1);
 }
 
 export function jsonLd({ title, slug, description, datePublished, url }) {

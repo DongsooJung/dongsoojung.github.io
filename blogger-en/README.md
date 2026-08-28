@@ -2,6 +2,8 @@
 
 Blogger에 **영어**로 글을 올려 글로벌 검색·AdSense 수익을 내는 반자동 파이프라인입니다. 기계는 주제 리서치와 초안 브리핑만 하고, **사람이 승인한 뒤에만** 발행 API를 호출합니다.
 
+**글을 고르는 기준은 저자가 쓰고 싶은 주제가 아니라 고객의 Job · Pain · 검색 의도입니다.** 고객 프로필에 안 맞는 급상승어는 버립니다.
+
 운영 화면: https://stargateedu.co.kr/blogger-en/
 
 ## 현재 상태
@@ -114,4 +116,5 @@ Blogger API는 서비스 계정을 쓰지 않습니다. 블로그 소유 Google 
 
 ## 계획이 오면 바로 채울 칸
 
-`PLAN.md` 섹션: Niche, Audience, Content pillars, Cadence, Monetization, Voice, Do not, Blogger.
+`PLAN.md` 섹션: Customers (Job/Pain/Outcome/Intents), Content pillars, Cadence, Monetization, Voice, Do not, Blogger.
+저자 니치는 입력하지 않습니다.

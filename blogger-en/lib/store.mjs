@@ -74,6 +74,7 @@ export async function snapshotStatus(config) {
     rejected: items.filter((row) => row.status === 'rejected').length,
     published: (published.items || []).length,
     livePublishEnabled: Boolean(config.review?.allowLivePublish),
-    requireHumanApproval: config.review?.requireHumanApproval !== false,
+    requireCustomerMatch: config.requireCustomerMatch !== false,
+    customers: (config.customers || []).length,
   });
 }

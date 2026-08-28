@@ -30,7 +30,7 @@ test('empty PLAN.md stays in awaiting_plan', () => {
   assert.equal(isPlaceholderText('(대기)'), true);
 });
 
-test('sample plan fills niches, blog id, and monetization', () => {
+test('sample plan fills customers, not author niches', () => {
   const overlay = ingestPlanMarkdown(samplePlan);
   const config = mergeConfig(baseConfig, overlay);
   assert.equal(overlay.status, 'plan_ready');
@@ -38,10 +38,13 @@ test('sample plan fills niches, blog id, and monetization', () => {
   assert.equal(config.blog.id, '1234567890');
   assert.equal(config.blog.url, 'https://example-global.blogspot.com');
   assert.deepEqual(config.geos, ['US', 'GB', 'IN']);
-  assert.ok(config.niches.includes('practical AI for knowledge workers'));
+  assert.equal(config.customers.length, 4);
+  assert.equal(config.customers[0].id, 'us-household-saver');
+  assert.ok(config.customers[0].intents.includes('401k'));
+  assert.equal(config.niches.some((item) => /retirement contribution/i.test(item)), true);
   assert.equal(config.monetization.adsense, true);
   assert.ok(config.monetization.affiliates.includes('amazon-associates'));
-  assert.equal(config.voice.persona.includes('Dongsoo'), true);
+  assert.match(config.voice.tone, /hired by this customer/i);
 });
 
 test('frontmatter parser keeps arrays', () => {
@@ -59,28 +62,34 @@ test('English filter drops Korean, entertainment, and politics', () => {
   assert.equal(titles.includes('과태료'), false);
   assert.equal(titles.includes('celebrity dating rumor'), false);
   assert.equal(titles.includes('election polls'), false);
+  assert.equal(titles.includes('quantum computing news'), false);
   assert.equal(isEnglishTitle('과태료'), false);
   assert.equal(isEnglishTitle('AI study planner'), true);
 });
 
-test('finance and education outrank generic topics', () => {
-  const finance = scoreTopic(sampleTrends.items[0], baseConfig);
-  const gpu = scoreTopic(sampleTrends.items[5], baseConfig);
-  const celeb = scoreTopic(sampleTrends.items[3], baseConfig);
-  assert.ok(finance.score > gpu.score);
-  assert.equal(celeb.score, 0);
+test('topics without a customer match are dropped even if volume is high', () => {
+  const quantum = sampleTrends.items.find((item) => item.title === 'quantum computing news');
+  const scored = scoreTopic(quantum, baseConfig);
+  assert.equal(scored.score, 0);
+  assert.equal(scored.reason, 'no-customer-match');
+  const matched = scoreTopic(sampleTrends.items[0], baseConfig);
+  assert.equal(matched.customer.id, 'us-household-saver');
+  assert.ok(matched.score > 0);
 });
 
-test('draft briefing is English, review-gated, and not publishable until filled', () => {
+test('draft briefing is English, customer-assigned, and not publishable until filled', () => {
   const topic = selectTopics(sampleTrends.items, baseConfig, 5)[0];
   const draft = buildDraft(topic, baseConfig, { now: new Date('2026-08-28T00:00:00Z') });
   assert.match(draft.id, /^draft-20260828-/);
   assert.equal(draft.language, 'en');
   assert.equal(draft.status, 'needs_review');
+  assert.equal(draft.customer.id, 'us-household-saver');
   assert.match(draft.body, /\[WRITE\]/);
-  assert.match(draft.body, /Human review required/);
+  assert.match(draft.body, /Customer brief, not an author essay/);
+  assert.match(draft.body, /US household saver/);
+  assert.doesNotMatch(draft.body, /How this connects to/);
   assert.equal(toSlug(draft.title).length > 0, true);
-  assert.match(metaDescription(topic.title, 'practical AI'), /practical English guide/);
+  assert.match(metaDescription(topic.title, draft.customer.job), /For the searcher/);
 
   const blocked = evaluateDraft(draft, baseConfig);
   assert.equal(blocked.ok, false);
@@ -97,13 +106,23 @@ test('approved filled draft still cannot go live without flags', () => {
   const draft = buildDraft(topic, config, { now: new Date('2026-08-28T00:00:00Z') });
   const filled = approveDraft({
     ...draft,
-    body: `${'method '.repeat(1300)}Original explanation with sources from IRS and BLS.`,
+    body: `${'method '.repeat(1300)}Original explanation with sources from IRS and BLS for this customer.`,
     wordCount: 1300,
   });
   filled.body = filled.body.replaceAll('[WRITE]', 'Done');
   const evaluation = evaluateDraft(filled, config);
   assert.equal(evaluation.errors.includes('unfilled-write-blocks'), false);
   assert.equal(evaluation.ok, true);
+
+  const authorCentric = evaluateDraft({
+    ...filled,
+    body: `${'method '.repeat(1300)}I wanted to write about my research agenda instead.`,
+  }, config);
+  assert.equal(authorCentric.ok, false);
+  assert.ok(authorCentric.errors.includes('author-centric'));
+
+  const missingCustomer = evaluateDraft({ ...filled, customer: null }, config);
+  assert.ok(missingCustomer.errors.includes('missing-customer'));
 
   const dry = canPublish(filled, config, { live: false });
   assert.equal(dry.ok, true);
@@ -165,7 +184,7 @@ test('cli research --fixture writes English topics only', async () => {
 
 test('ops dashboard and PLAN intake files exist', async () => {
   const html = await fs.readFile(path.join(repoRoot, 'blogger-en/index.html'), 'utf8');
-  assert.match(html, /awaiting_plan/);
+  assert.match(html, /고객이 검색한 일만/);
   assert.match(html, /사람 승인/);
   assert.match(html, /BLOGGER_ALLOW_LIVE/);
   const fetchPy = await fs.readFile(path.join(repoRoot, 'google-trends/fetch_data.py'), 'utf8');

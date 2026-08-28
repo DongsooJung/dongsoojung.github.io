@@ -15,11 +15,46 @@
   "draftLimit": 3,
   "minWords": 1200,
   "maxWords": 2200,
-  "niches": [
-    "practical AI for knowledge workers",
-    "data literacy and decision-making",
-    "self-directed learning and education systems"
+  "requireCustomerMatch": true,
+  "customers": [
+    {
+      "id": "us-household-saver",
+      "name": "US household saver",
+      "job": "Hit this year's retirement contribution limit without a tax penalty",
+      "pain": "Limit numbers change and online advice contradicts itself",
+      "outcome": "Know the exact limit and the next payroll action",
+      "intents": ["401k", "ira", "roth", "contribution limit", "catch up"],
+      "geos": ["US"]
+    },
+    {
+      "id": "working-learner",
+      "name": "Working learner",
+      "job": "Build a study plan that survives a full-time job",
+      "pain": "Generic AI study tips that ignore time constraints",
+      "outcome": "A weekly plan that fits 45-minute blocks",
+      "intents": ["study planner", "anki", "spaced repetition", "exam prep", "chatgpt study"],
+      "geos": ["US", "GB", "IN", "SG", "AU", "CA"]
+    },
+    {
+      "id": "budget-pc-upgrader",
+      "name": "Budget PC upgrader",
+      "job": "Buy a used GPU that will not be a lemon",
+      "pain": "Prices move weekly and listings hide defects",
+      "outcome": "A price band and a 10-minute inspection checklist",
+      "intents": ["used gpu", "rtx", "vram", "used graphics card"],
+      "geos": ["US", "GB", "AU", "CA"]
+    },
+    {
+      "id": "nhs-patient-family",
+      "name": "NHS patient or family",
+      "job": "Estimate wait time and what to do while waiting",
+      "pain": "Official pages are hard to compare across trusts",
+      "outcome": "Know typical waits and one action that moves the queue",
+      "intents": ["nhs waiting", "gp appointment", "referral wait"],
+      "geos": ["GB"]
+    }
   ],
+  "niches": [],
   "avoidCategoryIds": [4, 16],
   "preferredCategoryIds": [3, 6, 7, 10, 12, 19, 20],
   "monetization": {
@@ -32,8 +67,8 @@
     "allowLivePublish": false
   },
   "voice": {
-    "persona": "Dongsoo Jung — AI / urban data researcher and educator",
-    "tone": "Clear, specific, globally readable English. No hype. First-hand methods over listicles."
+    "persona": "specialist hired by the customer",
+    "tone": "Write as a specialist hired by this customer. Do not write the article you personally wanted to write."
   },
-  "defaultsNote": "Niches and voice are placeholders until PLAN.md is ingested. Do not publish live posts while status is awaiting_plan."
+  "defaultsNote": "Customers below are demand-side placeholders until PLAN.md is ingested. Topics that do not match a customer are dropped. Do not publish live posts while status is awaiting_plan."
 }

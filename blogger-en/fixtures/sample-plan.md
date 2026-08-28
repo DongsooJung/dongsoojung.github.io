@@ -16,22 +16,42 @@ productCtas:
   - https://stargateedu.co.kr/en/
 ---
 
-## Niche
+## Customers
 
-practical AI for knowledge workers
-data literacy for operators
-self-directed exam prep
+### US household saver
+- Job: Hit this year's retirement contribution limit without a tax penalty
+- Pain: Limit numbers change and online advice contradicts itself
+- Outcome: Know the exact limit and the next payroll action
+- Intents: 401k, ira, roth, contribution limit, catch up
+- Geo: US
 
-## Audience
+### Working learner
+- Job: Build a study plan that survives a full-time job
+- Pain: Generic AI study tips that ignore time constraints
+- Outcome: A weekly plan that fits 45-minute blocks
+- Intents: study planner, anki, spaced repetition, exam prep, chatgpt study
+- Geo: US, GB, IN
 
-English-speaking professionals and students in the US, UK, India, and Southeast Asia who search for methods, not gossip.
+### Budget PC upgrader
+- Job: Buy a used GPU that will not be a lemon
+- Pain: Prices move weekly and listings hide defects
+- Outcome: A price band and a 10-minute inspection checklist
+- Intents: used gpu, rtx, vram, used graphics card
+- Geo: US, GB
+
+### NHS patient or family
+- Job: Estimate wait time and what to do while waiting
+- Pain: Official pages are hard to compare across trusts
+- Outcome: Know typical waits and one action that moves the queue
+- Intents: nhs waiting, gp appointment, referral wait
+- Geo: GB
 
 ## Content pillars
 
-40% how-to
-30% explainer
-20% comparison
-10% first-person method notes
+50% how-to for the matched customer's job
+30% comparison they would make before spending
+20% explainer for a term they already searched
+0% author essay
 
 ## Cadence
 
@@ -39,15 +59,15 @@ English-speaking professionals and students in the US, UK, India, and Southeast 
 
 ## Monetization
 
-AdSense in-article. Optional Amazon tools. Product CTA to stargateedu.co.kr/en/.
+AdSense in-article. Optional Amazon tools only if they finish the customer's job. Product CTA to stargateedu.co.kr/en/ only when it is the next action.
 
 ## Voice
 
-Calm, specific, globally readable English. No hype. Cite sources.
+Write as a specialist hired by this customer. No hype. Cite sources. Do not introduce the author's research agenda.
 
 ## Do not
 
-No medical or investment guarantees. No auto-publish. No celebrity or politics.
+No topics the author wants to write that the customer did not search. No medical or investment guarantees. No auto-publish. No celebrity or politics.
 
 ## Blogger
 

@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-08-28T05:20:01.995Z",
+  "updatedAt": "2026-08-28T10:46:17.775Z",
   "source": "fixture",
   "geos": [
     "US",
@@ -7,7 +7,7 @@
     "IN"
   ],
   "selected": 4,
-  "scanned": 7,
+  "scanned": 8,
   "items": [
     {
       "title": "401k contribution limit",
@@ -21,8 +21,23 @@
       "categoryId": 7,
       "category": "Finance",
       "exploreUrl": "https://trends.google.com/trends/explore?q=401k+contribution+limit&geo=US",
-      "score": 81,
+      "score": 103,
       "rpmFit": 10,
+      "customer": {
+        "id": "us-household-saver",
+        "name": "US household saver",
+        "job": "Hit this year's retirement contribution limit without a tax penalty",
+        "pain": "Limit numbers change and online advice contradicts itself",
+        "outcome": "Know the exact limit and the next payroll action",
+        "matchScore": 68,
+        "hits": [
+          "401k",
+          "ira",
+          "roth",
+          "contribution limit",
+          "catch up"
+        ]
+      },
       "rank": 1
     },
     {
@@ -37,8 +52,22 @@
       "categoryId": 12,
       "category": "Jobs & education",
       "exploreUrl": "https://trends.google.com/trends/explore?q=AI+study+planner&geo=US",
-      "score": 78,
+      "score": 101,
       "rpmFit": 9,
+      "customer": {
+        "id": "working-learner",
+        "name": "Working learner",
+        "job": "Build a study plan that survives a full-time job",
+        "pain": "Generic AI study tips that ignore time constraints",
+        "outcome": "A weekly plan that fits 45-minute blocks",
+        "matchScore": 56,
+        "hits": [
+          "study planner",
+          "anki",
+          "spaced repetition",
+          "chatgpt study"
+        ]
+      },
       "rank": 2
     },
     {
@@ -52,8 +81,21 @@
       "categoryId": 6,
       "category": "Electronics",
       "exploreUrl": "",
-      "score": 77,
+      "score": 100,
       "rpmFit": 9,
+      "customer": {
+        "id": "budget-pc-upgrader",
+        "name": "Budget PC upgrader",
+        "job": "Buy a used GPU that will not be a lemon",
+        "pain": "Prices move weekly and listings hide defects",
+        "outcome": "A price band and a 10-minute inspection checklist",
+        "matchScore": 40,
+        "hits": [
+          "used gpu",
+          "rtx",
+          "vram"
+        ]
+      },
       "rank": 3
     },
     {
@@ -66,8 +108,20 @@
       "categoryId": 10,
       "category": "Health",
       "exploreUrl": "",
-      "score": 73,
+      "score": 91,
       "rpmFit": 8,
+      "customer": {
+        "id": "nhs-patient-family",
+        "name": "NHS patient or family",
+        "job": "Estimate wait time and what to do while waiting",
+        "pain": "Official pages are hard to compare across trusts",
+        "outcome": "Know typical waits and one action that moves the queue",
+        "matchScore": 30,
+        "hits": [
+          "nhs waiting",
+          "gp appointment"
+        ]
+      },
       "rank": 4
     }
   ]
