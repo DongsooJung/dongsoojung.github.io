@@ -1,5 +1,5 @@
 {
-  "checked_at_kst": "2026-08-28T08:32:02+09:00",
+  "checked_at_kst": "2026-08-28T20:36:06+09:00",
   "filters": {
     "max_deposit_manwon": 1000,
     "max_rent_manwon": 100,
@@ -8,7 +8,7 @@
   "source_mode": "public-listings",
   "crawl": {
     "visited_urls": 70,
-    "successful_pages": 38,
+    "successful_pages": 31,
     "max_pages": 70
   },
   "baseline": [
@@ -59,7 +59,7 @@
       "rooms": 2,
       "area_m2": 49.5,
       "building_type": "단독주택",
-      "freshness_days": 5,
+      "freshness_days": 6,
       "title": "부산광역시 영도구 신선동2가 49.5㎡ 직거래 빌라(투룸 이상) 월세 500 / 30만원",
       "legal_risk": "상대적으로 낮음",
       "host_claim": false,
@@ -139,6 +139,28 @@
       "is_new": false
     },
     {
+      "id": "2977836",
+      "url": "https://realty.daangn.com/articles/2977836",
+      "district": "기장군",
+      "dong": "기장읍",
+      "deposit": 1000,
+      "rent": 50,
+      "rooms": 3,
+      "area_m2": 74.1,
+      "building_type": "단독주택",
+      "freshness_days": 30,
+      "title": "부산광역시 기장군 기장읍 74.1㎡ 단독/전원주택 월세 1,000 / 50만원",
+      "legal_risk": "상대적으로 낮음",
+      "host_claim": false,
+      "score": 74,
+      "reasons": [
+        "낮은 월세",
+        "3룸+",
+        "주택용도"
+      ],
+      "is_new": true
+    },
+    {
       "id": "4225569",
       "url": "https://realty.daangn.com/articles/4225569",
       "district": "영도구",
@@ -203,6 +225,28 @@
       "is_new": false
     },
     {
+      "id": "4297307",
+      "url": "https://realty.daangn.com/articles/4297307",
+      "district": "동구",
+      "dong": "초량동",
+      "deposit": 1000,
+      "rent": 50,
+      "rooms": 3,
+      "area_m2": 58.29,
+      "building_type": "공동주택",
+      "freshness_days": 4,
+      "title": "부산광역시 동구 초량동 58.29㎡ 직거래 빌라(투룸 이상) 월세 1,000 / 50만원",
+      "legal_risk": "중간",
+      "host_claim": false,
+      "score": 68,
+      "reasons": [
+        "낮은 월세",
+        "3룸+",
+        "7일 이내"
+      ],
+      "is_new": true
+    },
+    {
       "id": "4175649",
       "url": "https://realty.daangn.com/articles/4175649",
       "district": "기장군",
@@ -220,7 +264,7 @@
       "reasons": [
         "주택용도"
       ],
-      "is_new": true
+      "is_new": false
     }
   ],
   "disclaimer": "공개 매물 원문에서 확인한 값만 수록하며 인허가 가능 여부는 별도 확인이 필요합니다."
