@@ -73,7 +73,7 @@
 }
 :root[data-theme="light"]{
   color-scheme:light;
-  --bg:#f6f8fc; --bg2:#eaf0f8; --panel:#ffffff; --panel2:#f0f4fa;
+  --bg:#ffffff; --bg2:#ffffff; --panel:#ffffff; --panel2:#ffffff;
   --line:#d9e1ec; --line2:#c7d1df;
   --ink:#172033; --sub:#506079; --muted:#718096;
   --acc:#3f67d8; --acc2:#3156bd; --warm:#b85f12; --good:#207d59;
@@ -116,10 +116,7 @@ body{
   transition:color .2s ease,background-color .2s ease;
 }
 :root[data-theme="light"] body{
-  background-image:
-    radial-gradient(1000px 600px at 10% -10%,rgba(79,127,255,.12),transparent 60%),
-    radial-gradient(800px 500px at 100% 0%,rgba(138,99,210,.09),transparent 60%),
-    radial-gradient(700px 500px at 50% 120%,rgba(32,125,89,.07),transparent 60%);
+  background-image:none;
 }
 :root[data-theme="ocean"] body{
   background-image:
@@ -828,7 +825,7 @@ footer .business-info{flex-basis:100%;padding-top:10px;border-top:1px solid var(
   const themes = ['dark', 'light', 'ocean', 'mono'];
   const meta = {
     dark: { label: '다크', icon: '🌙', color: '#0b1020', next: 'light' },
-    light: { label: '화이트', icon: '☀️', color: '#f6f8fc', next: 'ocean' },
+    light: { label: '화이트', icon: '☀️', color: '#ffffff', next: 'ocean' },
     ocean: { label: '오션', icon: '🌊', color: '#06141a', next: 'mono' },
     mono: { label: '모노', icon: '◼', color: '#f2f1ee', next: 'dark' },
   };
