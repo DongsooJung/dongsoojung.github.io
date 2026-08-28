@@ -19,6 +19,8 @@ node blogger-en/scripts/cli.mjs status
 - 초안 브리핑 생성 (`[WRITE]` 블록, 사람 작성용)
 - 검토 큐와 dry-run 발행 페이로드
 
+`data/topics.json` · `data/queue.json` 에는 `research --fixture` 샘플이 들어 있습니다. 실서비스 주제가 아니며, 계획이 오면 덮어씁니다.
+
 막혀 있는 것:
 
 - `status: awaiting_plan` 이면 실발행 불가
