@@ -3,19 +3,20 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>밀리의 서재 독서기록 · Stargate 독후감 블로그</title>
-<meta name="description" content="밀리의 서재로 읽은 책들을 독후감 형식으로 기록하는 독서 블로그">
+<title>밀리의 서재 도서목록 598권 · StargateEdu</title>
+<meta name="description" content="StargateEdu가 읽고 탐색하는 밀리의 서재 도서 598권 전체 목록과 독후감 아카이브">
 <link rel="canonical" href="https://www.stargateedu.co.kr/reading/">
 <meta name="robots" content="index,follow,max-image-preview:large">
 <meta name="theme-color" content="#0e1116" id="themeColor" data-light-color="#f5f7fb" data-dark-color="#0e1116">
 <meta property="og:type" content="website">
 <meta property="og:locale" content="ko_KR">
-<meta property="og:title" content="밀리의 서재 독서기록 · Stargate 독후감 블로그">
-<meta property="og:description" content="완독한 책을 별점, 밑줄, 서평으로 정리한 개인 독서 아카이브">
+<meta property="og:title" content="밀리의 서재 도서목록 598권 · StargateEdu">
+<meta property="og:description" content="기술·경영·경제·교육·도시와 사회 분야의 전체 도서목록과 완독 기록">
 <meta property="og:url" content="https://www.stargateedu.co.kr/reading/">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="밀리의 서재 독서기록 · Stargate 독후감 블로그">
-<meta name="twitter:description" content="완독한 책을 별점, 밑줄, 서평으로 정리한 개인 독서 아카이브">
+<meta name="twitter:title" content="밀리의 서재 도서목록 598권 · StargateEdu">
+<meta name="twitter:description" content="전체 도서목록과 완독 독후감을 함께 보는 StargateEdu 디지털 서재">
+<link rel="icon" href="/assets/icons/favicon.ico">
 <script src="/assets/theme-boot.js"></script>
 <style>
   :root{
@@ -154,6 +155,28 @@
     padding:5px 12px;border-radius:999px;font-weight:700;margin-top:14px}
   .post-actions{display:flex;justify-content:flex-end;margin-top:22px;padding-top:18px;border-top:1px solid var(--line)}
 
+  /* ── 전체 서재 ── */
+  .view-tabs{display:flex;gap:8px;margin:0 0 24px;padding:6px;background:var(--panel);border:1px solid var(--line);border-radius:14px;width:max-content;max-width:100%}
+  .view-tab{border:0;border-radius:9px;padding:9px 16px;background:transparent;color:var(--muted);font-weight:800;cursor:pointer}
+  .view-tab.active{background:var(--accent);color:#fff}
+  .view-section[hidden]{display:none}
+  .section-title{font-size:23px;margin:0 0 4px}.section-copy{color:var(--muted);margin:0 0 18px}
+  .library-controls{display:grid;grid-template-columns:minmax(240px,2fr) repeat(3,minmax(150px,1fr));gap:10px;margin:22px 0 10px}
+  .library-controls input,.library-controls select{width:100%;padding:11px 13px;border-radius:11px;border:1px solid var(--line);background:var(--panel);color:var(--txt)}
+  .library-summary{color:var(--muted);font-size:13px;margin:0 2px 12px}.library-summary strong{color:var(--txt)}
+  .library-table-wrap{overflow:auto;border:1px solid var(--line);border-radius:var(--radius);background:var(--panel);margin-bottom:60px}
+  .library-table{width:100%;border-collapse:collapse;min-width:850px}
+  .library-table th,.library-table td{padding:11px 13px;text-align:left;border-bottom:1px solid var(--line);font-size:13px;vertical-align:middle}
+  .library-table th{background:var(--panel2);color:var(--muted);white-space:nowrap}
+  .sort-button{border:0;background:transparent;color:inherit;font:inherit;font-weight:700;padding:0;cursor:pointer}
+  .sort-button:focus-visible{outline:3px solid var(--accent);outline-offset:4px;border-radius:3px}
+  .library-table tbody tr:hover{background:color-mix(in srgb,var(--accent) 7%,transparent)}
+  .library-table tbody tr:last-child td{border-bottom:0}
+  .book-title{font-weight:800}.book-author,.book-price{color:var(--muted)}
+  .book-badge{display:inline-block;padding:3px 8px;border-radius:999px;background:var(--panel2);color:var(--muted);white-space:nowrap}
+  .book-read{color:var(--good);font-weight:800}.book-unread{color:var(--muted)}
+  .book-link{display:inline-block;padding:5px 9px;border-radius:7px;background:var(--accent);color:#fff;text-decoration:none;font-weight:800;white-space:nowrap}
+
   footer.site{border-top:1px solid var(--line);padding:30px 0;color:var(--muted);font-size:13px;text-align:center}
   .empty{text-align:center;color:var(--muted);padding:60px 0;grid-column:1/-1}
   @media(max-width:640px){
@@ -168,6 +191,8 @@
     .search{min-width:100%}
     select,.clearbtn{flex:1}
     .controls-meta{align-items:flex-start;flex-direction:column}
+    .view-tabs{width:100%}.view-tab{flex:1;padding-left:8px;padding-right:8px}
+    .library-controls{grid-template-columns:1fr}
   }
   @media(prefers-reduced-motion:reduce){
     html{scroll-behavior:auto}
@@ -199,13 +224,47 @@
 <main id="main">
 <section class="hero">
   <div class="wrap">
-    <h1>오늘 읽은 한 권, <span class="millie">밀리의 서재</span> 독후감</h1>
-    <p>구독형 전자책으로 완독한 책들을 별점 · 밑줄 · 서평으로 남기는 개인 독서 아카이브입니다.</p>
-    <div class="stats" id="stats"></div>
+    <h1><span class="millie">밀리의 서재</span> 598권, StargateEdu 디지털 서재</h1>
+    <p>기술·경영·경제·교육·도시와 사회를 이해하기 위해 모은 전체 도서와 완독 기록을 함께 탐색합니다.</p>
+    <div class="stats" id="libraryStats" aria-label="전체 서재 통계"></div>
   </div>
 </section>
 
-<div class="wrap">
+<div class="wrap view-tabs" role="tablist" aria-label="독서 아카이브 보기">
+  <button class="view-tab active" id="libraryTab" type="button" role="tab" aria-selected="true" aria-controls="libraryView" onclick="setView('library')">전체 서재 <span id="libraryTabCount">598</span>권</button>
+  <button class="view-tab" id="reviewsTab" type="button" role="tab" aria-selected="false" aria-controls="reviewsView" onclick="setView('reviews')">독후감 <span id="reviewsTabCount">0</span>편</button>
+</div>
+
+<section class="wrap view-section" id="libraryView" role="tabpanel" aria-labelledby="libraryTab">
+  <h2 class="section-title">전체 도서목록</h2>
+  <p class="section-copy">도서명과 저자 검색, 분야별 필터와 열 정렬을 이용해 598권 전체를 살펴보세요.</p>
+  <div class="library-controls" role="search">
+    <label><span class="sr-only">전체 서재 검색</span><input id="librarySearch" type="search" autocomplete="off" placeholder="도서명 · 저자 검색"></label>
+    <label><span class="sr-only">대분류</span><select id="libraryCategory"><option value="">전체 대분류</option></select></label>
+    <label><span class="sr-only">세부분류</span><select id="librarySubcategory"><option value="">전체 세부분류</option></select></label>
+    <label><span class="sr-only">읽음 표시 상태</span><select id="libraryRead"><option value="">전체 상태</option><option value="true">읽음 표시됨</option><option value="false">읽음 미표시</option></select></label>
+  </div>
+  <div class="library-summary" id="librarySummary" role="status" aria-live="polite">전체 서재를 불러오는 중…</div>
+  <div class="library-table-wrap" tabindex="0" aria-label="전체 도서목록 표, 좌우로 스크롤할 수 있습니다">
+    <table class="library-table">
+      <thead><tr>
+        <th aria-sort="ascending"><button class="sort-button" type="button" data-book-sort="title">도서명 ↕</button></th>
+        <th aria-sort="none"><button class="sort-button" type="button" data-book-sort="author">저자/출판사 ↕</button></th>
+        <th aria-sort="none"><button class="sort-button" type="button" data-book-sort="category">대분류 ↕</button></th>
+        <th aria-sort="none"><button class="sort-button" type="button" data-book-sort="subCategory">세부분류 ↕</button></th>
+        <th aria-sort="none"><button class="sort-button" type="button" data-book-sort="read">읽음 표시 ↕</button></th>
+        <th aria-sort="none"><button class="sort-button" type="button" data-book-sort="rating">평점 ↕</button></th>
+        <th aria-sort="none"><button class="sort-button" type="button" data-book-sort="listPrice">정가 ↕</button></th><th>도서정보</th>
+      </tr></thead>
+      <tbody id="libraryRows"><tr><td colspan="8" class="empty">불러오는 중…</td></tr></tbody>
+    </table>
+  </div>
+</section>
+
+<section class="wrap view-section" id="reviewsView" role="tabpanel" aria-labelledby="reviewsTab" hidden>
+  <h2 class="section-title">완독 독후감</h2>
+  <p class="section-copy">별점, 밑줄, 서평과 적용점을 기록한 책입니다.</p>
+  <div class="stats" id="reviewStats" aria-label="완독 독후감 통계"></div>
   <div class="controls" role="search">
     <label class="sr-only" for="search">독서기록 검색</label>
     <div class="search"><input id="search" type="search" autocomplete="off"
@@ -223,7 +282,7 @@
     <div id="resultSummary" aria-live="polite"></div>
   </div>
   <div class="grid" id="grid" aria-live="polite"></div>
-</div>
+</section>
 </main>
 
 <footer class="site">
@@ -318,6 +377,9 @@ const samplePosts = [
 let posts = [];
 let activeGenre = "전체";
 let lastFocus = null;
+let books = [];
+let librarySort = "title";
+let librarySortAsc = true;
 
 function stars(n){return "★".repeat(n)+"☆".repeat(5-n);}
 function fmt(d){
@@ -339,6 +401,97 @@ function volumeLabel(p){
   return p.pages ? `${Number(p.pages).toLocaleString("ko-KR")}쪽` : "페이지 미등록";
 }
 
+function setView(view){
+  const library=view==="library";
+  document.getElementById("libraryView").hidden=!library;
+  document.getElementById("reviewsView").hidden=library;
+  document.getElementById("libraryTab").classList.toggle("active",library);
+  document.getElementById("reviewsTab").classList.toggle("active",!library);
+  document.getElementById("libraryTab").setAttribute("aria-selected",String(library));
+  document.getElementById("reviewsTab").setAttribute("aria-selected",String(!library));
+}
+
+function addLibraryOption(select,value){
+  const option=document.createElement("option");
+  option.value=value;
+  option.textContent=value;
+  select.appendChild(option);
+}
+
+async function loadBooks(){
+  try{
+    const response=await fetch("./data/books.json",{cache:"no-store"});
+    if(!response.ok)throw new Error(`HTTP ${response.status}`);
+    const payload=await response.json();
+    books=Array.isArray(payload)?payload:(payload.books||[]);
+    document.getElementById("libraryTabCount").textContent=books.length;
+    [...new Set(books.map(b=>b.category).filter(Boolean))]
+      .sort((a,b)=>a.localeCompare(b,"ko"))
+      .forEach(value=>addLibraryOption(document.getElementById("libraryCategory"),value));
+    [...new Set(books.map(b=>b.subCategory).filter(Boolean))]
+      .sort((a,b)=>a.localeCompare(b,"ko"))
+      .forEach(value=>addLibraryOption(document.getElementById("librarySubcategory"),value));
+    renderLibraryStats();
+    renderLibrary();
+  }catch(error){
+    document.getElementById("librarySummary").textContent="전체 도서목록을 불러오지 못했습니다.";
+    document.getElementById("libraryRows").innerHTML='<tr><td colspan="8" class="empty">잠시 후 다시 시도해 주세요.</td></tr>';
+    console.error("Full library data load failed",error);
+  }
+}
+
+function renderLibraryStats(){
+  const groups=[...new Set(books.map(b=>b.category).filter(Boolean))];
+  const stats=[{label:"전체 도서",value:books.length},...groups.map(group=>({
+    label:group.replace(/^\S+\s*/,""),value:books.filter(b=>b.category===group).length
+  }))];
+  document.getElementById("libraryStats").innerHTML=stats.map(item=>
+    `<div class="stat"><div class="n">${item.value}<span class="u">권</span></div><div class="l">${esc(item.label)}</div></div>`
+  ).join("");
+}
+
+function visibleBooks(){
+  const query=document.getElementById("librarySearch").value.trim().toLocaleLowerCase("ko");
+  const category=document.getElementById("libraryCategory").value;
+  const subcategory=document.getElementById("librarySubcategory").value;
+  const read=document.getElementById("libraryRead").value;
+  return books.filter(book=>{
+    const hay=`${book.title||""} ${book.author||""}`.toLocaleLowerCase("ko");
+    return (!query||hay.includes(query))&&(!category||book.category===category)&&
+      (!subcategory||book.subCategory===subcategory)&&(read===""||String(Boolean(book.read))===read);
+  }).sort((a,b)=>{
+    let x=a[librarySort]??"",y=b[librarySort]??"";
+    const result=typeof x==="number"||typeof x==="boolean"
+      ? (x===y?0:x>y?1:-1)
+      : String(x).localeCompare(String(y),"ko");
+    return librarySortAsc?result:-result;
+  });
+}
+
+function renderLibrary(){
+  const list=visibleBooks();
+  document.getElementById("librarySummary").innerHTML=
+    `총 <strong>${books.length}권</strong> 중 <strong>${list.length}권</strong> 표시`;
+  if(!list.length){
+    document.getElementById("libraryRows").innerHTML='<tr><td colspan="8" class="empty">검색 결과가 없습니다.</td></tr>';
+    return;
+  }
+  document.getElementById("libraryRows").innerHTML=list.map(book=>{
+    const price=Number.isFinite(book.listPrice)?`${Number(book.listPrice).toLocaleString("ko-KR")}원`:"—";
+    const safeAladin=typeof book.aladinUrl==="string"&&/^https:\/\/(?:www\.)?aladin\.co\.kr\//i.test(book.aladinUrl)
+      ? `<a class="book-link" href="${esc(book.aladinUrl)}" target="_blank" rel="noopener noreferrer">알라딘</a>`:"—";
+    return `<tr>
+      <td class="book-title">${esc(book.title)}</td>
+      <td class="book-author">${esc(book.author||"—")}</td>
+      <td><span class="book-badge">${esc(book.category||"—")}</span></td>
+      <td><span class="book-badge">${esc(book.subCategory||"—")}</span></td>
+      <td class="${book.read?"book-read":"book-unread"}">${book.read?"읽음 표시됨":"읽음 미표시"}</td>
+      <td>${book.rating?"★".repeat(Number(book.rating)):"—"}</td>
+      <td class="book-price">${price}</td><td>${safeAladin}</td>
+    </tr>`;
+  }).join("");
+}
+
 async function loadPosts(){
   const summary=document.getElementById("resultSummary");
   summary.textContent="Notion 독서기록을 불러오는 중…";
@@ -348,6 +501,7 @@ async function loadPosts(){
     const payload=await response.json();
     if(!Array.isArray(payload.posts))throw new Error("invalid_payload");
     posts=payload.posts;
+    document.getElementById("reviewsTabCount").textContent=posts.length;
     renderStats();
     renderChips();
     render();
@@ -370,7 +524,7 @@ function renderStats(){
   const monthKey=new Intl.DateTimeFormat("en-CA",{year:"numeric",month:"2-digit",timeZone:"Asia/Seoul"})
     .format(new Date()).slice(0,7);
   const thisMonth=posts.filter(p=>p.end?.startsWith(monthKey)).length;
-  document.getElementById("stats").innerHTML=`
+  document.getElementById("reviewStats").innerHTML=`
     <div class="stat"><div class="n">${total}<span class="u">권</span></div><div class="l">완독한 책</div></div>
     <div class="stat"><div class="n">${avg}<span class="u">/5</span></div><div class="l">평균 별점</div></div>
     <div class="stat"><div class="n">${pages}<span class="u">쪽</span></div><div class="l">읽은 페이지</div></div>
@@ -492,7 +646,7 @@ function closePost({updateHash=true}={}){
   overlay.classList.remove("open");
   overlay.setAttribute("aria-hidden","true");
   document.body.style.overflow="";
-  document.title="밀리의 서재 독서기록 · Stargate 독후감 블로그";
+  document.title="밀리의 서재 도서목록 598권 · StargateEdu";
   if(updateHash && location.hash.startsWith("#book-")){
     try{history.replaceState(null,"",location.pathname+location.search);}
     catch{location.hash="";}
@@ -541,6 +695,19 @@ document.addEventListener("keydown",e=>{
 window.addEventListener("popstate",syncFromHash);
 
 document.getElementById("copyrightYear").textContent=new Date().getFullYear();
+document.querySelectorAll("#librarySearch,#libraryCategory,#librarySubcategory,#libraryRead")
+  .forEach(element=>element.addEventListener("input",renderLibrary));
+document.querySelectorAll("button[data-book-sort]").forEach(button=>button.addEventListener("click",()=>{
+  const key=button.dataset.bookSort;
+  if(librarySort===key)librarySortAsc=!librarySortAsc;
+  else{librarySort=key;librarySortAsc=true;}
+  document.querySelectorAll("button[data-book-sort]").forEach(item=>{
+    item.closest("th").setAttribute("aria-sort",item.dataset.bookSort===librarySort
+      ? (librarySortAsc?"ascending":"descending") : "none");
+  });
+  renderLibrary();
+}));
+loadBooks();
 loadPosts();
 </script>
 <script src="/assets/theme.js?v=20260729" defer></script>
