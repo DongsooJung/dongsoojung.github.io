@@ -55,11 +55,11 @@
       SUPABASE_ANON_KEY:"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImluZnRleHBjbmZpbmdsd2xydnNqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzI5MTMyMzgsImV4cCI6MjA4ODQ4OTIzOH0.HONuULp0L3B5T0gTiwJMnowjJonJzzNHhUV_LtpDQoI"
     };
     const $=id=>document.getElementById(id),nameInput=$("name"),phoneInput=$("phone"),statusEl=$("socialStatus");
-    let social={provider:"direct",id:"",email:""},naverLogin=null,deferredInstall=null;
+    let social={provider:"direct",id:""},naverLogin=null,deferredInstall=null;
 
     function setStatus(message,type="") { statusEl.textContent=message; statusEl.className=`status ${type}`.trim(); }
-    function applySocial(provider,name,email,id){
-      social={provider,id:String(id||""),email:String(email||"")};
+    function applySocial(provider,name,id){
+      social={provider,id:String(id||"")};
       if(name){nameInput.value=name;$("namePre").classList.add("show")}
       setStatus(`${provider==="kakao"?"카카오":"네이버"} 계정이 연결되었습니다.`,"ok");
       history.replaceState(null,"",location.pathname);
@@ -72,9 +72,9 @@
     $("kakaoBtn").addEventListener("click",()=>{
       if(!window.Kakao||!Kakao.isInitialized())return setStatus("카카오 SDK를 불러오지 못했습니다. 잠시 후 다시 시도해 주세요.","error");
       setStatus("카카오 로그인 화면을 여는 중입니다.");
-      Kakao.Auth.login({scope:"profile_nickname,account_email",persistAccessToken:false,
+      Kakao.Auth.login({scope:"profile_nickname",persistAccessToken:false,
         success:()=>Kakao.API.request({url:"/v2/user/me",
-          success:r=>{const a=r.kakao_account||{};applySocial("kakao",a.profile?.nickname||r.properties?.nickname||"",a.email||"",r.id)},
+          success:r=>{const a=r.kakao_account||{};applySocial("kakao",a.profile?.nickname||r.properties?.nickname||"",r.id)},
           fail:()=>setStatus("카카오 계정 정보를 불러오지 못했습니다.","error")}),
         fail:()=>setStatus("카카오 로그인이 취소되었거나 설정을 확인해야 합니다.","error")
       });
@@ -88,7 +88,7 @@
           setStatus("네이버 계정 정보를 확인하는 중입니다.");
           naverLogin.getLoginStatus(status=>{
             if(status&&naverLogin.user){
-              applySocial("naver",naverLogin.user.getName()||naverLogin.user.getNickName()||"",naverLogin.user.getEmail()||"",naverLogin.user.getId()||"");
+              applySocial("naver",naverLogin.user.getName()||naverLogin.user.getNickName()||"",naverLogin.user.getId()||"");
             }else setStatus("네이버 로그인 상태를 확인하지 못했습니다.","error");
           });
         }
@@ -106,7 +106,7 @@
       if($("website").value)return;
       if(!nameInput.value.trim()||!/^01[016789]-?\d{3,4}-?\d{4}$/.test(phoneInput.value)||!$("consent").checked){error.textContent="이름, 올바른 휴대전화번호, 개인정보 동의를 확인해 주세요.";error.hidden=false;return}
       button.disabled=true;button.textContent="전송 중…";
-      const payload={name:nameInput.value.trim(),phone:phoneInput.value.trim(),consent:"Y",provider:social.provider,social_email:social.email,social_id:social.id,source:"stargateedu.co.kr/consult",submitted_at:new Date().toISOString()};
+      const payload={name:nameInput.value.trim(),phone:phoneInput.value.trim(),consent:"Y",provider:social.provider,social_id:social.id,source:"stargateedu.co.kr/consult",submitted_at:new Date().toISOString()};
       try{
         const response=await fetch(`${CONFIG.SUPABASE_URL}/rest/v1/leads`,{method:"POST",headers:{"Content-Type":"application/json",apikey:CONFIG.SUPABASE_ANON_KEY,Authorization:`Bearer ${CONFIG.SUPABASE_ANON_KEY}`,Prefer:"return=minimal"},body:JSON.stringify(payload)});
         if(!response.ok)throw new Error(String(response.status));
