@@ -1,0 +1,453 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>아마존 수익화 전략 대시보드 | STARGATE Intelligence</title>
+  <meta name="description" content="아마존 글로벌 셀러 계정 인증부터 리스팅 확대, 멀티채널 위탁판매·디지털 상품 투트랙, 수익 시뮬레이션과 리스크까지 정리한 STARGATE 내부 실행 계획 보고서.">
+  <meta name="theme-color" content="#141007" data-light-color="#faf7f2" data-dark-color="#141007">
+  <link rel="canonical" href="https://stargateedu.co.kr/strategy/amazon-monetization/">
+  <meta property="og:title" content="아마존 수익화 전략 대시보드 | STARGATE Intelligence">
+  <meta property="og:description" content="계정 인증 → 리스팅 확대 → 광고 최적화 → FBA 검토로 이어지는 아마존 채널 실행 계획과 KPI를 한 화면에서 확인합니다.">
+  <meta property="og:url" content="https://stargateedu.co.kr/strategy/amazon-monetization/">
+  <meta property="og:type" content="article">
+  <script src="/assets/theme-boot.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js" defer></script>
+  <style>
+    :root{color-scheme:dark;--bg:#120e07;--panel:#1d1710;--panel2:#292013;--ink:#fbf6ee;--sub:#c9b79b;--muted:#9c8a70;--line:#4a3a22;--brand:#ff9900;--brand2:#ffc266;--amber:#f4c56a;--blue:#6bb7ff;--green:#5fd08a;--red:#ff7d6b;--shadow:0 24px 70px rgba(0,0,0,.34)}
+    :root[data-theme="light"]{color-scheme:light;--bg:#faf7f2;--panel:#fff;--panel2:#f2ebdf;--ink:#1f1a12;--sub:#5d5040;--muted:#7e7160;--line:#ded2bf;--brand:#c26a00;--brand2:#96500a;--amber:#a86800;--blue:#1267a9;--green:#127a45;--red:#b8402c;--shadow:0 20px 56px rgba(90,66,26,.12)}
+    :root[data-theme="ocean"]{color-scheme:dark;--bg:#06171b;--panel:#0b252c;--panel2:#10313a;--ink:#ebfbfd;--sub:#a4c9d0;--muted:#78a0a9;--line:#28505a;--brand:#f6a53c;--brand2:#ffd08a;--blue:#6bbcff;--green:#54d6c2;--red:#ff8e78}
+    :root[data-theme="mono"]{color-scheme:light;--bg:#f3f2ef;--panel:#fff;--panel2:#e9e7e1;--ink:#191919;--sub:#555;--muted:#777;--line:#d4d0c8;--brand:#222;--brand2:#444;--amber:#555;--blue:#333;--green:#3a3a3a;--red:#5a5a5a}
+    *{box-sizing:border-box}html{scroll-behavior:smooth;background:var(--bg)}
+    body{margin:0;background:var(--bg);color:var(--ink);font-family:"Pretendard","Apple SD Gothic Neo","Noto Sans KR",system-ui,sans-serif;line-height:1.65;-webkit-font-smoothing:antialiased}
+    a{color:inherit}.wrap{width:min(1160px,calc(100% - 40px));margin:auto}
+    .nav{min-height:72px;display:flex;align-items:center;justify-content:space-between;gap:20px;border-bottom:1px solid var(--line)}
+    .brand{display:flex;align-items:center;gap:10px;text-decoration:none;font-weight:900;letter-spacing:.02em}
+    .brand-mark{width:34px;height:34px;border-radius:10px;display:grid;place-items:center;background:var(--brand);color:#1a1200;font-size:15px}
+    .nav-actions{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+    .nav a,.theme-toggle{border:1px solid var(--line);border-radius:999px;padding:8px 12px;background:transparent;color:var(--sub);font:700 12px inherit;text-decoration:none;cursor:pointer}
+    .nav a:hover,.theme-toggle:hover{color:var(--ink);border-color:var(--brand)}
+    .hero{padding:72px 0 44px;display:grid;grid-template-columns:minmax(0,1.35fr) minmax(300px,.65fr);gap:40px;align-items:end}
+    .eyebrow{color:var(--brand2);font-size:12px;font-weight:900;letter-spacing:.16em;text-transform:uppercase}
+    .hero h1{margin:14px 0 16px;font-size:clamp(34px,5.6vw,68px);line-height:1.04;letter-spacing:-.05em}.hero h1 em{font-style:normal;color:var(--brand2)}
+    .lead{max-width:760px;margin:0;color:var(--sub);font-size:clamp(16px,2vw,20px)}
+    .hero-meta{margin-top:26px;display:flex;gap:10px;flex-wrap:wrap}
+    .chip{border:1px solid var(--line);background:var(--panel);border-radius:999px;padding:7px 11px;color:var(--sub);font-size:12px;font-weight:800}
+    .hero-side{border:1px solid var(--line);background:linear-gradient(145deg,var(--panel2),var(--panel));border-radius:24px;padding:28px;box-shadow:var(--shadow)}
+    .hero-side small{color:var(--muted);font-weight:800}
+    .hero-side strong{display:block;margin:6px 0 8px;font-size:clamp(30px,4.4vw,46px);line-height:1.05;color:var(--brand2)}
+    .hero-side p{margin:0;color:var(--sub);font-size:13px}
+    .scope-note{margin:0 0 42px;border:1px solid color-mix(in srgb,var(--amber) 45%,var(--line));border-left:4px solid var(--amber);background:color-mix(in srgb,var(--amber) 9%,var(--panel));border-radius:14px;padding:18px 20px;color:var(--sub);font-size:14px}
+    .scope-note strong{color:var(--ink)}
+    .kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:64px}
+    .kpi{border:1px solid var(--line);background:var(--panel);border-radius:18px;padding:22px}
+    .kpi span{color:var(--muted);font-size:12px;font-weight:800}
+    .kpi strong{display:block;margin:7px 0 5px;font-size:clamp(23px,2.8vw,34px);line-height:1.15}
+    .kpi small{color:var(--sub)}
+    .up{color:var(--green)}.warn{color:var(--amber)}.flat{color:var(--muted)}
+    section{padding:62px 0;border-top:1px solid var(--line)}
+    .section-head{display:flex;align-items:end;justify-content:space-between;gap:24px;margin-bottom:26px}
+    .section-head h2{margin:6px 0 0;font-size:clamp(25px,3.6vw,40px);line-height:1.15;letter-spacing:-.035em}
+    .section-head p{max-width:560px;margin:0;color:var(--sub)}
+    .chart-grid{display:grid;grid-template-columns:1.3fr .7fr;gap:18px}
+    .card{border:1px solid var(--line);background:var(--panel);border-radius:20px;padding:24px;box-shadow:0 12px 36px rgba(0,0,0,.08)}
+    .card h3{margin:0 0 4px;font-size:18px}.card .caption{margin:0 0 20px;color:var(--muted);font-size:12px}
+    .canvas-wrap{position:relative;height:330px}
+    .mini-bars{display:grid;gap:15px;margin-top:18px}
+    .mini-row{display:grid;grid-template-columns:78px 1fr 62px;gap:12px;align-items:center;font-size:13px}
+    .mini-track{height:12px;border-radius:999px;background:var(--panel2);overflow:hidden}
+    .mini-fill{height:100%;border-radius:inherit;background:linear-gradient(90deg,var(--brand),var(--brand2))}
+    .mini-row b{text-align:right;font-variant-numeric:tabular-nums}
+    .callout{margin-top:18px;padding:16px;border-radius:14px;background:var(--panel2);color:var(--sub);font-size:13px}.callout strong{color:var(--ink)}
+    .table-wrap{overflow:auto;border:1px solid var(--line);border-radius:18px;background:var(--panel)}
+    table{width:100%;min-width:720px;border-collapse:collapse}
+    th,td{padding:15px 18px;text-align:right;border-bottom:1px solid var(--line);white-space:nowrap}
+    th:first-child,td:first-child{text-align:left}
+    th{background:var(--panel2);color:var(--sub);font-size:12px}
+    td{font-variant-numeric:tabular-nums;font-size:14px}
+    tbody tr:last-child td{border-bottom:0}
+    tbody tr:hover{background:color-mix(in srgb,var(--brand) 6%,transparent)}
+    tr.focus-row{background:color-mix(in srgb,var(--brand) 10%,transparent)}
+    .tag{display:inline-block;padding:3px 9px;border-radius:999px;font-size:11px;font-weight:900;border:1px solid var(--line);background:var(--panel2)}
+    .tag.ok{color:var(--green);border-color:color-mix(in srgb,var(--green) 45%,var(--line))}
+    .tag.wait{color:var(--amber);border-color:color-mix(in srgb,var(--amber) 45%,var(--line))}
+    .tag.todo{color:var(--sub)}
+    .data-note{margin:14px 0 0;color:var(--muted);font-size:12px}
+    .track-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+    .track{border:1px solid var(--line);border-radius:20px;padding:24px;background:linear-gradient(145deg,var(--panel),var(--panel2))}
+    .track h3{margin:10px 0 6px;font-size:20px}
+    .track ul{margin:14px 0 0;padding-left:18px;color:var(--sub);font-size:14px}
+    .track li+li{margin-top:7px}
+    .timeline{display:grid;gap:14px}
+    .phase{border:1px solid var(--line);border-radius:18px;background:var(--panel);padding:22px 24px}
+    .phase-head{display:flex;align-items:baseline;justify-content:space-between;gap:16px;flex-wrap:wrap}
+    .phase-head h3{margin:0;font-size:18px}
+    .phase-head span{color:var(--muted);font-size:12px;font-weight:800}
+    .phase ul{margin:12px 0 0;padding-left:18px;color:var(--sub);font-size:14px}
+    .phase li+li{margin-top:6px}
+    .phase li b{color:var(--brand2)}
+    .insights{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+    .insight{border:1px solid var(--line);border-radius:18px;padding:24px;background:linear-gradient(145deg,var(--panel),var(--panel2))}
+    .num{color:var(--brand2);font-weight:900;font-size:12px}
+    .insight h3{margin:16px 0 8px;font-size:19px}
+    .insight p{margin:0;color:var(--sub);font-size:14px}
+    .signal{display:inline-block;margin-top:18px;color:var(--brand2);font-weight:900;font-size:12px}
+    .method{display:grid;grid-template-columns:.85fr 1.15fr;gap:18px}
+    .definition{border:1px solid var(--line);background:var(--panel);border-radius:18px;padding:24px}
+    .definition h3{margin-top:0}
+    .definition ul{padding-left:18px;margin:12px 0 0;color:var(--sub);font-size:14px}
+    .definition li+li{margin-top:8px}
+    .refs{list-style:none;margin:0;padding:0;display:grid;gap:10px}
+    .refs li{border:1px solid var(--line);background:var(--panel);border-radius:14px;padding:16px 18px;color:var(--sub);font-size:13px}
+    .refs a{color:var(--brand2);font-weight:800}
+    .ref-year{display:inline-grid;place-items:center;min-width:64px;margin-right:9px;padding:4px 7px;border-radius:7px;background:var(--panel2);color:var(--ink);font-weight:900;font-size:12px}
+    .closing{display:flex;justify-content:space-between;gap:24px;align-items:center;padding:38px;border:1px solid var(--line);border-radius:22px;background:radial-gradient(circle at 85% 20%,color-mix(in srgb,var(--brand) 22%,transparent),transparent 38%),var(--panel)}
+    .closing h2{margin:0 0 8px}.closing p{margin:0;color:var(--sub)}
+    .btn{display:inline-flex;align-items:center;justify-content:center;min-width:170px;padding:13px 18px;border-radius:12px;background:var(--brand);color:#1a1200;text-decoration:none;font-weight:900}
+    .print-btn{border:1px solid var(--line);background:var(--panel2);color:var(--ink);padding:12px 16px;border-radius:12px;font-weight:800;cursor:pointer}
+    footer{padding:34px 0 50px;color:var(--muted);font-size:12px;display:flex;justify-content:space-between;gap:20px}
+    @media(max-width:900px){.hero,.chart-grid,.method,.track-grid{grid-template-columns:1fr}.hero{padding-top:52px}.kpis{grid-template-columns:repeat(2,1fr)}.insights{grid-template-columns:1fr}.closing{align-items:flex-start;flex-direction:column}.hero-side{max-width:520px}.section-head{align-items:flex-start;flex-direction:column}}
+    @media(max-width:560px){.wrap{width:min(100% - 26px,1160px)}.nav{padding:12px 0;align-items:flex-start;flex-direction:column}.kpis{grid-template-columns:1fr}.hero h1{font-size:38px}.canvas-wrap{height:280px}.closing{padding:24px}.btn{width:100%}footer{flex-direction:column}}
+    @media print{.nav,.print-btn{display:none}.wrap{width:100%}.hero{padding-top:20px}.card,.kpi,.insight,.definition,.closing,.phase,.track{break-inside:avoid}body{background:#fff;color:#111}section{padding:34px 0}}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <nav class="nav" aria-label="보고서 메뉴">
+      <a class="brand" href="/strategy/"><span class="brand-mark">a</span><span>STARGATE · AMAZON MONETIZATION</span></a>
+      <div class="nav-actions">
+        <a href="#status">채널 현황</a>
+        <a href="#roadmap">리스팅 로드맵</a>
+        <a href="#revenue">수익 시뮬레이션</a>
+        <a href="#timeline">실행 타임라인</a>
+        <a href="#risk">리스크</a>
+        <button class="theme-toggle" type="button" data-theme-toggle><span data-theme-icon>☀️</span> <span data-theme-label>화이트</span></button>
+      </div>
+    </nav>
+
+    <header class="hero">
+      <div>
+        <div class="eyebrow">Amazon Global Selling · 2026 실행 계획</div>
+        <h1>계정은 열렸고,<br><em>리스팅이 병목입니다.</em></h1>
+        <p class="lead">아마존 셀러 계정 인증은 2026년 1월에 끝났습니다. 이후 과제는 도매매 소싱 상품과 자체 디지털 상품을 리스팅으로 전환하고, 광고 ROAS를 확보한 뒤 FBA 전환 여부를 판단하는 일입니다. 이 보고서는 내부 기획 문서의 목표·과제·리스크를 하나의 실행 화면으로 재구성했습니다.</p>
+        <div class="hero-meta">
+          <span class="chip">출처: 내부 Notion 기획 문서</span>
+          <span class="chip">문서 시점 2026.01.01–04.18</span>
+          <span class="chip">계획·목표치 (실적 아님)</span>
+          <span class="chip">작성 2026.08.29</span>
+        </div>
+      </div>
+      <aside class="hero-side" aria-label="핵심 상태">
+        <small>아마존 채널 현재 단계</small>
+        <strong>리스팅 본격화</strong>
+        <p>계정 인증 완료(2026.01.06). 3개월 목표 등록 상품 50개+, 실현 매출은 문서 최종 갱신 시점 기준 미기록 상태입니다.</p>
+      </aside>
+    </header>
+
+    <div class="scope-note">
+      <strong>데이터 상태 안내</strong> — 이 대시보드의 모든 숫자는 Amazon Seller Central 실적이 아니라 <strong>내부 기획 문서에 기록된 목표치와 계획</strong>입니다. Seller Central API·정산 데이터는 아직 연결되어 있지 않으며, 원본 문서상 아마존 채널 누적 매출은 <strong>₩0(2026.03.19 기준)</strong>으로 기록되어 있습니다. 실적 수치가 연결되기 전까지 이 값들을 달성 실적으로 해석하지 마십시오. 원문 최신 갱신은 2026년 4월이며, 그 이후 진척은 반영되지 않았습니다.
+    </div>
+
+    <div class="kpis" aria-label="핵심 지표">
+      <article class="kpi"><span>셀러 계정 상태</span><strong class="up">인증 완료</strong><small>2026.01.06 딥워크 세션에서 본인인증 종료</small></article>
+      <article class="kpi"><span>Q1 목표 매출 (멀티채널 합산)</span><strong>월 ₩1,000만</strong><small>아마존 · 쿠팡 · Cafe24 합산 기준</small></article>
+      <article class="kpi"><span>3개월 아마존 등록 상품 목표</span><strong>50개+</strong><small>1개월 10개 → 2개월 30개 → 3개월 50개</small></article>
+      <article class="kpi"><span>기록된 아마존 실매출</span><strong class="flat">₩0</strong><small>2026.03.19 문서 기준 · 실적 연동 전</small></article>
+    </div>
+
+    <main>
+      <section id="status">
+        <div class="section-head">
+          <div><div class="eyebrow">Channel snapshot</div><h2>아마존은 3개 판매 채널 중 유일하게 계정이 끝난 채널입니다.</h2></div>
+          <p>소싱은 도매매·온채널이 담당하고, 판매는 쿠팡·네이버·아마존으로 나뉩니다. 아마존은 계정 장벽을 이미 통과했지만 리스팅 수량이 가장 적습니다.</p>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>플랫폼</th><th>역할</th><th>계정</th><th>상품</th><th>기록 매출</th><th>다음 액션</th></tr></thead>
+            <tbody>
+              <tr><td><strong>도매매</strong></td><td>소싱 허브</td><td><span class="tag ok">완료</span></td><td>18,000개 등록</td><td>₩0</td><td>고수익 TOP 50 선별</td></tr>
+              <tr><td><strong>온채널</strong></td><td>연동 허브</td><td><span class="tag ok">완료</span></td><td>쿠팡 연동 대기</td><td>₩0</td><td>자동 주문처리 세팅</td></tr>
+              <tr><td><strong>쿠팡</strong></td><td>판매 채널 #1</td><td><span class="tag ok">Wing 완료</span></td><td>0건</td><td>₩0</td><td>위탁 50개 등록</td></tr>
+              <tr><td><strong>네이버</strong></td><td>판매 채널 #2</td><td><span class="tag wait">미확인</span></td><td>0건</td><td>₩0</td><td>셀러 가입</td></tr>
+              <tr class="focus-row"><td><strong>아마존</strong></td><td>판매 채널 #3</td><td><span class="tag ok">인증 완료</span></td><td>리스팅 테스트</td><td>₩0</td><td><strong>리스팅 10개 본격화</strong></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="data-note">원본 기준일 2026.03.19. 계정·상품 상태는 해당 시점 스냅샷이며 이후 변동은 반영되지 않았습니다.</p>
+
+        <div class="chart-grid" style="margin-top:26px">
+          <article class="card">
+            <h3>채널별 3개월 등록 상품 목표</h3>
+            <p class="caption">1 · 2 · 3개월차 누적 등록 상품 수 목표 (계획치)</p>
+            <div class="canvas-wrap"><canvas id="listingChart" aria-label="채널별 등록 상품 목표 추이"></canvas></div>
+          </article>
+          <aside class="card">
+            <h3>계정 개설 체크리스트 진척</h3>
+            <p class="caption">Amazon 셀러 계정 설정 4단계 기준</p>
+            <div class="mini-bars">
+              <div class="mini-row"><span>준비물</span><div class="mini-track"><div class="mini-fill" style="width:100%"></div></div><b>완료</b></div>
+              <div class="mini-row"><span>계정 생성</span><div class="mini-track"><div class="mini-fill" style="width:100%"></div></div><b>완료</b></div>
+              <div class="mini-row"><span>스토어 설정</span><div class="mini-track"><div class="mini-fill" style="width:70%"></div></div><b>진행</b></div>
+              <div class="mini-row"><span>상품 리스팅</span><div class="mini-track"><div class="mini-fill" style="width:20%"></div></div><b>테스트</b></div>
+            </div>
+            <div class="callout">
+              <strong>계정 구성</strong><br>
+              Professional 셀러(월 $39.99) · 사업자 유형 Corporation · W-8BEN-E 세금정보 제출 · USD 수령 계좌 등록 · 배송은 FBA 우선 검토.
+            </div>
+          </aside>
+        </div>
+      </section>
+
+      <section id="roadmap">
+        <div class="section-head">
+          <div><div class="eyebrow">Product strategy</div><h2>마진 구조가 다른 두 갈래를 한 계정에 태웁니다.</h2></div>
+          <p>위탁판매는 재고 리스크가 없는 대신 마진이 얇고, 디지털 상품은 마진이 두껍지만 수요 확보가 어렵습니다. 두 트랙을 섞어 평균 마진을 방어하는 구조입니다.</p>
+        </div>
+        <div class="track-grid">
+          <article class="track">
+            <div class="eyebrow">Track A · 위탁판매</div>
+            <h3>도매매 소싱 상품 선별 리스팅</h3>
+            <p style="color:var(--sub);margin:0;font-size:14px">18,000개 소싱 풀에서 고수익 상품만 골라 아마존에 직접 리스팅합니다.</p>
+            <ul>
+              <li>선별 기준: 마진 30%+ · 리뷰 4.0+ · 경쟁 적은 롱테일</li>
+              <li>목표 순마진: 건당 15~30% (수수료 제외)</li>
+              <li>배송: 공급사 직배송 → 물량 확보 후 FBA 전환 검토</li>
+              <li>리스크: 카테고리별 판매 승인 정책, 국제 배송 리드타임</li>
+            </ul>
+          </article>
+          <article class="track">
+            <div class="eyebrow">Track B · 디지털 상품</div>
+            <h3>자체 제작 가이드북 · KDP</h3>
+            <p style="color:var(--sub);margin:0;font-size:14px">아마존에 올릴 수 있는 자체 IP는 현재 AI 활용 가이드북 1종이 지정되어 있습니다.</p>
+            <ul>
+              <li>AI 활용 자기계발 가이드북 — ₩15,900~24,900 · 마진 93~96%</li>
+              <li>판매 채널: 네이버 · 쿠팡 · <strong>아마존(KDP)</strong></li>
+              <li>국내 3종(엄마표 수학 · 나홀로 소송 · 영재교육)은 아마존 미배정</li>
+              <li>기여 목표: 디지털 상품 전체 월 ₩200만 (순이익 약 ₩186만)</li>
+            </ul>
+          </article>
+        </div>
+
+        <div class="table-wrap" style="margin-top:20px">
+          <table>
+            <thead><tr><th>KPI</th><th>1개월</th><th>2개월</th><th>3개월</th></tr></thead>
+            <tbody>
+              <tr class="focus-row"><td><strong>아마존 등록 상품</strong></td><td>10개</td><td>30개</td><td>50개+</td></tr>
+              <tr><td>쿠팡 등록 상품</td><td>50개</td><td>100개</td><td>200개+</td></tr>
+              <tr><td>네이버 등록 상품</td><td>25개</td><td>50개</td><td>80개+</td></tr>
+              <tr><td>광고 ROAS</td><td>150%+</td><td>200%+</td><td>300%+</td></tr>
+              <tr><td>리뷰 수 (전 채널)</td><td>10건+</td><td>30건+</td><td>80건+</td></tr>
+              <tr><td>전체 월매출</td><td>₩100만</td><td>₩300만</td><td>₩500만+</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="data-note">전 채널 합산 KPI이며 아마존 단독 매출 목표는 별도로 분리되어 있지 않습니다.</p>
+      </section>
+
+      <section id="revenue">
+        <div class="section-head">
+          <div><div class="eyebrow">Revenue simulation</div><h2>세 시나리오 모두 광고비와 수수료를 먼저 뺐습니다.</h2></div>
+          <p>멀티채널 합산 기준 시뮬레이션입니다. 위탁 15~30%와 디지털 93~96%가 섞여 혼합 마진율 40~55%를 가정합니다.</p>
+        </div>
+        <div class="chart-grid">
+          <article class="card">
+            <h3>시나리오별 월 매출·비용·순이익</h3>
+            <p class="caption">단위: 만 원 · 멀티채널 합산 계획치</p>
+            <div class="canvas-wrap"><canvas id="revenueChart" aria-label="시나리오별 수익 시뮬레이션"></canvas></div>
+          </article>
+          <aside class="card">
+            <h3>순이익률</h3>
+            <p class="caption">순이익 ÷ 월 매출</p>
+            <div class="mini-bars">
+              <div class="mini-row"><span>보수적</span><div class="mini-track"><div class="mini-fill" style="width:80%"></div></div><b>40%</b></div>
+              <div class="mini-row"><span>현실적</span><div class="mini-track"><div class="mini-fill" style="width:100%"></div></div><b>50%</b></div>
+              <div class="mini-row"><span>목표</span><div class="mini-track"><div class="mini-fill" style="width:100%"></div></div><b>50%</b></div>
+            </div>
+            <div class="callout">
+              <strong>Q1 트래커와의 정합성</strong><br>
+              2026 Q1 수익화 전략 트래커에서 이커머스(쿠팡+아마존)는 분기 목표 매출의 46.7%인 ₩3,500만을 차지하는 단일 최대 수익원으로 설정되어 있습니다. 위 월 단위 시뮬레이션과 분기 목표는 산정 기준이 달라 직접 비교할 수 없습니다.
+            </div>
+          </aside>
+        </div>
+        <div class="table-wrap" style="margin-top:18px">
+          <table>
+            <thead><tr><th>시나리오</th><th>월 매출</th><th>광고비</th><th>수수료</th><th>순이익</th></tr></thead>
+            <tbody>
+              <tr><td><strong>보수적 (Month 1~2)</strong></td><td>₩1,000,000</td><td>₩200,000</td><td>₩100,000</td><td>₩400,000~</td></tr>
+              <tr><td><strong>현실적 (Month 3~4)</strong></td><td>₩3,000,000</td><td>₩400,000</td><td>₩300,000</td><td>₩1,500,000~</td></tr>
+              <tr><td><strong>목표 (Month 5+)</strong></td><td>₩5,000,000+</td><td>₩600,000</td><td>₩500,000</td><td>₩2,500,000+</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="data-note">아마존 단독이 아닌 쿠팡·네이버·아마존 합산 시뮬레이션입니다. 환율·국제배송비·아마존 Referral Fee는 별도 반영이 필요합니다.</p>
+      </section>
+
+      <section id="timeline">
+        <div class="section-head">
+          <div><div class="eyebrow">Execution timeline</div><h2>10주 계획에서 아마존이 맡은 다섯 개의 마디</h2></div>
+          <p>2026.03.19~05.31 멀티채널 실행 계획 중 아마존 관련 과제만 추려내고, 각 Phase의 전체 맥락을 함께 표시했습니다.</p>
+        </div>
+        <div class="timeline">
+          <article class="phase">
+            <div class="phase-head"><h3>Phase 1 · 인프라 완성</h3><span>Week 1–2 · 3/19–4/1</span></div>
+            <ul>
+              <li><b>아마존:</b> 도매매 → 아마존 리스팅 10개 본격 진행, 소싱 10개 확정</li>
+              <li>병행: 도매매 고수익 TOP 50 선별, 온채널 → 쿠팡 위탁 등록, 네이버 셀러 가입</li>
+            </ul>
+          </article>
+          <article class="phase">
+            <div class="phase-head"><h3>Phase 2 · 상품 등록 + 첫 매출</h3><span>Week 3–4 · 4/2–4/15</span></div>
+            <ul>
+              <li><b>아마존:</b> 리스팅 10개 라이브 확인</li>
+              <li>병행: 쿠팡 위탁 50개 라이브, 네이버 디지털 3종 등록, 초기 리뷰 확보</li>
+            </ul>
+          </article>
+          <article class="phase">
+            <div class="phase-head"><h3>Phase 3 · 광고·최적화</h3><span>Week 5–6 · 4/16–4/29</span></div>
+            <ul>
+              <li><b>아마존:</b> PPC 광고 소액 테스트 ($5/day)</li>
+              <li>병행: 쿠팡 CPC·네이버 SA 세팅, 키워드 A/B 테스트, ROAS 200% 미달 상품 교체</li>
+            </ul>
+          </article>
+          <article class="phase">
+            <div class="phase-head"><h3>Phase 4 · 스케일업</h3><span>Week 7–8 · 4/30–5/13</span></div>
+            <ul>
+              <li><b>아마존:</b> 리스팅 30개로 확대 + FBA 전환 검토</li>
+              <li>병행: 쿠팡 100개+·네이버 50개+ 확대, Cafe24 자사몰 PG 연동</li>
+            </ul>
+          </article>
+          <article class="phase">
+            <div class="phase-head"><h3>Phase 5 · 안정화·정산 체계</h3><span>Week 9–10 · 5/14–5/31</span></div>
+            <ul>
+              <li><b>아마존:</b> 채널별 수수료·마진·세금 정산 대시보드에 편입</li>
+              <li>병행: 전 채널 월 ₩500만 확인, 재고 동기화 점검, ROAS 300%+ 최적화</li>
+            </ul>
+          </article>
+        </div>
+        <p class="data-note">원본 계획 기준 일정이며, 문서 최종 갱신 이후의 실제 진척은 별도 확인이 필요합니다.</p>
+      </section>
+
+      <section id="risk">
+        <div class="section-head">
+          <div><div class="eyebrow">Risk register</div><h2>아마존 채널에서 먼저 터지는 세 가지</h2></div>
+          <p>계정 심사, 마진 압박, 1인 운영 한계가 아마존 리스팅 확대를 직접 막는 항목입니다.</p>
+        </div>
+        <div class="insights">
+          <article class="insight">
+            <div class="num">01 · ACCOUNT</div>
+            <h3>카테고리 심사에서 리스팅이 멈춥니다.</h3>
+            <p>아마존 계정 심사 이슈가 발생하면 리스팅이 중단됩니다. 카테고리별 판매 승인 정책을 사전 확인하고 소량 테스트로 먼저 검증하는 방식이 대응책으로 지정되어 있습니다.</p>
+            <span class="signal">대응 · 정책 사전 확인 + 소량 테스트</span>
+          </article>
+          <article class="insight">
+            <div class="num">02 · MARGIN</div>
+            <h3>수수료가 겹치면 위탁 마진이 사라집니다.</h3>
+            <p>위탁 마진 15~30%에 아마존 수수료와 국제 배송비가 더해지면 순이익이 무너집니다. 마진 93~96%인 디지털 상품을 병행해 평균 마진을 보전하는 구조로 설계되어 있습니다.</p>
+            <span class="signal">대응 · 디지털 상품 병행</span>
+          </article>
+          <article class="insight">
+            <div class="num">03 · CAPACITY</div>
+            <h3>1인 운영이 CS·물류·광고를 동시에 못 받칩니다.</h3>
+            <p>3개 채널을 혼자 운영하는 구조라 실행 지연이 상시 리스크입니다. 온채널 자동 발주와 Python 자동 리스팅을 먼저 붙이고, 그다음 VA 투입을 검토하는 순서입니다.</p>
+            <span class="signal">대응 · 자동화 우선 + VA 검토</span>
+          </article>
+        </div>
+
+        <div class="card" style="margin-top:20px">
+          <h3>아마존 관련 자동화 파이프라인</h3>
+          <p class="caption">계획 단계 · 구현 전</p>
+          <ul style="margin:0;padding-left:18px;color:var(--sub);font-size:14px">
+            <li>도매매 → 아마존 자동 리스팅: Python + 번역 API로 상품 정보 변환</li>
+            <li>주문 자동 처리: 온채널 자동 발주 → 공급사 직배송 연결</li>
+            <li>정산 자동화: 채널별 매출·수수료·정산금 자동 집계</li>
+            <li>가격 자동 조정: 경쟁 모니터링 후 마진 기준 자동 반영</li>
+          </ul>
+        </div>
+      </section>
+
+      <section>
+        <div class="section-head">
+          <div><div class="eyebrow">Method &amp; sources</div><h2>산정 기준과 원문 출처</h2></div>
+          <button class="print-btn" type="button" onclick="window.print()">보고서 인쇄 / PDF 저장</button>
+        </div>
+        <div class="method">
+          <article class="definition">
+            <h3>해석 시 유의사항</h3>
+            <ul>
+              <li>모든 매출·마진·ROAS 수치는 목표치이며 달성 실적이 아닙니다.</li>
+              <li>수익 시뮬레이션은 쿠팡·네이버·아마존 합산이므로 아마존 단독 기여도는 분리되어 있지 않습니다.</li>
+              <li>환율 변동, 국제 배송비, 아마존 Referral Fee와 FBA 수수료는 시뮬레이션에 반영되지 않았습니다.</li>
+              <li>원문 문서 최종 갱신은 2026년 4월이며, 이후 진척은 이 보고서에 포함되지 않았습니다.</li>
+              <li>실적 수치는 Seller Central 정산 데이터 연동 이후에만 이 대시보드에 확정값으로 반영합니다.</li>
+            </ul>
+          </article>
+          <ol class="refs">
+            <li><span class="ref-year">01.01</span>📦 Amazon 셀러 계정 설정 체크리스트 — 준비물, Professional 셀러 등록, 스토어 설정, 첫 리스팅 4단계와 주차별 목표.</li>
+            <li><span class="ref-year">01.06</span>아마존 셀러 본인인증 완료 및 판매 시작 — 사업자등록증 확인, 본인인증, 판매자 계정 활성화 기록.</li>
+            <li><span class="ref-year">Q1</span>아마존 셀러 계정 운영 · Q1 매출 목표 — 월 ₩1,000만 목표, 멀티 플랫폼 운영과 자동화 기반 기술 우위 정리.</li>
+            <li><span class="ref-year">03.19</span>🔗 멀티채널 위탁판매 통합 운영 실행 계획 — 채널 현황, 투트랙 상품 전략, 10주 타임라인, KPI, 리스크, 자동화 계획.</li>
+            <li><span class="ref-year">Q1</span>2026 Q1 수익화 전략 트래커 종합 분석 — 이커머스(쿠팡+아마존) 분기 목표 매출 비중 46.7% 산정.</li>
+          </ol>
+        </div>
+        <p class="data-note">원문은 STARGATE 내부 Notion 워크스페이스에 있으며 비공개입니다. 이 페이지는 공개 가능한 계획 요약만 담았습니다.</p>
+      </section>
+
+      <section>
+        <div class="closing">
+          <div>
+            <h2>커머스 채널 보고서와 함께 보십시오.</h2>
+            <p>쿠팡·네이버 커머스 리서치와 수익화 기회 TOP 20을 나란히 놓으면 채널별 우선순위를 다시 정할 수 있습니다.</p>
+          </div>
+          <a class="btn" href="/strategy/#reports">전략 보고서 목록 →</a>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <span>© 2026 Dongsoo Jung · Stargate Corporation</span>
+      <span>STARGATE Intelligence · 내부 기획 문서 기반 · 실적 데이터 연동 전</span>
+    </footer>
+  </div>
+  <script src="/assets/theme.js?v=20260729f" defer></script>
+  <script>
+    window.addEventListener('DOMContentLoaded',()=>{
+      let charts=[];
+      const build=()=>{
+        if(!window.Chart){setTimeout(build,80);return}
+        charts.forEach(c=>c.destroy());charts=[];
+        const css=getComputedStyle(document.documentElement);
+        const ink=css.getPropertyValue('--ink').trim(),sub=css.getPropertyValue('--sub').trim(),line=css.getPropertyValue('--line').trim(),
+              brand=css.getPropertyValue('--brand').trim(),brand2=css.getPropertyValue('--brand2').trim(),
+              blue=css.getPropertyValue('--blue').trim(),green=css.getPropertyValue('--green').trim(),red=css.getPropertyValue('--red').trim();
+        charts.push(new Chart(document.getElementById('listingChart'),{
+          type:'line',
+          data:{labels:['1개월','2개월','3개월'],datasets:[
+            {label:'아마존',data:[10,30,50],borderColor:brand,backgroundColor:brand+'22',pointBackgroundColor:brand2,pointBorderColor:ink,pointBorderWidth:2,pointRadius:6,borderWidth:4,tension:.3,fill:true},
+            {label:'쿠팡',data:[50,100,200],borderColor:red,backgroundColor:'transparent',pointRadius:4,borderWidth:2,tension:.3,borderDash:[6,4]},
+            {label:'네이버',data:[25,50,80],borderColor:green,backgroundColor:'transparent',pointRadius:4,borderWidth:2,tension:.3,borderDash:[6,4]}
+          ]},
+          options:{responsive:true,maintainAspectRatio:false,
+            plugins:{legend:{labels:{color:sub,font:{weight:'700'},usePointStyle:true}},tooltip:{callbacks:{label:c=>` ${c.dataset.label} ${c.raw}개`}}},
+            scales:{x:{grid:{display:false},ticks:{color:sub,font:{weight:'700'}}},y:{beginAtZero:true,grid:{color:line},ticks:{color:sub,callback:v=>v+'개'}}}}
+        }));
+        charts.push(new Chart(document.getElementById('revenueChart'),{
+          type:'bar',
+          data:{labels:['보수적','현실적','목표'],datasets:[
+            {label:'월 매출',data:[100,300,500],backgroundColor:brand,borderRadius:8},
+            {label:'광고비',data:[20,40,60],backgroundColor:red,borderRadius:8},
+            {label:'수수료',data:[10,30,50],backgroundColor:blue,borderRadius:8},
+            {label:'순이익',data:[40,150,250],backgroundColor:green,borderRadius:8}
+          ]},
+          options:{responsive:true,maintainAspectRatio:false,
+            plugins:{legend:{labels:{color:sub,font:{weight:'700'},usePointStyle:true}},tooltip:{callbacks:{label:c=>` ${c.dataset.label} ${c.raw.toLocaleString('ko-KR')}만 원`}}},
+            scales:{x:{grid:{display:false},ticks:{color:sub,font:{weight:'700'}}},y:{beginAtZero:true,grid:{color:line},ticks:{color:sub,callback:v=>v.toLocaleString('ko-KR')+'만'}}}}
+        }));
+      };
+      build();
+      document.addEventListener('themechange',()=>setTimeout(build,60));
+      const btn=document.querySelector('[data-theme-toggle]');
+      if(btn)btn.addEventListener('click',()=>setTimeout(build,120));
+    });
+  </script>
+</body>
+</html>
