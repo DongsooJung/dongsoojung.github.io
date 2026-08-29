@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>표지 디자인 시안 6종 · Dongsoo Jung</title>
+<title>표지 디자인 시안 10종 · Dongsoo Jung</title>
 <meta name="theme-color" content="#0b1020">
 <link rel="manifest" href="/manifest.webmanifest">
 <link rel="icon" href="/assets/icons/favicon.ico" sizes="48x48">
@@ -11,305 +11,189 @@
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;700;900&family=Noto+Sans+KR:wght@300;400;700&family=Space+Mono:wght@400;700&family=Bebas+Neue&display=swap');
 *{box-sizing:border-box;margin:0;padding:0;}
-body{background:#111;display:flex;flex-direction:column;align-items:center;padding:40px 20px 60px;font-family:'Noto Sans KR',sans-serif;}
-.page-title{color:#555;font-family:'Space Mono',monospace;font-size:11px;letter-spacing:4px;text-transform:uppercase;margin-bottom:16px;}
-.page-sub{color:#666;font-size:12px;margin-bottom:36px;text-align:center;line-height:1.7;max-width:640px;}
-.grid{display:flex;gap:40px;flex-wrap:wrap;justify-content:center;align-items:flex-start;}
-.wrap{display:flex;flex-direction:column;align-items:center;gap:14px;}
-.label{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:2px;color:#444;text-transform:uppercase;}
-.ca{width:264px;height:374px;background:#f4efe6;position:relative;overflow:hidden;box-shadow:6px 10px 36px rgba(0,0,0,.65);}
-.ca-spine{position:absolute;top:0;left:0;width:7px;height:100%;background:#111;}
+body{background:#111;display:flex;flex-direction:column;align-items:center;padding:40px 20px 72px;font-family:'Noto Sans KR',sans-serif;}
+.page-title{color:#888;font-family:'Space Mono',monospace;font-size:11px;letter-spacing:4px;text-transform:uppercase;margin-bottom:12px;}
+.page-sub{color:#666;font-size:12.5px;margin-bottom:28px;text-align:center;line-height:1.75;max-width:720px;}
+.sec-ttl{width:100%;max-width:1180px;font-family:'Space Mono',monospace;font-size:10px;letter-spacing:3px;color:#3a3a3a;text-transform:uppercase;margin:18px 0 16px;text-align:center;}
+.grid{display:flex;gap:36px;flex-wrap:wrap;justify-content:center;align-items:flex-start;width:100%;max-width:1280px;}
+.wrap{display:flex;flex-direction:column;align-items:center;gap:12px;}
+.label{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:1.5px;color:#555;text-transform:uppercase;}
+.cover{width:248px;height:352px;position:relative;overflow:hidden;box-shadow:6px 10px 32px rgba(0,0,0,.65);}
+.ca{background:#f4efe6;}
+.ca-spine{position:absolute;top:0;left:0;width:6px;height:100%;background:#111;}
 .ca-top{position:absolute;top:0;left:0;right:0;height:4px;background:#bf2a1e;}
-.ca-inner{position:absolute;top:0;left:18px;right:0;bottom:0;padding:26px 18px 18px 12px;display:flex;flex-direction:column;}
-.ca-yr{font-family:'Bebas Neue',sans-serif;font-size:78px;line-height:1;color:#111;letter-spacing:-2px;}
-.ca-ttl{font-family:'Noto Serif KR',serif;font-weight:900;font-size:23px;line-height:1.25;color:#111;margin-top:2px;}
-.ca-sub{font-size:8.5px;color:#777;letter-spacing:.8px;margin-top:9px;line-height:1.9;border-top:1px solid #ccc;padding-top:8px;font-weight:300;}
-.ca-mid{flex:1;display:flex;align-items:center;}
-.ca-mid-line{width:100%;height:1px;background:#d0c8bc;}
-.ca-chips{display:flex;gap:5px;margin-top:2px;}
-.ca-chip{flex:1;background:#111;padding:7px 4px;text-align:center;}
-.ca-chip-n{font-family:'Bebas Neue',sans-serif;font-size:20px;color:#bf2a1e;line-height:1;}
-.ca-chip-l{font-family:'Space Mono',monospace;font-size:6.5px;color:#888;margin-top:2px;}
-.ca-ft{margin-top:13px;display:flex;justify-content:space-between;align-items:flex-end;}
-.ca-auth{font-family:'Noto Serif KR',serif;font-size:9.5px;color:#444;line-height:1.7;}
-.ca-pub{font-family:'Space Mono',monospace;font-size:7.5px;color:#aaa;text-align:right;line-height:1.6;}
-.cb{width:264px;height:374px;background:#040a0f;position:relative;overflow:hidden;box-shadow:6px 10px 36px rgba(0,0,0,.8),0 0 50px rgba(0,255,130,.06);}
-.cb-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(0,255,130,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(0,255,130,.035) 1px,transparent 1px);background-size:22px 22px;}
-.cb-glo1{position:absolute;top:-70px;left:50%;transform:translateX(-50%);width:220px;height:220px;background:radial-gradient(circle,rgba(0,255,130,.14) 0%,transparent 70%);}
-.cb-glo2{position:absolute;bottom:-50px;right:-30px;width:170px;height:170px;background:radial-gradient(circle,rgba(40,130,255,.1) 0%,transparent 70%);}
-.cb-body{position:relative;z-index:2;padding:26px 20px 20px;height:100%;display:flex;flex-direction:column;}
-.cb-tag{font-family:'Space Mono',monospace;font-size:7.5px;color:#00ff82;letter-spacing:3px;border:1px solid rgba(0,255,130,.28);padding:3px 7px;display:inline-block;margin-bottom:14px;}
-.cb-ttl{font-family:'Noto Serif KR',serif;font-weight:900;font-size:30px;line-height:1.15;color:#dff0eb;text-shadow:0 0 18px rgba(0,255,130,.25);}
+.ca-inner{position:absolute;inset:0 0 0 16px;padding:22px 16px 16px 10px;display:flex;flex-direction:column;}
+.ca-yr{font-family:'Bebas Neue',sans-serif;font-size:70px;line-height:1;color:#111;letter-spacing:-2px;}
+.ca-ttl{font-family:'Noto Serif KR',serif;font-weight:900;font-size:21px;line-height:1.25;color:#111;}
+.ca-sub{font-size:8px;color:#777;letter-spacing:.6px;margin-top:8px;line-height:1.85;border-top:1px solid #ccc;padding-top:7px;}
+.ca-mid{flex:1;}
+.ca-chips{display:flex;gap:4px;}
+.ca-chip{flex:1;background:#111;padding:6px 3px;text-align:center;}
+.ca-chip-n{font-family:'Bebas Neue',sans-serif;font-size:18px;color:#bf2a1e;line-height:1;}
+.ca-chip-l{font-family:'Space Mono',monospace;font-size:6px;color:#888;margin-top:2px;}
+.ca-ft{margin-top:11px;display:flex;justify-content:space-between;align-items:flex-end;}
+.ca-auth{font-family:'Noto Serif KR',serif;font-size:9px;color:#444;line-height:1.65;}
+.ca-pub{font-family:'Space Mono',monospace;font-size:7px;color:#aaa;text-align:right;line-height:1.55;}
+.cb{background:#040a0f;}
+.cb-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(0,255,130,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(0,255,130,.035) 1px,transparent 1px);background-size:20px 20px;}
+.cb-glo1{position:absolute;top:-60px;left:50%;transform:translateX(-50%);width:200px;height:200px;background:radial-gradient(circle,rgba(0,255,130,.14),transparent 70%);}
+.cb-body{position:relative;z-index:2;padding:22px 16px 16px;height:100%;display:flex;flex-direction:column;}
+.cb-tag{font-family:'Space Mono',monospace;font-size:7px;color:#00ff82;letter-spacing:2.5px;border:1px solid rgba(0,255,130,.28);padding:3px 6px;display:inline-block;margin-bottom:12px;}
+.cb-ttl{font-family:'Noto Serif KR',serif;font-weight:900;font-size:26px;line-height:1.15;color:#dff0eb;}
 .cb-ttl span{color:#00ff82;}
-.cb-yrline{display:flex;align-items:center;gap:8px;margin-top:9px;}
-.cb-yrline::before{content:'';flex:1;height:1px;background:linear-gradient(90deg,transparent,rgba(0,255,130,.45));}
-.cb-yrn{font-family:'Space Mono',monospace;font-size:11px;color:#00ff82;letter-spacing:2px;}
-.cb-grid2{display:grid;grid-template-columns:1fr 1fr;gap:5px;margin-top:16px;}
-.cb-chip{background:rgba(0,255,130,.05);border:1px solid rgba(0,255,130,.12);padding:6px 7px;display:flex;align-items:center;gap:5px;}
+.cb-yrn{font-family:'Space Mono',monospace;font-size:10px;color:#00ff82;letter-spacing:1.5px;margin:8px 0 12px;}
+.cb-grid2{display:grid;grid-template-columns:1fr 1fr;gap:4px;}
+.cb-chip{background:rgba(0,255,130,.05);border:1px solid rgba(0,255,130,.12);padding:5px 6px;display:flex;align-items:center;gap:5px;}
 .cb-dot{width:5px;height:5px;border-radius:50%;}
-.cb-name{font-family:'Space Mono',monospace;font-size:7.5px;color:#80b89a;}
-.cb-cnt{font-size:7px;color:#334455;margin-left:auto;font-family:'Space Mono',monospace;}
-.cb-total{margin-top:10px;padding:9px 10px;background:rgba(0,255,130,.04);border-left:2px solid #00ff82;display:flex;align-items:center;justify-content:space-between;}
-.cb-total-l{font-family:'Space Mono',monospace;font-size:7.5px;color:#556677;letter-spacing:1px;}
-.cb-total-n{font-family:'Bebas Neue',sans-serif;font-size:28px;color:#00ff82;line-height:1;text-shadow:0 0 8px rgba(0,255,130,.45);}
+.cb-name{font-family:'Space Mono',monospace;font-size:7px;color:#80b89a;}
+.cb-cnt{margin-left:auto;font-family:'Space Mono',monospace;font-size:7px;color:#334455;}
+.cb-total{margin-top:8px;padding:8px 9px;background:rgba(0,255,130,.04);border-left:2px solid #00ff82;display:flex;align-items:center;justify-content:space-between;}
+.cb-total-l{font-family:'Space Mono',monospace;font-size:7px;color:#556677;}
+.cb-total-n{font-family:'Bebas Neue',sans-serif;font-size:24px;color:#00ff82;line-height:1;}
 .cb-sp{flex:1;}
-.cb-ft{display:flex;justify-content:space-between;align-items:flex-end;border-top:1px solid rgba(0,255,130,.09);padding-top:9px;}
-.cb-auth{font-family:'Space Mono',monospace;font-size:8px;color:#445566;line-height:1.7;}
-.cb-exp{font-family:'Space Mono',monospace;font-size:7px;color:#2a3a4a;text-align:right;line-height:1.7;}
-.cb-exp span{color:#00ff82;}
-.cc{width:264px;height:374px;background:#0c1a2c;position:relative;overflow:hidden;box-shadow:6px 10px 36px rgba(0,0,0,.8),0 0 36px rgba(196,157,90,.08);}
-.cc-ring1{position:absolute;bottom:-90px;right:-90px;width:320px;height:320px;border:1px solid rgba(196,157,90,.1);border-radius:50%;}
-.cc-ring2{position:absolute;bottom:-50px;right:-50px;width:210px;height:210px;border:1px solid rgba(196,157,90,.07);border-radius:50%;}
+.cb-ft{display:flex;justify-content:space-between;border-top:1px solid rgba(0,255,130,.09);padding-top:8px;font-family:'Space Mono',monospace;font-size:7px;color:#445566;line-height:1.6;}
+.cb-ft span{color:#00ff82;}
+.cc{background:#0c1a2c;}
+.cc-ring1{position:absolute;bottom:-80px;right:-80px;width:280px;height:280px;border:1px solid rgba(196,157,90,.1);border-radius:50%;}
 .cc-topbar{position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,#c49d5a,#e8d598,#c49d5a);}
-.cc-body{position:relative;z-index:2;padding:26px 22px 20px;height:100%;display:flex;flex-direction:column;}
-.cc-badge{display:inline-flex;align-items:center;gap:7px;margin-bottom:18px;}
-.cc-bline{height:1px;width:22px;background:linear-gradient(90deg,transparent,#c49d5a);}
-.cc-btext{font-family:'Noto Serif KR',serif;font-size:8.5px;color:#c49d5a;letter-spacing:3px;}
-.cc-bline2{height:1px;width:22px;background:linear-gradient(90deg,#c49d5a,transparent);}
-.cc-ttl{font-family:'Noto Serif KR',serif;font-weight:900;font-size:27px;line-height:1.25;color:#ddeeff;letter-spacing:-.5px;}
+.cc-body{position:relative;z-index:2;padding:22px 18px 16px;height:100%;display:flex;flex-direction:column;}
+.cc-btext{font-family:'Noto Serif KR',serif;font-size:8px;color:#c49d5a;letter-spacing:3px;text-align:center;margin-bottom:14px;}
+.cc-ttl{font-family:'Noto Serif KR',serif;font-weight:900;font-size:24px;line-height:1.25;color:#ddeeff;}
 .cc-ttl em{font-style:normal;color:#c49d5a;}
-.cc-sub{font-family:'Noto Sans KR',sans-serif;font-weight:300;font-size:9.5px;color:#506a84;margin-top:7px;letter-spacing:.5px;line-height:1.8;}
-.cc-div{margin:16px 0;display:flex;align-items:center;gap:9px;}
-.cc-dline{flex:1;height:1px;background:linear-gradient(90deg,rgba(196,157,90,.28),transparent);}
-.cc-ddia{width:5px;height:5px;background:#c49d5a;transform:rotate(45deg);opacity:.55;}
-.cc-stats{display:flex;}
-.cc-stat{flex:1;padding:11px 6px;border:1px solid rgba(196,157,90,.13);text-align:center;}
+.cc-sub{font-size:9px;color:#506a84;margin-top:6px;line-height:1.7;}
+.cc-stats{display:flex;margin-top:14px;}
+.cc-stat{flex:1;padding:9px 4px;border:1px solid rgba(196,157,90,.13);text-align:center;}
 .cc-stat+.cc-stat{border-left:none;}
-.cc-sn{font-family:'Bebas Neue',sans-serif;font-size:19px;color:#c49d5a;line-height:1;}
-.cc-sl{font-family:'Noto Sans KR',sans-serif;font-size:6.5px;color:#3a5570;margin-top:3px;}
-.cc-quote{margin-top:14px;padding:9px 12px;background:rgba(196,157,90,.03);border-left:2px solid rgba(196,157,90,.35);}
-.cc-qt{font-family:'Noto Serif KR',serif;font-size:8.5px;color:#6080a0;line-height:1.9;font-style:italic;}
-.cc-qt strong{color:#c49d5a;font-style:normal;}
+.cc-sn{font-family:'Bebas Neue',sans-serif;font-size:17px;color:#c49d5a;line-height:1;}
+.cc-sl{font-size:6.5px;color:#3a5570;margin-top:3px;}
+.cc-quote{margin-top:12px;padding:8px 10px;background:rgba(196,157,90,.03);border-left:2px solid rgba(196,157,90,.35);font-family:'Noto Serif KR',serif;font-size:8px;color:#6080a0;line-height:1.8;font-style:italic;}
+.cc-quote strong{color:#c49d5a;font-style:normal;}
 .cc-sp{flex:1;}
-.cc-ft{display:flex;justify-content:space-between;align-items:flex-end;border-top:1px solid rgba(196,157,90,.1);padding-top:11px;}
-.cc-aname{font-family:'Noto Serif KR',serif;font-size:10.5px;color:#a0b8cc;letter-spacing:1px;}
-.cc-atitle{font-family:'Noto Sans KR',sans-serif;font-size:7px;color:#3a5060;margin-top:2px;letter-spacing:.3px;line-height:1.7;}
-.cc-pub{font-family:'Noto Serif KR',serif;font-size:7.5px;color:#c49d5a;opacity:.45;letter-spacing:1px;text-align:right;line-height:1.7;}
-.cd{width:264px;height:374px;background:#0b1220;position:relative;overflow:hidden;box-shadow:6px 10px 36px rgba(0,0,0,.8);}
-.cd-body{position:relative;z-index:2;padding:18px 18px 16px;height:100%;display:flex;flex-direction:column;}
-.cd-trust{display:flex;align-items:center;gap:7px;align-self:flex-start;background:rgba(99,214,160,.1);border:1px solid rgba(99,214,160,.35);border-radius:999px;padding:4px 8px;margin-bottom:16px;}
-.cd-pulse{width:7px;height:7px;border-radius:50%;background:#63d6a0;box-shadow:0 0 0 0 rgba(99,214,160,.7);animation:pulse 1.6s infinite;}
+.cc-ft{display:flex;justify-content:space-between;border-top:1px solid rgba(196,157,90,.1);padding-top:9px;font-family:'Noto Serif KR',serif;font-size:10px;color:#a0b8cc;}
+.cc-ft small{display:block;font-family:'Noto Sans KR',sans-serif;font-size:6.5px;color:#3a5060;margin-top:2px;}
+.cd{background:#0b1220;}
+.cd-body{padding:16px 15px 14px;height:100%;display:flex;flex-direction:column;}
+.cd-trust{display:flex;align-items:center;gap:6px;align-self:flex-start;background:rgba(99,214,160,.1);border:1px solid rgba(99,214,160,.35);border-radius:999px;padding:4px 8px;margin-bottom:12px;}
+.cd-pulse{width:7px;height:7px;border-radius:50%;background:#63d6a0;animation:pulse 1.6s infinite;}
 @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(99,214,160,.55);}70%{box-shadow:0 0 0 8px rgba(99,214,160,0);}100%{box-shadow:0 0 0 0 rgba(99,214,160,0);}}
-.cd-trust-t{font-family:'Space Mono',monospace;font-size:7px;color:#9ae6c4;letter-spacing:.4px;line-height:1.35;}
-.cd-kicker{font-family:'Space Mono',monospace;font-size:8px;color:#7aa2ff;letter-spacing:2px;margin-bottom:8px;}
-.cd-ttl{font-family:'Noto Serif KR',serif;font-weight:900;font-size:22px;line-height:1.3;color:#e8eef8;}
-.cd-desc{font-size:9px;color:#7b8aa0;margin-top:8px;line-height:1.7;}
-.cd-src{margin-top:16px;display:flex;flex-direction:column;gap:6px;}
-.cd-row{display:flex;justify-content:space-between;align-items:center;background:rgba(255,255,255,.03);border:1px solid rgba(122,162,255,.12);padding:7px 8px;}
-.cd-row span{font-family:'Space Mono',monospace;font-size:7px;color:#8aa0be;}
-.cd-row b{font-family:'Space Mono',monospace;font-size:7.5px;color:#d7e4ff;font-weight:400;}
+.cd-trust-t{font-family:'Space Mono',monospace;font-size:6.5px;color:#9ae6c4;line-height:1.35;}
+.cd-kicker{font-family:'Space Mono',monospace;font-size:7.5px;color:#7aa2ff;letter-spacing:2px;margin-bottom:7px;}
+.cd-ttl{font-family:'Noto Serif KR',serif;font-weight:900;font-size:20px;line-height:1.3;color:#e8eef8;}
+.cd-desc{font-size:8.5px;color:#7b8aa0;margin-top:7px;line-height:1.65;}
+.cd-src{margin-top:12px;display:flex;flex-direction:column;gap:5px;}
+.cd-row{display:flex;justify-content:space-between;background:rgba(255,255,255,.03);border:1px solid rgba(122,162,255,.12);padding:6px 8px;font-family:'Space Mono',monospace;font-size:7px;color:#8aa0be;}
+.cd-row b{color:#d7e4ff;font-weight:400;}
 .cd-sp{flex:1;}
-.cd-ft{font-family:'Space Mono',monospace;font-size:7px;color:#4d5d75;border-top:1px solid rgba(122,162,255,.12);padding-top:9px;}
-.ce{width:264px;height:374px;background:#10161f;position:relative;overflow:hidden;box-shadow:6px 10px 36px rgba(0,0,0,.8);}
-.ce-glow{position:absolute;top:-40px;left:-20px;width:220px;height:220px;background:radial-gradient(circle,rgba(255,184,107,.16),transparent 68%);}
-.ce-body{position:relative;z-index:2;padding:20px 18px 16px;height:100%;display:flex;flex-direction:column;}
-.ce-kicker{font-family:'Space Mono',monospace;font-size:8px;color:#ffb86b;letter-spacing:2px;}
-.ce-ttl{font-family:'Noto Serif KR',serif;font-weight:900;font-size:20px;color:#f3efe8;margin:8px 0 14px;line-height:1.3;}
-.ce-kpi{background:linear-gradient(180deg,rgba(255,184,107,.08),rgba(255,184,107,.02));border:1px solid rgba(255,184,107,.22);padding:14px 12px 12px;}
-.ce-kpi-l{font-family:'Space Mono',monospace;font-size:7.5px;color:#c9a57a;letter-spacing:1px;}
-.ce-kpi-n{font-family:'Bebas Neue',sans-serif;font-size:52px;line-height:1;color:#ffb86b;letter-spacing:1px;margin-top:2px;}
-.ce-kpi-s{font-size:9px;color:#d7c3a6;margin-top:2px;}
-.ce-delta{display:inline-block;margin-top:8px;font-family:'Space Mono',monospace;font-size:8px;color:#63d6a0;border:1px solid rgba(99,214,160,.3);padding:3px 6px;border-radius:999px;}
-.ce-mini{display:flex;gap:6px;margin-top:14px;}
-.ce-mini div{flex:1;background:rgba(255,255,255,.03);border:1px solid rgba(255,184,107,.12);padding:8px 6px;text-align:center;}
-.ce-mini b{display:block;font-family:'Bebas Neue',sans-serif;font-size:16px;color:#f0d2a6;}
-.ce-mini span{font-size:7px;color:#8a7a66;}
+.cd-ft{font-family:'Space Mono',monospace;font-size:7px;color:#4d5d75;border-top:1px solid rgba(122,162,255,.12);padding-top:8px;}
+.ce{background:#10161f;}
+.ce-glow{position:absolute;top:-36px;left:-16px;width:200px;height:200px;background:radial-gradient(circle,rgba(255,184,107,.16),transparent 68%);}
+.ce-body{position:relative;z-index:2;padding:18px 15px 14px;height:100%;display:flex;flex-direction:column;}
+.ce-kicker{font-family:'Space Mono',monospace;font-size:7.5px;color:#ffb86b;letter-spacing:2px;}
+.ce-ttl{font-family:'Noto Serif KR',serif;font-weight:900;font-size:19px;color:#f3efe8;margin:7px 0 12px;line-height:1.3;}
+.ce-kpi{background:linear-gradient(180deg,rgba(255,184,107,.08),rgba(255,184,107,.02));border:1px solid rgba(255,184,107,.22);padding:12px 10px;}
+.ce-kpi-l{font-family:'Space Mono',monospace;font-size:7px;color:#c9a57a;}
+.ce-kpi-n{font-family:'Bebas Neue',sans-serif;font-size:46px;line-height:1;color:#ffb86b;}
+.ce-kpi-s{font-size:8.5px;color:#d7c3a6;}
+.ce-delta{display:inline-block;margin-top:7px;font-family:'Space Mono',monospace;font-size:7.5px;color:#63d6a0;border:1px solid rgba(99,214,160,.3);padding:3px 6px;border-radius:999px;}
+.ce-mini{display:flex;gap:5px;margin-top:12px;}
+.ce-mini div{flex:1;background:rgba(255,255,255,.03);border:1px solid rgba(255,184,107,.12);padding:7px 4px;text-align:center;}
+.ce-mini b{display:block;font-family:'Bebas Neue',sans-serif;font-size:15px;color:#f0d2a6;}
+.ce-mini span{font-size:6.5px;color:#8a7a66;}
 .ce-sp{flex:1;}
-.ce-ft{font-family:'Space Mono',monospace;font-size:7px;color:#6a5a48;border-top:1px solid rgba(255,184,107,.12);padding-top:9px;}
-.cf{width:264px;height:374px;background:#07131a;position:relative;overflow:hidden;box-shadow:6px 10px 36px rgba(0,0,0,.8);}
-.cf-body{position:relative;z-index:2;padding:18px 16px 16px;height:100%;display:flex;flex-direction:column;}
-.cf-kicker{font-family:'Space Mono',monospace;font-size:8px;color:#3ecfc3;letter-spacing:2px;}
-.cf-ttl{font-family:'Noto Serif KR',serif;font-weight:900;font-size:20px;color:#e7f6f8;margin:8px 0 12px;line-height:1.3;}
-.cf-viz{position:relative;height:148px;border:1px solid rgba(62,207,195,.22);background:radial-gradient(80px 50px at 30% 40%,rgba(62,207,195,.18),transparent 70%),radial-gradient(70px 40px at 72% 62%,rgba(122,162,255,.16),transparent 70%),linear-gradient(180deg,#0a1c24,#07141b);overflow:hidden;transition:transform .25s ease, box-shadow .25s ease;}
+.ce-ft{font-family:'Space Mono',monospace;font-size:7px;color:#6a5a48;border-top:1px solid rgba(255,184,107,.12);padding-top:8px;}
+.cf{background:#07131a;}
+.cf-body{padding:16px 14px 14px;height:100%;display:flex;flex-direction:column;}
+.cf-kicker{font-family:'Space Mono',monospace;font-size:7.5px;color:#3ecfc3;letter-spacing:2px;}
+.cf-ttl{font-family:'Noto Serif KR',serif;font-weight:900;font-size:19px;color:#e7f6f8;margin:7px 0 10px;line-height:1.3;}
+.cf-viz{position:relative;height:136px;border:1px solid rgba(62,207,195,.22);background:radial-gradient(70px 44px at 30% 40%,rgba(62,207,195,.18),transparent 70%),linear-gradient(180deg,#0a1c24,#07141b);overflow:hidden;transition:transform .25s ease,box-shadow .25s ease;}
 .cf:hover .cf-viz{transform:scale(1.06);box-shadow:0 10px 28px rgba(62,207,195,.18);}
-.cf-map{position:absolute;inset:16px 14px 28px;border:1px dashed rgba(62,207,195,.25);}
-.cf-dot{position:absolute;width:8px;height:8px;border-radius:50%;background:#3ecfc3;box-shadow:0 0 0 4px rgba(62,207,195,.18);}
-.cf-dot.a{top:28%;left:32%;}
-.cf-dot.b{top:48%;left:58%;background:#7aa2ff;}
-.cf-dot.c{top:62%;left:40%;background:#ffb86b;}
-.cf-bars{position:absolute;left:14px;right:14px;bottom:8px;height:18px;display:flex;align-items:flex-end;gap:3px;}
+.cf-map{position:absolute;inset:14px 12px 26px;border:1px dashed rgba(62,207,195,.25);}
+.cf-dot{position:absolute;width:7px;height:7px;border-radius:50%;background:#3ecfc3;box-shadow:0 0 0 3px rgba(62,207,195,.18);}
+.cf-dot.a{top:28%;left:32%;}.cf-dot.b{top:48%;left:58%;background:#7aa2ff;}.cf-dot.c{top:62%;left:40%;background:#ffb86b;}
+.cf-bars{position:absolute;left:12px;right:12px;bottom:7px;height:16px;display:flex;align-items:flex-end;gap:3px;}
 .cf-bars i{flex:1;background:linear-gradient(180deg,#3ecfc3,#1aa7b5);opacity:.75;display:block;}
-.cf-hint{font-family:'Space Mono',monospace;font-size:7px;color:#5f8a8c;margin-top:8px;}
+.cf-hint{font-family:'Space Mono',monospace;font-size:6.5px;color:#5f8a8c;margin-top:7px;}
 .cf-sp{flex:1;}
-.cf-ft{display:flex;justify-content:space-between;font-family:'Space Mono',monospace;font-size:7px;color:#4a6b70;border-top:1px solid rgba(62,207,195,.12);padding-top:9px;}
-.cmp{margin-top:52px;width:100%;max-width:980px;}
-.cmp-ttl{font-family:'Space Mono',monospace;font-size:9.5px;color:#333;letter-spacing:3px;text-transform:uppercase;text-align:center;margin-bottom:18px;}
-table{width:100%;border-collapse:collapse;}
-th{font-family:'Space Mono',monospace;font-size:8.5px;color:#333;letter-spacing:1px;text-transform:uppercase;padding:8px 10px;text-align:left;border-bottom:1px solid #1e1e1e;}
-td{font-size:11px;color:#555;padding:7px 10px;border-bottom:1px solid #171717;vertical-align:middle;}
-td:first-child{font-family:'Space Mono',monospace;font-size:8.5px;color:#444;letter-spacing:.8px;}
-.ra{color:#bf2a1e;}.rb{color:#00ff82;}.rc{color:#c49d5a;}.rd{color:#63d6a0;}.re{color:#ffb86b;}.rf{color:#3ecfc3;}
-.back{margin-top:36px;font-family:'Space Mono',monospace;font-size:11px;}
+.cf-ft{display:flex;justify-content:space-between;font-family:'Space Mono',monospace;font-size:7px;color:#4a6b70;border-top:1px solid rgba(62,207,195,.12);padding-top:8px;}
+.cg{background:#1a1410;color:#f3e6d4;}
+.cg-body{padding:14px 12px 12px;height:100%;display:flex;flex-direction:column;}
+.cg-k{font-family:'Space Mono',monospace;font-size:7px;letter-spacing:2px;color:#e7b56a;}
+.cg-ttl{font-family:'Noto Serif KR',serif;font-weight:900;font-size:18px;line-height:1.3;margin:6px 0 10px;}
+.cg-panels{display:grid;grid-template-columns:1fr 1fr;gap:5px;flex:1;}
+.cg-p{background:#2a2118;border:1px solid rgba(231,181,106,.18);padding:8px;}
+.cg-p b{display:block;font-family:'Bebas Neue',sans-serif;font-size:13px;color:#e7b56a;}
+.cg-p span{display:block;font-size:7.5px;color:#b9a48a;line-height:1.55;margin-top:4px;}
+.cg-ft{margin-top:8px;font-family:'Space Mono',monospace;font-size:7px;color:#8a7358;}
+.ch{background:#efe7d6;color:#1a1a1a;}
+.ch-mast{border-bottom:3px solid #111;padding:10px 12px 6px;text-align:center;}
+.ch-name{font-family:'Noto Serif KR',serif;font-weight:900;font-size:20px;letter-spacing:-.5px;}
+.ch-date{font-family:'Space Mono',monospace;font-size:6.5px;color:#666;margin-top:2px;}
+.ch-hed{padding:10px 12px 0;font-family:'Noto Serif KR',serif;font-weight:900;font-size:16px;line-height:1.3;}
+.ch-deck{padding:5px 12px 0;font-size:8px;color:#555;line-height:1.6;}
+.ch-cols{display:grid;grid-template-columns:1.2fr .8fr;gap:8px;padding:10px 12px 12px;}
+.ch-col p{font-size:7.5px;line-height:1.65;color:#333;}
+.ch-box{background:#111;color:#efe7d6;padding:8px;}
+.ch-box b{display:block;font-family:'Bebas Neue',sans-serif;font-size:22px;color:#bf2a1e;line-height:1;}
+.ch-box span{font-size:7px;}
+.ci{background:#f7f4ee;border-top:8px solid #1e3a5f;}
+.ci-body{padding:18px 16px 14px;height:100%;display:flex;flex-direction:column;}
+.ci-no{font-family:'Space Mono',monospace;font-size:8px;color:#1e3a5f;letter-spacing:1.5px;}
+.ci-ttl{font-family:'Noto Serif KR',serif;font-weight:900;font-size:19px;line-height:1.3;color:#152433;margin:8px 0;}
+.ci-abs{font-size:8.5px;color:#5b6773;line-height:1.7;border-top:1px solid #d9d3c6;padding-top:8px;}
+.ci-meta{margin-top:12px;display:flex;flex-direction:column;gap:5px;}
+.ci-meta div{display:flex;justify-content:space-between;font-family:'Space Mono',monospace;font-size:7px;color:#6a7682;border-bottom:1px dotted #d4cec2;padding-bottom:4px;}
+.ci-sp{flex:1;}
+.ci-ft{font-size:8px;color:#1e3a5f;font-family:'Noto Serif KR',serif;}
+.cj{background:#140d18;color:#f2e9ff;}
+.cj-bar{position:absolute;left:0;top:0;bottom:0;width:10px;background:linear-gradient(180deg,#b388ff,#4f7fff);}
+.cj-body{padding:20px 16px 16px 22px;height:100%;display:flex;flex-direction:column;}
+.cj-vol{font-family:'Bebas Neue',sans-serif;font-size:64px;line-height:.9;color:#b388ff;}
+.cj-k{font-family:'Space Mono',monospace;font-size:8px;letter-spacing:2px;color:#8aa0d8;margin:4px 0 10px;}
+.cj-ttl{font-family:'Noto Serif KR',serif;font-weight:900;font-size:22px;line-height:1.25;}
+.cj-ttl em{font-style:normal;color:#b388ff;}
+.cj-list{margin-top:14px;font-size:8.5px;color:#b7b0c8;line-height:1.9;}
+.cj-sp{flex:1;}
+.cj-ft{font-family:'Space Mono',monospace;font-size:7px;color:#6d6480;border-top:1px solid rgba(179,136,255,.2);padding-top:8px;}
+.cmp{margin-top:48px;width:100%;max-width:1080px;overflow-x:auto;}
+.cmp-ttl{font-family:'Space Mono',monospace;font-size:9.5px;color:#3a3a3a;letter-spacing:3px;text-transform:uppercase;text-align:center;margin-bottom:16px;}
+table{width:100%;border-collapse:collapse;min-width:860px;}
+th{font-family:'Space Mono',monospace;font-size:8px;color:#444;padding:7px 8px;text-align:left;border-bottom:1px solid #1e1e1e;}
+td{font-size:11px;color:#666;padding:6px 8px;border-bottom:1px solid #171717;}
+td:first-child{font-family:'Space Mono',monospace;font-size:8px;color:#555;}
+.ra{color:#bf2a1e;}.rb{color:#00ff82;}.rc{color:#c49d5a;}.rd{color:#63d6a0;}.re{color:#ffb86b;}.rf{color:#3ecfc3;}.rg{color:#e7b56a;}.rh{color:#d4b07a;}.ri{color:#4a6d93;}.rj{color:#b388ff;}
+.back{margin-top:32px;font-family:'Space Mono',monospace;font-size:11px;}
 .back a{color:#7aa2ff;text-decoration:none;}
 </style>
 </head>
 <body>
-<p class="page-title">AI 실전 연감 2026 — 표지 시안 6종</p>
-<p class="page-sub">기존 시안 A–C에 대시보드 커버용 3요소를 반영한 시안 D–F를 추가했습니다.<br>D 데이터 신뢰성 배지 · E 대표 KPI 하이라이트 · F 미니 시각화(호버 확대)</p>
+<p class="page-title">Cover System — 10 Prototypes</p>
+<p class="page-sub">단행본 A–C, 대시보드 D–F를 보완하고<br>스토리보드 · 신문 1면 · 백서 · 시리즈 VOL. 4종을 추가했습니다.</p>
+<p class="sec-ttl">01 Book</p>
 <div class="grid">
-<div class="wrap">
-<div class="ca">
-  <div class="ca-spine"></div>
-  <div class="ca-top"></div>
-  <div class="ca-inner">
-    <div class="ca-yr">2026</div>
-    <div class="ca-ttl">AI<br>실전 연감</div>
-    <div class="ca-sub">ChatGPT · Claude · Gemini · Perplexity<br>4대 AI 도구 1,922회 실전 비교<br>유통기한: 2027년 12월</div>
-    <div class="ca-mid"><div class="ca-mid-line"></div></div>
-    <div class="ca-chips">
-      <div class="ca-chip"><div class="ca-chip-n">362</div><div class="ca-chip-l">ChatGPT</div></div>
-      <div class="ca-chip"><div class="ca-chip-n">400</div><div class="ca-chip-l">Claude</div></div>
-      <div class="ca-chip"><div class="ca-chip-n">689</div><div class="ca-chip-l">Gemini</div></div>
-      <div class="ca-chip"><div class="ca-chip-n">471</div><div class="ca-chip-l">Perplx</div></div>
-    </div>
-    <div class="ca-ft">
-      <div class="ca-auth">AI 기업 CEO<br>스마트시티 공학 박사</div>
-      <div class="ca-pub">주식회사<br>별의문</div>
-    </div>
-  </div>
+<div class="wrap"><div class="cover ca"><div class="ca-spine"></div><div class="ca-top"></div><div class="ca-inner"><div class="ca-yr">2026</div><div class="ca-ttl">AI<br>실전 연감</div><div class="ca-sub">ChatGPT · Claude · Gemini · Perplexity<br>4대 AI 도구 1,922회 실전 비교<br>유통기한: 2027년 12월</div><div class="ca-mid"></div><div class="ca-chips"><div class="ca-chip"><div class="ca-chip-n">362</div><div class="ca-chip-l">GPT</div></div><div class="ca-chip"><div class="ca-chip-n">400</div><div class="ca-chip-l">Claude</div></div><div class="ca-chip"><div class="ca-chip-n">689</div><div class="ca-chip-l">Gemini</div></div><div class="ca-chip"><div class="ca-chip-n">471</div><div class="ca-chip-l">Perplx</div></div></div><div class="ca-ft"><div class="ca-auth">AI 기업 CEO<br>스마트시티 공학 박사</div><div class="ca-pub">주식회사<br>별의문</div></div></div></div><div class="label"><span class="ra">A</span> 에디토리얼</div></div>
+<div class="wrap"><div class="cover cb"><div class="cb-grid"></div><div class="cb-glo1"></div><div class="cb-body"><div class="cb-tag">▶ 2026 EDITION</div><div class="cb-ttl">AI<br>실전<br><span>연감</span></div><div class="cb-yrn">2026.01 — 12</div><div class="cb-grid2"><div class="cb-chip"><div class="cb-dot" style="background:#74aa9c"></div><div class="cb-name">ChatGPT</div><div class="cb-cnt">362</div></div><div class="cb-chip"><div class="cb-dot" style="background:#cc785c"></div><div class="cb-name">Claude</div><div class="cb-cnt">400</div></div><div class="cb-chip"><div class="cb-dot" style="background:#4285f4"></div><div class="cb-name">Gemini</div><div class="cb-cnt">689</div></div><div class="cb-chip"><div class="cb-dot" style="background:#20b2aa"></div><div class="cb-name">Perplx</div><div class="cb-cnt">471</div></div></div><div class="cb-total"><div class="cb-total-l">TOTAL</div><div class="cb-total-n">1,922</div></div><div class="cb-sp"></div><div class="cb-ft"><div>CEO · 공학 박사</div><div>기한 <span>2027.12</span></div></div></div></div><div class="label"><span class="rb">B</span> 사이버</div></div>
+<div class="wrap"><div class="cover cc"><div class="cc-ring1"></div><div class="cc-topbar"></div><div class="cc-body"><div class="cc-btext">— 연간 실전 가이드 —</div><div class="cc-ttl">AI 실전<br><em>연감</em> 2026</div><div class="cc-sub">단일 저자 4대 AI 비교 실전서</div><div class="cc-stats"><div class="cc-stat"><div class="cc-sn">1,922</div><div class="cc-sl">실전 대화</div></div><div class="cc-stat"><div class="cc-sn">492</div><div class="cc-sl">보유 도서</div></div><div class="cc-stat"><div class="cc-sn">10</div><div class="cc-sl">핵심 책터</div></div></div><div class="cc-quote">“유통기한은 <strong>2027년 12월</strong>이다.<br>그때 개정판을 내겠습니다.”</div><div class="cc-sp"></div><div class="cc-ft"><div>별의문<small>CEO · 대치동 KOI 강사</small></div><div>星の門</div></div></div></div><div class="label"><span class="rc">C</span> 프리미엄</div></div>
 </div>
-<div class="label"><span class="ra">시안 A</span> — 에디토리얼 미니멀</div>
+<p class="sec-ttl">02 Dashboard</p>
+<div class="grid">
+<div class="wrap"><div class="cover cd"><div class="cd-body"><div class="cd-trust"><span class="cd-pulse"></span><div class="cd-trust-t">LIVE · 서울 열린데이터광장<br>08.29 08:50 KST 갱신</div></div><div class="cd-kicker">TRUST LAYER</div><div class="cd-ttl">서울 실시간<br>도시데이터</div><div class="cd-desc">출처와 최종 갱신 시각을 커버 최상단에 고정합니다.</div><div class="cd-src"><div class="cd-row"><span>SOURCE</span><b>data.seoul.go.kr</b></div><div class="cd-row"><span>CADENCE</span><b>5분 주기</b></div><div class="cd-row"><span>STATUS</span><b>검증됨 · 공개 API</b></div></div><div class="cd-sp"></div><div class="cd-ft">시안 D · 신뢰성 배지</div></div></div><div class="label"><span class="rd">D</span> 신뢰성 배지</div></div>
+<div class="wrap"><div class="cover ce"><div class="ce-glow"></div><div class="ce-body"><div class="ce-kicker">KEY METRIC</div><div class="ce-ttl">무역 월별<br>대시보드</div><div class="ce-kpi"><div class="ce-kpi-l">EXPORT · FOB</div><div class="ce-kpi-n">+4.2%</div><div class="ce-kpi-s">전월 대비 수출 증가</div><span class="ce-delta">▲ 무역수지 흑자 지속</span></div><div class="ce-mini"><div><b>1</b><span>미국</span></div><div><b>2</b><span>중국</span></div><div><b>3</b><span>베트남</span></div></div><div class="ce-sp"></div><div class="ce-ft">시안 E · KPI 하이라이트</div></div></div><div class="label"><span class="re">E</span> KPI</div></div>
+<div class="wrap"><div class="cover cf"><div class="cf-body"><div class="cf-kicker">SPATIAL PREVIEW</div><div class="cf-ttl">강남 보행성<br>15분도시</div><div class="cf-viz"><div class="cf-map"></div><span class="cf-dot a"></span><span class="cf-dot b"></span><span class="cf-dot c"></span><div class="cf-bars"><i style="height:40%"></i><i style="height:70%"></i><i style="height:55%"></i><i style="height:88%"></i><i style="height:62%"></i><i style="height:46%"></i><i style="height:74%"></i></div></div><div class="cf-hint">호버 시 미리보기 확대</div><div class="cf-sp"></div><div class="cf-ft"><span>Leaflet</span><span>시안 F</span></div></div></div><div class="label"><span class="rf">F</span> 미니 시각화</div></div>
 </div>
-<div class="wrap">
-<div class="cb">
-  <div class="cb-grid"></div>
-  <div class="cb-glo1"></div>
-  <div class="cb-glo2"></div>
-  <div class="cb-body">
-    <div class="cb-tag">▶ 2026 EDITION</div>
-    <div class="cb-ttl">AI<br>실전<br><span>연감</span></div>
-    <div class="cb-yrline"><div class="cb-yrn">2026.01 — 12</div></div>
-    <div class="cb-grid2">
-      <div class="cb-chip"><div class="cb-dot" style="background:#74aa9c"></div><div class="cb-name">ChatGPT</div><div class="cb-cnt">362</div></div>
-      <div class="cb-chip"><div class="cb-dot" style="background:#cc785c"></div><div class="cb-name">Claude</div><div class="cb-cnt">400</div></div>
-      <div class="cb-chip"><div class="cb-dot" style="background:#4285f4"></div><div class="cb-name">Gemini</div><div class="cb-cnt">689</div></div>
-      <div class="cb-chip"><div class="cb-dot" style="background:#20b2aa"></div><div class="cb-name">Perplexity</div><div class="cb-cnt">471</div></div>
-    </div>
-    <div class="cb-total">
-      <div class="cb-total-l">TOTAL SESSIONS</div>
-      <div class="cb-total-n">1,922</div>
-    </div>
-    <div class="cb-sp"></div>
-    <div class="cb-ft">
-      <div class="cb-auth">AI 기업 CEO<br>스마트시티 공학 박사</div>
-      <div class="cb-exp">유통기한<br><span>2027.12</span></div>
-    </div>
-  </div>
+<p class="sec-ttl">03 New Types</p>
+<div class="grid">
+<div class="wrap"><div class="cover cg"><div class="cg-body"><div class="cg-k">STORYBOARD · 4 CUT</div><div class="cg-ttl">한 장으로 읽는<br>연감 구조</div><div class="cg-panels"><div class="cg-p"><b>01 질문</b><span>이 도구는 언제 쓰는가</span></div><div class="cg-p"><b>02 실험</b><span>동일 과업 1,922회</span></div><div class="cg-p"><b>03 비교</b><span>속도 · 품질 · 비용</span></div><div class="cg-p"><b>04 결론</b><span>2027.12까지 유효</span></div></div><div class="cg-ft">시안 G · 카드뉴스 / 스토리보드</div></div></div><div class="label"><span class="rg">G</span> 스토리보드</div></div>
+<div class="wrap"><div class="cover ch"><div class="ch-mast"><div class="ch-name">별의문 타임스</div><div class="ch-date">VOL. 2026 · SATURDAY AUGUST 29</div></div><div class="ch-hed">4대 AI, 한 저자가<br>1년 동안 비교하다</div><div class="ch-deck">ChatGPT · Claude · Gemini · Perplexity 실전 1,922회.</div><div class="ch-cols"><div class="ch-col"><p>도구를 바꾸지 않고 같은 과업을 반복해, 유통기한이 있는 연감을 만들었습니다.</p></div><div class="ch-box"><b>1,922</b><span>실전 세션</span></div></div></div><div class="label"><span class="rh">H</span> 신문 1면</div></div>
+<div class="wrap"><div class="cover ci"><div class="ci-body"><div class="ci-no">WP-26-08 · RESEARCH BRIEF</div><div class="ci-ttl">공간데이터와<br>정책효과 측정</div><div class="ci-abs">DID · GIS · 헤도닉 모형을 공공데이터에 적용한 방법론 노트. 재현 가능한 파이프라인과 한계를 함께 적습니다.</div><div class="ci-meta"><div><span>FIELD</span><span>Urban Analytics</span></div><div><span>METHOD</span><span>DID / GeoPandas</span></div><div><span>STATUS</span><span>Working Paper</span></div></div><div class="ci-sp"></div><div class="ci-ft">주식회사 별의문 · 정동수</div></div></div><div class="label"><span class="ri">I</span> 백서</div></div>
+<div class="wrap"><div class="cover cj"><div class="cj-bar"></div><div class="cj-body"><div class="cj-vol">VOL.04</div><div class="cj-k">SERIES POSTER</div><div class="cj-ttl">별의문<br><em>관측소</em></div><div class="cj-list">01 거시경제<br>02 무역·관광<br>03 도시공간<br>04 정책효과</div><div class="cj-sp"></div><div class="cj-ft">STARGATE OBSERVATORY · 2026</div></div></div><div class="label"><span class="rj">J</span> 시리즈 VOL.</div></div>
 </div>
-<div class="label"><span class="rb">시안 B</span> — 테크 다크 사이버</div>
-</div>
-<div class="wrap">
-<div class="cc">
-  <div class="cc-ring1"></div>
-  <div class="cc-ring2"></div>
-  <div class="cc-topbar"></div>
-  <div class="cc-body">
-    <div class="cc-badge">
-      <div class="cc-bline"></div>
-      <div class="cc-btext">연간 실전 가이드</div>
-      <div class="cc-bline2"></div>
-    </div>
-    <div class="cc-ttl">AI 실전<br><em>연감</em> 2026</div>
-    <div class="cc-sub">ChatGPT · Claude · Gemini · Perplexity<br>단일 저자 4대 AI 비교 실전서</div>
-    <div class="cc-div">
-      <div class="cc-dline"></div>
-      <div class="cc-ddia"></div>
-      <div class="cc-dline" style="background:linear-gradient(90deg,rgba(196,157,90,.28),transparent)"></div>
-    </div>
-    <div class="cc-stats">
-      <div class="cc-stat"><div class="cc-sn">1,922</div><div class="cc-sl">실전 대화 수</div></div>
-      <div class="cc-stat"><div class="cc-sn">492</div><div class="cc-sl">보유 도서</div></div>
-      <div class="cc-stat"><div class="cc-sn">10</div><div class="cc-sl">핵심 책터</div></div>
-    </div>
-    <div class="cc-quote">
-      <div class="cc-qt">"이 책의 유통기한은 <strong>2027년 12월</strong>이다.<br>그때 개정판을 내겠습니다."</div>
-    </div>
-    <div class="cc-sp"></div>
-    <div class="cc-ft">
-      <div>
-        <div class="cc-aname">별의문</div>
-        <div class="cc-atitle">AI 기업 CEO · 공학 박사<br>대치동 수학·KOI 강사</div>
-      </div>
-      <div class="cc-pub">星の門<br>별의문</div>
-    </div>
-  </div>
-</div>
-<div class="label"><span class="rc">시안 C</span> — 프리미엄 한국적</div>
-</div>
-<div class="wrap">
-<div class="cd">
-  <div class="cd-body">
-    <div class="cd-trust">
-      <span class="cd-pulse" aria-hidden="true"></span>
-      <div class="cd-trust-t">LIVE · 서울 열린데이터광장<br>08.29 07:12 KST 갱신</div>
-    </div>
-    <div class="cd-kicker">DASHBOARD COVER</div>
-    <div class="cd-ttl">서울 실시간<br>도시데이터</div>
-    <div class="cd-desc">출처와 최종 갱신 시각을 커버에서 바로 제시해 데이터의 신뢰성을 먼저 전달합니다.</div>
-    <div class="cd-src">
-      <div class="cd-row"><span>SOURCE</span><b>data.seoul.go.kr</b></div>
-      <div class="cd-row"><span>CADENCE</span><b>5분 주기</b></div>
-      <div class="cd-row"><span>STATUS</span><b>검증됨 · 공개 API</b></div>
-    </div>
-    <div class="cd-sp"></div>
-    <div class="cd-ft">시안 D · 데이터 신뢰성 배지</div>
-  </div>
-</div>
-<div class="label"><span class="rd">시안 D</span> — 신뢰성 배지</div>
-</div>
-<div class="wrap">
-<div class="ce">
-  <div class="ce-glow"></div>
-  <div class="ce-body">
-    <div class="ce-kicker">KEY METRIC</div>
-    <div class="ce-ttl">무역 월별<br>대시보드</div>
-    <div class="ce-kpi">
-      <div class="ce-kpi-l">EXPORT · FOB</div>
-      <div class="ce-kpi-n">+4.2%</div>
-      <div class="ce-kpi-s">전월 대비 수출 증가</div>
-      <span class="ce-delta">▲ 무역수지 흑자 지속</span>
-    </div>
-    <div class="ce-mini">
-      <div><b>TOP 1</b><span>미국</span></div>
-      <div><b>TOP 2</b><span>중국</span></div>
-      <div><b>TOP 3</b><span>베트남</span></div>
-    </div>
-    <div class="ce-sp"></div>
-    <div class="ce-ft">시안 E · 대표 KPI 하이라이트</div>
-  </div>
-</div>
-<div class="label"><span class="re">시안 E</span> — KPI 하이라이트</div>
-</div>
-<div class="wrap">
-<div class="cf">
-  <div class="cf-body">
-    <div class="cf-kicker">SPATIAL PREVIEW</div>
-    <div class="cf-ttl">강남 보행성<br>15분도시</div>
-    <div class="cf-viz" aria-label="미니 지도 미리보기">
-      <div class="cf-map"></div>
-      <span class="cf-dot a"></span>
-      <span class="cf-dot b"></span>
-      <span class="cf-dot c"></span>
-      <div class="cf-bars"><i style="height:40%"></i><i style="height:70%"></i><i style="height:55%"></i><i style="height:88%"></i><i style="height:62%"></i><i style="height:46%"></i><i style="height:74%"></i></div>
-    </div>
-    <div class="cf-hint">호버 시 미리보기가 확대됩니다</div>
-    <div class="cf-sp"></div>
-    <div class="cf-ft"><span>Leaflet · Isochrone</span><span>시안 F</span></div>
-  </div>
-</div>
-<div class="label"><span class="rf">시안 F</span> — 미니 시각화</div>
-</div>
-</div>
-<div class="cmp">
-<p class="cmp-ttl">── 시안 비교 요약 ──</p>
+<div class="cmp"><p class="cmp-ttl">── 10종 비교 ──</p>
 <table>
-<tr><th>항목</th><th><span class="ra">A</span> 에디토리얼</th><th><span class="rb">B</span> 사이버</th><th><span class="rc">C</span> 프리미엄</th><th><span class="rd">D</span> 신뢰성</th><th><span class="re">E</span> KPI</th><th><span class="rf">F</span> 미리보기</th></tr>
-<tr><td>핵심 추가 요소</td><td>연도·칩</td><td>세션 합계</td><td>인용·통계</td><td>출처+갱신 배지</td><td>대표 수치</td><td>지도·차트 실루엣</td></tr>
-<tr><td>배경색</td><td>크림 화이트</td><td>딥 블랙</td><td>미드나잇 네이비</td><td>슬레이트 네이비</td><td>웨 다크</td><td>오션 다크</td></tr>
-<tr><td>포인트 컬러</td><td>크림슨 레드</td><td>네온 그린</td><td>골드</td><td>민트</td><td>앤버</td><td>틸</td></tr>
-<tr><td>적합 용도</td><td>단행본</td><td>e-book / IT</td><td>전문가 증정</td><td>실시간 대시보드</td><td>성과 리포트</td><td>공간데이터 허브</td></tr>
-</table>
-</div>
+<tr><th>항목</th><th><span class="ra">A</span></th><th><span class="rb">B</span></th><th><span class="rc">C</span></th><th><span class="rd">D</span></th><th><span class="re">E</span></th><th><span class="rf">F</span></th><th><span class="rg">G</span></th><th><span class="rh">H</span></th><th><span class="ri">I</span></th><th><span class="rj">J</span></th></tr>
+<tr><td>형식</td><td>단행본</td><td>e-book</td><td>증정본</td><td>대시보드</td><td>성과표</td><td>지도</td><td>카드뉴스</td><td>신문</td><td>백서</td><td>시리즈</td></tr>
+<tr><td>핵심</td><td>연도·칩</td><td>세션합</td><td>인용</td><td>출처·시각</td><td>대표수치</td><td>호버확대</td><td>4컷</td><td>헤드라인</td><td>초록</td><td>권호</td></tr>
+<tr><td>컬러</td><td>크림슨</td><td>네온</td><td>골드</td><td>민트</td><td>앤버</td><td>틸</td><td>샌드</td><td>잉크</td><td>네이비</td><td>바이올렛</td></tr>
+</table></div>
 <p class="back"><a href="/">← DONGSOO.PORTAL</a></p>
 </body>
 </html>
