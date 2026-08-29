@@ -341,7 +341,7 @@ footer .business-info{flex-basis:100%;padding-top:10px;border-top:1px solid var(
 
   <div class="quick-links">
     <a class="chip mono" style="border-color:#c4a265;color:#e7cf9a;background:rgba(196,162,101,.08)" href="https://blog.stargateedu.co.kr/" target="_blank" rel="noopener">Blog</a>
-    <a class="chip mono" style="border-color:#ffb86b;color:#ffd9a8;background:rgba(255,184,107,.08)" href="https://shop.stargateedu.co.kr/" target="_blank" rel="noopener">Shop</a>
+    <a class="chip mono" style="border-color:#ffb86b;color:#ffd9a8;background:rgba(255,184,107,.08)" href="https://shop.stargateedu.co.kr/" target="_blank" rel="noopener">Shop</a>\n    <a class="chip mono" style="border-color:#e72f3c;color:#ffb0b6;background:rgba(231,47,60,.10);font-weight:700" href="/strategy/coupang-commerce/">쿠팡 매출 리서치</a>
     <a id="visitor-summary-link" class="chip mono" style="border-color:#7aa2ff;color:#dbe6ff;background:rgba(79,127,255,.14);font-weight:600" href="/admin/visitors/" rel="nofollow" aria-label="사이트 사용 분석 대시보드">오늘 <strong id="visitor-today-count" style="color:#fff">-</strong> · 누적 <strong id="visitor-total-count" style="color:#fff">-</strong></a>
   </div>
 
@@ -395,8 +395,8 @@ footer .business-info{flex-basis:100%;padding-top:10px;border-top:1px solid var(
       <a class="hub-card strategy" href="/strategy/">
         <div class="hub-kicker">Strategy Intelligence</div>
         <h3>전략 인사이트</h3>
-        <p>당근·숨고·크몽 등 플랫폼 기업의 매출·영업이익과 산업·시장 데이터를 의사결정 관점으로 분석합니다.</p>
-        <div class="hub-meta"><span>기업·플랫폼·산업·AI · 16개 프로젝트</span><b>전략 허브 →</b></div>
+        <p>당근·숨고·크몽·네이버·쿠팡 등 플랫폼 기업의 매출·영업이익과 산업·시장 데이터를 의사결정 관점으로 분석합니다.</p>
+        <div class="hub-meta"><span>기업·플랫폼·산업·AI · 쿠팡 포함 최신 리서치</span><b>전략 허브 →</b></div>
       </a>
       <a class="hub-card research" href="/research/">
         <div class="hub-kicker">Research Observatory</div>
@@ -501,6 +501,17 @@ footer .business-info{flex-basis:100%;padding-top:10px;border-top:1px solid var(
           <div class="ttl">Soomgo 매출액 &amp; 재무 리서치 2025</div>
           <div class="sub">숨고(브레이브모바일) 2022~2025 매출·영업이익 분석 — OpenDART 감사보고서 기반 리포트.</div>
           <div class="row"><span class="tag">Market Research · OpenDART</span><span class="go">열기 →</span></div>
+        </div>
+      </a>
+
+
+      <a class="proj" href="/strategy/coupang-commerce/">
+        <div class="badge">NEW · COMMERCE</div>
+        <div class="thumb" style="background:radial-gradient(330px 170px at 22% 22%,rgba(255,89,100,.58),transparent 60%),radial-gradient(260px 150px at 84% 82%,rgba(255,189,74,.28),transparent 60%),linear-gradient(135deg,#23080d,#5b1420)"><span class="emo">C</span></div>
+        <div class="body">
+          <div class="ttl">쿠팡 커머스 2022–2025 매출 리서치</div>
+          <div class="sub">연결 순매출 205.8억달러에서 345.3억달러까지의 성장, Product Commerce·신사업 구성과 Farfetch 편입 효과를 공식 IR·SEC 공시로 분석했습니다.</div>
+          <div class="row"><span class="tag">Coupang IR · SEC · Revenue</span><span class="go">보고서 →</span></div>
         </div>
       </a>
 
@@ -908,7 +919,7 @@ footer .business-info{flex-basis:100%;padding-top:10px;border-top:1px solid var(
     '금융위원회 기업재무 대시보드 · 100건씩 탐색',
     '당근 최근 3개년 재무분석',
     'Kmong 거래액 & 재무 리서치 2025',
-    'Soomgo 매출액 & 재무 리서치 2025',
+    'Soomgo 매출액 & 재무 리서치 2025',\n    '쿠팡 커머스 2022–2025 매출 리서치',
   ];
   const selectedCards = selectedProjects
     .map((item) => cards.find((card) => (card.querySelector('.ttl')?.textContent || '').includes(item)))
