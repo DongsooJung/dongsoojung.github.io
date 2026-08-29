@@ -24,9 +24,7 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
-      - name: Collect Incheon Airport public data
-        env:
-          DATA_GO_KR_API_KEY: ${{ secrets.DATA_GO_KR_API_KEY }}
+      - name: Collect Incheon Airport live data
         run: node scripts/update-airport-congestion.mjs
       - name: Publish changed snapshot
         run: |
