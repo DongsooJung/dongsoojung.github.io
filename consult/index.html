@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#0b1026">
+  <title>1:1 상담 신청 · STARGATE</title>
+  <meta name="description" content="STARGATE 상담 신청. 카카오·네이버 계정으로 간편하게 시작할 수 있습니다.">
+  <link rel="canonical" href="https://stargateedu.co.kr/consult/">
+  <link rel="manifest" href="/manifest.webmanifest">
+  <script src="https://t1.kakaocdn.net/kakao_js_sdk/v1/kakao.min.js"></script>
+  <script src="https://static.nid.naver.com/js/naveridlogin_js_sdk_2.0.0.js" charset="utf-8"></script>
+  <style>
+    :root{--navy:#0b1026;--panel:#151c3a;--gold:#e5c378;--gold2:#f3d98e;--text:#eef1fb;--muted:#aab2cf;--line:rgba(255,255,255,.12);--danger:#ff9b9b;--ok:#7fd6a4;--font:Pretendard,"Noto Sans KR",system-ui,sans-serif}
+    *{box-sizing:border-box}html{background:var(--navy)}body{min-height:100svh;margin:0;padding:22px 16px calc(22px + env(safe-area-inset-bottom));display:grid;place-items:center;background:radial-gradient(900px 520px at 50% -15%,rgba(143,164,246,.2),transparent 62%),linear-gradient(#0b1026,#080b1b);color:var(--text);font-family:var(--font)}
+    a{color:inherit}.card{width:min(100%,480px);padding:30px 26px;border:1px solid var(--line);border-radius:24px;background:rgba(21,28,58,.84);box-shadow:0 32px 80px -28px #000}.top{display:flex;justify-content:space-between;align-items:center;gap:12px}.brand{font-size:13px;font-weight:800;letter-spacing:.18em}.home{color:var(--muted);font-size:12px;text-decoration:none}.eyebrow{margin:30px 0 8px;color:var(--gold);font-size:11px;font-weight:800;letter-spacing:.28em}h1{margin:0;font-size:clamp(27px,8vw,38px);line-height:1.22}h1 span{color:var(--gold2)}.lead{margin:13px 0 0;color:var(--muted);font-size:14px;line-height:1.7}
+    .social{display:grid;gap:11px;margin:25px 0 20px}.social button,.submit,.install{min-height:52px;width:100%;border:0;border-radius:13px;font:800 15px var(--font);cursor:pointer}.kakao{background:#fee500;color:#191600}.naver{background:#03c75a;color:#fff}.social button:disabled{opacity:.55;cursor:not-allowed}.status{min-height:21px;margin:-8px 2px 15px;color:var(--muted);font-size:12px;line-height:1.5}.status.ok{color:var(--ok)}.status.error{color:var(--danger)}.divider{display:flex;align-items:center;gap:12px;margin:18px 0;color:#7f88aa;font-size:12px}.divider:before,.divider:after{content:"";height:1px;flex:1;background:var(--line)}
+    .field{margin:0 0 15px}.field label{display:block;margin:0 0 7px;font-size:13px;font-weight:700}.req{color:var(--gold)}input[type=text],input[type=tel]{width:100%;height:50px;padding:0 14px;border:1px solid var(--line);border-radius:12px;background:rgba(8,11,27,.58);color:var(--text);font:15px var(--font)}input:focus{outline:none;border-color:var(--gold);box-shadow:0 0 0 3px rgba(229,195,120,.13)}.prefill{display:none;margin:6px 0 0;color:var(--ok);font-size:12px}.prefill.show{display:block}.consent{display:flex;gap:9px;align-items:flex-start;margin:18px 0;color:var(--muted);font-size:13px;line-height:1.5}.consent input{width:19px;height:19px;margin:1px 0 0}.submit{background:linear-gradient(135deg,var(--gold2),var(--gold));color:#181320}.note{margin:11px 0 0;color:#7f88aa;text-align:center;font-size:11px;line-height:1.6}.install{display:none;margin-top:12px;border:1px solid var(--line);background:transparent;color:var(--muted)}.install.show{display:block}.success{display:none;padding:38px 4px;text-align:center}.success.show{display:block}.success strong{color:var(--gold2)}.hp{position:absolute;left:-9999px}.error{color:var(--danger);font-size:12px}
+    @media(max-width:420px){.card{padding:25px 20px;border-radius:20px}.eyebrow{margin-top:25px}}
+  </style>
+</head>
+<body>
+  <main class="card">
+    <section id="formView">
+      <div class="top"><div class="brand">✦ STARGATE</div><a class="home" href="/">홈으로 →</a></div>
+      <p class="eyebrow">SOCIAL LOGIN · CONSULT</p>
+      <h1>카카오·네이버로<br><span>빠르게 상담 신청</span></h1>
+      <p class="lead">소셜 계정에서 이름을 불러온 뒤 휴대전화번호만 입력하면 상담 신청이 완료됩니다.</p>
+      <div class="social">
+        <button class="kakao" id="kakaoBtn" type="button">카카오로 시작하기</button>
+        <button class="naver" id="naverBtn" type="button">N 네이버로 시작하기</button>
+      </div>
+      <p class="status" id="socialStatus" role="status" aria-live="polite">로그인 정보는 이름 자동 입력에만 사용하며 토큰을 저장하지 않습니다.</p>
+      <div class="divider">또는 직접 입력</div>
+      <form id="leadForm" novalidate>
+        <div class="field"><label for="name">이름 <span class="req">*</span></label><input id="name" name="name" type="text" autocomplete="name" required><p class="prefill" id="namePre">✓ 소셜 계정 정보로 입력되었습니다.</p></div>
+        <div class="field"><label for="phone">휴대전화번호 <span class="req">*</span></label><input id="phone" name="phone" type="tel" inputmode="numeric" autocomplete="tel" maxlength="13" placeholder="010-0000-0000" required></div>
+        <div class="hp"><label for="website">웹사이트</label><input id="website" name="website" type="text" tabindex="-1" autocomplete="off"></div>
+        <label class="consent"><input id="consent" type="checkbox" required><span>상담 접수 및 안내를 위한 이름·휴대전화번호 수집과 상담 종료 후 1년 보관에 동의합니다. <span class="req">(필수)</span></span></label>
+        <p class="error" id="formError" role="alert" hidden></p>
+        <button class="submit" id="submitBtn" type="submit">상담 신청하기</button>
+      </form>
+      <button class="install" id="installBtn" type="button">홈 화면에 앱처럼 설치</button>
+      <p class="note">카카오 REST API 키는 서버에서만 사용하며 이 페이지에는 포함하지 않습니다.</p>
+    </section>
+    <section class="success" id="successView"><div style="font-size:44px;color:var(--ok)">✓</div><h2>신청이 접수되었습니다</h2><p><strong id="successName"></strong>님, 영업일 기준 24시간 내 연락드리겠습니다.</p><a href="/">홈으로 돌아가기</a></section>
+  </main>
+  <div id="naverIdLogin" hidden></div>
+  <script>
+    const CONFIG={
+      KAKAO_JS_KEY:"905616cdf1787cf31ec8d92a8ab81cd2",
+      NAVER_CLIENT_ID:"g4D5rUY0nirxqHeC1bHc",
+      NAVER_CALLBACK_URL:"https://stargateedu.co.kr/consult/",
+      SUPABASE_URL:"https://inftexpcnfinglwlrvsj.supabase.co",
+      SUPABASE_ANON_KEY:"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImluZnRleHBjbmZpbmdsd2xydnNqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzI5MTMyMzgsImV4cCI6MjA4ODQ4OTIzOH0.HONuULp0L3B5T0gTiwJMnowjJonJzzNHhUV_LtpDQoI"
+    };
+    const $=id=>document.getElementById(id),nameInput=$("name"),phoneInput=$("phone"),statusEl=$("socialStatus");
+    let social={provider:"direct",id:"",email:""},naverLogin=null,deferredInstall=null;
+
+    function setStatus(message,type="") { statusEl.textContent=message; statusEl.className=`status ${type}`.trim(); }
+    function applySocial(provider,name,email,id){
+      social={provider,id:String(id||""),email:String(email||"")};
+      if(name){nameInput.value=name;$("namePre").classList.add("show")}
+      setStatus(`${provider==="kakao"?"카카오":"네이버"} 계정이 연결되었습니다.`,"ok");
+      history.replaceState(null,"",location.pathname);
+      phoneInput.focus();
+    }
+
+    if(window.Kakao){
+      try{if(!Kakao.isInitialized())Kakao.init(CONFIG.KAKAO_JS_KEY)}catch(error){setStatus("카카오 로그인을 초기화하지 못했습니다.","error")}
+    }
+    $("kakaoBtn").addEventListener("click",()=>{
+      if(!window.Kakao||!Kakao.isInitialized())return setStatus("카카오 SDK를 불러오지 못했습니다. 잠시 후 다시 시도해 주세요.","error");
+      setStatus("카카오 로그인 화면을 여는 중입니다.");
+      Kakao.Auth.login({scope:"profile_nickname,account_email",persistAccessToken:false,
+        success:()=>Kakao.API.request({url:"/v2/user/me",
+          success:r=>{const a=r.kakao_account||{};applySocial("kakao",a.profile?.nickname||r.properties?.nickname||"",a.email||"",r.id)},
+          fail:()=>setStatus("카카오 계정 정보를 불러오지 못했습니다.","error")}),
+        fail:()=>setStatus("카카오 로그인이 취소되었거나 설정을 확인해야 합니다.","error")
+      });
+    });
+
+    if(window.naver){
+      try{
+        naverLogin=new naver.LoginWithNaverId({clientId:CONFIG.NAVER_CLIENT_ID,callbackUrl:CONFIG.NAVER_CALLBACK_URL,isPopup:false,loginButton:{color:"green",type:3,height:48}});
+        naverLogin.init();
+        if(location.hash.includes("access_token")){
+          setStatus("네이버 계정 정보를 확인하는 중입니다.");
+          naverLogin.getLoginStatus(status=>{
+            if(status&&naverLogin.user){
+              applySocial("naver",naverLogin.user.getName()||naverLogin.user.getNickName()||"",naverLogin.user.getEmail()||"",naverLogin.user.getId()||"");
+            }else setStatus("네이버 로그인 상태를 확인하지 못했습니다.","error");
+          });
+        }
+      }catch(error){setStatus("네이버 로그인을 초기화하지 못했습니다.","error")}
+    }
+    $("naverBtn").addEventListener("click",()=>{
+      const link=document.querySelector("#naverIdLogin a");
+      if(!link)return setStatus("네이버 로그인 설정을 불러오지 못했습니다.","error");
+      setStatus("네이버 로그인 화면으로 이동합니다.");link.click();
+    });
+
+    phoneInput.addEventListener("input",event=>{const v=event.target.value.replace(/\D/g,"").slice(0,11);event.target.value=v.length<4?v:v.length<8?`${v.slice(0,3)}-${v.slice(3)}`:`${v.slice(0,3)}-${v.slice(3,7)}-${v.slice(7)}`});
+    $("leadForm").addEventListener("submit",async event=>{
+      event.preventDefault();const error=$("formError"),button=$("submitBtn");error.hidden=true;
+      if($("website").value)return;
+      if(!nameInput.value.trim()||!/^01[016789]-?\d{3,4}-?\d{4}$/.test(phoneInput.value)||!$("consent").checked){error.textContent="이름, 올바른 휴대전화번호, 개인정보 동의를 확인해 주세요.";error.hidden=false;return}
+      button.disabled=true;button.textContent="전송 중…";
+      const payload={name:nameInput.value.trim(),phone:phoneInput.value.trim(),consent:"Y",provider:social.provider,social_email:social.email,social_id:social.id,source:"stargateedu.co.kr/consult",submitted_at:new Date().toISOString()};
+      try{
+        const response=await fetch(`${CONFIG.SUPABASE_URL}/rest/v1/leads`,{method:"POST",headers:{"Content-Type":"application/json",apikey:CONFIG.SUPABASE_ANON_KEY,Authorization:`Bearer ${CONFIG.SUPABASE_ANON_KEY}`,Prefer:"return=minimal"},body:JSON.stringify(payload)});
+        if(!response.ok)throw new Error(String(response.status));
+        $("successName").textContent=payload.name;$("formView").hidden=true;$("successView").classList.add("show");
+      }catch(err){error.textContent="전송 중 문제가 발생했습니다. 잠시 후 다시 시도해 주세요.";error.hidden=false;button.disabled=false;button.textContent="상담 신청하기"}
+    });
+
+    addEventListener("beforeinstallprompt",event=>{event.preventDefault();deferredInstall=event;$("installBtn").classList.add("show")});
+    $("installBtn").addEventListener("click",async()=>{if(!deferredInstall)return;deferredInstall.prompt();await deferredInstall.userChoice;deferredInstall=null;$("installBtn").classList.remove("show")});
+    if("serviceWorker" in navigator)addEventListener("load",()=>navigator.serviceWorker.register("/sw.js"));
+  </script>
+</body>
+</html>
