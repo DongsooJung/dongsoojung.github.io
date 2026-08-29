@@ -24,7 +24,7 @@
 </head>
 <body>
   <nav class="top"><div class="wrap"><a class="brand" href="/research/">STARGATE <b>RESEARCH</b></a><div class="topnav"><a href="#forecast">시간대별 예측</a><a href="#gates">출입국장 비교</a><a href="#arrivals">실시간 대기</a><a href="/research/">연구 허브</a></div></div></nav>
-  <header><div class="wrap head"><div class="eyebrow"><i class="pulse"></i> INCHEON AIRPORT LIVE DATA MONITOR</div><h1>인천공항 혼잡도 연구 대시보드</h1><p class="subtitle">제1·2여객터미널의 시간대별 예상 승객 수와 실시간 출국장 대기시간을 한 화면에서 비교합니다.</p><div class="updated"><span>데이터 기준 <strong id="updated-at">확인 중</strong></span><span>화면 자동 갱신 <strong>60초</strong></span><span>수집 주기 <strong>10분</strong></span></div></div></header>
+  <header><div class="wrap head"><div class="eyebrow"><i class="pulse"></i> INCHEON AIRPORT LIVE DATA MONITOR</div><h1>인천공항 혼잡도 연구 대시보드</h1><p class="subtitle">제1·2여객터미널의 시간대별 예상 승객 수와 실시간 출국장 대기시간을 한 화면에서 비교합니다.</p><div class="updated"><span>데이터 기준 <strong id="updated-at">확인 중</strong></span><span>전달 상태 <strong id="data-mode">확인 중</strong></span><span>화면 자동 갱신 <strong>60초</strong></span><span>API 캐시 <strong>5분</strong></span></div></div></header>
   <main><div class="wrap">
     <section class="toolbar" aria-label="대시보드 필터"><div class="switches"><div class="seg" id="terminal-filter"><button class="active" data-value="T1">제1터미널</button><button data-value="T2">제2터미널</button></div><div class="seg" id="flow-filter"><button class="active" data-value="departure">출국</button><button data-value="arrival">입국</button></div><div class="seg" id="date-filter"><button class="active" data-value="today">오늘</button><button data-value="tomorrow">내일</button></div></div><button class="refresh" id="refresh" type="button">↻ 새로고침</button></section>
     <div class="notice" id="status">인천공항 실데이터를 불러오고 있습니다.</div>
@@ -36,6 +36,7 @@
   </div></main>
   <footer><div class="wrap">© 2026 Stargate Corp · <a href="/research/">STARGATE 연구 대시보드</a></div></footer>
   <script>
+    const LIVE_API='https://stargate-bid-api.vercel.app/api/airport-congestion',STALE_MINUTES=20;
     const state={terminal:'T1',flow:'departure',date:'today',data:null};
     const $=id=>document.getElementById(id), number=n=>Number(n||0).toLocaleString('ko-KR')+'명';
     function kstHour(){return Number(new Intl.DateTimeFormat('ko-KR',{timeZone:'Asia/Seoul',hour:'2-digit',hourCycle:'h23'}).format(new Date()))}
@@ -48,6 +49,7 @@
     function labels(){if(state.terminal==='T1')return state.flow==='departure'?['출국장 1','출국장 2','출국장 3','출국장 4','출국장 5·6']:['입국장 A·B','입국심사 C','입국심사 D','입국장 E·F'];return state.flow==='departure'?['출국장 1','출국장 2']:['입국장 A','입국장 B']}
     function gateParts(id){const match=String(id||'').match(/^DG(\d+)_([A-Z])$/);if(!match)return{gate:id||'—',area:'—'};return{gate:`${match[1]}번 출국장`,area:state.terminal==='T1'?({E:'동편',W:'서편'}[match[2]]||match[2]):`${match[2]} 구역`}}
     function gateStatus(value){return({OP:'운영 중',NP:'미운영',CL:'운영 종료'}[value]||value||'확인 중')}
+    function freshness(data){const parsed=Date.parse(data?.generated_at||''),age=Number.isFinite(parsed)?Math.max(0,Math.floor((Date.now()-parsed)/60000)):null;return{age,stale:age==null||age>STALE_MINUTES}}
     function render(){
       const list=rows(),values=list.map(rowTotal),max=Math.max(...values,1),now=kstHour(),current=list.find(x=>timeStart(x.atime)===now)||list.find(x=>timeStart(x.atime)>=now)||list[0],currentValue=current?rowTotal(current):0,peak=Math.max(...values,0),peakRow=list[values.indexOf(peak)],lvl=level(currentValue,values.filter(Boolean));
       $('current-count').textContent=current?number(currentValue):'—';$('current-level').textContent=lvl[0];$('current-level').className='level '+lvl[1];$('peak-count').textContent=peak?number(peak):'—';$('peak-time').textContent=peakRow?`${String(peakRow.atime).replace('_','–')}시 예상`:'시간대 확인 중';$('daily-count').textContent=values.length?number(values.reduce((a,b)=>a+b,0)):'—';
@@ -58,7 +60,7 @@
     }
     async function load(){
       $('status').className='notice';$('status').textContent='인천공항 최신 실데이터를 불러오고 있습니다.';
-      try{const res=await fetch(`data/latest.json?t=${Date.now()}`,{cache:'no-store'});if(!res.ok)throw new Error('데이터 파일을 읽지 못했습니다.');state.data=await res.json();const ready=state.data.status==='ok';$('updated-at').textContent=state.data.generated_at_kst||state.data.generated_at||'미수집';$('status').className=ready?'notice':'notice warn';$('status').textContent=ready?'인천공항 공식 실데이터가 정상 연결되어 있습니다.':(state.data.message||'실데이터 수집을 준비하고 있습니다.');render()}catch(e){$('status').className='notice error';$('status').textContent='데이터 갱신이 지연되고 있습니다. 잠시 후 다시 확인해 주세요.';render()}
+      try{let data,localFallback=false;try{const api=await fetch(LIVE_API);if(!api.ok)throw new Error(`API ${api.status}`);data=await api.json();if(data.status!=='ok')throw new Error('API 데이터 오류')}catch(apiError){const local=await fetch(`data/latest.json?t=${Date.now()}`,{cache:'no-store'});if(!local.ok)throw apiError;data=await local.json();localFallback=true}state.data=data;const fresh=freshness(data),delivery=data.delivery||{},fallback=localFallback||delivery.fallback,mode=localFallback?'정적 백업':delivery.mode==='live'?'실시간 API':delivery.mode==='memory_fallback'?'메모리 백업':delivery.mode==='static_fallback'?'정적 백업':'실데이터';$('updated-at').textContent=(data.generated_at_kst||data.generated_at||'미수집')+(fresh.age!=null?` · ${fresh.age}분 전`:'');$('data-mode').textContent=mode;if(fresh.stale){$('status').className='notice warn';$('status').textContent=`마지막 정상 데이터가 ${fresh.age??'20+'}분 이상 지연되고 있습니다. 현장 상황과 다를 수 있습니다.`}else if(fallback){$('status').className='notice warn';$('status').textContent='실시간 수집 응답이 지연되어 마지막 정상 데이터를 표시합니다.'}else{$('status').className='notice';$('status').textContent='인천공항 공식 실시간 API가 정상 연결되어 있습니다.'}render()}catch(e){$('data-mode').textContent='연결 오류';$('status').className='notice error';$('status').textContent='실시간 및 마지막 정상 데이터를 모두 불러오지 못했습니다. 잠시 후 다시 확인해 주세요.';render()}
     }
     document.querySelectorAll('.seg').forEach(group=>group.addEventListener('click',e=>{if(e.target.tagName!=='BUTTON')return;group.querySelectorAll('button').forEach(b=>b.classList.toggle('active',b===e.target));state[group.id.split('-')[0]]=e.target.dataset.value;render()}));$('refresh').addEventListener('click',load);load();setInterval(load,60000);
   </script>
