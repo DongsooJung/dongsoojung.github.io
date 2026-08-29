@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="theme-color" content="#07110e">
   <title>혁신의 숲 기업 데이터 20 | STARGATE Intelligence</title>
-  <meta name="description" content="혁신의 숲 데이터룸에서 수집한 기업 20곳의 매출액과 고용인원을 검색하고 비교하는 STARGATE 전략 대시보드.">
+  <meta name="description" content="혁신의 숲 데이터룸의 최신 공개 기업 20곳을 검색하고 비교하는 STARGATE 전략 대시보드.">
   <link rel="canonical" href="https://stargateedu.co.kr/strategy/innoforest/">
   <style>
     :root{
@@ -185,7 +185,7 @@
         <span class="eyebrow">Startup Intelligence · 20 Companies</span>
         <h1>성장기업을<br><em>한눈에 비교합니다.</em></h1>
         <p class="lede">
-          혁신의 숲 데이터룸에서 수집한 기업 20곳의 매출액과 고용인원을
+          혁신의 숲 데이터룸의 최신 공개 기업 20곳을
           검색하고 정렬해 빠르게 비교할 수 있습니다.
         </p>
         <div class="source-line">
@@ -252,7 +252,7 @@
       </section>
 
       <div class="footnote">
-        <span id="sourceNote">매출액과 고용인원은 혁신의 숲 표기값을 그대로 사용합니다.</span>
+        <span id="sourceNote">수집 시점의 혁신의 숲 공개 표기값을 사용합니다.</span>
         <span>기업 상세 정보는 원문 링크에서 확인할 수 있습니다.</span>
       </div>
     </main>
@@ -306,8 +306,8 @@
       );
 
       return rows.slice().sort((a, b) => {
-        if (sort === 'revenue-desc') return b.revenue_krw_100m - a.revenue_krw_100m;
-        if (sort === 'employees-desc') return b.employee_count - a.employee_count;
+        if (sort === 'revenue-desc') return (b.revenue_krw_100m ?? -Infinity) - (a.revenue_krw_100m ?? -Infinity);
+        if (sort === 'employees-desc') return (b.employee_count ?? -Infinity) - (a.employee_count ?? -Infinity);
         if (sort === 'name') return a.name.localeCompare(b.name, 'ko');
         return a.rank - b.rank;
       });
@@ -317,7 +317,10 @@
       const rows = getVisibleCompanies();
       const body = $('companyRows');
       body.replaceChildren();
-      const maxRevenue = Math.max(...state.companies.map((company) => company.revenue_krw_100m), 1);
+      const visibleRevenue = state.companies
+        .map((company) => company.revenue_krw_100m)
+        .filter(Number.isFinite);
+      const maxRevenue = Math.max(...visibleRevenue, 1);
 
       rows.forEach((company) => {
         const row = document.createElement('tr');
@@ -332,17 +335,19 @@
         companyCell.append(monogram, label);
         row.append(companyCell);
 
-        row.append(buildCell('td', 'numeric', company.revenue));
+        row.append(buildCell('td', 'numeric', company.revenue || '비공개'));
 
         const barCell = buildCell('td', 'bar-cell');
         const track = buildCell('div', 'bar-track');
-        const fill = buildCell('div', 'bar-fill');
-        fill.style.width = `${Math.max((company.revenue_krw_100m / maxRevenue) * 100, 1.5)}%`;
-        track.append(fill);
+        if (Number.isFinite(company.revenue_krw_100m)) {
+          const fill = buildCell('div', 'bar-fill');
+          fill.style.width = `${Math.max((company.revenue_krw_100m / maxRevenue) * 100, 1.5)}%`;
+          track.append(fill);
+        }
         barCell.append(track);
         row.append(barCell);
 
-        row.append(buildCell('td', 'numeric', company.employees));
+        row.append(buildCell('td', 'numeric', company.employees || '비공개'));
 
         const sourceCell = document.createElement('td');
         const link = buildCell('a', 'source-link', '상세 보기 ↗');
@@ -363,16 +368,22 @@
 
     function renderSummary() {
       const companies = state.companies;
-      const revenue = companies.reduce((sum, company) => sum + company.revenue_krw_100m, 0);
-      const employees = companies.reduce((sum, company) => sum + company.employee_count, 0);
-      const top = companies.slice().sort((a, b) => b.revenue_krw_100m - a.revenue_krw_100m)[0];
+      const revenueValues = companies.map((company) => company.revenue_krw_100m).filter(Number.isFinite);
+      const employeeValues = companies.map((company) => company.employee_count).filter(Number.isFinite);
+      const revenue = revenueValues.reduce((sum, value) => sum + value, 0);
+      const employees = employeeValues.reduce((sum, value) => sum + value, 0);
+      const top = companies
+        .filter((company) => Number.isFinite(company.revenue_krw_100m))
+        .sort((a, b) => b.revenue_krw_100m - a.revenue_krw_100m)[0];
 
       $('companyCount').textContent = `${integer.format(companies.length)}곳`;
-      $('revenueTotal').textContent = `${number.format(revenue)}억원`;
-      $('employeeTotal').textContent = `${integer.format(employees)}명`;
-      $('employeeMedian').textContent = `${number.format(median(companies.map((company) => company.employee_count)))}명`;
-      $('topRevenue').innerHTML = `${number.format(top.revenue_krw_100m)}<span>억원</span>`;
-      $('topRevenueCompany').textContent = `${top.name}${top.product ? ` · ${top.product}` : ''}`;
+      $('revenueTotal').textContent = revenueValues.length ? `${number.format(revenue)}억원` : '비공개';
+      $('employeeTotal').textContent = employeeValues.length ? `${integer.format(employees)}명` : '비공개';
+      $('employeeMedian').textContent = employeeValues.length ? `${number.format(median(employeeValues))}명` : '비공개';
+      $('topRevenue').innerHTML = top ? `${number.format(top.revenue_krw_100m)}<span>억원</span>` : '비공개';
+      $('topRevenueCompany').textContent = top
+        ? `${top.name}${top.product ? ` · ${top.product}` : ''}`
+        : '공개 데이터룸에서는 매출액을 제공하지 않습니다.';
     }
 
     function renderSource() {
