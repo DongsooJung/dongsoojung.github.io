@@ -14,8 +14,10 @@
 - `strategy/used-car/` — 중고차 일일 가격 전략 대시보드(승인 실매물 CSV/JSON 피드 연결 시에만 통계·목록 공개, 페이지당 100건, 매일 09:30 KST 갱신)
 - `strategy/onbid-real-estate/` — 차세대 온비드 공식 API 기반 부동산 공매 목록(페이지당 100건) 및 온디맨드 물건상세 조회
 - `strategy/job-opportunities/` — 채용·체험공고 적합도 일일 TOP 20(JSON·CSV·날짜별 보관, 매일 09:00 KST 갱신)
+- `strategy/kstartup/` — 창업진흥원 K-Startup 공식 API 기반 모집 중 지원사업 검색·마감 임박 레이더
 - `portfolio/blog/` — Notion API + Google Drive API 연동 포트폴리오 블로그
 - `api/portfolio-notion.js` — Notion 공개 글 라이브 프록시 (Vercel env: `NOTION_API_KEY`)
+- `api/kstartup.js` — K-Startup 인증키 비공개 프록시와 최근 공고 서버 필터·캐시
 - `blog/` — [blog.stargateedu.co.kr/posts/](https://blog.stargateedu.co.kr/posts/) 리디렉션
   (노션 블로그는 2026-08 에 blog 서브도메인 [stargate-blog-hub](https://github.com/DongsooJung/stargate-blog-hub) 로 이전)
 - `404.html` — 커스텀 404
