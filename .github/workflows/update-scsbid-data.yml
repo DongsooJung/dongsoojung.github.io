@@ -1,4 +1,4 @@
-name: Update PPS award data
+name: Update PPS procurement data
 
 on:
   workflow_dispatch:
@@ -9,7 +9,7 @@ permissions:
   contents: write
 
 concurrency:
-  group: update-pps-award-data
+  group: update-pps-procurement-data
   cancel-in-progress: false
 
 jobs:
@@ -20,15 +20,17 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 24
-      - name: Collect official PPS award data
+      - name: Collect official PPS procurement data
         env:
           PPS_SCSBID_API_KEY: ${{ secrets.PPS_SCSBID_API_KEY }}
-        run: node scripts/update-scsbid-data.mjs
+        run: |
+          node scripts/update-bidpublic-data.mjs
+          node scripts/update-scsbid-data.mjs
       - name: Commit refreshed snapshot
         run: |
-          if git diff --quiet -- data/scsbid; then exit 0; fi
+          if git diff --quiet -- data/bidpublic data/scsbid; then exit 0; fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add data/scsbid
-          git commit -m "data: refresh PPS award snapshot"
+          git add data/bidpublic data/scsbid
+          git commit -m "data: refresh PPS procurement snapshots"
           git push
