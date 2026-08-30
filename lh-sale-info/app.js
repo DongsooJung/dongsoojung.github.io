@@ -479,47 +479,111 @@
     URL.revokeObjectURL(url);
   }
 
-  async function loadPage({ save = true } = {}) {
+  async function loadFromSupabase(params) {
+    const filters = [];
+    if (params.typeCode && params.typeCode !== 'all') {
+      filters.push(`upp_ais_tp_cd=eq.${encodeURIComponent(params.typeCode)}`);
+    } else {
+      filters.push('upp_ais_tp_cd=neq.xx');
+    }
+    if (params.regionCode) {
+      // region code is not stored reliably from portal; skip exact code filter
+    }
+    if (params.status) filters.push(`pan_ss=eq.${encodeURIComponent(params.status)}`);
+
+    const from = (params.pageNo - 1) * PAGE_SIZE;
+    const to = from + PAGE_SIZE - 1;
+    const query = [
+      'select=*',
+      ...filters,
+      'order=pan_nt_st_dt.desc,fetched_at.desc',
+    ].join('&');
+
+    const response = await supabaseFetch(`/rest/v1/${TABLE}?${query}`, {
+      headers: {
+        Accept: 'application/json',
+        Prefer: 'count=exact',
+        Range: `${from}-${to}`,
+      },
+    });
+    if (!response.ok) {
+      const detail = await response.text();
+      throw new Error(`Supabase 조회 실패 (${response.status}): ${detail.slice(0, 180)}`);
+    }
+    const rows = await response.json();
+    const contentRange = response.headers.get('content-range') || '';
+    const total = asInt((contentRange.match(/\/(\d+|\*)/) || [])[1], rows.length);
+    return {
+      items: rows.map((row) => normalizeItem(row, params.pageNo)).filter(Boolean),
+      totalCount: total === '*' ? rows.length : total,
+      source: 'supabase',
+      saved: 0,
+    };
+  }
+
+  async function loadPage({ save = true, preferSupabase = false } = {}) {
     if (state.loading) return;
     const apiKey = decodeServiceKey(els.key.value);
-    if (!apiKey) {
-      setNotice('공공데이터포털 인증키를 입력해 주세요.', 'err');
-      return;
-    }
-    saveKey();
+    if (apiKey) saveKey();
+
     state.loading = true;
     els.loadBtn.disabled = true;
     els.saveBtn.disabled = true;
-    setStatus('LH 분양정보를 불러오는 중…');
+    setStatus(preferSupabase ? 'Supabase에서 불러오는 중…' : 'LH 분양정보를 수집하는 중…');
     setNotice('');
 
     const params = currentParams();
     try {
-      let result;
-      try {
-        result = await fetchViaProxy(apiKey, params, save);
-        if (save) state.lastSaved = result.saved || result.items.length;
-      } catch (proxyError) {
-        result = await fetchDirect(apiKey, params);
-        if (save) {
+      let result = null;
+      let openApiError = null;
+
+      if (!preferSupabase && apiKey) {
+        try {
           try {
-            state.lastSaved = await saveToSupabase(result.items, params);
-          } catch (saveError) {
-            state.lastSaved = 0;
-            setNotice(`조회는 성공했지만 Supabase 저장에 실패했습니다: ${saveError.message}`, 'warn');
+            result = await fetchViaProxy(apiKey, params, save);
+            if (save) state.lastSaved = result.saved || result.items.length;
+          } catch (_) {
+            result = await fetchDirect(apiKey, params);
+            if (save) {
+              try {
+                state.lastSaved = await saveToSupabase(result.items, params);
+              } catch (saveError) {
+                state.lastSaved = 0;
+                setNotice(`조회는 성공했지만 Supabase 저장에 실패: ${saveError.message}`, 'warn');
+              }
+            }
           }
+        } catch (error) {
+          openApiError = error;
         }
       }
 
-      state.items = result.items;
-      state.totalCount = result.totalCount || result.items[0]?.all_cnt || result.items.length;
-      els.sourceMode.textContent = result.source === 'proxy' ? '프록시 API' : '직접 호출';
-      renderTable(state.items);
-      updatePager();
-      setStatus(`${state.items.length}건 조회 완료 (페이지 ${state.pageNo})`, 'ok');
-      if (save && state.lastSaved) {
+      if (!result) {
+        result = await loadFromSupabase(params);
+        state.lastSaved = result.items.length;
+        if (openApiError) {
+          setNotice(
+            `공공데이터 API는 아직 403입니다. LH 청약플러스에서 수집해 둔 Supabase 데이터 ${result.items.length}건을 표시합니다. (${openApiError.message})`,
+            'warn',
+          );
+        } else if (preferSupabase) {
+          setNotice(`Supabase에서 ${result.items.length}건을 불러왔습니다.`, 'ok');
+        }
+      } else if (save && state.lastSaved) {
         setNotice(`Supabase에 ${state.lastSaved}건 upsert 했습니다.`, 'ok');
       }
+
+      state.items = result.items;
+      state.totalCount = result.totalCount || result.items.length;
+      els.sourceMode.textContent =
+        result.source === 'supabase'
+          ? 'Supabase'
+          : result.source === 'proxy'
+            ? '프록시 API'
+            : 'data.go.kr';
+      renderTable(state.items);
+      updatePager();
+      setStatus(`${state.items.length}건 표시 (페이지 ${state.pageNo})`, 'ok');
       await loadLogs();
       document.getElementById('viz')?.classList.add('ready');
     } catch (error) {
@@ -545,17 +609,17 @@
   });
   els.loadBtn?.addEventListener('click', () => {
     state.pageNo = 1;
-    loadPage({ save: true });
+    loadPage({ save: true, preferSupabase: false });
   });
-  els.saveBtn?.addEventListener('click', () => loadPage({ save: true }));
+  els.saveBtn?.addEventListener('click', () => loadPage({ save: false, preferSupabase: true }));
   els.prevBtn?.addEventListener('click', () => {
     if (state.pageNo <= 1) return;
     state.pageNo -= 1;
-    loadPage({ save: true });
+    loadPage({ save: false, preferSupabase: true });
   });
   els.nextBtn?.addEventListener('click', () => {
     state.pageNo += 1;
-    loadPage({ save: true });
+    loadPage({ save: false, preferSupabase: true });
   });
   els.csvBtn?.addEventListener('click', downloadCsv);
 
@@ -564,4 +628,5 @@
   updatePager();
   renderTable([]);
   loadLogs();
+  loadPage({ save: false, preferSupabase: true });
 })();
