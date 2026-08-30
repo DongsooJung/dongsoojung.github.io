@@ -305,7 +305,7 @@
       <div id="map"></div>
       <div class="map-toolbar">
         <button class="pill-btn" id="btnFit" type="button">전체 보기</button>
-        <button class="pill-btn" id="btnReload" type="button">VWorld 다시 불러오기</button>
+        <button class="pill-btn" id="btnReload" type="button">캐시 경계 다시 불러오기</button>
         <span class="status-pill" id="status">경계 로딩 중…</span>
       </div>
       <div class="info-card" id="info">
@@ -319,7 +319,7 @@
   </div>
 
   <p class="note">
-    자료: 중앙선거관리위원회 수원시 국회의원 선거구(갑·을·병·정·무) 구역 · 읍면동 경계는 VWorld Data API(<code>LT_C_ADEMD_INFO</code>)를 우선 호출하고, 실패 시 캐시 GeoJSON을 사용합니다.
+    자료: 중앙선거관리위원회 수원시 국회의원 선거구(갑·을·병·정·무) 구역 · 읍면동 경계는 VWorld 원천 자료를 바탕으로 저장한 캐시 GeoJSON을 사용합니다.
     지도 타일은 VWorld Base → Carto Positron 순으로 폴백합니다.
   </p>
 
@@ -711,9 +711,9 @@ el.btnFit.addEventListener("click", () => {
     fitActive();
   }
 });
-el.btnReload.addEventListener("click", () => loadBoundaries(true));
+el.btnReload.addEventListener("click", () => loadBoundaries(false));
 
-loadBoundaries(true).catch((err) => {
+loadBoundaries(false).catch((err) => {
   console.error(err);
   setStatus("경계 데이터를 불러오지 못했습니다", "warn");
 });

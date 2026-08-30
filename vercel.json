@@ -5,6 +5,13 @@
     { "source": "/api/bid-pblanc-cnstwk", "destination": "/api/bid-pblanc/cnstwk" },
     { "source": "/api/bid-pblanc-servc", "destination": "/api/bid-pblanc/servc" }
   ],
+  "redirects": [
+    {
+      "source": "/viz-dashboard/:path*",
+      "destination": "/choropleth/",
+      "permanent": true
+    }
+  ],
   "crons": [
     {
       "path": "/api/cron/daily-collect",

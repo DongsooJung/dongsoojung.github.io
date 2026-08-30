@@ -92,6 +92,27 @@
         <div class="result-count" data-result-count aria-live="polite"></div>
         <div class="card-groups">
 
+          <details class="card-group" data-card-group open id="urban-atlas">
+            <summary class="card-group-summary">
+              <span class="card-group-title"><strong>03 도시·공간 분석</strong><span>분석 단위 × 기능으로 정리한 3개 연구 허브</span></span>
+              <span class="card-group-meta"><span data-group-count>3개 허브</span><span class="chevron" aria-hidden="true"></span></span>
+            </summary>
+            <div class="grid">
+              <a class="project" href="/research/urban-atlas/" data-card data-category="urban">
+                <div class="visual" style="--visual:radial-gradient(circle at 25% 20%,rgba(62,198,184,.48),transparent 52%),linear-gradient(145deg,#071820,#123246)">🗺️</div>
+                <div class="project-body"><div class="meta"><span class="pill accent">3-1</span><span class="pill">Boundary metrics</span></div><h3>행정경계 지표 아틀라스</h3><p>선거·교육·주택 지표를 같은 행정경계 단위에서 비교합니다. 각 기존 지도 URL은 그대로 유지합니다.</p><div class="project-footer"><span>선거 · 학원 · 주택</span><b>아틀라스 →</b></div></div>
+              </a>
+              <a class="project" href="/research/accessibility-lab/" data-card data-category="urban">
+                <div class="visual" style="--visual:linear-gradient(145deg,#0d1f1a,#16694a)">🚶</div>
+                <div class="project-body"><div class="meta"><span class="pill accent">3-2</span><span class="pill">Accessibility</span></div><h3>접근성·보행성 랩</h3><p>강남 15분도시 대시보드와 공간계량 연구 방법·코드를 한 연구 맥락에서 안내합니다.</p><div class="project-footer"><span>Isochrone · Walkability</span><b>랩 열기 →</b></div></div>
+              </a>
+              <a class="project" href="/ds-research-urban-analytics/" data-card data-category="urban">
+                <div class="visual" style="--visual:linear-gradient(145deg,#071a2f,#0b6a55)">🏙️</div>
+                <div class="project-body"><div class="meta"><span class="pill accent">3-3</span><span class="pill">Real-time</span></div><h3>실시간 도시 관측</h3><p>서울 실시간 도시데이터는 독립 관측 영역으로 유지합니다.</p><div class="project-footer"><span>서울 열린데이터광장 · 실시간</span><b>관측하기 →</b></div></div>
+              </a>
+            </div>
+          </details>
+
           <details class="card-group" data-card-group open id="featured-policy">
             <summary class="card-group-summary">
               <span class="card-group-title"><strong>주요 정책 연구</strong><span>한국 체류자격·이민정책을 공식 근거로 비교하는 한·영 연구</span></span>
@@ -193,7 +214,7 @@
           </details>
           <details class="card-group" data-card-group open>
             <summary class="card-group-summary">
-              <span class="card-group-title"><strong>도시·공간 · 학원·선거</strong><span>학원 밀집도, 실시간 도시데이터, 선거구 지도</span></span>
+              <span class="card-group-title"><strong>3-1 행정경계 지표 아틀라스</strong><span>선거·교육·주택: 경계집계 지도는 개별 URL을 유지합니다</span></span>
               <span class="card-group-meta"><span data-group-count>9개</span><span class="chevron" aria-hidden="true"></span></span>
             </summary>
             <div class="grid">
@@ -210,8 +231,8 @@
                 <div class="visual" style="--visual:radial-gradient(circle at 25% 20%,rgba(83,74,183,.5),transparent 52%),radial-gradient(circle at 78% 82%,rgba(24,95,165,.45),transparent 50%),linear-gradient(145deg,#0d1130,#123a63)">🗺️</div>
                 <div class="project-body">
                   <div class="meta"><span class="pill accent">New</span><span class="pill">Urban · API</span></div>
-                  <h3>수도권 학원 밀집도 통합 지도</h3>
-                  <p>서울 25자치구 + 경기 31시군 실데이터 59,492개를 한 지도에 통합. 코드 접두어로 지역 구분. 인천 추가 예정.</p>
+                  <h3>서울·경기 학원 밀집도 비교 지도</h3>
+                  <p>서울 25자치구와 경기 31시군을 비교합니다. 서로 다른 기준시점의 값을 합산하지 않으며, 지역별 기준일을 명시합니다.</p>
                   <div class="project-footer"><span>서울 열린데이터 · 경기데이터드림 · D3.js</span><b>열기 →</b></div>
                 </div>
               </a>
@@ -220,7 +241,7 @@
                 <div class="project-body">
                   <div class="meta"><span class="pill accent">New</span><span class="pill">Urban · API</span></div>
                   <h3>경기도 학원 밀집도 지도</h3>
-                  <p>경기데이터드림 실데이터 34,012개 학원을 31개 시·군별로 집계한 밀집도 choropleth. 구 단위를 시로 매핑.</p>
+                  <p>경기데이터드림 학원을 31개 시·군별로 집계한 밀집도 단계구분도입니다. 기준일이 서울 데이터와 다를 경우 별도로 표기합니다.</p>
                   <div class="project-footer"><span>경기데이터드림 · D3.js</span><b>열기 →</b></div>
                 </div>
               </a>
@@ -228,8 +249,8 @@
                 <div class="visual" style="--visual:radial-gradient(circle at 25% 22%,rgba(127,119,221,.5),transparent 52%),radial-gradient(circle at 80% 80%,rgba(83,74,183,.4),transparent 50%),linear-gradient(145deg,#141033,#241a5c)">🎓</div>
                 <div class="project-body">
                   <div class="meta"><span class="pill accent">New</span><span class="pill">Urban · API</span></div>
-                  <h3>서울 학원 수요 지도</h3>
-                  <p>학원 수·학령인구 실데이터에 소득·경쟁을 결합한 자치구별 가중 수요지수 choropleth. 주간 자동 갱신·변화 추적.</p>
+                  <h3>서울 학원 수요지수 지도</h3>
+                  <p>학원 수와 구분되는 가중 수요지수(학령인구·소득·경쟁)를 자치구별로 표시합니다. 학원 밀집도와 동일 지표로 해석하지 마세요.</p>
                   <div class="project-footer"><span>서울 열린데이터 · 국세청 · D3.js</span><b>열기 →</b></div>
                 </div>
               </a>
@@ -237,7 +258,7 @@
                 <div class="visual" style="--visual:linear-gradient(145deg,#071a2f,#0b6a55)">🏙️</div>
                 <div class="project-body">
                   <div class="meta"><span class="pill accent">Live</span><span class="pill">Urban</span></div>
-                  <h3>서울 실시간 도시데이터</h3>
+                  <h3>서울 실시간 도시데이터 (3-3)</h3>
                   <p>주요 핫스팟의 실시간 인구·혼잡·날씨·상권과 혼잡–환경 관계를 분석합니다.</p>
                   <div class="project-footer"><span>서울 열린데이터광장 · 실시간</span><b>열기 →</b></div>
                 </div>
@@ -283,17 +304,17 @@
 
           <details class="card-group" data-card-group open>
             <summary class="card-group-summary">
-              <span class="card-group-title"><strong>도시·공간 · 분석·시각화</strong><span>공간계량·시각화·거래량 분석</span></span>
-              <span class="card-group-meta"><span data-group-count>7개</span><span class="chevron" aria-hidden="true"></span></span>
+              <span class="card-group-title"><strong>3-2 접근성·보행성 랩 · 공간 분석</strong><span>접근성 연구와 기존 공간 분석 도구</span></span>
+              <span class="card-group-meta"><span data-group-count>5개</span><span class="chevron" aria-hidden="true"></span></span>
             </summary>
             <div class="grid">
-              <a class="project" href="https://github.com/DongsooJung/smart-city-gis" target="_blank" rel="noopener" data-card data-category="urban">
+              <a class="project" href="/research/accessibility-lab/" data-card data-category="urban">
                 <div class="visual" style="--visual:linear-gradient(145deg,#101a31,#213963)">🗺️</div>
                 <div class="project-body">
                   <div class="meta"><span class="pill accent">Research</span><span class="pill">Spatial</span></div>
                   <h3>Spatial Econometrics Lab</h3>
-                  <p>접근성·보행성·토지이용과 DID·공간 자기상관을 다루는 도시공간 연구 코드입니다.</p>
-                  <div class="project-footer"><span>GeoPandas · PostGIS</span><b>GitHub ↗</b></div>
+                  <p>접근성·보행성·토지이용과 공간 자기상관을 다루는 연구 랩입니다. 코드와 라이브 대시보드를 함께 안내합니다.</p>
+                  <div class="project-footer"><span>GeoPandas · PostGIS</span><b>랩 소개 →</b></div>
                 </div>
               </a>
               <a class="project" href="https://stargateedu.co.kr/smart-city-gis/dashboard/" target="_blank" rel="noopener" data-card data-category="urban">
@@ -305,15 +326,6 @@
                   <div class="project-footer"><span>Leaflet · Isochrone · Time-series</span><b>열기 →</b></div>
                 </div>
               </a>
-              <a class="project" href="/viz-dashboard/" data-card data-category="urban">
-                <div class="visual" style="--visual:radial-gradient(circle at 22% 20%,rgba(79,127,255,.5),transparent 55%),linear-gradient(145deg,#0c1428,#182849)">🗺️</div>
-                <div class="project-body">
-                  <div class="meta"><span class="pill accent">Live</span><span class="pill">Visualization</span></div>
-                  <h3>지역 분석 대시보드</h3>
-                  <p>접근성-가격 헤도닉 회귀(D3), 월별 가격지수·거래량 복합차트(Recharts), 자치구×분기 변동률 히트맵(Plotly). React + Vite.</p>
-                  <div class="project-footer"><span>Recharts · D3 · Plotly</span><b>열기 →</b></div>
-                </div>
-              </a>
               <a class="project" href="/choropleth/" data-card data-category="urban">
                 <div class="visual" style="--visual:radial-gradient(circle at 78% 24%,rgba(67,200,255,.45),transparent 54%),linear-gradient(145deg,#0a1a2e,#0e2d4a)">🌏</div>
                 <div class="project-body">
@@ -321,15 +333,6 @@
                   <h3>Choropleth 지도</h3>
                   <p>서울 25개 자치구 평단가 단계구분도(Plotly choroplethmapbox). 공간 자기상관(Moran's I) 요약, 드래그·휠 탐색.</p>
                   <div class="project-footer"><span>Plotly · GeoJSON</span><b>열기 →</b></div>
-                </div>
-              </a>
-              <a class="project" href="/did/" data-card data-category="urban">
-                <div class="visual" style="--visual:radial-gradient(circle at 30% 25%,rgba(255,184,67,.42),transparent 52%),linear-gradient(145deg,#1a1208,#2e2010)">📐</div>
-                <div class="project-body">
-                  <div class="meta"><span class="pill accent">Research</span><span class="pill">Econometrics</span></div>
-                  <h3>DID 정책효과</h3>
-                  <p>이중차분(Difference-in-Differences) 평행추세·처치효과와 이벤트 스터디 계수(95% CI) 플롯.</p>
-                  <div class="project-footer"><span>Event Study · Plotly</span><b>열기 →</b></div>
                 </div>
               </a>
               <a class="project" href="/airbnb/" data-card data-category="urban">
@@ -359,6 +362,15 @@
               <span class="card-group-meta"><span data-group-count>14개</span><span class="chevron" aria-hidden="true"></span></span>
             </summary>
             <div class="grid">
+              <a class="project" href="/did/" data-card data-category="economy">
+                <div class="visual" style="--visual:radial-gradient(circle at 30% 25%,rgba(255,184,67,.42),transparent 52%),linear-gradient(145deg,#1a1208,#2e2010)">📐</div>
+                <div class="project-body">
+                  <div class="meta"><span class="pill accent">Research</span><span class="pill">Econometrics</span></div>
+                  <h3>DID 정책효과</h3>
+                  <p>Google Trends 시계열을 활용한 이중차분(Difference-in-Differences) 평행추세·처치효과와 이벤트 스터디 계수(95% CI) 플롯입니다.</p>
+                  <div class="project-footer"><span>Google Trends · Event Study</span><b>열기 →</b></div>
+                </div>
+              </a>
               <a class="project" href="/research/debate-analyzer/" data-card data-category="ai tools">
                 <div class="visual" style="--visual:radial-gradient(circle at 22% 18%,rgba(241,199,122,.5),transparent 52%),radial-gradient(circle at 82% 78%,rgba(79,127,255,.36),transparent 50%),linear-gradient(145deg,#0b1738,#253565)">🗳️</div>
                 <div class="project-body">
