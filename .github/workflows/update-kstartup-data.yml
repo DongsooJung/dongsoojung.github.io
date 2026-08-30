@@ -1,0 +1,37 @@
+name: Update K-Startup data
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '20 21 * * *'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: update-kstartup-data
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Fetch official K-Startup notices
+        env:
+          DATA_GO_KR_API_KEY: ${{ secrets.DATA_GO_KR_API_KEY }}
+        run: node scripts/update-kstartup-data.mjs
+      - name: Commit refreshed snapshot
+        run: |
+          if git diff --quiet -- data/kstartup/latest.json; then
+            echo "No data changes"
+            exit 0
+          fi
+          git config user.name "stargate-data-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add data/kstartup/latest.json
+          git commit -m "data: refresh K-Startup notices"
+          git push
