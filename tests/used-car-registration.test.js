@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { __test } from '../api/used-car-registration.js';
+import { __test } from '../server/api/used-car-registration.js';
 
 test('documents the four official vehicle type codes', () => {
   assert.deepEqual(__test.VEHICLE_TYPES, [['1', '승용'], ['2', '승합'], ['3', '화물'], ['4', '특수']]);

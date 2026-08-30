@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import handler, { __test } from '../api/airport-congestion.js';
+import handler, { __test } from '../server/api/airport-congestion.js';
 
 function forecastTable(columnCount) {
   const rows = Array.from({ length: 24 }, (_, hour) => {

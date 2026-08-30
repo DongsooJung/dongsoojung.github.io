@@ -4,15 +4,13 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 
-const cnstwk = await import('../api/bid-pblanc-cnstwk.js');
-const servc = await import('../api/bid-pblanc-servc.js');
 const core = await import('../api/_lib/bid-pblanc-core.js');
 
-const { parseBidPayload, normalizeItem, buildUrl, encodeServiceKey, PAGE_SIZE } = cnstwk.__test;
+const { parseBidPayload, normalizeItem, encodeServiceKey, PAGE_SIZE } = core;
+const buildUrl = (params, key) => core.buildUrl(core.KIND_CONFIG.cnstwk.apiUrl, params, key);
 
 test('PAGE_SIZE is 100', () => {
   assert.equal(PAGE_SIZE, 100);
-  assert.equal(servc.__test.PAGE_SIZE, 100);
 });
 
 test('encodeServiceKey encodes raw decoding key once', () => {
@@ -29,7 +27,7 @@ test('buildUrl keeps serviceKey outside URLSearchParams for cnstwk', () => {
 });
 
 test('buildUrl for servc points to Servc operation', () => {
-  const url = servc.__test.buildUrl({ pageNo: 1, numOfRows: 100, inqryDiv: 1, type: 'json' }, 'k');
+  const url = core.buildUrl(core.KIND_CONFIG.servc.apiUrl, { pageNo: 1, numOfRows: 100, inqryDiv: 1, type: 'json' }, 'k');
   assert.match(url, /getBidPblancListInfoServc/);
 });
 

@@ -1,15 +1,25 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "regions": ["icn1"],
+  "git": { "deploymentEnabled": false },
+  "buildCommand": "node scripts/build-vercel-static.mjs",
+  "outputDirectory": ".site-public",
   "rewrites": [
+    { "source": "/research/airport-congestion/data/latest.json", "destination": "https://raw.githubusercontent.com/DongsooJung/dongsoojung.github.io/main/research/airport-congestion/data/latest.json" },
+    { "source": "/naver-cafe-research/data/latest.json", "destination": "https://raw.githubusercontent.com/DongsooJung/dongsoojung.github.io/main/naver-cafe-research/data/latest.json" },
     { "source": "/api/bid-pblanc-cnstwk", "destination": "/api/bid-pblanc/cnstwk" },
     { "source": "/api/bid-pblanc-servc", "destination": "/api/bid-pblanc/servc" }
   ],
   "redirects": [
     {
+      "source": "/viz-dashboard/",
+      "destination": "/choropleth/",
+      "statusCode": 301
+    },
+    {
       "source": "/viz-dashboard/:path*",
       "destination": "/choropleth/",
-      "permanent": true
+      "statusCode": 301
     }
   ],
   "crons": [

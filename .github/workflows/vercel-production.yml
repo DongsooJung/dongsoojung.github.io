@@ -1,0 +1,41 @@
+name: Vercel production request
+
+on:
+  push:
+    branches: [main]
+    paths-ignore:
+      - 'research/airport-congestion/data/latest.json'
+      - 'naver-cafe-research/data/latest.json'
+  # GITHUB_TOKEN-generated commits do not trigger another workflow. Refresh
+  # other daily snapshots once per day, not once per high-frequency data push.
+  schedule:
+    - cron: '35 21 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: vercel-production
+  cancel-in-progress: false
+
+jobs:
+  request-deployment:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - name: Test API contracts and deployment safeguards
+        run: node --test tests/*.test.js tests/*.test.mjs tests/*.test.cjs
+      - name: Verify public file staging
+        run: node scripts/build-vercel-static.mjs
+      - name: Request owner-authorized production deployment
+        env:
+          VERCEL_DEPLOY_HOOK_URL: ${{ secrets.VERCEL_DEPLOY_HOOK_URL }}
+        run: node scripts/trigger-vercel-hook.mjs
+      - name: Record acceptance (not deployment completion)
+        run: echo 'Deploy Hook accepted. Confirm the resulting Vercel deployment is READY before claiming release success.' >> "$GITHUB_STEP_SUMMARY"
