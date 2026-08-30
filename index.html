@@ -227,13 +227,14 @@ a{color:var(--acc); text-decoration:none} a:hover{text-decoration:underline}
 .evidence span{display:block;color:var(--muted);font-size:10.5px;line-height:1.45}
 
 /* Intelligence hubs */
-.hub-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.hub-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
 .hub-card{position:relative;overflow:hidden;border:1px solid var(--line2);border-radius:20px;padding:25px;
   background:linear-gradient(145deg,var(--panel2),var(--panel));min-height:225px;display:flex;flex-direction:column;
   transition:.18s transform,.18s border-color,.18s box-shadow}
 .hub-card::after{content:"";position:absolute;width:210px;height:210px;border-radius:50%;right:-75px;top:-95px;background:var(--glow);opacity:.6}
 .hub-card.strategy{--hub:#ff9f5a;--glow:rgba(255,111,15,.18)}
 .hub-card.research{--hub:#73b7ff;--glow:rgba(52,120,246,.2)}
+.hub-card.civic{--hub:#45d4bf;--glow:rgba(45,212,191,.18)}
 .hub-card:hover{transform:translateY(-2px);border-color:var(--hub);box-shadow:0 18px 48px var(--glow);text-decoration:none}
 .hub-kicker{position:relative;z-index:1;color:var(--hub);font-family:var(--font-mono);font-size:10px;font-weight:500;letter-spacing:.12em;text-transform:uppercase}
 .hub-card h3{position:relative;z-index:1;font-family:var(--font-display);font-size:clamp(1.35rem,1.8vw,1.55rem);font-weight:600;letter-spacing:-.03em;margin:10px 0 7px;line-height:1.25}
@@ -404,7 +405,13 @@ footer .business-info{flex-basis:100%;padding-top:10px;border-top:1px solid var(
         <div class="hub-kicker">Research Observatory</div>
         <h3>연구 대시보드</h3>
         <p>서울 도시데이터, 환율·무역·관광 등 공공데이터를 인터랙티브 대시보드로 탐색합니다.</p>
-        <div class="hub-meta"><span>도시·공간·경제·도구 · 19개 프로젝트</span><b>연구 허브 →</b></div>
+        <div class="hub-meta"><span>도시·공간·경제·도구 · 40개 프로젝트</span><b>연구 허브 →</b></div>
+      </a>
+      <a class="hub-card civic" href="https://civic-participation-hub.stargate8224.chatgpt.site" target="_blank" rel="noopener noreferrer">
+        <div class="hub-kicker">Civic Participation Hub</div>
+        <h3>민원·국민참여 플랫폼</h3>
+        <p>국회와 정부 기관의 민원·청원·입법예고·정보공개 등 공식 국민참여 창구 17곳을 검색·비교합니다.</p>
+        <div class="hub-meta"><span>국회·정부·국민권익위원회 · 17개 공식 창구</span><b>대시보드 열기 ↗</b></div>
       </a>
     </div>
     <div class="cta" style="margin-top:18px">
