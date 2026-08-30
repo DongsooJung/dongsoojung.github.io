@@ -20,8 +20,8 @@
   const KEY_STORAGE = 'stargate-data-go-kr-key';
   const PAGE_SIZE = 30;
   const PCT_ENCODED = /%[0-9A-Fa-f]{2}/;
-  // 사용자가 제공한 공공데이터포털 디코딩 키(브라우저 localStorage 없을 때 시드)
-  const SEED_KEY = 'fcc95a3d84cbb220391765c9ba129573f32b5e86bfc746483e0e96a806b35c9c';
+  // 공개 소스에는 인증키를 포함하지 않습니다.
+  const SEED_KEY = '';
 
   const els = {
     key: document.getElementById('apiKey'),

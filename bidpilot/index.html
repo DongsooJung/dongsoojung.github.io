@@ -11,15 +11,15 @@
   <meta property="og:description" content="주식회사 별의문의 포트폴리오·프로젝트 매칭·제안 파이프라인">
   <meta property="og:url" content="https://www.stargateedu.co.kr/bidpilot/">
   <meta property="og:type" content="website">
-  <link rel="stylesheet" href="./styles.css?v=20260802a">
+  <link rel="stylesheet" href="./styles.css?v=20260830a">
 </head>
 <body>
   <header class="topbar">
     <a class="brand" href="/bidpilot/" aria-label="BidPilot 홈"><span class="brand-mark">B</span><span>BidPilot</span></a>
     <nav aria-label="대시보드 메뉴">
-      <a href="#opportunities">매칭</a><a href="#portfolio">대표성과</a><a href="#pipeline">파이프라인</a>
+      <a href="#procurement">나라장터 낙찰</a><a href="#opportunities">매칭</a><a href="#portfolio">대표성과</a><a href="#pipeline">파이프라인</a>
     </nav>
-    <div class="top-actions"><span class="sync"><i></i> 2026.08.02 스냅샷</span><a class="compact-button" href="/strategy/">전략 허브 ↗</a></div>
+    <div class="top-actions"><span class="sync"><i></i> 공공조달 매일 06:20 갱신</span><a class="compact-button" href="/strategy/">전략 허브 ↗</a></div>
   </header>
 
   <main>
@@ -44,6 +44,19 @@
       <div><span>즉시 제안 후보</span><strong>3</strong><small>적합도 75+</small></div>
       <div><span>대표성과</span><strong>5</strong><small>수주용 재구성</small></div>
       <div><span>이번 주 목표</span><strong>2건</strong><small>맞춤 제안서</small></div>
+    </section>
+
+    <section class="section procurement-section" id="procurement">
+      <div class="section-heading procurement-heading"><div><span class="section-kicker">PUBLIC PROCUREMENT SIGNAL</span><h2>실제 나라장터 낙찰 레이더</h2><p>조달청 공식 낙찰정보의 업무별 최신 100건 스냅샷으로 발주기관·낙찰금액·경쟁강도·낙찰률을 빠르게 비교합니다.</p></div><a class="source-link" href="https://www.data.go.kr/data/15129397/openapi.do" target="_blank" rel="noopener">공식 데이터 ↗</a></div>
+      <div class="procurement-controls" aria-label="낙찰정보 조회 조건">
+        <div class="kind-tabs" role="group" aria-label="업무 구분"><button class="active" data-award-kind="servc">용역</button><button data-award-kind="cnstwk">공사</button><button data-award-kind="thng">물품</button><button data-award-kind="frgcpt">외자</button></div>
+        <label>조회기간<select id="award-days"><option value="7">최근 7일</option><option value="14">최근 14일</option><option value="30">최근 30일</option></select></label>
+        <button class="refresh-awards" id="refresh-awards" type="button">스냅샷 다시 불러오기</button>
+      </div>
+      <div class="award-metrics" aria-label="낙찰 핵심 지표"><article><span>스냅샷 결과</span><strong id="award-count">—</strong><small>최신 100건 내 선택기간</small></article><article><span>평균 낙찰금액</span><strong id="award-amount">—</strong><small>선택기간 스냅샷 기준</small></article><article><span>평균 낙찰률</span><strong id="award-rate">—</strong><small>선택기간 유효값 기준</small></article><article><span>평균 경쟁업체</span><strong id="award-competition">—</strong><small>선택기간 참가업체 수</small></article></div>
+      <div class="award-status" id="award-status" role="status" aria-live="polite">조달청 낙찰정보를 불러오는 중입니다.</div>
+      <div class="award-list" id="award-list" aria-label="나라장터 낙찰 결과"></div>
+      <div class="award-footer"><span id="award-updated">공식 API 연결 대기</span><div><button id="award-prev" type="button">← 이전 30건</button><span id="award-page">1 / —</span><button id="award-next" type="button">다음 30건 →</button></div></div>
     </section>
 
     <section class="section" id="opportunities">
@@ -97,7 +110,7 @@
       <a class="button full" data-wishket target="_blank" rel="noopener">Wishket에서 공고 확인 ↗</a>
     </aside>
   </div>
-  <script src="./app.js?v=20260802a" defer></script>
+  <script src="./app.js?v=20260830a" defer></script>
   <script src="/assets/usage-analytics.js?v=20260803b" defer></script>
 </body>
 </html>

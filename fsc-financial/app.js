@@ -2,9 +2,8 @@
   const ENDPOINT =
     'https://apis.data.go.kr/1160100/service/GetFinaStatInfoService_V2/getSummFinaStat_V2';
   const KEY_STORAGE = 'stargate-data-go-kr-key';
-  // 기본 공공데이터포털 키 — 입력 없이도 바로 조회
-  const DEFAULT_SERVICE_KEY =
-    'fcc95a3d84cbb220391765c9ba129573f32b5e86bfc746483e0e96a806b35c9c';
+  // 공개 소스에는 인증키를 포함하지 않습니다.
+  const DEFAULT_SERVICE_KEY = '';
   const PAGE_SIZE = 100;
   const OK_CODES = new Set(['00', '0', '000', 'NORMAL_SERVICE', 'NORMAL SERVICE.']);
   const PCT_ENCODED = /%[0-9A-Fa-f]{2}/;
@@ -105,7 +104,7 @@
 
   function loadKey() {
     const saved = localStorage.getItem(KEY_STORAGE) || '';
-    // 입력란은 비워 두고, 조회 시 DEFAULT_SERVICE_KEY를 자동 사용
+    // 저장된 사용자 키가 있으면 입력란에 복원합니다.
     els.key.value = saved && saved !== DEFAULT_SERVICE_KEY ? saved : '';
     els.key.placeholder = '기본 키 사용 중 (변경 시에만 입력)';
   }

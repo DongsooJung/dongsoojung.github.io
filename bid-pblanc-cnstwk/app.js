@@ -31,9 +31,8 @@
     /(^|\.)github\.io$/i.test(location.hostname) ||
     /(^|\.)stargateedu\.co\.kr$/i.test(location.hostname);
   const PROXY_URL = IS_STATIC_HOST ? REMOTE_PROXY_URL : SAME_ORIGIN_PROXY_URL;
-  // 페이지 입력 없이 사용하는 저장된 공공데이터포털 디코딩 키 (브리지 폴백용)
-  const STORED_SERVICE_KEY =
-    'fcc95a3d84cbb220391765c9ba129573f32b5e86bfc746483e0e96a806b35c9c';
+  // 인증키는 서버 프록시 환경변수에서만 사용합니다.
+  const STORED_SERVICE_KEY = '';
   const API_OP = {
     cnstwk: 'getBidPblancListInfoCnstwk',
     servc: 'getBidPblancListInfoServc',
