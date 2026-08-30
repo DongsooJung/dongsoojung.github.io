@@ -1,4 +1,3 @@
--- 도시공간 경계집계 지표의 공통 저장 계약. 배포 전 Supabase SQL editor에서 적용합니다.
 create table if not exists public.geo_metric (
   region_code text not null,
   boundary_level text not null check (boundary_level in ('emd','sigungu','gu')),
