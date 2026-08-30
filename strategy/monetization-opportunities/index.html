@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>수익화 기회 TOP 20 | STARGATE Intelligence</title>
-  <meta name="description" content="실행 이력을 반영해 20개 수익화 기회를 재평가하고, 교육 고객군에 연결된 상위 4개를 하나의 판매 퍼널로 설계한 전략 대시보드.">
+  <title>수익화 기회 TOP 50 | STARGATE Intelligence</title>
+  <meta name="description" content="실행 이력과 연구대시보드 39개 자산을 반영해 50개 수익화 기회를 재평가한 전략 대시보드.">
   <meta name="theme-color" content="#080c14" data-light-color="#f5f7fb" data-dark-color="#080c14">
   <link rel="canonical" href="https://stargateedu.co.kr/strategy/monetization-opportunities/">
   <script src="/assets/theme-boot.js"></script>
@@ -33,7 +33,7 @@
     .funnel-card{padding:28px;margin-bottom:24px}
     .funnel-head{display:flex;justify-content:space-between;gap:18px;align-items:end;margin-bottom:24px}
     .funnel-head p{max-width:680px;margin:0;color:var(--muted)}
-    .funnel{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;align-items:stretch}
+    .funnel{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;align-items:stretch}
     .stage{position:relative;padding:20px;border:1px solid var(--line);border-radius:18px;background:rgba(127,127,127,.06)}
     .stage:not(:last-child)::after{content:"→";position:absolute;right:-12px;top:50%;z-index:2;width:24px;height:24px;display:grid;place-items:center;border-radius:50%;background:var(--accent);color:#081018;font-weight:900;transform:translateY(-50%)}
     .stage .num{display:inline-grid;place-items:center;width:30px;height:30px;border-radius:10px;background:rgba(241,199,122,.15);color:var(--accent);font-weight:800}
@@ -49,14 +49,14 @@
     .chip{display:inline-flex;align-items:center;padding:7px 10px;border:1px solid var(--line);border-radius:999px;background:transparent;color:var(--muted);font-size:12px}
     .chip.active{background:var(--accent);border-color:var(--accent);color:#081018;font-weight:800}
     .opportunity-wrap{overflow-x:auto}
-    .opportunity{width:100%;border-collapse:collapse;min-width:760px}
+    .opportunity{width:100%;border-collapse:collapse;min-width:920px}
     .opportunity th,.opportunity td{padding:15px 16px;border-top:1px solid var(--line);text-align:left;vertical-align:middle}
     .opportunity th{color:var(--muted);font-size:12px;text-transform:uppercase;letter-spacing:.06em;background:rgba(127,127,127,.04)}
     .opportunity td{font-size:14px}
     .opportunity tr[data-group="focus"]{background:rgba(241,199,122,.055)}
     .rank{font-size:18px;font-weight:800;color:var(--muted);font-variant-numeric:tabular-nums}
     .opportunity tr:nth-child(-n+4) .rank{color:var(--accent)}
-    .name{font-weight:750}
+    .name{font-weight:750}.origin{display:block;margin-top:5px;color:var(--muted);font-size:11px;font-weight:600}.score-detail{display:block;margin-top:5px;color:var(--muted);font-size:10px;letter-spacing:.02em}
     .score{font-size:20px;font-weight:900;font-variant-numeric:tabular-nums}
     .scorebar{display:flex;align-items:center;gap:10px;min-width:112px}
     .scorebar i{display:block;width:64px;height:6px;background:rgba(127,127,127,.17);border-radius:9px;overflow:hidden}
@@ -75,7 +75,7 @@
       .summary-grid{grid-template-columns:1fr}
       .kpis{grid-template-columns:repeat(2,1fr)}
       .funnel{grid-template-columns:1fr 1fr}
-      .stage:nth-child(2)::after{display:none}
+      .stage:nth-child(2)::after,.stage:nth-child(4)::after{display:none}
       .strategy-band{grid-template-columns:1fr}
     }
     @media(max-width:620px){
@@ -126,18 +126,19 @@
 
     <header class="hero">
       <div>
-        <div class="eyebrow">Monetization Strategy · TOP 20</div>
-        <h1>20개 기회를 평가하고,<br>상위 4개를 하나의 퍼널로 묶었습니다.</h1>
-        <p>첨부 대화의 실행 이력까지 반영해 수익화 기회를 다시 평가했습니다. 지금 필요한 것은 새 사업의 추가가 아니라, 이미 교육 고객군에 연결된 자산을 한 번의 고객 여정으로 전환하는 일입니다.</p>
+        <div class="eyebrow">Monetization Strategy · TOP 50</div>
+        <h1>50개 기회를 다시 평가하고,<br>교육·연구 두 매출 엔진으로 묶었습니다.</h1>
+        <p>실행 이력과 연구대시보드 39개 프로젝트까지 반영해 50개 기회를 다시 평가했습니다. 교육 고객 퍼널은 더 촘촘하게 만들고, 연구 자산은 보고서·진단·워크숍으로 먼저 판매 검증합니다.</p>
         <div class="hero-actions">
-          <a class="btn primary" href="#funnel">상위 4개 퍼널 보기 →</a>
+          <a class="btn primary" href="#funnel">교육 퍼널 보기 →</a>
           <a class="btn" href="#ranking">전체 순위 보기</a>
-          <span class="date-chip">기준일 · 2026.08.27</span>
+          <a class="btn" href="/research/">연구대시보드 근거 보기</a>
+          <span class="date-chip">기준일 · 2026.08.30</span>
         </div>
       </div>
       <div class="stats" aria-label="수익화 평가 요약">
-        <div class="stat"><strong>20</strong><span>재평가한 수익화 기회</span></div>
-        <div class="stat"><strong>4</strong><span>즉시 집중 핵심 상품</span></div>
+        <div class="stat"><strong>50</strong><span>재평가한 수익화 기회</span></div>
+        <div class="stat"><strong>39</strong><span>검토한 연구 프로젝트</span></div>
         <div class="stat"><strong>30일</strong><span>최우선 매출 검증 기간</span></div>
       </div>
     </header>
@@ -147,7 +148,7 @@
         <article class="insight-card">
           <div class="eyebrow">Executive Conclusion</div>
           <h2>핵심 결론</h2>
-          <blockquote>“새 사업을 더 만들기”보다 교육 고객군에 연결된 상위 4개를 하나의 판매 퍼널로 묶습니다.</blockquote>
+          <blockquote>교육 고객 퍼널에 AI·데이터 진단을 붙이고, 연구 자산은 SaaS보다 결제 단위가 명확한 보고서·진단·워크숍으로 먼저 판매합니다.</blockquote>
         </article>
         <article class="score-card">
           <div class="eyebrow">Scoring Framework</div>
@@ -164,15 +165,15 @@
 
       <section class="kpis" aria-label="우선순위 현황">
         <div class="kpi"><strong>95점</strong><span>1위 · KOI·수학올림피아드 강의</span></div>
-        <div class="kpi"><strong>90점</strong><span>상위 4개 평균 점수</span></div>
-        <div class="kpi"><strong>3개</strong><span>즉시 집중 외 2차 확장 후보</span></div>
-        <div class="kpi"><strong>4개</strong><span>중단 권고·동결</span></div>
+        <div class="kpi"><strong>89점</strong><span>상위 5개 평균 점수</span></div>
+        <div class="kpi"><strong>30개</strong><span>연구자산 기반 신규 후보</span></div>
+        <div class="kpi"><strong>7개</strong><span>즉시 집중 후보</span></div>
       </section>
 
       <section class="funnel-card" id="funnel" aria-labelledby="funnel-title">
         <div class="funnel-head">
-          <div><div class="eyebrow">One Customer · Four Offers</div><h2 id="funnel-title">교육 고객군 통합 판매 퍼널</h2></div>
-          <p>낮은 진입장벽의 분석 서비스에서 신뢰를 만들고, 1:1 과외와 고단가 강의로 전환한 뒤 전자책으로 학습 지속성과 추천을 확보합니다.</p>
+          <div><div class="eyebrow">Education Funnel · Five Offers</div><h2 id="funnel-title">교육 고객군 5단계 판매 퍼널</h2></div>
+          <p>유료 진단으로 신뢰를 만들고, 과외·강의·전자책으로 성과를 확장한 뒤 STARGATE MATH AI 구독으로 반복 매출을 만듭니다.</p>
         </div>
         <div class="funnel" aria-label="상위 4개 판매 흐름">
           <article class="stage"><span class="num">1</span><h3>성적·학생부 분석</h3><p>유료 진단으로 현재 상태와 개선 경로를 명확히 제시합니다.</p><small>#4 · 86점 · 진입 상품</small></article>
@@ -180,44 +181,74 @@
           <article class="stage"><span class="num">3</span><h3>KOI·올림피아드 강의</h3><p>검증된 전문성을 고단가 그룹·심화 강의로 확장합니다.</p><small>#1 · 95점 · 주력 매출</small></article>
           <article class="stage"><span class="num">4</span><h3>알고리즘 전자책</h3><p>예습·복습 자산을 제공하고 후기·추천·재구매 접점을 만듭니다.</p><small>#3 · 88점 · 확장 상품</small></article>
         </div>
-        <p class="funnel-note"><strong>운영 원칙:</strong> 네 상품을 따로 광고하지 않고, 하나의 진단 신청 페이지와 상담 스크립트에서 고객 수준에 따라 다음 상품을 제안합니다.</p>
+        <p class="funnel-note"><strong>운영 원칙:</strong> 다섯 상품을 따로 광고하지 않고, 하나의 진단 신청 페이지와 상담 스크립트에서 고객 수준에 따라 다음 상품을 제안합니다.</p>
       </section>
 
       <section class="table-card" id="ranking" aria-labelledby="ranking-title">
         <div class="table-head">
-          <div><div class="eyebrow">Priority Matrix</div><h2 id="ranking-title">20개 수익화 기회 순위</h2><p>점수·분류·판단을 기준으로 실행 순서를 고정합니다.</p></div>
+          <div><div class="eyebrow">Priority Matrix</div><h2 id="ranking-title">50개 수익화 기회 순위</h2><p>기존 20개와 연구자산 기반 신규 30개를 같은 기준으로 비교합니다. 세부점수는 30일 매출/자산/수익성/수요/확장성 순입니다.</p></div>
           <div class="legend" role="group" aria-label="순위 분류 필터">
-            <button class="chip active" type="button" data-row-filter="all" aria-pressed="true">전체 20</button>
-            <button class="chip" type="button" data-row-filter="focus" aria-pressed="false">즉시 집중 4</button>
-            <button class="chip" type="button" data-row-filter="expand" aria-pressed="false">2차 확장 3</button>
-            <button class="chip" type="button" data-row-filter="hold" aria-pressed="false">보류·옵션 9</button>
+            <button class="chip active" type="button" data-row-filter="all" aria-pressed="true">전체 50</button>
+            <button class="chip" type="button" data-row-filter="focus" aria-pressed="false">즉시 집중 7</button>
+            <button class="chip" type="button" data-row-filter="expand" aria-pressed="false">2차 확장 13</button>
+            <button class="chip" type="button" data-row-filter="hold" aria-pressed="false">검증·옵션 26</button>
             <button class="chip" type="button" data-row-filter="stop" aria-pressed="false">동결·중단 4</button>
           </div>
         </div>
         <div class="opportunity-wrap">
           <table class="opportunity">
-            <thead><tr><th>순위</th><th>수익화 기회</th><th>점수</th><th>분류</th><th>판단</th></tr></thead>
+            <thead><tr><th>순위</th><th>수익화 기회·출처</th><th>점수·세부</th><th>분류</th><th>제품화·판단</th></tr></thead>
             <tbody>
-              <tr data-group="focus"><td class="rank">01</td><td class="name">KOI·수학올림피아드 강의</td><td><div class="scorebar"><span class="score">95</span><i style="--score:95%"></i></div></td><td><span class="decision">즉시 집중</span></td><td class="judgment">검증된 본업·고단가·자료 보유</td></tr>
-              <tr data-group="focus"><td class="rank">02</td><td class="name">숨고 중고생 수학 과외</td><td><div class="scorebar"><span class="score">91</span><i style="--score:91%"></i></div></td><td><span class="decision">즉시 집중</span></td><td class="judgment">견적 생성 자산 보유, 게시·발송만 남음</td></tr>
-              <tr data-group="focus"><td class="rank">03</td><td class="name">크몽 알고리즘 전자책</td><td><div class="scorebar"><span class="score">88</span><i style="--score:88%"></i></div></td><td><span class="decision">즉시 집중</span></td><td class="judgment">등록 완료, 미리보기·초기 구매가 병목</td></tr>
-              <tr data-group="focus"><td class="rank">04</td><td class="name">성적·학생부 분석 서비스</td><td><div class="scorebar"><span class="score">86</span><i style="--score:86%"></i></div></td><td><span class="decision">즉시 집중</span></td><td class="judgment">과외·강의로 연결되는 유료 진단 상품</td></tr>
-              <tr data-group="expand"><td class="rank">05</td><td class="name">Notion 구축 컨설팅·템플릿</td><td><div class="scorebar"><span class="score">79</span><i style="--score:79%"></i></div></td><td><span class="decision">2차 확장</span></td><td class="judgment">포트폴리오는 있으나 교육 상품보다 영업비용 큼</td></tr>
-              <tr data-group="expand"><td class="rank">06</td><td class="name">HWPX 문서 자동화</td><td><div class="scorebar"><span class="score">77</span><i style="--score:77%"></i></div></td><td><span class="decision">2차 확장</span></td><td class="judgment">희소성은 높지만 고객획득 경로 미확립</td></tr>
-              <tr data-group="hold"><td class="rank">07</td><td class="name">n8n·업무 자동화 대행</td><td><div class="scorebar"><span class="score">73</span><i style="--score:73%"></i></div></td><td><span class="decision">조건부 보류</span></td><td class="judgment">공급 경쟁이 많고 사례 상품화 필요</td></tr>
-              <tr data-group="hold"><td class="rank">08</td><td class="name">공공조달·정부입찰</td><td><div class="scorebar"><span class="score">70</span><i style="--score:70%"></i></div></td><td><span class="decision">장기 옵션</span></td><td class="judgment">자격 적합, 리드타임이 길고 수주 변동성 큼</td></tr>
-              <tr data-group="hold"><td class="rank">09</td><td class="name">stargate11.com 유료화</td><td><div class="scorebar"><span class="score">68</span><i style="--score:68%"></i></div></td><td><span class="decision">조건부 보류</span></td><td class="judgment">제품은 있으나 유료수요 검증 부족</td></tr>
-              <tr data-group="expand"><td class="rank">10</td><td class="name">AI 활용 강의·기업교육</td><td><div class="scorebar"><span class="score">67</span><i style="--score:67%"></i></div></td><td><span class="decision">2차 확장</span></td><td class="judgment">고단가 가능, B2B 영업 자산 필요</td></tr>
-              <tr data-group="hold"><td class="rank">11</td><td class="name">정부지원금·초기창업패키지</td><td><div class="scorebar"><span class="score">61</span><i style="--score:61%"></i></div></td><td><span class="decision">장기 옵션</span></td><td class="judgment">매출이 아닌 자금조달이며 경쟁 의존</td></tr>
-              <tr data-group="hold"><td class="rank">12</td><td class="name">쿠팡 도서·셀러 사업</td><td><div class="scorebar"><span class="score">56</span><i style="--score:56%"></i></div></td><td><span class="decision">보류</span></td><td class="judgment">마진과 운영 효율이 낮을 가능성</td></tr>
-              <tr data-group="hold"><td class="rank">13</td><td class="name">부동산 경매 데이터 서비스</td><td><div class="scorebar"><span class="score">55</span><i style="--score:55%"></i></div></td><td><span class="decision">보류</span></td><td class="judgment">기술자산은 있으나 상품·고객이 없음</td></tr>
-              <tr data-group="stop"><td class="rank">14</td><td class="name">Stargate 투자유치</td><td><div class="scorebar"><span class="score">50</span><i style="--score:50%"></i></div></td><td><span class="decision">동결</span></td><td class="judgment">수익화가 아닌 장기 자본조달</td></tr>
-              <tr data-group="hold"><td class="rank">15</td><td class="name">수학 카드뉴스·인스타그램</td><td><div class="scorebar"><span class="score">48</span><i style="--score:48%"></i></div></td><td><span class="decision">보조 채널</span></td><td class="judgment">직접 매출보다 유입 채널</td></tr>
-              <tr data-group="hold"><td class="rank">16</td><td class="name">LinkedIn B2B 채널</td><td><div class="scorebar"><span class="score">46</span><i style="--score:46%"></i></div></td><td><span class="decision">보조 채널</span></td><td class="judgment">성과 검증 전까지 최소 운영</td></tr>
-              <tr data-group="stop"><td class="rank">17</td><td class="name">공간 하이브리드 임대</td><td><div class="scorebar"><span class="score">39</span><i style="--score:39%"></i></div></td><td><span class="decision">중단 권고</span></td><td class="judgment">이전으로 기존 입지 장점 약화</td></tr>
-              <tr data-group="stop"><td class="rank">18</td><td class="name">여행 홈페이지</td><td><div class="scorebar"><span class="score">34</span><i style="--score:34%"></i></div></td><td><span class="decision">중단 권고</span></td><td class="judgment">매몰비용 외 지속 근거 부족</td></tr>
-              <tr data-group="stop"><td class="rank">19</td><td class="name">공모전 상금</td><td><div class="scorebar"><span class="score">28</span><i style="--score:28%"></i></div></td><td><span class="decision">중단 권고</span></td><td class="judgment">일회성·낮은 기대값</td></tr>
-              <tr data-group="hold"><td class="rank">20</td><td class="name">디바이스 매각</td><td><div class="scorebar"><span class="score">22</span><i style="--score:22%"></i></div></td><td><span class="decision">현금정리</span></td><td class="judgment">수익화가 아닌 일회성 유동화</td></tr>
+              <tr data-group="focus"><td class="rank">01</td><td class="name">KOI·수학올림피아드 강의<small class="origin">기존</small></td><td><div class="scorebar"><span class="score">95</span><i style="--score:95%"></i></div><small class="score-detail" title="30일 매출 / 자산 / 수익성 / 수요 / 확장성">30/25/19/14/7</small></td><td><span class="decision">즉시 집중</span></td><td class="judgment">4주 집중반·1:1 코칭; 본업과 자료가 검증됨</td></tr>
+              <tr data-group="focus"><td class="rank">02</td><td class="name">숨고 중고생 수학 과외<small class="origin">기존</small></td><td><div class="scorebar"><span class="score">91</span><i style="--score:91%"></i></div><small class="score-detail" title="30일 매출 / 자산 / 수익성 / 수요 / 확장성">29/23/19/13/7</small></td><td><span class="decision">즉시 집중</span></td><td class="judgment">진단→과외 패키지; 견적 자산 보유</td></tr>
+              <tr data-group="focus"><td class="rank">03</td><td class="name">크몽 알고리즘 전자책<small class="origin">기존</small></td><td><div class="scorebar"><span class="score">88</span><i style="--score:88%"></i></div><small class="score-detail" title="30일 매출 / 자산 / 수익성 / 수요 / 확장성">27/24/18/12/7</small></td><td><span class="decision">즉시 집중</span></td><td class="judgment">미리보기·번들 판매; 등록 완료</td></tr>
+              <tr data-group="focus"><td class="rank">04</td><td class="name">STARGATE MATH AI 유료 풀이·진단<small class="origin">연구대시보드</small></td><td><div class="scorebar"><span class="score">87</span><i style="--score:87%"></i></div><small class="score-detail" title="30일 매출 / 자산 / 수익성 / 수요 / 확장성">25/24/17/12/9</small></td><td><span class="decision">즉시 집중</span></td><td class="judgment">무료 체험→월 구독·건별 심층 리포트; 작동 앱 보유</td></tr>
+              <tr data-group="focus"><td class="rank">05</td><td class="name">성적·학생부 분석 서비스<small class="origin">기존</small></td><td><div class="scorebar"><span class="score">86</span><i style="--score:86%"></i></div><small class="score-detail" title="30일 매출 / 자산 / 수익성 / 수요 / 확장성">27/22/18/12/7</small></td><td><span class="decision">즉시 집중</span></td><td class="judgment">유료 진단 후 과외·강의 업셀</td></tr>
+              <tr data-group="focus"><td class="rank">06</td><td class="name">학원 입지·수요 분석 보고서<small class="origin">연구대시보드</small></td><td><div class="scorebar"><span class="score">84</span><i style="--score:84%"></i></div><small class="score-detail" title="30일 매출 / 자산 / 수익성 / 수요 / 확장성">24/23/18/11/8</small></td><td><span class="decision">즉시 집중</span></td><td class="judgment">원장 대상 지역 비교 PDF+상담; 59,492개 학원 데이터</td></tr>
+              <tr data-group="focus"><td class="rank">07</td><td class="name">과외학생 스크리닝 CRM<small class="origin">연구대시보드</small></td><td><div class="scorebar"><span class="score">82</span><i style="--score:82%"></i></div><small class="score-detail" title="30일 매출 / 자산 / 수익성 / 수요 / 확장성">24/22/17/11/8</small></td><td><span class="decision">즉시 집중</span></td><td class="judgment">강사·소형학원 월 구독; 100명 평가·CSV 기능</td></tr>
+              <tr data-group="expand"><td class="rank">08</td><td class="name">Notion 구축 컨설팅·템플릿<small class="origin">기존</small></td><td><div class="scorebar"><span class="score">79</span><i style="--score:79%"></i></div><small class="score-detail" title="30일 매출 / 자산 / 수익성 / 수요 / 확장성">23/21/17/11/7</small></td><td><span class="decision">2차 확장</span></td><td class="judgment">교육사업자 운영 템플릿으로 수직화</td></tr>
+              <tr data-group="expand"><td class="rank">09</td><td class="name">Quote Maker Pro<small class="origin">연구대시보드</small></td><td><div class="scorebar"><span class="score">78</span><i style="--score:78%"></i></div><small class="score-detail" title="30일 매출 / 자산 / 수익성 / 수요 / 확장성">22/23/16/9/8</small></td><td><span class="decision">2차 확장</span></td><td class="judgment">워터마크·횟수 제한 해제 구독; 무료/Pro 구조 구현</td></tr>
+              <tr data-group="expand"><td class="rank">10</td><td class="name">HWPX 문서 자동화<small class="origin">기존</small></td><td><div class="scorebar"><span class="score">77</span><i style="--score:77%"></i></div><small class="score-detail" title="30일 매출 / 자산 / 수익성 / 수요 / 확장성">22/21/17/10/7</small></td><td><span class="decision">2차 확장</span></td><td class="judgment">학원·공공기관 문서 패키지</td></tr>
+              <tr data-group="expand"><td class="rank">11</td><td class="name">RAG·GraphRAG 실무 워크숍<small class="origin">연구대시보드</small></td><td><div class="scorebar"><span class="score">76</span><i style="--score:76%"></i></div><small class="score-detail" title="30일 매출 / 자산 / 수익성 / 수요 / 확장성">19/23/17/10/7</small></td><td><span class="decision">2차 확장</span></td><td class="judgment">PDF 2종 기반 반일 기업교육+PoC</td></tr>
+              <tr data-group="expand"><td class="rank">12</td><td class="name">온라인 강의시장 인텔리전스<small class="origin">연구대시보드</small></td><td><div class="scorebar"><span class="score">75</span><i style="--score:75%"></i></div><small class="score-detail" title="30일 매출 / 자산 / 수익성 / 수요 / 확장성">21/22/16/10/6</small></td><td><span class="decision">2차 확장</span></td><td class="judgment">인프런·CLASS101·크몽 주간 리포트/판매자 컨설팅</td></tr>
+              <tr data-group="expand"><td class="rank">13</td><td class="name">공공데이터 대시보드 구축 대행<small class="origin">연구대시보드</small></td><td><div class="scorebar"><span class="score">74</span><i style="--score:74%"></i></div><small class="score-detail" title="30일 매출 / 자산 / 수익성 / 수요 / 확장성">20/22/17/9/6</small></td><td><span class="decision">2차 확장</span></td><td class="judgment">API→CSV→Supabase 구축 패키지</td></tr>
+              <tr data-group="expand"><td class="rank">14</td><td class="name">과외 수요·가격 주간 리포트<small class="origin">연구대시보드</small></td><td><div class="scorebar"><span class="score">73</span><i style="--score:73%"></i></div><small class="score-detail" title="30일 매출 / 자산 / 수익성 / 수요 / 확장성">23/20/15/9/6</small></td><td><span class="decision">2차 확장</span></td><td class="judgment">강사용 유료 뉴스레터; 시장 모니터링 활용</td></tr>
+              <tr data-group="expand"><td class="rank">15</td><td class="name">n8n·업무 자동화 대행<small class="origin">기존</small></td><td><div class="scorebar"><span class="score">73</span><i style="--score:73%"></i></div><small class="score-detail" title="30일 매출 / 자산 / 수익성 / 수요 / 확장성">20/19/16/10/8</small></td><td><span class="decision">2차 확장</span></td><td class="judgment">교육·리서치 자동화 사례로 상품화</td></tr>
+              <tr data-group="expand"><td class="rank">16</td><td class="name">나라장터 맞춤 입찰 알림 구독<small class="origin">연구대시보드</small></td><td><div class="scorebar"><span class="score">72</span><i style="--score:72%"></i></div><small class="score-detail" title="30일 매출 / 자산 / 수익성 / 수요 / 확장성">18/21/16/10/7</small></td><td><span class="decision">2차 확장</span></td><td class="judgment">업종·지역 필터 알림+주간 후보 목록</td></tr>
+              <tr data-group="expand"><td class="rank">17</td><td class="name">공공조달·정부입찰<small class="origin">기존</small></td><td><div class="scorebar"><span class="score">70</span><i style="--score:70%"></i></div><small class="score-detail" title="30일 매출 / 자산 / 수익성 / 수요 / 확장성">15/19/17/11/8</small></td><td><span class="decision">2차 확장</span></td><td class="judgment">직접 수주는 장기; 알림상품부터 검증</td></tr>
+              <tr data-group="expand"><td class="rank">18</td><td class="name">기업재무 스크리닝 리포트<small class="origin">연구대시보드</small></td><td><div class="scorebar"><span class="score">69</span><i style="--score:69%"></i></div><small class="score-detail" title="30일 매출 / 자산 / 수익성 / 수요 / 확장성">17/21/15/9/7</small></td><td><span class="decision">2차 확장</span></td><td class="judgment">거래처·투자후보 재무 PDF/CSV</td></tr>
+              <tr data-group="expand"><td class="rank">19</td><td class="name">stargate11.com 유료화<small class="origin">기존</small></td><td><div class="scorebar"><span class="score">68</span><i style="--score:68%"></i></div><small class="score-detail" title="30일 매출 / 자산 / 수익성 / 수요 / 확장성">17/20/15/9/7</small></td><td><span class="decision">2차 확장</span></td><td class="judgment">좁은 유료 기능부터 검증</td></tr>
+              <tr data-group="expand"><td class="rank">20</td><td class="name">AI 활용 강의·기업교육<small class="origin">기존</small></td><td><div class="scorebar"><span class="score">67</span><i style="--score:67%"></i></div><small class="score-detail" title="30일 매출 / 자산 / 수익성 / 수요 / 확장성">17/18/17/9/6</small></td><td><span class="decision">2차 확장</span></td><td class="judgment">RAG·자동화 데모와 결합</td></tr>
+              <tr data-group="hold"><td class="rank">21</td><td class="name">3AI 보안 로그 진단·PoC<small class="origin">연구대시보드</small></td><td><div class="scorebar"><span class="score">66</span><i style="--score:66%"></i></div><small class="score-detail" title="30일 매출 / 자산 / 수익성 / 수요 / 확장성">15/22/16/8/5</small></td><td><span class="decision">검증 후 확장</span></td><td class="judgment">백서→유료 워크숍→소규모 로그 진단</td></tr>
+              <tr data-group="hold"><td class="rank">22</td><td class="name">화성 실거래 맞춤 분석 보고서<small class="origin">연구대시보드</small></td><td><div class="scorebar"><span class="score">65</span><i style="--score:65%"></i></div><small class="score-detail" title="30일 매출 / 자산 / 수익성 / 수요 / 확장성">18/20/14/8/5</small></td><td><span class="decision">검증 후 확장</span></td><td class="judgment">중개업소·투자자 대상 단지·법정동 비교</td></tr>
+              <tr data-group="hold"><td class="rank">23</td><td class="name">수도권 숙박시장 리포트<small class="origin">연구대시보드</small></td><td><div class="scorebar"><span class="score">64</span><i style="--score:64%"></i></div><small class="score-detail" title="30일 매출 / 자산 / 수익성 / 수요 / 확장성">17/22/14/7/4</small></td><td><span class="decision">검증 후 확장</span></td><td class="judgment">지역별 공급·객실 경쟁 PDF/CSV; 8,896개 시설</td></tr>
+              <tr data-group="hold"><td class="rank">24</td><td class="name">에어비앤비 수익예측 진단<small class="origin">연구대시보드</small></td><td><div class="scorebar"><span class="score">63</span><i style="--score:63%"></i></div><small class="score-detail" title="30일 매출 / 자산 / 수익성 / 수요 / 확장성">17/19/15/7/5</small></td><td><span class="decision">검증 후 확장</span></td><td class="judgment">주소·조건 입력형 건별 보고서</td></tr>
+              <tr data-group="hold"><td class="rank">25</td><td class="name">국가별 수출입 맞춤 리포트<small class="origin">연구대시보드</small></td><td><div class="scorebar"><span class="score">62</span><i style="--score:62%"></i></div><small class="score-detail" title="30일 매출 / 자산 / 수익성 / 수요 / 확장성">16/20/14/7/5</small></td><td><span class="decision">검증 후 확장</span></td><td class="judgment">중소수출사 월간 국가·품목 브리프</td></tr>
+              <tr data-group="hold"><td class="rank">26</td><td class="name">정부지원금·초기창업패키지<small class="origin">기존</small></td><td><div class="scorebar"><span class="score">61</span><i style="--score:61%"></i></div><small class="score-detail" title="30일 매출 / 자산 / 수익성 / 수요 / 확장성">10/17/15/11/8</small></td><td><span class="decision">장기 옵션</span></td><td class="judgment">매출이 아닌 자금조달</td></tr>
+              <tr data-group="hold"><td class="rank">27</td><td class="name">학원 밀집도 데이터 라이선스<small class="origin">연구대시보드</small></td><td><div class="scorebar"><span class="score">60</span><i style="--score:60%"></i></div><small class="score-detail" title="30일 매출 / 자산 / 수익성 / 수요 / 확장성">15/22/13/6/4</small></td><td><span class="decision">검증 후 확장</span></td><td class="judgment">프랜차이즈·부동산사 CSV/지도 납품</td></tr>
+              <tr data-group="hold"><td class="rank">28</td><td class="name">공간계량·15분도시 컨설팅<small class="origin">연구대시보드</small></td><td><div class="scorebar"><span class="score">59</span><i style="--score:59%"></i></div><small class="score-detail" title="30일 매출 / 자산 / 수익성 / 수요 / 확장성">13/21/16/5/4</small></td><td><span class="decision">검증 후 확장</span></td><td class="judgment">입지·접근성 연구용역</td></tr>
+              <tr data-group="hold"><td class="rank">29</td><td class="name">소비지출 지역 브리프<small class="origin">연구대시보드</small></td><td><div class="scorebar"><span class="score">58</span><i style="--score:58%"></i></div><small class="score-detail" title="30일 매출 / 자산 / 수익성 / 수요 / 확장성">15/19/13/7/4</small></td><td><span class="decision">검증 후 확장</span></td><td class="judgment">상권·교육사업자 대상 월간 PDF</td></tr>
+              <tr data-group="hold"><td class="rank">30</td><td class="name">Google Trends 콘텐츠 인사이트<small class="origin">연구대시보드</small></td><td><div class="scorebar"><span class="score">57</span><i style="--score:57%"></i></div><small class="score-detail" title="30일 매출 / 자산 / 수익성 / 수요 / 확장성">16/18/12/7/4</small></td><td><span class="decision">검증 후 확장</span></td><td class="judgment">상위 100·연관어 주간 리포트</td></tr>
+              <tr data-group="hold"><td class="rank">31</td><td class="name">쿠팡 도서·셀러 사업<small class="origin">기존</small></td><td><div class="scorebar"><span class="score">56</span><i style="--score:56%"></i></div><small class="score-detail" title="30일 매출 / 자산 / 수익성 / 수요 / 확장성">14/14/12/10/6</small></td><td><span class="decision">조건부 보류</span></td><td class="judgment">기존 도서 중심 최소 운영</td></tr>
+              <tr data-group="hold"><td class="rank">32</td><td class="name">부동산 경매 데이터 서비스<small class="origin">기존</small></td><td><div class="scorebar"><span class="score">55</span><i style="--score:55%"></i></div><small class="score-detail" title="30일 매출 / 자산 / 수익성 / 수요 / 확장성">12/18/14/6/5</small></td><td><span class="decision">조건부 보류</span></td><td class="judgment">실거래 비교 리포트부터 판매 검증</td></tr>
+              <tr data-group="hold"><td class="rank">33</td><td class="name">방한관광객 시장 브리프<small class="origin">연구대시보드</small></td><td><div class="scorebar"><span class="score">54</span><i style="--score:54%"></i></div><small class="score-detail" title="30일 매출 / 자산 / 수익성 / 수요 / 확장성">14/18/13/5/4</small></td><td><span class="decision">검증 후 확장</span></td><td class="judgment">숙박·관광업체용 국적별 월간 보고서</td></tr>
+              <tr data-group="hold"><td class="rank">34</td><td class="name">환율·금리·물가 매크로 브리프<small class="origin">연구대시보드</small></td><td><div class="scorebar"><span class="score">53</span><i style="--score:53%"></i></div><small class="score-detail" title="30일 매출 / 자산 / 수익성 / 수요 / 확장성">13/18/12/6/4</small></td><td><span class="decision">검증 후 확장</span></td><td class="judgment">기업·개인용 해설 뉴스레터</td></tr>
+              <tr data-group="hold"><td class="rank">35</td><td class="name">DART 상위기업 재무 데이터팩<small class="origin">연구대시보드</small></td><td><div class="scorebar"><span class="score">52</span><i style="--score:52%"></i></div><small class="score-detail" title="30일 매출 / 자산 / 수익성 / 수요 / 확장성">14/20/11/4/3</small></td><td><span class="decision">검증 후 확장</span></td><td class="judgment">연도별 XLSX/CSV 다운로드 판매</td></tr>
+              <tr data-group="hold"><td class="rank">36</td><td class="name">LH 분양·임대 맞춤 알림<small class="origin">연구대시보드</small></td><td><div class="scorebar"><span class="score">51</span><i style="--score:51%"></i></div><small class="score-detail" title="30일 매출 / 자산 / 수익성 / 수요 / 확장성">13/19/11/5/3</small></td><td><span class="decision">검증 후 확장</span></td><td class="judgment">지역·유형 필터 이메일·문자 구독</td></tr>
+              <tr data-group="stop"><td class="rank">37</td><td class="name">Stargate 투자유치<small class="origin">기존</small></td><td><div class="scorebar"><span class="score">50</span><i style="--score:50%"></i></div><small class="score-detail" title="30일 매출 / 자산 / 수익성 / 수요 / 확장성">5/15/12/9/9</small></td><td><span class="decision">동결</span></td><td class="judgment">수익화가 아닌 장기 자본조달</td></tr>
+              <tr data-group="hold"><td class="rank">38</td><td class="name">부동산 커뮤니티 인기글 모니터<small class="origin">연구대시보드</small></td><td><div class="scorebar"><span class="score">49</span><i style="--score:49%"></i></div><small class="score-detail" title="30일 매출 / 자산 / 수익성 / 수요 / 확장성">12/18/10/5/4</small></td><td><span class="decision">검증 후 확장</span></td><td class="judgment">중개·마케팅사 주제·반응 주간 리포트</td></tr>
+              <tr data-group="hold"><td class="rank">39</td><td class="name">수학 카드뉴스·인스타그램<small class="origin">기존</small></td><td><div class="scorebar"><span class="score">48</span><i style="--score:48%"></i></div><small class="score-detail" title="30일 매출 / 자산 / 수익성 / 수요 / 확장성">10/14/10/9/5</small></td><td><span class="decision">보조 채널</span></td><td class="judgment">직접 매출보다 상위 교육퍼널 유입</td></tr>
+              <tr data-group="hold"><td class="rank">40</td><td class="name">LinkedIn B2B 채널<small class="origin">기존</small></td><td><div class="scorebar"><span class="score">46</span><i style="--score:46%"></i></div><small class="score-detail" title="30일 매출 / 자산 / 수익성 / 수요 / 확장성">8/13/12/8/5</small></td><td><span class="decision">보조 채널</span></td><td class="judgment">기업교육·데이터 컨설팅 리드 채널</td></tr>
+              <tr data-group="hold"><td class="rank">41</td><td class="name">F‑2·F‑5·F‑6 정책 정보 리포트<small class="origin">연구대시보드</small></td><td><div class="scorebar"><span class="score">45</span><i style="--score:45%"></i></div><small class="score-detail" title="30일 매출 / 자산 / 수익성 / 수요 / 확장성">10/20/10/3/2</small></td><td><span class="decision">조건부 보류</span></td><td class="judgment">한·영 정보상품; 법률자문 아님을 명확히 표시</td></tr>
+              <tr data-group="hold"><td class="rank">42</td><td class="name">맞춤 선거구 인터랙티브 지도 제작<small class="origin">연구대시보드</small></td><td><div class="scorebar"><span class="score">44</span><i style="--score:44%"></i></div><small class="score-detail" title="30일 매출 / 자산 / 수익성 / 수요 / 확장성">9/18/11/3/3</small></td><td><span class="decision">조건부 보류</span></td><td class="judgment">언론·연구기관용 프로젝트 납품</td></tr>
+              <tr data-group="hold"><td class="rank">43</td><td class="name">인천공항 혼잡 알림·데이터 피드<small class="origin">연구대시보드</small></td><td><div class="scorebar"><span class="score">43</span><i style="--score:43%"></i></div><small class="score-detail" title="30일 매출 / 자산 / 수익성 / 수요 / 확장성">8/20/10/3/2</small></td><td><span class="decision">조건부 보류</span></td><td class="judgment">여행사·픽업업체용 시간대 알림</td></tr>
+              <tr data-group="hold"><td class="rank">44</td><td class="name">정치토론 분석 보고서 도구<small class="origin">연구대시보드</small></td><td><div class="scorebar"><span class="score">42</span><i style="--score:42%"></i></div><small class="score-detail" title="30일 매출 / 자산 / 수익성 / 수요 / 확장성">8/18/9/4/3</small></td><td><span class="decision">조건부 보류</span></td><td class="judgment">연구·언론용 세션별 CSV/PDF</td></tr>
+              <tr data-group="hold"><td class="rank">45</td><td class="name">구독관리 PWA Pro<small class="origin">연구대시보드</small></td><td><div class="scorebar"><span class="score">41</span><i style="--score:41%"></i></div><small class="score-detail" title="30일 매출 / 자산 / 수익성 / 수요 / 확장성">10/18/8/3/2</small></td><td><span class="decision">조건부 보류</span></td><td class="judgment">CSV·다중통화·팀 기능 유료화</td></tr>
+              <tr data-group="hold"><td class="rank">46</td><td class="name">SOLAPI 고객 문자 콘솔 구축<small class="origin">연구대시보드</small></td><td><div class="scorebar"><span class="score">40</span><i style="--score:40%"></i></div><small class="score-detail" title="30일 매출 / 자산 / 수익성 / 수요 / 확장성">12/16/7/3/2</small></td><td><span class="decision">조건부 보류</span></td><td class="judgment">소형학원용 설치·템플릿 패키지</td></tr>
+              <tr data-group="stop"><td class="rank">47</td><td class="name">공간 하이브리드 임대<small class="origin">기존</small></td><td><div class="scorebar"><span class="score">39</span><i style="--score:39%"></i></div><small class="score-detail" title="30일 매출 / 자산 / 수익성 / 수요 / 확장성">8/10/9/7/5</small></td><td><span class="decision">중단 권고</span></td><td class="judgment">입지 장점 약화</td></tr>
+              <tr data-group="stop"><td class="rank">48</td><td class="name">여행 홈페이지<small class="origin">기존</small></td><td><div class="scorebar"><span class="score">34</span><i style="--score:34%"></i></div><small class="score-detail" title="30일 매출 / 자산 / 수익성 / 수요 / 확장성">6/11/7/6/4</small></td><td><span class="decision">중단 권고</span></td><td class="judgment">별도 사업보다 숙박·관광 리포트에 흡수</td></tr>
+              <tr data-group="stop"><td class="rank">49</td><td class="name">공모전 상금<small class="origin">기존</small></td><td><div class="scorebar"><span class="score">28</span><i style="--score:28%"></i></div><small class="score-detail" title="30일 매출 / 자산 / 수익성 / 수요 / 확장성">4/8/7/5/4</small></td><td><span class="decision">중단 권고</span></td><td class="judgment">일회성·낮은 기대값</td></tr>
+              <tr data-group="hold"><td class="rank">50</td><td class="name">디바이스 매각<small class="origin">기존</small></td><td><div class="scorebar"><span class="score">22</span><i style="--score:22%"></i></div><small class="score-detail" title="30일 매출 / 자산 / 수익성 / 수요 / 확장성">8/6/4/2/2</small></td><td><span class="decision">현금정리</span></td><td class="judgment">사업이 아닌 일회성 유동화</td></tr>
             </tbody>
           </table>
         </div>
