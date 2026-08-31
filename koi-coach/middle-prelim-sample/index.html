@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>KOI 중등부 지역예선형 샘플 · 범위 탐색과 이분 탐색 | Stargate</title>
+<meta name="description" content="2026 KOI 1차 중등부 실기 유형을 참고해 재구성한 지역예선형 샘플. 정렬, 구간 개수, 이분 탐색으로 O(N log N) 풀이를 설계합니다.">
+<link rel="canonical" href="https://stargateedu.co.kr/koi-coach/middle-prelim-sample/">
+<meta property="og:title" content="KOI 중등부 지역예선형 샘플 · 범위 탐색과 이분 탐색">
+<meta property="og:description" content="문제 → 힌트 → 설계 → C++20 구현 → 인터랙티브 검증">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://stargateedu.co.kr/koi-coach/middle-prelim-sample/">
+<style>
+:root{--bg:#090d16;--panel:#101827;--panel2:#121f35;--line:#263653;--ink:#edf3ff;--sub:#9caac0;--acc:#78a2ff;--warm:#f4c77b;--good:#6ee7b7}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;font-family:Pretendard,"Noto Sans KR","Malgun Gothic",sans-serif;background:radial-gradient(circle at 12% 0,rgba(79,127,255,.18),transparent 30%),var(--bg);color:var(--ink);line-height:1.68}a{color:var(--acc);text-decoration:none}.w{width:min(980px,calc(100% - 34px));margin:auto}.nav{border-bottom:1px solid var(--line);background:rgba(9,13,22,.9);position:sticky;top:0;z-index:5;backdrop-filter:blur(12px)}.nav .w{min-height:58px;display:flex;align-items:center;justify-content:space-between}.nav a{color:var(--ink)}header{padding:70px 0 52px}.badge{display:flex;gap:8px;flex-wrap:wrap}.pill{font-size:12px;padding:5px 10px;border-radius:999px;border:1px solid var(--line);color:var(--sub)}.pill.a{color:var(--warm);border-color:rgba(244,199,123,.45);background:rgba(244,199,123,.08)}h1{font-size:clamp(34px,6vw,54px);line-height:1.14;margin:16px 0 14px;letter-spacing:-.04em}.lead{max-width:760px;color:var(--sub);font-size:17px}.notice{margin-top:22px;padding:14px 16px;border-left:4px solid var(--warm);background:rgba(244,199,123,.07);border-radius:10px;color:#d8c8aa}.section{padding:26px 0}.box{border:1px solid var(--line);background:linear-gradient(180deg,var(--panel2),var(--panel));border-radius:18px;padding:24px;margin-bottom:18px}.box h2{margin:0 0 12px;font-size:22px}.problem{font-size:18px;font-weight:700}.rules{display:grid;gap:8px;padding-left:20px}.io{display:grid;grid-template-columns:1fr 1fr;gap:12px}.codebox{background:#070b12;border:1px solid #1d2a42;border-radius:14px;padding:16px;overflow:auto;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13px;white-space:pre}.steps{display:grid;gap:10px}.step{display:grid;grid-template-columns:34px 1fr;gap:10px}.num{width:30px;height:30px;border-radius:9px;background:#1b2a46;color:var(--warm);display:grid;place-items:center;font-weight:900}.formula{padding:15px;border-radius:12px;background:#0b1220;border:1px solid var(--line);font-family:ui-monospace,SFMono-Regular,monospace;color:#dce7ff}.complex{display:flex;gap:10px;flex-wrap:wrap}.metric{padding:9px 12px;border-radius:10px;background:#0b1220;border:1px solid var(--line);font-weight:800}.lab{display:grid;grid-template-columns:1fr 1fr;gap:16px}.control{padding:18px;border:1px solid var(--line);border-radius:14px;background:#0b1220}.control label{display:flex;justify-content:space-between;font-weight:800}.control input{width:100%;margin-top:12px}.result{margin-top:14px;display:grid;grid-template-columns:repeat(7,1fr);gap:7px}.student{border:1px solid var(--line);border-radius:11px;padding:10px 6px;text-align:center;background:#0b1220}.student b{display:block;font-size:18px;color:var(--good)}table{width:100%;border-collapse:collapse;font-size:13px}th,td{padding:9px;border-bottom:1px solid var(--line);text-align:center}th{color:var(--sub)}.cta{display:flex;gap:10px;flex-wrap:wrap;margin-top:22px}.btn{padding:10px 15px;border-radius:10px;border:1px solid var(--line);font-weight:800}.btn.primary{background:linear-gradient(135deg,#4f7fff,#8b7cff);color:#08101f;border:0}footer{padding:36px 0;color:#77859c;font-size:12px}@media(max-width:700px){.io,.lab{grid-template-columns:1fr}.result{grid-template-columns:repeat(4,1fr)}}
+</style>
+<link rel="stylesheet" href="/assets/site-theme.css">
+<script src="/assets/site-theme.js"></script>
+</head>
+<body>
+<nav class="nav"><div class="w"><a href="/koi-coach/"><b>KOI Coach</b></a><a href="/">STARGATE 홈</a></div></nav>
+<header><div class="w">
+<div class="badge"><span class="pill a">중등부 · 지역예선형</span><span class="pill">정렬</span><span class="pill">이분 탐색</span><span class="pill">O(N log N)</span></div>
+<h1>스터디 파트너<br>범위 탐색 문제</h1>
+<p class="lead">2026 KOI 1차 중등부 실기에서 요구되는 ‘큰 입력을 정렬하고 구간의 원소 수를 빠르게 세는’ 사고를 연습하기 위한 교육용 재구성 샘플입니다.</p>
+<div class="notice"><b>표기 안내</b> · 현재 공식 명칭은 KOI ‘1차 대회’이며 초·중등부에는 전국부문과 지역부문 시상이 있습니다. 이 페이지의 ‘지역예선형’은 학습 편의를 위한 표현이며 실제 기출 원문을 복제한 것이 아닙니다.</div>
+</div></header>
+<main class="w">
+<section class="section">
+<div class="box"><h2>1. 문제</h2><p class="problem">수직선 위에 N명의 학생이 있고, i번 학생의 위치는 Xᵢ, 소속 스터디 그룹은 Sᵢ이다. i번 학생과 j번 학생(i≠j)이 파트너가 되는 조건은 다음 중 하나이다.</p>
+<ul class="rules"><li>같은 그룹이면 |Xᵢ-Xⱼ| ≤ A</li><li>다른 그룹이면 |Xᵢ-Xⱼ| ≤ B</li></ul>
+<p>N이 최대 200,000일 때 모든 학생에 대해 파트너 수를 구하여라.</p>
+<div class="io"><div><h3>예시 입력</h3><div class="codebox">7 3 5
+2 1
+5 2
+7 1
+11 3
+14 1
+16 2
+20 3</div></div><div><h3>예시 출력</h3><div class="codebox">1 2 2 3 2 3 1</div></div></div></div>
+
+<div class="box"><h2>2. 힌트</h2><p>N²개의 학생 쌍을 모두 확인하면 최대 약 4×10¹⁰번 비교가 필요합니다. 각 학생마다 “특정 구간 안에 위치한 학생 수”만 빠르게 셀 수 있다면 문제를 줄일 수 있습니다.</p>
+<div class="formula">rangeCount(sorted, L, R) = upper_bound(R) - lower_bound(L)</div></div>
+
+<div class="box"><h2>3. 설계</h2><div class="steps">
+<div class="step"><div class="num">1</div><div><b>전체 위치 배열을 정렬</b><br><span style="color:var(--sub)">모든 X를 정렬한 배열 all에 저장합니다.</span></div></div>
+<div class="step"><div class="num">2</div><div><b>그룹별 위치 배열도 정렬</b><br><span style="color:var(--sub)">group[S]에는 같은 그룹 학생의 위치만 모읍니다.</span></div></div>
+<div class="step"><div class="num">3</div><div><b>B 범위의 전체 학생 수 계산</b><br><span style="color:var(--sub)">[Xᵢ-B, Xᵢ+B] 안의 전체 학생 수를 이분 탐색으로 구합니다.</span></div></div>
+<div class="step"><div class="num">4</div><div><b>같은 그룹을 보정</b><br><span style="color:var(--sub)">B 범위의 같은 그룹을 빼고, A 범위의 같은 그룹을 다시 더합니다.</span></div></div>
+</div>
+<div class="formula" style="margin-top:16px">answerᵢ = allWithin(B) - sameGroupWithin(B) + sameGroupWithin(A) - 1</div>
+<p style="color:var(--sub)">마지막 −1은 sameGroupWithin(A)에 자기 자신이 포함되기 때문입니다.</p>
+<div class="complex"><span class="metric">시간 O(N log N)</span><span class="metric">메모리 O(N)</span></div></div>
+
+<div class="box"><h2>4. C++20 구현</h2><div class="codebox">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+using ll = long long;
+
+int countRange(const vector&lt;ll&gt;&amp; v, ll L, ll R){
+    return upper_bound(v.begin(), v.end(), R)
+         - lower_bound(v.begin(), v.end(), L);
+}
+
+int main(){
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int N;
+    ll A, B;
+    cin &gt;&gt; N &gt;&gt; A &gt;&gt; B;
+
+    vector&lt;ll&gt; X(N), all;
+    vector&lt;int&gt; S(N);
+    vector&lt;vector&lt;ll&gt;&gt; group(N + 1);
+
+    for(int i=0;i&lt;N;i++){
+        cin &gt;&gt; X[i] &gt;&gt; S[i];
+        all.push_back(X[i]);
+        group[S[i]].push_back(X[i]);
+    }
+
+    sort(all.begin(), all.end());
+    for(auto&amp; g : group) sort(g.begin(), g.end());
+
+    for(int i=0;i&lt;N;i++){
+        int allB = countRange(all, X[i]-B, X[i]+B);
+        int sameB = countRange(group[S[i]], X[i]-B, X[i]+B);
+        int sameA = countRange(group[S[i]], X[i]-A, X[i]+A);
+        int ans = allB - sameB + sameA - 1;
+        cout &lt;&lt; ans &lt;&lt; (i+1==N?'\n':' ');
+    }
+}</div></div>
+
+<div class="box"><h2>5. 인터랙티브 검증</h2><p style="color:var(--sub)">위 예시 학생 7명은 그대로 두고 A와 B를 움직여 파트너 수가 어떻게 바뀌는지 확인해 보세요.</p>
+<div class="lab"><div class="control"><label>같은 그룹 거리 A <span id="av">3</span></label><input id="a" type="range" min="0" max="10" value="3"></div><div class="control"><label>다른 그룹 거리 B <span id="bv">5</span></label><input id="b" type="range" min="0" max="10" value="5"></div></div>
+<div class="result" id="result"></div>
+<table><thead><tr><th>학생</th><th>위치</th><th>그룹</th></tr></thead><tbody id="tbody"></tbody></table></div>
+
+<div class="box"><h2>6. KOI 연결 포인트</h2><ul class="rules"><li>브루트포스에서 시간복잡도 병목을 먼저 찾는다.</li><li>정렬된 배열에서 구간 개수를 lower_bound / upper_bound로 센다.</li><li>“전체 − 제외 + 다시 포함” 형태로 조건을 분리한다.</li><li>부분점수 풀이 O(N²)에서 만점 풀이 O(N log N)으로 개선하는 과정을 설명할 수 있어야 한다.</li></ul>
+<p style="color:var(--sub)">2026 KOI 1차 중등부 실기는 3문항으로 구성됐고, 중등부 1번 ‘친구’ 역시 위치·소속 조건을 빠르게 세는 범위 탐색 사고가 핵심이었습니다.</p>
+<div class="cta"><a class="btn primary" href="/koi-coach/">KOI Coach로 돌아가기</a><a class="btn" href="https://koi.or.kr/koi/2026/1/" target="_blank" rel="noopener">KOI 공식 2026 1차 보기 ↗</a></div></div>
+</section>
+</main>
+<footer><div class="w">교육용 재구성 샘플 · STARGATE KOI Coach · 실제 기출 원문과 구분하여 운영</div></footer>
+<script>
+const students=[[2,1],[5,2],[7,1],[11,3],[14,1],[16,2],[20,3]];
+const a=document.getElementById('a'),b=document.getElementById('b'),av=document.getElementById('av'),bv=document.getElementById('bv'),result=document.getElementById('result'),tbody=document.getElementById('tbody');
+tbody.innerHTML=students.map((s,i)=>`<tr><td>${i+1}</td><td>${s[0]}</td><td>${s[1]}</td></tr>`).join('');
+function draw(){const A=+a.value,B=+b.value;av.textContent=A;bv.textContent=B;const out=students.map((s,i)=>students.reduce((cnt,t,j)=>{if(i===j)return cnt;const ok=s[1]===t[1]?Math.abs(s[0]-t[0])<=A:Math.abs(s[0]-t[0])<=B;return cnt+(ok?1:0)},0));result.innerHTML=out.map((v,i)=>`<div class="student">${i+1}번<b>${v}</b></div>`).join('')}
+a.addEventListener('input',draw);b.addEventListener('input',draw);draw();
+</script>
+</body>
+</html>
