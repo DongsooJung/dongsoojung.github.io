@@ -91,3 +91,36 @@
     if (event.key === STORAGE_KEY) applyTheme(preferredTheme());
   });
 })();
+
+(() => {
+  "use strict";
+
+  const mountKoiSample = () => {
+    const path = window.location.pathname.replace(/\/+$/, "") || "/";
+    if (path !== "/koi-coach") return;
+
+    const grid = document.querySelector(".feat-grid");
+    if (!grid || document.querySelector('[data-koi-middle-sample]')) return;
+
+    const card = document.createElement("a");
+    card.className = "feat";
+    card.dataset.koiMiddleSample = "";
+    card.href = "/koi-coach/middle-prelim-sample/";
+    card.style.display = "block";
+    card.style.color = "inherit";
+    card.style.textDecoration = "none";
+    card.innerHTML = [
+      '<div class="icon">💻</div>',
+      '<h3>중등부 지역예선형 실전 샘플</h3>',
+      '<p>정렬·구간 개수·이분 탐색으로 O(N²) 풀이를 O(N log N)으로 개선합니다. 문제 → 힌트 → 설계 → C++20 → 인터랙티브 검증까지 한 문제로 공개합니다.</p>',
+      '<span class="status" style="color:var(--good);border-color:rgba(99,214,160,.30);background:rgba(99,214,160,.10)">✓ 샘플 1문제 공개</span>'
+    ].join("");
+    grid.insertBefore(card, grid.firstElementChild);
+  };
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", mountKoiSample, { once: true });
+  } else {
+    mountKoiSample();
+  }
+})();
