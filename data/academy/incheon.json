@@ -1,0 +1,170 @@
+{
+  "schemaVersion": 1,
+  "province": "인천",
+  "period": "2026-08-01",
+  "source": {
+    "name": "인천광역시교육청 학원 및 교습소 현황",
+    "url": "https://www.ice.go.kr/ice/na/ntt/selectNttInfo.do?nttSn=3381948",
+    "downloadUrl": "https://www.ice.go.kr/upload/ice/na/bbs_826/2026/08/766dd31cb1c4424eb95274aa2190fcfb.xlsx",
+    "publishedAt": "2026-08-24",
+    "sha256": "6b1fcc5bb6067ef301c3adad20363d37864748475e9af20b504ca2e465427573"
+  },
+  "definition": "학원/교습소 구분 + 비교권역 + 명칭 + 주소(구명·공백 정규화)별 고유 시설 수. 강좌 중복 제거. 등록번호·운영상태 열이 없어 등록기관 수 및 현재 영업 여부와 차이 가능.",
+  "districts": [
+    {
+      "code": "ic-jy",
+      "name": "제물포·영종 권역",
+      "members": [
+        "제물포구",
+        "영종구"
+      ],
+      "academyCount": 301,
+      "teachingRoomCount": 121,
+      "total": 422
+    },
+    {
+      "code": "ic-mh",
+      "name": "미추홀구",
+      "members": [
+        "미추홀구"
+      ],
+      "academyCount": 434,
+      "teachingRoomCount": 194,
+      "total": 628
+    },
+    {
+      "code": "ic-ys",
+      "name": "연수구",
+      "members": [
+        "연수구"
+      ],
+      "academyCount": 1003,
+      "teachingRoomCount": 391,
+      "total": 1394
+    },
+    {
+      "code": "ic-nd",
+      "name": "남동구",
+      "members": [
+        "남동구"
+      ],
+      "academyCount": 830,
+      "teachingRoomCount": 284,
+      "total": 1114
+    },
+    {
+      "code": "ic-bp",
+      "name": "부평구",
+      "members": [
+        "부평구"
+      ],
+      "academyCount": 673,
+      "teachingRoomCount": 266,
+      "total": 939
+    },
+    {
+      "code": "ic-gy",
+      "name": "계양구",
+      "members": [
+        "계양구"
+      ],
+      "academyCount": 361,
+      "teachingRoomCount": 122,
+      "total": 483
+    },
+    {
+      "code": "ic-sg",
+      "name": "서해·검단 권역",
+      "members": [
+        "서해구",
+        "검단구"
+      ],
+      "academyCount": 1306,
+      "teachingRoomCount": 475,
+      "total": 1781
+    },
+    {
+      "code": "ic-gh",
+      "name": "강화군",
+      "members": [
+        "강화군"
+      ],
+      "academyCount": 40,
+      "teachingRoomCount": 33,
+      "total": 73
+    },
+    {
+      "code": "ic-oj",
+      "name": "옹진군",
+      "members": [
+        "옹진군"
+      ],
+      "academyCount": 5,
+      "teachingRoomCount": 0,
+      "total": 5
+    }
+  ],
+  "totals": {
+    "academyCount": 4953,
+    "teachingRoomCount": 1886,
+    "total": 6839
+  },
+  "validation": {
+    "inputRows": 74061,
+    "uniqueFacilities": 6839,
+    "duplicateCourseRows": 67222,
+    "unmappedRows": 0,
+    "legacyAddressCourseRows": 5508,
+    "sheetCount": 10,
+    "sheets": [
+      {
+        "sheet": "학원(미추홀구, 제물포구, 영종구,옹진군)",
+        "courseRows": 8652
+      },
+      {
+        "sheet": "교습소(미추홀구, 제몰포구, 영종구, 옹진군)",
+        "courseRows": 1876
+      },
+      {
+        "sheet": "학원(부평구, 계양구)",
+        "courseRows": 13801
+      },
+      {
+        "sheet": "교습소 (부평구, 계양구)",
+        "courseRows": 2497
+      },
+      {
+        "sheet": "학원 (남동구, 연수구)",
+        "courseRows": 25096
+      },
+      {
+        "sheet": "교습소 (남동구, 연수구)",
+        "courseRows": 4283
+      },
+      {
+        "sheet": "학원(서해구, 검단구)",
+        "courseRows": 14518
+      },
+      {
+        "sheet": "교습소 (서해구, 검단구)",
+        "courseRows": 2843
+      },
+      {
+        "sheet": "학원(강화군)",
+        "courseRows": 359
+      },
+      {
+        "sheet": "교습소(강화군)",
+        "courseRows": 136
+      }
+    ]
+  },
+  "boundary": {
+    "version": "2013",
+    "path": "/geo/incheon-education-areas-2013.geojson",
+    "source": "https://cdn.jsdelivr.net/gh/southkorea/southkorea-maps@9da257a50b5757eb87ee892eb5a8e268cea1103e/kostat/2013/json/skorea_municipalities_geo_simple.json",
+    "kind": "historical_illustrative_analysis_areas",
+    "note": "2013 통계청 경계를 참고 배경으로 사용. 매립·경계 변경 미반영이며 현행 행정경계가 아님. 제물포·영종 및 서해·검단을 공동 비교권역으로 표시."
+  },
+  "portalNote": "인천데이터포털 검색의 지역 한정 자료를 전역 수치로 합산하지 않고, 인증키가 필요 없는 교육청 전역 공개 원본으로 보완했습니다."
+}

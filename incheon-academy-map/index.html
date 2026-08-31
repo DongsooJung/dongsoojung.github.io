@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>인천 학원·교습소 현황 지도 | STARGATE</title>
+  <meta name="description" content="인천교육청 2026년 8월 1일 학원·교습소 공개 명부를 중복 제거해 집계한 인천 교육시설 비교 지도. 지역별 시설 수와 자료·경계의 기준을 확인합니다.">
+  <link rel="canonical" href="https://stargateedu.co.kr/incheon-academy-map/">
+  <link rel="stylesheet" href="/assets/research-hub.css">
+  <link rel="stylesheet" href="/assets/incheon-academy.css">
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
+  <script defer src="/assets/incheon-academy.js"></script>
+</head>
+<body><main class="wrap">
+  <a class="back" href="/research/urban-atlas/">← 행정경계 지표 아틀라스</a>
+  <p class="eyebrow">03-1 · Education / Incheon</p>
+  <h1>인천 학원·교습소 현황</h1>
+  <p class="lead">교육청의 전역 공개 명부를 시설 단위로 집계합니다. 학원 수와 교습소 수는 구분하며, 수요지수나 면적당 밀도를 뜻하지 않습니다.</p>
+  <section aria-label="인천 시설 집계">
+    <!-- INCHEON_SUMMARY_START --><p class="incheon-summary">인천 <strong>6,839개</strong> (학원 4,953 · 교습소 1,886) · <time datetime="2026-08-01">2026-08-01</time> 원본 기준</p><p class="data-note">교육청 공개 명부의 명칭·주소 중복 제거 집계입니다. 행정구역 개편 전·후 주소 혼재로 제물포·영종, 서해·검단을 각각 묶은 9개 비교권역을 사용합니다. 현행 11개 군·구별 수치나 면적당 밀도는 아닙니다.</p><div class="table-scroll"><table><caption>인천 권역별 시설 수 — 2026-08-01</caption><thead><tr><th scope="col">비교권역</th><th scope="col">학원</th><th scope="col">교습소</th><th scope="col">합계</th></tr></thead><tbody><tr><th scope="row">제물포·영종 권역</th><td>301</td><td>121</td><td>422</td></tr><tr><th scope="row">미추홀구</th><td>434</td><td>194</td><td>628</td></tr><tr><th scope="row">연수구</th><td>1,003</td><td>391</td><td>1,394</td></tr><tr><th scope="row">남동구</th><td>830</td><td>284</td><td>1,114</td></tr><tr><th scope="row">부평구</th><td>673</td><td>266</td><td>939</td></tr><tr><th scope="row">계양구</th><td>361</td><td>122</td><td>483</td></tr><tr><th scope="row">서해·검단 권역</th><td>1,306</td><td>475</td><td>1,781</td></tr><tr><th scope="row">강화군</th><td>40</td><td>33</td><td>73</td></tr><tr><th scope="row">옹진군</th><td>5</td><td>0</td><td>5</td></tr><tr><th scope="row">인천 합계</th><td>4,953</td><td>1,886</td><td>6,839</td></tr></tbody></table></div><!-- INCHEON_SUMMARY_END -->
+  </section>
+  <section class="academy-map-panel" data-incheon-map aria-label="인천 비교권역 지도">
+    <h2>인천 9개 비교권역</h2>
+    <label>표시 지표 <select data-metric><option value="total">학원 + 교습소</option><option value="academyCount">학원</option><option value="teachingRoomCount">교습소</option></select></label>
+    <p class="data-note">지도 배경은 2013년 통계청 경계의 참고용 도형입니다. 현행 경계·매립지를 나타내지 않습니다. 경계가 달라진 곳은 분리 추정하지 않고 공동 권역으로 묶었습니다.</p>
+    <div data-map-canvas></div>
+    <div data-map-legend class="academy-legend" aria-label="시설 수 범례"></div>
+    <p data-map-readout class="academy-readout" aria-live="polite">지도 영역을 선택하거나 Tab 키로 이동하면 수치를 확인할 수 있습니다.</p>
+  </section>
+  <h2>자료와 해석 기준</h2>
+  <ul class="data-note">
+    <li>자료 기준일: 2026-08-01 · 교육청 게시일: 2026-08-24. 실시간 영업 현황이 아닙니다.</li>
+    <li>명부는 강좌별 반복 행입니다. 시설 유형·명칭·주소를 기준으로 중복 제거했습니다. 등록번호와 운영상태 열이 없어 등록기관 수·현재 영업 여부와 차이가 있을 수 있습니다.</li>
+    <li>제물포·영종 권역: 원본의 중구·동구·제물포구·영종구. 서해·검단 권역: 원본의 서구·서해구·검단구. 남구 표기는 미추홀구로 정리했습니다.</li>
+    <li>이 두 공동 권역은 단일 군·구와 범위가 다릅니다. 크기 차이를 고려하지 않은 지역 순위를 제공하지 않습니다.</li>
+    <li>서울·경기와 기준일 및 집계 정의가 달라 수도권 동시점 합계로 합산하지 않습니다.</li>
+  </ul>
+  <p class="data-note">출처: <a href="https://www.ice.go.kr/ice/na/ntt/selectNttInfo.do?nttSn=3381948" target="_blank" rel="noopener">인천광역시교육청 학원 및 교습소 현황</a> · <a href="https://data.incheon.go.kr/findData/searchPublicData?searchTitle=%ED%95%99%EC%9B%90" target="_blank" rel="noopener">인천데이터포털 자료 검색</a> · <a href="/data/academy/incheon.json">집계 데이터·검증 정보 JSON</a></p>
+  <p class="data-note">인천데이터포털의 지역 한정 자료를 전역 학원 수로 사용하지 않고 교육청 공개 원본으로 보완했습니다. 이 원본은 인증키 없이 제공되며, 시설별 개인정보는 재배포하지 않습니다.</p>
+  <p><a href="/sudogwon-academy-map/">서울·인천·경기 교육 레이어 비교 →</a></p>
+  <p class="footer">STARGATE Research Observatory</p>
+</main></body></html>

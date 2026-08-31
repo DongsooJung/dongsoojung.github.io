@@ -1,6 +1,10 @@
 <!DOCTYPE html>
 <html lang="ko"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>수도권 학원 밀집도 통합 지도 (서울·경기)</title>
+<title>수도권 학원·교습소 비교 지도 (서울·인천·경기)</title>
+<meta name="description" content="서울·인천·경기 교육시설 비교 지도. 인천교육청 2026-08-01 공개 명부를 추가하고 지역별 데이터 기준일과 집계 범위를 분리합니다.">
+<link rel="canonical" href="https://stargateedu.co.kr/sudogwon-academy-map/">
+<link rel="stylesheet" href="/assets/incheon-academy.css">
+<script defer src="/assets/incheon-academy.js"></script>
 <style>
  :root{ --bg:#faf9f5; --surface:#fff; --border:rgba(0,0,0,0.12); --text:#1f1e1c; --muted:#6b6a64; }
  @media (prefers-color-scheme: dark){ :root{ --bg:#1c1b19; --surface:#262522; --border:rgba(255,255,255,0.14); --text:#f3f1ea; --muted:#a9a89f; } }
@@ -18,15 +22,27 @@
 </style>  <link rel="stylesheet" href="/assets/site-theme.css">
   <script src="/assets/site-theme.js"></script>
 </head><body><div class="wrap">
- <h1>수도권 학원 밀집도 통합 지도</h1>
- <p class="sub">서울 25자치구 + 경기 31시군 실데이터 · 총 59,492개 학원</p>
- <p class="note">인천 10개 군·구는 데이터 확보 후 추가됩니다(인천 학원 데이터는 교육지원청별 분산 제공).</p>
+ <a href="/research/urban-atlas/">← 행정경계 지표 아틀라스</a>
+ <h1>수도권 학원·교습소 비교 지도</h1>
+ <p class="sub">서울 · 인천 · 경기 — 기준일이 다른 교육시설 자료를 지역별로 비교합니다.</p>
+ <p class="note">수도권 동시점 합계는 제공하지 않습니다. 인천은 교육청 2026-08-01 공개 명부 집계이며 기존 서울·경기 스냅샷과 정의·기준일이 다릅니다.</p>
+ <section class="academy-map-panel" data-incheon-map>
+  <h2>인천 교육시설 레이어</h2>
+  <!-- INCHEON_SUMMARY_START --><p class="incheon-summary">인천 <strong>6,839개</strong> (학원 4,953 · 교습소 1,886) · <time datetime="2026-08-01">2026-08-01</time> 원본 기준</p><p class="data-note">교육청 공개 명부의 명칭·주소 중복 제거 집계입니다. 행정구역 개편 전·후 주소 혼재로 제물포·영종, 서해·검단을 각각 묶은 9개 비교권역을 사용합니다. 현행 11개 군·구별 수치나 면적당 밀도는 아닙니다.</p><!-- INCHEON_SUMMARY_END -->
+  <label>인천 표시 지표 <select data-metric><option value="total">학원 + 교습소</option><option value="academyCount">학원</option><option value="teachingRoomCount">교습소</option></select></label>
+  <div data-map-canvas></div><div data-map-legend class="academy-legend"></div>
+  <p data-map-readout class="academy-readout" aria-live="polite">인천 지도 준비 중입니다. 상세 표는 아래 링크에서 확인할 수 있습니다.</p>
+  <p class="data-note">2013 통계청 경계 참고 도형이며 현행 행정경계·매립지는 반영하지 않습니다. 새 구별 시설 수를 임의로 추정하지 않습니다.</p>
+  <a href="/incheon-academy-map/">인천 권역별 정적 표·출처·집계 방법 →</a>
+ </section>
+ <h2>서울·경기 기존 스냅샷</h2>
+ <p class="note">아래 수치는 기존 지도 값을 유지합니다. 서울 통합본의 원본 기준일은 확인되지 않았습니다(서울 단독 페이지 갱신 표기: 2026-07-29). 경기 원본 기준일은 2026-02-22이며 2013년 참고 경계를 사용합니다. 면적당 밀도나 교육 수요지수가 아닌 시설 개수입니다.</p>
  <div class="legend"><span><i class="sw" style="background:#042C53"></i>많음</span><span><i class="sw" style="background:#378ADD"></i>중간</span><span><i class="sw" style="background:#E6F1FB"></i>적음</span><span style="margin-left:6px;"><i class="sw" style="background:#534AB7"></i>서울</span><span><i class="sw" style="background:#185FA5"></i>경기</span></div>
  <div class="cols">
   <div class="panel"><div id="map" style="width:100%;"></div><div id="readout">지역에 마우스를 올리면 학원 수가 표시됩니다.</div></div>
-  <div class="panel"><b style="font-size:14px;font-weight:600;">학원 수 상위</b><div id="rank" style="margin-top:10px;"></div></div>
+  <div class="panel"><label style="font-size:14px;">지역 내부 시설 수 순위 <select id="rank-region"><option value="서울">서울</option><option value="경기">경기</option></select></label><div id="rank" style="margin-top:10px;"></div></div>
  </div>
- <p class="foot">Stargate Corporation · 서울 열린데이터 + 경기데이터드림 실데이터</p>
+ <p class="foot">Stargate Corporation · 서울 열린데이터 · 경기데이터드림 · 인천광역시교육청</p>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
 <script>
@@ -56,8 +72,12 @@ d3.json('https://cdn.jsdelivr.net/gh/southkorea/southkorea-maps@master/kostat/20
     .attr('transform',function(d){return 'translate('+path.centroid(d)+')';}).attr('text-anchor','middle').attr('dy','0.32em')
     .attr('font-size',9).attr('pointer-events','none').attr('fill',isDark?'#dceaf9':'#042C53')
     .text(function(d){return val(d).k.replace(/(시|구|군)$/,'');});
-  var top=Object.entries(all).sort((a,b)=>b[1]-a[1]).slice(0,16);
+  function renderRank(){
+  var selectedRegion=document.getElementById('rank-region').value;
+  var top=Object.entries(selectedRegion==='서울'?seoul:gg).sort((a,b)=>b[1]-a[1]).slice(0,16);
   document.getElementById('rank').innerHTML=top.map(function(t,n){var w=Math.round(t[1]/top[0][1]*100);var reg=seoul[t[0]]!=null?'서울':'경기';
     return '<div style="margin-bottom:6px;"><div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:2px;"><span><span style="color:var(--muted)">'+(n+1)+'.</span> '+t[0]+' <span style="color:var(--muted);font-size:10px">'+reg+'</span></span><span style="font-weight:500">'+t[1].toLocaleString()+'</span></div><div style="height:5px;background:var(--bg);border-radius:3px;"><div style="height:5px;width:'+w+'%;background:'+(reg==='서울'?'#534AB7':'#185FA5')+';border-radius:3px;"></div></div></div>';}).join('');
+  }
+  document.getElementById('rank-region').addEventListener('change',renderRank);renderRank();
 });
 </script></body></html>
