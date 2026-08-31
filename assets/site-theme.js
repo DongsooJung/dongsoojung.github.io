@@ -53,7 +53,6 @@
     }));
   };
 
-  /* Runs in <head> so the saved theme is applied before the page paints. */
   applyTheme(preferredTheme());
 
   const mountToggle = () => {
@@ -95,32 +94,53 @@
 (() => {
   "use strict";
 
-  const mountKoiSample = () => {
+  const mountKoiSamples = () => {
     const path = window.location.pathname.replace(/\/+$/, "") || "/";
     if (path !== "/koi-coach") return;
 
     const grid = document.querySelector(".feat-grid");
-    if (!grid || document.querySelector('[data-koi-middle-sample]')) return;
+    if (!grid) return;
 
-    const card = document.createElement("a");
-    card.className = "feat";
-    card.dataset.koiMiddleSample = "";
-    card.href = "/koi-coach/middle-prelim-sample/";
-    card.style.display = "block";
-    card.style.color = "inherit";
-    card.style.textDecoration = "none";
-    card.innerHTML = [
-      '<div class="icon">💻</div>',
-      '<h3>중등부 지역예선형 실전 샘플</h3>',
-      '<p>정렬·구간 개수·이분 탐색으로 O(N²) 풀이를 O(N log N)으로 개선합니다. 문제 → 힌트 → 설계 → C++20 → 인터랙티브 검증까지 한 문제로 공개합니다.</p>',
-      '<span class="status" style="color:var(--good);border-color:rgba(99,214,160,.30);background:rgba(99,214,160,.10)">✓ 샘플 1문제 공개</span>'
-    ].join("");
-    grid.insertBefore(card, grid.firstElementChild);
+    if (!document.querySelector('[data-koi-middle-sample]')) {
+      const middle = document.createElement("a");
+      middle.className = "feat";
+      middle.dataset.koiMiddleSample = "";
+      middle.href = "/koi-coach/middle-prelim-sample/";
+      middle.style.display = "block";
+      middle.style.color = "inherit";
+      middle.style.textDecoration = "none";
+      middle.innerHTML = [
+        '<div class="icon">💻</div>',
+        '<h3>중등부 지역예선형 실전 샘플</h3>',
+        '<p>정렬·구간 개수·이분 탐색으로 O(N²) 풀이를 O(N log N)으로 개선합니다. 문제 → 힌트 → 설계 → C++20 → 인터랙티브 검증까지 한 문제로 공개합니다.</p>',
+        '<span class="status" style="color:var(--good);border-color:rgba(99,214,160,.30);background:rgba(99,214,160,.10)">✓ 2026 샘플 1문제</span>'
+      ].join("");
+      grid.insertBefore(middle, grid.firstElementChild);
+    }
+
+    if (!document.querySelector('[data-koi-elementary-sample]')) {
+      const elementary = document.createElement("a");
+      elementary.className = "feat";
+      elementary.dataset.koiElementarySample = "";
+      elementary.href = "/koi-coach/elementary-prelim-sample/";
+      elementary.style.display = "block";
+      elementary.style.color = "inherit";
+      elementary.style.textDecoration = "none";
+      elementary.innerHTML = [
+        '<div class="icon">🧩</div>',
+        '<h3>초등부 2026 지역부문형 실전 샘플</h3>',
+        '<p>2026 초등부 1번 유형을 참고해 완전탐색·조건 분기부터 누적합 개선까지 연결합니다. 문제 → 힌트 → C++20 2가지 풀이 → 인터랙티브 검증으로 구성했습니다.</p>',
+        '<span class="status" style="color:var(--good);border-color:rgba(99,214,160,.30);background:rgba(99,214,160,.10)">✓ 2026 샘플 1문제</span>'
+      ].join("");
+      const middleCard = document.querySelector('[data-koi-middle-sample]');
+      if (middleCard?.nextSibling) grid.insertBefore(elementary, middleCard.nextSibling);
+      else grid.appendChild(elementary);
+    }
   };
 
   if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", mountKoiSample, { once: true });
+    document.addEventListener("DOMContentLoaded", mountKoiSamples, { once: true });
   } else {
-    mountKoiSample();
+    mountKoiSamples();
   }
 })();
