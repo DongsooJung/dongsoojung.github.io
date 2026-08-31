@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>2026 KOI 초등부 지역부문형 샘플 · 이웃 탐색 | Stargate</title>
+<meta name="description" content="2026 KOI 1차 초등부 실기 난이도와 사고 흐름을 참고해 재구성한 교육용 샘플. 완전탐색, 조건 분기, prefix count로 풀이를 확장합니다.">
+<link rel="canonical" href="https://stargateedu.co.kr/koi-coach/elementary-prelim-sample/">
+<meta property="og:title" content="2026 KOI 초등부 지역부문형 샘플 · 이웃 탐색">
+<meta property="og:description" content="문제 → 힌트 → 완전탐색 → 개선 풀이 → C++20 → 인터랙티브 검증">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://stargateedu.co.kr/koi-coach/elementary-prelim-sample/">
+<style>
+:root{--bg:#090d16;--panel:#101827;--panel2:#122038;--line:#263653;--ink:#eef4ff;--sub:#a5b1c5;--acc:#7aa2ff;--warm:#ffd17d;--good:#6ee7b7}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;font-family:Pretendard,"Noto Sans KR","Malgun Gothic",sans-serif;background:radial-gradient(circle at 10% 0,rgba(79,127,255,.18),transparent 31%),var(--bg);color:var(--ink);line-height:1.68}a{color:var(--acc);text-decoration:none}.w{width:min(980px,calc(100% - 34px));margin:auto}.nav{position:sticky;top:0;z-index:5;border-bottom:1px solid var(--line);background:rgba(9,13,22,.9);backdrop-filter:blur(12px)}.nav .w{min-height:58px;display:flex;align-items:center;justify-content:space-between}.nav a{color:var(--ink)}header{padding:68px 0 48px}.badge{display:flex;gap:8px;flex-wrap:wrap}.pill{font-size:12px;padding:5px 10px;border-radius:999px;border:1px solid var(--line);color:var(--sub)}.pill.a{color:var(--warm);border-color:rgba(255,209,125,.45);background:rgba(255,209,125,.08)}h1{font-size:clamp(34px,6vw,54px);line-height:1.13;margin:16px 0 14px;letter-spacing:-.04em}.lead{max-width:760px;color:var(--sub);font-size:17px}.notice{margin-top:22px;padding:14px 16px;border-left:4px solid var(--warm);background:rgba(255,209,125,.07);border-radius:10px;color:#ddcba8}.section{padding:24px 0}.box{border:1px solid var(--line);background:linear-gradient(180deg,var(--panel2),var(--panel));border-radius:18px;padding:24px;margin-bottom:18px}.box h2{margin:0 0 12px;font-size:22px}.problem{font-size:18px;font-weight:750}.rules{display:grid;gap:8px;padding-left:20px}.io{display:grid;grid-template-columns:1fr 1fr;gap:12px}.codebox{background:#070b12;border:1px solid #1d2a42;border-radius:14px;padding:16px;overflow:auto;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13px;white-space:pre}.steps{display:grid;gap:10px}.step{display:grid;grid-template-columns:34px 1fr;gap:10px}.num{width:30px;height:30px;border-radius:9px;background:#1b2a46;color:var(--warm);display:grid;place-items:center;font-weight:900}.formula{padding:15px;border-radius:12px;background:#0b1220;border:1px solid var(--line);font-family:ui-monospace,SFMono-Regular,monospace;color:#dce7ff}.complex{display:flex;gap:10px;flex-wrap:wrap}.metric{padding:9px 12px;border-radius:10px;background:#0b1220;border:1px solid var(--line);font-weight:800}.lab{display:grid;grid-template-columns:1fr 1fr;gap:16px}.control{padding:18px;border:1px solid var(--line);border-radius:14px;background:#0b1220}.control label{display:flex;justify-content:space-between;font-weight:800}.control input{width:100%;margin-top:12px}.result{margin-top:14px;display:grid;grid-template-columns:repeat(8,1fr);gap:7px}.student{border:1px solid var(--line);border-radius:11px;padding:10px 6px;text-align:center;background:#0b1220}.student b{display:block;font-size:18px;color:var(--good)}.student small{color:var(--sub)}.cta{display:flex;gap:10px;flex-wrap:wrap;margin-top:22px}.btn{padding:10px 15px;border-radius:10px;border:1px solid var(--line);font-weight:800}.btn.primary{background:linear-gradient(135deg,#4f7fff,#8b7cff);color:#08101f;border:0}footer{padding:36px 0;color:#77859c;font-size:12px}@media(max-width:700px){.io,.lab{grid-template-columns:1fr}.result{grid-template-columns:repeat(4,1fr)}}
+</style>
+<link rel="stylesheet" href="/assets/site-theme.css">
+<script src="/assets/site-theme.js"></script>
+</head>
+<body>
+<nav class="nav"><div class="w"><a href="/koi-coach/"><b>KOI Coach</b></a><a href="/">STARGATE 홈</a></div></nav>
+<header><div class="w">
+<div class="badge"><span class="pill a">2026 · 초등부 · 1차 지역부문형</span><span class="pill">완전탐색</span><span class="pill">조건 분기</span><span class="pill">Prefix Count</span></div>
+<h1>도서관 자리 친구<br>이웃 탐색 문제</h1>
+<p class="lead">2026 KOI 1차 초등부 1번 ‘이웃’에서 볼 수 있는 핵심 사고인 <b>가까운 위치의 대상을 조건에 따라 세기</b>를 연습하기 위한 교육용 재구성 샘플입니다.</p>
+<div class="notice"><b>표기 안내</b> · 2026 KOI 공식 초등부 2교시 문제는 ‘이웃’, ‘가위바위보’, ‘수열 정렬하기’ 3문항이었습니다. 이 페이지는 실제 지문·예제·해설을 복제하지 않고 동일 연도 난이도와 학습 포인트를 참고해 새로 만든 문제입니다.</div>
+</div></header>
+<main class="w">
+<section class="section">
+<div class="box"><h2>1. 문제</h2><p class="problem">도서관에 1번부터 N번까지 일렬로 좌석이 있고, 각 좌석에는 학생 한 명이 앉아 있다. 학생은 1번 또는 2번 독서모임에 속한다.</p>
+<ul class="rules"><li>같은 모임 학생끼리는 좌석 번호 차이가 A 이하이면 친구다.</li><li>다른 모임 학생끼리는 좌석 번호 차이가 B 이하이면 친구다.</li><li>자기 자신은 친구 수에 포함하지 않는다.</li></ul>
+<p>각 학생마다 친구가 몇 명인지 차례대로 출력하라.</p>
+<div class="formula">2 ≤ N ≤ 3000 · 1 ≤ A,B ≤ N-1 · Cᵢ ∈ {1,2}</div></div>
+<div class="box"><h2>2. 예시</h2><div class="io"><div><b>입력</b><div class="codebox">8 2 1
+1 2 1 1 2 2 1 2</div></div><div><b>출력</b><div class="codebox">2 2 3 2 2 3 2 2</div></div></div></div>
+</section>
+<section class="section">
+<div class="box"><h2>3. 힌트 → 풀이 설계</h2><div class="steps">
+<div class="step"><div class="num">1</div><div><b>먼저 그대로 검사한다.</b><br>학생 i를 하나 정하고 다른 학생 j를 모두 보면서 같은 모임인지, 다른 모임인지에 따라 A 또는 B와 거리를 비교한다.</div></div>
+<div class="step"><div class="num">2</div><div><b>N≤3000이면 O(N²)도 충분하다.</b><br>최대 약 900만 번의 비교이므로 초등부 1번 수준에서는 가장 안전하고 구현이 쉬운 정답 전략이다.</div></div>
+<div class="step"><div class="num">3</div><div><b>개선 아이디어: prefix count.</b><br>1번 모임과 2번 모임의 누적 개수를 따로 저장하면 [L,R] 구간에 각 모임 학생이 몇 명 있는지 O(1)에 구할 수 있다.</div></div>
+<div class="step"><div class="num">4</div><div><b>한 학생의 답을 두 구간 합으로 만든다.</b><br>같은 모임은 [i-A,i+A], 다른 모임은 [i-B,i+B]에서 세고, 같은 모임 계산에서 자기 자신 1명을 뺀다.</div></div>
+</div></div>
+<div class="box"><h2>4. 난이도별 접근</h2><div class="complex"><span class="metric">기본: O(N²)</span><span class="metric">개선: O(N)</span><span class="metric">메모리: O(N)</span></div><p style="color:var(--sub)">대회에서는 먼저 확실한 O(N²) 정답을 완성한 뒤, 시간이 남으면 누적합 풀이로 확장하는 식의 전략도 좋습니다.</p></div>
+</section>
+<section class="section">
+<div class="box"><h2>5. C++20 — 가장 직관적인 정답</h2><div class="codebox">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int N, A, B;
+    cin &gt;&gt; N &gt;&gt; A &gt;&gt; B;
+    vector&lt;int&gt; C(N);
+    for (int &amp;x : C) cin &gt;&gt; x;
+
+    for (int i = 0; i &lt; N; ++i) {
+        int cnt = 0;
+        for (int j = 0; j &lt; N; ++j) {
+            if (i == j) continue;
+            int d = abs(i - j);
+            if (C[i] == C[j]) {
+                if (d &lt;= A) ++cnt;
+            } else {
+                if (d &lt;= B) ++cnt;
+            }
+        }
+        cout &lt;&lt; cnt &lt;&lt; (i + 1 == N ? '\n' : ' ');
+    }
+    return 0;
+}</div></div>
+<div class="box"><h2>6. C++20 — prefix count 개선</h2><div class="codebox">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int N, A, B;
+    cin &gt;&gt; N &gt;&gt; A &gt;&gt; B;
+    vector&lt;int&gt; C(N + 1);
+    vector&lt;array&lt;int, 3&gt;&gt; ps(N + 1);
+
+    for (int i = 1; i &lt;= N; ++i) {
+        cin &gt;&gt; C[i];
+        ps[i] = ps[i - 1];
+        ps[i][C[i]]++;
+    }
+
+    auto countGroup = [&amp;](int g, int l, int r) {
+        l = max(l, 1);
+        r = min(r, N);
+        if (l &gt; r) return 0;
+        return ps[r][g] - ps[l - 1][g];
+    };
+
+    for (int i = 1; i &lt;= N; ++i) {
+        int same = countGroup(C[i], i - A, i + A) - 1;
+        int otherGroup = 3 - C[i];
+        int other = countGroup(otherGroup, i - B, i + B);
+        cout &lt;&lt; same + other &lt;&lt; (i == N ? '\n' : ' ');
+    }
+}</div></div>
+</section>
+<section class="section">
+<div class="box"><h2>7. 인터랙티브 검증</h2><p style="color:var(--sub)">고정 학생 배열 <b>1 2 1 1 2 2 1 2</b>에서 A와 B를 바꿔 보세요.</p><div class="lab"><div class="control"><label>A · 같은 모임 거리 <span id="av">2</span></label><input id="a" type="range" min="1" max="4" value="2"></div><div class="control"><label>B · 다른 모임 거리 <span id="bv">1</span></label><input id="b" type="range" min="1" max="4" value="1"></div></div><div id="result" class="result"></div></div>
+</section>
+<section class="section"><div class="box"><h2>8. 이 문제에서 가져갈 것</h2><ul class="rules"><li>제약 조건 N을 보고 완전탐색이 가능한지 먼저 판단한다.</li><li>조건이 두 종류면 분기문을 정확히 나눈다.</li><li>‘구간 안의 개수’를 여러 번 묻는다면 누적합을 떠올린다.</li><li>정답 코드는 복잡한 것보다 검증하기 쉬운 것이 우선이다.</li></ul><div class="cta"><a class="btn primary" href="/koi-coach/">KOI Coach로 돌아가기</a><a class="btn" href="/koi-coach/middle-prelim-sample/">중등부 샘플 보기</a></div></div></section>
+</main>
+<footer><div class="w">STARGATE KOI Coach · 2026 초등부 교육용 재구성 샘플 · 원문 기출 복제 아님</div></footer>
+<script>
+const club=[1,2,1,1,2,2,1,2];
+const a=document.querySelector('#a'),b=document.querySelector('#b'),av=document.querySelector('#av'),bv=document.querySelector('#bv'),result=document.querySelector('#result');
+function draw(){const A=+a.value,B=+b.value;av.textContent=A;bv.textContent=B;result.innerHTML='';for(let i=0;i<club.length;i++){let cnt=0;for(let j=0;j<club.length;j++){if(i===j)continue;const d=Math.abs(i-j);if(club[i]===club[j]?d<=A:d<=B)cnt++;}const el=document.createElement('div');el.className='student';el.innerHTML=`<small>${i+1}번 · 모임${club[i]}</small><b>${cnt}명</b>`;result.appendChild(el);}}a.addEventListener('input',draw);b.addEventListener('input',draw);draw();
+</script>
+</body>
+</html>
