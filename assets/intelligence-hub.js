@@ -8,8 +8,8 @@
     group.open = true;
     group.innerHTML = `
       <summary class="card-group-summary">
-        <span class="card-group-title"><strong>수학·교육 연구</strong><span>평가원·수능 문항을 조건 해석과 그래프로 분석하는 교육 연구</span></span>
-        <span class="card-group-meta"><span data-group-count>1개</span><span class="chevron" aria-hidden="true"></span></span>
+        <span class="card-group-title"><strong>수학·교육 연구</strong><span>평가원·경시·사고력 문항을 조건 해석과 인터랙티브 검증으로 분석합니다</span></span>
+        <span class="card-group-meta"><span data-group-count>3개</span><span class="chevron" aria-hidden="true"></span></span>
       </summary>
       <div class="grid">
         <a class="project" href="/research/math/2027-june-mock-15/" data-card data-category="tools ai">
@@ -19,6 +19,24 @@
             <h3>2027학년도 6월 평가원 수학 15번</h3>
             <p>절댓값 정적분을 함수의 부호 변화로 번역해 중근·단순근과 삼차함수를 역추론합니다. p·q 슬라이더로 조건을 직접 검증합니다.</p>
             <div class="project-footer"><span>정적분 · 부호 변화 · 인터랙티브</span><b>풀이 보기 →</b></div>
+          </div>
+        </a>
+        <a class="project" href="/research/math/skku-middle-factorial/" data-card data-category="tools">
+          <div class="visual" style="--visual:radial-gradient(circle at 20% 18%,rgba(241,199,122,.50),transparent 52%),radial-gradient(circle at 82% 78%,rgba(129,140,248,.30),transparent 50%),linear-gradient(145deg,#17122a,#283e72)">!</div>
+          <div class="project-body">
+            <div class="meta"><span class="pill accent">성대경시 · 중2</span><span class="pill">Factorial</span></div>
+            <h3>성대경시 중등부 팩토리얼 유형</h3>
+            <p>2025 전기 중2 고난도 팩토리얼 유형을 재구성해 1000의 소인수 구조와 팩토리얼 나머지를 단계적으로 분석합니다.</p>
+            <div class="project-footer"><span>팩토리얼 · 나머지 · 모듈러</span><b>풀이 보기 →</b></div>
+          </div>
+        </a>
+        <a class="project" href="/research/math/thinking-bull-remainder/" data-card data-category="tools">
+          <div class="visual" style="--visual:radial-gradient(circle at 20% 18%,rgba(217,164,65,.46),transparent 52%),radial-gradient(circle at 82% 78%,rgba(45,212,191,.28),transparent 50%),linear-gradient(145deg,#0b1738,#234f45)">≡</div>
+          <div class="project-body">
+            <div class="meta"><span class="pill accent">생각하는황소형</span><span class="pill">Remainder</span></div>
+            <h3>황소형 배수·나머지 사고력 문제</h3>
+            <p>여러 나머지 조건을 최소공배수 하나로 압축한 뒤 7의 배수 조건과 결합합니다. 후보 k를 움직여 답 119를 검증합니다.</p>
+            <div class="project-footer"><span>배수 · 나머지 · 최소공배수</span><b>풀이 보기 →</b></div>
           </div>
         </a>
       </div>`;
@@ -33,7 +51,7 @@
     );
     const statNumber = projectStat?.querySelector('strong');
     if (statNumber && /^\d+$/.test(statNumber.textContent.trim())) {
-      statNumber.textContent = String(Number(statNumber.textContent.trim()) + 1);
+      statNumber.textContent = String(Number(statNumber.textContent.trim()) + 3);
     }
   }
 
