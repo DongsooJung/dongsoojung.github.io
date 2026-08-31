@@ -9,9 +9,18 @@
     group.innerHTML = `
       <summary class="card-group-summary">
         <span class="card-group-title"><strong>수학·교육 연구</strong><span>평가원·경시·사고력 문항을 조건 해석과 인터랙티브 검증으로 분석합니다</span></span>
-        <span class="card-group-meta"><span data-group-count>3개</span><span class="chevron" aria-hidden="true"></span></span>
+        <span class="card-group-meta"><span data-group-count>4개</span><span class="chevron" aria-hidden="true"></span></span>
       </summary>
       <div class="grid">
+        <a class="project" href="/research/math/archive/" data-card data-category="tools ai">
+          <div class="visual" style="--visual:radial-gradient(circle at 22% 18%,rgba(241,199,122,.52),transparent 52%),radial-gradient(circle at 82% 78%,rgba(45,212,191,.28),transparent 50%),linear-gradient(145deg,#11172b,#31446d)">14</div>
+          <div class="project-body">
+            <div class="meta"><span class="pill accent">14 Problems</span><span class="pill">Math Archive</span></div>
+            <h3>중등 수학 문제 14문제 아카이브</h3>
+            <p>성대경시형 중1·중2·중3 각 3문제와 생각하는황소형 5문제를 데이터셋으로 관리합니다. 문제·답·핵심아이디어·풀이·블로그 발행상태를 한 화면에서 탐색합니다.</p>
+            <div class="project-footer"><span>성대경시형 9 · 황소형 5 · 자동발행 소스</span><b>아카이브 →</b></div>
+          </div>
+        </a>
         <a class="project" href="/research/math/2027-june-mock-15/" data-card data-category="tools ai">
           <div class="visual" style="--visual:radial-gradient(circle at 22% 18%,rgba(241,199,122,.52),transparent 52%),radial-gradient(circle at 82% 78%,rgba(79,127,255,.30),transparent 50%),linear-gradient(145deg,#0b1738,#243866)">∫</div>
           <div class="project-body">
@@ -51,7 +60,7 @@
     );
     const statNumber = projectStat?.querySelector('strong');
     if (statNumber && /^\d+$/.test(statNumber.textContent.trim())) {
-      statNumber.textContent = String(Number(statNumber.textContent.trim()) + 3);
+      statNumber.textContent = String(Number(statNumber.textContent.trim()) + 4);
     }
   }
 
