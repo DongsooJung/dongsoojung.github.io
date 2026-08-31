@@ -149,9 +149,11 @@
     async function activateLegacyFallback(reason) {
       legacyMode = true;
       try {
-        await loadLegacySdk();
-        if (!window.Kakao) throw new Error('SDK_LOAD_FAILED');
-        if (!Kakao.isInitialized()) Kakao.init(LEGACY_JS_KEY);
+        const kakao = await loadLegacySdk();
+        if (!kakao?.Auth || !kakao?.API) throw new Error('SDK_INVALID');
+        if (!kakao.isInitialized()) kakao.init(LEGACY_JS_KEY);
+        loginButton.href = '#';
+        loginButton.removeAttribute('aria-disabled');
         const detail = reason === 'static_host'
           ? '등록된 Stargate 도메인에서 안전한 JavaScript SDK 로그인을 사용합니다.'
           : reason === 'state_error'
@@ -214,37 +216,53 @@
       if (!legacyMode) return;
       event.preventDefault();
       if (legacyLoginBusy || loginButton.getAttribute('aria-disabled') === 'true') return;
+      const kakao = window.Kakao;
+      if (!kakao?.Auth || typeof kakao.Auth.login !== 'function') {
+        setNotice('카카오 SDK가 준비되지 않았습니다. 페이지를 새로고침한 뒤 다시 시도해 주세요.', 'error');
+        return;
+      }
       legacyLoginBusy = true;
       setNotice('카카오 로그인 창을 여는 중입니다…');
-      Kakao.Auth.login({
-        scope: 'talk_message',
-        persistAccessToken: false,
-        success: () => {
-          showLoggedIn({ nickname: '카카오 사용자' });
-          setNotice('카카오 로그인과 메시지 권한 확인을 완료했습니다.', 'ok');
-          legacyLoginBusy = false;
-        },
-        fail: (error) => {
-          const text = legacyErrorMessage(error);
-          if (legacyErrorCode(error) === -402 || /talk_message/i.test(legacyErrorSnapshot(error))) {
-            showLegacyConsent(text);
-          } else {
-            showLoggedOut(text);
-            loginLabel.textContent = 'JavaScript SDK로 로그인';
-          }
-          setNotice(text, 'error');
-          legacyLoginBusy = false;
-        },
-      });
+      const onFailure = (error) => {
+        const text = legacyErrorMessage(error);
+        if (legacyErrorCode(error) === -402 || /talk_message/i.test(legacyErrorSnapshot(error))) {
+          showLegacyConsent(text);
+        } else {
+          showLoggedOut(text);
+          loginLabel.textContent = 'JavaScript SDK로 로그인';
+        }
+        setNotice(text, 'error');
+        legacyLoginBusy = false;
+      };
+      try {
+        kakao.Auth.login({
+          scope: 'talk_message',
+          persistAccessToken: false,
+          success: () => {
+            showLoggedIn({ nickname: '카카오 사용자' });
+            setNotice('카카오 로그인과 메시지 권한 확인을 완료했습니다.', 'ok');
+            legacyLoginBusy = false;
+          },
+          fail: onFailure,
+        });
+      } catch (error) {
+        onFailure(error);
+      }
     });
 
     function sendWithLegacySdk() {
+      const kakao = window.Kakao;
       const text = message.value.trim();
+      if (!kakao?.Auth || !kakao?.API || typeof kakao.API.request !== 'function') {
+        setNotice('카카오 SDK 연결이 끊겼습니다. 페이지를 새로고침한 뒤 다시 로그인해 주세요.', 'error');
+        showLoggedOut('카카오 SDK를 다시 불러와야 합니다.');
+        return;
+      }
       if (!text || text.length > 200) {
         setNotice('메시지는 1자 이상 200자 이하로 입력해 주세요.', 'error');
         return;
       }
-      if (!Kakao.Auth.getAccessToken()) {
+      if (!kakao.Auth.getAccessToken()) {
         showLoggedOut('로그인이 만료되었습니다. JavaScript SDK로 다시 로그인해 주세요.');
         loginLabel.textContent = 'JavaScript SDK로 로그인';
         setNotice('카카오 로그인이 필요합니다.', 'error');
@@ -253,7 +271,8 @@
 
       sendButton.disabled = true;
       setNotice('카카오톡으로 보내는 중입니다…');
-      Kakao.API.request({
+      try {
+        kakao.API.request({
         url: '/v2/api/talk/memo/default/send',
         data: {
           template_object: {
@@ -283,8 +302,12 @@
           }
           setNotice(text, 'error');
         },
-        always: () => { sendButton.disabled = false; },
-      });
+          always: () => { sendButton.disabled = false; },
+        });
+      } catch (error) {
+        setNotice(legacyErrorMessage(error), 'error');
+        sendButton.disabled = false;
+      }
     }
 
     sendForm.addEventListener('submit', async (event) => {
@@ -325,18 +348,25 @@
     logoutButton.addEventListener('click', async () => {
       logoutButton.disabled = true;
       if (legacyMode) {
-        if (!Kakao.Auth.getAccessToken()) {
+        const kakao = window.Kakao;
+        if (!kakao?.Auth || !kakao.Auth.getAccessToken()) {
           showLoggedOut();
           loginLabel.textContent = 'JavaScript SDK로 로그인';
           logoutButton.disabled = false;
           return;
         }
-        Kakao.Auth.logout(() => {
-          showLoggedOut('JavaScript SDK 토큰을 만료하고 로그아웃했습니다.');
-          loginLabel.textContent = 'JavaScript SDK로 로그인';
-          setNotice('');
+        try {
+          kakao.Auth.logout(() => {
+            showLoggedOut('JavaScript SDK 토큰을 만료하고 로그아웃했습니다.');
+            loginLabel.textContent = 'JavaScript SDK로 로그인';
+            setNotice('');
+            logoutButton.disabled = false;
+          });
+        } catch (error) {
+          showLoggedOut('로그아웃 처리 중 카카오 연결이 끊겼습니다. 페이지를 새로고침해 주세요.');
+          setNotice(legacyErrorMessage(error), 'error');
           logoutButton.disabled = false;
-        });
+        }
         return;
       }
       try { await fetch('/api/logout', { method: 'POST', headers: { Accept: 'application/json' } }); } catch {}
