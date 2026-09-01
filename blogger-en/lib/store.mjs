@@ -76,5 +76,6 @@ export async function snapshotStatus(config) {
     livePublishEnabled: Boolean(config.review?.allowLivePublish),
     requireCustomerMatch: config.requireCustomerMatch !== false,
     customers: (config.customers || []).length,
+    primaryCustomer: config.customers?.[0]?.name || '',
   });
 }

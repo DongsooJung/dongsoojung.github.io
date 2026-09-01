@@ -5,6 +5,7 @@ import { fileURLToPath } from 'node:url';
 import { readJson, writeJson, writeText } from '../lib/io.mjs';
 import { ROOT, TRENDS_PATH, TOPICS_PATH, DRAFTS_DIR, PUBLISHED_PATH } from '../lib/paths.mjs';
 import { selectTopics } from '../lib/topics.mjs';
+import { loadSeedCatalog } from '../lib/seeds.mjs';
 import { buildDraft } from '../lib/draft.mjs';
 import { approveDraft, canPublish, rejectDraft } from '../lib/review-gate.mjs';
 import { buildPublishRequest, createPost, exchangeRefreshToken, bloggerEnv } from '../lib/blogger-api.mjs';
@@ -66,13 +67,16 @@ async function cmdResearch(flags) {
     await runPythonResearch(config);
     trends = await readJson(TRENDS_PATH);
   }
-  const items = selectTopics(trends.items || [], config, flags.limit);
+  const seeds = await loadSeedCatalog(config);
+  const merged = [...seeds, ...(trends.items || [])];
+  const items = selectTopics(merged, config, flags.limit);
   const payload = {
     updatedAt: new Date().toISOString(),
-    source: trends.source || 'fixture',
+    source: [trends.source || 'fixture', 'customer-seeds'].join('+'),
     geos: trends.geo || config.geos,
     selected: items.length,
-    scanned: (trends.items || []).length,
+    scanned: merged.length,
+    seeded: seeds.length,
     items,
   };
   await writeJson(TOPICS_PATH, payload);

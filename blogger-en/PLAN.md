@@ -1,5 +1,5 @@
 ---
-status: awaiting
+status: ready
 language: en
 blogId: ""
 blogUrl: ""
@@ -16,51 +16,71 @@ adsense: true
 affiliates: []
 productCtas:
   - https://stargateedu.co.kr/en/
+  - https://stargateedu.co.kr/korea-tourism/
 ---
 
 # 계획 입력 (PLAN INTAKE)
 
-이 파일을 채워 주세요. 채워지면 아래 명령으로 파이프라인 설정에 반영됩니다.
+고객은 하나다. **2026년 트렌드를 이미 아는, 한국을 방문한(또는 곧 방문하는) 외국인 관광객.** 저자가 소개하고 싶은 한국이 아니라, 이 사람이 2026년에 검색해서 끝내야 하는 일만 글로 쓴다.
+
+공식 맥락(초안 출처로 인용 가능):
+- 문화체육관광부: 2026년 상반기 방한 외래객 1,071만 명, 전년 동기 대비 약 21% 증가
+- 카드 소비 10조 원 돌파, 서울 외·지방 공항 이용이 더 빨리 늘고 있음
+- 22개국 K-ETA 면제는 2026-12-31까지. 대신 무료 e-Arrival Card. 유료 사칭 사이트 주의
+- 서울 Climate Card / T-money / WOWPASS / Mobile T-money
 
 ```bash
 node blogger-en/scripts/cli.mjs ingest
-node blogger-en/scripts/cli.mjs status
+node blogger-en/scripts/cli.mjs research --fixture blogger-en/data/seeds/korea-visitor-2026.json
+node blogger-en/scripts/cli.mjs draft --limit 3
 ```
-
-**규칙은 하나입니다. 내가 쓰고 싶은 글이 아니라, 아래 고객이 오늘 끝내야 하는 일을 기준으로 글을 고릅니다.** 고객 섹션이 비어 있으면 실발행은 막혀 있습니다.
 
 ## Customers
 
-(대기) 고객을 `### 이름` 블록으로 적습니다. Job / Pain / Outcome / Intents / Geo 가 있어야 주제에 매칭됩니다.
+### 2026 trend-aware visitor first 48 hours
+- Job: Land in Korea in 2026 without a visa surprise, a fake arrival-card fee, or a dead phone
+- Pain: 2019 blogs still say everyone needs K-ETA; scam sites charge for the free e-Arrival Card
+- Outcome: Know if K-ETA is waived for their passport, finish the free e-Arrival Card, and get into Seoul with data and transit
+- Intents: K-ETA exemption 2026, Korea e-Arrival card, Incheon airport to Seoul 2026, Korea eSIM 2026, Korea travel 2026
+- Geo: US, GB, AU, CA, IN, SG
 
-### 예시 형식 (이 예시는 지우세요)
+### 2026 trend-aware visitor Seoul week
+- Job: Spend scarce Seoul days on 2026 neighborhoods and a transit pass that matches their stay, not Myeongdong defaults
+- Pain: English lists still push Namsan and duty-free; Climate Card vs T-money vs WOWPASS is explained in Korean
+- Outcome: Pick a pass and a 2–3 day Seongsu / Euljiro / Ikseon plan they can run this week
+- Intents: Seoul Climate Card vs T-money, Seongsu-dong itinerary, Korea cashless 2026, seoul itinerary 2026, climate card tourist
+- Geo: US, GB, AU, CA, IN, SG
 
-- Job: (그 사람이 검색해서 끝내려고 하는 일)
-- Pain: (지금 막히는 지점)
-- Outcome: (글 읽고 나서 할 수 있어야 하는 것)
-- Intents: 검색어1, 검색어2
-- Geo: US, GB
+### 2026 trend-aware visitor beyond Seoul
+- Job: Leave the capital the way 2026 visitors actually do — KTX or a regional airport — without losing a day
+- Pain: Itineraries stop at Seoul; they heard Busan and Jeju are up but not how to move in 2026
+- Outcome: One beyond-Seoul hop with train or airport steps and a no-car Jeju option
+- Intents: Busan from Seoul KTX, Jeju without a car, korea regional airports, busan 2026, beyond seoul
+- Geo: US, GB, AU, CA, IN, SG
 
 ## Content pillars
 
-(대기) 그 고객이 필요한 글 유형 비율. 예: 50% how-to, 30% comparison, 20% explainer. 저자 에세이 비율은 0.
+50% first-48-hours how-to (entry, airport, SIM, transit)
+30% 2026 neighborhood and pass comparison
+20% beyond-Seoul hop
+0% author essay about Korean culture in general
 
 ## Cadence
 
-(대기) 주당 발행 수, 초안 버퍼, 사람이 검토하는 요일.
+3 customer briefings a week. Human review before any Blogger call.
 
 ## Monetization
 
-(대기) AdSense / Amazon Associates / 자사 제품 CTA. CTA는 고객의 일을 끝낼 때만.
+AdSense after the customer job is stated. Transit/eSIM affiliate only if it finishes their landing or pass decision. Link official MCST / VisitKorea / korea-tourism dashboard when numbers are used.
 
 ## Voice
 
-(대기) 이 고객에게 고용된 전문가처럼 쓸 것. 포트폴리오·연구 소개 금지.
+Hired by a foreign visitor who already follows 2026 Korea trends. Current, specific, no 2019 leftovers. Cite official 2026 rules. Do not pitch the author's other research.
 
 ## Do not
 
-(대기) 내가 쓰고 싶지만 고객이 검색하지 않는 주제. 자동 발행. 의료·투자 보장.
+Do not write 401k, GPU, NHS, or author-portfolio posts. Do not recommend paid e-Arrival sites. Do not promise visa outcomes. No auto-publish.
 
 ## Blogger
 
-(대기) 블로그 URL, Blog ID, 커스텀 도메인, 언어 English, AdSense 연결 여부.
+English-only. Audience is inbound visitors reading on a phone in Seoul or on the plane.
