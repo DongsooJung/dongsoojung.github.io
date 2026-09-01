@@ -83,6 +83,22 @@
     .timeline article{padding:32px 45px 0 0;position:relative}.timeline time{color:var(--terra);font-size:11px;letter-spacing:.13em}
     .timeline-dot{position:absolute;width:9px;height:9px;border:2px solid var(--paper);border-radius:50%;background:var(--terra);top:-5px;left:0;box-shadow:0 0 0 1px var(--terra)}.timeline h3{margin-top:40px}
 
+    /* Travel journal */
+    .journal{padding:105px 0;background:#e8e0d1}
+    .journal-head{display:grid;grid-template-columns:1.1fr .9fr;gap:90px;align-items:end;margin-bottom:48px}
+    .journal-head p:last-child{color:#58625c;line-height:1.8;margin:0}
+    .journal-grid{display:grid;grid-template-columns:1.25fr .75fr .75fr;gap:1px;background:var(--line);border:1px solid var(--line)}
+    .journal-card{background:var(--paper);padding:30px;min-height:270px;display:flex;flex-direction:column;transition:background .2s,transform .2s}
+    .journal-card:hover{background:#fff;transform:translateY(-3px)}
+    .journal-card.featured{min-height:390px;background:var(--ink);color:#fff}
+    .journal-kicker{color:var(--terra);font-size:10px;letter-spacing:.15em;text-transform:uppercase;margin-bottom:28px}
+    .journal-card h3{font-family:"Cormorant Garamond",serif;font-size:clamp(28px,3vw,42px);font-weight:500;line-height:1.05;margin:0 0 16px}
+    .journal-card p{color:#687069;font-size:14px;line-height:1.7;margin:0 0 24px}
+    .journal-card.featured p{color:rgba(255,255,255,.7);max-width:55ch}
+    .journal-meta{margin-top:auto;display:flex;justify-content:space-between;gap:18px;color:#7a817b;font-size:11px}
+    .journal-card.featured .journal-meta{color:rgba(255,255,255,.55)}
+    .journal-more{margin-top:26px;display:flex;justify-content:flex-end}
+
     /* Eat */
     .eat{background:var(--paper);padding:0 0 40px}
     .eat-head{padding-top:40px}
@@ -160,7 +176,7 @@
     @media(max-width:850px){
       .nav-links{display:none}.hero{min-height:760px}.hero-image{background-position:58% center}
       .hero-shade{background:linear-gradient(90deg,rgba(12,22,17,.86),rgba(12,22,17,.35))}
-      .section-heading,.neighborhood-grid,.essentials-grid,.inquiry-grid,.guide-head,.eat-upsell,.guide-bundle{grid-template-columns:1fr;gap:45px}
+      .section-heading,.neighborhood-grid,.essentials-grid,.inquiry-grid,.guide-head,.eat-upsell,.guide-bundle,.journal-head{grid-template-columns:1fr;gap:45px}
       .feature-grid{grid-template-columns:1fr}
       .feature-card,.feature-card+.feature-card{padding:30px 0;border-right:0;border-bottom:1px solid var(--line);min-height:0;display:grid;grid-template-columns:50px 82px 1fr;align-items:center;gap:10px}
       .feature-icon{margin:0}.feature-card h3,.feature-card p{grid-column:3}.feature-card h3{margin:0}
@@ -168,6 +184,7 @@
       .timeline article{border-top:1px solid var(--line);padding:30px 0 35px 28px}.timeline-dot{top:26px}
       .eat-item{grid-template-columns:1fr;gap:14px}.eat-stats{justify-items:start;text-align:left}.eat-actions{grid-column:1}
       .guide-grid{grid-template-columns:1fr}.guide-sku,.guide-sku+.guide-sku{padding:32px 0;border-right:0;border-bottom:1px solid rgba(255,255,255,.18)}
+      .journal-grid{grid-template-columns:1fr 1fr}.journal-card.featured{grid-column:1 / -1}
     }
     @media(max-width:560px){
       .shell{width:min(100% - 32px,1180px)}.nav{height:70px}.brand{font-size:10px}
@@ -179,6 +196,7 @@
       .essentials-grid{gap:35px}.essentials dl div{grid-template-columns:95px 1fr}
       .footer{padding:35px 0;grid-template-columns:1fr;justify-items:center}.footer p:last-child{text-align:center}
       .guide{padding:80px 0}
+      .journal{padding:75px 0}.journal-grid{grid-template-columns:1fr}.journal-card.featured{grid-column:auto}.journal-card{min-height:245px}
     }
     @media(prefers-reduced-motion:reduce){
       html{scroll-behavior:auto}
@@ -194,6 +212,7 @@
     <a class="brand" href="#top" aria-label="Daechi Stay home"><span class="brand-mark">D</span><span>DAECHI STAY</span></a>
     <div class="nav-links">
       <a href="#stay" data-en="Stay" data-ko="숙소">Stay</a>
+      <a href="#journal" data-en="Journal" data-ko="여행 블로그">Journal</a>
       <a href="#eat" data-en="Eat" data-ko="맛집">Eat</a>
       <a href="#guide" data-en="Guide" data-ko="가이드">Guide</a>
       <a href="#inquiry" data-en="Book" data-ko="예약">Book</a>
@@ -244,6 +263,16 @@
       <article><time>08:00</time><span class="timeline-dot"></span><h3 data-en="Coffee like a local" data-ko="동네처럼 커피 한 잔">Coffee like a local</h3><p data-en="Start with a quiet neighborhood café and a walk through the residential streets." data-ko="조용한 카페와 주택가 산책으로 하루를 시작하세요.">Start with a quiet neighborhood café and a walk through the residential streets.</p></article>
       <article><time>11:00</time><span class="timeline-dot"></span><h3 data-en="Design, culture, city" data-ko="디자인, 문화, 도시">Design, culture, city</h3><p data-en="Head toward COEX, Bongeunsa, or Seonjeongneung for an easy half day." data-ko="코엑스와 봉은사, 선정릉으로 여유로운 반나절을 보내세요.">Head toward COEX, Bongeunsa, or Seonjeongneung for an easy half day.</p></article>
       <article><time>19:00</time><span class="timeline-dot"></span><h3 data-en="Host dinner route" data-ko="호스트 저녁 루트">Host dinner route</h3><p data-en="Use the Eat list below—or unlock the full map inside the Korea guide." data-ko="아래 맛집 리스트를 쓰거나, 가이드북에서 전체 지도를 열어보세요.">Use the Eat list below—or unlock the full map inside the Korea guide.</p></article>
+    </div></section>
+
+    <section class="journal" id="journal" aria-labelledby="journal-title"><div class="shell">
+      <div class="journal-head"><div><p class="eyebrow" data-en="Korea travel journal" data-ko="한국 여행 블로그">Korea travel journal</p><h2 id="journal-title" data-en="Land prepared. Travel like you live here." data-ko="도착 전부터 준비하고, 현지인처럼 여행하세요.">Land prepared. Travel like you live here.</h2></div><p data-en="Short, practical notes for international visitors—airport transfers, transit, payments, neighborhoods, food, and the small rules that make a Korea trip easier. Every guide links back to official information for details that can change." data-ko="외국인 관광객을 위한 짧고 실용적인 여행 정보입니다. 공항 이동, 교통, 결제, 동네, 음식과 한국 여행의 작은 규칙까지 정리하고, 변동 가능한 정보는 공식 안내로 연결합니다.">Short, practical notes for international visitors—airport transfers, transit, payments, neighborhoods, food, and the small rules that make a Korea trip easier. Every guide links back to official information for details that can change.</p></div>
+      <div class="journal-grid">
+        <a class="journal-card featured" href="blog/#first-24-hours"><span class="journal-kicker">Start here · Updated Sep 2026</span><h3 data-en="Your first 24 hours in Seoul" data-ko="서울에서의 첫 24시간">Your first 24 hours in Seoul</h3><p data-en="From the arrival hall to your first meal: choose an airport route, get connected, pay for transit, and avoid the most common first-day mistakes." data-ko="입국장에서 첫 식사까지: 공항 이동, 통신, 대중교통 결제와 첫날 흔히 겪는 실수를 한 번에 확인합니다.">From the arrival hall to your first meal: choose an airport route, get connected, pay for transit, and avoid the most common first-day mistakes.</p><span class="journal-meta"><span>7 min read</span><span>Read guide →</span></span></a>
+        <a class="journal-card" href="blog/#transport"><span class="journal-kicker">Move</span><h3 data-en="Seoul transit without guesswork" data-ko="헷갈리지 않는 서울 교통">Seoul transit without guesswork</h3><p data-en="Airport rail, buses, subway cards, transfer habits, and the official pages to check before you go." data-ko="공항철도, 버스, 교통카드, 환승법과 출발 전 확인할 공식 페이지를 정리했습니다.">Airport rail, buses, subway cards, transfer habits, and the official pages to check before you go.</p><span class="journal-meta"><span>5 min read</span><span>Open →</span></span></a>
+        <a class="journal-card" href="blog/#money"><span class="journal-kicker">Spend</span><h3 data-en="Cards, cash &amp; tax refunds" data-ko="카드·현금·세금 환급">Cards, cash &amp; tax refunds</h3><p data-en="A simple money setup for cafés, markets, transit, and tax-refund shopping." data-ko="카페, 시장, 교통, 사후면세 쇼핑에 필요한 결제 준비를 간단히 확인하세요.">A simple money setup for cafés, markets, transit, and tax-refund shopping.</p><span class="journal-meta"><span>4 min read</span><span>Open →</span></span></a>
+      </div>
+      <div class="journal-more"><a class="button ink" href="blog/" data-en="See all Korea travel notes" data-ko="한국 여행 글 전체 보기">See all Korea travel notes</a></div>
     </div></section>
 
     <section class="eat shell" id="eat" aria-labelledby="eat-title">
