@@ -1,0 +1,23 @@
+{
+  "status": "api_pending",
+  "generated_at": null,
+  "generated_at_kst": "API 연결 대기",
+  "source": "한국공항공사 공항 혼잡도 정보_GW",
+  "source_url": "https://www.data.go.kr/data/15159598/openapi.do",
+  "airport": {
+    "code": "GMP",
+    "name": "김포국제공항",
+    "terminal": "국내선"
+  },
+  "observed_at": null,
+  "overall": {
+    "level": null,
+    "text": "연결 대기"
+  },
+  "zones": [
+    { "id": "A", "name": "1구간", "route": "체크인 → 신분확인", "level": null, "text": "연결 대기" },
+    { "id": "B", "name": "2구간", "route": "신분확인 → 보안검색", "level": null, "text": "연결 대기" },
+    { "id": "C", "name": "3구간", "route": "보안검색 → 항공기 탑승", "level": null, "text": "연결 대기" }
+  ],
+  "message": "공공데이터포털 API 활용 승인이 완료되면 10분 주기 실데이터로 자동 전환됩니다."
+}
