@@ -3,6 +3,7 @@ import path from 'node:path';
 
 const OUTPUT = path.join(process.cwd(), 'research/gimpo-airport-congestion/data/latest.json');
 const API_BASES = [
+  'https://api.odcloud.kr/api/getAPRTPsgrCongestion/v1/aprtPsgrCongestion\u200b',
   'https://api.odcloud.kr/api/getAPRTPsgrCongestion/v1/aprtPsgrCongestion',
   'https://api.odcloud.kr/api/getAPRTPsgrCongestion_v2/v1/aprtPsgrCongestion\u200bV2',
   'https://api.odcloud.kr/api/getAPRTPsgrCongestion_v2/v1/aprtPsgrCongestionV2',
