@@ -2,6 +2,7 @@ import fs from 'node:fs/promises';
 import path from 'node:path';
 
 const OUTPUT = path.join(process.cwd(), 'research/gimpo-airport-congestion/data/latest.json');
+const LIVE_PROXY = 'https://stargate-bid-api.vercel.app/api/gimpo-airport-congestion';
 const API_BASES = [
   'https://api.odcloud.kr/api/getAPRTPsgrCongestion/v1/aprtPsgrCongestion\u200b',
   'https://api.odcloud.kr/api/getAPRTPsgrCongestion/v1/aprtPsgrCongestion',
@@ -42,8 +43,20 @@ async function fetchJson(url) {
 
 async function collect() {
   const key = process.env.DATA_GO_KR_API_KEY;
+  try {
+    const snapshot = await fetchJson(LIVE_PROXY);
+    if (snapshot?.status === 'ok' && Array.isArray(snapshot?.zones)) {
+      await fs.mkdir(path.dirname(OUTPUT), { recursive: true });
+      await fs.writeFile(OUTPUT, `${JSON.stringify(snapshot, null, 2)}\n`, 'utf8');
+      console.log(`Wrote ${OUTPUT} from protected Vercel proxy: ${snapshot.overall?.text || 'ok'}`);
+      return;
+    }
+  } catch (error) {
+    console.warn(`Gimpo congestion proxy failed: ${error.message}`);
+  }
+
   if (!key) {
-    console.log('DATA_GO_KR_API_KEY is not configured; keeping the pending snapshot.');
+    console.log('DATA_GO_KR_API_KEY is not configured and the proxy is unavailable; keeping the last snapshot.');
     return;
   }
 
