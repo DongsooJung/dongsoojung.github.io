@@ -266,7 +266,7 @@ async function fetchLhPage({ apiKey, pageNo, pageSize, typeCode, regionCode, sta
   const text = await response.text();
   if (response.status === 403 || /^forbidden$/i.test(text.trim())) {
     throw new Error(
-      'LH API 403 Forbidden. 「한국토지주택공사_분양임대공고문 조회 서비스」 활용신청·승인 여부를 확인하세요.',
+      'LH API 403 Forbidden. 활용신청이 승인됐다면 마이페이지 → 활용신청 현황 → 분양임대공고문 조회 → 변경신청 후 1~2시간 뒤 다시 시도하세요.',
     );
   }
   if (!response.ok) {
