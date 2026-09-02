@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>BidScout · STARGATE 입찰 자동화</title>
+<meta name="robots" content="noindex">
+<style>
+:root{--navy:#0b1738;--navy2:#142150;--gold:#d9a441;--bg:#f5f7fb;--line:#dde3ee;--muted:#68728d;--bad:#b42318;--ok:#178247}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:#182038;font:15px/1.55 system-ui,-apple-system,"Noto Sans KR",sans-serif}
+.wrap{max-width:1040px;margin:auto;padding:28px 20px 80px}.top{display:flex;justify-content:space-between;gap:16px;align-items:flex-start;flex-wrap:wrap}.back{color:#3256a8;text-decoration:none;font-weight:700;font-size:13px}
+h1{margin:7px 0 4px;color:var(--navy);font-size:27px}.lead{margin:0;color:var(--muted)}.badge{border-radius:99px;padding:7px 11px;border:1px solid #e5ca8a;background:#fff7df;color:#78510d;font-size:12px;font-weight:800}.badge.live{background:#eaf8ef;border-color:#b9e4c9;color:var(--ok)}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:24px}@media(max-width:760px){.grid{grid-template-columns:1fr}}
+.card{background:#fff;border:1px solid var(--line);border-radius:16px;padding:20px;box-shadow:0 10px 28px rgba(11,23,56,.05)}.wide{grid-column:1/-1}.card h2{font-size:17px;margin:0 0 14px;color:var(--navy)}
+label{display:block;font-size:13px;font-weight:800;margin:12px 0 6px}input,textarea{width:100%;border:1px solid var(--line);border-radius:10px;background:#fff;color:#182038;padding:11px 12px;font:inherit}textarea{min-height:170px;resize:vertical;font-family:ui-monospace,monospace;font-size:13px}
+.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}.row>*{flex:1}.btn{border:0;border-radius:10px;padding:11px 15px;background:var(--navy);color:#fff;font-weight:800;cursor:pointer}.btn.gold{background:var(--gold);color:var(--navy)}.btn:disabled{opacity:.5;cursor:wait}
+.note{font-size:12px;color:var(--muted);margin-top:9px}.message{min-height:24px;margin:16px 0 0;color:var(--muted)}.message.bad{color:var(--bad)}.message.ok{color:var(--ok)}
+table{width:100%;border-collapse:collapse;font-size:13px}th,td{text-align:left;border-bottom:1px solid var(--line);padding:10px 8px;vertical-align:top}th{color:var(--muted);font-size:12px}.go{color:var(--ok);font-weight:900}.stop{color:var(--bad);font-weight:900}.empty{color:var(--muted);padding:24px 0;text-align:center}
+</style>
+</head>
+<body><main class="wrap">
+  <div class="top"><div><a class="back" href="/">← STARGATE EDU</a><h1>BidScout</h1><p class="lead">나라장터·위시켓 공고를 STARGATE 수행 역량 기준으로 판정합니다.</p></div><span class="badge" id="status">연결 확인 중</span></div>
+  <div class="grid">
+    <section class="card"><h2>운영 인증</h2><label for="token">실행 토큰</label><input id="token" type="password" autocomplete="off" placeholder="X-Run-Token"><div class="row" style="margin-top:10px"><button class="btn" id="save">이 브라우저 세션에 저장</button><button class="btn gold" id="run">최근 공고 판정 실행</button></div><p class="note">토큰은 서버나 저장소로 별도 전송하지 않으며 현재 브라우저 탭에만 보관됩니다. 데모 모드에서는 비워도 됩니다.</p></section>
+    <section class="card"><h2>수동 공고 투입</h2><label for="notice">공고 JSON</label><textarea id="notice">{
+  "title": "공공데이터 기반 실시간 시각화 대시보드 개발",
+  "url": "https://example.com/project",
+  "budget": 58000000,
+  "method": "협상에의한계약",
+  "deadline": "20260920",
+  "description": "행정 API를 수집해 웹 대시보드로 시각화합니다."
+}</textarea><button class="btn gold" id="ingest" style="margin-top:10px;width:100%">공고 적합도 판정</button></section>
+    <section class="card wide"><h2>판정 결과</h2><div class="message" id="message" aria-live="polite">서비스 상태를 확인하고 있습니다.</div><div style="overflow:auto"><table><thead><tr><th>판정</th><th>점수</th><th>수주확률</th><th>공고</th><th>판정 근거</th></tr></thead><tbody id="results"><tr><td colspan="5" class="empty">아직 실행 결과가 없습니다.</td></tr></tbody></table></div></section>
+  </div>
+</main>
+<script src="./runtime-config.js"></script>
+<script>
+const cfg=window.STARGATE_ENGINES||{};
+const API=String(cfg.bidscoutApiUrl||"").replace(/\/$/,"");
+const QUERY_DEMO=cfg.apiMode==="query-demo";
+const endpoint=path=>QUERY_DEMO?`${API}?action=${encodeURIComponent(path.replace(/^\//,""))}`:API+path;
+const $=id=>document.getElementById(id);
+const saved=sessionStorage.getItem("bidscout_run_token")||"";$("token").value=saved;
+function headers(){const h={"Content-Type":"application/json"};const token=$("token").value.trim();if(token)h["X-Run-Token"]=token;return h}
+function msg(text,state=""){const el=$("message");el.textContent=text;el.className=`message ${state}`}
+function render(items){const body=$("results");body.replaceChildren();if(!items.length){const tr=document.createElement("tr"),td=document.createElement("td");td.colSpan=5;td.className="empty";td.textContent="판정 대상 공고가 없습니다.";tr.append(td);body.append(tr);return}for(const item of items){const tr=document.createElement("tr");const values=[item.go?"진행":"보류",item.score??"—",item.win_prob==null?"—":`${item.win_prob}%`,item.title||item.bid_no||"미상",item.reason||item.risk||"—"];values.forEach((value,i)=>{const td=document.createElement("td");td.textContent=value;if(i===0)td.className=item.go?"go":"stop";tr.append(td)});body.append(tr)}}
+async function request(path,body){if(!API)throw new Error("배포 URL이 아직 연결되지 않았습니다.");const r=await fetch(endpoint(path),{method:"POST",headers:headers(),body:JSON.stringify(body)});const data=await r.json().catch(()=>({}));if(!r.ok)throw new Error(data.detail||data.message||`요청 실패 (${r.status})`);return data}
+$("save").onclick=()=>{sessionStorage.setItem("bidscout_run_token",$("token").value.trim());msg("실행 토큰을 현재 세션에 저장했습니다.","ok")};
+$("run").onclick=async()=>{try{msg("최근 공고를 수집하고 판정하고 있습니다.");const d=await request("/run",{days_back:1,categories:["용역"],dry_run:true,notify:false});render(d.top||[]);msg(`수집 ${d.collected??0}건 · 판정 ${d.scored??0}건 · 추천 ${d.go??0}건`,"ok")}catch(e){msg(e.message,"bad")}};
+$("ingest").onclick=async()=>{try{const notice=JSON.parse($("notice").value);msg("입력한 공고를 판정하고 있습니다.");const d=await request("/ingest",{notices:[notice],draft:true,dry_run:true});render(d.results||[]);msg(`판정 완료 · 추천 ${d.go??0}건`,"ok")}catch(e){msg(e instanceof SyntaxError?"공고 JSON 형식을 확인해 주십시오.":e.message,"bad")}};
+(async()=>{if(!API){$("status").textContent="배포 대기";msg("백엔드 배포가 완료되면 자동으로 연결됩니다.","bad");return}try{const h=await(await fetch(endpoint("/healthz"),{cache:"no-store"})).json();if(!h.ok)throw new Error();$("status").textContent=h.mode==="LIVE"?"운영 중":"데모 모드";$("status").className="badge live";msg(h.mode==="LIVE"?"서비스가 정상 작동 중입니다.":"외부 API 과금 없이 데모 데이터로 작동 중입니다.","ok")}catch{msg("서비스 연결이 지연되고 있습니다.","bad")}})();
+</script></body></html>

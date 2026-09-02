@@ -1,0 +1,306 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>서술형 AI 채점 · STARGATE MATH</title>
+<meta name="description" content="손글씨 수학 답안을 단계별로 분석하는 STARGATE MATH 서술형 AI 채점 서비스">
+<script src="https://js.tosspayments.com/v2/standard"></script>
+<style>
+  :root{
+    --bg:#f7f7f5; --card:#fff; --ink:#1a1a1a; --sub:#6b6b6b; --line:#e4e4e0;
+    --accent:#2b5cff; --ok:#1f9d55; --warn:#c2410c; --bad:#c0392b;
+  }
+  @media (prefers-color-scheme: dark){
+    :root{ --bg:#161615; --card:#1f1f1e; --ink:#f0efec; --sub:#9c9c98; --line:#33332f;
+           --accent:#7d9bff; --ok:#4ade80; --warn:#fb923c; --bad:#f87171; }
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);
+       font:15px/1.6 -apple-system,BlinkMacSystemFont,"Pretendard","Apple SD Gothic Neo",sans-serif}
+  .wrap{max-width:860px;margin:0 auto;padding:28px 18px 80px}
+  header{display:flex;align-items:baseline;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:6px}
+  h1{font-size:22px;margin:0;letter-spacing:-.02em}
+  .sub{color:var(--sub);font-size:13px;margin:0 0 22px}
+  .bal{font-size:13px;color:var(--sub);background:var(--card);border:1px solid var(--line);
+       padding:5px 11px;border-radius:99px;white-space:nowrap}
+  .bal b{color:var(--ink)}
+  .status{font-size:12px;font-weight:700;padding:5px 10px;border-radius:99px;background:#fff4d7;color:#8a5a00;border:1px solid #f1d28a}
+  .status.live{background:#e9f8ef;color:#137541;border-color:#b8e2c7}.status.demo{background:#fff1e8;color:#a43f08;border-color:#f2c4a7}
+  .home{color:var(--accent);font-size:13px;text-decoration:none;font-weight:700}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:18px;margin-bottom:14px}
+  label{display:block;font-size:13px;font-weight:600;margin:0 0 6px}
+  textarea,input[type=number]{width:100%;background:transparent;color:var(--ink);
+       border:1px solid var(--line);border-radius:8px;padding:9px 11px;font:inherit;font-size:14px}
+  textarea{min-height:74px;resize:vertical}
+  .row{display:flex;gap:12px;flex-wrap:wrap}
+  .row>div{flex:1;min-width:150px}
+  .drop{border:1.5px dashed var(--line);border-radius:10px;padding:26px;text-align:center;
+        color:var(--sub);cursor:pointer;font-size:14px;transition:.15s}
+  .drop:hover,.drop.over{border-color:var(--accent);color:var(--accent)}
+  .drop img{max-width:100%;max-height:280px;border-radius:8px;margin-top:10px}
+  button{font:inherit;font-weight:600;border:0;border-radius:8px;padding:11px 18px;cursor:pointer}
+  .primary{background:var(--accent);color:#fff;width:100%;font-size:15px}
+  .primary:disabled{opacity:.45;cursor:not-allowed}
+  .ghost{background:transparent;border:1px solid var(--line);color:var(--ink);padding:8px 14px;font-size:13px}
+  .packs{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px}
+  .pack{flex:1;min-width:130px;border:1px solid var(--line);border-radius:10px;padding:13px;text-align:center}
+  .pack .n{font-size:19px;font-weight:700}
+  .pack .p{color:var(--sub);font-size:13px;margin:2px 0 9px}
+  table{width:100%;border-collapse:collapse;font-size:13.5px;margin-top:8px}
+  th,td{text-align:left;padding:8px 6px;border-bottom:1px solid var(--line);vertical-align:top}
+  th{color:var(--sub);font-weight:600;font-size:12px}
+  .v{font-weight:700;white-space:nowrap}
+  .correct{color:var(--ok)} .partial{color:var(--warn)}
+  .wrong,.missing{color:var(--bad)}
+  .score{font-size:32px;font-weight:800;letter-spacing:-.03em}
+  .score span{font-size:16px;font-weight:500;color:var(--sub)}
+  .note{background:rgba(43,92,255,.07);border-left:3px solid var(--accent);
+        padding:10px 13px;border-radius:0 8px 8px 0;margin-top:12px;font-size:14px}
+  .err{color:var(--bad);font-size:14px;margin-top:10px}
+  .hide{display:none}
+  footer{color:var(--sub);font-size:12px;text-align:center;margin-top:30px;line-height:1.8}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <div><a class="home" href="/">← STARGATE EDU</a><h1>서술형 AI 채점</h1></div>
+    <div style="display:flex;gap:8px;align-items:center"><span class="status" id="service-status">연결 확인 중</span><div class="bal">잔여 <b id="credits">–</b>회</div></div>
+  </header>
+  <p class="sub">손으로 푼 답안을 찍어 올리면 단계별 부분점수와 처음 틀어진 지점을 찾아 드립니다. 처음 3회는 무료입니다.</p>
+
+  <div class="card">
+    <label for="problem">문제</label>
+    <textarea id="problem" placeholder="예) 이차방정식 x² − 5x + 6 = 0 의 해를 구하고 그 과정을 서술하시오."></textarea>
+    <div class="row" style="margin-top:12px">
+      <div>
+        <label for="rubric">채점 기준 (선택)</label>
+        <textarea id="rubric" placeholder="예) 인수분해 3점, 해 도출 4점, 검산 3점" style="min-height:52px"></textarea>
+      </div>
+      <div style="max-width:120px">
+        <label for="maxscore">배점</label>
+        <input id="maxscore" type="number" value="10" min="1" max="100">
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <label>답안 사진</label>
+    <div class="drop" id="drop">
+      답안지를 여기에 끌어놓거나 눌러서 선택하십시오
+      <div id="preview"></div>
+    </div>
+    <input type="file" id="file" accept="image/*" capture="environment" class="hide">
+    <button class="primary" id="submit" style="margin-top:14px" disabled>채점하기 (1회 차감)</button>
+    <div class="err hide" id="error"></div>
+  </div>
+
+  <div class="card hide" id="result"></div>
+
+  <div class="card" id="buy">
+    <label>크레딧 충전</label>
+    <div class="packs" id="packs"></div>
+  </div>
+
+  <footer>
+    AI 채점 결과는 참고용입니다. 최종 평가는 담당 교사의 확인을 거치십시오.<br>
+    STARGATE MATH · 운영 문의는 공식 홈페이지를 이용해 주십시오.
+  </footer>
+</div>
+
+<script src="./runtime-config.js"></script>
+<script>
+const runtime = window.STARGATE_ENGINES || {};
+const API = String(runtime.mathgraderApiUrl || "").replace(/\/$/, "");
+const TOSS_CLIENT_KEY = String(runtime.tossClientKey || "");
+const QUERY_DEMO = runtime.apiMode === "query-demo";
+
+// 익명 uid (운영 전환 시 Firebase Auth ID 토큰으로 교체)
+const uid = localStorage.getItem("mg_uid") ||
+  (() => { const v = "u_" + crypto.randomUUID().replace(/-/g,"").slice(0,16);
+           localStorage.setItem("mg_uid", v); return v; })();
+
+const $ = id => document.getElementById(id);
+let imageFile = null;
+let serviceReady = false;
+
+const endpoint = path => QUERY_DEMO
+  ? `${API}?action=${encodeURIComponent(path.replace(/^\//, ""))}`
+  : API + path;
+const api = (path, opts={}) =>
+  fetch(endpoint(path), {...opts, headers:{ "X-User-Id": uid, ...(opts.headers||{}) }});
+
+// ── 잔액 · 패키지 ────────────────────────────────────────────
+async function refresh(){
+  if (!API) return;
+  try{
+    const b = await (await api("/credits")).json();
+    $("credits").textContent = b.plan === "academy" ? "무제한" : b.credits;
+  }catch{ $("credits").textContent = "–"; }
+}
+async function loadPacks(){
+  if (!API) { $("buy").classList.add("hide"); return; }
+  try{
+    const { packs, payments_enabled: paymentsEnabled } = await (await api("/packs")).json();
+    if (!paymentsEnabled || !TOSS_CLIENT_KEY) { $("buy").classList.add("hide"); return; }
+    $("packs").innerHTML = packs.map(p => `
+      <div class="pack">
+        <div class="n">${p.credits}회</div>
+        <div class="p">${p.price.toLocaleString()}원 · 회당 ${p.unit}원</div>
+        <button class="ghost" onclick="buy('${p.code}',${p.price})">충전</button>
+      </div>`).join("");
+  }catch{}
+}
+
+// ── 결제 ────────────────────────────────────────────────────
+async function buy(code, amount){
+  if (!TOSS_CLIENT_KEY) return showError("결제 기능이 아직 준비되지 않았습니다.");
+  const orderId = `${code}-${uid}-${Date.now()}`;
+  sessionStorage.setItem("mg_order", orderId);
+  const toss = TossPayments(TOSS_CLIENT_KEY);
+  const payment = toss.payment({ customerKey: uid });
+  await payment.requestPayment({
+    method: "CARD",
+    amount: { currency: "KRW", value: amount },
+    orderId,
+    orderName: `서술형 AI 채점 ${code}`,
+    successUrl: location.origin + location.pathname + "?pay=success",
+    failUrl:    location.origin + location.pathname + "?pay=fail",
+    card: { useEscrow:false, flowMode:"DEFAULT", useCardPoint:false, useAppCardOnly:false },
+  });
+}
+
+// 결제 성공 리다이렉트 처리
+(async () => {
+  if (!API) {
+    $("service-status").textContent = "배포 대기";
+    showError("채점 서버 배포가 완료되면 자동으로 연결됩니다.");
+    $("buy").classList.add("hide");
+    return;
+  }
+  try {
+    const health = await (await fetch(endpoint("/healthz"), {cache:"no-store"})).json();
+    if (!health.ok) throw new Error("unhealthy");
+    serviceReady = true;
+    $("service-status").textContent = health.mode === "LIVE" ? "AI 운영 중" : "데모 모드";
+    $("service-status").className = `status ${health.mode === "LIVE" ? "live" : "demo"}`;
+    if (health.mode !== "LIVE") showError("현재는 배포 확인용 데모입니다. 결과를 실제 채점에 사용하지 마십시오.");
+  } catch {
+    $("service-status").textContent = "연결 지연";
+    showError("채점 서버 연결이 지연되고 있습니다. 잠시 후 다시 시도해 주십시오.");
+  }
+  const q = new URLSearchParams(location.search);
+  if (q.get("paymentKey") && q.get("orderId")) {
+    try {
+      const r = await api("/payments/confirm", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          paymentKey: q.get("paymentKey"),
+          orderId: q.get("orderId"),
+          amount: Number(q.get("amount")),
+        }),
+      });
+      const d = await r.json();
+      if (r.ok) alert(`충전이 완료되었습니다. ${d.credits_added}회가 적립되었습니다.`);
+      else alert(`결제 승인 실패: ${d.detail}`);
+    } catch { alert("결제 승인 중 오류가 발생했습니다."); }
+    history.replaceState({}, "", location.pathname);
+  }
+  if (serviceReady) { refresh(); loadPacks(); }
+})();
+
+// ── 이미지 업로드 ───────────────────────────────────────────
+$("drop").onclick = () => $("file").click();
+$("drop").ondragover = e => { e.preventDefault(); $("drop").classList.add("over"); };
+$("drop").ondragleave = () => $("drop").classList.remove("over");
+$("drop").ondrop = e => { e.preventDefault(); $("drop").classList.remove("over"); setFile(e.dataTransfer.files[0]); };
+$("file").onchange = e => setFile(e.target.files[0]);
+
+function setFile(f){
+  if (!f || !f.type.startsWith("image/")) return;
+  imageFile = f;
+  const url = URL.createObjectURL(f);
+  $("preview").innerHTML = `<img src="${url}" alt="답안 미리보기">`;
+  $("submit").disabled = !serviceReady;
+}
+
+// ── 채점 ────────────────────────────────────────────────────
+$("submit").onclick = async () => {
+  const problem = $("problem").value.trim();
+  if (!problem) return showError("문제를 입력해 주십시오.");
+  if (!imageFile) return showError("답안 사진을 올려 주십시오.");
+
+  $("error").classList.add("hide");
+  $("submit").disabled = true;
+  $("submit").textContent = "채점 중입니다…";
+
+  const body = QUERY_DEMO
+    ? JSON.stringify({
+        problem,
+        rubric: $("rubric").value.trim(),
+        max_score: Number($("maxscore").value),
+        image: { name: imageFile.name, type: imageFile.type, size: imageFile.size },
+      })
+    : (() => {
+        const fd = new FormData();
+        fd.append("image", imageFile);
+        fd.append("problem", problem);
+        fd.append("rubric", $("rubric").value.trim());
+        fd.append("max_score", $("maxscore").value);
+        return fd;
+      })();
+
+  try{
+    const r = await api("/grade", {
+      method:"POST",
+      headers: QUERY_DEMO ? { "Content-Type":"application/json" } : {},
+      body,
+    });
+    const d = await r.json();
+    if (r.status === 402) { showError("크레딧이 부족합니다. 아래에서 충전해 주십시오."); $("buy").scrollIntoView({behavior:"smooth"}); }
+    else if (!r.ok) showError(d.detail || "채점에 실패했습니다.");
+    else if (d.readable === false) showError(d.message);
+    else render(d);
+  }catch{ showError("서버에 연결하지 못했습니다."); }
+  finally{
+    $("submit").disabled = !serviceReady;
+    $("submit").textContent = "채점하기 (1회 차감)";
+    refresh();
+  }
+};
+
+function showError(m){ $("error").textContent = m; $("error").classList.remove("hide"); }
+
+const VERDICT = { correct:"정답", partial:"부분", wrong:"오답", missing:"누락" };
+
+function render(d){
+  const rows = (d.steps||[]).map(s => `
+    <tr>
+      <td>${s.step_no}</td>
+      <td>${esc(s.label)}${s.student_wrote ? `<br><span style="color:var(--sub)">${esc(s.student_wrote)}</span>` : ""}</td>
+      <td class="v ${s.verdict}">${VERDICT[s.verdict]||s.verdict}</td>
+      <td class="v">${s.points}/${s.max_points}</td>
+      <td style="color:var(--sub)">${esc(s.comment)}</td>
+    </tr>`).join("");
+
+  $("result").innerHTML = `
+    <div class="score">${d.total_score}<span> / ${d.max_score}점</span></div>
+    <table>
+      <thead><tr><th>단계</th><th>요구사항 · 학생 풀이</th><th>판정</th><th>점수</th><th>근거</th></tr></thead>
+      <tbody>${rows}</tbody>
+    </table>
+    ${d.first_error ? `<div class="note"><b>처음 틀어진 지점</b><br>${esc(d.first_error)}</div>` : ""}
+    ${d.misconception ? `<div class="note"><b>개념 점검</b><br>${esc(d.misconception)}</div>` : ""}
+    ${d.hint ? `<div class="note"><b>다시 풀어 볼 힌트</b><br>${esc(d.hint)}</div>` : ""}
+    ${d.teacher_note ? `<div class="note"><b>지도교사 코멘트</b><br>${esc(d.teacher_note)}</div>` : ""}`;
+  $("result").classList.remove("hide");
+  $("result").scrollIntoView({behavior:"smooth", block:"start"});
+}
+
+function esc(s){ return String(s??"").replace(/[<>&]/g, c => ({"<":"&lt;",">":"&gt;","&":"&amp;"}[c])); }
+</script>
+</body>
+</html>

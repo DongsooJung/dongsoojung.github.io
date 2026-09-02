@@ -3,6 +3,8 @@ import customs from '../server/api/customs.js';
 import gimpoAirportCongestion from '../server/api/gimpo-airport-congestion.js';
 import googleTrends from '../server/api/google-trends.js';
 import naverCafePopular from '../server/api/naver-cafe-popular.js';
+import bidscout from '../server/api/bidscout.js';
+import mathgrader from '../server/api/mathgrader.js';
 import portfolioNotion from '../server/api/portfolio-notion.js';
 import usedCarRegistration from '../server/api/used-car-registration.js';
 
@@ -14,6 +16,8 @@ const handlers = new Map([
   ['gimpo-airport-congestion', gimpoAirportCongestion],
   ['google-trends', googleTrends],
   ['naver-cafe-popular', naverCafePopular],
+  ['bidscout', bidscout],
+  ['mathgrader', mathgrader],
   ['portfolio-notion', portfolioNotion],
   ['used-car-registration', usedCarRegistration],
 ]);

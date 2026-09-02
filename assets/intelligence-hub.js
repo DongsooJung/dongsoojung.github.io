@@ -50,7 +50,7 @@
         </a>
       </div>`;
     const mathAppCard = cardGroups.querySelector(
-      'a.project[href="https://stargate-math-ai.vercel.app"], a.project[href="https://stargate-math-ai.vercel.app/"]'
+      'a.project[href="/math-grader/"]'
     );
     const mathGrid = group.querySelector('.grid');
     if (mathAppCard && mathGrid) {
