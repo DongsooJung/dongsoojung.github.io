@@ -8,8 +8,8 @@
     group.open = true;
     group.innerHTML = `
       <summary class="card-group-summary">
-        <span class="card-group-title"><strong>수학·교육 연구</strong><span>평가원·경시·사고력 문항을 조건 해석과 인터랙티브 검증으로 분석합니다</span></span>
-        <span class="card-group-meta"><span data-group-count>4개</span><span class="chevron" aria-hidden="true"></span></span>
+        <span class="card-group-title"><strong>교육·수학 AI</strong><span>서술형 풀이 AI와 평가원·경시·사고력 문항 분석을 한곳에서 제공합니다</span></span>
+        <span class="card-group-meta"><span data-group-count>5개</span><span class="chevron" aria-hidden="true"></span></span>
       </summary>
       <div class="grid">
         <a class="project" href="/research/math/archive/" data-card data-category="tools ai">
@@ -49,11 +49,21 @@
           </div>
         </a>
       </div>`;
-    const toolsGroup = [...cardGroups.querySelectorAll('[data-card-group]')].find((item) =>
-      item.querySelector('.card-group-title strong')?.textContent.includes('거시경제·관광')
+    const mathAppCard = cardGroups.querySelector(
+      'a.project[href="https://stargate-math-ai.vercel.app"], a.project[href="https://stargate-math-ai.vercel.app/"]'
     );
-    if (toolsGroup) cardGroups.insertBefore(group, toolsGroup);
-    else cardGroups.appendChild(group);
+    const mathGrid = group.querySelector('.grid');
+    if (mathAppCard && mathGrid) {
+      mathAppCard.classList.add('featured-learning-ai');
+      const pills = mathAppCard.querySelectorAll('.pill');
+      if (pills[0]) pills[0].textContent = 'Live · Learning AI';
+      if (pills[1]) pills[1].textContent = 'Gemini · Education';
+      const footerSource = mathAppCard.querySelector('.project-footer span');
+      if (footerSource) footerSource.textContent = '단계별 풀이 · 검산 · 학습 기록';
+      mathGrid.prepend(mathAppCard);
+    }
+
+    cardGroups.insertBefore(group, cardGroups.firstElementChild);
 
     const projectStat = [...document.querySelectorAll('.stats .stat')].find((item) =>
       item.textContent.includes('연구·데이터·도구 프로젝트')

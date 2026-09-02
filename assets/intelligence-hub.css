@@ -164,6 +164,8 @@ h1{font-size:clamp(42px,6vw,72px);line-height:1.02;letter-spacing:-2.8px;margin:
 .grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:15px}
 .project{position:relative;display:grid;grid-template-columns:116px 1fr;min-height:190px;overflow:hidden;border:1px solid var(--line);border-radius:18px;background:linear-gradient(180deg,var(--panel2),var(--panel));transition:.18s ease}
 .project:hover{transform:translateY(-2px);border-color:var(--accent);box-shadow:0 16px 42px var(--accent-soft)}
+.project.featured-learning-ai{border-color:var(--accent);box-shadow:0 0 0 2px var(--accent-soft),0 18px 48px var(--accent-soft)}
+.project.featured-learning-ai::after{content:"대표 학습 도구";position:absolute;right:12px;top:12px;padding:5px 9px;border-radius:999px;background:var(--accent);color:#071018;font-size:10px;font-weight:900;letter-spacing:.02em}
 .project[hidden]{display:none}
 .visual{display:grid;place-items:center;font-size:36px;background:var(--visual,linear-gradient(135deg,#17223d,#24365d));border-right:1px solid var(--line)}
 .project-body{padding:18px;display:flex;flex-direction:column}
