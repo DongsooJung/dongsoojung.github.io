@@ -2,6 +2,7 @@ import fs from 'node:fs/promises';
 import path from 'node:path';
 
 const OUTPUT = path.join(process.cwd(), 'research/gimpo-airport-congestion/data/latest.json');
+// The live proxy reuses the production-only key; the Actions secret remains a fallback.
 const LIVE_PROXY = 'https://stargate-bid-api.vercel.app/api/gimpo-airport-congestion';
 const API_BASES = [
   'https://api.odcloud.kr/api/getAPRTPsgrCongestion/v1/aprtPsgrCongestion\u200b',
