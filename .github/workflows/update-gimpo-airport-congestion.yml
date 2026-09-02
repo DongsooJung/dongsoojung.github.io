@@ -1,0 +1,41 @@
+name: Update Gimpo airport congestion data
+
+on:
+  push:
+    paths:
+      - '.github/workflows/update-gimpo-airport-congestion.yml'
+      - 'scripts/update-gimpo-airport-congestion.mjs'
+  schedule:
+    - cron: '7,17,27,37,47,57 * * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: update-gimpo-airport-congestion
+  cancel-in-progress: true
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Collect Gimpo Airport congestion data
+        env:
+          DATA_GO_KR_API_KEY: ${{ secrets.DATA_GO_KR_API_KEY }}
+        run: node scripts/update-gimpo-airport-congestion.mjs
+      - name: Publish changed snapshot
+        run: |
+          if git diff --quiet -- research/gimpo-airport-congestion/data/latest.json; then
+            echo "No snapshot change"
+            exit 0
+          fi
+          git config user.name "stargate-data-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add research/gimpo-airport-congestion/data/latest.json
+          git commit -m "data: update Gimpo airport congestion snapshot"
+          git push
