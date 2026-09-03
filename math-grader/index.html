@@ -116,6 +116,8 @@ const runtime = window.STARGATE_ENGINES || {};
 const API = String(runtime.mathgraderApiUrl || "").replace(/\/$/, "");
 const TOSS_CLIENT_KEY = String(runtime.tossClientKey || "");
 const QUERY_DEMO = runtime.apiMode === "query-demo";
+const CLIENT_DEMO = runtime.apiMode === "client-demo";
+const JSON_DEMO = QUERY_DEMO || CLIENT_DEMO;
 
 // 익명 uid (운영 전환 시 Firebase Auth ID 토큰으로 교체)
 const uid = localStorage.getItem("mg_uid") ||
@@ -129,8 +131,35 @@ let serviceReady = false;
 const endpoint = path => QUERY_DEMO
   ? `${API}?action=${encodeURIComponent(path.replace(/^\//, ""))}`
   : API + path;
-const api = (path, opts={}) =>
-  fetch(endpoint(path), {...opts, headers:{ "X-User-Id": uid, ...(opts.headers||{}) }});
+const demoResponse = (data, status=200) => Promise.resolve(new Response(JSON.stringify(data), {
+  status,
+  headers: { "Content-Type":"application/json" },
+}));
+const clientDemoApi = async (path, opts={}) => {
+  if (path === "/healthz") return demoResponse({ok:true, service:"mathgrader", mode:"DEMO", grader:"client-stub", payments:false});
+  if (path === "/credits") return demoResponse({ok:true, mode:"DEMO", plan:"trial", credits:3});
+  if (path === "/packs") return demoResponse({ok:true, mode:"DEMO", payments_enabled:false, packs:[]});
+  if (path !== "/grade" || opts.method !== "POST") return demoResponse({ok:false, detail:"지원하지 않는 데모 요청입니다."}, 404);
+  const body = JSON.parse(String(opts.body || "{}"));
+  const maxScore = Math.max(1, Math.min(100, Number(body.max_score) || 10));
+  const first = Number((maxScore * .3).toFixed(1));
+  const second = Number((maxScore * .4).toFixed(1));
+  const third = Number((maxScore - first - second).toFixed(1));
+  return demoResponse({
+    ok:true, mode:"DEMO", readable:true, total_score:first+second, max_score:maxScore,
+    steps:[
+      {step_no:1,label:"문제 조건 파악",student_wrote:String(body.problem||"").slice(0,80),verdict:"correct",points:first,max_points:first,comment:"입력한 문제 문장을 기준으로 조건 파악 단계를 예시 표시합니다."},
+      {step_no:2,label:body.rubric?"채점 기준 적용":"풀이 전략 전개",student_wrote:body.rubric||"답안 이미지 메타데이터 수신 완료",verdict:"correct",points:second,max_points:second,comment:"운영 모드에서는 실제 이미지의 수식과 풀이 과정을 AI가 분석합니다."},
+      {step_no:3,label:"계산 및 검산",student_wrote:body.image?.name||"답안 이미지",verdict:"partial",points:0,max_points:third,comment:"현재 데모는 이미지 내용을 읽지 않으므로 계산 정확성을 판정하지 않습니다."},
+    ],
+    first_error:"이미지 내용 분석은 Gemini 연동 후 활성화됩니다.",
+    hint:"운영 전환 전까지 이 점수는 UI 동작 확인용으로만 사용하십시오.",
+    teacher_note:"배포 확인용 데모 결과입니다. 실제 학생 평가에 사용하지 마십시오.",
+  });
+};
+const api = (path, opts={}) => CLIENT_DEMO
+  ? clientDemoApi(path, opts)
+  : fetch(endpoint(path), {...opts, headers:{ "X-User-Id": uid, ...(opts.headers||{}) }});
 
 // ── 잔액 · 패키지 ────────────────────────────────────────────
 async function refresh(){
@@ -181,7 +210,7 @@ async function buy(code, amount){
     return;
   }
   try {
-    const health = await (await fetch(endpoint("/healthz"), {cache:"no-store"})).json();
+    const health = await (await api("/healthz", {cache:"no-store"})).json();
     if (!health.ok) throw new Error("unhealthy");
     serviceReady = true;
     $("service-status").textContent = health.mode === "LIVE" ? "AI 운영 중" : "데모 모드";
@@ -237,7 +266,7 @@ $("submit").onclick = async () => {
   $("submit").disabled = true;
   $("submit").textContent = "채점 중입니다…";
 
-  const body = QUERY_DEMO
+  const body = JSON_DEMO
     ? JSON.stringify({
         problem,
         rubric: $("rubric").value.trim(),
@@ -256,7 +285,7 @@ $("submit").onclick = async () => {
   try{
     const r = await api("/grade", {
       method:"POST",
-      headers: QUERY_DEMO ? { "Content-Type":"application/json" } : {},
+      headers: JSON_DEMO ? { "Content-Type":"application/json" } : {},
       body,
     });
     const d = await r.json();

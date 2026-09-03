@@ -43,21 +43,15 @@ jobs:
           check_page 'https://stargateedu.co.kr/math-grader/' '서술형 AI 채점'
           check_page 'https://stargateedu.co.kr/strategy/bidscout/' 'BidScout'
 
-      - name: Exercise health and demo APIs
+      - name: Verify embedded demo engines
         shell: bash
         run: |
           set -euo pipefail
-          curl --fail --silent --show-error 'https://stargateedu.co.kr/api/mathgrader?action=healthz' \
-            | node -e "let s='';process.stdin.on('data',d=>s+=d).on('end',()=>{const d=JSON.parse(s);if(!d.ok||d.mode!=='DEMO')process.exit(1)})"
-          curl --fail --silent --show-error 'https://stargateedu.co.kr/api/bidscout?action=healthz' \
-            | node -e "let s='';process.stdin.on('data',d=>s+=d).on('end',()=>{const d=JSON.parse(s);if(!d.ok||d.mode!=='DEMO')process.exit(1)})"
-          curl --fail --silent --show-error \
-            -H 'content-type: application/json' \
-            --data '{"problem":"x²-5x+6=0","max_score":10,"image":{"name":"answer.png","type":"image/png","size":68}}' \
-            'https://stargateedu.co.kr/api/mathgrader?action=grade' \
-            | node -e "let s='';process.stdin.on('data',d=>s+=d).on('end',()=>{const d=JSON.parse(s);if(!d.ok||!Array.isArray(d.steps))process.exit(1)})"
-          curl --fail --silent --show-error \
-            -H 'content-type: application/json' \
-            --data '{"days_back":1,"dry_run":true}' \
-            'https://stargateedu.co.kr/api/bidscout?action=run' \
-            | node -e "let s='';process.stdin.on('data',d=>s+=d).on('end',()=>{const d=JSON.parse(s);if(!d.ok||!Array.isArray(d.top)||d.top.length<1)process.exit(1)})"
+          curl --fail --location --silent --show-error 'https://stargateedu.co.kr/math-grader/runtime-config.js' \
+            | grep --fixed-strings --quiet 'apiMode: "client-demo"'
+          curl --fail --location --silent --show-error 'https://stargateedu.co.kr/strategy/bidscout/runtime-config.js' \
+            | grep --fixed-strings --quiet 'apiMode: "client-demo"'
+          curl --fail --location --silent --show-error 'https://stargateedu.co.kr/math-grader/' \
+            | grep --fixed-strings --quiet 'clientDemoApi'
+          curl --fail --location --silent --show-error 'https://stargateedu.co.kr/strategy/bidscout/' \
+            | grep --fixed-strings --quiet 'clientDemo'
