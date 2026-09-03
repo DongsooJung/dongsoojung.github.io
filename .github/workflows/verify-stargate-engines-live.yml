@@ -40,9 +40,9 @@ jobs:
             done
             return 1
           }
-          check_page 'https://stargateedu.co.kr/math-grader/' '서술형 AI 채점'
-          check_page 'https://stargateedu.co.kr/strategy/bidscout/' 'BidScout'
-          check_page 'https://stargateedu.co.kr/math-grader/runtime-config.js' 'apiMode: "client-demo"'
-          check_page 'https://stargateedu.co.kr/strategy/bidscout/runtime-config.js' 'apiMode: "client-demo"'
-          check_page 'https://stargateedu.co.kr/math-grader/' 'clientDemoApi'
-          check_page 'https://stargateedu.co.kr/strategy/bidscout/' 'clientDemo'
+          check_page "https://stargateedu.co.kr/math-grader/?verify=${GITHUB_SHA}" '서술형 AI 채점'
+          check_page "https://stargateedu.co.kr/strategy/bidscout/?verify=${GITHUB_SHA}" 'BidScout'
+          check_page "https://stargateedu.co.kr/math-grader/runtime-config.js?verify=${GITHUB_SHA}" 'apiMode: "client-demo"'
+          check_page "https://stargateedu.co.kr/strategy/bidscout/runtime-config.js?verify=${GITHUB_SHA}" 'apiMode: "client-demo"'
+          check_page "https://stargateedu.co.kr/math-grader/?verify=${GITHUB_SHA}" 'clientDemoApi'
+          check_page "https://stargateedu.co.kr/strategy/bidscout/?verify=${GITHUB_SHA}" 'clientDemo'
