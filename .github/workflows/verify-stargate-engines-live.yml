@@ -1,3 +1,4 @@
+valid
 name: Verify Stargate engine demos
 
 on:
@@ -24,7 +25,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 8
     steps:
-      - name: Wait for the production pages
+      - name: Wait for the deployed demo bundle
         shell: bash
         run: |
           set -euo pipefail
@@ -42,16 +43,7 @@ jobs:
           }
           check_page 'https://stargateedu.co.kr/math-grader/' '서술형 AI 채점'
           check_page 'https://stargateedu.co.kr/strategy/bidscout/' 'BidScout'
-
-      - name: Verify embedded demo engines
-        shell: bash
-        run: |
-          set -euo pipefail
-          curl --fail --location --silent --show-error 'https://stargateedu.co.kr/math-grader/runtime-config.js' \
-            | grep --fixed-strings --quiet 'apiMode: "client-demo"'
-          curl --fail --location --silent --show-error 'https://stargateedu.co.kr/strategy/bidscout/runtime-config.js' \
-            | grep --fixed-strings --quiet 'apiMode: "client-demo"'
-          curl --fail --location --silent --show-error 'https://stargateedu.co.kr/math-grader/' \
-            | grep --fixed-strings --quiet 'clientDemoApi'
-          curl --fail --location --silent --show-error 'https://stargateedu.co.kr/strategy/bidscout/' \
-            | grep --fixed-strings --quiet 'clientDemo'
+          check_page 'https://stargateedu.co.kr/math-grader/runtime-config.js' 'apiMode: "client-demo"'
+          check_page 'https://stargateedu.co.kr/strategy/bidscout/runtime-config.js' 'apiMode: "client-demo"'
+          check_page 'https://stargateedu.co.kr/math-grader/' 'clientDemoApi'
+          check_page 'https://stargateedu.co.kr/strategy/bidscout/' 'clientDemo'
