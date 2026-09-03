@@ -32,7 +32,7 @@ jobs:
             local url="$1"
             local marker="$2"
             for attempt in {1..20}; do
-              if curl --fail --silent --show-error --max-time 20 "$url" | grep --fixed-strings --quiet "$marker"; then
+              if curl --fail --location --silent --show-error --max-time 20 "$url" | grep --fixed-strings --quiet "$marker"; then
                 return 0
               fi
               echo "Waiting for $url ($attempt/20)"
