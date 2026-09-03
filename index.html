@@ -268,11 +268,16 @@ a{color:var(--acc); text-decoration:none} a:hover{text-decoration:underline}
 .proj.disabled{opacity:.55;cursor:not-allowed}
 .proj.disabled:hover{transform:none;border-color:var(--line);box-shadow:none}
 
-/* Project visibility toggle */
-.project-toggle-row{display:flex;justify-content:flex-end;margin:-4px 0 16px}
-.project-toggle{display:inline-flex;align-items:center;gap:6px;padding:6px 10px;border:1px solid var(--line2);border-radius:999px;background:var(--panel);color:var(--ink);font:600 11px inherit;cursor:pointer;transition:.18s border-color,.18s transform,.18s background}
+/* Project visibility / sort toggles */
+.project-toggle-row{display:flex;justify-content:flex-end;align-items:center;gap:8px;flex-wrap:wrap;margin:-4px 0 16px}
+.project-sort-group{display:inline-flex;align-items:stretch;border:1px solid var(--line2);border-radius:999px;overflow:hidden;background:var(--panel)}
+.project-sort-group .project-toggle{border:0;border-radius:0}
+.project-sort-group .project-toggle + .project-toggle{border-left:1px solid var(--line2)}
+.project-toggle{display:inline-flex;align-items:center;gap:6px;padding:6px 10px;border:1px solid var(--line2);border-radius:999px;background:var(--panel);color:var(--ink);font:600 11px inherit;cursor:pointer;transition:.18s border-color,.18s transform,.18s background,.18s color}
 .project-toggle:hover,.project-toggle:focus-visible{border-color:var(--acc);transform:translateY(-1px);outline:none}
-.project-toggle[aria-expanded="false"]{background:rgba(79,127,255,.12);border-color:var(--acc)}
+.project-sort-group .project-toggle:hover,.project-sort-group .project-toggle:focus-visible{transform:none}
+.project-toggle[aria-expanded="false"],
+.project-toggle[aria-pressed="true"]{background:rgba(79,127,255,.12);border-color:var(--acc);color:var(--acc)}
 .proj.is-project-hidden{display:none}
 
 /* About */
@@ -422,10 +427,14 @@ footer .business-info{flex-basis:100%;padding-top:10px;border-top:1px solid var(
 
   <section class="sec" id="projects">
     <h2>전체 프로젝트 · All Projects</h2>
-    <div class="desc">영문 A–Z, 한글 가나다, 숫자 순으로 전체 프로젝트를 표시합니다. ‘대표 프로젝트 보기’를 누르면 선별된 프로젝트만 모아볼 수 있습니다.</div>
+    <div class="desc" id="projects-desc">영문 A–Z, 한글 가나다, 숫자 순으로 전체 프로젝트를 표시합니다. ‘사용빈도순’을 누르면 최근 실제 사용이 많은 프로젝트부터 볼 수 있습니다.</div>
     <div class="project-toggle-row">
-      <button class="project-toggle" id="project-visibility-toggle" type="button" aria-expanded="true" aria-controls="projects-grid">
-        <span aria-hidden="true">▴</span><span>대표 프로젝트 보기</span>
+      <div class="project-sort-group" role="group" aria-label="프로젝트 정렬">
+        <button class="project-toggle" id="project-sort-alpha" type="button" aria-pressed="true" data-analytics-ignore>가나다순</button>
+        <button class="project-toggle" id="project-sort-usage" type="button" aria-pressed="false" data-analytics-ignore>사용빈도순</button>
+      </div>
+      <button class="project-toggle" id="project-visibility-toggle" type="button" aria-expanded="true" aria-controls="projects-grid" data-analytics-ignore>
+        <span aria-hidden="true">▴</span><span class="project-toggle-text">대표 프로젝트 보기</span>
       </button>
     </div>
     <div class="grid" id="projects-grid">
@@ -952,23 +961,26 @@ footer .business-info{flex-basis:100%;padding-top:10px;border-top:1px solid var(
 (() => {
   const toggle = document.getElementById('project-visibility-toggle');
   const grid = document.getElementById('projects-grid');
+  const sortAlpha = document.getElementById('project-sort-alpha');
+  const sortUsage = document.getElementById('project-sort-usage');
+  const desc = document.getElementById('projects-desc');
   if (!toggle || !grid) return;
 
+  const sortKey = 'stargate-project-sort';
   const cards = [...grid.querySelectorAll(':scope > .proj')];
   const englishOrder = new Intl.Collator('en', { sensitivity: 'base', numeric: true });
   const koreanOrder = new Intl.Collator('ko', { sensitivity: 'base', numeric: true });
   const titleGroup = (title) => /^[A-Za-z]/.test(title) ? 0
     : /^\p{Script=Hangul}/u.test(title) ? 1
     : /^\p{N}/u.test(title) ? 2 : 3;
-  const allCards = cards
-    .map((card) => {
-      const title = (card.querySelector('.ttl')?.textContent || '')
-        .normalize('NFKC').replace(/^[^\p{L}\p{N}]+/u, '').trim();
-      return { card, title, group: titleGroup(title) };
-    })
-    .sort((a, b) => a.group - b.group
-      || (a.group === 0 ? englishOrder : koreanOrder).compare(a.title, b.title))
-    .map(({ card }) => card);
+  const titledCards = cards.map((card) => {
+    const title = (card.querySelector('.ttl')?.textContent || '')
+      .normalize('NFKC').replace(/^[^\p{L}\p{N}]+/u, '').trim();
+    return { card, title, group: titleGroup(title) };
+  });
+  const compareAlpha = (a, b) => a.group - b.group
+    || (a.group === 0 ? englishOrder : koreanOrder).compare(a.title, b.title);
+  const alphaCards = titledCards.slice().sort(compareAlpha).map(({ card }) => card);
   const selectedProjects = [
     '월간 거시경제 대시보드 · 환율 금리 물가 · BTC',
     '무역 월별 대시보드 · 국가별 수출입실적',
@@ -984,24 +996,76 @@ footer .business-info{flex-basis:100%;padding-top:10px;border-top:1px solid var(
     .filter(Boolean);
   const selectedSet = new Set(selectedCards);
   const targetCards = cards.filter((card) => !selectedSet.has(card));
-  const label = toggle.querySelector('span:last-child');
-  const icon = toggle.querySelector('span:first-child');
+  const label = toggle.querySelector('.project-toggle-text');
+  const icon = toggle.querySelector('span[aria-hidden="true"]');
+  const copy = {
+    alpha: '영문 A–Z, 한글 가나다, 숫자 순으로 전체 프로젝트를 표시합니다. ‘사용빈도순’을 누르면 최근 실제 사용이 많은 프로젝트부터 볼 수 있습니다.',
+    usage: '최근 30일 페이지 조회와 홈 클릭을 기준으로 사용이 많은 프로젝트부터 표시합니다. 같은 횟수는 가나다순입니다.',
+  };
 
-  function setExpanded(expanded) {
-    const orderedCards = expanded ? allCards : [...selectedCards, ...targetCards];
+  function storedSort() {
+    try {
+      return localStorage.getItem(sortKey) === 'usage' ? 'usage' : 'alpha';
+    } catch (_) {
+      return 'alpha';
+    }
+  }
+
+  let sortMode = storedSort();
+
+  function usageScore(card) {
+    const api = window.StargateUsage;
+    if (api?.usageFor) return Number(api.usageFor(card)) || 0;
+    const badge = card.querySelector(':scope > .stargate-click-count');
+    return Number(String(badge?.textContent || '').replace(/[^\d]/g, '')) || 0;
+  }
+
+  function usageCards() {
+    return titledCards
+      .slice()
+      .sort((a, b) => usageScore(b.card) - usageScore(a.card) || compareAlpha(a, b))
+      .map(({ card }) => card);
+  }
+
+  function applyLayout(expanded = toggle.getAttribute('aria-expanded') !== 'false') {
+    const orderedCards = expanded
+      ? (sortMode === 'usage' ? usageCards() : alphaCards)
+      : [...selectedCards, ...targetCards];
     orderedCards.forEach((card) => grid.appendChild(card));
     targetCards.forEach((card) => card.classList.toggle('is-project-hidden', !expanded));
     toggle.setAttribute('aria-expanded', String(expanded));
-    label.textContent = expanded
-      ? '대표 프로젝트 보기'
-      : '전체 프로젝트 보기';
-    icon.textContent = expanded ? '▴' : '▾';
+    if (label) label.textContent = expanded ? '대표 프로젝트 보기' : '전체 프로젝트 보기';
+    if (icon) icon.textContent = expanded ? '▴' : '▾';
+    sortAlpha?.setAttribute('aria-pressed', String(sortMode === 'alpha'));
+    sortUsage?.setAttribute('aria-pressed', String(sortMode === 'usage'));
+    if (desc) desc.textContent = copy[sortMode];
   }
 
-  setExpanded(true);
+  function setSort(mode, persist = true) {
+    sortMode = mode === 'usage' ? 'usage' : 'alpha';
+    if (persist) {
+      try { localStorage.setItem(sortKey, sortMode); } catch (_) {}
+    }
+    applyLayout(sortMode === 'usage' ? true : toggle.getAttribute('aria-expanded') !== 'false');
+  }
+
+  setSort(sortMode, false);
   toggle.addEventListener('click', () => {
-    setExpanded(toggle.getAttribute('aria-expanded') !== 'true');
+    applyLayout(toggle.getAttribute('aria-expanded') !== 'true');
   });
+  sortAlpha?.addEventListener('click', () => setSort('alpha'));
+  sortUsage?.addEventListener('click', () => setSort('usage'));
+
+  const api = window.StargateUsage;
+  if (api?.subscribe) {
+    api.subscribe(() => {
+      if (sortMode === 'usage' && toggle.getAttribute('aria-expanded') !== 'false') applyLayout(true);
+    });
+  } else {
+    document.addEventListener('stargate-usage-updated', () => {
+      if (sortMode === 'usage' && toggle.getAttribute('aria-expanded') !== 'false') applyLayout(true);
+    });
+  }
 })();
 
 if ('serviceWorker' in navigator) {
@@ -1009,6 +1073,6 @@ if ('serviceWorker' in navigator) {
 }
 </script>
 <script src="/assets/visitor-counter.js?v=20260822" defer></script>
-<script src="/assets/usage-analytics.js?v=20260803b" defer></script>
+<script src="/assets/usage-analytics.js?v=20260904-usage-sort" defer></script>
 </body>
 </html>

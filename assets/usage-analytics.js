@@ -25,7 +25,11 @@
   ].join(',');
   const memory = {};
   const clickCounts = new Map();
+  const pageViews = new Map();
+  const listeners = new Set();
   let lastClick = { key: '', at: 0 };
+  let usageReadyResolve;
+  const usageReady = new Promise((resolve) => { usageReadyResolve = resolve; });
 
   function uuid() {
     if (globalThis.crypto?.randomUUID) return globalThis.crypto.randomUUID();
@@ -128,6 +132,13 @@
     });
   }
 
+  function notifyUsage() {
+    listeners.forEach((listener) => {
+      try { listener(); } catch (_) {}
+    });
+    document.dispatchEvent(new CustomEvent('stargate-usage-updated'));
+  }
+
   function incrementVisibleCount(element) {
     if (!element.matches(displaySelector)) return;
     const label = element.dataset.analyticsLabel || elementLabel(element);
@@ -135,6 +146,48 @@
     const key = countKey(label, target);
     clickCounts.set(key, (clickCounts.get(key) || 0) + 1);
     decorateCounts(element);
+  }
+
+  function normalizeUsagePath(value) {
+    try {
+      const url = new URL(value, window.location.href);
+      const path = url.pathname || '/';
+      if (path === '/') return '/';
+      return path.replace(/\/+$/, '') + '/';
+    } catch (_) {
+      const path = compact(value, 512) || '/';
+      if (path === '/') return '/';
+      return path.replace(/\/+$/, '') + '/';
+    }
+  }
+
+  function isPortalProjectPath(url) {
+    const host = url.hostname.replace(/^www\./i, '').toLowerCase();
+    return host === 'stargateedu.co.kr' || host === location.hostname.replace(/^www\./i, '').toLowerCase();
+  }
+
+  function clickCountFor(element) {
+    if (!(element instanceof Element)) return 0;
+    const label = element.dataset.analyticsLabel || elementLabel(element);
+    const target = targetUrl(element);
+    return Number(clickCounts.get(countKey(label, target))) || 0;
+  }
+
+  function pageViewsFor(element) {
+    if (!(element instanceof HTMLAnchorElement)) return 0;
+    try {
+      const url = new URL(element.href, window.location.href);
+      if (!isPortalProjectPath(url)) return 0;
+      const path = normalizeUsagePath(url.pathname);
+      if (path === '/') return 0;
+      return Number(pageViews.get(path) || pageViews.get(path.replace(/\/$/, ''))) || 0;
+    } catch (_) {
+      return 0;
+    }
+  }
+
+  function usageFor(element) {
+    return Math.max(pageViewsFor(element), clickCountFor(element));
   }
 
   async function loadClickCounts() {
@@ -158,6 +211,31 @@
         Number(row.clicks) || 0,
       ));
       decorateCounts();
+    } catch (_) {}
+  }
+
+  async function loadPageViews() {
+    try {
+      const response = await fetch(`${supabaseUrl}/rest/v1/rpc/get_site_usage_stats`, {
+        method: 'POST',
+        cache: 'no-store',
+        credentials: 'omit',
+        headers: {
+          apikey: publishableKey,
+          Authorization: `Bearer ${publishableKey}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ p_days: 30 }),
+      });
+      if (!response.ok) return;
+      const data = await response.json();
+      const pages = Array.isArray(data?.pages) ? data.pages : [];
+      pages.forEach((row) => {
+        const path = normalizeUsagePath(row.page_path);
+        const views = Number(row.page_views) || 0;
+        pageViews.set(path, views);
+        if (path !== '/') pageViews.set(path.replace(/\/$/, ''), views);
+      });
     } catch (_) {}
   }
 
@@ -211,6 +289,18 @@
     record('click', { label, kind, target });
   }, true);
 
+  window.StargateUsage = {
+    usageFor,
+    clickCountFor,
+    pageViewsFor,
+    whenReady: () => usageReady,
+    subscribe(listener) {
+      if (typeof listener !== 'function') return () => {};
+      listeners.add(listener);
+      return () => listeners.delete(listener);
+    },
+  };
+
   injectCountStyle();
   decorateCounts();
   new MutationObserver((mutations) => {
@@ -218,6 +308,9 @@
       if (node instanceof Element) decorateCounts(node);
     }));
   }).observe(document.body, { childList: true, subtree: true });
-  loadClickCounts();
+  Promise.all([loadClickCounts(), loadPageViews()]).finally(() => {
+    usageReadyResolve();
+    notifyUsage();
+  });
   record('page_view');
 })();
