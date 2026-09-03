@@ -81,16 +81,16 @@ function validate(body, now = Date.now()) {
   const message = safeText(body?.message, MAX_BODY_LENGTH);
   const submittedAt = safeText(body?.submittedAt, 40);
 
-  if (!/^SG-\d{6}-[A-Z0-9]{5}$/.test(ticketId)) return { error: '접수번호 형식이 올바르지 않습니다.' };
+  if (!/^SG-\d{6}-[A-Z0-9]{5}$/.test(ticketId)) return { error: '전달번호 형식이 올바르지 않습니다.' };
   if (!name || name.length < 2) return { error: '이름을 확인해 주세요.' };
   if (!isKoreanMobile(phone)) return { error: '휴대전화번호 형식이 올바르지 않습니다.' };
-  if (!ALLOWED_CATEGORIES.has(category)) return { error: '허용되지 않은 문의 유형입니다.' };
-  if (!ALLOWED_URGENCY.has(urgency)) return { error: '허용되지 않은 긴급도입니다.' };
-  if (message.length < 5) return { error: '문의 내용을 5자 이상 입력해 주세요.' };
+  if (!ALLOWED_CATEGORIES.has(category)) return { error: '허용되지 않은 대화 주제입니다.' };
+  if (!ALLOWED_URGENCY.has(urgency)) return { error: '허용되지 않은 확인 우선순위입니다.' };
+  if (message.length < 5) return { error: '대표에게 전할 내용을 5자 이상 입력해 주세요.' };
 
   const submitted = Date.parse(submittedAt);
   if (!Number.isFinite(submitted) || Math.abs(now - submitted) > 15 * 60 * 1000) {
-    return { error: '접수 시간이 유효하지 않습니다.' };
+    return { error: '전달 시간이 유효하지 않습니다.' };
   }
 
   return { ticketId, name, phone, category, urgency, message, submittedAt };
@@ -169,8 +169,8 @@ async function handler(req, res) {
     return res.status(200).json({ ok: true, duplicate: true, ticketId: input.ticketId, requested: 0, accepted: 0, failed: 0 });
   }
 
-  const customerText = `[STARGATE] ${input.name}님, 고객센터 문의가 접수되었습니다.\n접수번호: ${input.ticketId}\n문의유형: ${input.category}\n담당자 확인 후 연락드리겠습니다.`;
-  const adminText = `[STARGATE CS] 신규 문의\n${input.ticketId}\n${input.urgency} / ${input.category}\n고객: ${input.name} ${input.phone}\n내용: ${input.message.slice(0, 350)}`;
+  const customerText = `[STARGATE] ${input.name}님, 대표에게 메시지가 전달되었습니다.\n전달번호: ${input.ticketId}\n대화주제: ${input.category}\n대표 확인 후 필요한 경우 연락드리겠습니다.`;
+  const adminText = `[STARGATE 대표 직통] 새 메시지\n${input.ticketId}\n${input.urgency} / ${input.category}\n보낸 분: ${input.name} ${input.phone}\n내용: ${input.message.slice(0, 350)}`;
 
   const messages = [{ to: input.phone, from: sender, text: customerText, country: '82', autoTypeDetect: true }];
   if (isKoreanMobile(adminPhone) && adminPhone !== input.phone) {
@@ -191,7 +191,7 @@ async function handler(req, res) {
     });
   } catch (error) {
     console.error('support-sms failed', { ticketId: input.ticketId, message: error?.message || String(error) });
-    return res.status(502).json({ ok: false, message: '문의는 접수되었지만 문자 발송에 실패했습니다.' });
+    return res.status(502).json({ ok: false, message: '대표에게는 전달되었지만 문자 발송에 실패했습니다.' });
   }
 }
 
