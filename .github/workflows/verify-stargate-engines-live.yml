@@ -31,8 +31,10 @@ jobs:
           check_page() {
             local url="$1"
             local marker="$2"
+            local body
             for attempt in {1..20}; do
-              if curl --fail --location --silent --show-error --max-time 20 "$url" | grep --fixed-strings --quiet "$marker"; then
+              body="$(curl --fail --location --silent --show-error --max-time 20 "$url")" || body=""
+              if grep --fixed-strings --quiet "$marker" <<< "$body"; then
                 return 0
               fi
               echo "Waiting for $url ($attempt/20)"
