@@ -26,6 +26,7 @@
   const memory = {};
   const clickCounts = new Map();
   const pageViews = new Map();
+  const clicksByPath = new Map();
   const listeners = new Set();
   let lastClick = { key: '', at: 0 };
   let usageReadyResolve;
@@ -118,7 +119,7 @@
       if (!label) return;
       element.dataset.analyticsLabel = label;
       const target = targetUrl(element);
-      const count = clickCounts.get(countKey(label, target)) || 0;
+      const count = usageFor(element);
       let badge = element.querySelector(':scope > .stargate-click-count');
       if (!badge) {
         badge = document.createElement('span');
@@ -127,7 +128,7 @@
         element.append(badge);
       }
       badge.textContent = Number(count).toLocaleString('ko-KR');
-      badge.title = `누적 클릭 ${Number(count).toLocaleString('ko-KR')}회`;
+      badge.title = `최근 사용 ${Number(count).toLocaleString('ko-KR')}회`;
       element.classList.add('stargate-analytics-counted');
     });
   }
@@ -145,20 +146,32 @@
     const target = targetUrl(element);
     const key = countKey(label, target);
     clickCounts.set(key, (clickCounts.get(key) || 0) + 1);
+    addPathCount(clicksByPath, target, 1);
     decorateCounts(element);
+    notifyUsage();
   }
 
   function normalizeUsagePath(value) {
     try {
       const url = new URL(value, window.location.href);
-      const path = url.pathname || '/';
+      let path = url.pathname || '/';
+      path = path.replace(/index\.html$/i, '');
       if (path === '/') return '/';
       return path.replace(/\/+$/, '') + '/';
     } catch (_) {
-      const path = compact(value, 512) || '/';
+      let path = compact(value, 512) || '/';
+      path = path.replace(/index\.html$/i, '');
       if (path === '/') return '/';
       return path.replace(/\/+$/, '') + '/';
     }
+  }
+
+  function addPathCount(map, value, amount) {
+    const path = normalizeUsagePath(value);
+    if (!path || path === '/') return;
+    const next = (Number(map.get(path)) || 0) + (Number(amount) || 0);
+    map.set(path, next);
+    map.set(path.replace(/\/$/, ''), next);
   }
 
   function isPortalProjectPath(url) {
@@ -186,8 +199,22 @@
     }
   }
 
+  function pathClicksFor(element) {
+    if (!(element instanceof HTMLAnchorElement)) return 0;
+    try {
+      const url = new URL(element.href, window.location.href);
+      if (!isPortalProjectPath(url)) return 0;
+      const path = normalizeUsagePath(url.pathname);
+      if (path === '/') return 0;
+      return Number(clicksByPath.get(path) || clicksByPath.get(path.replace(/\/$/, ''))) || 0;
+    } catch (_) {
+      return 0;
+    }
+  }
+
   function usageFor(element) {
-    return Math.max(pageViewsFor(element), clickCountFor(element));
+    return (Number(pageViewsFor(element)) || 0)
+      + Math.max(Number(clickCountFor(element)) || 0, Number(pathClicksFor(element)) || 0);
   }
 
   async function loadClickCounts() {
@@ -206,10 +233,14 @@
       if (!response.ok) return;
       const rows = await response.json();
       if (!Array.isArray(rows)) return;
-      rows.forEach((row) => clickCounts.set(
-        countKey(compact(row.element_label, 160), compact(row.target_url, 1024)),
-        Number(row.clicks) || 0,
-      ));
+      rows.forEach((row) => {
+        const clicks = Number(row.clicks) || 0;
+        clickCounts.set(
+          countKey(compact(row.element_label, 160), compact(row.target_url, 1024)),
+          clicks,
+        );
+        addPathCount(clicksByPath, row.target_url, clicks);
+      });
       decorateCounts();
     } catch (_) {}
   }
@@ -236,6 +267,8 @@
         pageViews.set(path, views);
         if (path !== '/') pageViews.set(path.replace(/\/$/, ''), views);
       });
+      const buttons = Array.isArray(data?.buttons) ? data.buttons : [];
+      buttons.forEach((row) => addPathCount(clicksByPath, row.target_url, row.clicks));
     } catch (_) {}
   }
 
@@ -293,6 +326,7 @@
     usageFor,
     clickCountFor,
     pageViewsFor,
+    pathClicksFor,
     whenReady: () => usageReady,
     subscribe(listener) {
       if (typeof listener !== 'function') return () => {};
