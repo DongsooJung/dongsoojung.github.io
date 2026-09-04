@@ -80,7 +80,51 @@
   const input = document.querySelector('[data-search]');
   const count = document.querySelector('[data-result-count]');
   const empty = document.querySelector('[data-empty]');
+  const sortKey = 'stargate-project-sort';
+  const englishOrder = new Intl.Collator('en', { sensitivity: 'base', numeric: true });
+  const koreanOrder = new Intl.Collator('ko', { sensitivity: 'base', numeric: true });
   let active = 'all';
+  let sortMode = 'alpha';
+
+  try {
+    if (localStorage.getItem(sortKey) === 'usage') sortMode = 'usage';
+  } catch (_) {}
+
+  const titleGroup = (title) => /^[A-Za-z]/.test(title) ? 0
+    : /^\p{Script=Hangul}/u.test(title) ? 1
+    : /^\p{N}/u.test(title) ? 2 : 3;
+
+  const titledCard = (card) => {
+    const title = (card.querySelector('h3')?.textContent || '')
+      .normalize('NFKC').replace(/^[^\p{L}\p{N}]+/u, '').trim();
+    return { card, title, group: titleGroup(title) };
+  };
+
+  const compareAlpha = (a, b) => a.group - b.group
+    || (a.group === 0 ? englishOrder : koreanOrder).compare(a.title, b.title);
+
+  const usageScore = (card) => {
+    const api = window.StargateUsage;
+    if (api?.usageFor) return Number(api.usageFor(card)) || 0;
+    const badge = card.querySelector(':scope > .stargate-click-count');
+    return Number(String(badge?.textContent || '').replace(/[^\d]/g, '')) || 0;
+  };
+
+  const toolbar = document.querySelector('.toolbar');
+  if (toolbar && !toolbar.querySelector('[data-sort]')) {
+    const sortGroup = document.createElement('div');
+    sortGroup.className = 'hub-sort-group';
+    sortGroup.setAttribute('role', 'group');
+    sortGroup.setAttribute('aria-label', '프로젝트 정렬');
+    sortGroup.innerHTML = `
+      <button class="hub-sort" type="button" data-sort="alpha" aria-pressed="${sortMode === 'alpha'}" data-analytics-ignore>가나다순</button>
+      <button class="hub-sort" type="button" data-sort="usage" aria-pressed="${sortMode === 'usage'}" data-analytics-ignore>사용빈도순</button>
+    `;
+    const search = toolbar.querySelector('.search');
+    if (search) toolbar.insertBefore(sortGroup, search);
+    else toolbar.append(sortGroup);
+  }
+  const sortButtons = [...document.querySelectorAll('[data-sort]')];
 
   const airbnbCard = document.querySelector('a.project[href="/airbnb/"]');
   if (airbnbCard) {
@@ -115,21 +159,63 @@
     });
 
     groups.forEach((group) => {
-      const groupCards = [...group.querySelectorAll('[data-card]')];
-      const groupVisible = groupCards.filter((card) => !card.hidden).length;
+      const grid = group.querySelector('.grid') || group;
+      const groupCards = [...group.querySelectorAll('[data-card]')].map(titledCard);
+      groupCards.sort((a, b) => sortMode === 'usage'
+        ? usageScore(b.card) - usageScore(a.card) || compareAlpha(a, b)
+        : compareAlpha(a, b));
+      groupCards.forEach(({ card }) => grid.appendChild(card));
+
+      const groupVisible = groupCards.filter(({ card }) => !card.hidden).length;
       group.hidden = groupVisible === 0;
       const badge = group.querySelector('[data-group-count]');
       if (badge) badge.textContent = `${groupVisible}개`;
       if (filtering && groupVisible > 0) group.open = true;
+      group.dataset.usagePeak = String(Math.max(0, ...groupCards.map(({ card }) => usageScore(card))));
     });
 
-    const visibleGroups = groups.filter((group) => !group.hidden);
-    groups.forEach((group) => group.classList.remove('has-divider-after'));
-    visibleGroups.slice(0, -1).forEach((group) => group.classList.add('has-divider-after'));
+    const parent = groups[0]?.parentElement;
+    if (parent) {
+      const orderedGroups = groups.slice().sort((a, b) => {
+        if (sortMode !== 'usage') return groups.indexOf(a) - groups.indexOf(b);
+        return (Number(b.dataset.usagePeak) || 0) - (Number(a.dataset.usagePeak) || 0)
+          || groups.indexOf(a) - groups.indexOf(b);
+      });
+      orderedGroups.forEach((group) => parent.appendChild(group));
+    }
 
-    if (count) count.textContent = `총 ${visible}개 콘텐츠`;
+    groups.forEach((group) => group.classList.remove('has-divider-after'));
+    const orderedVisible = [...(groups[0]?.parentElement?.querySelectorAll('[data-card-group]') || [])]
+      .filter((group) => !group.hidden);
+    orderedVisible.slice(0, -1).forEach((group) => group.classList.add('has-divider-after'));
+
+    if (count) {
+      count.textContent = sortMode === 'usage'
+        ? `총 ${visible}개 콘텐츠 · 사용빈도순`
+        : `총 ${visible}개 콘텐츠 · 가나다순`;
+    }
     if (empty) empty.classList.toggle('show', visible === 0);
   };
+
+  const setSort = (mode) => {
+    sortMode = mode === 'usage' ? 'usage' : 'alpha';
+    try { localStorage.setItem(sortKey, sortMode); } catch (_) {}
+    sortButtons.forEach((button) => {
+      button.setAttribute('aria-pressed', String(button.dataset.sort === sortMode));
+    });
+    apply();
+  };
+
+  sortButtons.forEach((button) => {
+    button.addEventListener('click', () => setSort(button.dataset.sort));
+  });
+
+  const bindUsage = () => {
+    if (sortMode !== 'usage') return;
+    apply();
+  };
+  if (window.StargateUsage?.subscribe) window.StargateUsage.subscribe(bindUsage);
+  else document.addEventListener('stargate-usage-updated', bindUsage);
 
   buttons.forEach((button) => {
     button.addEventListener('click', () => {
