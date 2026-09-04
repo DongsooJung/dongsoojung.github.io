@@ -269,7 +269,9 @@ a{color:var(--acc); text-decoration:none} a:hover{text-decoration:underline}
 .proj.disabled:hover{transform:none;border-color:var(--line);box-shadow:none}
 
 /* Project visibility / sort toggles */
-.project-toggle-row{display:flex;justify-content:flex-end;align-items:center;gap:8px;flex-wrap:wrap;margin:-4px 0 16px}
+.project-toggle-row{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;margin:-4px 0 16px}
+.project-sort-wrap{display:inline-flex;align-items:center;gap:8px}
+.project-sort-label{font:700 11px inherit;color:var(--muted);letter-spacing:.04em}
 .project-sort-group{display:inline-flex;align-items:stretch;border:1px solid var(--line2);border-radius:999px;overflow:hidden;background:var(--panel)}
 .project-sort-group .project-toggle{border:0;border-radius:0}
 .project-sort-group .project-toggle + .project-toggle{border-left:1px solid var(--line2)}
@@ -429,9 +431,12 @@ footer .business-info{flex-basis:100%;padding-top:10px;border-top:1px solid var(
     <h2>전체 프로젝트 · All Projects</h2>
     <div class="desc" id="projects-desc">최근 30일 페이지 조회와 홈 클릭을 기준으로 사용이 많은 프로젝트부터 표시합니다. ‘가나다순’을 누르면 영문 A–Z, 한글 가나다, 숫자 순으로 볼 수 있습니다.</div>
     <div class="project-toggle-row">
-      <div class="project-sort-group" role="group" aria-label="프로젝트 정렬">
-        <button class="project-toggle" id="project-sort-usage" type="button" aria-pressed="true" data-analytics-ignore>사용빈도순</button>
-        <button class="project-toggle" id="project-sort-alpha" type="button" aria-pressed="false" data-analytics-ignore>가나다순</button>
+      <div class="project-sort-wrap">
+        <span class="project-sort-label">정렬</span>
+        <div class="project-sort-group" role="group" aria-label="프로젝트 정렬">
+          <button class="project-toggle" id="project-sort-usage" type="button" aria-pressed="true" data-analytics-ignore>사용빈도순</button>
+          <button class="project-toggle" id="project-sort-alpha" type="button" aria-pressed="false" data-analytics-ignore>가나다순</button>
+        </div>
       </div>
       <button class="project-toggle" id="project-visibility-toggle" type="button" aria-expanded="true" aria-controls="projects-grid" data-analytics-ignore>
         <span aria-hidden="true">▴</span><span class="project-toggle-text">대표 프로젝트 보기</span>
@@ -1073,6 +1078,6 @@ if ('serviceWorker' in navigator) {
 }
 </script>
 <script src="/assets/visitor-counter.js?v=20260822" defer></script>
-<script src="/assets/usage-analytics.js?v=20260904-usage-sort" defer></script>
+<script src="/assets/usage-analytics.js?v=20260904-usage-path" defer></script>
 </body>
 </html>
