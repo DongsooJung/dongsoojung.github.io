@@ -427,11 +427,11 @@ footer .business-info{flex-basis:100%;padding-top:10px;border-top:1px solid var(
 
   <section class="sec" id="projects">
     <h2>전체 프로젝트 · All Projects</h2>
-    <div class="desc" id="projects-desc">영문 A–Z, 한글 가나다, 숫자 순으로 전체 프로젝트를 표시합니다. ‘사용빈도순’을 누르면 최근 실제 사용이 많은 프로젝트부터 볼 수 있습니다.</div>
+    <div class="desc" id="projects-desc">최근 30일 페이지 조회와 홈 클릭을 기준으로 사용이 많은 프로젝트부터 표시합니다. ‘가나다순’을 누르면 영문 A–Z, 한글 가나다, 숫자 순으로 볼 수 있습니다.</div>
     <div class="project-toggle-row">
       <div class="project-sort-group" role="group" aria-label="프로젝트 정렬">
-        <button class="project-toggle" id="project-sort-alpha" type="button" aria-pressed="true" data-analytics-ignore>가나다순</button>
-        <button class="project-toggle" id="project-sort-usage" type="button" aria-pressed="false" data-analytics-ignore>사용빈도순</button>
+        <button class="project-toggle" id="project-sort-usage" type="button" aria-pressed="true" data-analytics-ignore>사용빈도순</button>
+        <button class="project-toggle" id="project-sort-alpha" type="button" aria-pressed="false" data-analytics-ignore>가나다순</button>
       </div>
       <button class="project-toggle" id="project-visibility-toggle" type="button" aria-expanded="true" aria-controls="projects-grid" data-analytics-ignore>
         <span aria-hidden="true">▴</span><span class="project-toggle-text">대표 프로젝트 보기</span>
@@ -966,7 +966,7 @@ footer .business-info{flex-basis:100%;padding-top:10px;border-top:1px solid var(
   const desc = document.getElementById('projects-desc');
   if (!toggle || !grid) return;
 
-  const sortKey = 'stargate-project-sort';
+  const sortKey = 'stargate-project-sort-v2';
   const cards = [...grid.querySelectorAll(':scope > .proj')];
   const englishOrder = new Intl.Collator('en', { sensitivity: 'base', numeric: true });
   const koreanOrder = new Intl.Collator('ko', { sensitivity: 'base', numeric: true });
@@ -1005,9 +1005,9 @@ footer .business-info{flex-basis:100%;padding-top:10px;border-top:1px solid var(
 
   function storedSort() {
     try {
-      return localStorage.getItem(sortKey) === 'usage' ? 'usage' : 'alpha';
+      return localStorage.getItem(sortKey) === 'alpha' ? 'alpha' : 'usage';
     } catch (_) {
-      return 'alpha';
+      return 'usage';
     }
   }
 

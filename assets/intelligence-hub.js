@@ -80,14 +80,14 @@
   const input = document.querySelector('[data-search]');
   const count = document.querySelector('[data-result-count]');
   const empty = document.querySelector('[data-empty]');
-  const sortKey = 'stargate-project-sort';
+  const sortKey = 'stargate-project-sort-v2';
   const englishOrder = new Intl.Collator('en', { sensitivity: 'base', numeric: true });
   const koreanOrder = new Intl.Collator('ko', { sensitivity: 'base', numeric: true });
   let active = 'all';
-  let sortMode = 'alpha';
+  let sortMode = 'usage';
 
   try {
-    if (localStorage.getItem(sortKey) === 'usage') sortMode = 'usage';
+    if (localStorage.getItem(sortKey) === 'alpha') sortMode = 'alpha';
   } catch (_) {}
 
   const titleGroup = (title) => /^[A-Za-z]/.test(title) ? 0
@@ -117,8 +117,8 @@
     sortGroup.setAttribute('role', 'group');
     sortGroup.setAttribute('aria-label', '프로젝트 정렬');
     sortGroup.innerHTML = `
-      <button class="hub-sort" type="button" data-sort="alpha" aria-pressed="${sortMode === 'alpha'}" data-analytics-ignore>가나다순</button>
       <button class="hub-sort" type="button" data-sort="usage" aria-pressed="${sortMode === 'usage'}" data-analytics-ignore>사용빈도순</button>
+      <button class="hub-sort" type="button" data-sort="alpha" aria-pressed="${sortMode === 'alpha'}" data-analytics-ignore>가나다순</button>
     `;
     const search = toolbar.querySelector('.search');
     if (search) toolbar.insertBefore(sortGroup, search);
