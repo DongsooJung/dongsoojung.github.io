@@ -223,7 +223,7 @@ export function makeOutput(previousBooks, previousReviews, linked, now = new Dat
 
 export function catalogShrinkIsUnsafe(previousCount, nextCount, allowShrink = false) {
   if (allowShrink || previousCount < 50) return false;
-  return nextCount < Math.floor(previousCount * 0.8);
+  return nextCount < previousCount * 0.8;
 }
 
 export async function syncReading({ now = new Date().toISOString() } = {}) {

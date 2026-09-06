@@ -92,6 +92,7 @@ test('내용이 같으면 두 데이터셋의 생성 시각을 보존한다', ()
 
 test('공개 도서가 갑자기 20% 넘게 줄면 덮어쓰기를 차단한다', () => {
   assert.equal(catalogShrinkIsUnsafe(598, 598), false);
+  assert.equal(catalogShrinkIsUnsafe(598, 478), true);
   assert.equal(catalogShrinkIsUnsafe(598, 477), true);
   assert.equal(catalogShrinkIsUnsafe(598, 30), true);
   assert.equal(catalogShrinkIsUnsafe(598, 30, true), false);
