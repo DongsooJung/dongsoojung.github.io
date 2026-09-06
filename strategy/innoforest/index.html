@@ -4,8 +4,8 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="theme-color" content="#07110e">
-  <title>혁신의 숲 기업 데이터 20 | STARGATE Intelligence</title>
-  <meta name="description" content="혁신의 숲 데이터룸의 최신 공개 기업 20곳을 검색하고 비교하는 STARGATE 전략 대시보드.">
+  <title>혁신의 숲 기업 데이터 100 | STARGATE Intelligence</title>
+  <meta name="description" content="혁신의 숲 데이터룸의 최신 공개 기업 100곳을 검색하고 비교하는 STARGATE 전략 대시보드.">
   <link rel="canonical" href="https://stargateedu.co.kr/strategy/innoforest/">
   <style>
     :root{
@@ -182,10 +182,10 @@
   <div class="wrap">
     <header class="hero">
       <div>
-        <span class="eyebrow">Startup Intelligence · 20 Companies</span>
+        <span class="eyebrow">Startup Intelligence · 100 Companies</span>
         <h1>성장기업을<br><em>한눈에 비교합니다.</em></h1>
         <p class="lede">
-          혁신의 숲 데이터룸의 최신 공개 기업 20곳을
+          혁신의 숲 데이터룸의 최신 공개 기업 100곳을
           검색하고 정렬해 빠르게 비교할 수 있습니다.
         </p>
         <div class="source-line">
@@ -212,7 +212,7 @@
       <section class="panel" aria-labelledby="companyTableTitle">
         <div class="panel-head">
           <div>
-            <h2 id="companyTableTitle">기업 20곳</h2>
+            <h2 id="companyTableTitle">기업 100곳</h2>
             <p id="resultLabel" aria-live="polite">데이터를 불러오고 있습니다.</p>
           </div>
           <div class="tools">
@@ -450,8 +450,8 @@
         const response = await fetch('./data/latest.json', { cache: 'no-store' });
         if (!response.ok) throw new Error(`데이터 응답 오류 (${response.status})`);
         const payload = await response.json();
-        if (!Array.isArray(payload.companies) || payload.companies.length !== 20) {
-          throw new Error('기업 데이터가 20개가 아닙니다.');
+        if (!Array.isArray(payload.companies) || payload.companies.length !== 100) {
+          throw new Error('기업 데이터가 100개가 아닙니다.');
         }
         state.companies = payload.companies;
         state.source = payload.source;
