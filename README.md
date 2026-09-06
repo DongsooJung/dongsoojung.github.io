@@ -16,6 +16,7 @@
 - `strategy/job-opportunities/` — 채용·체험공고 적합도 일일 TOP 20(JSON·CSV·날짜별 보관, 매일 09:00 KST 갱신)
 - `strategy/kstartup/` — 창업진흥원 K-Startup 공식 API를 매일 자동 수집하는 모집 중 지원사업 검색·마감 임박 레이더
 - `portfolio/blog/` — Notion API + Google Drive API 연동 포트폴리오 블로그
+- `blogger-en/` — 영문 Google Blogger 반자동화 (계획 수신 → 영문권 Trends → 초안 → 사람 승인 → 발행). 실발행은 기본 차단
 - `api/portfolio-notion.js` — Notion 공개 글 라이브 프록시 (Vercel env: `NOTION_API_KEY`)
 - `api/kstartup.js` — K-Startup 인증키 비공개 프록시와 최근 공고 서버 필터·캐시
 - `blog/` — [blog.stargateedu.co.kr/posts/](https://blog.stargateedu.co.kr/posts/) 리디렉션
