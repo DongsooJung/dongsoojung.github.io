@@ -81,7 +81,7 @@ test('현재 598권 스냅샷을 손실 없이 읽고 기존 표시 필드를 �
 
 test('내용이 같으면 두 데이터셋의 생성 시각을 보존한다', () => {
   const linked = { books: [{ title: '책', relatedLogIds: [] }], posts: [{ id: 'log', relatedBookIds: [] }] };
-  const previousBooks = { generatedAt: 'books-old', books: [{ title: '책' }] };
+  const previousBooks = { generatedAt: 'books-old', catalogStatus: 'connected', books: [{ title: '책' }] };
   const previousReviews = { meta: { generatedAt: 'reviews-old' }, posts: [{ id: 'log' }] };
   const output = makeOutput(previousBooks, previousReviews, linked, 'new-time');
   assert.equal(output.changed, false);
