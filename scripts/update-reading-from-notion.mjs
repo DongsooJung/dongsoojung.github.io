@@ -1,6 +1,7 @@
 import fs from 'node:fs/promises';
 import { pathToFileURL } from 'node:url';
 import { applyPriceEnrichment } from './import-reading-prices.mjs';
+import { withBookSlugs } from './reading-book-utils.mjs';
 
 const REVIEWS_OUT = new URL('../reading/data/notion-reading.json', import.meta.url);
 const BOOKS_OUT = new URL('../reading/data/books.json', import.meta.url);
@@ -210,7 +211,9 @@ async function getPageMarkdown(id) {
 }
 
 export function makeOutput(previousBooks, previousReviews, linked, now = new Date().toISOString(), catalogStatus = 'connected', priceData = {}) {
-  const books = applyPriceEnrichment(linked.books.map(({ relatedLogIds, ...book }) => book), priceData);
+  const books = withBookSlugs(
+    applyPriceEnrichment(linked.books.map(({ relatedLogIds, ...book }) => book), priceData), previousBooks.books,
+  );
   const posts = linked.posts.map(({ relatedBookIds, ...post }) => post);
   const booksChanged = JSON.stringify(previousBooks.books) !== JSON.stringify(books);
   const postsChanged = JSON.stringify(previousReviews.posts) !== JSON.stringify(posts);
