@@ -5,14 +5,14 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>밀리의 서재 도서목록 598권 · StargateEdu</title>
 <meta name="description" content="StargateEdu가 읽고 탐색하는 밀리의 서재 도서 598권 전체 목록과 독후감 아카이브">
-<link rel="canonical" href="https://www.stargateedu.co.kr/reading/">
+<link rel="canonical" href="https://stargateedu.co.kr/reading/">
 <meta name="robots" content="index,follow,max-image-preview:large">
 <meta name="theme-color" content="#0e1116" id="themeColor" data-light-color="#f5f7fb" data-dark-color="#0e1116">
 <meta property="og:type" content="website">
 <meta property="og:locale" content="ko_KR">
 <meta property="og:title" content="밀리의 서재 도서목록 598권 · StargateEdu">
 <meta property="og:description" content="기술·경영·경제·교육·도시와 사회 분야의 전체 도서목록과 완독 기록">
-<meta property="og:url" content="https://www.stargateedu.co.kr/reading/">
+<meta property="og:url" content="https://stargateedu.co.kr/reading/">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="밀리의 서재 도서목록 598권 · StargateEdu">
 <meta name="twitter:description" content="전체 도서목록과 완독 독후감을 함께 보는 StargateEdu 디지털 서재">
@@ -172,7 +172,7 @@
   .sort-button:focus-visible{outline:3px solid var(--accent);outline-offset:4px;border-radius:3px}
   .library-table tbody tr:hover{background:color-mix(in srgb,var(--accent) 7%,transparent)}
   .library-table tbody tr:last-child td{border-bottom:0}
-  .book-title{font-weight:800}.book-author,.book-price{color:var(--muted)}
+  .book-title{font-weight:800}.book-title a{text-decoration:underline;text-decoration-color:color-mix(in srgb,var(--accent) 45%,transparent);text-underline-offset:3px}.book-title a:hover{color:var(--accent)}.book-author,.book-price{color:var(--muted)}
   .book-badge{display:inline-block;padding:3px 8px;border-radius:999px;background:var(--panel2);color:var(--muted);white-space:nowrap}
   .book-read{color:var(--good);font-weight:800}.book-unread{color:var(--muted)}
   .book-link{display:inline-block;padding:5px 9px;border-radius:7px;background:var(--accent);color:#fff;text-decoration:none;font-weight:800;white-space:nowrap}
@@ -495,7 +495,7 @@ function renderLibrary(){
       ? reviewIds.map((reviewId,index)=>`<button class="book-link review-link" type="button" onclick="openLinkedReview('${esc(reviewId)}')">독후감${reviewIds.length>1?` ${index+1}`:" 보기"}</button>`).join(" "):"—";
     const status=book.status||(book.read?"완독":"읽음 미표시");
     return `<tr>
-      <td class="book-title">${esc(book.title)}</td>
+      <td class="book-title"><a class="book-detail-link" href="/reading/${encodeURIComponent(book.slug)}/">${esc(book.title)}</a></td>
       <td class="book-author">${esc(book.author||"—")}</td>
       <td><span class="book-badge">${esc(book.category||"—")}</span></td>
       <td><span class="book-badge">${esc(book.subCategory||"—")}</span></td>
@@ -680,7 +680,10 @@ function closePost({updateHash=true}={}){
 
 async function sharePost(id,button){
   const p=posts.find(x=>x.id===id);
-  const url=new URL(bookHash(id),location.href);
+  const linkedBook=books.find(book=>Array.isArray(book.reviewIds)&&book.reviewIds.includes(id));
+  const url=linkedBook?.slug
+    ? new URL(`/reading/${encodeURIComponent(linkedBook.slug)}/`,location.origin)
+    : new URL(bookHash(id),location.href);
   const data={title:`${p.title} 독후감`,text:p.oneline,url:url.href};
   try{
     if(navigator.share){
