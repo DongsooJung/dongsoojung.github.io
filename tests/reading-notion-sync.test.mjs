@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs/promises';
-import { linkRecords, makeOutput, normalizeTitle, parseMarkdownSections } from '../scripts/update-reading-from-notion.mjs';
+import { catalogShrinkIsUnsafe, linkRecords, makeOutput, normalizeTitle, parseMarkdownSections } from '../scripts/update-reading-from-notion.mjs';
 
 test('Notion markdown의 지정 H2 섹션을 구조화한다', () => {
   const parsed = parseMarkdownSections(`# 제목
@@ -22,6 +22,7 @@ test('Notion markdown의 지정 H2 섹션을 구조화한다', () => {
     quotes: ['기억할 문장'],
     application: ['교육 과정에 반영'],
     recommend: ['연구자'],
+    review: [],
   });
 });
 
@@ -65,7 +66,7 @@ test('괄호 속 영문 부제와 공백·문장부호를 제거한 고유 제�
   const inaccessibleRelationTarget = linkRecords([
     { notionId: 'snapshot-1', title: '연결 제목', read: false, relatedLogIds: [] },
   ], [{ id: 'log1', title: '연결 제목', status: '완독', relatedBookIds: ['inaccessible-book-id'] }]);
-  assert.equal(inaccessibleRelationTarget.books[0].matchMethod, 'unique-title');
+  assert.equal(inaccessibleRelationTarget.books[0].matchMethod, null);
 });
 
 test('현재 598권 스냅샷을 손실 없이 읽고 기존 표시 필드를 유지한다', async () => {
@@ -87,4 +88,11 @@ test('내용이 같으면 두 데이터셋의 생성 시각을 보존한다', ()
   assert.equal(output.changed, false);
   assert.equal(output.booksOutput.generatedAt, 'books-old');
   assert.equal(output.reviewsOutput.meta.generatedAt, 'reviews-old');
+});
+
+test('공개 도서가 갑자기 20% 넘게 줄면 덮어쓰기를 차단한다', () => {
+  assert.equal(catalogShrinkIsUnsafe(598, 598), false);
+  assert.equal(catalogShrinkIsUnsafe(598, 477), true);
+  assert.equal(catalogShrinkIsUnsafe(598, 30), true);
+  assert.equal(catalogShrinkIsUnsafe(598, 30, true), false);
 });

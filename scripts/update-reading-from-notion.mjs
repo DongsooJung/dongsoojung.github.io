@@ -46,8 +46,9 @@ export function parseMarkdownSections(markdown = '') {
   const wanted = [
     [/한\s*줄\s*요약/, 'oneline'], [/핵심\s*메시지/, 'keyPoints'],
     [/인상\s*깊은\s*구절/, 'quotes'], [/내\s*일.*연구.*적용/, 'application'], [/추천\s*대상/, 'recommend'],
+    [/(?:서평|나의\s*생각|읽은\s*이유)/, 'review'],
   ];
-  const sections = { oneline: '', keyPoints: [], quotes: [], application: [], recommend: [] };
+  const sections = { oneline: '', keyPoints: [], quotes: [], application: [], recommend: [], review: [] };
   let current = null;
   for (const rawLine of String(markdown).replaceAll('\r', '').split('\n')) {
     const heading = rawLine.match(/^##\s+(.+?)\s*#*$/);
@@ -97,7 +98,7 @@ export function linkRecords(catalogRecords, logRecords) {
   for (const book of catalogRecords) {
     if (bookLinks.get(book.notionId).size || book.relatedLogIds?.length) continue;
     const key = normalizeTitle(book.title), logs = uniqueLogs.get(key), books = uniqueBooks.get(key);
-    if (logs?.length === 1 && books?.length === 1 && !logLinks.get(logs[0].id).size) {
+    if (logs?.length === 1 && books?.length === 1 && !logLinks.get(logs[0].id).size && !logs[0].relatedBookIds?.length) {
       connect(book.notionId, logs[0].id, 'unique-title');
     }
   }
@@ -107,10 +108,12 @@ export function linkRecords(catalogRecords, logRecords) {
       const linkedPosts = links.map(([id]) => logsById.get(id));
       const linkedStatus = linkedPosts.some((post) => post.status === '재독') ? '재독'
         : linkedPosts.some((post) => post.status === '완독') ? '완독' : '';
-      const status = linkedStatus || book.status || (book.read ? '완독' : '읽을 예정');
-      return { ...book, read: ['완독', '재독'].includes(status) || book.read, status,
+      const status = linkedStatus || book.status || (book.read ? '완독' : '');
+      const output = { ...book, read: ['완독', '재독'].includes(status) || book.read,
         reviewIds: links.map(([id]) => id),
         matchMethod: links.length ? (links.some(([, method]) => method === 'relation') ? 'relation' : 'unique-title') : null };
+      if (status) output.status = status; else delete output.status;
+      return output;
     }),
     posts: logRecords.map((post) => ({ ...post, bookIds: [...logLinks.get(post.id).keys()] })),
   };
@@ -118,7 +121,7 @@ export function linkRecords(catalogRecords, logRecords) {
 
 function normalizeCatalogPage(page) {
   const properties = page.properties || {};
-  const status = select(properties['읽음 상태']) || (checkbox(properties['읽음여부']) ? '완독' : '읽을 예정');
+  const status = select(properties['읽음 상태']) || (checkbox(properties['읽음여부']) ? '완독' : '');
   return { title: richText(properties['도서명']), author: richText(properties['저자']) || richText(properties['저자/출판사']),
     category: select(properties['대분류']), subCategory: select(properties['카테고리']),
     read: checkbox(properties['읽음여부']) || ['완독', '재독'].includes(status), rating: rating(properties['평점']) || null,
@@ -135,7 +138,8 @@ function normalizeLogPage(page, markdown = '') {
     start: date(properties['독서시작일']) || completedAt, end: completedAt, pages: number(properties['페이지수']) || 0, days: null, c1, c2,
     oneline: richText(properties['한줄평']) || sections.oneline,
     quotes: propertyQuotes.length ? propertyQuotes : sections.quotes.map((value) => ({ t: value, s: 'Notion 본문' })),
-    review: richText(properties['독후감본문']), recommend: unique([...multiSelect(properties['추천대상']), ...sections.recommend]),
+    review: richText(properties['독후감본문']) || sections.review.join('\n'),
+    recommend: unique([...multiSelect(properties['추천대상']), ...sections.recommend]),
     tags: keywords(properties['핵심키워드']), keyPoints: sections.keyPoints, application: sections.application,
     relatedBookIds: unique([...relationIds(properties['도서']), ...relationIds(properties['관련도서']), ...relationIds(properties['도서목록'])]) };
 }
@@ -217,6 +221,11 @@ export function makeOutput(previousBooks, previousReviews, linked, now = new Dat
     changed: booksChanged || postsChanged || statusChanged };
 }
 
+export function catalogShrinkIsUnsafe(previousCount, nextCount, allowShrink = false) {
+  if (allowShrink || previousCount < 50) return false;
+  return nextCount < Math.floor(previousCount * 0.8);
+}
+
 export async function syncReading({ now = new Date().toISOString() } = {}) {
   if (!NOTION_API_KEY) throw new Error('NOTION_API_KEY가 없습니다. Notion 내부 연결 토큰을 GitHub Actions secret으로 등록해야 합니다.');
   const [previousBooks, previousReviews] = await Promise.all([
@@ -238,14 +247,23 @@ export async function syncReading({ now = new Date().toISOString() } = {}) {
       [{ property: '완독일', direction: 'descending' }, { property: '도서명', direction: 'ascending' }]),
   ]);
   const catalogPages = catalogResult.pages;
+  if (catalogResult.status === 'connected' && catalogShrinkIsUnsafe(
+    previousBooks.books.length, catalogPages.length, process.env.ALLOW_READING_CATALOG_SHRINK === 'true',
+  )) {
+    throw new Error(`공개 도서가 ${previousBooks.books.length}권에서 ${catalogPages.length}권으로 급감해 동기화를 중단했습니다. 의도한 변경이면 ALLOW_READING_CATALOG_SHRINK=true를 설정하세요.`);
+  }
   await Promise.all([...catalogPages.map((page) => hydrateRelation(page, '독서LOG')),
     ...logPages.flatMap((page) => ['도서', '관련도서', '도서목록'].map((name) => hydrateRelation(page, name)))]);
   const markdownById = new Map(await mapWithConcurrency(logPages, 3,
     async (page) => [pageId(page.id), await getPageMarkdown(page.id)]));
   const catalogRecords = catalogPages.length ? catalogPages.map(normalizeCatalogPage)
     : previousBooks.books.map((book, index) => ({ ...book,
-      notionId: book.notionId || `snapshot-${index}`, relatedLogIds: book.reviewIds || [] }));
-  const linked = linkRecords(catalogRecords, logPages.map((page) => normalizeLogPage(page, markdownById.get(pageId(page.id)))));
+      notionId: book.notionId || `snapshot-${index}`, status: book.read ? book.status : '', relatedLogIds: [] }));
+  const logRecords = logPages.map((page) => normalizeLogPage(page, markdownById.get(pageId(page.id))));
+  if (catalogResult.status === 'snapshot') {
+    for (const post of logRecords) post.relatedBookIds = [];
+  }
+  const linked = linkRecords(catalogRecords, logRecords);
   const output = makeOutput(previousBooks, previousReviews, linked, now, catalogResult.status);
   await Promise.all([fs.writeFile(BOOKS_OUT, `${JSON.stringify(output.booksOutput, null, 2)}\n`),
     fs.writeFile(REVIEWS_OUT, `${JSON.stringify(output.reviewsOutput, null, 2)}\n`)]);

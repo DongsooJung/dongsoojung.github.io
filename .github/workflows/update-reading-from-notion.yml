@@ -20,6 +20,7 @@ jobs:
       NOTION_API_KEY: ${{ secrets.NOTION_API_KEY }}
       NOTION_DATA_SOURCE_ID: ${{ vars.NOTION_DATA_SOURCE_ID }}
       NOTION_BOOKS_DATA_SOURCE_ID: ${{ vars.NOTION_BOOKS_DATA_SOURCE_ID }}
+      ALLOW_READING_CATALOG_SHRINK: ${{ vars.ALLOW_READING_CATALOG_SHRINK }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4

@@ -486,9 +486,9 @@ function renderLibrary(){
     const price=Number.isFinite(book.listPrice)?`${Number(book.listPrice).toLocaleString("ko-KR")}원`:"—";
     const safeAladin=typeof book.aladinUrl==="string"&&/^https:\/\/(?:www\.)?aladin\.co\.kr\//i.test(book.aladinUrl)
       ? `<a class="book-link" href="${esc(book.aladinUrl)}" target="_blank" rel="noopener noreferrer">알라딘</a>`:"—";
-    const reviewId=Array.isArray(book.reviewIds)?book.reviewIds[0]:null;
-    const reviewLink=reviewId
-      ? `<button class="book-link review-link" type="button" onclick="openLinkedReview('${esc(reviewId)}')">독후감 보기</button>`:"—";
+    const reviewIds=Array.isArray(book.reviewIds)?book.reviewIds:[];
+    const reviewLink=reviewIds.length
+      ? reviewIds.map((reviewId,index)=>`<button class="book-link review-link" type="button" onclick="openLinkedReview('${esc(reviewId)}')">독후감${reviewIds.length>1?` ${index+1}`:" 보기"}</button>`).join(" "):"—";
     const status=book.status||(book.read?"완독":"읽음 미표시");
     return `<tr>
       <td class="book-title">${esc(book.title)}</td>
@@ -551,7 +551,7 @@ function renderChips(){
   const genres=["전체",...new Set(posts.map(p=>p.genre))];
   document.getElementById("chips").innerHTML=genres.map(g=>
     `<button type="button" class="chip ${g===activeGenre?'active':''}" aria-pressed="${g===activeGenre}"
-      onclick="setGenre(${JSON.stringify(g)})">${g}</button>`).join("");
+      onclick="setGenre(${esc(JSON.stringify(g))})">${esc(g)}</button>`).join("");
 }
 
 function setGenre(g){
@@ -637,8 +637,7 @@ function openPost(id,{updateHash=true}={}){
       ${(p.quotes||[]).length
         ? p.quotes.map(q=>`<div class="quote">“${esc(q.t)}”<span class="src">— ${esc(p.title)}, ${esc(q.s||"Notion 기록")}</span></div>`).join("")
         : '<p>등록된 인용문이 없습니다.</p>'}
-      <h4>서평</h4>
-      <p>${esc(p.review||"등록된 독후감이 없습니다.")}</p>
+      ${p.review?`<h4>서평</h4><p>${esc(p.review)}</p>`:""}
       ${(p.keyPoints||[]).length
         ? `<h4>핵심 메시지</h4><div class="recommend"><ul>${p.keyPoints.map(item=>`<li>${esc(item)}</li>`).join("")}</ul></div>`:""}
       ${(p.application||[]).length
