@@ -61,6 +61,11 @@ test('괄호 속 영문 부제와 공백·문장부호를 제거한 고유 제�
   ], [{ id: 'log1', title: '연결 제목', status: '완독', relatedBookIds: ['book2'] }]);
   assert.deepEqual(relationWins.books[0].reviewIds, []);
   assert.deepEqual(relationWins.books[1].reviewIds, ['log1']);
+
+  const inaccessibleRelationTarget = linkRecords([
+    { notionId: 'snapshot-1', title: '연결 제목', read: false, relatedLogIds: [] },
+  ], [{ id: 'log1', title: '연결 제목', status: '완독', relatedBookIds: ['inaccessible-book-id'] }]);
+  assert.equal(inaccessibleRelationTarget.books[0].matchMethod, 'unique-title');
 });
 
 test('현재 598권 스냅샷을 손실 없이 읽고 기존 표시 필드를 유지한다', async () => {

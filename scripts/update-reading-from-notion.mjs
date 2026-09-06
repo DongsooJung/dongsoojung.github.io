@@ -97,7 +97,7 @@ export function linkRecords(catalogRecords, logRecords) {
   for (const book of catalogRecords) {
     if (bookLinks.get(book.notionId).size || book.relatedLogIds?.length) continue;
     const key = normalizeTitle(book.title), logs = uniqueLogs.get(key), books = uniqueBooks.get(key);
-    if (logs?.length === 1 && books?.length === 1 && !logLinks.get(logs[0].id).size && !logs[0].relatedBookIds?.length) {
+    if (logs?.length === 1 && books?.length === 1 && !logLinks.get(logs[0].id).size) {
       connect(book.notionId, logs[0].id, 'unique-title');
     }
   }
@@ -203,13 +203,13 @@ async function getPageMarkdown(id) {
   return markdown;
 }
 
-export function makeOutput(previousBooks, previousReviews, linked, now = new Date().toISOString()) {
+export function makeOutput(previousBooks, previousReviews, linked, now = new Date().toISOString(), catalogStatus = 'connected') {
   const books = linked.books.map(({ relatedLogIds, ...book }) => book);
   const posts = linked.posts.map(({ relatedBookIds, ...post }) => post);
   const booksChanged = JSON.stringify(previousBooks.books) !== JSON.stringify(books);
   const postsChanged = JSON.stringify(previousReviews.posts) !== JSON.stringify(posts);
   return { booksOutput: { generatedAt: booksChanged ? now : previousBooks.generatedAt,
-      source: 'Notion · 📚 밀리의서재 도서목록', total: books.length, books },
+      source: 'Notion · 📚 밀리의서재 도서목록', catalogStatus, total: books.length, books },
     reviewsOutput: { meta: { status: 'connected', source: 'Notion · 📖 독서 LOG & 독후감',
         generatedAt: postsChanged ? now : previousReviews.meta?.generatedAt,
         publicFilter: '웹공개 = true · 독서상태 = 완독 또는 재독' }, posts }, changed: booksChanged || postsChanged };
@@ -217,22 +217,34 @@ export function makeOutput(previousBooks, previousReviews, linked, now = new Dat
 
 export async function syncReading({ now = new Date().toISOString() } = {}) {
   if (!NOTION_API_KEY) throw new Error('NOTION_API_KEY가 없습니다. Notion 내부 연결 토큰을 GitHub Actions secret으로 등록해야 합니다.');
-  const [catalogPages, logPages, previousBooks, previousReviews] = await Promise.all([
+  const [previousBooks, previousReviews] = await Promise.all([
+    fs.readFile(BOOKS_OUT, 'utf8').then(JSON.parse), fs.readFile(REVIEWS_OUT, 'utf8').then(JSON.parse),
+  ]);
+  const [catalogResult, logPages] = await Promise.all([
     queryAll(BOOKS_DATA_SOURCE_ID, { and: [
       { property: '웹공개', checkbox: { equals: true } }, { property: '도서명', title: { is_not_empty: true } }] },
-      [{ property: '도서명', direction: 'ascending' }]),
+      [{ property: '도서명', direction: 'ascending' }])
+      .then((pages) => ({ pages, status: 'connected' }))
+      .catch((error) => {
+        if (!String(error.message).includes('object_not_found')) throw error;
+        console.warn('도서목록 DB가 STARGATE 연결에 공유되지 않아 기존 공개 스냅샷을 유지합니다.');
+        return { pages: [], status: 'snapshot' };
+      }),
     queryAll(LOG_DATA_SOURCE_ID, { and: [
       { property: '웹공개', checkbox: { equals: true } }, { or: [
         { property: '독서상태', select: { equals: '완독' } }, { property: '독서상태', select: { equals: '재독' } }] }] },
       [{ property: '완독일', direction: 'descending' }, { property: '도서명', direction: 'ascending' }]),
-    fs.readFile(BOOKS_OUT, 'utf8').then(JSON.parse), fs.readFile(REVIEWS_OUT, 'utf8').then(JSON.parse),
   ]);
+  const catalogPages = catalogResult.pages;
   await Promise.all([...catalogPages.map((page) => hydrateRelation(page, '독서LOG')),
     ...logPages.flatMap((page) => ['도서', '관련도서', '도서목록'].map((name) => hydrateRelation(page, name)))]);
   const markdownById = new Map(await mapWithConcurrency(logPages, 3,
     async (page) => [pageId(page.id), await getPageMarkdown(page.id)]));
-  const linked = linkRecords(catalogPages.map(normalizeCatalogPage), logPages.map((page) => normalizeLogPage(page, markdownById.get(pageId(page.id)))));
-  const output = makeOutput(previousBooks, previousReviews, linked, now);
+  const catalogRecords = catalogPages.length ? catalogPages.map(normalizeCatalogPage)
+    : previousBooks.books.map((book, index) => ({ ...book,
+      notionId: book.notionId || `snapshot-${index}`, relatedLogIds: book.reviewIds || [] }));
+  const linked = linkRecords(catalogRecords, logPages.map((page) => normalizeLogPage(page, markdownById.get(pageId(page.id)))));
+  const output = makeOutput(previousBooks, previousReviews, linked, now, catalogResult.status);
   await Promise.all([fs.writeFile(BOOKS_OUT, `${JSON.stringify(output.booksOutput, null, 2)}\n`),
     fs.writeFile(REVIEWS_OUT, `${JSON.stringify(output.reviewsOutput, null, 2)}\n`)]);
   console.log(`Notion 공개 도서 ${output.booksOutput.total}권 · 독서기록 ${output.reviewsOutput.posts.length}편 동기화 완료${output.changed ? '' : ' (변경 없음)'}`);
