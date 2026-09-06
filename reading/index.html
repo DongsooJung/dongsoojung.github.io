@@ -161,7 +161,7 @@
   .view-tab.active{background:var(--accent);color:#fff}
   .view-section[hidden]{display:none}
   .section-title{font-size:23px;margin:0 0 4px}.section-copy{color:var(--muted);margin:0 0 18px}
-  .library-controls{display:grid;grid-template-columns:minmax(240px,2fr) repeat(3,minmax(150px,1fr));gap:10px;margin:22px 0 10px}
+  .library-controls{display:grid;grid-template-columns:minmax(220px,2fr) repeat(4,minmax(130px,1fr));gap:10px;margin:22px 0 10px}
   .library-controls input,.library-controls select{width:100%;padding:11px 13px;border-radius:11px;border:1px solid var(--line);background:var(--panel);color:var(--txt)}
   .library-summary{color:var(--muted);font-size:13px;margin:0 2px 12px}.library-summary strong{color:var(--txt)}
   .library-table-wrap{overflow:auto;border:1px solid var(--line);border-radius:var(--radius);background:var(--panel);margin-bottom:60px}
@@ -176,6 +176,7 @@
   .book-badge{display:inline-block;padding:3px 8px;border-radius:999px;background:var(--panel2);color:var(--muted);white-space:nowrap}
   .book-read{color:var(--good);font-weight:800}.book-unread{color:var(--muted)}
   .book-link{display:inline-block;padding:5px 9px;border-radius:7px;background:var(--accent);color:#fff;text-decoration:none;font-weight:800;white-space:nowrap}
+  .review-link{border:1px solid var(--accent);background:transparent;color:var(--accent);cursor:pointer}
 
   footer.site{border-top:1px solid var(--line);padding:30px 0;color:var(--muted);font-size:13px;text-align:center}
   .empty{text-align:center;color:var(--muted);padding:60px 0;grid-column:1/-1}
@@ -243,6 +244,7 @@
     <label><span class="sr-only">대분류</span><select id="libraryCategory"><option value="">전체 대분류</option></select></label>
     <label><span class="sr-only">세부분류</span><select id="librarySubcategory"><option value="">전체 세부분류</option></select></label>
     <label><span class="sr-only">읽음 표시 상태</span><select id="libraryRead"><option value="">전체 상태</option><option value="true">읽음 표시됨</option><option value="false">읽음 미표시</option></select></label>
+    <label><span class="sr-only">독서기록 작성 여부</span><select id="libraryReview"><option value="">전체 기록</option><option value="true">독서기록 있음</option><option value="false">독서기록 없음</option></select></label>
   </div>
   <div class="library-summary" id="librarySummary" role="status" aria-live="polite">전체 서재를 불러오는 중…</div>
   <div class="library-table-wrap" tabindex="0" aria-label="전체 도서목록 표, 좌우로 스크롤할 수 있습니다">
@@ -254,9 +256,9 @@
         <th aria-sort="none"><button class="sort-button" type="button" data-book-sort="subCategory">세부분류 ↕</button></th>
         <th aria-sort="none"><button class="sort-button" type="button" data-book-sort="read">읽음 표시 ↕</button></th>
         <th aria-sort="none"><button class="sort-button" type="button" data-book-sort="rating">평점 ↕</button></th>
-        <th aria-sort="none"><button class="sort-button" type="button" data-book-sort="listPrice">정가 ↕</button></th><th>도서정보</th>
+        <th aria-sort="none"><button class="sort-button" type="button" data-book-sort="listPrice">정가 ↕</button></th><th>도서정보</th><th>독서기록</th>
       </tr></thead>
-      <tbody id="libraryRows"><tr><td colspan="8" class="empty">불러오는 중…</td></tr></tbody>
+      <tbody id="libraryRows"><tr><td colspan="9" class="empty">불러오는 중…</td></tr></tbody>
     </table>
   </div>
 </section>
@@ -380,6 +382,7 @@ let lastFocus = null;
 let books = [];
 let librarySort = "title";
 let librarySortAsc = true;
+let postsReady;
 
 function stars(n){return "★".repeat(n)+"☆".repeat(5-n);}
 function fmt(d){
@@ -435,7 +438,7 @@ async function loadBooks(){
     renderLibrary();
   }catch(error){
     document.getElementById("librarySummary").textContent="전체 도서목록을 불러오지 못했습니다.";
-    document.getElementById("libraryRows").innerHTML='<tr><td colspan="8" class="empty">잠시 후 다시 시도해 주세요.</td></tr>';
+    document.getElementById("libraryRows").innerHTML='<tr><td colspan="9" class="empty">잠시 후 다시 시도해 주세요.</td></tr>';
     console.error("Full library data load failed",error);
   }
 }
@@ -455,10 +458,13 @@ function visibleBooks(){
   const category=document.getElementById("libraryCategory").value;
   const subcategory=document.getElementById("librarySubcategory").value;
   const read=document.getElementById("libraryRead").value;
+  const review=document.getElementById("libraryReview").value;
   return books.filter(book=>{
     const hay=`${book.title||""} ${book.author||""}`.toLocaleLowerCase("ko");
+    const hasReview=Array.isArray(book.reviewIds)&&book.reviewIds.length>0;
     return (!query||hay.includes(query))&&(!category||book.category===category)&&
-      (!subcategory||book.subCategory===subcategory)&&(read===""||String(Boolean(book.read))===read);
+      (!subcategory||book.subCategory===subcategory)&&(read===""||String(Boolean(book.read))===read)&&
+      (review===""||String(hasReview)===review);
   }).sort((a,b)=>{
     let x=a[librarySort]??"",y=b[librarySort]??"";
     const result=typeof x==="number"||typeof x==="boolean"
@@ -473,23 +479,33 @@ function renderLibrary(){
   document.getElementById("librarySummary").innerHTML=
     `총 <strong>${books.length}권</strong> 중 <strong>${list.length}권</strong> 표시`;
   if(!list.length){
-    document.getElementById("libraryRows").innerHTML='<tr><td colspan="8" class="empty">검색 결과가 없습니다.</td></tr>';
+    document.getElementById("libraryRows").innerHTML='<tr><td colspan="9" class="empty">검색 결과가 없습니다.</td></tr>';
     return;
   }
   document.getElementById("libraryRows").innerHTML=list.map(book=>{
     const price=Number.isFinite(book.listPrice)?`${Number(book.listPrice).toLocaleString("ko-KR")}원`:"—";
     const safeAladin=typeof book.aladinUrl==="string"&&/^https:\/\/(?:www\.)?aladin\.co\.kr\//i.test(book.aladinUrl)
       ? `<a class="book-link" href="${esc(book.aladinUrl)}" target="_blank" rel="noopener noreferrer">알라딘</a>`:"—";
+    const reviewId=Array.isArray(book.reviewIds)?book.reviewIds[0]:null;
+    const reviewLink=reviewId
+      ? `<button class="book-link review-link" type="button" onclick="openLinkedReview('${esc(reviewId)}')">독후감 보기</button>`:"—";
+    const status=book.status||(book.read?"완독":"읽음 미표시");
     return `<tr>
       <td class="book-title">${esc(book.title)}</td>
       <td class="book-author">${esc(book.author||"—")}</td>
       <td><span class="book-badge">${esc(book.category||"—")}</span></td>
       <td><span class="book-badge">${esc(book.subCategory||"—")}</span></td>
-      <td class="${book.read?"book-read":"book-unread"}">${book.read?"읽음 표시됨":"읽음 미표시"}</td>
+      <td class="${book.read?"book-read":"book-unread"}">${esc(status)}</td>
       <td>${book.rating?"★".repeat(Number(book.rating)):"—"}</td>
-      <td class="book-price">${price}</td><td>${safeAladin}</td>
+      <td class="book-price">${price}</td><td>${safeAladin}</td><td>${reviewLink}</td>
     </tr>`;
   }).join("");
+}
+
+async function openLinkedReview(id){
+  setView("reviews");
+  if(postsReady)await postsReady;
+  openPost(id);
 }
 
 async function loadPosts(){
@@ -559,6 +575,7 @@ function getVisiblePosts(){
   const list=posts.filter(p=>{
     const okG=activeGenre==="전체"||p.genre===activeGenre;
     const hay=[p.title,p.author,p.pub,p.genre,p.oneline,p.review,...(p.tags||[]),...(p.recommend||[]),
+      ...(p.keyPoints||[]),...(p.application||[]),
       ...(p.quotes||[]).flatMap(q=>[q.t,q.s])].join(" ").toLocaleLowerCase("ko-KR");
     return okG && hay.includes(q);
   });
@@ -606,7 +623,7 @@ function openPost(id,{updateHash=true}={}){
       <div class="genre">${esc(p.genre||"기타")}</div>
       <h2 id="postTitle">${esc(p.title)}</h2>
       <div class="author">${esc(p.author||"저자 미등록")}${p.pub?` 지음 · ${esc(p.pub)}`:""}</div>
-      <span class="millie-badge">📖 밀리의 서재에서 완독</span>
+      <span class="millie-badge">📖 밀리의 서재에서 ${esc(p.status||"완독")}</span>
     </div>
     <div class="content">
       <div class="infobar">
@@ -622,6 +639,10 @@ function openPost(id,{updateHash=true}={}){
         : '<p>등록된 인용문이 없습니다.</p>'}
       <h4>서평</h4>
       <p>${esc(p.review||"등록된 독후감이 없습니다.")}</p>
+      ${(p.keyPoints||[]).length
+        ? `<h4>핵심 메시지</h4><div class="recommend"><ul>${p.keyPoints.map(item=>`<li>${esc(item)}</li>`).join("")}</ul></div>`:""}
+      ${(p.application||[]).length
+        ? `<h4>내 일·연구에 적용</h4><div class="recommend"><ul>${p.application.map(item=>`<li>${esc(item)}</li>`).join("")}</ul></div>`:""}
       <h4>이런 분께 추천</h4>
       ${(p.recommend||[]).length
         ? `<div class="recommend"><ul>${p.recommend.map(r=>`<li>${esc(r)}</li>`).join("")}</ul></div>`
@@ -695,7 +716,7 @@ document.addEventListener("keydown",e=>{
 window.addEventListener("popstate",syncFromHash);
 
 document.getElementById("copyrightYear").textContent=new Date().getFullYear();
-document.querySelectorAll("#librarySearch,#libraryCategory,#librarySubcategory,#libraryRead")
+document.querySelectorAll("#librarySearch,#libraryCategory,#librarySubcategory,#libraryRead,#libraryReview")
   .forEach(element=>element.addEventListener("input",renderLibrary));
 document.querySelectorAll("button[data-book-sort]").forEach(button=>button.addEventListener("click",()=>{
   const key=button.dataset.bookSort;
@@ -708,7 +729,7 @@ document.querySelectorAll("button[data-book-sort]").forEach(button=>button.addEv
   renderLibrary();
 }));
 loadBooks();
-loadPosts();
+postsReady=loadPosts();
 </script>
 <script src="/assets/theme.js?v=20260729" defer></script>
 </body>
