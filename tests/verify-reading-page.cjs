@@ -15,6 +15,8 @@ const { chromium } = require('playwright');
     books: document.querySelectorAll('#libraryRows tr').length,
     reviews: document.querySelectorAll('#grid .card').length,
     linkedButtons: document.querySelectorAll('#libraryRows .review-link').length,
+    pricedBooks: [...document.querySelectorAll('#libraryRows .book-price')].filter((cell) => cell.textContent !== '—').length,
+    salePrices: [...document.querySelectorAll('#libraryRows .book-price')].filter((cell) => cell.textContent.includes('판매가')).length,
   }));
   await page.selectOption('#libraryReview', 'true');
   await page.waitForFunction(() => document.querySelectorAll('#libraryRows tr').length === 3);
@@ -39,6 +41,7 @@ const { chromium } = require('playwright');
   console.log(JSON.stringify(result, null, 2));
   await browser.close();
   if (response.status() !== 200 || initial.books !== 598 || initial.reviews !== 3 || initial.linkedButtons !== 3
+    || initial.pricedBooks !== 346 || initial.salePrices !== 252
     || !linkedOnly.includes('3권') || !detail.hash.startsWith('#book-') || !detail.reviewsVisible
     || errors.length || mobile.bodyWidth > mobile.viewportWidth || !mobile.tableScrollable) process.exit(1);
 })();

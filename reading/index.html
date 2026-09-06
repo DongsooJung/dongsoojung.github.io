@@ -256,7 +256,7 @@
         <th aria-sort="none"><button class="sort-button" type="button" data-book-sort="subCategory">세부분류 ↕</button></th>
         <th aria-sort="none"><button class="sort-button" type="button" data-book-sort="read">읽음 표시 ↕</button></th>
         <th aria-sort="none"><button class="sort-button" type="button" data-book-sort="rating">평점 ↕</button></th>
-        <th aria-sort="none"><button class="sort-button" type="button" data-book-sort="listPrice">정가 ↕</button></th><th>도서정보</th><th>독서기록</th>
+        <th aria-sort="none"><button class="sort-button" type="button" data-book-sort="listPrice">가격 ↕</button></th><th>도서정보</th><th>독서기록</th>
       </tr></thead>
       <tbody id="libraryRows"><tr><td colspan="9" class="empty">불러오는 중…</td></tr></tbody>
     </table>
@@ -466,7 +466,8 @@ function visibleBooks(){
       (!subcategory||book.subCategory===subcategory)&&(read===""||String(Boolean(book.read))===read)&&
       (review===""||String(hasReview)===review);
   }).sort((a,b)=>{
-    let x=a[librarySort]??"",y=b[librarySort]??"";
+    let x=librarySort==="listPrice"?(a.listPrice??a.salePrice??""):(a[librarySort]??"");
+    let y=librarySort==="listPrice"?(b.listPrice??b.salePrice??""):(b[librarySort]??"");
     const result=typeof x==="number"||typeof x==="boolean"
       ? (x===y?0:x>y?1:-1)
       : String(x).localeCompare(String(y),"ko");
@@ -483,9 +484,12 @@ function renderLibrary(){
     return;
   }
   document.getElementById("libraryRows").innerHTML=list.map(book=>{
-    const price=Number.isFinite(book.listPrice)?`${Number(book.listPrice).toLocaleString("ko-KR")}원`:"—";
+    const price=[Number.isFinite(book.listPrice)?`정가 ${Number(book.listPrice).toLocaleString("ko-KR")}원`:"",
+      Number.isFinite(book.salePrice)?`판매가 ${Number(book.salePrice).toLocaleString("ko-KR")}원`:""].filter(Boolean).join(" · ")||"—";
     const safeAladin=typeof book.aladinUrl==="string"&&/^https:\/\/(?:www\.)?aladin\.co\.kr\//i.test(book.aladinUrl)
-      ? `<a class="book-link" href="${esc(book.aladinUrl)}" target="_blank" rel="noopener noreferrer">알라딘</a>`:"—";
+      ? `<a class="book-link" href="${esc(book.aladinUrl)}" target="_blank" rel="noopener noreferrer">알라딘</a>`
+      : (typeof book.kyoboUrl==="string"&&/^https:\/\/(?:product|www)\.kyobobook\.co\.kr\//i.test(book.kyoboUrl)
+        ? `<a class="book-link" href="${esc(book.kyoboUrl)}" target="_blank" rel="noopener noreferrer">교보</a>`:"—");
     const reviewIds=Array.isArray(book.reviewIds)?book.reviewIds:[];
     const reviewLink=reviewIds.length
       ? reviewIds.map((reviewId,index)=>`<button class="book-link review-link" type="button" onclick="openLinkedReview('${esc(reviewId)}')">독후감${reviewIds.length>1?` ${index+1}`:" 보기"}</button>`).join(" "):"—";
