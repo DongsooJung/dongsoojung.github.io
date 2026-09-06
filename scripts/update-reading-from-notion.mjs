@@ -1,8 +1,10 @@
 import fs from 'node:fs/promises';
 import { pathToFileURL } from 'node:url';
+import { applyPriceEnrichment } from './import-reading-prices.mjs';
 
 const REVIEWS_OUT = new URL('../reading/data/notion-reading.json', import.meta.url);
 const BOOKS_OUT = new URL('../reading/data/books.json', import.meta.url);
+const PRICES_IN = new URL('../reading/data/book-prices.json', import.meta.url);
 const NOTION_API_KEY = process.env.NOTION_API_KEY || process.env.NOTION_TOKEN;
 const LOG_DATA_SOURCE_ID = process.env.NOTION_DATA_SOURCE_ID || '66846d6d-864e-42dc-99db-2b61b315f8d4';
 const BOOKS_DATA_SOURCE_ID = process.env.NOTION_BOOKS_DATA_SOURCE_ID || 'de859d89-39b2-43c1-8f59-296cfa579113';
@@ -207,14 +209,15 @@ async function getPageMarkdown(id) {
   return markdown;
 }
 
-export function makeOutput(previousBooks, previousReviews, linked, now = new Date().toISOString(), catalogStatus = 'connected') {
-  const books = linked.books.map(({ relatedLogIds, ...book }) => book);
+export function makeOutput(previousBooks, previousReviews, linked, now = new Date().toISOString(), catalogStatus = 'connected', priceData = {}) {
+  const books = applyPriceEnrichment(linked.books.map(({ relatedLogIds, ...book }) => book), priceData);
   const posts = linked.posts.map(({ relatedBookIds, ...post }) => post);
   const booksChanged = JSON.stringify(previousBooks.books) !== JSON.stringify(books);
   const postsChanged = JSON.stringify(previousReviews.posts) !== JSON.stringify(posts);
   const statusChanged = previousBooks.catalogStatus !== catalogStatus;
   return { booksOutput: { generatedAt: booksChanged ? now : previousBooks.generatedAt,
-      source: 'Notion · 📚 밀리의서재 도서목록', catalogStatus, total: books.length, books },
+      source: 'Notion · 📚 밀리의서재 도서목록', catalogStatus, total: books.length,
+      priceUpdatedAt: priceData.updatedAt ?? previousBooks.priceUpdatedAt, books },
     reviewsOutput: { meta: { status: 'connected', source: 'Notion · 📖 독서 LOG & 독후감',
         generatedAt: postsChanged ? now : previousReviews.meta?.generatedAt,
         publicFilter: '웹공개 = true · 독서상태 = 완독 또는 재독' }, posts },
@@ -228,8 +231,9 @@ export function catalogShrinkIsUnsafe(previousCount, nextCount, allowShrink = fa
 
 export async function syncReading({ now = new Date().toISOString() } = {}) {
   if (!NOTION_API_KEY) throw new Error('NOTION_API_KEY가 없습니다. Notion 내부 연결 토큰을 GitHub Actions secret으로 등록해야 합니다.');
-  const [previousBooks, previousReviews] = await Promise.all([
+  const [previousBooks, previousReviews, priceData] = await Promise.all([
     fs.readFile(BOOKS_OUT, 'utf8').then(JSON.parse), fs.readFile(REVIEWS_OUT, 'utf8').then(JSON.parse),
+    fs.readFile(PRICES_IN, 'utf8').then(JSON.parse),
   ]);
   const [catalogResult, logPages] = await Promise.all([
     queryAll(BOOKS_DATA_SOURCE_ID, { and: [
@@ -264,7 +268,7 @@ export async function syncReading({ now = new Date().toISOString() } = {}) {
     for (const post of logRecords) post.relatedBookIds = [];
   }
   const linked = linkRecords(catalogRecords, logRecords);
-  const output = makeOutput(previousBooks, previousReviews, linked, now, catalogResult.status);
+  const output = makeOutput(previousBooks, previousReviews, linked, now, catalogResult.status, priceData);
   await Promise.all([fs.writeFile(BOOKS_OUT, `${JSON.stringify(output.booksOutput, null, 2)}\n`),
     fs.writeFile(REVIEWS_OUT, `${JSON.stringify(output.reviewsOutput, null, 2)}\n`)]);
   console.log(`Notion 공개 도서 ${output.booksOutput.total}권 · 독서기록 ${output.reviewsOutput.posts.length}편 동기화 완료${output.changed ? '' : ' (변경 없음)'}`);

@@ -90,6 +90,27 @@ test('내용이 같으면 두 데이터셋의 생성 시각을 보존한다', ()
   assert.equal(output.reviewsOutput.meta.generatedAt, 'reviews-old');
 });
 
+test('Notion 정가가 비어 있어도 별도 가격 데이터를 합친다', () => {
+  const linked = { books: [{ notionId: 'book1', title: '책', aladinUrl: null, listPrice: null, relatedLogIds: [] }], posts: [] };
+  const previousBooks = { generatedAt: 'old', catalogStatus: 'connected', books: [] };
+  const prices = { records: [{ title: '책', listPrice: 18000, salePrice: 16200,
+    kyoboUrl: 'https://product.kyobobook.co.kr/detail/1' }] };
+  const output = makeOutput(previousBooks, { meta: {}, posts: [] }, linked, 'new-time', 'connected', prices);
+  assert.equal(output.booksOutput.books[0].listPrice, 18000);
+  assert.equal(output.booksOutput.books[0].salePrice, 16200);
+  assert.equal(output.booksOutput.books[0].kyoboUrl, 'https://product.kyobobook.co.kr/detail/1');
+  assert.equal(output.booksOutput.priceUpdatedAt, undefined);
+});
+
+test('Notion 동기화 후에도 가격 갱신일을 보존한다', () => {
+  const linked = { books: [], posts: [] };
+  const output = makeOutput(
+    { generatedAt: 'old', catalogStatus: 'connected', priceUpdatedAt: '2026-09-04', books: [] },
+    { meta: {}, posts: [] }, linked, 'new-time', 'connected', {},
+  );
+  assert.equal(output.booksOutput.priceUpdatedAt, '2026-09-04');
+});
+
 test('공개 도서가 갑자기 20% 넘게 줄면 덮어쓰기를 차단한다', () => {
   assert.equal(catalogShrinkIsUnsafe(598, 598), false);
   assert.equal(catalogShrinkIsUnsafe(598, 478), true);
