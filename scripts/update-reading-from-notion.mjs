@@ -208,11 +208,13 @@ export function makeOutput(previousBooks, previousReviews, linked, now = new Dat
   const posts = linked.posts.map(({ relatedBookIds, ...post }) => post);
   const booksChanged = JSON.stringify(previousBooks.books) !== JSON.stringify(books);
   const postsChanged = JSON.stringify(previousReviews.posts) !== JSON.stringify(posts);
+  const statusChanged = previousBooks.catalogStatus !== catalogStatus;
   return { booksOutput: { generatedAt: booksChanged ? now : previousBooks.generatedAt,
       source: 'Notion · 📚 밀리의서재 도서목록', catalogStatus, total: books.length, books },
     reviewsOutput: { meta: { status: 'connected', source: 'Notion · 📖 독서 LOG & 독후감',
         generatedAt: postsChanged ? now : previousReviews.meta?.generatedAt,
-        publicFilter: '웹공개 = true · 독서상태 = 완독 또는 재독' }, posts }, changed: booksChanged || postsChanged };
+        publicFilter: '웹공개 = true · 독서상태 = 완독 또는 재독' }, posts },
+    changed: booksChanged || postsChanged || statusChanged };
 }
 
 export async function syncReading({ now = new Date().toISOString() } = {}) {
