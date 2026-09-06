@@ -19,12 +19,14 @@ jobs:
     env:
       NOTION_API_KEY: ${{ secrets.NOTION_API_KEY }}
       NOTION_DATA_SOURCE_ID: ${{ vars.NOTION_DATA_SOURCE_ID }}
+      NOTION_BOOKS_DATA_SOURCE_ID: ${{ vars.NOTION_BOOKS_DATA_SOURCE_ID }}
+      ALLOW_READING_CATALOG_SHRINK: ${{ vars.ALLOW_READING_CATALOG_SHRINK }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
-      - name: Fetch public reading records from Notion
+      - name: Fetch public books and reading records from Notion
         run: |
           if [ -z "$NOTION_API_KEY" ]; then
             echo "::warning::NOTION_API_KEY secret is not configured; keeping the current snapshot."
@@ -33,12 +35,12 @@ jobs:
           node scripts/update-reading-from-notion.mjs
       - name: Commit changed dataset
         run: |
-          if git diff --quiet -- reading/data/notion-reading.json; then
+          if git diff --quiet -- reading/data/books.json reading/data/notion-reading.json; then
             echo "No data changes"
             exit 0
           fi
           git config user.name "stargate-data-bot"
           git config user.email "actions@users.noreply.github.com"
-          git add reading/data/notion-reading.json
-          git commit -m "data: sync public reading records from Notion"
+          git add reading/data/books.json reading/data/notion-reading.json
+          git commit -m "data: sync public reading library from Notion"
           git push
