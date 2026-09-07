@@ -7,6 +7,7 @@ const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const READING_DIR = path.join(ROOT, 'reading');
 const BOOKS_PATH = path.join(READING_DIR, 'data', 'books.json');
 const REVIEWS_PATH = path.join(READING_DIR, 'data', 'notion-reading.json');
+const FEATURED_PATH = path.join(READING_DIR, 'data', 'featured-ai-books.json');
 const MANIFEST_PATH = path.join(READING_DIR, 'data', 'generated-book-pages.json');
 const SITEMAP_PATH = path.join(READING_DIR, 'sitemap.xml');
 const ORIGIN = 'https://stargateedu.co.kr';
@@ -17,6 +18,12 @@ const esc = (value = '') => String(value).replace(/[&<>"']/g, (char) => ({
 const jsonLd = (value) => JSON.stringify(value).replace(/</g, '\\u003c');
 const money = (value) => Number.isFinite(value) ? `${Number(value).toLocaleString('ko-KR')}원` : '';
 const unique = (values) => [...new Set(values.filter(Boolean))];
+const safeCoverUrl = (value) => {
+  try {
+    const url = new URL(value);
+    return url.protocol === 'https:' && url.hostname === 'image.aladin.co.kr' ? url.href : '';
+  } catch { return ''; }
+};
 
 function canonicalFor(slug) {
   return new URL(`/reading/${encodeURIComponent(slug)}/`, ORIGIN).href;
@@ -35,11 +42,17 @@ function safePurchaseLinks(book) {
 
 function makeStructuredData(book, reviews, canonical) {
   const offers = safePurchaseLinks(book);
+  const coverUrl = safeCoverUrl(book.coverUrl);
   const price = book.salePrice ?? book.listPrice;
   const bookNode = {
     '@type': 'Book', '@id': `${canonical}#book`, name: book.title, url: canonical,
     isPartOf: { '@type': 'CollectionPage', name: 'StargateEdu 디지털 서재', url: `${ORIGIN}/reading/` },
     ...(book.author ? { author: { '@type': 'Person', name: book.author } } : {}),
+    ...(book.publisher ? { publisher: { '@type': 'Organization', name: book.publisher } } : {}),
+    ...(coverUrl ? { image: coverUrl } : {}),
+    ...(book.isbn ? { isbn: book.isbn } : {}),
+    ...(book.publishedAt ? { datePublished: book.publishedAt } : {}),
+    ...(book.keywords?.length ? { keywords: book.keywords.join(', ') } : {}),
     ...(book.subCategory || book.category ? { genre: book.subCategory || book.category } : {}),
     ...(Number.isFinite(price) && offers[0] ? { offers: {
       '@type': 'Offer', price, priceCurrency: 'KRW', url: offers[0].url,
@@ -74,10 +87,34 @@ function renderReview(review) {
   </article>`;
 }
 
+function renderBookHero(book, reviews, priceParts, priceUpdatedAt, purchaseLinks) {
+  const coverUrl = safeCoverUrl(book.coverUrl);
+  const content = `<p class="eyebrow">${book.featuredAi ? 'AI 기술 대표 도서 · ' : ''}${esc(book.category || '기타')} · ${esc(book.subCategory || '분류 미등록')}</p>
+      <h1>${esc(book.title)}</h1>
+      <p class="author">${esc(book.author || '저자 정보 정리 중')}${book.publisher ? ` · ${esc(book.publisher)}` : ''}</p>
+      <div class="facts">
+        <div><span>독서 상태</span><strong>${esc(book.status || (book.read ? '완독' : '기록 전'))}</strong></div>
+        <div><span>가격</span><strong>${priceParts.length ? esc(priceParts.join(' · ')) : '확인 중'}</strong></div>
+        <div><span>독서기록</span><strong>${reviews.length ? `${reviews.length}편` : '준비 중'}</strong></div>
+      </div>
+      ${priceUpdatedAt && priceParts.length ? `<p class="verified">가격 확인일 ${esc(priceUpdatedAt)}</p>` : ''}
+      ${purchaseLinks.length ? `<div class="actions">${purchaseLinks.map((link) => `<a href="${esc(link.url)}" target="_blank" rel="noopener noreferrer">${esc(link.label)}</a>`).join('')}</div>` : ''}`;
+  if (!coverUrl) return `<article class="book-hero">
+      ${content}
+    </article>`;
+  return `<article class="book-hero with-cover">
+      <img class="book-cover" src="${esc(coverUrl)}" alt="${esc(book.title)} 표지" width="300" height="420" loading="eager">
+      <div class="book-hero-copy">
+      ${content}
+      </div>
+    </article>`;
+}
+
 function renderBookPage(book, reviews, related, priceUpdatedAt) {
   const canonical = canonicalFor(book.slug);
-  const indexable = reviews.length > 0;
+  const indexable = reviews.length > 0 || Boolean(book.featuredAi && book.indexable === true && book.curationNote);
   const description = reviews[0]?.oneline
+    || book.curationNote
     || `${book.title}${book.author ? `, ${book.author}` : ''} 도서정보와 StargateEdu 독서기록`;
   const purchaseLinks = safePurchaseLinks(book);
   const priceParts = unique([
@@ -110,19 +147,9 @@ function renderBookPage(book, reviews, related, priceUpdatedAt) {
   <header><a class="brand" href="/reading/"><span aria-hidden="true">📖</span> Stargate 독서기록</a><a href="/">STARGATE EDU</a></header>
   <main id="content">
     <nav aria-label="현재 위치"><a href="/reading/">디지털 서재</a><span aria-hidden="true">/</span><span>${esc(book.title)}</span></nav>
-    <article class="book-hero">
-      <p class="eyebrow">${esc(book.category || '기타')} · ${esc(book.subCategory || '분류 미등록')}</p>
-      <h1>${esc(book.title)}</h1>
-      <p class="author">${esc(book.author || '저자 정보 정리 중')}</p>
-      <div class="facts">
-        <div><span>독서 상태</span><strong>${esc(book.status || (book.read ? '완독' : '기록 전'))}</strong></div>
-        <div><span>가격</span><strong>${priceParts.length ? esc(priceParts.join(' · ')) : '확인 중'}</strong></div>
-        <div><span>독서기록</span><strong>${reviews.length ? `${reviews.length}편` : '준비 중'}</strong></div>
-      </div>
-      ${priceUpdatedAt && priceParts.length ? `<p class="verified">가격 확인일 ${esc(priceUpdatedAt)}</p>` : ''}
-      ${purchaseLinks.length ? `<div class="actions">${purchaseLinks.map((link) => `<a href="${esc(link.url)}" target="_blank" rel="noopener noreferrer">${esc(link.label)}</a>`).join('')}</div>` : ''}
-    </article>
-    ${reviews.length ? reviews.map(renderReview).join('') : `<section class="empty"><h2>독서기록 준비 중</h2><p>도서정보를 먼저 공개했으며, 읽은 이유와 적용점은 정리되는 대로 추가합니다.</p></section>`}
+    ${renderBookHero(book, reviews, priceParts, priceUpdatedAt, purchaseLinks)}
+${book.featuredAi ? `    <section class="curation"><p class="eyebrow">STARGATE EDU AI CURATION · ${esc(book.theme)}</p><h2>이 책에서 살펴볼 주제</h2><p class="lead">${esc(book.curationNote)}</p><div class="keywords">${book.keywords.map((keyword) => `<span>#${esc(keyword)}</span>`).join('')}</div><p class="source-note">공개 서지정보를 바탕으로 구성한 큐레이션 소개이며, 개인 독후감과 구분됩니다.</p></section>
+` : ''}    ${reviews.length ? reviews.map(renderReview).join('') : `<section class="empty"><h2>독서기록 준비 중</h2><p>도서정보를 먼저 공개했으며, 읽은 이유와 적용점은 정리되는 대로 추가합니다.</p></section>`}
     <section class="related"><h2>같은 분야 도서</h2><div class="related-grid">${related.map((item) => `<a href="/reading/${encodeURIComponent(item.slug)}/"><strong>${esc(item.title)}</strong><span>${esc(item.author || item.subCategory || '도서정보 보기')}</span></a>`).join('')}</div></section>
   </main>
   <footer>© ${new Date().getUTCFullYear()} StargateEdu · 개인 독서기록</footer>
@@ -139,12 +166,22 @@ function assertSafeGeneratedPath(slug) {
 }
 
 export async function generateReadingPages() {
-  const [booksPayload, reviewsPayload, previousManifest] = await Promise.all([
+  const [booksPayload, reviewsPayload, featuredPayload, previousManifest] = await Promise.all([
     fs.readFile(BOOKS_PATH, 'utf8').then(JSON.parse),
     fs.readFile(REVIEWS_PATH, 'utf8').then(JSON.parse),
+    fs.readFile(FEATURED_PATH, 'utf8').then(JSON.parse).catch(() => ({ books: [] })),
     fs.readFile(MANIFEST_PATH, 'utf8').then(JSON.parse).catch(() => ({ slugs: [] })),
   ]);
-  const books = withBookSlugs(booksPayload.books);
+  const featuredById = new Map((featuredPayload.books || []).map((book) => [book.notionId, book]));
+  const baseBooks = withBookSlugs(booksPayload.books).map((book) => {
+    const { featuredAi, rank, theme, publisher, coverUrl, isbn, publishedAt,
+      curationNote, keywords, sourceUrl, indexable, ...catalogBook } = book;
+    return catalogBook;
+  });
+  const books = baseBooks.map((book) => {
+    const featured = featuredById.get(book.notionId);
+    return featured ? { ...book, ...featured, title: book.title, slug: book.slug, featuredAi: true } : book;
+  });
   const reviewsById = new Map(reviewsPayload.posts.map((review) => [review.id, review]));
   const currentSlugs = new Set(books.map((book) => book.slug));
   for (const slug of previousManifest.slugs || []) {
@@ -156,10 +193,12 @@ export async function generateReadingPages() {
     const related = books.filter((item) => item.notionId !== book.notionId
       && item.subCategory === book.subCategory).slice(0, 4);
     await fs.mkdir(target, { recursive: true });
-    await fs.writeFile(path.join(target, 'index.html'), renderBookPage(book, reviews, related, booksPayload.priceUpdatedAt), 'utf8');
+    const html = renderBookPage(book, reviews, related, booksPayload.priceUpdatedAt);
+    await fs.writeFile(path.join(target, 'index.html'), html, 'utf8');
   }
-  booksPayload.books = books;
-  const indexableBooks = books.filter((book) => (book.reviewIds || []).some((id) => reviewsById.has(id)));
+  booksPayload.books = baseBooks;
+  const indexableBooks = books.filter((book) => (book.reviewIds || []).some((id) => reviewsById.has(id))
+    || Boolean(book.featuredAi && book.indexable === true && book.curationNote));
   const sitemapUrls = [`${ORIGIN}/reading/`, ...indexableBooks.map((book) => canonicalFor(book.slug))];
   const sitemap = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${sitemapUrls.map((url) => `  <url><loc>${esc(url)}</loc></url>`).join('\n')}\n</urlset>\n`;
   const manifest = { generatedAt: booksPayload.generatedAt, total: books.length,

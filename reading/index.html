@@ -245,6 +245,7 @@
     <label><span class="sr-only">세부분류</span><select id="librarySubcategory"><option value="">전체 세부분류</option></select></label>
     <label><span class="sr-only">읽음 표시 상태</span><select id="libraryRead"><option value="">전체 상태</option><option value="true">읽음 표시됨</option><option value="false">읽음 미표시</option></select></label>
     <label><span class="sr-only">독서기록 작성 여부</span><select id="libraryReview"><option value="">전체 기록</option><option value="true">독서기록 있음</option><option value="false">독서기록 없음</option></select></label>
+    <label><span class="sr-only">대표 큐레이션 여부</span><select id="libraryFeatured"><option value="">전체 큐레이션</option><option value="true">AI 기술 대표 30권</option></select></label>
   </div>
   <div class="library-summary" id="librarySummary" role="status" aria-live="polite">전체 서재를 불러오는 중…</div>
   <div class="library-table-wrap" tabindex="0" aria-label="전체 도서목록 표, 좌우로 스크롤할 수 있습니다">
@@ -423,10 +424,18 @@ function addLibraryOption(select,value){
 
 async function loadBooks(){
   try{
-    const response=await fetch("./data/books.json",{cache:"no-store"});
+    const [response,featuredResponse]=await Promise.all([
+      fetch("./data/books.json",{cache:"no-store"}),
+      fetch("./data/featured-ai-books.json",{cache:"no-store"})
+    ]);
     if(!response.ok)throw new Error(`HTTP ${response.status}`);
     const payload=await response.json();
-    books=Array.isArray(payload)?payload:(payload.books||[]);
+    const featuredPayload=featuredResponse.ok?await featuredResponse.json():{books:[]};
+    const featuredById=new Map((featuredPayload.books||[]).map(book=>[book.notionId,book]));
+    books=(Array.isArray(payload)?payload:(payload.books||[])).map(book=>{
+      const featured=featuredById.get(book.notionId);
+      return featured?{...book,...featured,title:book.title,slug:book.slug,featuredAi:true}:book;
+    });
     document.getElementById("libraryTabCount").textContent=books.length;
     [...new Set(books.map(b=>b.category).filter(Boolean))]
       .sort((a,b)=>a.localeCompare(b,"ko"))
@@ -445,7 +454,7 @@ async function loadBooks(){
 
 function renderLibraryStats(){
   const groups=[...new Set(books.map(b=>b.category).filter(Boolean))];
-  const stats=[{label:"전체 도서",value:books.length},...groups.map(group=>({
+  const stats=[{label:"전체 도서",value:books.length},{label:"AI 대표",value:books.filter(book=>book.featuredAi).length},...groups.map(group=>({
     label:group.replace(/^\S+\s*/,""),value:books.filter(b=>b.category===group).length
   }))];
   document.getElementById("libraryStats").innerHTML=stats.map(item=>
@@ -459,12 +468,13 @@ function visibleBooks(){
   const subcategory=document.getElementById("librarySubcategory").value;
   const read=document.getElementById("libraryRead").value;
   const review=document.getElementById("libraryReview").value;
+  const featured=document.getElementById("libraryFeatured").value;
   return books.filter(book=>{
-    const hay=`${book.title||""} ${book.author||""}`.toLocaleLowerCase("ko");
+    const hay=`${book.title||""} ${book.author||""} ${book.publisher||""} ${(book.keywords||[]).join(" ")}`.toLocaleLowerCase("ko");
     const hasReview=Array.isArray(book.reviewIds)&&book.reviewIds.length>0;
     return (!query||hay.includes(query))&&(!category||book.category===category)&&
       (!subcategory||book.subCategory===subcategory)&&(read===""||String(Boolean(book.read))===read)&&
-      (review===""||String(hasReview)===review);
+      (review===""||String(hasReview)===review)&&(featured===""||String(Boolean(book.featuredAi))===featured);
   }).sort((a,b)=>{
     let x=librarySort==="listPrice"?(a.listPrice??a.salePrice??""):(a[librarySort]??"");
     let y=librarySort==="listPrice"?(b.listPrice??b.salePrice??""):(b[librarySort]??"");
@@ -495,8 +505,8 @@ function renderLibrary(){
       ? reviewIds.map((reviewId,index)=>`<button class="book-link review-link" type="button" onclick="openLinkedReview('${esc(reviewId)}')">독후감${reviewIds.length>1?` ${index+1}`:" 보기"}</button>`).join(" "):"—";
     const status=book.status||(book.read?"완독":"읽음 미표시");
     return `<tr>
-      <td class="book-title"><a class="book-detail-link" href="/reading/${encodeURIComponent(book.slug)}/">${esc(book.title)}</a></td>
-      <td class="book-author">${esc(book.author||"—")}</td>
+      <td class="book-title"><a class="book-detail-link" href="/reading/${encodeURIComponent(book.slug)}/">${esc(book.title)}</a>${book.featuredAi?' <span class="book-badge">AI 대표</span>':""}</td>
+      <td class="book-author">${esc(book.author||"—")}${book.publisher?`<br><small>${esc(book.publisher)}</small>`:""}</td>
       <td><span class="book-badge">${esc(book.category||"—")}</span></td>
       <td><span class="book-badge">${esc(book.subCategory||"—")}</span></td>
       <td class="${book.read?"book-read":"book-unread"}">${esc(status)}</td>
@@ -722,7 +732,7 @@ document.addEventListener("keydown",e=>{
 window.addEventListener("popstate",syncFromHash);
 
 document.getElementById("copyrightYear").textContent=new Date().getFullYear();
-document.querySelectorAll("#librarySearch,#libraryCategory,#librarySubcategory,#libraryRead,#libraryReview")
+document.querySelectorAll("#librarySearch,#libraryCategory,#librarySubcategory,#libraryRead,#libraryReview,#libraryFeatured")
   .forEach(element=>element.addEventListener("input",renderLibrary));
 document.querySelectorAll("button[data-book-sort]").forEach(button=>button.addEventListener("click",()=>{
   const key=button.dataset.bookSort;
