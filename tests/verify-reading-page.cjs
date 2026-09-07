@@ -2,9 +2,10 @@ const { chromium } = require('playwright');
 
 (async () => {
   const baseUrl = process.env.VERIFY_URL || 'http://127.0.0.1:8765/reading/';
-  const [booksPayload, reviewsPayload] = await Promise.all([
+  const [booksPayload, reviewsPayload, featuredPayload] = await Promise.all([
     fetch(new URL('./data/books.json', baseUrl)).then((response) => response.json()),
     fetch(new URL('./data/notion-reading.json', baseUrl)).then((response) => response.json()),
+    fetch(new URL('./data/featured-ai-books.json', baseUrl)).then((response) => response.json()),
   ]);
   const expected = {
     books: booksPayload.books.length,
@@ -12,6 +13,7 @@ const { chromium } = require('playwright');
     linked: booksPayload.books.filter((book) => book.reviewIds?.length).length,
     priced: booksPayload.books.filter((book) => Number.isFinite(book.listPrice) || Number.isFinite(book.salePrice)).length,
     salePrices: booksPayload.books.filter((book) => Number.isFinite(book.salePrice)).length,
+    featured: featuredPayload.books.length,
   };
   const browser = await chromium.launch({
     headless: true,
@@ -44,6 +46,26 @@ const { chromium } = require('playwright');
     viewportWidth: document.documentElement.clientWidth,
   }));
   await detailPage.close();
+  await page.selectOption('#libraryFeatured', 'true');
+  await page.waitForFunction((count) => document.querySelectorAll('#libraryRows tr').length === count, expected.featured);
+  const featuredHref = await page.locator('#libraryRows .book-detail-link').first().getAttribute('href');
+  const featuredPage = await browser.newPage({ viewport: { width: 390, height: 844 } });
+  const featuredResponse = await featuredPage.goto(new URL(featuredHref, response.url()).href, { waitUntil: 'networkidle' });
+  const featuredDocument = await featuredPage.evaluate(() => {
+    const graph = JSON.parse(document.querySelector('script[type="application/ld+json"]')?.textContent || '{}')['@graph'];
+    return {
+      title: document.querySelector('h1')?.textContent.trim(),
+      curationVisible: Boolean(document.querySelector('.curation')),
+      coverVisible: Boolean(document.querySelector('.book-cover')),
+      publisher: graph?.[0]?.publisher?.name,
+      schemaImage: graph?.[0]?.image,
+      robots: document.querySelector('meta[name="robots"]')?.content,
+      bodyWidth: document.body.scrollWidth,
+      viewportWidth: document.documentElement.clientWidth,
+    };
+  });
+  await featuredPage.close();
+  await page.selectOption('#libraryFeatured', '');
   await page.selectOption('#libraryReview', 'true');
   await page.waitForFunction((count) => document.querySelectorAll('#libraryRows tr').length === count, expected.linked);
   const linkedOnly = await page.locator('#librarySummary').innerText();
@@ -68,7 +90,9 @@ const { chromium } = require('playwright');
     viewportWidth: document.documentElement.clientWidth,
     tableScrollable: document.querySelector('.library-table-wrap').scrollWidth > document.querySelector('.library-table-wrap').clientWidth,
   }));
-  const result = { status: response.status(), expected, initial, detailPage: { status: detailResponse.status(), ...detailDocument }, sharedUrl, linkedOnly, detail, mobile, errors };
+  const result = { status: response.status(), expected, initial,
+    detailPage: { status: detailResponse.status(), ...detailDocument },
+    featuredPage: { status: featuredResponse.status(), ...featuredDocument }, sharedUrl, linkedOnly, detail, mobile, errors };
   console.log(JSON.stringify(result, null, 2));
   await browser.close();
   if (response.status() !== 200 || initial.books !== expected.books || initial.reviews !== expected.reviews
@@ -77,6 +101,10 @@ const { chromium } = require('playwright');
     || detailResponse.status() !== 200 || !detailDocument.title || !detailDocument.canonical?.includes('/reading/')
     || !detailDocument.reviewVisible || detailDocument.schemaType !== 'Book'
     || detailDocument.bodyWidth > detailDocument.viewportWidth
+    || featuredResponse.status() !== 200 || !featuredDocument.title || !featuredDocument.curationVisible
+    || !featuredDocument.coverVisible || !featuredDocument.publisher || !featuredDocument.schemaImage
+    || !featuredDocument.robots?.startsWith('index,follow')
+    || featuredDocument.bodyWidth > featuredDocument.viewportWidth
     || !sharedUrl?.includes('/reading/') || sharedUrl.includes('#book-')
     || !linkedOnly.includes(`${expected.linked}권`) || !detail.hash.startsWith('#book-') || !detail.reviewsVisible
     || errors.length || mobile.bodyWidth > mobile.viewportWidth || !mobile.tableScrollable) process.exit(1);
