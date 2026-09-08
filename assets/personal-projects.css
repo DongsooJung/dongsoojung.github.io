@@ -1,0 +1,25 @@
+#personal-projects[hidden],#projects-grid[hidden],#project-visibility-toggle[hidden]{display:none!important}
+.personal-projects{color:var(--ink);min-width:0}
+.pp-toolbar{padding:20px;border:1px solid var(--line2);border-radius:16px;background:var(--panel)}
+.personal-projects label{display:flex;flex-direction:column;gap:7px;font-size:13px;font-weight:650;min-width:0}
+.personal-projects input,.personal-projects select{box-sizing:border-box;width:100%;min-width:0;padding:11px 13px;border:1px solid var(--line2);border-radius:9px;background:var(--panel);color:var(--ink);font:inherit}
+.personal-projects input:focus-visible,.personal-projects select:focus-visible,.personal-projects a:focus-visible,.personal-projects summary:focus-visible,.personal-projects button:focus-visible{outline:2px solid var(--acc);outline-offset:3px}
+.pp-filters{display:flex;align-items:flex-end;gap:12px;flex-wrap:wrap;margin-top:14px}
+.pp-filters label{flex:1;min-width:130px}
+.pp-note,.pp-empty{font-size:12px;color:var(--muted);line-height:1.7}
+.pp-section{margin:25px 0}
+.pp-section h3{font-size:16px;margin:0 0 12px}
+.pp-row{display:flex;align-items:flex-start;gap:18px;padding:16px 0;border-top:1px solid var(--line2)}
+.pp-content{flex:1;min-width:0}
+.pp-title{font-size:15px;font-weight:700;color:var(--ink);text-decoration:none;overflow-wrap:anywhere}
+.pp-title:hover{color:var(--acc);text-decoration:underline}
+.pp-meta{color:var(--muted);font-size:11px;margin:6px 0;overflow-wrap:anywhere}
+.pp-summary{font-size:13px;line-height:1.6;margin:6px 0;overflow-wrap:anywhere}
+.pp-detail{font-size:13px;line-height:1.65;overflow-wrap:anywhere}
+.pp-detail summary,.pp-add summary{cursor:pointer;color:var(--acc);padding:6px 0}
+.pp-actions{display:flex;flex-wrap:wrap;gap:5px;justify-content:flex-end;max-width:210px}
+.personal-projects .project-toggle{min-height:40px;justify-content:center;white-space:nowrap}
+.personal-projects button:disabled{opacity:.35;cursor:default}
+.pp-add{padding:16px 20px;border:1px dashed var(--line2);border-radius:14px;margin-top:22px}
+.pp-add form{display:grid;grid-template-columns:1fr 1.5fr 1fr auto;gap:12px;align-items:end;margin-top:14px}
+@media(max-width:650px){.pp-row{flex-direction:column;gap:10px}.pp-actions{max-width:none;justify-content:flex-start}.pp-add form{grid-template-columns:1fr}.pp-toolbar,.pp-add{padding:14px}.pp-filters label{min-width:100px}.personal-projects .project-toggle{min-height:44px}.project-sort-wrap{max-width:100%;gap:5px}.project-sort-group .project-toggle{padding:8px}}

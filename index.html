@@ -312,6 +312,7 @@ footer .business-info{flex-basis:100%;padding-top:10px;border-top:1px solid var(
   body,.theme-toggle{transition:none}
 }
 </style>
+<link rel="stylesheet" href="/assets/personal-projects.css?v=20260908">
 </head>
 <body>
 <div class="wrap">
@@ -437,6 +438,7 @@ footer .business-info{flex-basis:100%;padding-top:10px;border-top:1px solid var(
         <div class="project-sort-group" role="group" aria-label="프로젝트 정렬">
           <button class="project-toggle" id="project-sort-usage" type="button" aria-pressed="true" data-analytics-ignore>사용빈도순</button>
           <button class="project-toggle" id="project-sort-alpha" type="button" aria-pressed="false" data-analytics-ignore>가나다순</button>
+          <button class="project-toggle" id="project-sort-needs" type="button" aria-pressed="false" data-analytics-ignore>필요순</button>
         </div>
       </div>
       <button class="project-toggle" id="project-visibility-toggle" type="button" aria-expanded="true" aria-controls="projects-grid" data-analytics-ignore>
@@ -910,6 +912,7 @@ footer .business-info{flex-basis:100%;padding-top:10px;border-top:1px solid var(
   </footer>
 
 </div>
+<script src="/assets/personal-projects.js?v=20260908"></script>
 <script>
 
 (() => {
@@ -969,6 +972,7 @@ footer .business-info{flex-basis:100%;padding-top:10px;border-top:1px solid var(
   const grid = document.getElementById('projects-grid');
   const sortAlpha = document.getElementById('project-sort-alpha');
   const sortUsage = document.getElementById('project-sort-usage');
+  const sortNeeds = document.getElementById('project-sort-needs');
   const desc = document.getElementById('projects-desc');
   if (!toggle || !grid) return;
 
@@ -1007,11 +1011,13 @@ footer .business-info{flex-basis:100%;padding-top:10px;border-top:1px solid var(
   const copy = {
     alpha: '영문 A–Z, 한글 가나다, 숫자 순으로 전체 프로젝트를 표시합니다. ‘사용빈도순’을 누르면 최근 실제 사용이 많은 프로젝트부터 볼 수 있습니다.',
     usage: '최근 30일 페이지 조회와 홈 클릭을 기준으로 사용이 많은 프로젝트부터 표시합니다. 같은 횟수는 가나다순입니다.',
+    needs: '나만의 창고 · 고정한 순서와 최근 사용을 먼저 보여줍니다. 제목·설명·태그·별칭으로 찾고 주제와 종류를 함께 선택하세요.',
   };
 
   function storedSort() {
     try {
-      return localStorage.getItem(sortKey) === 'alpha' ? 'alpha' : 'usage';
+      const saved = localStorage.getItem(sortKey);
+      return ['alpha', 'needs'].includes(saved) ? saved : 'usage';
     } catch (_) {
       return 'usage';
     }
@@ -1034,6 +1040,10 @@ footer .business-info{flex-basis:100%;padding-top:10px;border-top:1px solid var(
   }
 
   function applyLayout(expanded = toggle.getAttribute('aria-expanded') !== 'false') {
+    const needs = sortMode === 'needs';
+    grid.hidden = needs;
+    toggle.hidden = needs;
+    window.StargatePersonalProjects?.setActive(needs);
     const orderedCards = expanded
       ? (sortMode === 'usage' ? usageCards() : alphaCards)
       : [...selectedCards, ...targetCards];
@@ -1044,11 +1054,12 @@ footer .business-info{flex-basis:100%;padding-top:10px;border-top:1px solid var(
     if (icon) icon.textContent = expanded ? '▴' : '▾';
     sortAlpha?.setAttribute('aria-pressed', String(sortMode === 'alpha'));
     sortUsage?.setAttribute('aria-pressed', String(sortMode === 'usage'));
+    sortNeeds?.setAttribute('aria-pressed', String(needs));
     if (desc) desc.textContent = copy[sortMode];
   }
 
   function setSort(mode, persist = true) {
-    sortMode = mode === 'usage' ? 'usage' : 'alpha';
+    sortMode = ['usage', 'alpha', 'needs'].includes(mode) ? mode : 'usage';
     if (persist) {
       try { localStorage.setItem(sortKey, sortMode); } catch (_) {}
     }
@@ -1061,6 +1072,7 @@ footer .business-info{flex-basis:100%;padding-top:10px;border-top:1px solid var(
   });
   sortAlpha?.addEventListener('click', () => setSort('alpha'));
   sortUsage?.addEventListener('click', () => setSort('usage'));
+  sortNeeds?.addEventListener('click', () => setSort('needs'));
 
   const api = window.StargateUsage;
   if (api?.subscribe) {
