@@ -22,4 +22,22 @@
 .personal-projects button:disabled{opacity:.35;cursor:default}
 .pp-add{padding:16px 20px;border:1px dashed var(--line2);border-radius:14px;margin-top:22px}
 .pp-add form{display:grid;grid-template-columns:1fr 1.5fr 1fr auto;gap:12px;align-items:end;margin-top:14px}
-@media(max-width:650px){.pp-row{flex-direction:column;gap:10px}.pp-actions{max-width:none;justify-content:flex-start}.pp-add form{grid-template-columns:1fr}.pp-toolbar,.pp-add{padding:14px}.pp-filters label{min-width:100px}.personal-projects .project-toggle{min-height:44px}.project-sort-wrap{max-width:100%;gap:5px}.project-sort-group .project-toggle{padding:8px}}
+
+/* Main portal release badge — app-update style */
+.nav .brand .tag{
+  display:inline-flex;align-items:center;gap:6px;margin-left:6px;padding:4px 8px;
+  border:1px solid color-mix(in srgb,var(--good) 40%,var(--line2));
+  border-radius:999px;background:color-mix(in srgb,var(--good) 9%,transparent);
+  box-shadow:0 0 0 1px color-mix(in srgb,var(--good) 8%,transparent) inset;
+  font-size:0;line-height:1;white-space:nowrap
+}
+.nav .brand .tag::before{
+  content:"";width:6px;height:6px;border-radius:50%;background:var(--good);
+  box-shadow:0 0 0 3px color-mix(in srgb,var(--good) 14%,transparent)
+}
+.nav .brand .tag::after{
+  content:"v1.0.0";color:var(--good);
+  font:600 10px/1 var(--font-mono);letter-spacing:.04em;font-variant-numeric:tabular-nums
+}
+
+@media(max-width:650px){.pp-row{flex-direction:column;gap:10px}.pp-actions{max-width:none;justify-content:flex-start}.pp-add form{grid-template-columns:1fr}.pp-toolbar,.pp-add{padding:14px}.pp-filters label{min-width:100px}.personal-projects .project-toggle{min-height:44px}.project-sort-wrap{max-width:100%;gap:5px}.project-sort-group .project-toggle{padding:8px}.nav .brand .tag{padding:4px 7px}.nav .brand .tag::after{font-size:9.5px}}
