@@ -4,6 +4,30 @@
   const supabaseUrl = 'https://inftexpcnfinglwlrvsj.supabase.co';
   const publishableKey = 'sb_publishable_-D0A-aWNMTMTHXeL0oqBXg_9Tz0bdvs';
   const storagePrefix = 'stargateVisitorV3';
+
+  // v1.0.0 배지와 공개 작업 로그를 연결합니다.
+  const versionTag = document.querySelector('.nav .brand .tag');
+  if (versionTag && !versionTag.closest('a')) {
+    const versionLink = document.createElement('a');
+    versionLink.className = versionTag.className;
+    versionLink.href = '/work-log/';
+    versionLink.title = 'STARGATE v1.0.0 업데이트 및 작업 로그';
+    versionLink.setAttribute('aria-label', 'STARGATE v1.0.0 작업 로그 열기');
+    versionLink.textContent = versionTag.textContent;
+    versionTag.replaceWith(versionLink);
+  }
+
+  const quickLinks = document.querySelector('.quick-links');
+  if (quickLinks && !quickLinks.querySelector('[data-work-log-link]')) {
+    const workLogLink = document.createElement('a');
+    workLogLink.className = 'chip mono';
+    workLogLink.href = '/work-log/';
+    workLogLink.dataset.workLogLink = '';
+    workLogLink.textContent = '업데이트 · 작업 로그';
+    workLogLink.style.cssText = 'border-color:#63d6a0;color:#baf2d8;background:rgba(99,214,160,.08);font-weight:600';
+    quickLinks.append(workLogLink);
+  }
+
   const summaryLink = document.getElementById('visitor-summary-link');
   const todayElement = document.getElementById('visitor-today-count');
   const totalElement = document.getElementById('visitor-total-count');
