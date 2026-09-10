@@ -32,7 +32,7 @@ test('deployment source fits Hobby budget, preserves 301 and keeps Git hook conf
       return entry.isDirectory() ? functions(join(path, entry.name)) : /\.(js|mjs|cjs|ts|py|go|rb)$/.test(entry.name) ? [entry.name] : [];
     });
   }
-  assert.equal(functions(fileURLToPath(new URL('../api/', import.meta.url))).length, 11);
+  assert.equal(functions(fileURLToPath(new URL('../api/', import.meta.url))).length, 12);
   const config = JSON.parse(readFileSync(new URL('../vercel.json', import.meta.url), 'utf8'));
   assert.equal(config.git.deploymentEnabled, false);
   assert.notEqual(config.github?.enabled, false);
