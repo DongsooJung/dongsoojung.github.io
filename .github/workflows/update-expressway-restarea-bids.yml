@@ -1,6 +1,10 @@
 name: Update expressway rest-area bid radar
 
 on:
+  push:
+    paths:
+      - 'scripts/update-expressway-restarea-bids.py'
+      - '.github/workflows/update-expressway-restarea-bids.yml'
   schedule:
     - cron: '17 0,6,12 * * *'
   workflow_dispatch:
