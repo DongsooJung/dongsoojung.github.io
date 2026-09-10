@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="ko">
+<html lang="ko" data-theme="light">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -17,7 +17,7 @@
 <link rel="alternate" hreflang="zh-Hans" href="https://stargateedu.co.kr/zh/">
 <link rel="alternate" hreflang="ja" href="https://stargateedu.co.kr/ja/">
 <link rel="alternate" hreflang="x-default" href="https://stargateedu.co.kr/">
-<meta name="theme-color" content="#0b1020">
+<meta name="theme-color" content="#ffffff">
 <link rel="manifest" href="/manifest.webmanifest">
 <link rel="icon" href="/assets/icons/favicon.ico" sizes="48x48">
 <link rel="icon" href="/assets/icons/icon-192.png" type="image/png" sizes="192x192">
@@ -49,12 +49,10 @@
   const themes = ['dark', 'light', 'ocean', 'mono'];
   try {
     const saved = localStorage.getItem(key);
-    const theme = themes.includes(saved)
-      ? saved
-      : (matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+    const theme = themes.includes(saved) ? saved : 'light';
     document.documentElement.dataset.theme = theme;
   } catch (_) {
-    document.documentElement.dataset.theme = 'dark';
+    document.documentElement.dataset.theme = 'light';
   }
 })();
 </script>
@@ -933,7 +931,7 @@ footer .business-info{flex-basis:100%;padding-top:10px;border-top:1px solid var(
   if (!toggle || !icon || !label) return;
 
   function normalize(theme) {
-    return themes.includes(theme) ? theme : 'dark';
+    return themes.includes(theme) ? theme : 'light';
   }
 
   function applyTheme(theme, persist = false) {
@@ -959,12 +957,6 @@ footer .business-info{flex-basis:100%;padding-top:10px;border-top:1px solid var(
   });
   select?.addEventListener('change', () => applyTheme(select.value, true));
 
-  const systemTheme = matchMedia('(prefers-color-scheme: light)');
-  systemTheme.addEventListener?.('change', (event) => {
-    try {
-      if (!localStorage.getItem(key)) applyTheme(event.matches ? 'light' : 'dark');
-    } catch (_) {}
-  });
 })();
 
 (() => {
