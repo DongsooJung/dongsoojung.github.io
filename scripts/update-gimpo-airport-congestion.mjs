@@ -4,12 +4,7 @@ import path from 'node:path';
 const OUTPUT = path.join(process.cwd(), 'research/gimpo-airport-congestion/data/latest.json');
 // The live proxy reuses the production-only key; the Actions secret remains a fallback.
 const LIVE_PROXY = 'https://portfolio-stargate2.vercel.app/api/gimpo-airport-congestion';
-const API_BASES = [
-  'https://api.odcloud.kr/api/getAPRTPsgrCongestion/v1/aprtPsgrCongestion\u200b',
-  'https://api.odcloud.kr/api/getAPRTPsgrCongestion/v1/aprtPsgrCongestion',
-  'https://api.odcloud.kr/api/getAPRTPsgrCongestion_v2/v1/aprtPsgrCongestion\u200bV2',
-  'https://api.odcloud.kr/api/getAPRTPsgrCongestion_v2/v1/aprtPsgrCongestionV2',
-];
+const API_BASE = 'https://apis.data.go.kr/B551178/airport-congestion/v1';
 const LEVELS = { 0: '정보 없음', 1: '원활', 2: '보통', 3: '혼잡', 4: '매우 혼잡' };
 const ZONES = [
   ['A', '1구간', '체크인 → 신분확인', 'CGDR_A_LVL'],
@@ -61,25 +56,21 @@ async function collect() {
     return;
   }
 
-  const query = new URLSearchParams({ page: '1', perPage: '100', returnType: 'JSON' });
-  query.set('cond[IATA_APCD::EQ]', 'GMP');
+  const query = new URLSearchParams({ pageNo: '1', numOfRows: '100', type: 'json' });
   let payload;
-  let sourceEndpoint;
   let lastError;
 
-  for (const base of API_BASES) {
-    const url = `${base}?serviceKey=${encodedKey(key)}&${query}`;
-    try {
-      payload = await fetchJson(url);
-      sourceEndpoint = base;
-      break;
-    } catch (error) {
-      lastError = error;
-      console.warn(`Gimpo congestion endpoint failed: ${error.message}`);
-    }
+  const url = `${API_BASE}?serviceKey=${encodedKey(key)}&${query}`;
+  try {
+    payload = await fetchJson(url);
+  } catch (error) {
+    lastError = error;
+    console.warn(`Gimpo congestion endpoint failed: ${error.message}`);
   }
 
-  const rows = Array.isArray(payload?.data) ? payload.data.filter(row => row?.IATA_APCD === 'GMP') : [];
+  const items = payload?.response?.body?.items?.item ?? payload?.body?.items?.item ?? payload?.items?.item ?? payload?.data ?? [];
+  const list = Array.isArray(items) ? items : (items && typeof items === 'object' ? [items] : []);
+  const rows = list.filter(row => String(row?.IATA_APCD || '').toUpperCase() === 'GMP');
   if (!rows.length) {
     console.log(`No Gimpo record returned; keeping the last snapshot. ${lastError?.message || ''}`);
     return;
@@ -94,7 +85,7 @@ async function collect() {
     generated_at_kst: kstLabel(generated),
     source: '한국공항공사 공항 혼잡도 정보_GW',
     source_url: 'https://www.data.go.kr/data/15159598/openapi.do',
-    source_endpoint: sourceEndpoint,
+    source_endpoint: API_BASE,
     airport: { code: 'GMP', name: '김포국제공항', terminal: '국내선' },
     observed_at: String(item.PRC_HR || ''),
     overall: { level, text: LEVELS[level] || '정보 없음' },

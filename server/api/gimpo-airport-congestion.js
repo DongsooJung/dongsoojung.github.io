@@ -1,7 +1,4 @@
-const API_BASES = [
-  'https://api.odcloud.kr/api/getAPRTPsgrCongestion/v1/aprtPsgrCongestion\u200b',
-  'https://api.odcloud.kr/api/getAPRTPsgrCongestion_v2/v1/aprtPsgrCongestion\u200bV2',
-];
+const API_BASE = 'https://apis.data.go.kr/B551178/airport-congestion/v1';
 const LEVELS = { 0: '정보 없음', 1: '원활', 2: '보통', 3: '혼잡', 4: '매우 혼잡' };
 const ZONES = [
   ['A', '1구간', '체크인 → 신분확인', 'CGDR_A_LVL'],
@@ -22,14 +19,13 @@ function kstLabel(date = new Date()) {
   }).format(date);
 }
 
-function buildUrl(base, key) {
-  const query = new URLSearchParams({ page: '1', perPage: '100', returnType: 'JSON' });
-  query.set('cond[IATA_APCD::EQ]', 'GMP');
-  return `${base}?serviceKey=${encodeServiceKey(key)}&${query}`;
+function buildUrl(key) {
+  const query = new URLSearchParams({ pageNo: '1', numOfRows: '100', type: 'json' });
+  return `${API_BASE}?serviceKey=${encodeServiceKey(key)}&${query}`;
 }
 
-async function fetchPayload(base, key) {
-  const response = await fetch(buildUrl(base, key), {
+async function fetchPayload(key) {
+  const response = await fetch(buildUrl(key), {
     signal: AbortSignal.timeout(12_000),
     headers: { accept: 'application/json', 'user-agent': 'stargate-gimpo-airport/1.0' },
   });
@@ -42,12 +38,20 @@ async function fetchPayload(base, key) {
   let payload;
   try { payload = JSON.parse(text); }
   catch { throw new Error('공항 혼잡도 API 응답을 해석하지 못했습니다.'); }
-  if (!Array.isArray(payload?.data)) throw new Error('공항 혼잡도 API 데이터가 없습니다.');
   return payload;
 }
 
-function normalize(payload, endpoint, now = new Date()) {
-  const rows = payload.data.filter((row) => String(row?.IATA_APCD || '').toUpperCase() === 'GMP');
+function extractRows(payload) {
+  const items = payload?.response?.body?.items?.item
+    ?? payload?.body?.items?.item
+    ?? payload?.items?.item
+    ?? payload?.data
+    ?? [];
+  return Array.isArray(items) ? items : (items && typeof items === 'object' ? [items] : []);
+}
+
+function normalize(payload, endpoint = API_BASE, now = new Date()) {
+  const rows = extractRows(payload).filter((row) => String(row?.IATA_APCD || '').toUpperCase() === 'GMP');
   if (!rows.length) throw new Error('김포공항 혼잡도 관측값이 없습니다.');
   const item = rows.at(-1);
   const overallLevel = Number(item.CGDR_ALL_LVL);
@@ -57,7 +61,7 @@ function normalize(payload, endpoint, now = new Date()) {
     generated_at_kst: kstLabel(now),
     source: '한국공항공사 공항 혼잡도 정보_GW',
     source_url: 'https://www.data.go.kr/data/15159598/openapi.do',
-    source_endpoint: endpoint.replace(/\u200b/g, ''),
+    source_endpoint: endpoint,
     airport: { code: 'GMP', name: '김포국제공항', terminal: '국내선' },
     observed_at: String(item.PRC_HR || ''),
     overall: { level: overallLevel, text: LEVELS[overallLevel] || '정보 없음' },
@@ -86,19 +90,16 @@ export default async function handler(req, res) {
   const key = String(process.env.DATA_GO_KR_API_KEY || '').trim();
   if (!key) return res.status(503).json({ ok: false, error: 'api_key_not_configured', message: '서버 공공데이터 인증키가 설정되지 않았습니다.' });
 
-  let lastStatus = 502;
-  for (const endpoint of API_BASES) {
-    try {
-      return res.status(200).json(normalize(await fetchPayload(endpoint, key), endpoint));
-    } catch (caught) {
-      lastStatus = Number(caught?.status) || lastStatus;
-    }
+  try {
+    return res.status(200).json(normalize(await fetchPayload(key)));
+  } catch (caught) {
+    const status = Number(caught?.status) || 502;
+    return res.status(status === 401 || status === 403 ? 403 : 502).json({
+      ok: false,
+      error: 'gimpo_congestion_unavailable',
+      message: '김포공항 혼잡도 API 응답 또는 공공데이터 인증키를 확인해 주세요.',
+    });
   }
-  return res.status(lastStatus === 401 || lastStatus === 403 ? 403 : 502).json({
-    ok: false,
-    error: 'gimpo_congestion_unavailable',
-    message: '김포공항 혼잡도 활용승인 또는 공공데이터 인증키를 확인해 주세요.',
-  });
 }
 
-export const __test = { API_BASES, LEVELS, ZONES, encodeServiceKey, buildUrl, normalize };
+export const __test = { API_BASE, LEVELS, ZONES, encodeServiceKey, buildUrl, extractRows, normalize };
