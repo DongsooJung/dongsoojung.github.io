@@ -25,8 +25,9 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent
-DATA_PATH = ROOT / "data.json"
-FALLBACK_PATH = ROOT / "fallback-data.js"
+DATA_PATH = Path(os.environ.get("OUTPUT_PATH", str(ROOT / "data.json")))
+FALLBACK_PATH = Path(os.environ.get("FALLBACK_PATH", str(ROOT / "fallback-data.js")))
+SKIP_FALLBACK = os.environ.get("SKIP_FALLBACK", "").strip() in {"1", "true", "TRUE", "yes"}
 
 UA = (
     "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
@@ -276,13 +277,15 @@ def main() -> int:
         "items": ranked,
     }
 
+    DATA_PATH.parent.mkdir(parents=True, exist_ok=True)
     DATA_PATH.write_text(
         json.dumps(payload, ensure_ascii=False, indent=2) + "\n",
         encoding="utf-8",
     )
-    write_fallback(payload)
+    if not SKIP_FALLBACK:
+        write_fallback(payload)
     print(
-        f"저장 완료: {DATA_PATH.name} · top {len(ranked)} · "
+        f"저장 완료: {DATA_PATH} · top {len(ranked)} · "
         f"총량 {payload['summary']['totalVolume']:,} · mode=api"
     )
     return 0
