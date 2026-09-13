@@ -22,6 +22,14 @@ Execution OS no longer depends on this project. Its local execution-board storag
 
 No new feature may depend on the legacy project. Remove each allowlisted path after the cardnews publishing path has been migrated or replaced and verified on canonical production.
 
+## Dormant / unreferenced project
+
+- Project ref: `sclpygpcsgeudezcklqg`
+- Historical name from Supabase email: `jds068888-coder's Project`
+- Status evidence: Supabase pause notification received on 2026-09-02 after inactivity.
+- Repository audit on 2026-09-13 found no reference in the main portal or shop repositories.
+- Policy: do not reactivate or adopt this project for production. Treat it as a retirement candidate unless an external dependency is later proven.
+
 ## Current legacy data state
 
 Audit on 2026-09-13 found 0 rows in both `public.cardnews_posts` and `public.execution_kpi_metrics`. This substantially lowers migration risk: the remaining task is schema/auth workflow replacement rather than production-data transfer.
