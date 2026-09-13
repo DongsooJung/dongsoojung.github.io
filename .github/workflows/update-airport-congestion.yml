@@ -5,8 +5,10 @@ on:
     paths:
       - '.github/workflows/update-airport-congestion.yml'
       - 'scripts/update-airport-congestion.mjs'
+  # Hourly snapshots are sufficient for the public dashboard and avoid
+  # turning data freshness into dozens of repository pushes per day.
   schedule:
-    - cron: '3,13,23,33,43,53 * * * *'
+    - cron: '3 * * * *'
   workflow_dispatch:
 
 permissions:
@@ -36,4 +38,5 @@ jobs:
           git config user.email "actions@users.noreply.github.com"
           git add research/airport-congestion/data/latest.json
           git commit -m "data: update airport congestion snapshot"
+          git pull --rebase origin main
           git push
