@@ -1,8 +1,10 @@
 name: Update Naver Cafe popular articles
 
 on:
+  # Popular-article rankings do not need hourly repository pushes.
+  # Four batches per day keep the dashboard useful while leaving deployment headroom.
   schedule:
-    - cron: "17 * * * *"
+    - cron: "37 0,6,12,18 * * *"
   workflow_dispatch:
 
 permissions:
@@ -10,7 +12,7 @@ permissions:
 
 concurrency:
   group: naver-cafe-popular-update
-  cancel-in-progress: false
+  cancel-in-progress: true
 
 jobs:
   update:
