@@ -35,6 +35,8 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '24'
+      - name: Guard Supabase production project references
+        run: node scripts/check-supabase-project-refs.mjs
       - name: Test API contracts and deployment safeguards
         run: node --test tests/*.test.js tests/*.test.mjs tests/*.test.cjs
       - name: Test Incheon facility deduplication
