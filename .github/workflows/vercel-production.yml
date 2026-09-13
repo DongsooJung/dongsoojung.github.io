@@ -3,11 +3,17 @@ name: Vercel production request
 on:
   push:
     branches: [main]
+    # Data-only refreshes are served from repository snapshots/APIs and should
+    # not request a full production deployment.
     paths-ignore:
       - 'research/airport-congestion/data/latest.json'
+      - 'research/gimpo-airport-congestion/data/latest.json'
       - 'naver-cafe-research/data/latest.json'
+      - 'strategy/expressway-restarea-bid/data/opportunities.json'
+      - 'data/used-car/**'
+      - 'research/**/data/latest.json'
   # GITHUB_TOKEN-generated commits do not trigger another workflow. Refresh
-  # other daily snapshots once per day, not once per high-frequency data push.
+  # deployable static assets once per day, not once per data snapshot push.
   schedule:
     - cron: '35 21 * * *'
   workflow_dispatch:
