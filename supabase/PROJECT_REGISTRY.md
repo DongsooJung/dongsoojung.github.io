@@ -11,23 +11,29 @@
 
 - Project ref: `flxntafmvcdhpagzrvii`
 - Base URL: `https://flxntafmvcdhpagzrvii.supabase.co`
-- Role: temporary legacy backend while remaining data/functions are migrated.
+- Role: temporary legacy backend while the remaining cardnews CMS dependency is retired.
+- Restored on 2026-09-13 from INACTIVE to ACTIVE_HEALTHY for audit/migration work.
+- Security hardening applied on 2026-09-13: anonymous `cardnews_posts` SELECT removed; legacy Execution KPI table/RPC public access removed.
 - Current allowlist:
-  - `execution/kpi-sync.js`
   - `cardnews/index.html`
   - `cardnews/admin/index.html`
 
-No new feature may depend on the legacy project. Remove each allowlisted path after its table/RPC data has been migrated and verified on canonical production.
+Execution OS no longer depends on this project. Its local execution-board storage is authoritative until KPI synchronization is rebuilt against canonical production.
+
+No new feature may depend on the legacy project. Remove each allowlisted path after the cardnews publishing path has been migrated or replaced and verified on canonical production.
+
+## Current legacy data state
+
+Audit on 2026-09-13 found 0 rows in both `public.cardnews_posts` and `public.execution_kpi_metrics`. This substantially lowers migration risk: the remaining task is schema/auth workflow replacement rather than production-data transfer.
 
 ## Migration exit criteria
 
 The legacy project can be retired only when all of the following are true:
 
-1. `get_execution_kpis` and its underlying KPI data have been migrated and verified on canonical production.
-2. `cardnews_posts` schema, data, Auth/RLS policies, and admin CRUD have been migrated and verified.
-3. A repository scan finds no `flxntafmvcdhpagzrvii` reference outside this registry.
-4. Production smoke tests pass for Execution OS, cardnews public view, and cardnews admin.
-5. The legacy project has no unique production data/function remaining.
+1. `cardnews_posts` publishing/admin workflow has been migrated to canonical production or replaced with a repository-based publishing workflow.
+2. A repository scan finds no `flxntafmvcdhpagzrvii` reference outside this registry.
+3. Production smoke tests pass for cardnews public view and the chosen publishing/admin workflow.
+4. The legacy project has no unique production data/function remaining.
 
 ## Secret policy
 
