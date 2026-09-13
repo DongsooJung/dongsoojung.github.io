@@ -5,8 +5,9 @@ on:
     paths:
       - '.github/workflows/update-gimpo-airport-congestion.yml'
       - 'scripts/update-gimpo-airport-congestion.mjs'
+  # Keep a fresh hourly snapshot without generating six commits per hour.
   schedule:
-    - cron: '7,17,27,37,47,57 * * * *'
+    - cron: '17 * * * *'
   workflow_dispatch:
 
 permissions:
@@ -38,4 +39,5 @@ jobs:
           git config user.email "actions@users.noreply.github.com"
           git add research/gimpo-airport-congestion/data/latest.json
           git commit -m "data: update Gimpo airport congestion snapshot"
+          git pull --rebase origin main
           git push
