@@ -94,7 +94,7 @@ async function collect() {
       return { id, name, route, level: zoneLevel, text: LEVELS[zoneLevel] || '정보 없음' };
     }),
     record_count: rows.length,
-    message: '한국공항공사 공식 혼잡도 데이터를 10분 주기로 갱신합니다.',
+    message: '한국공항공사 공식 혼잡도 데이터를 매시간 스냅샷으로 갱신합니다.',
   };
 
   await fs.mkdir(path.dirname(OUTPUT), { recursive: true });
