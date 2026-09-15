@@ -41,6 +41,17 @@
     quickLinks.append(flightradarLink);
   }
 
+  if (quickLinks && !quickLinks.querySelector('[data-aviation-logistics-link]')) {
+    const aviationHubLink = document.createElement('a');
+    aviationHubLink.className = 'chip mono';
+    aviationHubLink.href = '/research/aviation-logistics/';
+    aviationHubLink.dataset.aviationLogisticsLink = '';
+    aviationHubLink.textContent = '항공·공항·물류 데이터';
+    aviationHubLink.title = 'Flightradar24·인천·김포공항·항공화물·무역 데이터 허브';
+    aviationHubLink.style.cssText = 'border-color:#55d7ff;color:var(--ink);background:rgba(85,215,255,.08);font-weight:600';
+    quickLinks.append(aviationHubLink);
+  }
+
   const summaryLink = document.getElementById('visitor-summary-link');
   const todayElement = document.getElementById('visitor-today-count');
   const totalElement = document.getElementById('visitor-total-count');
