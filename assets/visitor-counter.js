@@ -28,6 +28,19 @@
     quickLinks.append(workLogLink);
   }
 
+  if (quickLinks && !quickLinks.querySelector('[data-flightradar24-link]')) {
+    const flightradarLink = document.createElement('a');
+    flightradarLink.className = 'chip mono';
+    flightradarLink.href = 'https://www.flightradar24.com/';
+    flightradarLink.target = '_blank';
+    flightradarLink.rel = 'noopener noreferrer';
+    flightradarLink.dataset.flightradar24Link = '';
+    flightradarLink.textContent = '✈ Flightradar24';
+    flightradarLink.title = '실시간 글로벌 항공편 추적 지도 열기';
+    flightradarLink.style.cssText = 'border-color:#ffb020;color:var(--ink);background:rgba(255,176,32,.08);font-weight:600';
+    quickLinks.append(flightradarLink);
+  }
+
   const summaryLink = document.getElementById('visitor-summary-link');
   const todayElement = document.getElementById('visitor-today-count');
   const totalElement = document.getElementById('visitor-total-count');
