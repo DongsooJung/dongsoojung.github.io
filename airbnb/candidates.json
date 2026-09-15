@@ -1,5 +1,5 @@
 {
-  "checked_at_kst": "2026-09-14T14:13:39+09:00",
+  "checked_at_kst": "2026-09-15T14:06:57+09:00",
   "filters": {
     "max_deposit_manwon": 1000,
     "max_rent_manwon": 100,
@@ -8,7 +8,7 @@
   "source_mode": "public-listings",
   "crawl": {
     "visited_urls": 70,
-    "successful_pages": 32,
+    "successful_pages": 31,
     "max_pages": 70
   },
   "baseline": [
@@ -36,7 +36,7 @@
       "rooms": 2,
       "area_m2": 49.6,
       "building_type": "단독주택",
-      "freshness_days": 22,
+      "freshness_days": 23,
       "title": "부산광역시 영도구 청학동 49.6㎡ 직거래 빌라(투룸 이상) 월세 300 / 25만원",
       "legal_risk": "상대적으로 낮음",
       "host_claim": false,
@@ -80,7 +80,7 @@
       "rooms": 3,
       "area_m2": null,
       "building_type": "단독주택",
-      "freshness_days": 2,
+      "freshness_days": 3,
       "title": "부산광역시 영도구 동삼동 직거래 빌라(투룸 이상) 월세 900 / 45만원",
       "legal_risk": "상대적으로 낮음",
       "host_claim": false,
@@ -103,7 +103,7 @@
       "rooms": 2,
       "area_m2": 63.69,
       "building_type": "단독주택",
-      "freshness_days": 3,
+      "freshness_days": 4,
       "title": "부산광역시 기장군 정관읍 63.69㎡ 단독/전원주택 월세 1,000 / 33만원",
       "legal_risk": "상대적으로 낮음",
       "host_claim": false,
@@ -112,6 +112,50 @@
         "낮은 월세",
         "주택용도",
         "7일 이내"
+      ],
+      "is_new": false
+    },
+    {
+      "id": "4472129",
+      "url": "https://realty.daangn.com/articles/4472129",
+      "district": "기장군",
+      "dong": "기장읍",
+      "deposit": 1000,
+      "rent": 60,
+      "rooms": 2,
+      "area_m2": 62.81,
+      "building_type": "단독주택",
+      "freshness_days": 1,
+      "title": "부산광역시 기장군 기장읍 62.81㎡ 단독/전원주택 월세 1,000 / 60만원",
+      "legal_risk": "상대적으로 낮음",
+      "host_claim": false,
+      "score": 75,
+      "reasons": [
+        "주택용도",
+        "관광/교통 키워드",
+        "최근 등록"
+      ],
+      "is_new": true
+    },
+    {
+      "id": "4488922",
+      "url": "https://realty.daangn.com/articles/4488922",
+      "district": "영도구",
+      "dong": "동삼동",
+      "deposit": 1000,
+      "rent": 35,
+      "rooms": 3,
+      "area_m2": 74.32,
+      "building_type": "공동주택",
+      "freshness_days": 0,
+      "title": "부산광역시 영도구 동삼동 74.32㎡ 빌라(투룸 이상) 월세 1,000 / 35만원",
+      "legal_risk": "중간",
+      "host_claim": false,
+      "score": 74,
+      "reasons": [
+        "낮은 월세",
+        "3룸+",
+        "최근 등록"
       ],
       "is_new": true
     },
@@ -146,7 +190,7 @@
       "rooms": 2,
       "area_m2": 26.4,
       "building_type": "공동주택",
-      "freshness_days": 29,
+      "freshness_days": 30,
       "title": "부산광역시 영도구 동삼동 26.4㎡ 직거래 빌라(투룸 이상) 월세 500 / 25만원",
       "legal_risk": "중간",
       "host_claim": false,
@@ -167,7 +211,7 @@
       "rooms": 2,
       "area_m2": 45.72,
       "building_type": "공동주택",
-      "freshness_days": 8,
+      "freshness_days": 9,
       "title": "부산광역시 영도구 동삼동 45.72㎡ 빌라(투룸 이상) 월세 500 / 35만원",
       "legal_risk": "중간",
       "host_claim": false,
@@ -180,6 +224,27 @@
       "is_new": false
     },
     {
+      "id": "4469045",
+      "url": "https://realty.daangn.com/articles/4469045",
+      "district": "기장군",
+      "dong": "기장읍",
+      "deposit": 1000,
+      "rent": 55,
+      "rooms": 2,
+      "area_m2": 60.0,
+      "building_type": "단독주택",
+      "freshness_days": 4,
+      "title": "부산광역시 기장군 기장읍 60㎡ 단독/전원주택 월세 1,000 / 55만원",
+      "legal_risk": "상대적으로 낮음",
+      "host_claim": false,
+      "score": 71,
+      "reasons": [
+        "주택용도",
+        "7일 이내"
+      ],
+      "is_new": true
+    },
+    {
       "id": "4417095",
       "url": "https://realty.daangn.com/articles/4417095",
       "district": "영도구",
@@ -189,7 +254,7 @@
       "rooms": 3,
       "area_m2": 49.5,
       "building_type": "단독주택",
-      "freshness_days": 8,
+      "freshness_days": 9,
       "title": "부산광역시 영도구 청학동 49.5㎡ 빌라(투룸 이상) 월세 1,000 / 70만원",
       "legal_risk": "상대적으로 낮음",
       "host_claim": false,
@@ -197,27 +262,6 @@
       "reasons": [
         "3룸+",
         "주택용도"
-      ],
-      "is_new": false
-    },
-    {
-      "id": "4465277",
-      "url": "https://realty.daangn.com/articles/4465277",
-      "district": "기장군",
-      "dong": "기장읍",
-      "deposit": 1000,
-      "rent": 60,
-      "rooms": 2,
-      "area_m2": 53.0,
-      "building_type": "단독주택",
-      "freshness_days": 3,
-      "title": "부산광역시 기장군 기장읍 53㎡ 단독/전원주택 월세 1,000 / 60만원",
-      "legal_risk": "상대적으로 낮음",
-      "host_claim": false,
-      "score": 70,
-      "reasons": [
-        "주택용도",
-        "7일 이내"
       ],
       "is_new": false
     },
@@ -231,7 +275,7 @@
       "rooms": 3,
       "area_m2": 69.0,
       "building_type": "공동주택",
-      "freshness_days": 5,
+      "freshness_days": 6,
       "title": "부산광역시 영도구 동삼동 69㎡ 빌라(투룸 이상) 월세 1,000 / 45만원",
       "legal_risk": "중간",
       "host_claim": false,
@@ -240,26 +284,6 @@
         "낮은 월세",
         "3룸+",
         "7일 이내"
-      ],
-      "is_new": false
-    },
-    {
-      "id": "4175649",
-      "url": "https://realty.daangn.com/articles/4175649",
-      "district": "기장군",
-      "dong": "기장읍",
-      "deposit": 1000,
-      "rent": 60,
-      "rooms": 2,
-      "area_m2": 72.42,
-      "building_type": "단독주택",
-      "freshness_days": 13,
-      "title": "부산광역시 기장군 기장읍 72.42㎡ 단독/전원주택 월세 1,000 / 60만원",
-      "legal_risk": "상대적으로 낮음",
-      "host_claim": false,
-      "score": 67,
-      "reasons": [
-        "주택용도"
       ],
       "is_new": false
     }
