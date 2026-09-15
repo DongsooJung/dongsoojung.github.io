@@ -1,7 +1,7 @@
 {
   "status": "ok",
-  "generated_at": "2026-09-15T01:29:40.891Z",
-  "generated_at_kst": "2026. 09. 15. 10:29:40",
+  "generated_at": "2026-09-15T07:46:51.690Z",
+  "generated_at_kst": "2026. 09. 15. 16:46:51",
   "source": "한국공항공사 공항 혼잡도 정보_GW",
   "source_url": "https://www.data.go.kr/data/15159598/openapi.do",
   "source_endpoint": "https://apis.data.go.kr/B551178/airport-congestion/v1",
@@ -10,25 +10,25 @@
     "name": "김포국제공항",
     "terminal": "국내선"
   },
-  "observed_at": "10:25",
+  "observed_at": "16:45",
   "overall": {
-    "level": 2,
-    "text": "보통"
+    "level": 1,
+    "text": "원활"
   },
   "zones": [
     {
       "id": "A",
       "name": "1구간",
       "route": "체크인 → 신분확인",
-      "level": 2,
-      "text": "보통"
+      "level": 1,
+      "text": "원활"
     },
     {
       "id": "B",
       "name": "2구간",
       "route": "신분확인 → 보안검색",
-      "level": 2,
-      "text": "보통"
+      "level": 1,
+      "text": "원활"
     },
     {
       "id": "C",
