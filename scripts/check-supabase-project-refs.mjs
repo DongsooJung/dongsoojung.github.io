@@ -7,6 +7,7 @@ const ALLOWED_LEGACY_PATHS = new Set([
   'cardnews/index.html',
   'cardnews/admin/index.html',
   'supabase/PROJECT_REGISTRY.md',
+  'scripts/check-supabase-project-refs.mjs',
 ]);
 const SKIP_DIRS = new Set(['.git', 'node_modules', '.site-public']);
 const TEXT_EXTENSIONS = new Set([
