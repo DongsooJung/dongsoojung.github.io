@@ -2,8 +2,8 @@
   "source": "유럽중앙은행(ECB) 기준환율 · Frankfurter API",
   "sourceUrl": "https://www.ecb.europa.eu/stats/policy_and_exchange_rates/euro_reference_exchange_rates/",
   "sourceMode": "ecb",
-  "updatedAt": "2026-09-16",
-  "observedAt": "2026-09-16",
+  "updatedAt": "2026-09-17",
+  "observedAt": "2026-09-17",
   "coverage": {
     "start": "1999-01",
     "end": "2026-09",
@@ -38,12 +38,12 @@
   ],
   "notes": "ECB가 영업일마다 공표하는 EUR 기준환율에서 KRW 교차환율을 계산했습니다. USD·EUR·CNY는 1단위당 원화, JPY는 100엔당 원화입니다. CNY는 초기 일부 기간에 공표되지 않아 비어 있을 수 있습니다. 시장 체결가가 아닌 일일 공식 기준환율이며 GitHub Actions가 매일 갱신합니다. 커버리지: 1999-01 ~ 2026-09.",
   "latest": {
-    "date": "2026-09-16",
+    "date": "2026-09-17",
     "rates": {
-      "USD": 1367.8,
-      "JPY": 882.17,
-      "EUR": 1578.03,
-      "CNY": 203.93
+      "USD": 1382.55,
+      "JPY": 888.01,
+      "EUR": 1587.31,
+      "CNY": 206.12
     }
   },
   "series": [
@@ -8621,27 +8621,27 @@
     },
     {
       "ym": "2026-09",
-      "days": 12,
+      "days": 13,
       "rates": {
         "USD": {
-          "avg": 1352.53,
+          "avg": 1354.84,
           "min": 1336.2,
-          "max": 1374.61
+          "max": 1382.55
         },
         "JPY": {
-          "avg": 869.34,
+          "avg": 870.77,
           "min": 853.76,
-          "max": 882.17
+          "max": 888.01
         },
         "EUR": {
-          "avg": 1568.1,
+          "avg": 1569.58,
           "min": 1555.04,
           "max": 1593.17
         },
         "CNY": {
-          "avg": 201.51,
+          "avg": 201.86,
           "min": 199.2,
-          "max": 204.49
+          "max": 206.12
         }
       }
     }
