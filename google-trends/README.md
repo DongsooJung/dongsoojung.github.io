@@ -32,6 +32,9 @@ python3 google-trends/fetch_data.py
 # 시간 창·지역 변경
 GEO=KR HOURS=24 LIMIT=100 python3 google-trends/fetch_data.py
 GEO=KR,US,JP HOURS=48 LIMIT=100 python3 google-trends/fetch_data.py
+
+# 다른 경로에만 저장 (KR 대시보드 data.json을 덮지 않음)
+OUTPUT_PATH=/tmp/trends.json SKIP_FALLBACK=1 GEO=US HOURS=48 python3 google-trends/fetch_data.py
 ```
 
 `HOURS` 권장값: `4` · `24` · `48` · `168`(7일)

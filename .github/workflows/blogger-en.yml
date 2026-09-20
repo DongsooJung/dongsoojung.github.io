@@ -1,0 +1,79 @@
+name: Blogger EN pipeline
+
+on:
+  pull_request:
+    paths:
+      - 'blogger-en/**'
+      - 'google-trends/fetch_data.py'
+      - 'tests/blogger-en.test.mjs'
+      - '.github/workflows/blogger-en.yml'
+  push:
+    paths:
+      - 'blogger-en/**'
+      - 'google-trends/fetch_data.py'
+      - 'tests/blogger-en.test.mjs'
+      - '.github/workflows/blogger-en.yml'
+  workflow_dispatch:
+    inputs:
+      geos:
+        description: 'English-market geo codes'
+        required: false
+        default: 'US,GB,AU,CA,IN,SG'
+      hours:
+        description: 'Trends window (4 / 24 / 48 / 168)'
+        required: false
+        default: '48'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: blogger-en-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    if: github.event_name != 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Run blogger-en unit tests
+        run: node --test tests/blogger-en.test.mjs
+      - name: Validate dashboard JSON
+        run: |
+          python3 -m json.tool blogger-en/config.json >/dev/null
+          python3 -m json.tool blogger-en/data/status.json >/dev/null
+          python3 -m json.tool blogger-en/data/queue.json >/dev/null
+          test -s blogger-en/index.html
+          test -s blogger-en/PLAN.md
+          grep -q 'awaiting_plan' blogger-en/index.html
+
+  research:
+    if: github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Research English-market topics only
+        run: |
+          node blogger-en/scripts/cli.mjs research --geos "${{ github.event.inputs.geos }}" --hours "${{ github.event.inputs.hours }}"
+      - name: Commit topic snapshot if it changed
+        run: |
+          if git diff --quiet -- blogger-en/data/topics.json blogger-en/data/trends.json blogger-en/data/status.json; then
+            echo "No topic changes"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add blogger-en/data/topics.json blogger-en/data/trends.json blogger-en/data/status.json
+          git commit -m "data(blogger-en): refresh English-market topic research"
+          git push
