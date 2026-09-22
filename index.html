@@ -288,6 +288,10 @@ a{color:var(--acc); text-decoration:none} a:hover{text-decoration:underline}
 .project-search-clear:hover,.project-search-clear:focus-visible{background:rgba(127,127,127,.12);color:var(--ink);outline:none}
 .project-search.has-value .project-search-clear{display:inline-flex}
 .project-search-status{min-width:52px;color:var(--muted);font:600 11px inherit;white-space:nowrap}
+.project-category-group{display:inline-flex;align-items:stretch;border:1px solid var(--line2);border-radius:999px;overflow:hidden;background:var(--panel)}
+.project-category-group .project-toggle{border:0;border-radius:0}
+.project-category-group .project-toggle + .project-toggle{border-left:1px solid var(--line2)}
+.project-category-group .project-toggle:hover,.project-category-group .project-toggle:focus-visible{transform:none}
 .sr-only{position:absolute!important;width:1px!important;height:1px!important;padding:0!important;margin:-1px!important;overflow:hidden!important;clip:rect(0,0,0,0)!important;white-space:nowrap!important;border:0!important}
 .proj.is-project-hidden{display:none}
 .proj.is-search-hidden{display:none}
@@ -319,6 +323,8 @@ footer .business-info{flex-basis:100%;padding-top:10px;border-top:1px solid var(
   .expertise-grid,.evidence{grid-template-columns:1fr}
   .project-sort-wrap{width:100%;flex-wrap:wrap}
   .project-search{order:3;width:100%;min-width:100%}
+  .project-search-status{order:4}
+  .project-category-group{order:5;max-width:100%;overflow-x:auto}
 }
 @media (prefers-reduced-motion:reduce){
   body,.theme-toggle{transition:none}
@@ -459,6 +465,13 @@ footer .business-info{flex-basis:100%;padding-top:10px;border-top:1px solid var(
           <button class="project-search-clear" id="project-search-clear" type="button" aria-label="검색어 지우기" data-analytics-ignore>×</button>
         </label>
         <span class="project-search-status" id="project-search-status" role="status" aria-live="polite"></span>
+        <div class="project-category-group" id="project-category-group" role="group" aria-label="프로젝트 카테고리">
+          <button class="project-toggle" type="button" data-project-category="all" aria-pressed="true" data-analytics-ignore>전체</button>
+          <button class="project-toggle" type="button" data-project-category="전략" aria-pressed="false" data-analytics-ignore>전략</button>
+          <button class="project-toggle" type="button" data-project-category="연구" aria-pressed="false" data-analytics-ignore>연구</button>
+          <button class="project-toggle" type="button" data-project-category="교육" aria-pressed="false" data-analytics-ignore>교육</button>
+          <button class="project-toggle" type="button" data-project-category="사업" aria-pressed="false" data-analytics-ignore>사업</button>
+        </div>
       </div>
       <button class="project-toggle" id="project-visibility-toggle" type="button" aria-expanded="true" aria-controls="projects-grid" data-analytics-ignore>
         <span aria-hidden="true">▴</span><span class="project-toggle-text">대표 프로젝트 보기</span>
@@ -1035,6 +1048,8 @@ footer .business-info{flex-basis:100%;padding-top:10px;border-top:1px solid var(
   const searchWrap = document.getElementById('project-search-wrap');
   const searchClear = document.getElementById('project-search-clear');
   const searchStatus = document.getElementById('project-search-status');
+  const categoryGroup = document.getElementById('project-category-group');
+  const categoryButtons = [...document.querySelectorAll('[data-project-category]')];
   const desc = document.getElementById('projects-desc');
   if (!toggle || !grid) return;
 
@@ -1087,6 +1102,7 @@ footer .business-info{flex-basis:100%;padding-top:10px;border-top:1px solid var(
 
   let sortMode = storedSort();
   let searchQuery = '';
+  let activeCategory = 'all';
 
   function normalized(value) {
     return String(value || '').normalize('NFKC').toLocaleLowerCase().trim();
@@ -1098,6 +1114,20 @@ footer .business-info{flex-basis:100%;padding-top:10px;border-top:1px solid var(
     personalSearch.value = searchQuery;
     personalSearch.dispatchEvent(new Event('input', { bubbles: true }));
   }
+
+  function categoriesFor(card) {
+    const href = normalized(card.getAttribute('href'));
+    const value = normalized(`${card.textContent || ''} ${href}`);
+    const categories = new Set();
+    if (/strategy\/|전략|재무|매출|수익|시장|산업|정책|finance|monetization|marketing/.test(value)) categories.add('전략');
+    if (/research\/|연구|데이터|대시보드|분석|지도|통계|gis|api|observatory|lab/.test(value)) categories.add('연구');
+    if (/교육|수학|koi|kmo|강의|학습|교재|알고리즘|school|course/.test(value)) categories.add('교육');
+    if (/사업|법인|기업|상점|쇼핑|판매|상담|견적|숙소|보안|commerce|shop|corp|b2b|ads/.test(value)) categories.add('사업');
+    if (!categories.size) categories.add('연구');
+    return categories;
+  }
+
+  const cardCategories = new Map(cards.map((card) => [card, categoriesFor(card)]));
 
   function applySearch() {
     const terms = normalized(searchQuery).split(/\s+/).filter(Boolean);
@@ -1111,11 +1141,12 @@ footer .business-info{flex-basis:100%;padding-top:10px;border-top:1px solid var(
     let visible = 0;
     cards.forEach((card) => {
       const haystack = normalized(`${card.textContent || ''} ${card.getAttribute('href') || ''}`);
-      const matches = terms.every((term) => haystack.includes(term));
+      const matchesCategory = activeCategory === 'all' || cardCategories.get(card)?.has(activeCategory);
+      const matches = matchesCategory && terms.every((term) => haystack.includes(term));
       card.classList.toggle('is-search-hidden', !matches);
       if (matches && !card.classList.contains('is-project-hidden')) visible += 1;
     });
-    if (searchStatus) searchStatus.textContent = terms.length ? `${visible}/${cards.length}개` : '';
+    if (searchStatus) searchStatus.textContent = (terms.length || activeCategory !== 'all') ? `${visible}/${cards.length}개` : '';
   }
 
   function usageScore(card) {
@@ -1134,9 +1165,10 @@ footer .business-info{flex-basis:100%;padding-top:10px;border-top:1px solid var(
 
   function applyLayout(expanded = toggle.getAttribute('aria-expanded') !== 'false') {
     const needs = sortMode === 'needs';
-    const searching = normalized(searchQuery).length > 0;
+    const searching = normalized(searchQuery).length > 0 || activeCategory !== 'all';
     grid.hidden = needs;
     toggle.hidden = needs;
+    if (categoryGroup) categoryGroup.hidden = needs;
     window.StargatePersonalProjects?.setActive(needs);
     const orderedCards = (expanded || searching)
       ? (sortMode === 'usage' ? usageCards() : alphaCards)
@@ -1186,6 +1218,13 @@ footer .business-info{flex-basis:100%;padding-top:10px;border-top:1px solid var(
     searchQuery = '';
     applyLayout(toggle.getAttribute('aria-expanded') !== 'false');
     search.focus();
+  });
+  categoryGroup?.addEventListener('click', (event) => {
+    const button = event.target.closest('[data-project-category]');
+    if (!button) return;
+    activeCategory = button.dataset.projectCategory || 'all';
+    categoryButtons.forEach((item) => item.setAttribute('aria-pressed', String(item === button)));
+    applyLayout(toggle.getAttribute('aria-expanded') !== 'false');
   });
 
   const api = window.StargateUsage;
