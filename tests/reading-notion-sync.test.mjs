@@ -1,7 +1,24 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs/promises';
-import { catalogShrinkIsUnsafe, linkRecords, makeOutput, normalizeTitle, parseMarkdownSections } from '../scripts/update-reading-from-notion.mjs';
+import { applyReadingMetadataOverrides, catalogShrinkIsUnsafe, dedupeRecommendations, linkRecords, makeOutput, normalizeTitle, parseMarkdownSections } from '../scripts/update-reading-from-notion.mjs';
+
+test('추천 대상의 짧은 중복 항목을 설명형 항목으로 통합한다', () => {
+  assert.deepEqual(dedupeRecommendations([
+    'CEO·창업가', '연구자', 'CEO·창업가: 의사결정 품질 향상', '연구자',
+  ]), ['연구자', 'CEO·창업가: 의사결정 품질 향상']);
+});
+
+test('검증된 서지정보 보정은 도서와 독서기록에 함께 적용된다', () => {
+  const result = applyReadingMetadataOverrides(
+    [{ notionId: 'book1', title: '책', author: '' }],
+    [{ id: 'review1', author: '', pages: 0, recommend: ['CEO', 'CEO: 이유'] }],
+    { books: { book1: { author: '저자' } }, reviews: { review1: { pages: 300 } } },
+  );
+  assert.equal(result.books[0].author, '저자');
+  assert.equal(result.posts[0].pages, 300);
+  assert.deepEqual(result.posts[0].recommend, ['CEO: 이유']);
+});
 
 test('Notion markdown의 지정 H2 섹션을 구조화한다', () => {
   const parsed = parseMarkdownSections(`# 제목

@@ -75,8 +75,9 @@ function renderReview(review) {
     `<blockquote>${esc(quote.t)}<cite>${esc(quote.s || '독서기록')}</cite></blockquote>`).join('');
   const list = (title, values) => values?.length
     ? `<section><h2>${title}</h2><ul>${values.map((value) => `<li>${esc(value)}</li>`).join('')}</ul></section>` : '';
+  const reviewFacts = unique([review.status || '독서기록', review.end, review.pages ? `${Number(review.pages).toLocaleString('ko-KR')}쪽` : '']);
   return `<article class="review" id="review-${esc(review.id)}">
-    <p class="eyebrow">${esc(review.status || '독서기록')}${review.end ? ` · ${esc(review.end)}` : ''}</p>
+    <p class="eyebrow">${reviewFacts.map(esc).join(' · ')}</p>
     <h2>나의 독서기록</h2>
     ${review.oneline ? `<p class="lead">${esc(review.oneline)}</p>` : ''}
     ${review.review ? `<section><h3>서평</h3><p>${esc(review.review)}</p></section>` : ''}
@@ -174,7 +175,7 @@ export async function generateReadingPages() {
   ]);
   const featuredById = new Map((featuredPayload.books || []).map((book) => [book.notionId, book]));
   const baseBooks = withBookSlugs(booksPayload.books).map((book) => {
-    const { featuredAi, rank, theme, publisher, coverUrl, isbn, publishedAt,
+    const { featuredAi, rank, theme, coverUrl, isbn, publishedAt,
       curationNote, keywords, sourceUrl, indexable, ...catalogBook } = book;
     return catalogBook;
   });

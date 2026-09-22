@@ -210,7 +210,7 @@
   <div class="wrap nav">
     <a class="brand" href="/reading/" aria-label="Stargate 독서기록 홈">
       <span class="logo" aria-hidden="true">📖</span>
-      <span>Stargate 독서기록<br><small>powered by 밀리의 서재</small></span>
+      <span>Stargate 독서기록<br><small>밀리의 서재에서 읽은 개인 기록</small></span>
     </a>
     <div class="nav-actions">
       <a class="home-link" href="/" aria-label="STARGATE EDU 메인으로 이동">STARGATE EDU</a>
@@ -388,8 +388,8 @@ let postsReady;
 function stars(n){return "★".repeat(n)+"☆".repeat(5-n);}
 function fmt(d){
   if(!d)return "날짜 미등록";
-  const[,m,day]=d.split("-");
-  return `${+m}.${+day}`;
+  const[y,m,day]=d.split("-");
+  return `${y}.${String(m).padStart(2,"0")}.${String(day).padStart(2,"0")}`;
 }
 function bookHash(id){return `#book-${id}`;}
 function esc(value){
@@ -455,7 +455,7 @@ async function loadBooks(){
 function renderLibraryStats(){
   const groups=[...new Set(books.map(b=>b.category).filter(Boolean))];
   const stats=[{label:"전체 도서",value:books.length},{label:"AI 대표",value:books.filter(book=>book.featuredAi).length},...groups.map(group=>({
-    label:group.replace(/^\S+\s*/,""),value:books.filter(b=>b.category===group).length
+    label:group,value:books.filter(b=>b.category===group).length
   }))];
   document.getElementById("libraryStats").innerHTML=stats.map(item=>
     `<div class="stat"><div class="n">${item.value}<span class="u">권</span></div><div class="l">${esc(item.label)}</div></div>`

@@ -6,6 +6,7 @@ import { withBookSlugs } from './reading-book-utils.mjs';
 const REVIEWS_OUT = new URL('../reading/data/notion-reading.json', import.meta.url);
 const BOOKS_OUT = new URL('../reading/data/books.json', import.meta.url);
 const PRICES_IN = new URL('../reading/data/book-prices.json', import.meta.url);
+const METADATA_OVERRIDES_IN = new URL('../reading/data/metadata-overrides.json', import.meta.url);
 const NOTION_API_KEY = process.env.NOTION_API_KEY || process.env.NOTION_TOKEN;
 const LOG_DATA_SOURCE_ID = process.env.NOTION_DATA_SOURCE_ID || '66846d6d-864e-42dc-99db-2b61b315f8d4';
 const BOOKS_DATA_SOURCE_ID = process.env.NOTION_BOOKS_DATA_SOURCE_ID || 'de859d89-39b2-43c1-8f59-296cfa579113';
@@ -38,6 +39,26 @@ const rating = (property) => {
   return Math.min(5, Math.max(0, stars || (Number.isFinite(numeric) ? numeric : 0)));
 };
 const unique = (values) => [...new Set(values.filter(Boolean))];
+
+export function dedupeRecommendations(values = []) {
+  const items = unique(values.map((value) => String(value || '').trim()));
+  return items.filter((item) => !items.some((candidate) => candidate !== item
+    && candidate.startsWith(`${item}:`)));
+}
+
+export function applyReadingMetadataOverrides(books, posts, overrides = {}) {
+  const bookOverrides = overrides.books || {};
+  const reviewOverrides = overrides.reviews || {};
+  return {
+    books: books.map((book) => ({ ...book, ...(bookOverrides[book.notionId] || {}) })),
+    posts: posts.map((post) => {
+      const merged = { ...post, ...(reviewOverrides[post.id] || {}) };
+      return Array.isArray(merged.recommend)
+        ? { ...merged, recommend: dedupeRecommendations(merged.recommend) }
+        : merged;
+    }),
+  };
+}
 
 function cleanMarkdownLine(line) {
   return line.replace(/^\s*(?:[-*+] |\d+[.)]\s+)/, '').replace(/^>\s?/, '')
@@ -142,7 +163,7 @@ function normalizeLogPage(page, markdown = '') {
     oneline: richText(properties['한줄평']) || sections.oneline,
     quotes: propertyQuotes.length ? propertyQuotes : sections.quotes.map((value) => ({ t: value, s: 'Notion 본문' })),
     review: richText(properties['독후감본문']) || sections.review.join('\n'),
-    recommend: unique([...multiSelect(properties['추천대상']), ...sections.recommend]),
+    recommend: dedupeRecommendations([...multiSelect(properties['추천대상']), ...sections.recommend]),
     tags: keywords(properties['핵심키워드']), keyPoints: sections.keyPoints, application: sections.application,
     relatedBookIds: unique([...relationIds(properties['도서']), ...relationIds(properties['관련도서']), ...relationIds(properties['도서목록'])]) };
 }
@@ -210,11 +231,14 @@ async function getPageMarkdown(id) {
   return markdown;
 }
 
-export function makeOutput(previousBooks, previousReviews, linked, now = new Date().toISOString(), catalogStatus = 'connected', priceData = {}) {
-  const books = withBookSlugs(
-    applyPriceEnrichment(linked.books.map(({ relatedLogIds, ...book }) => book), priceData), previousBooks.books,
+export function makeOutput(previousBooks, previousReviews, linked, now = new Date().toISOString(), catalogStatus = 'connected', priceData = {}, metadataOverrides = {}) {
+  const enriched = applyReadingMetadataOverrides(
+    applyPriceEnrichment(linked.books.map(({ relatedLogIds, ...book }) => book), priceData),
+    linked.posts.map(({ relatedBookIds, ...post }) => post),
+    metadataOverrides,
   );
-  const posts = linked.posts.map(({ relatedBookIds, ...post }) => post);
+  const books = withBookSlugs(enriched.books, previousBooks.books);
+  const posts = enriched.posts;
   const booksChanged = JSON.stringify(previousBooks.books) !== JSON.stringify(books);
   const postsChanged = JSON.stringify(previousReviews.posts) !== JSON.stringify(posts);
   const statusChanged = previousBooks.catalogStatus !== catalogStatus;
@@ -234,9 +258,9 @@ export function catalogShrinkIsUnsafe(previousCount, nextCount, allowShrink = fa
 
 export async function syncReading({ now = new Date().toISOString() } = {}) {
   if (!NOTION_API_KEY) throw new Error('NOTION_API_KEY가 없습니다. Notion 내부 연결 토큰을 GitHub Actions secret으로 등록해야 합니다.');
-  const [previousBooks, previousReviews, priceData] = await Promise.all([
+  const [previousBooks, previousReviews, priceData, metadataOverrides] = await Promise.all([
     fs.readFile(BOOKS_OUT, 'utf8').then(JSON.parse), fs.readFile(REVIEWS_OUT, 'utf8').then(JSON.parse),
-    fs.readFile(PRICES_IN, 'utf8').then(JSON.parse),
+    fs.readFile(PRICES_IN, 'utf8').then(JSON.parse), fs.readFile(METADATA_OVERRIDES_IN, 'utf8').then(JSON.parse),
   ]);
   const [catalogResult, logPages] = await Promise.all([
     queryAll(BOOKS_DATA_SOURCE_ID, { and: [
@@ -271,7 +295,7 @@ export async function syncReading({ now = new Date().toISOString() } = {}) {
     for (const post of logRecords) post.relatedBookIds = [];
   }
   const linked = linkRecords(catalogRecords, logRecords);
-  const output = makeOutput(previousBooks, previousReviews, linked, now, catalogResult.status, priceData);
+  const output = makeOutput(previousBooks, previousReviews, linked, now, catalogResult.status, priceData, metadataOverrides);
   await Promise.all([fs.writeFile(BOOKS_OUT, `${JSON.stringify(output.booksOutput, null, 2)}\n`),
     fs.writeFile(REVIEWS_OUT, `${JSON.stringify(output.reviewsOutput, null, 2)}\n`)]);
   console.log(`Notion 공개 도서 ${output.booksOutput.total}권 · 독서기록 ${output.reviewsOutput.posts.length}편 동기화 완료${output.changed ? '' : ' (변경 없음)'}`);
