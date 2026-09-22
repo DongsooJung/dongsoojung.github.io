@@ -292,6 +292,8 @@ a{color:var(--acc); text-decoration:none} a:hover{text-decoration:underline}
 .project-category-group .project-toggle{border:0;border-radius:0}
 .project-category-group .project-toggle + .project-toggle{border-left:1px solid var(--line2)}
 .project-category-group .project-toggle:hover,.project-category-group .project-toggle:focus-visible{transform:none}
+.project-category-count{display:inline-flex;align-items:center;justify-content:center;min-width:18px;height:18px;padding:0 5px;border-radius:999px;background:rgba(127,127,127,.12);color:var(--muted);font-size:10px;font-weight:800}
+.project-toggle[aria-pressed="true"] .project-category-count{background:rgba(79,127,255,.18);color:var(--acc)}
 .sr-only{position:absolute!important;width:1px!important;height:1px!important;padding:0!important;margin:-1px!important;overflow:hidden!important;clip:rect(0,0,0,0)!important;white-space:nowrap!important;border:0!important}
 .proj.is-project-hidden{display:none}
 .proj.is-search-hidden{display:none}
@@ -1121,6 +1123,21 @@ footer .business-info{flex-basis:100%;padding-top:10px;border-top:1px solid var(
   }
 
   const cardCategories = new Map(cards.map((card) => [card, categoriesFor(card)]));
+  const categoryCounts = Object.fromEntries(['전략', '연구', '교육', '사업'].map((category) => [
+    category,
+    cards.filter((card) => cardCategories.get(card)?.has(category)).length,
+  ]));
+  categoryButtons.forEach((button) => {
+    const category = button.dataset.projectCategory || 'all';
+    const label = category === 'all' ? '전체' : category;
+    const count = category === 'all' ? cards.length : (categoryCounts[category] || 0);
+    const badge = document.createElement('span');
+    badge.className = 'project-category-count';
+    badge.textContent = String(count);
+    badge.setAttribute('aria-hidden', 'true');
+    button.replaceChildren(document.createTextNode(`${label} `), badge);
+    button.setAttribute('aria-label', `${label} 프로젝트 ${count}개`);
+  });
 
   function applySearch() {
     const terms = normalized(searchQuery).split(/\s+/).filter(Boolean);
