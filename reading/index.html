@@ -177,6 +177,8 @@
   .book-read{color:var(--good);font-weight:800}.book-unread{color:var(--muted)}
   .book-link{display:inline-block;padding:5px 9px;border-radius:7px;background:var(--accent);color:#fff;text-decoration:none;font-weight:800;white-space:nowrap}
   .review-link{border:1px solid var(--accent);background:transparent;color:var(--accent);cursor:pointer}
+  .notes-intro{display:flex;align-items:flex-start;justify-content:space-between;gap:20px;margin-bottom:22px}.notes-disclaimer{max-width:520px;color:var(--muted);font-size:13px;background:var(--panel2);border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin:0}
+  .note-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;margin-bottom:60px}.note-card{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:22px;display:flex;flex-direction:column;gap:13px}.note-card h3{font-size:20px;line-height:1.3;margin:0}.note-card h3 a{text-decoration:none}.note-card h3 a:hover{color:var(--accent)}.note-card .meta{color:var(--muted);font-size:13px}.note-card .oneline{margin:0;line-height:1.65}.note-links{display:flex;flex-wrap:wrap;gap:8px;margin-top:auto}.note-links a{padding:7px 10px;border-radius:8px;background:var(--panel2);border:1px solid var(--line);text-decoration:none;font-size:13px;font-weight:750}.note-links a:hover{border-color:var(--accent);color:var(--accent)}
 
   footer.site{border-top:1px solid var(--line);padding:30px 0;color:var(--muted);font-size:13px;text-align:center}
   .empty{text-align:center;color:var(--muted);padding:60px 0;grid-column:1/-1}
@@ -194,6 +196,7 @@
     .controls-meta{align-items:flex-start;flex-direction:column}
     .view-tabs{width:100%}.view-tab{flex:1;padding-left:8px;padding-right:8px}
     .library-controls{grid-template-columns:1fr}
+    .notes-intro{flex-direction:column}.note-grid{grid-template-columns:1fr}
   }
   @media(prefers-reduced-motion:reduce){
     html{scroll-behavior:auto}
@@ -234,6 +237,7 @@
 <div class="wrap view-tabs" role="tablist" aria-label="독서 아카이브 보기">
   <button class="view-tab active" id="libraryTab" type="button" role="tab" aria-selected="true" aria-controls="libraryView" onclick="setView('library')">전체 서재 <span id="libraryTabCount">598</span>권</button>
   <button class="view-tab" id="reviewsTab" type="button" role="tab" aria-selected="false" aria-controls="reviewsView" onclick="setView('reviews')">독후감 <span id="reviewsTabCount">0</span>편</button>
+  <button class="view-tab" id="notesTab" type="button" role="tab" aria-selected="false" aria-controls="notesView" onclick="setView('notes')">대표 노트 <span id="notesTabCount">7</span>편</button>
 </div>
 
 <section class="wrap view-section" id="libraryView" role="tabpanel" aria-labelledby="libraryTab">
@@ -285,6 +289,14 @@
     <div id="resultSummary" aria-live="polite"></div>
   </div>
   <div class="grid" id="grid" aria-live="polite"></div>
+</section>
+
+<section class="wrap view-section" id="notesView" role="tabpanel" aria-labelledby="notesTab" hidden>
+  <div class="notes-intro">
+    <div><h2 class="section-title">대표 독서노트</h2><p class="section-copy">책의 핵심 질문을 StargateEdu의 연구·전략 화면과 연결했습니다.</p></div>
+    <p class="notes-disclaimer">이 7편은 완독 여부·별점·읽은 날짜를 표시하지 않은 편집형 노트입니다. 개인 완독 독후감과 구분됩니다.</p>
+  </div>
+  <div class="note-grid" id="noteGrid" aria-live="polite"><div class="empty">대표 독서노트를 불러오는 중…</div></div>
 </section>
 </main>
 
@@ -381,6 +393,7 @@ let posts = [];
 let activeGenre = "전체";
 let lastFocus = null;
 let books = [];
+let readingNotes = [];
 let librarySort = "title";
 let librarySortAsc = true;
 let postsReady;
@@ -407,12 +420,48 @@ function volumeLabel(p){
 
 function setView(view){
   const library=view==="library";
+  const reviews=view==="reviews";
+  const notes=view==="notes";
   document.getElementById("libraryView").hidden=!library;
-  document.getElementById("reviewsView").hidden=library;
+  document.getElementById("reviewsView").hidden=!reviews;
+  document.getElementById("notesView").hidden=!notes;
   document.getElementById("libraryTab").classList.toggle("active",library);
-  document.getElementById("reviewsTab").classList.toggle("active",!library);
+  document.getElementById("reviewsTab").classList.toggle("active",reviews);
+  document.getElementById("notesTab").classList.toggle("active",notes);
   document.getElementById("libraryTab").setAttribute("aria-selected",String(library));
-  document.getElementById("reviewsTab").setAttribute("aria-selected",String(!library));
+  document.getElementById("reviewsTab").setAttribute("aria-selected",String(reviews));
+  document.getElementById("notesTab").setAttribute("aria-selected",String(notes));
+}
+
+async function loadReadingNotes(){
+  try{
+    const response=await fetch("./data/featured-reading-notes.json",{cache:"no-store"});
+    if(!response.ok)throw new Error(`HTTP ${response.status}`);
+    const payload=await response.json();
+    readingNotes=payload.notes||[];
+    document.getElementById("notesTabCount").textContent=readingNotes.length;
+    renderReadingNotes();
+    if(books.length)renderLibrary();
+  }catch(error){
+    document.getElementById("noteGrid").innerHTML='<div class="empty">대표 독서노트를 불러오지 못했습니다.</div>';
+    console.error("Featured reading notes load failed",error);
+  }
+}
+
+function renderReadingNotes(){
+  const booksById=new Map(books.map(book=>[book.notionId,book]));
+  document.getElementById("noteGrid").innerHTML=readingNotes.map(note=>{
+    const book=booksById.get(note.bookId);
+    const detailUrl=book?.slug?`/reading/${encodeURIComponent(book.slug)}/`:"/reading/";
+    return `<article class="note-card">
+      <div><span class="book-badge">${esc(note.genre)}</span></div>
+      <h3><a href="${detailUrl}">${esc(note.title)}</a></h3>
+      <div class="meta">${esc(note.author||"서지정보 확인 중")} · 대표 독서노트</div>
+      <p class="oneline">${esc(note.oneline)}</p>
+      <div class="tags">${(note.tags||[]).map(tag=>`<span class="tag">#${esc(tag)}</span>`).join("")}</div>
+      <div class="note-links"><a href="${detailUrl}">노트 전체 보기</a>${(note.relatedProjects||[]).map(project=>`<a href="${esc(project.url)}">${esc(project.label)} →</a>`).join("")}</div>
+    </article>`;
+  }).join("");
 }
 
 function addLibraryOption(select,value){
@@ -445,6 +494,7 @@ async function loadBooks(){
       .forEach(value=>addLibraryOption(document.getElementById("librarySubcategory"),value));
     renderLibraryStats();
     renderLibrary();
+    if(readingNotes.length)renderReadingNotes();
   }catch(error){
     document.getElementById("librarySummary").textContent="전체 도서목록을 불러오지 못했습니다.";
     document.getElementById("libraryRows").innerHTML='<tr><td colspan="9" class="empty">잠시 후 다시 시도해 주세요.</td></tr>';
@@ -501,8 +551,10 @@ function renderLibrary(){
       : (typeof book.kyoboUrl==="string"&&/^https:\/\/(?:product|www)\.kyobobook\.co\.kr\//i.test(book.kyoboUrl)
         ? `<a class="book-link" href="${esc(book.kyoboUrl)}" target="_blank" rel="noopener noreferrer">교보</a>`:"—");
     const reviewIds=Array.isArray(book.reviewIds)?book.reviewIds:[];
+    const note=readingNotes.find(item=>item.bookId===book.notionId);
     const reviewLink=reviewIds.length
-      ? reviewIds.map((reviewId,index)=>`<button class="book-link review-link" type="button" onclick="openLinkedReview('${esc(reviewId)}')">독후감${reviewIds.length>1?` ${index+1}`:" 보기"}</button>`).join(" "):"—";
+      ? reviewIds.map((reviewId,index)=>`<button class="book-link review-link" type="button" onclick="openLinkedReview('${esc(reviewId)}')">독후감${reviewIds.length>1?` ${index+1}`:" 보기"}</button>`).join(" ")
+      : note?`<a class="book-link review-link" href="/reading/${encodeURIComponent(book.slug)}/">대표 노트</a>`:"—";
     const status=book.status||(book.read?"완독":"읽음 미표시");
     return `<tr>
       <td class="book-title"><a class="book-detail-link" href="/reading/${encodeURIComponent(book.slug)}/">${esc(book.title)}</a>${book.featuredAi?' <span class="book-badge">AI 대표</span>':""}</td>
@@ -745,6 +797,7 @@ document.querySelectorAll("button[data-book-sort]").forEach(button=>button.addEv
   renderLibrary();
 }));
 loadBooks();
+loadReadingNotes();
 postsReady=loadPosts();
 </script>
 <script src="/assets/theme.js?v=20260729" defer></script>
