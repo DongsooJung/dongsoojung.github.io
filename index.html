@@ -278,7 +278,19 @@ a{color:var(--acc); text-decoration:none} a:hover{text-decoration:underline}
 .project-sort-group .project-toggle:hover,.project-sort-group .project-toggle:focus-visible{transform:none}
 .project-toggle[aria-expanded="false"],
 .project-toggle[aria-pressed="true"]{background:rgba(79,127,255,.12);border-color:var(--acc);color:var(--acc)}
+.project-search{position:relative;display:flex;align-items:center;min-width:min(300px,42vw)}
+.project-search svg{position:absolute;left:11px;width:15px;height:15px;color:var(--muted);pointer-events:none}
+.project-search input{width:100%;min-height:32px;padding:6px 34px 6px 34px;border:1px solid var(--line2);border-radius:999px;background:var(--panel);color:var(--ink);font:500 12px/1.4 inherit;transition:.18s border-color,.18s box-shadow}
+.project-search input::placeholder{color:var(--muted)}
+.project-search input:hover{border-color:var(--acc)}
+.project-search input:focus{border-color:var(--acc);box-shadow:0 0 0 3px rgba(79,127,255,.14);outline:none}
+.project-search-clear{position:absolute;right:5px;display:none;align-items:center;justify-content:center;width:24px;height:24px;padding:0;border:0;border-radius:50%;background:transparent;color:var(--muted);font:700 15px/1 inherit;cursor:pointer}
+.project-search-clear:hover,.project-search-clear:focus-visible{background:rgba(127,127,127,.12);color:var(--ink);outline:none}
+.project-search.has-value .project-search-clear{display:inline-flex}
+.project-search-status{min-width:52px;color:var(--muted);font:600 11px inherit;white-space:nowrap}
+.sr-only{position:absolute!important;width:1px!important;height:1px!important;padding:0!important;margin:-1px!important;overflow:hidden!important;clip:rect(0,0,0,0)!important;white-space:nowrap!important;border:0!important}
 .proj.is-project-hidden{display:none}
+.proj.is-search-hidden{display:none}
 
 /* About */
 .about{display:grid;grid-template-columns:1fr 1fr;gap:16px}
@@ -305,6 +317,8 @@ footer .business-info{flex-basis:100%;padding-top:10px;border-top:1px solid var(
   .about{grid-template-columns:1fr}
   .hub-grid{grid-template-columns:1fr}
   .expertise-grid,.evidence{grid-template-columns:1fr}
+  .project-sort-wrap{width:100%;flex-wrap:wrap}
+  .project-search{order:3;width:100%;min-width:100%}
 }
 @media (prefers-reduced-motion:reduce){
   body,.theme-toggle{transition:none}
@@ -438,6 +452,13 @@ footer .business-info{flex-basis:100%;padding-top:10px;border-top:1px solid var(
           <button class="project-toggle" id="project-sort-alpha" type="button" aria-pressed="false" data-analytics-ignore>가나다순</button>
           <button class="project-toggle" id="project-sort-needs" type="button" aria-pressed="false" data-analytics-ignore>필요순</button>
         </div>
+        <label class="project-search" id="project-search-wrap">
+          <span class="sr-only">프로젝트 검색</span>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m21 21-4.35-4.35m2.35-5.65a8 8 0 1 1-16 0 8 8 0 0 1 16 0Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+          <input id="project-search" type="search" placeholder="프로젝트 검색" autocomplete="off" aria-controls="projects-grid personal-projects" aria-describedby="project-search-status" data-analytics-ignore>
+          <button class="project-search-clear" id="project-search-clear" type="button" aria-label="검색어 지우기" data-analytics-ignore>×</button>
+        </label>
+        <span class="project-search-status" id="project-search-status" role="status" aria-live="polite"></span>
       </div>
       <button class="project-toggle" id="project-visibility-toggle" type="button" aria-expanded="true" aria-controls="projects-grid" data-analytics-ignore>
         <span aria-hidden="true">▴</span><span class="project-toggle-text">대표 프로젝트 보기</span>
@@ -1010,6 +1031,10 @@ footer .business-info{flex-basis:100%;padding-top:10px;border-top:1px solid var(
   const sortAlpha = document.getElementById('project-sort-alpha');
   const sortUsage = document.getElementById('project-sort-usage');
   const sortNeeds = document.getElementById('project-sort-needs');
+  const search = document.getElementById('project-search');
+  const searchWrap = document.getElementById('project-search-wrap');
+  const searchClear = document.getElementById('project-search-clear');
+  const searchStatus = document.getElementById('project-search-status');
   const desc = document.getElementById('projects-desc');
   if (!toggle || !grid) return;
 
@@ -1061,6 +1086,37 @@ footer .business-info{flex-basis:100%;padding-top:10px;border-top:1px solid var(
   }
 
   let sortMode = storedSort();
+  let searchQuery = '';
+
+  function normalized(value) {
+    return String(value || '').normalize('NFKC').toLocaleLowerCase().trim();
+  }
+
+  function syncNeedsSearch() {
+    const personalSearch = document.getElementById('personal-search');
+    if (!personalSearch || personalSearch.value === searchQuery) return;
+    personalSearch.value = searchQuery;
+    personalSearch.dispatchEvent(new Event('input', { bubbles: true }));
+  }
+
+  function applySearch() {
+    const terms = normalized(searchQuery).split(/\s+/).filter(Boolean);
+    searchWrap?.classList.toggle('has-value', terms.length > 0);
+    if (sortMode === 'needs') {
+      syncNeedsSearch();
+      const personalStatus = document.getElementById('personal-status')?.textContent || '';
+      if (searchStatus) searchStatus.textContent = terms.length ? (personalStatus.split(' · ')[0] || '검색 중') : '';
+      return;
+    }
+    let visible = 0;
+    cards.forEach((card) => {
+      const haystack = normalized(`${card.textContent || ''} ${card.getAttribute('href') || ''}`);
+      const matches = terms.every((term) => haystack.includes(term));
+      card.classList.toggle('is-search-hidden', !matches);
+      if (matches && !card.classList.contains('is-project-hidden')) visible += 1;
+    });
+    if (searchStatus) searchStatus.textContent = terms.length ? `${visible}/${cards.length}개` : '';
+  }
 
   function usageScore(card) {
     const api = window.StargateUsage;
@@ -1078,14 +1134,15 @@ footer .business-info{flex-basis:100%;padding-top:10px;border-top:1px solid var(
 
   function applyLayout(expanded = toggle.getAttribute('aria-expanded') !== 'false') {
     const needs = sortMode === 'needs';
+    const searching = normalized(searchQuery).length > 0;
     grid.hidden = needs;
     toggle.hidden = needs;
     window.StargatePersonalProjects?.setActive(needs);
-    const orderedCards = expanded
+    const orderedCards = (expanded || searching)
       ? (sortMode === 'usage' ? usageCards() : alphaCards)
       : [...selectedCards, ...targetCards];
     orderedCards.forEach((card) => grid.appendChild(card));
-    targetCards.forEach((card) => card.classList.toggle('is-project-hidden', !expanded));
+    targetCards.forEach((card) => card.classList.toggle('is-project-hidden', !expanded && !searching));
     toggle.setAttribute('aria-expanded', String(expanded));
     if (label) label.textContent = expanded ? '대표 프로젝트 보기' : '전체 프로젝트 보기';
     if (icon) icon.textContent = expanded ? '▴' : '▾';
@@ -1093,6 +1150,7 @@ footer .business-info{flex-basis:100%;padding-top:10px;border-top:1px solid var(
     sortUsage?.setAttribute('aria-pressed', String(sortMode === 'usage'));
     sortNeeds?.setAttribute('aria-pressed', String(needs));
     if (desc) desc.textContent = copy[sortMode];
+    applySearch();
   }
 
   function setSort(mode, persist = true) {
@@ -1110,6 +1168,25 @@ footer .business-info{flex-basis:100%;padding-top:10px;border-top:1px solid var(
   sortAlpha?.addEventListener('click', () => setSort('alpha'));
   sortUsage?.addEventListener('click', () => setSort('usage'));
   sortNeeds?.addEventListener('click', () => setSort('needs'));
+  search?.addEventListener('input', () => {
+    searchQuery = search.value;
+    applyLayout(toggle.getAttribute('aria-expanded') !== 'false');
+  });
+  search?.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape' && search.value) {
+      event.preventDefault();
+      search.value = '';
+      searchQuery = '';
+      applyLayout(toggle.getAttribute('aria-expanded') !== 'false');
+    }
+  });
+  searchClear?.addEventListener('click', () => {
+    if (!search) return;
+    search.value = '';
+    searchQuery = '';
+    applyLayout(toggle.getAttribute('aria-expanded') !== 'false');
+    search.focus();
+  });
 
   const api = window.StargateUsage;
   if (api?.subscribe) {
