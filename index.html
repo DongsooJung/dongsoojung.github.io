@@ -1049,7 +1049,7 @@ footer .business-info{flex-basis:100%;padding-top:10px;border-top:1px solid var(
   const searchClear = document.getElementById('project-search-clear');
   const searchStatus = document.getElementById('project-search-status');
   const categoryGroup = document.getElementById('project-category-group');
-  const categoryButtons = [...document.querySelectorAll('[data-project-category]')];
+  const categoryButtons = [...categoryGroup.querySelectorAll('button[data-project-category]')];
   const desc = document.getElementById('projects-desc');
   if (!toggle || !grid) return;
 
