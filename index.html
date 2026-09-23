@@ -292,8 +292,6 @@ a{color:var(--acc); text-decoration:none} a:hover{text-decoration:underline}
 .project-category-group .project-toggle{border:0;border-radius:0}
 .project-category-group .project-toggle + .project-toggle{border-left:1px solid var(--line2)}
 .project-category-group .project-toggle:hover,.project-category-group .project-toggle:focus-visible{transform:none}
-.project-category-count{display:inline-flex;align-items:center;justify-content:center;min-width:18px;height:18px;padding:0 5px;border-radius:999px;background:rgba(127,127,127,.12);color:var(--muted);font-size:10px;font-weight:800}
-.project-toggle[aria-pressed="true"] .project-category-count{background:rgba(79,127,255,.18);color:var(--acc)}
 .sr-only{position:absolute!important;width:1px!important;height:1px!important;padding:0!important;margin:-1px!important;overflow:hidden!important;clip:rect(0,0,0,0)!important;white-space:nowrap!important;border:0!important}
 .proj.is-project-hidden{display:none}
 .proj.is-search-hidden{display:none}
@@ -434,7 +432,7 @@ footer .business-info{flex-basis:100%;padding-top:10px;border-top:1px solid var(
         <div class="hub-kicker">Research Observatory</div>
         <h3>연구 대시보드</h3>
         <p>서울 도시데이터, 환율·무역·관광 등 공공데이터를 인터랙티브 대시보드로 탐색합니다.</p>
-        <div class="hub-meta"><span>도시·공간·경제·과학 · 49개 프로젝트</span><b>연구 허브 →</b></div>
+        <div class="hub-meta"><span>도시·공간·경제·도구 · 45개 프로젝트</span><b>연구 허브 →</b></div>
       </a>
       <a class="hub-card civic" href="https://civic-participation-hub.stargate8224.chatgpt.site" target="_blank" rel="noopener noreferrer">
         <div class="hub-kicker">Civic Participation Hub</div>
@@ -661,17 +659,6 @@ footer .business-info{flex-basis:100%;padding-top:10px;border-top:1px solid var(
           <div class="ttl">보이는 통계 너머의 현실을 읽는 연구자</div>
           <div class="sub">북한 경제의 통계 공백을 GIS·위성영상과 간접지표로 읽어 온 경험을 한국의 청년고용·자산·주거격차 연구로 확장하는 비전입니다.</div>
           <div class="row"><span class="tag">GIS · Spatial Econometrics · Policy</span><span class="go">글 읽기 →</span></div>
-        </div>
-      </a>
-
-
-      <a class="proj" href="/research/quantum-physics-challenges/" data-project-category="연구">
-        <div class="badge">NEW · QUANTUM PHYSICS</div>
-        <div class="thumb" style="background:radial-gradient(340px 180px at 20% 18%,rgba(169,139,255,.56),transparent 58%),radial-gradient(260px 150px at 84% 80%,rgba(88,215,255,.4),transparent 60%),linear-gradient(135deg,#080d22,#27245f)"><span class="emo">Ψ</span></div>
-        <div class="body">
-          <div class="ttl">현대 양자물리학의 3대 난제</div>
-          <div class="sub">양자측정, 양자중력, 강상관 양자다체계를 이론·실험·검증 기준이 연결된 연구문제로 정리합니다.</div>
-          <div class="row"><span class="tag">측정 · 시공간 · 양자물질</span><span class="go">연구 보기 →</span></div>
         </div>
       </a>
 
@@ -1067,6 +1054,7 @@ footer .business-info{flex-basis:100%;padding-top:10px;border-top:1px solid var(
   if (!toggle || !grid) return;
 
   const sortKey = 'stargate-project-sort-v2';
+  const filterKey = 'stargate-project-filter-v1';
   const cards = [...grid.querySelectorAll(':scope > .proj')];
   const englishOrder = new Intl.Collator('en', { sensitivity: 'base', numeric: true });
   const koreanOrder = new Intl.Collator('ko', { sensitivity: 'base', numeric: true });
@@ -1113,9 +1101,35 @@ footer .business-info{flex-basis:100%;padding-top:10px;border-top:1px solid var(
     }
   }
 
+  function storedFilters() {
+    try {
+      const saved = JSON.parse(localStorage.getItem(filterKey) || 'null');
+      const category = ['all', '전략', '연구', '교육', '사업'].includes(saved?.category) ? saved.category : 'all';
+      const query = typeof saved?.query === 'string' ? saved.query.slice(0, 120) : '';
+      return { category, query };
+    } catch (_) {
+      return { category: 'all', query: '' };
+    }
+  }
+
+  function saveFilters() {
+    try {
+      if (activeCategory === 'all' && !searchQuery.trim()) {
+        localStorage.removeItem(filterKey);
+        return;
+      }
+      localStorage.setItem(filterKey, JSON.stringify({ category: activeCategory, query: searchQuery.slice(0, 120) }));
+    } catch (_) {}
+  }
+
   let sortMode = storedSort();
-  let searchQuery = '';
-  let activeCategory = 'all';
+  const initialFilters = storedFilters();
+  let searchQuery = initialFilters.query;
+  let activeCategory = initialFilters.category;
+  if (search) search.value = searchQuery;
+  categoryButtons.forEach((button) => {
+    button.setAttribute('aria-pressed', String(button.dataset.projectCategory === activeCategory));
+  });
 
   function normalized(value) {
     return String(value || '').normalize('NFKC').toLocaleLowerCase().trim();
@@ -1134,21 +1148,6 @@ footer .business-info{flex-basis:100%;padding-top:10px;border-top:1px solid var(
   }
 
   const cardCategories = new Map(cards.map((card) => [card, categoriesFor(card)]));
-  const categoryCounts = Object.fromEntries(['전략', '연구', '교육', '사업'].map((category) => [
-    category,
-    cards.filter((card) => cardCategories.get(card)?.has(category)).length,
-  ]));
-  categoryButtons.forEach((button) => {
-    const category = button.dataset.projectCategory || 'all';
-    const label = category === 'all' ? '전체' : category;
-    const count = category === 'all' ? cards.length : (categoryCounts[category] || 0);
-    const badge = document.createElement('span');
-    badge.className = 'project-category-count';
-    badge.textContent = String(count);
-    badge.setAttribute('aria-hidden', 'true');
-    button.replaceChildren(document.createTextNode(`${label} `), badge);
-    button.setAttribute('aria-label', `${label} 프로젝트 ${count}개`);
-  });
 
   function applySearch() {
     const terms = normalized(searchQuery).split(/\s+/).filter(Boolean);
@@ -1223,6 +1222,7 @@ footer .business-info{flex-basis:100%;padding-top:10px;border-top:1px solid var(
   sortNeeds?.addEventListener('click', () => setSort('needs'));
   search?.addEventListener('input', () => {
     searchQuery = search.value;
+    saveFilters();
     applyLayout(toggle.getAttribute('aria-expanded') !== 'false');
   });
   search?.addEventListener('keydown', (event) => {
@@ -1230,6 +1230,7 @@ footer .business-info{flex-basis:100%;padding-top:10px;border-top:1px solid var(
       event.preventDefault();
       search.value = '';
       searchQuery = '';
+      saveFilters();
       applyLayout(toggle.getAttribute('aria-expanded') !== 'false');
     }
   });
@@ -1237,6 +1238,7 @@ footer .business-info{flex-basis:100%;padding-top:10px;border-top:1px solid var(
     if (!search) return;
     search.value = '';
     searchQuery = '';
+    saveFilters();
     applyLayout(toggle.getAttribute('aria-expanded') !== 'false');
     search.focus();
   });
@@ -1245,6 +1247,7 @@ footer .business-info{flex-basis:100%;padding-top:10px;border-top:1px solid var(
     if (!button) return;
     activeCategory = button.dataset.projectCategory || 'all';
     categoryButtons.forEach((item) => item.setAttribute('aria-pressed', String(item === button)));
+    saveFilters();
     applyLayout(toggle.getAttribute('aria-expanded') !== 'false');
   });
 
