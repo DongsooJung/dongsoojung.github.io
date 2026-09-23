@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>신차 등록과 중산층 소비 관측 | STARGATE Intelligence</title>
+  <meta name="description" content="2025~2026년 국내 신차 판매와 개인·법인·렌터카 등록 구분을 통해 중산층 내구재 소비 흐름을 관측하는 STARGATE 대시보드.">
+  <meta name="theme-color" content="#071426">
+  <link rel="canonical" href="https://www.stargateedu.co.kr/research/new-car-sales/">
+  <script src="/assets/theme-boot.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+  <style>
+    :root{--ink:#eaf2ff;--navy:#071426;--blue:#42a5ff;--cyan:#54e3d2;--gold:#f2c46d;--red:#ff7373;--panel:#0e2036;--panel2:#122a45;--line:rgba(255,255,255,.11);--muted:#9eb0c7;--paper:#07111f;--shadow:0 22px 60px rgba(0,0,0,.24)}
+    *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:radial-gradient(circle at 84% 0,rgba(66,165,255,.15),transparent 31%),var(--paper);color:var(--ink);font-family:Arial,"Noto Sans KR",sans-serif}a{color:inherit;text-decoration:none}button{font:inherit}.wrap{width:min(1240px,calc(100% - 32px));margin:auto}
+    .top{position:sticky;top:0;z-index:20;border-bottom:1px solid var(--line);background:rgba(7,17,31,.92);backdrop-filter:blur(16px)}.top .wrap{height:62px;display:flex;align-items:center;justify-content:space-between}.brand{font-weight:900;letter-spacing:.4px}.brand b{color:var(--cyan)}.back{color:var(--muted);font-size:13px}
+    .hero{padding:68px 0 92px}.eyebrow{color:var(--cyan);font-size:12px;font-weight:900;letter-spacing:1.8px}.hero h1{max-width:900px;margin:14px 0 16px;font-size:clamp(36px,6vw,68px);line-height:1.05;letter-spacing:-2px}.hero p{max-width:820px;margin:0;color:#c3d1e2;font-size:17px;line-height:1.75}.hero-tags{display:flex;gap:9px;flex-wrap:wrap;margin-top:25px}.tag{padding:8px 11px;border:1px solid var(--line);border-radius:999px;background:rgba(255,255,255,.05);font-size:12px;font-weight:800}
+    main{padding-bottom:80px}.notice{display:grid;grid-template-columns:auto 1fr;gap:15px;margin-bottom:16px;padding:18px 20px;border:1px solid rgba(242,196,109,.35);border-radius:18px;background:rgba(242,196,109,.08)}.notice b{color:var(--gold)}.notice p{margin:0;color:#d9cba9;font-size:13px;line-height:1.7}.notice .icon{font-size:22px}
+    .kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:13px}.card,.panel{border:1px solid var(--line);background:linear-gradient(145deg,rgba(18,42,69,.94),rgba(12,29,50,.94));box-shadow:var(--shadow)}.card{padding:21px;border-radius:18px}.card label{display:block;color:var(--muted);font-size:11px;font-weight:900}.card strong{display:block;margin-top:9px;font-size:30px;letter-spacing:-1px}.card small{display:block;margin-top:6px;color:var(--muted);font-size:11px}.down{color:var(--red)}.up{color:var(--cyan)}
+    .panel{margin-top:15px;border-radius:20px;overflow:hidden}.panel-head{display:flex;align-items:flex-end;justify-content:space-between;gap:18px;padding:22px 23px;border-bottom:1px solid var(--line)}h2{margin:0;font-size:22px}.subtitle{margin:6px 0 0;color:var(--muted);font-size:12px;line-height:1.6}.tabs{display:flex;gap:7px;flex-wrap:wrap}.tab{padding:9px 12px;border:1px solid var(--line);border-radius:10px;background:rgba(255,255,255,.04);color:var(--muted);font-size:12px;font-weight:900;cursor:pointer}.tab.active{border-color:var(--cyan);background:rgba(84,227,210,.12);color:var(--cyan)}
+    .chart-area{height:390px;padding:22px}.chart-area canvas{max-height:100%}.compare{display:grid;grid-template-columns:1.45fr .55fr}.table-wrap{overflow:auto;border-left:1px solid var(--line)}table{width:100%;border-collapse:collapse}th,td{padding:12px 14px;border-bottom:1px solid var(--line);font-size:12px;text-align:right;white-space:nowrap}th{color:var(--muted);font-size:10px}th:first-child,td:first-child{text-align:left}.provisional{color:var(--gold)}
+    .segment-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:13px;padding:22px}.segment{padding:21px;border:1px solid var(--line);border-radius:16px;background:rgba(255,255,255,.035)}.segment .kind{display:flex;align-items:center;justify-content:space-between}.segment h3{margin:0;font-size:17px}.segment .role{padding:5px 7px;border-radius:999px;background:rgba(84,227,210,.1);color:var(--cyan);font-size:10px;font-weight:900}.segment strong{display:block;margin-top:22px;font-size:28px}.segment p{margin:9px 0 0;color:var(--muted);font-size:12px;line-height:1.7}.segment.rental .role{background:rgba(242,196,109,.11);color:var(--gold)}.segment.corp .role{background:rgba(66,165,255,.11);color:var(--blue)}
+    .meter{height:12px;margin-top:14px;overflow:hidden;border-radius:999px;background:rgba(255,255,255,.08)}.meter i{display:block;height:100%;border-radius:inherit;background:linear-gradient(90deg,var(--cyan),var(--blue))}.method{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;padding:22px}.method article{padding:17px;border-radius:15px;background:rgba(255,255,255,.035)}.method b{display:block;color:var(--gold);font-size:11px}.method strong{display:block;margin-top:8px;font-size:15px}.method p{margin:7px 0 0;color:var(--muted);font-size:11px;line-height:1.65}.sources{padding:20px 23px;color:var(--muted);font-size:11px;line-height:1.75}.sources a{color:var(--cyan);font-weight:800}.download{padding:9px 12px;border:1px solid var(--line);border-radius:10px;background:rgba(255,255,255,.04);color:var(--ink);font-size:12px;font-weight:900;cursor:pointer}
+    @media(max-width:950px){.kpis{grid-template-columns:repeat(2,1fr)}.compare{grid-template-columns:1fr}.table-wrap{border-top:1px solid var(--line);border-left:0}.segment-grid,.method{grid-template-columns:1fr 1fr}.chart-area{height:330px}}
+    @media(max-width:620px){.wrap{width:min(100% - 20px,1240px)}.hero{padding:48px 0 70px}.hero h1{letter-spacing:-1px}.kpis,.segment-grid,.method{grid-template-columns:1fr}.panel-head{align-items:stretch;flex-direction:column}.chart-area{height:290px;padding:12px}.notice{grid-template-columns:1fr}.top .back{display:none}}
+  </style>
+</head>
+<body>
+  <nav class="top"><div class="wrap"><a class="brand" href="/">STARGATE <b>INTELLIGENCE</b></a><a class="back" href="/research/">← 연구 대시보드</a></div></nav>
+  <header class="hero"><div class="wrap"><div class="eyebrow">MIDDLE-CLASS CONSUMPTION PROXY</div><h1>신차 등록으로 보는<br>중산층 소비의 온도</h1><p>자동차는 가계가 구매 결정을 미루거나 앞당길 수 있는 대표적인 고가 내구재입니다. 월별 국내 신차 판매 흐름을 보되, 개인 등록은 가계 소비 신호로, 법인·렌터카는 기업 수요와 영업용 수요로 분리해 해석합니다.</p><div class="hero-tags"><span class="tag">2025 전년 비교</span><span class="tag">2026년 1–8월</span><span class="tag">개인·법인·렌터카 구분</span><span class="tag">KAMA · KAIDA 공식자료</span></div></div></header>
+  <main><div class="wrap">
+    <section class="notice"><span class="icon">⚖️</span><p><b>해석 원칙:</b> 자동차 등록대수만으로 구매자의 소득계층을 직접 확인할 수는 없습니다. 따라서 이 화면은 ‘중산층 소비 확정치’가 아니라 <b>가계의 고가 내구재 구매심리를 보여주는 대리지표</b>입니다. 중산층 신호를 정교화하려면 개인 등록 가운데 차급·가격대·지역과 소득 분위 자료를 결합해야 합니다.</p></section>
+    <section class="kpis" aria-label="핵심 지표">
+      <article class="card"><label>2025 국내 신차 판매</label><strong>1,680,138대</strong><small>국산 + 수입 · 승용 + 상용</small></article>
+      <article class="card"><label>2026년 1–8월</label><strong>1,096,736대</strong><small>1–7월 확정 · 8월 잠정</small></article>
+      <article class="card"><label>동기간 전년 대비</label><strong class="down">−0.7%</strong><small>2025년 1–8월 1,103,979대 대비</small></article>
+      <article class="card"><label>최근 월 · 2026년 8월</label><strong class="down">109,920대</strong><small>전년 동월 대비 −20.8%</small></article>
+    </section>
+
+    <section class="panel" aria-labelledby="trend-title"><div class="panel-head"><div><h2 id="trend-title">월별 국내 신차 판매 추이</h2><p class="subtitle">판매대수는 시장 전체의 방향을 보여주며, 중산층 가계소비 분석에서는 개인 등록 비중을 함께 확인해야 합니다.</p></div><button class="download" id="download-csv" type="button">CSV 내려받기</button></div><div class="compare"><div class="chart-area"><canvas id="sales-chart" aria-label="2025년과 2026년 월별 신차 판매 비교 차트"></canvas></div><div class="table-wrap"><table><thead><tr><th>월</th><th>2025</th><th>2026</th><th>증감률</th></tr></thead><tbody id="month-table"></tbody></table></div></div></section>
+
+    <section class="panel" aria-labelledby="segment-title"><div class="panel-head"><div><h2 id="segment-title">구매주체·등록용도 구분</h2><p class="subtitle">가계소비 신호와 기업·영업용 수요를 분리하는 분석 틀입니다. 현재 공개자료로 확인 가능한 범위를 정확히 표시합니다.</p></div><div class="tabs" role="tablist"><button class="tab active" type="button" data-focus="all">전체</button><button class="tab" type="button" data-focus="personal">개인</button><button class="tab" type="button" data-focus="corp">법인</button><button class="tab" type="button" data-focus="rental">렌터카</button></div></div><div class="segment-grid">
+      <article class="segment personal" data-segment="personal"><div class="kind"><h3>개인 등록</h3><span class="role">핵심 소비신호</span></div><strong>197,279대 · 64.2%</strong><div class="meter"><i style="width:64.2%"></i></div><p>2025년 수입 승용차 기준. 개인의 고가 내구재 구매 의사를 가장 직접적으로 반영하지만, 전체 국내 신차 시장의 개인 등록값은 아닙니다.</p></article>
+      <article class="segment corp" data-segment="corp"><div class="kind"><h3>법인 등록</h3><span class="role">기업수요 통제</span></div><strong>110,098대 · 35.8%</strong><div class="meter"><i style="width:35.8%;background:linear-gradient(90deg,var(--blue),#756cff)"></i></div><p>2025년 수입 승용차 기준. 임직원용·리스·사업용 등이 섞여 있어 중산층 가계소비와 분리해서 봅니다.</p></article>
+      <article class="segment rental" data-segment="rental"><div class="kind"><h3>렌터카</h3><span class="role">영업용 별도</span></div><strong>1,296,233대</strong><p>2025년 말 렌터카 운용대수 참고치입니다. 당해 신차 판매량이 아니며, 법인 등록 안에 포함될 수 있어 법인 수치와 단순 합산하지 않습니다.</p></article>
+    </div></section>
+
+    <section class="panel" aria-labelledby="method-title"><div class="panel-head"><div><h2 id="method-title">중산층 소비지표로 읽는 방법</h2><p class="subtitle">한 개의 판매 숫자보다 가계 신호·기업 신호·가격 신호를 함께 보는 구조입니다.</p></div></div><div class="method">
+      <article><b>01 · PRIMARY</b><strong>개인 신규등록 증감</strong><p>가계의 실제 구매 주체에 가장 가까운 월별 지표. 향후 전체시장 원자료가 확보되면 핵심 지수로 사용합니다.</p></article>
+      <article><b>02 · AFFORDABILITY</b><strong>차급·가격대 믹스</strong><p>준중형·중형 및 3천만~6천만원대 비중을 결합해야 고소득층·초고가차 효과를 줄일 수 있습니다.</p></article>
+      <article><b>03 · CONTROL</b><strong>법인·렌터카 제외</strong><p>기업 경기와 영업용 차량 교체가 전체 판매를 끌어올리는 착시를 제거합니다.</p></article>
+      <article><b>04 · CONFIRM</b><strong>소득·금리와 교차검증</strong><p>가계소득, 소비자심리, 자동차 할부금리, 지역별 등록을 함께 확인해 해석의 신뢰도를 높입니다.</p></article>
+    </div></section>
+
+    <section class="panel"><div class="sources"><b>자료 범위와 출처</b><br>국내 월별 신차 판매: 한국자동차모빌리티산업협회(KAMA) 월간 자동차산업 동향, 2025년 1–12월 및 2026년 1–8월(8월 잠정). 개인·법인: 한국수입자동차협회(KAIDA) 2025년 수입 승용차 신규등록(개인 197,279대, 법인 110,098대). 렌터카: 한국렌터카사업조합연합회 2025년 말 운용대수 참고치. 판매·등록·운용대수는 정의가 서로 다르므로 같은 합계로 더하지 않습니다. <a href="https://www.kama.or.kr/" target="_blank" rel="noopener">KAMA ↗</a> · <a href="https://www.kaida.co.kr/" target="_blank" rel="noopener">KAIDA ↗</a></div></section>
+  </div></main>
+  <script>
+    const months=["1월","2월","3월","4월","5월","6월","7월","8월","9월","10월","11월","12월"];
+    const sales2025=[105928,132854,149517,150622,141865,145842,138563,138788,157898,127138,146241,144882];
+    const sales2026=[120787,123275,164813,151693,127308,159684,139256,109920,null,null,null,null];
+    const yoy=[14.0,-7.2,10.2,0.7,-10.3,9.5,0.5,-20.8,null,null,null,null];
+    const fmt=value=>value==null?"—":Number(value).toLocaleString("ko-KR");
+    document.getElementById("month-table").innerHTML=months.map((month,i)=>`<tr><td>${month}${i===7?' <span class="provisional">잠정</span>':''}</td><td>${fmt(sales2025[i])}</td><td>${fmt(sales2026[i])}</td><td class="${yoy[i]<0?'down':yoy[i]>0?'up':''}">${yoy[i]==null?'—':`${yoy[i]>0?'+':''}${yoy[i].toFixed(1)}%`}</td></tr>`).join("");
+    new Chart(document.getElementById("sales-chart"),{type:"line",data:{labels:months,datasets:[{label:"2025",data:sales2025,borderColor:"#7890ae",backgroundColor:"rgba(120,144,174,.12)",borderWidth:2,pointRadius:3,tension:.28},{label:"2026",data:sales2026,borderColor:"#54e3d2",backgroundColor:"rgba(84,227,210,.12)",borderWidth:3,pointRadius:4,pointBackgroundColor:"#54e3d2",tension:.28}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{labels:{color:"#c3d1e2",usePointStyle:true}},tooltip:{callbacks:{label:ctx=>`${ctx.dataset.label}: ${fmt(ctx.raw)}대`}}},scales:{x:{grid:{color:"rgba(255,255,255,.05)"},ticks:{color:"#9eb0c7"}},y:{grid:{color:"rgba(255,255,255,.07)"},ticks:{color:"#9eb0c7",callback:value=>`${Math.round(value/1000)}천`}}}}});
+    document.querySelectorAll(".tab").forEach(button=>button.addEventListener("click",()=>{document.querySelectorAll(".tab").forEach(tab=>tab.classList.remove("active"));button.classList.add("active");const focus=button.dataset.focus;document.querySelectorAll("[data-segment]").forEach(card=>{card.style.opacity=focus==="all"||card.dataset.segment===focus?"1":".28";card.style.transform=focus!=="all"&&card.dataset.segment===focus?"translateY(-4px)":"none"})}));
+    document.getElementById("download-csv").addEventListener("click",()=>{const rows=[["year","month","sales","yoy_pct","status"],...months.map((_,i)=>[2025,i+1,sales2025[i],"","확정"]),...months.slice(0,8).map((_,i)=>[2026,i+1,sales2026[i],yoy[i],i===7?"잠정":"확정"])];const blob=new Blob(["\ufeff"+rows.map(row=>row.join(",")).join("\n")],{type:"text/csv;charset=utf-8"});const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="stargate_korea_new_car_sales_2025_2026.csv";a.click();URL.revokeObjectURL(a.href)});
+  </script>
+</body>
+</html>
