@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>최근 3년 KMO 조합 훈련 10선 | STARGATE Research</title>
+  <meta name="description" content="2023–2025 KMO 중등부 1차 조합의 쉬운 진입 문제와 연계 연습문제 10선">
+  <meta name="theme-color" content="#080c14">
+  <script src="/assets/theme-boot.js"></script>
+  <link rel="stylesheet" href="/assets/intelligence-hub.css?v=20260904-sort-b">
+  <style>
+    .training-wrap{max-width:980px;margin:0 auto;padding:32px 20px 80px}
+    .training-hero{padding:42px 0 24px}
+    .training-hero h1{font-size:clamp(34px,6vw,64px);margin:.2em 0}
+    .training-hero p{max-width:760px;line-height:1.8}
+    .problem{border:1px solid var(--line);border-radius:20px;padding:22px;margin:16px 0;background:var(--panel)}
+    .problem h2{margin:0 0 8px;font-size:22px}.tag{display:inline-block;padding:5px 9px;border:1px solid var(--line);border-radius:999px;font-size:12px;margin-right:6px}
+    .q{font-size:18px;line-height:1.8;margin:16px 0}.hint{opacity:.82}.answer{font-weight:800}
+    .progress{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin:20px 0}.progress span{padding:10px;text-align:center;border:1px solid var(--line);border-radius:10px}
+    @media(max-width:640px){.progress{grid-template-columns:repeat(2,1fr)}}
+  </style>
+</head>
+<body class="research">
+  <div class="training-wrap">
+    <nav class="nav"><a class="brand" href="/research/"><span class="logo">D</span><span>STARGATE <small>RESEARCH</small></span></a><a class="back" href="/research/">← 연구 대시보드</a></nav>
+    <header class="training-hero">
+      <div class="eyebrow">KMO Combinatorics Training · 2023–2025</div>
+      <h1>최근 3년 KMO<br>조합 훈련 10선</h1>
+      <p>최근 중등부 1차에서 접근이 쉬운 조합 아이디어를 먼저 훈련합니다. 공개 자료로 확인한 기출은 <b>기출 확인</b>, 같은 핵심 아이디어를 연습하도록 재구성한 문항은 <b>연계 연습</b>으로 표시했습니다.</p>
+      <div class="progress"><span>① 나머지 분류</span><span>② 배수 조건</span><span>③ 색칠</span><span>④ 격자 도형</span><span>⑤ 경로 점화식</span></div>
+    </header>
+    <main>
+      <article class="problem"><span class="tag">기출 확인</span><span class="tag">2025 중등부 1차 4번</span><h2>1. 연속 세 수와 나머지</h2><div class="q">1,2,3,4,5,6을 한 번씩 배열한다. 연속한 세 수의 합이 언제나 3의 배수가 되도록 하는 배열의 수를 구하여라.</div><p class="hint">핵심: 숫자 대신 3으로 나눈 나머지 0,1,2를 보라.</p><p class="answer">정답 확인: 48</p></article>
+      <article class="problem"><span class="tag">최근 기출 핵심</span><span class="tag">2023</span><h2>2. 세 장의 카드와 12의 배수</h2><div class="q">1부터 6까지 적힌 카드 중 3장을 고른다. 세 수의 곱이 12의 배수가 되는 선택을 세어 보라.</div><p class="hint">핵심: 12=2²×3. 필요한 소인수의 개수를 추적한다.</p></article>
+      <article class="problem"><span class="tag">최근 기출 핵심</span><span class="tag">2023</span><h2>3. 색칠 경우의 수</h2><div class="q">정사각형의 네 변을 두 색으로 칠할 때, 회전으로 같아지는 경우를 어떻게 분류해야 하는지 세어 보라.</div><p class="hint">핵심: 먼저 전체를 세고, 대칭으로 생기는 중복을 정리한다.</p></article>
+      <article class="problem"><span class="tag">최근 기출 핵심</span><span class="tag">2023</span><h2>4. 3×3 격자점에서 오각형</h2><div class="q">3×3 형태의 9개 격자점 중 5개를 골라 볼록 오각형이 되는 경우를 세는 전략을 세워라.</div><p class="hint">핵심: C(9,5)에서 오각형이 되지 않는 선택을 빼는 여집합 전략.</p></article>
+      <article class="problem"><span class="tag">최근 기출 핵심</span><span class="tag">2025</span><h2>5. 대각 이동이 가능한 격자 경로</h2><div class="q">오른쪽, 위쪽, 오른쪽 위 대각선 이동만 허용할 때 시작점에서 목표점까지 가는 경로 수를 점화식으로 나타내라.</div><p class="hint">핵심: P(x,y)=P(x-1,y)+P(x,y-1)+P(x-1,y-1).</p></article>
+      <article class="problem"><span class="tag">연계 연습</span><h2>6. 원탁이 아닌 일렬 배치</h2><div class="q">서로 다른 6명을 일렬로 세우되 A와 B가 이웃하지 않게 하는 배열의 수를 구하여라.</div><p class="hint">전체 6!에서 A,B가 붙은 경우를 뺀다.</p></article>
+      <article class="problem"><span class="tag">연계 연습</span><h2>7. 적어도 하나</h2><div class="q">1부터 8까지 중 4개를 고를 때 짝수가 적어도 하나 포함되는 선택의 수를 구하여라.</div><p class="hint">전체 - 전부 홀수.</p></article>
+      <article class="problem"><span class="tag">연계 연습</span><h2>8. 같은 나머지 금지</h2><div class="q">1부터 9까지 중 3개를 고르되, 3으로 나눈 나머지가 서로 모두 다르게 되도록 고르는 방법의 수를 구하여라.</div><p class="hint">나머지 0,1,2 그룹에서 하나씩 선택한다.</p></article>
+      <article class="problem"><span class="tag">연계 연습</span><h2>9. 계단 오르기</h2><div class="q">한 번에 1칸 또는 2칸씩 올라 8번째 계단에 도달하는 방법의 수를 구하여라.</div><p class="hint">핵심: a_n=a_{n-1}+a_{n-2}.</p></article>
+      <article class="problem"><span class="tag">연계 연습</span><h2>10. 두 조건을 동시에 만족</h2><div class="q">1부터 10까지 중 3개를 골라 합이 짝수이고 곱이 3의 배수가 되게 하는 경우를 분류하여 세어 보라.</div><p class="hint">합의 짝홀 조건과 3의 배수 포함 조건을 따로 분류한 뒤 교집합을 센다.</p></article>
+    </main>
+    <footer><span>STARGATE Research · KMO Training</span></footer>
+  </div>
+  <script src="/assets/theme.js?v=20260729f" defer></script>
+</body>
+</html>
