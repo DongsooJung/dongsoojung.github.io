@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>오늘의 격언 전광판 | DONGSOO.PORTAL</title>
+<meta name="description" content="STARGATE가 고른 격언을 전광판처럼 차례로 보여주는 페이지입니다.">
+<link rel="canonical" href="https://www.stargateedu.co.kr/aphorisms.html">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;600;700&family=Noto+Sans+KR:wght@700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#08101f;--amber:#ffb000;--soft:#ffd166;--frame:#20241f;color-scheme:dark}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%;background:var(--bg)}
+body{font-family:"IBM Plex Sans KR","Noto Sans KR",sans-serif;color:#fff;background:radial-gradient(circle at 50% 12%,rgba(201,162,78,.13),transparent 35rem),var(--bg)}
+a{color:inherit}
+.topbar{width:min(1120px,calc(100% - 40px));margin:0 auto;padding:22px 0 0;display:flex;align-items:center;justify-content:space-between;gap:20px}
+.brand{font-weight:800;letter-spacing:.06em;text-decoration:none}.brand span{color:var(--amber)}
+.home-link{color:rgba(255,255,255,.7);font-size:.86rem;text-decoration:none}.home-link:hover{color:#fff}
+.quote-page{min-height:calc(100vh - 60px);padding:clamp(28px,6vw,70px) 20px;display:grid;place-items:center}
+.quote-wrap{width:min(1120px,100%)}
+.quote-head{display:flex;align-items:end;justify-content:space-between;gap:20px;margin-bottom:18px}
+.quote-kicker{margin:0 0 7px;color:var(--amber);font-size:.78rem;font-weight:800;letter-spacing:.2em}
+.quote-head h1{margin:0;font-size:clamp(1.55rem,4vw,2.5rem);line-height:1.2;letter-spacing:-.04em}
+.quote-live{display:inline-flex;align-items:center;gap:8px;padding:8px 12px;border:1px solid rgba(255,255,255,.16);border-radius:999px;color:rgba(255,255,255,.72);font-size:.78rem;font-weight:700}
+.quote-live::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--amber);box-shadow:0 0 12px var(--amber);animation:pulse 1.8s ease-in-out infinite}
+.board-frame{position:relative;overflow:hidden;min-height:clamp(370px,60vh,620px);padding:clamp(12px,2vw,22px);border:1px solid #3a4038;border-radius:22px;background:linear-gradient(145deg,#323831,#171b17);box-shadow:0 28px 90px rgba(0,0,0,.42),inset 0 1px rgba(255,255,255,.08)}
+.board{position:relative;isolation:isolate;min-height:inherit;display:grid;grid-template-rows:auto 1fr auto;gap:22px;padding:clamp(22px,5vw,60px);overflow:hidden;border:2px solid #0e120e;border-radius:12px;background-color:#050705;background-image:radial-gradient(circle,rgba(255,176,0,.11) 1.1px,transparent 1.4px);background-size:7px 7px;box-shadow:inset 0 0 80px rgba(0,0,0,.9),inset 0 0 14px rgba(255,176,0,.1)}
+.board::after{content:"";position:absolute;inset:0;z-index:2;pointer-events:none;background:repeating-linear-gradient(to bottom,transparent 0 3px,rgba(0,0,0,.18) 4px);mix-blend-mode:multiply}
+.board-top,.board-bottom{position:relative;z-index:3;display:flex;align-items:center;justify-content:space-between;gap:16px;color:rgba(255,209,102,.68);font-size:.74rem;font-weight:800;letter-spacing:.17em}
+.quote-stage{position:relative;z-index:1;display:grid;place-items:center;text-align:center}
+.quote-content{width:min(900px,100%);opacity:1;transform:translateY(0);transition:opacity 480ms ease,transform 480ms ease}
+.quote-content.is-changing{opacity:0;transform:translateY(16px)}
+blockquote{margin:0;color:var(--amber);font-size:clamp(2.15rem,6.3vw,5.2rem);font-weight:900;line-height:1.28;letter-spacing:-.055em;text-wrap:balance;text-shadow:0 0 7px rgba(255,176,0,.95),0 0 24px rgba(255,176,0,.34)}
+.quote-author{margin:clamp(26px,5vw,46px) 0 0;color:var(--soft);font-size:clamp(1rem,2.4vw,1.45rem);font-weight:700;letter-spacing:.08em;text-shadow:0 0 10px rgba(255,176,0,.5)}
+.board-controls{display:flex;align-items:center;gap:8px}
+.board-button{display:inline-grid;place-items:center;width:38px;height:38px;padding:0;border:1px solid rgba(255,176,0,.32);border-radius:9px;color:var(--soft);background:rgba(255,176,0,.06);font:inherit;cursor:pointer}
+.board-button:hover,.board-button:focus-visible{border-color:var(--amber);background:rgba(255,176,0,.15);outline:none}.board-button:focus-visible{box-shadow:0 0 0 3px rgba(255,176,0,.24)}
+.quote-foot{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-top:18px}.quote-foot a,.quote-foot p{margin:0;color:rgba(255,255,255,.62);font-size:.84rem}.quote-foot a:hover{color:#fff}
+@keyframes pulse{50%{opacity:.38;box-shadow:0 0 4px var(--amber)}}
+@media(max-width:640px){.topbar{width:calc(100% - 28px)}.quote-page{align-items:start;padding-inline:14px}.quote-head{align-items:start}.quote-live{padding:7px 9px;font-size:.7rem}.board-frame{min-height:500px;padding:9px;border-radius:15px}.board{padding:24px 18px}.board-top{letter-spacing:.1em}.quote-foot{align-items:start;flex-direction:column}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}}
+</style>
+</head>
+<body>
+<nav class="topbar" aria-label="페이지 탐색">
+  <a class="brand" href="/">DONGSOO.<span>PORTAL</span></a>
+  <a class="home-link" href="/">메인으로 돌아가기 →</a>
+</nav>
+<main class="quote-page">
+  <div class="quote-wrap">
+    <header class="quote-head">
+      <div><p class="quote-kicker">STARGATE MESSAGE BOARD</p><h1>오늘의 격언 전광판</h1></div>
+      <span class="quote-live">AUTO PLAY</span>
+    </header>
+    <section class="board-frame" aria-label="자동 순환 격언 전광판">
+      <div class="board">
+        <div class="board-top"><span>WORDS TO LIVE BY</span><span id="quoteCount">01 / 02</span></div>
+        <div class="quote-stage" aria-live="polite" aria-atomic="true">
+          <div class="quote-content" id="quoteContent">
+            <blockquote id="quoteText">나는 내가 좋아하는 일을<br>24시간 하면서 산다</blockquote>
+            <p class="quote-author" id="quoteAuthor">— 워런 버핏</p>
+          </div>
+        </div>
+        <div class="board-bottom">
+          <span>STARGATE · SEOUL</span>
+          <div class="board-controls" aria-label="격언 재생 제어">
+            <button class="board-button" id="previousQuote" type="button" aria-label="이전 격언">←</button>
+            <button class="board-button" id="togglePlayback" type="button" aria-label="자동 재생 일시정지" aria-pressed="false">Ⅱ</button>
+            <button class="board-button" id="nextQuote" type="button" aria-label="다음 격언">→</button>
+          </div>
+        </div>
+      </div>
+    </section>
+    <footer class="quote-foot"><a href="/">← DONGSOO.PORTAL 홈</a><p>격언은 9초마다 자동으로 전환됩니다.</p></footer>
+  </div>
+</main>
+<script>
+const quotes=[
+  {text:"나는 내가 좋아하는 일을<br>24시간 하면서 산다",author:"워런 버핏"},
+  {text:"성과의 80%를 만드는<br>핵심 20%를 찾아 집중하라",author:"알토스벤처스 투자 철학에서 착안"}
+];
+const text=document.getElementById("quoteText");
+const author=document.getElementById("quoteAuthor");
+const count=document.getElementById("quoteCount");
+const content=document.getElementById("quoteContent");
+const toggle=document.getElementById("togglePlayback");
+let current=0,playing=true,timer;
+function renderQuote(index){current=(index+quotes.length)%quotes.length;content.classList.add("is-changing");window.setTimeout(()=>{text.innerHTML=quotes[current].text;author.textContent=`— ${quotes[current].author}`;count.textContent=`${String(current+1).padStart(2,"0")} / ${String(quotes.length).padStart(2,"0")}`;content.classList.remove("is-changing")},480)}
+function restartTimer(){window.clearInterval(timer);if(playing)timer=window.setInterval(()=>renderQuote(current+1),9000)}
+document.getElementById("previousQuote").addEventListener("click",()=>{renderQuote(current-1);restartTimer()});
+document.getElementById("nextQuote").addEventListener("click",()=>{renderQuote(current+1);restartTimer()});
+toggle.addEventListener("click",()=>{playing=!playing;toggle.textContent=playing?"Ⅱ":"▶";toggle.setAttribute("aria-pressed",String(!playing));toggle.setAttribute("aria-label",playing?"자동 재생 일시정지":"자동 재생 시작");restartTimer()});
+restartTimer();
+</script>
+</body>
+</html>
