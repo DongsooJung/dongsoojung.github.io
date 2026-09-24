@@ -1,0 +1,361 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Random Forest 연구 대시보드 | STARGATE Research</title>
+  <meta name="description" content="기업 부도 위험 예측에서 재무 변수와 도시공간 변수를 결합한 Random Forest 모형을 브라우저에서 직접 학습·평가하는 STARGATE AI 연구 대시보드입니다.">
+  <link rel="canonical" href="https://www.stargateedu.co.kr/research/random-forest/">
+  <meta property="og:title" content="Random Forest 연구 대시보드 | STARGATE Research">
+  <meta property="og:description" content="재무 × 공간 변수 Random Forest — OOB 오차, 변수중요도, 로지스틱 기준모형 비교를 브라우저에서 실행합니다.">
+  <meta property="og:url" content="https://www.stargateedu.co.kr/research/random-forest/">
+  <style>
+    :root{--bg:#06110f;--panel:#0d1c1a;--panel2:#10231f;--ink:#effaf6;--muted:#a3b9b2;--line:#23403a;--green:#5fe0a8;--cyan:#58d7ff;--gold:#ffd27d;--red:#ff7a7a;--max:1180px}
+    *{box-sizing:border-box}html{scroll-behavior:smooth}
+    body{margin:0;background:radial-gradient(circle at 80% -10%,#124a3a 0,transparent 36%),radial-gradient(circle at 4% 30%,#0b3a4c 0,transparent 26%),var(--bg);color:var(--ink);font-family:Inter,Pretendard,"Noto Sans KR",system-ui,sans-serif;line-height:1.7;word-break:keep-all}
+    a{color:inherit}.wrap{width:min(var(--max),calc(100% - 32px));margin:auto}
+    .top{height:68px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--line)}
+    .brand{text-decoration:none;font-size:.84rem;font-weight:800;letter-spacing:.14em}.brand span{color:var(--green)}.back{font-size:.82rem;color:var(--muted)}
+    header{padding:64px 0 34px}.kicker{color:var(--green);font-weight:800;letter-spacing:.1em;font-size:.78rem}
+    h1{font-size:clamp(2.4rem,6.5vw,5rem);line-height:1;letter-spacing:-.05em;margin:14px 0 22px}
+    .lead{font-size:1.06rem;color:var(--muted);max-width:860px}
+    .notice{margin-top:20px;max-width:860px;padding:13px 17px;border:1px solid #2f5b50;border-radius:12px;background:rgba(12,40,34,.7);color:#cfe7df;font-size:.9rem}
+    h2{font-size:clamp(1.45rem,3.6vw,2.2rem);line-height:1.25;margin:0 0 8px;letter-spacing:-.02em}
+    section{padding:44px 0;border-top:1px solid var(--line)}
+    .sub{color:var(--muted);margin:0 0 22px;max-width:860px}
+    .qs{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+    .q{background:linear-gradient(145deg,#112823,#0b1a18);border:1px solid var(--line);border-radius:16px;padding:20px}
+    .q b{font:700 2.2rem/1 Georgia,serif;color:transparent;-webkit-text-stroke:1px var(--green)}
+    .q h3{font-size:1.02rem;margin:12px 0 6px}.q p{margin:0;color:var(--muted);font-size:.9rem}
+    .lab{display:grid;grid-template-columns:300px minmax(0,1fr);gap:18px;align-items:start}
+    .panel{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:18px;min-width:0}
+    .ctrl label{display:block;font-size:.82rem;color:var(--muted);margin:14px 0 4px}.ctrl label:first-child{margin-top:0}
+    .ctrl output{float:right;color:var(--ink);font-weight:700}
+    input[type=range]{width:100%;accent-color:var(--green)}
+    .chk{display:flex;gap:8px;align-items:center;font-size:.88rem;margin-top:14px;color:var(--ink)}
+    .chk input{accent-color:var(--green);width:16px;height:16px}
+    button.run{margin-top:18px;width:100%;padding:12px;border:0;border-radius:11px;background:var(--green);color:#04221a;font-weight:800;font-size:.95rem;cursor:pointer}
+    button.run:disabled{opacity:.55;cursor:wait}
+    .status{margin-top:10px;font-size:.8rem;color:var(--muted);min-height:1.2em}
+    .kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:14px}
+    .kpi{background:var(--panel2);border:1px solid var(--line);border-radius:13px;padding:13px 14px;min-width:0}
+    .kpi span{display:block;font-size:.72rem;color:var(--muted);letter-spacing:.04em}
+    .kpi strong{display:block;font-size:1.45rem;font-variant-numeric:tabular-nums;margin-top:2px}
+    .kpi small{color:var(--muted);font-size:.74rem}
+    .charts{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+    .chart h3{font-size:.86rem;margin:0 0 8px;color:var(--cyan);letter-spacing:.04em}
+    .chart svg{width:100%;height:auto;display:block}
+    .chart .cap{font-size:.78rem;color:var(--muted);margin-top:6px}
+    table{width:100%;border-collapse:collapse;font-size:.88rem;font-variant-numeric:tabular-nums}
+    th,td{padding:8px 10px;border-bottom:1px solid var(--line);text-align:right}th:first-child,td:first-child{text-align:left}
+    th{color:var(--muted);font-weight:600;font-size:.78rem}
+    .tbl{overflow-x:auto}
+    .formula{overflow-x:auto;background:#041210;border:1px solid var(--line);border-radius:12px;padding:15px 18px;color:#d8f5ea;font-family:Cambria,"Times New Roman",serif;white-space:nowrap;margin:12px 0}
+    .two{display:grid;grid-template-columns:1fr 1fr;gap:22px}.two>div{min-width:0}
+    .two h3{font-size:.82rem;letter-spacing:.08em;color:var(--green);text-transform:uppercase;margin:0 0 6px}
+    .two ul,.road ol{padding-left:20px;color:var(--muted);margin:0}
+    .road ol li{margin-bottom:6px}.road ol b{color:var(--ink)}
+    .tag{display:inline-block;font-size:.72rem;padding:2px 8px;border-radius:99px;border:1px solid var(--line);color:var(--muted);margin-left:6px}
+    .source{padding:30px 0 60px;border-top:1px solid var(--line);color:var(--muted);font-size:.84rem}.source a{color:var(--green)}
+    @media(max-width:980px){.lab{grid-template-columns:1fr}.charts{grid-template-columns:1fr}}
+    @media(max-width:760px){.qs,.two{grid-template-columns:1fr}.kpis{grid-template-columns:1fr 1fr}}
+    @media(max-width:480px){header{padding-top:44px}.kpi strong{font-size:1.2rem}}
+  </style>
+</head>
+<body>
+  <nav class="wrap top"><a class="brand" href="/research/">STARGATE <span>RESEARCH</span></a><a class="back" href="/research/#ai-ml">연구 허브로 →</a></nav>
+  <header class="wrap">
+    <div class="kicker">AI RESEARCH × ENSEMBLE LEARNING × SPATIAL CREDIT RISK</div>
+    <h1>Random Forest<br>연구 대시보드</h1>
+    <p class="lead">도시공간 변수를 포함한 부도 예측 모형이 재무 변수만 쓴 모형보다 얼마나 나아지는가. 박사논문 Essay 3의 핵심 질문을 Random Forest로 검증하는 실험실입니다. 아래 모형은 서버 없이 이 브라우저 안에서 직접 학습됩니다.</p>
+    <p class="notice"><strong>데이터 안내.</strong> 현재 결과는 연구 설계 검증용 <b>합성 데이터</b>(기업 1,500개, 시드 고정)로 산출됩니다. 비선형 임계효과와 공간 전이효과를 알고 있는 생성모형에 심어 두고, 모형이 이를 복원하는지 확인하는 단계입니다. 실제 기업 데이터(DART 재무제표, 신용평가 DB) 연결은 로드맵 단계에서 진행합니다.</p>
+  </header>
+  <main class="wrap">
+    <section style="border-top:0;padding-top:10px">
+      <div class="qs">
+        <div class="q"><b>01</b><h3>공간 변수의 증분 예측력</h3><p>이웃 기업 부도율·지역 공실률을 추가할 때 AUC가 얼마나 오르는가.</p></div>
+        <div class="q"><b>02</b><h3>비선형·상호작용 포착</h3><p>이자보상배율 1배 임계점, 부채비율 × 이웃 부도율 상호작용을 선형모형 없이 잡아내는가.</p></div>
+        <div class="q"><b>03</b><h3>해석 가능성</h3><p>MDI와 순열 중요도가 같은 변수 순위를 주는가, 아니면 편향이 드러나는가.</p></div>
+      </div>
+    </section>
+
+    <section id="lab">
+      <h2>모형 실험실</h2>
+      <p class="sub">하이퍼파라미터를 조정하고 학습을 실행하십시오. 기준모형(로지스틱 회귀)은 같은 변수 집합으로 함께 적합됩니다.</p>
+      <div class="lab">
+        <div class="panel ctrl">
+          <label>트리 수 (n_estimators) <output id="o-trees">60</output></label>
+          <input id="trees" type="range" min="10" max="200" step="10" value="60">
+          <label>최대 깊이 (max_depth) <output id="o-depth">7</output></label>
+          <input id="depth" type="range" min="2" max="14" step="1" value="7">
+          <label>분할 후보 변수 수 (max_features) <output id="o-mtry">3</output></label>
+          <input id="mtry" type="range" min="1" max="9" step="1" value="3">
+          <label>최소 리프 표본 (min_samples_leaf) <output id="o-leaf">5</output></label>
+          <input id="leaf" type="range" min="1" max="40" step="1" value="5">
+          <div class="chk"><input id="spatial" type="checkbox" checked><label for="spatial" style="margin:0;color:inherit">공간 변수 포함 (3개)</label></div>
+          <button class="run" id="run" type="button">학습 실행</button>
+          <div class="status" id="status" aria-live="polite"></div>
+        </div>
+        <div style="min-width:0">
+          <div class="kpis">
+            <div class="kpi"><span>RF 테스트 AUC</span><strong id="k-auc">–</strong><small id="k-auc-d"></small></div>
+            <div class="kpi"><span>로지스틱 AUC</span><strong id="k-lr">–</strong><small>기준모형</small></div>
+            <div class="kpi"><span>OOB 오분류율</span><strong id="k-oob">–</strong><small>부트스트랩 외 표본</small></div>
+            <div class="kpi"><span>테스트 정확도</span><strong id="k-acc">–</strong><small id="k-base"></small></div>
+          </div>
+          <div class="charts">
+            <div class="panel chart"><h3>트리 수에 따른 OOB 오분류율</h3><div id="c-oob"></div><div class="cap">곡선이 평탄해지는 지점 이후로는 트리를 늘려도 이득이 작습니다.</div></div>
+            <div class="panel chart"><h3>ROC 곡선 (테스트셋)</h3><div id="c-roc"></div><div class="cap">초록: Random Forest · 파랑: 로지스틱 회귀 · 점선: 무작위.</div></div>
+            <div class="panel chart"><h3>변수중요도 — MDI (지니 감소)</h3><div id="c-mdi"></div><div class="cap">학습 표본 기준. 분할 후보가 많은 연속변수에 유리한 편향이 있습니다.</div></div>
+            <div class="panel chart"><h3>변수중요도 — 순열 (AUC 감소)</h3><div id="c-perm"></div><div class="cap">테스트셋에서 한 변수를 섞었을 때 AUC가 떨어지는 폭입니다.</div></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="experiments">
+      <h2>공간 변수 증분 효과 기록</h2>
+      <p class="sub">같은 설정에서 공간 변수를 넣은 경우와 뺀 경우를 비교합니다. 학습을 실행할 때마다 기록이 추가됩니다.</p>
+      <div class="panel tbl"><table><thead><tr><th>설정</th><th>공간 변수</th><th>RF AUC</th><th>로지스틱 AUC</th><th>RF − 로지스틱</th><th>OOB 오분류</th></tr></thead><tbody id="log"><tr><td colspan="6" style="text-align:center;color:var(--muted)">실행 기록이 없습니다.</td></tr></tbody></table></div>
+    </section>
+
+    <section id="method">
+      <h2>방법론</h2>
+      <p class="sub">Breiman(2001)의 Random Forest를 그대로 구현했습니다. 각 트리는 부트스트랩 표본으로 학습하고, 매 분할마다 무작위로 고른 변수 일부에서만 최적 분할을 찾습니다.</p>
+      <div class="formula">p̂(x) = (1/B) Σ<sub>b=1..B</sub> T<sub>b</sub>(x; Θ<sub>b</sub>), &nbsp;&nbsp; Gini(t) = 1 − Σ<sub>k</sub> p<sub>tk</sub><sup>2</sup>, &nbsp;&nbsp; ΔI = Gini(t) − (n<sub>L</sub>/n)Gini(t<sub>L</sub>) − (n<sub>R</sub>/n)Gini(t<sub>R</sub>)</div>
+      <div class="two">
+        <div><h3>변수 구성</h3><ul>
+          <li><b style="color:var(--ink)">재무 6개</b> — 부채비율, 유동비율, 이자보상배율, ROA, 업력, 매출 규모(log)</li>
+          <li><b style="color:var(--ink)">공간 3개</b> — 반경 내 이웃 기업 부도율(공간시차), 지역 상가 공실률, 수도권 여부</li>
+          <li>생성모형: 이자보상배율 &lt; 1 임계 급증, 부채비율 × 이웃 부도율 상호작용, 업력 U자 효과</li>
+        </ul></div>
+        <div><h3>평가 설계</h3><ul>
+          <li>층화 없는 무작위 75:25 학습·테스트 분할 (시드 고정)</li>
+          <li>OOB 오분류율로 트리 수 수렴 확인</li>
+          <li>테스트 AUC로 RF와 로지스틱 비교, 공간 변수 포함 여부 비교</li>
+          <li>분할 후보는 변수당 분위수 24개로 제한해 브라우저 연산량을 줄였습니다</li>
+        </ul></div>
+      </div>
+    </section>
+
+    <section id="roadmap" class="road">
+      <h2>연구 로드맵 <span class="tag">진행 1 / 5</span></h2>
+      <ol>
+        <li><b>합성 데이터 검증</b> — 알려진 비선형·공간 효과 복원 여부 확인 (현재 페이지)</li>
+        <li><b>실데이터 구축</b> — DART 재무제표 + 사업장 주소 지오코딩 + 공간가중행렬(k-NN, 거리역수)</li>
+        <li><b>공간 교차검증</b> — 무작위 분할 대신 지역 블록 CV로 공간 누수(spatial leakage) 통제</li>
+        <li><b>모형 비교</b> — Random Survival Forest, XGBoost, 공간 frailty Cox와 C-index 비교</li>
+        <li><b>해석</b> — SHAP 상호작용 값으로 입지 요인의 한계효과와 정책 함의 도출</li>
+      </ol>
+    </section>
+
+    <div class="source">기준일: 2026년 9월 · 근거: <a href="https://doi.org/10.1023/A:1010933404324" target="_blank" rel="noopener">Breiman (2001), Random Forests, Machine Learning 45</a> · <a href="https://doi.org/10.1186/1471-2105-8-25" target="_blank" rel="noopener">Strobl et al. (2007), Bias in random forest variable importance</a> · <a href="https://doi.org/10.1214/08-AOAS169" target="_blank" rel="noopener">Ishwaran et al. (2008), Random Survival Forests</a> · <a href="https://github.com/DongsooJung/credit-survival-analysis" target="_blank" rel="noopener">credit-survival-analysis 리포지토리</a></div>
+  </main>
+
+<script>
+(function(){
+  'use strict';
+  // ---------- seeded RNG ----------
+  function mulberry32(a){return function(){a|=0;a=a+0x6D2B79F5|0;var t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296;};}
+  function gauss(r){var u=1-r(),v=r();return Math.sqrt(-2*Math.log(u))*Math.cos(2*Math.PI*v);}
+
+  // ---------- synthetic data ----------
+  var NAMES=['부채비율','유동비율','이자보상배율','ROA','업력','매출규모','이웃부도율','지역공실률','수도권'];
+  var SPATIAL=[6,7,8];
+  function makeData(n,seed){
+    var r=mulberry32(seed),X=[],y=[];
+    for(var i=0;i<n;i++){
+      var metro=r()<0.55?1:0;
+      var region=Math.floor(r()*12);
+      var regionShock=[.02,.04,.03,.09,.12,.05,.02,.15,.07,.03,.1,.06][region];
+      var debt=Math.max(10,120+60*gauss(r)+(r()<.15?150:0));
+      var cur=Math.max(20,140+45*gauss(r)-0.12*(debt-120));
+      var icr=Math.exp(0.9+0.9*gauss(r)-0.004*(debt-120));
+      var roa=4+4*gauss(r)+0.6*Math.log(icr);
+      var age=Math.max(0.5,Math.min(40,Math.exp(2+0.8*gauss(r))));
+      var size=6+1.2*gauss(r)+0.03*age;
+      var nb=Math.max(0,Math.min(.4,regionShock+0.03*gauss(r)));
+      var vac=Math.max(0,Math.min(.35,.06+.8*regionShock+.03*gauss(r)-(metro?.02:0)));
+      var z=-3.1
+        +0.009*(debt-120)
+        -0.006*(cur-140)
+        +(icr<1?1.6:0)-0.25*Math.log(icr)
+        -0.12*roa
+        +0.35*Math.pow(Math.log(age)-2,2)-0.3
+        -0.18*(size-6)
+        +9*nb*(debt>180?2.2:0.6)
+        +4*vac
+        -0.25*metro;
+      var p=1/(1+Math.exp(-z));
+      X.push([debt,cur,icr,roa,age,size,nb,vac,metro]);
+      y.push(r()<p?1:0);
+    }
+    return {X:X,y:y};
+  }
+
+  // ---------- Random Forest (Gini, bootstrap, mtry) ----------
+  function thresholds(X,f,Q){
+    var v=X.map(function(x){return x[f];}).sort(function(a,b){return a-b;});
+    var out=[],seen={};
+    for(var q=1;q<Q;q++){var t=v[Math.floor(q*v.length/Q)];if(!seen[t]){seen[t]=1;out.push(t);}}
+    return out;
+  }
+  function gini(p,n){if(!n)return 0;var q=p/n;return 2*q*(1-q);}
+  function buildTree(X,y,idx,feats,opt,r,imp,depth){
+    var n=idx.length,pos=0;for(var i=0;i<n;i++)pos+=y[idx[i]];
+    var node={p:pos/n};
+    if(depth>=opt.depth||n<2*opt.leaf||pos===0||pos===n)return node;
+    var parentG=gini(pos,n),best=null;
+    var cand=feats.slice();for(var k=cand.length-1;k>0;k--){var j=Math.floor(r()*(k+1));var t=cand[k];cand[k]=cand[j];cand[j]=t;}
+    cand=cand.slice(0,Math.min(opt.mtry,cand.length));
+    for(var c=0;c<cand.length;c++){
+      var f=cand[c],ths=opt.th[f];
+      for(var h=0;h<ths.length;h++){
+        var th=ths[h],nl=0,pl=0;
+        for(i=0;i<n;i++){if(X[idx[i]][f]<=th){nl++;pl+=y[idx[i]];}}
+        var nr=n-nl;if(nl<opt.leaf||nr<opt.leaf)continue;
+        var g=parentG-(nl/n)*gini(pl,nl)-(nr/n)*gini(pos-pl,nr);
+        if(!best||g>best.g)best={g:g,f:f,th:th};
+      }
+    }
+    if(!best||best.g<=1e-9)return node;
+    imp[best.f]+=best.g*n;
+    var L=[],R=[];for(i=0;i<n;i++)(X[idx[i]][best.f]<=best.th?L:R).push(idx[i]);
+    node.f=best.f;node.th=best.th;
+    node.l=buildTree(X,y,L,feats,opt,r,imp,depth+1);
+    node.r=buildTree(X,y,R,feats,opt,r,imp,depth+1);
+    return node;
+  }
+  function predTree(t,x){while(t.f!==undefined)t=x[t.f]<=t.th?t.l:t.r;return t.p;}
+
+  // ---------- logistic regression baseline ----------
+  function fitLR(X,y,feats){
+    var m=feats.length,mu=[],sd=[];
+    feats.forEach(function(f,j){var s=0,s2=0;X.forEach(function(x){s+=x[f];s2+=x[f]*x[f];});mu[j]=s/X.length;sd[j]=Math.sqrt(Math.max(1e-9,s2/X.length-mu[j]*mu[j]));});
+    var w=new Array(m+1).fill(0),lr=0.3;
+    for(var it=0;it<400;it++){
+      var g=new Array(m+1).fill(0);
+      for(var i=0;i<X.length;i++){
+        var z=w[m];for(var j=0;j<m;j++)z+=w[j]*(X[i][feats[j]]-mu[j])/sd[j];
+        var e=1/(1+Math.exp(-z))-y[i];
+        for(j=0;j<m;j++)g[j]+=e*(X[i][feats[j]]-mu[j])/sd[j];g[m]+=e;
+      }
+      for(j=0;j<=m;j++)w[j]-=lr*(g[j]/X.length+(j<m?1e-3*w[j]:0));
+    }
+    return function(x){var z=w[m];for(var j=0;j<m;j++)z+=w[j]*(x[feats[j]]-mu[j])/sd[j];return 1/(1+Math.exp(-z));};
+  }
+
+  // ---------- metrics ----------
+  function auc(s,y){
+    var a=s.map(function(v,i){return[v,y[i]];}).sort(function(p,q){return p[0]-q[0];});
+    var rank=0,P=0,N=0,sum=0,i=0;
+    while(i<a.length){var j=i;while(j<a.length&&a[j][0]===a[i][0])j++;var avg=(i+j+1)/2;for(var k=i;k<j;k++){if(a[k][1]){sum+=avg;P++;}else N++;}i=j;}
+    return P&&N?(sum-P*(P+1)/2)/(P*N):0.5;
+  }
+  function roc(s,y){
+    var a=s.map(function(v,i){return[v,y[i]];}).sort(function(p,q){return q[0]-p[0];});
+    var P=y.reduce(function(t,v){return t+v;},0),N=y.length-P,tp=0,fp=0,pts=[[0,0]];
+    for(var i=0;i<a.length;i++){if(a[i][1])tp++;else fp++;if(i===a.length-1||a[i+1][0]!==a[i][0])pts.push([fp/N,tp/P]);}
+    return pts;
+  }
+
+  // ---------- SVG helpers ----------
+  var C={g:'#5fe0a8',b:'#58d7ff',m:'#a3b9b2',l:'#23403a',ink:'#effaf6',gold:'#ffd27d'};
+  function lineChart(series,opt){
+    var W=460,H=260,pl=44,pr=12,pt=12,pb=32,iw=W-pl-pr,ih=H-pt-pb;
+    var sx=function(v){return pl+(v-opt.x0)/(opt.x1-opt.x0)*iw;},sy=function(v){return pt+ih-(v-opt.y0)/(opt.y1-opt.y0)*ih;};
+    var s='<svg viewBox="0 0 '+W+' '+H+'" role="img" aria-label="'+opt.label+'">';
+    for(var k=0;k<=4;k++){var yv=opt.y0+(opt.y1-opt.y0)*k/4;s+='<line x1="'+pl+'" x2="'+(W-pr)+'" y1="'+sy(yv)+'" y2="'+sy(yv)+'" stroke="'+C.l+'"/><text x="'+(pl-6)+'" y="'+(sy(yv)+4)+'" fill="'+C.m+'" font-size="11" text-anchor="end">'+opt.fy(yv)+'</text>';}
+    for(k=0;k<=4;k++){var xv=opt.x0+(opt.x1-opt.x0)*k/4;s+='<text x="'+sx(xv)+'" y="'+(H-10)+'" fill="'+C.m+'" font-size="11" text-anchor="middle">'+opt.fx(xv)+'</text>';}
+    if(opt.diag)s+='<line x1="'+sx(0)+'" y1="'+sy(0)+'" x2="'+sx(1)+'" y2="'+sy(1)+'" stroke="'+C.m+'" stroke-dasharray="4 4"/>';
+    series.forEach(function(se){s+='<polyline fill="none" stroke="'+se.c+'" stroke-width="2.2" points="'+se.pts.map(function(p){return sx(p[0]).toFixed(1)+','+sy(p[1]).toFixed(1);}).join(' ')+'"/>';});
+    return s+'</svg>';
+  }
+  function barChart(vals,names,spatialSet,fmt){
+    var order=vals.map(function(v,i){return i;}).sort(function(a,b){return vals[b]-vals[a];});
+    var W=460,rowH=24,pl=92,pr=54,H=order.length*rowH+8,max=Math.max.apply(null,vals.map(function(v){return Math.max(v,0);}))||1;
+    var s='<svg viewBox="0 0 '+W+' '+H+'" role="img" aria-label="변수중요도">';
+    order.forEach(function(i,r){var y=4+r*rowH,w=Math.max(0,vals[i])/max*(W-pl-pr);var col=spatialSet.indexOf(i)>=0?C.gold:C.g;
+      s+='<text x="'+(pl-8)+'" y="'+(y+15)+'" fill="'+C.ink+'" font-size="12" text-anchor="end">'+names[i]+'</text><rect x="'+pl+'" y="'+(y+3)+'" width="'+w.toFixed(1)+'" height="16" rx="3" fill="'+col+'"/><text x="'+(pl+w+6)+'" y="'+(y+15)+'" fill="'+C.m+'" font-size="11">'+fmt(vals[i])+'</text>';});
+    return s+'</svg>';
+  }
+
+  // ---------- run ----------
+  var DATA=makeData(1500,20260924);
+  var nTrain=Math.floor(DATA.X.length*0.75);
+  var perm=DATA.X.map(function(_,i){return i;});(function(){var r=mulberry32(7);for(var k=perm.length-1;k>0;k--){var j=Math.floor(r()*(k+1));var t=perm[k];perm[k]=perm[j];perm[j]=t;}})();
+  var trI=perm.slice(0,nTrain),teI=perm.slice(nTrain);
+  var Xtr=trI.map(function(i){return DATA.X[i];}),ytr=trI.map(function(i){return DATA.y[i];});
+  var Xte=teI.map(function(i){return DATA.X[i];}),yte=teI.map(function(i){return DATA.y[i];});
+  var TH=NAMES.map(function(_,f){return thresholds(Xtr,f,24);});
+  var runs=[];
+
+  var $=function(id){return document.getElementById(id);};
+  ['trees','depth','mtry','leaf'].forEach(function(id){var el=$(id);el.addEventListener('input',function(){$('o-'+id).textContent=el.value;});});
+  $('spatial').addEventListener('change',function(){var m=$('mtry');m.max=this.checked?9:6;if(+m.value>+m.max)m.value=m.max;$('o-mtry').textContent=m.value;});
+
+  function run(){
+    var btn=$('run');btn.disabled=true;
+    var useSp=$('spatial').checked;
+    var feats=NAMES.map(function(_,i){return i;}).filter(function(i){return useSp||SPATIAL.indexOf(i)<0;});
+    var opt={trees:+$('trees').value,depth:+$('depth').value,mtry:Math.min(+$('mtry').value,feats.length),leaf:+$('leaf').value,th:TH};
+    var r=mulberry32(42),forest=[],imp=new Array(NAMES.length).fill(0);
+    var oobSum=new Array(Xtr.length).fill(0),oobCnt=new Array(Xtr.length).fill(0),oobCurve=[];
+    var b=0,t0=performance.now();
+    function step(){
+      var end=Math.min(opt.trees,b+5);
+      for(;b<end;b++){
+        var idx=[],inBag=new Uint8Array(Xtr.length);
+        for(var i=0;i<Xtr.length;i++){var k=Math.floor(r()*Xtr.length);idx.push(k);inBag[k]=1;}
+        var tree=buildTree(Xtr,ytr,idx,feats,opt,r,imp,0);forest.push(tree);
+        for(i=0;i<Xtr.length;i++)if(!inBag[i]){oobSum[i]+=predTree(tree,Xtr[i]);oobCnt[i]++;}
+        var err=0,cnt=0;for(i=0;i<Xtr.length;i++)if(oobCnt[i]){cnt++;if((oobSum[i]/oobCnt[i]>=0.5?1:0)!==ytr[i])err++;}
+        oobCurve.push([b+1,cnt?err/cnt:0]);
+      }
+      $('status').textContent='트리 '+b+' / '+opt.trees+' 학습 중…';
+      if(b<opt.trees){setTimeout(step,0);return;}
+      finish(forest,feats,opt,imp,oobCurve,useSp,performance.now()-t0);
+    }
+    setTimeout(step,20);
+  }
+  function predForest(forest,x){var s=0;for(var i=0;i<forest.length;i++)s+=predTree(forest[i],x);return s/forest.length;}
+  function finish(forest,feats,opt,imp,oobCurve,useSp,ms){
+    var sRF=Xte.map(function(x){return predForest(forest,x);});
+    var lr=fitLR(Xtr,ytr,feats),sLR=Xte.map(lr);
+    var aRF=auc(sRF,yte),aLR=auc(sLR,yte);
+    var acc=sRF.reduce(function(t,s,i){return t+((s>=0.5?1:0)===yte[i]?1:0);},0)/yte.length;
+    var base=1-yte.reduce(function(t,v){return t+v;},0)/yte.length;
+    var oob=oobCurve[oobCurve.length-1][1];
+    // permutation importance
+    var pr=mulberry32(99),permImp=new Array(NAMES.length).fill(0);
+    feats.forEach(function(f){
+      var col=Xte.map(function(x){return x[f];});for(var k=col.length-1;k>0;k--){var j=Math.floor(pr()*(k+1));var t=col[k];col[k]=col[j];col[j]=t;}
+      var s=Xte.map(function(x,i){var z=x.slice();z[f]=col[i];return predForest(forest,z);});
+      permImp[f]=aRF-auc(s,yte);
+    });
+    var tot=imp.reduce(function(t,v){return t+v;},0)||1,mdi=imp.map(function(v){return v/tot;});
+    var names=feats.map(function(f){return NAMES[f];}),spIdx=[];feats.forEach(function(f,j){if(SPATIAL.indexOf(f)>=0)spIdx.push(j);});
+
+    $('k-auc').textContent=aRF.toFixed(3);
+    var d=aRF-aLR;$('k-auc-d').textContent=(d>=0?'+':'')+d.toFixed(3)+' vs 로지스틱';
+    $('k-lr').textContent=aLR.toFixed(3);
+    $('k-oob').textContent=(oob*100).toFixed(1)+'%';
+    $('k-acc').textContent=(acc*100).toFixed(1)+'%';
+    $('k-base').textContent='전부 정상 예측 시 '+(base*100).toFixed(1)+'%';
+    var ymax=Math.max(0.05,Math.ceil(Math.max.apply(null,oobCurve.map(function(p){return p[1];}))*20)/20);
+    $('c-oob').innerHTML=lineChart([{c:C.g,pts:oobCurve}],{label:'OOB 오분류율',x0:1,x1:Math.max(2,opt.trees),y0:0,y1:ymax,fx:function(v){return Math.round(v);},fy:function(v){return (v*100).toFixed(0)+'%';}});
+    $('c-roc').innerHTML=lineChart([{c:C.b,pts:roc(sLR,yte)},{c:C.g,pts:roc(sRF,yte)}],{label:'ROC 곡선',x0:0,x1:1,y0:0,y1:1,diag:1,fx:function(v){return v.toFixed(2);},fy:function(v){return v.toFixed(2);}});
+    $('c-mdi').innerHTML=barChart(feats.map(function(f){return mdi[f];}),names,spIdx,function(v){return (v*100).toFixed(1)+'%';});
+    $('c-perm').innerHTML=barChart(feats.map(function(f){return permImp[f];}),names,spIdx,function(v){return v.toFixed(3);});
+
+    runs.unshift({cfg:'T'+opt.trees+' · D'+opt.depth+' · F'+opt.mtry+' · L'+opt.leaf,sp:useSp,aRF:aRF,aLR:aLR,oob:oob});
+    $('log').innerHTML=runs.slice(0,12).map(function(x){return '<tr><td>'+x.cfg+'</td><td>'+(x.sp?'포함':'제외')+'</td><td>'+x.aRF.toFixed(3)+'</td><td>'+x.aLR.toFixed(3)+'</td><td>'+((x.aRF-x.aLR)>=0?'+':'')+(x.aRF-x.aLR).toFixed(3)+'</td><td>'+(x.oob*100).toFixed(1)+'%</td></tr>';}).join('');
+    $('status').textContent='완료 · '+(ms/1000).toFixed(1)+'초 · 학습 '+Xtr.length+'개 / 테스트 '+Xte.length+'개 · 노란 막대는 공간 변수';
+    $('run').disabled=false;
+  }
+  $('run').addEventListener('click',run);
+  run();
+})();
+</script>
+</body>
+</html>
