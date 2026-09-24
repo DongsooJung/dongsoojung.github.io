@@ -41,6 +41,10 @@ jobs:
         run: node --test tests/*.test.js tests/*.test.mjs tests/*.test.cjs
       - name: Test Incheon facility deduplication
         run: python3 tests/incheon_aggregate_test.py
+      - name: Verify editorial SEO metadata and sitemap
+        run: |
+          python3 scripts/normalize-editorial-metadata.py --check
+          python3 scripts/generate-sitemap.py --check
       - name: Verify public file staging
         run: node scripts/build-vercel-static.mjs
       - name: Request owner-authorized production deployment

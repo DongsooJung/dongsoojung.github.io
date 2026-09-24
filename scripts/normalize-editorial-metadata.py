@@ -75,6 +75,16 @@ def normalize(path: Path, source: str) -> str:
     )
     image = image.replace("https://www.stargateedu.co.kr/", f"{ORIGIN}/")
     kind = "website" if relative in ("research", "strategy") else "article"
+    image_alt = (
+        "F-2, F-5 and F-6 Korea immigration policy research dashboard"
+        if relative == "research/immigration-policy"
+        else "STARGATE research and strategy insights"
+    )
+    locale_alternate = (
+        '<meta property="og:locale:alternate" content="en_US">'
+        if relative == "research/immigration-policy"
+        else ""
+    )
 
     def remove_tag(match: re.Match[str]) -> str:
         tag = match.group(0)
@@ -95,17 +105,23 @@ def normalize(path: Path, source: str) -> str:
             f'<link rel="canonical" href="{escaped(url)}">',
             f'<meta property="og:type" content="{kind}">',
             f'<meta property="og:site_name" content="STARGATE">',
+            '<meta property="og:locale" content="ko_KR">',
+            locale_alternate,
             f'<meta property="og:title" content="{escaped(title)}">',
             f'<meta property="og:description" content="{escaped(description)}">',
             f'<meta property="og:url" content="{escaped(url)}">',
             f'<meta property="og:image" content="{escaped(image)}">',
+            '<meta property="og:image:type" content="image/jpeg">',
+            '<meta property="og:image:width" content="1200">',
+            '<meta property="og:image:height" content="630">',
+            f'<meta property="og:image:alt" content="{escaped(image_alt)}">',
             '<meta name="twitter:card" content="summary_large_image">',
             f'<meta name="twitter:title" content="{escaped(title)}">',
             f'<meta name="twitter:description" content="{escaped(description)}">',
             f'<meta name="twitter:image" content="{escaped(image)}">',
         )
     )
-    clean = clean.rstrip() + "\n" + block + "\n"
+    clean = clean.rstrip() + "\n" + block.replace("\n\n", "\n") + "\n"
     return source[: head_match.start(1)] + clean + source[head_match.end(1) :]
 
 

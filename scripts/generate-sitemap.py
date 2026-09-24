@@ -6,9 +6,10 @@ The checked-in sitemap remains the allowlist for all other site sections.
 
 from __future__ import annotations
 
+import argparse
 import re
 import subprocess
-from datetime import date
+from datetime import date, timedelta
 from html import escape
 from pathlib import Path
 from urllib.parse import urlparse
@@ -72,7 +73,10 @@ def modified_date(path: Path) -> str | None:
     return None
 
 
-def main() -> None:
+def main() -> int:
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--check", action="store_true", help="fail if sitemap.xml is stale")
+    args = parser.parse_args()
     # ElementTree parses the existing file despite the literal backslash-n text.
     # Reading existing <loc> elements preserves the intentionally curated sections.
     old_root = ET.fromstring(SITEMAP.read_text(encoding="utf-8"))
@@ -122,9 +126,37 @@ def main() -> None:
             lines.append("    </image:image>")
         lines.append("  </url>")
     lines.append("</urlset>")
-    SITEMAP.write_text("\n".join(lines) + "\n", encoding="utf-8")
-    print(f"Wrote {len(urls)} URLs to {SITEMAP}")
+    output = "\n".join(lines) + "\n"
+    if args.check:
+        existing = SITEMAP.read_text(encoding="utf-8")
+        # GitHub Actions uses a shallow checkout, so historical file dates may
+        # be unavailable there. Compare structure while validating saved dates.
+        without_dates = lambda value: re.sub(
+            r"(?m)^    <lastmod>[^<]*</lastmod>\n", "", value
+        )
+        for element in ET.fromstring(existing).findall(f"{{{NS}}}url"):
+            loc = element.findtext(f"{{{NS}}}loc") or ""
+            path = local_path(loc)
+            value = element.findtext(f"{{{NS}}}lastmod")
+            if path is not None and path.exists() and not value:
+                print(f"Missing sitemap lastmod: {loc}")
+                return 1
+            if value:
+                try:
+                    if date.fromisoformat(value) > date.today() + timedelta(days=1):
+                        raise ValueError("future date")
+                except ValueError:
+                    print(f"Invalid sitemap lastmod: {value}")
+                    return 1
+        if without_dates(output) != without_dates(existing):
+            print("sitemap.xml is stale; run python scripts/generate-sitemap.py")
+            return 1
+        print(f"sitemap.xml is current ({len(urls)} URLs)")
+    else:
+        SITEMAP.write_text(output, encoding="utf-8")
+        print(f"Wrote {len(urls)} URLs to {SITEMAP}")
+    return 0
 
 
 if __name__ == "__main__":
-    main()
+    raise SystemExit(main())
