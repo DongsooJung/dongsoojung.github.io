@@ -1,0 +1,43 @@
+{
+  "expo": {
+    "name": "Gangnam Tutoring",
+    "slug": "gangnam-tutoring",
+    "version": "0.1.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "light",
+    "newArchEnabled": true,
+    "ios": {
+      "supportsTablet": false,
+      "bundleIdentifier": "com.stargate.gangnamtutoring",
+      "config": {
+        "googleMapsApiKey": "$GOOGLE_MAPS_API_KEY_IOS"
+      }
+    },
+    "android": {
+      "package": "com.stargate.gangnamtutoring",
+      "config": {
+        "googleMaps": {
+          "apiKey": "$GOOGLE_MAPS_API_KEY_ANDROID"
+        }
+      }
+    },
+    "plugins": [
+      "expo-router",
+      [
+        "@react-native-google-signin/google-signin",
+        {
+          "iosUrlScheme": "$GOOGLE_SIGNIN_IOS_URL_SCHEME"
+        }
+      ]
+    ],
+    "extra": {
+      "firebaseApiKey": "$FIREBASE_API_KEY",
+      "firebaseAuthDomain": "$FIREBASE_AUTH_DOMAIN",
+      "firebaseProjectId": "$FIREBASE_PROJECT_ID",
+      "firebaseAppId": "$FIREBASE_APP_ID",
+      "firebaseStorageBucket": "$FIREBASE_STORAGE_BUCKET",
+      "firebaseMessagingSenderId": "$FIREBASE_MESSAGING_SENDER_ID",
+      "googleSignInWebClientId": "$GOOGLE_SIGNIN_WEB_CLIENT_ID"
+    }
+  }
+}
