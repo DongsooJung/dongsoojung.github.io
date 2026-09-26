@@ -345,7 +345,6 @@ footer .business-info{flex-basis:100%;padding-top:10px;border-top:1px solid var(
 </head>
 <body>
 <aside class="chuseok-notice" id="chuseok-notice" aria-label="2026년 추석 인사" hidden>
-  <img src="/assets/chuseok-2026-greeting.jpg" alt="주식회사 별의문, 스타게이트 회원 여러분. 풍성하고 따뜻한 한가위 되시기를 바랍니다. 2026 추석" width="1168" height="784">
   <button type="button" aria-label="추석 인사 닫기">&times;</button>
 </aside>
 
@@ -1041,11 +1040,22 @@ footer .business-info{flex-basis:100%;padding-top:10px;border-top:1px solid var(
 <script>
 (() => {
   const notice = document.getElementById('chuseok-notice');
+  if (!notice) return;
   const parts = new Intl.DateTimeFormat('en-US', {timeZone:'Asia/Seoul',year:'numeric',month:'2-digit',day:'2-digit'}).formatToParts(new Date());
   const date = Object.fromEntries(parts.map(({type,value}) => [type,value]));
   const kstDate = date.year + '-' + date.month + '-' + date.day;
   if (kstDate < '2026-09-24' || kstDate > '2026-09-27') return;
-  const image = notice.querySelector('img');
+  const picture = document.createElement('picture');
+  const source = document.createElement('source');
+  source.srcset = '/assets/chuseok-2026-greeting.webp';
+  source.type = 'image/webp';
+  const image = new Image(1168, 784);
+  image.src = '/assets/chuseok-2026-greeting.jpg';
+  image.alt = '주식회사 별의문, 스타게이트 회원 여러분. 풍성하고 따뜻한 한가위 되시기를 바랍니다. 2026 추석';
+  image.decoding = 'async';
+  image.fetchPriority = 'high';
+  picture.append(source, image);
+  notice.prepend(picture);
   let timer;
   const close = () => {
     clearTimeout(timer);
