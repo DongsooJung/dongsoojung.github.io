@@ -29,36 +29,45 @@ jobs:
       - name: Wait for live deployment, collect GH notices, verify Supabase readback
         run: |
           node --input-type=module <<'NODE'
-          const endpoint = 'https://stargate-onbid-api.vercel.app/api/gh-sale-info';
+          const endpoints = [
+            'https://portfolio-stargate2.vercel.app/api/gh-sale-info',
+            'https://stargate-onbid-api.vercel.app/api/gh-sale-info',
+            'https://stargate-bid-api.vercel.app/api/gh-sale-info',
+          ];
           const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
           let collected = null;
+          let workingEndpoint = '';
           let last = '';
 
-          for (let attempt = 1; attempt <= 12; attempt += 1) {
-            try {
-              const response = await fetch(endpoint + '?action=collect', {
-                headers: { Accept: 'application/json', 'User-Agent': 'STARGATE-GH-Live-Check/1.0' },
-              });
-              const text = await response.text();
-              last = `HTTP ${response.status} ${text.slice(0, 300)}`;
-              if (response.ok) {
-                const data = JSON.parse(text);
-                if (data.ok && Number(data.saved) > 0) {
-                  collected = data;
-                  console.log(`collect OK on attempt ${attempt}: saved=${data.saved}, rows=${data.rowCount}`);
-                  break;
+          for (let attempt = 1; attempt <= 6 && !collected; attempt += 1) {
+            for (const endpoint of endpoints) {
+              try {
+                const response = await fetch(endpoint + '?action=collect', {
+                  headers: { Accept: 'application/json', 'User-Agent': 'STARGATE-GH-Live-Check/1.0' },
+                });
+                const text = await response.text();
+                last = `${endpoint} HTTP ${response.status} ${text.slice(0, 300)}`;
+                console.log(`attempt ${attempt}: ${last}`);
+                if (response.ok) {
+                  const data = JSON.parse(text);
+                  if (data.ok && Number(data.saved) > 0) {
+                    collected = data;
+                    workingEndpoint = endpoint;
+                    console.log(`collect OK: endpoint=${endpoint} saved=${data.saved}, rows=${data.rowCount}`);
+                    break;
+                  }
                 }
+              } catch (error) {
+                last = `${endpoint} ${String(error?.message || error)}`;
+                console.log(`attempt ${attempt}: ${last}`);
               }
-            } catch (error) {
-              last = String(error?.message || error);
             }
-            console.log(`attempt ${attempt}: live endpoint not ready: ${last}`);
-            await sleep(10_000);
+            if (!collected) await sleep(10_000);
           }
 
           if (!collected) throw new Error(`GH live collection did not succeed: ${last}`);
 
-          const response = await fetch(endpoint + '?limit=10&logLimit=5', {
+          const response = await fetch(workingEndpoint + '?limit=10&logLimit=5', {
             headers: { Accept: 'application/json', 'User-Agent': 'STARGATE-GH-Live-Check/1.0' },
           });
           const data = await response.json();
@@ -68,5 +77,6 @@ jobs:
           if (!data.saved.every(row => ['rent-house','rent-store','buy-rent'].includes(row.source_type))) {
             throw new Error('GH readback contains an unexpected source type');
           }
+          console.log(`WORKING_ENDPOINT=${workingEndpoint}`);
           console.log(`readback OK: ${data.saved.length} GH rows; latest=${data.saved[0]?.title || '-'}`);
           NODE
