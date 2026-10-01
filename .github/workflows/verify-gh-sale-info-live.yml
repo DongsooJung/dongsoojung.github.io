@@ -29,12 +29,12 @@ jobs:
       - name: Wait for live deployment, collect GH notices, verify Supabase readback
         run: |
           node --input-type=module <<'NODE'
-          const endpoint = 'https://stargate-bid-api.vercel.app/api/gh-sale-info';
+          const endpoint = 'https://stargate-onbid-api.vercel.app/api/gh-sale-info';
           const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
           let collected = null;
           let last = '';
 
-          for (let attempt = 1; attempt <= 24; attempt += 1) {
+          for (let attempt = 1; attempt <= 12; attempt += 1) {
             try {
               const response = await fetch(endpoint + '?action=collect', {
                 headers: { Accept: 'application/json', 'User-Agent': 'STARGATE-GH-Live-Check/1.0' },
