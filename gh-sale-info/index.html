@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>GH 청약정보 관측소 | STARGATE Research</title>
+  <meta name="description" content="경기주택도시공사 GH 주택청약·임대센터의 임대주택·임대상가·매입임대 공고를 매일 수집해 보는 연구 대시보드.">
+  <link rel="canonical" href="https://www.stargateedu.co.kr/gh-sale-info/">
+  <style>
+    :root{color-scheme:dark;--bg:#091019;--panel:#111b27;--line:#243347;--text:#edf4ff;--muted:#95a6ba;--accent:#65d6b5}
+    *{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 10% 0,#143047,transparent 34%),var(--bg);color:var(--text);font-family:system-ui,-apple-system,"Noto Sans KR",sans-serif}
+    main{max-width:1080px;margin:auto;padding:48px 20px 80px}.eyebrow{font-size:12px;letter-spacing:.16em;color:var(--accent);font-weight:800}
+    h1{font-size:clamp(34px,6vw,64px);margin:8px 0 14px;line-height:1}.lead{max-width:720px;color:var(--muted);line-height:1.7}
+    .bar{display:flex;gap:10px;align-items:center;justify-content:space-between;margin:30px 0 18px;padding:14px 16px;border:1px solid var(--line);border-radius:16px;background:#0d1722}
+    button{border:0;border-radius:10px;background:var(--accent);color:#06251d;font-weight:800;padding:10px 14px;cursor:pointer}button:disabled{opacity:.5}
+    #state{color:var(--muted);font-size:14px}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:12px}
+    .row{display:block;color:inherit;text-decoration:none;border:1px solid var(--line);background:linear-gradient(145deg,#101b28,#0c141e);border-radius:16px;padding:18px;transition:.15s}
+    .row:hover{transform:translateY(-2px);border-color:#41617c}.top,.meta{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+    .type,.status{font-size:12px;border:1px solid var(--line);border-radius:999px;padding:4px 8px;color:var(--muted)}.status{color:var(--accent)}
+    h3{font-size:17px;line-height:1.45;margin:13px 0}.meta{font-size:12px;color:var(--muted)}.empty{color:var(--muted);padding:30px;border:1px dashed var(--line);border-radius:16px}
+    footer{margin-top:34px;color:var(--muted);font-size:12px;line-height:1.7}a.back{color:var(--muted)}
+  </style>
+</head>
+<body>
+<main>
+  <a class="back" href="/research/">← 연구 허브</a>
+  <div class="eyebrow">STARGATE · PUBLIC HOUSING OBSERVATORY</div>
+  <h1>GH 청약정보 관측소</h1>
+  <p class="lead">GH주택청약·임대센터의 공개 청약공고 중 임대주택·임대상가·매입임대를 일일 수집해 Supabase에 누적합니다. 공고 세부 조건과 실제 청약 가능 여부는 반드시 GH 원문을 확인하십시오.</p>
+  <div class="bar"><span id="state">상태 확인 중</span><button id="collect" type="button">지금 수집</button></div>
+  <section id="list" class="grid" aria-live="polite"><div class="empty">불러오는 중…</div></section>
+  <footer>Source: 경기주택도시공사 GH주택청약·임대센터 공개 청약공고 · 자동 수집: Vercel Cron 1일 1회</footer>
+</main>
+<script src="./app.js"></script>
+</body>
+</html>

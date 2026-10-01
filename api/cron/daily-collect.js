@@ -1,6 +1,6 @@
-/** Daily Vercel Cron: G2B construction/service bids + LH notices -> Supabase. */
+/** Daily Vercel Cron: G2B bids + LH + GH housing notices -> Supabase. */
 import bidHandler from '../bid-pblanc/[kind].js';
-import lhHandler from '../lh-sale-info.js';
+import lhHandler from '../lh-sale-info.js';\nimport ghHandler from '../gh-sale-info.js';
 
 export const maxDuration = 300;
 
