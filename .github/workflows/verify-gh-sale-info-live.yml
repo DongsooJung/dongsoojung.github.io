@@ -29,6 +29,20 @@ jobs:
       - name: Wait for live deployment, collect GH notices, verify Supabase readback
         run: |
           node --input-type=module <<'NODE'
+          const ghSource = 'https://apply.gh.or.kr/sb/sr/sr7150/selectPbancRentHouseList.do';
+          const ghResponse = await fetch(ghSource, {
+            headers: { Accept: 'text/html,application/xhtml+xml', 'User-Agent': 'Mozilla/5.0 STARGATE-GH-Debug/1.0' },
+          });
+          const ghHtml = await ghResponse.text();
+          console.log('GH_SOURCE_STATUS=' + ghResponse.status);
+          console.log('GH_CONTENT_TYPE=' + (ghResponse.headers.get('content-type') || ''));
+          console.log('GH_HTML_LENGTH=' + ghHtml.length);
+          for (const token of ['pbancNo', 'selectPbancDetailView', '연천BIX', '<tbody', '<tr']) {
+            const i = ghHtml.indexOf(token);
+            console.log('GH_TOKEN=' + token + ' INDEX=' + i);
+            if (i >= 0) console.log(ghHtml.slice(Math.max(0, i - 700), i + 1300).replace(/\s+/g, ' '));
+          }
+
           const endpoints = [
             'https://portfolio-stargate2.vercel.app/api/gh-sale-info',
             'https://stargate-onbid-api.vercel.app/api/gh-sale-info',
