@@ -1,6 +1,7 @@
 /** Daily Vercel Cron: G2B bids + LH + GH housing notices -> Supabase. */
 import bidHandler from '../bid-pblanc/[kind].js';
-import lhHandler from '../lh-sale-info.js';\nimport ghHandler from '../gh-sale-info.js';
+import lhHandler from '../lh-sale-info.js';
+import ghHandler from '../../server/api/gh-sale-info.js';
 
 export const maxDuration = 300;
 
@@ -59,7 +60,15 @@ export default async function handler(req, res) {
     const servc = await collectBid('servc', range);
     const lhRaw = await invoke(lhHandler, { pageNo: 1, pageSize: 100, saveToSupabase: true, typeCode: 'all' });
     const lh = { kind: 'lh', pages: 1, rowCount: lhRaw.rowCount || 0, saved: lhRaw.saved || 0, totalCount: lhRaw.totalCount || 0 };
-    return res.status(200).json({ ok: true, startedAt: startedAt.toISOString(), finishedAt: new Date().toISOString(), range, results: [cnstwk, servc, lh] });
+    const ghRaw = await invoke(ghHandler, {});
+    const gh = { kind: 'gh', pages: 1, rowCount: ghRaw.rowCount || 0, saved: ghRaw.saved || 0, sources: ghRaw.sourceStatus || [] };
+    return res.status(200).json({
+      ok: true,
+      startedAt: startedAt.toISOString(),
+      finishedAt: new Date().toISOString(),
+      range,
+      results: [cnstwk, servc, lh, gh],
+    });
   } catch (error) {
     return res.status(502).json({ ok: false, error: error instanceof Error ? error.message : 'daily_collect_failed' });
   }
