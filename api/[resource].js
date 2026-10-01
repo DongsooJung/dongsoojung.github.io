@@ -6,7 +6,7 @@ import naverCafePopular from '../server/api/naver-cafe-popular.js';
 import bidscout from '../server/api/bidscout.js';
 import mathgrader from '../server/api/mathgrader.js';
 import portfolioNotion from '../server/api/portfolio-notion.js';
-import usedCarRegistration from '../server/api/used-car-registration.js';
+import usedCarRegistration from '../server/api/used-car-registration.js';\nimport ghSaleInfo from '../server/api/gh-sale-info.js';
 
 // One deployed function preserves these public API URLs. Keep imports static
 // so Vercel includes each implementation without exposing it as a function.
@@ -19,7 +19,7 @@ const handlers = new Map([
   ['bidscout', bidscout],
   ['mathgrader', mathgrader],
   ['portfolio-notion', portfolioNotion],
-  ['used-car-registration', usedCarRegistration],
+  ['used-car-registration', usedCarRegistration],\n  ['gh-sale-info', ghSaleInfo],
 ]);
 
 export default function handler(req, res) {
