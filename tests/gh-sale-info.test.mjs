@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 
-const mod = await import('../api/gh-sale-info.js');
+const mod = await import('../server/api/gh-sale-info.js');
 const { parseGhListHtml, normalizeDate, SOURCES } = mod.__test;
 
 test('GH sources include three public notice categories', () => {
@@ -30,4 +30,19 @@ test('GH list parser extracts normalized notice fields', () => {
 test('normalizeDate accepts dot/slash/dash separators', () => {
   assert.equal(normalizeDate('2026.8.4'), '2026-08-04');
   assert.equal(normalizeDate('2026/08/04'), '2026-08-04');
+});
+
+test('GH notices map into the existing LH table shape', () => {
+  const { toLhRow, fromLhRow } = mod.__test;
+  const source = {
+    source_type:'rent-house', source_label:'임대주택', pbanc_no:'801',
+    notice_type:'행복주택', title:'테스트 공고', region:'연천군',
+    posted_at:'2026-08-24', closed_at:'2026-09-10', status:'접수중',
+    views:9422, detail_url:'https://apply.gh.or.kr/detail', source_url:'https://apply.gh.or.kr/list',
+    raw:{cells:[]}, fetched_at:'2026-10-01T00:00:00.000Z'
+  };
+  const stored = toLhRow(source);
+  assert.equal(stored.pan_id, 'gh:rent-house:801');
+  assert.equal(stored.upp_ais_tp_cd, 'GH_RENT_HOUSE');
+  assert.equal(fromLhRow(stored).title, '테스트 공고');
 });
