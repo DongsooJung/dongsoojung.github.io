@@ -26,6 +26,8 @@
   const memory = {};
   const clickCounts = new Map();
   const pageViews = new Map();
+  const recent7PageViews = new Map();
+  const previous7PageViews = new Map();
   const clicksByPath = new Map();
   const listeners = new Set();
   let lastClick = { key: '', at: 0 };
@@ -217,6 +219,25 @@
       + Math.max(Number(clickCountFor(element)) || 0, Number(pathClicksFor(element)) || 0);
   }
 
+  function trendFor(element) {
+    if (!(element instanceof HTMLAnchorElement)) return { current: 0, previous: 0, delta: 0, pct: null, direction: 'flat' };
+    try {
+      const url = new URL(element.href, window.location.href);
+      if (!isPortalProjectPath(url)) return { current: 0, previous: 0, delta: 0, pct: null, direction: 'external' };
+      const path = normalizeUsagePath(url.pathname);
+      if (path === '/') return { current: 0, previous: 0, delta: 0, pct: null, direction: 'flat' };
+      const key = path.replace(/\/$/, '');
+      const current = Number(recent7PageViews.get(path) || recent7PageViews.get(key)) || 0;
+      const previous = Number(previous7PageViews.get(path) || previous7PageViews.get(key)) || 0;
+      const delta = current - previous;
+      const pct = previous > 0 ? (delta / previous) * 100 : (current > 0 ? null : 0);
+      const direction = delta > 0 ? (previous === 0 ? 'new' : 'up') : delta < 0 ? 'down' : 'flat';
+      return { current, previous, delta, pct, direction };
+    } catch (_) {
+      return { current: 0, previous: 0, delta: 0, pct: null, direction: 'flat' };
+    }
+  }
+
   async function loadClickCounts() {
     try {
       const response = await fetch(`${supabaseUrl}/rest/v1/rpc/get_site_button_click_counts`, {
@@ -245,29 +266,53 @@
     } catch (_) {}
   }
 
+  async function fetchUsageStats(days) {
+    const response = await fetch(`${supabaseUrl}/rest/v1/rpc/get_site_usage_stats`, {
+      method: 'POST',
+      cache: 'no-store',
+      credentials: 'omit',
+      headers: {
+        apikey: publishableKey,
+        Authorization: `Bearer ${publishableKey}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ p_days: days }),
+    });
+    if (!response.ok) throw new Error(`USAGE_STATS_${days}_${response.status}`);
+    return response.json();
+  }
+
+  function pageMap(data) {
+    const map = new Map();
+    const pages = Array.isArray(data?.pages) ? data.pages : [];
+    pages.forEach((row) => {
+      const path = normalizeUsagePath(row.page_path);
+      const views = Number(row.page_views) || 0;
+      map.set(path, views);
+      if (path !== '/') map.set(path.replace(/\/$/, ''), views);
+    });
+    return map;
+  }
+
   async function loadPageViews() {
     try {
-      const response = await fetch(`${supabaseUrl}/rest/v1/rpc/get_site_usage_stats`, {
-        method: 'POST',
-        cache: 'no-store',
-        credentials: 'omit',
-        headers: {
-          apikey: publishableKey,
-          Authorization: `Bearer ${publishableKey}`,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ p_days: 30 }),
+      const [data30, data7, data14] = await Promise.all([
+        fetchUsageStats(30),
+        fetchUsageStats(7),
+        fetchUsageStats(14),
+      ]);
+      const map30 = pageMap(data30);
+      const map7 = pageMap(data7);
+      const map14 = pageMap(data14);
+
+      map30.forEach((views, path) => pageViews.set(path, views));
+      map7.forEach((views, path) => recent7PageViews.set(path, views));
+      map14.forEach((views14, path) => {
+        const recent = Number(map7.get(path)) || 0;
+        previous7PageViews.set(path, Math.max(0, Number(views14) - recent));
       });
-      if (!response.ok) return;
-      const data = await response.json();
-      const pages = Array.isArray(data?.pages) ? data.pages : [];
-      pages.forEach((row) => {
-        const path = normalizeUsagePath(row.page_path);
-        const views = Number(row.page_views) || 0;
-        pageViews.set(path, views);
-        if (path !== '/') pageViews.set(path.replace(/\/$/, ''), views);
-      });
-      const buttons = Array.isArray(data?.buttons) ? data.buttons : [];
+
+      const buttons = Array.isArray(data30?.buttons) ? data30.buttons : [];
       buttons.forEach((row) => addPathCount(clicksByPath, row.target_url, row.clicks));
     } catch (_) {}
   }
@@ -327,6 +372,7 @@
     clickCountFor,
     pageViewsFor,
     pathClicksFor,
+    trendFor,
     whenReady: () => usageReady,
     subscribe(listener) {
       if (typeof listener !== 'function') return () => {};
