@@ -134,6 +134,11 @@ GUIDES = {
 }
 
 
+busan = json.loads((ROOT / 'scripts/travel-busan.json').read_text(encoding='utf-8'))
+SOURCES.update(busan['sources'])
+GUIDES['busan-guide'] = busan['guide']
+
+
 def escape(s):
     return html.escape(s, quote=True)
 
@@ -143,7 +148,12 @@ def render(slug, lang):
     ko = lang == 'ko'
     path = f'/{"" if ko else "en/"}{slug}/'
     pair = f'/{"en/" if ko else ""}{slug}/'
+    nav_path = ('/#travel-spots' if ko else '/stay/blog/') if slug == 'busan-guide' else ('/ko/stay/' if ko else '/stay/')
+    nav_label = ('여행 가이드' if ko else 'Travel journal') if slug == 'busan-guide' else ('대치 스테이' if ko else 'Daechi Stay')
+    jump_highlights = ('<a href="#highlights">' + ('추천 6곳' if ko else 'Six picks') + '</a>') if g.get('highlights') else ''
     source_ids = list(dict.fromkeys(source for _, _, ids in g['questions'] for source in ids))
+    source_ids += [s for item in g.get('highlights', []) for s in item[4] if s not in source_ids]
+    source_ids = list(dict.fromkeys(source_ids))
     person = {'@type': 'Person', '@id': ORIGIN + '/#dongsoo', 'name': 'Dongsoo Jung', 'alternateName': '정동수', 'url': ORIGIN + '/', 'jobTitle': 'Urban engineering researcher'}
     article = {'@type': 'Article', '@id': ORIGIN + path + '#article', 'headline': g['title'], 'description': g['intro'], 'inLanguage': lang, 'datePublished': DATE, 'dateModified': DATE, 'author': person, 'publisher': {'@type': 'Organization', 'name': 'Stargate Corporation', 'url': ORIGIN}, 'mainEntityOfPage': ORIGIN + path, 'citation': [SOURCES[s][1] for s in source_ids]}
     faq = {'@type': 'FAQPage', '@id': ORIGIN + path + '#faq', 'inLanguage': lang, 'mainEntity': [{'@type': 'Question', 'name': q, 'acceptedAnswer': {'@type': 'Answer', 'text': a}} for q, a, _ in g['questions']]}
@@ -153,9 +163,18 @@ def render(slug, lang):
         article['image'] = ORIGIN + '/assets/travel/dumulmeori-2019.jpg'
         graph.append({'@type': 'TouristAttraction', '@id': ORIGIN + '/dumulmeori/#place', 'name': 'Yangpyeong Dumulmeori', 'alternateName': '양평 두물머리', 'url': ORIGIN + path, 'description': 'Riverside attraction where the Bukhangang and Namhangang rivers meet.', 'address': {'@type': 'PostalAddress', 'streetAddress': '145 Dumulmeori-gil, Yangseo-myeon', 'addressLocality': 'Yangpyeong-gun', 'addressRegion': 'Gyeonggi-do', 'addressCountry': 'KR'}, 'sameAs': SOURCES['dumul'][1]})
         photo = '<figure><img src="/assets/travel/dumulmeori-2019.jpg" alt="' + ('2019년 두물머리 강변과 느티나무 풍경' if ko else 'A riverside landscape at Dumulmeori photographed in 2019') + '" width="1280" height="960" fetchpriority="high"><figcaption>2019 · Foxy1219 · <a href="https://commons.wikimedia.org/wiki/File:Yangpyeong_Dumulmeori_2019-11-11.jpg">Wikimedia Commons</a> · <a href="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>. ' + ('미리보기 크기 이미지; 현재 현장 사진이 아닙니다.' if ko else 'Resized Commons preview; not a current site photograph.') + '</figcaption></figure>'
+    elif slug == 'busan-guide':
+        photo = '<aside class="overview"><p class="eyebrow">BUSAN · COAST · COFFEE · CULTURE</p><p>' + escape(g['overview']) + '</p></aside>'
     else:
         photo = '<aside class="overview"><p class="eyebrow">DAECHI · SEONJEONGNEUNG · BONGEUNSA · COEX</p><p>' + ('왕릉 산책과 사찰, 실내 일정을 나누어 연결하세요.' if ko else 'A heritage walk, a temple stop and an indoor afternoon, connected at your own pace.') + '</p></aside>'
-    body = '<div class="questions">'
+    body = ''
+    if g.get('highlights'):
+        body += '<section id="highlights"><h2>' + escape(g['highlights_title']) + '</h2><div class="spot-grid">'
+        for name, area, description, tip, ids in g['highlights']:
+            links = ' · '.join(f'<a href="{escape(SOURCES[s][1])}">{escape(SOURCES[s][0])}</a>' for s in ids)
+            body += '<article class="spot"><p class="eyebrow">' + escape(area) + '</p><h3>' + escape(name) + '</h3><p>' + escape(description) + '</p><p class="tip">' + escape(tip) + '</p><p class="source">' + links + '</p></article>'
+        body += '</div></section>'
+    body += '<div class="questions">'
     for i, (q, a, ids) in enumerate(g['questions'], 1):
         links = ' · '.join(f'<a href="{escape(SOURCES[s][1])}">{escape(SOURCES[s][0])}</a>' for s in ids)
         body += f'<section id="question-{i}"><h2>{escape(q)}</h2><p class="answer">{escape(a)}</p>'
@@ -168,7 +187,12 @@ def render(slug, lang):
     body += '</tbody></table></div></section><section><h2>' + escape(g['notes_title']) + '</h2><ul>' + ''.join('<li>' + escape(x) + '</li>' for x in g['notes']) + '</ul></section>'
     related = '<section class="related"><h2>' + ('다음 여행 준비' if ko else 'Continue planning') + '</h2><div class="related-links">'
     related += f'<a href="/{"" if ko else "en/"}{"dumulmeori" if slug == "gangnam-guide" else "gangnam-guide"}/">' + ('두물머리 당일 여행' if slug == 'gangnam-guide' and ko else 'Dumulmeori day trip' if slug == 'gangnam-guide' else '강남 생활권 가이드' if ko else 'Gangnam neighborhood guide') + '</a>'
-    related += '<a href="' + ('/ko/stay/' if ko else '/stay/') + '">' + ('대치 스테이 문의' if ko else 'Daechi Stay & host inquiry') + '</a><a href="' + ('/korea-tourism/' if ko else '/en/korea-tourism/') + '">' + ('방한 관광 통계' if ko else 'Korea tourism statistics') + '</a></div></section>'
+    if slug != 'busan-guide':
+        related += '<a href="' + ('/busan-guide/' if ko else '/en/busan-guide/') + '">' + ('부산 핫플 여행 가이드' if ko else 'Busan cafés, coast & nights') + '</a>'
+        related += '<a href="' + ('/ko/stay/' if ko else '/stay/') + '">' + ('대치 스테이 문의' if ko else 'Daechi Stay & host inquiry') + '</a>'
+    else:
+        related += '<a href="' + ('/dumulmeori/' if ko else '/en/dumulmeori/') + '">' + ('두물머리 당일 여행' if ko else 'Dumulmeori day trip') + '</a>'
+    related += '<a href="' + ('/korea-tourism/' if ko else '/en/korea-tourism/') + '">' + ('방한 관광 통계' if ko else 'Korea tourism statistics') + '</a></div></section>'
     refs = '<section id="sources"><h2>' + ('출처와 확인 기준' if ko else 'Sources and review date') + '</h2><p>' + ('2026년 10월 3일 공식 안내를 확인했습니다. 추천 순서와 여행 시간 배정은 편집 판단이며, 운행시간·요금·입장 조건은 연결된 운영기관에서 다시 확인하세요.' if ko else 'Official information reviewed on 3 October 2026. Suggested order and planning allowances are editorial judgments. Check the linked operators for current service times, fares and admission conditions.') + '</p><ul>'
     refs += ''.join(f'<li><a href="{escape(SOURCES[s][1])}">{escape(SOURCES[s][0])}</a></li>' for s in source_ids) + '</ul></section>'
     schema = json.dumps({'@context': 'https://schema.org', '@graph': graph}, ensure_ascii=False).replace('<', '\\u003c')
@@ -181,8 +205,8 @@ def render(slug, lang):
 <meta property="og:type" content="article"><meta property="og:title" content="{escape(g['title'])}"><meta property="og:description" content="{escape(g['intro'])}"><meta property="og:url" content="{ORIGIN}{path}">
 <link rel="stylesheet" href="/assets/travel/guides.css"><link rel="icon" href="/assets/icons/favicon.ico"><script type="application/ld+json">{schema}</script></head>
 <body><a class="skip" href="#content">{'본문으로 이동' if ko else 'Skip to content'}</a>
-<div class="shell"><nav aria-label="{'여행 메뉴' if ko else 'Travel navigation'}"><a class="brand" href="/{'' if ko else 'en/'}">STARGATE<span>TRAVEL NOTES</span></a><div><a href="{'/ko/stay/' if ko else '/stay/'}">{'대치 스테이' if ko else 'Daechi Stay'}</a><a href="{pair}" lang="{'en' if ko else 'ko'}">{'English' if ko else '한국어'}</a></div></nav>
-<header><p class="eyebrow">{'생활권과 당일 여행' if ko else 'NEIGHBORHOODS & DAY TRIPS'}</p><h1>{escape(g['title'])}</h1><p class="intro">{escape(g['intro'])}</p><p class="byline">{'정동수 · 도시공학 연구자' if ko else 'Dongsoo Jung · Urban engineering researcher'} · <time datetime="{DATE}">{DATE}</time></p><div class="jump"><a href="#route">{'추천 동선' if ko else 'Route plan'}</a><a href="#sources">{'공식 출처' if ko else 'Official sources'}</a></div></header>
+<div class="shell"><nav aria-label="{'여행 메뉴' if ko else 'Travel navigation'}"><a class="brand" href="/{'' if ko else 'en/'}">STARGATE<span>TRAVEL NOTES</span></a><div><a href="{nav_path}">{nav_label}</a><a href="{pair}" lang="{'en' if ko else 'ko'}">{'English' if ko else '한국어'}</a></div></nav>
+<header><p class="eyebrow">{'생활권과 여행' if ko else 'NEIGHBORHOODS & TRAVEL'}</p><h1>{escape(g['title'])}</h1><p class="intro">{escape(g['intro'])}</p><p class="byline">{'정동수 · 도시공학 연구자' if ko else 'Dongsoo Jung · Urban engineering researcher'} · <time datetime="{DATE}">{DATE}</time></p><div class="jump">{jump_highlights}<a href="#route">{'추천 동선' if ko else 'Route plan'}</a><a href="#sources">{'공식 출처' if ko else 'Official sources'}</a></div></header>
 {photo}<main id="content">{body}{related}{refs}</main><footer>© 2026 Dongsoo Jung · Stargate Corporation</footer></div></body></html>''', encoding='utf-8')
 
 

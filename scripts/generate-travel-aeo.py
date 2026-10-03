@@ -127,12 +127,12 @@ def main():
                'address': {'@type': 'PostalAddress', 'addressLocality': 'Gangnam-gu', 'addressRegion': 'Seoul', 'addressCountry': 'KR'},
                'image': ORIGIN + '/stay/assets/hero-interior.png'}
     faq = lambda ko: {'@type': 'FAQPage', 'inLanguage': 'ko' if ko else 'en', 'mainEntity': [{'@type': 'Question', 'name': q[2 if ko else 0], 'acceptedAnswer': {'@type': 'Answer', 'text': q[3 if ko else 1]}} for q in questions]}
-    englishfaq = '<section class="section"><div class="shell"><h2>Planning your Daechi stay</h2><p><a href="/ko/stay/" lang="ko">한국어 이용 안내</a> · <a href="/en/korea-tourism/">Korea tourism statistics</a> · <a href="/en/gangnam-guide/">Gangnam neighborhood guide</a> · <a href="/en/dumulmeori/">Dumulmeori day trip</a></p>'
+    englishfaq = '<section class="section"><div class="shell"><h2>Planning your Daechi stay</h2><p><a href="/ko/stay/" lang="ko">한국어 이용 안내</a> · <a href="/en/korea-tourism/">Korea tourism statistics</a> · <a href="/en/gangnam-guide/">Gangnam neighborhood guide</a> · <a href="/en/dumulmeori/">Dumulmeori day trip</a> · <a href="/en/busan-guide/">Busan travel guide</a></p>'
     englishfaq += ''.join(f'<h3>{q[0]}</h3><p>{q[1]}</p>' for q in questions) + '</div></section>'
     update('/stay/', '/ko/stay/', '/stay/', [lodging, faq(False), PERSON], englishfaq, '    <section class="inquiry"')
     koreanfaq = '<p><a href="/stay/" lang="en">English stay page</a></p><img src="/stay/assets/hero-interior.png" alt="대치 스테이 소개 이미지"><p>서울 강남구 대치동 체류 안내. 호스트: 정동수, 도시공학 연구자.</p>'
     koreanfaq += ''.join(f'<section><h2>{q[2]}</h2><p>{q[3]}</p></section>' for q in questions)
-    koreanfaq += '<p><a href="mailto:stay@stargateedu.co.kr?subject=Daechi%20Stay%20availability">예약 가능일 이메일 문의</a> · <a href="/stay/#inquiry">일정 입력 문의</a> · <a href="/gangnam-guide/">강남 생활권 가이드</a> · <a href="/dumulmeori/">두물머리 당일 여행</a></p>'
+    koreanfaq += '<p><a href="mailto:stay@stargateedu.co.kr?subject=Daechi%20Stay%20availability">예약 가능일 이메일 문의</a> · <a href="/stay/#inquiry">일정 입력 문의</a> · <a href="/gangnam-guide/">강남 생활권 가이드</a> · <a href="/dumulmeori/">두물머리 당일 여행</a> · <a href="/busan-guide/">부산 여행 가이드</a></p>'
     page('/ko/stay/', 'ko', '대치 스테이 | 강남 체류·예약 안내', '대치동 숙소 위치, 공항 이동, 예약 문의와 결제 안내. 영어·한국어 호스트 지원.', metadata('/ko/stay/', '/ko/stay/', '/stay/', [lodging, faq(True), PERSON]), koreanfaq)
 
 
