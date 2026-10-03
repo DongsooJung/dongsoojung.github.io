@@ -1529,9 +1529,9 @@ if ('serviceWorker' in navigator) {
     let url;
     try{url=new URL(card.href,location.href)}catch(_){}
     const external=url&&url.origin!==location.origin;
+    if(external) return {label:"외부",cls:"is-external"};
     if(/BETA|PILOT|EXPERIMENT|TEST/.test(badge)) return {label:"실험중",cls:"is-test"};
     if(/NEW/.test(badge)) return {label:"신규",cls:"is-new"};
-    if(external) return {label:"외부",cls:"is-external"};
     return {label:"운영중",cls:""};
   };
 
@@ -1620,6 +1620,7 @@ if ('serviceWorker' in navigator) {
       saveUpdateCache();
     }catch(_){
       output.textContent=cached?.value||"미확인";
+      card.dataset.updatedTs=String(Number(cached?.ts)||0);
     }
   };
   const refreshUpdates=async()=>{
