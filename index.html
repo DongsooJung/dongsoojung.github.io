@@ -1545,7 +1545,7 @@ if ('serviceWorker' in navigator) {
       const usage=usageForCard(card);
       const status=statusFor(card);
       views+=usage.views;clicks+=usage.clicks;
-      if(status.label==="운영중")live+=1;else newish+=1;
+      if(status.label==="운영중")live+=1;else if(status.label==="신규"||status.label==="실험중")newish+=1;
       meta.querySelector("[data-ops-views]").textContent=fmt(usage.views);
       meta.querySelector("[data-ops-clicks]").textContent=fmt(usage.clicks);
     });
