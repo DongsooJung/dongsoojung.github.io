@@ -11,7 +11,7 @@
 :root{color-scheme:dark;--bg:#0a0d14;--panel:#0f172a;--panel2:#111c33;--line:#1f2a44;--line2:#263452;--ink:#e6edf3;--sub:#9aa7b8;--muted:#6b7a90;--acc:#7aa2ff;--good:#63d6a0}
 *{box-sizing:border-box}html,body{margin:0}body{font-family:"IBM Plex Sans KR","Apple SD Gothic Neo",system-ui,sans-serif;background:radial-gradient(950px 520px at 12% -10%,rgba(79,127,255,.18),transparent 62%),var(--bg);color:var(--ink);line-height:1.6}.wrap{width:min(1040px,calc(100% - 34px));margin:auto;padding:26px 0 90px}a{color:var(--acc);text-decoration:none}a:hover{text-decoration:underline}.top{display:flex;align-items:center;justify-content:space-between;gap:16px}.brand{display:flex;align-items:center;gap:10px;color:var(--ink);font-weight:800}.logo{width:34px;height:34px;border-radius:9px;background:linear-gradient(135deg,#4f7fff,#7aa2ff 55%,#b388ff);display:grid;place-items:center;color:#08101f;font-weight:900}.back{font-size:13px;color:var(--sub)}.hero{padding:54px 0 28px}.eyebrow{display:flex;align-items:center;gap:8px;color:var(--good);font:800 11px ui-monospace,SFMono-Regular,Menlo,monospace}.eyebrow::before{content:"";width:8px;height:8px;border-radius:50%;background:currentColor}h1{margin:12px 0 12px;font-size:clamp(38px,7vw,66px);line-height:1.04;letter-spacing:-.05em}.lead{max-width:760px;color:var(--sub);font-size:16px}.summary{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin:24px 0 30px}.metric{border:1px solid var(--line);border-radius:14px;background:linear-gradient(180deg,var(--panel2),var(--panel));padding:15px}.metric b{display:block;font-size:17px}.metric span{display:block;color:var(--muted);font-size:11px;margin-top:3px}.panel{border:1px solid var(--line);border-radius:20px;background:linear-gradient(180deg,var(--panel2),var(--panel));padding:22px}.rule{margin-top:24px;padding:15px 17px;border-left:3px solid var(--acc);background:rgba(122,162,255,.06);border-radius:10px;color:var(--sub);font-size:13px}footer{margin-top:42px;padding-top:18px;border-top:1px solid var(--line);color:var(--muted);font-size:12px}@media(max-width:680px){.summary{grid-template-columns:1fr}.hero{padding-top:36px}}
 </style>
-<script src="/assets/developer-log.js?v=20261003" defer></script>
+<script src="/assets/developer-log.js?v=20261003-2" defer></script>
 </head>
 <body data-devlog-page="full">
 <div class="wrap">
@@ -20,7 +20,7 @@
 <section class="hero"><div class="eyebrow">LIVE · GITHUB MAIN</div><h1>Developer Log</h1><p class="lead">메인 홈페이지, 연구 대시보드, 전략 대시보드와 데이터·운영 변경을 실제 GitHub 커밋 기준으로 시간순 기록합니다. 아이디어가 아니라 소스에 반영된 작업만 표시합니다.</p></section>
 <section class="summary" aria-label="로그 범위"><div class="metric"><b>HOME · RESEARCH · STRATEGY</b><span>핵심 화면 변경</span></div><div class="metric"><b>DATA · OPS</b><span>수집·자동화·운영 변경</span></div><div class="metric"><b>Asia/Seoul</b><span>모든 작업일 KST 표시</span></div></section>
 <section class="panel" aria-label="GitHub 개발 로그"><div id="developer-log-full">개발 로그를 불러오는 중입니다.</div></section>
-<div class="rule"><b>기록 원칙</b> · GitHub <code>main</code> 브랜치 최근 커밋을 읽어 자동 반영합니다. 커밋 메시지를 기준으로 HOME / RESEARCH / STRATEGY / DATA / OPS로 분류하며, 각 SHA를 누르면 원본 변경 이력을 확인할 수 있습니다.</div>
+<div class="rule"><b>기록 원칙</b> · GitHub <code>main</code> 브랜치 최근 커밋을 읽어 자동 반영합니다. 변경 파일 경로를 우선 기준으로 HOME / RESEARCH / STRATEGY / DATA / OPS를 분류하고, 각 커밋의 변경 파일 수·추가/삭제 라인·GitHub Pages/Vercel 배포 상태를 함께 표시합니다. SHA를 누르면 원본 변경 이력을 확인할 수 있습니다.</div>
 </main>
 <footer>STARGATE · DONGSOO.PORTAL · Developer Log · Source: GitHub main branch</footer>
 </div>
