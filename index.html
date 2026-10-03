@@ -347,6 +347,40 @@ footer .business-info{flex-basis:100%;padding-top:10px;border-top:1px solid var(
   .brand .tag{display:none}
   .brand .name{font-size:14px}
 }
+
+/* MAIN ↔ LIST DASHBOARD VIEW */
+.portal-view-switcher{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:18px 0 4px;padding:9px 10px;border:1px solid var(--line);border-radius:14px;background:color-mix(in srgb,var(--card) 88%,transparent)}
+.portal-view-switcher .label{padding-left:5px;color:var(--muted);font-size:11px;font-weight:800;letter-spacing:.08em;text-transform:uppercase}
+.portal-view-buttons{display:flex;gap:7px}
+.portal-view-btn{appearance:none;border:1px solid var(--line);border-radius:999px;background:transparent;color:var(--muted);padding:8px 13px;font:800 12px/1 system-ui,"Malgun Gothic",sans-serif;cursor:pointer;transition:.18s ease}
+.portal-view-btn:hover{border-color:var(--acc);color:var(--text)}
+.portal-view-btn.is-active{background:var(--acc);border-color:var(--acc);color:#07111f;box-shadow:0 6px 18px color-mix(in srgb,var(--acc) 28%,transparent)}
+body.portal-dashboard-mode .quick-links,
+body.portal-dashboard-mode .hero,
+body.portal-dashboard-mode #intelligence,
+body.portal-dashboard-mode #travel-spots{display:none!important}
+body.portal-dashboard-mode #projects{padding-top:26px}
+body.portal-dashboard-mode #projects h2::before{content:"LIST DASHBOARD · ";color:var(--acc);font-size:.42em;letter-spacing:.12em;vertical-align:middle;margin-right:8px}
+body.portal-dashboard-mode #projects-grid{display:flex!important;flex-direction:column;gap:8px}
+body.portal-dashboard-mode #projects-grid .proj{display:grid!important;grid-template-columns:minmax(128px,170px) minmax(0,1fr);align-items:center;gap:18px;min-height:0!important;padding:13px 16px;border-radius:12px;transform:none}
+body.portal-dashboard-mode #projects-grid .proj:hover{transform:translateY(-1px)}
+body.portal-dashboard-mode #projects-grid .proj .thumb{display:none!important}
+body.portal-dashboard-mode #projects-grid .proj .badge{position:static!important;inset:auto!important;display:inline-flex;justify-self:start;align-items:center;width:auto;max-width:100%;margin:0;padding:6px 9px;border-radius:999px;white-space:normal;line-height:1.25}
+body.portal-dashboard-mode #projects-grid .proj .body{padding:0!important;display:grid;grid-template-columns:minmax(170px,.85fr) minmax(220px,1.55fr) minmax(180px,.8fr);align-items:center;gap:14px}
+body.portal-dashboard-mode #projects-grid .proj .ttl{margin:0!important;font-size:14px;line-height:1.35}
+body.portal-dashboard-mode #projects-grid .proj .sub{margin:0!important;font-size:12px;line-height:1.45;color:var(--muted)}
+body.portal-dashboard-mode #projects-grid .proj .row{margin:0!important;gap:8px;justify-content:space-between;align-items:center}
+body.portal-dashboard-mode #projects-grid .proj .tag{font-size:10px;line-height:1.35}
+body.portal-dashboard-mode #projects-grid .proj .go{flex:0 0 auto;font-size:11px;white-space:nowrap}
+body.portal-dashboard-mode #personal-projects{margin-top:14px}
+@media(max-width:820px){
+  .portal-view-switcher{align-items:stretch;flex-direction:column}.portal-view-switcher .label{display:none}.portal-view-buttons{width:100%}.portal-view-btn{flex:1;padding:10px 12px}
+  body.portal-dashboard-mode #projects{padding-top:18px}
+  body.portal-dashboard-mode #projects-grid .proj{grid-template-columns:1fr;gap:8px;padding:13px}
+  body.portal-dashboard-mode #projects-grid .proj .body{grid-template-columns:1fr;gap:7px}
+  body.portal-dashboard-mode #projects-grid .proj .row{justify-content:flex-start;flex-wrap:wrap}
+}
+
 </style>
 <link rel="stylesheet" href="/assets/personal-projects.css?v=20260908">
 <style>
@@ -397,6 +431,14 @@ footer .business-info{flex-basis:100%;padding-top:10px;border-top:1px solid var(
       <span id="theme-toggle-label" data-theme-label>화이트</span>
     </button>
   </nav>
+
+  <div class="portal-view-switcher" aria-label="메인 화면 보기 방식">
+    <span class="label">STARGATE VIEW</span>
+    <div class="portal-view-buttons" role="group" aria-label="화면 전환">
+      <button class="portal-view-btn is-active" id="portal-view-main" type="button" aria-pressed="true" data-analytics-ignore>메인 보기</button>
+      <button class="portal-view-btn" id="portal-view-dashboard" type="button" aria-pressed="false" data-analytics-ignore>목록 대시보드</button>
+    </div>
+  </div>
 
   <div class="quick-links">
     <a class="chip mono" style="border-color:#c4a265;color:#e7cf9a;background:rgba(196,162,101,.08)" href="https://blog.stargateedu.co.kr/" target="_blank" rel="noopener">Blog</a>
@@ -1429,5 +1471,42 @@ if ('serviceWorker' in navigator) {
 </script>
 <script src="/assets/visitor-counter.js?v=20260822" defer></script>
 <script src="/assets/usage-analytics.js?v=20260904-usage-path" defer></script>
+
+<script>
+(()=>{
+  const mainBtn=document.getElementById("portal-view-main");
+  const dashboardBtn=document.getElementById("portal-view-dashboard");
+  const projects=document.getElementById("projects");
+  if(!mainBtn||!dashboardBtn||!projects)return;
+
+  const applyView=(view,{updateHash=true,scroll=true}={})=>{
+    const dashboard=view==="dashboard";
+    document.body.classList.toggle("portal-dashboard-mode",dashboard);
+    mainBtn.classList.toggle("is-active",!dashboard);
+    dashboardBtn.classList.toggle("is-active",dashboard);
+    mainBtn.setAttribute("aria-pressed",String(!dashboard));
+    dashboardBtn.setAttribute("aria-pressed",String(dashboard));
+
+    if(updateHash){
+      const next=dashboard?"#dashboard":location.pathname+location.search;
+      history.replaceState(null,"",next);
+    }
+    if(scroll){
+      const top=dashboard?Math.max(0,projects.getBoundingClientRect().top+window.scrollY-18):0;
+      window.scrollTo({top,behavior:"smooth"});
+    }
+  };
+
+  mainBtn.addEventListener("click",()=>applyView("main"));
+  dashboardBtn.addEventListener("click",()=>applyView("dashboard"));
+  window.addEventListener("hashchange",()=>{
+    if(location.hash==="#dashboard")applyView("dashboard",{updateHash:false,scroll:false});
+    else applyView("main",{updateHash:false,scroll:false});
+  });
+
+  applyView(location.hash==="#dashboard"?"dashboard":"main",{updateHash:false,scroll:false});
+})();
+</script>
+
 </body>
 </html>
