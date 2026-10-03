@@ -366,18 +366,34 @@ body.portal-dashboard-mode #projects-grid .proj{display:grid!important;grid-temp
 body.portal-dashboard-mode #projects-grid .proj:hover{transform:translateY(-1px)}
 body.portal-dashboard-mode #projects-grid .proj .thumb{display:none!important}
 body.portal-dashboard-mode #projects-grid .proj .badge{position:static!important;inset:auto!important;display:inline-flex;justify-self:start;align-items:center;width:auto;max-width:100%;margin:0;padding:6px 9px;border-radius:999px;white-space:normal;line-height:1.25}
-body.portal-dashboard-mode #projects-grid .proj .body{padding:0!important;display:grid;grid-template-columns:minmax(170px,.85fr) minmax(220px,1.55fr) minmax(180px,.8fr);align-items:center;gap:14px}
+body.portal-dashboard-mode #projects-grid .proj .body{padding:0!important;display:grid;grid-template-columns:minmax(170px,.8fr) minmax(220px,1.35fr) minmax(205px,.9fr) minmax(170px,.72fr);align-items:center;gap:14px}
 body.portal-dashboard-mode #projects-grid .proj .ttl{margin:0!important;font-size:14px;line-height:1.35}
 body.portal-dashboard-mode #projects-grid .proj .sub{margin:0!important;font-size:12px;line-height:1.45;color:var(--muted)}
 body.portal-dashboard-mode #projects-grid .proj .row{margin:0!important;gap:8px;justify-content:space-between;align-items:center}
 body.portal-dashboard-mode #projects-grid .proj .tag{font-size:10px;line-height:1.35}
 body.portal-dashboard-mode #projects-grid .proj .go{flex:0 0 auto;font-size:11px;white-space:nowrap}
+.portal-dashboard-meta{display:none}
+body.portal-dashboard-mode .portal-dashboard-meta{display:grid;grid-template-columns:1fr;gap:5px;padding:8px 10px;border:1px solid var(--line);border-radius:10px;background:color-mix(in srgb,var(--card) 82%,transparent);font-size:10px;line-height:1.3;color:var(--muted)}
+.portal-dashboard-meta .meta-line{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.portal-dashboard-meta strong{color:var(--text);font-size:10px;font-weight:850;font-variant-numeric:tabular-nums}
+.portal-dashboard-status{display:inline-flex;align-items:center;gap:6px;font-weight:850}
+.portal-dashboard-status::before{content:"";width:7px;height:7px;border-radius:50%;background:#22c55e;box-shadow:0 0 0 3px rgba(34,197,94,.12)}
+.portal-dashboard-status.is-new::before{background:var(--acc);box-shadow:0 0 0 3px color-mix(in srgb,var(--acc) 18%,transparent)}
+.portal-dashboard-status.is-test::before{background:#f59e0b;box-shadow:0 0 0 3px rgba(245,158,11,.12)}
+.portal-dashboard-status.is-external::before{background:#94a3b8;box-shadow:0 0 0 3px rgba(148,163,184,.12)}
+.portal-dashboard-summary{display:none}
+body.portal-dashboard-mode .portal-dashboard-summary{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin:14px 0 16px}
+.portal-dashboard-summary .ops-stat{padding:12px 14px;border:1px solid var(--line);border-radius:12px;background:color-mix(in srgb,var(--card) 86%,transparent)}
+.portal-dashboard-summary .ops-stat span{display:block;color:var(--muted);font-size:10px;font-weight:800}
+.portal-dashboard-summary .ops-stat strong{display:block;margin-top:3px;color:var(--text);font-size:18px;font-weight:900;font-variant-numeric:tabular-nums}
+
 body.portal-dashboard-mode #personal-projects{margin-top:14px}
 @media(max-width:820px){
   .portal-view-switcher{align-items:stretch;flex-direction:column}.portal-view-switcher .label{display:none}.portal-view-buttons{width:100%}.portal-view-btn{flex:1;padding:10px 12px}
   body.portal-dashboard-mode #projects{padding-top:18px}
   body.portal-dashboard-mode #projects-grid .proj{grid-template-columns:1fr;gap:8px;padding:13px}
   body.portal-dashboard-mode #projects-grid .proj .body{grid-template-columns:1fr;gap:7px}
+  body.portal-dashboard-mode .portal-dashboard-summary{grid-template-columns:repeat(2,1fr)}
   body.portal-dashboard-mode #projects-grid .proj .row{justify-content:flex-start;flex-wrap:wrap}
 }
 
@@ -554,6 +570,12 @@ body.portal-dashboard-mode #personal-projects{margin-top:14px}
   <section class="sec" id="projects">
     <h2>전체 프로젝트 · All Projects</h2>
     <div class="desc" id="projects-desc">최근 30일 페이지 조회와 홈 클릭을 기준으로 사용이 많은 프로젝트부터 표시합니다. ‘가나다순’을 누르면 영문 A–Z, 한글 가나다, 숫자 순으로 볼 수 있습니다.</div>
+    <div class="portal-dashboard-summary" id="portal-dashboard-summary" aria-label="프로젝트 운영 요약">
+      <div class="ops-stat"><span>운영중</span><strong id="ops-live-count">-</strong></div>
+      <div class="ops-stat"><span>신규·실험</span><strong id="ops-new-count">-</strong></div>
+      <div class="ops-stat"><span>최근 30일 조회</span><strong id="ops-view-count">-</strong></div>
+      <div class="ops-stat"><span>홈 클릭</span><strong id="ops-click-count">-</strong></div>
+    </div>
     <div class="project-toggle-row">
       <div class="project-sort-wrap">
         <span class="project-sort-label">정렬</span>
@@ -1477,7 +1499,104 @@ if ('serviceWorker' in navigator) {
   const mainBtn=document.getElementById("portal-view-main");
   const dashboardBtn=document.getElementById("portal-view-dashboard");
   const projects=document.getElementById("projects");
+  const cards=[...document.querySelectorAll("#projects-grid > .proj")];
   if(!mainBtn||!dashboardBtn||!projects)return;
+
+  const fmt=(value)=>Number(value||0).toLocaleString("ko-KR");
+  const statusFor=(card)=>{
+    const badge=(card.querySelector(":scope > .badge")?.textContent||"").toUpperCase();
+    let url;
+    try{url=new URL(card.href,location.href)}catch(_){}
+    const external=url&&url.origin!==location.origin;
+    if(/BETA|PILOT|EXPERIMENT|TEST/.test(badge)) return {label:"실험중",cls:"is-test"};
+    if(/NEW/.test(badge)) return {label:"신규",cls:"is-new"};
+    if(external) return {label:"외부",cls:"is-external"};
+    return {label:"운영중",cls:""};
+  };
+
+  const ensureMeta=(card)=>{
+    let meta=card.querySelector(".portal-dashboard-meta");
+    if(meta)return meta;
+    const status=statusFor(card);
+    meta=document.createElement("div");
+    meta.className="portal-dashboard-meta";
+    meta.innerHTML=
+      '<div class="meta-line"><span>상태</span><strong class="portal-dashboard-status '+status.cls+'">'+status.label+'</strong></div>'+
+      '<div class="meta-line"><span>최근 업데이트</span><strong data-ops-updated>확인중</strong></div>'+
+      '<div class="meta-line"><span>30일 조회</span><strong data-ops-views>-</strong></div>'+
+      '<div class="meta-line"><span>홈 클릭</span><strong data-ops-clicks>-</strong></div>';
+    const row=card.querySelector(".body .row");
+    if(row) row.before(meta); else card.querySelector(".body")?.append(meta);
+    return meta;
+  };
+
+  const usageForCard=(card)=>{
+    const api=window.StargateUsage;
+    return {
+      views:Number(api?.pageViewsFor?.(card))||0,
+      clicks:Math.max(Number(api?.clickCountFor?.(card))||0,Number(api?.pathClicksFor?.(card))||0)
+    };
+  };
+
+  const refreshUsage=()=>{
+    let views=0,clicks=0,live=0,newish=0;
+    cards.forEach(card=>{
+      const meta=ensureMeta(card);
+      const usage=usageForCard(card);
+      const status=statusFor(card);
+      views+=usage.views;clicks+=usage.clicks;
+      if(status.label==="운영중")live+=1;else newish+=1;
+      meta.querySelector("[data-ops-views]").textContent=fmt(usage.views);
+      meta.querySelector("[data-ops-clicks]").textContent=fmt(usage.clicks);
+    });
+    const set=(id,value)=>{const el=document.getElementById(id);if(el)el.textContent=fmt(value)};
+    set("ops-live-count",live);set("ops-new-count",newish);set("ops-view-count",views);set("ops-click-count",clicks);
+  };
+
+  const updateCacheKey="stargate-project-lastmod-v1";
+  let updateCache={};
+  try{updateCache=JSON.parse(localStorage.getItem(updateCacheKey)||"{}")||{}}catch(_){updateCache={}}
+  const saveUpdateCache=()=>{try{localStorage.setItem(updateCacheKey,JSON.stringify(updateCache))}catch(_){}};
+  const formatDate=(dateValue)=>{
+    const date=new Date(dateValue);
+    if(Number.isNaN(date.getTime()))return "미확인";
+    return new Intl.DateTimeFormat("ko-KR",{year:"2-digit",month:"2-digit",day:"2-digit",timeZone:"Asia/Seoul"}).format(date);
+  };
+  const resolveUpdated=async(card)=>{
+    const meta=ensureMeta(card);
+    const output=meta.querySelector("[data-ops-updated]");
+    let url;
+    try{url=new URL(card.href,location.href)}catch(_){output.textContent="미확인";return}
+    if(url.origin!==location.origin){output.textContent="외부";return}
+    const key=url.pathname.replace(/\/+$/,"/")||"/";
+    const cached=updateCache[key];
+    if(cached&&Date.now()-Number(cached.checkedAt||0)<21600000){
+      output.textContent=cached.value||"미확인";return;
+    }
+    try{
+      const response=await fetch(url.pathname,{method:"HEAD",cache:"no-store",credentials:"same-origin"});
+      const modified=response.headers.get("last-modified");
+      const value=modified?formatDate(modified):"미확인";
+      output.textContent=value;
+      updateCache[key]={value,checkedAt:Date.now()};
+      saveUpdateCache();
+    }catch(_){
+      output.textContent=cached?.value||"미확인";
+    }
+  };
+  const refreshUpdates=async()=>{
+    const internal=cards.filter(card=>{try{return new URL(card.href,location.href).origin===location.origin}catch(_){return false}});
+    for(let i=0;i<internal.length;i+=4){
+      await Promise.all(internal.slice(i,i+4).map(resolveUpdated));
+    }
+    cards.filter(card=>!internal.includes(card)).forEach(resolveUpdated);
+  };
+
+  const refreshOps=()=>{
+    cards.forEach(ensureMeta);
+    refreshUsage();
+    refreshUpdates();
+  };
 
   const applyView=(view,{updateHash=true,scroll=true}={})=>{
     const dashboard=view==="dashboard";
@@ -1491,9 +1610,14 @@ if ('serviceWorker' in navigator) {
       const next=dashboard?"#dashboard":location.pathname+location.search;
       history.replaceState(null,"",next);
     }
-    if(scroll){
-      const top=dashboard?Math.max(0,projects.getBoundingClientRect().top+window.scrollY-18):0;
-      window.scrollTo({top,behavior:"smooth"});
+    if(dashboard){
+      refreshOps();
+      if(scroll){
+        const top=Math.max(0,projects.getBoundingClientRect().top+window.scrollY-18);
+        window.scrollTo({top,behavior:"smooth"});
+      }
+    }else if(scroll){
+      window.scrollTo({top:0,behavior:"smooth"});
     }
   };
 
@@ -1503,7 +1627,11 @@ if ('serviceWorker' in navigator) {
     if(location.hash==="#dashboard")applyView("dashboard",{updateHash:false,scroll:false});
     else applyView("main",{updateHash:false,scroll:false});
   });
+  document.addEventListener("stargate-usage-updated",()=>{
+    if(document.body.classList.contains("portal-dashboard-mode"))refreshUsage();
+  });
 
+  cards.forEach(ensureMeta);
   applyView(location.hash==="#dashboard"?"dashboard":"main",{updateHash:false,scroll:false});
 })();
 </script>
