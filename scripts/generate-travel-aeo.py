@@ -59,7 +59,7 @@ def page(path, lang, title, description, head, body):
 <title>{html.escape(title)}</title><meta name="description" content="{html.escape(description, quote=True)}">
 <link rel="canonical" href="{ORIGIN}{path}"><meta property="og:url" content="{ORIGIN}{path}">
 {head}<style>{STYLE}</style></head><body><main>
-<nav><a href="/en/">STARGATE</a><a href="/stay/">Daechi Stay</a><a href="/en/korea-tourism/">Tourism data</a><a href="/en/cities/">City archive</a></nav>
+<nav><a href="/en/">STARGATE</a><a href="/stay/">Daechi Stay</a><a href="/en/korea-tourism/">Tourism data</a><a href="/en/cities/">City archive</a><a href="/en/dumulmeori/">Dumulmeori</a></nav>
 <h1>{html.escape(title)}</h1>{body}<footer><small>© 2026 Dongsoo Jung · Stargate Corporation · Urban engineering researcher</small></footer>
 </main></body></html>''')
 
@@ -127,13 +127,52 @@ def main():
                'address': {'@type': 'PostalAddress', 'addressLocality': 'Gangnam-gu', 'addressRegion': 'Seoul', 'addressCountry': 'KR'},
                'image': ORIGIN + '/stay/assets/hero-interior.png'}
     faq = lambda ko: {'@type': 'FAQPage', 'inLanguage': 'ko' if ko else 'en', 'mainEntity': [{'@type': 'Question', 'name': q[2 if ko else 0], 'acceptedAnswer': {'@type': 'Answer', 'text': q[3 if ko else 1]}} for q in questions]}
-    englishfaq = '<section class="section"><div class="shell"><h2>Planning your Daechi stay</h2><p><a href="/ko/stay/" lang="ko">한국어 이용 안내</a> · <a href="/en/korea-tourism/">Korea tourism statistics</a></p>'
+    englishfaq = '<section class="section"><div class="shell"><h2>Planning your Daechi stay</h2><p><a href="/ko/stay/" lang="ko">한국어 이용 안내</a> · <a href="/en/korea-tourism/">Korea tourism statistics</a> · <a href="/en/dumulmeori/">Dumulmeori day trip</a></p>'
     englishfaq += ''.join(f'<h3>{q[0]}</h3><p>{q[1]}</p>' for q in questions) + '</div></section>'
     update('/stay/', '/ko/stay/', '/stay/', [lodging, faq(False), PERSON], englishfaq, '    <section class="inquiry"')
     koreanfaq = '<p><a href="/stay/" lang="en">English stay page</a></p><img src="/stay/assets/hero-interior.png" alt="대치 스테이 소개 이미지"><p>서울 강남구 대치동 체류 안내. 호스트: 정동수, 도시공학 연구자.</p>'
     koreanfaq += ''.join(f'<section><h2>{q[2]}</h2><p>{q[3]}</p></section>' for q in questions)
     koreanfaq += '<p><a href="mailto:stay@stargateedu.co.kr?subject=Daechi%20Stay%20availability">예약 가능일 이메일 문의</a> · <a href="/stay/#inquiry">일정 입력 문의</a></p>'
     page('/ko/stay/', 'ko', '대치 스테이 | 강남 체류·예약 안내', '대치동 숙소 위치, 공항 이동, 예약 문의와 결제 안내. 영어·한국어 호스트 지원.', metadata('/ko/stay/', '/ko/stay/', '/stay/', [lodging, faq(True), PERSON]), koreanfaq)
+    dumulmeori()
+
+
+# Facts below were checked against the cited pages on CHECKED. Re-verify before changing them.
+CHECKED = '2026-10-03'
+KTO_KO = 'https://korean.visitkorea.or.kr/detail/rem_detail.do?cotid=a76ac3e1-a323-437d-919d-6ad577934f6d'
+KTO_EN = 'https://english.visitkorea.or.kr/svc/contents/contentsView.do?vcontsId=136607'
+
+
+def dumulmeori():
+    path = '/en/dumulmeori/'
+    questions = [
+        ('What is Dumulmeori?', 'Dumulmeori is a riverside park in Yangsu-ri, Yangseo-myeon, Yangpyeong-gun, Gyeonggi-do, where the Bukhangang (North Han) and Namhangang (South Han) rivers meet. VisitKorea describes roughly 400-year-old zelkova trees, a docked traditional sailboat, and a pontoon bridge of about 250 meters linking the area to Semiwon garden.'),
+        ('Is there an entrance fee, and when is it open?', 'VisitKorea lists Dumulmeori as free and open all year with no closing day. That listing was last revised in March 2022, so confirm with the Yangpyeong tourist information line (+82-31-770-1001) before a special trip. Semiwon garden next door is a separate attraction with its own paid admission and hours.'),
+        ('How do I get there from Seoul by public transport?', 'Take the Gyeongui–Jungang Line to Yangsu Station, the nearest rail station. From there, travelers usually walk, cycle or take a short taxi ride; one travel guide estimates about 30 minutes on foot. Check the current route and timetable in Naver Map or Kakao Map, which give more reliable Korean transit directions than many global map apps.'),
+        ('When is the best time to visit?', 'Early morning is popular for river mist and calm water, and VisitKorea notes lotus and lily blooms in summer. Weekends and holidays are busier, and parking near the riverside fills up, so public transport is the simpler choice on those days.'),
+        ('Can I combine it with a stay in Gangnam?', 'Yes. Dumulmeori works as a half-day or day trip from a Seoul base. From Daechi-dong, plan a transfer to the Gyeongui–Jungang Line and allow extra time for the return trip in the evening.'),
+    ]
+    attraction = {'@type': 'TouristAttraction', '@id': ORIGIN + path + '#place', 'name': 'Dumulmeori',
+                  'alternateName': '두물머리', 'url': ORIGIN + path,
+                  'description': 'Riverside park at the confluence of the Bukhangang and Namhangang rivers in Yangpyeong, Gyeonggi-do.',
+                  'address': {'@type': 'PostalAddress', 'streetAddress': 'Yangsu-ri, Yangseo-myeon', 'addressLocality': 'Yangpyeong-gun',
+                              'addressRegion': 'Gyeonggi-do', 'addressCountry': 'KR'},
+                  'isAccessibleForFree': True, 'publicAccess': True, 'touristType': ['Day trip from Seoul', 'Nature', 'Photography'],
+                  'sameAs': [KTO_KO]}
+    faq = {'@type': 'FAQPage', 'inLanguage': 'en', 'dateModified': CHECKED,
+           'mainEntity': [{'@type': 'Question', 'name': q, 'acceptedAnswer': {'@type': 'Answer', 'text': a}} for q, a in questions]}
+    head = (f'<link rel="alternate" hreflang="en" href="{ORIGIN}{path}">\n<link rel="alternate" hreflang="x-default" href="{ORIGIN}{path}">\n'
+            '<script type="application/ld+json">' + encoded({'@context': 'https://schema.org', '@graph': [attraction, faq, PERSON]}) + '</script>')
+    body = ('<p>A practical day-trip guide from Seoul to the meeting point of the North and South Han rivers. '
+            f'Facts checked on <time datetime="{CHECKED}">{CHECKED}</time>; hours, fees and transit can change.</p>')
+    body += ''.join(f'<section><h2>{html.escape(q)}</h2><p>{html.escape(a)}</p></section>' for q, a in questions)
+    body += ('<section><h2>Sources</h2><ul>'
+             f'<li><a href="{KTO_KO}">VisitKorea (Korea Tourism Organization), Dumulmeori listing, Korean</a> — address, free entry, year-round access, revised March 2022</li>'
+             f'<li><a href="{KTO_EN}">VisitKorea, day trip to Yangpyeong &amp; Namyangju on the Gyeongui–Jungang Line</a> — zelkova trees, pontoon bridge, summer blooms, updated July 2021</li>'
+             '<li><a href="https://www.koreatodo.com/dumulmeori-semiwon-strawberry-farms">KoreaToDo, Dumulmeori &amp; Semiwon guide</a> — walking-time estimate from Yangsu Station</li>'
+             '</ul><p><a href="/stay/">Stay in Daechi-dong, Gangnam</a> · <a href="/en/korea-tourism/">Korea inbound tourism statistics</a></p></section>')
+    page(path, 'en', 'Dumulmeori day trip from Seoul | Yangpyeong river confluence guide',
+         'How to visit Dumulmeori from Seoul: Yangsu Station access, free entry, best times and Semiwon, with sources and check date.', head, body)
 
 
 if __name__ == '__main__':
