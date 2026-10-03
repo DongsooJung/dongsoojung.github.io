@@ -1,5 +1,5 @@
 (() => {
-  const REMOTE_PROXY_URL = 'https://stargate-bid-api.vercel.app/api/gh-sale-info';
+  const REMOTE_PROXY_URL = 'https://portfolio-stargate2.vercel.app/api/gh-sale-info';
   const SAME_ORIGIN_PROXY_URL = '/api/gh-sale-info';
   const IS_STATIC_HOST = /(^|\.)github\.io$/i.test(location.hostname) ||
     /(^|\.)stargateedu\.co\.kr$/i.test(location.hostname);

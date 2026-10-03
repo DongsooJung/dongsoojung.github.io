@@ -55,23 +55,39 @@ export default async function handler(req, res) {
     inqryBgnDt: kstYmdHm(new Date(startedAt.getTime() - 36 * 60 * 60 * 1000)),
     inqryEndDt: kstYmdHm(startedAt),
   };
-  try {
-    const cnstwk = await collectBid('cnstwk', range);
-    const servc = await collectBid('servc', range);
-    const lhRaw = await invoke(lhHandler, { pageNo: 1, pageSize: 100, saveToSupabase: true, typeCode: 'all' });
-    const lh = { kind: 'lh', pages: 1, rowCount: lhRaw.rowCount || 0, saved: lhRaw.saved || 0, totalCount: lhRaw.totalCount || 0 };
-    const ghRaw = await invoke(ghHandler, {});
-    const gh = { kind: 'gh', pages: 1, rowCount: ghRaw.rowCount || 0, saved: ghRaw.saved || 0, sources: ghRaw.sourceStatus || [] };
-    return res.status(200).json({
-      ok: true,
-      startedAt: startedAt.toISOString(),
-      finishedAt: new Date().toISOString(),
-      range,
-      results: [cnstwk, servc, lh, gh],
-    });
-  } catch (error) {
-    return res.status(502).json({ ok: false, error: error instanceof Error ? error.message : 'daily_collect_failed' });
-  }
+  const tasks = [
+    ['cnstwk', () => collectBid('cnstwk', range)],
+    ['servc', () => collectBid('servc', range)],
+    ['lh', async () => {
+      const raw = await invoke(lhHandler, { pageNo: 1, pageSize: 100, saveToSupabase: true, typeCode: 'all' });
+      return { kind: 'lh', pages: 1, rowCount: raw.rowCount || 0, saved: raw.saved || 0, totalCount: raw.totalCount || 0 };
+    }],
+    ['gh', async () => {
+      const raw = await invoke(ghHandler, {});
+      return { kind: 'gh', pages: 1, rowCount: raw.rowCount || 0, saved: raw.saved || 0, sources: raw.sourceStatus || [] };
+    }],
+  ];
+  const results = await runCollectors(tasks);
+  const ok = results.every(result => result.ok);
+  return res.status(ok ? 200 : 502).json({
+    ok,
+    startedAt: startedAt.toISOString(),
+    finishedAt: new Date().toISOString(),
+    range,
+    results,
+  });
 }
 
-export const __test = { kstYmdHm };
+async function runCollectors(tasks) {
+  const results = [];
+  for (const [kind, collect] of tasks) {
+    try {
+      results.push({ ...await collect(), kind, ok: true });
+    } catch (error) {
+      results.push({ kind, ok: false, error: error instanceof Error ? error.message : 'daily_collect_failed' });
+    }
+  }
+  return results;
+}
+
+export const __test = { kstYmdHm, runCollectors };

@@ -37,7 +37,16 @@ test('rejects non-GET methods', async () => {
   assert.equal(res.statusCode, 405);
 });
 
-test('GET returns OneNote and Notion status payload', async () => {
+test('GET returns OneNote and Notion status payload without live network probes', async (t) => {
+  const calls = [];
+  t.mock.method(globalThis, 'fetch', async (url, options) => {
+    calls.push(String(url));
+    assert.equal(options?.headers?.Authorization, undefined);
+    if (String(url).endsWith('/api/v2/summary.json')) {
+      return { ok: true, json: async () => ({ status: { indicator: 'none' }, components: [], incidents: [] }) };
+    }
+    return { status: String(url).includes('api.notion.com') ? 401 : 200, url: String(url) };
+  });
   const res = mockRes();
   await handler({ method: 'GET', query: {} }, res);
 
@@ -51,4 +60,6 @@ test('GET returns OneNote and Notion status payload', async () => {
   assert.ok(['operational', 'degraded', 'down', 'unknown'].includes(res.body.services.notion.overall));
   assert.equal(res.body.services.onenote.probes.length, 3);
   assert.equal(res.body.services.notion.probes.length, 2);
+  assert.equal(calls.length, 6);
+  assert.equal(res.body.services.notion.overall, 'operational');
 });

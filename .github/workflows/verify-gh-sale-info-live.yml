@@ -1,6 +1,9 @@
-name: Verify GH sale-info live
+name: Collect and verify GH sale-info
 
 on:
+  schedule:
+    # GH-only fallback: every day at 06:25 Asia/Seoul.
+    - cron: '25 21 * * *'
   workflow_dispatch:
   push:
     branches: [main]
@@ -9,6 +12,7 @@ on:
       - 'api/[resource].js'
       - 'api/cron/daily-collect.js'
       - 'gh-sale-info/**'
+      - 'scripts/verify-gh-sale-info-live.mjs'
       - '.github/workflows/verify-gh-sale-info-live.yml'
 
 permissions:
@@ -16,81 +20,18 @@ permissions:
 
 concurrency:
   group: verify-gh-sale-info-live
-  cancel-in-progress: true
+  cancel-in-progress: false
 
 jobs:
   verify:
     runs-on: ubuntu-latest
     timeout-minutes: 7
     steps:
+      - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: '22'
-      - name: Wait for live deployment, collect GH notices, verify Supabase readback
-        run: |
-          node --input-type=module <<'NODE'
-          const ghSource = 'https://apply.gh.or.kr/sb/sr/sr7150/selectPbancRentHouseList.do';
-          const ghResponse = await fetch(ghSource, {
-            headers: { Accept: 'text/html,application/xhtml+xml', 'User-Agent': 'Mozilla/5.0 STARGATE-GH-Debug/1.0' },
-          });
-          const ghHtml = await ghResponse.text();
-          console.log('GH_SOURCE_STATUS=' + ghResponse.status);
-          console.log('GH_CONTENT_TYPE=' + (ghResponse.headers.get('content-type') || ''));
-          console.log('GH_HTML_LENGTH=' + ghHtml.length);
-          for (const token of ['pbancNo', 'selectPbancDetailView', '연천BIX', '<tbody', '<tr']) {
-            const i = ghHtml.indexOf(token);
-            console.log('GH_TOKEN=' + token + ' INDEX=' + i);
-            if (i >= 0) console.log(ghHtml.slice(Math.max(0, i - 700), i + 1300).replace(/\s+/g, ' '));
-          }
-
-          const endpoints = [
-            'https://portfolio-stargate2.vercel.app/api/gh-sale-info',
-            'https://stargate-onbid-api.vercel.app/api/gh-sale-info',
-            'https://stargate-bid-api.vercel.app/api/gh-sale-info',
-          ];
-          const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
-          let collected = null;
-          let workingEndpoint = '';
-          let last = '';
-
-          for (let attempt = 1; attempt <= 6 && !collected; attempt += 1) {
-            for (const endpoint of endpoints) {
-              try {
-                const response = await fetch(endpoint + '?action=collect', {
-                  headers: { Accept: 'application/json', 'User-Agent': 'STARGATE-GH-Live-Check/1.0' },
-                });
-                const text = await response.text();
-                last = `${endpoint} HTTP ${response.status} ${text.slice(0, 300)}`;
-                console.log(`attempt ${attempt}: ${last}`);
-                if (response.ok) {
-                  const data = JSON.parse(text);
-                  if (data.ok && Number(data.saved) > 0) {
-                    collected = data;
-                    workingEndpoint = endpoint;
-                    console.log(`collect OK: endpoint=${endpoint} saved=${data.saved}, rows=${data.rowCount}`);
-                    break;
-                  }
-                }
-              } catch (error) {
-                last = `${endpoint} ${String(error?.message || error)}`;
-                console.log(`attempt ${attempt}: ${last}`);
-              }
-            }
-            if (!collected) await sleep(10_000);
-          }
-
-          if (!collected) throw new Error(`GH live collection did not succeed: ${last}`);
-
-          const response = await fetch(workingEndpoint + '?limit=10&logLimit=5', {
-            headers: { Accept: 'application/json', 'User-Agent': 'STARGATE-GH-Live-Check/1.0' },
-          });
-          const data = await response.json();
-          if (!response.ok || !data.ok) throw new Error(`GH readback failed: HTTP ${response.status}`);
-          if (data.storage !== 'lh_sale_notices') throw new Error(`unexpected storage: ${data.storage}`);
-          if (!Array.isArray(data.saved) || data.saved.length === 0) throw new Error('GH Supabase readback returned 0 rows');
-          if (!data.saved.every(row => ['rent-house','rent-store','buy-rent'].includes(row.source_type))) {
-            throw new Error('GH readback contains an unexpected source type');
-          }
-          console.log(`WORKING_ENDPOINT=${workingEndpoint}`);
-          console.log(`readback OK: ${data.saved.length} GH rows; latest=${data.saved[0]?.title || '-'}`);
-          NODE
+          node-version: '24'
+      - name: Collect GH notices and verify Supabase readback
+        env:
+          GH_WAIT_FOR_DEPLOYMENT: ${{ github.event_name == 'push' && '1' || '0' }}
+        run: node scripts/verify-gh-sale-info-live.mjs

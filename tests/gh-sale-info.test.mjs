@@ -32,6 +32,36 @@ test('normalizeDate accepts dot/slash/dash separators', () => {
   assert.equal(normalizeDate('2026/08/04'), '2026-08-04');
 });
 
+test('GH current data attributes and omitted cell end tags retain dates and regions', () => {
+  const html = `<tr><td>1</td><td>행복주택</td>
+    <td><a href="#a" data-pbancNo="811" data-previewYn="N" data-pbancKndCd="01" data-bizTyNm="행복주택">기업체 기숙사 추가모집</a></td>
+    <td>연천군<td>pdf</td><td>2026-08-24</td><td>-<td>-<td>확인</td><td>18,153</td></tr>`;
+  const [row] = parseGhListHtml(html, SOURCES[0]);
+  assert.equal(row.pbanc_no, '811');
+  assert.equal(row.region, '연천군');
+  assert.equal(row.posted_at, '2026-08-24');
+  assert.equal(row.closed_at, '');
+  assert.equal(row.views, 18153);
+  const detail = new URL(row.detail_url);
+  assert.equal(detail.pathname, '/sb/sr/sr7150/selectPbancDetailView.do');
+  assert.equal(detail.searchParams.get('pbancNo'), '811');
+  assert.equal(detail.searchParams.get('pbancKndCd'), '01');
+});
+
+test('GH collection still runs when preceding daily collectors fail', async () => {
+  const { __test: cron } = await import('../api/cron/daily-collect.js');
+  const attempted = [];
+  const results = await cron.runCollectors([
+    ['lh', async () => { attempted.push('lh'); throw new Error('upstream unavailable'); }],
+    ['gh', async () => { attempted.push('gh'); return { saved: 10 }; }],
+  ]);
+  assert.deepEqual(attempted, ['lh', 'gh']);
+  assert.deepEqual(results, [
+    { kind: 'lh', ok: false, error: 'upstream unavailable' },
+    { kind: 'gh', ok: true, saved: 10 },
+  ]);
+});
+
 test('GH notices map into the existing LH table shape', () => {
   const { toLhRow, fromLhRow } = mod.__test;
   const source = {

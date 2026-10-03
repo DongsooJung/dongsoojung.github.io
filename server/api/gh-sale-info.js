@@ -8,6 +8,7 @@ const SUPABASE_FALLBACK_ANON_KEY =
   'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImluZnRleHBjbmZpbmdsd2xydnNqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzI5MTMyMzgsImV4cCI6MjA4ODQ4OTIzOH0.HONuULp0L3B5T0gTiwJMnowjJonJzzNHhUV_LtpDQoI';
 
 const TABLE = 'lh_sale_notices';
+const COLLECTOR_VERSION = '2026-10-03-data-attributes';
 const LOG_TABLE = 'lh_sale_fetch_logs';
 const GH_CODES = {
   'rent-house': 'GH_RENT_HOUSE',
@@ -91,34 +92,46 @@ function parseGhListHtml(html, source) {
     const linkMatch = rowHtml.match(
       /href=["']([^"']*selectPbancDetailView\.do\?[^"']*pbancNo=(\d+)[^"']*)["']/i,
     );
-    if (!linkMatch) continue;
-
-    const cells = [...rowHtml.matchAll(/<td\b[^>]*>([\s\S]*?)<\/td>/gi)].map((m) => textOnly(m[1]));
+    const dataAnchor = rowHtml.match(/<a\b([^>]*\bdata-pbancNo=["'](\d+)["'][^>]*)>([\s\S]*?)<\/a>/i);
+    if (!linkMatch && !dataAnchor) continue;
+    // GH omits some optional </td> tags; preserve each column's position.
+    const cells = [...rowHtml.matchAll(/<td\b[^>]*>([\s\S]*?)(?=<td\b|<\/tr>|$)/gi)]
+      .map((m) => textOnly(m[1]));
     if (cells.length < 4) continue;
 
     const anchorMatch = rowHtml.match(
       /<a\b[^>]*href=["'][^"']*selectPbancDetailView\.do\?[^"']*pbancNo=\d+[^"']*["'][^>]*>([\s\S]*?)<\/a>/i,
     );
-    const title = textOnly(anchorMatch?.[1] || cells[2] || '');
+    const title = textOnly(dataAnchor?.[3] || anchorMatch?.[1] || cells[2] || '');
     if (!title) continue;
 
-    const dates = cells.map(normalizeDate).filter(Boolean);
     const status =
       cells.find((v) => /(접수중|접수마감|모집중|모집마감|공고중|공고마감|접수예정|마감)/.test(v)) || '';
     const numericTail = [...cells].reverse().find((v) => /^\s*[\d,]+\s*$/.test(v) && asInt(v) > 0);
 
-    let detailUrl = linkMatch[1].replace(/&amp;/g, '&');
+    const pbancNo = dataAnchor?.[2] || linkMatch[2];
+    const attributes = dataAnchor?.[1] || '';
+    let detailUrl = linkMatch?.[1]?.replace(/&amp;/g, '&');
+    if (!detailUrl) {
+      const detail = new URL(source.url.replace(/select\w+List\.do$/, 'selectPbancDetailView.do'));
+      detail.searchParams.set('pbancNo', pbancNo);
+      for (const [attribute, param] of [['previewYn', 'previewYn'], ['pbancKndCd', 'pbancKndCd'], ['bizTyNm', 'bizTyNm']]) {
+        const value = attributes.match(new RegExp(`data-${attribute}=["']([^"']*)["']`, 'i'))?.[1];
+        if (value) detail.searchParams.set(param, decodeHtml(value));
+      }
+      detailUrl = detail.href;
+    }
     try { detailUrl = new URL(detailUrl, source.url).href; } catch (_) { detailUrl = source.url; }
 
     out.push({
       source_type: source.sourceType,
       source_label: source.label,
-      pbanc_no: linkMatch[2],
+      pbanc_no: pbancNo,
       notice_type: cells[1] || source.label,
       title,
       region: cells[3] || '',
-      posted_at: dates[0] || '',
-      closed_at: dates[1] || '',
+      posted_at: normalizeDate(cells[5]),
+      closed_at: normalizeDate(cells[6]),
       status,
       views: asInt(numericTail),
       detail_url: detailUrl,
@@ -321,6 +334,7 @@ export default async function handler(req, res) {
     return res.status(200).json({
       ok: true,
       source: 'GH주택청약·임대센터 공개 청약공고',
+      collectorVersion: COLLECTOR_VERSION,
       storage: 'lh_sale_notices',
       categories: SOURCES.map((s) => ({ sourceType: s.sourceType, label: s.label, url: s.url })),
       supabaseReadable: Boolean(config.readKey),
@@ -348,6 +362,7 @@ export default async function handler(req, res) {
       ok: true,
       rowCount: collected.items.length,
       saved,
+      collectorVersion: COLLECTOR_VERSION,
       logId: log?.id || null,
       sourceStatus: collected.sourceStatus,
       items: collected.items,
