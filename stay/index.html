@@ -9,12 +9,12 @@
   <meta property="og:title" content="Daechi Stay · Eat &amp; Guide">
   <meta property="og:description" content="Gangnam base, host-curated eats, and Korea guides you can buy before you land.">
   <meta property="og:type" content="website">
-  <meta property="og:url" content="https://www.stargateedu.co.kr/stay/">
-  <meta property="og:image" content="https://www.stargateedu.co.kr/stay/og.png">
+  <meta property="og:url" content="https://stargateedu.co.kr/stay/">
+  <meta property="og:image" content="https://stargateedu.co.kr/stay/og.png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta name="twitter:card" content="summary_large_image">
-  <link rel="canonical" href="https://www.stargateedu.co.kr/stay/">
+  <link rel="canonical" href="https://stargateedu.co.kr/stay/">
   <link rel="icon" href="/assets/icons/favicon.ico" sizes="48x48">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -206,6 +206,12 @@
   </style>
   <link rel="stylesheet" href="/assets/site-theme.css">
   <script src="/assets/site-theme.js"></script>
+<!-- travel-aeo-head:start -->
+<link rel="alternate" hreflang="ko" href="https://stargateedu.co.kr/ko/stay/">
+<link rel="alternate" hreflang="en" href="https://stargateedu.co.kr/stay/">
+<link rel="alternate" hreflang="x-default" href="https://stargateedu.co.kr/stay/">
+<script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "LodgingBusiness", "@id": "https://stargateedu.co.kr/stay/#lodging", "name": "Daechi Stay", "url": "https://stargateedu.co.kr/stay/", "description": "A Daechi-dong stay in Gangnam, Seoul, with English and Korean host support.", "address": {"@type": "PostalAddress", "addressLocality": "Gangnam-gu", "addressRegion": "Seoul", "addressCountry": "KR"}, "image": "https://stargateedu.co.kr/stay/assets/hero-interior.png"}, {"@type": "FAQPage", "inLanguage": "en", "mainEntity": [{"@type": "Question", "name": "Where is Daechi Stay?", "acceptedAnswer": {"@type": "Answer", "text": "Daechi Stay is in Daechi-dong, Gangnam, Seoul. The neighborhood guide covers Hanti, Daechi and Samseong stations and the COEX area. Ask the host for the exact address and the best station for your reservation before planning your final transfer."}}, {"@type": "Question", "name": "How do I get there from Incheon Airport?", "acceptedAnswer": {"@type": "Answer", "text": "Ask the host for the exact address before choosing an airport rail, subway, bus or taxi route. Transfer choices depend on your arrival terminal, time and luggage. Check current timetables and fares with the airport and transport operator before departure."}}, {"@type": "Question", "name": "Does this page take accommodation payments?", "acceptedAnswer": {"@type": "Answer", "text": "No accommodation payment is taken on this page. The availability form opens your email app with a request to the host. Confirm availability, total price, cancellation terms and the booking channel with the host before paying."}}, {"@type": "Question", "name": "Which languages are available?", "acceptedAnswer": {"@type": "Answer", "text": "The stay page is available in English and Korean. Contact the host through the availability inquiry for arrival and check-in details."}}]}, {"@type": "Person", "@id": "https://stargateedu.co.kr/#dongsoo", "name": "Dongsoo Jung", "alternateName": "정동수", "url": "https://stargateedu.co.kr/", "jobTitle": "Urban engineering researcher"}]}</script>
+<!-- travel-aeo-head:end -->
 </head>
 <body>
   <nav class="nav shell" aria-label="Main navigation">
@@ -492,6 +498,9 @@
       <div><dt data-en="Support" data-ko="지원">Support</dt><dd data-en="Direct local help from your Seoul host" data-ko="서울 호스트의 직접적인 현지 도움">Direct local help from your Seoul host</dd></div>
     </dl></div></section>
 
+<!-- travel-aeo-body:start -->
+<section class="section"><div class="shell"><h2>Planning your Daechi stay</h2><p><a href="/ko/stay/" lang="ko">한국어 이용 안내</a> · <a href="/en/korea-tourism/">Korea tourism statistics</a></p><h3>Where is Daechi Stay?</h3><p>Daechi Stay is in Daechi-dong, Gangnam, Seoul. The neighborhood guide covers Hanti, Daechi and Samseong stations and the COEX area. Ask the host for the exact address and the best station for your reservation before planning your final transfer.</p><h3>How do I get there from Incheon Airport?</h3><p>Ask the host for the exact address before choosing an airport rail, subway, bus or taxi route. Transfer choices depend on your arrival terminal, time and luggage. Check current timetables and fares with the airport and transport operator before departure.</p><h3>Does this page take accommodation payments?</h3><p>No accommodation payment is taken on this page. The availability form opens your email app with a request to the host. Confirm availability, total price, cancellation terms and the booking channel with the host before paying.</p><h3>Which languages are available?</h3><p>The stay page is available in English and Korean. Contact the host through the availability inquiry for arrival and check-in details.</p></div></section>
+<!-- travel-aeo-body:end -->
     <section class="inquiry" id="inquiry"><div class="shell inquiry-grid"><div>
       <p class="eyebrow light" data-en="Plan your stay" data-ko="여행 계획">Plan your stay</p>
       <h2 data-en="Tell us when Seoul is calling." data-ko="서울에 오는 날짜를 알려주세요.">Tell us when Seoul is calling.</h2>
@@ -554,8 +563,7 @@
       };
 
       toggle.addEventListener("click", () => {
-        language = language === "en" ? "ko" : "en";
-        applyLang();
+        location.href = "/ko/stay/";
       });
 
       const track = (eventName, detail = {}) => {
