@@ -143,10 +143,12 @@ a{color:var(--acc); text-decoration:none} a:hover{text-decoration:underline}
 .brand .tag{font-family:var(--font-mono);font-size:10.5px;color:var(--muted);margin-left:6px;font-weight:500;letter-spacing:.04em}
 .nav .links{display:flex;gap:14px;margin-left:auto;font-size:13px;color:var(--sub);align-items:center}
 .nav .links a{color:var(--sub)} .nav .links a:hover,.nav .links a[aria-current="page"]{color:var(--ink)}
-.lang-switch{display:inline-flex;align-items:center;border:1px solid var(--line2);border-radius:999px;overflow:hidden;flex:0 0 auto}
-.lang-switch a{padding:6px 10px;font:700 11px/1 var(--font-mono);letter-spacing:.04em;color:var(--sub)}
-.lang-switch a:hover{text-decoration:none;color:var(--ink)}
-.lang-switch a[aria-current="page"]{background:var(--grad1);color:#0b1020}
+/* Keep language selection outside the horizontally scrolling navigation. */
+.lang-switch{display:inline-flex;align-items:center;border:1px solid var(--acc);border-radius:999px;overflow:hidden;flex:0 0 auto;background:var(--panel)}
+.lang-switch a{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:0 14px;font:600 14px/1.2 var(--font-sans);white-space:nowrap;color:var(--ink)}
+.lang-switch a:hover{text-decoration:none;background:var(--line)}
+.lang-switch a:focus-visible{outline:3px solid var(--acc);outline-offset:-3px}
+.lang-switch a[aria-current="page"]{background:var(--grad1);color:#0b1020;font-weight:700}
 .visually-hidden{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;
   clip:rect(0,0,0,0);white-space:nowrap;border:0}
 .theme-switch{position:relative;display:inline-flex;align-items:center;flex:0 0 auto}
@@ -332,6 +334,19 @@ footer .business-info{flex-basis:100%;padding-top:10px;border-top:1px solid var(
 @media (prefers-reduced-motion:reduce){
   body,.theme-toggle{transition:none}
 }
+
+@media (max-width:980px){
+  .nav{flex-wrap:wrap;gap:10px}
+  .nav .brand{order:1;flex-basis:100%}
+  .nav > .lang-switch{order:2;margin-right:auto}
+  .nav > .theme-switch,.nav > .theme-toggle{order:2;margin-left:0}
+  .nav .links{order:3;width:100%;margin-left:0;padding:10px 0 4px;overflow-x:auto;white-space:nowrap}
+}
+@media (max-width:480px){
+  .wrap{padding-left:12px;padding-right:12px}
+  .brand .tag{display:none}
+  .brand .name{font-size:14px}
+}
 </style>
 <link rel="stylesheet" href="/assets/personal-projects.css?v=20260908">
 <style>
@@ -358,15 +373,15 @@ footer .business-info{flex-basis:100%;padding-top:10px;border-top:1px solid var(
       <span class="name">DONGSOO.<span style="color:var(--acc)">PORTAL</span></span>
       <span class="tag">v1 · 2026</span>
     </div>
+    <span class="lang-switch" aria-label="언어 선택">
+      <a href="/" lang="ko" hreflang="ko" aria-current="page">한국어</a>
+      <a href="/en/" lang="en" hreflang="en">English</a>
+    </span>
     <div class="links">
       <a href="https://stargateedu.co.kr/-stargate/">스타게이트 앱 배포본</a>
       <a href="/portfolio/blog/">블로그</a>
       <a href="/strategy/">전략</a>
       <a href="/research/">연구</a>
-      <span class="lang-switch" aria-label="언어 선택">
-        <a href="/" lang="ko" aria-current="page">KOR</a>
-        <a href="/en/" lang="en">ENG</a>
-      </span>
     </div>
     <label class="theme-switch">
       <span class="visually-hidden">디자인 테마</span>
