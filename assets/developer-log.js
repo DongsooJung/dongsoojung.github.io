@@ -238,14 +238,14 @@
       return '<div class="devlog-kpis compact">'+
         '<div class="devlog-kpi"><div class="devlog-kpi-label">TODAY</div><div class="devlog-kpi-value">'+k.todayCount+'</div><div class="devlog-kpi-sub">오늘 커밋</div></div>'+
         '<div class="devlog-kpi"><div class="devlog-kpi-label">7D COMMITS</div><div class="devlog-kpi-value">'+k.sevenCount+'</div><div class="devlog-kpi-sub">최근 7일</div></div>'+
-        '<div class="devlog-kpi"><div class="devlog-kpi-label">7D LINES</div><div class="devlog-kpi-value"><span class="plus">+'+k.additions.toLocaleString('en-US')+'</span> <span class="minus">-'+k.deletions.toLocaleString('en-US')+'</span></div><div class="devlog-kpi-sub">'+k.statsCount+'/'+k.sevenCount+'건 집계</div></div>'+
+        '<div class="devlog-kpi"><div class="devlog-kpi-label">LINE DIFF</div><div class="devlog-kpi-value"><span class="plus">+'+k.additions.toLocaleString('en-US')+'</span> <span class="minus">-'+k.deletions.toLocaleString('en-US')+'</span></div><div class="devlog-kpi-sub">'+k.statsCount+'/'+k.sevenCount+'건 집계</div></div>'+
         '<div class="devlog-kpi"><div class="devlog-kpi-label">7D AREAS</div><div class="devlog-kpi-value" style="font-size:12px">'+areaSub+'</div>'+share+'</div>'+
       '</div>';
     }
     return '<div class="devlog-kpis">'+
       '<div class="devlog-kpi"><div class="devlog-kpi-label">TODAY</div><div class="devlog-kpi-value">'+k.todayCount+'</div><div class="devlog-kpi-sub">오늘 커밋</div></div>'+
       '<div class="devlog-kpi"><div class="devlog-kpi-label">7D COMMITS</div><div class="devlog-kpi-value">'+k.sevenCount+'</div><div class="devlog-kpi-sub">최근 7일 작업</div></div>'+
-      '<div class="devlog-kpi"><div class="devlog-kpi-label">7D LINES</div><div class="devlog-kpi-value"><span class="plus">+'+k.additions.toLocaleString('en-US')+'</span><br><span class="minus">-'+k.deletions.toLocaleString('en-US')+'</span></div><div class="devlog-kpi-sub">상세조회 '+k.statsCount+'건</div></div>'+
+      '<div class="devlog-kpi"><div class="devlog-kpi-label">LINE DIFF</div><div class="devlog-kpi-value"><span class="plus">+'+k.additions.toLocaleString('en-US')+'</span><br><span class="minus">-'+k.deletions.toLocaleString('en-US')+'</span></div><div class="devlog-kpi-sub">상세조회 '+k.statsCount+'건</div></div>'+
       '<div class="devlog-kpi"><div class="devlog-kpi-label">HOME SHARE</div><div class="devlog-kpi-value">'+k.pct('HOME')+'%</div><div class="devlog-kpi-sub">'+k.counts.HOME+' commits / 7d</div></div>'+
       '<div class="devlog-kpi"><div class="devlog-kpi-label">RESEARCH SHARE</div><div class="devlog-kpi-value">'+k.pct('RESEARCH')+'%</div><div class="devlog-kpi-sub">'+k.counts.RESEARCH+' commits / 7d</div></div>'+
       '<div class="devlog-kpi"><div class="devlog-kpi-label">STRATEGY SHARE</div><div class="devlog-kpi-value">'+k.pct('STRATEGY')+'%</div><div class="devlog-kpi-sub">'+k.counts.STRATEGY+' commits / 7d</div></div>'+
