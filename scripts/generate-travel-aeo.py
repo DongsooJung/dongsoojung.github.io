@@ -146,7 +146,7 @@ KTO_EN = 'https://english.visitkorea.or.kr/svc/contents/contentsView.do?vcontsId
 def dumulmeori():
     path = '/en/dumulmeori/'
     questions = [
-        ('What is Dumulmeori?', 'Dumulmeori is a riverside park in Yangsu-ri, Yangseo-myeon, Yangpyeong-gun, Gyeonggi-do, where the Bukhangang (North Han) and Namhangang (South Han) rivers meet. VisitKorea describes roughly 400-year-old zelkova trees, a docked traditional sailboat, and a pontoon bridge of about 250 meters linking the area to Semiwon garden.'),
+        ('What is Dumulmeori?', 'Dumulmeori is a riverside park in Yangsu-ri, Yangseo-myeon, Yangpyeong-gun, Gyeonggi-do, where the Bukhangang (North Han) and Namhangang (South Han) rivers meet. VisitKorea describes roughly 400-year-old zelkova trees and a docked traditional sailboat. A traditional pontoon bridge of 44 boats, about 200 meters long, reopened in May 2024 and links the riverside to Semiwon garden.'),
         ('Is there an entrance fee, and when is it open?', 'VisitKorea lists Dumulmeori as free and open all year with no closing day. That listing was last revised in March 2022, so confirm with the Yangpyeong tourist information line (+82-31-770-1001) before a special trip. Semiwon garden next door is a separate attraction with its own paid admission and hours.'),
         ('How do I get there from Seoul by public transport?', 'Take the Gyeongui–Jungang Line to Yangsu Station, the nearest rail station. From there, travelers usually walk, cycle or take a short taxi ride; one travel guide estimates about 30 minutes on foot. Check the current route and timetable in Naver Map or Kakao Map, which give more reliable Korean transit directions than many global map apps.'),
         ('When is the best time to visit?', 'Early morning is popular for river mist and calm water, and VisitKorea notes lotus and lily blooms in summer. Weekends and holidays are busier, and parking near the riverside fills up, so public transport is the simpler choice on those days.'),
@@ -168,7 +168,9 @@ def dumulmeori():
     body += ''.join(f'<section><h2>{html.escape(q)}</h2><p>{html.escape(a)}</p></section>' for q, a in questions)
     body += ('<section><h2>Sources</h2><ul>'
              f'<li><a href="{KTO_KO}">VisitKorea (Korea Tourism Organization), Dumulmeori listing, Korean</a> — address, free entry, year-round access, revised March 2022</li>'
-             f'<li><a href="{KTO_EN}">VisitKorea, day trip to Yangpyeong &amp; Namyangju on the Gyeongui–Jungang Line</a> — zelkova trees, pontoon bridge, summer blooms, updated July 2021</li>'
+             f'<li><a href="{KTO_EN}">VisitKorea, day trip to Yangpyeong &amp; Namyangju on the Gyeongui–Jungang Line</a> — zelkova trees, sailboat, summer blooms, updated July 2021</li>'
+             '<li><a href="https://www.semiwon.or.kr/content.htm?page_id=status">Semiwon, official garden overview</a> and '
+             '<a href="https://www.sedaily.com/NewsView/2D99GHD9CJ">Seoul Economic Daily, 20 May 2024</a> — 44-boat, about 200 m pontoon bridge reopened 17 May 2024</li>'
              '<li><a href="https://www.koreatodo.com/dumulmeori-semiwon-strawberry-farms">KoreaToDo, Dumulmeori &amp; Semiwon guide</a> — walking-time estimate from Yangsu Station</li>'
              '</ul><p><a href="/stay/">Stay in Daechi-dong, Gangnam</a> · <a href="/en/korea-tourism/">Korea inbound tourism statistics</a></p></section>')
     page(path, 'en', 'Dumulmeori day trip from Seoul | Yangpyeong river confluence guide',
