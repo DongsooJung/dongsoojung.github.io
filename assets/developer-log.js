@@ -35,7 +35,8 @@
       .devlog-live{display:inline-flex;align-items:center;gap:7px;color:var(--good,#63d6a0);font:700 10px/1.2 ui-monospace,SFMono-Regular,Menlo,monospace;white-space:nowrap}
       .devlog-live::before{content:"";width:7px;height:7px;border-radius:50%;background:currentColor}
       .devlog-list{display:grid}
-      .devlog-row{display:grid;grid-template-columns:105px 82px minmax(170px,1fr) 126px 136px 66px;gap:9px;align-items:center;padding:11px 0;border-top:1px solid var(--line,#263452)}
+      .devlog-entry{border-top:1px solid var(--line,#263452)}.devlog-entry:first-child{border-top:0}
+      .devlog-row{display:grid;grid-template-columns:105px 82px minmax(170px,1fr) 126px 136px 112px;gap:9px;align-items:center;padding:11px 0}
       .devlog-row:first-child{border-top:0}.devlog-date{color:var(--muted,#6b7a90);font:600 10.5px/1.35 ui-monospace,SFMono-Regular,Menlo,monospace}
       .devlog-kind{justify-self:start;border:1px solid var(--line2,#263452);border-radius:999px;padding:4px 7px;color:var(--acc,#7aa2ff);font:800 9.5px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.04em}
       .devlog-message{min-width:0;color:var(--ink,#e6edf3);font-size:12.5px;line-height:1.45;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
@@ -47,15 +48,22 @@
       .devlog-deploy.success{color:var(--good,#63d6a0);border-color:rgba(99,214,160,.28)}
       .devlog-deploy.failure{color:#ff7a8a;border-color:rgba(255,122,138,.28)}
       .devlog-deploy.pending{color:#ffb86b;border-color:rgba(255,184,107,.28)}
-      .devlog-sha{justify-self:end;color:var(--muted,#6b7a90);font:600 10px/1 ui-monospace,SFMono-Regular,Menlo,monospace}.devlog-sha:hover{color:var(--acc,#7aa2ff)}
+      .devlog-actions{display:flex;justify-content:flex-end;align-items:center;gap:6px}.devlog-sha{color:var(--muted,#6b7a90);font:600 10px/1 ui-monospace,SFMono-Regular,Menlo,monospace}.devlog-sha:hover{color:var(--acc,#7aa2ff)}
+      .devlog-expand{border:1px solid var(--line2,#263452);border-radius:7px;background:rgba(122,162,255,.06);color:var(--acc,#7aa2ff);padding:5px 7px;font:800 9px/1 ui-monospace,SFMono-Regular,Menlo,monospace;cursor:pointer}.devlog-expand:hover,.devlog-expand[aria-expanded="true"]{border-color:var(--acc,#7aa2ff);background:rgba(122,162,255,.14)}
+      .devlog-detail{padding:0 0 14px 187px}.devlog-detail[hidden]{display:none}
+      .devlog-file{border:1px solid var(--line,#263452);border-radius:10px;margin:7px 0;background:rgba(0,0,0,.12);overflow:hidden}
+      .devlog-file-head{display:flex;gap:8px;align-items:center;justify-content:space-between;padding:8px 10px;font:700 10px/1.35 ui-monospace,SFMono-Regular,Menlo,monospace}.devlog-file-path{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--ink,#e6edf3)}.devlog-file-meta{white-space:nowrap;color:var(--sub,#9aa7b8)}
+      .devlog-file-status{display:inline-flex;min-width:18px;justify-content:center;border:1px solid var(--line2,#263452);border-radius:5px;padding:2px 4px;color:var(--acc,#7aa2ff);font-size:8px}
+      .devlog-patch{margin:0;border-top:1px solid var(--line,#263452);padding:9px 10px;overflow:auto;max-height:260px;background:rgba(0,0,0,.22);font:500 9.5px/1.45 ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--sub,#9aa7b8);white-space:pre}.devlog-patch .add{color:var(--good,#63d6a0)}.devlog-patch .del{color:#ff8b98}.devlog-patch .hunk{color:var(--acc,#7aa2ff)}
+      .devlog-detail-foot{display:flex;justify-content:space-between;gap:10px;align-items:center;margin-top:8px;color:var(--muted,#6b7a90);font-size:10px}.devlog-detail-foot a{font-weight:700}
       .devlog-more{display:inline-flex;margin-top:12px;font-size:12px;font-weight:700}
       .devlog-toolbar{display:flex;gap:7px;flex-wrap:wrap;margin:0 0 16px}.devlog-filter{border:1px solid var(--line2,#263452);border-radius:999px;background:var(--panel,#0f172a);color:var(--sub,#9aa7b8);padding:7px 10px;font:700 11px/1 inherit;cursor:pointer}
       .devlog-filter[aria-pressed="true"]{border-color:var(--acc,#7aa2ff);color:var(--ink,#e6edf3);background:rgba(122,162,255,.12)}
       .devlog-day{margin:22px 0 8px;color:var(--ink,#e6edf3);font-size:14px;font-weight:800}.devlog-day small{color:var(--muted,#6b7a90);font:600 10px ui-monospace,SFMono-Regular,Menlo,monospace;margin-left:7px}
       .devlog-empty{padding:16px 0 4px;color:var(--muted,#6b7a90);text-align:center;font-size:12px}
       .devlog-loading{opacity:.72}
-      @media(max-width:980px){.devlog-row{grid-template-columns:88px 76px minmax(0,1fr) 116px 62px}.devlog-deploys{grid-column:3/5;justify-content:flex-start}.devlog-sha{grid-column:5}}
-      @media(max-width:720px){.devlog-row{grid-template-columns:82px 74px minmax(0,1fr)}.devlog-sha{display:none}.devlog-message{white-space:normal}.devlog-stats{grid-column:2/4;justify-content:flex-start}.devlog-deploys{grid-column:2/4;justify-content:flex-start}.devlog-head{align-items:flex-start}}
+      @media(max-width:980px){.devlog-row{grid-template-columns:88px 76px minmax(0,1fr) 116px 102px}.devlog-deploys{grid-column:3/5;justify-content:flex-start}.devlog-actions{grid-column:5}.devlog-detail{padding-left:164px}}
+      @media(max-width:720px){.devlog-row{grid-template-columns:82px 74px minmax(0,1fr)}.devlog-sha{display:none}.devlog-message{white-space:normal}.devlog-stats{grid-column:2/4;justify-content:flex-start}.devlog-deploys{grid-column:2/4;justify-content:flex-start}.devlog-actions{grid-column:2/4;justify-content:flex-start}.devlog-detail{padding-left:0}.devlog-head{align-items:flex-start}.devlog-file-head{align-items:flex-start;flex-direction:column}}
     \`;
     document.head.appendChild(style);
   }
@@ -90,6 +98,7 @@
       additions:item.additions??null,
       deletions:item.deletions??null,
       paths:item.paths||[],
+      file_details:item.file_details||[],
       deploy:item.deploy||{}
     };
   }
@@ -157,7 +166,7 @@
   }
 
   async function commitMeta(sha){
-    const key='stargate:devlog:meta:'+sha;
+    const key='stargate:devlog:meta:v2:'+sha;
     const cached=cacheGet(key,META_TTL); if(cached) return cached;
     const p=await jsonFetch(API+'/commits/'+encodeURIComponent(sha));
     const files=Array.isArray(p.files)?p.files:[];
@@ -165,7 +174,14 @@
       files_changed:files.length,
       additions:files.reduce((s,f)=>s+Number(f.additions||0),0),
       deletions:files.reduce((s,f)=>s+Number(f.deletions||0),0),
-      paths:files.map(f=>f.filename).filter(Boolean)
+      paths:files.map(f=>f.filename).filter(Boolean),
+      file_details:files.slice(0,12).map(f=>({
+        filename:f.filename||'',
+        status:f.status||'modified',
+        additions:Number(f.additions||0),
+        deletions:Number(f.deletions||0),
+        patch:typeof f.patch==='string'?f.patch.slice(0,3200):''
+      }))
     };
     cacheSet(key,value);
     return value;
@@ -193,6 +209,52 @@
     return '<a class="devlog-deploy '+esc(d.state)+'" href="'+esc(d.url||'#')+'" target="_blank" rel="noopener noreferrer">'+esc(label)+' '+esc(d.text||'')+'</a>';
   }
 
+  function statusCode(status){return ({added:'A',removed:'D',renamed:'R',modified:'M',changed:'M',copied:'C'}[status]||'M');}
+
+  function patchHtml(patch){
+    if(!patch) return '<div class="devlog-patch">patch preview unavailable (binary, large file, or GitHub omitted it)</div>';
+    const lines=String(patch).split('\n').slice(0,24);
+    return '<pre class="devlog-patch">'+lines.map(line=>{
+      const cls=line.startsWith('@@')?'hunk':(line.startsWith('+')&&!line.startsWith('+++'))?'add':(line.startsWith('-')&&!line.startsWith('---'))?'del':'';
+      return '<span class="'+cls+'">'+esc(line)+'</span>';
+    }).join('\n')+'</pre>';
+  }
+
+  function detailHtml(c){
+    const files=Array.isArray(c.file_details)?c.file_details:[];
+    if(!files.length) return '<div class="devlog-empty">상세 diff를 불러오지 못했습니다.</div>';
+    const shown=files.slice(0,8);
+    const body=shown.map(f=>'<div class="devlog-file"><div class="devlog-file-head"><span class="devlog-file-path"><span class="devlog-file-status">'+statusCode(f.status)+'</span> '+esc(f.filename)+'</span><span class="devlog-file-meta"><span class="devlog-add">+'+Number(f.additions||0).toLocaleString('en-US')+'</span> · <span class="devlog-del">-'+Number(f.deletions||0).toLocaleString('en-US')+'</span></span></div>'+patchHtml(f.patch)+'</div>').join('');
+    const more=Number(c.files_changed||0)>shown.length?'외 '+(Number(c.files_changed)-shown.length)+'개 파일':'표시 '+shown.length+'개 파일';
+    return body+'<div class="devlog-detail-foot"><span>'+esc(more)+' · 핵심 diff 최대 24줄/파일</span><a href="'+esc(c.html_url)+'" target="_blank" rel="noopener noreferrer">GitHub에서 전체 diff 보기 ↗</a></div>';
+  }
+
+  const commitIndex=new Map();
+
+  async function toggleDetail(button){
+    const entry=button.closest('.devlog-entry');if(!entry)return;
+    const sha=entry.dataset.sha,detail=entry.querySelector('.devlog-detail');
+    const open=button.getAttribute('aria-expanded')==='true';
+    if(open){button.setAttribute('aria-expanded','false');button.textContent='DIFF ▾';detail.hidden=true;return;}
+    button.setAttribute('aria-expanded','true');button.textContent='DIFF ▴';detail.hidden=false;
+    let c=commitIndex.get(sha);
+    if(!c){detail.innerHTML='<div class="devlog-empty">커밋 정보를 찾지 못했습니다.</div>';return;}
+    if(!Array.isArray(c.file_details)||!c.file_details.length){
+      detail.innerHTML='<div class="devlog-empty">diff 불러오는 중…</div>';
+      try{const m=await commitMeta(sha);Object.assign(c,m);c.kind=pathKind(c.paths,c.message);}catch(e){detail.innerHTML='<div class="devlog-empty">GitHub diff를 불러오지 못했습니다.</div>';return;}
+    }
+    detail.innerHTML=detailHtml(c);
+  }
+
+  function bindDiffEvents(){
+    if(document.documentElement.dataset.devlogDiffBound)return;
+    document.documentElement.dataset.devlogDiffBound='1';
+    document.addEventListener('click',e=>{
+      const button=e.target.closest?.('.devlog-expand');if(!button)return;
+      e.preventDefault();toggleDetail(button);
+    });
+  }
+
   function rowHtml(c,showDay=true){
     const t=kstParts(c.date);
     const hasStats=Number.isFinite(c.files_changed);
@@ -200,13 +262,14 @@
       ? '<div class="devlog-stats"><span class="devlog-files">'+c.files_changed+' files</span><span class="devlog-add">+'+Number(c.additions||0).toLocaleString('en-US')+'</span><span class="devlog-del">-'+Number(c.deletions||0).toLocaleString('en-US')+'</span></div>'
       : '<div class="devlog-stats devlog-loading"><span class="devlog-files">stats…</span></div>';
     const deploys='<div class="devlog-deploys">'+deployBadge('PAGES',c.deploy?.pages)+deployBadge('VERCEL',c.deploy?.vercel)+'</div>';
-    return '<div class="devlog-row" data-kind="'+esc(c.kind)+'">'+
+    commitIndex.set(c.sha,c);
+    return '<div class="devlog-entry" data-sha="'+esc(c.sha)+'" data-kind="'+esc(c.kind)+'"><div class="devlog-row">'+
       '<div class="devlog-date">'+(showDay?t.day+'<br>':'')+t.time+' KST</div>'+
       '<span class="devlog-kind">'+esc(labels[c.kind]||c.kind)+'</span>'+
       '<div class="devlog-message" title="'+esc(c.message)+'">'+esc(c.message)+'</div>'+
       stats+deploys+
-      '<a class="devlog-sha" href="'+esc(c.html_url)+'" target="_blank" rel="noopener noreferrer">'+esc(c.sha.slice(0,7))+' ↗</a>'+
-      '</div>';
+      '<div class="devlog-actions"><a class="devlog-sha" href="'+esc(c.html_url)+'" target="_blank" rel="noopener noreferrer">'+esc(c.sha.slice(0,7))+' ↗</a><button class="devlog-expand" type="button" data-sha="'+esc(c.sha)+'" aria-expanded="false">DIFF ▾</button></div>'+
+      '</div><div class="devlog-detail" hidden></div></div>';
   }
 
   let fullSelected='ALL';
@@ -218,7 +281,7 @@
       section=document.createElement('section');section.className='sec';section.id='developer-log-preview';
       target.insertAdjacentElement('afterend',section);
     }
-    section.innerHTML='<div class="devlog-panel"><div class="devlog-head"><div><h3>개발자 로그 · Developer Log</h3><p>변경 파일·라인 증감·Pages/Vercel 배포 상태까지 실제 GitHub 이력으로 표시합니다.</p></div><span class="devlog-live">'+(source==='github'?'LIVE · GITHUB':'RECENT CACHE')+'</span></div><div class="devlog-list">'+items.slice(0,PREVIEW_LIMIT).map(c=>rowHtml(c,true)).join('')+'</div><a class="devlog-more" href="/work-log/">전체 작업 로그 보기 →</a></div>';
+    section.innerHTML='<div class="devlog-panel"><div class="devlog-head"><div><h3>개발자 로그 · Developer Log</h3><p>변경 파일·라인 증감·Pages/Vercel 배포 상태와 핵심 diff까지 실제 GitHub 이력으로 표시합니다.</p></div><span class="devlog-live">'+(source==='github'?'LIVE · GITHUB':'RECENT CACHE')+'</span></div><div class="devlog-list">'+items.slice(0,PREVIEW_LIMIT).map(c=>rowHtml(c,true)).join('')+'</div><a class="devlog-more" href="/work-log/">전체 작업 로그 보기 →</a></div>';
   }
 
   function renderFull(items,source){
@@ -238,6 +301,7 @@
 
   async function init(){
     injectStyle();
+    bindDiffEvents();
     const {items,source}=await loadCommits();
     const isFull=document.body.hasAttribute('data-devlog-page');
     if(isFull) renderFull(items,source); else renderPreview(items,source);
