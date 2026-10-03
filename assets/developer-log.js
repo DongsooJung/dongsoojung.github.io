@@ -35,6 +35,16 @@
       .devlog-live{display:inline-flex;align-items:center;gap:7px;color:var(--good,#63d6a0);font:700 10px/1.2 ui-monospace,SFMono-Regular,Menlo,monospace;white-space:nowrap}
       .devlog-live::before{content:"";width:7px;height:7px;border-radius:50%;background:currentColor}
       .devlog-list{display:grid}
+      .devlog-kpis{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:8px;margin:12px 0 16px}
+      .devlog-kpi{border:1px solid var(--line,#263452);border-radius:12px;padding:10px 11px;background:rgba(255,255,255,.025);min-width:0}
+      .devlog-kpi-label{color:var(--muted,#6b7a90);font:800 8.5px/1.2 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.06em;text-transform:uppercase}
+      .devlog-kpi-value{margin-top:6px;color:var(--ink,#e6edf3);font:800 18px/1 ui-monospace,SFMono-Regular,Menlo,monospace;white-space:nowrap}
+      .devlog-kpi-sub{margin-top:5px;color:var(--sub,#9aa7b8);font-size:9.5px;line-height:1.35}
+      .devlog-kpi-value .plus{color:var(--good,#63d6a0)}.devlog-kpi-value .minus{color:#ff8b98}
+      .devlog-sharebar{display:flex;height:5px;border-radius:999px;overflow:hidden;background:rgba(255,255,255,.05);margin-top:7px}
+      .devlog-sharebar span{height:100%}.devlog-sharebar .home{background:#7aa2ff}.devlog-sharebar .research{background:#63d6a0}.devlog-sharebar .strategy{background:#ffb86b}
+      .devlog-kpis.compact{grid-template-columns:repeat(4,minmax(0,1fr))}
+      .devlog-kpis.compact .devlog-kpi-value{font-size:16px}
       .devlog-entry{border-top:1px solid var(--line,#263452)}.devlog-entry:first-child{border-top:0}
       .devlog-row{display:grid;grid-template-columns:105px 82px minmax(170px,1fr) 126px 136px 112px;gap:9px;align-items:center;padding:11px 0}
       .devlog-row:first-child{border-top:0}.devlog-date{color:var(--muted,#6b7a90);font:600 10.5px/1.35 ui-monospace,SFMono-Regular,Menlo,monospace}
@@ -62,8 +72,8 @@
       .devlog-day{margin:22px 0 8px;color:var(--ink,#e6edf3);font-size:14px;font-weight:800}.devlog-day small{color:var(--muted,#6b7a90);font:600 10px ui-monospace,SFMono-Regular,Menlo,monospace;margin-left:7px}
       .devlog-empty{padding:16px 0 4px;color:var(--muted,#6b7a90);text-align:center;font-size:12px}
       .devlog-loading{opacity:.72}
-      @media(max-width:980px){.devlog-row{grid-template-columns:88px 76px minmax(0,1fr) 116px 102px}.devlog-deploys{grid-column:3/5;justify-content:flex-start}.devlog-actions{grid-column:5}.devlog-detail{padding-left:164px}}
-      @media(max-width:720px){.devlog-row{grid-template-columns:82px 74px minmax(0,1fr)}.devlog-sha{display:none}.devlog-message{white-space:normal}.devlog-stats{grid-column:2/4;justify-content:flex-start}.devlog-deploys{grid-column:2/4;justify-content:flex-start}.devlog-actions{grid-column:2/4;justify-content:flex-start}.devlog-detail{padding-left:0}.devlog-head{align-items:flex-start}.devlog-file-head{align-items:flex-start;flex-direction:column}}
+      @media(max-width:980px){.devlog-kpis{grid-template-columns:repeat(3,minmax(0,1fr))}.devlog-kpis.compact{grid-template-columns:repeat(4,minmax(0,1fr))}.devlog-row{grid-template-columns:88px 76px minmax(0,1fr) 116px 102px}.devlog-deploys{grid-column:3/5;justify-content:flex-start}.devlog-actions{grid-column:5}.devlog-detail{padding-left:164px}}
+      @media(max-width:720px){.devlog-kpis,.devlog-kpis.compact{grid-template-columns:repeat(2,minmax(0,1fr))}.devlog-row{grid-template-columns:82px 74px minmax(0,1fr)}.devlog-sha{display:none}.devlog-message{white-space:normal}.devlog-stats{grid-column:2/4;justify-content:flex-start}.devlog-deploys{grid-column:2/4;justify-content:flex-start}.devlog-actions{grid-column:2/4;justify-content:flex-start}.devlog-detail{padding-left:0}.devlog-head{align-items:flex-start}.devlog-file-head{align-items:flex-start;flex-direction:column}}
     `;
     document.head.appendChild(style);
   }
@@ -204,6 +214,44 @@
     return items;
   }
 
+  function kpiData(items){
+    const now=Date.now();
+    const sevenAgo=now-(7*24*60*60*1000);
+    const today=kstParts(new Date()).day;
+    const seven=items.filter(c=>new Date(c.date).getTime()>=sevenAgo);
+    const todayCount=items.filter(c=>kstParts(c.date).day===today).length;
+    const withStats=seven.filter(c=>Number.isFinite(c.additions)&&Number.isFinite(c.deletions));
+    const additions=withStats.reduce((s,c)=>s+Number(c.additions||0),0);
+    const deletions=withStats.reduce((s,c)=>s+Number(c.deletions||0),0);
+    const counts={HOME:0,RESEARCH:0,STRATEGY:0,DATA:0,OPS:0};
+    seven.forEach(c=>{counts[c.kind]=(counts[c.kind]||0)+1;});
+    const denom=Math.max(seven.length,1);
+    const pct=k=>Math.round((counts[k]||0)*100/denom);
+    return {todayCount,sevenCount:seven.length,additions,deletions,statsCount:withStats.length,counts,pct};
+  }
+
+  function kpiHtml(items,compact=false){
+    const k=kpiData(items);
+    const areaSub='H '+k.pct('HOME')+'% · R '+k.pct('RESEARCH')+'% · S '+k.pct('STRATEGY')+'%';
+    const share='<div class="devlog-sharebar"><span class="home" style="width:'+k.pct('HOME')+'%"></span><span class="research" style="width:'+k.pct('RESEARCH')+'%"></span><span class="strategy" style="width:'+k.pct('STRATEGY')+'%"></span></div>';
+    if(compact){
+      return '<div class="devlog-kpis compact">'+
+        '<div class="devlog-kpi"><div class="devlog-kpi-label">TODAY</div><div class="devlog-kpi-value">'+k.todayCount+'</div><div class="devlog-kpi-sub">오늘 커밋</div></div>'+
+        '<div class="devlog-kpi"><div class="devlog-kpi-label">7D COMMITS</div><div class="devlog-kpi-value">'+k.sevenCount+'</div><div class="devlog-kpi-sub">최근 7일</div></div>'+
+        '<div class="devlog-kpi"><div class="devlog-kpi-label">7D LINES</div><div class="devlog-kpi-value"><span class="plus">+'+k.additions.toLocaleString('en-US')+'</span> <span class="minus">-'+k.deletions.toLocaleString('en-US')+'</span></div><div class="devlog-kpi-sub">'+k.statsCount+'/'+k.sevenCount+'건 집계</div></div>'+
+        '<div class="devlog-kpi"><div class="devlog-kpi-label">7D AREAS</div><div class="devlog-kpi-value" style="font-size:12px">'+areaSub+'</div>'+share+'</div>'+
+      '</div>';
+    }
+    return '<div class="devlog-kpis">'+
+      '<div class="devlog-kpi"><div class="devlog-kpi-label">TODAY</div><div class="devlog-kpi-value">'+k.todayCount+'</div><div class="devlog-kpi-sub">오늘 커밋</div></div>'+
+      '<div class="devlog-kpi"><div class="devlog-kpi-label">7D COMMITS</div><div class="devlog-kpi-value">'+k.sevenCount+'</div><div class="devlog-kpi-sub">최근 7일 작업</div></div>'+
+      '<div class="devlog-kpi"><div class="devlog-kpi-label">7D LINES</div><div class="devlog-kpi-value"><span class="plus">+'+k.additions.toLocaleString('en-US')+'</span><br><span class="minus">-'+k.deletions.toLocaleString('en-US')+'</span></div><div class="devlog-kpi-sub">상세조회 '+k.statsCount+'건</div></div>'+
+      '<div class="devlog-kpi"><div class="devlog-kpi-label">HOME SHARE</div><div class="devlog-kpi-value">'+k.pct('HOME')+'%</div><div class="devlog-kpi-sub">'+k.counts.HOME+' commits / 7d</div></div>'+
+      '<div class="devlog-kpi"><div class="devlog-kpi-label">RESEARCH SHARE</div><div class="devlog-kpi-value">'+k.pct('RESEARCH')+'%</div><div class="devlog-kpi-sub">'+k.counts.RESEARCH+' commits / 7d</div></div>'+
+      '<div class="devlog-kpi"><div class="devlog-kpi-label">STRATEGY SHARE</div><div class="devlog-kpi-value">'+k.pct('STRATEGY')+'%</div><div class="devlog-kpi-sub">'+k.counts.STRATEGY+' commits / 7d</div></div>'+
+    '</div>';
+  }
+
   function deployBadge(label,d){
     if(!d) return '';
     return '<a class="devlog-deploy '+esc(d.state)+'" href="'+esc(d.url||'#')+'" target="_blank" rel="noopener noreferrer">'+esc(label)+' '+esc(d.text||'')+'</a>';
@@ -281,12 +329,12 @@
       section=document.createElement('section');section.className='sec';section.id='developer-log-preview';
       target.insertAdjacentElement('afterend',section);
     }
-    section.innerHTML='<div class="devlog-panel"><div class="devlog-head"><div><h3>개발자 로그 · Developer Log</h3><p>변경 파일·라인 증감·Pages/Vercel 배포 상태와 핵심 diff까지 실제 GitHub 이력으로 표시합니다.</p></div><span class="devlog-live">'+(source==='github'?'LIVE · GITHUB':'RECENT CACHE')+'</span></div><div class="devlog-list">'+items.slice(0,PREVIEW_LIMIT).map(c=>rowHtml(c,true)).join('')+'</div><a class="devlog-more" href="/work-log/">전체 작업 로그 보기 →</a></div>';
+    section.innerHTML='<div class="devlog-panel"><div class="devlog-head"><div><h3>개발자 로그 · Developer Log</h3><p>변경 파일·라인 증감·배포 상태·핵심 diff와 7일 작업 KPI를 실제 GitHub 이력으로 표시합니다.</p></div><span class="devlog-live">'+(source==='github'?'LIVE · GITHUB':'RECENT CACHE')+'</span></div>'+kpiHtml(items,true)+'<div class="devlog-list">'+items.slice(0,PREVIEW_LIMIT).map(c=>rowHtml(c,true)).join('')+'</div><a class="devlog-more" href="/work-log/">전체 작업 로그 보기 →</a></div>';
   }
 
   function renderFull(items,source){
     const root=document.getElementById('developer-log-full');if(!root)return;
-    root.innerHTML='<div class="devlog-toolbar" role="group" aria-label="작업 로그 필터">'+['ALL','HOME','RESEARCH','STRATEGY','DATA','OPS'].map(k=>'<button class="devlog-filter" type="button" data-filter="'+k+'" aria-pressed="'+(k===fullSelected?'true':'false')+'">'+k+'</button>').join('')+'</div><div id="developer-log-list"></div><div class="devlog-empty" id="developer-log-status"></div>';
+    root.innerHTML=kpiHtml(items,false)+'<div class="devlog-toolbar" role="group" aria-label="작업 로그 필터">'+['ALL','HOME','RESEARCH','STRATEGY','DATA','OPS'].map(k=>'<button class="devlog-filter" type="button" data-filter="'+k+'" aria-pressed="'+(k===fullSelected?'true':'false')+'">'+k+'</button>').join('')+'</div><div id="developer-log-list"></div><div class="devlog-empty" id="developer-log-status"></div>';
     const list=root.querySelector('#developer-log-list'),status=root.querySelector('#developer-log-status');
     const draw=()=>{
       const filtered=items.filter(c=>fullSelected==='ALL'||c.kind===fullSelected).slice(0,FULL_LIMIT);
