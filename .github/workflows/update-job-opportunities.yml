@@ -14,16 +14,29 @@ jobs:
     timeout-minutes: 8
     steps:
       - uses: actions/checkout@v4
+      - name: Check for an approved posting feed
+        id: feed
+        env:
+          JOB_FEED_URL: ${{ secrets.JOB_FEED_URL }}
+        run: |
+          if [ -n "$JOB_FEED_URL" ]; then
+            echo "ready=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "No approved posting feed is configured; skipping the job export."
+          fi
       - uses: actions/setup-node@v4
+        if: steps.feed.outputs.ready == 'true'
         with:
           node-version: "22"
       - name: Select the daily top 20 from an authorized feed
+        if: steps.feed.outputs.ready == 'true'
         env:
           JOB_FEED_URL: ${{ secrets.JOB_FEED_URL }}
           JOB_FEED_TOKEN: ${{ secrets.JOB_FEED_TOKEN }}
           JOB_FEED_LICENSED: ${{ vars.JOB_FEED_LICENSED }}
         run: node scripts/update-job-opportunities.mjs
       - name: Commit JSON and CSV snapshots
+        if: steps.feed.outputs.ready == 'true'
         run: |
           if git diff --quiet -- strategy/job-opportunities/data; then exit 0; fi
           git config user.name "github-actions[bot]"
