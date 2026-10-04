@@ -40,6 +40,11 @@ test("keeps an unreported close date empty", () => {
   assert.equal(result.rows[0].deadline, "");
 });
 
+test("removes markup delimiters from decoded provider text", () => {
+  const result = parseWork24Response("<wantedRoot><total>1</total><wanted><title>&lt;script>alert(1)&lt;/script></title></wanted></wantedRoot>");
+  assert.equal(result.rows[0].title, "script alert(1) /script");
+});
+
 test("rejects non-Work24 and incomplete error responses", () => {
   assert.throws(() => parseWork24Response("<html>login</html>"), /응답 형식/);
   assert.throws(() => parseWork24Response("<wantedRoot><total>3</total></wantedRoot>"), /공고 목록/);

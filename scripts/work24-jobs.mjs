@@ -7,12 +7,14 @@ function decodeXml(value) {
     .replace(/<!\[CDATA\[([\s\S]*?)\]\]>/g, "$1")
     .replace(/&#x([\da-f]+);/gi, (_, code) => String.fromCodePoint(Number.parseInt(code, 16)))
     .replace(/&#(\d+);/g, (_, code) => String.fromCodePoint(Number(code)))
-    .replace(/&lt;/g, "<")
-    .replace(/&gt;/g, ">")
+    .replace(/&lt;/gi, " ")
+    .replace(/&gt;/gi, " ")
     .replace(/&quot;/g, '"')
     .replace(/&apos;/g, "'")
     .replace(/&amp;/g, "&")
-    .replace(/<[^>]*>/g, "")
+    .replace(/<[^>]*>/g, " ")
+    .replace(/[<>]/g, " ")
+    .replace(/\s+/g, " ")
     .trim();
 }
 
