@@ -11,7 +11,7 @@
 - `portfolio/` — 외부 링크용 선별 포트폴리오 허브 (`https://www.stargateedu.co.kr/portfolio/`)
 - `strategy/q3-45day/` — 2026년 8월 15일~9월 30일 Q3 잔여 47일 실행계획(7개 영역·43개 과제·브라우저 진행상태 저장). `#homepage-ops`에서 스타게이트 홈페이지 개선·운영의 과거 코드 기록과 현재 미확인 검증 과제를 구분.
 - `strategy/kimstudy-math/` — 승인된 김과외 과외학생 문의·수요 전략 테이블(페이지당 100건, 매일 자동 갱신)
-- `strategy/used-car/` — 중고차 일일 가격 전략 대시보드(승인 실매물 CSV/JSON 피드 연결 시에만 통계·목록 공개, 페이지당 100건, 매일 09:30 KST 갱신)
+- `strategy/used-car/` — 국토교통부 월별 자동차 이전등록 엑셀을 가공한 중고차 시장활동 참고지표(매매 관련 이전등록·12개월 추이·지역별 비교, 개별 매물과 가격 미제공)
 - `strategy/onbid-real-estate/` — 차세대 온비드 공식 API 기반 부동산 공매 목록(페이지당 100건) 및 온디맨드 물건상세 조회
 - `strategy/job-opportunities/` — 채용·체험공고 적합도 일일 TOP 20(JSON·CSV·날짜별 보관, 매일 09:00 KST 갱신)
 - `strategy/kstartup/` — 창업진흥원 K-Startup 공식 API를 매일 자동 수집하는 모집 중 지원사업 검색·마감 임박 레이더

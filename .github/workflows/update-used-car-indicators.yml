@@ -1,0 +1,44 @@
+name: Update used-car public indicators
+
+on:
+  schedule:
+    - cron: "15 1 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: update-used-car-indicators
+  cancel-in-progress: true
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install XLSX reader and HTTP dependencies
+        run: python -m pip install --disable-pip-version-check requests==2.32.5 beautifulsoup4==4.14.2 openpyxl==3.1.5
+
+      - name: Read official monthly vehicle transfer registrations
+        run: python scripts/update-used-car-indicators.py
+
+      - name: Commit changed public indicator snapshot
+        run: |
+          if git diff --quiet -- strategy/used-car/data/market-indicators.json strategy/used-car/data/market-indicators.csv; then
+            echo "Official indicator data is unchanged."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add strategy/used-car/data/market-indicators.json strategy/used-car/data/market-indicators.csv
+          git commit -m "data: update official used-car activity indicators"
+          git push
