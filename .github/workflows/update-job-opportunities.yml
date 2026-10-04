@@ -19,6 +19,7 @@ jobs:
           node-version: "22"
       - name: Select the daily top 20 from an authorized feed
         env:
+          WORK24_AUTH_KEY: ${{ secrets.WORK24_AUTH_KEY }}
           JOB_FEED_URL: ${{ secrets.JOB_FEED_URL }}
           JOB_FEED_TOKEN: ${{ secrets.JOB_FEED_TOKEN }}
           JOB_FEED_LICENSED: ${{ vars.JOB_FEED_LICENSED }}
