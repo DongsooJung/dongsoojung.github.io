@@ -25,7 +25,19 @@ jobs:
         with:
           node-version: "22"
 
+      - name: Check for approved vehicle listing feed
+        id: feed
+        env:
+          USED_CAR_FEED_URL: ${{ secrets.USED_CAR_FEED_URL }}
+        run: |
+          if [ -n "$USED_CAR_FEED_URL" ]; then
+            echo "ready=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "No approved listing feed is configured; preserving the existing listing snapshot."
+          fi
+
       - name: Load licensed CSV or JSON feed in 100-row pages
+        if: steps.feed.outputs.ready == 'true'
         env:
           USED_CAR_FEED_URL: ${{ secrets.USED_CAR_FEED_URL }}
           USED_CAR_FEED_TOKEN: ${{ secrets.USED_CAR_FEED_TOKEN }}
@@ -33,6 +45,7 @@ jobs:
         run: node scripts/update-used-car-market.mjs
 
       - name: Commit daily market snapshot
+        if: steps.feed.outputs.ready == 'true'
         run: |
           if git diff --quiet -- strategy/used-car/data/latest.json; then
             echo "No used-car data changes to commit."
