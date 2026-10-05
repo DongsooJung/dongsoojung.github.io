@@ -233,6 +233,7 @@ a{color:var(--acc); text-decoration:none} a:hover{text-decoration:underline}
   background:linear-gradient(145deg,var(--panel2),var(--panel));min-height:225px;display:flex;flex-direction:column;
   transition:.18s transform,.18s border-color,.18s box-shadow}
 .hub-card::after{content:"";position:absolute;width:210px;height:210px;border-radius:50%;right:-75px;top:-95px;background:var(--glow);opacity:.6}
+.hub-card.global{--hub:#d9a441;--glow:rgba(217,164,65,.22)}
 .hub-card.strategy{--hub:#ff9f5a;--glow:rgba(255,111,15,.18)}
 .hub-card.research{--hub:#73b7ff;--glow:rgba(52,120,246,.2)}
 .hub-card.civic{--hub:#45d4bf;--glow:rgba(45,212,191,.18)}
@@ -527,6 +528,12 @@ body.portal-dashboard-mode #personal-projects{margin-top:14px}
     <h2>바로가기</h2>
     <div class="desc">전략·연구 자료를 확인하거나 카카오톡으로 링크를 보낼 수 있습니다.</div>
     <div class="hub-grid">
+      <a class="hub-card global" href="/global/">
+        <div class="hub-kicker">GLOBAL STARGATE</div>
+        <h3>Global · Korea Intelligence</h3>
+        <p>한국의 경제·기업·부동산·관광·도시·교육 데이터를 AI와 연구로 연결해 글로벌 Intelligence 제품으로 확장합니다.</p>
+        <div class="hub-meta"><span>AI · Data · Research · Korea Intelligence</span><b>글로벌 허브 →</b></div>
+      </a>
       <a class="hub-card strategy" href="/strategy/">
         <div class="hub-kicker">Strategy Intelligence</div>
         <h3>전략 인사이트</h3>
@@ -612,6 +619,16 @@ body.portal-dashboard-mode #personal-projects{margin-top:14px}
       </button>
     </div>
     <div class="grid" id="projects-grid">
+
+      <a class="proj" href="/global/" data-project-category="사업" data-global-stargate-card="true">
+        <div class="badge">NEW · GLOBAL STARGATE</div>
+        <div class="thumb" style="background:linear-gradient(135deg,#071126,#d9a441)"><span class="emo">🌐</span></div>
+        <div class="body">
+          <h3>GLOBAL STARGATE</h3>
+          <p>AI · 데이터 · 연구 · 교육을 묶어 한국 정보를 세계가 쓰는 Korea Intelligence로 확장합니다.</p>
+          <div class="tags"><span>GLOBAL</span><span>KOREA INTELLIGENCE</span><span>AI · DATA</span></div>
+        </div>
+      </a>
 
       <a class="proj" href="https://stargate-homepage.vercel.app/" target="_blank" rel="noopener noreferrer" data-project-category="사업">
         <div class="badge">NEW · STARGATE</div>
