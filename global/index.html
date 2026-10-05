@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GLOBAL STARGATE | Korea Intelligence, Powered by AI</title>
+<meta name="description" content="GLOBAL STARGATE turns Korea's fragmented public and market data into usable intelligence across business, cities, tourism, education and AI.">
+<link rel="canonical" href="https://stargateedu.co.kr/global/">
+<meta property="og:title" content="GLOBAL STARGATE | Korea Intelligence, Powered by AI">
+<meta property="og:description" content="Data · Research · Education · Technology. The easiest way to understand Korea.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://stargateedu.co.kr/global/">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#071126;--navy:#0b1738;--navy2:#142150;--gold:#d9a441;--gold2:#f1c77a;--paper:#f6f8fc;--line:#e4e8f1;--muted:#667085;--white:#fff;--green:#12b76a}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;font-family:Inter,"Noto Sans KR",system-ui,sans-serif;color:#172033;background:#fff;line-height:1.6}a{color:inherit;text-decoration:none}.wrap{max-width:1180px;margin:auto;padding:0 24px}
+.top{position:sticky;top:0;z-index:40;background:rgba(7,17,38,.94);backdrop-filter:blur(10px);border-bottom:1px solid rgba(255,255,255,.08);color:#fff}.top .wrap{height:66px;display:flex;align-items:center;gap:24px}.brand{font-weight:900;letter-spacing:.7px;white-space:nowrap}.brand span{color:var(--gold2)}.nav{display:flex;gap:18px;margin-left:auto;font-size:13px}.nav a{color:#cdd6ea}.nav a:hover{color:#fff}.lang{border:1px solid rgba(255,255,255,.22);background:transparent;color:#fff;border-radius:999px;padding:8px 12px;cursor:pointer;font-weight:700}
+.hero{background:radial-gradient(900px 420px at 18% -10%,rgba(217,164,65,.22),transparent 60%),linear-gradient(180deg,#071126,#0b1738);color:#fff;padding:108px 0 92px}.eyebrow{font-size:12px;font-weight:800;letter-spacing:2px;color:var(--gold2);text-transform:uppercase}.hero h1{font-size:clamp(42px,7vw,78px);line-height:1.02;margin:16px 0 20px;letter-spacing:-2.5px}.hero h1 em{font-style:normal;color:var(--gold2)}.hero p{max-width:760px;font-size:19px;color:#bdc8df}.actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:32px}.btn{display:inline-flex;align-items:center;justify-content:center;padding:13px 18px;border-radius:12px;font-weight:800;border:1px solid rgba(255,255,255,.18)}.btn.primary{background:var(--gold);border-color:var(--gold);color:var(--ink)}.btn.ghost{color:#fff}.proof{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:56px}.proof div{padding:16px;border:1px solid rgba(255,255,255,.12);border-radius:14px;background:rgba(255,255,255,.04)}.proof strong{display:block;font-size:24px}.proof span{font-size:12px;color:#aab6d1}
+section{padding:82px 0}.section-head{display:flex;justify-content:space-between;gap:24px;align-items:end;margin-bottom:28px}.section-head h2{margin:6px 0 0;font-size:clamp(28px,4vw,44px);letter-spacing:-1.4px;color:var(--ink)}.section-head p{max-width:650px;color:var(--muted);margin:0}.paper{background:var(--paper)}
+.divisions{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}.division{padding:26px;border:1px solid var(--line);border-radius:18px;background:#fff;min-height:205px}.division .code{font-size:12px;font-weight:900;color:var(--gold);letter-spacing:1px}.division h3{margin:10px 0 8px;color:var(--ink);font-size:22px}.division p{margin:0;color:var(--muted);font-size:14px}.division .role{display:inline-block;margin-top:20px;padding:6px 9px;border-radius:999px;background:#f4efe4;color:#765416;font-size:11px;font-weight:800}
+.flagships{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}.flagship{padding:28px;border-radius:18px;background:linear-gradient(145deg,#0b1738,#152653);color:#fff;min-height:230px;border:1px solid rgba(255,255,255,.08)}.flagship .num{font:800 12px/1 Inter;color:var(--gold2);letter-spacing:1px}.flagship h3{font-size:24px;margin:16px 0 9px}.flagship p{color:#b8c5dd;margin:0 0 18px}.flagship a{font-weight:800;color:var(--gold2)}
+.product-band{background:#071126;color:#fff}.product-band .section-head h2{color:#fff}.product-band .section-head p{color:#adb9d2}.tiers{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}.tier{padding:28px;border:1px solid rgba(255,255,255,.12);border-radius:18px;background:rgba(255,255,255,.04)}.tier.featured{border-color:var(--gold);background:rgba(217,164,65,.09)}.tier h3{margin:0}.price{font-size:28px;font-weight:900;margin:12px 0}.tier ul{padding-left:18px;color:#bdc8df}.tier li{margin:7px 0}
+.explorer-tools{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:20px}.filter{border:1px solid var(--line);background:#fff;border-radius:999px;padding:9px 12px;font-weight:700;cursor:pointer}.filter.active{background:var(--ink);color:#fff;border-color:var(--ink)}.projects{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}.project{border:1px solid var(--line);border-radius:15px;padding:20px;background:#fff}.project .meta{font-size:11px;font-weight:800;color:var(--gold);letter-spacing:.6px}.project h4{font-size:17px;margin:9px 0 8px;color:var(--ink)}.project p{font-size:13px;color:var(--muted);margin:0 0 14px}.project a{font-size:13px;font-weight:800;color:var(--navy)}
+.cta{padding:70px 0;background:linear-gradient(110deg,#d9a441,#f1c77a);color:#071126}.cta .wrap{display:flex;justify-content:space-between;align-items:center;gap:24px}.cta h2{font-size:36px;letter-spacing:-1px;margin:0}.cta p{margin:8px 0 0;max-width:650px}.cta .btn{border-color:#071126}
+footer{padding:38px 0;background:#050b18;color:#9ba7c0;font-size:13px}.footer-row{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
+@media(max-width:900px){.nav{display:none}.proof,.divisions,.projects{grid-template-columns:repeat(2,1fr)}.flagships{grid-template-columns:1fr}.tiers{grid-template-columns:1fr}.cta .wrap{display:block}.cta .btn{margin-top:20px}}
+@media(max-width:620px){.hero{padding:80px 0 70px}.hero h1{letter-spacing:-1.4px}.proof,.divisions,.projects{grid-template-columns:1fr}.section-head{display:block}.section-head p{margin-top:10px}}
+</style>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"Organization","name":"GLOBAL STARGATE","legalName":"주식회사 별의문","url":"https://stargateedu.co.kr/global/","email":"ceo@stargateedu.co.kr","description":"AI, data, research and education company building Korea Intelligence products."}
+</script>
+</head>
+<body>
+<nav class="top"><div class="wrap"><a class="brand" href="/global/">GLOBAL <span>STARGATE</span></a><div class="nav"><a href="#businesses">Businesses</a><a href="#intelligence">Intelligence</a><a href="#products">Products</a><a href="#projects">Projects</a><a href="/">STARGATE EDU</a></div><button class="lang" id="langToggle">EN / 한국어</button></div></nav>
+
+<header class="hero"><div class="wrap">
+<div class="eyebrow">GLOBAL STARGATE · 2027</div>
+<h1 data-ko="한국을 데이터로 이해하는<br><em>가장 빠른 방법</em>" data-en="Korea Intelligence,<br><em>Powered by AI.</em>">한국을 데이터로 이해하는<br><em>가장 빠른 방법</em></h1>
+<p data-ko="분산된 한국의 공공·산업·도시 데이터를 수집하고 구조화해 기업, 연구자, 학습자가 바로 사용할 수 있는 Intelligence로 만듭니다." data-en="We turn fragmented Korean public, market and city data into usable intelligence for businesses, researchers and learners.">분산된 한국의 공공·산업·도시 데이터를 수집하고 구조화해 기업, 연구자, 학습자가 바로 사용할 수 있는 Intelligence로 만듭니다.</p>
+<div class="actions"><a class="btn primary" href="#intelligence" data-ko="Korea Intelligence 보기 →" data-en="Explore Korea Intelligence →">Korea Intelligence 보기 →</a><a class="btn ghost" href="#projects" data-ko="프로젝트 탐색" data-en="Browse Projects">프로젝트 탐색</a><a class="btn ghost" href="mailto:ceo@stargateedu.co.kr" data-ko="기업 문의" data-en="Business Inquiry">기업 문의</a></div>
+<div class="proof"><div><strong>50+</strong><span>DATA / RESEARCH ASSETS</span></div><div><strong>KR / EN</strong><span>BILINGUAL BY DESIGN</span></div><div><strong>LIVE</strong><span>AUTOMATED DATA UPDATES</span></div><div><strong>API</strong><span>BUSINESS-READY ROADMAP</span></div></div>
+</div></header>
+
+<section id="businesses"><div class="wrap">
+<div class="section-head"><div><div class="eyebrow">BUSINESS ARCHITECTURE</div><h2 data-ko="6개 사업부, 하나의 데이터 자산" data-en="Six businesses. One intelligence layer.">6개 사업부, 하나의 데이터 자산</h2></div><p data-ko="새 프로젝트를 늘리는 대신 기존 자산을 6개 사업부로 묶고, 트래픽·고객·매출·반복매출을 기준으로 운영합니다." data-en="Instead of multiplying projects, we organize existing assets into six businesses and manage them by traffic, customers, revenue and recurring revenue.">새 프로젝트를 늘리는 대신 기존 자산을 6개 사업부로 묶고, 트래픽·고객·매출·반복매출을 기준으로 운영합니다.</p></div>
+<div class="divisions">
+<article class="division"><div class="code">01 · EDU</div><h3>STARGATE EDU</h3><p data-ko="KMO·KOI·수학·알고리즘·AI 교육. 회사의 초기 현금흐름을 담당합니다." data-en="KMO, KOI, mathematics, algorithms and AI education. The initial cash-flow engine.">KMO·KOI·수학·알고리즘·AI 교육. 회사의 초기 현금흐름을 담당합니다.</p><span class="role">CASH FLOW</span></article>
+<article class="division"><div class="code">02 · INTELLIGENCE</div><h3>STARGATE INTELLIGENCE</h3><p data-ko="기업·시장·산업 데이터를 구독형 대시보드와 보고서로 전환합니다." data-en="Turns company, market and industry data into subscription dashboards and reports.">기업·시장·산업 데이터를 구독형 대시보드와 보고서로 전환합니다.</p><span class="role">RECURRING REVENUE</span></article>
+<article class="division"><div class="code">03 · RESEARCH</div><h3>STARGATE RESEARCH</h3><p data-ko="도시·경제·정책·AI 연구를 통해 분석 신뢰도와 지식재산을 축적합니다." data-en="Builds analytical credibility and IP across urban, economic, policy and AI research.">도시·경제·정책·AI 연구를 통해 분석 신뢰도와 지식재산을 축적합니다.</p><span class="role">IP / B2B</span></article>
+<article class="division"><div class="code">04 · LABS</div><h3>STARGATE LABS</h3><p data-ko="API, AI Agent, 자동화, 데이터 수집기를 빠르게 실험하고 제품화합니다." data-en="Rapidly experiments with and productizes APIs, AI agents, automation and data collectors.">API, AI Agent, 자동화, 데이터 수집기를 빠르게 실험하고 제품화합니다.</p><span class="role">SaaS / API</span></article>
+<article class="division"><div class="code">05 · KOREA</div><h3>STARGATE KOREA</h3><p data-ko="한국 경제·부동산·관광·도시 데이터를 해외 고객이 쓰기 쉽게 제공합니다." data-en="Makes Korean economic, property, tourism and city data accessible to global users.">한국 경제·부동산·관광·도시 데이터를 해외 고객이 쓰기 쉽게 제공합니다.</p><span class="role">GLOBAL GROWTH</span></article>
+<article class="division"><div class="code">06 · MEDIA</div><h3>STARGATE MEDIA</h3><p data-ko="보고서·전자책·가이드·블로그를 검색 유입과 지식 IP로 연결합니다." data-en="Connects reports, ebooks, guides and publishing to search acquisition and knowledge IP.">보고서·전자책·가이드·블로그를 검색 유입과 지식 IP로 연결합니다.</p><span class="role">CONTENT / IP</span></article>
+</div></div></section>
+
+<section class="paper" id="intelligence"><div class="wrap">
+<div class="section-head"><div><div class="eyebrow">FLAGSHIP PRODUCTS</div><h2>Korea Intelligence</h2></div><p data-ko="첫 화면에는 수십 개 프로젝트를 나열하지 않고, 구매 이유가 명확한 6개의 대표 Intelligence 제품만 제시합니다." data-en="The front door shows six clear intelligence products instead of dozens of disconnected projects.">첫 화면에는 수십 개 프로젝트를 나열하지 않고, 구매 이유가 명확한 6개의 대표 Intelligence 제품만 제시합니다.</p></div>
+<div class="flagships">
+<article class="flagship"><div class="num">01 · ECONOMY</div><h3>Korea Economic Intelligence</h3><p data-ko="환율 · 금리 · 물가 · 무역 · 기업실적을 한 흐름으로 연결합니다." data-en="Exchange rates, rates, prices, trade and corporate performance in one view.">환율 · 금리 · 물가 · 무역 · 기업실적을 한 흐름으로 연결합니다.</p><a href="/trade/">Explore →</a></article>
+<article class="flagship"><div class="num">02 · BUSINESS</div><h3>Korea Business Intelligence</h3><p data-ko="OpenDART, 플랫폼 기업, 스타트업, 산업 리서치를 기업 의사결정 관점으로 재구성합니다." data-en="Company filings, platforms, startups and industry research for business decisions.">OpenDART, 플랫폼 기업, 스타트업, 산업 리서치를 기업 의사결정 관점으로 재구성합니다.</p><a href="/strategy/">Explore →</a></article>
+<article class="flagship"><div class="num">03 · REAL ESTATE</div><h3>Korea Real Estate Intelligence</h3><p data-ko="거래·경매·상권·역세권·도시공간 데이터를 투자와 입지 분석으로 연결합니다." data-en="Transactions, auctions, commercial districts and urban data for location intelligence.">거래·경매·상권·역세권·도시공간 데이터를 투자와 입지 분석으로 연결합니다.</p><a href="/research/">Explore →</a></article>
+<article class="flagship"><div class="num">04 · TOURISM</div><h3>Korea Tourism Intelligence</h3><p data-ko="방한관광객·숙박·공항·도시 데이터를 여행시장 인사이트로 제공합니다." data-en="Inbound tourism, accommodation, airports and city data for travel-market intelligence.">방한관광객·숙박·공항·도시 데이터를 여행시장 인사이트로 제공합니다.</p><a href="/korea-tourism/">Explore →</a></article>
+<article class="flagship"><div class="num">05 · AI</div><h3>STARGATE AI Labs</h3><p data-ko="AI Agent, 공공데이터 수집, 입찰 자동화, 교육 AI를 실제 서비스로 검증합니다." data-en="Validates AI agents, public-data automation, bid automation and education AI as products.">AI Agent, 공공데이터 수집, 입찰 자동화, 교육 AI를 실제 서비스로 검증합니다.</p><a href="/strategy/bidscout/">Explore →</a></article>
+<article class="flagship"><div class="num">06 · EDUCATION</div><h3>STARGATE Education</h3><p data-ko="KMO·KOI·알고리즘·AI를 소수정예 교육과 디지털 상품으로 확장합니다." data-en="KMO, KOI, algorithms and AI through premium classes and digital products.">KMO·KOI·알고리즘·AI를 소수정예 교육과 디지털 상품으로 확장합니다.</p><a href="https://shop.stargateedu.co.kr/">Explore →</a></article>
+</div></div></section>
+
+<section class="product-band" id="products"><div class="wrap">
+<div class="section-head"><div><div class="eyebrow">MONETIZATION</div><h2>Korea Intelligence PRO</h2></div><p data-ko="무료 대시보드가 검색과 신뢰를 만들고, PRO와 Business가 반복매출을 만듭니다." data-en="Free dashboards create discovery and trust; PRO and Business convert that attention into recurring revenue.">무료 대시보드가 검색과 신뢰를 만들고, PRO와 Business가 반복매출을 만듭니다.</p></div>
+<div class="tiers">
+<article class="tier"><h3>FREE</h3><div class="price">₩0</div><ul><li>Public dashboards</li><li>Recent data</li><li>Research summaries</li><li>Search access</li></ul></article>
+<article class="tier featured"><h3>PRO</h3><div class="price">₩29K–49K / mo</div><ul><li>Full time series</li><li>CSV download</li><li>Advanced filters</li><li>Saved alerts</li></ul></article>
+<article class="tier"><h3>BUSINESS</h3><div class="price">Custom</div><ul><li>API access</li><li>Bulk export</li><li>Custom dashboard</li><li>Research support</li></ul></article>
+</div></div></section>
+
+<section id="projects"><div class="wrap">
+<div class="section-head"><div><div class="eyebrow">PROJECT TAXONOMY</div><h2 data-ko="기존 자산을 사업으로 다시 읽기" data-en="Reframe existing assets as businesses">기존 자산을 사업으로 다시 읽기</h2></div><p data-ko="기존 URL을 옮기지 않고 division·sector·market·productType 태그만 추가합니다." data-en="Existing URLs stay intact. We add division, sector, market and productType metadata.">기존 URL을 옮기지 않고 division·sector·market·productType 태그만 추가합니다.</p></div>
+<div class="explorer-tools" id="filters"><button class="filter active" data-filter="ALL">ALL</button><button class="filter" data-filter="EDU">EDU</button><button class="filter" data-filter="INTELLIGENCE">INTELLIGENCE</button><button class="filter" data-filter="RESEARCH">RESEARCH</button><button class="filter" data-filter="LABS">LABS</button><button class="filter" data-filter="KOREA">KOREA</button><button class="filter" data-filter="MEDIA">MEDIA</button></div>
+<div class="projects" id="projectGrid"><article class="project"><div class="meta">LOADING</div><h4>Project taxonomy</h4><p>Loading projects.json…</p></article></div>
+</div></section>
+
+<section class="cta"><div class="wrap"><div><h2 data-ko="한국 데이터를 세계가 쓰게 만든다." data-en="Make Korea's data usable to the world.">한국 데이터를 세계가 쓰게 만든다.</h2><p data-ko="GLOBAL STARGATE의 다음 단계는 더 많은 프로젝트가 아니라, 이미 가진 데이터와 연구를 반복해서 판매할 수 있는 Intelligence 제품으로 바꾸는 것입니다." data-en="The next step is not more projects. It is turning existing data and research into intelligence products that can be sold repeatedly.">GLOBAL STARGATE의 다음 단계는 더 많은 프로젝트가 아니라, 이미 가진 데이터와 연구를 반복해서 판매할 수 있는 Intelligence 제품으로 바꾸는 것입니다.</p></div><a class="btn" href="mailto:ceo@stargateedu.co.kr">Business Inquiry →</a></div></section>
+
+<footer><div class="wrap footer-row"><div><strong>GLOBAL STARGATE</strong><br>Brand of 주식회사 별의문</div><div>AI · Education · Data · Research · Korea Intelligence</div><div><a href="/">stargateedu.co.kr</a> · <a href="mailto:ceo@stargateedu.co.kr">ceo@stargateedu.co.kr</a></div></div></footer>
+
+<script>
+(function(){
+  var current="ko";
+  var toggle=document.getElementById("langToggle");
+  function applyLanguage(lang){
+    current=lang;
+    document.documentElement.lang=lang;
+    document.querySelectorAll("[data-ko][data-en]").forEach(function(el){el.innerHTML=el.getAttribute("data-"+lang);});
+    toggle.textContent=lang==="ko"?"EN / 한국어":"한국어 / EN";
+  }
+  toggle.addEventListener("click",function(){applyLanguage(current==="ko"?"en":"ko");});
+
+  var allProjects=[];
+  var active="ALL";
+  function render(){
+    var grid=document.getElementById("projectGrid");
+    var rows=allProjects.filter(function(p){return active==="ALL"||p.division===active;});
+    grid.innerHTML=rows.map(function(p){
+      var title=current==="ko"?p.title_ko:p.title_en;
+      var desc=current==="ko"?p.description_ko:p.description_en;
+      return '<article class="project"><div class="meta">'+p.division+' · '+p.sector+'</div><h4>'+title+'</h4><p>'+desc+'</p><a href="'+p.url+'">Open →</a></article>';
+    }).join("");
+  }
+  document.getElementById("filters").addEventListener("click",function(e){
+    if(!e.target.matches(".filter"))return;
+    document.querySelectorAll(".filter").forEach(function(b){b.classList.remove("active");});
+    e.target.classList.add("active");
+    active=e.target.getAttribute("data-filter");
+    render();
+  });
+  toggle.addEventListener("click",function(){setTimeout(render,0);});
+  fetch("./projects.json",{cache:"no-store"}).then(function(r){return r.json();}).then(function(data){allProjects=data.projects||[];render();}).catch(function(){
+    document.getElementById("projectGrid").innerHTML='<article class="project"><div class="meta">DATA</div><h4>Taxonomy file unavailable</h4><p>projects.json을 확인해 주세요.</p></article>';
+  });
+})();
+</script>
+</body>
+</html>
