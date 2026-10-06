@@ -3,11 +3,14 @@
 
   const REPO = 'DongsooJung/dongsoojung.github.io';
   const API = 'https://api.github.com/repos/' + REPO;
-  const COMMITS_API = API + '/commits?per_page=60';
+  const COMMITS_API = API + '/commits';
   const PAGES_RUNS_API = API + '/actions/workflows/242321278/runs?branch=main&per_page=100';
   const VERCEL_RUNS_API = API + '/actions/workflows/vercel-production.yml/runs?branch=main&per_page=100';
-  const FULL_LIMIT = 45;
+  const FULL_PAGE_SIZE = 100;
   const PREVIEW_LIMIT = 6;
+  const RANGE_DAYS = 30;
+  const RANGE_MS = RANGE_DAYS * 24 * 60 * 60 * 1000;
+  const COMMITS_TTL = 1000 * 60 * 5;
   const META_TTL = 1000 * 60 * 60 * 24 * 14;
   const DEPLOY_TTL = 1000 * 60 * 5;
 
@@ -67,6 +70,7 @@
       .devlog-patch{margin:0;border-top:1px solid var(--line,#263452);padding:9px 10px;overflow:auto;max-height:260px;background:rgba(0,0,0,.22);font:500 9.5px/1.45 ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--sub,#9aa7b8);white-space:pre}.devlog-patch .add{color:var(--good,#63d6a0)}.devlog-patch .del{color:#ff8b98}.devlog-patch .hunk{color:var(--acc,#7aa2ff)}
       .devlog-detail-foot{display:flex;justify-content:space-between;gap:10px;align-items:center;margin-top:8px;color:var(--muted,#6b7a90);font-size:10px}.devlog-detail-foot a{font-weight:700}
       .devlog-more{display:inline-flex;margin-top:12px;font-size:12px;font-weight:700}
+      .devlog-show-more{display:block;margin:16px auto 0;border:1px solid var(--line2,#263452);border-radius:9px;background:var(--panel,#0f172a);color:var(--acc,#7aa2ff);padding:9px 18px;font:700 12px/1 inherit;cursor:pointer}
       .devlog-toolbar{display:flex;gap:7px;flex-wrap:wrap;margin:0 0 16px}.devlog-filter{border:1px solid var(--line2,#263452);border-radius:999px;background:var(--panel,#0f172a);color:var(--sub,#9aa7b8);padding:7px 10px;font:700 11px/1 inherit;cursor:pointer}
       .devlog-filter[aria-pressed="true"]{border-color:var(--acc,#7aa2ff);color:var(--ink,#e6edf3);background:rgba(122,162,255,.12)}
       .devlog-day{margin:22px 0 8px;color:var(--ink,#e6edf3);font-size:14px;font-weight:800}.devlog-day small{color:var(--muted,#6b7a90);font:600 10px ui-monospace,SFMono-Regular,Menlo,monospace;margin-left:7px}
@@ -137,14 +141,41 @@
     return r.json();
   }
 
+  async function commitPage(url){
+    const r=await fetch(url,{headers:{Accept:'application/vnd.github+json'},cache:'no-store'});
+    if(!r.ok) throw new Error('github_'+r.status);
+    return {items:await r.json(),hasNext:/rel="next"/.test(r.headers.get('link')||'')};
+  }
+
   async function loadCommits(){
+    const cutoff=Date.now()-RANGE_MS;
+    const since=new Date(cutoff).toISOString();
+    const cached=cacheGet('stargate:devlog:commits:30d',COMMITS_TTL);
+    if(cached?.items?.length && cached.since && new Date(cached.since).getTime()>=cutoff-COMMITS_TTL)
+      return {...cached,items:cached.items.filter(c=>new Date(c.date).getTime()>=cutoff),source:'github'};
+    const items=[];
     try{
-      const p=await jsonFetch(COMMITS_API);
-      if(!Array.isArray(p)||!p.length) throw new Error('github_empty');
-      return {items:p.filter(x=>!String(x.commit?.message||'').includes('[devlog-data]')).map(normalize),source:'github'};
+      for(let page=1;;page++){
+        const url=COMMITS_API+'?sha=main&since='+encodeURIComponent(since)+'&per_page=100&page='+page;
+        const {items:p,hasNext}=await commitPage(url);
+        if(!Array.isArray(p)) throw new Error('github_invalid');
+        items.push(...p.filter(x=>!String(x.commit?.message||'').includes('[devlog-data]')).map(normalize));
+        if(!hasNext) break;
+      }
+      const result={items:items.filter(c=>new Date(c.date).getTime()>=cutoff),since};
+      cacheSet('stargate:devlog:commits:30d',result);
+      return {...result,source:'github'};
     }catch(e){
       console.warn('Developer log list fallback:',e);
-      return {items:fallback.map(normalize),source:'fallback'};
+      let snapshot=[];
+      try{
+        const response=await fetch('/assets/developer-log-snapshot.json',{cache:'no-store'});
+        if(response.ok) snapshot=(await response.json()).commits.map(normalize);
+      }catch(snapshotError){console.warn('Developer log snapshot unavailable:',snapshotError);}
+      const merged=new Map([...snapshot,...items].map(c=>[c.sha,c]));
+      const result=Array.from(merged.values()).filter(c=>new Date(c.date).getTime()>=cutoff).sort((a,b)=>new Date(b.date)-new Date(a.date));
+      if(result.length) return {items:result,source:items.length?'partial':'snapshot'};
+      return {items:fallback.map(normalize).filter(c=>new Date(c.date).getTime()>=cutoff),source:'fallback'};
     }
   }
 
@@ -197,37 +228,16 @@
     return value;
   }
 
-  async function mapLimit(list,limit,worker){
-    const out=new Array(list.length); let next=0;
-    async function run(){while(true){const i=next++;if(i>=list.length)break;try{out[i]=await worker(list[i],i);}catch(e){out[i]=null;}}}
-    await Promise.all(Array.from({length:Math.min(limit,list.length)},run));
-    return out;
-  }
-
-  async function enrich(items,deployments){
-    const metas=await mapLimit(items,4,c=>commitMeta(c.sha));
-    items.forEach((c,i)=>{
-      const m=metas[i];
-      if(m){Object.assign(c,m);c.kind=pathKind(m.paths,c.message);}
-      c.deploy=deployments[c.sha]||{};
-    });
-    return items;
-  }
-
   function kpiData(items){
-    const now=Date.now();
-    const sevenAgo=now-(7*24*60*60*1000);
+    const rangeStart=Date.now()-RANGE_MS;
     const today=kstParts(new Date()).day;
-    const seven=items.filter(c=>new Date(c.date).getTime()>=sevenAgo);
+    const recent=items.filter(c=>new Date(c.date).getTime()>=rangeStart);
     const todayCount=items.filter(c=>kstParts(c.date).day===today).length;
-    const withStats=seven.filter(c=>Number.isFinite(c.additions)&&Number.isFinite(c.deletions));
-    const additions=withStats.reduce((s,c)=>s+Number(c.additions||0),0);
-    const deletions=withStats.reduce((s,c)=>s+Number(c.deletions||0),0);
     const counts={HOME:0,RESEARCH:0,STRATEGY:0,DATA:0,OPS:0};
-    seven.forEach(c=>{counts[c.kind]=(counts[c.kind]||0)+1;});
-    const denom=Math.max(seven.length,1);
+    recent.forEach(c=>{counts[c.kind]=(counts[c.kind]||0)+1;});
+    const denom=Math.max(recent.length,1);
     const pct=k=>Math.round((counts[k]||0)*100/denom);
-    return {todayCount,sevenCount:seven.length,additions,deletions,statsCount:withStats.length,counts,pct};
+    return {todayCount,recentCount:recent.length,counts,pct};
   }
 
   function kpiHtml(items,compact=false){
@@ -237,18 +247,18 @@
     if(compact){
       return '<div class="devlog-kpis compact">'+
         '<div class="devlog-kpi"><div class="devlog-kpi-label">TODAY</div><div class="devlog-kpi-value">'+k.todayCount+'</div><div class="devlog-kpi-sub">오늘 커밋</div></div>'+
-        '<div class="devlog-kpi"><div class="devlog-kpi-label">7D COMMITS</div><div class="devlog-kpi-value">'+k.sevenCount+'</div><div class="devlog-kpi-sub">최근 7일</div></div>'+
-        '<div class="devlog-kpi"><div class="devlog-kpi-label">LINE DIFF</div><div class="devlog-kpi-value"><span class="plus">+'+k.additions.toLocaleString('en-US')+'</span> <span class="minus">-'+k.deletions.toLocaleString('en-US')+'</span></div><div class="devlog-kpi-sub">'+k.statsCount+'/'+k.sevenCount+'건 집계</div></div>'+
-        '<div class="devlog-kpi"><div class="devlog-kpi-label">7D AREAS</div><div class="devlog-kpi-value" style="font-size:12px">'+areaSub+'</div>'+share+'</div>'+
+        '<div class="devlog-kpi"><div class="devlog-kpi-label">30D COMMITS</div><div class="devlog-kpi-value">'+k.recentCount+'</div><div class="devlog-kpi-sub">최근 30일</div></div>'+
+        '<div class="devlog-kpi"><div class="devlog-kpi-label">LINE DIFF</div><div class="devlog-kpi-value" style="font-size:12px">ON DEMAND</div><div class="devlog-kpi-sub">DIFF에서 변경량 확인</div></div>'+
+        '<div class="devlog-kpi"><div class="devlog-kpi-label">30D AREAS</div><div class="devlog-kpi-value" style="font-size:12px">'+areaSub+'</div>'+share+'</div>'+
       '</div>';
     }
     return '<div class="devlog-kpis">'+
       '<div class="devlog-kpi"><div class="devlog-kpi-label">TODAY</div><div class="devlog-kpi-value">'+k.todayCount+'</div><div class="devlog-kpi-sub">오늘 커밋</div></div>'+
-      '<div class="devlog-kpi"><div class="devlog-kpi-label">7D COMMITS</div><div class="devlog-kpi-value">'+k.sevenCount+'</div><div class="devlog-kpi-sub">최근 7일 작업</div></div>'+
-      '<div class="devlog-kpi"><div class="devlog-kpi-label">LINE DIFF</div><div class="devlog-kpi-value"><span class="plus">+'+k.additions.toLocaleString('en-US')+'</span><br><span class="minus">-'+k.deletions.toLocaleString('en-US')+'</span></div><div class="devlog-kpi-sub">상세조회 '+k.statsCount+'건</div></div>'+
-      '<div class="devlog-kpi"><div class="devlog-kpi-label">HOME SHARE</div><div class="devlog-kpi-value">'+k.pct('HOME')+'%</div><div class="devlog-kpi-sub">'+k.counts.HOME+' commits / 7d</div></div>'+
-      '<div class="devlog-kpi"><div class="devlog-kpi-label">RESEARCH SHARE</div><div class="devlog-kpi-value">'+k.pct('RESEARCH')+'%</div><div class="devlog-kpi-sub">'+k.counts.RESEARCH+' commits / 7d</div></div>'+
-      '<div class="devlog-kpi"><div class="devlog-kpi-label">STRATEGY SHARE</div><div class="devlog-kpi-value">'+k.pct('STRATEGY')+'%</div><div class="devlog-kpi-sub">'+k.counts.STRATEGY+' commits / 7d</div></div>'+
+      '<div class="devlog-kpi"><div class="devlog-kpi-label">30D COMMITS</div><div class="devlog-kpi-value">'+k.recentCount+'</div><div class="devlog-kpi-sub">최근 30일 작업</div></div>'+
+      '<div class="devlog-kpi"><div class="devlog-kpi-label">LINE DIFF</div><div class="devlog-kpi-value" style="font-size:12px">ON DEMAND</div><div class="devlog-kpi-sub">DIFF에서 변경량 확인</div></div>'+
+      '<div class="devlog-kpi"><div class="devlog-kpi-label">HOME SHARE</div><div class="devlog-kpi-value">'+k.pct('HOME')+'%</div><div class="devlog-kpi-sub">'+k.counts.HOME+' commits / 30d</div></div>'+
+      '<div class="devlog-kpi"><div class="devlog-kpi-label">RESEARCH SHARE</div><div class="devlog-kpi-value">'+k.pct('RESEARCH')+'%</div><div class="devlog-kpi-sub">'+k.counts.RESEARCH+' commits / 30d</div></div>'+
+      '<div class="devlog-kpi"><div class="devlog-kpi-label">STRATEGY SHARE</div><div class="devlog-kpi-value">'+k.pct('STRATEGY')+'%</div><div class="devlog-kpi-sub">'+k.counts.STRATEGY+' commits / 30d</div></div>'+
     '</div>';
   }
 
@@ -289,7 +299,10 @@
     if(!c){detail.innerHTML='<div class="devlog-empty">커밋 정보를 찾지 못했습니다.</div>';return;}
     if(!Array.isArray(c.file_details)||!c.file_details.length){
       detail.innerHTML='<div class="devlog-empty">diff 불러오는 중…</div>';
-      try{const m=await commitMeta(sha);Object.assign(c,m);c.kind=pathKind(c.paths,c.message);}catch(e){detail.innerHTML='<div class="devlog-empty">GitHub diff를 불러오지 못했습니다.</div>';return;}
+      try{
+        const m=await commitMeta(sha);Object.assign(c,m);
+        entry.querySelector('.devlog-stats').outerHTML='<div class="devlog-stats"><span class="devlog-files">'+c.files_changed+' files</span><span class="devlog-add">+'+c.additions.toLocaleString('en-US')+'</span><span class="devlog-del">-'+c.deletions.toLocaleString('en-US')+'</span></div>';
+      }catch(e){detail.innerHTML='<div class="devlog-empty">GitHub diff를 불러오지 못했습니다. <a href="'+esc(c.html_url)+'" target="_blank" rel="noopener noreferrer">GitHub에서 보기 ↗</a></div>';return;}
     }
     detail.innerHTML=detailHtml(c);
   }
@@ -308,7 +321,7 @@
     const hasStats=Number.isFinite(c.files_changed);
     const stats=hasStats
       ? '<div class="devlog-stats"><span class="devlog-files">'+c.files_changed+' files</span><span class="devlog-add">+'+Number(c.additions||0).toLocaleString('en-US')+'</span><span class="devlog-del">-'+Number(c.deletions||0).toLocaleString('en-US')+'</span></div>'
-      : '<div class="devlog-stats devlog-loading"><span class="devlog-files">stats…</span></div>';
+      : '<div class="devlog-stats"><span class="devlog-files">DIFF에서 변경량 확인</span></div>';
     const deploys='<div class="devlog-deploys">'+deployBadge('PAGES',c.deploy?.pages)+deployBadge('VERCEL',c.deploy?.vercel)+'</div>';
     commitIndex.set(c.sha,c);
     return '<div class="devlog-entry" data-sha="'+esc(c.sha)+'" data-kind="'+esc(c.kind)+'"><div class="devlog-row">'+
@@ -321,6 +334,7 @@
   }
 
   let fullSelected='ALL';
+  function sourceLabel(source){return ({github:'LIVE · GITHUB',snapshot:'DAILY SNAPSHOT',partial:'PARTIAL · GITHUB',fallback:'SAMPLE DATA'})[source]||source;}
   function renderPreview(items,source){
     let section=document.getElementById('developer-log-preview');
     if(!section){
@@ -329,21 +343,25 @@
       section=document.createElement('section');section.className='sec';section.id='developer-log-preview';
       target.insertAdjacentElement('afterend',section);
     }
-    section.innerHTML='<div class="devlog-panel"><div class="devlog-head"><div><h3>개발자 로그 · Developer Log</h3><p>변경 파일·라인 증감·배포 상태·핵심 diff와 7일 작업 KPI를 실제 GitHub 이력으로 표시합니다.</p></div><span class="devlog-live">'+(source==='github'?'LIVE · GITHUB':'RECENT CACHE')+'</span></div>'+kpiHtml(items,true)+'<div class="devlog-list">'+items.slice(0,PREVIEW_LIMIT).map(c=>rowHtml(c,true)).join('')+'</div><a class="devlog-more" href="/work-log/">전체 작업 로그 보기 →</a></div>';
+    section.innerHTML='<div class="devlog-panel"><div class="devlog-head"><div><h3>개발자 로그 · Developer Log</h3><p>최근 30일 GitHub 작업 이력을 표시합니다. DIFF에서 변경 파일과 라인 증감을 확인할 수 있습니다.</p></div><span class="devlog-live">'+sourceLabel(source)+'</span></div>'+kpiHtml(items,true)+'<div class="devlog-list">'+items.slice(0,PREVIEW_LIMIT).map(c=>rowHtml(c,true)).join('')+'</div><a class="devlog-more" href="/work-log/">전체 작업 로그 보기 →</a></div>';
   }
 
   function renderFull(items,source){
     const root=document.getElementById('developer-log-full');if(!root)return;
-    root.innerHTML=kpiHtml(items,false)+'<div class="devlog-toolbar" role="group" aria-label="작업 로그 필터">'+['ALL','HOME','RESEARCH','STRATEGY','DATA','OPS'].map(k=>'<button class="devlog-filter" type="button" data-filter="'+k+'" aria-pressed="'+(k===fullSelected?'true':'false')+'">'+k+'</button>').join('')+'</div><div id="developer-log-list"></div><div class="devlog-empty" id="developer-log-status"></div>';
-    const list=root.querySelector('#developer-log-list'),status=root.querySelector('#developer-log-status');
+    root.innerHTML=kpiHtml(items,false)+'<div class="devlog-toolbar" role="group" aria-label="작업 로그 필터">'+['ALL','HOME','RESEARCH','STRATEGY','DATA','OPS'].map(k=>'<button class="devlog-filter" type="button" data-filter="'+k+'" aria-pressed="'+(k===fullSelected?'true':'false')+'">'+k+'</button>').join('')+'</div><div id="developer-log-list"></div><button class="devlog-show-more" type="button" hidden>100건 더 보기</button><div class="devlog-empty" id="developer-log-status"></div>';
+    const list=root.querySelector('#developer-log-list'),status=root.querySelector('#developer-log-status'),more=root.querySelector('.devlog-show-more');
+    let visible=FULL_PAGE_SIZE;
     const draw=()=>{
-      const filtered=items.filter(c=>fullSelected==='ALL'||c.kind===fullSelected).slice(0,FULL_LIMIT);
+      const allFiltered=items.filter(c=>fullSelected==='ALL'||c.kind===fullSelected);
+      const filtered=allFiltered.slice(0,visible);
       let lastDay='',html='';
       for(const c of filtered){const t=kstParts(c.date);if(t.day!==lastDay){lastDay=t.day;html+='<div class="devlog-day">'+esc(t.day)+'<small>KST</small></div>';}html+=rowHtml(c,false);}
       list.innerHTML=html||'<div class="devlog-empty">해당 분류의 기록이 없습니다.</div>';
-      status.textContent=(source==='github'?'GitHub main 자동 반영':'최근 캐시 표시')+' · 최근 '+filtered.length+'건 · 변경량/배포 상태 자동 조회 · Asia/Seoul';
+      more.hidden=filtered.length>=allFiltered.length;
+      status.textContent=sourceLabel(source)+' · 최근 30일 '+filtered.length+'/'+allFiltered.length+'건 표시 · DIFF에서 변경량 조회 · Asia/Seoul';
     };
-    root.querySelectorAll('.devlog-filter').forEach(btn=>btn.addEventListener('click',()=>{fullSelected=btn.dataset.filter;root.querySelectorAll('.devlog-filter').forEach(b=>b.setAttribute('aria-pressed',String(b===btn)));draw();}));
+    more.addEventListener('click',()=>{visible+=FULL_PAGE_SIZE;draw();});
+    root.querySelectorAll('.devlog-filter').forEach(btn=>btn.addEventListener('click',()=>{fullSelected=btn.dataset.filter;visible=FULL_PAGE_SIZE;root.querySelectorAll('.devlog-filter').forEach(b=>b.setAttribute('aria-pressed',String(b===btn)));draw();}));
     draw();
   }
 
@@ -354,11 +372,11 @@
     const isFull=document.body.hasAttribute('data-devlog-page');
     if(isFull) renderFull(items,source); else renderPreview(items,source);
 
-    const deployments=await loadDeployments();
-    const targetItems=items.slice(0,isFull?FULL_LIMIT:PREVIEW_LIMIT);
-    await enrich(targetItems,deployments);
-
-    if(isFull) renderFull(items,source); else renderPreview(items,source);
+    if(source==='github'){
+      const deployments=await loadDeployments();
+      items.forEach(c=>{c.deploy=deployments[c.sha]||{};});
+      if(isFull) renderFull(items,source); else renderPreview(items,source);
+    }
   }
 
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
