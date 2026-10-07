@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>AI 운영사 10곳 · 분기 재무제표 | STARGATE 전략 2026</title>
+  <meta name="description" content="ChatGPT·Claude·Gemini·Copilot 등 대표 AI 서비스 10곳의 운영사 재무정보. 2024년부터 분기별 손익·재무상태·현금흐름과 공식 출처를 확인합니다.">
+  <meta name="theme-color" content="#101820" data-light-color="#f4f6f8" data-dark-color="#101820">
+  <link rel="canonical" href="https://stargateedu.co.kr/strategy/ai-financials/">
+  <script src="/assets/theme-boot.js"></script>
+  <link rel="stylesheet" href="./styles.css?v=20261007">
+  <script src="/assets/theme.js" defer></script>
+  <script src="./dashboard.js?v=20261007" defer></script>
+</head>
+<body>
+  <div class="shell">
+    <nav class="topbar" aria-label="주요 메뉴">
+      <a class="brand" href="/strategy/"><span class="brand-mark">S</span><span>STARGATE <small>STRATEGY INTELLIGENCE</small></span></a>
+      <div class="top-actions"><a href="/strategy/">← 전략 대시보드</a><select data-theme-select aria-label="디자인 테마"><option value="dark">다크</option><option value="light">화이트</option><option value="ocean">오션</option><option value="mono">모노</option></select></div>
+    </nav>
+    <main>
+      <header class="hero">
+        <div class="eyebrow"><span class="live-dot" aria-hidden="true"></span>2026 STRATEGY · FINANCIAL RESEARCH</div>
+        <h1>쓰는 AI를 넘어,<br><span>운영사의 숫자까지.</span></h1>
+        <p>ChatGPT·Claude 등 대표 AI 서비스 10곳의 운영사 재무정보를 2024년부터 분기별로 읽습니다. 공개된 실적과 미확보·미공개 항목, 운영사 연결 실적과 AI 사업 실적을 구분합니다.</p>
+        <div class="hero-foot"><span id="as-of">공식 자료 확인 중</span><span>단위: 백만 미국 달러 (USD million)</span><a href="#methodology">자료 읽는 법 ↗</a></div>
+      </header>
+      <div id="load-state" role="status">재무자료를 불러오고 있습니다…</div>
+      <div id="dashboard" hidden>
+        <section class="summary-grid" aria-label="자료 범위"><div><span>대표 AI 서비스</span><strong id="company-count">10</strong><small>서비스와 운영사를 함께 표시</small></div><div><span>분기별 실적 공개</span><strong id="reported-count">—</strong><small>확인된 재무정보가 있는 운영사</small></div><div><span>자료 기간</span><strong class="period">2024 → 2026</strong><small>회계분기·실제 종료일 별도 표시</small></div><div><span>자료 원칙</span><strong class="principle">공식 출처</strong><small>비공개 수치는 0으로 대체하지 않음</small></div></section>
+        <section class="workspace" aria-labelledby="explorer-title">
+          <div class="section-heading"><div><div class="eyebrow">COMPANY EXPLORER</div><h2 id="explorer-title">AI 운영사 분기 재무제표</h2></div><label class="year-control">조회 연도 <select id="year"><option value="2026">2026</option><option value="2025">2025</option><option value="2024">2024</option><option value="all">전체 기간</option></select></label></div>
+          <div id="company-picker" class="company-picker" role="group" aria-label="AI 서비스 선택"></div>
+          <article class="company-detail" aria-labelledby="company-name">
+            <header class="company-header"><div><div id="company-tags" class="tags"></div><h3 id="company-name"></h3><p id="company-description"></p></div><button id="download-csv" class="button" type="button">전체 분기 CSV ↓</button></header>
+            <div class="metric-grid" id="metric-cards"></div>
+            <div class="chart-heading"><div><h4>분기별 실적 추이</h4><p id="chart-note">공개된 분기 실적만 표시합니다.</p></div><label class="metric-control">차트 지표 <select id="chart-metric"><option value="revenue">매출</option><option value="operatingIncome">영업손익</option><option value="netIncome">순손익</option><option value="operatingCashFlow">영업현금흐름</option></select></label></div>
+            <div id="chart" class="chart"></div>
+            <div class="statement-heading"><div class="statement-tabs" role="group" aria-label="재무제표 종류"><button type="button" data-statement="income" aria-pressed="true">손익계산서</button><button type="button" data-statement="balance" aria-pressed="false">재무상태표</button><button type="button" data-statement="cash" aria-pressed="false">현금흐름표</button></div><span>— : 해당 분기 수치 미확보·미공개</span></div>
+            <div class="table-scroll" tabindex="0" role="region" aria-label="분기별 재무제표, 가로 스크롤 가능"><table id="statement-table"></table></div>
+            <div class="legend"><span class="status reported">공개</span><span class="status undisclosed">미확보·미공개</span><span class="status not_yet_reported">미발표·미확인</span><span class="status future">진행 중·미래 분기</span><span>기준일 현재의 공시 상태</span></div>
+            <section id="highlights-panel" class="highlights" aria-labelledby="highlights-title"><h4 id="highlights-title">공식 발표 참고 지표</h4><p>ARR·연환산 매출·자금조달은 실현된 분기 매출이나 순이익과 다릅니다.</p><div id="highlights"></div></section>
+            <section class="sources" aria-labelledby="sources-title"><h4 id="sources-title">선택 운영사의 출처와 분기 주석</h4><p class="quarter-note"><a href="./provenance.json">항목별 원자료·산식·출처 상세 ↗</a></p><div id="quarter-notes"></div><ol id="company-sources"></ol></section>
+          </article>
+        </section>
+        <section class="overview" aria-labelledby="overview-title"><div class="section-heading"><div><div class="eyebrow">DISCLOSURE MAP</div><h2 id="overview-title">10개 서비스, 재무정보 공개 범위</h2></div><p>매출 규모의 단순 순위로 해석하지 않습니다.</p></div><div class="table-scroll" tabindex="0" role="region" aria-label="10개 운영사 공개 범위"><table><caption class="sr-only">선택 연도에서 확인된 최근 분기 매출과 재무정보 공개 범위</caption><thead><tr><th scope="col">서비스 / 운영사</th><th scope="col">재무정보 범위</th><th scope="col">최근 공개 분기</th><th scope="col">분기 매출</th><th scope="col">공개 상태</th></tr></thead><tbody id="overview-body"></tbody></table></div></section>
+        <section class="methodology" id="methodology" aria-labelledby="method-title"><div class="eyebrow">HOW TO READ</div><h2 id="method-title">비교하기 전에 확인할 것</h2><div class="method-grid"><div><span class="method-number">01</span><h3>AI 서비스 ≠ 연결 기업</h3><p>Gemini·Copilot·Firefly의 운영사 연결 실적은 해당 서비스의 단독 실적이 아닙니다. 사업부·인수 전후의 범위를 각 분기에 표시합니다.</p></div><div><span class="method-number">02</span><h3>공시하지 않은 숫자는 비워둡니다</h3><p>비상장 운영사도 공식 재무 공시가 있으면 수록합니다. 공개 ARR이나 투자유치 금액만으로 분기 재무제표를 추정하지 않습니다.</p></div><div><span class="method-number">03</span><h3>회계분기와 달력분기를 함께</h3><p>달력 연도·분기는 실제 기간 종료일로 묶습니다. 기업별 회계연도·분기를 별도 표기하며, 누적 현금흐름에서 차감한 분기 수치는 주석으로 설명합니다.</p></div></div><ul id="methodology-notes"></ul><p class="update-note">자료는 기준일에 확인한 스냅샷입니다. 이후 발표되는 공시가 자동 반영되는 실시간 데이터는 아닙니다.</p></section>
+      </div>
+      <noscript><p>재무자료 탐색에는 JavaScript가 필요합니다. <a href="./data.json">공식 출처를 포함한 원본 JSON 다운로드</a></p></noscript>
+    </main>
+    <footer><span>STARGATE · 2026 전략 대시보드</span><a href="./data.json">출처 포함 원본 데이터 ↗</a><a href="./provenance.json">원자료·산식 상세 ↗</a><a href="/strategy/">전략 허브로 돌아가기 →</a></footer>
+  </div>
+</body>
+</html>
