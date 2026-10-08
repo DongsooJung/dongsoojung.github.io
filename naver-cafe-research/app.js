@@ -175,7 +175,7 @@
       10000,
     );
     if (!response.ok) throw new Error("저장 데이터도 불러오지 못했습니다.");
-    return normalizeRaw(await response.json(), "시간별 저장 데이터");
+    return normalizeRaw(await response.json(), "일 1회 저장 데이터");
   }
 
   function readLocalSnapshot() {
