@@ -1,10 +1,10 @@
 name: Update Naver Cafe popular articles
 
 on:
-  # Popular-article rankings do not need hourly repository pushes.
-  # Four batches per day keep the dashboard useful while leaving deployment headroom.
+  # Popular-article rankings do not need intraday repository pushes.
+  # One daily batch (09:37 KST) keeps main history readable; run manually if needed.
   schedule:
-    - cron: "37 0,6,12,18 * * *"
+    - cron: "37 0 * * *"
   workflow_dispatch:
 
 permissions:

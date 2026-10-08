@@ -5,8 +5,9 @@ on:
     paths:
       - 'scripts/update-expressway-restarea-bids.py'
       - '.github/workflows/update-expressway-restarea-bids.yml'
+  # Bid notices change at most daily; one run (09:17 KST) avoids duplicate commits.
   schedule:
-    - cron: '17 0,6,12 * * *'
+    - cron: '17 0 * * *'
   workflow_dispatch:
 
 permissions:

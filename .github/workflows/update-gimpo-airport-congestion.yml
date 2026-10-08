@@ -5,9 +5,10 @@ on:
     paths:
       - '.github/workflows/update-gimpo-airport-congestion.yml'
       - 'scripts/update-gimpo-airport-congestion.mjs'
-  # Keep a fresh hourly snapshot without generating six commits per hour.
+  # The dashboard reads the live Vercel API first; this snapshot is only the
+  # offline fallback, so one daily commit (09:17 KST) is enough.
   schedule:
-    - cron: '17 * * * *'
+    - cron: '17 0 * * *'
   workflow_dispatch:
 
 permissions:
