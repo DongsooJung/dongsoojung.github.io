@@ -1,0 +1,39 @@
+name: PR title
+
+# Enforces Conventional Commit style PR titles so squash-merged commits on
+# main carry a type prefix (feat/fix/data/ops ...). The Developer Log and the
+# work-log analysis report classify commits by this prefix.
+on:
+  pull_request:
+    types: [opened, edited, reopened, synchronize]
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  conventional:
+    name: PR title / Conventional
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    steps:
+      - name: Validate PR title
+        env:
+          TITLE: ${{ github.event.pull_request.title }}
+        run: |
+          pattern='^(feat|fix|data|ops|docs|chore|ci|refactor|perf|test|style|research|seo|build|revert)(\([a-z0-9._/-]+\))?!?: .{3,}$'
+          if printf '%s' "$TITLE" | grep -Eq "$pattern"; then
+            echo "OK: $TITLE"
+          else
+            {
+              echo "### PR 제목 형식 오류"
+              echo ""
+              echo "현재 제목: \`$TITLE\`"
+              echo ""
+              echo "형식: \`type(scope): 요약\` — 예: \`feat(work-log): 분석 보고서 추가\`"
+              echo ""
+              echo "허용 type: feat, fix, data, ops, docs, chore, ci, refactor, perf, test, style, research, seo, build, revert"
+            } >> "$GITHUB_STEP_SUMMARY"
+            echo "::error title=PR title::'$TITLE' does not match type(scope): summary"
+            exit 1
+          fi
