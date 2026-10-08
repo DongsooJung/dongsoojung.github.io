@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="ko" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>10. 결론 · 권고 로드맵 · 개발자 로그 분석 보고서 · STARGATE</title>
+<meta name="description" content="2개월 총평, SWOT, 우선 실행 과제와 실행 성공 가능성을 제시합니다.">
+<link rel="canonical" href="https://stargateedu.co.kr/work-log/report/roadmap/">
+<meta name="theme-color" content="#0a0d14">
+<meta property="og:title" content="10. 결론 · 권고 로드맵 · STARGATE 개발자 로그 분석 보고서">
+<meta property="og:description" content="2개월 총평, SWOT, 우선 실행 과제와 실행 성공 가능성을 제시합니다.">
+<meta property="og:type" content="article">
+<link rel="stylesheet" href="/assets/devlog-report.css?v=20261008">
+</head>
+<body>
+<div class="wrap">
+<header class="top"><a class="brand" href="/"><span class="logo">D</span><span>DONGSOO.PORTAL</span></a><nav class="crumb"><a href="/work-log/">Developer Log</a> › <a href="../">분석 보고서</a> › 10</nav></header>
+<nav class="toc" aria-label="보고서 페이지"><a href="../" class="" title="개요 · 핵심 요약">01</a><a href="../trend/" class="" title="커밋 추세">02</a><a href="../rhythm/" class="" title="작업 리듬">03</a><a href="../domains/" class="" title="작업 영역 분석">04</a><a href="../hotspots/" class="" title="디렉터리 핫스팟">05</a><a href="../automation/" class="" title="자동화 파이프라인">06</a><a href="../timeline/" class="" title="신규 서비스 타임라인">07</a><a href="../changes/" class="" title="변경 규모 · 파일 유형">08</a><a href="../risk/" class="" title="품질 · 운영 리스크">09</a><a href="../roadmap/" class="on" title="결론 · 권고 로드맵">10</a></nav>
+<main>
+<section class="hero"><div class="eyebrow">DEVELOPER LOG REPORT · 10 / 10 · ROADMAP</div><h1>결론 · 권고 로드맵</h1><p class="period">분석 기간 2026-08-08 ~ 2026-10-08 (KST, 62일) · 데이터: GitHub <code>main</code> 브랜치 커밋 2,049건</p></section>
+<section class="sec"><h2>2개월 총평</h2><p class="lede">8월 8일부터 10월 8일까지 STARGATE 포털은 <b>26개의 신규 서비스 영역</b>을 열고, <b>62일 중 46일</b>의 직접 작업과 <b>하루 26건의 자동 데이터 갱신</b>으로 운영되었습니다. 8월은 전략 대시보드 확장, 9월은 연구·교육 도구, 10월은 포털 품질·다국어·운영 정비로 초점이 이동했습니다. 생산성은 높지만, 데이터 커밋이 이력의 78%를 차지하고 PR 게이트가 사실상 꺼져 있다는 두 가지 구조적 과제가 남아 있습니다.</p></section><section class="sec"><h2>SWOT</h2><div class="swot"><div class="sw-box good"><b>S 강점</b><ul><li>1인 운영으로 2개월 사람·AI 450커밋, 신규 영역 26개</li><li>39개 워크플로 기반 상시 데이터 갱신</li><li>revert 0건 — 작은 단위 수정 문화</li></ul></div><div class="sw-box warn"><b>W 약점</b><ul><li>PR 경유 3.6% — 검토 게이트 부재</li><li>메시지 접두사 미준수 43.6%</li><li>index.html 단일 파일 87회 수정 집중</li></ul></div><div class="sw-box opp"><b>O 기회</b><ul><li>개발자 로그를 포트폴리오·영업 자료로 활용</li><li>봇 데이터를 Supabase로 이전해 API 상품화</li><li>AI 에이전트 작업을 PR 단위로 묶어 자동 리뷰</li></ul></div><div class="sw-box bad"><b>T 위협</b><ul><li>저장소 비대화로 클론·배포 시간 증가</li><li>AI·봇 동시 main 쓰기로 충돌·회귀</li><li>외부 API 정책 변경 시 다수 수집 작업 동시 중단</li></ul></div></div></section><section class="sec"><h2>우선 실행 과제</h2><div class="tbl-wrap"><table class=""><thead><tr><th>순위</th><th>과제</th><th>소요</th><th>목표 지표</th></tr></thead><tbody><tr><td>1</td><td>protect-main 룰셋 활성화 + CodeQL 필수 검사</td><td>1주</td><td>PR 경유 비율 3.6% → 80% 이상</td></tr><tr><td>2</td><td>고빈도 봇 커밋 분리(데이터 브랜치/스토리지) 또는 일 1회 스쿼시</td><td>2주</td><td>main 봇 비중 78% → 30% 이하</td></tr><tr><td>3</td><td>commitlint로 feat/fix/data/ops 접두사 강제</td><td>1일</td><td>접두사 미준수 44% → 5% 이하</td></tr><tr><td>4</td><td>index.html 섹션 분리 + 배포 후 스모크 테스트(링크·콘솔 오류)</td><td>2주</td><td>메인 회귀 결함 조기 탐지</td></tr><tr><td>5</td><td>본 보고서를 월 1회 자동 갱신(스냅샷 워크플로에 집계 단계 추가)</td><td>1주</td><td>월간 지표 추적 자동화</td></tr></tbody></table></div></section><section class="sec"><h2>실행 성공 가능성</h2><div class="score"><b>82</b><span>/ 100 · 통과 (기준 80)</span></div><p class="lede">근거: 과제 1·3은 설정 변경만으로 끝나고, 과제 2는 기존 LH·GH Supabase 적재 파이프라인을 재사용할 수 있습니다. 감점 요인은 1인 운영에서 PR 게이트가 작업 속도를 늦출 수 있다는 점으로, 승인 인원 0명·봇 계정 우회 허용으로 마찰을 줄이는 조건에서 80점 이상이 유지됩니다.</p></section>
+</main>
+<nav class="pager"><a class="pn prev" href="../risk/"><span>← 이전 09</span><b>품질 · 운영 리스크</b></a><a class="pn next" href="/work-log/"><span>처음으로 →</span><b>Developer Log</b></a></nav>
+<footer>STARGATE · DONGSOO.PORTAL · 개발자 로그 분석 보고서 · 원천 데이터: <a href="https://github.com/DongsooJung/dongsoojung.github.io/commits/main">DongsooJung/dongsoojung.github.io</a> main 브랜치 git log (2026-10-08 집계)</footer>
+</div>
+</body>
+</html>

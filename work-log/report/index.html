@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="ko" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>01. 개요 · 핵심 요약 · 개발자 로그 분석 보고서 · STARGATE</title>
+<meta name="description" content="STARGATE 개발자 로그 2개월(2026-08-08~10-08) 커밋 2,049건 분석 보고서의 핵심 요약과 목차입니다.">
+<link rel="canonical" href="https://stargateedu.co.kr/work-log/report/">
+<meta name="theme-color" content="#0a0d14">
+<meta property="og:title" content="01. 개요 · 핵심 요약 · STARGATE 개발자 로그 분석 보고서">
+<meta property="og:description" content="STARGATE 개발자 로그 2개월(2026-08-08~10-08) 커밋 2,049건 분석 보고서의 핵심 요약과 목차입니다.">
+<meta property="og:type" content="article">
+<link rel="stylesheet" href="/assets/devlog-report.css?v=20261008">
+</head>
+<body>
+<div class="wrap">
+<header class="top"><a class="brand" href="/"><span class="logo">D</span><span>DONGSOO.PORTAL</span></a><nav class="crumb"><a href="/work-log/">Developer Log</a> › <a href="./">분석 보고서</a> › 01</nav></header>
+<nav class="toc" aria-label="보고서 페이지"><a href="./" class="on" title="개요 · 핵심 요약">01</a><a href="trend/" class="" title="커밋 추세">02</a><a href="rhythm/" class="" title="작업 리듬">03</a><a href="domains/" class="" title="작업 영역 분석">04</a><a href="hotspots/" class="" title="디렉터리 핫스팟">05</a><a href="automation/" class="" title="자동화 파이프라인">06</a><a href="timeline/" class="" title="신규 서비스 타임라인">07</a><a href="changes/" class="" title="변경 규모 · 파일 유형">08</a><a href="risk/" class="" title="품질 · 운영 리스크">09</a><a href="roadmap/" class="" title="결론 · 권고 로드맵">10</a></nav>
+<main>
+<section class="hero"><div class="eyebrow">DEVELOPER LOG REPORT · 01 / 10 · EXECUTIVE SUMMARY</div><h1>개요 · 핵심 요약</h1><p class="period">분석 기간 2026-08-08 ~ 2026-10-08 (KST, 62일) · 데이터: GitHub <code>main</code> 브랜치 커밋 2,049건</p></section>
+<div class="kpis"><div class="kpi"><b>2,049</b><span>전체 커밋</span><em>일평균 33.0건</em></div><div class="kpi"><b>450</b><span>사람·AI 에이전트 커밋</span><em>전체의 22.0%</em></div><div class="kpi"><b>1,599</b><span>자동화 봇 커밋</span><em>전체의 78.0%</em></div><div class="kpi"><b>46/62일</b><span>직접 작업한 날</span><em>최장 연속 14일</em></div><div class="kpi"><b>26</b><span>신규 서비스 디렉터리</span><em>기간 중 처음 생성</em></div><div class="kpi"><b>60</b><span>변경된 최상위 영역</span><em>디렉터리 기준</em></div></div><section class="sec"><h2>핵심 발견 5가지</h2><ol class="findings"><li><b>저장소의 주 생산자는 자동화입니다.</b> 전체 2,049건 중 1,599건(78.0%)이 GitHub Actions 봇의 데이터 갱신 커밋이며, 그중 네이버 카페 인기글 갱신 한 종류가 578건으로 봇 커밋의 36.1%를 차지합니다.</li><li><b>직접 개발은 62일 중 46일(74%) 이어졌습니다.</b> 사람·AI 에이전트 커밋은 450건이며 8월 196건 → 9월 184건 → 10월(1~8일) 70건으로, 10월 일평균이 8.8건으로 가장 높습니다.</li><li><b>가장 많이 손댄 영역은 STRATEGY(전략 대시보드)입니다.</b> 사람 커밋의 28.0%가 전략 영역이며, 10월에는 OPS·HOME 비중이 커져 개발자 로그·여행 가이드·다국어 랜딩 등 포털 정비로 무게가 옮겨졌습니다.</li><li><b>작고 잦은 커밋이 기본 단위입니다.</b> 파일 1개만 바꾼 커밋이 77.4%이고, 중앙값은 커밋당 1개 파일입니다. 반면 커밋 메시지 규칙(feat/fix 등) 미준수가 43.6%입니다.</li><li><b>운영 원칙과 실제 흐름 사이에 간극이 있습니다.</b> RULESET_CHECKLIST는 PR 경유 병합을 권장하지만, PR 번호가 붙은 커밋은 16건(3.6%)에 그쳐 대부분 <code>main</code>에 직접 반영되었습니다.</li></ol></section><section class="sec"><h2>보고서 구성</h2><div class="cards"><a class="card" href="trend/"><span>02</span><b>커밋 추세</b></a><a class="card" href="rhythm/"><span>03</span><b>작업 리듬</b></a><a class="card" href="domains/"><span>04</span><b>작업 영역 분석</b></a><a class="card" href="hotspots/"><span>05</span><b>디렉터리 핫스팟</b></a><a class="card" href="automation/"><span>06</span><b>자동화 파이프라인</b></a><a class="card" href="timeline/"><span>07</span><b>신규 서비스 타임라인</b></a><a class="card" href="changes/"><span>08</span><b>변경 규모 · 파일 유형</b></a><a class="card" href="risk/"><span>09</span><b>품질 · 운영 리스크</b></a><a class="card" href="roadmap/"><span>10</span><b>결론 · 권고 로드맵</b></a></div></section><aside class="callout note"><b>분석 방법</b><p>저장소 <code>DongsooJung/dongsoojung.github.io</code>의 <code>main</code> 브랜치에서 2026-08-08 ~ 2026-10-08 (KST, 62일) 사이 커밋 2,049건을 <code>git log --name-status</code>로 추출해 집계했습니다. 작성자는 사람(Dongsoo Jung·jds068888-coder·DongsooJung), AI 에이전트(Claude·Cursor Agent), 자동화 봇(stargate-data-bot·github-actions·stargate-bot)으로 나누었고, 영역 분류는 Developer Log 화면과 같은 규칙(변경 경로 우선, 없으면 커밋 메시지)을 썼습니다. 라인 증감은 집계에서 제외했습니다. 10월 8일은 집계 시점까지의 부분 데이터입니다.</p></aside>
+</main>
+<nav class="pager"><a class="pn prev" href="/work-log/"><span>← 돌아가기</span><b>Developer Log</b></a><a class="pn next" href="trend/"><span>다음 02 →</span><b>커밋 추세</b></a></nav>
+<footer>STARGATE · DONGSOO.PORTAL · 개발자 로그 분석 보고서 · 원천 데이터: <a href="https://github.com/DongsooJung/dongsoojung.github.io/commits/main">DongsooJung/dongsoojung.github.io</a> main 브랜치 git log (2026-10-08 집계)</footer>
+</div>
+</body>
+</html>
