@@ -73,7 +73,7 @@ blockquote{margin:0;color:var(--amber);font-size:clamp(2.15rem,6.3vw,5.2rem);fon
         </div>
       </div>
     </section>
-    <footer class="quote-foot"><a href="/">← DONGSOO.PORTAL 홈</a><p>격언은 5초마다 자동으로 전환됩니다.</p></footer>
+    <footer class="quote-foot"><a href="/">← DONGSOO.PORTAL 홈</a><p>첫 격언은 서울 날짜에 따라 매일 바뀌고, 5초마다 자동으로 전환됩니다.</p></footer>
   </div>
 </main>
 <script>
@@ -91,12 +91,35 @@ const author=document.getElementById("quoteAuthor");
 const count=document.getElementById("quoteCount");
 const content=document.getElementById("quoteContent");
 const toggle=document.getElementById("togglePlayback");
-let current=0,playing=true,timer;
-function renderQuote(index){current=(index+quotes.length)%quotes.length;content.classList.add("is-changing");window.setTimeout(()=>{text.innerHTML=quotes[current].text;author.textContent=`— ${quotes[current].author}`;count.textContent=`${String(current+1).padStart(2,"0")} / ${String(quotes.length).padStart(2,"0")}`;content.classList.remove("is-changing")},480)}
-function restartTimer(){window.clearInterval(timer);if(playing)timer=window.setInterval(()=>renderQuote(current+1),5000)}
+const seoulDateFormatter=new Intl.DateTimeFormat("en-US",{timeZone:"Asia/Seoul",year:"numeric",month:"numeric",day:"numeric"});
+const firstQuoteDay=Date.UTC(2026,9,9)/86400000;
+function getDailyStartIndex(){
+  const parts=seoulDateFormatter.formatToParts(new Date());
+  const value=type=>Number(parts.find(part=>part.type===type).value);
+  const today=Date.UTC(value("year"),value("month")-1,value("day"))/86400000;
+  return ((today-firstQuoteDay)%quotes.length+quotes.length)%quotes.length;
+}
+let dailyStart=getDailyStartIndex(),current=0,playing=true,timer;
+function quoteAt(index){return quotes[(dailyStart+index)%quotes.length]}
+function showQuote(){const quote=quoteAt(current);text.innerHTML=quote.text;author.textContent=`— ${quote.author}`;count.textContent=`${String(current+1).padStart(2,"0")} / ${String(quotes.length).padStart(2,"0")}`}
+function renderQuote(index){
+  const nextDailyStart=getDailyStartIndex();
+  if(nextDailyStart!==dailyStart){dailyStart=nextDailyStart;index=0}
+  current=(index+quotes.length)%quotes.length;
+  content.classList.add("is-changing");
+  window.setTimeout(()=>{showQuote();content.classList.remove("is-changing")},480);
+}
+function restartTimer(){
+  window.clearInterval(timer);
+  timer=window.setInterval(()=>{
+    if(getDailyStartIndex()!==dailyStart)renderQuote(0);
+    else if(playing)renderQuote(current+1);
+  },5000);
+}
 document.getElementById("previousQuote").addEventListener("click",()=>{renderQuote(current-1);restartTimer()});
 document.getElementById("nextQuote").addEventListener("click",()=>{renderQuote(current+1);restartTimer()});
 toggle.addEventListener("click",()=>{playing=!playing;toggle.textContent=playing?"Ⅱ":"▶";toggle.setAttribute("aria-pressed",String(!playing));toggle.setAttribute("aria-label",playing?"자동 재생 일시정지":"자동 재생 시작");restartTimer()});
+showQuote();
 restartTimer();
 </script>
 </body>
