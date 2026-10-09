@@ -405,8 +405,10 @@ body.portal-dashboard-mode #personal-projects{margin-top:14px}
 }
 
 </style>
-<link rel="stylesheet" href="/assets/personal-projects.css?v=20260908">
+<link rel="stylesheet" href="/assets/personal-projects.css?v=20261009-version">
 <style>
+.homepage-music-hint[hidden]{display:none!important}
+.homepage-music-hint{position:fixed;z-index:9999;right:16px;bottom:16px;margin:0;padding:9px 13px;border:1px solid var(--line2);border-radius:10px;background:var(--panel);color:var(--ink);box-shadow:0 8px 24px rgba(0,0,0,.2);font-size:12px;line-height:1.4;pointer-events:none}
 .chuseok-notice[hidden]{display:none!important}
 .chuseok-notice{position:fixed;z-index:10000;top:12px;left:50%;width:min(900px,calc(100vw - 24px));transform:translateX(-50%);zoom:.7142857143;border:1px solid #b89a62;border-radius:12px;overflow:hidden;background:#101722;box-shadow:0 18px 60px rgba(0,0,0,.65);transition:opacity .25s ease}
 .chuseok-notice.is-closing{opacity:0;pointer-events:none}
@@ -428,7 +430,7 @@ body.portal-dashboard-mode #personal-projects{margin-top:14px}
     <div class="brand">
       <span class="logo">D</span>
       <span class="name">DONGSOO.<span style="color:var(--acc)">PORTAL</span></span>
-      <span class="tag">v1 · 2026</span>
+      <span class="tag">0.0.2</span>
     </div>
     <span class="lang-switch" aria-label="언어 선택">
       <a href="/" lang="ko" hreflang="ko" aria-current="page">한국어</a>
@@ -1530,7 +1532,7 @@ if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => navigator.serviceWorker.register('/sw.js'));
 }
 </script>
-<script src="/assets/visitor-counter.js?v=20260822" defer></script>
+<script src="/assets/visitor-counter.js?v=20261009-version" defer></script>
 <script src="/assets/usage-analytics.js?v=20261003-trend7" defer></script>
 
 <script>
@@ -1696,6 +1698,7 @@ if ('serviceWorker' in navigator) {
 
   <script src="/assets/developer-log.js?v=20261006-1" defer></script>
   <audio id="homepage-music" src="/assets/lindy-conant-take-courage.mp3" autoplay loop preload="auto" hidden></audio>
-  <script src="/assets/homepage-music.js?v=20261009-2" defer></script>
+  <p id="homepage-music-hint" class="homepage-music-hint" role="status" hidden>화면을 한 번 누르면 음악이 재생됩니다</p>
+  <script src="/assets/homepage-music.js?v=20261009-3" defer></script>
 </body>
 </html>

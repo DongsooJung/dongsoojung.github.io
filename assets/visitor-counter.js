@@ -5,14 +5,14 @@
   const publishableKey = 'sb_publishable_-D0A-aWNMTMTHXeL0oqBXg_9Tz0bdvs';
   const storagePrefix = 'stargateVisitorV3';
 
-  // v1.0.0 배지와 공개 작업 로그를 연결합니다.
+  // 버전 배지와 공개 작업 로그를 연결합니다.
   const versionTag = document.querySelector('.nav .brand .tag');
   if (versionTag && !versionTag.closest('a')) {
     const versionLink = document.createElement('a');
     versionLink.className = versionTag.className;
     versionLink.href = '/work-log/';
-    versionLink.title = 'STARGATE v1.0.0 업데이트 및 작업 로그';
-    versionLink.setAttribute('aria-label', 'STARGATE v1.0.0 작업 로그 열기');
+    versionLink.title = 'DONGSOO.PORTAL 0.0.2 업데이트 및 작업 로그';
+    versionLink.setAttribute('aria-label', 'DONGSOO.PORTAL 0.0.2 작업 로그 열기');
     versionLink.textContent = versionTag.textContent;
     versionTag.replaceWith(versionLink);
   }

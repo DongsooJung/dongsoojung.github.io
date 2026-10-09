@@ -9,6 +9,10 @@
   <link rel="canonical" href="https://www.stargateedu.co.kr/research/">
   <script src="/assets/theme-boot.js"></script>
   <link rel="stylesheet" href="/assets/intelligence-hub.css?v=20260904-sort-b">
+  <style>
+    .homepage-music-hint[hidden]{display:none!important}
+    .homepage-music-hint{position:fixed;z-index:9999;right:16px;bottom:16px;margin:0;padding:9px 13px;border:1px solid var(--line2);border-radius:10px;background:var(--panel);color:var(--ink);box-shadow:0 8px 24px rgba(0,0,0,.2);font-size:12px;line-height:1.4;pointer-events:none}
+  </style>
 </head>
 <body class="research">
   <div class="wrap">
@@ -691,5 +695,8 @@
   <script src="/assets/theme.js?v=20260729f" defer></script>
   <script src="/assets/intelligence-hub.js?v=20260904-sort-b" defer></script>
   <script src="/assets/usage-analytics.js?v=20260904-usage-path" defer></script>
+  <audio id="homepage-music" src="/assets/lindy-conant-take-courage.mp3" autoplay loop preload="auto" hidden></audio>
+  <p id="homepage-music-hint" class="homepage-music-hint" role="status" hidden>화면을 한 번 누르면 음악이 재생됩니다</p>
+  <script src="/assets/homepage-music.js?v=20261009-3" defer></script>
 </body>
 </html>
