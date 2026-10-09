@@ -31,32 +31,17 @@ KAKAO_SESSION_SECRET=32바이트_이상의_임의_비밀값
 Vercel Production 환경 변수에 반드시 추가해야 합니다. 시크릿 값은 저장소나 정적 페이지에
 커밋하지 않습니다.
 
-## 클라이언트 시크릿 오류 임시 fallback
-
-REST OAuth 콜백이 `auth=client_secret_error` 또는 `auth=state_error`를 반환하면 정적 페이지가 Kakao Legacy
-JavaScript SDK v1을 지연 로드해 로그인과 나에게 보내기를 처리합니다. 정상 REST 로그인에서는
-SDK를 로드하지 않습니다.
-
-- JavaScript 키는 브라우저용 공개 키만 사용
-- `Kakao.Auth.login({ scope: 'talk_message', persistAccessToken: false })`
-- 메시지 API 요청은 `data: { template_object: { ... } }` 구조
-- 본문 최대 200자, 링크 `https://stargateedu.co.kr/` 고정
-- SDK 토큰 또는 Kakao 원본 오류 응답을 로그에 기록하지 않음
-- `-402`는 `talk_message` 추가 동의로 복구
-- 로그아웃은 `Kakao.Auth.logout()`으로 SDK 토큰을 만료
-
-카카오 콘솔에는 JavaScript SDK 도메인, 제품 링크 웹 도메인, 카카오 로그인 ON,
-`talk_message` 동의항목이 필요합니다. 이 fallback은 OIDC OFF를 전제로 합니다. OIDC를 ON으로
-운영한다면 로그인 scope를 `openid,talk_message`로 변경해야 합니다.
-
-이 경로는 비밀값을 대체하기 위한 임시 복구 수단입니다. Legacy JavaScript SDK v1은
-2026년 12월 31일 지원 종료되므로 그 전에 JavaScript SDK v2 `Kakao.Auth.authorize()`와
-서버 인가 코드/토큰 교환 구조로 이전해야 합니다.
-
 ## 운영 도메인
 
-메인 홈페이지 링크는 `https://stargateedu.co.kr/kakao-send/`를 사용합니다. 이 정적 경로에서는
-REST 서버 호출을 시도하지 않고 JavaScript SDK 로그인으로 바로 전환합니다. `www` 주소는
-canonical apex 주소로 리다이렉트되므로 카카오 개발자 콘솔의 **JavaScript SDK 도메인**과
-**제품 링크 웹 도메인**에 `https://stargateedu.co.kr`을 정확히 등록해야 합니다. URL 경로나
-마지막 슬래시는 도메인 등록값에 포함하지 않습니다.
+메인 홈페이지 링크는 `https://stargateedu.co.kr/kakao-send/`를 유지합니다. 이 GitHub Pages
+정적 경로는 안내 화면과 `https://stargate-kakao-send.vercel.app/` 링크만 표시합니다.
+카카오 로그인, 토큰 교환, 메시지 전송은 Vercel 앱에서만 처리합니다.
+
+Vercel 앱의 로그인 버튼은 같은 출처의 `/api/auth/login`으로 연결됩니다. 카카오 개발자 콘솔의
+카카오 로그인 Redirect URI는 위 `KAKAO_REDIRECT_URI`인
+`https://stargate-kakao-send.vercel.app/api/auth/callback`을 사용합니다. 정적 경로인
+`https://stargateedu.co.kr/kakao-send/`를 로그인 Redirect URI로 추가할 필요는 없습니다.
+제품 링크 웹 도메인에는 메시지 버튼의 링크 대상인 `https://stargateedu.co.kr`이 필요합니다.
+
+OAuth 콜백에서 `client_secret_error`가 발생하면 Vercel 앱은 서버 설정 확인이 필요하다고
+안내합니다. `state_error`는 다시 로그인을 안내합니다. 브라우저 SDK로 전환하지 않습니다.
