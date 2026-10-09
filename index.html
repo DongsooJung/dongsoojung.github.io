@@ -299,6 +299,9 @@ a{color:var(--acc); text-decoration:none} a:hover{text-decoration:underline}
 .sr-only{position:absolute!important;width:1px!important;height:1px!important;padding:0!important;margin:-1px!important;overflow:hidden!important;clip:rect(0,0,0,0)!important;white-space:nowrap!important;border:0!important}
 .proj.is-project-hidden{display:none}
 .proj.is-search-hidden{display:none}
+body:not(.portal-dashboard-mode) #projects-grid > .proj:not([data-home-featured]){display:none!important}
+body:not(.portal-dashboard-mode) .project-sort-wrap{display:none}
+#projects-grid[hidden],#project-category-group[hidden]{display:none!important}
 
 /* About */
 .about{display:grid;grid-template-columns:1fr 1fr;gap:16px}
@@ -361,7 +364,10 @@ body.portal-dashboard-mode #travel-spots{display:none!important}
 body.portal-dashboard-mode #projects{padding-top:26px}
 body.portal-dashboard-mode #projects h2::before{content:"LIST DASHBOARD · ";color:var(--acc);font-size:.42em;letter-spacing:.12em;vertical-align:middle;margin-right:8px}
 body.portal-dashboard-mode #projects-grid{display:flex!important;flex-direction:column;gap:8px}
+body.portal-dashboard-mode #projects-grid[hidden]{display:none!important}
 body.portal-dashboard-mode #projects-grid .proj{display:grid!important;grid-template-columns:minmax(128px,170px) minmax(0,1fr);align-items:center;gap:18px;min-height:0!important;padding:13px 16px;border-radius:12px;transform:none}
+body.portal-dashboard-mode #projects-grid .proj.is-search-hidden{display:none!important}
+body.portal-dashboard-mode #project-visibility-toggle{display:none}
 body.portal-dashboard-mode #projects-grid .proj:hover{transform:translateY(-1px)}
 body.portal-dashboard-mode #projects-grid .proj .thumb{display:none!important}
 body.portal-dashboard-mode #projects-grid .proj .badge{position:static!important;inset:auto!important;display:inline-flex;justify-self:start;align-items:center;width:auto;max-width:100%;margin:0;padding:6px 9px;border-radius:999px;white-space:normal;line-height:1.25}
@@ -571,8 +577,8 @@ body.portal-dashboard-mode #personal-projects{margin-top:14px}
   </section>
 
   <section class="sec" id="projects">
-    <h2>전체 프로젝트 · All Projects</h2>
-    <div class="desc" id="projects-desc">최근 30일 페이지 조회와 홈 클릭을 기준으로 사용이 많은 프로젝트부터 표시합니다. ‘가나다순’을 누르면 영문 A–Z, 한글 가나다, 숫자 순으로 볼 수 있습니다.</div>
+    <h2 id="projects-heading">대표 프로젝트 · Featured Projects</h2>
+    <div class="desc" id="projects-desc">스타게이트의 교육·도시데이터·연구·전략을 보여주는 대표 프로젝트입니다.</div>
     <div class="portal-dashboard-summary" id="portal-dashboard-summary" aria-label="프로젝트 운영 요약">
       <div class="ops-stat"><span>운영중</span><strong id="ops-live-count">-</strong></div>
       <div class="ops-stat"><span>신규·실험</span><strong id="ops-new-count">-</strong></div>
@@ -603,8 +609,8 @@ body.portal-dashboard-mode #personal-projects{margin-top:14px}
           <button class="project-toggle" type="button" data-project-category="사업" aria-pressed="false" data-analytics-ignore>사업</button>
         </div>
       </div>
-      <button class="project-toggle" id="project-visibility-toggle" type="button" aria-expanded="true" aria-controls="projects-grid" data-analytics-ignore>
-        <span aria-hidden="true">▴</span><span class="project-toggle-text">대표 프로젝트 보기</span>
+      <button class="project-toggle" id="project-visibility-toggle" type="button" data-analytics-ignore>
+        <span aria-hidden="true">▾</span><span class="project-toggle-text">전체 프로젝트 보기</span>
       </button>
     </div>
     <div class="grid" id="projects-grid">
@@ -671,7 +677,7 @@ body.portal-dashboard-mode #personal-projects{margin-top:14px}
       </a>
 
 
-      <a class="proj" href="./exchange-rate/" data-project-category="연구">
+      <a class="proj" href="./exchange-rate/" data-project-category="연구" data-home-featured="3">
         <div class="badge">NEW · API</div>
         <div class="thumb" style="background:
           radial-gradient(360px 160px at 24% 24%, rgba(57,135,229,.45), transparent 60%),
@@ -685,7 +691,7 @@ body.portal-dashboard-mode #personal-projects{margin-top:14px}
       </a>
 
 
-      <a class="proj" href="./trade/" data-project-category="연구">
+      <a class="proj" href="./trade/" data-project-category="연구" data-home-featured="6">
         <div class="badge">NEW · API</div>
         <div class="thumb" style="background:
           radial-gradient(360px 160px at 24% 24%, rgba(92,136,236,.45), transparent 60%),
@@ -699,7 +705,7 @@ body.portal-dashboard-mode #personal-projects{margin-top:14px}
       </a>
 
 
-      <a class="proj" href="./fsc-financial/" data-project-category="연구">
+      <a class="proj" href="./fsc-financial/" data-project-category="연구" data-home-featured="4">
         <div class="badge">NEW · API</div>
         <div class="thumb" style="background:
           radial-gradient(360px 160px at 22% 24%, rgba(62,201,167,.48), transparent 60%),
@@ -778,7 +784,7 @@ body.portal-dashboard-mode #personal-projects{margin-top:14px}
       </a>
 
 
-      <a class="proj" href="/strategy/coupang-commerce/" data-project-category="전략">
+      <a class="proj" href="/strategy/coupang-commerce/" data-project-category="전략" data-home-featured="5">
         <div class="badge">NEW · COMMERCE</div>
         <div class="thumb" style="background:radial-gradient(330px 170px at 22% 22%,rgba(255,89,100,.58),transparent 60%),radial-gradient(260px 150px at 84% 82%,rgba(255,189,74,.28),transparent 60%),linear-gradient(135deg,#23080d,#5b1420)"><span class="emo">C</span></div>
         <div class="body">
@@ -1019,7 +1025,7 @@ body.portal-dashboard-mode #personal-projects{margin-top:14px}
       </a>
 
 
-      <a class="proj" href="https://www.stargateedu.co.kr/ds-research-urban-analytics/" data-project-category="연구">
+      <a class="proj" href="https://www.stargateedu.co.kr/ds-research-urban-analytics/" data-project-category="연구" data-home-featured="2">
         <div class="badge">LIVE</div>
         <div class="thumb" style="background:linear-gradient(135deg,#0a0e27,#1baf7a)"><span class="emo">🏙️</span></div>
         <div class="body">
@@ -1155,7 +1161,7 @@ body.portal-dashboard-mode #personal-projects{margin-top:14px}
       </a>
 
 
-      <a class="proj" href="/koi-coach/" style="text-decoration:none;color:inherit" data-project-category="교육">
+      <a class="proj" href="/koi-coach/" style="text-decoration:none;color:inherit" data-project-category="교육" data-home-featured="1">
         <div class="thumb" style="background:linear-gradient(135deg,#1a2340,#243560)"><span class="emo">🧠</span></div>
         <div class="body">
           <div class="ttl">KOI Coach</div>
@@ -1282,23 +1288,11 @@ body.portal-dashboard-mode #personal-projects{margin-top:14px}
   const compareAlpha = (a, b) => a.group - b.group
     || (a.group === 0 ? englishOrder : koreanOrder).compare(a.title, b.title);
   const alphaCards = titledCards.slice().sort(compareAlpha).map(({ card }) => card);
-  const selectedProjects = [
-    '월간 거시경제 대시보드 · 환율 금리 물가 · BTC',
-    '무역 월별 대시보드 · 국가별 수출입실적',
-    '금융위원회 기업재무 대시보드 · 100건씩 탐색',
-    '당근 최근 3개년 재무분석',
-    'Kmong 거래액 & 재무 리서치 2025',
-    'Soomgo 매출액 & 재무 리서치 2025',
-    '쿠팡 커머스 2022–2025 매출 리서치',
-    '아마존 수익화 전략 대시보드',
-  ];
-  const selectedCards = selectedProjects
-    .map((item) => cards.find((card) => (card.querySelector('.ttl')?.textContent || '').includes(item)))
-    .filter(Boolean);
+  const selectedCards = cards.filter((card) => card.hasAttribute('data-home-featured'))
+    .sort((a, b) => Number(a.dataset.homeFeatured) - Number(b.dataset.homeFeatured));
   const selectedSet = new Set(selectedCards);
   const targetCards = cards.filter((card) => !selectedSet.has(card));
   const label = toggle.querySelector('.project-toggle-text');
-  const icon = toggle.querySelector('span[aria-hidden="true"]');
   const copy = {
     alpha: '영문 A–Z, 한글 가나다, 숫자 순으로 전체 프로젝트를 표시합니다. ‘사용빈도순’을 누르면 최근 실제 사용이 많은 프로젝트부터 볼 수 있습니다.',
     usage: '최근 30일 페이지 조회와 홈 클릭을 기준으로 사용이 많은 프로젝트부터 표시합니다. 같은 횟수는 가나다순입니다.',
@@ -1379,9 +1373,10 @@ body.portal-dashboard-mode #personal-projects{margin-top:14px}
   });
 
   function applySearch() {
-    const terms = normalized(searchQuery).split(/\s+/).filter(Boolean);
+    const dashboard = document.body.classList.contains('portal-dashboard-mode');
+    const terms = dashboard ? normalized(searchQuery).split(/\s+/).filter(Boolean) : [];
     searchWrap?.classList.toggle('has-value', terms.length > 0);
-    if (sortMode === 'needs') {
+    if (dashboard && sortMode === 'needs') {
       syncNeedsSearch();
       const personalStatus = document.getElementById('personal-status')?.textContent || '';
       if (searchStatus) searchStatus.textContent = terms.length ? (personalStatus.split(' · ')[0] || '검색 중') : '';
@@ -1390,12 +1385,12 @@ body.portal-dashboard-mode #personal-projects{margin-top:14px}
     let visible = 0;
     cards.forEach((card) => {
       const haystack = normalized(`${card.textContent || ''} ${card.getAttribute('href') || ''}`);
-      const matchesCategory = activeCategory === 'all' || cardCategories.get(card)?.has(activeCategory);
+      const matchesCategory = !dashboard || activeCategory === 'all' || cardCategories.get(card)?.has(activeCategory);
       const matches = matchesCategory && terms.every((term) => haystack.includes(term));
       card.classList.toggle('is-search-hidden', !matches);
       if (matches && !card.classList.contains('is-project-hidden')) visible += 1;
     });
-    if (searchStatus) searchStatus.textContent = (terms.length || activeCategory !== 'all') ? `${visible}/${cards.length}개` : '';
+    if (searchStatus) searchStatus.textContent = dashboard && (terms.length || activeCategory !== 'all') ? `${visible}/${cards.length}개` : '';
   }
 
   function usageScore(card) {
@@ -1419,26 +1414,23 @@ body.portal-dashboard-mode #personal-projects{margin-top:14px}
       .map(({ card }) => card);
   }
 
-  function applyLayout(expanded = toggle.getAttribute('aria-expanded') !== 'false') {
-    const needs = sortMode === 'needs';
-    const searching = normalized(searchQuery).length > 0 || activeCategory !== 'all';
+  function applyLayout() {
+    const dashboard = document.body.classList.contains('portal-dashboard-mode');
+    const needs = dashboard && sortMode === 'needs';
     grid.hidden = needs;
-    toggle.hidden = needs;
     if (categoryGroup) categoryGroup.hidden = needs;
     window.StargatePersonalProjects?.setActive(needs);
-    const orderedCards = (expanded || searching)
+    const orderedCards = dashboard
       ? (sortMode === 'usage' ? usageCards() : sortMode === 'updated' ? updatedCards() : alphaCards)
       : [...selectedCards, ...targetCards];
     orderedCards.forEach((card) => grid.appendChild(card));
-    targetCards.forEach((card) => card.classList.toggle('is-project-hidden', !expanded && !searching));
-    toggle.setAttribute('aria-expanded', String(expanded));
-    if (label) label.textContent = expanded ? '대표 프로젝트 보기' : '전체 프로젝트 보기';
-    if (icon) icon.textContent = expanded ? '▴' : '▾';
+    targetCards.forEach((card) => card.classList.toggle('is-project-hidden', !dashboard));
+    if (label) label.textContent = `전체 ${cards.length}개 보기`;
     sortAlpha?.setAttribute('aria-pressed', String(sortMode === 'alpha'));
     sortUsage?.setAttribute('aria-pressed', String(sortMode === 'usage'));
     sortNeeds?.setAttribute('aria-pressed', String(needs));
     sortUpdated?.setAttribute('aria-pressed', String(sortMode === 'updated'));
-    if (desc) desc.textContent = copy[sortMode];
+    if (desc) desc.textContent = dashboard ? copy[sortMode] : `스타게이트의 교육·도시데이터·연구·전략을 보여주는 대표 프로젝트 ${selectedCards.length}개입니다.`;
     applySearch();
   }
 
@@ -1447,12 +1439,27 @@ body.portal-dashboard-mode #personal-projects{margin-top:14px}
     if (persist) {
       try { localStorage.setItem(sortKey, sortMode); } catch (_) {}
     }
-    applyLayout((sortMode === 'usage' || sortMode === 'updated') ? true : toggle.getAttribute('aria-expanded') !== 'false');
+    applyLayout();
   }
 
+  window.StargateProjectGrid = {
+    refresh(dashboard) {
+      if (dashboard && sortMode === 'needs') setSort('usage');
+      else applyLayout();
+    },
+    showAll() {
+      searchQuery = '';
+      activeCategory = 'all';
+      if (search) search.value = '';
+      categoryButtons.forEach((button) => button.setAttribute('aria-pressed', String(button.dataset.projectCategory === 'all')));
+      saveFilters();
+      setSort('usage');
+    },
+  };
   setSort(sortMode, false);
   toggle.addEventListener('click', () => {
-    applyLayout(toggle.getAttribute('aria-expanded') !== 'true');
+    window.StargateProjectGrid.showAll();
+    document.getElementById('portal-view-dashboard')?.click();
   });
   sortAlpha?.addEventListener('click', () => setSort('alpha'));
   sortUsage?.addEventListener('click', () => setSort('usage'));
@@ -1461,7 +1468,7 @@ body.portal-dashboard-mode #personal-projects{margin-top:14px}
   search?.addEventListener('input', () => {
     searchQuery = search.value;
     saveFilters();
-    applyLayout(toggle.getAttribute('aria-expanded') !== 'false');
+    applyLayout();
   });
   search?.addEventListener('keydown', (event) => {
     if (event.key === 'Escape' && search.value) {
@@ -1469,7 +1476,7 @@ body.portal-dashboard-mode #personal-projects{margin-top:14px}
       search.value = '';
       searchQuery = '';
       saveFilters();
-      applyLayout(toggle.getAttribute('aria-expanded') !== 'false');
+      applyLayout();
     }
   });
   searchClear?.addEventListener('click', () => {
@@ -1477,7 +1484,7 @@ body.portal-dashboard-mode #personal-projects{margin-top:14px}
     search.value = '';
     searchQuery = '';
     saveFilters();
-    applyLayout(toggle.getAttribute('aria-expanded') !== 'false');
+    applyLayout();
     search.focus();
   });
   categoryGroup?.addEventListener('click', (event) => {
@@ -1486,21 +1493,21 @@ body.portal-dashboard-mode #personal-projects{margin-top:14px}
     activeCategory = button.dataset.projectCategory || 'all';
     categoryButtons.forEach((item) => item.setAttribute('aria-pressed', String(item === button)));
     saveFilters();
-    applyLayout(toggle.getAttribute('aria-expanded') !== 'false');
+    applyLayout();
   });
 
   const api = window.StargateUsage;
   if (api?.subscribe) {
     api.subscribe(() => {
-      if (sortMode === 'usage' && toggle.getAttribute('aria-expanded') !== 'false') applyLayout(true);
+      if (sortMode === 'usage' && document.body.classList.contains('portal-dashboard-mode')) applyLayout();
     });
   } else {
     document.addEventListener('stargate-usage-updated', () => {
-      if (sortMode === 'usage' && toggle.getAttribute('aria-expanded') !== 'false') applyLayout(true);
+      if (sortMode === 'usage' && document.body.classList.contains('portal-dashboard-mode')) applyLayout();
     });
   }
   document.addEventListener('stargate-project-updates-ready', () => {
-    if (sortMode === 'updated' && toggle.getAttribute('aria-expanded') !== 'false') applyLayout(true);
+    if (sortMode === 'updated' && document.body.classList.contains('portal-dashboard-mode')) applyLayout();
   });
 })();
 
@@ -1516,6 +1523,7 @@ if ('serviceWorker' in navigator) {
   const mainBtn=document.getElementById("portal-view-main");
   const dashboardBtn=document.getElementById("portal-view-dashboard");
   const projects=document.getElementById("projects");
+  const projectsHeading=document.getElementById("projects-heading");
   const cards=[...document.querySelectorAll("#projects-grid > .proj")];
   if(!mainBtn||!dashboardBtn||!projects)return;
 
@@ -1641,6 +1649,8 @@ if ('serviceWorker' in navigator) {
     dashboardBtn.classList.toggle("is-active",dashboard);
     mainBtn.setAttribute("aria-pressed",String(!dashboard));
     dashboardBtn.setAttribute("aria-pressed",String(dashboard));
+    if(projectsHeading)projectsHeading.textContent=dashboard?"전체 프로젝트 · All Projects":"대표 프로젝트 · Featured Projects";
+    window.StargateProjectGrid?.refresh(dashboard);
 
     if(updateHash){
       const next=dashboard?"#dashboard":location.pathname+location.search;
