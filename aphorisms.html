@@ -74,7 +74,7 @@ blockquote.is-long{font-size:clamp(1.45rem,3.5vw,3.25rem);line-height:1.42;lette
         </div>
       </div>
     </section>
-    <footer class="quote-foot"><a href="/">← DONGSOO.PORTAL 홈</a><p>겸손의 격언으로 시작하며, 나머지 격언은 서울 날짜에 따라 순서가 바뀌고 5초마다 자동으로 전환됩니다.</p></footer>
+    <footer class="quote-foot"><a href="/">← DONGSOO.PORTAL 홈</a><p>겸손의 격언으로 시작하며, 나머지 격언은 서울 날짜에 따라 순서가 바뀌고 3초마다 자동으로 전환됩니다.</p></footer>
   </div>
 </main>
 <script>
@@ -118,7 +118,7 @@ function restartTimer(){
   timer=window.setInterval(()=>{
     if(getDailyStartIndex()!==dailyStart)renderQuote(0);
     else if(playing)renderQuote(current+1);
-  },5000);
+  },3000);
 }
 document.getElementById("previousQuote").addEventListener("click",()=>{renderQuote(current-1);restartTimer()});
 document.getElementById("nextQuote").addEventListener("click",()=>{renderQuote(current+1);restartTimer()});
