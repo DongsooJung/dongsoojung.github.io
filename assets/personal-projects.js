@@ -52,6 +52,8 @@
     return {id: url, url, title, description, tags, ...classify(`${title} ${description} ${tags} ${url}`)};
   }).filter(v => v.url && v.title);
   const uniqueCatalog = [...new Map(catalog.map(v => [v.id, v])).values()];
+  const kakaoCard = document.getElementById('kakao-send-card');
+  const kakaoItemId = safeURL(kakaoCard?.getAttribute('href'));
   let active = false;
   let query = '', topic = '', kind = '';
   const openedDetails = new Set();
@@ -120,6 +122,7 @@
     return [...uniqueCatalog,...custom];
   }
   function matches(item) {
+    if (kakaoCard?.hidden && item.id === kakaoItemId) return false;
     const haystack = normalize(`${item.title} ${item.description} ${item.tags} ${item.aliases} ${item.topic} ${item.type}`);
     return (!topic || item.topic === topic) && (!kind || item.type === kind) && normalize(query).split(/\s+/).filter(Boolean).every(word => haystack.includes(word));
   }
@@ -212,5 +215,6 @@
   document.addEventListener('click',record,true);
   document.addEventListener('auxclick',record,true);
   window.addEventListener('pageshow',render);
+  document.addEventListener('kakao-send-visibility-changed', render);
   window.StargatePersonalProjects={setActive(value){active=Boolean(value);panel.hidden=!active;if(active)render();}};
 })();

@@ -280,6 +280,8 @@ a{color:var(--acc); text-decoration:none} a:hover{text-decoration:underline}
 .project-sort-group .project-toggle:hover,.project-sort-group .project-toggle:focus-visible{transform:none}
 .project-toggle[aria-expanded="false"],
 .project-toggle[aria-pressed="true"]{background:rgba(79,127,255,.12);border-color:var(--acc);color:var(--acc)}
+.kakao-send-toggle[aria-expanded="false"]{background:var(--panel);border-color:var(--line2);color:var(--ink)}
+.kakao-send-toggle[aria-expanded="true"]{background:rgba(79,127,255,.12);border-color:var(--acc);color:var(--acc)}
 .project-search{position:relative;display:flex;align-items:center;min-width:min(300px,42vw)}
 .project-search svg{position:absolute;left:11px;width:15px;height:15px;color:var(--muted);pointer-events:none}
 .project-search input{width:100%;min-height:32px;padding:6px 34px 6px 34px;border:1px solid var(--line2);border-radius:999px;background:var(--panel);color:var(--ink);font:500 12px/1.4 inherit;transition:.18s border-color,.18s box-shadow}
@@ -300,6 +302,7 @@ a{color:var(--acc); text-decoration:none} a:hover{text-decoration:underline}
 .proj.is-project-hidden{display:none}
 .proj.is-search-hidden{display:none}
 body:not(.portal-dashboard-mode) #projects-grid > .proj:not([data-home-featured]){display:none!important}
+body:not(.portal-dashboard-mode) #projects-grid > #kakao-send-card:not([hidden]){display:flex!important}
 body:not(.portal-dashboard-mode) .project-sort-wrap{display:none}
 #projects-grid[hidden],#project-category-group[hidden]{display:none!important}
 
@@ -367,6 +370,7 @@ body.portal-dashboard-mode #projects-grid{display:flex!important;flex-direction:
 body.portal-dashboard-mode #projects-grid[hidden]{display:none!important}
 body.portal-dashboard-mode #projects-grid .proj{display:grid!important;grid-template-columns:minmax(128px,170px) minmax(0,1fr);align-items:center;gap:18px;min-height:0!important;padding:13px 16px;border-radius:12px;transform:none}
 body.portal-dashboard-mode #projects-grid .proj.is-search-hidden{display:none!important}
+#kakao-send-cta[hidden],#kakao-send-card[hidden],body.portal-dashboard-mode #projects-grid > #kakao-send-card[hidden]{display:none!important}
 body.portal-dashboard-mode #project-visibility-toggle{display:none}
 body.portal-dashboard-mode #projects-grid .proj:hover{transform:translateY(-1px)}
 body.portal-dashboard-mode #projects-grid .proj .thumb{display:none!important}
@@ -469,7 +473,6 @@ body.portal-dashboard-mode #personal-projects{margin-top:14px}
   </div>
 
   <div class="quick-links">
-    <a class="chip mono" style="border-color:#ffb86b;color:#ffd9a8;background:rgba(255,184,107,.08)" href="https://shop.stargateedu.co.kr/" target="_blank" rel="noopener">Shop</a>
     <a class="chip mono" style="border-color:#ffb000;color:#ffcb5c;background:rgba(255,176,0,.10)" href="/aphorisms.html">오늘의 격언</a>
     <a id="visitor-summary-link" class="chip mono" style="border-color:#7aa2ff;color:#dbe6ff;background:rgba(79,127,255,.14);font-weight:600" href="/admin/visitors/" rel="nofollow" aria-label="사이트 사용 분석 대시보드">오늘 <strong id="visitor-today-count" style="color:#fff">-</strong> · 누적 <strong id="visitor-total-count" style="color:#fff">-</strong></a>
   </div>
@@ -540,7 +543,7 @@ body.portal-dashboard-mode #personal-projects{margin-top:14px}
         <div class="hub-meta"><span>도시·공간·경제·과학 · 55개 프로젝트</span><b>연구 허브 →</b></div>
       </a>
     </div>
-    <div class="cta" style="margin-top:18px">
+    <div class="cta" id="kakao-send-cta" style="margin-top:18px" hidden>
       <a class="btn ghost" href="https://stargateedu.co.kr/kakao-send/">🟡 카카오톡 보내기</a>
     </div>
   </section>
@@ -556,6 +559,7 @@ body.portal-dashboard-mode #personal-projects{margin-top:14px}
       <div class="ops-stat"><span>홈 클릭</span><strong id="ops-click-count">-</strong></div>
     </div>
     <div class="project-toggle-row">
+      <button class="project-toggle kakao-send-toggle" id="kakao-send-toggle" type="button" aria-expanded="false" aria-controls="kakao-send-cta kakao-send-card" data-analytics-ignore>카카오톡 보내기 펼치기</button>
       <div class="project-sort-wrap">
         <span class="project-sort-label">정렬</span>
         <div class="project-sort-group" role="group" aria-label="프로젝트 정렬">
@@ -895,7 +899,7 @@ body.portal-dashboard-mode #personal-projects{margin-top:14px}
       </a>
 
 
-      <a class="proj" href="https://stargateedu.co.kr/kakao-send/" data-project-category="사업">
+      <a class="proj" id="kakao-send-card" href="https://stargateedu.co.kr/kakao-send/" data-project-category="사업" hidden>
         <div class="badge">KAKAO API · NEW</div>
         <div class="thumb" style="background:radial-gradient(300px 150px at 24% 25%,rgba(255,255,255,.55),transparent 58%),linear-gradient(135deg,#fee500,#f2cf00)"><span class="emo">💬</span></div>
         <div class="body">
@@ -1177,7 +1181,7 @@ body.portal-dashboard-mode #personal-projects{margin-top:14px}
   </footer>
 
 </div>
-<script src="/assets/personal-projects.js?v=20260908"></script>
+<script src="/assets/personal-projects.js?v=20261009-kakao-toggle"></script>
 <script>
 (() => {
   const notice = document.getElementById('chuseok-notice');
@@ -1262,6 +1266,9 @@ body.portal-dashboard-mode #personal-projects{margin-top:14px}
   const categoryGroup = document.getElementById('project-category-group');
   const categoryButtons = [...categoryGroup.querySelectorAll('button[data-project-category]')];
   const desc = document.getElementById('projects-desc');
+  const kakaoToggle = document.getElementById('kakao-send-toggle');
+  const kakaoCta = document.getElementById('kakao-send-cta');
+  const kakaoCard = document.getElementById('kakao-send-card');
   if (!toggle || !grid) return;
 
   const sortKey = 'stargate-project-sort-v2';
@@ -1348,21 +1355,23 @@ body.portal-dashboard-mode #personal-projects{margin-top:14px}
   }
 
   const cardCategories = new Map(cards.map((card) => [card, categoriesFor(card)]));
-  const categoryCounts = Object.fromEntries(['전략', '연구', '교육', '사업'].map((category) => [
-    category,
-    cards.filter((card) => cardCategories.get(card)?.has(category)).length,
-  ]));
-  categoryButtons.forEach((button) => {
-    const category = button.dataset.projectCategory || 'all';
-    const label = category === 'all' ? '전체' : category;
-    const count = category === 'all' ? cards.length : (categoryCounts[category] || 0);
-    const badge = document.createElement('span');
-    badge.className = 'project-category-count';
-    badge.textContent = String(count);
-    badge.setAttribute('aria-hidden', 'true');
-    button.replaceChildren(document.createTextNode(`${label} `), badge);
-    button.setAttribute('aria-label', `${label} 프로젝트 ${count}개`);
-  });
+  const availableCards = () => cards.filter((card) => !card.hidden);
+  function updateCategoryCounts() {
+    const available = availableCards();
+    categoryButtons.forEach((button) => {
+      const category = button.dataset.projectCategory || 'all';
+      const text = category === 'all' ? '전체' : category;
+      const count = category === 'all' ? available.length : available.filter((card) => cardCategories.get(card)?.has(category)).length;
+      const badge = document.createElement('span');
+      badge.className = 'project-category-count';
+      badge.textContent = String(count);
+      badge.setAttribute('aria-hidden', 'true');
+      button.replaceChildren(document.createTextNode(`${text} `), badge);
+      button.setAttribute('aria-label', `${text} 프로젝트 ${count}개`);
+    });
+    if (label) label.textContent = `전체 ${available.length}개 보기`;
+  }
+  updateCategoryCounts();
 
   function applySearch() {
     const dashboard = document.body.classList.contains('portal-dashboard-mode');
@@ -1380,9 +1389,9 @@ body.portal-dashboard-mode #personal-projects{margin-top:14px}
       const matchesCategory = !dashboard || activeCategory === 'all' || cardCategories.get(card)?.has(activeCategory);
       const matches = matchesCategory && terms.every((term) => haystack.includes(term));
       card.classList.toggle('is-search-hidden', !matches);
-      if (matches && !card.classList.contains('is-project-hidden')) visible += 1;
+      if (matches && !card.hidden && !card.classList.contains('is-project-hidden')) visible += 1;
     });
-    if (searchStatus) searchStatus.textContent = dashboard && (terms.length || activeCategory !== 'all') ? `${visible}/${cards.length}개` : '';
+    if (searchStatus) searchStatus.textContent = dashboard && (terms.length || activeCategory !== 'all') ? `${visible}/${availableCards().length}개` : '';
   }
 
   function usageScore(card) {
@@ -1417,12 +1426,14 @@ body.portal-dashboard-mode #personal-projects{margin-top:14px}
       : [...selectedCards, ...targetCards];
     orderedCards.forEach((card) => grid.appendChild(card));
     targetCards.forEach((card) => card.classList.toggle('is-project-hidden', !dashboard));
-    if (label) label.textContent = `전체 ${cards.length}개 보기`;
+    if (label) label.textContent = `전체 ${availableCards().length}개 보기`;
     sortAlpha?.setAttribute('aria-pressed', String(sortMode === 'alpha'));
     sortUsage?.setAttribute('aria-pressed', String(sortMode === 'usage'));
     sortNeeds?.setAttribute('aria-pressed', String(needs));
     sortUpdated?.setAttribute('aria-pressed', String(sortMode === 'updated'));
-    if (desc) desc.textContent = dashboard ? copy[sortMode] : `스타게이트의 교육·도시데이터·연구·전략을 보여주는 대표 프로젝트 ${selectedCards.length}개입니다.`;
+    const featuredCount = selectedCards.filter((card) => !card.hidden).length
+      + Number(Boolean(kakaoCard && !kakaoCard.hidden && !selectedSet.has(kakaoCard)));
+    if (desc) desc.textContent = dashboard ? copy[sortMode] : `스타게이트의 교육·도시데이터·연구·전략을 보여주는 대표 프로젝트 ${featuredCount}개입니다.`;
     applySearch();
   }
 
@@ -1449,6 +1460,16 @@ body.portal-dashboard-mode #personal-projects{margin-top:14px}
     },
   };
   setSort(sortMode, false);
+  kakaoToggle?.addEventListener('click', () => {
+    const expanded = kakaoToggle.getAttribute('aria-expanded') !== 'true';
+    kakaoToggle.setAttribute('aria-expanded', String(expanded));
+    kakaoToggle.textContent = expanded ? '카카오톡 보내기 접기' : '카카오톡 보내기 펼치기';
+    kakaoCta.hidden = !expanded;
+    kakaoCard.hidden = !expanded;
+    updateCategoryCounts();
+    document.dispatchEvent(new Event('kakao-send-visibility-changed'));
+    applyLayout();
+  });
   toggle.addEventListener('click', () => {
     window.StargateProjectGrid.showAll();
     document.getElementById('portal-view-dashboard')?.click();
@@ -1575,8 +1596,10 @@ if ('serviceWorker' in navigator) {
       const meta=ensureMeta(card);
       const usage=usageForCard(card);
       const status=statusFor(card);
-      views+=usage.views;clicks+=usage.clicks;
-      if(status.label==="운영중")live+=1;else if(status.label==="신규"||status.label==="실험중")newish+=1;
+      if(!card.hidden){
+        views+=usage.views;clicks+=usage.clicks;
+        if(status.label==="운영중")live+=1;else if(status.label==="신규"||status.label==="실험중")newish+=1;
+      }
       meta.querySelector("[data-ops-views]").textContent=fmt(usage.views);
       meta.querySelector("[data-ops-clicks]").textContent=fmt(usage.clicks);
       renderTrend(meta.querySelector("[data-ops-trend]"),usage.trend);
@@ -1668,6 +1691,7 @@ if ('serviceWorker' in navigator) {
   document.addEventListener("stargate-usage-updated",()=>{
     if(document.body.classList.contains("portal-dashboard-mode"))refreshUsage();
   });
+  document.addEventListener('kakao-send-visibility-changed', refreshUsage);
 
   cards.forEach(ensureMeta);
   applyView(location.hash==="#dashboard"?"dashboard":"main",{updateHash:false,scroll:false});
