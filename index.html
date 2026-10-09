@@ -143,6 +143,10 @@ a{color:var(--acc); text-decoration:none} a:hover{text-decoration:underline}
 .brand .tag{font-family:var(--font-mono);font-size:10.5px;color:var(--muted);margin-left:6px;font-weight:500;letter-spacing:.04em}
 .nav .links{display:flex;gap:14px;margin-left:auto;font-size:13px;color:var(--sub);align-items:center}
 .nav .links a{color:var(--sub)} .nav .links a:hover,.nav .links a[aria-current="page"]{color:var(--ink)}
+.music-toggle{display:inline-flex;align-items:center;justify-content:center;gap:6px;min-height:34px;padding:5px 10px;border:1px solid var(--line2);border-radius:999px;background:var(--panel);color:var(--sub);font:600 12px/1.3 var(--font-sans);white-space:nowrap;cursor:pointer}
+.music-toggle:hover,.music-toggle[aria-pressed="true"]{border-color:var(--acc);color:var(--acc)}
+.music-toggle:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
+.music-toggle:disabled{opacity:.55;cursor:not-allowed}
 /* Keep language selection outside the horizontally scrolling navigation. */
 .lang-switch{display:inline-flex;align-items:center;border:1px solid var(--acc);border-radius:999px;overflow:hidden;flex:0 0 auto;background:var(--panel)}
 .lang-switch a{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:0 14px;font:600 14px/1.2 var(--font-sans);white-space:nowrap;color:var(--ink)}
@@ -341,6 +345,7 @@ footer .business-info{flex-basis:100%;padding-top:10px;border-top:1px solid var(
   .nav .brand{order:1;flex-basis:100%}
   .nav > .lang-switch{order:2;margin-right:auto}
   .nav > .theme-switch,.nav > .theme-toggle{order:2;margin-left:0}
+  .nav > .music-toggle{order:2}
   .nav .links{order:3;width:100%;margin-left:0;padding:10px 0 4px;overflow-x:auto;white-space:nowrap}
 }
 @media (max-width:480px){
@@ -453,6 +458,9 @@ body.portal-dashboard-mode #personal-projects{margin-top:14px}
     <button class="theme-toggle" id="theme-toggle" type="button" data-theme-toggle aria-label="다음 디자인으로 전환" aria-pressed="false">
       <span class="icon" id="theme-toggle-icon" data-theme-icon aria-hidden="true">☀️</span>
       <span id="theme-toggle-label" data-theme-label>화이트</span>
+    </button>
+    <button class="music-toggle" id="music-toggle" type="button" aria-label="배경음악" aria-pressed="false" title="배경음악 켜기" data-analytics-ignore>
+      <span aria-hidden="true">♫</span><span id="music-toggle-label">음악 켜기</span>
     </button>
   </nav>
 
@@ -1695,5 +1703,6 @@ if ('serviceWorker' in navigator) {
 </script>
 
   <script src="/assets/developer-log.js?v=20261006-1" defer></script>
+  <script src="/assets/homepage-music.js?v=20261009-1" defer></script>
 </body>
 </html>
