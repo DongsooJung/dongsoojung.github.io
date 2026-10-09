@@ -56,7 +56,7 @@ blockquote{margin:0;color:var(--amber);font-size:clamp(2.15rem,6.3vw,5.2rem);fon
     </header>
     <section class="board-frame" aria-label="자동 순환 격언 전광판">
       <div class="board">
-        <div class="board-top"><span>WORDS TO LIVE BY</span><span id="quoteCount">01 / 05</span></div>
+        <div class="board-top"><span>WORDS TO LIVE BY</span><span id="quoteCount">01 / 06</span></div>
         <div class="quote-stage" aria-live="polite" aria-atomic="true">
           <div class="quote-content" id="quoteContent">
             <blockquote id="quoteText">나는 내가 좋아하는 일을<br>24시간 하면서 산다</blockquote>
@@ -73,7 +73,7 @@ blockquote{margin:0;color:var(--amber);font-size:clamp(2.15rem,6.3vw,5.2rem);fon
         </div>
       </div>
     </section>
-    <footer class="quote-foot"><a href="/">← DONGSOO.PORTAL 홈</a><p>격언은 9초마다 자동으로 전환됩니다.</p></footer>
+    <footer class="quote-foot"><a href="/">← DONGSOO.PORTAL 홈</a><p>격언은 5초마다 자동으로 전환됩니다.</p></footer>
   </div>
 </main>
 <script>
@@ -92,7 +92,7 @@ const content=document.getElementById("quoteContent");
 const toggle=document.getElementById("togglePlayback");
 let current=0,playing=true,timer;
 function renderQuote(index){current=(index+quotes.length)%quotes.length;content.classList.add("is-changing");window.setTimeout(()=>{text.innerHTML=quotes[current].text;author.textContent=`— ${quotes[current].author}`;count.textContent=`${String(current+1).padStart(2,"0")} / ${String(quotes.length).padStart(2,"0")}`;content.classList.remove("is-changing")},480)}
-function restartTimer(){window.clearInterval(timer);if(playing)timer=window.setInterval(()=>renderQuote(current+1),9000)}
+function restartTimer(){window.clearInterval(timer);if(playing)timer=window.setInterval(()=>renderQuote(current+1),5000)}
 document.getElementById("previousQuote").addEventListener("click",()=>{renderQuote(current-1);restartTimer()});
 document.getElementById("nextQuote").addEventListener("click",()=>{renderQuote(current+1);restartTimer()});
 toggle.addEventListener("click",()=>{playing=!playing;toggle.textContent=playing?"Ⅱ":"▶";toggle.setAttribute("aria-pressed",String(!playing));toggle.setAttribute("aria-label",playing?"자동 재생 일시정지":"자동 재생 시작");restartTimer()});
