@@ -45,13 +45,12 @@ bubblewrap build   # twa-manifest.json을 읽어 Gradle 프로젝트 생성 + �
    ```bash
    keytool -list -v -keystore stargate-upload.keystore -alias stargate | grep SHA256
    ```
-2. 저장소 루트 `.well-known/assetlinks.json`의
-   `REPLACE_WITH_UPLOAD_KEY_SHA256_FINGERPRINT` 를 위 지문으로 교체 후 커밋·푸시.
+2. 저장소 루트 `.well-known/assetlinks.json`에서 `kr.co.stargateedu.twa` 항목에 업로드 키 지문이 등록되어 있는지 확인 후 커밋·푸시합니다.
 3. **Play App Signing 사용 시(권장, 기본값)**: 첫 업로드 후
    Play Console → 설정 → 앱 서명 페이지의 **앱 서명 키 SHA-256 지문**을 복사해
-   `REPLACE_WITH_PLAY_APP_SIGNING_SHA256_FINGERPRINT` 자리에 넣으세요. 지문은 2개 병기 가능합니다.
+   `kr.co.stargateedu.twa` 항목의 `sha256_cert_fingerprints` 배열에 추가합니다. 기존 지문과 함께 2개를 병기할 수 있습니다.
 4. 검증: [Statement List Generator & Tester](https://developers.google.com/digital-asset-links/tools/generator)
-   에 `stargateedu.co.kr` + `kr.co.stargateedu.app` + 지문 입력 → 초록불 확인.
+   에 `stargateedu.co.kr` + `kr.co.stargateedu.twa` + 지문 입력 → 초록불 확인.
 
 ## 4. Google Play Console 배포
 
