@@ -440,9 +440,9 @@
       <div class="note">
         <b>스키마 적용:</b> Supabase SQL Editor에서 <code>supabase/lh_sale_info.sql</code>을 실행하세요.
         테이블 <code>lh_sale_notices</code>, <code>lh_sale_fetch_logs</code>가 생성됩니다.
-        LH API가 403이면 공공데이터포털에서
-        <b>한국토지주택공사_분양임대공고문 조회 서비스</b> 활용신청이 승인됐는지 확인하세요.
-        (청약센터 공지사항 API와는 별개입니다.)
+        LH API가 <b>403 Forbidden</b>이면 활용신청 승인 후에도 키 동기화가 안 된 경우가 많습니다.
+        공공데이터포털 <b>마이페이지 → Open API → 활용신청 현황 → 분양임대공고문 조회 서비스 → 변경신청</b>을 한 뒤
+        1~2시간 후 다시 시도하세요. (청약센터 공지사항 API와는 별개입니다.)
       </div>
     </main>
 
