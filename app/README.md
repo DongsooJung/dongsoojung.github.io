@@ -35,7 +35,7 @@ bubblewrap build   # twa-manifest.json을 읽어 Gradle 프로젝트 생성 + �
 - `app-release-signed.apk` — 실기기 설치 테스트용 (`adb install app-release-signed.apk`)
 - `app-release-bundle.aab` — Play Console 업로드용
 
-버전 올릴 때: `twa-manifest.json`의 `appVersionCode`(+1)와 `appVersionName` 수정 후 다시 `bubblewrap build`.
+버전 올릴 때: `twa-manifest.json`의 `appVersionCode`(+1)와 `appVersion`(Bubblewrap가 읽는 버전 이름)을 수정한 뒤 `bubblewrap update --skipVersionUpgrade`와 `bubblewrap build`를 실행합니다. `minSdkVersion`은 24 이상이어야 합니다.
 
 ## 3. Digital Asset Links 지문 등록 (주소창 제거)
 
