@@ -46,10 +46,10 @@ test('MegaStudy submission uses the confirmed August 16 deadline', () => {
   assert.ok(page.includes('실제 마감 · 내부 12:00'));
   assert.ok(!page.includes('내부 제출선</span><strong>08.21'));
 });
-test('hub integrates one Q3 card and links to the existing homepage workstream', () => {
-  assert.equal((hub.match(/href="\/strategy\/q3-45day\/" data-card/g) || []).length, 1);
-  assert.ok(hub.includes('/strategy/q3-45day/#homepage-ops'));
-  assert.ok(hub.includes('43개 실행과제'));
+test('hub promotes Q4 while preserving the existing Q3 homepage workstream', () => {
+  assert.equal((hub.match(/href="\/strategy\/q4-45day\/" data-card/g) || []).length, 1);
+  assert.ok(hub.includes('/strategy/q4-45day/#workstreams'));
+  assert.equal((hub.match(/href="\/strategy\/q3-45day\/" data-card/g) || []).length, 0);
   for (const t of home) assert.ok(page.includes(`href="#${t[0]}"`));
   assert.ok(source.includes("stargate-q3-2026-status-v1"));
   assert.ok(source.includes("if (!state[t[0]]) state[t[0]] = t[6]"));
