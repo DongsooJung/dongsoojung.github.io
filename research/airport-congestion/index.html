@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>인천공항 혼잡도 연구 대시보드 | STARGATE EDU</title>
   <meta name="description" content="인천국제공항공사 실시간 데이터를 활용한 터미널·시간대별 예상 승객 및 출국장 대기시간 연구 대시보드입니다.">
-  <link rel="canonical" href="https://www.stargateedu.co.kr/research/airport-congestion/">
+  <link rel="canonical" href="https://stargateedu.co.kr/research/airport-congestion/">
   <style>
     :root{--ink:#071426;--navy:#092848;--blue:#0a74c9;--cyan:#34d8e8;--paper:#f3f7fa;--line:#dce6ed;--muted:#617284;--white:#fff;--green:#0c9b6c;--amber:#e49a18;--red:#df4d58;--shadow:0 18px 50px rgba(7,20,38,.09)}
     *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--paper);color:var(--ink);font-family:"Pretendard","Noto Sans KR","Malgun Gothic",system-ui,sans-serif;line-height:1.55;word-break:keep-all}button,a{font:inherit}.wrap{width:min(1180px,calc(100% - 36px));margin:auto}
@@ -21,7 +21,14 @@
     @media(max-width:900px){.metrics{grid-template-columns:repeat(2,1fr)}.grid{grid-template-columns:1fr}.method{grid-template-columns:1fr}.topnav{display:none}}
     @media(max-width:560px){.wrap{width:min(100% - 22px,1180px)}header{padding-top:36px}.toolbar{align-items:stretch;flex-direction:column}.switches{display:grid;grid-template-columns:1fr 1fr}.seg{justify-content:center}.metrics{grid-template-columns:1fr 1fr;gap:9px}.metric{padding:15px}.metric strong{font-size:24px}.chart{height:235px;gap:3px}.bar-label{font-size:9px;transform:rotate(-35deg);transform-origin:top center}.panel{padding:16px}}
   </style>
-</head>
+
+<meta property="og:title" content="인천공항 혼잡도 연구 대시보드 | STARGATE EDU">
+<meta property="og:description" content="인천국제공항공사 실시간 데이터를 활용한 터미널·시간대별 예상 승객 및 출국장 대기시간 연구 대시보드입니다.">
+<meta property="og:url" content="https://stargateedu.co.kr/research/airport-congestion/">
+<meta property="og:image" content="https://stargateedu.co.kr/assets/og/research.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image"></head>
 <body>
   <nav class="top"><div class="wrap"><a class="brand" href="/research/">STARGATE <b>RESEARCH</b></a><div class="topnav"><a href="#forecast">시간대별 예측</a><a href="#gates">출입국장 비교</a><a href="#arrivals">실시간 대기</a><a href="/research/gimpo-airport-congestion/">김포공항</a><a href="/research/">연구 허브</a></div></div></nav>
   <header><div class="wrap head"><div class="eyebrow"><i class="pulse"></i> INCHEON AIRPORT LIVE DATA MONITOR</div><h1>인천공항 혼잡도 연구 대시보드</h1><p class="subtitle">제1·2여객터미널의 시간대별 예상 승객 수와 실시간 출국장 대기시간을 한 화면에서 비교합니다.</p><div class="updated"><span>데이터 기준 <strong id="updated-at">확인 중</strong></span><span>전달 상태 <strong id="data-mode">확인 중</strong></span><span>화면 자동 갱신 <strong>60초</strong></span><span>API 캐시 <strong>5분</strong></span></div></div></header>

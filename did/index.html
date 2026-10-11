@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>DID 정책효과 — Stargate Visual Lab</title>
-<meta name="description" content="이중차분(Difference-in-Differences) 평행추세와 이벤트 스터디 계수 시각화. Plotly.">
+<meta name="description" content="DID 정책효과 분석의 평행추세·이벤트 스터디 개념과 해석 한계를 설명합니다. 현재 차트는 Google Trends 관측 격차를 탐색하며 인과효과를 추정하지 않습니다.">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%93%90%3C/text%3E%3C/svg%3E">
 <script src="https://cdn.plot.ly/plotly-2.35.2.min.js" charset="utf-8"></script>
 <style>
@@ -32,12 +32,26 @@ h1{font-size:30px;letter-spacing:-.4px;margin:26px 0 6px;background:var(--grad1)
 </style>
   <link rel="stylesheet" href="/assets/site-theme.css">
   <script src="/assets/site-theme.js"></script>
-</head>
+
+<link rel="canonical" href="https://stargateedu.co.kr/did/">
+<meta property="og:title" content="DID 정책효과 — Stargate Visual Lab">
+<meta property="og:description" content="DID 정책효과 분석의 평행추세·이벤트 스터디 개념과 해석 한계를 설명합니다. 현재 차트는 Google Trends 관측 격차를 탐색하며 인과효과를 추정하지 않습니다.">
+<meta property="og:url" content="https://stargateedu.co.kr/did/">
+<meta property="og:image" content="https://stargateedu.co.kr/assets/og/methods.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image"></head>
 <body>
 <div class="wrap">
   <div class="nav"><a href="/research/">← 연구 대시보드</a><a href="https://www.stargateedu.co.kr/">포털</a></div>
   <h1>DID 정책효과 · 이벤트 스터디</h1>
   <p class="lead">Google Trends 급상승 검색어의 실제 일별 저장 스냅샷으로 비즈니스·산업과 스포츠 범주의 상대 관심도를 비교합니다. 현재 분할점은 탐색용이며, 외생적 정책 개입을 지정하지 않은 결과를 인과효과로 해석하면 안 됩니다.</p>
+  <div class="card" aria-labelledby="did-method-title">
+    <h2 id="did-method-title">DID 정책효과 분석은 언제 가능한가요?</h2>
+    <p class="d">정책 시행일과 영향을 받은 집단·비교 집단을 먼저 정의해야 합니다. 개입 이전의 추세가 비교 가능한지 검토하고, 다른 동시 사건이나 구성 변화도 점검합니다. 아래 차트는 이 조건을 갖춘 정책효과 추정 결과가 아니라 저장된 검색 관심도 계열의 탐색 시각화입니다.</p>
+    <p class="d">왼쪽 차트의 점선은 임의 탐색 분할점입니다. 오른쪽의 값은 두 계열의 관측 지수 격차이며 신뢰구간이 있는 DID 추정계수가 아닙니다. 범주마다 최대값을 100으로 정규화했으므로 절대 검색량도 비교할 수 없습니다.</p>
+    <a href="/research/">관련 연구 대시보드 보기 →</a>
+  </div>
   <div class="chips"><span class="chip">Difference-in-Differences</span><span class="chip">Event Study</span><span class="chip">Parallel Trends</span></div>
 
   <div class="stats" id="stats"></div>
