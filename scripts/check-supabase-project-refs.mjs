@@ -4,8 +4,6 @@ import path from 'node:path';
 const ROOT = process.cwd();
 const LEGACY_REF = 'flxntafmvcdhpagzrvii';
 const ALLOWED_LEGACY_PATHS = new Set([
-  'cardnews/index.html',
-  'cardnews/admin/index.html',
   'supabase/PROJECT_REGISTRY.md',
   'scripts/check-supabase-project-refs.mjs',
 ]);

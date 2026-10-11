@@ -4,47 +4,41 @@
 
 - Project ref: `inftexpcnfinglwlrvsj`
 - Base URL: `https://inftexpcnfinglwlrvsj.supabase.co`
-- Role: primary STARGATE production backend for shop payments, visitor analytics, reading/public-data pipelines, and new Supabase-backed features.
-- Rule: all new production integrations must use this project through environment variables or the canonical public project URL. Do not introduce a new hard-coded Supabase project ref without updating this registry.
+- Role: primary STARGATE production backend for shop payments, visitor analytics, reading/public-data pipelines, and future Supabase-backed features.
+- Rule: all new production integrations must use this project through environment variables or the canonical public project URL.
+- Management caveat: as of 2026-10-11, this project is referenced by production code but is not visible through the currently connected Supabase management account. Ownership/organization access must be recovered before changing secrets, RLS, Edge Functions, or production schema.
+- Data API note: from 2026-10-30, new Data API tables/functions should use explicit role grants instead of relying on automatic exposure.
 
-## Legacy project
+## Retired runtime dependency: flxntafmvcdhpagzrvii
 
-- Project ref: `flxntafmvcdhpagzrvii`
-- Base URL: `https://flxntafmvcdhpagzrvii.supabase.co`
-- Role: temporary legacy backend while the remaining cardnews CMS dependency is retired.
-- Restored on 2026-09-13 from INACTIVE to ACTIVE_HEALTHY for audit/migration work.
-- Security hardening applied on 2026-09-13: anonymous `cardnews_posts` SELECT removed; legacy Execution KPI table/RPC public access removed.
-- Current allowlist:
-  - `cardnews/index.html`
-  - `cardnews/admin/index.html`
+- Historical role: Execution KPI + cardnews CMS.
+- 2026-09-13 audit found 0 rows in both `public.cardnews_posts` and `public.execution_kpi_metrics`.
+- Execution OS dependency was removed on 2026-09-13.
+- Cardnews runtime dependency was removed on 2026-10-11 and replaced with repository-based publishing via `cardnews/data/posts.json`.
+- Current management status observed on 2026-10-11: INACTIVE.
+- Policy: do not restore this project for normal operation. Keep it inactive unless a one-off recovery/audit is explicitly required.
 
-Execution OS no longer depends on this project. Its local execution-board storage is authoritative until KPI synchronization is rebuilt against canonical production.
+## Dormant / unreferenced project: sclpygpcsgeudezcklqg
 
-No new feature may depend on the legacy project. Remove each allowlisted path after the cardnews publishing path has been migrated or replaced and verified on canonical production.
+- Historical name from Supabase email: `jds068888-coder's Project`.
+- Supabase pause notification received on 2026-09-02 after inactivity.
+- Repository audit found no production reference.
+- Policy: do not reactivate or adopt this project for production unless an external dependency is later proven.
 
-## Dormant / unreferenced project
+## Runtime rule
 
-- Project ref: `sclpygpcsgeudezcklqg`
-- Historical name from Supabase email: `jds068888-coder's Project`
-- Status evidence: Supabase pause notification received on 2026-09-02 after inactivity.
-- Repository audit on 2026-09-13 found no reference in the main portal or shop repositories.
-- Policy: do not reactivate or adopt this project for production. Treat it as a retirement candidate unless an external dependency is later proven.
+No application/runtime file may reference `flxntafmvcdhpagzrvii`. The only permitted mentions are this registry and the CI guard that blocks reintroduction.
 
-## Current legacy data state
+## Remaining exit criteria
 
-Audit on 2026-09-13 found 0 rows in both `public.cardnews_posts` and `public.execution_kpi_metrics`. This substantially lowers migration risk: the remaining task is schema/auth workflow replacement rather than production-data transfer.
-
-## Migration exit criteria
-
-The legacy project can be retired only when all of the following are true:
-
-1. `cardnews_posts` publishing/admin workflow has been migrated to canonical production or replaced with a repository-based publishing workflow.
-2. A repository scan finds no `flxntafmvcdhpagzrvii` reference outside this registry.
-3. Production smoke tests pass for cardnews public view and the chosen publishing/admin workflow.
-4. The legacy project has no unique production data/function remaining.
+1. Recover management access to canonical production `inftexpcnfinglwlrvsj`.
+2. Audit `shop_orders`, `toss-confirm`, Edge Function secrets, RLS/grants, and production health.
+3. Verify cardnews repository JSON publishing in production.
+4. Verify no runtime reference to retired/dormant Supabase projects.
+5. Keep one canonical Supabase production project for all new features.
 
 ## Secret policy
 
-- Browser-safe publishable/anon identifiers may be public only when RLS/policies are correct.
-- `service_role`, payment secret keys, API private keys, and database passwords must never be committed.
-- Prefer repository/deployment secrets for server keys and Supabase Edge Function Secrets for function-only secrets.
+- Browser-safe publishable identifiers may be public only when grants/RLS are correct.
+- `service_role`, payment secret keys, private API keys, and database passwords must never be committed.
+- Prefer deployment secrets for server credentials and Supabase Edge Function Secrets for function-only credentials.
