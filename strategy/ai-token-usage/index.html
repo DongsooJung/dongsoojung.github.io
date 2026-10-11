@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>AI 토큰 한도 사용률 | STARGATE 전략 대시보드</title>
+  <meta name="description" content="2026년 10월 AI 서비스 10곳의 월 한도를 각각 100%로 두고, 현재 소진 0%를 반원 계기로 보는 전략 대시보드.">
+  <link rel="canonical" href="https://stargateedu.co.kr/strategy/ai-token-usage/">
+  <meta name="theme-color" content="#101820" data-light-color="#f4f6f8" data-dark-color="#101820">
+  <script src="/assets/theme-boot.js"></script>
+  <script src="/assets/theme.js" defer></script>
+  <style>
+    :root, [data-theme="dark"] {
+      --bg:#101820; --panel:#172230; --ink:#e8eef6; --muted:#93a0b4; --line:#2c3a4c;
+      --accent:#79b8ff; --track:#314158; --tick:#8ea0b8;
+    }
+    [data-theme="light"] {
+      --bg:#f4f6f8; --panel:#fff; --ink:#172033; --muted:#5d6b80; --line:#d7e0ea;
+      --accent:#1d5fbf; --track:#d5deea; --tick:#6d7c90;
+    }
+    [data-theme="ocean"] {
+      --bg:#071422; --panel:#0e2438; --ink:#e7f3fb; --muted:#8eb0c6; --line:#1d3d56;
+      --accent:#3ec8c0; --track:#1a4560; --tick:#8eb0c6;
+    }
+    [data-theme="mono"] {
+      --bg:#111; --panel:#1b1b1b; --ink:#f2f2f2; --muted:#9a9a9a; --line:#333;
+      --accent:#f2f2f2; --track:#3a3a3a; --tick:#8a8a8a;
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: var(--bg); color: var(--ink); font-family: "Pretendard", "Noto Sans KR", system-ui, sans-serif; line-height: 1.5; }
+    a { color: var(--accent); }
+    .wrap { width: min(1180px, calc(100% - 32px)); margin: 0 auto; }
+    .top { display: flex; justify-content: space-between; align-items: center; gap: 16px; padding: 18px 0; }
+    .brand { color: var(--ink); font-weight: 700; text-decoration: none; letter-spacing: .02em; }
+    .top-actions { display: flex; align-items: center; gap: 12px; font-size: 13px; }
+    select { background: var(--panel); color: var(--ink); border: 1px solid var(--line); border-radius: 8px; padding: 6px 8px; }
+    h1 { margin: 8px 0 10px; font-size: 32px; line-height: 1.2; letter-spacing: -.03em; }
+    h2 { margin: 0 0 6px; font-size: 18px; }
+    .lead { max-width: 720px; margin: 0; color: var(--muted); }
+    .meta { margin: 8px 0 0; color: var(--muted); font-size: 12px; }
+    .hero { display: grid; grid-template-columns: minmax(240px, 340px) 1fr; gap: 24px; align-items: center; padding: 8px 0 28px; }
+    .stats { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
+    .stat { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 14px 16px; }
+    .stat strong { display: block; font-size: 22px; letter-spacing: -.03em; }
+    .stat span { display: block; margin-top: 4px; color: var(--muted); font-size: 12px; }
+    .panel { background: var(--panel); border: 1px solid var(--line); border-radius: 16px; padding: 18px; }
+    .gauges { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 16px; margin-top: 12px; }
+    .gauge { padding: 8px 8px 14px; border: 1px solid var(--line); border-radius: 14px; background: var(--bg); }
+    .gauge h3 { margin: 4px 8px 0; font-size: 15px; }
+    .gauge p { margin: 0 8px; color: var(--muted); font-size: 12px; }
+    table { width: 100%; border-collapse: collapse; margin-top: 8px; font-size: 14px; }
+    th, td { padding: 10px 8px; border-bottom: 1px solid var(--line); text-align: right; }
+    th:first-child, td:first-child { text-align: left; }
+    th { color: var(--muted); font-size: 12px; font-weight: 600; }
+    footer { padding: 28px 0 40px; color: var(--muted); font-size: 12px; }
+    @media (max-width: 800px) {
+      .hero, .stats { grid-template-columns: 1fr 1fr; }
+      h1 { font-size: 26px; }
+    }
+    @media (max-width: 560px) {
+      .stats { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <nav class="top" aria-label="주요 메뉴">
+      <a class="brand" href="/strategy/">STARGATE STRATEGY</a>
+      <div class="top-actions">
+        <a href="/strategy/">← 전략 대시보드</a>
+        <select data-theme-select aria-label="디자인 테마">
+          <option value="dark">다크</option>
+          <option value="light">화이트</option>
+          <option value="ocean">오션</option>
+          <option value="mono">모노</option>
+        </select>
+      </div>
+    </nav>
+    <header>
+      <p class="meta">2026-10 · AI 토큰·한도 지도</p>
+      <h1>서비스별 한도, 반원 10개</h1>
+      <p class="lead">각 월 사용액을 그 서비스의 100%로 두었습니다. 바늘은 현재 소진 0%에 있고, 호 전체는 남은 한도입니다.</p>
+    </header>
+    <section class="hero" aria-label="전체 소진 요약">
+      <div class="panel">
+        <svg width="100%" viewBox="0 0 320 188" role="img" aria-label="서비스 10개 개별 한도 소진율. 눈금 0%에서 100%, 현재 소진 0%."><path d="M 60.0 150.0 A 100 100 0 0 1 260.0 150.0" fill="none" stroke="var(--track)" stroke-width="16" stroke-linecap="round"/><line x1="74.0" y1="150.0" x2="48.0" y2="150.0" stroke="var(--accent)" stroke-width="3" stroke-linecap="round"/><text x="34.0" y="150.0" text-anchor="middle" dominant-baseline="middle" fill="var(--accent)" font-size="11">0</text><line x1="99.2" y1="89.2" x2="80.8" y2="70.8" stroke="var(--tick)" stroke-width="1.5" stroke-linecap="round"/><text x="70.9" y="60.9" text-anchor="middle" dominant-baseline="middle" fill="var(--tick)" font-size="11">25</text><line x1="160.0" y1="64.0" x2="160.0" y2="38.0" stroke="var(--tick)" stroke-width="1.5" stroke-linecap="round"/><text x="160.0" y="24.0" text-anchor="middle" dominant-baseline="middle" fill="var(--tick)" font-size="11">50</text><line x1="220.8" y1="89.2" x2="239.2" y2="70.8" stroke="var(--tick)" stroke-width="1.5" stroke-linecap="round"/><text x="249.1" y="60.9" text-anchor="middle" dominant-baseline="middle" fill="var(--tick)" font-size="11">75</text><line x1="246.0" y1="150.0" x2="272.0" y2="150.0" stroke="var(--tick)" stroke-width="1.5" stroke-linecap="round"/><text x="286.0" y="150.0" text-anchor="middle" dominant-baseline="middle" fill="var(--tick)" font-size="11">100</text><line x1="144.0" y1="150.0" x2="68.0" y2="150.0" stroke="var(--accent)" stroke-width="3" stroke-linecap="round"/><circle cx="160" cy="150" r="4" fill="var(--accent)"/><text x="160" y="114" text-anchor="middle" fill="var(--accent)" font-size="22" font-weight="650">0%</text><text x="160" y="134" text-anchor="middle" fill="var(--muted)" font-size="11">현재 소진</text></svg>
+        <p class="meta" style="margin:0">눈금 단위: 서비스별 한도 %. 10개 바늘이 같은 0%에 있습니다.</p>
+      </div>
+      <div class="stats">
+        <article class="stat"><strong>0%</strong><span>서비스당 현재 소진</span></article>
+        <article class="stat"><strong>100%</strong><span>서비스당 남은 한도</span></article>
+        <article class="stat"><strong>₩241,065</strong><span>남은 한도 10개 합계</span></article>
+        <article class="stat"><strong>10</strong><span>반원 계기</span></article>
+      </div>
+    </section>
+    <section aria-labelledby="gauges-title">
+      <h2 id="gauges-title">서비스별 개별 한도 반원</h2>
+      <p class="meta">눈금 0–100%는 그 서비스의 월 한도입니다. 왼쪽 바늘이 현재 소진 0%입니다. 합계 대비는 10개 합계 ₩241,065 기준입니다.</p>
+      <div class="gauges">
+        <article class="gauge"><h3>Manus</h3><svg width="100%" viewBox="0 0 220 150" role="img" aria-label="Manus 개별 한도 소진율. 눈금 0%에서 100%, 현재 소진 0%."><path d="M 40.0 118.0 A 70 70 0 0 1 180.0 118.0" fill="none" stroke="var(--track)" stroke-width="12" stroke-linecap="round"/><line x1="54.0" y1="118.0" x2="28.0" y2="118.0" stroke="var(--accent)" stroke-width="3" stroke-linecap="round"/><text x="14.0" y="118.0" text-anchor="middle" dominant-baseline="middle" fill="var(--accent)" font-size="11">0</text><line x1="70.4" y1="78.4" x2="52.0" y2="60.0" stroke="var(--tick)" stroke-width="1.5" stroke-linecap="round"/><text x="42.1" y="50.1" text-anchor="middle" dominant-baseline="middle" fill="var(--tick)" font-size="11">25</text><line x1="110.0" y1="62.0" x2="110.0" y2="36.0" stroke="var(--tick)" stroke-width="1.5" stroke-linecap="round"/><text x="110.0" y="22.0" text-anchor="middle" dominant-baseline="middle" fill="var(--tick)" font-size="11">50</text><line x1="149.6" y1="78.4" x2="168.0" y2="60.0" stroke="var(--tick)" stroke-width="1.5" stroke-linecap="round"/><text x="177.9" y="50.1" text-anchor="middle" dominant-baseline="middle" fill="var(--tick)" font-size="11">75</text><line x1="166.0" y1="118.0" x2="192.0" y2="118.0" stroke="var(--tick)" stroke-width="1.5" stroke-linecap="round"/><text x="206.0" y="118.0" text-anchor="middle" dominant-baseline="middle" fill="var(--tick)" font-size="11">100</text><line x1="98.8" y1="118.0" x2="48.0" y2="118.0" stroke="var(--accent)" stroke-width="3" stroke-linecap="round"/><circle cx="110" cy="118" r="4" fill="var(--accent)"/><text x="110" y="82" text-anchor="middle" fill="var(--accent)" font-size="22" font-weight="650">0%</text><text x="110" y="102" text-anchor="middle" fill="var(--muted)" font-size="11">현재 소진</text></svg><p>사용 ₩0 · 한도 ₩49,900</p><p>합계 대비 20.7%</p></article>
+<article class="gauge"><h3>Claude</h3><svg width="100%" viewBox="0 0 220 150" role="img" aria-label="Claude 개별 한도 소진율. 눈금 0%에서 100%, 현재 소진 0%."><path d="M 40.0 118.0 A 70 70 0 0 1 180.0 118.0" fill="none" stroke="var(--track)" stroke-width="12" stroke-linecap="round"/><line x1="54.0" y1="118.0" x2="28.0" y2="118.0" stroke="var(--accent)" stroke-width="3" stroke-linecap="round"/><text x="14.0" y="118.0" text-anchor="middle" dominant-baseline="middle" fill="var(--accent)" font-size="11">0</text><line x1="70.4" y1="78.4" x2="52.0" y2="60.0" stroke="var(--tick)" stroke-width="1.5" stroke-linecap="round"/><text x="42.1" y="50.1" text-anchor="middle" dominant-baseline="middle" fill="var(--tick)" font-size="11">25</text><line x1="110.0" y1="62.0" x2="110.0" y2="36.0" stroke="var(--tick)" stroke-width="1.5" stroke-linecap="round"/><text x="110.0" y="22.0" text-anchor="middle" dominant-baseline="middle" fill="var(--tick)" font-size="11">50</text><line x1="149.6" y1="78.4" x2="168.0" y2="60.0" stroke="var(--tick)" stroke-width="1.5" stroke-linecap="round"/><text x="177.9" y="50.1" text-anchor="middle" dominant-baseline="middle" fill="var(--tick)" font-size="11">75</text><line x1="166.0" y1="118.0" x2="192.0" y2="118.0" stroke="var(--tick)" stroke-width="1.5" stroke-linecap="round"/><text x="206.0" y="118.0" text-anchor="middle" dominant-baseline="middle" fill="var(--tick)" font-size="11">100</text><line x1="98.8" y1="118.0" x2="48.0" y2="118.0" stroke="var(--accent)" stroke-width="3" stroke-linecap="round"/><circle cx="110" cy="118" r="4" fill="var(--accent)"/><text x="110" y="82" text-anchor="middle" fill="var(--accent)" font-size="22" font-weight="650">0%</text><text x="110" y="102" text-anchor="middle" fill="var(--muted)" font-size="11">현재 소진</text></svg><p>사용 ₩0 · 한도 ₩37,900</p><p>합계 대비 15.7%</p></article>
+<article class="gauge"><h3>Cursor</h3><svg width="100%" viewBox="0 0 220 150" role="img" aria-label="Cursor 개별 한도 소진율. 눈금 0%에서 100%, 현재 소진 0%."><path d="M 40.0 118.0 A 70 70 0 0 1 180.0 118.0" fill="none" stroke="var(--track)" stroke-width="12" stroke-linecap="round"/><line x1="54.0" y1="118.0" x2="28.0" y2="118.0" stroke="var(--accent)" stroke-width="3" stroke-linecap="round"/><text x="14.0" y="118.0" text-anchor="middle" dominant-baseline="middle" fill="var(--accent)" font-size="11">0</text><line x1="70.4" y1="78.4" x2="52.0" y2="60.0" stroke="var(--tick)" stroke-width="1.5" stroke-linecap="round"/><text x="42.1" y="50.1" text-anchor="middle" dominant-baseline="middle" fill="var(--tick)" font-size="11">25</text><line x1="110.0" y1="62.0" x2="110.0" y2="36.0" stroke="var(--tick)" stroke-width="1.5" stroke-linecap="round"/><text x="110.0" y="22.0" text-anchor="middle" dominant-baseline="middle" fill="var(--tick)" font-size="11">50</text><line x1="149.6" y1="78.4" x2="168.0" y2="60.0" stroke="var(--tick)" stroke-width="1.5" stroke-linecap="round"/><text x="177.9" y="50.1" text-anchor="middle" dominant-baseline="middle" fill="var(--tick)" font-size="11">75</text><line x1="166.0" y1="118.0" x2="192.0" y2="118.0" stroke="var(--tick)" stroke-width="1.5" stroke-linecap="round"/><text x="206.0" y="118.0" text-anchor="middle" dominant-baseline="middle" fill="var(--tick)" font-size="11">100</text><line x1="98.8" y1="118.0" x2="48.0" y2="118.0" stroke="var(--accent)" stroke-width="3" stroke-linecap="round"/><circle cx="110" cy="118" r="4" fill="var(--accent)"/><text x="110" y="82" text-anchor="middle" fill="var(--accent)" font-size="22" font-weight="650">0%</text><text x="110" y="102" text-anchor="middle" fill="var(--muted)" font-size="11">현재 소진</text></svg><p>사용 ₩0 · 한도 ₩30,000</p><p>합계 대비 12.4%</p></article>
+<article class="gauge"><h3>Genspark</h3><svg width="100%" viewBox="0 0 220 150" role="img" aria-label="Genspark 개별 한도 소진율. 눈금 0%에서 100%, 현재 소진 0%."><path d="M 40.0 118.0 A 70 70 0 0 1 180.0 118.0" fill="none" stroke="var(--track)" stroke-width="12" stroke-linecap="round"/><line x1="54.0" y1="118.0" x2="28.0" y2="118.0" stroke="var(--accent)" stroke-width="3" stroke-linecap="round"/><text x="14.0" y="118.0" text-anchor="middle" dominant-baseline="middle" fill="var(--accent)" font-size="11">0</text><line x1="70.4" y1="78.4" x2="52.0" y2="60.0" stroke="var(--tick)" stroke-width="1.5" stroke-linecap="round"/><text x="42.1" y="50.1" text-anchor="middle" dominant-baseline="middle" fill="var(--tick)" font-size="11">25</text><line x1="110.0" y1="62.0" x2="110.0" y2="36.0" stroke="var(--tick)" stroke-width="1.5" stroke-linecap="round"/><text x="110.0" y="22.0" text-anchor="middle" dominant-baseline="middle" fill="var(--tick)" font-size="11">50</text><line x1="149.6" y1="78.4" x2="168.0" y2="60.0" stroke="var(--tick)" stroke-width="1.5" stroke-linecap="round"/><text x="177.9" y="50.1" text-anchor="middle" dominant-baseline="middle" fill="var(--tick)" font-size="11">75</text><line x1="166.0" y1="118.0" x2="192.0" y2="118.0" stroke="var(--tick)" stroke-width="1.5" stroke-linecap="round"/><text x="206.0" y="118.0" text-anchor="middle" dominant-baseline="middle" fill="var(--tick)" font-size="11">100</text><line x1="98.8" y1="118.0" x2="48.0" y2="118.0" stroke="var(--accent)" stroke-width="3" stroke-linecap="round"/><circle cx="110" cy="118" r="4" fill="var(--accent)"/><text x="110" y="82" text-anchor="middle" fill="var(--accent)" font-size="22" font-weight="650">0%</text><text x="110" y="102" text-anchor="middle" fill="var(--muted)" font-size="11">현재 소진</text></svg><p>사용 ₩0 · 한도 ₩29,100</p><p>합계 대비 12.1%</p></article>
+<article class="gauge"><h3>ChatGPT</h3><svg width="100%" viewBox="0 0 220 150" role="img" aria-label="ChatGPT 개별 한도 소진율. 눈금 0%에서 100%, 현재 소진 0%."><path d="M 40.0 118.0 A 70 70 0 0 1 180.0 118.0" fill="none" stroke="var(--track)" stroke-width="12" stroke-linecap="round"/><line x1="54.0" y1="118.0" x2="28.0" y2="118.0" stroke="var(--accent)" stroke-width="3" stroke-linecap="round"/><text x="14.0" y="118.0" text-anchor="middle" dominant-baseline="middle" fill="var(--accent)" font-size="11">0</text><line x1="70.4" y1="78.4" x2="52.0" y2="60.0" stroke="var(--tick)" stroke-width="1.5" stroke-linecap="round"/><text x="42.1" y="50.1" text-anchor="middle" dominant-baseline="middle" fill="var(--tick)" font-size="11">25</text><line x1="110.0" y1="62.0" x2="110.0" y2="36.0" stroke="var(--tick)" stroke-width="1.5" stroke-linecap="round"/><text x="110.0" y="22.0" text-anchor="middle" dominant-baseline="middle" fill="var(--tick)" font-size="11">50</text><line x1="149.6" y1="78.4" x2="168.0" y2="60.0" stroke="var(--tick)" stroke-width="1.5" stroke-linecap="round"/><text x="177.9" y="50.1" text-anchor="middle" dominant-baseline="middle" fill="var(--tick)" font-size="11">75</text><line x1="166.0" y1="118.0" x2="192.0" y2="118.0" stroke="var(--tick)" stroke-width="1.5" stroke-linecap="round"/><text x="206.0" y="118.0" text-anchor="middle" dominant-baseline="middle" fill="var(--tick)" font-size="11">100</text><line x1="98.8" y1="118.0" x2="48.0" y2="118.0" stroke="var(--accent)" stroke-width="3" stroke-linecap="round"/><circle cx="110" cy="118" r="4" fill="var(--accent)"/><text x="110" y="82" text-anchor="middle" fill="var(--accent)" font-size="22" font-weight="650">0%</text><text x="110" y="102" text-anchor="middle" fill="var(--muted)" font-size="11">현재 소진</text></svg><p>사용 ₩0 · 한도 ₩29,000</p><p>합계 대비 12.0%</p></article>
+<article class="gauge"><h3>Kimi</h3><svg width="100%" viewBox="0 0 220 150" role="img" aria-label="Kimi 개별 한도 소진율. 눈금 0%에서 100%, 현재 소진 0%."><path d="M 40.0 118.0 A 70 70 0 0 1 180.0 118.0" fill="none" stroke="var(--track)" stroke-width="12" stroke-linecap="round"/><line x1="54.0" y1="118.0" x2="28.0" y2="118.0" stroke="var(--accent)" stroke-width="3" stroke-linecap="round"/><text x="14.0" y="118.0" text-anchor="middle" dominant-baseline="middle" fill="var(--accent)" font-size="11">0</text><line x1="70.4" y1="78.4" x2="52.0" y2="60.0" stroke="var(--tick)" stroke-width="1.5" stroke-linecap="round"/><text x="42.1" y="50.1" text-anchor="middle" dominant-baseline="middle" fill="var(--tick)" font-size="11">25</text><line x1="110.0" y1="62.0" x2="110.0" y2="36.0" stroke="var(--tick)" stroke-width="1.5" stroke-linecap="round"/><text x="110.0" y="22.0" text-anchor="middle" dominant-baseline="middle" fill="var(--tick)" font-size="11">50</text><line x1="149.6" y1="78.4" x2="168.0" y2="60.0" stroke="var(--tick)" stroke-width="1.5" stroke-linecap="round"/><text x="177.9" y="50.1" text-anchor="middle" dominant-baseline="middle" fill="var(--tick)" font-size="11">75</text><line x1="166.0" y1="118.0" x2="192.0" y2="118.0" stroke="var(--tick)" stroke-width="1.5" stroke-linecap="round"/><text x="206.0" y="118.0" text-anchor="middle" dominant-baseline="middle" fill="var(--tick)" font-size="11">100</text><line x1="98.8" y1="118.0" x2="48.0" y2="118.0" stroke="var(--accent)" stroke-width="3" stroke-linecap="round"/><circle cx="110" cy="118" r="4" fill="var(--accent)"/><text x="110" y="82" text-anchor="middle" fill="var(--accent)" font-size="22" font-weight="650">0%</text><text x="110" y="102" text-anchor="middle" fill="var(--muted)" font-size="11">현재 소진</text></svg><p>사용 ₩0 · 한도 ₩27,200</p><p>합계 대비 11.3%</p></article>
+<article class="gauge"><h3>Grok</h3><svg width="100%" viewBox="0 0 220 150" role="img" aria-label="Grok 개별 한도 소진율. 눈금 0%에서 100%, 현재 소진 0%."><path d="M 40.0 118.0 A 70 70 0 0 1 180.0 118.0" fill="none" stroke="var(--track)" stroke-width="12" stroke-linecap="round"/><line x1="54.0" y1="118.0" x2="28.0" y2="118.0" stroke="var(--accent)" stroke-width="3" stroke-linecap="round"/><text x="14.0" y="118.0" text-anchor="middle" dominant-baseline="middle" fill="var(--accent)" font-size="11">0</text><line x1="70.4" y1="78.4" x2="52.0" y2="60.0" stroke="var(--tick)" stroke-width="1.5" stroke-linecap="round"/><text x="42.1" y="50.1" text-anchor="middle" dominant-baseline="middle" fill="var(--tick)" font-size="11">25</text><line x1="110.0" y1="62.0" x2="110.0" y2="36.0" stroke="var(--tick)" stroke-width="1.5" stroke-linecap="round"/><text x="110.0" y="22.0" text-anchor="middle" dominant-baseline="middle" fill="var(--tick)" font-size="11">50</text><line x1="149.6" y1="78.4" x2="168.0" y2="60.0" stroke="var(--tick)" stroke-width="1.5" stroke-linecap="round"/><text x="177.9" y="50.1" text-anchor="middle" dominant-baseline="middle" fill="var(--tick)" font-size="11">75</text><line x1="166.0" y1="118.0" x2="192.0" y2="118.0" stroke="var(--tick)" stroke-width="1.5" stroke-linecap="round"/><text x="206.0" y="118.0" text-anchor="middle" dominant-baseline="middle" fill="var(--tick)" font-size="11">100</text><line x1="98.8" y1="118.0" x2="48.0" y2="118.0" stroke="var(--accent)" stroke-width="3" stroke-linecap="round"/><circle cx="110" cy="118" r="4" fill="var(--accent)"/><text x="110" y="82" text-anchor="middle" fill="var(--accent)" font-size="22" font-weight="650">0%</text><text x="110" y="102" text-anchor="middle" fill="var(--muted)" font-size="11">현재 소진</text></svg><p>사용 ₩0 · 한도 ₩14,300</p><p>합계 대비 5.9%</p></article>
+<article class="gauge"><h3>Perplexity</h3><svg width="100%" viewBox="0 0 220 150" role="img" aria-label="Perplexity 개별 한도 소진율. 눈금 0%에서 100%, 현재 소진 0%."><path d="M 40.0 118.0 A 70 70 0 0 1 180.0 118.0" fill="none" stroke="var(--track)" stroke-width="12" stroke-linecap="round"/><line x1="54.0" y1="118.0" x2="28.0" y2="118.0" stroke="var(--accent)" stroke-width="3" stroke-linecap="round"/><text x="14.0" y="118.0" text-anchor="middle" dominant-baseline="middle" fill="var(--accent)" font-size="11">0</text><line x1="70.4" y1="78.4" x2="52.0" y2="60.0" stroke="var(--tick)" stroke-width="1.5" stroke-linecap="round"/><text x="42.1" y="50.1" text-anchor="middle" dominant-baseline="middle" fill="var(--tick)" font-size="11">25</text><line x1="110.0" y1="62.0" x2="110.0" y2="36.0" stroke="var(--tick)" stroke-width="1.5" stroke-linecap="round"/><text x="110.0" y="22.0" text-anchor="middle" dominant-baseline="middle" fill="var(--tick)" font-size="11">50</text><line x1="149.6" y1="78.4" x2="168.0" y2="60.0" stroke="var(--tick)" stroke-width="1.5" stroke-linecap="round"/><text x="177.9" y="50.1" text-anchor="middle" dominant-baseline="middle" fill="var(--tick)" font-size="11">75</text><line x1="166.0" y1="118.0" x2="192.0" y2="118.0" stroke="var(--tick)" stroke-width="1.5" stroke-linecap="round"/><text x="206.0" y="118.0" text-anchor="middle" dominant-baseline="middle" fill="var(--tick)" font-size="11">100</text><line x1="98.8" y1="118.0" x2="48.0" y2="118.0" stroke="var(--accent)" stroke-width="3" stroke-linecap="round"/><circle cx="110" cy="118" r="4" fill="var(--accent)"/><text x="110" y="82" text-anchor="middle" fill="var(--accent)" font-size="22" font-weight="650">0%</text><text x="110" y="102" text-anchor="middle" fill="var(--muted)" font-size="11">현재 소진</text></svg><p>사용 ₩0 · 한도 ₩8,500</p><p>합계 대비 3.5%</p></article>
+<article class="gauge"><h3>Notion AI</h3><svg width="100%" viewBox="0 0 220 150" role="img" aria-label="Notion AI 개별 한도 소진율. 눈금 0%에서 100%, 현재 소진 0%."><path d="M 40.0 118.0 A 70 70 0 0 1 180.0 118.0" fill="none" stroke="var(--track)" stroke-width="12" stroke-linecap="round"/><line x1="54.0" y1="118.0" x2="28.0" y2="118.0" stroke="var(--accent)" stroke-width="3" stroke-linecap="round"/><text x="14.0" y="118.0" text-anchor="middle" dominant-baseline="middle" fill="var(--accent)" font-size="11">0</text><line x1="70.4" y1="78.4" x2="52.0" y2="60.0" stroke="var(--tick)" stroke-width="1.5" stroke-linecap="round"/><text x="42.1" y="50.1" text-anchor="middle" dominant-baseline="middle" fill="var(--tick)" font-size="11">25</text><line x1="110.0" y1="62.0" x2="110.0" y2="36.0" stroke="var(--tick)" stroke-width="1.5" stroke-linecap="round"/><text x="110.0" y="22.0" text-anchor="middle" dominant-baseline="middle" fill="var(--tick)" font-size="11">50</text><line x1="149.6" y1="78.4" x2="168.0" y2="60.0" stroke="var(--tick)" stroke-width="1.5" stroke-linecap="round"/><text x="177.9" y="50.1" text-anchor="middle" dominant-baseline="middle" fill="var(--tick)" font-size="11">75</text><line x1="166.0" y1="118.0" x2="192.0" y2="118.0" stroke="var(--tick)" stroke-width="1.5" stroke-linecap="round"/><text x="206.0" y="118.0" text-anchor="middle" dominant-baseline="middle" fill="var(--tick)" font-size="11">100</text><line x1="98.8" y1="118.0" x2="48.0" y2="118.0" stroke="var(--accent)" stroke-width="3" stroke-linecap="round"/><circle cx="110" cy="118" r="4" fill="var(--accent)"/><text x="110" y="82" text-anchor="middle" fill="var(--accent)" font-size="22" font-weight="650">0%</text><text x="110" y="102" text-anchor="middle" fill="var(--muted)" font-size="11">현재 소진</text></svg><p>사용 ₩0 · 한도 ₩7,865</p><p>합계 대비 3.3%</p></article>
+<article class="gauge"><h3>Gemini</h3><svg width="100%" viewBox="0 0 220 150" role="img" aria-label="Gemini 개별 한도 소진율. 눈금 0%에서 100%, 현재 소진 0%."><path d="M 40.0 118.0 A 70 70 0 0 1 180.0 118.0" fill="none" stroke="var(--track)" stroke-width="12" stroke-linecap="round"/><line x1="54.0" y1="118.0" x2="28.0" y2="118.0" stroke="var(--accent)" stroke-width="3" stroke-linecap="round"/><text x="14.0" y="118.0" text-anchor="middle" dominant-baseline="middle" fill="var(--accent)" font-size="11">0</text><line x1="70.4" y1="78.4" x2="52.0" y2="60.0" stroke="var(--tick)" stroke-width="1.5" stroke-linecap="round"/><text x="42.1" y="50.1" text-anchor="middle" dominant-baseline="middle" fill="var(--tick)" font-size="11">25</text><line x1="110.0" y1="62.0" x2="110.0" y2="36.0" stroke="var(--tick)" stroke-width="1.5" stroke-linecap="round"/><text x="110.0" y="22.0" text-anchor="middle" dominant-baseline="middle" fill="var(--tick)" font-size="11">50</text><line x1="149.6" y1="78.4" x2="168.0" y2="60.0" stroke="var(--tick)" stroke-width="1.5" stroke-linecap="round"/><text x="177.9" y="50.1" text-anchor="middle" dominant-baseline="middle" fill="var(--tick)" font-size="11">75</text><line x1="166.0" y1="118.0" x2="192.0" y2="118.0" stroke="var(--tick)" stroke-width="1.5" stroke-linecap="round"/><text x="206.0" y="118.0" text-anchor="middle" dominant-baseline="middle" fill="var(--tick)" font-size="11">100</text><line x1="98.8" y1="118.0" x2="48.0" y2="118.0" stroke="var(--accent)" stroke-width="3" stroke-linecap="round"/><circle cx="110" cy="118" r="4" fill="var(--accent)"/><text x="110" y="82" text-anchor="middle" fill="var(--accent)" font-size="22" font-weight="650">0%</text><text x="110" y="102" text-anchor="middle" fill="var(--muted)" font-size="11">현재 소진</text></svg><p>사용 ₩0 · 한도 ₩7,300</p><p>합계 대비 3.0%</p></article>
+      </div>
+    </section>
+    <section aria-labelledby="table-title" style="margin-top:28px">
+      <h2 id="table-title">월 한도 금액</h2>
+      <div class="panel" style="overflow-x:auto">
+        <table>
+          <caption class="meta" style="caption-side:bottom;text-align:left">출처: AI 토큰·한도 지도 (2026-10). 일 환산은 월 사용액 ÷ 30을 원 단위로 반올림한 값입니다.</caption>
+          <thead>
+            <tr>
+              <th>서비스</th><th>개별 한도</th><th>현재 소진</th><th>잔여</th><th>합계 대비</th><th>일 환산</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>Manus</td><td>₩49,900</td><td>₩0</td><td>₩49,900</td><td>20.7%</td><td>₩1,663</td></tr>
+<tr><td>Claude</td><td>₩37,900</td><td>₩0</td><td>₩37,900</td><td>15.7%</td><td>₩1,263</td></tr>
+<tr><td>Cursor</td><td>₩30,000</td><td>₩0</td><td>₩30,000</td><td>12.4%</td><td>₩1,000</td></tr>
+<tr><td>Genspark</td><td>₩29,100</td><td>₩0</td><td>₩29,100</td><td>12.1%</td><td>₩970</td></tr>
+<tr><td>ChatGPT</td><td>₩29,000</td><td>₩0</td><td>₩29,000</td><td>12.0%</td><td>₩967</td></tr>
+<tr><td>Kimi</td><td>₩27,200</td><td>₩0</td><td>₩27,200</td><td>11.3%</td><td>₩907</td></tr>
+<tr><td>Grok</td><td>₩14,300</td><td>₩0</td><td>₩14,300</td><td>5.9%</td><td>₩477</td></tr>
+<tr><td>Perplexity</td><td>₩8,500</td><td>₩0</td><td>₩8,500</td><td>3.5%</td><td>₩283</td></tr>
+<tr><td>Notion AI</td><td>₩7,865</td><td>₩0</td><td>₩7,865</td><td>3.3%</td><td>₩262</td></tr>
+<tr><td>Gemini</td><td>₩7,300</td><td>₩0</td><td>₩7,300</td><td>3.0%</td><td>₩243</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+    <footer>STARGATE · 2026 전략 대시보드 · <a href="/strategy/">전략 허브로 돌아가기</a></footer>
+  </div>
+</body>
+</html>
