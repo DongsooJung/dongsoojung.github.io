@@ -1,8 +1,9 @@
-/* Try autoplay, then use the first user gesture if the browser blocks sound. */
+/* Play only when explicitly requested with ?music=on. */
 (() => {
   const audio = document.getElementById('homepage-music');
   const hint = document.getElementById('homepage-music-hint');
   if (!audio) return;
+  if (new URLSearchParams(window.location.search).get('music') !== 'on') return;
 
   function hideHint() {
     if (hint) hint.hidden = true;
