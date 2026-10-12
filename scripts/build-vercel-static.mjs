@@ -14,7 +14,6 @@ export function isPublicFile(path) {
   const parts = normalized.split('/');
   return parts.length > 0 && !parts.some(part => !part || part === '..' || part === '.' || part.startsWith('.env'))
     && !privateRoots.has(parts[0]) && !privateFiles.has(parts.at(-1)) && !liveSnapshots.has(normalized)
-    && normalized !== 'strategy/monetization-opportunities/index.html'
     && !parts.includes('node_modules') && !/\.(pem|key|keystore|jks)$/i.test(path)
     && !parts.some(part => part.startsWith('.') && part !== '.well-known' && part !== '.nojekyll');
 }

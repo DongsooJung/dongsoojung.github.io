@@ -4,11 +4,11 @@ This is a separate Vercel project for `stargateedu.co.kr`. In project settings, 
 
 Set the following encrypted **Production** environment variables before attaching the domain:
 
-- `MONETIZATION_ALLOWED_HOST=stargateedu.co.kr`
+- `MONETIZATION_ALLOWED_HOST=stargate-private-gateway.vercel.app`
 - `MONETIZATION_PASSWORD_HASH=sha256$<base64url SHA-256 digest of a random 48-character credential>`
 - `MONETIZATION_SESSION_KEY=<at least 32 random characters, separate from the credential>`
 - `MONETIZATION_HTML_GZIP_BASE64=<gzip-compressed private HTML, encoded as base64>`
 
 The current encoded HTML environment value is about 28,400 characters. Check it together with other variables against Vercel's per-deployment environment variable size limit. Never put the raw HTML, credential, digest, signing key, or generated `public/` files in Git. The `public/` directory is ignored by `.gitignore`.
 
-After deployment, test unauthenticated and authenticated requests to both `/strategy/monetization-opportunities/` and `/api/private-monetization` on the production host. This gateway copies static pages; any existing site API endpoints need explicit migration or proxy routing before moving the entire domain. Removing the page from current GitHub Pages does not erase earlier public commits or third-party caches.
+The public GitHub Pages URL serves only a login stub. It submits the password to this gateway's `/api/private-monetization` endpoint and replaces the page in memory after an authenticated response. The canonical URL remains on GitHub Pages and a reload requires login again. The gateway accepts cross-origin reads only from `https://stargateedu.co.kr`; its direct URL also requires authentication. Test both URLs after deployment. Earlier public commits and third-party caches may still hold an older copy of the page.
