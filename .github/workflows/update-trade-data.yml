@@ -34,7 +34,7 @@ jobs:
   update:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
       - name: Mask one-off key in logs
         if: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.api_key != '' }}
