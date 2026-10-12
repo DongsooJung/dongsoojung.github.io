@@ -1,0 +1,16 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "regions": ["icn1"],
+  "buildCommand": "node build.mjs",
+  "outputDirectory": "public",
+  "rewrites": [
+    { "source": "/strategy/monetization-opportunities", "destination": "/api/private-monetization" },
+    { "source": "/strategy/monetization-opportunities/", "destination": "/api/private-monetization" },
+    { "source": "/research/airport-congestion/data/latest.json", "destination": "https://raw.githubusercontent.com/DongsooJung/dongsoojung.github.io/main/research/airport-congestion/data/latest.json" },
+    { "source": "/naver-cafe-research/data/latest.json", "destination": "https://raw.githubusercontent.com/DongsooJung/dongsoojung.github.io/main/naver-cafe-research/data/latest.json" }
+  ],
+  "redirects": [
+    { "source": "/viz-dashboard/", "destination": "/choropleth/", "statusCode": 301 },
+    { "source": "/viz-dashboard/:path*", "destination": "/choropleth/", "statusCode": 301 }
+  ]
+}

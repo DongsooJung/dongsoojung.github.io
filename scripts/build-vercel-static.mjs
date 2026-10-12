@@ -4,7 +4,7 @@ import { cpSync, existsSync, lstatSync, mkdirSync, readdirSync, rmSync } from 'n
 import { dirname, join, resolve, sep } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-const privateRoots = new Set(['api', 'server', 'scripts', 'tests', 'supabase', '.github', '.git', '.vercel', '.site-public', 'node_modules']);
+const privateRoots = new Set(['api', 'server', 'scripts', 'tests', 'supabase', 'private-gateway', '.github', '.git', '.vercel', '.site-public', 'node_modules']);
 const privateFiles = new Set(['vercel.json', 'package.json', 'package-lock.json', 'AGENTS.md']);
 // A bundled file would win Vercel's filesystem route before external rewrites.
 const liveSnapshots = new Set(['research/airport-congestion/data/latest.json', 'naver-cafe-research/data/latest.json']);
@@ -14,6 +14,7 @@ export function isPublicFile(path) {
   const parts = normalized.split('/');
   return parts.length > 0 && !parts.some(part => !part || part === '..' || part === '.' || part.startsWith('.env'))
     && !privateRoots.has(parts[0]) && !privateFiles.has(parts.at(-1)) && !liveSnapshots.has(normalized)
+    && normalized !== 'strategy/monetization-opportunities/index.html'
     && !parts.includes('node_modules') && !/\.(pem|key|keystore|jks)$/i.test(path)
     && !parts.some(part => part.startsWith('.') && part !== '.well-known' && part !== '.nojekyll');
 }
