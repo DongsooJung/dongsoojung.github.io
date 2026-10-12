@@ -60,6 +60,11 @@
     th:first-child, td:first-child { text-align: left; }
     th { color: var(--muted); font-size: 12px; font-weight: 600; }
     footer { padding: 28px 0 40px; color: var(--muted); font-size: 12px; }
+    .cal-head { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; }
+    .cal-nav { display: flex; align-items: center; gap: 8px; }
+    .cal-nav button { background: var(--panel); color: var(--ink); border: 1px solid var(--line); border-radius: 8px; padding: 6px 12px; font: inherit; cursor: pointer; }
+    .cal-nav button:disabled { opacity: .35; cursor: default; }
+    .cal-nav p { margin: 0; min-width: 8em; text-align: center; font-weight: 700; }
     .month-scroll { overflow-x: auto; }
     .month { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 8px; margin-top: 12px; min-width: 720px; }
     .dow { color: var(--muted); font-size: 12px; font-weight: 600; text-align: center; }
@@ -129,55 +134,104 @@
       </div>
     </section>
     <section aria-labelledby="cal-title" style="margin-top:28px">
-      <h2 id="cal-title">10월 결제일</h2>
-      <p class="meta">2026년 10월 1일부터 30일까지입니다. 요일은 일요일부터이고, 같은 날의 서비스는 한 칸에 함께 적습니다. 12일은 오늘입니다.</p>
-      <div class="month-scroll">
-      <div class="month" role="grid" aria-label="2026년 10월 1일부터 30일 결제일">
-        <div class="dow" role="columnheader">일</div>
-        <div class="dow" role="columnheader">월</div>
-        <div class="dow" role="columnheader">화</div>
-        <div class="dow" role="columnheader">수</div>
-        <div class="dow" role="columnheader">목</div>
-        <div class="dow" role="columnheader">금</div>
-        <div class="dow" role="columnheader">토</div>
-        <div class="day empty" role="gridcell"></div>
-        <div class="day empty" role="gridcell"></div>
-        <div class="day empty" role="gridcell"></div>
-        <div class="day empty" role="gridcell"></div>
-        <article class="day" role="gridcell" aria-label="10월 1일 목요일"><strong>1</strong></article>
-        <article class="day" role="gridcell" aria-label="10월 2일 금요일"><strong>2</strong></article>
-        <article class="day has" role="gridcell" aria-label="10월 3일 토요일, Notion AI"><strong>3</strong><ul><li>Notion AI</li></ul></article>
-        <article class="day" role="gridcell" aria-label="10월 4일 일요일"><strong>4</strong></article>
-        <article class="day" role="gridcell" aria-label="10월 5일 월요일"><strong>5</strong></article>
-        <article class="day has" role="gridcell" aria-label="10월 6일 화요일, ChatGPT"><strong>6</strong><ul><li>ChatGPT</li></ul></article>
-        <article class="day has" role="gridcell" aria-label="10월 7일 수요일, ChatGPT, Genspark"><strong>7</strong><ul><li>ChatGPT</li><li>Genspark</li></ul></article>
-        <article class="day" role="gridcell" aria-label="10월 8일 목요일"><strong>8</strong></article>
-        <article class="day" role="gridcell" aria-label="10월 9일 금요일"><strong>9</strong></article>
-        <article class="day" role="gridcell" aria-label="10월 10일 토요일"><strong>10</strong></article>
-        <article class="day" role="gridcell" aria-label="10월 11일 일요일"><strong>11</strong></article>
-        <article class="day today" role="gridcell" aria-label="10월 12일 월요일, 오늘"><strong>12</strong></article>
-        <article class="day has" role="gridcell" aria-label="10월 13일 화요일, Perplexity"><strong>13</strong><ul><li>Perplexity</li></ul></article>
-        <article class="day" role="gridcell" aria-label="10월 14일 수요일"><strong>14</strong></article>
-        <article class="day" role="gridcell" aria-label="10월 15일 목요일"><strong>15</strong></article>
-        <article class="day" role="gridcell" aria-label="10월 16일 금요일"><strong>16</strong></article>
-        <article class="day" role="gridcell" aria-label="10월 17일 토요일"><strong>17</strong></article>
-        <article class="day" role="gridcell" aria-label="10월 18일 일요일"><strong>18</strong></article>
-        <article class="day" role="gridcell" aria-label="10월 19일 월요일"><strong>19</strong></article>
-        <article class="day has" role="gridcell" aria-label="10월 20일 화요일, Claude, Cursor"><strong>20</strong><ul><li>Claude</li><li>Cursor</li></ul></article>
-        <article class="day has" role="gridcell" aria-label="10월 21일 수요일, Gemini"><strong>21</strong><ul><li>Gemini</li></ul></article>
-        <article class="day" role="gridcell" aria-label="10월 22일 목요일"><strong>22</strong></article>
-        <article class="day" role="gridcell" aria-label="10월 23일 금요일"><strong>23</strong></article>
-        <article class="day has" role="gridcell" aria-label="10월 24일 토요일, Grok"><strong>24</strong><ul><li>Grok</li></ul></article>
-        <article class="day" role="gridcell" aria-label="10월 25일 일요일"><strong>25</strong></article>
-        <article class="day" role="gridcell" aria-label="10월 26일 월요일"><strong>26</strong></article>
-        <article class="day has" role="gridcell" aria-label="10월 27일 화요일, Manus"><strong>27</strong><ul><li>Manus</li></ul></article>
-        <article class="day" role="gridcell" aria-label="10월 28일 수요일"><strong>28</strong></article>
-        <article class="day" role="gridcell" aria-label="10월 29일 목요일"><strong>29</strong></article>
-        <article class="day has" role="gridcell" aria-label="10월 30일 금요일, Kimi"><strong>30</strong><ul><li>Kimi</li></ul></article>
-        <div class="day empty" role="gridcell"></div>
+      <div class="cal-head">
+        <h2 id="cal-title">2026년 결제일</h2>
+        <div class="cal-nav">
+          <button type="button" id="cal-prev">이전 달</button>
+          <p id="cal-label" aria-live="polite">2026년 10월</p>
+          <button type="button" id="cal-next">다음 달</button>
+        </div>
       </div>
+      <p class="meta">2026년 1월부터 12월까지입니다. 달을 바꾸면 그달 1일의 요일에 맞춰 칸이 이동합니다. 같은 날의 서비스는 한 칸에 함께 적습니다.</p>
+      <div class="month-scroll">
+        <div class="month" id="cal-grid" role="grid" aria-label="2026년 결제일"></div>
       </div>
     </section>
+    <script>
+      (function () {
+        var services = {
+          3: ["Notion AI"],
+          6: ["ChatGPT"],
+          7: ["ChatGPT", "Genspark"],
+          13: ["Perplexity"],
+          20: ["Claude", "Cursor"],
+          21: ["Gemini"],
+          24: ["Grok"],
+          27: ["Manus"],
+          30: ["Kimi"]
+        };
+        var weekdays = ["일", "월", "화", "수", "목", "금", "토"];
+        var weekdayNames = ["일요일", "월요일", "화요일", "수요일", "목요일", "금요일", "토요일"];
+        var year = 2026;
+        var now = new Date();
+        var today = now.getFullYear() === year ? { m: now.getMonth(), d: now.getDate() } : null;
+        var month = today ? today.m : 9;
+        var grid = document.getElementById("cal-grid");
+        var label = document.getElementById("cal-label");
+        var prev = document.getElementById("cal-prev");
+        var next = document.getElementById("cal-next");
+
+        function emptyCell() {
+          var cell = document.createElement("div");
+          cell.className = "day empty";
+          cell.setAttribute("role", "gridcell");
+          return cell;
+        }
+
+        function render() {
+          var firstDow = new Date(year, month, 1).getDay();
+          var count = new Date(year, month + 1, 0).getDate();
+          var trailing = (7 - ((firstDow + count) % 7)) % 7;
+          grid.replaceChildren();
+          grid.setAttribute("aria-label", year + "년 " + (month + 1) + "월 결제일");
+          weekdays.forEach(function (name) {
+            var head = document.createElement("div");
+            head.className = "dow";
+            head.setAttribute("role", "columnheader");
+            head.textContent = name;
+            grid.appendChild(head);
+          });
+          for (var i = 0; i < firstDow; i++) grid.appendChild(emptyCell());
+          for (var day = 1; day <= count; day++) {
+            var names = services[day] || [];
+            var dow = new Date(year, month, day).getDay();
+            var isToday = today && today.m === month && today.d === day;
+            var article = document.createElement("article");
+            article.className = "day" + (names.length ? " has" : "") + (isToday ? " today" : "");
+            article.setAttribute("role", "gridcell");
+            var aria = (month + 1) + "월 " + day + "일 " + weekdayNames[dow];
+            if (isToday) aria += ", 오늘";
+            if (names.length) aria += ", " + names.join(", ");
+            article.setAttribute("aria-label", aria);
+            var strong = document.createElement("strong");
+            strong.textContent = String(day);
+            article.appendChild(strong);
+            if (names.length) {
+              var list = document.createElement("ul");
+              names.forEach(function (name) {
+                var item = document.createElement("li");
+                item.textContent = name;
+                list.appendChild(item);
+              });
+              article.appendChild(list);
+            }
+            grid.appendChild(article);
+          }
+          for (var t = 0; t < trailing; t++) grid.appendChild(emptyCell());
+          label.textContent = year + "년 " + (month + 1) + "월";
+          prev.disabled = month === 0;
+          next.disabled = month === 11;
+        }
+
+        prev.addEventListener("click", function () {
+          if (month > 0) { month -= 1; render(); }
+        });
+        next.addEventListener("click", function () {
+          if (month < 11) { month += 1; render(); }
+        });
+        render();
+      })();
+    </script>
     <section aria-labelledby="table-title" style="margin-top:28px">
       <h2 id="table-title">월 한도 금액</h2>
       <div class="panel" style="overflow-x:auto">
