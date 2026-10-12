@@ -60,12 +60,23 @@
     th:first-child, td:first-child { text-align: left; }
     th { color: var(--muted); font-size: 12px; font-weight: 600; }
     footer { padding: 28px 0 40px; color: var(--muted); font-size: 12px; }
+    .month { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 8px; margin-top: 12px; }
+    .dow { color: var(--muted); font-size: 12px; font-weight: 600; text-align: center; }
+    .day { min-height: 84px; border: 1px solid var(--line); border-radius: 12px; background: var(--panel); padding: 8px; }
+    .day.empty { min-height: 0; background: transparent; border-color: transparent; }
+    .day strong { display: block; font-size: 13px; }
+    .day.has { border-color: var(--accent); }
+    .day.today strong { color: var(--accent); }
+    .day ul { margin: 6px 0 0; padding: 0; list-style: none; }
+    .day li { color: var(--ink); font-size: 12px; line-height: 1.35; overflow-wrap: anywhere; }
     @media (max-width: 800px) {
       .hero, .stats { grid-template-columns: 1fr 1fr; }
       h1 { font-size: 26px; }
     }
     @media (max-width: 560px) {
       .stats { grid-template-columns: 1fr; }
+      .day { min-height: 68px; padding: 6px; }
+      .day li { font-size: 11px; }
     }
   </style>
 </head>
@@ -114,6 +125,54 @@
 <article class="gauge"><h3>Perplexity</h3><svg width="100%" viewBox="0 0 220 150" role="img" aria-label="Perplexity 개별 한도 소진율. 눈금 0%에서 100%, 현재 소진 0%, 결제일 13일."><path d="M 40.0 118.0 A 70 70 0 0 1 180.0 118.0" fill="none" stroke="var(--track)" stroke-width="12" stroke-linecap="round"/><line x1="54.0" y1="118.0" x2="28.0" y2="118.0" stroke="var(--accent)" stroke-width="3" stroke-linecap="round"/><text x="14.0" y="118.0" text-anchor="middle" dominant-baseline="middle" fill="var(--accent)" font-size="11">0</text><line x1="70.4" y1="78.4" x2="52.0" y2="60.0" stroke="var(--tick)" stroke-width="1.5" stroke-linecap="round"/><text x="42.1" y="50.1" text-anchor="middle" dominant-baseline="middle" fill="var(--tick)" font-size="11">25</text><line x1="110.0" y1="62.0" x2="110.0" y2="36.0" stroke="var(--tick)" stroke-width="1.5" stroke-linecap="round"/><text x="110.0" y="22.0" text-anchor="middle" dominant-baseline="middle" fill="var(--tick)" font-size="11">50</text><line x1="149.6" y1="78.4" x2="168.0" y2="60.0" stroke="var(--tick)" stroke-width="1.5" stroke-linecap="round"/><text x="177.9" y="50.1" text-anchor="middle" dominant-baseline="middle" fill="var(--tick)" font-size="11">75</text><line x1="166.0" y1="118.0" x2="192.0" y2="118.0" stroke="var(--tick)" stroke-width="1.5" stroke-linecap="round"/><text x="206.0" y="118.0" text-anchor="middle" dominant-baseline="middle" fill="var(--tick)" font-size="11">100</text><line x1="98.8" y1="118.0" x2="48.0" y2="118.0" stroke="var(--accent)" stroke-width="3" stroke-linecap="round"/><circle cx="110" cy="118" r="4" fill="var(--accent)"/><text x="110" y="82" text-anchor="middle" fill="var(--accent)" font-size="22" font-weight="650">0%</text><text x="110" y="102" text-anchor="middle" fill="var(--muted)" font-size="11">현재 소진</text><text x="110" y="140" text-anchor="middle" fill="var(--ink)" font-size="12" font-weight="650">13일</text></svg><p>사용 ₩0 · 한도 ₩8,500</p><p>합계 대비 3.5%</p><p>결제일 13일</p></article>
 <article class="gauge"><h3>Notion AI</h3><svg width="100%" viewBox="0 0 220 150" role="img" aria-label="Notion AI 개별 한도 소진율. 눈금 0%에서 100%, 현재 소진 0%, 결제일 3일."><path d="M 40.0 118.0 A 70 70 0 0 1 180.0 118.0" fill="none" stroke="var(--track)" stroke-width="12" stroke-linecap="round"/><line x1="54.0" y1="118.0" x2="28.0" y2="118.0" stroke="var(--accent)" stroke-width="3" stroke-linecap="round"/><text x="14.0" y="118.0" text-anchor="middle" dominant-baseline="middle" fill="var(--accent)" font-size="11">0</text><line x1="70.4" y1="78.4" x2="52.0" y2="60.0" stroke="var(--tick)" stroke-width="1.5" stroke-linecap="round"/><text x="42.1" y="50.1" text-anchor="middle" dominant-baseline="middle" fill="var(--tick)" font-size="11">25</text><line x1="110.0" y1="62.0" x2="110.0" y2="36.0" stroke="var(--tick)" stroke-width="1.5" stroke-linecap="round"/><text x="110.0" y="22.0" text-anchor="middle" dominant-baseline="middle" fill="var(--tick)" font-size="11">50</text><line x1="149.6" y1="78.4" x2="168.0" y2="60.0" stroke="var(--tick)" stroke-width="1.5" stroke-linecap="round"/><text x="177.9" y="50.1" text-anchor="middle" dominant-baseline="middle" fill="var(--tick)" font-size="11">75</text><line x1="166.0" y1="118.0" x2="192.0" y2="118.0" stroke="var(--tick)" stroke-width="1.5" stroke-linecap="round"/><text x="206.0" y="118.0" text-anchor="middle" dominant-baseline="middle" fill="var(--tick)" font-size="11">100</text><line x1="98.8" y1="118.0" x2="48.0" y2="118.0" stroke="var(--accent)" stroke-width="3" stroke-linecap="round"/><circle cx="110" cy="118" r="4" fill="var(--accent)"/><text x="110" y="82" text-anchor="middle" fill="var(--accent)" font-size="22" font-weight="650">0%</text><text x="110" y="102" text-anchor="middle" fill="var(--muted)" font-size="11">현재 소진</text><text x="110" y="140" text-anchor="middle" fill="var(--ink)" font-size="12" font-weight="650">3일</text></svg><p>사용 ₩0 · 한도 ₩7,865</p><p>합계 대비 3.3%</p><p>결제일 3일</p></article>
 <article class="gauge"><h3>Gemini</h3><svg width="100%" viewBox="0 0 220 150" role="img" aria-label="Gemini 개별 한도 소진율. 눈금 0%에서 100%, 현재 소진 0%, 결제일 21일."><path d="M 40.0 118.0 A 70 70 0 0 1 180.0 118.0" fill="none" stroke="var(--track)" stroke-width="12" stroke-linecap="round"/><line x1="54.0" y1="118.0" x2="28.0" y2="118.0" stroke="var(--accent)" stroke-width="3" stroke-linecap="round"/><text x="14.0" y="118.0" text-anchor="middle" dominant-baseline="middle" fill="var(--accent)" font-size="11">0</text><line x1="70.4" y1="78.4" x2="52.0" y2="60.0" stroke="var(--tick)" stroke-width="1.5" stroke-linecap="round"/><text x="42.1" y="50.1" text-anchor="middle" dominant-baseline="middle" fill="var(--tick)" font-size="11">25</text><line x1="110.0" y1="62.0" x2="110.0" y2="36.0" stroke="var(--tick)" stroke-width="1.5" stroke-linecap="round"/><text x="110.0" y="22.0" text-anchor="middle" dominant-baseline="middle" fill="var(--tick)" font-size="11">50</text><line x1="149.6" y1="78.4" x2="168.0" y2="60.0" stroke="var(--tick)" stroke-width="1.5" stroke-linecap="round"/><text x="177.9" y="50.1" text-anchor="middle" dominant-baseline="middle" fill="var(--tick)" font-size="11">75</text><line x1="166.0" y1="118.0" x2="192.0" y2="118.0" stroke="var(--tick)" stroke-width="1.5" stroke-linecap="round"/><text x="206.0" y="118.0" text-anchor="middle" dominant-baseline="middle" fill="var(--tick)" font-size="11">100</text><line x1="98.8" y1="118.0" x2="48.0" y2="118.0" stroke="var(--accent)" stroke-width="3" stroke-linecap="round"/><circle cx="110" cy="118" r="4" fill="var(--accent)"/><text x="110" y="82" text-anchor="middle" fill="var(--accent)" font-size="22" font-weight="650">0%</text><text x="110" y="102" text-anchor="middle" fill="var(--muted)" font-size="11">현재 소진</text><text x="110" y="140" text-anchor="middle" fill="var(--ink)" font-size="12" font-weight="650">21일</text></svg><p>사용 ₩0 · 한도 ₩7,300</p><p>합계 대비 3.0%</p><p>결제일 21일</p></article>
+      </div>
+    </section>
+    <section aria-labelledby="cal-title" style="margin-top:28px">
+      <h2 id="cal-title">10월 결제일</h2>
+      <p class="meta">2026년 10월 1일부터 30일까지입니다. 요일은 일요일부터이고, 같은 날의 서비스는 한 칸에 함께 적습니다. 12일은 오늘입니다.</p>
+      <div class="month" role="grid" aria-label="2026년 10월 1일부터 30일 결제일">
+        <div class="dow" role="columnheader">일</div>
+        <div class="dow" role="columnheader">월</div>
+        <div class="dow" role="columnheader">화</div>
+        <div class="dow" role="columnheader">수</div>
+        <div class="dow" role="columnheader">목</div>
+        <div class="dow" role="columnheader">금</div>
+        <div class="dow" role="columnheader">토</div>
+        <div class="day empty" role="gridcell"></div>
+        <div class="day empty" role="gridcell"></div>
+        <div class="day empty" role="gridcell"></div>
+        <div class="day empty" role="gridcell"></div>
+        <article class="day" role="gridcell" aria-label="10월 1일 목요일"><strong>1</strong></article>
+        <article class="day" role="gridcell" aria-label="10월 2일 금요일"><strong>2</strong></article>
+        <article class="day has" role="gridcell" aria-label="10월 3일 토요일, Notion AI"><strong>3</strong><ul><li>Notion AI</li></ul></article>
+        <article class="day" role="gridcell" aria-label="10월 4일 일요일"><strong>4</strong></article>
+        <article class="day" role="gridcell" aria-label="10월 5일 월요일"><strong>5</strong></article>
+        <article class="day has" role="gridcell" aria-label="10월 6일 화요일, ChatGPT"><strong>6</strong><ul><li>ChatGPT</li></ul></article>
+        <article class="day has" role="gridcell" aria-label="10월 7일 수요일, ChatGPT, Genspark"><strong>7</strong><ul><li>ChatGPT</li><li>Genspark</li></ul></article>
+        <article class="day" role="gridcell" aria-label="10월 8일 목요일"><strong>8</strong></article>
+        <article class="day" role="gridcell" aria-label="10월 9일 금요일"><strong>9</strong></article>
+        <article class="day" role="gridcell" aria-label="10월 10일 토요일"><strong>10</strong></article>
+        <article class="day" role="gridcell" aria-label="10월 11일 일요일"><strong>11</strong></article>
+        <article class="day today" role="gridcell" aria-label="10월 12일 월요일, 오늘"><strong>12</strong></article>
+        <article class="day has" role="gridcell" aria-label="10월 13일 화요일, Perplexity"><strong>13</strong><ul><li>Perplexity</li></ul></article>
+        <article class="day" role="gridcell" aria-label="10월 14일 수요일"><strong>14</strong></article>
+        <article class="day" role="gridcell" aria-label="10월 15일 목요일"><strong>15</strong></article>
+        <article class="day" role="gridcell" aria-label="10월 16일 금요일"><strong>16</strong></article>
+        <article class="day" role="gridcell" aria-label="10월 17일 토요일"><strong>17</strong></article>
+        <article class="day" role="gridcell" aria-label="10월 18일 일요일"><strong>18</strong></article>
+        <article class="day" role="gridcell" aria-label="10월 19일 월요일"><strong>19</strong></article>
+        <article class="day has" role="gridcell" aria-label="10월 20일 화요일, Claude, Cursor"><strong>20</strong><ul><li>Claude</li><li>Cursor</li></ul></article>
+        <article class="day has" role="gridcell" aria-label="10월 21일 수요일, Gemini"><strong>21</strong><ul><li>Gemini</li></ul></article>
+        <article class="day" role="gridcell" aria-label="10월 22일 목요일"><strong>22</strong></article>
+        <article class="day" role="gridcell" aria-label="10월 23일 금요일"><strong>23</strong></article>
+        <article class="day has" role="gridcell" aria-label="10월 24일 토요일, Grok"><strong>24</strong><ul><li>Grok</li></ul></article>
+        <article class="day" role="gridcell" aria-label="10월 25일 일요일"><strong>25</strong></article>
+        <article class="day" role="gridcell" aria-label="10월 26일 월요일"><strong>26</strong></article>
+        <article class="day has" role="gridcell" aria-label="10월 27일 화요일, Manus"><strong>27</strong><ul><li>Manus</li></ul></article>
+        <article class="day" role="gridcell" aria-label="10월 28일 수요일"><strong>28</strong></article>
+        <article class="day" role="gridcell" aria-label="10월 29일 목요일"><strong>29</strong></article>
+        <article class="day has" role="gridcell" aria-label="10월 30일 금요일, Kimi"><strong>30</strong><ul><li>Kimi</li></ul></article>
+        <div class="day empty" role="gridcell"></div>
       </div>
     </section>
     <section aria-labelledby="table-title" style="margin-top:28px">
