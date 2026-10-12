@@ -23,7 +23,7 @@ jobs:
     runs-on: ubuntu-latest
     environment: Production
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
       - name: Install workbook parser
         run: python -m pip install --disable-pip-version-check openpyxl==3.1.5
