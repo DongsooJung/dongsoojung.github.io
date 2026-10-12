@@ -1,5 +1,5 @@
 {
-  "checked_at_kst": "2026-10-11T15:06:45+09:00",
+  "checked_at_kst": "2026-10-12T15:16:18+09:00",
   "filters": {
     "max_deposit_manwon": 1000,
     "max_rent_manwon": 100,
@@ -8,7 +8,7 @@
   "source_mode": "public-listings",
   "crawl": {
     "visited_urls": 70,
-    "successful_pages": 61,
+    "successful_pages": 62,
     "max_pages": 70
   },
   "baseline": [
@@ -27,6 +27,29 @@
   ],
   "candidates": [
     {
+      "id": "4697552",
+      "url": "https://realty.daangn.com/articles/4697552",
+      "district": "동구",
+      "dong": "",
+      "deposit": 500,
+      "rent": 30,
+      "rooms": 2,
+      "area_m2": 46.2,
+      "building_type": "단독주택",
+      "freshness_days": 0,
+      "title": "범일동 14평 직거래 빌라(투룸 이상) 월세 500 / 30만원",
+      "legal_risk": "상대적으로 낮음",
+      "host_claim": false,
+      "score": 88,
+      "reasons": [
+        "낮은 월세",
+        "낮은 보증금",
+        "주택용도",
+        "최근 등록"
+      ],
+      "is_new": true
+    },
+    {
       "id": "1198391",
       "url": "https://realty.daangn.com/articles/1198391",
       "district": "영도구",
@@ -36,7 +59,7 @@
       "rooms": 3,
       "area_m2": null,
       "building_type": "단독주택",
-      "freshness_days": 13,
+      "freshness_days": 14,
       "title": "동삼동 직거래 빌라(투룸 이상) 월세 900 / 45만원",
       "legal_risk": "상대적으로 낮음",
       "host_claim": false,
@@ -50,47 +73,26 @@
       "is_new": false
     },
     {
-      "id": "4222287",
-      "url": "https://realty.daangn.com/articles/4222287",
+      "id": "4692826",
+      "url": "https://realty.daangn.com/articles/4692826",
       "district": "영도구",
       "dong": "",
-      "deposit": 500,
-      "rent": 25,
+      "deposit": 1000,
+      "rent": 45,
       "rooms": 2,
-      "area_m2": 42.9,
+      "area_m2": 66.1,
       "building_type": "단독주택",
-      "freshness_days": 60,
-      "title": "청학동 13평 직거래 빌라(투룸 이상) 월세 500 / 25만원",
+      "freshness_days": 0,
+      "title": "동삼동 20평 직거래 빌라(투룸 이상) 월세 1,000 / 45만원",
       "legal_risk": "상대적으로 낮음",
       "host_claim": false,
       "score": 79,
       "reasons": [
         "낮은 월세",
-        "낮은 보증금",
-        "주택용도"
+        "주택용도",
+        "최근 등록"
       ],
-      "is_new": false
-    },
-    {
-      "id": "4526601",
-      "url": "https://realty.daangn.com/articles/4526601",
-      "district": "영도구",
-      "dong": "",
-      "deposit": 1000,
-      "rent": 20,
-      "rooms": 2,
-      "area_m2": 66.2,
-      "building_type": "단독주택",
-      "freshness_days": 22,
-      "title": "신선동2가 20평 직거래 빌라(투룸 이상) 월세 1,000 / 20만원",
-      "legal_risk": "상대적으로 낮음",
-      "host_claim": false,
-      "score": 78,
-      "reasons": [
-        "낮은 월세",
-        "주택용도"
-      ],
-      "is_new": false
+      "is_new": true
     },
     {
       "id": "3207454",
@@ -102,7 +104,7 @@
       "rooms": 2,
       "area_m2": 49.5,
       "building_type": "공동주택",
-      "freshness_days": 14,
+      "freshness_days": 15,
       "title": "범일동 15평 직거래 빌라(투룸 이상) 월세 200 / 20만원",
       "legal_risk": "중간",
       "host_claim": false,
@@ -123,7 +125,7 @@
       "rooms": 2,
       "area_m2": 66.1,
       "building_type": "단독주택",
-      "freshness_days": 5,
+      "freshness_days": 6,
       "title": "신선동2가 20평 직거래 빌라(투룸 이상) 월세 1,000 / 40만원",
       "legal_risk": "상대적으로 낮음",
       "host_claim": false,
@@ -145,7 +147,7 @@
       "rooms": 3,
       "area_m2": 74.1,
       "building_type": "단독주택",
-      "freshness_days": 27,
+      "freshness_days": 28,
       "title": "기장읍 22평 단독/전원주택 월세 1,000 / 50만원",
       "legal_risk": "상대적으로 낮음",
       "host_claim": false,
@@ -167,7 +169,7 @@
       "rooms": 3,
       "area_m2": 69.0,
       "building_type": "공동주택",
-      "freshness_days": 2,
+      "freshness_days": 3,
       "title": "동삼동 21평 빌라(투룸 이상) 월세 1,000 / 45만원",
       "legal_risk": "중간",
       "host_claim": false,
@@ -189,7 +191,7 @@
       "rooms": 3,
       "area_m2": 74.32,
       "building_type": "공동주택",
-      "freshness_days": 27,
+      "freshness_days": 28,
       "title": "동삼동 22평 빌라(투룸 이상) 월세 1,000 / 35만원",
       "legal_risk": "중간",
       "host_claim": false,
@@ -210,7 +212,7 @@
       "rooms": 2,
       "area_m2": 72.42,
       "building_type": "단독주택",
-      "freshness_days": 22,
+      "freshness_days": 23,
       "title": "기장읍 22평 단독/전원주택 월세 1,000 / 60만원",
       "legal_risk": "상대적으로 낮음",
       "host_claim": false,
@@ -251,7 +253,7 @@
       "rooms": 2,
       "area_m2": 750.74,
       "building_type": "공동주택",
-      "freshness_days": 11,
+      "freshness_days": 12,
       "title": "초량동 14평 빌라(투룸 이상) 월세 500 / 75만원",
       "legal_risk": "중간",
       "host_claim": false,
