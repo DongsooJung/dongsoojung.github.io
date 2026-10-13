@@ -150,8 +150,8 @@ def fetch_month(service_key, ym):
 def main():
     service_key = os.environ.get("CUSTOMS_API_KEY", "").strip()
     if not service_key:
-        print("CUSTOMS_API_KEY 미설정 — 시드 데이터를 유지하고 종료합니다.")
-        return 0
+        print("CUSTOMS_API_KEY 미설정 — 무역 수집을 실행할 수 없습니다.", file=sys.stderr)
+        return 1
 
     data = json.loads(DATA_PATH.read_text(encoding="utf-8"))
     by_ym = {row["ym"]: row for row in data["series"]}
@@ -173,6 +173,7 @@ def main():
     print(f"수집 범위: {start_ym[0]:04d}-{start_ym[1]:02d} ~ {end[0]:04d}-{end[1]:02d} "
           f"(최근 {RECENT_MONTHS}개월·결측·approx만 재수집)", file=sys.stderr)
     updated = 0
+    failures = 0
     for y, m in month_iter(start_ym, end):
         ym_dash = f"{y:04d}-{m:02d}"
         existing = by_ym.get(ym_dash)
@@ -185,6 +186,7 @@ def main():
             result = fetch_month(service_key, f"{y:04d}{m:02d}")
         except Exception as exc:  # 개별 월 실패는 건너뛰고 계속
             print(f"  ! {ym_dash} 실패: {exc}", file=sys.stderr)
+            failures += 1
             time.sleep(0.3)
             continue
         if result is None:
@@ -199,7 +201,7 @@ def main():
     if not updated:
         # 갱신된 월이 없으면 updatedAt만 바뀐 무의미한 커밋을 만들지 않는다
         print("완료: 갱신된 월 없음 — 파일을 수정하지 않습니다.")
-        return 0
+        return 1 if failures else 0
 
     series = sorted(by_ym.values(), key=lambda r: r["ym"])
     data["series"] = series
