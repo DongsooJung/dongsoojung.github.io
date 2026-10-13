@@ -417,23 +417,12 @@ body.portal-dashboard-mode #personal-projects{margin-top:14px}
 <style>
 .homepage-music-hint[hidden]{display:none!important}
 .homepage-music-hint{position:fixed;z-index:9999;right:16px;bottom:16px;margin:0;padding:9px 13px;border:1px solid var(--line2);border-radius:10px;background:var(--panel);color:var(--ink);box-shadow:0 8px 24px rgba(0,0,0,.2);font-size:12px;line-height:1.4;pointer-events:none}
-.chuseok-notice[hidden]{display:none!important}
-.chuseok-notice{position:fixed;z-index:10000;top:12px;left:50%;width:min(900px,calc(100vw - 24px));transform:translateX(-50%);zoom:.7142857143;border:1px solid #b89a62;border-radius:12px;overflow:hidden;background:#101722;box-shadow:0 18px 60px rgba(0,0,0,.65);transition:opacity .25s ease}
-.chuseok-notice.is-closing{opacity:0;pointer-events:none}
-.chuseok-notice img{display:block;width:100%;height:auto;max-height:calc(100dvh - 24px);object-fit:contain}
-.chuseok-notice button{position:absolute;top:10px;right:10px;width:36px;height:36px;border:1px solid rgba(255,255,255,.7);border-radius:50%;background:rgba(9,15,26,.85);color:#fff;font:24px/1 sans-serif;cursor:pointer}
-.chuseok-notice button:focus-visible{outline:3px solid #fff;outline-offset:2px}
-@media (prefers-reduced-motion:reduce){.chuseok-notice{transition:none}}
 </style>
 
 <meta property="og:image" content="https://stargateedu.co.kr/assets/og/research.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630"></head>
 <body>
-<aside class="chuseok-notice" id="chuseok-notice" aria-label="2026년 추석 인사" hidden>
-  <img src="/assets/chuseok-2026-greeting.jpg" alt="주식회사 별의문, 스타게이트 회원 여러분. 풍성하고 따뜻한 한가위 되시기를 바랍니다. 2026 추석" width="1168" height="784">
-  <button type="button" aria-label="추석 인사 닫기">&times;</button>
-</aside>
 
 <div class="wrap">
 
@@ -1142,27 +1131,15 @@ body.portal-dashboard-mode #personal-projects{margin-top:14px}
   </section>
 
   <section class="sec" id="travel-spots" aria-labelledby="travel-spots-title">
-    <h2 id="travel-spots-title">여행 추천 명소</h2>
-    <div class="desc">스타게이트가 추천하는 국내 나들이 장소입니다.</div>
-    <div style="display:flex;flex-wrap:wrap;gap:18px">
-    <a class="hub-card research" style="flex:1 1 300px;min-height:190px" href="/busan-guide/">
-      <div class="hub-kicker">BUSAN · COAST & COFFEE</div><h3>부산 요즘 핫플 여행 가이드</h3>
-      <p>광안리 드론쇼·밀락더마켓, 전포 카페골목, 영도 커피·미디어아트와 청사포 스카이캡슐. 추천 6곳과 1박 2일 동선입니다.</p>
-      <div class="hub-meta"><span>2026년 10월 확인 · 한·영 안내</span><b>가이드 읽기</b></div>
+    <h2 id="travel-spots-title">라이프·여행</h2>
+    <div class="desc">스타게이트가 직접 정리한 국내 여행·생활권 가이드는 전용 페이지에서 확인할 수 있습니다.</div>
+    <a class="hub-card research" style="min-height:190px" href="/travel/">
+      <div class="hub-kicker">LIFE · TRAVEL GUIDES</div>
+      <h3>스타게이트 여행 가이드</h3>
+      <p>부산 핫플, 강남 생활권, 양평 두물머리 등 검증한 이동 동선과 방문 정보를 한곳에 모았습니다.</p>
+      <div class="hub-meta"><span>국내 여행 · 생활권 · 한·영 안내</span><b>여행 페이지 보기 →</b></div>
     </a>
-    <a class="hub-card research" style="flex:1 1 300px;min-height:190px" href="/gangnam-guide/">
-      <div class="hub-kicker">SEOUL · GANGNAM</div><h3>강남 생활권 가이드</h3>
-      <p>대치·선정릉·봉은사·코엑스 하루 동선과 인천공항 철도 이동. 한·영 안내와 공식 출처를 제공합니다.</p>
-      <div class="hub-meta"><span>생활권 여행 · 숙소와 연결</span><b>가이드 읽기</b></div>
-    </a>
-    <a class="hub-card research" style="flex:1 1 300px;min-height:190px" href="/dumulmeori/">
-      <div class="hub-kicker">GYEONGGI · YANGPYEONG</div><h3>양평 두물머리 당일 여행</h3>
-      <p>북한강과 남한강이 만나는 강변 명소. 양수역 경유 이동·도보·일출 방문 준비를 한·영으로 정리했습니다.</p>
-      <div class="hub-meta"><span>경의중앙선 양수역 · 강변 산책</span><b>가이드 읽기</b></div>
-    </a>
-    </div>
   </section>
-
 
   <footer>
     <span>© 2026 Dongsoo Jung · Stargate Corporation</span>
@@ -1177,29 +1154,6 @@ body.portal-dashboard-mode #personal-projects{margin-top:14px}
 </div>
 <script src="/assets/personal-projects.js?v=20261009-kakao-toggle"></script>
 <script>
-(() => {
-  const notice = document.getElementById('chuseok-notice');
-  const parts = new Intl.DateTimeFormat('en-US', {timeZone:'Asia/Seoul',year:'numeric',month:'2-digit',day:'2-digit'}).formatToParts(new Date());
-  const date = Object.fromEntries(parts.map(({type,value}) => [type,value]));
-  const kstDate = date.year + '-' + date.month + '-' + date.day;
-  if (kstDate < '2026-09-24' || kstDate > '2026-09-27') return;
-  const image = notice.querySelector('img');
-  let timer;
-  const close = () => {
-    clearTimeout(timer);
-    notice.classList.add('is-closing');
-    setTimeout(() => { notice.hidden = true; }, 250);
-  };
-  const show = () => {
-    if (!image.naturalWidth) return;
-    notice.hidden = false;
-    timer = setTimeout(close, 5000);
-  };
-  notice.querySelector('button').addEventListener('click', close);
-  if (image.complete) show();
-  else image.addEventListener('load', show, {once:true});
-})();
-
 (() => {
   const key = 'stargate-theme';
   const themes = ['dark', 'light', 'ocean', 'mono'];
