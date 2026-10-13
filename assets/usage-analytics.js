@@ -33,6 +33,7 @@
   let lastClick = { key: '', at: 0 };
   let usageReadyResolve;
   const usageReady = new Promise((resolve) => { usageReadyResolve = resolve; });
+  const loadState = { views: 'loading', clicks: 'loading' };
 
   function uuid() {
     if (globalThis.crypto?.randomUUID) return globalThis.crypto.randomUUID();
@@ -251,9 +252,9 @@
         },
         body: JSON.stringify({ p_page_path: pagePath() }),
       });
-      if (!response.ok) return;
+      if (!response.ok) throw new Error(`CLICK_COUNTS_${response.status}`);
       const rows = await response.json();
-      if (!Array.isArray(rows)) return;
+      if (!Array.isArray(rows)) throw new Error('CLICK_COUNTS_INVALID');
       rows.forEach((row) => {
         const clicks = Number(row.clicks) || 0;
         clickCounts.set(
@@ -263,7 +264,8 @@
         addPathCount(clicksByPath, row.target_url, clicks);
       });
       decorateCounts();
-    } catch (_) {}
+      return true;
+    } catch (_) { return false; }
   }
 
   async function fetchUsageStats(days) {
@@ -314,7 +316,8 @@
 
       const buttons = Array.isArray(data30?.buttons) ? data30.buttons : [];
       buttons.forEach((row) => addPathCount(clicksByPath, row.target_url, row.clicks));
-    } catch (_) {}
+      return { views: true, clicks: Array.isArray(data30?.buttons) };
+    } catch (_) { return { views: false, clicks: false }; }
   }
 
   function record(eventType, detail = {}) {
@@ -374,6 +377,7 @@
     pathClicksFor,
     trendFor,
     whenReady: () => usageReady,
+    getLoadState: () => ({ ...loadState }),
     subscribe(listener) {
       if (typeof listener !== 'function') return () => {};
       listeners.add(listener);
@@ -388,7 +392,13 @@
       if (node instanceof Element) decorateCounts(node);
     }));
   }).observe(document.body, { childList: true, subtree: true });
-  Promise.all([loadClickCounts(), loadPageViews()]).finally(() => {
+  Promise.all([loadClickCounts(), loadPageViews()]).then(([clickCountsOk, stats]) => {
+    loadState.views = stats.views ? 'ready' : 'error';
+    loadState.clicks = clickCountsOk || stats.clicks ? 'ready' : 'error';
+  }).catch(() => {
+    loadState.views = 'error';
+    loadState.clicks = 'error';
+  }).finally(() => {
     usageReadyResolve();
     notifyUsage();
   });
