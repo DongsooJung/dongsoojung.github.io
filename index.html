@@ -558,7 +558,7 @@ body.portal-dashboard-mode #personal-projects{margin-top:14px}
     <h2 id="projects-heading">대표 프로젝트 · Featured Projects</h2>
     <div class="desc" id="projects-desc">스타게이트의 교육·도시데이터·연구·전략을 보여주는 대표 프로젝트입니다.</div>
     <div class="portal-dashboard-summary" id="portal-dashboard-summary" aria-label="프로젝트 운영 요약">
-      <div class="ops-stat"><span>운영중</span><strong id="ops-live-count">-</strong></div>
+      <div class="ops-stat"><span>게시됨</span><strong id="ops-live-count">-</strong></div>
       <div class="ops-stat"><span>신규·실험</span><strong id="ops-new-count">-</strong></div>
       <div class="ops-stat"><span>최근 30일 조회</span><strong id="ops-view-count">-</strong></div>
       <div class="ops-stat"><span>홈 클릭</span><strong id="ops-click-count">-</strong></div>
@@ -1543,7 +1543,7 @@ if ('serviceWorker' in navigator) {
     if(external) return {label:"외부",cls:"is-external"};
     if(/BETA|PILOT|EXPERIMENT|TEST/.test(badge)) return {label:"실험중",cls:"is-test"};
     if(/NEW/.test(badge)) return {label:"신규",cls:"is-new"};
-    return {label:"운영중",cls:""};
+    return {label:"게시됨",cls:""};
   };
 
   const ensureMeta=(card)=>{
@@ -1554,7 +1554,7 @@ if ('serviceWorker' in navigator) {
     meta.className="portal-dashboard-meta";
     meta.innerHTML=
       '<div class="meta-line"><span>상태</span><strong class="portal-dashboard-status '+status.cls+'">'+status.label+'</strong></div>'+
-      '<div class="meta-line"><span>최근 업데이트</span><strong data-ops-updated>확인중</strong></div>'+
+      '<div class="meta-line"><span>페이지 수정일</span><strong data-ops-updated>확인중</strong></div>'+
       '<div class="meta-line"><span>30일 조회</span><strong data-ops-views>-</strong></div>'+
       '<div class="meta-line"><span>7일 추세</span><strong class="portal-dashboard-trend is-flat" data-ops-trend>—</strong></div>'+
       '<div class="meta-line"><span>홈 클릭</span><strong data-ops-clicks>-</strong></div>';
@@ -1585,6 +1585,7 @@ if ('serviceWorker' in navigator) {
   };
 
   const refreshUsage=()=>{
+    const usageState=window.StargateUsage?.getLoadState?.()||{views:"loading",clicks:"loading"};
     let views=0,clicks=0,live=0,newish=0;
     cards.forEach(card=>{
       const meta=ensureMeta(card);
@@ -1592,14 +1593,17 @@ if ('serviceWorker' in navigator) {
       const status=statusFor(card);
       if(!card.hidden){
         views+=usage.views;clicks+=usage.clicks;
-        if(status.label==="운영중")live+=1;else if(status.label==="신규"||status.label==="실험중")newish+=1;
+        if(status.label==="게시됨")live+=1;else if(status.label==="신규"||status.label==="실험중")newish+=1;
       }
-      meta.querySelector("[data-ops-views]").textContent=fmt(usage.views);
-      meta.querySelector("[data-ops-clicks]").textContent=fmt(usage.clicks);
-      renderTrend(meta.querySelector("[data-ops-trend]"),usage.trend);
+      meta.querySelector("[data-ops-views]").textContent=usageState.views==="ready"?fmt(usage.views):usageState.views==="error"?"연결 실패":"—";
+      meta.querySelector("[data-ops-clicks]").textContent=usageState.clicks==="ready"?fmt(usage.clicks):usageState.clicks==="error"?"연결 실패":"—";
+      if(usageState.views==="ready")renderTrend(meta.querySelector("[data-ops-trend]"),usage.trend);
+      else meta.querySelector("[data-ops-trend]").textContent=usageState.views==="error"?"연결 실패":"—";
     });
     const set=(id,value)=>{const el=document.getElementById(id);if(el)el.textContent=fmt(value)};
-    set("ops-live-count",live);set("ops-new-count",newish);set("ops-view-count",views);set("ops-click-count",clicks);
+    set("ops-live-count",live);set("ops-new-count",newish);
+    const setUsage=(id,value,state)=>{const el=document.getElementById(id);if(el){el.textContent=state==="ready"?fmt(value):state==="error"?"연결 실패":"—";el.title=state==="error"?"방문 통계를 불러오지 못했습니다. 잠시 후 다시 확인해 주세요.":""}};
+    setUsage("ops-view-count",views,usageState.views);setUsage("ops-click-count",clicks,usageState.clicks);
   };
 
   const updateCacheKey="stargate-project-lastmod-v1";
