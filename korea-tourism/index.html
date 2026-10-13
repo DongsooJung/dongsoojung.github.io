@@ -149,9 +149,9 @@ footer{margin-top:56px;padding-top:20px;border-top:1px solid var(--line);color:v
     </div>
     <div class="refresh-row">
       <button class="refresh-data" id="refreshBtn" type="button" aria-describedby="refreshStatus">
-        <span class="refresh-mark" aria-hidden="true">↻</span><span>공식 통계 새로고침</span>
+        <span class="refresh-mark" aria-hidden="true">↻</span><span>저장된 통계 다시 확인</span>
       </button>
-      <span class="refresh-status" id="refreshStatus" role="status" aria-live="polite">한국관광공사 공식 통계 파일을 다시 불러옵니다.</span>
+      <span class="refresh-status" id="refreshStatus" role="status" aria-live="polite">서버에 저장된 공식 통계 파일을 다시 읽습니다.</span>
     </div>
   </header>
 
@@ -605,8 +605,15 @@ function renderMeta(){
   document.getElementById('metaUpdated').textContent = DATA.updatedAt || '—';
   document.getElementById('metaRange').textContent =
     s.length ? `${ymKorean(s[0].ym)} ~ ${ymKorean(s[s.length-1].ym)}` : '—';
+  const lastYm = s.length ? s[s.length-1].ym : '';
+  const match = /^(\d{4})-(\d{2})$/.exec(lastYm);
+  const now = new Date();
+  const currentMonth = now.getUTCFullYear()*12 + now.getUTCMonth();
+  const lag = match ? currentMonth - (Number(match[1])*12 + Number(match[2]) - 1) : null;
   document.getElementById('metaMode').textContent =
-    DATA.sourceMode === 'official-xlsx' ? '실데이터 · 한국관광공사 공식 XLSX' : '데이터 갱신 상태 확인 필요';
+    DATA.sourceMode === 'official-xlsx'
+      ? `실데이터 · 공식 XLSX${lag !== null && lag > 2 ? ' · 공표·갱신 확인 필요' : ''}`
+      : '데이터 갱신 상태 확인 필요';
 }
 
 function renderAll(){ renderKPIs(); updateCharts(); renderTable(); }
@@ -617,7 +624,7 @@ async function refreshData(){
   button.disabled = true;
   button.classList.add('loading');
   status.className = 'refresh-status';
-  status.textContent = '최신 공식 통계를 다시 불러오는 중입니다…';
+  status.textContent = '서버에 저장된 통계를 다시 읽는 중입니다…';
   try{
     const r = await fetch(`./data.json?t=${Date.now()}`, {cache:'no-store'});
     if (!r.ok) throw new Error(r.status);
