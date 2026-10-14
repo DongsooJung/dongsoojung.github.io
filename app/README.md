@@ -67,8 +67,8 @@ bubblewrap build   # twa-manifest.json을 읽어 Gradle 프로젝트 생성 + �
 2. 앱 만들기: 이름 `Stargate`, 기본 언어 한국어, 유형 앱, 무료
 3. 대시보드 설문 작성:
    - 개인정보처리방침 URL: `https://stargateedu.co.kr/privacy.html`
-   - 데이터 보안: 수집·공유하는 데이터 없음
-   - 콘텐츠 등급 설문, 타겟층, 광고 없음
+   - 데이터 보안·콘텐츠 등급·타겟층·광고 등 항목별 답: [`play-console-answers.md`](play-console-answers.md)
+     (사이트의 상담 폼과 방문 통계 때문에 데이터 보안은 "수집 있음"으로 신고해야 합니다)
 4. 스토어 등록정보:
    - 앱 아이콘 512×512: `assets/icons/icon-512.png` 사용 가능
    - 피처 그래픽 1024×500, 휴대전화 스크린샷 2장 이상 (실기기 캡처)
