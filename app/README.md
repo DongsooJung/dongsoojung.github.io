@@ -55,8 +55,9 @@ bubblewrap build   # twa-manifest.json을 읽어 Gradle 프로젝트 생성 + �
 ## 4. Google Play Console 배포
 
 1. [Play Console](https://play.google.com/console) 개발자 계정 등록 ($25, 1회) + 본인 인증
-   - ⚠️ 2023-11 이후 생성한 **개인 계정**은 프로덕션 공개 전
-     **비공개 테스트: 테스터 12명 × 14일 연속** 요건이 있습니다.
+   - Stargate는 **법인(조직) 계정**으로 등록 → 개인 계정에만 적용되는
+     "비공개 테스트 12명 × 14일" 요건이 없어 바로 프로덕션 트랙에 제출할 수 있습니다.
+   - 조직 계정은 D-U-N-S 번호와 조직 인증이 필요합니다.
 2. 앱 만들기: 이름 `Stargate`, 기본 언어 한국어, 유형 앱, 무료
 3. 대시보드 설문 작성:
    - 개인정보처리방침 URL: `https://stargateedu.co.kr/privacy.html`
@@ -66,7 +67,8 @@ bubblewrap build   # twa-manifest.json을 읽어 Gradle 프로젝트 생성 + �
    - 앱 아이콘 512×512: `assets/icons/icon-512.png` 사용 가능
    - 피처 그래픽 1024×500, 휴대전화 스크린샷 2장 이상 (실기기 캡처)
    - 짧은 설명(80자) / 전체 설명(4000자)
-5. 테스트 트랙에 `app-release-bundle.aab` 업로드 → 내부 테스트 → (개인 계정: 비공개 테스트 14일) → 프로덕션 심사 제출
+5. `app-release-bundle.aab` 업로드 → (선택) 내부 테스트로 실기기 확인 → 프로덕션 트랙 심사 제출
+   - ⚠️ 첫 업로드 후 3번 항목의 **앱 서명 키 지문**을 `assetlinks.json`에 추가해야 Play 설치본에서 주소창이 사라집니다.
 
 ## 5. 기기 테스트 체크리스트
 
