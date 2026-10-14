@@ -46,11 +46,17 @@ bubblewrap build   # twa-manifest.json을 읽어 Gradle 프로젝트 생성 + �
    keytool -list -v -keystore stargate-upload.keystore -alias stargate | grep SHA256
    ```
 2. 저장소 루트 `.well-known/assetlinks.json`에서 `kr.co.stargateedu.twa` 항목에 업로드 키 지문이 등록되어 있는지 확인 후 커밋·푸시합니다.
-3. **Play App Signing 사용 시(권장, 기본값)**: 첫 업로드 후
-   Play Console → 설정 → 앱 서명 페이지의 **앱 서명 키 SHA-256 지문**을 복사해
-   `kr.co.stargateedu.twa` 항목의 `sha256_cert_fingerprints` 배열에 추가합니다. 기존 지문과 함께 2개를 병기할 수 있습니다.
-4. 검증: [Statement List Generator & Tester](https://developers.google.com/digital-asset-links/tools/generator)
-   에 `stargateedu.co.kr` + `kr.co.stargateedu.twa` + 지문 입력 → 초록불 확인.
+3. **Play App Signing 앱 서명 키 지문 추가 (필수)**: Play로 설치된 앱은 Google이 다시 서명하므로,
+   업로드 키 지문만으로는 주소창이 사라지지 않습니다. 첫 AAB 업로드 후:
+   1. Play Console → 앱 선택 → **테스트 및 출시 → 앱 무결성 → Play 앱 서명 → 설정**
+   2. **앱 서명 키 인증서**의 `SHA-256 인증서 지문`을 복사합니다
+      (업로드 키 인증서 지문은 이미 등록된 `27:55:98:…:24:0F`와 같아야 합니다).
+   3. 저장소 루트에서 실행 → 커밋·푸시:
+      ```bash
+      node scripts/add-twa-fingerprint.mjs "XX:XX:...:XX"   # 콜론/대소문자/"SHA256:" 접두어 상관없음
+      ```
+4. 검증: 배포 반영(수 분) 후 `node scripts/add-twa-fingerprint.mjs --check` → 모든 지문이 `✅ linked`이면 완료.
+   Play에서 설치한 앱을 한 번 지웠다 다시 설치하거나 앱 데이터를 지워야 바뀐 결과가 적용됩니다.
 
 ## 4. Google Play Console 배포
 
