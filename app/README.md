@@ -46,17 +46,24 @@ bubblewrap build   # twa-manifest.json을 읽어 Gradle 프로젝트 생성 + �
    keytool -list -v -keystore stargate-upload.keystore -alias stargate | grep SHA256
    ```
 2. 저장소 루트 `.well-known/assetlinks.json`에서 `kr.co.stargateedu.twa` 항목에 업로드 키 지문이 등록되어 있는지 확인 후 커밋·푸시합니다.
-3. **Play App Signing 사용 시(권장, 기본값)**: 첫 업로드 후
-   Play Console → 설정 → 앱 서명 페이지의 **앱 서명 키 SHA-256 지문**을 복사해
-   `kr.co.stargateedu.twa` 항목의 `sha256_cert_fingerprints` 배열에 추가합니다. 기존 지문과 함께 2개를 병기할 수 있습니다.
-4. 검증: [Statement List Generator & Tester](https://developers.google.com/digital-asset-links/tools/generator)
-   에 `stargateedu.co.kr` + `kr.co.stargateedu.twa` + 지문 입력 → 초록불 확인.
+3. **Play App Signing 앱 서명 키 지문 추가 (필수)**: Play로 설치된 앱은 Google이 다시 서명하므로,
+   업로드 키 지문만으로는 주소창이 사라지지 않습니다. 첫 AAB 업로드 후:
+   1. Play Console → 앱 선택 → **테스트 및 출시 → 앱 무결성 → Play 앱 서명 → 설정**
+   2. **앱 서명 키 인증서**의 `SHA-256 인증서 지문`을 복사합니다
+      (업로드 키 인증서 지문은 이미 등록된 `27:55:98:…:24:0F`와 같아야 합니다).
+   3. 저장소 루트에서 실행 → 커밋·푸시:
+      ```bash
+      node scripts/add-twa-fingerprint.mjs "XX:XX:...:XX"   # 콜론/대소문자/"SHA256:" 접두어 상관없음
+      ```
+4. 검증: 배포 반영(수 분) 후 `node scripts/add-twa-fingerprint.mjs --check` → 모든 지문이 `✅ linked`이면 완료.
+   Play에서 설치한 앱을 한 번 지웠다 다시 설치하거나 앱 데이터를 지워야 바뀐 결과가 적용됩니다.
 
 ## 4. Google Play Console 배포
 
 1. [Play Console](https://play.google.com/console) 개발자 계정 등록 ($25, 1회) + 본인 인증
-   - ⚠️ 2023-11 이후 생성한 **개인 계정**은 프로덕션 공개 전
-     **비공개 테스트: 테스터 12명 × 14일 연속** 요건이 있습니다.
+   - Stargate는 **법인(조직) 계정**으로 등록 → 개인 계정에만 적용되는
+     "비공개 테스트 12명 × 14일" 요건이 없어 바로 프로덕션 트랙에 제출할 수 있습니다.
+   - 조직 계정은 D-U-N-S 번호와 조직 인증이 필요합니다.
 2. 앱 만들기: 이름 `Stargate`, 기본 언어 한국어, 유형 앱, 무료
 3. 대시보드 설문 작성:
    - 개인정보처리방침 URL: `https://stargateedu.co.kr/privacy.html`
@@ -66,7 +73,8 @@ bubblewrap build   # twa-manifest.json을 읽어 Gradle 프로젝트 생성 + �
    - 앱 아이콘 512×512: `assets/icons/icon-512.png` 사용 가능
    - 피처 그래픽 1024×500, 휴대전화 스크린샷 2장 이상 (실기기 캡처)
    - 짧은 설명(80자) / 전체 설명(4000자)
-5. 테스트 트랙에 `app-release-bundle.aab` 업로드 → 내부 테스트 → (개인 계정: 비공개 테스트 14일) → 프로덕션 심사 제출
+5. `app-release-bundle.aab` 업로드 → (선택) 내부 테스트로 실기기 확인 → 프로덕션 트랙 심사 제출
+   - ⚠️ 첫 업로드 후 3번 항목의 **앱 서명 키 지문**을 `assetlinks.json`에 추가해야 Play 설치본에서 주소창이 사라집니다.
 
 ## 5. 기기 테스트 체크리스트
 
