@@ -65,7 +65,7 @@
         document.write(html);
         document.close();
       } catch {
-        message.textContent = '인증 서버에 연결할 수 없습니다. 잠시 후 다시 시도해 주세요.';
+        message.textContent = '인증 서버 연결 오류 또는 시도 횟수 초과입니다. 잠시 후 다시 시도해 주세요.';
       } finally {
         button.disabled = false;
       }
