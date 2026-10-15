@@ -1,5 +1,5 @@
 {
-  "checked_at_kst": "2026-10-15T07:03:47+09:00",
+  "checked_at_kst": "2026-10-15T13:58:02+09:00",
   "filters": {
     "max_deposit_manwon": 1000,
     "max_rent_manwon": 100,
@@ -8,7 +8,7 @@
   "source_mode": "public-listings",
   "crawl": {
     "visited_urls": 70,
-    "successful_pages": 60,
+    "successful_pages": 62,
     "max_pages": 70
   },
   "baseline": [
@@ -27,29 +27,6 @@
   ],
   "candidates": [
     {
-      "id": "4713338",
-      "url": "https://realty.daangn.com/articles/4713338",
-      "district": "기장군",
-      "dong": "",
-      "deposit": 500,
-      "rent": 30,
-      "rooms": 2,
-      "area_m2": 44.89,
-      "building_type": "단독주택",
-      "freshness_days": 1,
-      "title": "기장읍 14평 단독/전원주택 월세 500 / 30만원",
-      "legal_risk": "상대적으로 낮음",
-      "host_claim": false,
-      "score": 86,
-      "reasons": [
-        "낮은 월세",
-        "낮은 보증금",
-        "주택용도",
-        "최근 등록"
-      ],
-      "is_new": false
-    },
-    {
       "id": "4697552",
       "url": "https://realty.daangn.com/articles/4697552",
       "district": "동구",
@@ -64,6 +41,29 @@
       "legal_risk": "상대적으로 낮음",
       "host_claim": false,
       "score": 85,
+      "reasons": [
+        "낮은 월세",
+        "낮은 보증금",
+        "주택용도",
+        "7일 이내"
+      ],
+      "is_new": false
+    },
+    {
+      "id": "4713338",
+      "url": "https://realty.daangn.com/articles/4713338",
+      "district": "기장군",
+      "dong": "",
+      "deposit": 500,
+      "rent": 30,
+      "rooms": 2,
+      "area_m2": 44.89,
+      "building_type": "단독주택",
+      "freshness_days": 2,
+      "title": "기장읍 14평 단독/전원주택 월세 500 / 30만원",
+      "legal_risk": "상대적으로 낮음",
+      "host_claim": false,
+      "score": 83,
       "reasons": [
         "낮은 월세",
         "낮은 보증금",
@@ -128,7 +128,7 @@
       "rooms": 2,
       "area_m2": 66.1,
       "building_type": "단독주택",
-      "freshness_days": 0,
+      "freshness_days": 1,
       "title": "동삼동 20평 직거래 빌라(투룸 이상) 월세 1,000 / 45만원",
       "legal_risk": "상대적으로 낮음",
       "host_claim": false,
@@ -150,7 +150,7 @@
       "rooms": 2,
       "area_m2": 49.5,
       "building_type": "공동주택",
-      "freshness_days": 17,
+      "freshness_days": 18,
       "title": "범일동 15평 직거래 빌라(투룸 이상) 월세 200 / 20만원",
       "legal_risk": "중간",
       "host_claim": false,
@@ -192,7 +192,7 @@
       "rooms": 2,
       "area_m2": 72.42,
       "building_type": "단독주택",
-      "freshness_days": 25,
+      "freshness_days": 26,
       "title": "기장읍 22평 단독/전원주택 월세 1,000 / 60만원",
       "legal_risk": "상대적으로 낮음",
       "host_claim": false,
