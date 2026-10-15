@@ -25,8 +25,8 @@
     <h1>비공개 자료</h1>
     <p>본인 확인 후 열람할 수 있습니다.</p>
     <form id="login">
-      <label for="password">비밀번호</label>
-      <input id="password" name="password" type="password" autocomplete="current-password" minlength="32" maxlength="1024" required>
+      <label for="password">4자리 PIN</label>
+      <input id="password" name="password" type="password" inputmode="numeric" pattern="[0-9]{4}" autocomplete="off" minlength="4" maxlength="4" required>
       <button id="submit" type="submit">열람</button>
       <p id="message" role="alert" aria-live="polite"></p>
     </form>
@@ -56,7 +56,7 @@
           body: new URLSearchParams({ password })
         });
         if (!response.ok) {
-          message.textContent = response.status === 401 ? '비밀번호를 확인해 주세요.' : '자료를 불러오지 못했습니다. 잠시 후 다시 시도해 주세요.';
+          message.textContent = response.status === 401 ? 'PIN을 확인해 주세요.' : response.status === 429 ? '시도 횟수가 많습니다. 잠시 후 다시 시도해 주세요.' : '자료를 불러오지 못했습니다. 잠시 후 다시 시도해 주세요.';
           return;
         }
         if (!response.headers.get('Content-Type')?.toLowerCase().startsWith('text/html')) throw new Error('Unexpected response');

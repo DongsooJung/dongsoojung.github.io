@@ -5,8 +5,8 @@ const PAGE_PATH = '/strategy/monetization-opportunities/';
 const API_PATH = '/api/private-monetization';
 const COOKIE = '__Host-stargate_monetization';
 const SESSION_SECONDS = 8 * 60 * 60;
-const MIN_PASSWORD_LENGTH = 32;
-const MAX_PASSWORD_LENGTH = 1024;
+const PIN_LENGTH = 4;
+const SCRYPT_OPTIONS = { N: 1 << 15, r: 8, p: 1, maxmem: 64 * 1024 * 1024 };
 
 function headers(res, type) {
   res.setHeader('Content-Type', type);
@@ -27,24 +27,24 @@ function escapeHtml(value) {
 
 function renderLogin(error = '') {
   const message = error ? `<p role="alert">${escapeHtml(error)}</p>` : '';
-  return `<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex,nofollow,noarchive"><title>비공개 자료 · STARGATE</title><style>body{font:16px/1.6 system-ui,sans-serif;background:#f5f7fb;color:#172033;min-height:100vh;display:grid;place-items:center;margin:0}main{background:white;border:1px solid #d7deea;border-radius:12px;padding:2rem;width:min(90vw,26rem)}label,input,button{display:block;width:100%;box-sizing:border-box}input{padding:.7rem;margin:.4rem 0 1rem}button{padding:.7rem;background:#123b73;color:white;border:0;border-radius:6px;cursor:pointer}p[role=alert]{color:#a21616}</style></head><body><main><h1>비공개 자료</h1><p>본인 확인 후 열람할 수 있습니다.</p>${message}<form method="post" action="${API_PATH}"><label for="password">비밀번호</label><input id="password" name="password" type="password" required autocomplete="current-password" maxlength="${MAX_PASSWORD_LENGTH}"><button type="submit">열람</button></form></main></body></html>`;
+  return `<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex,nofollow,noarchive"><title>비공개 자료 · STARGATE</title><style>body{font:16px/1.6 system-ui,sans-serif;background:#f5f7fb;color:#172033;min-height:100vh;display:grid;place-items:center;margin:0}main{background:white;border:1px solid #d7deea;border-radius:12px;padding:2rem;width:min(90vw,26rem)}label,input,button{display:block;width:100%;box-sizing:border-box}input{padding:.7rem;margin:.4rem 0 1rem}button{padding:.7rem;background:#123b73;color:white;border:0;border-radius:6px;cursor:pointer}p[role=alert]{color:#a21616}</style></head><body><main><h1>비공개 자료</h1><p>본인 확인 후 열람할 수 있습니다.</p>${message}<form method="post" action="${API_PATH}"><label for="password">4자리 PIN</label><input id="password" name="password" type="password" inputmode="numeric" pattern="[0-9]{4}" minlength="${PIN_LENGTH}" maxlength="${PIN_LENGTH}" required autocomplete="off"><button type="submit">열람</button></form></main></body></html>`;
 }
 
 function readConfig(env) {
-  const hash = env.MONETIZATION_PASSWORD_HASH || '';
-  // Only use this fast verifier with a randomly generated, high-entropy credential.
-  const match = /^sha256\$([A-Za-z0-9_-]{43})$/.exec(hash);
+  const hash = env.MONETIZATION_PIN_HASH || '';
+  const match = /^scrypt\$([A-Za-z0-9_-]{22})\$([A-Za-z0-9_-]{43})$/.exec(hash);
   if (!match) return null;
-  const digest = Buffer.from(match[1], 'base64url');
+  const salt = Buffer.from(match[1], 'base64url');
+  const digest = Buffer.from(match[2], 'base64url');
   const key = env.MONETIZATION_SESSION_KEY || '';
   const html = env.MONETIZATION_HTML_GZIP_BASE64 || '';
-  if (digest.length !== 32 || key.length < 32 || !html || !/^[A-Za-z0-9+/=]+$/.test(html)) return null;
-  return { digest, key, html };
+  if (salt.length !== 16 || digest.length !== 32 || key.length < 32 || !html || !/^[A-Za-z0-9+/=]+$/.test(html)) return null;
+  return { salt, digest, key, html };
 }
 
 function verifyPassword(password, config) {
-  if (typeof password !== 'string' || password.length < MIN_PASSWORD_LENGTH || password.length > MAX_PASSWORD_LENGTH) return false;
-  const derived = crypto.createHash('sha256').update(password, 'utf8').digest();
+  if (typeof password !== 'string' || !/^[0-9]{4}$/.test(password)) return false;
+  const derived = crypto.scryptSync(password, config.salt, 32, SCRYPT_OPTIONS);
   return crypto.timingSafeEqual(derived, config.digest);
 }
 
@@ -124,6 +124,11 @@ module.exports = function handler(req, res) {
     res.setHeader('Allow', 'GET, POST');
     return res.status(405).end();
   }
+  // Defense in depth; the project WAF must still cover all POST paths because rewrites may change req.url.
+  if (path !== API_PATH) {
+    res.setHeader('Allow', 'GET');
+    return res.status(405).end();
+  }
   if (crossOriginApi) {
     if (req.headers['sec-fetch-site'] === 'same-origin') return res.status(403).end();
     if (!verifyPassword(passwordFromBody(req), config)) return res.status(401).send('인증에 실패했습니다.');
@@ -136,10 +141,10 @@ module.exports = function handler(req, res) {
     res.setHeader('Location', API_PATH);
     return res.status(303).end();
   }
-  if (!verifyPassword(passwordFromBody(req), config)) return res.status(401).send(renderLogin('비밀번호를 확인해 주세요.'));
+  if (!verifyPassword(passwordFromBody(req), config)) return res.status(401).send(renderLogin('PIN을 확인해 주세요.'));
   res.setHeader('Set-Cookie', sessionCookie(config));
   res.setHeader('Location', API_PATH);
   return res.status(303).end();
 };
 
-module.exports._test = { readConfig, verifyPassword, hasSession, sessionCookie, pageHtml };
+module.exports._test = { readConfig, verifyPassword, hasSession, sessionCookie, pageHtml, SCRYPT_OPTIONS };

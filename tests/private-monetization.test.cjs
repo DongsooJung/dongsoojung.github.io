@@ -3,18 +3,19 @@ const assert = require('node:assert/strict');
 const crypto = require('node:crypto');
 const zlib = require('node:zlib');
 const handler = require('../private-gateway/api/private-monetization.js');
-const CREDENTIAL = 'correct-horse-battery-staple-1234567890-ABCDEFGH';
+const CREDENTIAL = '0123';
 
 const original = {
-  MONETIZATION_PASSWORD_HASH: process.env.MONETIZATION_PASSWORD_HASH,
+  MONETIZATION_PIN_HASH: process.env.MONETIZATION_PIN_HASH,
   MONETIZATION_SESSION_KEY: process.env.MONETIZATION_SESSION_KEY,
   MONETIZATION_HTML_GZIP_BASE64: process.env.MONETIZATION_HTML_GZIP_BASE64,
   MONETIZATION_ALLOWED_HOST: process.env.MONETIZATION_ALLOWED_HOST,
 };
 
 function setup() {
-  const digest = crypto.createHash('sha256').update(CREDENTIAL).digest();
-  process.env.MONETIZATION_PASSWORD_HASH = `sha256$${digest.toString('base64url')}`;
+  const salt = crypto.randomBytes(16);
+  const digest = crypto.scryptSync(CREDENTIAL, salt, 32, handler._test.SCRYPT_OPTIONS);
+  process.env.MONETIZATION_PIN_HASH = `scrypt$${salt.toString('base64url')}$${digest.toString('base64url')}`;
   process.env.MONETIZATION_SESSION_KEY = crypto.randomBytes(32).toString('base64url');
   process.env.MONETIZATION_HTML_GZIP_BASE64 = zlib.gzipSync('<!doctype html><html><body>PRIVATE_TOP_100</body></html>').toString('base64');
   process.env.MONETIZATION_ALLOWED_HOST = 'stargate-private-gateway.vercel.app';
@@ -47,7 +48,7 @@ test('fails closed without complete secrets', () => {
   assert.equal(response.statusCode, 503);
   assert.doesNotMatch(response.body, /PRIVATE_TOP_100/);
   setup();
-  process.env.MONETIZATION_PASSWORD_HASH = 'pbkdf2_sha256$310000$old$format';
+  process.env.MONETIZATION_PIN_HASH = 'sha256$old$format';
   assert.equal(request().statusCode, 503);
   setup();
 });
@@ -66,17 +67,20 @@ test('unauthenticated page and direct API never serve private HTML', () => {
 
 test('wrong password, cross-origin post and wrong host are rejected', () => {
   setup();
-  const form = { method: 'POST', headers: { origin: 'https://stargate-private-gateway.vercel.app', 'content-type': 'application/x-www-form-urlencoded' } };
+  const form = { method: 'POST', path: '/api/private-monetization', headers: { origin: 'https://stargate-private-gateway.vercel.app', 'content-type': 'application/x-www-form-urlencoded' } };
   assert.equal(request({ ...form, body: { password: 'wrong' } }).statusCode, 401);
-  assert.equal(request({ ...form, body: { password: 'correct-horse' } }).statusCode, 401);
+  assert.equal(request({ ...form, body: { password: '9999' } }).statusCode, 401);
+  assert.equal(request({ ...form, body: { password: '01234' } }).statusCode, 401);
   assert.equal(request({ ...form, headers: { ...form.headers, origin: 'https://evil.example' }, body: { password: CREDENTIAL } }).statusCode, 403);
   assert.equal(request({ ...form, headers: { ...form.headers, host: 'attacker.example' }, body: { password: CREDENTIAL } }).statusCode, 404);
   assert.equal(request({ path: '/strategy/monetization-opportunities/other' }).statusCode, 404);
+  assert.equal(request({ ...form, path: '/strategy/monetization-opportunities/', body: { password: CREDENTIAL } }).statusCode, 405);
+  assert.equal(request({ ...form, path: '/strategy/monetization-opportunities', body: { password: CREDENTIAL } }).statusCode, 405);
 });
 
 test('valid password establishes secure cookie; tampering, expiry and logout revoke browser access', () => {
   setup();
-  const login = request({ method: 'POST', headers: { origin: 'https://stargate-private-gateway.vercel.app', 'content-type': 'application/x-www-form-urlencoded' }, body: { password: CREDENTIAL } });
+  const login = request({ method: 'POST', path: '/api/private-monetization', headers: { origin: 'https://stargate-private-gateway.vercel.app', 'content-type': 'application/x-www-form-urlencoded' }, body: { password: CREDENTIAL } });
   assert.equal(login.statusCode, 303);
   assert.match(login.headers['set-cookie'], /^__Host-stargate_monetization=/);
   assert.match(login.headers['set-cookie'], /Secure; HttpOnly; SameSite=Strict/);
@@ -92,7 +96,7 @@ test('valid password establishes secure cookie; tampering, expiry and logout rev
   assert.doesNotMatch(request({ headers: { cookie: altered } }).body, /PRIVATE_TOP_100/);
   const config = handler._test.readConfig(process.env);
   assert.equal(handler._test.hasSession(cookie, config, Date.now() + 9 * 60 * 60 * 1000), false);
-  const logout = request({ method: 'POST', headers: { origin: 'https://stargate-private-gateway.vercel.app', 'content-type': 'application/x-www-form-urlencoded', cookie }, body: { action: 'logout' } });
+  const logout = request({ method: 'POST', path: '/api/private-monetization', headers: { origin: 'https://stargate-private-gateway.vercel.app', 'content-type': 'application/x-www-form-urlencoded', cookie }, body: { action: 'logout' } });
   assert.equal(logout.statusCode, 303);
   assert.match(logout.headers['set-cookie'], /Max-Age=0/);
 });
