@@ -1,5 +1,6 @@
 // Scheduled public data collection. Upstream dates are never replaced by fetch time.
 export const DASHBOARD_NAMES = ['exchange-rate', 'trade', 'urban'];
+export const DASHBOARD_COLLECTOR_VERSION = '20261015-2';
 export const DASHBOARD_UPSTREAMS = {
   fx: 'https://www.ecb.europa.eu/stats/eurofxref/eurofxref-hist-90d.xml',
   fxSnapshot: 'https://raw.githubusercontent.com/DongsooJung/dongsoojung.github.io/main/exchange-rate/data.json',
@@ -25,6 +26,7 @@ const koreanDay = now => new Date(now + 9 * HOUR).toISOString().slice(0, 10);
 const round = value => Math.round(value * 100) / 100;
 
 async function readResponse(response, maxBytes) {
+  if (response.status >= 300 && response.status < 400) throw new RefreshError('UPSTREAM_REDIRECT_REJECTED');
   if (!response.ok) throw new RefreshError(`UPSTREAM_HTTP_${response.status}`);
   if (Number(response.headers.get('content-length')) > maxBytes) throw new RefreshError('UPSTREAM_TOO_LARGE');
   const reader = response.body.getReader(), chunks = [];
@@ -42,12 +44,21 @@ async function readResponse(response, maxBytes) {
   return new TextDecoder('utf-8', { fatal: true }).decode(bytes);
 }
 async function getText(fetchFn, url, headers = {}, maxBytes = 12 * 1024 * 1024) {
-  const response = await fetchFn(url, { headers: { Accept: 'application/json, application/xml, text/xml', ...headers }, redirect: 'error', signal: AbortSignal.timeout(20000) });
-  return readResponse(response, maxBytes);
+  let response;
+  try {
+    // workerd currently rejects redirect:'error'. Inspect manual responses instead,
+    // so credential headers can never follow a redirect to another hostname.
+    response = await fetchFn(url, { headers: { Accept: 'application/json, application/xml, text/xml', ...headers }, redirect: 'manual', signal: AbortSignal.timeout(20000) });
+  } catch (error) {
+    throw new RefreshError(['AbortError', 'TimeoutError'].includes(error?.name) ? 'UPSTREAM_TIMEOUT' : 'UPSTREAM_FETCH_FAILED');
+  }
+  try { return await readResponse(response, maxBytes); }
+  catch (error) { if (error instanceof RefreshError) throw error; throw new RefreshError('UPSTREAM_BODY_FAILED'); }
 }
 async function getJSON(fetchFn, url) {
-  try { return JSON.parse(await getText(fetchFn, url)); }
-  catch (error) { if (error instanceof RefreshError) throw error; throw new RefreshError('UPSTREAM_INVALID_JSON'); }
+  const text = await getText(fetchFn, url);
+  try { return JSON.parse(text); }
+  catch { throw new RefreshError('UPSTREAM_INVALID_JSON'); }
 }
 
 export function parseEcbHistory(xml, now = Date.now()) {
@@ -219,15 +230,15 @@ export class DashboardStore {
     const state = this.state(name);
     const payloadRows = this.rows('SELECT content FROM dashboard_chunks WHERE name=? ORDER BY position', name);
     const payload = payloadRows.length ? JSON.parse(payloadRows.map(row => row.content).join('')) : null;
-    const meta = { name, label: labels[name], mode: modes[name], status: 'pending', source_at: null, refreshed_at: null, checked_at: null, error: null, ...state };
+    const meta = { name, label: labels[name], mode: modes[name], status: 'pending', source_at: null, refreshed_at: null, checked_at: null, error: null, collector_version: null, ...state };
     meta.stale = isStale(name, meta.source_at, now);
     if (payload && meta.stale && !meta.error) meta.status = 'stale';
     return { payload, meta };
   }
   status(now = Date.now()) {
-    return { checked_at: iso(now), last_run: this.state('_run'), datasets: DASHBOARD_NAMES.map(name => {
+    return { checked_at: iso(now), collector_version: DASHBOARD_COLLECTOR_VERSION, last_run: this.state('_run'), datasets: DASHBOARD_NAMES.map(name => {
       const state = this.state(name);
-      const meta = { name, label: labels[name], mode: modes[name], status: 'pending', source_at: null, refreshed_at: null, checked_at: null, error: null, ...state };
+      const meta = { name, label: labels[name], mode: modes[name], status: 'pending', source_at: null, refreshed_at: null, checked_at: null, error: null, collector_version: null, ...state };
       meta.stale = isStale(name, meta.source_at, now);
       if (meta.stale && meta.status === 'ok') meta.status = 'stale';
       return meta;
@@ -249,7 +260,7 @@ export class DashboardStore {
     for (const name of DASHBOARD_NAMES) {
       const previous = this.get(name, now);
       const retryAfter = previous.meta.error ? Math.min(intervals[name], FAILURE_RETRY) : intervals[name];
-      if (previous.meta.checked_at && now - Date.parse(previous.meta.checked_at) < retryAfter) continue;
+      if (previous.meta.collector_version === DASHBOARD_COLLECTOR_VERSION && previous.meta.checked_at && now - Date.parse(previous.meta.checked_at) < retryAfter) continue;
       let result;
       try {
         if (name === 'exchange-rate') {
@@ -263,7 +274,7 @@ export class DashboardStore {
         if (previous.meta.source_at && result.sourceAt < previous.meta.source_at) throw new RefreshError('UPSTREAM_SOURCE_REGRESSED');
         const stale = isStale(name, result.sourceAt, now);
         this.write(name, {
-          name, label: labels[name], mode: result.mode,
+          name, label: labels[name], mode: result.mode, collector_version: DASHBOARD_COLLECTOR_VERSION,
           source_url: name === 'exchange-rate' ? DASHBOARD_UPSTREAMS.fx : name === 'trade' && result.mode === 'official_collection' ? DASHBOARD_UPSTREAMS.trade : name === 'trade' ? DASHBOARD_UPSTREAMS.tradeSnapshot : DASHBOARD_UPSTREAMS.urban,
           source_at: result.sourceAt, refreshed_at: iso(now), checked_at: iso(now),
           status: result.error ? 'degraded' : stale ? 'stale' : 'ok', error: result.error || null,
@@ -272,8 +283,8 @@ export class DashboardStore {
       } catch (error) {
         const code = error instanceof RefreshError ? error.code : 'UPSTREAM_REFRESH_FAILED';
         if (!previous.payload && error.fallbackPayload) {
-          this.write(name, { name, label: labels[name], mode: 'published_snapshot', source_url: DASHBOARD_UPSTREAMS.tradeSnapshot, source_at: error.fallbackPayload.latestYm, refreshed_at: iso(now), checked_at: iso(now), status: 'degraded', error: code, next_refresh_at: iso(now + FAILURE_RETRY) }, error.fallbackPayload);
-        } else this.write(name, { ...previous.meta, checked_at: iso(now), status: previous.payload ? 'degraded' : 'error', error: code, next_refresh_at: iso(now + FAILURE_RETRY) });
+          this.write(name, { name, label: labels[name], mode: 'published_snapshot', collector_version: DASHBOARD_COLLECTOR_VERSION, source_url: DASHBOARD_UPSTREAMS.tradeSnapshot, source_at: error.fallbackPayload.latestYm, refreshed_at: iso(now), checked_at: iso(now), status: 'degraded', error: code, next_refresh_at: iso(now + FAILURE_RETRY) }, error.fallbackPayload);
+        } else this.write(name, { ...previous.meta, collector_version: DASHBOARD_COLLECTOR_VERSION, checked_at: iso(now), status: previous.payload ? 'degraded' : 'error', error: code, next_refresh_at: iso(now + FAILURE_RETRY) });
       }
     }
     return this.status(now);

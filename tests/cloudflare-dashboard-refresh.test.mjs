@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { DatabaseSync } from 'node:sqlite';
-import { DashboardStore, DASHBOARD_UPSTREAMS, parseEcbHistory, parseCustomsMonth, tradeMonths } from '../cloudflare/dashboard-refresh.mjs';
+import { DashboardStore, DASHBOARD_COLLECTOR_VERSION, DASHBOARD_UPSTREAMS, parseEcbHistory, parseCustomsMonth, tradeMonths } from '../cloudflare/dashboard-refresh.mjs';
 
 const now = Date.parse('2026-10-15T11:30:00Z');
 const DAY = 86400000;
@@ -69,7 +69,7 @@ test('scheduled refresh collects official FX/trade and labels urban as published
     assert.equal(seoul.meta.mode, 'published_snapshot');
     assert.equal(seoul.meta.source_at, '2026-10-15T19:55:00+09:00');
     assert.notEqual(seoul.meta.source_at, seoul.meta.refreshed_at);
-    assert.ok(calls.filter(row => row.url.includes('proxy.example')).every(row => !row.url.includes('local-test-only') && row.options.headers['x-data-key'] === 'local-test-only' && row.options.redirect === 'error'));
+    assert.ok(calls.filter(row => row.url.includes('proxy.example')).every(row => !row.url.includes('local-test-only') && row.options.headers['x-data-key'] === 'local-test-only' && row.options.redirect === 'manual'));
     const before = calls.length;
     await store.refresh({}, { now: now + 1000, fetchFn: fetcher(calls) });
     assert.equal(calls.length, before, 'public bootstrap must not bypass due throttling');
@@ -140,6 +140,55 @@ test('failed collection retries after fifteen minutes without bypassing the norm
     assert.equal(store.status(now).last_run.last_trigger, 'scheduled');
     assert.equal(store.status(now).last_run.last_scheduled_at, new Date(now + 16 * 60000).toISOString());
   } finally { db.close(); }
+});
+
+test('a repaired collector version retries old failures once without exposing a public force option', async () => {
+  const { db, store } = database();
+  try {
+    for (const name of ['exchange-rate', 'trade', 'urban']) store.write(name, {
+      checked_at: new Date(now).toISOString(), collector_version: '20261015-1', status: 'error', error: 'UPSTREAM_INVALID_JSON',
+    });
+    const calls = [];
+    await store.refresh({}, { now: now + 1000, fetchFn: fetcher(calls) });
+    assert.ok(calls.length >= 4, 'recent old-version failures must retry immediately after a code repair');
+    assert.ok(store.status(now).datasets.every(row => row.collector_version === DASHBOARD_COLLECTOR_VERSION));
+    const attempted = calls.length;
+    await store.refresh({}, { now: now + 2000, fetchFn: fetcher(calls) });
+    assert.equal(calls.length, attempted, 'the same repaired version must still honor retry throttling');
+  } finally { db.close(); }
+});
+
+test('manual upstream redirects are rejected before a credential-bearing request can follow them', async () => {
+  const { db, store } = database();
+  try {
+    const calls = [], regular = fetcher(calls);
+    await store.refresh({ CUSTOMS_API_KEY: 'local-test-only', CUSTOMS_PROXY_BASE: 'https://proxy.example/api/customs' }, {
+      now, fetchFn: async (url, options) => {
+        assert.equal(options.redirect, 'manual', 'workerd supports follow/manual only');
+        if (String(url).includes('proxy.example')) { calls.push({ url: String(url), options }); return new Response(null, { status: 302, headers: { Location: 'https://unexpected.example/collect' } }); }
+        return regular(url, options);
+      },
+    });
+    assert.equal(store.get('trade', now).meta.error, 'UPSTREAM_REDIRECT_REJECTED');
+    assert.ok(calls.every(row => !row.url.includes('unexpected.example')));
+    assert.ok(!JSON.stringify(store.get('trade', now)).includes('local-test-only'));
+  } finally { db.close(); }
+});
+
+test('fetch, body and JSON failures have separate safe stages instead of all claiming invalid JSON', async () => {
+  for (const [expected, fetchFn] of [
+    ['UPSTREAM_FETCH_FAILED', async () => { throw new TypeError('request details and secrets must stay private'); }],
+    ['UPSTREAM_BODY_FAILED', async () => ({ ok: true, status: 200, headers: new Headers(), body: { getReader() { throw new Error('broken reader'); } } })],
+    ['UPSTREAM_INVALID_JSON', async () => new Response('<html>not JSON</html>')],
+  ]) {
+    const { db, store } = database();
+    try {
+      await store.refresh({}, { now, fetchFn });
+      const status = store.status(now);
+      assert.ok(status.datasets.every(row => row.error === expected));
+      assert.ok(!JSON.stringify(status).includes('request details'));
+    } finally { db.close(); }
+  }
 });
 
 test('SQL chunk storage preserves large Unicode payloads atomically and avoids oversized rows', () => {

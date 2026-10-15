@@ -40,7 +40,7 @@ jobs:
             | jq --exit-status '.success == true and .result.status == "active"' > /dev/null
           echo 'Cloudflare account token is active.'
       - name: Verify public staging safeguards
-        run: node --test tests/cloudflare-static.test.mjs tests/vercel-static.test.mjs tests/cloudflare-analytics.test.mjs tests/cloudflare-analytics-history.test.mjs tests/cloudflare-analytics-frontend.test.mjs tests/cloudflare-access.test.mjs tests/cloudflare-dashboard-refresh.test.mjs tests/cloudflare-dashboard-frontend.test.mjs
+        run: node --test tests/cloudflare-static.test.mjs tests/vercel-static.test.mjs tests/cloudflare-analytics.test.mjs tests/cloudflare-analytics-history.test.mjs tests/cloudflare-analytics-frontend.test.mjs tests/cloudflare-access.test.mjs tests/cloudflare-dashboard-refresh.test.mjs tests/cloudflare-dashboard-frontend.test.mjs tests/cloudflare-service-worker.test.mjs
       - name: Stage tracked public site files
         run: node scripts/build-cloudflare-static.mjs
       - name: Test analytics with a local Durable Object
@@ -96,9 +96,22 @@ jobs:
           WORKER_URL: ${{ steps.deploy.outputs.url }}
         run: |
           for path in index.html .well-known/assetlinks.json strategy/monetization-opportunities/index.html; do
-            curl --fail --silent --show-error --location --retry 4 --retry-all-errors --retry-delay 5 \
-              "$WORKER_URL/$path" --output "$RUNNER_TEMP/worker-response"
-            cmp ".site-public/$path" "$RUNNER_TEMP/worker-response"
+            matched=false
+            for attempt in 1 2 3 4 5 6; do
+              if curl --fail --silent --show-error --location --max-time 10 \
+                --header 'Cache-Control: no-cache' \
+                "$WORKER_URL/$path?deployment_verify=$GITHUB_RUN_ID-$GITHUB_SHA-$attempt" \
+                --output "$RUNNER_TEMP/worker-response" \
+                && cmp --silent ".site-public/$path" "$RUNNER_TEMP/worker-response"; then
+                matched=true
+                break
+              fi
+              if [ "$attempt" -lt 6 ]; then sleep 5; fi
+            done
+            if [ "$matched" != true ]; then
+              echo "::error::Deployed asset did not match the current source: $path"
+              exit 1
+            fi
           done
           status=$(curl --silent --show-error --output /dev/null --write-out '%{http_code}' "$WORKER_URL/api/sms.js")
           test "$status" = 404 || { echo '::error::Server source path must return 404'; exit 1; }
