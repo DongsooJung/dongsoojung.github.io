@@ -1,0 +1,25 @@
+name: Diagnose Customs connection
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  diagnose:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - name: Verify diagnostic output safeguards
+        run: node --test tests/probe-customs-connection.test.mjs
+      - name: Probe fixed September 2026 request without exposing credentials
+        env:
+          CUSTOMS_API_KEY: ${{ secrets.CUSTOMS_API_KEY }}
+          CUSTOMS_PROXY_BASE: ${{ secrets.CUSTOMS_PROXY_BASE }}
+        run: node scripts/probe-customs-connection.mjs
