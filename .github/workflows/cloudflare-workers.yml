@@ -40,16 +40,17 @@ jobs:
             | jq --exit-status '.success == true and .result.status == "active"' > /dev/null
           echo 'Cloudflare account token is active.'
       - name: Verify public staging safeguards
-        run: node --test tests/cloudflare-static.test.mjs tests/vercel-static.test.mjs tests/cloudflare-analytics.test.mjs tests/cloudflare-analytics-frontend.test.mjs
+        run: node --test tests/cloudflare-static.test.mjs tests/vercel-static.test.mjs tests/cloudflare-analytics.test.mjs tests/cloudflare-analytics-history.test.mjs tests/cloudflare-analytics-frontend.test.mjs
       - name: Stage tracked public site files
         run: node scripts/build-cloudflare-static.mjs
       - name: Test analytics with a local Durable Object
         shell: bash
         run: |
-          npx --yes wrangler@4.151.0 dev --config wrangler.jsonc --ip 127.0.0.1 --port 8787 --persist-to "$RUNNER_TEMP/analytics-test" > "$RUNNER_TEMP/analytics-test.log" 2>&1 &
+          export ANALYTICS_TEST_IMPORT_KEY=$(node -e "process.stdout.write(require('node:crypto').randomBytes(32).toString('hex'))")
+          npx --yes wrangler@4.151.0 dev --config wrangler.jsonc --ip 127.0.0.1 --port 8787 --persist-to "$RUNNER_TEMP/analytics-test" --var "ANALYTICS_IMPORT_KEY:$ANALYTICS_TEST_IMPORT_KEY" > "$RUNNER_TEMP/analytics-test.log" 2>&1 &
           server_pid=$!
           trap 'kill "$server_pid" 2>/dev/null || true' EXIT
-          ANALYTICS_TEST_URL=http://127.0.0.1:8787 node --test tests/cloudflare-analytics-local.test.mjs
+          ANALYTICS_TEST_URL=http://127.0.0.1:8787 node --test --test-concurrency=1 tests/cloudflare-analytics-local.test.mjs tests/cloudflare-analytics-history-local.test.mjs
       - name: Deploy stargate to workers.dev
         id: deploy
         shell: bash

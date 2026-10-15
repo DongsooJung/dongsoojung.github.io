@@ -77,7 +77,12 @@
       const stats = await rpc('get_site_visit_stats', { p_days: 30 });
       todayElement.textContent = formatNumber(stats.today);
       totalElement.textContent = formatNumber(stats.total);
-      summaryLink.title = `방문자 통계 · ${cloudflareAnalytics ? 'Cloudflare 수집 시작 이후 누적 · ' : ''}${day} 한국시간 기준`;
+      const history = stats.historical_import;
+      const imported = cloudflareAnalytics && history?.source === 'supabase:inftexpcnfinglwlrvsj'
+        && typeof history.completed_at === 'string' && Number.isFinite(Date.parse(history.completed_at))
+        && /^[a-f0-9]{64}$/i.test(history.manifest_sha256);
+      const scope = cloudflareAnalytics ? (imported ? 'Supabase 이전 기록 포함 통합 누적 · ' : 'Cloudflare 수집 시작 이후 누적 · ') : '';
+      summaryLink.title = `방문자 통계 · ${scope}${day} 한국시간 기준`;
       summaryLink.dataset.state = 'ready';
     } catch (error) {
       console.error('Visitor analytics failed:', error);

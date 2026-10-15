@@ -19,8 +19,8 @@ a{color:inherit;text-decoration:none}.wrap{max-width:1080px;margin:0 auto;paddin
   <div class="top"><div class="brand">STARGATE · ADMIN</div><div style="display:flex;gap:8px"><button class="refresh" id="refresh">새로고침</button><a class="back" href="/">← 메인으로</a></div></div>
   <section class="hero"><div class="kicker">SITE USAGE ANALYTICS</div><h1>사이트 사용 분석 대시보드</h1><p>한국시간 기준 방문자와 페이지별·버튼별 실제 사용률을 확인합니다.</p><div class="status" id="status"><span class="dot"></span><span>데이터를 불러오는 중입니다.</span></div></section>
   <p class="footer" id="collection-scope" hidden></p>
-  <section class="metrics"><article class="card"><div class="label" id="today-label">TODAY · 오늘</div><div class="value" id="today">—</div><div class="hint" id="today-date">한국시간 기준</div></article><article class="card"><div class="label" id="total-label">TOTAL · 누적</div><div class="value" id="total">—</div><div class="hint">고유 브라우저·일 단위 누적</div></article><article class="card"><div class="label">30 DAYS · 최근 30일</div><div class="value" id="monthly">—</div><div class="hint">일별 방문 합계</div></article></section>
-  <section class="section"><h2>최근 30일 방문 추이</h2><div class="chart" id="chart"></div><div class="table" id="table"></div></section>
+  <section class="metrics"><article class="card"><div class="label" id="today-label">TODAY · 오늘</div><div class="value" id="today">—</div><div class="hint" id="today-date">한국시간 기준</div></article><article class="card"><div class="label" id="total-label">TOTAL · 누적</div><div class="value" id="total">—</div><div class="hint">고유 브라우저·일 단위 누적</div></article><article class="card"><div class="label" id="period-label">30 DAYS · 최근 30일</div><div class="value" id="monthly">—</div><div class="hint">일별 방문 합계</div></article></section>
+  <section class="section"><h2 id="visits-title">최근 30일 방문 추이</h2><label id="period-control" hidden style="color:var(--sub);font-size:12px;margin-bottom:12px">조회 기간 <select id="period-days" disabled aria-label="통계 조회 기간" style="margin-left:6px;padding:6px 10px;border:1px solid var(--line);border-radius:8px;background:var(--panel);color:var(--ink)"><option value="30">최근 30일</option><option value="90">최근 90일</option></select></label><div class="chart" id="chart"></div><div class="table" id="table"></div></section>
   <section class="section" aria-labelledby="usage-title">
     <h2 id="usage-title">버튼 사용 분석 · 최근 30일</h2>
     <div class="metrics usage-metrics">
@@ -45,9 +45,13 @@ a{color:inherit;text-decoration:none}.wrap{max-width:1080px;margin:0 auto;paddin
   const sourceLabel=cloudflareAnalytics?'Cloudflare':'Supabase';
   const rpcBase=cloudflareAnalytics?'/api/analytics/':supabaseUrl+'/rest/v1/rpc/';
   const rpcHeaders=cloudflareAnalytics?{'Content-Type':'application/json',Accept:'application/json'}:{apikey:publishableKey,Authorization:'Bearer '+publishableKey,'Content-Type':'application/json',Accept:'application/json'};
-  const snapshotKey=cloudflareAnalytics?'stargate-cloudflare-analytics-snapshot-v1':'stargate-analytics-snapshot-v2';
+  let selectedDays=30, historicalScope=null, collectionStarted=null;
+  const snapshotKey=days=>cloudflareAnalytics?'stargate-cloudflare-analytics-snapshot-v2:days:'+days:'stargate-analytics-snapshot-v2';
   const $=id=>document.getElementById(id);
   const status=$('status'), refresh=$('refresh');
+  $('period-control').hidden=true;
+  $('period-days').value='30';
+  $('period-days').disabled=true;
   function timestamp(value){const date=new Date(value);return Number.isFinite(date.getTime())?new Intl.DateTimeFormat('ko-KR',{dateStyle:'medium',timeStyle:'medium',timeZone:'Asia/Seoul'}).format(date)+' 한국시간':null}
   if(cloudflareAnalytics){
     $('today-label').textContent='TODAY · Cloudflare 오늘';
@@ -56,10 +60,27 @@ a{color:inherit;text-decoration:none}.wrap{max-width:1080px;margin:0 auto;paddin
     $('collection-scope').textContent='Cloudflare 저장소에 새로 수집한 통계입니다. 기존 Supabase 누적 통계는 포함하지 않습니다. 수집 시작 시각을 확인 중입니다.';
     $('analytics-footer').textContent='Cloudflare 저장소에 방문·클릭 집계를 보관합니다. 브라우저 식별자로 중복 방문을 구분하며, 입력 내용이나 IP 주소는 저장하지 않습니다.';
   }
+  function importedHistory(stats){
+    const history=stats?.historical_import;
+    if(!history||history.source!=='supabase:inftexpcnfinglwlrvsj'||!Number.isInteger(history.visits)||history.visits<0||!Number.isInteger(history.events)||history.events<0)return null;
+    if(!/^\d{4}-\d{2}-\d{2}$/.test(history.first_date)||!/^\d{4}-\d{2}-\d{2}$/.test(history.last_date)||history.first_date>history.last_date)return null;
+    if(typeof history.completed_at!=='string'||!timestamp(history.completed_at)||!/^[a-f0-9]{64}$/i.test(history.manifest_sha256))return null;
+    return history;
+  }
   function renderScope(visits,usage){
     if(!cloudflareAnalytics)return;
-    const started=timestamp(visits?.started_at||usage?.started_at);
-    $('collection-scope').textContent='Cloudflare 저장소에 새로 수집한 통계입니다. '+(started?'수집 시작: '+started+'. ':'수집 시작 시각을 확인할 수 없습니다. ')+'기존 Supabase 누적 통계는 포함하지 않습니다. 최근 30일 추이도 수집 시작 이후만 표시합니다.';
+    collectionStarted=timestamp(visits?.started_at||usage?.started_at)||collectionStarted;
+    const started=collectionStarted;
+    historicalScope=importedHistory(visits)||importedHistory(usage)||historicalScope;
+    const history=historicalScope;
+    $('period-control').hidden=!history;
+    $('total-label').textContent=history?'TOTAL · 통합 누적':'TOTAL · Cloudflare 누적';
+    const nativeStart=started?'Cloudflare 신규 수집 시작: '+started+'. ':'Cloudflare 신규 수집 시작 시각을 확인할 수 없습니다. ';
+    if(history){
+      $('collection-scope').textContent='기존 Supabase 기록과 Cloudflare 신규 수집을 합산한 통계입니다. 이전 기록 범위: '+history.first_date+' ~ '+history.last_date+' 한국시간 · 방문 '+fmt(history.visits)+'건 · 사용 이벤트 '+fmt(history.events)+'건. 가져오기 완료: '+timestamp(history.completed_at)+'. '+nativeStart+'확인된 이전 기록 범위 밖의 누락 기간은 복원하지 않습니다.';
+    }else{
+      $('collection-scope').textContent='Cloudflare 저장소에 새로 수집한 통계입니다. '+nativeStart+'기존 Supabase 누적 통계는 포함하지 않습니다. 최근 '+selectedDays+'일 추이도 수집 시작 이후만 표시합니다.';
+    }
   }
   function day(offset=0){const d=new Date(Date.now()+offset*86400000);const p=new Intl.DateTimeFormat('en-CA',{timeZone:'Asia/Seoul',year:'numeric',month:'2-digit',day:'2-digit'}).formatToParts(d);const v=Object.fromEntries(p.map(x=>[x.type,x.value]));return `${v.year}-${v.month}-${v.day}`}
   function fmt(n){return (Number(n)||0).toLocaleString('ko-KR')}
@@ -115,31 +136,54 @@ a{color:inherit;text-decoration:none}.wrap{max-width:1080px;margin:0 auto;paddin
   }
   async function load(){
     refresh.disabled=true;setStatus(sourceLabel+'에서 방문·클릭 통계를 불러오는 중입니다.');
-    let cached=null;try{cached=JSON.parse(localStorage.getItem(snapshotKey)||'null')}catch{}
-    if(cloudflareAnalytics&&(cached?.source!==source||cached?.visits?.source!=='cloudflare'||cached?.usage?.source!=='cloudflare'))cached=null;
+    const days=selectedDays,cacheKey=snapshotKey(days);
+    $('period-days').disabled=true;
+    $('period-label').textContent=days+' DAYS · 최근 '+days+'일';
+    $('visits-title').textContent='최근 '+days+'일 방문 추이';
+    $('usage-title').textContent='버튼 사용 분석 · 최근 '+days+'일';
+    let cached=null;try{cached=JSON.parse(localStorage.getItem(cacheKey)||'null')}catch{}
+    if(cloudflareAnalytics&&(cached?.days!==days||cached?.source!==source||cached?.visits?.source!=='cloudflare'||cached?.usage?.source!=='cloudflare'))cached=null;
     const [visitsResult,usageResult]=await Promise.allSettled([
-      fetchRpc('get_site_visit_stats',{p_days:30}),
-      fetchRpc('get_site_usage_stats',{p_days:30}),
+      fetchRpc('get_site_visit_stats',{p_days:days}),
+      fetchRpc('get_site_usage_stats',{p_days:days}),
     ]);
-    const visits=visitsResult.status==='fulfilled'?visitsResult.value:cached?.visits;
-    const usage=usageResult.status==='fulfilled'?usageResult.value:cached?.usage;
+    let visits=visitsResult.status==='fulfilled'?visitsResult.value:cached?.visits;
+    let usage=usageResult.status==='fulfilled'?usageResult.value:cached?.usage;
+    if(cloudflareAnalytics){
+      const live=visitsResult.status==='fulfilled'?visitsResult.value:usageResult.status==='fulfilled'?usageResult.value:null;
+      if(live){
+        const manifest=importedHistory(live)?.manifest_sha256||null;
+        if(visitsResult.status!=='fulfilled'&&(importedHistory(visits)?.manifest_sha256||null)!==manifest)visits=null;
+        if(usageResult.status!=='fulfilled'&&(importedHistory(usage)?.manifest_sha256||null)!==manifest)usage=null;
+      }
+      if(visitsResult.status==='fulfilled'&&usageResult.status==='fulfilled'&&(importedHistory(visits)?.manifest_sha256||null)!==(importedHistory(usage)?.manifest_sha256||null)){
+        if(importedHistory(visits))usage=null;
+        else visits=null;
+      }
+    }
     if(visits)renderVisits(visits);
     else{['today','total','monthly'].forEach(id=>$(id).textContent='—');$('chart').replaceChildren();$('table').replaceChildren()}
     if(usage)renderUsage(usage);
     else{['usage-views','usage-clicks','usage-clickers','usage-rate'].forEach(id=>$(id).textContent='—');$('usage-pages').replaceChildren();$('usage-buttons').replaceChildren()}
     renderScope(visits,usage);
-    if(visitsResult.status==='fulfilled'&&usageResult.status==='fulfilled'){
-      try{localStorage.setItem(snapshotKey,JSON.stringify({source,visits,usage,at:new Date().toISOString()}))}catch{}
+    if(visitsResult.status==='fulfilled'&&usageResult.status==='fulfilled'&&visits&&usage){
+      try{localStorage.setItem(cacheKey,JSON.stringify({source,days,visits,usage,at:new Date().toISOString()}))}catch{}
       setStatus('정상 연결 · '+sourceLabel+' · '+timestamp(new Date()),'ok');
     }else if(visits||usage){
       const stale=[];
-      if(visitsResult.status!=='fulfilled'&&cached?.visits)stale.push('방문');
-      if(usageResult.status!=='fulfilled'&&cached?.usage)stale.push('클릭');
+      if(visitsResult.status!=='fulfilled'&&visits)stale.push('방문');
+      if(usageResult.status!=='fulfilled'&&usage)stale.push('클릭');
       setStatus(sourceLabel+' 일부 통계 연결 실패. '+(stale.length?stale.join('·')+' 통계는 '+(timestamp(cached.at)||'시각을 확인할 수 없는')+' 저장본입니다.':'확인 가능한 통계만 표시합니다.'),'warn');
     }
     else{setStatus(sourceLabel+' 분석 통계 연결에 실패했습니다.','error')}
     refresh.disabled=false;
+    $('period-days').disabled=!cloudflareAnalytics||!historicalScope;
   }
+  $('period-days').addEventListener('change',()=>{
+    const days=Number($('period-days').value);
+    if(!cloudflareAnalytics||!historicalScope||refresh.disabled||![30,90].includes(days))return;
+    selectedDays=days;load();
+  });
   refresh.addEventListener('click',load);load();
 })();
 </script>
