@@ -50,6 +50,25 @@ jobs:
           npx --yes wrangler@4.151.0 dev --config wrangler.jsonc --ip 127.0.0.1 --port 8787 --persist-to "$RUNNER_TEMP/analytics-test" --var "ANALYTICS_IMPORT_KEY:$ANALYTICS_TEST_IMPORT_KEY" > "$RUNNER_TEMP/analytics-test.log" 2>&1 &
           server_pid=$!
           trap 'kill "$server_pid" 2>/dev/null || true' EXIT
+          ready=false
+          ready_deadline=$((SECONDS + 60))
+          while (( SECONDS < ready_deadline )); do
+            if ! kill -0 "$server_pid" 2>/dev/null; then
+              echo '::error::Local analytics Worker exited before becoming ready'
+              exit 1
+            fi
+            if curl --fail --silent --max-time 1 --output /dev/null \
+              http://127.0.0.1:8787/api/analytics/get_site_visit_stats \
+              --header 'Content-Type: application/json' --data '{}' 2>/dev/null; then
+              ready=true
+              break
+            fi
+            sleep 1
+          done
+          if [ "$ready" != true ]; then
+            echo '::error::Local analytics Worker did not become ready within 60 seconds'
+            exit 1
+          fi
           ANALYTICS_TEST_URL=http://127.0.0.1:8787 node --test --test-concurrency=1 tests/cloudflare-analytics-local.test.mjs tests/cloudflare-analytics-history-local.test.mjs
       - name: Deploy stargate to workers.dev
         id: deploy
