@@ -1,0 +1,60 @@
+rules_version = '2';
+// Publish in the Firebase console for project planning-with-ai-518df:
+// https://console.firebase.google.com/project/planning-with-ai-518df/firestore/rules
+// Or: firebase deploy --only firestore:rules --config firebase/firebase.json --project planning-with-ai-518df
+//
+// Visitors are random browser ids. Rules allow inserting a valid analytics
+// document and reading aggregates. Updates and deletes stay closed except for
+// rewriting the same day's visit, which does not increase the unique count.
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function shortText(value, max) {
+      return value is string && value.size() > 0 && value.size() <= max;
+    }
+    function optionalText(field, max) {
+      return !(field in request.resource.data)
+        || (request.resource.data[field] is string
+          && request.resource.data[field].size() > 0
+          && request.resource.data[field].size() <= max);
+    }
+    function day(value) {
+      return value is string && value.matches('^\\d{4}-\\d{2}-\\d{2}$');
+    }
+    function visitorId(value) {
+      return value is string && value.matches('^[A-Za-z0-9-]{8,64}$');
+    }
+
+    match /siteVisits/{id} {
+      allow read: if true;
+      allow create, update: if visitorId(request.resource.data.visitorId)
+        && day(request.resource.data.visitDate)
+        && shortText(request.resource.data.path, 512)
+        && request.resource.data.createdAt is timestamp
+        && request.resource.data.keys().hasOnly(['visitorId', 'visitDate', 'path', 'createdAt']);
+      allow delete: if false;
+    }
+
+    match /siteUsageEvents/{id} {
+      allow read: if true;
+      allow create: if visitorId(request.resource.data.visitorId)
+        && visitorId(request.resource.data.sessionId)
+        && request.resource.data.eventType in ['page_view', 'click']
+        && shortText(request.resource.data.pagePath, 512)
+        && day(request.resource.data.day)
+        && request.resource.data.createdAt is timestamp
+        && optionalText('pageTitle', 240)
+        && optionalText('elementLabel', 160)
+        && optionalText('elementKind', 48)
+        && optionalText('targetUrl', 1024)
+        && (
+          !('deviceType' in request.resource.data)
+          || request.resource.data.deviceType in ['mobile', 'tablet', 'desktop']
+        )
+        && request.resource.data.keys().hasOnly([
+          'visitorId', 'sessionId', 'eventType', 'pagePath', 'pageTitle',
+          'elementLabel', 'elementKind', 'targetUrl', 'deviceType', 'day', 'createdAt'
+        ]);
+      allow update, delete: if false;
+    }
+  }
+}
