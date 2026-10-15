@@ -113,9 +113,18 @@
     return elements;
   }
 
+  function countsReady() {
+    return loadState.views === 'ready' || loadState.clicks === 'ready';
+  }
+
   function decorateCounts(root = document) {
+    const ready = countsReady();
     countableElements(root).forEach((element) => {
-      if (element.matches('[data-analytics-ignore]')) return;
+      if (!ready || element.matches('[data-analytics-ignore]')) {
+        element.querySelector(':scope > .stargate-click-count')?.remove();
+        element.classList.remove('stargate-analytics-counted');
+        return;
+      }
       const label = elementLabel(element);
       if (!label) return;
       element.dataset.analyticsLabel = label;
@@ -386,6 +395,7 @@
     loadState.views = 'error';
     loadState.clicks = 'error';
   }).finally(() => {
+    decorateCounts();
     usageReadyResolve();
     notifyUsage();
   });

@@ -125,5 +125,100 @@
     return { recordVisit, recordEvent, getVisitStats, getUsageStats, getButtonClickCounts };
   }
 
-  return { createMemoryBackend, createAnalyticsStore };
+  function createRestBackend(options = {}) {
+    const baseUrl = String(options.baseUrl || '').replace(/\/$/, '');
+    const fetchImpl = options.fetchImpl || globalThis.fetch;
+    const cacheMs = Number.isFinite(options.cacheMs) ? options.cacheMs : 15000;
+    const clock = options.now || (() => Date.now());
+    const cache = new Map();
+
+    async function read(collectionName) {
+      const hit = cache.get(collectionName);
+      if (hit && clock() - hit.at < cacheMs) return hit.rows.slice();
+      const response = await fetchImpl(`${baseUrl}/${collectionName}`, {
+        method: 'GET',
+        headers: { Accept: 'application/json' },
+      });
+      if (!response.ok) throw new Error(`ANALYTICS_${collectionName}_${response.status}`);
+      const rows = await response.json();
+      const list = Array.isArray(rows) ? rows : [];
+      cache.set(collectionName, { at: clock(), rows: list });
+      return list.slice();
+    }
+
+    async function create(collectionName, data) {
+      const response = await fetchImpl(`${baseUrl}/${collectionName}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+        body: JSON.stringify(data),
+      });
+      if (!response.ok) throw new Error(`ANALYTICS_${collectionName}_${response.status}`);
+      const saved = await response.json();
+      const hit = cache.get(collectionName);
+      if (hit) {
+        hit.rows.push(saved);
+        hit.at = clock();
+      }
+      return saved;
+    }
+
+    return {
+      async putVisit(_id, data) {
+        const rows = await read('siteVisits');
+        if (rows.some((row) => row.visitorId === data.visitorId && row.visitDate === data.visitDate)) return false;
+        await create('siteVisits', {
+          visitorId: data.visitorId,
+          visitDate: data.visitDate,
+          path: data.path,
+          createdAt: data.createdAt,
+        });
+        return true;
+      },
+      async putEvent(id, data) {
+        const rows = await read('siteUsageEvents');
+        if (rows.some((row) => row.eventId === id)) return false;
+        await create('siteUsageEvents', { ...data, eventId: id });
+        return true;
+      },
+      async listVisits(start, end) {
+        const rows = await read('siteVisits');
+        return rows.filter((row) => row.visitDate >= start && row.visitDate <= end);
+      },
+      async countVisits() {
+        return (await read('siteVisits')).length;
+      },
+      async listEvents(start, end) {
+        const rows = await read('siteUsageEvents');
+        return rows.filter((row) => row.day >= start && row.day <= end);
+      },
+      async listPageEvents(pagePath) {
+        const rows = await read('siteUsageEvents');
+        return rows.filter((row) => row.pagePath === pagePath);
+      },
+    };
+  }
+
+  function createFallbackStore(primary, fallback) {
+    const state = { source: 'primary' };
+    async function call(method, args) {
+      if (state.source === 'fallback') return fallback[method](...args);
+      try {
+        return await primary[method](...args);
+      } catch (error) {
+        if (error?.code !== 'permission-denied') throw error;
+        state.source = 'fallback';
+        return fallback[method](...args);
+      }
+    }
+    return {
+      get source() { return state.source; },
+      recordVisit: (...args) => call('recordVisit', args),
+      recordEvent: (...args) => call('recordEvent', args),
+      getVisitStats: (...args) => call('getVisitStats', args),
+      getUsageStats: (...args) => call('getUsageStats', args),
+      getButtonClickCounts: (...args) => call('getButtonClickCounts', args),
+    };
+  }
+
+  return { createMemoryBackend, createAnalyticsStore, createRestBackend, createFallbackStore };
 });

@@ -3,7 +3,7 @@ import '../assets/site-analytics-aggregate.js';
 import '../assets/site-analytics-store.js';
 
 const { aggregateVisitStats, aggregateUsageStats, aggregateButtonCounts, koreaToday } = globalThis.StargateAnalyticsAggregate;
-const { createAnalyticsStore, createMemoryBackend } = globalThis.StargateAnalyticsStore;
+const { createAnalyticsStore, createMemoryBackend, createRestBackend, createFallbackStore } = globalThis.StargateAnalyticsStore;
 
 const now = new Date('2026-10-15T03:00:00Z');
 const today = koreaToday(now);
@@ -121,5 +121,58 @@ const wide = await store.getUsageStats(0, now);
 assert.equal(wide.days, 1);
 const capped = await store.getVisitStats(120, now);
 assert.equal(capped.daily.length, 90);
+
+const saved = { siteVisits: [], siteUsageEvents: [] };
+const fetchImpl = async (url, options = {}) => {
+  const name = new URL(url).pathname.split('/').filter(Boolean).at(-1);
+  const method = options.method || 'GET';
+  if (method === 'GET') return { ok: true, status: 200, json: async () => saved[name].slice() };
+  const body = JSON.parse(options.body);
+  const row = { ...body, _id: `${name}-${saved[name].length + 1}` };
+  saved[name].push(row);
+  return { ok: true, status: 201, json: async () => row };
+};
+const remote = createAnalyticsStore(createRestBackend({
+  baseUrl: 'https://example.test/api/bucket',
+  fetchImpl,
+  cacheMs: 60000,
+}));
+assert.equal(await remote.recordVisit({ visitorId: visitor, visitDate: today, path: '/' }, now), true);
+assert.equal(await remote.recordVisit({ visitorId: visitor, visitDate: today, path: '/' }, now), false);
+await remote.recordEvent({
+  eventId: 'aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaa9',
+  visitorId: visitor,
+  sessionId: session,
+  eventType: 'page_view',
+  pagePath: '/',
+}, now);
+const remoteStats = await remote.getVisitStats(7, now);
+assert.equal(remoteStats.today, 1);
+assert.equal(remoteStats.total, 1);
+assert.equal((await remote.getUsageStats(7, now)).page_views, 1);
+
+const denied = Object.assign(new Error('denied'), { code: 'permission-denied' });
+const blocked = {
+  recordVisit: async () => { throw denied; },
+  recordEvent: async () => { throw denied; },
+  getVisitStats: async () => { throw denied; },
+  getUsageStats: async () => { throw denied; },
+  getButtonClickCounts: async () => { throw denied; },
+};
+const resilient = createFallbackStore(blocked, remote);
+assert.equal((await resilient.getVisitStats(7, now)).total, 1);
+assert.equal(resilient.source, 'fallback');
+let deniedCalls = 0;
+const countingBlocked = {
+  ...blocked,
+  getVisitStats: async () => {
+    deniedCalls += 1;
+    throw denied;
+  },
+};
+const latched = createFallbackStore(countingBlocked, remote);
+await latched.getVisitStats(7, now);
+await latched.getVisitStats(7, now);
+assert.equal(deniedCalls, 1);
 
 console.log('site analytics tests passed');

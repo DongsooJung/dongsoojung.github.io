@@ -33,7 +33,7 @@ a{color:inherit;text-decoration:none}.wrap{max-width:1080px;margin:0 auto;paddin
       <article class="usage-panel"><h3>버튼별 클릭 순위</h3><div id="usage-buttons"></div></article>
     </div>
   </section>
-  <div class="footer">Firebase Firestore 기반으로 집계합니다. 방문자는 동일 브라우저 기준이며, 클릭 데이터에는 입력 내용이나 개인정보를 저장하지 않습니다.</div>
+  <div class="footer">Firebase 규칙을 우선 사용하고, 규칙이 막혀 있으면 임시 저장소에 집계합니다. 방문자는 동일 브라우저 기준이며, 클릭 데이터에는 입력 내용이나 개인정보를 저장하지 않습니다.</div>
 </div>
 <script>
 (() => {
@@ -115,7 +115,10 @@ a{color:inherit;text-decoration:none}.wrap{max-width:1080px;margin:0 auto;paddin
     if(visitsResult.status==='fulfilled'&&usageResult.status==='fulfilled'){
       try{localStorage.setItem(snapshotKey,JSON.stringify({visits,usage,at:new Date().toISOString()}))}catch{}
       const project=(await import('/assets/firebase-site-analytics.js')).firebaseProjectId;
-      setStatus('정상 연결 · Firebase · '+project+' · '+new Intl.DateTimeFormat('ko-KR',{dateStyle:'medium',timeStyle:'medium',timeZone:'Asia/Seoul'}).format(new Date()),'ok');
+      const when=new Intl.DateTimeFormat('ko-KR',{dateStyle:'medium',timeStyle:'medium',timeZone:'Asia/Seoul'}).format(new Date());
+      setStatus(analytics.source==='fallback'
+        ?'정상 연결 · 임시 수집 저장소 · '+when
+        :'정상 연결 · Firebase · '+project+' · '+when,'ok');
     }else if(denied(visitsResult)||denied(usageResult)){
       setStatus((visits||usage)
         ?'Firebase 보안 규칙이 조회를 막아 이전에 저장된 통계만 표시합니다. firebase/firestore.rules 를 게시해 주세요.'

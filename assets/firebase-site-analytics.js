@@ -15,9 +15,9 @@ import {
 } from 'https://www.gstatic.com/firebasejs/11.10.0/firebase-firestore.js';
 import './site-analytics-aggregate.js';
 import './site-analytics-store.js';
-import { firebaseConfig, firebaseProjectId } from './firebase-config.js';
+import { analyticsFallbackUrl, firebaseConfig, firebaseProjectId } from './firebase-config.js';
 
-const { createAnalyticsStore } = globalThis.StargateAnalyticsStore;
+const { createAnalyticsStore, createFallbackStore, createRestBackend } = globalThis.StargateAnalyticsStore;
 const QUERY_LIMIT = 5000;
 
 function asDate(value) {
@@ -129,8 +129,23 @@ let clientPromise;
 export function loadAnalyticsClient() {
   if (!clientPromise) {
     clientPromise = Promise.resolve().then(() => {
-      const app = getApps().length ? getApps()[0] : initializeApp(firebaseConfig);
-      return createAnalyticsStore(createFirestoreBackend(getFirestore(app)));
+      const fallback = createAnalyticsStore(createRestBackend({ baseUrl: analyticsFallbackUrl }));
+      try {
+        const app = getApps().length ? getApps()[0] : initializeApp(firebaseConfig);
+        const primary = createAnalyticsStore(createFirestoreBackend(getFirestore(app)));
+        return createFallbackStore(primary, fallback);
+      } catch (error) {
+        const denied = permissionError(error);
+        denied.code = denied.code || 'permission-denied';
+        const blocked = createFallbackStore({
+          recordVisit: () => Promise.reject(denied),
+          recordEvent: () => Promise.reject(denied),
+          getVisitStats: () => Promise.reject(denied),
+          getUsageStats: () => Promise.reject(denied),
+          getButtonClickCounts: () => Promise.reject(denied),
+        }, fallback);
+        return blocked;
+      }
     }).catch((error) => {
       clientPromise = null;
       throw permissionError(error);
