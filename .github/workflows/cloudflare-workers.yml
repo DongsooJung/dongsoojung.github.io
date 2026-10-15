@@ -1,0 +1,66 @@
+name: Cloudflare Worker stargate
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: cloudflare-worker-stargate
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+      CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+      WRANGLER_SEND_METRICS: 'false'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - name: Require Cloudflare deployment secrets
+        shell: bash
+        run: |
+          test -n "$CLOUDFLARE_API_TOKEN" || { echo '::error::Missing CLOUDFLARE_API_TOKEN'; exit 1; }
+          test -n "$CLOUDFLARE_ACCOUNT_ID" || { echo '::error::Missing CLOUDFLARE_ACCOUNT_ID'; exit 1; }
+      - name: Verify Cloudflare account token
+        shell: bash
+        run: |
+          curl --fail --silent --show-error \
+            "https://api.cloudflare.com/client/v4/accounts/$CLOUDFLARE_ACCOUNT_ID/tokens/verify" \
+            --header "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
+            | jq --exit-status '.success == true and .result.status == "active"' > /dev/null
+          echo 'Cloudflare account token is active.'
+      - name: Verify public staging safeguards
+        run: node --test tests/cloudflare-static.test.mjs tests/vercel-static.test.mjs
+      - name: Stage tracked public site files
+        run: node scripts/build-cloudflare-static.mjs
+      - name: Deploy stargate to workers.dev
+        id: deploy
+        shell: bash
+        run: |
+          npx --yes wrangler@4.151.0 deploy --config wrangler.jsonc | tee "$RUNNER_TEMP/cloudflare-deploy.log"
+          url=$(grep -Eo 'https://stargate\.[a-z0-9-]+\.workers\.dev' "$RUNNER_TEMP/cloudflare-deploy.log" | tail -n 1)
+          test -n "$url" || { echo '::error::Wrangler did not return a workers.dev URL'; exit 1; }
+          echo "url=$url" >> "$GITHUB_OUTPUT"
+      - name: Verify deployed static site
+        shell: bash
+        env:
+          WORKER_URL: ${{ steps.deploy.outputs.url }}
+        run: |
+          for path in index.html .well-known/assetlinks.json strategy/monetization-opportunities/index.html; do
+            curl --fail --silent --show-error --location --retry 4 --retry-all-errors --retry-delay 5 \
+              "$WORKER_URL/$path" --output "$RUNNER_TEMP/worker-response"
+            cmp ".site-public/$path" "$RUNNER_TEMP/worker-response"
+          done
+          status=$(curl --silent --show-error --output /dev/null --write-out '%{http_code}' "$WORKER_URL/api/sms.js")
+          test "$status" = 404 || { echo '::error::Server source path must return 404'; exit 1; }
+          echo "Verified static site: $WORKER_URL" >> "$GITHUB_STEP_SUMMARY"
