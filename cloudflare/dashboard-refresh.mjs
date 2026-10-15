@@ -1,6 +1,6 @@
 // Scheduled public data collection. Upstream dates are never replaced by fetch time.
 export const DASHBOARD_NAMES = ['exchange-rate', 'trade', 'urban'];
-export const DASHBOARD_COLLECTOR_VERSION = '20261015-3';
+export const DASHBOARD_COLLECTOR_VERSION = '20261015-4';
 export const DASHBOARD_UPSTREAMS = {
   fx: 'https://www.ecb.europa.eu/stats/eurofxref/eurofxref-hist-90d.xml',
   fxSnapshot: 'https://raw.githubusercontent.com/DongsooJung/dongsoojung.github.io/main/exchange-rate/data.json',
