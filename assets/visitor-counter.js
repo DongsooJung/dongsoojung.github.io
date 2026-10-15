@@ -1,8 +1,6 @@
 (() => {
   'use strict';
 
-  const supabaseUrl = 'https://inftexpcnfinglwlrvsj.supabase.co';
-  const publishableKey = 'sb_publishable_-D0A-aWNMTMTHXeL0oqBXg_9Tz0bdvs';
   const storagePrefix = 'stargateVisitorV3';
 
   const summaryLink = document.getElementById('visitor-summary-link');
@@ -14,11 +12,9 @@
 
   if (!summaryLink || !todayElement || !totalElement) return;
 
-  const headers = {
-    apikey: publishableKey,
-    Authorization: `Bearer ${publishableKey}`,
-    'Content-Type': 'application/json',
-  };
+  function analyticsClient() {
+    return import('/assets/firebase-site-analytics.js').then((mod) => mod.loadAnalyticsClient());
+  }
 
   function koreaDay() {
     const parts = new Intl.DateTimeFormat('en-CA', {
@@ -40,17 +36,6 @@
     return id;
   }
 
-  async function rpc(name, payload) {
-    const response = await fetch(`${supabaseUrl}/rest/v1/rpc/${name}`, {
-      method: 'POST',
-      cache: 'no-store',
-      headers,
-      body: JSON.stringify(payload),
-    });
-    if (!response.ok) throw new Error(`${name}_${response.status}`);
-    return response.json();
-  }
-
   function formatNumber(value) {
     return Number(value || 0).toLocaleString('ko-KR');
   }
@@ -60,16 +45,17 @@
     const countedKey = `${storagePrefix}:counted:${day}`;
 
     try {
+      const analytics = await analyticsClient();
       if (!localStorage.getItem(countedKey)) {
-        await rpc('record_site_visit', {
-          p_visitor_id: visitorId(),
-          p_visit_date: day,
-          p_path: window.location.pathname,
+        await analytics.recordVisit({
+          visitorId: visitorId(),
+          visitDate: day,
+          path: window.location.pathname,
         });
         localStorage.setItem(countedKey, '1');
       }
 
-      const stats = await rpc('get_site_visit_stats', { p_days: 30 });
+      const stats = await analytics.getVisitStats(30);
       todayElement.textContent = formatNumber(stats.today);
       totalElement.textContent = formatNumber(stats.total);
       summaryLink.title = `방문자 통계 · ${day} 한국시간 기준`;
