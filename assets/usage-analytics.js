@@ -1,8 +1,6 @@
 (() => {
   'use strict';
 
-  const supabaseUrl = 'https://inftexpcnfinglwlrvsj.supabase.co';
-  const publishableKey = 'sb_publishable_-D0A-aWNMTMTHXeL0oqBXg_9Tz0bdvs';
   const visitorKey = 'stargateVisitorV3:visitorId';
   const sessionKey = 'stargateUsageV1:sessionId';
   const displaySelector = [
@@ -115,9 +113,18 @@
     return elements;
   }
 
+  function countsReady() {
+    return loadState.views === 'ready' || loadState.clicks === 'ready';
+  }
+
   function decorateCounts(root = document) {
+    const ready = countsReady();
     countableElements(root).forEach((element) => {
-      if (element.matches('[data-analytics-ignore]')) return;
+      if (!ready || element.matches('[data-analytics-ignore]')) {
+        element.querySelector(':scope > .stargate-click-count')?.remove();
+        element.classList.remove('stargate-analytics-counted');
+        return;
+      }
       const label = elementLabel(element);
       if (!label) return;
       element.dataset.analyticsLabel = label;
@@ -239,21 +246,22 @@
     }
   }
 
+  let analyticsClientPromise;
+  function analyticsClient() {
+    if (!analyticsClientPromise) {
+      analyticsClientPromise = import('/assets/firebase-site-analytics.js')
+        .then((mod) => mod.loadAnalyticsClient())
+        .catch((error) => {
+          analyticsClientPromise = null;
+          throw error;
+        });
+    }
+    return analyticsClientPromise;
+  }
+
   async function loadClickCounts() {
     try {
-      const response = await fetch(`${supabaseUrl}/rest/v1/rpc/get_site_button_click_counts`, {
-        method: 'POST',
-        cache: 'no-store',
-        credentials: 'omit',
-        headers: {
-          apikey: publishableKey,
-          Authorization: `Bearer ${publishableKey}`,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ p_page_path: pagePath() }),
-      });
-      if (!response.ok) throw new Error(`CLICK_COUNTS_${response.status}`);
-      const rows = await response.json();
+      const rows = await (await analyticsClient()).getButtonClickCounts(pagePath());
       if (!Array.isArray(rows)) throw new Error('CLICK_COUNTS_INVALID');
       rows.forEach((row) => {
         const clicks = Number(row.clicks) || 0;
@@ -269,19 +277,7 @@
   }
 
   async function fetchUsageStats(days) {
-    const response = await fetch(`${supabaseUrl}/rest/v1/rpc/get_site_usage_stats`, {
-      method: 'POST',
-      cache: 'no-store',
-      credentials: 'omit',
-      headers: {
-        apikey: publishableKey,
-        Authorization: `Bearer ${publishableKey}`,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ p_days: days }),
-    });
-    if (!response.ok) throw new Error(`USAGE_STATS_${days}_${response.status}`);
-    return response.json();
+    return (await analyticsClient()).getUsageStats(days);
   }
 
   function pageMap(data) {
@@ -334,18 +330,18 @@
       p_device_type: deviceType(),
     };
 
-    fetch(`${supabaseUrl}/rest/v1/rpc/record_site_usage_event`, {
-      method: 'POST',
-      cache: 'no-store',
-      credentials: 'omit',
-      keepalive: eventType === 'click',
-      headers: {
-        apikey: publishableKey,
-        Authorization: `Bearer ${publishableKey}`,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(payload),
-    }).catch(() => {});
+    analyticsClient().then((analytics) => analytics.recordEvent({
+      eventId: payload.p_event_id,
+      visitorId: payload.p_visitor_id,
+      sessionId: payload.p_session_id,
+      eventType: payload.p_event_type,
+      pagePath: payload.p_page_path,
+      pageTitle: payload.p_page_title,
+      elementLabel: payload.p_element_label,
+      elementKind: payload.p_element_kind,
+      targetUrl: payload.p_target_url,
+      deviceType: payload.p_device_type,
+    })).catch(() => {});
   }
 
   function clickableFrom(event) {
@@ -399,6 +395,7 @@
     loadState.views = 'error';
     loadState.clicks = 'error';
   }).finally(() => {
+    decorateCounts();
     usageReadyResolve();
     notifyUsage();
   });

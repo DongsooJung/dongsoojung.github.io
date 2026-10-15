@@ -33,12 +33,10 @@ a{color:inherit;text-decoration:none}.wrap{max-width:1080px;margin:0 auto;paddin
       <article class="usage-panel"><h3>버튼별 클릭 순위</h3><div id="usage-buttons"></div></article>
     </div>
   </section>
-  <div class="footer">Supabase 기반으로 집계합니다. 방문자는 동일 브라우저 기준이며, 클릭 데이터에는 입력 내용이나 개인정보를 저장하지 않습니다.</div>
+  <div class="footer">Firebase 규칙을 우선 사용하고, 규칙이 막혀 있으면 임시 저장소에 집계합니다. 방문자는 동일 브라우저 기준이며, 클릭 데이터에는 입력 내용이나 개인정보를 저장하지 않습니다.</div>
 </div>
 <script>
 (() => {
-  const supabaseUrl='https://inftexpcnfinglwlrvsj.supabase.co';
-  const publishableKey='sb_publishable_-D0A-aWNMTMTHXeL0oqBXg_9Tz0bdvs';
   const snapshotKey='stargate-analytics-snapshot-v2';
   const $=id=>document.getElementById(id);
   const status=$('status'), refresh=$('refresh');
@@ -87,17 +85,28 @@ a{color:inherit;text-decoration:none}.wrap{max-width:1080px;margin:0 auto;paddin
     $('usage-pages').replaceChildren(...pageRows);
     $('usage-buttons').replaceChildren(...buttonRows);
   }
-  async function fetchRpc(name,payload){
-    const response=await fetch(supabaseUrl+'/rest/v1/rpc/'+name,{method:'POST',cache:'no-store',headers:{apikey:publishableKey,Authorization:'Bearer '+publishableKey,'Content-Type':'application/json',Accept:'application/json'},body:JSON.stringify(payload)});
-    if(!response.ok)throw new Error(name+'_HTTP_'+response.status);
-    return response.json();
+  function denied(result){
+    const code=result.reason&&result.reason.code;
+    const message=String(result.reason&&result.reason.message||'');
+    return code==='permission-denied'||message.includes('보안 규칙')||message.includes('PERMISSION_DENIED');
   }
   async function load(){
-    refresh.disabled=true;setStatus('Supabase에서 방문·클릭 통계를 불러오는 중입니다.');
+    refresh.disabled=true;setStatus('Firebase에서 방문·클릭 통계를 불러오는 중입니다.');
     let cached=null;try{cached=JSON.parse(localStorage.getItem(snapshotKey)||'null')}catch{}
+    let analytics;
+    try{analytics=await import('/assets/firebase-site-analytics.js').then((mod)=>mod.loadAnalyticsClient());}
+    catch(error){
+      if(cached?.visits)renderVisits(cached.visits);
+      if(cached?.usage)renderUsage(cached.usage);
+      setStatus(error&&error.code==='permission-denied'
+        ?'Firebase 보안 규칙이 통계 조회를 막고 있습니다. firebase/firestore.rules 를 게시해 주세요.'
+        :'Firebase 분석 통계 연결에 실패했습니다.','error');
+      refresh.disabled=false;
+      return;
+    }
     const [visitsResult,usageResult]=await Promise.allSettled([
-      fetchRpc('get_site_visit_stats',{p_days:30}),
-      fetchRpc('get_site_usage_stats',{p_days:30}),
+      analytics.getVisitStats(30),
+      analytics.getUsageStats(30),
     ]);
     const visits=visitsResult.status==='fulfilled'?visitsResult.value:cached?.visits;
     const usage=usageResult.status==='fulfilled'?usageResult.value:cached?.usage;
@@ -105,9 +114,17 @@ a{color:inherit;text-decoration:none}.wrap{max-width:1080px;margin:0 auto;paddin
     if(usage)renderUsage(usage);
     if(visitsResult.status==='fulfilled'&&usageResult.status==='fulfilled'){
       try{localStorage.setItem(snapshotKey,JSON.stringify({visits,usage,at:new Date().toISOString()}))}catch{}
-      setStatus('정상 연결 · Supabase · '+new Intl.DateTimeFormat('ko-KR',{dateStyle:'medium',timeStyle:'medium',timeZone:'Asia/Seoul'}).format(new Date()),'ok');
-    }else if(visits||usage){setStatus('일부 서버 지연으로 확인 가능한 통계만 표시합니다.','warn')}
-    else{setStatus('Supabase 분석 통계 연결에 실패했습니다.','error')}
+      const project=(await import('/assets/firebase-site-analytics.js')).firebaseProjectId;
+      const when=new Intl.DateTimeFormat('ko-KR',{dateStyle:'medium',timeStyle:'medium',timeZone:'Asia/Seoul'}).format(new Date());
+      setStatus(analytics.source==='fallback'
+        ?'정상 연결 · 임시 수집 저장소 · '+when
+        :'정상 연결 · Firebase · '+project+' · '+when,'ok');
+    }else if(denied(visitsResult)||denied(usageResult)){
+      setStatus((visits||usage)
+        ?'Firebase 보안 규칙이 조회를 막아 이전에 저장된 통계만 표시합니다. firebase/firestore.rules 를 게시해 주세요.'
+        :'Firebase 보안 규칙이 통계 조회를 막고 있습니다. firebase/firestore.rules 를 게시해 주세요.','error');
+    }else if(visits||usage){setStatus('일부 연결 지연으로 확인 가능한 통계만 표시합니다.','warn')}
+    else{setStatus('Firebase 분석 통계 연결에 실패했습니다.','error')}
     refresh.disabled=false;
   }
   refresh.addEventListener('click',load);load();
