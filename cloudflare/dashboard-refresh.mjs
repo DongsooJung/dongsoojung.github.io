@@ -1,6 +1,6 @@
 // Scheduled public data collection. Upstream dates are never replaced by fetch time.
 export const DASHBOARD_NAMES = ['exchange-rate', 'trade', 'urban'];
-export const DASHBOARD_COLLECTOR_VERSION = '20261015-2';
+export const DASHBOARD_COLLECTOR_VERSION = '20261015-3';
 export const DASHBOARD_UPSTREAMS = {
   fx: 'https://www.ecb.europa.eu/stats/eurofxref/eurofxref-hist-90d.xml',
   fxSnapshot: 'https://raw.githubusercontent.com/DongsooJung/dongsoojung.github.io/main/exchange-rate/data.json',
@@ -247,7 +247,7 @@ export class DashboardStore {
   async refresh(env = {}, { fetchFn = fetch, now = Date.now(), trigger = 'scheduled' } = {}) {
     const wallStarted = Date.now();
     if (!['scheduled', 'bootstrap'].includes(trigger)) throw new Error('Invalid refresh trigger');
-    this.write('_run', { ...this.state('_run'), last_trigger: trigger, started_at: iso(now), ...(trigger === 'scheduled' ? { last_scheduled_at: iso(now) } : {}) });
+    this.write('_run', { ...this.state('_run'), last_trigger: trigger, started_at: iso(now), completed_at: null, ...(trigger === 'scheduled' ? { last_scheduled_at: iso(now) } : {}) });
     if (this.inflight) return this.inflight;
     this.inflight = this.refreshAll(env, fetchFn, now);
     try {

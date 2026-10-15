@@ -1,5 +1,6 @@
 import { MAX_IMPORT_BYTES, RequestError, isImportAuthorized, readPayload, validatePayload } from './analytics.mjs';
 import { verifyAccessRequest } from './access.mjs';
+import { DASHBOARD_COLLECTOR_VERSION } from './dashboard-refresh.mjs';
 
 export const PUBLIC_ORIGINS = new Set(['https://stargateedu.co.kr','https://www.stargateedu.co.kr','https://stargate.stargate8225.workers.dev']);
 const publicMethods = new Set(['record_site_visit','record_site_usage_event','get_site_button_click_counts','get_site_visit_stats','get_site_visit_summary','get_site_usage_summary']);
@@ -67,12 +68,12 @@ export async function handleRequest(request,env,options = {}) {
       const store=object(env);
       if (name === 'status') {
         const status=await store.dashboardStatus();
-        if (status.datasets.some(dataset=>!dataset.checked_at) && options.waitUntil) options.waitUntil(store.refreshDashboards('bootstrap'));
+        if (status.datasets.some(dataset=>!dataset.checked_at || dataset.collector_version!==status.collector_version) && options.waitUntil) options.waitUntil(store.refreshDashboards('bootstrap'));
         return cors(json(status),origin);
       }
       if (!dashboardNames.has(name)) return cors(json({error:'Unknown dashboard'},404),origin);
       const result=await store.getDashboard(name);
-      if (!result.meta.checked_at && options.waitUntil) options.waitUntil(store.refreshDashboards('bootstrap'));
+      if ((!result.meta.checked_at || result.meta.collector_version!==DASHBOARD_COLLECTOR_VERSION) && options.waitUntil) options.waitUntil(store.refreshDashboards('bootstrap'));
       return cors(json(result),origin);
     } catch(error) { return cors(failure(error),origin); }
   }

@@ -2,6 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { verifyAccessRequest } from '../cloudflare/access.mjs';
 import { handleRequest, PUBLIC_ORIGINS } from '../cloudflare/routes.mjs';
+import { DASHBOARD_COLLECTOR_VERSION } from '../cloudflare/dashboard-refresh.mjs';
 
 const now=Date.parse('2026-10-15T12:00:00Z'),seconds=now/1000;
 const issuer='https://stargate-test.cloudflareaccess.com',audience='synthetic-admin-audience-tag';
@@ -94,8 +95,8 @@ test('public dashboard bootstrap is fixed to known datasets and does not retry a
   const queued=[],triggers=[];
   let checked=null;
   const store={
-    dashboardStatus:async()=>({datasets:[{name:'trade',checked_at:checked}]}),
-    getDashboard:async name=>({payload:null,meta:{name,checked_at:checked}}),
+    dashboardStatus:async()=>({collector_version:DASHBOARD_COLLECTOR_VERSION,datasets:[{name:'trade',checked_at:checked,collector_version:DASHBOARD_COLLECTOR_VERSION}]}),
+    getDashboard:async name=>({payload:null,meta:{name,checked_at:checked,collector_version:DASHBOARD_COLLECTOR_VERSION}}),
     refreshDashboards:async trigger=>{triggers.push(trigger);},
   };
   const env={VISITOR_ANALYTICS:{idFromName:name=>name,get:()=>store}},context={waitUntil:promise=>queued.push(promise)};
@@ -110,4 +111,24 @@ test('public dashboard bootstrap is fixed to known datasets and does not retry a
   assert.equal(triggers.length,1);
   assert.equal((await handleRequest(request('/api/dashboards/arbitrary',{}, {},'GET'),env,context)).status,404);
   assert.equal((await handleRequest(request('/api/dashboards/trade',{}, {Origin:'https://foreign.example'},'GET'),env,context)).status,403);
+});
+
+test('a new collector version bootstraps an old checked failure once through normal public reads',async()=>{
+  const pending=[],triggers=[];
+  let storedVersion='previous-collector-version';
+  const store={
+    dashboardStatus:async()=>({collector_version:DASHBOARD_COLLECTOR_VERSION,datasets:[{name:'trade',checked_at:'2026-10-15T12:45:00Z',collector_version:storedVersion,error:'UPSTREAM_REDIRECT_REJECTED'}]}),
+    getDashboard:async name=>({payload:{series:[]},meta:{name,checked_at:'2026-10-15T12:45:00Z',collector_version:storedVersion,error:'UPSTREAM_REDIRECT_REJECTED'}}),
+    refreshDashboards:async trigger=>{triggers.push(trigger);storedVersion=DASHBOARD_COLLECTOR_VERSION;},
+  };
+  const env={VISITOR_ANALYTICS:{idFromName:name=>name,get:()=>store}},context={waitUntil:promise=>pending.push(promise)};
+  assert.equal((await handleRequest(request('/api/dashboards/status',{}, {},'GET'),env,context)).status,200);
+  await Promise.all(pending);
+  assert.deepEqual(triggers,['bootstrap']);
+  await handleRequest(request('/api/dashboards/status',{}, {},'GET'),env,context);
+  await handleRequest(request('/api/dashboards/trade',{}, {},'GET'),env,context);
+  assert.equal(triggers.length,1,'the current version must preserve its normal retry interval');
+  storedVersion='another-old-version';
+  await handleRequest(request('/api/dashboards/trade',{}, {},'GET'),env,context);
+  assert.deepEqual(triggers,['bootstrap','bootstrap']);
 });

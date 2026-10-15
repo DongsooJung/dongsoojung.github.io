@@ -4,7 +4,8 @@
   const supabaseUrl = 'https://inftexpcnfinglwlrvsj.supabase.co';
   const publishableKey = 'sb_publishable_-D0A-aWNMTMTHXeL0oqBXg_9Tz0bdvs';
   const cloudflareOrigin = 'https://stargate.stargate8225.workers.dev';
-  const cloudflareAnalytics = ['stargateedu.co.kr', 'www.stargateedu.co.kr', 'stargate.stargate8225.workers.dev'].includes(window.location.hostname);
+  const cloudflareHosts = new Set(['stargateedu.co.kr', 'www.stargateedu.co.kr', 'stargate.stargate8225.workers.dev']);
+  const cloudflareAnalytics = cloudflareHosts.has(window.location.hostname);
   const rpcBase = cloudflareAnalytics ? `${window.location.origin === cloudflareOrigin ? '' : cloudflareOrigin}/api/analytics/` : `${supabaseUrl}/rest/v1/rpc/`;
   const rpcHeaders = cloudflareAnalytics ? {
     'Content-Type': 'application/json',
@@ -76,13 +77,23 @@
     return compact(window.location.pathname || '/', 512) || '/';
   }
 
+  function normalizeTarget(value) {
+    const target = compact(value, 1024);
+    if (!cloudflareAnalytics || !target) return target;
+    try {
+      const url = new URL(target, window.location.href);
+      if (['http:', 'https:'].includes(url.protocol) && !url.port && cloudflareHosts.has(url.hostname)) return url.pathname.slice(0, 1024);
+    } catch (_) {}
+    return target;
+  }
+
   function targetUrl(element) {
     if (!(element instanceof HTMLAnchorElement)) return null;
     try {
       const url = new URL(element.href, window.location.href);
       if (cloudflareAnalytics && !['http:', 'https:'].includes(url.protocol)) return null;
       const path = url.pathname.slice(0, 1024);
-      return url.origin === window.location.origin ? path : `${url.origin}${path}`.slice(0, 1024);
+      return normalizeTarget(url.origin === window.location.origin ? path : `${url.origin}${path}`.slice(0, 1024));
     } catch (_) {
       return compact(element.getAttribute('href'), 1024);
     }
@@ -105,7 +116,7 @@
   }
 
   function countKey(label, target) {
-    return `${label || ''}|${target || ''}`;
+    return `${label || ''}|${normalizeTarget(target) || ''}`;
   }
 
   function injectCountStyle() {
@@ -263,14 +274,14 @@
       if (!response.ok) throw new Error(`CLICK_COUNTS_${response.status}`);
       const rows = await response.json();
       if (!Array.isArray(rows)) throw new Error('CLICK_COUNTS_INVALID');
+      const normalizedCounts = new Map();
       rows.forEach((row) => {
         const clicks = Number(row.clicks) || 0;
-        clickCounts.set(
-          countKey(compact(row.element_label, 160), compact(row.target_url, 1024)),
-          clicks,
-        );
+        const key = countKey(compact(row.element_label, 160), compact(row.target_url, 1024));
+        normalizedCounts.set(key, (normalizedCounts.get(key) || 0) + clicks);
         addPathCount(clicksByPath, row.target_url, clicks);
       });
+      normalizedCounts.forEach((clicks, key) => clickCounts.set(key, clicks));
       decorateCounts();
       return true;
     } catch (_) { return false; }

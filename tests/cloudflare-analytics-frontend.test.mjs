@@ -418,3 +418,60 @@ test('an expired Access session clears previously rendered history instead of re
   assert.doesNotMatch(env.nodes.get('collection-scope').textContent,/2026-07-25/);
   assert.equal(env.storage.size,0);
 });
+
+test('historical relative admin-button counts match the absolute protected link across trusted site hosts',async()=>{
+  const label='사이트 사용 분석 대시보드';
+  const rows=[
+    {element_label:label,target_url:'/admin/visitors/',clicks:40},
+    {element_label:label,target_url:'https://external.example/admin/visitors/',clicks:7},
+    {element_label:label,target_url:'https://stargateedu.co.kr.evil.test/admin/visitors/',clicks:9},
+  ];
+  for(const hostname of ['stargateedu.co.kr','www.stargateedu.co.kr',cloudflareHost]){
+    const env=browser(hostname,{},false,{get_site_button_click_counts:rows});
+    runInNewContext(read('assets/usage-analytics.js'),env.context);
+    await env.context.window.StargateUsage.whenReady();
+    for(const targetHost of ['stargateedu.co.kr','www.stargateedu.co.kr',cloudflareHost]){
+      const anchor=new env.Anchor('https://'+targetHost+'/admin/visitors/');anchor.dataset.analyticsLabel=label;
+      assert.equal(env.context.window.StargateUsage.clickCountFor(anchor),40,hostname+' -> '+targetHost);
+    }
+    const external=new env.Anchor('https://external.example/admin/visitors/');external.dataset.analyticsLabel=label;
+    assert.equal(env.context.window.StargateUsage.clickCountFor(external),7);
+    const lookalike=new env.Anchor('https://stargateedu.co.kr.evil.test/admin/visitors/');lookalike.dataset.analyticsLabel=label;
+    assert.equal(env.context.window.StargateUsage.clickCountFor(lookalike),9);
+  }
+});
+
+test('first-party alias rows merge once while new protected-link events use the historical relative target',async()=>{
+  const label='사이트 사용 분석 대시보드';
+  const env=browser('stargateedu.co.kr',{},false,{get_site_button_click_counts:[
+    {element_label:label,target_url:'/admin/visitors/',clicks:40},
+    {element_label:label,target_url:'https://stargate.stargate8225.workers.dev/admin/visitors/',clicks:3},
+    {element_label:label,target_url:'https://www.stargateedu.co.kr/admin/visitors/',clicks:2},
+  ]});
+  runInNewContext(read('assets/usage-analytics.js'),env.context);
+  await env.context.window.StargateUsage.whenReady();
+  const anchor=new env.Anchor('https://stargate.stargate8225.workers.dev/admin/visitors/');anchor.dataset.analyticsLabel=label;
+  assert.equal(env.context.window.StargateUsage.clickCountFor(anchor),45);
+  env.listeners.get('click')({isTrusted:true,target:anchor});
+  await settle();
+  const click=env.requests.findLast(row=>row.url.endsWith('record_site_usage_event')&&row.payload.p_event_type==='click');
+  assert.equal(click.payload.p_target_url,'/admin/visitors/');
+});
+
+test('other current hosts retain their original Supabase external-target semantics',async()=>{
+  const label='same label';
+  const env=browser('preview.example.com',{},false,{get_site_button_click_counts:[
+    {element_label:label,target_url:'/admin/visitors/',clicks:2},
+    {element_label:label,target_url:'https://stargateedu.co.kr/admin/visitors/',clicks:40},
+  ]});
+  runInNewContext(read('assets/usage-analytics.js'),env.context);
+  await env.context.window.StargateUsage.whenReady();
+  const local=new env.Anchor('https://preview.example.com/admin/visitors/');local.dataset.analyticsLabel=label;
+  const canonical=new env.Anchor('https://stargateedu.co.kr/admin/visitors/');canonical.dataset.analyticsLabel=label;
+  assert.equal(env.context.window.StargateUsage.clickCountFor(local),2);
+  assert.equal(env.context.window.StargateUsage.clickCountFor(canonical),40);
+  env.listeners.get('click')({isTrusted:true,target:canonical});
+  await settle();
+  const click=env.requests.findLast(row=>row.url.endsWith('record_site_usage_event')&&row.payload.p_event_type==='click');
+  assert.equal(click.payload.p_target_url,'https://stargateedu.co.kr/admin/visitors/');
+});

@@ -99,10 +99,18 @@ test('run completion records actual elapsed collection time rather than copying 
   const { db, store } = database();
   try {
     const regular = fetcher();
-    await store.refresh({}, { now, fetchFn: async (url, options) => {
+    store.write('_run', { started_at: new Date(now - DAY).toISOString(), completed_at: new Date(now - DAY + 5000).toISOString() });
+    let release;
+    const gate = new Promise(resolve => { release = resolve; });
+    const pending = store.refresh({}, { now, fetchFn: async (url, options) => {
+      await gate;
       await new Promise(resolve => setTimeout(resolve, 3));
       return regular(url, options);
     } });
+    assert.equal(store.status(now).last_run.started_at, new Date(now).toISOString());
+    assert.equal(store.status(now).last_run.completed_at, null, 'an active run cannot retain the previous run completion');
+    release();
+    await pending;
     const run = store.status(now).last_run;
     assert.equal(run.started_at, new Date(now).toISOString());
     assert.ok(Date.parse(run.completed_at) > Date.parse(run.started_at));
