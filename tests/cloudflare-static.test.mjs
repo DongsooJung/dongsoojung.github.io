@@ -6,7 +6,7 @@ import { tmpdir } from 'node:os';
 import { buildCloudflareStatic, isCloudflarePublicFile } from '../scripts/build-cloudflare-static.mjs';
 
 test('Workers upload excludes deployment sources while keeping public paths and data', () => {
-  for (const path of ['.git/config', '.github/workflows/deploy.yml', '.env.example', 'SOURCE_OF_TRUTH.md', 'wrangler.jsonc', 'CNAME', 'api/sms.js', 'kakao-send/api/session.js', 'private-gateway/api/private-monetization.js', 'scripts/collect.js', 'app/twa-manifest.json', 'quote-maker-app/app.json', 'court-auction/package.json', 'court-auction/collect.mjs', 'nested/node_modules/key.js', 'x/../secret.json']) {
+  for (const path of ['.git/config', '.github/workflows/deploy.yml', '.env.example', 'SOURCE_OF_TRUTH.md', 'wrangler.jsonc', 'CNAME', 'api/sms.js', 'kakao-send/api/session.js', 'private-gateway/api/private-monetization.js', 'scripts/collect.js', 'cloudflare/worker.mjs', 'cloudflare/config.json', 'app/twa-manifest.json', 'quote-maker-app/app.json', 'court-auction/package.json', 'court-auction/collect.mjs', 'nested/node_modules/key.js', 'x/../secret.json']) {
     assert.equal(isCloudflarePublicFile(path), false, path);
   }
   for (const path of ['index.html', '.well-known/assetlinks.json', 'assets/site-theme.js', 'strategy/monetization-opportunities/index.html', 'research/airport-congestion/data/latest.json', 'naver-cafe-research/data/latest.json', 'court-auction/output/법원경매_주택_2026.xlsx']) {

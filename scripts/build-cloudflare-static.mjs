@@ -7,7 +7,7 @@ import { buildStatic, isPublicFile } from './build-vercel-static.mjs';
 
 // These files are omitted by Vercel staging because it rewrites them upstream.
 const snapshots = new Set(['research/airport-congestion/data/latest.json', 'naver-cafe-research/data/latest.json']);
-const sourceTrees = new Set(['api', 'server', 'scripts', 'tests', 'test', 'app', 'automation', 'docs', 'ops', 'private-gateway', 'onbid-api', 'real-estate-api', 'quote-maker-app']);
+const sourceTrees = new Set(['api', 'server', 'scripts', 'tests', 'test', 'app', 'automation', 'docs', 'ops', 'private-gateway', 'onbid-api', 'real-estate-api', 'quote-maker-app', 'cloudflare']);
 const assetExtensions = new Set(['.html', '.css', '.js', '.json', '.geojson', '.csv', '.xlsx', '.pdf', '.png', '.jpg', '.jpeg', '.gif', '.webp', '.svg', '.ico', '.mp3', '.mp4', '.woff', '.woff2', '.ttf', '.txt', '.xml', '.webmanifest']);
 
 export function isCloudflarePublicFile(path) {

@@ -3,7 +3,9 @@
 
   const supabaseUrl = 'https://inftexpcnfinglwlrvsj.supabase.co';
   const publishableKey = 'sb_publishable_-D0A-aWNMTMTHXeL0oqBXg_9Tz0bdvs';
-  const storagePrefix = 'stargateVisitorV3';
+  const cloudflareAnalytics = window.location.hostname === 'stargate.stargate8225.workers.dev';
+  const rpcBase = cloudflareAnalytics ? '/api/analytics/' : `${supabaseUrl}/rest/v1/rpc/`;
+  const storagePrefix = cloudflareAnalytics ? 'stargateCloudflareVisitorV1' : 'stargateVisitorV3';
 
   const summaryLink = document.getElementById('visitor-summary-link');
   const todayElement = document.getElementById('visitor-today-count');
@@ -14,7 +16,10 @@
 
   if (!summaryLink || !todayElement || !totalElement) return;
 
-  const headers = {
+  const headers = cloudflareAnalytics ? {
+    'Content-Type': 'application/json',
+    Accept: 'application/json',
+  } : {
     apikey: publishableKey,
     Authorization: `Bearer ${publishableKey}`,
     'Content-Type': 'application/json',
@@ -41,7 +46,7 @@
   }
 
   async function rpc(name, payload) {
-    const response = await fetch(`${supabaseUrl}/rest/v1/rpc/${name}`, {
+    const response = await fetch(`${rpcBase}${name}`, {
       method: 'POST',
       cache: 'no-store',
       headers,
@@ -72,10 +77,12 @@
       const stats = await rpc('get_site_visit_stats', { p_days: 30 });
       todayElement.textContent = formatNumber(stats.today);
       totalElement.textContent = formatNumber(stats.total);
-      summaryLink.title = `방문자 통계 · ${day} 한국시간 기준`;
+      summaryLink.title = `방문자 통계 · ${cloudflareAnalytics ? 'Cloudflare 수집 시작 이후 누적 · ' : ''}${day} 한국시간 기준`;
       summaryLink.dataset.state = 'ready';
     } catch (error) {
       console.error('Visitor analytics failed:', error);
+      todayElement.textContent = '—';
+      totalElement.textContent = '—';
       summaryLink.title = '방문자 통계를 불러오지 못했습니다. 클릭하면 연결 상태를 확인할 수 있습니다.';
       summaryLink.dataset.state = 'error';
     }

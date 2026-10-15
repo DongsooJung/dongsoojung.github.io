@@ -1,11 +1,18 @@
 {
   "name": "stargate",
+  "main": "cloudflare/worker.mjs",
   "compatibility_date": "2026-10-15",
   "workers_dev": true,
   "preview_urls": false,
   "routes": [],
+  "durable_objects": {
+    "bindings": [{ "name": "VISITOR_ANALYTICS", "class_name": "VisitorAnalytics" }]
+  },
+  "migrations": [{ "tag": "analytics-v1", "new_sqlite_classes": ["VisitorAnalytics"] }],
   "assets": {
     "directory": "./.site-public",
+    "binding": "ASSETS",
+    "run_worker_first": ["/api/analytics/*"],
     "html_handling": "auto-trailing-slash",
     "not_found_handling": "404-page"
   }

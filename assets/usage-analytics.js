@@ -3,8 +3,18 @@
 
   const supabaseUrl = 'https://inftexpcnfinglwlrvsj.supabase.co';
   const publishableKey = 'sb_publishable_-D0A-aWNMTMTHXeL0oqBXg_9Tz0bdvs';
-  const visitorKey = 'stargateVisitorV3:visitorId';
-  const sessionKey = 'stargateUsageV1:sessionId';
+  const cloudflareAnalytics = window.location.hostname === 'stargate.stargate8225.workers.dev';
+  const rpcBase = cloudflareAnalytics ? '/api/analytics/' : `${supabaseUrl}/rest/v1/rpc/`;
+  const rpcHeaders = cloudflareAnalytics ? {
+    'Content-Type': 'application/json',
+    Accept: 'application/json',
+  } : {
+    apikey: publishableKey,
+    Authorization: `Bearer ${publishableKey}`,
+    'Content-Type': 'application/json',
+  };
+  const visitorKey = cloudflareAnalytics ? 'stargateCloudflareVisitorV1:visitorId' : 'stargateVisitorV3:visitorId';
+  const sessionKey = cloudflareAnalytics ? 'stargateCloudflareUsageV1:sessionId' : 'stargateUsageV1:sessionId';
   const displaySelector = [
     'button',
     'a.btn',
@@ -69,6 +79,7 @@
     if (!(element instanceof HTMLAnchorElement)) return null;
     try {
       const url = new URL(element.href, window.location.href);
+      if (cloudflareAnalytics && !['http:', 'https:'].includes(url.protocol)) return null;
       const path = url.pathname.slice(0, 1024);
       return url.origin === window.location.origin ? path : `${url.origin}${path}`.slice(0, 1024);
     } catch (_) {
@@ -241,15 +252,11 @@
 
   async function loadClickCounts() {
     try {
-      const response = await fetch(`${supabaseUrl}/rest/v1/rpc/get_site_button_click_counts`, {
+      const response = await fetch(`${rpcBase}get_site_button_click_counts`, {
         method: 'POST',
         cache: 'no-store',
         credentials: 'omit',
-        headers: {
-          apikey: publishableKey,
-          Authorization: `Bearer ${publishableKey}`,
-          'Content-Type': 'application/json',
-        },
+        headers: rpcHeaders,
         body: JSON.stringify({ p_page_path: pagePath() }),
       });
       if (!response.ok) throw new Error(`CLICK_COUNTS_${response.status}`);
@@ -269,15 +276,11 @@
   }
 
   async function fetchUsageStats(days) {
-    const response = await fetch(`${supabaseUrl}/rest/v1/rpc/get_site_usage_stats`, {
+    const response = await fetch(`${rpcBase}get_site_usage_stats`, {
       method: 'POST',
       cache: 'no-store',
       credentials: 'omit',
-      headers: {
-        apikey: publishableKey,
-        Authorization: `Bearer ${publishableKey}`,
-        'Content-Type': 'application/json',
-      },
+      headers: rpcHeaders,
       body: JSON.stringify({ p_days: days }),
     });
     if (!response.ok) throw new Error(`USAGE_STATS_${days}_${response.status}`);
@@ -334,16 +337,12 @@
       p_device_type: deviceType(),
     };
 
-    fetch(`${supabaseUrl}/rest/v1/rpc/record_site_usage_event`, {
+    fetch(`${rpcBase}record_site_usage_event`, {
       method: 'POST',
       cache: 'no-store',
       credentials: 'omit',
       keepalive: eventType === 'click',
-      headers: {
-        apikey: publishableKey,
-        Authorization: `Bearer ${publishableKey}`,
-        'Content-Type': 'application/json',
-      },
+      headers: rpcHeaders,
       body: JSON.stringify(payload),
     }).catch(() => {});
   }
