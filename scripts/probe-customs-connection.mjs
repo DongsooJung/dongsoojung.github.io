@@ -71,8 +71,14 @@ export async function probeCustoms(kind, base, key, fetchFn = fetch) {
 }
 
 export async function runDiagnostics(env = process.env, fetchFn = fetch) {
+  const key = env.CUSTOMS_API_KEY || '', trimmed = key.trim();
+  let decoded = trimmed;
+  try { decoded = decodeURIComponent(trimmed); } catch { /* Invalid escapes must never expose the input. */ }
+  const normalized = decoded.trim();
+  const key_format = { trimmed: key !== trimmed || decoded !== normalized, url_encoded: decoded !== trimmed };
   const results = [];
-  for (const kind of ['proxy', 'direct']) results.push(await probeCustoms(kind, env.CUSTOMS_PROXY_BASE, env.CUSTOMS_API_KEY, fetchFn));
+  for (const kind of ['proxy', 'direct']) results.push({ ...await probeCustoms(kind, env.CUSTOMS_PROXY_BASE, key, fetchFn), key_format });
+  if (normalized && normalized !== key) results.push({ ...await probeCustoms('proxy', env.CUSTOMS_PROXY_BASE, normalized, fetchFn), probe: 'normalized_proxy', key_format });
   return results;
 }
 

@@ -53,3 +53,30 @@ test('missing secrets and invalid proxy configuration make no network request', 
   }
   assert.equal(calls, 0);
 });
+test('encoded whitespace key gets exactly one normalized proxy retry without emitting input or key length', async () => {
+  const input = '  ' + encodeURIComponent(key) + '  ', calls = [];
+  const results = await runDiagnostics({ CUSTOMS_API_KEY: input, CUSTOMS_PROXY_BASE: proxy }, async (url, options) => {
+    calls.push({ url: new URL(url), options });
+    return new Response('<response><resultCode>00</resultCode></response>');
+  });
+  assert.equal(calls.length, 3);
+  assert.equal(calls[0].options.headers['x-data-key'], input);
+  assert.equal(calls[2].options.headers['x-data-key'], key);
+  assert.equal(calls[2].url.searchParams.has('serviceKey'), false);
+  assert.equal(results[2].probe, 'normalized_proxy');
+  assert.deepEqual(results[2].key_format, { trimmed: true, url_encoded: true });
+  assert.equal(JSON.stringify(results).includes('length'), false);
+  assert.equal(JSON.stringify(results).includes(input), false); safe(results);
+});
+test('unchanged keys and invalid encodings do not add a retry; whitespace alone retries only proxy', async () => {
+  for (const [input, expectedCalls, format] of [
+    [key, 2, { trimmed: false, url_encoded: false }],
+    ['invalid%ZZprivate', 2, { trimmed: false, url_encoded: false }],
+    ['  invalid%ZZprivate  ', 3, { trimmed: true, url_encoded: false }],
+  ]) {
+    let calls = 0;
+    const results = await runDiagnostics({ CUSTOMS_API_KEY: input, CUSTOMS_PROXY_BASE: proxy }, async () => { calls++; throw new Error(input); });
+    assert.equal(calls, expectedCalls); assert.deepEqual(results[0].key_format, format);
+    assert.equal(JSON.stringify(results).includes(input), false); safe(results);
+  }
+});
