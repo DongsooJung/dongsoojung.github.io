@@ -5,7 +5,7 @@
   const API = 'https://api.github.com/repos/' + REPO;
   const COMMITS_API = API + '/commits';
   const PAGES_RUNS_API = API + '/actions/workflows/242321278/runs?branch=main&per_page=100';
-  const VERCEL_RUNS_API = API + '/actions/workflows/vercel-production.yml/runs?branch=main&per_page=100';
+  const CLOUDFLARE_RUNS_API = API + '/actions/workflows/cloudflare-production.yml/runs?branch=main&per_page=100';
   const FULL_PAGE_SIZE = 100;
   const PREVIEW_LIMIT = 6;
   const RANGE_DAYS = 30;
@@ -187,7 +187,7 @@
   }
 
   async function loadDeployments(){
-    const cached=cacheGet('stargate:devlog:deployments',DEPLOY_TTL);
+    const cached=cacheGet('stargate:devlog:deployments:cf',DEPLOY_TTL);
     if(cached) return cached;
     const map={};
     const attach=(runs,key)=>{
@@ -198,10 +198,10 @@
       }
     };
     try{
-      const [pages,vercel]=await Promise.allSettled([jsonFetch(PAGES_RUNS_API),jsonFetch(VERCEL_RUNS_API)]);
+      const [pages,cloudflare]=await Promise.allSettled([jsonFetch(PAGES_RUNS_API),jsonFetch(CLOUDFLARE_RUNS_API)]);
       if(pages.status==='fulfilled') attach(pages.value.workflow_runs,'pages');
-      if(vercel.status==='fulfilled') attach(vercel.value.workflow_runs,'vercel');
-      cacheSet('stargate:devlog:deployments',map);
+      if(cloudflare.status==='fulfilled') attach(cloudflare.value.workflow_runs,'cloudflare');
+      cacheSet('stargate:devlog:deployments:cf',map);
     }catch(e){console.warn('Deployment status unavailable:',e);}
     return map;
   }
@@ -322,7 +322,7 @@
     const stats=hasStats
       ? '<div class="devlog-stats"><span class="devlog-files">'+c.files_changed+' files</span><span class="devlog-add">+'+Number(c.additions||0).toLocaleString('en-US')+'</span><span class="devlog-del">-'+Number(c.deletions||0).toLocaleString('en-US')+'</span></div>'
       : '<div class="devlog-stats"><span class="devlog-files">DIFF에서 변경량 확인</span></div>';
-    const deploys='<div class="devlog-deploys">'+deployBadge('PAGES',c.deploy?.pages)+deployBadge('VERCEL',c.deploy?.vercel)+'</div>';
+    const deploys='<div class="devlog-deploys">'+deployBadge('PAGES',c.deploy?.pages)+deployBadge('CF',c.deploy?.cloudflare)+'</div>';
     commitIndex.set(c.sha,c);
     return '<div class="devlog-entry" data-sha="'+esc(c.sha)+'" data-kind="'+esc(c.kind)+'"><div class="devlog-row">'+
       '<div class="devlog-date">'+(showDay?t.day+'<br>':'')+t.time+' KST</div>'+

@@ -6,7 +6,7 @@ import { tmpdir } from 'node:os';
 import { isPublicFile, buildStatic, publicFiles } from '../scripts/build-vercel-static.mjs';
 
 test('public stage excludes server sources, credentials and traversal but keeps site assets', () => {
-  for (const path of ['server/api/customs.js', 'api/sms.js', '.env', '.env.production', '.vercel/project.json', 'x/.env', '../outside', 'supabase/geo_metric.sql', 'tests/a.test.js', 'AGENTS.md', 'nested/node_modules/a.js', 'signing.keystore', 'private.pem']) assert.equal(isPublicFile(path), false, path);
+  for (const path of ['server/api/customs.js', 'api/sms.js', 'worker/index.js', 'wrangler.toml', '.env', '.env.production', '.vercel/project.json', 'x/.env', '../outside', 'supabase/geo_metric.sql', 'tests/a.test.js', 'AGENTS.md', 'nested/node_modules/a.js', 'signing.keystore', 'private.pem']) assert.equal(isPublicFile(path), false, path);
   for (const path of ['research/index.html', 'assets/site-theme.js', 'data/latest.json', '.well-known/assetlinks.json', 'choropleth/index.html', 'robots.txt', 'sitemap.xml']) assert.equal(isPublicFile(path), true, path);
 });
 

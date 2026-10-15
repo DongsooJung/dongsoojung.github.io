@@ -1,10 +1,10 @@
-name: Vercel production request
+name: Cloudflare production deploy
 
 on:
   push:
     branches: [main]
-    # Data-only refreshes are served from repository snapshots/APIs and should
-    # not request a full production deployment.
+    # Data-only refreshes are served from repository snapshots or APIs and
+    # should not upload a full production build.
     paths-ignore:
       - 'research/airport-congestion/data/latest.json'
       - 'research/gimpo-airport-congestion/data/latest.json'
@@ -13,7 +13,7 @@ on:
       - 'data/used-car/**'
       - 'research/**/data/latest.json'
   # GITHUB_TOKEN-generated commits do not trigger another workflow. Refresh
-  # deployable static assets once per day, not once per data snapshot push.
+  # bundled static assets once per day, not once per data snapshot push.
   schedule:
     - cron: '35 21 * * *'
   workflow_dispatch:
@@ -22,14 +22,14 @@ permissions:
   contents: read
 
 concurrency:
-  group: vercel-production
+  group: cloudflare-production
   cancel-in-progress: false
 
 jobs:
-  request-deployment:
+  deploy:
     if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 30
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -41,11 +41,17 @@ jobs:
         run: node --test tests/*.test.js tests/*.test.mjs tests/*.test.cjs
       - name: Test Incheon facility deduplication
         run: python3 tests/incheon_aggregate_test.py
-      - name: Verify public file staging
+      - name: Stage public files
         run: node scripts/build-vercel-static.mjs
-      - name: Request owner-authorized production deployment
+      - name: Deploy Cloudflare Worker
         env:
-          VERCEL_DEPLOY_HOOK_URL: ${{ secrets.VERCEL_DEPLOY_HOOK_URL }}
-        run: node scripts/trigger-vercel-hook.mjs
-      - name: Record acceptance (not deployment completion)
-        run: echo 'Deploy Hook accepted. Confirm the resulting Vercel deployment is READY before claiming release success.' >> "$GITHUB_STEP_SUMMARY"
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: |
+          if [ -z "$CLOUDFLARE_API_TOKEN" ] || [ -z "$CLOUDFLARE_ACCOUNT_ID" ]; then
+            echo "Add Actions secrets CLOUDFLARE_API_TOKEN and CLOUDFLARE_ACCOUNT_ID. The token needs Workers Scripts edit on the Stargate account."
+            exit 1
+          fi
+          npx --yes wrangler@4 deploy
+      - name: Record Workers deployment
+        run: echo 'Cloudflare Worker stargate uploaded. Confirm the workers.dev hostname before changing stargateedu.co.kr DNS.' >> "$GITHUB_STEP_SUMMARY"

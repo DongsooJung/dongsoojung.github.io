@@ -1,53 +1,56 @@
-# Vercel production deployment
+# Cloudflare production deployment
 
-## Scope and ownership
+The Stargate site deploy that previously went to the Vercel project `portfolio` (`portfolio-stargate2.vercel.app`, team `stargate2`) now publishes as the Cloudflare Worker `stargate`.
 
-- Project: `portfolio` in `stargate2` (existing linked public GitHub repository).
-- Production branch: `main`; existing Git identities and deployment protections remain unchanged.
-- Six read APIs share `api/[resource].js`. Their implementations live in `server/api/`; public URLs, response bodies and CORS policies are preserved.
-- Compiled function count is 11, below the Hobby limit of 12. SMS, cron and data-writing handlers are not part of this consolidation.
-- `scripts/build-vercel-static.mjs` stages public files in `.site-public` without publishing server code, environment files, tests or migrations. Source archives without Git metadata are supported.
+## What moves
 
-## Deployment entry point
+- Public files are still staged by `scripts/build-vercel-static.mjs` into `.site-public`. Server code, tests, Worker source, Wrangler config, environment files, and the two live JSON snapshots stay out of that directory.
+- `worker/index.js` serves `/api/*` by calling the existing Vercel-style handlers. Public paths, response bodies, and CORS stay on those handlers.
+- `/viz-dashboard` and nested paths return HTTP 301 to `/choropleth/`.
+- The airport and Naver Cafe `latest.json` paths are proxied to the public `main` files on GitHub, same destinations as the old rewrites.
+- The daily collect schedule remains `10 21 * * *` UTC. Cloudflare invokes `scheduled()`, which calls `/api/cron/daily-collect` with `Authorization: Bearer $CRON_SECRET`.
+- Static assets are served from the nearest Cloudflare location. API requests run near Seoul (`placement.region = aws:ap-northeast-2`), replacing the Vercel `icn1` pin used by the customs proxy.
+- `vercel.json` keeps `git.deploymentEnabled: false` so a leftover Vercel project link does not deploy on push. This workflow no longer calls the Vercel Deploy Hook.
 
-The project owner created a `main` Deploy Hook named `github-main-verified`. Its URL is a credential stored only in the repository Actions secret `VERCEL_DEPLOY_HOOK_URL`. Never commit or log it. Rotate the hook if it is exposed.
+Satellite Vercel projects (`stargate-bid-api`, `stargate-real-estate-api`, `stargate-kakao-send`, `stargate-onbid-api`, `stargate-private-gateway`, and the other standalone apps) are separate projects and are not part of this Worker.
 
-`.github/workflows/vercel-production.yml` runs tests and public staging, then requests deployment. It runs on source pushes to main, manual dispatch, and once daily for generated snapshots. `git.deploymentEnabled: false` disables duplicate automatic Git-push deployments; do not set `github.enabled: false`, which also disables hooks.
+## Secrets
 
-To request an authorized deployment after checking the branch:
+Store these only as GitHub Actions secrets. Never commit them.
+
+- `CLOUDFLARE_API_TOKEN`: Cloudflare API token with Workers Scripts edit on the Stargate account.
+- `CLOUDFLARE_ACCOUNT_ID`: the account id from the Workers overview.
+
+Copy the runtime values the handlers already read (`CRON_SECRET`, `SUPABASE_URL`, `SUPABASE_SERVICE_KEY`, `SUPABASE_ANON_KEY`, `DATA_GO_KR_API_KEY`, `NOTION_API_KEY` or `NOTION_TOKEN`, `SOLAPI_API_KEY`, `SOLAPI_API_SECRET`, `SOLAPI_SENDER_NUMBER`, `SMS_ADMIN_TOKEN`, and the other keys those handlers use) into Worker secrets or vars. Wrangler with compatibility date `2026-10-15` exposes string bindings on `process.env`.
+
+Workers Paid is the practical target. The free plan allows 10 ms of CPU and 50 subrequests per invocation; daily collection and the HTML API handlers need the paid limits.
+
+## Deploy
+
+`.github/workflows/cloudflare-production.yml` tests, stages public files, then runs `npx wrangler@4 deploy` on pushes to `main`, manual dispatch, and the daily schedule. A missing token fails the job before upload.
 
 ```sh
-gh workflow run vercel-production.yml --repo DongsooJung/dongsoojung.github.io --ref main
+gh workflow run cloudflare-production.yml --repo DongsooJung/dongsoojung.github.io --ref main
 ```
 
-Hook acceptance (`PENDING`) is **not** release success. Check the matching Vercel deployment reaches `READY`, verify its commit/alias and run live checks. Do not automatically retry an ambiguous hook timeout: a build may already exist. A hook targets the latest branch head, not a pinned commit, so compare the deployed SHA to the intended main revision.
-
-## High-frequency data
-
-Airport and Naver Cafe snapshot-only pushes are excluded from this deployment workflow. Their two JSON paths are explicitly proxied to the public repository's `main` files, so they continue updating independently of Vercel builds. The fixed raw GitHub origin avoids a loop if the custom domain is moved later. GitHub raw may cache responses for about five minutes; the airport live API remains the first choice.
-
-Other generated data is refreshed by the daily deployment request. GitHub Actions commits made with `GITHUB_TOKEN` do not themselves trigger another Actions workflow.
-
-## Verification
+Local check, without publishing:
 
 ```sh
-node --test tests/*.test.js tests/*.test.mjs tests/*.test.cjs
-npx --yes vercel@59.10.0 build --prod
-node scripts/verify-vercel-output.mjs
+node --test tests/cloudflare-deploy.test.mjs tests/vercel-static.test.mjs tests/vercel-deploy.test.mjs
+node scripts/build-vercel-static.mjs
+npx --yes wrangler@4 deploy --dry-run --outdir /tmp/stargate-worker
 ```
 
-On Windows, Vercel CLI 59.10.0 can lose `Path` when launching a custom build. If `spawn cmd.exe ENOENT` occurs despite `cmd.exe` existing, normalize the **child process environment** to a single uppercase `PATH` key before invoking the CLI. Do not change global PATH or credentials. The cloud builder runs Linux.
+## Domain cutover
 
-Live checks must cover all six original `/api/<name>` URLs (including `OPTIONS`, CORS and a query-spoof check), 404 for unknown names, both JSON proxies, retained research hubs, and private server paths returning 404. Check `/viz-dashboard`, `/viz-dashboard/` and a nested path without following redirects: each must be HTTP **301**, not 200 or 308, with `/choropleth/` as the destination.
+`stargateedu.co.kr` still points at GitHub Pages. Do not move that DNS until the Pages routes are audited. Pages and the custom domain that cannot run a Worker continue to call the previous host `https://portfolio-stargate2.vercel.app` for:
 
-## Domain and remaining urban-map work
+- `portfolio/blog/index.html`
+- `research/gimpo-airport-congestion/index.html`
+- `gh-sale-info/app.js`
+- `scripts/verify-gh-sale-info-live.mjs`
+- `scripts/update-gimpo-airport-congestion.mjs`
 
-`stargateedu.co.kr` currently points to GitHub Pages, not this Vercel project. A Vercel 301 does not change the response on that domain. Do not move DNS without auditing the separate GitHub Pages project routes: those assets are not necessarily present in this repository. No custom-domain change is included in this deployment repair.
+After the first successful Worker deploy, replace those absolute API origins with the printed `*.workers.dev` hostname (or a dedicated API hostname). Same-origin `/api/*` already works when the page itself is served by this Worker. Opening the Naver Cafe page on `*.workers.dev` uses that same-origin API.
 
-This is deployment infrastructure work, not completion of the full map integration plan. Shared-renderer adoption across all intended maps, metrics ingestion/period alignment, complete boundary migration and production-domain redirect/SEO verification remain separate acceptance items. GSC retention cannot be validated from a build or immediate smoke test.
-
-## Recovery
-
-Use the existing project's deployment history to roll back to a verified ready production deployment if smoke tests reveal a regression. Do not restore the old 16-function configuration or re-enable unfiltered Git auto-deploys as a quota workaround. Preserve GitHub Pages and its snapshot workflows during recovery.
-
-Official references: [Deploy Hooks](https://vercel.com/docs/deploy-hooks), [Git configuration](https://vercel.com/docs/project-configuration/git-configuration), [project settings and quotas](https://vercel.com/docs/project-configuration/project-settings).
+This deploy does not finish the separate urban-map acceptance work. Shared renderers, metrics alignment, boundary migration, and production-domain SEO checks remain separate.

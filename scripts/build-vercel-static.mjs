@@ -4,9 +4,9 @@ import { cpSync, existsSync, lstatSync, mkdirSync, readdirSync, rmSync } from 'n
 import { dirname, join, resolve, sep } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-const privateRoots = new Set(['api', 'server', 'scripts', 'tests', 'supabase', 'private-gateway', '.github', '.git', '.vercel', '.site-public', 'node_modules']);
-const privateFiles = new Set(['vercel.json', 'package.json', 'package-lock.json', 'AGENTS.md']);
-// A bundled file would win Vercel's filesystem route before external rewrites.
+const privateRoots = new Set(['api', 'server', 'scripts', 'tests', 'supabase', 'private-gateway', 'worker', '.github', '.git', '.vercel', '.wrangler', '.site-public', 'node_modules']);
+const privateFiles = new Set(['vercel.json', 'wrangler.toml', 'wrangler.json', 'wrangler.jsonc', 'package.json', 'package-lock.json', 'AGENTS.md']);
+// A bundled file would be served before the live GitHub raw proxy.
 const liveSnapshots = new Set(['research/airport-congestion/data/latest.json', 'naver-cafe-research/data/latest.json']);
 
 export function isPublicFile(path) {

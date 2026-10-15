@@ -255,7 +255,7 @@ async function handler(req, res) {
 module.exports = handler;
 module.exports.runScrape = runScrape;
 
-if (require.main === module) {
+if (require.main === module && String(process.argv[1] || '').endsWith('weolbu.js')) {
   const detail = !process.argv.includes('--detail=0');
   runScrape({ detail })
     .then((result) => console.log(JSON.stringify(result, null, 2)))

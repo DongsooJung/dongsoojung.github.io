@@ -154,7 +154,7 @@
   }
 
   async function fetchLive() {
-    if (location.hostname.endsWith(".vercel.app")) {
+    if (location.hostname.endsWith(".vercel.app") || location.hostname.endsWith(".workers.dev")) {
       const direct = await fetchWithTimeout("/api/naver-cafe-popular");
       if (direct.ok) return normalizeRaw(await direct.json(), "실시간 API");
     }
