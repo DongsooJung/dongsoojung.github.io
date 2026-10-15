@@ -428,6 +428,7 @@ footer{margin-top:56px;padding-top:20px;border-top:1px solid var(--line);color:v
 <script src="./market-fallback.js"></script>
 <script src="./rate-gap-fallback.js"></script>
 <script src="./bitcoin-fallback.js"></script>
+<script src="/assets/dashboard-data-status.js?v=20261015-1"></script>
 <script>
 'use strict';
 
@@ -523,7 +524,15 @@ async function loadJSON(path, fallbackVar){
     return window[fallbackVar];
   }
 }
-const loadData = () => loadJSON('./data.json', 'FALLBACK_DATA');
+let cloudflareDataFallback = false;
+const loadData = async () => {
+  cloudflareDataFallback = false;
+  if (window.StargateDashboardData?.enabled) {
+    try { return await window.StargateDashboardData.load('exchange-rate'); }
+    catch (_) { cloudflareDataFallback = true; }
+  }
+  return loadJSON('./data.json', 'FALLBACK_DATA');
+};
 const loadBok  = () => loadJSON('./bok_data.json', 'BOK_FALLBACK');
 const loadMarket = () => loadJSON('./market_data.json', 'MARKET_FALLBACK');
 const loadRateGap = () => loadJSON('./rate_gap.json', 'RATE_GAP_FALLBACK');
@@ -1488,6 +1497,11 @@ function renderMeta(){
   document.getElementById('metaMode').textContent = DATA.sourceMode === 'ecb'
     ? '정상 · ECB 영업일 자동 갱신'
     : (DATA.sourceMode === 'api' ? '자동 갱신: 공식 API 연동 중' : '시드 데이터 (근사 월평균)');
+  if (window.StargateDashboardData?.enabled) {
+    document.getElementById('metaMode').textContent = cloudflareDataFallback
+      ? 'Cloudflare 연결 대기/실패 · 정적 보관본 표시'
+      : window.StargateDashboardData.describe(window.StargateDashboardData.meta('exchange-rate'));
+  }
 }
 function renderTitles(){
   const meta = curMeta(state.cur);
@@ -1520,6 +1534,7 @@ async function refreshAllData(){
   try{
     const stamp=Date.now();
     const fresh=await Promise.all(['data.json','bok_data.json','market_data.json','rate_gap.json','bitcoin_data.json'].map(async file=>{
+      if(file==='data.json'&&window.StargateDashboardData?.enabled)return loadData();
       const response=await fetch(`./${file}?t=${stamp}`,{cache:'no-store'});
       if(!response.ok) throw new Error(`${file} ${response.status}`);
       return response.json();
@@ -1534,6 +1549,11 @@ async function refreshAllData(){
     const btcLast=BTC&&BTC.observedAt?BTC.observedAt:(BTC&&BTC.series&&BTC.series.length?BTC.series[BTC.series.length-1].ym:'—');
     status.textContent=`${checked} 재조회 완료 · 환율 ${DATA.observedAt||DATA.updatedAt||'—'} · 금리/물가 ${bokLast} · BTC ${btcLast} · 한미 금리차 ${rateGapLast} · 원자재 ${marketObserved}`;
     status.className='refresh-status ok';
+    if(window.StargateDashboardData?.enabled){
+      const meta=window.StargateDashboardData.meta('exchange-rate');
+      status.textContent+=' · 환율: '+(cloudflareDataFallback?'정적 보관본':window.StargateDashboardData.describe(meta));
+      if(cloudflareDataFallback||meta?.error||meta?.stale)status.className='refresh-status error';
+    }
   }catch(error){
     console.error(error); status.textContent='새로고침에 실패했습니다. 잠시 후 다시 시도해 주세요.'; status.className='refresh-status error';
   }finally{button.disabled=false;button.classList.remove('loading');}

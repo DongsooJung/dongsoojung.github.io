@@ -1,4 +1,4 @@
-export const METHODS = new Set(['get_site_visit_stats', 'get_site_usage_stats', 'get_site_button_click_counts', 'record_site_visit', 'record_site_usage_event']);
+export const METHODS = new Set(['get_site_visit_stats', 'get_site_usage_stats', 'get_site_visit_summary', 'get_site_usage_summary', 'get_site_button_click_counts', 'record_site_visit', 'record_site_usage_event']);
 export const MAX_BODY_BYTES = 8192;
 export const MAX_IMPORT_BYTES = 262144;
 export const HISTORY_SOURCE = 'supabase:inftexpcnfinglwlrvsj';
@@ -47,9 +47,10 @@ function target(value) {
 export function validatePayload(method, payload, now = Date.now()) {
   if (!METHODS.has(method)) throw new RequestError('Unknown analytics method', 404);
   if (!payload || typeof payload !== 'object' || Array.isArray(payload)) throw new RequestError('Expected a JSON object');
-  if (method === 'get_site_visit_stats' || method === 'get_site_usage_stats') {
+  if (['get_site_visit_stats','get_site_usage_stats','get_site_visit_summary','get_site_usage_summary'].includes(method)) {
     const days = payload.p_days ?? 30;
     if (!Number.isInteger(days) || days < 1 || days > 90) throw new RequestError('p_days must be between 1 and 90');
+    if (method === 'get_site_usage_summary' && ![7,14,30].includes(days)) throw new RequestError('Public usage windows are 7, 14 or 30 days');
     return { p_days: days };
   }
   if (method === 'get_site_button_click_counts') return { p_page_path: relativePath(payload.p_page_path, 'p_page_path') };
@@ -284,6 +285,20 @@ export class AnalyticsStore {
     return this.rows(`SELECT element_label,target_url,clicks FROM button_counts WHERE page_path=?
       ORDER BY clicks DESC,element_label,target_url LIMIT 500`, path);
   }
+  visitSummary(now) {
+    const full = this.visits(1,now);
+    return {source:'cloudflare',today:full.today,total:full.total,historical_included:!!full.historical_import};
+  }
+  usageSummary(days,now) {
+    const start = this.startDay(days,now),end = koreaDay(now);
+    return {
+      source:'cloudflare',
+      pages:this.rows(`${allEvents} SELECT page_path,COUNT(*) AS page_views FROM all_events
+        WHERE event_type='page_view' AND event_date>=? AND event_date<=? GROUP BY page_path ORDER BY page_views DESC,page_path LIMIT 500`,start,end),
+      buttons:this.rows(`${allEvents} SELECT target_url,COUNT(*) AS clicks FROM all_events
+        WHERE event_type='click' AND event_date>=? AND event_date<=? GROUP BY target_url ORDER BY clicks DESC,target_url LIMIT 100`,start,end),
+    };
+  }
   importHistory(prepared, now = Date.now()) {
     return this.storage.transactionSync(() => {
       this.sql.exec('INSERT OR IGNORE INTO history_runs(source,manifest_sha256) VALUES (?,?)', prepared.source, prepared.manifest_sha256);
@@ -339,6 +354,8 @@ export class AnalyticsStore {
       case 'record_site_usage_event': return this.recordEvent(p, now);
       case 'get_site_visit_stats': return this.visits(p.p_days, now);
       case 'get_site_usage_stats': return this.usage(p.p_days, now);
+      case 'get_site_visit_summary': return this.visitSummary(now);
+      case 'get_site_usage_summary': return this.usageSummary(p.p_days,now);
       case 'get_site_button_click_counts': return this.buttonCounts(p.p_page_path);
     }
   }

@@ -32,13 +32,14 @@ function browser(hostname, initial = {}, fail = false, responses = {}) {
   const storage = new Map(Object.entries(initial));
   const sessionStorage = new Map();
   const requests = [];
+  const redirects = [];
   const getNode = id => {
     if (!nodes.has(id)) nodes.set(id, new Element());
     return nodes.get(id);
   };
   getNode('status').querySelector = () => getNode('status-text');
-  const asStorage = map => ({ getItem: key => map.get(key) ?? null, setItem: (key, value) => map.set(key, value) });
-  const location = { hostname, pathname: '/', origin: 'https://' + hostname, href: 'https://' + hostname + '/' };
+  const asStorage = map => ({ get length() { return map.size; }, key: index => [...map.keys()][index] ?? null, getItem: key => map.get(key) ?? null, setItem: (key, value) => map.set(key, value), removeItem: key => map.delete(key) });
+  const location = { hostname, pathname: '/', origin: 'https://' + hostname, href: 'https://' + hostname + '/', replace: url => redirects.push(url) };
   const context = {
     window: { location }, location, URL, Intl, Date, Map, Set, Promise, Element, HTMLAnchorElement: Anchor,
     crypto: { randomUUID: () => 'b0322242-65b6-4a2c-9863-d35ba6e3248a' },
@@ -55,21 +56,25 @@ function browser(hostname, initial = {}, fail = false, responses = {}) {
       requests.push({ url, options, payload: JSON.parse(options.body) });
       const name = url.split('/').at(-1);
       if (fail || responses[name] instanceof Error) throw new Error('offline');
+      if(responses[name]?.__response)return responses[name].__response;
       const data = responses[name] ?? (url.endsWith('get_site_visit_stats') ? visitStats
         : url.endsWith('get_site_usage_stats') ? usageStats
+          : url.endsWith('get_site_visit_summary') ? { source: 'cloudflare', today: 0, total: 0, historical_included: false }
+            : url.endsWith('get_site_usage_summary') ? { source: 'cloudflare', pages: [], buttons: [] }
           : url.endsWith('get_site_button_click_counts') ? [] : { ok: true });
-      return { ok: true, json: async () => data };
+      return { ok: true, status: 200, headers: { get: () => 'application/json' }, json: async () => data };
     },
   };
-  return { context, nodes, storage, requests, listeners, Anchor };
+  return { context, nodes, storage, requests, redirects, listeners, Anchor };
 }
 
 const settle = () => new Promise(resolve => setImmediate(resolve));
-function assertCloudflareTransport(requests) {
+function assertCloudflareTransport(requests, privateStats=false) {
   assert.ok(requests.length > 0);
   for (const request of requests) {
-    assert.match(request.url, /^\/api\/analytics\//);
+    assert.match(request.url, privateStats ? /^\/api\/admin\/analytics\// : /^(?:https:\/\/stargate\.stargate8225\.workers\.dev)?\/api\/analytics\//);
     assert.deepEqual(Object.keys(request.options.headers).sort(), ['Accept', 'Content-Type']);
+    assert.equal(request.options.credentials, privateStats ? 'same-origin' : 'omit');
   }
 }
 
@@ -78,15 +83,15 @@ test('Cloudflare visitor counter uses native RPC and isolated daily marker', asy
   runInNewContext(read('assets/visitor-counter.js'), env.context);
   await settle();
   assertCloudflareTransport(env.requests);
-  assert.deepEqual(env.requests.map(row => row.url), ['/api/analytics/record_site_visit', '/api/analytics/get_site_visit_stats']);
+  assert.deepEqual(env.requests.map(row => row.url), ['/api/analytics/record_site_visit', '/api/analytics/get_site_visit_summary']);
   assert.ok(env.storage.has('stargateCloudflareVisitorV1:visitorId'));
   assert.ok([...env.storage.keys()].some(key => key.startsWith('stargateCloudflareVisitorV1:counted:')));
   assert.equal(env.nodes.get('visitor-total-count').textContent, '0');
-  assert.match(env.nodes.get('visitor-summary-link').title, /Cloudflare 수집 시작 이후 누적/);
+  assert.match(env.nodes.get('visitor-summary-link').title, /Cloudflare 누적/);
 });
 
 test('Cloudflare visitor summary tooltip identifies finalized imported totals', async () => {
-  const env = browser(cloudflareHost, {}, false, { get_site_visit_stats: { ...visitStats, total: 25, historical_import: historicalImport } });
+  const env = browser(cloudflareHost, {}, false, { get_site_visit_summary: { source: 'cloudflare', today: 1, total: 25, historical_included: true } });
   runInNewContext(read('assets/visitor-counter.js'), env.context);
   await settle();
   assert.equal(env.nodes.get('visitor-total-count').textContent, '25');
@@ -95,7 +100,7 @@ test('Cloudflare visitor summary tooltip identifies finalized imported totals', 
 });
 
 test('other hosts keep existing Supabase analytics transport and visitor key', async () => {
-  const env = browser('stargateedu.co.kr');
+  const env = browser('preview.example.com');
   runInNewContext(read('assets/visitor-counter.js'), env.context);
   runInNewContext(read('assets/usage-analytics.js'), env.context);
   await settle();
@@ -127,14 +132,13 @@ test('Cloudflare dashboard displays persisted source, start time and real zero c
   const env = browser(cloudflareHost);
   runInNewContext(dashboard, env.context);
   await settle();
-  assertCloudflareTransport(env.requests);
+  assertCloudflareTransport(env.requests, true);
   assert.equal(env.nodes.get('total').textContent, '0');
   assert.equal(env.nodes.get('usage-views').textContent, '0');
   assert.match(env.nodes.get('total-label').textContent, /Cloudflare 누적/);
   assert.match(env.nodes.get('collection-scope').textContent, /Cloudflare 신규 수집 시작:.*2026.*한국시간/);
   assert.match(env.nodes.get('collection-scope').textContent, /기존 Supabase 누적 통계는 포함하지 않습니다/);
-  const snapshot = JSON.parse(env.storage.get(snapshotKey));
-  assert.equal(snapshot.source, 'cloudflare');
+  assert.equal(env.storage.has(snapshotKey), false);
 });
 
 test('Cloudflare failure does not show old Supabase cached totals as current data', async () => {
@@ -146,14 +150,14 @@ test('Cloudflare failure does not show old Supabase cached totals as current dat
   assert.match(env.nodes.get('status-text').textContent, /Cloudflare.*연결에 실패/);
 });
 
-test('Cloudflare cached data is explicitly marked with source and saved time', async () => {
+test('Cloudflare private dashboard purges earlier public snapshots and never falls back to them', async () => {
   const snapshot = JSON.stringify({ source: 'cloudflare', days: 30, visits: visitStats, usage: usageStats, at: '2026-10-15T03:00:00Z' });
   const env = browser(cloudflareHost, { [snapshotKey]: snapshot }, true);
   runInNewContext(dashboard, env.context);
   await settle();
-  assert.equal(env.nodes.get('total').textContent, '0');
-  assert.match(env.nodes.get('status-text').textContent, /Cloudflare.*2026.*한국시간 저장본/);
-  assert.equal(env.nodes.get('status').className, 'status warn');
+  assert.equal(env.nodes.get('total').textContent, '—');
+  assert.equal(env.storage.has(snapshotKey), false);
+  assert.equal(env.nodes.get('status').className, 'status error');
 });
 
 test('finalized historical metadata enables integrated total and discloses exact imported coverage', async () => {
@@ -190,15 +194,15 @@ test('incomplete or wrong-source import metadata cannot claim history is integra
   }
 });
 
-test('cached finalized history keeps its range and warns with the cached timestamp', async () => {
+test('cached finalized history is also removed before protected statistics are requested', async () => {
   const snapshot = JSON.stringify({ source: 'cloudflare', days: 30, visits: { ...visitStats, historical_import: historicalImport }, usage: { ...usageStats, historical_import: historicalImport }, at: '2026-10-16T02:00:00Z' });
   const env = browser(cloudflareHost, { [snapshotKey]: snapshot }, true);
   runInNewContext(dashboard, env.context);
   await settle();
-  assert.equal(env.nodes.get('total-label').textContent, 'TOTAL · 통합 누적');
-  assert.match(env.nodes.get('collection-scope').textContent, /2026-07-25 ~ 2026-10-11/);
-  assert.match(env.nodes.get('status-text').textContent, /Cloudflare.*한국시간 저장본/);
-  assert.equal(env.nodes.get('status').className, 'status warn');
+  assert.equal(env.storage.has(snapshotKey), false);
+  assert.equal(env.nodes.get('total').textContent, '—');
+  assert.doesNotMatch(env.nodes.get('collection-scope').textContent, /2026-07-25 ~ 2026-10-11/);
+  assert.equal(env.nodes.get('status').className, 'status error');
 });
 
 test('pre-import cached usage is discarded when live visits confirm finalized history', async () => {
@@ -249,7 +253,7 @@ test('responses crossing import finalization cannot cache or present mismatched 
   assert.equal(env.storage.has(snapshotKey), false);
 });
 
-test('finalized Cloudflare history enables a 90-day query with matching labels and separate cache', async () => {
+test('finalized Cloudflare history enables a 90-day private query with matching labels and no persistent cache', async () => {
   const responses = {
     get_site_visit_stats: { ...visitStats, period: 3, historical_import: historicalImport },
     get_site_usage_stats: { ...usageStats, historical_import: historicalImport },
@@ -269,9 +273,9 @@ test('finalized Cloudflare history enables a 90-day query with matching labels a
   assert.equal(env.nodes.get('visits-title').textContent, '최근 90일 방문 추이');
   assert.equal(env.nodes.get('usage-title').textContent, '버튼 사용 분석 · 최근 90일');
   assert.equal(env.nodes.get('monthly').textContent, '23');
-  assert.equal(JSON.parse(env.storage.get(snapshotKey)).visits.period, 3);
-  assert.equal(JSON.parse(env.storage.get(snapshot90Key)).visits.period, 23);
-  assert.equal(JSON.parse(env.storage.get(snapshot90Key)).days, 90);
+  assertCloudflareTransport(env.requests, true);
+  assert.equal(env.storage.has(snapshotKey), false);
+  assert.equal(env.storage.has(snapshot90Key), false);
 });
 
 test('90-day failures cannot reuse a successful 30-day snapshot', async () => {
@@ -288,12 +292,12 @@ test('90-day failures cannot reuse a successful 30-day snapshot', async () => {
   await settle();
   assert.equal(env.nodes.get('monthly').textContent, '—');
   assert.equal(env.nodes.get('status').className, 'status error');
-  assert.equal(env.nodes.get('period-control').hidden, false);
-  assert.equal(env.nodes.get('period-days').disabled, false);
-  assert.match(env.nodes.get('collection-scope').textContent, /기존 Supabase 기록과 Cloudflare 신규 수집을 합산/);
+  assert.equal(env.nodes.get('period-control').hidden, true);
+  assert.equal(env.nodes.get('period-days').disabled, true);
+  assert.match(env.nodes.get('collection-scope').textContent, /상세 통계를 불러오지 못했습니다/);
 });
 
-test('90-day cached fallback displays only the matching period and its saved timestamp', async () => {
+test('90-day private failures cannot reveal earlier 90-day cached statistics', async () => {
   const visits = { ...visitStats, period: 23, historical_import: historicalImport };
   const usage = { ...usageStats, historical_import: historicalImport };
   const snapshot90 = JSON.stringify({ source: 'cloudflare', days: 90, visits, usage, at: '2026-10-16T02:00:00Z' });
@@ -305,14 +309,14 @@ test('90-day cached fallback displays only the matching period and its saved tim
   env.nodes.get('period-days').value = '90';
   env.nodes.get('period-days').listeners.change();
   await settle();
-  assert.equal(env.nodes.get('monthly').textContent, '23');
+  assert.equal(env.nodes.get('monthly').textContent, '—');
   assert.equal(env.nodes.get('usage-title').textContent, '버튼 사용 분석 · 최근 90일');
-  assert.match(env.nodes.get('status-text').textContent, /Cloudflare.*한국시간 저장본/);
-  assert.equal(env.nodes.get('status').className, 'status warn');
+  assert.equal(env.storage.has(snapshot90Key), false);
+  assert.equal(env.nodes.get('status').className, 'status error');
 });
 
 test('90-day control stays hidden on original hosts and before historical import', async () => {
-  for (const hostname of [cloudflareHost, 'stargateedu.co.kr']) {
+  for (const hostname of [cloudflareHost, 'preview.example.com']) {
     const env = browser(hostname);
     runInNewContext(dashboard, env.context);
     await settle();
@@ -324,4 +328,93 @@ test('90-day control stays hidden on original hosts and before historical import
     assert.equal(env.requests.length, 2);
     assert.ok(env.requests.every(row => row.payload.p_days === 30));
   }
+});
+
+test('canonical apex and www collect and read public Cloudflare aggregates without Supabase credentials', async () => {
+  for(const hostname of ['stargateedu.co.kr','www.stargateedu.co.kr']){
+    const env = browser(hostname, { 'stargateVisitorV3:visitorId': 'old-supabase-browser' });
+    runInNewContext(read('assets/visitor-counter.js'), env.context);
+    runInNewContext(read('assets/usage-analytics.js'), env.context);
+    await settle();
+    assertCloudflareTransport(env.requests);
+    assert.ok(env.requests.every(row=>row.url.startsWith('https://stargate.stargate8225.workers.dev/api/analytics/')));
+    assert.ok(env.requests.every(row=>!row.url.includes('get_site_visit_stats')&&!row.url.includes('get_site_usage_stats')&&!row.url.includes('/admin/')));
+    assert.ok(env.requests.some(row=>row.url.endsWith('get_site_visit_summary')));
+    const summaries=env.requests.filter(row=>row.url.endsWith('get_site_usage_summary'));
+    assert.deepEqual(summaries.map(row=>row.payload.p_days),[30,7,14]);
+    assert.notEqual(env.storage.get('stargateCloudflareVisitorV1:visitorId'),'old-supabase-browser');
+    assert.equal(env.nodes.get('visitor-summary-link').href,'https://stargate.stargate8225.workers.dev/admin/visitors/');
+    assert.equal(env.context.window.StargateUsage.getLoadState().views,'ready');
+  }
+});
+
+test('lookalike hostnames retain the original transport rather than being trusted canonical hosts', async () => {
+  for(const hostname of ['stargateedu.co.kr.evil.test','notstargateedu.co.kr','stargate.stargate8225.workers.dev.evil.test']){
+    const env=browser(hostname);
+    runInNewContext(read('assets/visitor-counter.js'),env.context);
+    await settle();
+    assert.ok(env.requests.every(row=>row.url.startsWith('https://inftexpcnfinglwlrvsj.supabase.co/')));
+  }
+});
+
+test('canonical admin pages redirect to the protected Worker before issuing any statistics request', async () => {
+  for(const hostname of ['stargateedu.co.kr','www.stargateedu.co.kr']){
+    const env=browser(hostname,{[snapshotKey]:'private-old-data','stargate-analytics-snapshot-v2':'old-supabase-private-data','stargateCloudflareVisitorV1:visitorId':'keep-browser-id'});
+    runInNewContext(dashboard,env.context);
+    await settle();
+    assert.deepEqual(env.redirects,['https://stargate.stargate8225.workers.dev/admin/visitors/']);
+    assert.equal(env.requests.length,0);
+    assert.equal(env.storage.has(snapshotKey),false);
+    assert.equal(env.storage.has('stargate-analytics-snapshot-v2'),false);
+    assert.equal(env.storage.get('stargateCloudflareVisitorV1:visitorId'),'keep-browser-id');
+  }
+});
+
+test('private API authorization failures clear all data and expose an Access login link', async () => {
+  for(const status of [401,403]){
+    const env=browser(cloudflareHost,{[snapshotKey]:'private-old-data'},false,{
+      get_site_visit_stats:{...visitStats,total:77,historical_import:historicalImport},
+      get_site_usage_stats:{__response:{ok:false,status,headers:{get:()=> 'application/json'},json:async()=>({error:'denied'})}},
+    });
+    runInNewContext(dashboard,env.context);
+    await settle();
+    assertCloudflareTransport(env.requests,true);
+    assert.ok(env.requests.every(row=>row.options.redirect==='manual'));
+    for(const id of ['today','total','monthly','usage-views','usage-clicks','usage-clickers','usage-rate'])assert.equal(env.nodes.get(id).textContent,'—');
+    assert.equal(env.nodes.get('access-login').hidden,false);
+    assert.equal(env.nodes.get('period-control').hidden,true);
+    assert.match(env.nodes.get('status-text').textContent,/Cloudflare Access 로그인이 필요/);
+    assert.doesNotMatch(env.nodes.get('collection-scope').textContent,/2026-07-25/);
+    assert.equal(env.storage.has(snapshotKey),false);
+  }
+});
+
+test('Access HTML and opaque redirects are recognized as authentication failures before JSON parsing', async () => {
+  for(const response of [
+    {ok:true,status:200,headers:{get:()=> 'text/html'}},
+    {ok:false,status:0,type:'opaqueredirect',headers:{get:()=> null}},
+    {ok:false,status:302,headers:{get:()=> null}},
+  ]){
+    const env=browser(cloudflareHost,{},false,{get_site_visit_stats:{__response:response}});
+    runInNewContext(dashboard,env.context);
+    await settle();
+    assert.equal(env.nodes.get('access-login').hidden,false);
+    assert.equal(env.nodes.get('total').textContent,'—');
+    assert.match(env.nodes.get('status-text').textContent,/Access 로그인이 필요/);
+  }
+});
+
+test('an expired Access session clears previously rendered history instead of retaining private data', async () => {
+  const responses={get_site_visit_stats:{...visitStats,total:77,historical_import:historicalImport},get_site_usage_stats:{...usageStats,historical_import:historicalImport}};
+  const env=browser(cloudflareHost,{},false,responses);
+  runInNewContext(dashboard,env.context);
+  await settle();
+  assert.equal(env.nodes.get('total').textContent,'77');
+  responses.get_site_visit_stats={__response:{ok:false,status:403,headers:{get:()=> 'application/json'}}};
+  env.nodes.get('refresh').listeners.click();
+  assert.equal(env.nodes.get('total').textContent,'—');
+  await settle();
+  assert.equal(env.nodes.get('access-login').hidden,false);
+  assert.doesNotMatch(env.nodes.get('collection-scope').textContent,/2026-07-25/);
+  assert.equal(env.storage.size,0);
 });

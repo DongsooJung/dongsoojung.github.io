@@ -3,8 +3,9 @@
 
   const supabaseUrl = 'https://inftexpcnfinglwlrvsj.supabase.co';
   const publishableKey = 'sb_publishable_-D0A-aWNMTMTHXeL0oqBXg_9Tz0bdvs';
-  const cloudflareAnalytics = window.location.hostname === 'stargate.stargate8225.workers.dev';
-  const rpcBase = cloudflareAnalytics ? '/api/analytics/' : `${supabaseUrl}/rest/v1/rpc/`;
+  const cloudflareOrigin = 'https://stargate.stargate8225.workers.dev';
+  const cloudflareAnalytics = ['stargateedu.co.kr', 'www.stargateedu.co.kr', 'stargate.stargate8225.workers.dev'].includes(window.location.hostname);
+  const rpcBase = cloudflareAnalytics ? `${window.location.origin === cloudflareOrigin ? '' : cloudflareOrigin}/api/analytics/` : `${supabaseUrl}/rest/v1/rpc/`;
   const storagePrefix = cloudflareAnalytics ? 'stargateCloudflareVisitorV1' : 'stargateVisitorV3';
 
   const summaryLink = document.getElementById('visitor-summary-link');
@@ -15,6 +16,7 @@
   // index.html 의 '전략 인사이트' 허브 카드 하위 링크(.hub-sublinks)로 이동했습니다.
 
   if (!summaryLink || !todayElement || !totalElement) return;
+  if (cloudflareAnalytics) summaryLink.href = `${cloudflareOrigin}/admin/visitors/`;
 
   const headers = cloudflareAnalytics ? {
     'Content-Type': 'application/json',
@@ -49,6 +51,7 @@
     const response = await fetch(`${rpcBase}${name}`, {
       method: 'POST',
       cache: 'no-store',
+      credentials: 'omit',
       headers,
       body: JSON.stringify(payload),
     });
@@ -74,14 +77,10 @@
         localStorage.setItem(countedKey, '1');
       }
 
-      const stats = await rpc('get_site_visit_stats', { p_days: 30 });
+      const stats = await rpc(cloudflareAnalytics ? 'get_site_visit_summary' : 'get_site_visit_stats', { p_days: 30 });
       todayElement.textContent = formatNumber(stats.today);
       totalElement.textContent = formatNumber(stats.total);
-      const history = stats.historical_import;
-      const imported = cloudflareAnalytics && history?.source === 'supabase:inftexpcnfinglwlrvsj'
-        && typeof history.completed_at === 'string' && Number.isFinite(Date.parse(history.completed_at))
-        && /^[a-f0-9]{64}$/i.test(history.manifest_sha256);
-      const scope = cloudflareAnalytics ? (imported ? 'Supabase 이전 기록 포함 통합 누적 · ' : 'Cloudflare 수집 시작 이후 누적 · ') : '';
+      const scope = cloudflareAnalytics ? (stats.historical_included === true ? 'Supabase 이전 기록 포함 통합 누적 · ' : 'Cloudflare 누적 · ') : '';
       summaryLink.title = `방문자 통계 · ${scope}${day} 한국시간 기준`;
       summaryLink.dataset.state = 'ready';
     } catch (error) {

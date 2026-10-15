@@ -287,6 +287,7 @@ footer{margin-top:56px;padding-top:20px;border-top:1px solid var(--line);color:v
 
 <script src="./chart.umd.min.js"></script>
 <script src="./fallback-data.js"></script>
+<script src="/assets/dashboard-data-status.js?v=20261015-1"></script>
 <script>
 'use strict';
 
@@ -406,8 +407,14 @@ const METRIC = {
 let DATA = null;
 let state = { range:'all', metric:'exp', month:null, cty:null };
 let charts = {};
+let cloudflareDataFallback = false;
 
 async function loadData(){
+  cloudflareDataFallback = false;
+  if(window.StargateDashboardData?.enabled){
+    try{return await window.StargateDashboardData.load('trade');}
+    catch(_){cloudflareDataFallback=true;}
+  }
   try{
     const r = await fetch('./data.json', {cache:'no-cache'});
     if (!r.ok) throw new Error(r.status);
@@ -788,6 +795,11 @@ function renderMeta(){
     mode.classList.add('warn');
     seedBanner.hidden = false;
   }
+  if(window.StargateDashboardData?.enabled){
+    mode.textContent=cloudflareDataFallback?'Cloudflare 연결 대기/실패 · 정적 보관본 표시':window.StargateDashboardData.describe(window.StargateDashboardData.meta('trade'));
+    const meta=window.StargateDashboardData.meta('trade');
+    mode.classList.toggle('warn',cloudflareDataFallback||!!meta?.error||!!meta?.stale);
+  }
 }
 
 function populateSelectors(){
@@ -824,9 +836,13 @@ async function refreshData(){
   status.className = 'refresh-status';
   status.textContent = '최신 공식 데이터를 다시 불러오는 중입니다…';
   try{
-    const r = await fetch(`./data.json?t=${Date.now()}`, {cache:'no-store'});
-    if (!r.ok) throw new Error(r.status);
-    const fresh = await r.json();
+    let fresh;
+    if(window.StargateDashboardData?.enabled)fresh=await loadData();
+    else{
+      const r = await fetch(`./data.json?t=${Date.now()}`, {cache:'no-store'});
+      if (!r.ok) throw new Error(r.status);
+      fresh = await r.json();
+    }
     if (!fresh || !Array.isArray(fresh.series) || !fresh.series.length) throw new Error('invalid payload');
     DATA = fresh;
     populateSelectors();
@@ -837,6 +853,11 @@ async function refreshData(){
     const first = DATA.series.length ? ymKorean(DATA.series[0].ym) : '—';
     status.textContent = `${checked} 재조회 완료 · 기준 ${DATA.updatedAt||'—'} · ${first} ~ ${ymKorean(DATA.latestYm)}`;
     status.className = 'refresh-status ok';
+    if(window.StargateDashboardData?.enabled){
+      const meta=window.StargateDashboardData.meta('trade');
+      status.textContent+=' · '+(cloudflareDataFallback?'정적 보관본':window.StargateDashboardData.describe(meta));
+      if(cloudflareDataFallback||meta?.error||meta?.stale)status.className='refresh-status error';
+    }
   }catch(error){
     console.error(error);
     status.textContent = '새로고침에 실패했습니다. 잠시 후 다시 시도해 주세요.';

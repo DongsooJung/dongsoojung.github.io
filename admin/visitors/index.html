@@ -17,7 +17,7 @@ a{color:inherit;text-decoration:none}.wrap{max-width:1080px;margin:0 auto;paddin
 <body>
 <div class="wrap">
   <div class="top"><div class="brand">STARGATE · ADMIN</div><div style="display:flex;gap:8px"><button class="refresh" id="refresh">새로고침</button><a class="back" href="/">← 메인으로</a></div></div>
-  <section class="hero"><div class="kicker">SITE USAGE ANALYTICS</div><h1>사이트 사용 분석 대시보드</h1><p>한국시간 기준 방문자와 페이지별·버튼별 실제 사용률을 확인합니다.</p><div class="status" id="status"><span class="dot"></span><span>데이터를 불러오는 중입니다.</span></div></section>
+  <section class="hero"><div class="kicker">SITE USAGE ANALYTICS</div><h1>사이트 사용 분석 대시보드</h1><p>한국시간 기준 방문자와 페이지별·버튼별 실제 사용률을 확인합니다.</p><div class="status" id="status"><span class="dot"></span><span>데이터를 불러오는 중입니다.</span></div> <a class="back" id="access-login" href="https://stargate.stargate8225.workers.dev/admin/visitors/" hidden>Cloudflare Access 로그인</a></section>
   <p class="footer" id="collection-scope" hidden></p>
   <section class="metrics"><article class="card"><div class="label" id="today-label">TODAY · 오늘</div><div class="value" id="today">—</div><div class="hint" id="today-date">한국시간 기준</div></article><article class="card"><div class="label" id="total-label">TOTAL · 누적</div><div class="value" id="total">—</div><div class="hint">고유 브라우저·일 단위 누적</div></article><article class="card"><div class="label" id="period-label">30 DAYS · 최근 30일</div><div class="value" id="monthly">—</div><div class="hint">일별 방문 합계</div></article></section>
   <section class="section"><h2 id="visits-title">최근 30일 방문 추이</h2><label id="period-control" hidden style="color:var(--sub);font-size:12px;margin-bottom:12px">조회 기간 <select id="period-days" disabled aria-label="통계 조회 기간" style="margin-left:6px;padding:6px 10px;border:1px solid var(--line);border-radius:8px;background:var(--panel);color:var(--ink)"><option value="30">최근 30일</option><option value="90">최근 90일</option></select></label><div class="chart" id="chart"></div><div class="table" id="table"></div></section>
@@ -38,15 +38,25 @@ a{color:inherit;text-decoration:none}.wrap{max-width:1080px;margin:0 auto;paddin
 </div>
 <script>
 (() => {
+  const cloudflareOrigin='https://stargate.stargate8225.workers.dev';
+  const canonicalHost=['stargateedu.co.kr','www.stargateedu.co.kr'].includes(window.location.hostname);
+  function clearPrivateSnapshots(){
+    try{
+      const keys=[];
+      for(let i=0;i<localStorage.length;i++){const key=localStorage.key(i);if(key?.startsWith('stargate-cloudflare-analytics-snapshot-')||key==='stargate-analytics-snapshot-v2')keys.push(key)}
+      keys.forEach(key=>localStorage.removeItem(key));
+    }catch{}
+  }
+  if(canonicalHost){clearPrivateSnapshots();window.location.replace(cloudflareOrigin+'/admin/visitors/');return}
   const supabaseUrl='https://inftexpcnfinglwlrvsj.supabase.co';
   const publishableKey='sb_publishable_-D0A-aWNMTMTHXeL0oqBXg_9Tz0bdvs';
   const cloudflareAnalytics=window.location.hostname==='stargate.stargate8225.workers.dev';
   const source=cloudflareAnalytics?'cloudflare':'supabase';
   const sourceLabel=cloudflareAnalytics?'Cloudflare':'Supabase';
-  const rpcBase=cloudflareAnalytics?'/api/analytics/':supabaseUrl+'/rest/v1/rpc/';
+  const rpcBase=cloudflareAnalytics?'/api/admin/analytics/':supabaseUrl+'/rest/v1/rpc/';
   const rpcHeaders=cloudflareAnalytics?{'Content-Type':'application/json',Accept:'application/json'}:{apikey:publishableKey,Authorization:'Bearer '+publishableKey,'Content-Type':'application/json',Accept:'application/json'};
   let selectedDays=30, historicalScope=null, collectionStarted=null;
-  const snapshotKey=days=>cloudflareAnalytics?'stargate-cloudflare-analytics-snapshot-v2:days:'+days:'stargate-analytics-snapshot-v2';
+  const snapshotKey=()=> 'stargate-analytics-snapshot-v2';
   const $=id=>document.getElementById(id);
   const status=$('status'), refresh=$('refresh');
   $('period-control').hidden=true;
@@ -54,6 +64,7 @@ a{color:inherit;text-decoration:none}.wrap{max-width:1080px;margin:0 auto;paddin
   $('period-days').disabled=true;
   function timestamp(value){const date=new Date(value);return Number.isFinite(date.getTime())?new Intl.DateTimeFormat('ko-KR',{dateStyle:'medium',timeStyle:'medium',timeZone:'Asia/Seoul'}).format(date)+' 한국시간':null}
   if(cloudflareAnalytics){
+    clearPrivateSnapshots();
     $('today-label').textContent='TODAY · Cloudflare 오늘';
     $('total-label').textContent='TOTAL · Cloudflare 누적';
     $('collection-scope').hidden=false;
@@ -69,6 +80,7 @@ a{color:inherit;text-decoration:none}.wrap{max-width:1080px;margin:0 auto;paddin
   }
   function renderScope(visits,usage){
     if(!cloudflareAnalytics)return;
+    if(!visits&&!usage){historicalScope=null;collectionStarted=null;$('period-control').hidden=true;$('collection-scope').textContent='Cloudflare 상세 통계를 불러오지 못했습니다. 인증 상태를 확인한 뒤 새로고침해 주세요.';return}
     collectionStarted=timestamp(visits?.started_at||usage?.started_at)||collectionStarted;
     const started=collectionStarted;
     historicalScope=importedHistory(visits)||importedHistory(usage)||historicalScope;
@@ -128,25 +140,36 @@ a{color:inherit;text-decoration:none}.wrap{max-width:1080px;margin:0 auto;paddin
     $('usage-buttons').replaceChildren(...buttonRows);
   }
   async function fetchRpc(name,payload){
-    const response=await fetch(rpcBase+name,{method:'POST',cache:'no-store',headers:rpcHeaders,body:JSON.stringify(payload)});
+    const response=await fetch(rpcBase+name,{method:'POST',cache:'no-store',credentials:cloudflareAnalytics?'same-origin':'omit',redirect:cloudflareAnalytics?'manual':'follow',headers:rpcHeaders,body:JSON.stringify(payload)});
+    if(cloudflareAnalytics&&(response.status===401||response.status===403||response.status===302||response.type==='opaqueredirect'||response.redirected||response.headers?.get('content-type')?.includes('text/html'))){const error=new Error('ACCESS_LOGIN_REQUIRED');error.authRequired=true;throw error}
     if(!response.ok)throw new Error(name+'_HTTP_'+response.status);
     const data=await response.json();
     if(cloudflareAnalytics&&data?.source!=='cloudflare')throw new Error(name+'_SOURCE_INVALID');
     return data;
   }
+  function clearMetrics(){
+    ['today','total','monthly','usage-views','usage-clicks','usage-clickers','usage-rate'].forEach(id=>$(id).textContent='—');
+    ['chart','table','usage-pages','usage-buttons'].forEach(id=>$(id).replaceChildren());
+  }
   async function load(){
     refresh.disabled=true;setStatus(sourceLabel+'에서 방문·클릭 통계를 불러오는 중입니다.');
+    if(cloudflareAnalytics){clearMetrics();$('access-login').hidden=true;$('collection-scope').textContent='Cloudflare Access 인증 상태와 통계를 확인하는 중입니다.';$('period-control').hidden=true}
     const days=selectedDays,cacheKey=snapshotKey(days);
     $('period-days').disabled=true;
     $('period-label').textContent=days+' DAYS · 최근 '+days+'일';
     $('visits-title').textContent='최근 '+days+'일 방문 추이';
     $('usage-title').textContent='버튼 사용 분석 · 최근 '+days+'일';
-    let cached=null;try{cached=JSON.parse(localStorage.getItem(cacheKey)||'null')}catch{}
-    if(cloudflareAnalytics&&(cached?.days!==days||cached?.source!==source||cached?.visits?.source!=='cloudflare'||cached?.usage?.source!=='cloudflare'))cached=null;
+    let cached=null;if(!cloudflareAnalytics){try{cached=JSON.parse(localStorage.getItem(cacheKey)||'null')}catch{}}
     const [visitsResult,usageResult]=await Promise.allSettled([
       fetchRpc('get_site_visit_stats',{p_days:days}),
       fetchRpc('get_site_usage_stats',{p_days:days}),
     ]);
+    if(cloudflareAnalytics&&[visitsResult,usageResult].some(result=>result.status==='rejected'&&result.reason?.authRequired)){
+      clearPrivateSnapshots();clearMetrics();historicalScope=null;collectionStarted=null;
+      $('collection-scope').textContent='상세 통계는 Cloudflare Access 인증 후 확인할 수 있습니다.';
+      $('period-control').hidden=true;$('period-days').disabled=true;$('access-login').hidden=false;
+      setStatus('Cloudflare Access 로그인이 필요합니다. 로그인 후 새로고침해 주세요.','error');refresh.disabled=false;return;
+    }
     let visits=visitsResult.status==='fulfilled'?visitsResult.value:cached?.visits;
     let usage=usageResult.status==='fulfilled'?usageResult.value:cached?.usage;
     if(cloudflareAnalytics){
@@ -167,7 +190,7 @@ a{color:inherit;text-decoration:none}.wrap{max-width:1080px;margin:0 auto;paddin
     else{['usage-views','usage-clicks','usage-clickers','usage-rate'].forEach(id=>$(id).textContent='—');$('usage-pages').replaceChildren();$('usage-buttons').replaceChildren()}
     renderScope(visits,usage);
     if(visitsResult.status==='fulfilled'&&usageResult.status==='fulfilled'&&visits&&usage){
-      try{localStorage.setItem(cacheKey,JSON.stringify({source,days,visits,usage,at:new Date().toISOString()}))}catch{}
+      if(!cloudflareAnalytics){try{localStorage.setItem(cacheKey,JSON.stringify({source,days,visits,usage,at:new Date().toISOString()}))}catch{}}
       setStatus('정상 연결 · '+sourceLabel+' · '+timestamp(new Date()),'ok');
     }else if(visits||usage){
       const stale=[];

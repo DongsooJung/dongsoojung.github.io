@@ -23,8 +23,8 @@ test('local Durable Object validates HTTP, deduplicates writes and serves aggreg
   assert.equal(before?.status, 200, 'Wrangler analytics API must become ready');
   assert.equal(before.cache, 'no-store');
   assert.equal(before.data.source, 'cloudflare');
-  assert.ok(!Number.isNaN(Date.parse(before.data.started_at)));
-  const usageBefore = (await rpc('get_site_usage_stats', {})).data;
+  assert.deepEqual(Object.keys(before.data).sort(),['historical_included','source','today','total']);
+  const usageBefore = (await rpc('get_site_usage_summary', {})).data;
   const visitor = randomUUID(), session = randomUUID(), id = randomUUID();
   const path = `/__local_analytics_test__/${id}/`;
   const visit = { p_visitor_id: visitor, p_visit_date: koreaDay(), p_path: path };
@@ -42,17 +42,26 @@ test('local Durable Object validates HTTP, deduplicates writes and serves aggreg
   assert.equal((await rpc('record_site_usage_event', click)).data, true);
   assert.equal((await rpc('record_site_usage_event', click)).data, false);
   const visits = (await rpc('get_site_visit_stats', {})).data;
-  const usage = (await rpc('get_site_usage_stats', {})).data;
+  const usage = (await rpc('get_site_usage_summary', {})).data;
   assert.equal(visits.total, before.data.total + 1);
   assert.equal(visits.today, before.data.today + 1);
-  assert.equal(visits.started_at, before.data.started_at);
-  assert.equal(usage.page_views, usageBefore.page_views + 1);
-  assert.equal(usage.clicks, usageBefore.clicks + 1);
+  assert.equal(visits.historical_included,before.data.historical_included);
+  assert.equal(usage.buttons.find(row=>row.target_url==='/research/').clicks,(usageBefore.buttons.find(row=>row.target_url==='/research/')?.clicks||0)+1);
   const page = usage.pages.find(row => row.page_path === path);
-  assert.deepEqual({ page_views: page.page_views, clicks: page.clicks, visitors: page.visitors, clicking_visitors: page.clicking_visitors, engagement_rate: page.engagement_rate }, { page_views: 1, clicks: 1, visitors: 1, clicking_visitors: 1, engagement_rate: 100 });
+  assert.deepEqual(page,{page_path:path,page_views:1});
   assert.deepEqual((await rpc('get_site_button_click_counts', { p_page_path: path })).data, [{ element_label: 'local test', target_url: '/research/', clicks: 1 }]);
   assert.equal((await fetch(`${base}/api/analytics/get_site_visit_stats`)).status, 405);
   assert.equal((await rpc('not-a-method', {})).status, 404);
+  assert.equal((await rpc('get_site_usage_stats',{})).status,404);
+  for(const endpoint of ['/admin/visitors/','/api/admin/analytics/get_site_visit_stats','/api/admin/analytics/get_site_usage_stats']) {
+    const protectedResponse=await fetch(base+endpoint,{method:'POST',headers:{'Content-Type':'application/json'},body:'{}'});
+    assert.equal(protectedResponse.status,401);
+  }
+  const preflight=await fetch(base+'/api/analytics/get_site_visit_summary',{method:'OPTIONS',headers:{Origin:'https://stargateedu.co.kr','Access-Control-Request-Method':'POST','Access-Control-Request-Headers':'content-type'}});
+  assert.equal(preflight.status,204);
+  assert.equal(preflight.headers.get('Access-Control-Allow-Origin'),'https://stargateedu.co.kr');
+  const fromMain=await rpc('get_site_visit_summary',{}, {Origin:'https://www.stargateedu.co.kr'});
+  assert.equal(fromMain.status,200);
   assert.equal((await fetch(`${base}/api/sms.js`)).status, 404);
   assert.equal((await fetch(`${base}/cloudflare/worker.mjs`)).status, 404);
 });

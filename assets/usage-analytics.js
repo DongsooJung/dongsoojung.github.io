@@ -3,8 +3,9 @@
 
   const supabaseUrl = 'https://inftexpcnfinglwlrvsj.supabase.co';
   const publishableKey = 'sb_publishable_-D0A-aWNMTMTHXeL0oqBXg_9Tz0bdvs';
-  const cloudflareAnalytics = window.location.hostname === 'stargate.stargate8225.workers.dev';
-  const rpcBase = cloudflareAnalytics ? '/api/analytics/' : `${supabaseUrl}/rest/v1/rpc/`;
+  const cloudflareOrigin = 'https://stargate.stargate8225.workers.dev';
+  const cloudflareAnalytics = ['stargateedu.co.kr', 'www.stargateedu.co.kr', 'stargate.stargate8225.workers.dev'].includes(window.location.hostname);
+  const rpcBase = cloudflareAnalytics ? `${window.location.origin === cloudflareOrigin ? '' : cloudflareOrigin}/api/analytics/` : `${supabaseUrl}/rest/v1/rpc/`;
   const rpcHeaders = cloudflareAnalytics ? {
     'Content-Type': 'application/json',
     Accept: 'application/json',
@@ -276,7 +277,7 @@
   }
 
   async function fetchUsageStats(days) {
-    const response = await fetch(`${rpcBase}get_site_usage_stats`, {
+    const response = await fetch(`${rpcBase}${cloudflareAnalytics ? 'get_site_usage_summary' : 'get_site_usage_stats'}`, {
       method: 'POST',
       cache: 'no-store',
       credentials: 'omit',
