@@ -616,40 +616,46 @@
     },
     {
       "source": {
-        "label": "관세청 · 월별 총계/국가별 통계",
-        "url": "https://unipass.customs.go.kr/ets/",
-        "verification": "declared"
+        "label": "관세청 국가별 수출입실적 API",
+        "url": "https://www.customs.go.kr/kcs/na/ntt/selectNttInfo.do?bbsId=1362&mi=2891&nttSn=10179763&nttSnUrl=94e483116f9b898190458b9bf79546a3",
+        "verification": "verified"
       },
       "dataAsOf": null,
       "dataPeriod": "2026-09",
       "snapshotUpdatedAt": "2026-10-16",
-      "collectedAt": null,
-      "checkedAt": "2026-10-16T09:59:34.847Z",
-      "reviewStatus": "needs_review",
-      "freshness": "target_period_in_snapshot",
+      "collectedAt": "2026-10-15T13:11:53.587Z",
+      "checkedAt": "2026-10-16T10:33:48.637Z",
+      "reviewStatus": "verified",
+      "freshness": "target_period_verified",
       "evidence": [
         {
-          "kind": "published-snapshot",
-          "url": "https://www.stargateedu.co.kr/trade/data.json",
-          "checkedAt": "2026-10-16T09:59:34.847Z",
-          "fields": {
-            "dataPeriod": "2026-09",
-            "dataAsOf": null,
-            "snapshotUpdatedAt": "2026-10-16"
-          }
+          "kind": "official-source",
+          "url": "https://www.customs.go.kr/kcs/na/ntt/selectNttInfo.do?bbsId=1362&mi=2891&nttSn=10179763&nttSnUrl=94e483116f9b898190458b9bf79546a3",
+          "checkedAt": "2026-10-16T10:33:48.637Z",
+          "scope": "2026-07~09 API 수집본; 9월 총계·9개국과 8월 총계는 관세청 2026-09 확정 보도자료와 대조. 이전 기간은 이번 대조 범위에 포함하지 않음."
+        },
+        {
+          "kind": "official-source",
+          "url": "https://www.customs.go.kr/common/nttFileDownload.do?fileKey=525c28fb98304bd4a171d639a41ed008",
+          "checkedAt": "2026-10-16T10:33:48.637Z",
+          "scope": "2026-07~09 API 수집본; 9월 총계·9개국과 8월 총계는 관세청 2026-09 확정 보도자료와 대조. 이전 기간은 이번 대조 범위에 포함하지 않음."
+        },
+        {
+          "kind": "official-source",
+          "url": "https://stargate.stargate8225.workers.dev/api/dashboards/trade",
+          "checkedAt": "2026-10-16T10:33:48.637Z",
+          "scope": "2026-07~09 API 수집본; 9월 총계·9개국과 8월 총계는 관세청 2026-09 확정 보도자료와 대조. 이전 기간은 이번 대조 범위에 포함하지 않음."
         }
       ],
-      "issues": [
-        "국가별 기준 2026-06와 총계 기준 2026-09가 다릅니다.",
-        "최신 월 수출−수입과 무역수지가 일치하지 않아 원표 대조가 필요합니다.",
-        "총계 출처 표기: 산업통상부 2026년 8월 수출입동향(잠정치)"
-      ],
+      "issues": [],
       "key": "/trade/",
       "url": "/trade/",
       "title": "국가별 수출입 대시보드",
       "primary": "society",
       "classification": "경제·사회",
-      "sourceHint": "관세청 API · 월간"
+      "sourceHint": "관세청 API · 월간",
+      "verifiedAt": "2026-10-16T10:33:48.637Z",
+      "verifiedDataHash": "5ef331bc2bb60f413c4c837317dc46984307223fb9823ede8f69b74272cb6359"
     },
     {
       "source": {
@@ -676,37 +682,47 @@
     {
       "source": {
         "label": "한국관광공사 한국관광 데이터랩 한국관광통계 공식 XLSX",
-        "url": "https://datalab.visitkorea.or.kr/common/board/Download.do?bcIdx=311134&cbIdx=1127&streFileNm=3c2f608d-4d3e-45fe-a535-900f8047f2cc.xlsx",
-        "verification": "declared"
+        "url": "https://datalab.visitkorea.or.kr/site/portal/ex/bbs/View.do?cbIdx=1603&cbIdx2=1127&bcIdx=311301&pageIndex=1&tgtTypeCd=CATE_CONT&searchKey=&searchKey1=&searchKey2=spt01&searchKey3=&tabFlag=N&subFlag=N&cateCont=spt01",
+        "verification": "verified"
       },
       "dataAsOf": null,
-      "dataPeriod": "2026-07",
-      "snapshotUpdatedAt": "2026-08-27",
-      "collectedAt": null,
-      "checkedAt": "2026-10-16T09:59:34.823Z",
-      "reviewStatus": "snapshot_checked",
-      "freshness": "older_than_target",
+      "dataPeriod": "2026-08",
+      "snapshotUpdatedAt": "2026-10-16",
+      "collectedAt": "2026-10-16T10:28:23.996613+00:00",
+      "checkedAt": "2026-10-16T10:33:48.637Z",
+      "reviewStatus": "awaiting_publication",
+      "freshness": "latest_official_awaiting_publication",
       "evidence": [
         {
-          "kind": "published-snapshot",
-          "url": "https://www.stargateedu.co.kr/korea-tourism/data.json",
-          "checkedAt": "2026-10-16T09:59:34.823Z",
-          "fields": {
-            "dataPeriod": "2026-07",
-            "dataAsOf": null,
-            "snapshotUpdatedAt": "2026-08-27"
-          }
+          "kind": "official-source",
+          "url": "https://datalab.visitkorea.or.kr/site/portal/ex/bbs/View.do?cbIdx=1603&cbIdx2=1127&bcIdx=311301&pageIndex=1&tgtTypeCd=CATE_CONT&searchKey=&searchKey1=&searchKey2=spt01&searchKey3=&tabFlag=N&subFlag=N&cateCont=spt01",
+          "checkedAt": "2026-10-16T10:33:48.637Z",
+          "scope": "공식 전체국가통계 XLSX 입국 시트의 중국·대만·베트남 2010-01~2026-08 200개월 대조"
+        },
+        {
+          "kind": "official-source",
+          "url": "https://datalab.visitkorea.or.kr/common/board/Download.do?bcIdx=311301&cbIdx=1127&streFileNm=5146fdf7-8c3e-47cd-84c0-83e798c28c15.xlsx",
+          "checkedAt": "2026-10-16T10:33:48.637Z",
+          "scope": "공식 전체국가통계 XLSX 입국 시트의 중국·대만·베트남 2010-01~2026-08 200개월 대조"
+        },
+        {
+          "kind": "official-source",
+          "url": "https://datalab.visitkorea.or.kr/common/board/Download.do?bcIdx=310073&cbIdx=1127&streFileNm=46cd12a6-5f28-4c47-b4eb-c9188cb81ac7.pdf",
+          "checkedAt": "2026-10-16T10:33:48.637Z",
+          "scope": "공식 전체국가통계 XLSX 입국 시트의 중국·대만·베트남 2010-01~2026-08 200개월 대조"
         }
       ],
       "issues": [
-        "2026년 7월 게시본입니다. 8·9월 공식 공표 자료 확인이 필요합니다."
+        "공식 최신 자료는 2026-08 (2026-09-28 공표). 9월 자료 2026-10-26, 10월 자료 2026-11-25 공표 예정이며 실제 공표 후 갱신합니다."
       ],
       "key": "/korea-tourism/",
       "url": "/korea-tourism/",
       "title": "방한 관광객 대시보드",
       "primary": "society",
       "classification": "경제·사회",
-      "sourceHint": "한국관광공사 · 공공데이터"
+      "sourceHint": "한국관광공사 · 공공데이터",
+      "verifiedAt": "2026-10-16T10:33:48.637Z",
+      "verifiedDataHash": "d321f199a013a1ef6393da5c8d810add145eccc43c1e31312e664d1ec9a7a1d7"
     },
     {
       "source": {

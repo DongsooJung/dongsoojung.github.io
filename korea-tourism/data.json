@@ -1,8 +1,10 @@
 {
-  "updatedAt": "2026-08-27",
+  "updatedAt": "2026-10-16",
   "sourceMode": "official-xlsx",
   "source": "한국관광공사 한국관광 데이터랩 한국관광통계 공식 XLSX",
-  "sourceUrl": "https://datalab.visitkorea.or.kr/common/board/Download.do?bcIdx=311134&cbIdx=1127&streFileNm=3c2f608d-4d3e-45fe-a535-900f8047f2cc.xlsx",
+  "sourceUrl": "https://datalab.visitkorea.or.kr/common/board/Download.do?bcIdx=311301&cbIdx=1127&streFileNm=5146fdf7-8c3e-47cd-84c0-83e798c28c15.xlsx",
+  "dataPeriod": "2026-08",
+  "collectedAt": "2026-10-16T10:28:23.996613+00:00",
   "series": [
     {
       "ym": "2010-01",
@@ -1197,6 +1199,26 @@
       "china": 776639,
       "taiwan": 260532,
       "vietnam": 47861
+    },
+    {
+      "ym": "2026-08",
+      "china": 827704,
+      "taiwan": 245277,
+      "vietnam": 59299
     }
-  ]
+  ],
+  "sourcePublishedAt": "2026-09-28",
+  "announcementUrl": "https://datalab.visitkorea.or.kr/site/portal/ex/bbs/View.do?cbIdx=1603&cbIdx2=1127&bcIdx=311301&pageIndex=1&tgtTypeCd=CATE_CONT&searchKey=&searchKey1=&searchKey2=spt01&searchKey3=&tabFlag=N&subFlag=N&cateCont=spt01",
+  "nextPublication": {
+    "dataPeriod": "2026-09",
+    "scheduledAt": "2026-10-26",
+    "sourceUrl": "https://datalab.visitkorea.or.kr/common/board/Download.do?bcIdx=310073&cbIdx=1127&streFileNm=46cd12a6-5f28-4c47-b4eb-c9188cb81ac7.pdf"
+  },
+  "verifiedAt": "2026-10-16T10:33:48.637Z",
+  "sourceVerification": {
+    "status": "verified",
+    "scope": "공식 전체국가통계 XLSX 입국 시트의 중국·대만·베트남 2010-01~2026-08 200개월 대조",
+    "workbookSha256": "714a9b4785583918d3d020494c94442ace1d072856268c9d48cfd1aab66a94cb",
+    "calendarUrl": "https://datalab.visitkorea.or.kr/common/board/Download.do?bcIdx=310073&cbIdx=1127&streFileNm=46cd12a6-5f28-4c47-b4eb-c9188cb81ac7.pdf"
+  }
 }

@@ -30,6 +30,13 @@ const baselineFx = { sourceMode: 'ecb', latest: { date: '2026-10-13' }, series: 
 const baselineTrade = { sourceMode: 'official', latestYm: '2026-08', updatedAt: '2026-09-23', series: [{ ym: '2026-06', exp: 100, imp: 80, bal: 20 }], countries: { '2026-06': [{ cd: 'CN', name: '중국', exp: 90, imp: 70, bal: 20 }] } };
 const urban = { meta: { source_mode: 'api', data_updated_at: '2026-10-15 19:55', generated_at: '2026-10-15T20:25+09:00' }, ranking: [{ area: '강남역', population: 100 }] };
 const customsXML = '<response><header><resultCode>00</resultCode></header><body><totalCount>2</totalCount><items><item><statCd>총계</statCd><expDlr>100000000</expDlr><impDlr>80000000</impDlr><balPayments>20000000</balPayments></item><item><statCd>CN</statCd><statCdCntnKor1>중국</statCdCntnKor1><expDlr>90000000</expDlr><impDlr>70000000</impDlr><balPayments>20000000</balPayments></item></items></body></response>';
+
+test('trade aggregates raw dollars across every country before rounding and limiting to top 40',()=>{
+ const rows=Array.from({length:41},(_,i)=>`<item><statCd>C${i}</statCd><statCdCntnKor1>C${i}</statCdCntnKor1><expDlr>600000</expDlr><impDlr>0</impDlr><balPayments>600000</balPayments></item>`).join('');
+ const result=parseCustomsMonth(`<response><resultCode>00</resultCode><totalCount>41</totalCount>${rows}</response>`);
+ assert.deepEqual(result.total,{exp:25,imp:0,bal:25});assert.equal(result.countries.length,40);
+ assert.throws(()=>parseCustomsMonth(customsXML.replace('20000000','0')),/CUSTOMS_BALANCE_MISMATCH/);
+});
 function fetcher(calls = []) {
   return async (input, options) => {
     const url = String(input); calls.push({ url, options });

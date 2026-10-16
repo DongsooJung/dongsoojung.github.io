@@ -32,7 +32,7 @@ function initialize() {
   }
   steps.push({id:'acceptance',label:'전 항목 검증·최종 배포·예약 종료',status:'pending',keys:[]});
   try {
-   fs.writeFileSync(planFile,JSON.stringify({schemaVersion:1,status:'active',intervalMinutes:10,targetMonths:catalog.targetMonths,steps},null,2)+'\n',{flag:'wx'});
+   fs.writeFileSync(planFile,JSON.stringify({schemaVersion:1,status:'active',intervalMinutes:1440,targetMonths:catalog.targetMonths,steps},null,2)+'\n',{flag:'wx'});
   } catch(error) { if(error.code!=='EEXIST')throw error; }
  }
  return catalog;
