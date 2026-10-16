@@ -57,11 +57,11 @@ blockquote.is-long{font-size:clamp(1.45rem,3.5vw,3.25rem);line-height:1.42;lette
     </header>
     <section class="board-frame" aria-label="자동 순환 격언 전광판">
       <div class="board">
-        <div class="board-top"><span>WORDS TO LIVE BY</span><span id="quoteCount">01 / 09</span></div>
+        <div class="board-top"><span>WORDS TO LIVE BY</span><span id="quoteCount">01 / 08</span></div>
         <div class="quote-stage" aria-live="polite" aria-atomic="true">
           <div class="quote-content" id="quoteContent">
-            <blockquote class="is-long" id="quoteText">첫째도 겸손, 둘째도 겸손. 성공할수록 자신을 낮추고, 사람을 대할수록 귀를 열며, 인생을 살아갈수록 배움을 잊지 말자. 겸손은 평생 지켜야 할 미덕이다.</blockquote>
-            <p class="quote-author" id="quoteAuthor">— STARGATE</p>
+            <blockquote id="quoteText">0.001%가 플랫폼을 쥐고, 0.002%가 인기를 누려도,<br>99.997%의 삶을 지탱하는 것은 사람의 존엄과 연대다.</blockquote>
+            <p class="quote-author" id="quoteAuthor">— DS</p>
           </div>
         </div>
         <div class="board-bottom">
@@ -74,12 +74,11 @@ blockquote.is-long{font-size:clamp(1.45rem,3.5vw,3.25rem);line-height:1.42;lette
         </div>
       </div>
     </section>
-    <footer class="quote-foot"><a href="/">← DONGSOO.PORTAL 홈</a><p>겸손의 격언으로 시작하며, 나머지 격언은 서울 날짜에 따라 순서가 바뀌고 3초마다 자동으로 전환됩니다.</p></footer>
+    <footer class="quote-foot"><a href="/">← DONGSOO.PORTAL 홈</a><p>격언은 서울 날짜에 따라 시작 순서가 바뀌고 3초마다 자동으로 전환됩니다.</p></footer>
   </div>
 </main>
 <script>
 const quotes=[
-  {text:"첫째도 겸손, 둘째도 겸손. 성공할수록 자신을 낮추고, 사람을 대할수록 귀를 열며, 인생을 살아갈수록 배움을 잊지 말자. 겸손은 평생 지켜야 할 미덕이다.",author:"STARGATE",long:true,accent:"#ff6868"},
   {text:"0.001%가 플랫폼을 쥐고, 0.002%가 인기를 누려도,<br>99.997%의 삶을 지탱하는 것은 사람의 존엄과 연대다.",author:"DS",accent:"#ff9e3d"},
   {text:"나는 내가 좋아하는 일을<br>24시간 하면서 산다",author:"워런 버핏",accent:"#ffd34d"},
   {text:"성과의 80%를 만드는<br>핵심 20%를 찾아 집중하라",author:"알토스벤처스 투자 철학에서 착안",accent:"#72e080"},
@@ -100,11 +99,11 @@ function getDailyStartIndex(){
   const parts=seoulDateFormatter.formatToParts(new Date());
   const value=type=>Number(parts.find(part=>part.type===type).value);
   const today=Date.UTC(value("year"),value("month")-1,value("day"))/86400000;
-  const rotatingCount=quotes.length-1;
+  const rotatingCount=quotes.length;
   return ((today-firstQuoteDay)%rotatingCount+rotatingCount)%rotatingCount;
 }
 let dailyStart=getDailyStartIndex(),current=0,playing=true,timer;
-function quoteAt(index){return index===0?quotes[0]:quotes[1+(dailyStart+index-1)%(quotes.length-1)]}
+function quoteAt(index){return quotes[(dailyStart+index)%quotes.length]}
 function showQuote(){const quote=quoteAt(current);document.documentElement.style.setProperty("--accent",quote.accent);text.innerHTML=quote.text;text.classList.toggle("is-long",Boolean(quote.long));author.textContent=`— ${quote.author}`;count.textContent=`${String(current+1).padStart(2,"0")} / ${String(quotes.length).padStart(2,"0")}`}
 function renderQuote(index){
   const nextDailyStart=getDailyStartIndex();
