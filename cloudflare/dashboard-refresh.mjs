@@ -1,6 +1,6 @@
 // Scheduled public data collection. Upstream dates are never replaced by fetch time.
 export const DASHBOARD_NAMES = ['exchange-rate', 'trade', 'urban'];
-export const DASHBOARD_COLLECTOR_VERSION = '20261015-4';
+export const DASHBOARD_COLLECTOR_VERSION = '20261016-trade-audit-1';
 export const DASHBOARD_UPSTREAMS = {
   fx: 'https://www.ecb.europa.eu/stats/eurofxref/eurofxref-hist-90d.xml',
   fxSnapshot: 'https://raw.githubusercontent.com/DongsooJung/dongsoojung.github.io/main/exchange-rate/data.json',
@@ -134,6 +134,7 @@ export function parseCustomsMonth(xml) {
     const exp = number(block, 'expDlr'), imp = number(block, 'impDlr');
     const rawBalance = xmlText(block, 'balPayments');
     const bal = rawBalance ? number(block, 'balPayments') : exp - imp;
+    if (exp < 0 || imp < 0 || Math.abs(exp - imp - bal) > 1) throw new RefreshError('CUSTOMS_BALANCE_MISMATCH');
     const row = { exp, imp, bal };
     if ([cd, name, year].includes('총계')) total = row;
     else if (cd && name) countries.push({ cd, name, ...row });
@@ -177,7 +178,15 @@ async function collectTrade(env, previous, fetchFn, now) {
   }
   const series = [...rows.values()].sort((a, b) => a.ym.localeCompare(b.ym));
   const latestYm = series.at(-1).ym;
-  return { payload: { ...baseline, sourceMode: 'api', updatedAt: koreanDay(now), latestYm, series, countries, countryLatestYm: [...Object.keys(countries)].filter(key => countries[key]?.length).sort().at(-1) }, sourceAt: months[0], mode: 'official_collection' };
+  const payload = { ...baseline, sourceMode: 'api', updatedAt: koreanDay(now), collectedAt: iso(now), latestYm, series, countries,
+    source: '관세청 국가별 수출입실적 API', sourceUrl: DASHBOARD_UPSTREAMS.trade,
+    aggregateSource: '관세청 API · 달러 원값 전체 합산 후 백만 달러 반올림',
+    roundingNote: '국가별 상위 40개와 전체 총계는 범위가 다릅니다. 백만 달러 단위 독립 반올림으로 수출−수입과 수지에 최대 1 차이가 날 수 있습니다.',
+    countryLatestYm: [...Object.keys(countries)].filter(key => countries[key]?.length).sort().at(-1) };
+  delete payload.sourceVerification;
+  delete payload.verifiedAt;
+  delete payload.verifiedPeriods;
+  return { payload, sourceAt: months[0], mode: 'official_collection' };
   } catch (error) {
     if (!previous) error.fallbackPayload = baseline;
     throw error;

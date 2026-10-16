@@ -1194,21 +1194,21 @@
   },
   {
    "ym": "2026-07",
-   "exp": 99207,
-   "imp": 68533,
-   "bal": 30659
+   "exp": 99205,
+   "imp": 68539,
+   "bal": 30666
   },
   {
    "ym": "2026-08",
-   "exp": 98377,
-   "imp": 63488,
-   "bal": 34889
+   "exp": 98374,
+   "imp": 63494,
+   "bal": 34879
   },
   {
    "ym": "2026-09",
-   "exp": 121052,
-   "imp": 71074,
-   "bal": 49965
+   "exp": 121050,
+   "imp": 71078,
+   "bal": 49972
   }
  ],
  "countries": {
@@ -57895,6 +57895,23 @@
    }
   ]
  },
- "countryLatestYm": "2026-06",
- "aggregateSource": "산업통상부 2026년 8월 수출입동향(잠정치)"
+ "countryLatestYm": "2026-09",
+ "aggregateSource": "관세청 API · 달러 원값 전체 합산 후 백만 달러 반올림",
+ "source": "관세청 국가별 수출입실적 API",
+ "sourceUrl": "https://apis.data.go.kr/1220000/nationtrade/getNationtradeList",
+ "collectedAt": "2026-10-15T13:11:53.587Z",
+ "verifiedAt": "2026-10-16T10:33:48.637Z",
+ "verifiedPeriods": [
+  "2026-07",
+  "2026-08",
+  "2026-09"
+ ],
+ "sourceVerification": {
+  "status": "verified",
+  "pressRelease": "https://www.customs.go.kr/kcs/na/ntt/selectNttInfo.do?bbsId=1362&mi=2891&nttSn=10179763&nttSnUrl=94e483116f9b898190458b9bf79546a3",
+  "pdf": "https://www.customs.go.kr/common/nttFileDownload.do?fileKey=525c28fb98304bd4a171d639a41ed008",
+  "collector": "https://stargate.stargate8225.workers.dev/api/dashboards/trade",
+  "scope": "2026-07~09 API 수집본; 9월 총계·9개국과 8월 총계는 관세청 2026-09 확정 보도자료와 대조. 이전 기간은 이번 대조 범위에 포함하지 않음."
+ },
+ "roundingNote": "국가별 상위 40개와 전체 총계는 범위가 다릅니다. 백만 달러 단위 독립 반올림으로 수출−수입과 수지에 최대 1 차이가 날 수 있습니다."
 }

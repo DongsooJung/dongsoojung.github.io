@@ -66,22 +66,60 @@ def prev_month(y, m):
 
 
 def num(el, tag):
-    """item 하위 tag의 숫자값. 없거나 비면 0."""
+    """Return an integer dollar amount without rounding it to millions."""
     node = el.find(tag)
     if node is None or node.text is None:
-        return 0
+        raise ValueError(f"필수 금액 누락: {tag}")
     s = node.text.replace(",", "").strip()
     if not s:
-        return 0
+        raise ValueError(f"필수 금액 누락: {tag}")
     try:
-        return int(float(s))
+        return int(s)
     except ValueError:
-        return 0
+        raise ValueError(f"정수 금액 형식 오류: {tag}") from None
 
 
 def text(el, tag):
     node = el.find(tag)
     return (node.text or "").strip() if node is not None else ""
+
+
+def parse_month(raw):
+    """Validate dollar rows, aggregate all countries, then round only once."""
+    root = ET.fromstring(raw)
+    code = (root.findtext(".//resultCode") or "").strip()
+    if code not in ("00", "0000"):
+        raise RuntimeError(f"API error {code or 'missing resultCode'}")
+    count = int(root.findtext(".//totalCount") or "0")
+    if count > 500:
+        raise ValueError("국가 목록이 한 페이지를 초과합니다.")
+    total = None
+    rows = []
+    seen = set()
+    for item in root.iter("item"):
+        stat_cd, name, year = text(item, "statCd"), text(item, "statCdCntnKor1"), text(item, "year")
+        exp_d, imp_d = num(item, "expDlr"), num(item, "impDlr")
+        bal_d = num(item, "balPayments") if text(item, "balPayments") else exp_d - imp_d
+        if exp_d < 0 or imp_d < 0 or abs(exp_d - imp_d - bal_d) > 1:
+            raise ValueError("달러 원값의 수출·수입·수지 검증 실패")
+        row = {"exp": exp_d, "imp": imp_d, "bal": bal_d}
+        if "총계" in (stat_cd, name, year):
+            if total is not None:
+                raise ValueError("총계 행 중복")
+            total = row
+        elif stat_cd and name:
+            if stat_cd in seen:
+                raise ValueError("국가 코드 중복")
+            seen.add(stat_cd)
+            rows.append({"cd": stat_cd, "name": name, **row})
+    if not rows and total is None:
+        return None
+    if total is None:
+        total = {key: sum(row[key] for row in rows) for key in ("exp", "imp", "bal")}
+    rows.sort(key=lambda row: row["exp"], reverse=True)
+    def million(row):
+        return {**row, **{key: round(row[key] / 1_000_000) for key in ("exp", "imp", "bal")}}
+    return million(total), [million(row) for row in rows[:TOP_N]]
 
 
 def fetch_month(service_key, ym):
@@ -99,52 +137,8 @@ def fetch_month(service_key, ym):
         with urllib.request.urlopen(req, timeout=60) as resp:
             raw = resp.read().decode("utf-8")
     except urllib.error.HTTPError as exc:
-        # 게이트웨이가 4xx/5xx로 내려주는 오류 본문(키 미승인 사유 등)을 그대로 노출
-        body = exc.read().decode("utf-8", "replace").strip()
-        raise RuntimeError(f"HTTP {exc.code}: {body[:300] or '(빈 응답 본문)'}") from None
-    root = ET.fromstring(raw)
-    code = (root.findtext(".//resultCode") or "").strip()
-    if code not in ("00", "0000"):
-        msg = (root.findtext(".//resultMsg") or root.findtext(".//returnAuthMsg") or "").strip()
-        raise RuntimeError(f"API error {code or '??'}: {msg or raw[:160]}")
-
-    total = None
-    rows = []
-    for item in root.iter("item"):
-        stat_cd = text(item, "statCd")
-        name = text(item, "statCdCntnKor1")
-        year = text(item, "year")
-        exp_d = num(item, "expDlr")
-        imp_d = num(item, "impDlr")
-        bal_d = num(item, "balPayments") or (exp_d - imp_d)
-        row = {
-            "exp": round(exp_d / 1e6),
-            "imp": round(imp_d / 1e6),
-            "bal": round(bal_d / 1e6),
-        }
-        if "총계" in (stat_cd, name, year):
-            total = row
-        elif stat_cd and name:
-            rows.append({"cd": stat_cd, "name": name, **row})
-
-    if not rows and total is None:
-        return None  # 아직 공표되지 않은 월
-    if total is None:
-        total = {
-            "exp": sum(r["exp"] for r in rows),
-            "imp": sum(r["imp"] for r in rows),
-            "bal": sum(r["bal"] for r in rows),
-        }
-
-    rows.sort(key=lambda r: r["exp"], reverse=True)
-    if len(rows) > TOP_N:
-        dropped = len(rows) - TOP_N
-        kept_exp = sum(r["exp"] for r in rows[:TOP_N])
-        print(f"    · {ym}: 상위 {TOP_N}개국 저장, {dropped}개국 생략 "
-              f"(생략분 수출 비중 {100 * (1 - kept_exp / max(total['exp'], 1)):.1f}%)",
-              file=sys.stderr)
-        rows = rows[:TOP_N]
-    return total, rows
+        raise RuntimeError(f"HTTP {exc.code}: 관세청 응답 실패") from None
+    return parse_month(raw)
 
 
 def main():
@@ -210,6 +204,14 @@ def main():
     data["updatedAt"] = datetime.now(timezone.utc).strftime("%Y-%m-%d")
     if updated:
         data["sourceMode"] = "api"
+        data["countryLatestYm"] = max((ym for ym, rows in countries.items() if rows), default=None)
+        data["source"] = "관세청 국가별 수출입실적 API"
+        data["sourceUrl"] = API_URL
+        data["aggregateSource"] = "관세청 API · 달러 원값 전체 합산 후 백만 달러 반올림"
+        data["collectedAt"] = datetime.now(timezone.utc).isoformat()
+        data["roundingNote"] = "국가별 상위 40개와 전체 총계는 범위가 다릅니다. 백만 달러 단위 독립 반올림으로 수출−수입과 수지에 최대 1 차이가 날 수 있습니다."
+        for key in ("sourceVerification", "verifiedAt", "verifiedPeriods"):
+            data.pop(key, None)
 
     DATA_PATH.write_text(json.dumps(data, ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
     (DATA_PATH.parent / "fallback-data.js").write_text(

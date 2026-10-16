@@ -6,6 +6,7 @@ import csv
 import html
 import json
 import re
+import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -64,14 +65,14 @@ def page(path, lang, title, description, head, body):
 </main></body></html>''')
 
 
-def main():
+def main(tourism_only=False):
     data = json.loads((ROOT / 'korea-tourism/data.json').read_text())
     rows = data['series']
     latest = rows[-1]
     countries = [('china', 'China', '중국'), ('taiwan', 'Taiwan', '대만'), ('vietnam', 'Vietnam', '베트남')]
     value = lambda r, k: '—' if r[k] is None else f'{r[k]:,}'
     with (ROOT / 'korea-tourism/data.csv').open('w', newline='') as f:
-        writer = csv.writer(f)
+        writer = csv.writer(f, lineterminator='\n')
         writer.writerow(['month', 'china', 'taiwan', 'vietnam'])
         for r in rows:
             writer.writerow([r['ym'], r['china'], r['taiwan'], r['vietnam']])
@@ -87,20 +88,27 @@ def main():
                'distribution': [{'@type': 'DataDownload', 'encodingFormat': 'text/csv', 'contentUrl': ORIGIN + '/korea-tourism/data.csv'},
                                 {'@type': 'DataDownload', 'encodingFormat': 'application/json', 'contentUrl': ORIGIN + '/korea-tourism/data.json'}]}
     facts = ' · '.join(f'{ko} {value(latest, key)}명' for key, en, ko in countries)
+    publication = data.get('nextPublication') or {}
+    pending_ko = (f" 다음 공표 예정: {publication['dataPeriod']} 자료 {publication['scheduledAt']} (현재 미공표)."
+                  if publication else '')
+    pending_en = (f" The {publication['dataPeriod']} release is scheduled for {publication['scheduledAt']} and is not yet published."
+                  if publication else '')
     korean = f'''<section class="note" aria-labelledby="tourism-summary"><h2 id="tourism-summary">최신 공표월 핵심 수치: {latest['ym']}</h2>
-<p>{facts}</p><p>데이터 갱신일: <time datetime="{data['updatedAt']}">{data['updatedAt']}</time> · 수록 기간: {rows[0]['ym']}–{latest['ym']}. 입국 건수 기준이며 고유 여행자 수가 아닙니다. 최신 공표월은 현재 월과 다를 수 있습니다.</p>
+<p>{facts}</p><p>공표일: {data.get('sourcePublishedAt', '미확인')} · 파일 갱신일: <time datetime="{data['updatedAt']}">{data['updatedAt']}</time> · 수록 기간: {rows[0]['ym']}–{latest['ym']}. 입국 건수 기준이며 고유 여행자 수가 아닙니다.{pending_ko}</p>
 <p><a href="/en/korea-tourism/">English summary &amp; monthly table</a> · <a href="/korea-tourism/data.csv">원자료 CSV</a> · <a href="{html.escape(data['sourceUrl'], quote=True)}">한국관광공사 공식 XLSX</a></p></section>'''
     update('/korea-tourism/', '/korea-tourism/', '/en/korea-tourism/', [dataset, PERSON], korean, '  <div class="filters"')
     english = f'''<p><a href="/korea-tourism/" lang="ko">한국어 대시보드</a></p>
 <section><h2>How many visitors from China, Taiwan and Vietnam entered Korea in {latest['ym']}?</h2>
 <p>In {latest['ym']}, Korea recorded {value(latest, 'china')} arrivals from China, {value(latest, 'taiwan')} from Taiwan and {value(latest, 'vietnam')} from Vietnam. These are nationality-based entry counts from Korea Tourism Organization's official monthly statistics, converted without rounding. They measure arrivals rather than unique travelers. The latest available month may lag the current calendar month.</p>
-<p>Last data update: <time datetime="{data['updatedAt']}">{data['updatedAt']}</time>. Coverage: {rows[0]['ym']}–{latest['ym']}.</p></section>
+<p>Published: {data.get('sourcePublishedAt', 'not verified')}. File updated: <time datetime="{data['updatedAt']}">{data['updatedAt']}</time>. Coverage: {rows[0]['ym']}–{latest['ym']}.{pending_en}</p></section>
 <section><h2>Where do these figures come from?</h2><p>The source is the Korea Tourism Organization's Korea Tourism Data Lab monthly XLSX, using the inbound arrivals sheet. Missing observations stay blank in CSV and appear as a dash below. Provisional figures can be revised. Annual totals for incomplete years should be described as year-to-date, not full-year totals.</p>
 <p><a href="{html.escape(data['sourceUrl'], quote=True)}">Official source workbook</a> · <a href="https://datalab.visitkorea.or.kr/">Korea Tourism Data Lab</a> · <a href="/korea-tourism/data.csv">Download CSV</a> · <a href="/korea-tourism/data.json">Download JSON</a></p></section>
 <section><h2>Monthly arrivals by nationality</h2><div class="scroll"><table><thead><tr><th scope="col">Month</th><th scope="col">China</th><th scope="col">Taiwan</th><th scope="col">Vietnam</th></tr></thead><tbody>'''
     english += ''.join('<tr><th scope="row">' + r['ym'] + '</th>' + ''.join('<td>' + value(r, k) + '</td>' for k, _, _ in countries) + '</tr>' for r in reversed(rows))
     english += '</tbody></table></div></section>'
     page('/en/korea-tourism/', 'en', 'Korea inbound tourism statistics | China, Taiwan & Vietnam', dataset['description'], metadata('/en/korea-tourism/', '/korea-tourism/', '/en/korea-tourism/', [dataset, PERSON]), english)
+    if tourism_only:
+        return
 
     citytext = (ROOT / 'cities/index.html').read_text()
     cities = json.loads(re.search(r'const CITIES = (\[.*?\]);', citytext, re.S)[1])
@@ -137,4 +145,4 @@ def main():
 
 
 if __name__ == '__main__':
-    main()
+    main('--tourism-only' in sys.argv)

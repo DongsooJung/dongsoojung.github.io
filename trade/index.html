@@ -147,11 +147,11 @@ footer{margin-top:56px;padding-top:20px;border-top:1px solid var(--line);color:v
   <header class="head">
     <h1>무역 월별 대시보드 <span class="grad">국가별 수출입실적</span></h1>
     <p class="lead">관세청
-      <a href="https://www.data.go.kr/data/15101612/openapi.do" target="_blank" rel="noopener">국가별 수출입실적(GW) Open API</a>와
-      산업통상부 월별 수출입동향을 결합한 인터랙티브 무역통계입니다. 월별 총계는 2026년 8월 잠정치까지 반영했고,
-      국가별 상세는 관세청 API 검증 완료 월까지 제공합니다.</p>
+      <a href="https://www.data.go.kr/data/15101612/openapi.do" target="_blank" rel="noopener">국가별 수출입실적(GW) Open API</a> 기반 인터랙티브 무역통계입니다.
+      총계와 국가별 상세의 실제 기준월을 표시하며, 후속 월간 자료는 공식 공표 후 갱신합니다.</p>
     <div class="meta-line">
-      <span class="pill">데이터 기준 <b id="metaUpdated">—</b></span>
+      <span class="pill">자료 기준 <b id="metaUpdated">—</b></span>
+      <span class="pill">수집일 <b id="metaCollected">—</b></span>
       <span class="pill">커버리지 <b id="metaRange">—</b></span>
       <span class="pill">단위 <b>미화 달러 · 수출 FOB / 수입 CIF</b></span>
       <span class="pill" id="metaMode">—</span>
@@ -265,7 +265,9 @@ footer{margin-top:56px;padding-top:20px;border-top:1px solid var(--line);color:v
     국가분류는 무역통계부호의 ISO 국가코드 기준이며, <b>수출은 최종목적국 · FOB 신고미화금액</b>,
     <b>수입은 원산국 · CIF 과세가격미화금액</b>입니다. 관세청은 매월 15일경 신고 정정·취하 등 변경내역을 반영해
     전월까지 자료를 현행화하므로, 자동 갱신은 매월 16일 실행되고 최근 3개월은 항상 재수집합니다.
-    국가별 내역은 수출액 기준 상위 40개국을 저장합니다.
+    국가별 내역은 수출액 기준 상위 40개국을 저장하며, 총계는 상위 40개국만의 합이 아닌 전체 국가 기준입니다.
+    총계는 달러 원값을 먼저 합산한 뒤 백만 달러로 반올림합니다. 수출·수입·수지를 각각 반올림하므로 표시값의 차이가 최대 1백만 달러 발생할 수 있습니다.
+    <br>2026-10-16 원표 대조: <a href="https://www.customs.go.kr/kcs/na/ntt/selectNttInfo.do?bbsId=1362&amp;mi=2891&amp;nttSn=10179763&amp;nttSnUrl=94e483116f9b898190458b9bf79546a3" target="_blank" rel="noopener">관세청 2026년 9월 월간 수출입 현황 확정치 (2026-10-15 공표)</a>에서 9월 총계·9개국과 8월 총계를 확인했습니다.
     <br><br>
     <b>API 키 설정</b> — 공공데이터포털에서 활용신청 후 발급받은 <b>Decoding 인증키</b>를 저장소
     Settings → Secrets and variables → Actions에 <code>CUSTOMS_API_KEY</code>로 등록하면
@@ -778,7 +780,8 @@ document.getElementById('ctySel').addEventListener('change', e=>{
 
 /* ─── 초기화 ───────────────────────────────────────── */
 function renderMeta(){
-  document.getElementById('metaUpdated').textContent = DATA.updatedAt || '—';
+  document.getElementById('metaUpdated').textContent = DATA.latestYm || '—';
+  document.getElementById('metaCollected').textContent = (DATA.collectedAt || window.StargateDashboardData?.meta('trade')?.refreshed_at)?.slice(0,10) || '미공개';
   document.getElementById('metaRange').textContent =
     `${ymKorean(DATA.series[0].ym)} ~ ${ymKorean(DATA.series[DATA.series.length-1].ym)} (${DATA.series.length}개월)`;
   const mode = document.getElementById('metaMode');
@@ -786,8 +789,8 @@ function renderMeta(){
   if (DATA.sourceMode === 'api' || DATA.sourceMode === 'official'){
     const detailYm = DATA.countryLatestYm || DATA.latestYm;
     mode.textContent = DATA.sourceMode === 'official'
-      ? `산업통상부 잠정치 · 국가별 상세 ${ymLabel(detailYm)}까지`
-      : '관세청 API 자동 갱신';
+      ? `공식 공표 통계 · 국가별 상세 ${ymLabel(detailYm)}까지`
+      : `관세청 API · 국가별 상세 ${ymLabel(detailYm)}까지`;
     mode.classList.remove('warn');
     seedBanner.hidden = true;
   } else {

@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "status": "active",
-  "intervalMinutes": 10,
+  "intervalMinutes": 1440,
   "targetMonths": [
     "2026-09",
     "2026-10"
@@ -11,7 +11,20 @@
       "id": "setup",
       "label": "가나다순·출처 목록·6개 게시본 1차 점검",
       "status": "completed",
-      "completedAt": "2026-10-16T09:59:34.023Z"
+      "completedAt": "2026-10-16T09:59:34.023Z",
+      "release": {
+        "pullRequest": "https://github.com/DongsooJung/dongsoojung.github.io/pull/178",
+        "commit": "ba5cdd4a4424dbb3b2a29c5911d036bb6011bb71",
+        "status": "verified",
+        "verifiedAt": "2026-10-16T10:12:11.159Z",
+        "liveUrl": "https://www.stargateedu.co.kr/research/",
+        "checks": [
+          "six filters globally alphabetical",
+          "catalog 63 projects and 6 snapshot checks",
+          "source review table HTTP 200 with 63 rows",
+          "filter/search/hash/mobile/strategy regression"
+        ]
+      }
     },
     {
       "id": "society-1",
@@ -25,7 +38,14 @@
         "/exchange-rate/",
         "/trade/",
         "/google-trends/"
-      ]
+      ],
+      "itemResults": {
+        "/trade/": {
+          "status": "verified",
+          "checkedAt": "2026-10-16T10:33:48.637Z",
+          "audit": "/research/source-reviews/2026-10-tourism-trade.json"
+        }
+      }
     },
     {
       "id": "society-2",
@@ -38,7 +58,14 @@
         "/fsc-financial/",
         "https://civic-participation-hub.stargate8224.chatgpt.site",
         "/naver-cafe-research/"
-      ]
+      ],
+      "itemResults": {
+        "/korea-tourism/": {
+          "status": "awaiting_publication",
+          "checkedAt": "2026-10-16T10:33:48.637Z",
+          "audit": "/research/source-reviews/2026-10-tourism-trade.json"
+        }
+      }
     },
     {
       "id": "urban-1",
@@ -145,5 +172,7 @@
       "status": "pending",
       "keys": []
     }
-  ]
+  ],
+  "automationId": "10",
+  "lastCompletedStep": "setup"
 }

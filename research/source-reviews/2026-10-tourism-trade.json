@@ -1,0 +1,137 @@
+{
+  "schemaVersion": 1,
+  "checkedAt": "2026-10-16T10:33:48.637Z",
+  "trade": {
+    "dataPeriod": "2026-09",
+    "countryDataPeriod": "2026-09",
+    "unit": "USD million",
+    "before": [
+      {
+        "ym": "2026-07",
+        "exp": 99207,
+        "imp": 68533,
+        "bal": 30659
+      },
+      {
+        "ym": "2026-08",
+        "exp": 98377,
+        "imp": 63488,
+        "bal": 34889
+      },
+      {
+        "ym": "2026-09",
+        "exp": 121052,
+        "imp": 71074,
+        "bal": 49965
+      }
+    ],
+    "after": [
+      {
+        "ym": "2026-07",
+        "exp": 99205,
+        "imp": 68539,
+        "bal": 30666
+      },
+      {
+        "ym": "2026-08",
+        "exp": 98374,
+        "imp": 63494,
+        "bal": 34879
+      },
+      {
+        "ym": "2026-09",
+        "exp": 121050,
+        "imp": 71078,
+        "bal": 49972
+      }
+    ],
+    "verifiedPeriods": [
+      "2026-07",
+      "2026-08",
+      "2026-09"
+    ],
+    "pressRelease": "https://www.customs.go.kr/kcs/na/ntt/selectNttInfo.do?bbsId=1362&mi=2891&nttSn=10179763&nttSnUrl=94e483116f9b898190458b9bf79546a3",
+    "pdf": {
+      "url": "https://www.customs.go.kr/common/nttFileDownload.do?fileKey=525c28fb98304bd4a171d639a41ed008",
+      "sha256": "482b219fa82363085ddea0d755a73fe9576a681b3f459b2a48018caf124f9565"
+    },
+    "collector": {
+      "url": "https://stargate.stargate8225.workers.dev/api/dashboards/trade",
+      "collectedAt": "2026-10-15T13:11:53.587Z",
+      "sourceUrl": "https://apis.data.go.kr/1220000/nationtrade/getNationtradeList"
+    },
+    "septemberCountryCrossChecks": {
+      "CN": [
+        26056,
+        19289,
+        6767
+      ],
+      "US": [
+        24326,
+        7061,
+        17265
+      ],
+      "JP": [
+        3206,
+        5229,
+        -2023
+      ],
+      "AU": [
+        2716,
+        3145,
+        -429
+      ],
+      "CA": [
+        1141,
+        1292,
+        -151
+      ],
+      "VN": [
+        8530,
+        3622,
+        4908
+      ],
+      "HK": [
+        10576,
+        450,
+        10125
+      ],
+      "SG": [
+        3792,
+        1250,
+        2542
+      ],
+      "TW": [
+        10234,
+        5038,
+        5195
+      ]
+    },
+    "scope": "2026-07~09 API 수집본; 9월 총계·9개국과 8월 총계는 관세청 2026-09 확정 보도자료와 대조. 이전 기간은 이번 대조 범위에 포함하지 않음.",
+    "roundingNote": "국가별 상위 40개와 전체 총계는 범위가 다릅니다. 백만 달러 단위 독립 반올림으로 수출−수입과 수지에 최대 1 차이가 날 수 있습니다."
+  },
+  "tourism": {
+    "dataPeriod": "2026-08",
+    "sourcePublishedAt": "2026-09-28",
+    "collectedAt": "2026-10-16T10:28:23.996613+00:00",
+    "months": 200,
+    "latest": {
+      "ym": "2026-08",
+      "china": 827704,
+      "taiwan": 245277,
+      "vietnam": 59299
+    },
+    "announcementUrl": "https://datalab.visitkorea.or.kr/site/portal/ex/bbs/View.do?cbIdx=1603&cbIdx2=1127&bcIdx=311301&pageIndex=1&tgtTypeCd=CATE_CONT&searchKey=&searchKey1=&searchKey2=spt01&searchKey3=&tabFlag=N&subFlag=N&cateCont=spt01",
+    "workbook": {
+      "url": "https://datalab.visitkorea.or.kr/common/board/Download.do?bcIdx=311301&cbIdx=1127&streFileNm=5146fdf7-8c3e-47cd-84c0-83e798c28c15.xlsx",
+      "sha256": "714a9b4785583918d3d020494c94442ace1d072856268c9d48cfd1aab66a94cb"
+    },
+    "publicationCalendar": {
+      "url": "https://datalab.visitkorea.or.kr/common/board/Download.do?bcIdx=310073&cbIdx=1127&streFileNm=46cd12a6-5f28-4c47-b4eb-c9188cb81ac7.pdf",
+      "sha256": "1b74b41c4d3ef22ac12dfa8e680257e303fc205cc9c0263094de08b819a768ac",
+      "september": "2026-10-26",
+      "october": "2026-11-25",
+      "note": "공식 예정일은 변경될 수 있으며 실제 공표본 확인 후 갱신"
+    }
+  }
+}
