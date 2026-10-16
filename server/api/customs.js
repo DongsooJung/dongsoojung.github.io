@@ -1,14 +1,14 @@
 // 관세청 국가별 수출입실적(GW) API 프록시 (국내 서울 리전 egress 목적)
 //
 // 관세청 게이트웨이가 해외(GitHub Actions 미국) IP를 403으로 차단하는 경우를
-// 우회하기 위해, 이 저장소를 배포하는 Vercel 프로젝트의 서울(icn1) 리전에서
-// 국내 IP로 중계한다. 수출입은행 프록시(exchange-rate/proxy)와 같은 패턴.
+// 우회하기 위해, 이 저장소의 Cloudflare Worker를 서울(aws:ap-northeast-2) 근처에
+// 배치해 국내 IP로 중계한다. 수출입은행 프록시(exchange-rate/proxy)와 같은 패턴.
 //
 // 호출:  GET /api/customs?strtYymm=YYYYMM&endYymm=YYYYMM[&numOfRows=500&pageNo=1]
 //        헤더  x-data-key: <data.go.kr 인증키>   (또는 ?serviceKey= 쿼리)
 //
-// 자가 진단: 응답 헤더 x-proxy-region 에 실제 실행 리전, x-upstream-status 에
-// 관세청 게이트웨이의 HTTP 상태가 담긴다. icn1이 아니면 리전 미적용.
+// 자가 진단: 응답 헤더 x-proxy-region 에 실행 위치(Cloudflare colo 또는
+// VERCEL_REGION), x-upstream-status 에 관세청 게이트웨이의 HTTP 상태가 담긴다.
 
 const TARGET = 'https://apis.data.go.kr/1220000/nationtrade/getNationtradeList';
 
