@@ -81,11 +81,23 @@
   const input = document.querySelector('[data-search]');
   const count = document.querySelector('[data-result-count]');
   const empty = document.querySelector('[data-empty]');
+  const projectTotal = document.querySelector('[data-project-total]');
+  if (projectTotal) projectTotal.textContent = String(cards.length);
+  if (onResearchHub) {
+    buttons.forEach((button) => {
+      const badge = button.querySelector('[data-filter-count]');
+      if (badge) badge.textContent = String(button.dataset.filter === 'all'
+        ? cards.length
+        : cards.filter((card) => card.dataset.primary === button.dataset.filter).length);
+    });
+  }
   const sortKey = 'stargate-project-sort-v2';
   const englishOrder = new Intl.Collator('en', { sensitivity: 'base', numeric: true });
   const koreanOrder = new Intl.Collator('ko', { sensitivity: 'base', numeric: true });
   let active = 'all';
   let sortMode = 'usage';
+  let wasFiltering = false;
+  const openBeforeFiltering = new Map();
 
   try {
     if (localStorage.getItem(sortKey) === 'alpha') sortMode = 'alpha';
@@ -150,10 +162,18 @@
     const query = (input?.value || '').trim().toLowerCase();
     const filtering = active !== 'all' || !!query;
     let visible = 0;
+    if (onResearchHub && filtering && !wasFiltering) {
+      groups.forEach((group) => openBeforeFiltering.set(group, group.open));
+    }
+    if (onResearchHub && !filtering && wasFiltering) {
+      groups.forEach((group) => { group.open = openBeforeFiltering.get(group) ?? group.open; });
+    }
 
     cards.forEach((card) => {
       const cats = categoriesOf(card);
-      const categoryMatch = active === 'all' || cats.includes(active);
+      const categoryMatch = active === 'all' || (onResearchHub
+        ? card.dataset.primary === active
+        : cats.includes(active));
       const textMatch = !query || card.textContent.toLowerCase().includes(query);
       card.hidden = !(categoryMatch && textMatch);
       if (!card.hidden) visible += 1;
@@ -196,6 +216,7 @@
         : `총 ${visible}개 콘텐츠 · 가나다순`;
     }
     if (empty) empty.classList.toggle('show', visible === 0);
+    wasFiltering = filtering;
   };
 
   const setSort = (mode) => {
@@ -218,17 +239,38 @@
   if (window.StargateUsage?.subscribe) window.StargateUsage.subscribe(bindUsage);
   else document.addEventListener('stargate-usage-updated', bindUsage);
 
-  buttons.forEach((button) => {
-    button.addEventListener('click', () => {
-      active = button.dataset.filter;
-      buttons.forEach((item) => {
-        const selected = item === button;
-        item.classList.toggle('active', selected);
-        item.setAttribute('aria-pressed', String(selected));
-      });
-      apply();
+  const selectFilter = (filter) => {
+    active = filter;
+    buttons.forEach((item) => {
+      const selected = item.dataset.filter === active;
+      item.classList.toggle('active', selected);
+      item.setAttribute('aria-pressed', String(selected));
     });
+    apply();
+  };
+
+  buttons.forEach((button) => {
+    button.addEventListener('click', () => selectFilter(button.dataset.filter));
   });
   input?.addEventListener('input', apply);
   apply();
+
+  if (onResearchHub) {
+    const revealHash = () => {
+      let id;
+      try { id = decodeURIComponent(location.hash.slice(1)); } catch (_) { return; }
+      if (!id) return;
+      const target = document.getElementById(id);
+      const group = target?.closest('[data-card-group]');
+      if (!group) return;
+      if (group.hidden || target.closest('[data-card]')?.hidden) {
+        if (input) input.value = '';
+        selectFilter('all');
+      }
+      group.open = true;
+      group.scrollIntoView({ block: 'start' });
+    };
+    window.addEventListener('hashchange', revealHash);
+    revealHash();
+  }
 })();

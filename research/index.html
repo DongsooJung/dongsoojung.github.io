@@ -4,18 +4,20 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>연구 대시보드 | STARGATE Intelligence</title>
-  <meta name="description" content="도시·공간·부동산·거시경제·무역·관광 공공데이터를 분석하는 STARGATE 연구 대시보드 허브.">
+  <meta name="description" content="도시·경제 관측, 연구·AI, 교육·수학, 운영·제품을 6개 필터로 탐색하는 STARGATE 연구 허브.">
   <meta name="theme-color" content="#080c14" data-light-color="#f5f7fb" data-dark-color="#080c14">
   <link rel="canonical" href="https://stargateedu.co.kr/research/">
   <script src="/assets/theme-boot.js"></script>
   <link rel="stylesheet" href="/assets/intelligence-hub.css?v=20260904-sort-b">
   <style>
+    .research [data-filter-count]{display:inline-block;min-width:1.6em;margin-left:4px;font-variant-numeric:tabular-nums}
+    @media(max-width:560px){.research .nav{height:auto;min-height:72px;flex-wrap:wrap;padding:14px 0}.research .nav-end{flex-wrap:wrap;justify-content:flex-end}.research .back{white-space:nowrap}}
     .homepage-music-hint[hidden]{display:none!important}
     .homepage-music-hint{position:fixed;z-index:9999;right:16px;bottom:16px;margin:0;padding:9px 13px;border:1px solid var(--line2);border-radius:10px;background:var(--panel);color:var(--ink);box-shadow:0 8px 24px rgba(0,0,0,.2);font-size:12px;line-height:1.4;pointer-events:none}
   </style>
 
 <meta property="og:title" content="연구 대시보드 | STARGATE Intelligence">
-<meta property="og:description" content="도시·공간·부동산·거시경제·무역·관광 공공데이터를 분석하는 STARGATE 연구 대시보드 허브.">
+<meta property="og:description" content="도시·경제 관측, 연구·AI, 교육·수학, 운영·제품을 6개 필터로 탐색하는 STARGATE 연구 허브.">
 <meta property="og:url" content="https://stargateedu.co.kr/research/">
 <meta property="og:image" content="https://stargateedu.co.kr/assets/og/research.png">
 <meta property="og:image:width" content="1200">
@@ -52,8 +54,8 @@
     <header class="hero">
       <div>
         <div class="eyebrow">Research Observatory</div>
-        <h1>도시와 경제를<br>데이터로 관측합니다.</h1>
-        <p>실시간 API와 공공데이터를 수집·가공해 도시 혼잡, 부동산 경매, 환율, 무역, 관광의 변화를 탐색할 수 있는 연구 대시보드입니다.</p>
+        <h1>관측·연구·교육·운영을<br>한곳에서 탐색합니다.</h1>
+        <p>도시·경제 관측부터 연구 방법과 AI, 수학 학습, 업무 도구까지 목적에 따라 탐색하는 연구 허브입니다.</p>
         <div class="hero-actions">
           <a class="btn primary" href="#dashboards">대시보드 탐색 →</a>
           <a class="btn" href="/strategy/">전략 인사이트로 이동</a>
@@ -61,8 +63,8 @@
         </div>
       </div>
         <div class="stats" aria-label="연구 허브 현황">
-        <div class="stat"><strong>61</strong><span>연구·데이터·도구 프로젝트</span></div>
-        <div class="stat"><strong>8</strong><span>연구·데이터 영역</span></div>
+        <div class="stat"><strong data-project-total>63</strong><span>고유 프로젝트</span></div>
+        <div class="stat"><strong>4</strong><span>관측 · 연구 · 교육 · 운영 레인</span></div>
         <div class="stat"><strong>LIVE</strong><span>실시간·월간 갱신</span></div>
       </div>
     </header>
@@ -85,49 +87,26 @@
 
       <section class="section" id="dashboards" aria-labelledby="dashboards-title">
         <div class="section-head">
-          <div><h2 id="dashboards-title">연구 대시보드</h2><p>관심 영역과 키워드로 데이터 프로젝트를 빠르게 찾을 수 있습니다. API 수집형은 <a href="/research/api/" style="color:var(--accent);font-weight:800">공공 API 관측소</a> 하위에서 모았습니다.</p></div>
+          <div><h2 id="dashboards-title">연구 대시보드</h2><p>도시·공간, 경제·사회, 연구·AI, 교육·수학, 운영·제품 중에서 고르고 키워드로 검색하세요. 각 프로젝트는 한 분류에만 표시됩니다.</p></div>
           <a class="switch-link" href="/strategy/">전략 보고서 보기 →</a>
         </div>
         <div class="toolbar">
           <div class="filters" role="group" aria-label="연구 대시보드 필터">
-            <button class="filter active" type="button" data-filter="all" aria-pressed="true">전체</button>
-            <button class="filter" type="button" data-filter="api" aria-pressed="false">공공 API</button>
-            <button class="filter" type="button" data-filter="urban" aria-pressed="false">도시·공간</button>
-            <button class="filter" type="button" data-filter="economy" aria-pressed="false">경제·무역</button>
-            <button class="filter" type="button" data-filter="tourism" aria-pressed="false">관광·이동</button>
-            <button class="filter" type="button" data-filter="community" aria-pressed="false">커뮤니티</button>
-            <button class="filter" type="button" data-filter="ai" aria-pressed="false">AI 아키텍처</button>
-            <button class="filter" type="button" data-filter="tools" aria-pressed="false">연구 도구</button>
-            <button class="filter" type="button" data-filter="education" aria-pressed="false">교육·입시</button>
+            <button class="filter active" type="button" data-filter="all" data-analytics-ignore aria-pressed="true">전체 <span data-filter-count="">63</span></button>
+            <button class="filter" type="button" data-filter="urban" data-analytics-ignore aria-pressed="false">도시·공간 <span data-filter-count="">21</span></button>
+            <button class="filter" type="button" data-filter="society" data-analytics-ignore aria-pressed="false">경제·사회 <span data-filter-count="">13</span></button>
+            <button class="filter" type="button" data-filter="research" data-analytics-ignore aria-pressed="false">연구·AI <span data-filter-count="">16</span></button>
+            <button class="filter" type="button" data-filter="education" data-analytics-ignore aria-pressed="false">교육·수학 <span data-filter-count="">7</span></button>
+            <button class="filter" type="button" data-filter="operations" data-analytics-ignore aria-pressed="false">운영·제품 <span data-filter-count="">6</span></button>
           </div>
-          <label class="search"><span hidden>대시보드 검색</span><input type="search" placeholder="주제·데이터 검색" data-search></label>
+          <label class="search"><span hidden="">대시보드 검색</span><input type="search" placeholder="주제·데이터 검색" data-search=""></label>
         </div>
-        <div class="result-count" data-result-count aria-live="polite"></div>
+        <div class="result-count" data-result-count="" aria-live="polite"></div>
         
-<div class="card-groups">
-
-          <details class="card-group" data-card-group open id="information-economics">
-            <summary class="card-group-summary">
-              <span class="card-group-title"><strong>정보경제학 연구</strong><span>정보비대칭을 역선택·도덕적 해이·신호와 스크리닝으로 분해</span></span>
-              <span class="card-group-meta"><span data-group-count>1개</span><span class="chevron" aria-hidden="true"></span></span>
-            </summary>
+<div class="card-groups" data-preserve-group-order="true">
+          <details class="card-group" data-card-group="" data-lane="observation" id="real-time-city" open=""><summary class="card-group-summary"><span class="card-group-title"><strong>실시간 도시</strong><span>관측 · 현장 상황·공항 혼잡·날씨를 관측합니다.</span></span><span class="card-group-meta"><span data-group-count="">5개</span><span class="chevron" aria-hidden="true"></span></span></summary><span id="api-observatory" aria-hidden="true"></span><span id="bukangi" aria-hidden="true"></span>
             <div class="grid">
-              <a class="project" href="/research/information-economics/" data-card data-category="economy tools ai">
-                <div class="visual" style="--visual:radial-gradient(circle at 22% 18%,rgba(244,197,107,.5),transparent 52%),radial-gradient(circle at 82% 78%,rgba(105,183,255,.34),transparent 50%),linear-gradient(145deg,#08152e,#20385f)">i</div>
-                <div class="project-body"><div class="meta"><span class="pill accent">New · Info Econ</span><span class="pill">Asymmetric Information</span></div><h3>정보경제학의 3대 연구문제</h3><p>역선택·도덕적 해이·신호와 스크리닝을 플랫폼·교육·조달·보험 데이터의 가설, 종속변수, DID·RD·패널 식별전략으로 전환합니다.</p><div class="project-footer"><span>Adverse Selection · Moral Hazard · Signaling</span><b>연구 보기 →</b></div></div>
-              </a>
-            </div>
-          </details>
-
-
-
-          <details class="card-group" data-card-group open id="bukangi">
-            <summary class="card-group-summary">
-              <span class="card-group-title"><strong>현장 상황실</strong><span>부산 북항 무태상어 보도·반응·기관 대응</span></span>
-              <span class="card-group-meta"><span data-group-count>2개</span><span class="chevron" aria-hidden="true"></span></span>
-            </summary>
-            <div class="grid">
-              <a class="project" href="/research/bukangi/" data-card data-category="urban tourism">
+              <a class="project" href="/research/bukangi/" data-card="" data-category="urban tourism" data-primary="urban">
                 <div class="visual" style="--visual:radial-gradient(circle at 22% 18%,rgba(56,189,248,.5),transparent 52%),radial-gradient(circle at 80% 78%,rgba(255,159,90,.36),transparent 50%),linear-gradient(145deg,#071522,#12324a)">🦈</div>
                 <div class="project-body">
                   <div class="meta"><span class="pill accent">New · Busan</span><span class="pill">Situation</span></div>
@@ -136,161 +115,13 @@
                   <div class="project-footer"><span>부산 북항 · 보도 19건</span><b>상황실 열기 →</b></div>
                 </div>
               </a>
-            </div>
-          </details>
-          <details class="card-group" data-card-group open id="kmo-training">
-            <summary class="card-group-summary">
-              <span class="card-group-title"><strong>KMO 조합 훈련</strong><span>2023–2025 최근 기출의 쉬운 진입 문제와 핵심 아이디어</span></span>
-              <span class="card-group-meta"><span data-group-count>1개</span><span class="chevron" aria-hidden="true"></span></span>
-            </summary>
-            <div class="grid">
-              <a class="project" href="/research/kmo-combinatorics/" data-card data-category="education tools">
-                <div class="visual" style="--visual:radial-gradient(circle at 22% 18%,rgba(129,140,248,.54),transparent 52%),radial-gradient(circle at 82% 78%,rgba(45,212,191,.34),transparent 50%),linear-gradient(145deg,#10132b,#173f52)">∑</div>
-                <div class="project-body">
-                  <div class="meta"><span class="pill accent">2023–2025</span><span class="pill">KMO · 조합</span></div>
-                  <h3>최근 3년 KMO 조합 훈련 10선</h3>
-                  <p>나머지 분류, 부분집합, 색칠, 격자 도형, 경로 점화식부터 시작해 쉬운 문제 → 중간 문제 순서로 훈련합니다.</p>
-                  <div class="project-footer"><span>중등부 1차 중심 · 기출/연계 구분</span><b>훈련 시작 →</b></div>
-                </div>
-              </a>
-            </div>
-          </details>
 
-          <details class="card-group" data-card-group open id="education-research">
-            <summary class="card-group-summary">
-              <span class="card-group-title"><strong>서울과고 전형 연구</strong><span>공식 자료와 비공식 복원을 분리한 입시 분석</span></span>
-              <span class="card-group-meta"><span data-group-count>1개</span><span class="chevron" aria-hidden="true"></span></span>
-            </summary>
-            <div class="grid">
-              <a class="project" href="/research/seoul-science-high-admission/" data-card data-category="education tools">
-                <div class="visual" style="--visual:radial-gradient(circle at 24% 18%,rgba(93,211,255,.48),transparent 52%),radial-gradient(circle at 80% 76%,rgba(241,199,122,.36),transparent 50%),linear-gradient(145deg,#09182f,#183b68)">Σ</div>
-                <div class="project-body">
-                  <div class="meta"><span class="pill accent">New Research</span><span class="pill">Admissions · Evidence</span></div>
-                  <h3>서울과고 3단계 전형 연구</h3>
-                  <p>2024~2026학년도 평가 변화와 공개 기출의 범위를 확인하고, 후기 검증 현황·과거 사례·자체 연습문항의 신뢰도를 구분합니다.</p>
-                  <div class="project-footer"><span>공식 요강 · 기출 범위 · 실전 루브릭</span><b>연구 보기 →</b></div>
-                </div>
-              </a>
-            </div>
-          </details>
-
-          <details class="card-group" data-card-group open id="researcher-vision">
-            <summary class="card-group-summary">
-              <span class="card-group-title"><strong>연구자 비전</strong><span>북한의 통계 공백에서 한국의 청년고용·자산격차 연구로</span></span>
-              <span class="card-group-meta"><span data-group-count>1개</span><span class="chevron" aria-hidden="true"></span></span>
-            </summary>
-            <div class="grid">
-              <a class="project" href="/research/researcher-vision/" data-card data-category="urban economy tools">
-                <div class="visual" style="--visual:radial-gradient(circle at 22% 18%,rgba(101,216,208,.48),transparent 52%),radial-gradient(circle at 80% 78%,rgba(124,169,255,.34),transparent 50%),linear-gradient(145deg,#071521,#15314a)">◉</div>
-                <div class="project-body">
-                  <div class="meta"><span class="pill accent">New · Vision</span><span class="pill">GIS × Economy</span></div>
-                  <h3>보이는 통계 너머의 현실을 읽는 연구자</h3>
-                  <p>북한의 가려진 경제를 간접지표로 읽어 온 경험을 한국의 청년고용·자산·주거격차 연구로 확장하는 연구 비전입니다.</p>
-                  <div class="project-footer"><span>북한 경제 · 공간계량 · 정책효과</span><b>글 읽기 →</b></div>
-                </div>
-              </a>
-            </div>
-          </details>
-
-          <details class="card-group" data-card-group open id="ai-ml">
-            <summary class="card-group-summary">
-              <span class="card-group-title"><strong>AI·머신러닝 연구</strong><span>앙상블 학습으로 재무 × 도시공간 변수의 예측력을 검증하는 AI 연구 대시보드</span></span>
-              <span class="card-group-meta"><span data-group-count>1개</span><span class="chevron" aria-hidden="true"></span></span>
-            </summary>
-            <div class="grid">
-              <a class="project" href="/research/random-forest/" data-card data-category="ai tools urban">
-                <div class="visual" style="--visual:radial-gradient(circle at 22% 18%,rgba(95,224,168,.52),transparent 52%),radial-gradient(circle at 82% 78%,rgba(88,215,255,.32),transparent 50%),linear-gradient(145deg,#06201a,#0f3d33)">🌲</div>
-                <div class="project-body"><div class="meta"><span class="pill accent">New · AI Lab</span><span class="pill">Random Forest</span></div><h3>Random Forest 연구 대시보드</h3><p>기업 부도 예측에서 공간 변수의 증분 예측력을 브라우저 내 Random Forest로 학습하고 OOB·ROC·변수중요도로 검증합니다.</p><div class="project-footer"><span>앙상블 · 신용위험 · 공간변수</span><b>실험실 열기 →</b></div></div>
-              </a>
-              <a class="project" href="/research/ai-freshness/" data-card data-category="ai tools">
-                <div class="visual" style="--visual:radial-gradient(circle at 20% 20%,rgba(88,215,255,.42),transparent 50%),linear-gradient(145deg,#101c43,#283c69)">↻</div>
-                <div class="project-body"><div class="meta"><span class="pill accent">AI Lab</span><span class="pill">최신성 검증</span></div><h3>AI 모델과 실시간 검색 데이터</h3><p>GPT-4o의 지식 기준 시점과 2023~2026년 Google·Naver 검색 동향을 사례로, 사전학습과 실시간 조회의 차이를 검증합니다.</p><div class="project-footer"><span>지식 기준 · 검색 연동 · 시계열</span><b>연구 보기 →</b></div></div>
-              </a>
-            </div>
-          </details>
-          <details class="card-group" data-card-group open id="grand-challenges">
-            <summary class="card-group-summary">
-              <span class="card-group-title"><strong>수학으로 정의한 과학·국가·인류 난제</strong><span>양자·기후·질병·심해·지구내부·국가·통일·인간 모순을 검증 가능한 연구 질문으로 정식화</span></span>
-              <span class="card-group-meta"><span data-group-count>7개</span><span class="chevron" aria-hidden="true"></span></span>
-            </summary>
-            <div class="grid">
-              <a class="project" href="/research/contradiction-lab/" data-card data-category="ai tools">
-                <div class="visual" style="--visual:radial-gradient(circle at 22% 18%,rgba(255,107,113,.48),transparent 52%),radial-gradient(circle at 80% 78%,rgba(105,183,255,.34),transparent 50%),linear-gradient(145deg,#0b1030,#2a2c62)">⇄</div>
-                <div class="project-body"><div class="meta"><span class="pill accent">New · Lab</span><span class="pill">Contradiction × AI</span></div><h3>모순연구소 — AI는 인간의 모순을 풀 수 있는가</h3><p>심슨·브라에스·제본스·굿하트 등 16개 모순을 5유형으로 분류하고 AI의 해소·완화·명시화 범위를 판정하는 대시보드입니다.</p><div class="project-footer"><span>행동경제 · 게임이론 · 사회선택</span><b>연구소 열기 →</b></div></div>
-              </a>
-              <a class="project" href="/research/climate-algebraic-geometry/" data-card data-category="urban economy tools">
-                <div class="visual" style="--visual:radial-gradient(circle at 22% 18%,rgba(70,224,178,.5),transparent 52%),linear-gradient(145deg,#071418,#153c45)">△</div>
-                <div class="project-body"><div class="meta"><span class="pill accent">New · Climate</span><span class="pill">Algebraic Geometry</span></div><h3>기후변화 난제 3가지</h3><p>티핑포인트 판별다양체, 복합재난 열대 위험다양체, 탄소 플럭스 식별가능성을 연구문제로 정의합니다.</p><div class="project-footer"><span>기후 · 열대기하 · 탄소순환</span><b>연구 보기 →</b></div></div>
-              </a>
-              <a class="project" href="/research/korea-challenges/" data-card data-category="urban economy tools">
-                <div class="visual" style="--visual:radial-gradient(circle at 22% 18%,rgba(244,197,107,.48),transparent 52%),radial-gradient(circle at 80% 78%,rgba(255,107,113,.32),transparent 50%),linear-gradient(145deg,#08152e,#263a68)">K</div>
-                <div class="project-body"><div class="meta"><span class="pill accent">New · Korea</span><span class="pill">Systems Research</span></div><h3>대한민국의 난제 3가지</h3><p>저출생·지역소멸, 수도권 집중·공간 불균형, 가계부채·부동산 금융위험을 비선형 시스템으로 정식화합니다.</p><div class="project-footer"><span>인구 · 국토 · 금융</span><b>연구 보기 →</b></div></div>
-              </a>
-              <a class="project" href="/research/korean-unification-challenges/" data-card data-category="urban economy tools">
-                <div class="visual" style="--visual:radial-gradient(circle at 24% 18%,rgba(99,215,173,.46),transparent 52%),radial-gradient(circle at 80% 78%,rgba(112,200,255,.32),transparent 50%),linear-gradient(145deg,#071426,#183c54)">U</div>
-                <div class="project-body"><div class="meta"><span class="pill accent">New · Unification</span><span class="pill">Transition Systems</span></div><h3>한반도 통일의 난제 3가지</h3><p>비핵화·안보전환, 경제·화폐·재정 통합, 법제·재산권·공간 통합을 실행가능 경로와 식별성 문제로 정식화합니다.</p><div class="project-footer"><span>안보 · 경제 · 제도공간</span><b>연구 보기 →</b></div></div>
-              </a>
-              <a class="project" href="/research/quantum-physics-challenges/" data-card data-category="ai tools">
-                <div class="visual" style="--visual:radial-gradient(circle at 24% 18%,rgba(169,139,255,.55),transparent 50%),radial-gradient(circle at 82% 76%,rgba(88,215,255,.38),transparent 48%),linear-gradient(145deg,#080d22,#27245f)">Ψ</div>
-                <div class="project-body"><div class="meta"><span class="pill accent">New · Quantum</span><span class="pill">Foundations × Emergence</span></div><h3>현대 양자물리학의 3대 난제</h3><p>양자측정, 양자중력, 강상관 양자다체계를 이론·실험·검증 기준이 연결된 연구문제로 정리합니다.</p><div class="project-footer"><span>측정 · 시공간 · 양자물질</span><b>연구 보기 →</b></div></div>
-              </a>
-              <a class="project" href="/research/deep-earth-ocean-challenges/" data-card data-category="urban economy tools">
-                <div class="visual" style="--visual:radial-gradient(circle at 22% 18%,rgba(79,209,232,.5),transparent 52%),radial-gradient(circle at 82% 80%,rgba(255,138,76,.4),transparent 50%),linear-gradient(145deg,#050d18,#12324f)">◎</div>
-                <div class="project-body"><div class="meta"><span class="pill accent">New · Deep Earth</span><span class="pill">Ocean × Geophysics</span></div><h3>심해·지구 내부의 난제</h3><p>심해저 관측 공백, 열수분출공, 암흑 산소, 내핵, 자기장 역전, 맨틀 바닥 이상체를 역문제 관점의 연구 질문으로 정리합니다.</p><div class="project-footer"><span>심해 · 내핵 · 자기장 · 맨틀</span><b>연구 보기 →</b></div></div>
-              </a>
-              <a class="project" href="/research/disease-challenges/" data-card data-category="ai tools">
-                <div class="visual" style="--visual:radial-gradient(circle at 22% 18%,rgba(85,224,176,.55),transparent 52%),radial-gradient(circle at 82% 78%,rgba(255,123,123,.34),transparent 50%),linear-gradient(145deg,#071b17,#17473d)">✚</div>
-                <div class="project-body"><div class="meta"><span class="pill accent">New · Disease</span><span class="pill">Evolution × Complex Systems</span></div><h3>질병의 3대 난제</h3><p>암, 신경퇴행성 질환, 감염병·항생제 내성을 진화·비가역성·치료저항성의 연구문제로 정리합니다.</p><div class="project-footer"><span>암 · 뇌 · 감염·내성</span><b>연구 보기 →</b></div></div>
-              </a>
-            </div>
-          </details>
-
-          <details class="card-group" data-card-group open id="urban-atlas">
-            <summary class="card-group-summary">
-              <span class="card-group-title"><strong>03 도시·공간 분석</strong><span>분석 단위 × 기능으로 정리한 3개 연구 허브</span></span>
-              <span class="card-group-meta"><span data-group-count>3개 허브</span><span class="chevron" aria-hidden="true"></span></span>
-            </summary>
-            <div class="grid">
-              <a class="project" href="/research/urban-atlas/" data-card data-category="urban">
-                <div class="visual" style="--visual:radial-gradient(circle at 25% 20%,rgba(62,198,184,.48),transparent 52%),linear-gradient(145deg,#071820,#123246)">🗺️</div>
-                <div class="project-body"><div class="meta"><span class="pill accent">3-1</span><span class="pill">Boundary metrics</span></div><h3>행정경계 지표 아틀라스</h3><p>선거·교육·주택 지표를 같은 행정경계 단위에서 비교합니다. 각 기존 지도 URL은 그대로 유지합니다.</p><div class="project-footer"><span>선거 · 학원 · 주택</span><b>아틀라스 →</b></div></div>
-              </a>
-              <a class="project" href="/research/accessibility-lab/" data-card data-category="urban">
-                <div class="visual" style="--visual:linear-gradient(145deg,#0d1f1a,#16694a)">🚶</div>
-                <div class="project-body"><div class="meta"><span class="pill accent">3-2</span><span class="pill">Accessibility</span></div><h3>접근성·보행성 랩</h3><p>강남 15분도시 대시보드와 공간계량 연구 방법·코드를 한 연구 맥락에서 안내합니다.</p><div class="project-footer"><span>Isochrone · Walkability</span><b>랩 열기 →</b></div></div>
-              </a>
-              <a class="project" href="/ds-research-urban-analytics/" data-card data-category="urban">
+              <a class="project" href="/ds-research-urban-analytics/" data-card="" data-category="urban" data-primary="urban">
                 <div class="visual" style="--visual:linear-gradient(145deg,#071a2f,#0b6a55)">🏙️</div>
-                <div class="project-body"><div class="meta"><span class="pill accent">3-3</span><span class="pill">Real-time</span></div><h3>실시간 도시 관측</h3><p>서울 실시간 도시데이터는 독립 관측 영역으로 유지합니다.</p><div class="project-footer"><span>서울 열린데이터광장 · 실시간</span><b>관측하기 →</b></div></div>
+                <div class="project-body"><div class="meta"><span class="pill accent">실시간 도시</span><span class="pill">Real-time</span></div><h3>실시간 도시 관측</h3><p>서울 실시간 도시데이터는 독립 관측 영역으로 유지합니다.</p><div class="project-footer"><span>서울 열린데이터광장 · 실시간</span><b>관측하기 →</b></div></div>
               </a>
-            </div>
-          </details>
 
-          <details class="card-group" data-card-group open id="featured-policy">
-            <summary class="card-group-summary">
-              <span class="card-group-title"><strong>주요 정책 연구</strong><span>한국 체류자격·이민정책을 공식 근거로 비교하는 한·영 연구</span></span>
-              <span class="card-group-meta"><span data-group-count>1개</span><span class="chevron" aria-hidden="true"></span></span>
-            </summary>
-            <div class="grid">
-              <a class="project" href="/research/immigration-policy/" data-card data-category="tools">
-                <div class="visual" style="--visual:radial-gradient(circle at 24% 18%,rgba(241,199,122,.5),transparent 52%),radial-gradient(circle at 80% 76%,rgba(79,127,255,.34),transparent 50%),linear-gradient(145deg,#0b1738,#1a2f62)">🛂</div>
-                <div class="project-body">
-                  <div class="meta"><span class="pill accent">New Research</span><span class="pill">Immigration Policy</span></div>
-                  <h3>한국 F‑2·F‑5·F‑6 비자·외국인정책 연구</h3>
-                  <p>거주·영주·결혼이민 체류자격의 법적 구조, 전환 경로, 정책 변화와 공식 정보원을 한·영으로 비교합니다.</p>
-                  <div class="project-footer"><span>KR · EN · 법무부·법제처·통계청</span><b>연구 보기 →</b></div>
-                </div>
-              </a>
-            </div>
-          </details>
-
-          <details class="card-group" data-card-group open id="api-observatory">
-            <summary class="card-group-summary">
-              <span class="card-group-title"><strong>공공 API 관측소</strong><span>공항·날씨·LH·국토부·조달·금융위·법원경매 등 API 수집 하위 대시보드</span></span>
-              <span class="card-group-meta"><span data-group-count>10개</span><span class="chevron" aria-hidden="true"></span></span>
-            </summary>
-            <div class="grid">
-              <a class="project" href="/research/airport-congestion/" data-card data-category="api urban tourism">
+              <a class="project" href="/research/airport-congestion/" data-card="" data-category="api urban tourism" data-primary="urban">
                 <div class="visual" style="--visual:radial-gradient(circle at 18% 20%,rgba(52,216,232,.5),transparent 54%),radial-gradient(circle at 82% 78%,rgba(10,116,201,.42),transparent 54%),linear-gradient(145deg,#071426,#075d79)">✈</div>
                 <div class="project-body">
                   <div class="meta"><span class="pill accent">Live · 10 min</span><span class="pill">Airport Operations</span></div>
@@ -299,7 +130,8 @@
                   <div class="project-footer"><span>인천국제공항공사 공식 실데이터</span><b>열기 →</b></div>
                 </div>
               </a>
-              <a class="project" href="/research/gimpo-airport-congestion/" data-card data-category="api urban tourism">
+
+              <a class="project" href="/research/gimpo-airport-congestion/" data-card="" data-category="api urban tourism" data-primary="urban">
                 <div class="visual" style="--visual:radial-gradient(circle at 22% 20%,rgba(77,240,172,.48),transparent 52%),radial-gradient(circle at 80% 76%,rgba(55,198,238,.45),transparent 52%),linear-gradient(145deg,#0c2537,#075b84)">GMP</div>
                 <div class="project-body">
                   <div class="meta"><span class="pill accent">KAC · 10 min</span><span class="pill">Domestic Airport</span></div>
@@ -309,7 +141,7 @@
                 </div>
               </a>
 
-                            <a class="project" href="/strategy/weather-calendar/" data-card data-category="api">
+              <a class="project" href="/strategy/weather-calendar/" data-card="" data-category="api" data-primary="urban">
                 <div class="visual" style="--visual:radial-gradient(circle at 24% 20%,rgba(96,165,250,.5),transparent 54%),radial-gradient(circle at 80% 75%,rgba(241,199,122,.32),transparent 48%),linear-gradient(145deg,#081627,#163e63)">🌦</div>
                 <div class="project-body">
                   <div class="meta"><span class="pill accent">Weather API</span><span class="pill">Live · Monthly</span></div>
@@ -318,79 +150,17 @@
                   <div class="project-footer"><span>Open‑Meteo · RainViewer · 기상청 특보</span><b>열기 →</b></div>
                 </div>
               </a>
-
-              <a class="project" href="/lh-sale-info/" data-card data-category="api urban">
-                <div class="visual" style="--visual:radial-gradient(circle at 22% 18%,rgba(181,106,58,.5),transparent 52%),radial-gradient(circle at 82% 78%,rgba(61,74,92,.35),transparent 50%),linear-gradient(145deg,#171b22,#3d4a5c)">⌂</div>
-                <div class="project-body">
-                  <div class="meta"><span class="pill accent">API</span><span class="pill">LH · Supabase</span></div>
-                  <h3>LH 분양정보 관측소</h3>
-                  <p>공지사항이 아닌 LH 분양임대공고문을 30건씩 조회하고 Supabase에 upsert합니다.</p>
-                  <div class="project-footer"><span>한국토지주택공사 · data.go.kr</span><b>열기 →</b></div>
-                </div>
-              </a>
-              <a class="project" href="/hwaseong-real-estate/" data-card data-category="api urban">
-                <div class="visual" style="--visual:radial-gradient(circle at 78% 24%,rgba(217,255,67,.4),transparent 54%),linear-gradient(145deg,#193c29,#0c2115)">🏙️</div>
-                <div class="project-body">
-                  <div class="meta"><span class="pill accent">API</span><span class="pill">국토부 · Real Estate</span></div>
-                  <h3>화성 실거래 데이터 허브</h3>
-                  <p>2026년 6월 화성시 4개 구 아파트 매매 2,672건을 100건씩 탐색하고 CSV로 저장합니다.</p>
-                  <div class="project-footer"><span>국토교통부 · 2026.06</span><b>열기 →</b></div>
-                </div>
-              </a>
-              <a class="project" href="/court-auction/" data-card data-category="api urban">
-                <div class="visual" style="--visual:radial-gradient(circle at 20% 20%,rgba(79,127,255,.5),transparent 60%),radial-gradient(circle at 80% 80%,rgba(255,184,107,.4),transparent 60%),linear-gradient(145deg,#0d1426,#1a2540)">🏛️</div>
-                <div class="project-body">
-                  <div class="meta"><span class="pill accent">LIVE PARSER</span><span class="pill">법원 × 국토부</span></div>
-                  <h3>법원경매 × 실거래 비교</h3>
-                  <p>법원 매각공고·상세를 직접 파싱하고, 아파트 경매 최저가를 법정동 월 실거래와 같은 화면에서 비교합니다.</p>
-                  <div class="project-footer"><span>법원경매정보 · 국토부 실거래</span><b>비교하기 →</b></div>
-                </div>
-              </a>
-              <a class="project" href="/public-data-collector/" data-card data-category="api tools">
-                <div class="visual" style="--visual:radial-gradient(circle at 22% 24%,rgba(15,122,104,.5),transparent 60%),radial-gradient(circle at 80% 80%,rgba(226,164,75,.28),transparent 60%),linear-gradient(145deg,#0d1b1a,#16302d)">📥</div>
-                <div class="project-body">
-                  <div class="meta"><span class="pill accent">API</span><span class="pill">Collector</span></div>
-                  <h3>공공데이터 수집 기록소</h3>
-                  <p>부동산·상권·기상 공공데이터 API를 선택해 수집하고 CSV로 변환해 Supabase Storage에 저장합니다.</p>
-                  <div class="project-footer"><span>data.go.kr · Supabase</span><b>열기 →</b></div>
-                </div>
-              </a>
-              <a class="project" href="/bid-pblanc-cnstwk/" data-card data-category="api economy">
-                <div class="visual" style="--visual:radial-gradient(circle at 22% 18%,rgba(226,162,74,.5),transparent 52%),radial-gradient(circle at 82% 78%,rgba(61,184,154,.28),transparent 50%),linear-gradient(145deg,#0b1218,#16222d)">▣</div>
-                <div class="project-body">
-                  <div class="meta"><span class="pill accent">API</span><span class="pill">조달 · 공사</span></div>
-                  <h3>나라장터 공사 입찰공고</h3>
-                  <p>공사 입찰공고목록을 100건씩 조회·저장하고 발주기관·계약방법·추정가격을 인터랙티브 차트로 탐색합니다.</p>
-                  <div class="project-footer"><span>조달청 · BidPublicInfoService</span><b>열기 →</b></div>
-                </div>
-              </a>
-              <a class="project" href="/bid-pblanc-servc/" data-card data-category="api economy">
-                <div class="visual" style="--visual:radial-gradient(circle at 24% 20%,rgba(61,184,154,.48),transparent 52%),radial-gradient(circle at 80% 78%,rgba(226,162,74,.28),transparent 50%),linear-gradient(145deg,#0b1218,#123230)">◇</div>
-                <div class="project-body">
-                  <div class="meta"><span class="pill accent">API</span><span class="pill">조달 · 용역</span></div>
-                  <h3>나라장터 용역 입찰공고</h3>
-                  <p>용역 입찰공고목록을 100건씩 조회·저장합니다. 서버 저장 키로 인증하며 키 입력이 필요 없습니다.</p>
-                  <div class="project-footer"><span>조달청 · getBidPblancListInfoServc</span><b>열기 →</b></div>
-                </div>
-              </a>
-              <a class="project" href="/fsc-financial/" data-card data-category="api economy">
-                <div class="visual" style="--visual:radial-gradient(circle at 22% 20%,rgba(62,201,167,.48),transparent 52%),radial-gradient(circle at 82% 78%,rgba(58,123,213,.35),transparent 50%),linear-gradient(145deg,#081820,#123246)">◎</div>
-                <div class="project-body">
-                  <div class="meta"><span class="pill accent">API</span><span class="pill">Finance</span></div>
-                  <h3>금융위원회 기업재무 대시보드</h3>
-                  <p>요약재무제표를 100건씩 조회하고 매출·순이익·부채비율을 인터랙티브 차트로 탐색합니다.</p>
-                  <div class="project-footer"><span>금융위원회 · data.go.kr</span><b>열기 →</b></div>
-                </div>
-              </a>
             </div>
           </details>
-          <details class="card-group" data-card-group open>
-            <summary class="card-group-summary">
-              <span class="card-group-title"><strong>3-1 행정경계 지표 아틀라스</strong><span>선거·교육·주택: 경계집계 지도는 개별 URL을 유지합니다</span></span>
-              <span class="card-group-meta"><span data-group-count>9개</span><span class="chevron" aria-hidden="true"></span></span>
-            </summary>
+
+          <details class="card-group" data-card-group="" data-lane="observation" id="administrative-atlas"><summary class="card-group-summary"><span class="card-group-title"><strong>행정경계</strong><span>관측 · 행정구역·선거구·학원 수요를 지도에서 비교합니다.</span></span><span class="card-group-meta"><span data-group-count="">9개</span><span class="chevron" aria-hidden="true"></span></span></summary><span id="urban-atlas" aria-hidden="true"></span>
             <div class="grid">
-              <a class="project" href="/election/" data-card data-category="urban">
+              <a class="project" href="/research/urban-atlas/" data-card="" data-category="urban" data-primary="urban">
+                <div class="visual" style="--visual:radial-gradient(circle at 25% 20%,rgba(62,198,184,.48),transparent 52%),linear-gradient(145deg,#071820,#123246)">🗺️</div>
+                <div class="project-body"><div class="meta"><span class="pill accent">3-1</span><span class="pill">Boundary metrics</span></div><h3>행정경계 지표 아틀라스</h3><p>선거·교육·주택 지표를 같은 행정경계 단위에서 비교합니다. 각 기존 지도 URL은 그대로 유지합니다.</p><div class="project-footer"><span>선거 · 학원 · 주택</span><b>아틀라스 →</b></div></div>
+              </a>
+
+              <a class="project" href="/election/" data-card="" data-category="urban" data-primary="urban">
                 <div class="visual" style="--visual:radial-gradient(circle at 24% 18%,rgba(62,198,184,.52),transparent 52%),radial-gradient(circle at 82% 78%,rgba(47,143,255,.34),transparent 50%),linear-gradient(145deg,#071820,#123246)">🗳️</div>
                 <div class="project-body">
                   <div class="meta"><span class="pill accent">New Hub</span><span class="pill">Spatial · Election</span></div>
@@ -399,7 +169,8 @@
                   <div class="project-footer"><span>4개 시 · 16개 선거구 · VWorld</span><b>지도 허브 →</b></div>
                 </div>
               </a>
-              <a class="project" href="/sudogwon-academy-map/" data-card data-category="urban">
+
+              <a class="project" href="/sudogwon-academy-map/" data-card="" data-category="urban" data-primary="urban">
                 <div class="visual" style="--visual:radial-gradient(circle at 25% 20%,rgba(83,74,183,.5),transparent 52%),radial-gradient(circle at 78% 82%,rgba(24,95,165,.45),transparent 50%),linear-gradient(145deg,#0d1130,#123a63)">🗺️</div>
                 <div class="project-body">
                   <div class="meta"><span class="pill accent">New</span><span class="pill">Urban · API</span></div>
@@ -408,7 +179,8 @@
                   <div class="project-footer"><span>서울 열린데이터 · 경기데이터드림 · D3.js</span><b>열기 →</b></div>
                 </div>
               </a>
-              <a class="project" href="/gyeonggi-academy-map/" data-card data-category="urban">
+
+              <a class="project" href="/gyeonggi-academy-map/" data-card="" data-category="urban" data-primary="urban">
                 <div class="visual" style="--visual:radial-gradient(circle at 25% 22%,rgba(55,138,221,.5),transparent 52%),radial-gradient(circle at 80% 80%,rgba(24,95,165,.42),transparent 50%),linear-gradient(145deg,#081a2e,#123a63)">🏫</div>
                 <div class="project-body">
                   <div class="meta"><span class="pill accent">New</span><span class="pill">Urban · API</span></div>
@@ -417,7 +189,8 @@
                   <div class="project-footer"><span>경기데이터드림 · D3.js</span><b>열기 →</b></div>
                 </div>
               </a>
-              <a class="project" href="/seoul-academy-map/" data-card data-category="urban">
+
+              <a class="project" href="/seoul-academy-map/" data-card="" data-category="urban" data-primary="urban">
                 <div class="visual" style="--visual:radial-gradient(circle at 25% 22%,rgba(127,119,221,.5),transparent 52%),radial-gradient(circle at 80% 80%,rgba(83,74,183,.4),transparent 50%),linear-gradient(145deg,#141033,#241a5c)">🎓</div>
                 <div class="project-body">
                   <div class="meta"><span class="pill accent">New</span><span class="pill">Urban · API</span></div>
@@ -426,16 +199,8 @@
                   <div class="project-footer"><span>서울 열린데이터 · 국세청 · D3.js</span><b>열기 →</b></div>
                 </div>
               </a>
-              <a class="project" href="/ds-research-urban-analytics/" data-card data-category="urban">
-                <div class="visual" style="--visual:linear-gradient(145deg,#071a2f,#0b6a55)">🏙️</div>
-                <div class="project-body">
-                  <div class="meta"><span class="pill accent">Live</span><span class="pill">Urban</span></div>
-                  <h3>서울 실시간 도시데이터 (3-3)</h3>
-                  <p>주요 핫스팟의 실시간 인구·혼잡·날씨·상권과 혼잡–환경 관계를 분석합니다.</p>
-                  <div class="project-footer"><span>서울 열린데이터광장 · 실시간</span><b>열기 →</b></div>
-                </div>
-              </a>
-              <a class="project" href="https://www.stargateedu.co.kr/pyeongtaek-election/" data-card data-category="urban">
+
+              <a class="project" href="https://www.stargateedu.co.kr/pyeongtaek-election/" data-card="" data-category="urban" data-primary="urban">
                 <div class="visual" style="--visual:radial-gradient(circle at 26% 22%,rgba(62,198,184,.48),transparent 52%),linear-gradient(145deg,#071820,#123246)">🗳️</div>
                 <div class="project-body">
                   <div class="meta"><span class="pill accent">New</span><span class="pill">Spatial · Election</span></div>
@@ -444,7 +209,8 @@
                   <div class="project-footer"><span>VWorld · Leaflet</span><b>열기 →</b></div>
                 </div>
               </a>
-              <a class="project" href="https://www.stargateedu.co.kr/hwaseong-election/" data-card data-category="urban">
+
+              <a class="project" href="https://www.stargateedu.co.kr/hwaseong-election/" data-card="" data-category="urban" data-primary="urban">
                 <div class="visual" style="--visual:radial-gradient(circle at 24% 20%,rgba(47,143,255,.48),transparent 52%),radial-gradient(circle at 78% 78%,rgba(62,198,184,.35),transparent 50%),linear-gradient(145deg,#071820,#123246)">🗳️</div>
                 <div class="project-body">
                   <div class="meta"><span class="pill accent">New</span><span class="pill">Spatial · Election</span></div>
@@ -453,7 +219,8 @@
                   <div class="project-footer"><span>VWorld · Leaflet</span><b>열기 →</b></div>
                 </div>
               </a>
-              <a class="project" href="https://www.stargateedu.co.kr/suwon-election/" data-card data-category="urban">
+
+              <a class="project" href="https://www.stargateedu.co.kr/suwon-election/" data-card="" data-category="urban" data-primary="urban">
                 <div class="visual" style="--visual:radial-gradient(circle at 28% 18%,rgba(240,162,58,.45),transparent 52%),radial-gradient(circle at 80% 80%,rgba(227,93,122,.32),transparent 50%),linear-gradient(145deg,#071820,#123246)">🗳️</div>
                 <div class="project-body">
                   <div class="meta"><span class="pill accent">New</span><span class="pill">Spatial · Election</span></div>
@@ -462,7 +229,8 @@
                   <div class="project-footer"><span>VWorld · Leaflet</span><b>열기 →</b></div>
                 </div>
               </a>
-              <a class="project" href="https://www.stargateedu.co.kr/seongnam-election/" data-card data-category="urban">
+
+              <a class="project" href="https://www.stargateedu.co.kr/seongnam-election/" data-card="" data-category="urban" data-primary="urban">
                 <div class="visual" style="--visual:radial-gradient(circle at 26% 20%,rgba(47,143,255,.42),transparent 52%),radial-gradient(circle at 78% 76%,rgba(227,93,122,.34),transparent 50%),linear-gradient(145deg,#071820,#123246)">🗳️</div>
                 <div class="project-body">
                   <div class="meta"><span class="pill accent">New</span><span class="pill">Spatial · Election</span></div>
@@ -474,22 +242,14 @@
             </div>
           </details>
 
-          <details class="card-group" data-card-group open>
-            <summary class="card-group-summary">
-              <span class="card-group-title"><strong>3-2 접근성·보행성 랩 · 공간 분석</strong><span>접근성 연구와 기존 공간 분석 도구</span></span>
-              <span class="card-group-meta"><span data-group-count>5개</span><span class="chevron" aria-hidden="true"></span></span>
-            </summary>
+          <details class="card-group" data-card-group="" data-lane="observation" id="access-real-estate"><summary class="card-group-summary"><span class="card-group-title"><strong>접근·부동산</strong><span>관측 · 보행 접근성과 분양·실거래·경매를 탐색합니다.</span></span><span class="card-group-meta"><span data-group-count="">7개</span><span class="chevron" aria-hidden="true"></span></span></summary>
             <div class="grid">
-              <a class="project" href="/research/accessibility-lab/" data-card data-category="urban">
-                <div class="visual" style="--visual:linear-gradient(145deg,#101a31,#213963)">🗺️</div>
-                <div class="project-body">
-                  <div class="meta"><span class="pill accent">Research</span><span class="pill">Spatial</span></div>
-                  <h3>Spatial Econometrics Lab</h3>
-                  <p>접근성·보행성·토지이용과 공간 자기상관을 다루는 연구 랩입니다. 코드와 라이브 대시보드를 함께 안내합니다.</p>
-                  <div class="project-footer"><span>GeoPandas · PostGIS</span><b>랩 소개 →</b></div>
-                </div>
+              <a class="project" href="/research/accessibility-lab/" data-card="" data-category="urban" data-primary="urban">
+                <div class="visual" style="--visual:linear-gradient(145deg,#0d1f1a,#16694a)">🚶</div>
+                <div class="project-body"><div class="meta"><span class="pill accent">3-2</span><span class="pill">Accessibility</span></div><h3>접근성·보행성 랩</h3><p>강남 15분도시 대시보드와 공간계량 연구 방법·코드를 한 연구 맥락에서 안내합니다.</p><div class="project-footer"><span>Isochrone · Walkability</span><b>랩 열기 →</b></div></div>
               </a>
-              <a class="project" href="https://stargateedu.co.kr/smart-city-gis/dashboard/" target="_blank" rel="noopener" data-card data-category="urban">
+
+              <a class="project" href="https://stargateedu.co.kr/smart-city-gis/dashboard/" target="_blank" rel="noopener" data-card="" data-category="urban" data-primary="urban">
                 <div class="visual" style="--visual:linear-gradient(145deg,#0d1f1a,#16694a)">🚶</div>
                 <div class="project-body">
                   <div class="meta"><span class="pill accent">Live</span><span class="pill">Walkability</span></div>
@@ -498,7 +258,8 @@
                   <div class="project-footer"><span>Leaflet · Isochrone · Time-series</span><b>열기 →</b></div>
                 </div>
               </a>
-              <a class="project" href="/choropleth/" data-card data-category="urban">
+
+              <a class="project" href="/choropleth/" data-card="" data-category="urban" data-primary="urban">
                 <div class="visual" style="--visual:radial-gradient(circle at 78% 24%,rgba(67,200,255,.45),transparent 54%),linear-gradient(145deg,#0a1a2e,#0e2d4a)">🌏</div>
                 <div class="project-body">
                   <div class="meta"><span class="pill accent">Live</span><span class="pill">Spatial</span></div>
@@ -507,16 +268,8 @@
                   <div class="project-footer"><span>Plotly · GeoJSON</span><b>열기 →</b></div>
                 </div>
               </a>
-              <a class="project" href="/airbnb/" data-card data-category="urban">
-                <div class="visual" style="--visual:radial-gradient(circle at 22% 20%,rgba(255,100,100,.45),transparent 52%),linear-gradient(145deg,#1f0c0c,#3a1515)">🏠</div>
-                <div class="project-body">
-                  <div class="meta"><span class="pill accent">Live</span><span class="pill">Real Estate · ML</span></div>
-                  <h3>Airbnb 수익 예측</h3>
-                  <p>서울 에어비앤비 가격 분포·자치구별 점유율·6개월 수익 예측(신뢰구간) 대시보드.</p>
-                  <div class="project-footer"><span>Real Estate · ML</span><b>열기 →</b></div>
-                </div>
-              </a>
-              <a class="project" href="/volume/" data-card data-category="urban">
+
+              <a class="project" href="/volume/" data-card="" data-category="urban" data-primary="urban">
                 <div class="visual" style="--visual:radial-gradient(circle at 75% 25%,rgba(67,255,150,.4),transparent 52%),linear-gradient(145deg,#081a14,#0d2b1e)">📈</div>
                 <div class="project-body">
                   <div class="meta"><span class="pill accent">Live</span><span class="pill">Real Estate</span></div>
@@ -525,16 +278,42 @@
                   <div class="project-footer"><span>Plotly · 유형별</span><b>열기 →</b></div>
                 </div>
               </a>
+
+              <a class="project" href="/lh-sale-info/" data-card="" data-category="api urban" data-primary="urban">
+                <div class="visual" style="--visual:radial-gradient(circle at 22% 18%,rgba(181,106,58,.5),transparent 52%),radial-gradient(circle at 82% 78%,rgba(61,74,92,.35),transparent 50%),linear-gradient(145deg,#171b22,#3d4a5c)">⌂</div>
+                <div class="project-body">
+                  <div class="meta"><span class="pill accent">API</span><span class="pill">LH · Supabase</span></div>
+                  <h3>LH 분양정보 관측소</h3>
+                  <p>공지사항이 아닌 LH 분양임대공고문을 30건씩 조회하고 Supabase에 upsert합니다.</p>
+                  <div class="project-footer"><span>한국토지주택공사 · data.go.kr</span><b>열기 →</b></div>
+                </div>
+              </a>
+
+              <a class="project" href="/hwaseong-real-estate/" data-card="" data-category="api urban" data-primary="urban">
+                <div class="visual" style="--visual:radial-gradient(circle at 78% 24%,rgba(217,255,67,.4),transparent 54%),linear-gradient(145deg,#193c29,#0c2115)">🏙️</div>
+                <div class="project-body">
+                  <div class="meta"><span class="pill accent">API</span><span class="pill">국토부 · Real Estate</span></div>
+                  <h3>화성 실거래 데이터 허브</h3>
+                  <p>2026년 6월 화성시 4개 구 아파트 매매 2,672건을 100건씩 탐색하고 CSV로 저장합니다.</p>
+                  <div class="project-footer"><span>국토교통부 · 2026.06</span><b>열기 →</b></div>
+                </div>
+              </a>
+
+              <a class="project" href="/court-auction/" data-card="" data-category="api urban" data-primary="urban">
+                <div class="visual" style="--visual:radial-gradient(circle at 20% 20%,rgba(79,127,255,.5),transparent 60%),radial-gradient(circle at 80% 80%,rgba(255,184,107,.4),transparent 60%),linear-gradient(145deg,#0d1426,#1a2540)">🏛️</div>
+                <div class="project-body">
+                  <div class="meta"><span class="pill accent">LIVE PARSER</span><span class="pill">법원 × 국토부</span></div>
+                  <h3>법원경매 × 실거래 비교</h3>
+                  <p>법원 매각공고·상세를 직접 파싱하고, 아파트 경매 최저가를 법정동 월 실거래와 같은 화면에서 비교합니다.</p>
+                  <div class="project-footer"><span>법원경매정보 · 국토부 실거래</span><b>비교하기 →</b></div>
+                </div>
+              </a>
             </div>
           </details>
 
-          <details class="card-group" data-card-group open>
-            <summary class="card-group-summary">
-              <span class="card-group-title"><strong>거시경제·관광 · AI·도구</strong><span>환율·무역·방한객, 카페 관측, AI·연구·운영 도구</span></span>
-                            <span class="card-group-meta"><span data-group-count>19개</span><span class="chevron" aria-hidden="true"></span></span>
-            </summary>
+          <details class="card-group" data-card-group="" data-lane="observation" id="macro-industry"><summary class="card-group-summary"><span class="card-group-title"><strong>거시·산업</strong><span>관측 · 경제·조달·관광·숙박·소비와 사회 통계를 관측합니다.</span></span><span class="card-group-meta"><span data-group-count="">11개</span><span class="chevron" aria-hidden="true"></span></span></summary>
             <div class="grid">
-              <a class="project" href="/research/crime-statistics/" data-card data-category="urban economy">
+              <a class="project" href="/research/crime-statistics/" data-card="" data-category="urban economy" data-primary="society">
                 <div class="visual" style="--visual:radial-gradient(circle at 22% 18%,rgba(255,115,115,.45),transparent 52%),radial-gradient(circle at 82% 78%,rgba(242,196,109,.32),transparent 50%),linear-gradient(145deg,#140f22,#2b1f3d)">🚨</div>
                 <div class="project-body">
                   <div class="meta"><span class="pill accent">2025 Q3–2026 Q2 · Quarterly</span><span class="pill">Public Safety</span></div>
@@ -543,7 +322,8 @@
                   <div class="project-footer"><span>경찰청 공식 통계 · CSV 제공</span><b>대시보드 열기 →</b></div>
                 </div>
               </a>
-                            <a class="project" href="/research/new-car-sales/" data-card data-category="economy">
+
+              <a class="project" href="/research/new-car-sales/" data-card="" data-category="economy" data-primary="society">
                 <div class="visual" style="--visual:radial-gradient(circle at 22% 18%,rgba(84,227,210,.5),transparent 52%),radial-gradient(circle at 82% 78%,rgba(66,165,255,.32),transparent 48%),linear-gradient(145deg,#071426,#123a59)">🚘</div>
                 <div class="project-body">
                   <div class="meta"><span class="pill accent">2026.08 · Monthly</span><span class="pill">Consumption Proxy</span></div>
@@ -552,34 +332,18 @@
                   <div class="project-footer"><span>10월 5일 확인 · 공식 9월 총계 대기</span><b>대시보드 열기 →</b></div>
                 </div>
               </a>
-              <a class="project" href="/did/" data-card data-category="economy">
-                <div class="visual" style="--visual:radial-gradient(circle at 30% 25%,rgba(255,184,67,.42),transparent 52%),linear-gradient(145deg,#1a1208,#2e2010)">📐</div>
+
+              <a class="project" href="/airbnb/" data-card="" data-category="urban" data-primary="society">
+                <div class="visual" style="--visual:radial-gradient(circle at 22% 20%,rgba(255,100,100,.45),transparent 52%),linear-gradient(145deg,#1f0c0c,#3a1515)">🏠</div>
                 <div class="project-body">
-                  <div class="meta"><span class="pill accent">Research</span><span class="pill">Econometrics</span></div>
-                  <h3>DID 정책효과</h3>
-                  <p>Google Trends 시계열을 활용한 이중차분(Difference-in-Differences) 평행추세·처치효과와 이벤트 스터디 계수(95% CI) 플롯입니다.</p>
-                  <div class="project-footer"><span>Google Trends · Event Study</span><b>열기 →</b></div>
+                  <div class="meta"><span class="pill accent">Live</span><span class="pill">Real Estate · ML</span></div>
+                  <h3>Airbnb 수익 예측</h3>
+                  <p>서울 에어비앤비 가격 분포·자치구별 점유율·6개월 수익 예측(신뢰구간) 대시보드.</p>
+                  <div class="project-footer"><span>Real Estate · ML</span><b>열기 →</b></div>
                 </div>
               </a>
-              <a class="project" href="https://civic-participation-hub.stargate8224.chatgpt.site" target="_blank" rel="noopener noreferrer" data-card data-category="community tools">
-                <div class="visual" style="--visual:radial-gradient(circle at 22% 18%,rgba(96,165,250,.5),transparent 52%),radial-gradient(circle at 82% 78%,rgba(45,212,191,.34),transparent 50%),linear-gradient(145deg,#071a2d,#0f4c5c)">🏛️</div>
-                <div class="project-body">
-                  <div class="meta"><span class="pill accent">2026.08 · LIVE</span><span class="pill">Civic Participation</span></div>
-                  <h3>민원·국민참여 플랫폼 대시보드</h3>
-                  <p>국회와 정부 기관의 민원·청원·입법예고·정보공개 등 공식 국민참여 창구 17곳을 유형과 우선순위별로 검색·비교합니다.</p>
-                  <div class="project-footer"><span>국회 · 정부 · 국민권익위원회</span><b>대시보드 열기 ↗</b></div>
-                </div>
-              </a>
-              <a class="project" href="/research/debate-analyzer/" data-card data-category="ai tools">
-                <div class="visual" style="--visual:radial-gradient(circle at 22% 18%,rgba(241,199,122,.5),transparent 52%),radial-gradient(circle at 82% 78%,rgba(79,127,255,.36),transparent 50%),linear-gradient(145deg,#0b1738,#253565)">🗳️</div>
-                <div class="project-body">
-                  <div class="meta"><span class="pill accent">V0.3 · Research</span><span class="pill">Political Debate</span></div>
-                  <h3>3자 정치토론 AI 분석기</h3>
-                  <p>발언량 편향·분석 신뢰도·주장 유형·발언 타임라인을 함께 공개하는 재현 가능한 3자 토론 연구 도구입니다.</p>
-                  <div class="project-footer"><span>Research QA · Claim Matrix</span><b>분석하기 →</b></div>
-                </div>
-              </a>
-              <a class="project" href="https://metro-lodging-data.stargate8224.chatgpt.site" target="_blank" rel="noopener noreferrer" data-card data-category="tourism spatial api supabase">
+
+              <a class="project" href="https://metro-lodging-data.stargate8224.chatgpt.site" target="_blank" rel="noopener noreferrer" data-card="" data-category="tourism spatial api supabase" data-primary="society">
                 <div class="visual" style="--visual:radial-gradient(circle at 25% 20%,rgba(201,240,74,.46),transparent 48%),radial-gradient(circle at 80% 76%,rgba(49,92,255,.28),transparent 48%),linear-gradient(145deg,#10231a,#1e6b4b)">🏨</div>
                 <div class="project-body">
                   <div class="meta"><span class="pill accent">2026.07 · LIVE</span><span class="pill">Supabase · Lodging</span></div>
@@ -588,7 +352,8 @@
                   <div class="project-footer"><span>행정안전부 · 관광데이터랩</span><b>대시보드 열기 ↗</b></div>
                 </div>
               </a>
-              <a class="project" href="/exchange-rate/" data-card data-category="economy api">
+
+              <a class="project" href="/exchange-rate/" data-card="" data-category="economy api" data-primary="society">
                 <div class="visual" style="--visual:linear-gradient(145deg,#0c1d3d,#243a79)">💱</div>
                 <div class="project-body">
                   <div class="meta"><span class="pill accent">Monthly</span><span class="pill">Macro · BTC</span></div>
@@ -597,7 +362,8 @@
                   <div class="project-footer"><span>ECB · 한국은행 · Binance</span><b>열기 →</b></div>
                 </div>
               </a>
-              <a class="project" href="/trade/" data-card data-category="economy api">
+
+              <a class="project" href="/trade/" data-card="" data-category="economy api" data-primary="society">
                 <div class="visual" style="--visual:linear-gradient(145deg,#0b1d39,#185c65)">🚢</div>
                 <div class="project-body">
                   <div class="meta"><span class="pill accent">Monthly</span><span class="pill">Trade</span></div>
@@ -606,7 +372,8 @@
                   <div class="project-footer"><span>관세청 API · 월간</span><b>열기 →</b></div>
                 </div>
               </a>
-              <a class="project" href="/google-trends/" data-card data-category="api economy">
+
+              <a class="project" href="/google-trends/" data-card="" data-category="api economy" data-primary="society">
                 <div class="visual" style="--visual:radial-gradient(circle at 22% 18%,rgba(91,156,255,.5),transparent 52%),radial-gradient(circle at 82% 78%,rgba(62,201,167,.32),transparent 48%),linear-gradient(145deg,#0a1220,#152a45)">📈</div>
                 <div class="project-body">
                   <div class="meta"><span class="pill accent">Daily</span><span class="pill">Trends</span></div>
@@ -615,7 +382,8 @@
                   <div class="project-footer"><span>Google Trends · Chart.js</span><b>열기 →</b></div>
                 </div>
               </a>
-              <a class="project" href="/korea-tourism/" data-card data-category="tourism api">
+
+              <a class="project" href="/korea-tourism/" data-card="" data-category="tourism api" data-primary="society">
                 <div class="visual" style="--visual:linear-gradient(145deg,#10213d,#214d75)">🧳</div>
                 <div class="project-body">
                   <div class="meta"><span class="pill accent">Monthly</span><span class="pill">Tourism</span></div>
@@ -624,7 +392,52 @@
                   <div class="project-footer"><span>한국관광공사 · 공공데이터</span><b>열기 →</b></div>
                 </div>
               </a>
-              <a class="project" href="/naver-cafe-research/" data-card data-category="community">
+
+              <a class="project" href="/bid-pblanc-cnstwk/" data-card="" data-category="api economy" data-primary="society">
+                <div class="visual" style="--visual:radial-gradient(circle at 22% 18%,rgba(226,162,74,.5),transparent 52%),radial-gradient(circle at 82% 78%,rgba(61,184,154,.28),transparent 50%),linear-gradient(145deg,#0b1218,#16222d)">▣</div>
+                <div class="project-body">
+                  <div class="meta"><span class="pill accent">API</span><span class="pill">조달 · 공사</span></div>
+                  <h3>나라장터 공사 입찰공고</h3>
+                  <p>공사 입찰공고목록을 100건씩 조회·저장하고 발주기관·계약방법·추정가격을 인터랙티브 차트로 탐색합니다.</p>
+                  <div class="project-footer"><span>조달청 · BidPublicInfoService</span><b>열기 →</b></div>
+                </div>
+              </a>
+
+              <a class="project" href="/bid-pblanc-servc/" data-card="" data-category="api economy" data-primary="society">
+                <div class="visual" style="--visual:radial-gradient(circle at 24% 20%,rgba(61,184,154,.48),transparent 52%),radial-gradient(circle at 80% 78%,rgba(226,162,74,.28),transparent 50%),linear-gradient(145deg,#0b1218,#123230)">◇</div>
+                <div class="project-body">
+                  <div class="meta"><span class="pill accent">API</span><span class="pill">조달 · 용역</span></div>
+                  <h3>나라장터 용역 입찰공고</h3>
+                  <p>용역 입찰공고목록을 100건씩 조회·저장합니다. 서버 저장 키로 인증하며 키 입력이 필요 없습니다.</p>
+                  <div class="project-footer"><span>조달청 · getBidPblancListInfoServc</span><b>열기 →</b></div>
+                </div>
+              </a>
+
+              <a class="project" href="/fsc-financial/" data-card="" data-category="api economy" data-primary="society">
+                <div class="visual" style="--visual:radial-gradient(circle at 22% 20%,rgba(62,201,167,.48),transparent 52%),radial-gradient(circle at 82% 78%,rgba(58,123,213,.35),transparent 50%),linear-gradient(145deg,#081820,#123246)">◎</div>
+                <div class="project-body">
+                  <div class="meta"><span class="pill accent">API</span><span class="pill">Finance</span></div>
+                  <h3>금융위원회 기업재무 대시보드</h3>
+                  <p>요약재무제표를 100건씩 조회하고 매출·순이익·부채비율을 인터랙티브 차트로 탐색합니다.</p>
+                  <div class="project-footer"><span>금융위원회 · data.go.kr</span><b>열기 →</b></div>
+                </div>
+              </a>
+            </div>
+          </details>
+
+          <details class="card-group" data-card-group="" data-lane="observation" id="community-signals"><summary class="card-group-summary"><span class="card-group-title"><strong>커뮤니티 신호</strong><span>관측 · 시민 참여와 커뮤니티의 관심 변화를 읽습니다.</span></span><span class="card-group-meta"><span data-group-count="">2개</span><span class="chevron" aria-hidden="true"></span></span></summary>
+            <div class="grid">
+              <a class="project" href="https://civic-participation-hub.stargate8224.chatgpt.site" target="_blank" rel="noopener noreferrer" data-card="" data-category="community tools" data-primary="society">
+                <div class="visual" style="--visual:radial-gradient(circle at 22% 18%,rgba(96,165,250,.5),transparent 52%),radial-gradient(circle at 82% 78%,rgba(45,212,191,.34),transparent 50%),linear-gradient(145deg,#071a2d,#0f4c5c)">🏛️</div>
+                <div class="project-body">
+                  <div class="meta"><span class="pill accent">2026.08 · LIVE</span><span class="pill">Civic Participation</span></div>
+                  <h3>민원·국민참여 플랫폼 대시보드</h3>
+                  <p>국회와 정부 기관의 민원·청원·입법예고·정보공개 등 공식 국민참여 창구 17곳을 유형과 우선순위별로 검색·비교합니다.</p>
+                  <div class="project-footer"><span>국회 · 정부 · 국민권익위원회</span><b>대시보드 열기 ↗</b></div>
+                </div>
+              </a>
+
+              <a class="project" href="/naver-cafe-research/" data-card="" data-category="community" data-primary="society">
                 <div class="visual" style="--visual:radial-gradient(circle at 22% 18%,rgba(94,226,170,.48),transparent 52%),radial-gradient(circle at 82% 78%,rgba(103,232,249,.35),transparent 48%),linear-gradient(145deg,#08231f,#0c2c3c)">◉</div>
                 <div class="project-body">
                   <div class="meta"><span class="pill accent">Live Refresh</span><span class="pill">Community</span></div>
@@ -633,16 +446,77 @@
                   <div class="project-footer"><span>네이버 카페 · 실시간/매시간</span><b>관측소 열기 →</b></div>
                 </div>
               </a>
-              <a class="project" href="/cybersecurity/" data-card data-category="ai">
-                <div class="visual" style="--visual:radial-gradient(circle at 22% 18%,rgba(45,212,191,.52),transparent 52%),radial-gradient(circle at 82% 78%,rgba(232,93,93,.28),transparent 50%),linear-gradient(145deg,#061018,#0a2430)">🛡</div>
+            </div>
+          </details>
+
+          <details class="card-group" data-card-group="" data-lane="research" id="research-methods" open=""><summary class="card-group-summary"><span class="card-group-title"><strong>연구 방법·AI</strong><span>연구 · 정책효과·정보경제·데이터 수집과 AI 분석 방법을 연구합니다.</span></span><span class="card-group-meta"><span data-group-count="">9개</span><span class="chevron" aria-hidden="true"></span></span></summary><span id="featured-policy" aria-hidden="true"></span><span id="ai-ml" aria-hidden="true"></span><span id="researcher-vision" aria-hidden="true"></span><span id="information-economics" aria-hidden="true"></span>
+            <div class="grid">
+              <a class="project" href="/research/information-economics/" data-card="" data-category="economy tools ai" data-primary="research">
+                <div class="visual" style="--visual:radial-gradient(circle at 22% 18%,rgba(244,197,107,.5),transparent 52%),radial-gradient(circle at 82% 78%,rgba(105,183,255,.34),transparent 50%),linear-gradient(145deg,#08152e,#20385f)">i</div>
+                <div class="project-body"><div class="meta"><span class="pill accent">New · Info Econ</span><span class="pill">Asymmetric Information</span></div><h3>정보경제학의 3대 연구문제</h3><p>역선택·도덕적 해이·신호와 스크리닝을 플랫폼·교육·조달·보험 데이터의 가설, 종속변수, DID·RD·패널 식별전략으로 전환합니다.</p><div class="project-footer"><span>Adverse Selection · Moral Hazard · Signaling</span><b>연구 보기 →</b></div></div>
+              </a>
+
+              <a class="project" href="/research/researcher-vision/" data-card="" data-category="urban economy tools" data-primary="research">
+                <div class="visual" style="--visual:radial-gradient(circle at 22% 18%,rgba(101,216,208,.48),transparent 52%),radial-gradient(circle at 80% 78%,rgba(124,169,255,.34),transparent 50%),linear-gradient(145deg,#071521,#15314a)">◉</div>
                 <div class="project-body">
-                  <div class="meta"><span class="pill accent">New Product</span><span class="pill">AI Security</span></div>
-                  <h3>3AI Cybersecurity Suite</h3>
-                  <p>LLM 기반 위협 탐지·시맨틱 로그 분석·IR 자동화. KDP 도서 방법론을 SOC 소프트웨어로 구현한 제품 페이지.</p>
-                  <div class="project-footer"><span>LLM · RAG · SOC</span><b>제품 열기 →</b></div>
+                  <div class="meta"><span class="pill accent">New · Vision</span><span class="pill">GIS × Economy</span></div>
+                  <h3>보이는 통계 너머의 현실을 읽는 연구자</h3>
+                  <p>북한의 가려진 경제를 간접지표로 읽어 온 경험을 한국의 청년고용·자산·주거격차 연구로 확장하는 연구 비전입니다.</p>
+                  <div class="project-footer"><span>북한 경제 · 공간계량 · 정책효과</span><b>글 읽기 →</b></div>
                 </div>
               </a>
-              <a class="project" href="/rag-graphrag/" data-card data-category="ai">
+
+              <a class="project" href="/research/random-forest/" data-card="" data-category="ai tools urban" data-primary="research">
+                <div class="visual" style="--visual:radial-gradient(circle at 22% 18%,rgba(95,224,168,.52),transparent 52%),radial-gradient(circle at 82% 78%,rgba(88,215,255,.32),transparent 50%),linear-gradient(145deg,#06201a,#0f3d33)">🌲</div>
+                <div class="project-body"><div class="meta"><span class="pill accent">New · AI Lab</span><span class="pill">Random Forest</span></div><h3>Random Forest 연구 대시보드</h3><p>기업 부도 예측에서 공간 변수의 증분 예측력을 브라우저 내 Random Forest로 학습하고 OOB·ROC·변수중요도로 검증합니다.</p><div class="project-footer"><span>앙상블 · 신용위험 · 공간변수</span><b>실험실 열기 →</b></div></div>
+              </a>
+
+              <a class="project" href="/research/ai-freshness/" data-card="" data-category="ai tools" data-primary="research">
+                <div class="visual" style="--visual:radial-gradient(circle at 20% 20%,rgba(88,215,255,.42),transparent 50%),linear-gradient(145deg,#101c43,#283c69)">↻</div>
+                <div class="project-body"><div class="meta"><span class="pill accent">AI Lab</span><span class="pill">최신성 검증</span></div><h3>AI 모델과 실시간 검색 데이터</h3><p>GPT-4o의 지식 기준 시점과 2023~2026년 Google·Naver 검색 동향을 사례로, 사전학습과 실시간 조회의 차이를 검증합니다.</p><div class="project-footer"><span>지식 기준 · 검색 연동 · 시계열</span><b>연구 보기 →</b></div></div>
+              </a>
+
+              <a class="project" href="/research/immigration-policy/" data-card="" data-category="tools" data-primary="research">
+                <div class="visual" style="--visual:radial-gradient(circle at 24% 18%,rgba(241,199,122,.5),transparent 52%),radial-gradient(circle at 80% 76%,rgba(79,127,255,.34),transparent 50%),linear-gradient(145deg,#0b1738,#1a2f62)">🛂</div>
+                <div class="project-body">
+                  <div class="meta"><span class="pill accent">New Research</span><span class="pill">Immigration Policy</span></div>
+                  <h3>한국 F‑2·F‑5·F‑6 비자·외국인정책 연구</h3>
+                  <p>거주·영주·결혼이민 체류자격의 법적 구조, 전환 경로, 정책 변화와 공식 정보원을 한·영으로 비교합니다.</p>
+                  <div class="project-footer"><span>KR · EN · 법무부·법제처·통계청</span><b>연구 보기 →</b></div>
+                </div>
+              </a>
+
+              <a class="project" href="/public-data-collector/" data-card="" data-category="api tools" data-primary="research">
+                <div class="visual" style="--visual:radial-gradient(circle at 22% 24%,rgba(15,122,104,.5),transparent 60%),radial-gradient(circle at 80% 80%,rgba(226,164,75,.28),transparent 60%),linear-gradient(145deg,#0d1b1a,#16302d)">📥</div>
+                <div class="project-body">
+                  <div class="meta"><span class="pill accent">API</span><span class="pill">Collector</span></div>
+                  <h3>공공데이터 수집 기록소</h3>
+                  <p>부동산·상권·기상 공공데이터 API를 선택해 수집하고 CSV로 변환해 Supabase Storage에 저장합니다.</p>
+                  <div class="project-footer"><span>data.go.kr · Supabase</span><b>열기 →</b></div>
+                </div>
+              </a>
+
+              <a class="project" href="/did/" data-card="" data-category="economy" data-primary="research">
+                <div class="visual" style="--visual:radial-gradient(circle at 30% 25%,rgba(255,184,67,.42),transparent 52%),linear-gradient(145deg,#1a1208,#2e2010)">📐</div>
+                <div class="project-body">
+                  <div class="meta"><span class="pill accent">Research</span><span class="pill">Econometrics</span></div>
+                  <h3>DID 정책효과</h3>
+                  <p>Google Trends 시계열을 활용한 이중차분(Difference-in-Differences) 평행추세·처치효과와 이벤트 스터디 계수(95% CI) 플롯입니다.</p>
+                  <div class="project-footer"><span>Google Trends · Event Study</span><b>열기 →</b></div>
+                </div>
+              </a>
+
+              <a class="project" href="/research/debate-analyzer/" data-card="" data-category="ai tools" data-primary="research">
+                <div class="visual" style="--visual:radial-gradient(circle at 22% 18%,rgba(241,199,122,.5),transparent 52%),radial-gradient(circle at 82% 78%,rgba(79,127,255,.36),transparent 50%),linear-gradient(145deg,#0b1738,#253565)">🗳️</div>
+                <div class="project-body">
+                  <div class="meta"><span class="pill accent">V0.3 · Research</span><span class="pill">Political Debate</span></div>
+                  <h3>3자 정치토론 AI 분석기</h3>
+                  <p>발언량 편향·분석 신뢰도·주장 유형·발언 타임라인을 함께 공개하는 재현 가능한 3자 토론 연구 도구입니다.</p>
+                  <div class="project-footer"><span>Research QA · Claim Matrix</span><b>분석하기 →</b></div>
+                </div>
+              </a>
+
+              <a class="project" href="/rag-graphrag/" data-card="" data-category="ai" data-primary="research">
                 <div class="visual" style="--visual:radial-gradient(circle at 24% 18%,rgba(82,211,255,.5),transparent 52%),radial-gradient(circle at 80% 76%,rgba(165,123,255,.42),transparent 50%),linear-gradient(145deg,#0b1930,#132847)">◎</div>
                 <div class="project-body">
                   <div class="meta"><span class="pill accent">New Report</span><span class="pill">AI Architecture</span></div>
@@ -651,43 +525,51 @@
                   <div class="project-footer"><span>STARGATE Research · 2026.07</span><b>보고서 열기 →</b></div>
                 </div>
               </a>
-              <a class="project" href="/research/app-privacy/" data-card data-category="tools">
-                <div class="visual" style="--visual:radial-gradient(circle at 24% 18%,rgba(99,155,255,.48),transparent 52%),linear-gradient(145deg,#101c34,#244a78)">🛡</div>
-                <div class="project-body">
-                  <div class="meta"><span class="pill accent">검토안</span><span class="pill">App Privacy</span></div>
-                  <h3>스타게이트 에듀 개인정보처리방침</h3>
-                  <p>앱 출시 전 개인정보 처리 항목·보유기간·이용자 권리와 확정이 필요한 운영 정보를 정리한 검토안입니다.</p>
-                  <div class="project-footer"><span>2026.09.01 · 시행 전</span><b>방침 보기 →</b></div>
-                </div>
+            </div>
+          </details>
+
+          <details class="card-group" data-card-group="" data-lane="research" id="grand-challenges"><summary class="card-group-summary"><span class="card-group-title"><strong>연구 난제</strong><span>연구 · 과학·국가·인류의 난제를 수학과 AI의 관점에서 탐구합니다.</span></span><span class="card-group-meta"><span data-group-count="">7개</span><span class="chevron" aria-hidden="true"></span></span></summary>
+            <div class="grid">
+              <a class="project" href="/research/contradiction-lab/" data-card="" data-category="ai tools" data-primary="research">
+                <div class="visual" style="--visual:radial-gradient(circle at 22% 18%,rgba(255,107,113,.48),transparent 52%),radial-gradient(circle at 80% 78%,rgba(105,183,255,.34),transparent 50%),linear-gradient(145deg,#0b1030,#2a2c62)">⇄</div>
+                <div class="project-body"><div class="meta"><span class="pill accent">New · Lab</span><span class="pill">Contradiction × AI</span></div><h3>모순연구소 — AI는 인간의 모순을 풀 수 있는가</h3><p>심슨·브라에스·제본스·굿하트 등 16개 모순을 5유형으로 분류하고 AI의 해소·완화·명시화 범위를 판정하는 대시보드입니다.</p><div class="project-footer"><span>행동경제 · 게임이론 · 사회선택</span><b>연구소 열기 →</b></div></div>
               </a>
-              <a class="project" href="/sms/" data-card data-category="tools">
-                <div class="visual" style="--visual:radial-gradient(circle at 24% 18%,rgba(104,227,180,.48),transparent 52%),linear-gradient(145deg,#0b2a25,#13443a)">✉</div>
-                <div class="project-body">
-                  <div class="meta"><span class="pill accent">Operations</span><span class="pill">SOLAPI</span></div>
-                  <h3>고객 문자 발송 콘솔</h3>
-                  <p>최대 10명의 고객에게 이름을 반영한 문자를 미리 확인하고 안전하게 일괄 발송합니다.</p>
-                  <div class="project-footer"><span>SMS · LMS · 개인화</span><b>콘솔 열기 →</b></div>
-                </div>
+
+              <a class="project" href="/research/climate-algebraic-geometry/" data-card="" data-category="urban economy tools" data-primary="research">
+                <div class="visual" style="--visual:radial-gradient(circle at 22% 18%,rgba(70,224,178,.5),transparent 52%),linear-gradient(145deg,#071418,#153c45)">△</div>
+                <div class="project-body"><div class="meta"><span class="pill accent">New · Climate</span><span class="pill">Algebraic Geometry</span></div><h3>기후변화 난제 3가지</h3><p>티핑포인트 판별다양체, 복합재난 열대 위험다양체, 탄소 플럭스 식별가능성을 연구문제로 정의합니다.</p><div class="project-footer"><span>기후 · 열대기하 · 탄소순환</span><b>연구 보기 →</b></div></div>
               </a>
-              <a class="project" href="/quote-maker/" data-card data-category="tools">
-                <div class="visual" style="--visual:radial-gradient(circle at 24% 20%,rgba(255,184,107,.46),transparent 54%),linear-gradient(145deg,#12181f,#1a2438)">🧾</div>
-                <div class="project-body">
-                  <div class="meta"><span class="pill accent">Research Tool</span><span class="pill">PDF</span></div>
-                  <h3>하루 견적서 · Quote Maker</h3>
-                  <p>항목 입력부터 합계·부가세 자동 계산과 A4 PDF 출력까지 한 번에 처리하는 견적서 도구입니다.</p>
-                  <div class="project-footer"><span>HTML · PDF · Freemium</span><b>열기 →</b></div>
-                </div>
+
+              <a class="project" href="/research/korea-challenges/" data-card="" data-category="urban economy tools" data-primary="research">
+                <div class="visual" style="--visual:radial-gradient(circle at 22% 18%,rgba(244,197,107,.48),transparent 52%),radial-gradient(circle at 80% 78%,rgba(255,107,113,.32),transparent 50%),linear-gradient(145deg,#08152e,#263a68)">K</div>
+                <div class="project-body"><div class="meta"><span class="pill accent">New · Korea</span><span class="pill">Systems Research</span></div><h3>대한민국의 난제 3가지</h3><p>저출생·지역소멸, 수도권 집중·공간 불균형, 가계부채·부동산 금융위험을 비선형 시스템으로 정식화합니다.</p><div class="project-footer"><span>인구 · 국토 · 금융</span><b>연구 보기 →</b></div></div>
               </a>
-              <a class="project" href="https://2026-plan.vercel.app/dashboard" data-card data-category="tools">
-                <div class="visual" style="--visual:radial-gradient(circle at 22% 18%,rgba(129,140,248,.52),transparent 52%),radial-gradient(circle at 82% 78%,rgba(56,189,248,.3),transparent 50%),linear-gradient(145deg,#11152d,#1d2952)">💳</div>
-                <div class="project-body">
-                  <div class="meta"><span class="pill accent">New</span><span class="pill">Next.js · Supabase</span></div>
-                  <h3>2026 구독 관리 대시보드</h3>
-                  <p>구독 비용을 카테고리·통화별로 분석하고 서비스 검색·정렬과 CSV 내보내기를 제공하는 PWA 관리 도구입니다.</p>
-                  <div class="project-footer"><span>Subscription · Analytics · PWA</span><b>대시보드 열기 →</b></div>
-                </div>
+
+              <a class="project" href="/research/korean-unification-challenges/" data-card="" data-category="urban economy tools" data-primary="research">
+                <div class="visual" style="--visual:radial-gradient(circle at 24% 18%,rgba(99,215,173,.46),transparent 52%),radial-gradient(circle at 80% 78%,rgba(112,200,255,.32),transparent 50%),linear-gradient(145deg,#071426,#183c54)">U</div>
+                <div class="project-body"><div class="meta"><span class="pill accent">New · Unification</span><span class="pill">Transition Systems</span></div><h3>한반도 통일의 난제 3가지</h3><p>비핵화·안보전환, 경제·화폐·재정 통합, 법제·재산권·공간 통합을 실행가능 경로와 식별성 문제로 정식화합니다.</p><div class="project-footer"><span>안보 · 경제 · 제도공간</span><b>연구 보기 →</b></div></div>
               </a>
-              <a class="project" href="/math-grader/" data-card data-category="ai tools">
+
+              <a class="project" href="/research/quantum-physics-challenges/" data-card="" data-category="ai tools" data-primary="research">
+                <div class="visual" style="--visual:radial-gradient(circle at 24% 18%,rgba(169,139,255,.55),transparent 50%),radial-gradient(circle at 82% 76%,rgba(88,215,255,.38),transparent 48%),linear-gradient(145deg,#080d22,#27245f)">Ψ</div>
+                <div class="project-body"><div class="meta"><span class="pill accent">New · Quantum</span><span class="pill">Foundations × Emergence</span></div><h3>현대 양자물리학의 3대 난제</h3><p>양자측정, 양자중력, 강상관 양자다체계를 이론·실험·검증 기준이 연결된 연구문제로 정리합니다.</p><div class="project-footer"><span>측정 · 시공간 · 양자물질</span><b>연구 보기 →</b></div></div>
+              </a>
+
+              <a class="project" href="/research/deep-earth-ocean-challenges/" data-card="" data-category="urban economy tools" data-primary="research">
+                <div class="visual" style="--visual:radial-gradient(circle at 22% 18%,rgba(79,209,232,.5),transparent 52%),radial-gradient(circle at 82% 80%,rgba(255,138,76,.4),transparent 50%),linear-gradient(145deg,#050d18,#12324f)">◎</div>
+                <div class="project-body"><div class="meta"><span class="pill accent">New · Deep Earth</span><span class="pill">Ocean × Geophysics</span></div><h3>심해·지구 내부의 난제</h3><p>심해저 관측 공백, 열수분출공, 암흑 산소, 내핵, 자기장 역전, 맨틀 바닥 이상체를 역문제 관점의 연구 질문으로 정리합니다.</p><div class="project-footer"><span>심해 · 내핵 · 자기장 · 맨틀</span><b>연구 보기 →</b></div></div>
+              </a>
+
+              <a class="project" href="/research/disease-challenges/" data-card="" data-category="ai tools" data-primary="research">
+                <div class="visual" style="--visual:radial-gradient(circle at 22% 18%,rgba(85,224,176,.55),transparent 52%),radial-gradient(circle at 82% 78%,rgba(255,123,123,.34),transparent 50%),linear-gradient(145deg,#071b17,#17473d)">✚</div>
+                <div class="project-body"><div class="meta"><span class="pill accent">New · Disease</span><span class="pill">Evolution × Complex Systems</span></div><h3>질병의 3대 난제</h3><p>암, 신경퇴행성 질환, 감염병·항생제 내성을 진화·비가역성·치료저항성의 연구문제로 정리합니다.</p><div class="project-footer"><span>암 · 뇌 · 감염·내성</span><b>연구 보기 →</b></div></div>
+              </a>
+            </div>
+          </details>
+
+          <details class="card-group" data-card-group="" data-lane="education" id="math-education" open=""><summary class="card-group-summary"><span class="card-group-title"><strong>교육·수학</strong><span>교육 · 입시·경시·수학 아카이브와 서술형 풀이 AI를 함께 제공합니다.</span></span><span class="card-group-meta"><span data-group-count="">7개</span><span class="chevron" aria-hidden="true"></span></span></summary><span id="education-research" aria-hidden="true"></span><span id="kmo-training" aria-hidden="true"></span>
+            <div class="grid">
+              <a class="project featured-learning-ai" href="/math-grader/" data-card="" data-category="ai tools education" data-primary="education">
                 <div class="visual" style="--visual:radial-gradient(circle at 22% 18%,rgba(220,236,223,.48),transparent 52%),radial-gradient(circle at 82% 78%,rgba(244,154,82,.3),transparent 50%),linear-gradient(145deg,#0d2a20,#176b4b)">∑</div>
                 <div class="project-body">
                   <div class="meta"><span class="pill accent">New</span><span class="pill">Gemini AI · Education</span></div>
@@ -696,7 +578,122 @@
                   <div class="project-footer"><span>Gemini · 단계별 풀이 · 검산</span><b>문제 풀기 ↗</b></div>
                 </div>
               </a>
-              <a class="project" href="/onenote-notion-status/" data-card data-category="tools">
+
+              <a class="project" href="/research/kmo-combinatorics/" data-card="" data-category="education tools" data-primary="education">
+                <div class="visual" style="--visual:radial-gradient(circle at 22% 18%,rgba(129,140,248,.54),transparent 52%),radial-gradient(circle at 82% 78%,rgba(45,212,191,.34),transparent 50%),linear-gradient(145deg,#10132b,#173f52)">∑</div>
+                <div class="project-body">
+                  <div class="meta"><span class="pill accent">2023–2025</span><span class="pill">KMO · 조합</span></div>
+                  <h3>최근 3년 KMO 조합 훈련 10선</h3>
+                  <p>나머지 분류, 부분집합, 색칠, 격자 도형, 경로 점화식부터 시작해 쉬운 문제 → 중간 문제 순서로 훈련합니다.</p>
+                  <div class="project-footer"><span>중등부 1차 중심 · 기출/연계 구분</span><b>훈련 시작 →</b></div>
+                </div>
+              </a>
+
+              <a class="project" href="/research/seoul-science-high-admission/" data-card="" data-category="education tools" data-primary="education">
+                <div class="visual" style="--visual:radial-gradient(circle at 24% 18%,rgba(93,211,255,.48),transparent 52%),radial-gradient(circle at 80% 76%,rgba(241,199,122,.36),transparent 50%),linear-gradient(145deg,#09182f,#183b68)">Σ</div>
+                <div class="project-body">
+                  <div class="meta"><span class="pill accent">New Research</span><span class="pill">Admissions · Evidence</span></div>
+                  <h3>서울과고 3단계 전형 연구</h3>
+                  <p>2024~2026학년도 평가 변화와 공개 기출의 범위를 확인하고, 후기 검증 현황·과거 사례·자체 연습문항의 신뢰도를 구분합니다.</p>
+                  <div class="project-footer"><span>공식 요강 · 기출 범위 · 실전 루브릭</span><b>연구 보기 →</b></div>
+                </div>
+              </a>
+
+              <a class="project" href="/research/math/archive/" data-card="" data-category="tools ai education" data-primary="education">
+          <div class="visual" style="--visual:radial-gradient(circle at 22% 18%,rgba(241,199,122,.52),transparent 52%),radial-gradient(circle at 82% 78%,rgba(45,212,191,.28),transparent 50%),linear-gradient(145deg,#11172b,#31446d)">14</div>
+          <div class="project-body">
+            <div class="meta"><span class="pill accent">14 Problems</span><span class="pill">Math Archive</span></div>
+            <h3>중등 수학 문제 14문제 아카이브</h3>
+            <p>성대경시형 중1·중2·중3 각 3문제와 생각하는황소형 5문제를 데이터셋으로 관리합니다. 문제·답·핵심아이디어·풀이·블로그 발행상태를 한 화면에서 탐색합니다.</p>
+            <div class="project-footer"><span>성대경시형 9 · 황소형 5 · 자동발행 소스</span><b>아카이브 →</b></div>
+          </div>
+        </a>
+
+              <a class="project" href="/research/math/2027-june-mock-15/" data-card="" data-category="tools ai education" data-primary="education">
+          <div class="visual" style="--visual:radial-gradient(circle at 22% 18%,rgba(241,199,122,.52),transparent 52%),radial-gradient(circle at 82% 78%,rgba(79,127,255,.30),transparent 50%),linear-gradient(145deg,#0b1738,#243866)">∫</div>
+          <div class="project-body">
+            <div class="meta"><span class="pill accent">2027 · 6월 평가원</span><span class="pill">Math II · Q15</span></div>
+            <h3>2027학년도 6월 평가원 수학 15번</h3>
+            <p>절댓값 정적분을 함수의 부호 변화로 번역해 중근·단순근과 삼차함수를 역추론합니다. p·q 슬라이더로 조건을 직접 검증합니다.</p>
+            <div class="project-footer"><span>정적분 · 부호 변화 · 인터랙티브</span><b>풀이 보기 →</b></div>
+          </div>
+        </a>
+
+              <a class="project" href="/research/math/skku-middle-factorial/" data-card="" data-category="tools education" data-primary="education">
+          <div class="visual" style="--visual:radial-gradient(circle at 20% 18%,rgba(241,199,122,.50),transparent 52%),radial-gradient(circle at 82% 78%,rgba(129,140,248,.30),transparent 50%),linear-gradient(145deg,#17122a,#283e72)">!</div>
+          <div class="project-body">
+            <div class="meta"><span class="pill accent">성대경시 · 중2</span><span class="pill">Factorial</span></div>
+            <h3>성대경시 중등부 팩토리얼 유형</h3>
+            <p>2025 전기 중2 고난도 팩토리얼 유형을 재구성해 1000의 소인수 구조와 팩토리얼 나머지를 단계적으로 분석합니다.</p>
+            <div class="project-footer"><span>팩토리얼 · 나머지 · 모듈러</span><b>풀이 보기 →</b></div>
+          </div>
+        </a>
+
+              <a class="project" href="/research/math/thinking-bull-remainder/" data-card="" data-category="tools education" data-primary="education">
+          <div class="visual" style="--visual:radial-gradient(circle at 20% 18%,rgba(217,164,65,.46),transparent 52%),radial-gradient(circle at 82% 78%,rgba(45,212,191,.28),transparent 50%),linear-gradient(145deg,#0b1738,#234f45)">≡</div>
+          <div class="project-body">
+            <div class="meta"><span class="pill accent">생각하는황소형</span><span class="pill">Remainder</span></div>
+            <h3>황소형 배수·나머지 사고력 문제</h3>
+            <p>여러 나머지 조건을 최소공배수 하나로 압축한 뒤 7의 배수 조건과 결합합니다. 후보 k를 움직여 답 119를 검증합니다.</p>
+            <div class="project-footer"><span>배수 · 나머지 · 최소공배수</span><b>풀이 보기 →</b></div>
+          </div>
+        </a>
+            </div>
+          </details>
+
+          <details class="card-group" data-card-group="" data-lane="operations" id="operations-products" open=""><summary class="card-group-summary"><span class="card-group-title"><strong>운영·제품</strong><span>운영 · 보안·정책·고객 업무·구독·서비스 상태를 관리합니다.</span></span><span class="card-group-meta"><span data-group-count="">6개</span><span class="chevron" aria-hidden="true"></span></span></summary>
+            <div class="grid">
+              <a class="project" href="/cybersecurity/" data-card="" data-category="ai" data-primary="operations">
+                <div class="visual" style="--visual:radial-gradient(circle at 22% 18%,rgba(45,212,191,.52),transparent 52%),radial-gradient(circle at 82% 78%,rgba(232,93,93,.28),transparent 50%),linear-gradient(145deg,#061018,#0a2430)">🛡</div>
+                <div class="project-body">
+                  <div class="meta"><span class="pill accent">New Product</span><span class="pill">AI Security</span></div>
+                  <h3>3AI Cybersecurity Suite</h3>
+                  <p>LLM 기반 위협 탐지·시맨틱 로그 분석·IR 자동화. KDP 도서 방법론을 SOC 소프트웨어로 구현한 제품 페이지.</p>
+                  <div class="project-footer"><span>LLM · RAG · SOC</span><b>제품 열기 →</b></div>
+                </div>
+              </a>
+
+              <a class="project" href="/research/app-privacy/" data-card="" data-category="tools" data-primary="operations">
+                <div class="visual" style="--visual:radial-gradient(circle at 24% 18%,rgba(99,155,255,.48),transparent 52%),linear-gradient(145deg,#101c34,#244a78)">🛡</div>
+                <div class="project-body">
+                  <div class="meta"><span class="pill accent">검토안</span><span class="pill">App Privacy</span></div>
+                  <h3>스타게이트 에듀 개인정보처리방침</h3>
+                  <p>앱 출시 전 개인정보 처리 항목·보유기간·이용자 권리와 확정이 필요한 운영 정보를 정리한 검토안입니다.</p>
+                  <div class="project-footer"><span>2026.09.01 · 시행 전</span><b>방침 보기 →</b></div>
+                </div>
+              </a>
+
+              <a class="project" href="/sms/" data-card="" data-category="tools" data-primary="operations">
+                <div class="visual" style="--visual:radial-gradient(circle at 24% 18%,rgba(104,227,180,.48),transparent 52%),linear-gradient(145deg,#0b2a25,#13443a)">✉</div>
+                <div class="project-body">
+                  <div class="meta"><span class="pill accent">Operations</span><span class="pill">SOLAPI</span></div>
+                  <h3>고객 문자 발송 콘솔</h3>
+                  <p>최대 10명의 고객에게 이름을 반영한 문자를 미리 확인하고 안전하게 일괄 발송합니다.</p>
+                  <div class="project-footer"><span>SMS · LMS · 개인화</span><b>콘솔 열기 →</b></div>
+                </div>
+              </a>
+
+              <a class="project" href="/quote-maker/" data-card="" data-category="tools" data-primary="operations">
+                <div class="visual" style="--visual:radial-gradient(circle at 24% 20%,rgba(255,184,107,.46),transparent 54%),linear-gradient(145deg,#12181f,#1a2438)">🧾</div>
+                <div class="project-body">
+                  <div class="meta"><span class="pill accent">Research Tool</span><span class="pill">PDF</span></div>
+                  <h3>하루 견적서 · Quote Maker</h3>
+                  <p>항목 입력부터 합계·부가세 자동 계산과 A4 PDF 출력까지 한 번에 처리하는 견적서 도구입니다.</p>
+                  <div class="project-footer"><span>HTML · PDF · Freemium</span><b>열기 →</b></div>
+                </div>
+              </a>
+
+              <a class="project" href="https://2026-plan.vercel.app/dashboard" data-card="" data-category="tools" data-primary="operations">
+                <div class="visual" style="--visual:radial-gradient(circle at 22% 18%,rgba(129,140,248,.52),transparent 52%),radial-gradient(circle at 82% 78%,rgba(56,189,248,.3),transparent 50%),linear-gradient(145deg,#11152d,#1d2952)">💳</div>
+                <div class="project-body">
+                  <div class="meta"><span class="pill accent">New</span><span class="pill">Next.js · Supabase</span></div>
+                  <h3>2026 구독 관리 대시보드</h3>
+                  <p>구독 비용을 카테고리·통화별로 분석하고 서비스 검색·정렬과 CSV 내보내기를 제공하는 PWA 관리 도구입니다.</p>
+                  <div class="project-footer"><span>Subscription · Analytics · PWA</span><b>대시보드 열기 →</b></div>
+                </div>
+              </a>
+
+              <a class="project" href="/onenote-notion-status/" data-card="" data-category="tools" data-primary="operations">
                 <div class="visual" style="--visual:radial-gradient(circle at 24% 20%,rgba(11,110,153,.52),transparent 54%),radial-gradient(circle at 78% 70%,rgba(15,92,76,.35),transparent 50%),linear-gradient(145deg,#0d1f24,#14302c)">◎</div>
                 <div class="project-body">
                   <div class="meta"><span class="pill accent">Ops</span><span class="pill">Live · Status</span></div>
@@ -705,11 +702,10 @@
                   <div class="project-footer"><span>Status API · Web Probe</span><b>열기 →</b></div>
                 </div>
               </a>
-
             </div>
           </details>
         </div>
-        <div class="empty" data-empty>조건에 맞는 연구 대시보드가 없습니다.</div>
+        <div class="empty" data-empty="">조건에 맞는 연구 대시보드가 없습니다.</div>
       </section>
 
       <section class="cta-band">
@@ -721,7 +717,7 @@
     <footer><span>© 2026 Dongsoo Jung · Stargate Corporation</span><span><a href="/">Portal</a> · <a href="https://github.com/DongsooJung">GitHub</a></span></footer>
   </div>
   <script src="/assets/theme.js?v=20260729f" defer></script>
-  <script src="/assets/intelligence-hub.js?v=20261016-strategy-shelves" defer></script>
+  <script src="/assets/intelligence-hub.js?v=20261016-research-six-filters" defer></script>
   <script src="/assets/usage-analytics.js?v=20260904-usage-path" defer></script>
   <audio id="homepage-music" src="/assets/lindy-conant-take-courage.mp3" loop preload="none" hidden></audio>
   <p id="homepage-music-hint" class="homepage-music-hint" role="status" hidden>화면을 한 번 누르면 음악이 재생됩니다</p>
