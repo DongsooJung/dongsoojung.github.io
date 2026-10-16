@@ -5,6 +5,10 @@
   "workers_dev": true,
   "preview_urls": false,
   "routes": [],
+  "vars": {
+    "ACCESS_ISSUER": "https://tight-tree-df6b.cloudflareaccess.com",
+    "ACCESS_AUD": "a764c948d7613e64de7283e0cabaab7f0b11d1e2cb6d2a3a8803b8e1255d7f77"
+  },
   "triggers": { "crons": ["*/15 * * * *"] },
   "durable_objects": {
     "bindings": [{ "name": "VISITOR_ANALYTICS", "class_name": "VisitorAnalytics" }]
