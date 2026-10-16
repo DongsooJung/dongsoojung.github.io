@@ -106,4 +106,9 @@ async function init() {
     await load();
   } catch(error) {showError(error);}
 }
-init();
+// The apex/www host serves static files; the existing Worker owns the API and Access.
+if(['stargateedu.co.kr','www.stargateedu.co.kr'].includes(location.hostname)) {
+  location.replace('https://stargate.stargate8225.workers.dev'+(admin?'/admin/board/':'/board/')+location.hash);
+} else {
+  init();
+}
