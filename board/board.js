@@ -64,9 +64,17 @@ $('write').addEventListener('click',()=>editor());
 $('edit').addEventListener('click',()=>{ $('detail').close(); editor(selected); });
 $('more').addEventListener('click',()=>load(true));
 $('login').addEventListener('click',async()=>{
-  try { await authSdk.signInWithPopup(auth,new authSdk.GoogleAuthProvider()); $('status').textContent='로그인되었습니다. 글쓰기를 눌러 주세요.'; }
-  catch { $('status').textContent='로그인하지 못했습니다. 팝업 허용 여부를 확인해 주세요.'; }
+  if(!auth||!authSdk) { $('status').textContent='로그인 연결을 준비하고 있습니다. 잠시 후 다시 눌러 주세요.';return; }
+  $('login').disabled=true;$('login').textContent='Google로 이동 중…';
+  $('status').textContent='현재 창에서 Google 로그인 페이지로 이동합니다.';
+  const timeout=setTimeout(()=>{$('login').disabled=false;$('login').textContent='Google 로그인';$('status').textContent='로그인 페이지로 이동하지 못했습니다. 새로고침 후 다시 시도해 주세요.';},20000);
+  try { const provider=new authSdk.GoogleAuthProvider();provider.setCustomParameters({prompt:'select_account'});await authSdk.signInWithRedirect(auth,provider); }
+  catch(error) { clearTimeout(timeout);$('login').disabled=false;$('login').textContent='Google 로그인';$('status').textContent=loginError(error); }
 });
+function loginError(error) {
+  const messages={'auth/unauthorized-domain':'로그인 허용 도메인 설정을 확인해야 합니다.','auth/operation-not-allowed':'Google 로그인 제공업체 설정을 확인해야 합니다.','auth/web-storage-unsupported':'브라우저 저장소를 사용할 수 없습니다. Chrome 또는 Edge에서 열어 주세요.','auth/network-request-failed':'Google 로그인에 연결하지 못했습니다. 네트워크를 확인하고 다시 시도해 주세요.'};
+  return messages[error?.code]||`로그인을 완료하지 못했습니다. 다시 시도해 주세요.${error?.code?' ('+error.code+')':''}`;
+}
 $('logout').addEventListener('click',async()=>{ try {await authSdk.signOut(auth);} catch(error) {showError(error);} });
 form.addEventListener('submit',async event=>{
   event.preventDefault(); if(busy) return;
@@ -101,9 +109,14 @@ async function init() {
     if(!config.ready) { $('status').textContent='게시판 연결을 준비하고 있습니다. 연결이 완료되면 글을 남길 수 있습니다.';return; }
     const [{initializeApp},sdk]=await Promise.all([import('https://www.gstatic.com/firebasejs/12.4.0/firebase-app.js'),import('https://www.gstatic.com/firebasejs/12.4.0/firebase-auth.js')]);
     authSdk=sdk;auth=sdk.getAuth(initializeApp(config.firebase));sdk.onAuthStateChanged(auth,controls);$('login').disabled=false;controls();
+    // Consume the Google result after returning to this same-origin helper domain.
+    const redirectResult=sdk.getRedirectResult(auth).then(result=>({result}),error=>({error}));
     window.boardTurnstileReady=()=>{widget=window.turnstile.render('#challenge',{sitekey:config.turnstileSiteKey,action:'board_write','error-callback':()=>{$('form-status').textContent='스팸 방지 확인을 다시 시도해 주세요.';}});};
     const script=document.createElement('script');script.src='https://challenges.cloudflare.com/turnstile/v0/api.js?onload=boardTurnstileReady&render=explicit';script.async=true;script.onerror=()=>{$('status').textContent='스팸 방지 기능을 불러오지 못했습니다. 새로고침해 주세요.';};document.head.append(script);
     await load();
+    const redirect=await redirectResult;
+    if(redirect.error) showError({message:loginError(redirect.error)});
+    else if(redirect.result?.user) $('status').textContent='로그인되었습니다. 글쓰기를 눌러 주세요.';
   } catch(error) {showError(error);}
 }
 // The apex/www host serves static files; the existing Worker owns the API and Access.

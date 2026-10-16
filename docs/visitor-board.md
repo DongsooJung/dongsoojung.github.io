@@ -33,6 +33,8 @@ node scripts/build-cloudflare-static.mjs
 
 ## 제한과 운영
 
+Google 로그인은 현재 창의 리디렉션을 사용한다. Worker의 `/__/auth/`와 `/__/firebase/init.json`은 해당 Firebase 프로젝트의 인증 도우미로만 프록시하고 웹 구성의 `authDomain`은 현재 Worker 호스트로 설정한다. Google OAuth 웹 클라이언트의 JavaScript 원본에 Worker 원본, 승인된 리디렉션 URI에 `https://stargate.stargate8225.workers.dev/__/auth/handler`를 등록한다. 호스트가 바뀌면 Firebase 승인 도메인과 이 두 OAuth 설정도 함께 갱신한다.
+
 실시간 전체 목록 리스너 대신 20개 단위 페이지 조회를 사용한다. 최신 목록은 재방문/새로고침으로 확인한다. 본문은 `textContent`로 출력해 입력 HTML을 실행하지 않는다. 백업·신고·복구 기능은 별도 운영 과제이며 삭제는 영구 삭제다. 공개 조회 트래픽과 인증 실패 트래픽은 Cloudflare WAF에서 추가 제어할 수 있다.
 
 ## 2026-10-16 연결 상태
