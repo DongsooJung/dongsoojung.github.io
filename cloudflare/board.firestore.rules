@@ -1,0 +1,5 @@
+// Merge only this collection match into the project's existing rules.
+// The Worker's dedicated IAM service account bypasses Firebase client rules.
+match /visitorPosts/{postId} {
+  allow read, write: if false;
+}

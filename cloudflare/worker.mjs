@@ -15,6 +15,15 @@ export class VisitorAnalytics extends DurableObject {
     if (await this.ctx.storage.getAlarm() === null) await this.ctx.storage.setAlarm(Date.now() + 86400000);
     return result;
   }
+  async boardLimit() {
+    return this.ctx.storage.transaction(async storage => {
+      const previous=await storage.get('boardLastPost') || 0;
+      if(Date.now()-previous<60000) return false;
+      await storage.put('boardLastPost',Date.now());
+      await storage.setAlarm(Date.now()+120000);
+      return true;
+    });
+  }
   async importHistory(payload) {
     try { return { status: 200, result: this.store.importHistory(await prepareHistoryImport(payload)) }; }
     catch (error) {
@@ -26,6 +35,7 @@ export class VisitorAnalytics extends DurableObject {
   getDashboard(name) { return this.dashboards.get(name); }
   dashboardStatus() { return this.dashboards.status(); }
   async alarm() {
+    if(await this.ctx.storage.get('boardLastPost')) { await this.ctx.storage.deleteAll(); return; }
     this.store.prune();
     await this.ctx.storage.setAlarm(Date.now() + 86400000);
   }
