@@ -67,6 +67,7 @@ test('malformed, oversized and unapproved-origin requests cannot reach Firestore
   const db=storage();
   assert.equal((await handleBlogVisitors(request('POST',{},'https://evil.invalid'),env,db)).status,403);
   assert.equal((await handleBlogVisitors(request('POST',{visitorId:'bad'}),env,db)).status,400);
+  for (const body of [null,false,[],42]) assert.equal((await handleBlogVisitors(request('POST',body),env,db)).status,400);
   assert.equal((await handleBlogVisitors(request('POST',{visitorId:'x'.repeat(2000)}),env,db)).status,413);
   assert.equal((await handleBlogVisitors(request('POST',{visitorId},''),env,db)).status,403);
   assert.equal(db.commits.length,0);

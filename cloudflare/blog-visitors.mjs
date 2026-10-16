@@ -25,7 +25,7 @@ export async function handleBlogVisitors(request, env, { fetchFn = fetch, now = 
   if (!env.FIREBASE_PROJECT_ID || !env.FIREBASE_SERVICE_ACCOUNT) return respond({error:'Visitor counter unavailable'},503);
   try {
     const value = request.method === 'POST' ? await readPayload(request,1024) : null;
-    if (value && (typeof value.visitorId !== 'string' || !UUID.test(value.visitorId))) return respond({error:'Invalid visitor identifier'},400);
+    if (request.method === 'POST' && (!value || typeof value !== 'object' || Array.isArray(value) || typeof value.visitorId !== 'string' || !UUID.test(value.visitorId))) return respond({error:'Invalid visitor identifier'},400);
     const date = blogVisitDay(now());
     const root = `projects/${env.FIREBASE_PROJECT_ID}/databases/(default)/documents`;
     const site = `${root}/siteVisitStats/blog`;
