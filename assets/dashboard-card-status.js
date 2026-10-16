@@ -2,7 +2,7 @@
   const cards = [...document.querySelectorAll('[data-card]')];
   if (!cards.length) return;
   if (document.body.classList.contains('research')) {
-    const labels = { urban:'도시·공간', society:'경제·사회', research:'연구·AI', education:'교육·수학', operations:'운영·제품' };
+    const labels = { urban:'도시·공간', society:'경제·사회', research:'연구·AI', essays:'난제·에세이', education:'교육·수학', operations:'운영·제품' };
     const states = { pending:'출처 점검 대기', snapshot_checked:'게시본 확인 · 원출처 대조 대기', verified:'원출처 대조 완료', not_applicable:'기준월 비적용', source_unavailable:'원출처 접근 불가', awaiting_publication:'공표 대기', needs_review:'수치·범위 검증 필요' };
     const nodes = new Map();
     const review = document.createElement('p');

@@ -7,7 +7,7 @@ test('the catalog covers all projects once and does not call snapshot checks ori
  assert.equal(catalog.projects.length,63);
  assert.equal(new Set(catalog.projects.map(p=>p.key)).size,63);
  for(const p of catalog.projects){
-  assert.ok(['urban','society','research','education','operations'].includes(p.primary));
+  assert.ok(['urban','society','research','essays','education','operations'].includes(p.primary));
   if(p.reviewStatus==='verified')assert.ok(p.evidence.some(e=>e.kind==='official-source'));
   if(p.checkedAt)assert.ok(p.evidence.length>0);
   if(p.source.url)assert.equal(new URL(p.source.url).protocol,'https:');
@@ -17,6 +17,10 @@ test('the catalog covers all projects once and does not call snapshot checks ori
  const queued=plan.steps.flatMap(s=>s.keys||[]);
  assert.equal(new Set(queued).size,63);
  assert.equal(queued.length,63);
+ const essays=catalog.projects.filter(p=>p.primary==='essays');
+ assert.equal(essays.length,7);
+ assert.ok(essays.every(p=>p.classification==='난제·에세이'));
+ assert.deepEqual(new Set(plan.steps.find(s=>s.id==='essays-1').keys),new Set(essays.map(p=>p.key)));
 });
 test('a collection or file-update date never becomes a data period',()=>{
  const result=inspectSnapshot('/exchange-rate/',{updatedAt:'2026-10-16',observedAt:'2026-08-31',series:[{ym:'2026-08'}]},'2026-10-16T10:00:00Z');

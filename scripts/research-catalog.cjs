@@ -1,7 +1,7 @@
 const fs = require('node:fs');
 const path = require('node:path');
 const root = path.resolve(__dirname, '..');
-const labels = { urban:'도시·공간', society:'경제·사회', research:'연구·AI', education:'교육·수학', operations:'운영·제품' };
+const labels = { urban:'도시·공간', society:'경제·사회', research:'연구·AI', essays:'난제·에세이', education:'교육·수학', operations:'운영·제품' };
 // These fields are plain text. Preserve literal angle brackets; render() escapes
 // every value for HTML, and the browser status renderer uses textContent.
 const text = value => String(value || '').replaceAll('&amp;','&').trim();
