@@ -1,6 +1,7 @@
 # 방문자 게시판 운영
 
 - 공개 화면: `/board/` · 관리 화면: `/admin/board/` (기존 Cloudflare Access 인증)
+- 대표/www 도메인의 정적 화면은 기존 `stargate.stargate8225.workers.dev`의 같은 게시판 경로로 이동한다. API 요청과 관리자 인증을 Worker와 같은 출처에서 처리한다.
 - Firebase: `planning-with-ai-518df` · 데이터: 기본 Firestore의 `visitorPosts`
 - Cloudflare Workers가 Firebase ID 토큰을 Auth REST API로 확인하고 서비스 계정 OAuth 토큰으로 Firestore REST API를 호출한다.
 - 누구나 공개 글을 읽고, Google 로그인한 사용자가 자기 글만 수정·삭제한다. 게시글에는 닉네임과 작성자 UID를 포함하고 이메일은 저장하지 않는다. Firebase Authentication에는 Google 이메일·기본 프로필이 저장된다.
