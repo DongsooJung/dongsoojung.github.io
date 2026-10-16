@@ -2,7 +2,9 @@ const fs = require('node:fs');
 const path = require('node:path');
 const root = path.resolve(__dirname, '..');
 const labels = { urban:'도시·공간', society:'경제·사회', research:'연구·AI', education:'교육·수학', operations:'운영·제품' };
-const strip = value => String(value || '').replace(/<[^>]+>/g,'').replace(/&amp;/g,'&').trim();
+// These fields are plain text. Preserve literal angle brackets; render() escapes
+// every value for HTML, and the browser status renderer uses textContent.
+const text = value => String(value || '').replaceAll('&amp;','&').trim();
 const attr = (value, name) => value.match(new RegExp(`\\b${name}="([^"]*)"`))?.[1];
 const normalize = href => {const u = new URL(href,'https://www.stargateedu.co.kr');return /^(www\.)?stargateedu\.co\.kr$/.test(u.hostname) ? u.pathname : u.href.replace(/\/$/,'');};
 const escape = value => String(value ?? '').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -10,16 +12,18 @@ const catalogFile = path.join(root,'research/data-catalog.json');
 const planFile = path.join(root,'research/refresh-plan.json');
 function initialize() {
  const html = fs.readFileSync(path.join(root,'research/index.html'),'utf8');
- const previous = fs.existsSync(catalogFile) ? JSON.parse(fs.readFileSync(catalogFile,'utf8')) : {projects:[]};
+ let previous;
+ try { previous=JSON.parse(fs.readFileSync(catalogFile,'utf8')); }
+ catch(error) { if(error.code!=='ENOENT')throw error; previous={projects:[]}; }
  const byUrl = new Map(previous.projects.map(p=>[p.key,p]));
  const projects = [...html.matchAll(/<a\b[^>]*\bdata-card(?:\s|=|>)[\s\S]*?<\/a>/g)].map(([card])=>{
   const url=attr(card,'href'),key=normalize(url),primary=attr(card,'data-primary');
-  return {...(byUrl.get(key)||{source:{label:null,url:null,verification:'pending'},dataAsOf:null,dataPeriod:null,snapshotUpdatedAt:null,collectedAt:null,checkedAt:null,reviewStatus:'pending',freshness:'unverified',evidence:[],issues:[]}),key,url,title:strip(card.match(/<h3>([\s\S]*?)<\/h3>/)?.[1]),primary,classification:labels[primary],sourceHint:strip(card.match(/class="project-footer"><span>([\s\S]*?)<\/span>/)?.[1])};
+  return {...(byUrl.get(key)||{source:{label:null,url:null,verification:'pending'},dataAsOf:null,dataPeriod:null,snapshotUpdatedAt:null,collectedAt:null,checkedAt:null,reviewStatus:'pending',freshness:'unverified',evidence:[],issues:[]}),key,url,title:text(card.match(/<h3>([\s\S]*?)<\/h3>/)?.[1]),primary,classification:labels[primary],sourceHint:text(card.match(/class="project-footer"><span>([\s\S]*?)<\/span>/)?.[1])};
  });
  if(new Set(projects.map(p=>p.key)).size!==projects.length)throw Error('Duplicate project URL');
  const catalog={schemaVersion:1,targetMonths:['2026-09','2026-10'],projects};
  fs.writeFileSync(catalogFile,JSON.stringify(catalog,null,2)+'\n');
- if(!fs.existsSync(planFile)){
+ {
   const steps=[{id:'setup',label:'가나다순·출처 목록·6개 게시본 1차 점검',status:'completed',completedAt:new Date().toISOString()}];
   for(const [primary,label] of Object.entries(labels)){
    const keys=projects.filter(p=>p.primary===primary).map(p=>p.key);
@@ -27,7 +31,9 @@ function initialize() {
    for(let i=0;i<keys.length;i+=size)steps.push({id:`${primary}-${i/size+1}`,label:`${label} ${i/size+1}차`,status:'pending',keys:keys.slice(i,i+size)});
   }
   steps.push({id:'acceptance',label:'전 항목 검증·최종 배포·예약 종료',status:'pending',keys:[]});
-  fs.writeFileSync(planFile,JSON.stringify({schemaVersion:1,status:'active',intervalMinutes:10,targetMonths:catalog.targetMonths,steps},null,2)+'\n');
+  try {
+   fs.writeFileSync(planFile,JSON.stringify({schemaVersion:1,status:'active',intervalMinutes:10,targetMonths:catalog.targetMonths,steps},null,2)+'\n',{flag:'wx'});
+  } catch(error) { if(error.code!=='EEXIST')throw error; }
  }
  return catalog;
 }
