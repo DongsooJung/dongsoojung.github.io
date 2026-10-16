@@ -40,5 +40,7 @@ node scripts/build-cloudflare-static.mjs
 - Firebase Google 로그인을 활성화하고 대표 도메인, www 도메인, 기존 workers.dev 도메인을 승인했다.
 - 기존 기본 Firestore 데이터베이스는 `nam5`에 있다. 새 데이터베이스를 생성하지 않았다.
 - 기존 규칙의 허용 기한은 2026-03-26으로 만료되어 현재 클라이언트 직접 접근은 차단된다. 기존 규칙은 수정하지 않았다. 운영 전에 게시판 컬렉션의 명시적인 접근 차단을 확인해야 한다.
-- `stargate-visitor-board` 서버 계정을 만들고 Cloud Datastore 사용자 역할을 부여했다. Google Cloud 콘솔의 키 생성이 두 번, 공개 인증서 등록이 한 번 오류로 실패했고 키 목록은 비어 있다.
-- 서버 키와 Turnstile 키는 아직 Cloudflare에 연결하지 않았다. 공개 서비스 배포와 실제 저장 검증은 미완료다.
+- `stargate-visitor-board` 서버 계정과 Cloud Datastore 사용자 역할을 사용한다. Chrome 콘솔에서 서버 키 발급을 완료했고 `FIREBASE_SERVICE_ACCOUNT` Worker secret에 암호화 저장했다.
+- `stargate-homepage-inquiry` 관리형 Turnstile 위젯의 공개 키는 `wrangler.jsonc`에 선언하고 비밀 키는 `TURNSTILE_SECRET_KEY` Worker secret으로 저장했다. 허용 호스트는 `stargateedu.co.kr`, `stargate.stargate8225.workers.dev`다.
+- 운영 `/api/board/config`의 `ready: true`, `/api/board`의 HTTP 200과 실제 Firestore 목록 조회를 확인했다. Google 로그인·글쓰기 버튼이 활성화됐다.
+- 비공개 `_boardDiagnostics` 컬렉션에서 서버 인증→저장→조회→삭제를 검증하고 테스트 문서를 정리했다. 공개 테스트 글은 작성하지 않았다. 실제 사용자 Google 로그인→Turnstile 검증→공개 글 등록 흐름은 직접 검증하지 않았다.
