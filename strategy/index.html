@@ -32,7 +32,10 @@
 <meta property="og:image" content="https://stargateedu.co.kr/assets/og/strategy.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta name="twitter:card" content="summary_large_image"></head>
+<meta name="twitter:card" content="summary_large_image"><style id="decision-entry-style">
+.decision-paths{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.decision-paths a{border:1px solid var(--line2);background:var(--panel);border-radius:14px;padding:20px;color:var(--ink);text-decoration:none;display:flex;flex-direction:column;gap:8px;min-height:100px}.decision-paths a:hover{border-color:var(--accent)}.decision-paths span{color:var(--sub);font-size:14px}.decision-paths a:focus-visible,.comparison-reference>summary:focus-visible,[data-reset-strategy]:focus-visible{outline:2px solid var(--accent);outline-offset:4px}.comparison-reference{border:1px solid var(--line2);border-radius:16px;padding:18px;margin:28px 0}.comparison-reference>summary{cursor:pointer;font-weight:700;min-height:32px}.comparison-reference .feature{margin-top:20px}[data-card-group],#decision-entry-title{scroll-margin-top:24px}@media(max-width:620px){.decision-paths{grid-template-columns:1fr}.decision-paths a{padding:16px;min-height:88px}.comparison-reference{padding:12px}}
+</style>
+</head>
 <body class="strategy">
   <div class="wrap">
     <nav class="nav" aria-label="주요 메뉴">
@@ -68,70 +71,29 @@
         <h1>기업과 시장을<br>숫자로 읽습니다.</h1>
         <p>공식 공시와 IR로 기업의 성장·수익·사업모델을 읽습니다. 산업 신호, 실행 계획, 주기적 관측은 아래 선반에서 구분합니다.</p>
         <div class="hero-actions">
-          <a class="btn primary" href="#reports">전략 보고서 보기</a>
+          <a class="btn primary" href="#decision-entry-title">목적별로 시작하기</a>
           <a class="btn" href="/strategy/q4-45day/">Q4 실행계획</a>
           <a class="btn" href="#matrix">플랫폼 재무</a>
           <a class="btn" href="/research/">연구 대시보드</a>
         </div>
       </div>
       <div class="stats" aria-label="전략 허브 현황">
-        <div class="stat"><strong>43</strong><span>전략 카드</span></div>
+        <div class="stat"><strong data-project-total>43</strong><span>전략 카드</span></div>
         <div class="stat"><strong>12</strong><span>핵심 플랫폼 리서치</span></div>
         <div class="stat"><strong>2022–26</strong><span>분석 기간</span></div>
       </div>
     </header>
 
     <main>
-      <section class="feature" aria-labelledby="platform-title">
-        <div class="feature-grid">
-          <div>
-            <div class="eyebrow">Featured Theme</div>
-            <h2 id="platform-title">플랫폼·커머스 리서치 12선</h2>
-            <p>당근, 숨고, 크몽, 오늘의집, 알라딘, 네이버, 쿠팡, 아마존, 다이소, 올리브영, 무신사와 청소연구소×미소 비교까지 12편입니다. 청소연구소와 미소는 한 편의 비교로 둡니다. 국내 플랫폼부터 홈서비스, 라이프스타일, 중고서점, 글로벌 커머스, 균일가 유통, K-뷰티, 패션까지 매출 성장과 수익구조를 비교합니다.</p>
-          </div>
-          <div class="company-row" aria-label="분석 기업">
-            <a class="company" href="/daangn-dashboard/?v=20260720-finance"><strong>🥕 당근</strong><span>지역 광고·커뮤니티</span></a>
-            <a class="company" href="/soomgo-research/"><strong>📈 숨고</strong><span>전문가 매칭·리드</span></a>
-            <a class="company" href="/kmong-research/"><strong>📊 크몽</strong><span>프리랜서 거래</span></a>
-            <a class="company" href="/strategy/home-service-platforms/"><strong>🧹 청소연구소 × 미소</strong><span>홈서비스·라이프케어</span></a>
-            <a class="company" href="/strategy/ohouse-financial/"><strong>🏠 오늘의집</strong><span>라이프스타일·인테리어</span></a>
-            <a class="company" href="/strategy/aladin-usedbook-financial/"><strong>📚 알라딘</strong><span>중고서점·문화 커머스</span></a>
-            <a class="company" href="/strategy/naver-smartstore-commerce/"><strong>🟢 네이버</strong><span>스마트스토어·커머스</span></a>
-            <a class="company" href="/strategy/coupang-commerce/"><strong>🔴 쿠팡</strong><span>로켓배송·글로벌 커머스</span></a>
-            <a class="company" href="/strategy/amazon-commerce/"><strong>🟠 아마존</strong><span>글로벌 커머스·AWS</span></a>
-            <a class="company" href="/strategy/daiso-financial/"><strong>🔵 다이소</strong><span>균일가·고회전 유통</span></a>
-            <a class="company" href="/strategy/oliveyoung-financial/"><strong>🫒 올리브영</strong><span>K-뷰티·옴니채널</span></a>
-            <a class="company" href="/strategy/musinsa-financial/"><strong>Ⓜ️ 무신사</strong><span>패션 플랫폼·PB·글로벌</span></a>
-          </div>
-        </div>
+      <section class="section decision-entry" aria-labelledby="decision-entry-title">
+        <div class="section-head"><div><h2 id="decision-entry-title">무엇을 결정하려고 하나요?</h2><p>목적을 선택하면 관련 보고서로 바로 이동합니다.</p></div></div>
+        <nav class="decision-paths" aria-label="목적별 전략 탐색">
+          <a href="#company-finance" data-decision-path><strong>기업을 비교하고 싶어요</strong><span>매출·이익·수익모델 비교 →</span></a>
+          <a href="#industry-signals" data-decision-path><strong>시장의 변화를 읽고 싶어요</strong><span>산업 신호·수요·기회 파악 →</span></a>
+          <a href="#execution" data-decision-path><strong>사업을 실행하고 싶어요</strong><span>수주·광고·운영 계획 검토 →</span></a>
+          <a href="#trackers" data-decision-path><strong>변화를 추적하고 싶어요</strong><span>지원사업·교육·경매 관측 →</span></a>
+        </nav>
       </section>
-
-      <section class="section" id="matrix" aria-labelledby="matrix-title">
-        <div class="section-head">
-          <div><h2 id="matrix-title">플랫폼 비교 프레임</h2><p>같은 지표를 보되 각 플랫폼의 수익모델 차이를 함께 해석합니다. 기업 재무 선반의 목차입니다.</p></div>
-        </div>
-        <div class="matrix-wrap">
-          <table class="matrix">
-            <thead><tr><th>대상</th><th>핵심 모델</th><th>주요 관찰 지표</th><th>콘텐츠</th></tr></thead>
-            <tbody>
-              <tr><td>당근</td><td>지역 기반 광고·생활 서비스</td><td>연결/별도 이익률, 신사업 부담</td><td>2023–2025 재무분석</td></tr>
-              <tr><td>숨고</td><td>전문가 매칭·고객 리드</td><td>매출 성장, 손익분기 전환</td><td>2022–2025 재무 리서치</td></tr>
-              <tr><td>크몽</td><td>프리랜서 서비스 거래</td><td>거래액, 매출, 영업손익</td><td>2022–2025 시장 리서치</td></tr>
-              <tr><td>청소연구소 × 미소</td><td>운영형 홈클리닝·라이프케어 vs 홈서비스 마켓플레이스</td><td>연매출·순이익, GMV, 누적 주문, 서비스 폭, 재구매·교차판매</td><td>2023–2026 홈서비스 전략 비교</td></tr>
-              <tr><td>오늘의집</td><td>콘텐츠·커뮤니티·커머스·시공·오프라인·AI</td><td>매출 성장, 영업이익률, 시공 매출, MAU, 공헌이익, 현금소진</td><td>2023–2025 재무·전략 분석</td></tr>
-              <tr><td>알라딘</td><td>신간·중고·eBook·음반을 한 물류망에 묶은 문화 커머스</td><td>매출, 영업이익, 중고 재고회전, 점포 생산성</td><td>2023–2025 재무·중고서점 전략</td></tr>
-              <tr><td>교보·YES24·알라딘</td><td>오프라인 공간·물류·중고·디지털 콘텐츠의 조합</td><td>매출 성장, 흑자전환, 중고·디지털 믹스</td><td>2023–2025 서점 3사 비교</td></tr>
-              <tr><td>네이버 커머스</td><td>스마트스토어·광고·중개·멤버십·글로벌 C2C</td><td>커머스 외부매출, 성장률, 전체 매출 비중</td><td>2022–2025 공식 IR 리서치</td></tr>
-              <tr><td>쿠팡</td><td>로켓배송·마켓플레이스·배달·글로벌 럭셔리</td><td>연결 순매출, 사업부문 믹스, Adjusted EBITDA</td><td>2022–2025 공식 IR·SEC 리서치</td></tr>
-              <tr><td>아마존</td><td>글로벌 스토어·마켓플레이스·광고·Prime·AWS</td><td>순매출, 영업이익률, AWS 이익 기여, AI 설비투자</td><td>2023–2025 공식 IR·SEC · 2026 H1</td></tr>
-              <tr><td>다이소</td><td>균일가·고회전 생활용품 유통</td><td>매출 성장, 영업이익률, 매장 생산성, 상품 믹스, 물류투자</td><td>2023–2025 감사보고서 분석</td></tr>
-              <tr><td>올리브영</td><td>K-뷰티 H&B·옴니채널·글로벌 유통</td><td>연결 매출, 이익률, EBITDA, 차입금, 1Q 마진</td><td>2023–2025 재무분석</td></tr>
-              <tr><td>무신사</td><td>패션 플랫폼·PB·오프라인·글로벌 유통</td><td>연결 매출, 영업이익률, EBITDA, 매출 믹스, 재고·글로벌 리스크</td><td>2023–2025 재무분석</td></tr>
-            </tbody>
-          </table>
-        </div>
-      </section>
-
       <section class="section" id="reports" aria-labelledby="reports-title">
         <div class="section-head">
           <div><h2 id="reports-title">전략 보고서</h2><p>기업 재무, 산업 신호, 실행, 관측으로 나눕니다.</p></div>
@@ -150,7 +112,7 @@
         <div class="card-groups" data-preserve-group-order="true">
           <details class="card-group" data-card-group open id="company-finance">
             <summary class="card-group-summary">
-              <span class="card-group-title"><strong>기업 재무</strong><span>공시와 IR로 읽은 매출·이익·사업모델입니다. 비교 기준은 위의 플랫폼 비교 프레임과 같습니다.</span></span>
+              <span class="card-group-title"><strong>기업 재무</strong><span>공시와 IR로 읽은 매출·이익·사업모델입니다. 비교 기준은 아래에서 펼칠 수 있는 플랫폼 비교 프레임과 같습니다.</span></span>
               <span class="card-group-meta"><span data-group-count>19개</span><span class="chevron" aria-hidden="true"></span></span>
             </summary>
             <div class="grid">
@@ -568,9 +530,64 @@
             </div>
           </details>
         </div>
-        <div class="empty" data-empty>조건에 맞는 전략 콘텐츠가 없습니다.</div>
+        <div class="empty" data-empty><p>조건에 맞는 전략 콘텐츠가 없습니다.</p><button class="btn" type="button" data-reset-strategy>검색·필터 초기화</button></div>
       </section>
 
+      <details class="comparison-reference" id="comparison-reference">
+        <summary>플랫폼 12선과 상세 비교 프레임 펼치기</summary>
+
+      <section class="feature" aria-labelledby="platform-title">
+        <div class="feature-grid">
+          <div>
+            <div class="eyebrow">Featured Theme</div>
+            <h2 id="platform-title">플랫폼·커머스 리서치 12선</h2>
+            <p>당근, 숨고, 크몽, 오늘의집, 알라딘, 네이버, 쿠팡, 아마존, 다이소, 올리브영, 무신사와 청소연구소×미소 비교까지 12편입니다. 청소연구소와 미소는 한 편의 비교로 둡니다. 국내 플랫폼부터 홈서비스, 라이프스타일, 중고서점, 글로벌 커머스, 균일가 유통, K-뷰티, 패션까지 매출 성장과 수익구조를 비교합니다.</p>
+          </div>
+          <div class="company-row" aria-label="분석 기업">
+            <a class="company" href="/daangn-dashboard/?v=20260720-finance"><strong>🥕 당근</strong><span>지역 광고·커뮤니티</span></a>
+            <a class="company" href="/soomgo-research/"><strong>📈 숨고</strong><span>전문가 매칭·리드</span></a>
+            <a class="company" href="/kmong-research/"><strong>📊 크몽</strong><span>프리랜서 거래</span></a>
+            <a class="company" href="/strategy/home-service-platforms/"><strong>🧹 청소연구소 × 미소</strong><span>홈서비스·라이프케어</span></a>
+            <a class="company" href="/strategy/ohouse-financial/"><strong>🏠 오늘의집</strong><span>라이프스타일·인테리어</span></a>
+            <a class="company" href="/strategy/aladin-usedbook-financial/"><strong>📚 알라딘</strong><span>중고서점·문화 커머스</span></a>
+            <a class="company" href="/strategy/naver-smartstore-commerce/"><strong>🟢 네이버</strong><span>스마트스토어·커머스</span></a>
+            <a class="company" href="/strategy/coupang-commerce/"><strong>🔴 쿠팡</strong><span>로켓배송·글로벌 커머스</span></a>
+            <a class="company" href="/strategy/amazon-commerce/"><strong>🟠 아마존</strong><span>글로벌 커머스·AWS</span></a>
+            <a class="company" href="/strategy/daiso-financial/"><strong>🔵 다이소</strong><span>균일가·고회전 유통</span></a>
+            <a class="company" href="/strategy/oliveyoung-financial/"><strong>🫒 올리브영</strong><span>K-뷰티·옴니채널</span></a>
+            <a class="company" href="/strategy/musinsa-financial/"><strong>Ⓜ️ 무신사</strong><span>패션 플랫폼·PB·글로벌</span></a>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="matrix" aria-labelledby="matrix-title">
+        <div class="section-head">
+          <div><h2 id="matrix-title">플랫폼 비교 프레임</h2><p>같은 지표를 보되 각 플랫폼의 수익모델 차이를 함께 해석합니다. 기업 재무 선반의 목차입니다.</p></div>
+        </div>
+        <div class="matrix-wrap">
+          <table class="matrix">
+            <thead><tr><th>대상</th><th>핵심 모델</th><th>주요 관찰 지표</th><th>콘텐츠</th></tr></thead>
+            <tbody>
+              <tr><td>당근</td><td>지역 기반 광고·생활 서비스</td><td>연결/별도 이익률, 신사업 부담</td><td>2023–2025 재무분석</td></tr>
+              <tr><td>숨고</td><td>전문가 매칭·고객 리드</td><td>매출 성장, 손익분기 전환</td><td>2022–2025 재무 리서치</td></tr>
+              <tr><td>크몽</td><td>프리랜서 서비스 거래</td><td>거래액, 매출, 영업손익</td><td>2022–2025 시장 리서치</td></tr>
+              <tr><td>청소연구소 × 미소</td><td>운영형 홈클리닝·라이프케어 vs 홈서비스 마켓플레이스</td><td>연매출·순이익, GMV, 누적 주문, 서비스 폭, 재구매·교차판매</td><td>2023–2026 홈서비스 전략 비교</td></tr>
+              <tr><td>오늘의집</td><td>콘텐츠·커뮤니티·커머스·시공·오프라인·AI</td><td>매출 성장, 영업이익률, 시공 매출, MAU, 공헌이익, 현금소진</td><td>2023–2025 재무·전략 분석</td></tr>
+              <tr><td>알라딘</td><td>신간·중고·eBook·음반을 한 물류망에 묶은 문화 커머스</td><td>매출, 영업이익, 중고 재고회전, 점포 생산성</td><td>2023–2025 재무·중고서점 전략</td></tr>
+              <tr><td>교보·YES24·알라딘</td><td>오프라인 공간·물류·중고·디지털 콘텐츠의 조합</td><td>매출 성장, 흑자전환, 중고·디지털 믹스</td><td>2023–2025 서점 3사 비교</td></tr>
+              <tr><td>네이버 커머스</td><td>스마트스토어·광고·중개·멤버십·글로벌 C2C</td><td>커머스 외부매출, 성장률, 전체 매출 비중</td><td>2022–2025 공식 IR 리서치</td></tr>
+              <tr><td>쿠팡</td><td>로켓배송·마켓플레이스·배달·글로벌 럭셔리</td><td>연결 순매출, 사업부문 믹스, Adjusted EBITDA</td><td>2022–2025 공식 IR·SEC 리서치</td></tr>
+              <tr><td>아마존</td><td>글로벌 스토어·마켓플레이스·광고·Prime·AWS</td><td>순매출, 영업이익률, AWS 이익 기여, AI 설비투자</td><td>2023–2025 공식 IR·SEC · 2026 H1</td></tr>
+              <tr><td>다이소</td><td>균일가·고회전 생활용품 유통</td><td>매출 성장, 영업이익률, 매장 생산성, 상품 믹스, 물류투자</td><td>2023–2025 감사보고서 분석</td></tr>
+              <tr><td>올리브영</td><td>K-뷰티 H&B·옴니채널·글로벌 유통</td><td>연결 매출, 이익률, EBITDA, 차입금, 1Q 마진</td><td>2023–2025 재무분석</td></tr>
+              <tr><td>무신사</td><td>패션 플랫폼·PB·오프라인·글로벌 유통</td><td>연결 매출, 영업이익률, EBITDA, 매출 믹스, 재고·글로벌 리스크</td><td>2023–2025 재무분석</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+
+      </details>
       <section class="cta-band">
         <div><h2>이 분석을 우리 사업에도 적용해 보세요.</h2><p>산업·경쟁사 비교, 공공데이터 대시보드, 시장 기회 분석의 작업 범위와 견적을 협의합니다. <a href="/research/">연구 사례 더 보기 →</a></p></div>
         <a class="btn primary" href="/portfolio/#business-inquiry">기업·기관 프로젝트 문의 →</a>
@@ -586,5 +603,44 @@
   <audio id="homepage-music" src="/assets/lindy-conant-take-courage.mp3" loop preload="none" hidden></audio>
   <p id="homepage-music-hint" class="homepage-music-hint" role="status" hidden>화면을 한 번 누르면 음악이 재생됩니다</p>
   <script src="/assets/homepage-music.js?v=20261012-1" defer></script>
+<script id="strategy-decision-navigation">
+
+(() => {
+  const reset = () => {
+    const input = document.querySelector('[data-search]');
+    if (input) { input.value = ''; input.dispatchEvent(new Event('input', {bubbles:true})); }
+    document.querySelector('[data-filter="all"]')?.click();
+  };
+  const reveal = () => {
+    let id;
+    try { id = decodeURIComponent(location.hash.slice(1)); } catch (_) { return; }
+    if (!id) return;
+    const target = document.getElementById(id);
+    if (!target) return;
+    const group = target.closest('[data-card-group]');
+    if (group) {
+      reset();
+      group.hidden = false;
+      group.open = true;
+    }
+    let parent = target.parentElement;
+    while (parent) { if (parent.tagName === 'DETAILS') parent.open = true; parent = parent.parentElement; }
+    if (group || target.closest('.comparison-reference')) {
+      target.scrollIntoView({block:'start'});
+      const focus = group?.querySelector('summary');
+      if (focus) focus.focus({preventScroll:true});
+    }
+  };
+  document.querySelector('[data-reset-strategy]')?.addEventListener('click', () => {
+    reset();
+    document.querySelector('[data-search]')?.focus();
+  });
+  document.querySelectorAll('[data-decision-path]').forEach(link => link.addEventListener('click', () => {
+    if (location.hash === link.getAttribute('href')) reveal();
+  }));
+  window.addEventListener('hashchange', reveal);
+  reveal();
+})();
+</script>
 </body>
 </html>
