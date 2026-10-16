@@ -224,6 +224,7 @@ for old, new in script_copy.items():
 
 # Remove stale private Gmail references and keep every inquiry address consistent.
 source = source.replace('jds068888@gmail.com', 'ceo@stargateedu.co.kr')
+source = source.replace('/assets/dashboard-data-status.js?v=20261015-1', '/assets/dashboard-data-status.js?v=20261016-en-1')
 source = source.replace('</style>', '@media(max-width:480px){body{zoom:1}}\n</style>', 1)
 (ROOT / 'en' / 'index.html').write_text(source, encoding='utf-8')
 print(f"Wrote /en/ with {len(cards)} current project cards")
