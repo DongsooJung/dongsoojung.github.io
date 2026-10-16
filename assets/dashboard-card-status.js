@@ -6,6 +6,7 @@
   const monitored = {
     '/research/airport-congestion/': { file: '/research/airport-congestion/data/latest.json', field: 'generated_at', maxAgeHours: 0.75, mode: '정기 수집 · 10분 목표', source: '인천국제공항공사' },
     '/research/gimpo-airport-congestion/': { file: '/research/gimpo-airport-congestion/data/latest.json', field: 'generated_at', maxAgeHours: 0.75, mode: '정기 수집 · 10분 목표', source: '한국공항공사' },
+    '/exchange-rate/': { file: '/exchange-rate/data.json', field: 'updatedAt', maxAgeHours: 168, mode: 'ECB 환율 스냅샷', source: '유럽중앙은행(ECB)' },
     '/trade/': { file: '/trade/data.json', field: 'updatedAt', maxAgeHours: 960, mode: '월간 API 스냅샷', source: '관세청' },
     '/class101/': { file: '/class101/data/latest.json', field: 'collectedAt', maxAgeHours: 36, mode: '일일 공개목록 수집', source: 'CLASS101 공개 페이지' },
     '/inflearn/': { file: '/inflearn/data/latest.json', field: 'collectedAt', maxAgeHours: 36, mode: '일일 공개목록 수집', source: '인프런 공개 페이지' }
@@ -78,7 +79,7 @@
       const response = await fetch(file, { cache: 'no-store', signal: controller.signal });
       if (!response.ok) throw new Error('HTTP ' + response.status);
       const data = await response.json();
-      if (!data || data.status === 'error' || (file === '/trade/data.json' && data.sourceMode !== 'api')) throw new Error('data status error');
+      if (!data || data.status === 'error' || (file === '/trade/data.json' && data.sourceMode !== 'api') || (file === '/exchange-rate/data.json' && data.sourceMode !== 'ecb')) throw new Error('data status error');
       const config = entries[0].config;
       const raw = data[config.field];
       const date = /^\d{4}-\d{2}-\d{2}$/.test(String(raw))
