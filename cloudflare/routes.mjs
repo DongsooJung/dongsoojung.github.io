@@ -1,6 +1,7 @@
 import { MAX_IMPORT_BYTES, RequestError, isImportAuthorized, readPayload, validatePayload } from './analytics.mjs';
 import { verifyAccessRequest } from './access.mjs';
 import { DASHBOARD_COLLECTOR_VERSION } from './dashboard-refresh.mjs';
+import { handleBoard } from './board.mjs';
 
 export const PUBLIC_ORIGINS = new Set(['https://stargateedu.co.kr','https://www.stargateedu.co.kr','https://stargate.stargate8225.workers.dev']);
 const publicMethods = new Set(['record_site_visit','record_site_usage_event','get_site_button_click_counts','get_site_visit_stats','get_site_visit_summary','get_site_usage_summary']);
@@ -53,12 +54,14 @@ export async function handleRequest(request,env,options = {}) {
       return new Response(asset.body,{status:asset.status,headers});
     }
     if (request.headers.has('origin') && request.headers.get('origin') !== url.origin) return json({error:'Cross-origin admin request rejected'},403);
+    if (path === '/api/admin/board' || path.startsWith('/api/admin/board/')) return handleBoard(request,env,{admin:true,...options.board});
     const method = guardedPath.startsWith('/api/admin/analytics/') ? guardedPath.slice('/api/admin/analytics/'.length) : '';
     if (!adminMethods.has(method)) return json({error:'Unknown analytics method'},404);
     if (request.method !== 'POST') return json({error:'Use POST for analytics'},405);
     try { return json(await object(env).analytics(method,validatePayload(method,await readPayload(request)))); }
     catch(error) { return failure(error); }
   }
+  if (path === '/api/board' || path.startsWith('/api/board/')) return handleBoard(request,env,options.board);
   if (path.startsWith('/api/dashboards/')) {
     const origin = request.headers.get('origin'), name = path.slice('/api/dashboards/'.length);
     if (!allowedRequest(request)) return cors(json({error:'Cross-origin request rejected'},403),origin);
