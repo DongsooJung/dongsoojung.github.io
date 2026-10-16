@@ -1,6 +1,64 @@
 (() => {
   const cards = [...document.querySelectorAll('[data-card]')];
   if (!cards.length) return;
+  if (document.body.classList.contains('research')) {
+    const labels = { urban:'도시·공간', society:'경제·사회', research:'연구·AI', education:'교육·수학', operations:'운영·제품' };
+    const states = { pending:'출처 점검 대기', snapshot_checked:'게시본 확인 · 원출처 대조 대기', verified:'원출처 대조 완료', not_applicable:'기준월 비적용', source_unavailable:'원출처 접근 불가', awaiting_publication:'공표 대기', needs_review:'수치·범위 검증 필요' };
+    const nodes = new Map();
+    const review = document.createElement('p');
+    review.className = 'dashboard-data-summary';
+    const summaryText = document.createElement('span');
+    summaryText.textContent = '출처·자료 기준 점검 목록을 불러오는 중입니다. ';
+    const link = document.createElement('a');
+    link.href = '/research/data-review/';
+    link.textContent = '출처·자료 기준 전체 보기';
+    review.append(summaryText, link);
+    document.querySelector('.toolbar')?.after(review);
+    cards.forEach((card) => {
+      const node = document.createElement('div');
+      node.className = 'dashboard-data-status';
+      node.dataset.state = 'unknown';
+      const details = document.createElement('span');
+      details.className = 'dashboard-data-details';
+      details.textContent = `분류: ${labels[card.dataset.primary] || '미확인'} · 출처·자료 기준 확인 중`;
+      const state = document.createElement('span');
+      state.className = 'dashboard-data-state';
+      state.textContent = '출처 점검 대기';
+      node.append(details, state);
+      card.querySelector('.project-body')?.append(node);
+      const url = new URL(card.getAttribute('href'), location.origin);
+      const key = /^(www\.)?stargateedu\.co\.kr$/.test(url.hostname) || url.origin === location.origin
+        ? url.pathname : url.href.replace(/\/$/, '');
+      nodes.set(key, { node, details, state });
+    });
+    (async () => {
+      try {
+        const response = await fetch('/research/data-catalog.json', { cache:'no-store', signal:AbortSignal.timeout(8000) });
+        if (!response.ok) throw new Error('Catalog unavailable');
+        const catalog = await response.json();
+        let checked = 0, verified = 0;
+        catalog.projects.forEach((project) => {
+          const entry = nodes.get(project.key);
+          if (!entry) return;
+          checked += project.checkedAt ? 1 : 0;
+          verified += project.reviewStatus === 'verified' ? 1 : 0;
+          const source = project.source.label || `${project.sourceHint} (미검증)`;
+          const period = project.dataAsOf || project.dataPeriod || (project.reviewStatus === 'not_applicable' ? '비적용' : '미확인');
+          entry.details.textContent = `출처: ${source} · 분류: ${project.classification} · 자료 기준: ${period} · 수집: ${project.collectedAt || '미공개'} · 게시본 갱신: ${project.snapshotUpdatedAt || '미확인'}`;
+          entry.node.dataset.state = project.reviewStatus === 'verified' ? 'ok'
+            : project.reviewStatus === 'needs_review' ? 'error'
+            : project.freshness === 'older_than_target' ? 'stale' : 'unknown';
+          entry.state.textContent = states[project.reviewStatus] || '점검 대기';
+          if (project.issues.length) entry.state.title = project.issues.join(' ');
+        });
+        summaryText.textContent = `원출처 대조 ${verified}/${cards.length} · 게시본 등 확인 기록 ${checked}/${cards.length} · 2026년 9·10월 자료 단계별 점검 중. `;
+      } catch (_) {
+        summaryText.textContent = '출처 점검 목록을 불러오지 못했습니다. ';
+        nodes.forEach(({ details }) => { details.textContent = '출처·자료 기준 확인 불가 · 전체 점검표를 확인하세요.'; });
+      }
+    })();
+    return;
+  }
 
   // Only these snapshots expose a machine-readable collection time.
   const monitored = {

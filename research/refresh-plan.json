@@ -1,0 +1,149 @@
+{
+  "schemaVersion": 1,
+  "status": "active",
+  "intervalMinutes": 10,
+  "targetMonths": [
+    "2026-09",
+    "2026-10"
+  ],
+  "steps": [
+    {
+      "id": "setup",
+      "label": "가나다순·출처 목록·6개 게시본 1차 점검",
+      "status": "completed",
+      "completedAt": "2026-10-16T09:59:34.023Z"
+    },
+    {
+      "id": "society-1",
+      "label": "경제·사회 1차",
+      "status": "pending",
+      "keys": [
+        "/research/crime-statistics/",
+        "/research/new-car-sales/",
+        "/airbnb/",
+        "https://metro-lodging-data.stargate8224.chatgpt.site",
+        "/exchange-rate/",
+        "/trade/",
+        "/google-trends/"
+      ]
+    },
+    {
+      "id": "society-2",
+      "label": "경제·사회 2차",
+      "status": "pending",
+      "keys": [
+        "/korea-tourism/",
+        "/bid-pblanc-cnstwk/",
+        "/bid-pblanc-servc/",
+        "/fsc-financial/",
+        "https://civic-participation-hub.stargate8224.chatgpt.site",
+        "/naver-cafe-research/"
+      ]
+    },
+    {
+      "id": "urban-1",
+      "label": "도시·공간 1차",
+      "status": "pending",
+      "keys": [
+        "/research/bukangi/",
+        "/ds-research-urban-analytics/",
+        "/research/airport-congestion/",
+        "/research/gimpo-airport-congestion/",
+        "/strategy/weather-calendar/",
+        "/research/urban-atlas/",
+        "/election/"
+      ]
+    },
+    {
+      "id": "urban-2",
+      "label": "도시·공간 2차",
+      "status": "pending",
+      "keys": [
+        "/sudogwon-academy-map/",
+        "/gyeonggi-academy-map/",
+        "/seoul-academy-map/",
+        "/pyeongtaek-election/",
+        "/hwaseong-election/",
+        "/suwon-election/",
+        "/seongnam-election/"
+      ]
+    },
+    {
+      "id": "urban-3",
+      "label": "도시·공간 3차",
+      "status": "pending",
+      "keys": [
+        "/research/accessibility-lab/",
+        "/smart-city-gis/dashboard/",
+        "/choropleth/",
+        "/volume/",
+        "/lh-sale-info/",
+        "/hwaseong-real-estate/",
+        "/court-auction/"
+      ]
+    },
+    {
+      "id": "research-1",
+      "label": "연구·AI 1차",
+      "status": "pending",
+      "keys": [
+        "/research/information-economics/",
+        "/research/researcher-vision/",
+        "/research/random-forest/",
+        "/research/ai-freshness/",
+        "/research/immigration-policy/",
+        "/public-data-collector/",
+        "/did/",
+        "/research/debate-analyzer/"
+      ]
+    },
+    {
+      "id": "research-2",
+      "label": "연구·AI 2차",
+      "status": "pending",
+      "keys": [
+        "/rag-graphrag/",
+        "/research/contradiction-lab/",
+        "/research/climate-algebraic-geometry/",
+        "/research/korea-challenges/",
+        "/research/korean-unification-challenges/",
+        "/research/quantum-physics-challenges/",
+        "/research/deep-earth-ocean-challenges/",
+        "/research/disease-challenges/"
+      ]
+    },
+    {
+      "id": "education-1",
+      "label": "교육·수학 1차",
+      "status": "pending",
+      "keys": [
+        "/math-grader/",
+        "/research/kmo-combinatorics/",
+        "/research/seoul-science-high-admission/",
+        "/research/math/archive/",
+        "/research/math/2027-june-mock-15/",
+        "/research/math/skku-middle-factorial/",
+        "/research/math/thinking-bull-remainder/"
+      ]
+    },
+    {
+      "id": "operations-1",
+      "label": "운영·제품 1차",
+      "status": "pending",
+      "keys": [
+        "/cybersecurity/",
+        "/research/app-privacy/",
+        "/sms/",
+        "/quote-maker/",
+        "https://2026-plan.vercel.app/dashboard",
+        "/onenote-notion-status/"
+      ]
+    },
+    {
+      "id": "acceptance",
+      "label": "전 항목 검증·최종 배포·예약 종료",
+      "status": "pending",
+      "keys": []
+    }
+  ]
+}

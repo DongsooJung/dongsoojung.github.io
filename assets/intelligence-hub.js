@@ -91,20 +91,31 @@
         : cards.filter((card) => card.dataset.primary === button.dataset.filter).length);
     });
   }
-  const sortKey = 'stargate-project-sort-v2';
+  const sortKey = onResearchHub ? 'stargate-research-sort-v3' : 'stargate-project-sort-v2';
   const englishOrder = new Intl.Collator('en', { sensitivity: 'base', numeric: true });
   const koreanOrder = new Intl.Collator('ko', { sensitivity: 'base', numeric: true });
   let active = 'all';
-  let sortMode = 'usage';
+  let sortMode = onResearchHub ? 'alpha' : 'usage';
+  let showResearchGroups = false;
+  const cardsByGroup = new Map(groups.map((group) => [group, [...group.querySelectorAll('[data-card]')]]));
+  let researchAlphaGrid = null;
+  if (onResearchHub && cardGroups) {
+    researchAlphaGrid = document.createElement('div');
+    researchAlphaGrid.className = 'grid research-alpha-grid';
+    researchAlphaGrid.dataset.alphaGrid = '';
+    researchAlphaGrid.setAttribute('aria-label', '가나다순 프로젝트 목록');
+    cardGroups.after(researchAlphaGrid);
+  }
   let wasFiltering = false;
   const openBeforeFiltering = new Map();
 
   try {
-    if (localStorage.getItem(sortKey) === 'alpha') sortMode = 'alpha';
+    const savedSort = localStorage.getItem(sortKey);
+    if (savedSort === 'alpha' || savedSort === 'usage') sortMode = savedSort;
   } catch (_) {}
 
-  const titleGroup = (title) => /^[A-Za-z]/.test(title) ? 0
-    : /^\p{Script=Hangul}/u.test(title) ? 1
+  const titleGroup = (title) => /^\p{Script=Hangul}/u.test(title) ? (onResearchHub ? 0 : 1)
+    : /^[A-Za-z]/.test(title) ? (onResearchHub ? 1 : 0)
     : /^\p{N}/u.test(title) ? 2 : 3;
 
   const titledCard = (card) => {
@@ -114,7 +125,7 @@
   };
 
   const compareAlpha = (a, b) => a.group - b.group
-    || (a.group === 0 ? englishOrder : koreanOrder).compare(a.title, b.title);
+    || (a.group === (onResearchHub ? 1 : 0) ? englishOrder : koreanOrder).compare(a.title, b.title);
 
   const usageScore = (card) => {
     const api = window.StargateUsage;
@@ -161,6 +172,7 @@
   const apply = () => {
     const query = (input?.value || '').trim().toLowerCase();
     const filtering = active !== 'all' || !!query;
+    const flatAlpha = !!researchAlphaGrid && sortMode === 'alpha' && !showResearchGroups;
     let visible = 0;
     if (onResearchHub && filtering && !wasFiltering) {
       groups.forEach((group) => openBeforeFiltering.set(group, group.open));
@@ -181,19 +193,24 @@
 
     groups.forEach((group) => {
       const grid = group.querySelector('.grid') || group;
-      const groupCards = [...group.querySelectorAll('[data-card]')].map(titledCard);
+      const groupCards = cardsByGroup.get(group).map(titledCard);
       groupCards.sort((a, b) => sortMode === 'usage'
         ? usageScore(b.card) - usageScore(a.card) || compareAlpha(a, b)
         : compareAlpha(a, b));
       groupCards.forEach(({ card }) => grid.appendChild(card));
 
       const groupVisible = groupCards.filter(({ card }) => !card.hidden).length;
-      group.hidden = groupVisible === 0;
+      group.hidden = flatAlpha || groupVisible === 0;
       const badge = group.querySelector('[data-group-count]');
       if (badge) badge.textContent = `${groupVisible}개`;
       if (filtering && groupVisible > 0) group.open = true;
       group.dataset.usagePeak = String(Math.max(0, ...groupCards.map(({ card }) => usageScore(card))));
     });
+    if (researchAlphaGrid) {
+      researchAlphaGrid.hidden = !flatAlpha;
+      if (flatAlpha) cards.map(titledCard).sort(compareAlpha)
+        .forEach(({ card }) => researchAlphaGrid.appendChild(card));
+    }
 
     const parent = groups[0]?.parentElement;
     if (parent && parent.dataset.preserveGroupOrder !== 'true') {
@@ -220,6 +237,7 @@
   };
 
   const setSort = (mode) => {
+    showResearchGroups = false;
     sortMode = mode === 'usage' ? 'usage' : 'alpha';
     try { localStorage.setItem(sortKey, sortMode); } catch (_) {}
     sortButtons.forEach((button) => {
@@ -250,9 +268,15 @@
   };
 
   buttons.forEach((button) => {
-    button.addEventListener('click', () => selectFilter(button.dataset.filter));
+    button.addEventListener('click', () => {
+      showResearchGroups = false;
+      selectFilter(button.dataset.filter);
+    });
   });
-  input?.addEventListener('input', apply);
+  input?.addEventListener('input', () => {
+    showResearchGroups = false;
+    apply();
+  });
   apply();
 
   if (onResearchHub) {
@@ -263,10 +287,11 @@
       const target = document.getElementById(id);
       const group = target?.closest('[data-card-group]');
       if (!group) return;
+      showResearchGroups = true;
       if (group.hidden || target.closest('[data-card]')?.hidden) {
         if (input) input.value = '';
         selectFilter('all');
-      }
+      } else apply();
       group.open = true;
       group.scrollIntoView({ block: 'start' });
     };

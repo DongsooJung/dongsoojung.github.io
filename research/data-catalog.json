@@ -1,0 +1,1471 @@
+{
+  "schemaVersion": 1,
+  "targetMonths": [
+    "2026-09",
+    "2026-10"
+  ],
+  "projects": [
+    {
+      "source": {
+        "label": null,
+        "url": null,
+        "verification": "pending"
+      },
+      "dataAsOf": null,
+      "dataPeriod": null,
+      "snapshotUpdatedAt": null,
+      "collectedAt": null,
+      "checkedAt": null,
+      "reviewStatus": "pending",
+      "freshness": "unverified",
+      "evidence": [],
+      "issues": [],
+      "key": "/research/bukangi/",
+      "url": "/research/bukangi/",
+      "title": "부캉이 상황실",
+      "primary": "urban",
+      "classification": "도시·공간",
+      "sourceHint": "부산 북항 · 보도 19건"
+    },
+    {
+      "source": {
+        "label": null,
+        "url": null,
+        "verification": "pending"
+      },
+      "dataAsOf": null,
+      "dataPeriod": null,
+      "snapshotUpdatedAt": null,
+      "collectedAt": null,
+      "checkedAt": null,
+      "reviewStatus": "pending",
+      "freshness": "unverified",
+      "evidence": [],
+      "issues": [],
+      "key": "/ds-research-urban-analytics/",
+      "url": "/ds-research-urban-analytics/",
+      "title": "실시간 도시 관측",
+      "primary": "urban",
+      "classification": "도시·공간",
+      "sourceHint": "서울 열린데이터광장 · 실시간"
+    },
+    {
+      "source": {
+        "label": "Incheon International Airport Corporation",
+        "url": "https://www.airport.kr/ap_ko/883/subview.do",
+        "verification": "declared"
+      },
+      "dataAsOf": "2026-10-16",
+      "dataPeriod": "2026-10",
+      "snapshotUpdatedAt": "2026-10-16T05:30:53.689Z",
+      "collectedAt": "2026-10-16T05:30:53.689Z",
+      "checkedAt": "2026-10-16T09:59:34.606Z",
+      "reviewStatus": "snapshot_checked",
+      "freshness": "target_period_in_snapshot",
+      "evidence": [
+        {
+          "kind": "published-snapshot",
+          "url": "https://www.stargateedu.co.kr/research/airport-congestion/data/latest.json",
+          "checkedAt": "2026-10-16T09:59:34.606Z",
+          "fields": {
+            "dataPeriod": "2026-10",
+            "dataAsOf": "2026-10-16",
+            "snapshotUpdatedAt": "2026-10-16T05:30:53.689Z"
+          }
+        }
+      ],
+      "issues": [],
+      "key": "/research/airport-congestion/",
+      "url": "/research/airport-congestion/",
+      "title": "인천공항 혼잡도 연구 대시보드",
+      "primary": "urban",
+      "classification": "도시·공간",
+      "sourceHint": "인천국제공항공사 공식 실데이터"
+    },
+    {
+      "source": {
+        "label": "한국공항공사 공항 혼잡도 정보_GW",
+        "url": "https://www.data.go.kr/data/15159598/openapi.do",
+        "verification": "declared"
+      },
+      "dataAsOf": null,
+      "dataPeriod": null,
+      "snapshotUpdatedAt": "2026-10-16T07:12:14.509Z",
+      "collectedAt": "2026-10-16T07:12:14.509Z",
+      "checkedAt": "2026-10-16T09:59:34.799Z",
+      "reviewStatus": "snapshot_checked",
+      "freshness": "unverified",
+      "evidence": [
+        {
+          "kind": "published-snapshot",
+          "url": "https://www.stargateedu.co.kr/research/gimpo-airport-congestion/data/latest.json",
+          "checkedAt": "2026-10-16T09:59:34.799Z",
+          "fields": {
+            "dataPeriod": null,
+            "dataAsOf": null,
+            "snapshotUpdatedAt": "2026-10-16T07:12:14.509Z"
+          }
+        }
+      ],
+      "issues": [
+        "원자료 observed_at은 시각만 제공하므로 관측 기준일의 원출처 대조가 필요합니다."
+      ],
+      "key": "/research/gimpo-airport-congestion/",
+      "url": "/research/gimpo-airport-congestion/",
+      "title": "김포공항 국내선 혼잡도",
+      "primary": "urban",
+      "classification": "도시·공간",
+      "sourceHint": "한국공항공사 공식 API · 연결 상태 표시"
+    },
+    {
+      "source": {
+        "label": null,
+        "url": null,
+        "verification": "pending"
+      },
+      "dataAsOf": null,
+      "dataPeriod": null,
+      "snapshotUpdatedAt": null,
+      "collectedAt": null,
+      "checkedAt": null,
+      "reviewStatus": "pending",
+      "freshness": "unverified",
+      "evidence": [],
+      "issues": [],
+      "key": "/strategy/weather-calendar/",
+      "url": "/strategy/weather-calendar/",
+      "title": "월간 날씨 캘린더",
+      "primary": "urban",
+      "classification": "도시·공간",
+      "sourceHint": "Open‑Meteo · RainViewer · 기상청 특보"
+    },
+    {
+      "source": {
+        "label": null,
+        "url": null,
+        "verification": "pending"
+      },
+      "dataAsOf": null,
+      "dataPeriod": null,
+      "snapshotUpdatedAt": null,
+      "collectedAt": null,
+      "checkedAt": null,
+      "reviewStatus": "pending",
+      "freshness": "unverified",
+      "evidence": [],
+      "issues": [],
+      "key": "/research/urban-atlas/",
+      "url": "/research/urban-atlas/",
+      "title": "행정경계 지표 아틀라스",
+      "primary": "urban",
+      "classification": "도시·공간",
+      "sourceHint": "선거 · 학원 · 주택"
+    },
+    {
+      "source": {
+        "label": null,
+        "url": null,
+        "verification": "pending"
+      },
+      "dataAsOf": null,
+      "dataPeriod": null,
+      "snapshotUpdatedAt": null,
+      "collectedAt": null,
+      "checkedAt": null,
+      "reviewStatus": "pending",
+      "freshness": "unverified",
+      "evidence": [],
+      "issues": [],
+      "key": "/election/",
+      "url": "/election/",
+      "title": "수도권 국회의원 선거구 지도 허브",
+      "primary": "urban",
+      "classification": "도시·공간",
+      "sourceHint": "4개 시 · 16개 선거구 · VWorld"
+    },
+    {
+      "source": {
+        "label": null,
+        "url": null,
+        "verification": "pending"
+      },
+      "dataAsOf": null,
+      "dataPeriod": null,
+      "snapshotUpdatedAt": null,
+      "collectedAt": null,
+      "checkedAt": null,
+      "reviewStatus": "pending",
+      "freshness": "unverified",
+      "evidence": [],
+      "issues": [],
+      "key": "/sudogwon-academy-map/",
+      "url": "/sudogwon-academy-map/",
+      "title": "서울·경기 학원 밀집도 비교 지도",
+      "primary": "urban",
+      "classification": "도시·공간",
+      "sourceHint": "서울 열린데이터 · 경기데이터드림 · D3.js"
+    },
+    {
+      "source": {
+        "label": null,
+        "url": null,
+        "verification": "pending"
+      },
+      "dataAsOf": null,
+      "dataPeriod": null,
+      "snapshotUpdatedAt": null,
+      "collectedAt": null,
+      "checkedAt": null,
+      "reviewStatus": "pending",
+      "freshness": "unverified",
+      "evidence": [],
+      "issues": [],
+      "key": "/gyeonggi-academy-map/",
+      "url": "/gyeonggi-academy-map/",
+      "title": "경기도 학원 밀집도 지도",
+      "primary": "urban",
+      "classification": "도시·공간",
+      "sourceHint": "경기데이터드림 · D3.js"
+    },
+    {
+      "source": {
+        "label": null,
+        "url": null,
+        "verification": "pending"
+      },
+      "dataAsOf": null,
+      "dataPeriod": null,
+      "snapshotUpdatedAt": null,
+      "collectedAt": null,
+      "checkedAt": null,
+      "reviewStatus": "pending",
+      "freshness": "unverified",
+      "evidence": [],
+      "issues": [],
+      "key": "/seoul-academy-map/",
+      "url": "/seoul-academy-map/",
+      "title": "서울 학원 수요지수 지도",
+      "primary": "urban",
+      "classification": "도시·공간",
+      "sourceHint": "서울 열린데이터 · 국세청 · D3.js"
+    },
+    {
+      "source": {
+        "label": null,
+        "url": null,
+        "verification": "pending"
+      },
+      "dataAsOf": null,
+      "dataPeriod": null,
+      "snapshotUpdatedAt": null,
+      "collectedAt": null,
+      "checkedAt": null,
+      "reviewStatus": "pending",
+      "freshness": "unverified",
+      "evidence": [],
+      "issues": [],
+      "key": "/pyeongtaek-election/",
+      "url": "https://www.stargateedu.co.kr/pyeongtaek-election/",
+      "title": "평택시 선거구 읍면동 지도",
+      "primary": "urban",
+      "classification": "도시·공간",
+      "sourceHint": "VWorld · Leaflet"
+    },
+    {
+      "source": {
+        "label": null,
+        "url": null,
+        "verification": "pending"
+      },
+      "dataAsOf": null,
+      "dataPeriod": null,
+      "snapshotUpdatedAt": null,
+      "collectedAt": null,
+      "checkedAt": null,
+      "reviewStatus": "pending",
+      "freshness": "unverified",
+      "evidence": [],
+      "issues": [],
+      "key": "/hwaseong-election/",
+      "url": "https://www.stargateedu.co.kr/hwaseong-election/",
+      "title": "화성시 선거구 읍면동 지도",
+      "primary": "urban",
+      "classification": "도시·공간",
+      "sourceHint": "VWorld · Leaflet"
+    },
+    {
+      "source": {
+        "label": null,
+        "url": null,
+        "verification": "pending"
+      },
+      "dataAsOf": null,
+      "dataPeriod": null,
+      "snapshotUpdatedAt": null,
+      "collectedAt": null,
+      "checkedAt": null,
+      "reviewStatus": "pending",
+      "freshness": "unverified",
+      "evidence": [],
+      "issues": [],
+      "key": "/suwon-election/",
+      "url": "https://www.stargateedu.co.kr/suwon-election/",
+      "title": "수원시 선거구 읍면동 지도",
+      "primary": "urban",
+      "classification": "도시·공간",
+      "sourceHint": "VWorld · Leaflet"
+    },
+    {
+      "source": {
+        "label": null,
+        "url": null,
+        "verification": "pending"
+      },
+      "dataAsOf": null,
+      "dataPeriod": null,
+      "snapshotUpdatedAt": null,
+      "collectedAt": null,
+      "checkedAt": null,
+      "reviewStatus": "pending",
+      "freshness": "unverified",
+      "evidence": [],
+      "issues": [],
+      "key": "/seongnam-election/",
+      "url": "https://www.stargateedu.co.kr/seongnam-election/",
+      "title": "성남시 선거구 읍면동 지도",
+      "primary": "urban",
+      "classification": "도시·공간",
+      "sourceHint": "VWorld · Leaflet"
+    },
+    {
+      "source": {
+        "label": null,
+        "url": null,
+        "verification": "pending"
+      },
+      "dataAsOf": null,
+      "dataPeriod": null,
+      "snapshotUpdatedAt": null,
+      "collectedAt": null,
+      "checkedAt": null,
+      "reviewStatus": "pending",
+      "freshness": "unverified",
+      "evidence": [],
+      "issues": [],
+      "key": "/research/accessibility-lab/",
+      "url": "/research/accessibility-lab/",
+      "title": "접근성·보행성 랩",
+      "primary": "urban",
+      "classification": "도시·공간",
+      "sourceHint": "Isochrone · Walkability"
+    },
+    {
+      "source": {
+        "label": null,
+        "url": null,
+        "verification": "pending"
+      },
+      "dataAsOf": null,
+      "dataPeriod": null,
+      "snapshotUpdatedAt": null,
+      "collectedAt": null,
+      "checkedAt": null,
+      "reviewStatus": "pending",
+      "freshness": "unverified",
+      "evidence": [],
+      "issues": [],
+      "key": "/smart-city-gis/dashboard/",
+      "url": "https://stargateedu.co.kr/smart-city-gis/dashboard/",
+      "title": "강남 보행성 · 15분도시 대시보드",
+      "primary": "urban",
+      "classification": "도시·공간",
+      "sourceHint": "Leaflet · Isochrone · Time-series"
+    },
+    {
+      "source": {
+        "label": null,
+        "url": null,
+        "verification": "pending"
+      },
+      "dataAsOf": null,
+      "dataPeriod": null,
+      "snapshotUpdatedAt": null,
+      "collectedAt": null,
+      "checkedAt": null,
+      "reviewStatus": "pending",
+      "freshness": "unverified",
+      "evidence": [],
+      "issues": [],
+      "key": "/choropleth/",
+      "url": "/choropleth/",
+      "title": "Choropleth 지도",
+      "primary": "urban",
+      "classification": "도시·공간",
+      "sourceHint": "Plotly · GeoJSON"
+    },
+    {
+      "source": {
+        "label": null,
+        "url": null,
+        "verification": "pending"
+      },
+      "dataAsOf": null,
+      "dataPeriod": null,
+      "snapshotUpdatedAt": null,
+      "collectedAt": null,
+      "checkedAt": null,
+      "reviewStatus": "pending",
+      "freshness": "unverified",
+      "evidence": [],
+      "issues": [],
+      "key": "/volume/",
+      "url": "/volume/",
+      "title": "서울 부동산 월별 거래량",
+      "primary": "urban",
+      "classification": "도시·공간",
+      "sourceHint": "Plotly · 유형별"
+    },
+    {
+      "source": {
+        "label": null,
+        "url": null,
+        "verification": "pending"
+      },
+      "dataAsOf": null,
+      "dataPeriod": null,
+      "snapshotUpdatedAt": null,
+      "collectedAt": null,
+      "checkedAt": null,
+      "reviewStatus": "pending",
+      "freshness": "unverified",
+      "evidence": [],
+      "issues": [],
+      "key": "/lh-sale-info/",
+      "url": "/lh-sale-info/",
+      "title": "LH 분양정보 관측소",
+      "primary": "urban",
+      "classification": "도시·공간",
+      "sourceHint": "한국토지주택공사 · data.go.kr"
+    },
+    {
+      "source": {
+        "label": null,
+        "url": null,
+        "verification": "pending"
+      },
+      "dataAsOf": null,
+      "dataPeriod": null,
+      "snapshotUpdatedAt": null,
+      "collectedAt": null,
+      "checkedAt": null,
+      "reviewStatus": "pending",
+      "freshness": "unverified",
+      "evidence": [],
+      "issues": [],
+      "key": "/hwaseong-real-estate/",
+      "url": "/hwaseong-real-estate/",
+      "title": "화성 실거래 데이터 허브",
+      "primary": "urban",
+      "classification": "도시·공간",
+      "sourceHint": "국토교통부 · 2026.06"
+    },
+    {
+      "source": {
+        "label": null,
+        "url": null,
+        "verification": "pending"
+      },
+      "dataAsOf": null,
+      "dataPeriod": null,
+      "snapshotUpdatedAt": null,
+      "collectedAt": null,
+      "checkedAt": null,
+      "reviewStatus": "pending",
+      "freshness": "unverified",
+      "evidence": [],
+      "issues": [],
+      "key": "/court-auction/",
+      "url": "/court-auction/",
+      "title": "법원경매 × 실거래 비교",
+      "primary": "urban",
+      "classification": "도시·공간",
+      "sourceHint": "법원경매정보 · 국토부 실거래"
+    },
+    {
+      "source": {
+        "label": null,
+        "url": null,
+        "verification": "pending"
+      },
+      "dataAsOf": null,
+      "dataPeriod": null,
+      "snapshotUpdatedAt": null,
+      "collectedAt": null,
+      "checkedAt": null,
+      "reviewStatus": "pending",
+      "freshness": "unverified",
+      "evidence": [],
+      "issues": [],
+      "key": "/research/crime-statistics/",
+      "url": "/research/crime-statistics/",
+      "title": "범죄 발생·검거 현황 4개 분기 추이",
+      "primary": "society",
+      "classification": "경제·사회",
+      "sourceHint": "경찰청 공식 통계 · CSV 제공"
+    },
+    {
+      "source": {
+        "label": null,
+        "url": null,
+        "verification": "pending"
+      },
+      "dataAsOf": null,
+      "dataPeriod": null,
+      "snapshotUpdatedAt": null,
+      "collectedAt": null,
+      "checkedAt": null,
+      "reviewStatus": "pending",
+      "freshness": "unverified",
+      "evidence": [],
+      "issues": [],
+      "key": "/research/new-car-sales/",
+      "url": "/research/new-car-sales/",
+      "title": "신차 등록과 중산층 소비 관측",
+      "primary": "society",
+      "classification": "경제·사회",
+      "sourceHint": "10월 5일 확인 · 공식 9월 총계 대기"
+    },
+    {
+      "source": {
+        "label": null,
+        "url": null,
+        "verification": "pending"
+      },
+      "dataAsOf": null,
+      "dataPeriod": null,
+      "snapshotUpdatedAt": null,
+      "collectedAt": null,
+      "checkedAt": null,
+      "reviewStatus": "pending",
+      "freshness": "unverified",
+      "evidence": [],
+      "issues": [],
+      "key": "/airbnb/",
+      "url": "/airbnb/",
+      "title": "Airbnb 수익 예측",
+      "primary": "society",
+      "classification": "경제·사회",
+      "sourceHint": "Real Estate · ML"
+    },
+    {
+      "source": {
+        "label": null,
+        "url": null,
+        "verification": "pending"
+      },
+      "dataAsOf": null,
+      "dataPeriod": null,
+      "snapshotUpdatedAt": null,
+      "collectedAt": null,
+      "checkedAt": null,
+      "reviewStatus": "pending",
+      "freshness": "unverified",
+      "evidence": [],
+      "issues": [],
+      "key": "https://metro-lodging-data.stargate8224.chatgpt.site",
+      "url": "https://metro-lodging-data.stargate8224.chatgpt.site",
+      "title": "수도권 숙박시설 데이터",
+      "primary": "society",
+      "classification": "경제·사회",
+      "sourceHint": "행정안전부 · 관광데이터랩"
+    },
+    {
+      "source": {
+        "label": "유럽중앙은행(ECB) 기준환율 · Frankfurter API",
+        "url": "https://www.ecb.europa.eu/stats/policy_and_exchange_rates/euro_reference_exchange_rates/",
+        "verification": "declared"
+      },
+      "dataAsOf": "2026-10-15",
+      "dataPeriod": "2026-10",
+      "snapshotUpdatedAt": "2026-10-15",
+      "collectedAt": null,
+      "checkedAt": "2026-10-16T09:59:34.430Z",
+      "reviewStatus": "snapshot_checked",
+      "freshness": "target_period_in_snapshot",
+      "evidence": [
+        {
+          "kind": "published-snapshot",
+          "url": "https://www.stargateedu.co.kr/exchange-rate/data.json",
+          "checkedAt": "2026-10-16T09:59:34.430Z",
+          "fields": {
+            "dataPeriod": "2026-10",
+            "dataAsOf": "2026-10-15",
+            "snapshotUpdatedAt": "2026-10-15"
+          }
+        }
+      ],
+      "issues": [
+        "10월은 진행 중인 월의 부분 집계입니다."
+      ],
+      "key": "/exchange-rate/",
+      "url": "/exchange-rate/",
+      "title": "환율·금리·물가 대시보드",
+      "primary": "society",
+      "classification": "경제·사회",
+      "sourceHint": "ECB · 한국은행 · Binance"
+    },
+    {
+      "source": {
+        "label": "관세청 · 월별 총계/국가별 통계",
+        "url": "https://unipass.customs.go.kr/ets/",
+        "verification": "declared"
+      },
+      "dataAsOf": null,
+      "dataPeriod": "2026-09",
+      "snapshotUpdatedAt": "2026-10-16",
+      "collectedAt": null,
+      "checkedAt": "2026-10-16T09:59:34.847Z",
+      "reviewStatus": "needs_review",
+      "freshness": "target_period_in_snapshot",
+      "evidence": [
+        {
+          "kind": "published-snapshot",
+          "url": "https://www.stargateedu.co.kr/trade/data.json",
+          "checkedAt": "2026-10-16T09:59:34.847Z",
+          "fields": {
+            "dataPeriod": "2026-09",
+            "dataAsOf": null,
+            "snapshotUpdatedAt": "2026-10-16"
+          }
+        }
+      ],
+      "issues": [
+        "국가별 기준 2026-06와 총계 기준 2026-09가 다릅니다.",
+        "최신 월 수출−수입과 무역수지가 일치하지 않아 원표 대조가 필요합니다.",
+        "총계 출처 표기: 산업통상부 2026년 8월 수출입동향(잠정치)"
+      ],
+      "key": "/trade/",
+      "url": "/trade/",
+      "title": "국가별 수출입 대시보드",
+      "primary": "society",
+      "classification": "경제·사회",
+      "sourceHint": "관세청 API · 월간"
+    },
+    {
+      "source": {
+        "label": null,
+        "url": null,
+        "verification": "pending"
+      },
+      "dataAsOf": null,
+      "dataPeriod": null,
+      "snapshotUpdatedAt": null,
+      "collectedAt": null,
+      "checkedAt": null,
+      "reviewStatus": "pending",
+      "freshness": "unverified",
+      "evidence": [],
+      "issues": [],
+      "key": "/google-trends/",
+      "url": "/google-trends/",
+      "title": "Google Trends 상위 100",
+      "primary": "society",
+      "classification": "경제·사회",
+      "sourceHint": "Google Trends · Chart.js"
+    },
+    {
+      "source": {
+        "label": "한국관광공사 한국관광 데이터랩 한국관광통계 공식 XLSX",
+        "url": "https://datalab.visitkorea.or.kr/common/board/Download.do?bcIdx=311134&cbIdx=1127&streFileNm=3c2f608d-4d3e-45fe-a535-900f8047f2cc.xlsx",
+        "verification": "declared"
+      },
+      "dataAsOf": null,
+      "dataPeriod": "2026-07",
+      "snapshotUpdatedAt": "2026-08-27",
+      "collectedAt": null,
+      "checkedAt": "2026-10-16T09:59:34.823Z",
+      "reviewStatus": "snapshot_checked",
+      "freshness": "older_than_target",
+      "evidence": [
+        {
+          "kind": "published-snapshot",
+          "url": "https://www.stargateedu.co.kr/korea-tourism/data.json",
+          "checkedAt": "2026-10-16T09:59:34.823Z",
+          "fields": {
+            "dataPeriod": "2026-07",
+            "dataAsOf": null,
+            "snapshotUpdatedAt": "2026-08-27"
+          }
+        }
+      ],
+      "issues": [
+        "2026년 7월 게시본입니다. 8·9월 공식 공표 자료 확인이 필요합니다."
+      ],
+      "key": "/korea-tourism/",
+      "url": "/korea-tourism/",
+      "title": "방한 관광객 대시보드",
+      "primary": "society",
+      "classification": "경제·사회",
+      "sourceHint": "한국관광공사 · 공공데이터"
+    },
+    {
+      "source": {
+        "label": null,
+        "url": null,
+        "verification": "pending"
+      },
+      "dataAsOf": null,
+      "dataPeriod": null,
+      "snapshotUpdatedAt": null,
+      "collectedAt": null,
+      "checkedAt": null,
+      "reviewStatus": "pending",
+      "freshness": "unverified",
+      "evidence": [],
+      "issues": [],
+      "key": "/bid-pblanc-cnstwk/",
+      "url": "/bid-pblanc-cnstwk/",
+      "title": "나라장터 공사 입찰공고",
+      "primary": "society",
+      "classification": "경제·사회",
+      "sourceHint": "조달청 · BidPublicInfoService"
+    },
+    {
+      "source": {
+        "label": null,
+        "url": null,
+        "verification": "pending"
+      },
+      "dataAsOf": null,
+      "dataPeriod": null,
+      "snapshotUpdatedAt": null,
+      "collectedAt": null,
+      "checkedAt": null,
+      "reviewStatus": "pending",
+      "freshness": "unverified",
+      "evidence": [],
+      "issues": [],
+      "key": "/bid-pblanc-servc/",
+      "url": "/bid-pblanc-servc/",
+      "title": "나라장터 용역 입찰공고",
+      "primary": "society",
+      "classification": "경제·사회",
+      "sourceHint": "조달청 · getBidPblancListInfoServc"
+    },
+    {
+      "source": {
+        "label": null,
+        "url": null,
+        "verification": "pending"
+      },
+      "dataAsOf": null,
+      "dataPeriod": null,
+      "snapshotUpdatedAt": null,
+      "collectedAt": null,
+      "checkedAt": null,
+      "reviewStatus": "pending",
+      "freshness": "unverified",
+      "evidence": [],
+      "issues": [],
+      "key": "/fsc-financial/",
+      "url": "/fsc-financial/",
+      "title": "금융위원회 기업재무 대시보드",
+      "primary": "society",
+      "classification": "경제·사회",
+      "sourceHint": "금융위원회 · data.go.kr"
+    },
+    {
+      "source": {
+        "label": null,
+        "url": null,
+        "verification": "pending"
+      },
+      "dataAsOf": null,
+      "dataPeriod": null,
+      "snapshotUpdatedAt": null,
+      "collectedAt": null,
+      "checkedAt": null,
+      "reviewStatus": "pending",
+      "freshness": "unverified",
+      "evidence": [],
+      "issues": [],
+      "key": "https://civic-participation-hub.stargate8224.chatgpt.site",
+      "url": "https://civic-participation-hub.stargate8224.chatgpt.site",
+      "title": "민원·국민참여 플랫폼 대시보드",
+      "primary": "society",
+      "classification": "경제·사회",
+      "sourceHint": "국회 · 정부 · 국민권익위원회"
+    },
+    {
+      "source": {
+        "label": "Naver Cafe public popular-article API",
+        "url": "https://apis.naver.com/cafe-web/cafe2/WeeklyPopularArticleListV3.json?cafeId=12730407&mobileWeb=true&adUnit=PC_CAFE_BOARD&ad=false",
+        "verification": "declared"
+      },
+      "dataAsOf": "2026-10-15",
+      "dataPeriod": "2026-10",
+      "snapshotUpdatedAt": "2026-10-16T04:57:20.602Z",
+      "collectedAt": "2026-10-16T04:57:20.602Z",
+      "checkedAt": "2026-10-16T09:59:34.804Z",
+      "reviewStatus": "snapshot_checked",
+      "freshness": "target_period_in_snapshot",
+      "evidence": [
+        {
+          "kind": "published-snapshot",
+          "url": "https://www.stargateedu.co.kr/naver-cafe-research/data/latest.json",
+          "checkedAt": "2026-10-16T09:59:34.804Z",
+          "fields": {
+            "dataPeriod": "2026-10",
+            "dataAsOf": "2026-10-15",
+            "snapshotUpdatedAt": "2026-10-16T04:57:20.602Z"
+          }
+        }
+      ],
+      "issues": [],
+      "key": "/naver-cafe-research/",
+      "url": "/naver-cafe-research/",
+      "title": "부동산 스터디 인기글 관측소",
+      "primary": "society",
+      "classification": "경제·사회",
+      "sourceHint": "네이버 카페 · 실시간/매시간"
+    },
+    {
+      "source": {
+        "label": null,
+        "url": null,
+        "verification": "pending"
+      },
+      "dataAsOf": null,
+      "dataPeriod": null,
+      "snapshotUpdatedAt": null,
+      "collectedAt": null,
+      "checkedAt": null,
+      "reviewStatus": "pending",
+      "freshness": "unverified",
+      "evidence": [],
+      "issues": [],
+      "key": "/research/information-economics/",
+      "url": "/research/information-economics/",
+      "title": "정보경제학의 3대 연구문제",
+      "primary": "research",
+      "classification": "연구·AI",
+      "sourceHint": "Adverse Selection · Moral Hazard · Signaling"
+    },
+    {
+      "source": {
+        "label": null,
+        "url": null,
+        "verification": "pending"
+      },
+      "dataAsOf": null,
+      "dataPeriod": null,
+      "snapshotUpdatedAt": null,
+      "collectedAt": null,
+      "checkedAt": null,
+      "reviewStatus": "pending",
+      "freshness": "unverified",
+      "evidence": [],
+      "issues": [],
+      "key": "/research/researcher-vision/",
+      "url": "/research/researcher-vision/",
+      "title": "보이는 통계 너머의 현실을 읽는 연구자",
+      "primary": "research",
+      "classification": "연구·AI",
+      "sourceHint": "북한 경제 · 공간계량 · 정책효과"
+    },
+    {
+      "source": {
+        "label": null,
+        "url": null,
+        "verification": "pending"
+      },
+      "dataAsOf": null,
+      "dataPeriod": null,
+      "snapshotUpdatedAt": null,
+      "collectedAt": null,
+      "checkedAt": null,
+      "reviewStatus": "pending",
+      "freshness": "unverified",
+      "evidence": [],
+      "issues": [],
+      "key": "/research/random-forest/",
+      "url": "/research/random-forest/",
+      "title": "Random Forest 연구 대시보드",
+      "primary": "research",
+      "classification": "연구·AI",
+      "sourceHint": "앙상블 · 신용위험 · 공간변수"
+    },
+    {
+      "source": {
+        "label": null,
+        "url": null,
+        "verification": "pending"
+      },
+      "dataAsOf": null,
+      "dataPeriod": null,
+      "snapshotUpdatedAt": null,
+      "collectedAt": null,
+      "checkedAt": null,
+      "reviewStatus": "pending",
+      "freshness": "unverified",
+      "evidence": [],
+      "issues": [],
+      "key": "/research/ai-freshness/",
+      "url": "/research/ai-freshness/",
+      "title": "AI 모델과 실시간 검색 데이터",
+      "primary": "research",
+      "classification": "연구·AI",
+      "sourceHint": "지식 기준 · 검색 연동 · 시계열"
+    },
+    {
+      "source": {
+        "label": null,
+        "url": null,
+        "verification": "pending"
+      },
+      "dataAsOf": null,
+      "dataPeriod": null,
+      "snapshotUpdatedAt": null,
+      "collectedAt": null,
+      "checkedAt": null,
+      "reviewStatus": "pending",
+      "freshness": "unverified",
+      "evidence": [],
+      "issues": [],
+      "key": "/research/immigration-policy/",
+      "url": "/research/immigration-policy/",
+      "title": "한국 F‑2·F‑5·F‑6 비자·외국인정책 연구",
+      "primary": "research",
+      "classification": "연구·AI",
+      "sourceHint": "KR · EN · 법무부·법제처·통계청"
+    },
+    {
+      "source": {
+        "label": null,
+        "url": null,
+        "verification": "pending"
+      },
+      "dataAsOf": null,
+      "dataPeriod": null,
+      "snapshotUpdatedAt": null,
+      "collectedAt": null,
+      "checkedAt": null,
+      "reviewStatus": "pending",
+      "freshness": "unverified",
+      "evidence": [],
+      "issues": [],
+      "key": "/public-data-collector/",
+      "url": "/public-data-collector/",
+      "title": "공공데이터 수집 기록소",
+      "primary": "research",
+      "classification": "연구·AI",
+      "sourceHint": "data.go.kr · Supabase"
+    },
+    {
+      "source": {
+        "label": null,
+        "url": null,
+        "verification": "pending"
+      },
+      "dataAsOf": null,
+      "dataPeriod": null,
+      "snapshotUpdatedAt": null,
+      "collectedAt": null,
+      "checkedAt": null,
+      "reviewStatus": "pending",
+      "freshness": "unverified",
+      "evidence": [],
+      "issues": [],
+      "key": "/did/",
+      "url": "/did/",
+      "title": "DID 정책효과",
+      "primary": "research",
+      "classification": "연구·AI",
+      "sourceHint": "Google Trends · Event Study"
+    },
+    {
+      "source": {
+        "label": null,
+        "url": null,
+        "verification": "pending"
+      },
+      "dataAsOf": null,
+      "dataPeriod": null,
+      "snapshotUpdatedAt": null,
+      "collectedAt": null,
+      "checkedAt": null,
+      "reviewStatus": "pending",
+      "freshness": "unverified",
+      "evidence": [],
+      "issues": [],
+      "key": "/research/debate-analyzer/",
+      "url": "/research/debate-analyzer/",
+      "title": "3자 정치토론 AI 분석기",
+      "primary": "research",
+      "classification": "연구·AI",
+      "sourceHint": "Research QA · Claim Matrix"
+    },
+    {
+      "source": {
+        "label": null,
+        "url": null,
+        "verification": "pending"
+      },
+      "dataAsOf": null,
+      "dataPeriod": null,
+      "snapshotUpdatedAt": null,
+      "collectedAt": null,
+      "checkedAt": null,
+      "reviewStatus": "pending",
+      "freshness": "unverified",
+      "evidence": [],
+      "issues": [],
+      "key": "/rag-graphrag/",
+      "url": "/rag-graphrag/",
+      "title": "RAG × GraphRAG 실무 의사결정 보고서",
+      "primary": "research",
+      "classification": "연구·AI",
+      "sourceHint": "STARGATE Research · 2026.07"
+    },
+    {
+      "source": {
+        "label": null,
+        "url": null,
+        "verification": "pending"
+      },
+      "dataAsOf": null,
+      "dataPeriod": null,
+      "snapshotUpdatedAt": null,
+      "collectedAt": null,
+      "checkedAt": null,
+      "reviewStatus": "pending",
+      "freshness": "unverified",
+      "evidence": [],
+      "issues": [],
+      "key": "/research/contradiction-lab/",
+      "url": "/research/contradiction-lab/",
+      "title": "모순연구소 — AI는 인간의 모순을 풀 수 있는가",
+      "primary": "research",
+      "classification": "연구·AI",
+      "sourceHint": "행동경제 · 게임이론 · 사회선택"
+    },
+    {
+      "source": {
+        "label": null,
+        "url": null,
+        "verification": "pending"
+      },
+      "dataAsOf": null,
+      "dataPeriod": null,
+      "snapshotUpdatedAt": null,
+      "collectedAt": null,
+      "checkedAt": null,
+      "reviewStatus": "pending",
+      "freshness": "unverified",
+      "evidence": [],
+      "issues": [],
+      "key": "/research/climate-algebraic-geometry/",
+      "url": "/research/climate-algebraic-geometry/",
+      "title": "기후변화 난제 3가지",
+      "primary": "research",
+      "classification": "연구·AI",
+      "sourceHint": "기후 · 열대기하 · 탄소순환"
+    },
+    {
+      "source": {
+        "label": null,
+        "url": null,
+        "verification": "pending"
+      },
+      "dataAsOf": null,
+      "dataPeriod": null,
+      "snapshotUpdatedAt": null,
+      "collectedAt": null,
+      "checkedAt": null,
+      "reviewStatus": "pending",
+      "freshness": "unverified",
+      "evidence": [],
+      "issues": [],
+      "key": "/research/korea-challenges/",
+      "url": "/research/korea-challenges/",
+      "title": "대한민국의 난제 3가지",
+      "primary": "research",
+      "classification": "연구·AI",
+      "sourceHint": "인구 · 국토 · 금융"
+    },
+    {
+      "source": {
+        "label": null,
+        "url": null,
+        "verification": "pending"
+      },
+      "dataAsOf": null,
+      "dataPeriod": null,
+      "snapshotUpdatedAt": null,
+      "collectedAt": null,
+      "checkedAt": null,
+      "reviewStatus": "pending",
+      "freshness": "unverified",
+      "evidence": [],
+      "issues": [],
+      "key": "/research/korean-unification-challenges/",
+      "url": "/research/korean-unification-challenges/",
+      "title": "한반도 통일의 난제 3가지",
+      "primary": "research",
+      "classification": "연구·AI",
+      "sourceHint": "안보 · 경제 · 제도공간"
+    },
+    {
+      "source": {
+        "label": null,
+        "url": null,
+        "verification": "pending"
+      },
+      "dataAsOf": null,
+      "dataPeriod": null,
+      "snapshotUpdatedAt": null,
+      "collectedAt": null,
+      "checkedAt": null,
+      "reviewStatus": "pending",
+      "freshness": "unverified",
+      "evidence": [],
+      "issues": [],
+      "key": "/research/quantum-physics-challenges/",
+      "url": "/research/quantum-physics-challenges/",
+      "title": "현대 양자물리학의 3대 난제",
+      "primary": "research",
+      "classification": "연구·AI",
+      "sourceHint": "측정 · 시공간 · 양자물질"
+    },
+    {
+      "source": {
+        "label": null,
+        "url": null,
+        "verification": "pending"
+      },
+      "dataAsOf": null,
+      "dataPeriod": null,
+      "snapshotUpdatedAt": null,
+      "collectedAt": null,
+      "checkedAt": null,
+      "reviewStatus": "pending",
+      "freshness": "unverified",
+      "evidence": [],
+      "issues": [],
+      "key": "/research/deep-earth-ocean-challenges/",
+      "url": "/research/deep-earth-ocean-challenges/",
+      "title": "심해·지구 내부의 난제",
+      "primary": "research",
+      "classification": "연구·AI",
+      "sourceHint": "심해 · 내핵 · 자기장 · 맨틀"
+    },
+    {
+      "source": {
+        "label": null,
+        "url": null,
+        "verification": "pending"
+      },
+      "dataAsOf": null,
+      "dataPeriod": null,
+      "snapshotUpdatedAt": null,
+      "collectedAt": null,
+      "checkedAt": null,
+      "reviewStatus": "pending",
+      "freshness": "unverified",
+      "evidence": [],
+      "issues": [],
+      "key": "/research/disease-challenges/",
+      "url": "/research/disease-challenges/",
+      "title": "질병의 3대 난제",
+      "primary": "research",
+      "classification": "연구·AI",
+      "sourceHint": "암 · 뇌 · 감염·내성"
+    },
+    {
+      "source": {
+        "label": null,
+        "url": null,
+        "verification": "pending"
+      },
+      "dataAsOf": null,
+      "dataPeriod": null,
+      "snapshotUpdatedAt": null,
+      "collectedAt": null,
+      "checkedAt": null,
+      "reviewStatus": "pending",
+      "freshness": "unverified",
+      "evidence": [],
+      "issues": [],
+      "key": "/math-grader/",
+      "url": "/math-grader/",
+      "title": "STARGATE MATH 서술형 풀이 AI",
+      "primary": "education",
+      "classification": "교육·수학",
+      "sourceHint": "Gemini · 단계별 풀이 · 검산"
+    },
+    {
+      "source": {
+        "label": null,
+        "url": null,
+        "verification": "pending"
+      },
+      "dataAsOf": null,
+      "dataPeriod": null,
+      "snapshotUpdatedAt": null,
+      "collectedAt": null,
+      "checkedAt": null,
+      "reviewStatus": "pending",
+      "freshness": "unverified",
+      "evidence": [],
+      "issues": [],
+      "key": "/research/kmo-combinatorics/",
+      "url": "/research/kmo-combinatorics/",
+      "title": "최근 3년 KMO 조합 훈련 10선",
+      "primary": "education",
+      "classification": "교육·수학",
+      "sourceHint": "중등부 1차 중심 · 기출/연계 구분"
+    },
+    {
+      "source": {
+        "label": null,
+        "url": null,
+        "verification": "pending"
+      },
+      "dataAsOf": null,
+      "dataPeriod": null,
+      "snapshotUpdatedAt": null,
+      "collectedAt": null,
+      "checkedAt": null,
+      "reviewStatus": "pending",
+      "freshness": "unverified",
+      "evidence": [],
+      "issues": [],
+      "key": "/research/seoul-science-high-admission/",
+      "url": "/research/seoul-science-high-admission/",
+      "title": "서울과고 3단계 전형 연구",
+      "primary": "education",
+      "classification": "교육·수학",
+      "sourceHint": "공식 요강 · 기출 범위 · 실전 루브릭"
+    },
+    {
+      "source": {
+        "label": null,
+        "url": null,
+        "verification": "pending"
+      },
+      "dataAsOf": null,
+      "dataPeriod": null,
+      "snapshotUpdatedAt": null,
+      "collectedAt": null,
+      "checkedAt": null,
+      "reviewStatus": "pending",
+      "freshness": "unverified",
+      "evidence": [],
+      "issues": [],
+      "key": "/research/math/archive/",
+      "url": "/research/math/archive/",
+      "title": "중등 수학 문제 14문제 아카이브",
+      "primary": "education",
+      "classification": "교육·수학",
+      "sourceHint": "성대경시형 9 · 황소형 5 · 자동발행 소스"
+    },
+    {
+      "source": {
+        "label": null,
+        "url": null,
+        "verification": "pending"
+      },
+      "dataAsOf": null,
+      "dataPeriod": null,
+      "snapshotUpdatedAt": null,
+      "collectedAt": null,
+      "checkedAt": null,
+      "reviewStatus": "pending",
+      "freshness": "unverified",
+      "evidence": [],
+      "issues": [],
+      "key": "/research/math/2027-june-mock-15/",
+      "url": "/research/math/2027-june-mock-15/",
+      "title": "2027학년도 6월 평가원 수학 15번",
+      "primary": "education",
+      "classification": "교육·수학",
+      "sourceHint": "정적분 · 부호 변화 · 인터랙티브"
+    },
+    {
+      "source": {
+        "label": null,
+        "url": null,
+        "verification": "pending"
+      },
+      "dataAsOf": null,
+      "dataPeriod": null,
+      "snapshotUpdatedAt": null,
+      "collectedAt": null,
+      "checkedAt": null,
+      "reviewStatus": "pending",
+      "freshness": "unverified",
+      "evidence": [],
+      "issues": [],
+      "key": "/research/math/skku-middle-factorial/",
+      "url": "/research/math/skku-middle-factorial/",
+      "title": "성대경시 중등부 팩토리얼 유형",
+      "primary": "education",
+      "classification": "교육·수학",
+      "sourceHint": "팩토리얼 · 나머지 · 모듈러"
+    },
+    {
+      "source": {
+        "label": null,
+        "url": null,
+        "verification": "pending"
+      },
+      "dataAsOf": null,
+      "dataPeriod": null,
+      "snapshotUpdatedAt": null,
+      "collectedAt": null,
+      "checkedAt": null,
+      "reviewStatus": "pending",
+      "freshness": "unverified",
+      "evidence": [],
+      "issues": [],
+      "key": "/research/math/thinking-bull-remainder/",
+      "url": "/research/math/thinking-bull-remainder/",
+      "title": "황소형 배수·나머지 사고력 문제",
+      "primary": "education",
+      "classification": "교육·수학",
+      "sourceHint": "배수 · 나머지 · 최소공배수"
+    },
+    {
+      "source": {
+        "label": null,
+        "url": null,
+        "verification": "pending"
+      },
+      "dataAsOf": null,
+      "dataPeriod": null,
+      "snapshotUpdatedAt": null,
+      "collectedAt": null,
+      "checkedAt": null,
+      "reviewStatus": "pending",
+      "freshness": "unverified",
+      "evidence": [],
+      "issues": [],
+      "key": "/cybersecurity/",
+      "url": "/cybersecurity/",
+      "title": "3AI Cybersecurity Suite",
+      "primary": "operations",
+      "classification": "운영·제품",
+      "sourceHint": "LLM · RAG · SOC"
+    },
+    {
+      "source": {
+        "label": null,
+        "url": null,
+        "verification": "pending"
+      },
+      "dataAsOf": null,
+      "dataPeriod": null,
+      "snapshotUpdatedAt": null,
+      "collectedAt": null,
+      "checkedAt": null,
+      "reviewStatus": "pending",
+      "freshness": "unverified",
+      "evidence": [],
+      "issues": [],
+      "key": "/research/app-privacy/",
+      "url": "/research/app-privacy/",
+      "title": "스타게이트 에듀 개인정보처리방침",
+      "primary": "operations",
+      "classification": "운영·제품",
+      "sourceHint": "2026.09.01 · 시행 전"
+    },
+    {
+      "source": {
+        "label": null,
+        "url": null,
+        "verification": "pending"
+      },
+      "dataAsOf": null,
+      "dataPeriod": null,
+      "snapshotUpdatedAt": null,
+      "collectedAt": null,
+      "checkedAt": null,
+      "reviewStatus": "pending",
+      "freshness": "unverified",
+      "evidence": [],
+      "issues": [],
+      "key": "/sms/",
+      "url": "/sms/",
+      "title": "고객 문자 발송 콘솔",
+      "primary": "operations",
+      "classification": "운영·제품",
+      "sourceHint": "SMS · LMS · 개인화"
+    },
+    {
+      "source": {
+        "label": null,
+        "url": null,
+        "verification": "pending"
+      },
+      "dataAsOf": null,
+      "dataPeriod": null,
+      "snapshotUpdatedAt": null,
+      "collectedAt": null,
+      "checkedAt": null,
+      "reviewStatus": "pending",
+      "freshness": "unverified",
+      "evidence": [],
+      "issues": [],
+      "key": "/quote-maker/",
+      "url": "/quote-maker/",
+      "title": "하루 견적서 · Quote Maker",
+      "primary": "operations",
+      "classification": "운영·제품",
+      "sourceHint": "HTML · PDF · Freemium"
+    },
+    {
+      "source": {
+        "label": null,
+        "url": null,
+        "verification": "pending"
+      },
+      "dataAsOf": null,
+      "dataPeriod": null,
+      "snapshotUpdatedAt": null,
+      "collectedAt": null,
+      "checkedAt": null,
+      "reviewStatus": "pending",
+      "freshness": "unverified",
+      "evidence": [],
+      "issues": [],
+      "key": "https://2026-plan.vercel.app/dashboard",
+      "url": "https://2026-plan.vercel.app/dashboard",
+      "title": "2026 구독 관리 대시보드",
+      "primary": "operations",
+      "classification": "운영·제품",
+      "sourceHint": "Subscription · Analytics · PWA"
+    },
+    {
+      "source": {
+        "label": null,
+        "url": null,
+        "verification": "pending"
+      },
+      "dataAsOf": null,
+      "dataPeriod": null,
+      "snapshotUpdatedAt": null,
+      "collectedAt": null,
+      "checkedAt": null,
+      "reviewStatus": "pending",
+      "freshness": "unverified",
+      "evidence": [],
+      "issues": [],
+      "key": "/onenote-notion-status/",
+      "url": "/onenote-notion-status/",
+      "title": "OneNote · Notion 상태판",
+      "primary": "operations",
+      "classification": "운영·제품",
+      "sourceHint": "Status API · Web Probe"
+    }
+  ]
+}
