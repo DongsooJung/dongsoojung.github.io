@@ -4,6 +4,7 @@ const categories = new Set(['일반', '교육 질문', '프로젝트 문의', '�
 const enc = new TextEncoder();
 const b64 = bytes => btoa(String.fromCharCode(...bytes)).replaceAll('+','-').replaceAll('/','_').replaceAll('=','');
 const pack = value => b64(enc.encode(JSON.stringify(value)));
+export { accessToken as firebaseAccessToken };
 class BoardError extends Error { constructor(status,message) { super(message); this.status=status; } }
 const fail = (status,message) => { throw new BoardError(status,message); };
 const json = (data,status=200) => Response.json(data,{status,headers:{'Cache-Control':'no-store','X-Content-Type-Options':'nosniff'}});
