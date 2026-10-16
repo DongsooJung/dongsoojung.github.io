@@ -51,7 +51,7 @@
   const summary = document.createElement('p');
   summary.className = 'dashboard-data-summary';
   const section = document.querySelector('#dashboards');
-  const toolbar = section?.querySelector('.toolbar');
+  const toolbar = section?.querySelector('.toolbar') || document.querySelector('.toolbar');
   if (toolbar) toolbar.insertAdjacentElement('afterend', summary);
   function refreshSummary() {
     const counts = { ok: 0, stale: 0, error: 0, checking: 0, unknown: 0 };
