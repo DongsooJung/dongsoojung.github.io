@@ -61,7 +61,7 @@
         </div>
       </div>
         <div class="stats" aria-label="연구 허브 현황">
-        <div class="stat"><strong>58</strong><span>연구·데이터·도구 프로젝트</span></div>
+        <div class="stat"><strong>61</strong><span>연구·데이터·도구 프로젝트</span></div>
         <div class="stat"><strong>8</strong><span>연구·데이터 영역</span></div>
         <div class="stat"><strong>LIVE</strong><span>실시간·월간 갱신</span></div>
       </div>
@@ -286,8 +286,8 @@
 
           <details class="card-group" data-card-group open id="api-observatory">
             <summary class="card-group-summary">
-              <span class="card-group-title"><strong>공공 API 관측소</strong><span>공항·LH·국토부·조달·금융위·법원경매 등 API 수집 하위 대시보드</span></span>
-              <span class="card-group-meta"><span data-group-count>9개</span><span class="chevron" aria-hidden="true"></span></span>
+              <span class="card-group-title"><strong>공공 API 관측소</strong><span>공항·날씨·LH·국토부·조달·금융위·법원경매 등 API 수집 하위 대시보드</span></span>
+              <span class="card-group-meta"><span data-group-count>10개</span><span class="chevron" aria-hidden="true"></span></span>
             </summary>
             <div class="grid">
               <a class="project" href="/research/airport-congestion/" data-card data-category="api urban tourism">
@@ -306,6 +306,16 @@
                   <h3>김포공항 국내선 혼잡도</h3>
                   <p>체크인·신분확인·보안검색·탑승으로 이어지는 3개 구간의 공식 혼잡도 등급을 10분 주기로 확인합니다.</p>
                   <div class="project-footer"><span>한국공항공사 공식 API · 연결 상태 표시</span><b>열기 →</b></div>
+                </div>
+              </a>
+
+                            <a class="project" href="/strategy/weather-calendar/" data-card data-category="api">
+                <div class="visual" style="--visual:radial-gradient(circle at 24% 20%,rgba(96,165,250,.5),transparent 54%),radial-gradient(circle at 80% 75%,rgba(241,199,122,.32),transparent 48%),linear-gradient(145deg,#081627,#163e63)">🌦</div>
+                <div class="project-body">
+                  <div class="meta"><span class="pill accent">Weather API</span><span class="pill">Live · Monthly</span></div>
+                  <h3>월간 날씨 캘린더</h3>
+                  <p>오늘과 향후 7일 예보를 강조하고 기상 위험 알림, 실시간 강수 레이더와 월간 캘린더를 함께 제공합니다.</p>
+                  <div class="project-footer"><span>Open‑Meteo · RainViewer · 기상청 특보</span><b>열기 →</b></div>
                 </div>
               </a>
 
@@ -520,8 +530,8 @@
 
           <details class="card-group" data-card-group open>
             <summary class="card-group-summary">
-              <span class="card-group-title"><strong>거시경제·관광 · AI·도구</strong><span>환율·무역·방한객, 카페 관측, AI·연구 도구</span></span>
-                            <span class="card-group-meta"><span data-group-count>18개</span><span class="chevron" aria-hidden="true"></span></span>
+              <span class="card-group-title"><strong>거시경제·관광 · AI·도구</strong><span>환율·무역·방한객, 카페 관측, AI·연구·운영 도구</span></span>
+                            <span class="card-group-meta"><span data-group-count>19개</span><span class="chevron" aria-hidden="true"></span></span>
             </summary>
             <div class="grid">
               <a class="project" href="/research/crime-statistics/" data-card data-category="urban economy">
@@ -686,6 +696,16 @@
                   <div class="project-footer"><span>Gemini · 단계별 풀이 · 검산</span><b>문제 풀기 ↗</b></div>
                 </div>
               </a>
+              <a class="project" href="/onenote-notion-status/" data-card data-category="tools">
+                <div class="visual" style="--visual:radial-gradient(circle at 24% 20%,rgba(11,110,153,.52),transparent 54%),radial-gradient(circle at 78% 70%,rgba(15,92,76,.35),transparent 50%),linear-gradient(145deg,#0d1f24,#14302c)">◎</div>
+                <div class="project-body">
+                  <div class="meta"><span class="pill accent">Ops</span><span class="pill">Live · Status</span></div>
+                  <h3>OneNote · Notion 상태판</h3>
+                  <p>웹 OneNote와 Notion의 공식 상태·도달성·응답 지연을 실시간으로 점검하고, 60초 자동 갱신과 최근 점검 기록을 제공합니다.</p>
+                  <div class="project-footer"><span>Status API · Web Probe</span><b>열기 →</b></div>
+                </div>
+              </a>
+
             </div>
           </details>
         </div>
@@ -701,7 +721,7 @@
     <footer><span>© 2026 Dongsoo Jung · Stargate Corporation</span><span><a href="/">Portal</a> · <a href="https://github.com/DongsooJung">GitHub</a></span></footer>
   </div>
   <script src="/assets/theme.js?v=20260729f" defer></script>
-  <script src="/assets/intelligence-hub.js?v=20260904-sort-b" defer></script>
+  <script src="/assets/intelligence-hub.js?v=20261016-strategy-shelves" defer></script>
   <script src="/assets/usage-analytics.js?v=20260904-usage-path" defer></script>
   <audio id="homepage-music" src="/assets/lindy-conant-take-courage.mp3" loop preload="none" hidden></audio>
   <p id="homepage-music-hint" class="homepage-music-hint" role="status" hidden>화면을 한 번 누르면 음악이 재생됩니다</p>

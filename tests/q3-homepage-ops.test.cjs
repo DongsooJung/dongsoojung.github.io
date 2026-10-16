@@ -48,7 +48,9 @@ test('MegaStudy submission uses the confirmed August 16 deadline', () => {
 });
 test('hub promotes Q4 while preserving the existing Q3 homepage workstream', () => {
   assert.equal((hub.match(/href="\/strategy\/q4-45day\/" data-card/g) || []).length, 1);
-  assert.ok(hub.includes('/strategy/q4-45day/#workstreams'));
+  const heroActions = hub.match(/class="hero-actions">([\s\S]*?)<\/div>/)[1];
+  assert.equal((heroActions.match(/<a /g) || []).length, 4);
+  assert.ok(heroActions.includes('href="/strategy/q4-45day/"'));
   assert.equal((hub.match(/href="\/strategy\/q3-45day\/" data-card/g) || []).length, 0);
   for (const t of home) assert.ok(page.includes(`href="#${t[0]}"`));
   assert.ok(source.includes("stargate-q3-2026-status-v1"));

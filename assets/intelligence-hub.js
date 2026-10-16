@@ -1,6 +1,7 @@
 (() => {
   const cardGroups = document.querySelector('.card-groups');
-  if (cardGroups && !document.querySelector('#math-education')) {
+  const onResearchHub = document.body.classList.contains('research');
+  if (cardGroups && onResearchHub && !document.querySelector('#math-education')) {
     const group = document.createElement('details');
     group.className = 'card-group';
     group.dataset.cardGroup = '';
@@ -175,7 +176,7 @@
     });
 
     const parent = groups[0]?.parentElement;
-    if (parent) {
+    if (parent && parent.dataset.preserveGroupOrder !== 'true') {
       const orderedGroups = groups.slice().sort((a, b) => {
         if (sortMode !== 'usage') return groups.indexOf(a) - groups.indexOf(b);
         return (Number(b.dataset.usagePeak) || 0) - (Number(a.dataset.usagePeak) || 0)

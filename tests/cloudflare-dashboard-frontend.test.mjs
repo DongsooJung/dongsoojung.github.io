@@ -11,7 +11,7 @@ function browser(host, fail = false) {
   const context = {
     window: {}, location: { hostname: host, href: `https://${host}/exchange-rate/` },
     URL, Map, Intl, Date, Number, AbortSignal,
-    document: { readyState: 'complete', querySelectorAll: () => [] },
+    document: { documentElement: { lang: 'ko' }, readyState: 'complete', querySelectorAll: () => [] },
     fetch: async (url, options) => {
       requests.push({ url, options });
       if (fail) throw new Error('offline');
