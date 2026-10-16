@@ -42,7 +42,9 @@
     details.className = 'dashboard-data-details';
     const state = document.createElement('span');
     state.className = 'dashboard-data-state';
-    details.textContent = '표기 자료: ' + (config?.source || source) + ' · 방식: ' + (config?.mode || groupMode(card)) + ' · 갱신: 시각 미공개';
+    details.textContent = config
+      ? '출처: ' + config.source + ' · 방식: ' + config.mode + ' · 갱신: 확인 중'
+      : '출처: 미확인 · 카드 표기: ' + source + ' · 분류: ' + groupMode(card) + ' · 갱신: 시각 미공개';
     state.textContent = config ? '스냅샷 확인 중' : '자동 검증 미연결';
     node.append(details, state);
     body.appendChild(node);
@@ -94,7 +96,7 @@
     } finally {
       clearTimeout(timeout);
       entries.forEach(({ details, node, state: label, config }) => {
-        details.textContent = '표기 자료: ' + config.source + ' · 방식: ' + config.mode + ' · 갱신: ' + updated;
+        details.textContent = '출처: ' + config.source + ' · 방식: ' + config.mode + ' · 갱신: ' + updated;
         node.dataset.state = state;
         label.textContent = message;
       });
