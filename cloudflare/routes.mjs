@@ -2,6 +2,7 @@ import { MAX_IMPORT_BYTES, RequestError, isImportAuthorized, readPayload, valida
 import { verifyAccessRequest } from './access.mjs';
 import { DASHBOARD_COLLECTOR_VERSION } from './dashboard-refresh.mjs';
 import { handleBoard } from './board.mjs';
+import { handleFirebaseAuth } from './firebase-auth.mjs';
 
 export const PUBLIC_ORIGINS = new Set(['https://stargateedu.co.kr','https://www.stargateedu.co.kr','https://stargate.stargate8225.workers.dev']);
 const publicMethods = new Set(['record_site_visit','record_site_usage_event','get_site_button_click_counts','get_site_visit_stats','get_site_visit_summary','get_site_usage_summary']);
@@ -39,6 +40,7 @@ function preflight(request,method) {
 
 export async function handleRequest(request,env,options = {}) {
   const url = new URL(request.url), path = url.pathname;
+  if(path.startsWith('/__/auth/')||path.startsWith('/__/firebase/')) return handleFirebaseAuth(request,env,options.firebaseAuth);
   const guardedPath=protectedPath(path);
   const adminPage = guardedPath === '/admin' || guardedPath.startsWith('/admin/');
   const adminApi = guardedPath.startsWith('/api/admin/');

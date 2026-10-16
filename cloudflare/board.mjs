@@ -68,7 +68,7 @@ export async function handleBoard(request,env,{admin=false,fetchFn=fetch}={}) {
   try {
     const url=new URL(request.url), base=admin?'/api/admin/board':'/api/board';
     const route=url.pathname.slice(base.length);
-    if(!admin && route==='/config' && request.method==='GET') return json({ready:ready(env),firebase:{apiKey:env.FIREBASE_API_KEY,projectId:env.FIREBASE_PROJECT_ID,authDomain:`${env.FIREBASE_PROJECT_ID}.firebaseapp.com`},turnstileSiteKey:env.TURNSTILE_SITE_KEY});
+    if(!admin && route==='/config' && request.method==='GET') return json({ready:ready(env),firebase:{apiKey:env.FIREBASE_API_KEY,projectId:env.FIREBASE_PROJECT_ID,authDomain:url.hostname},turnstileSiteKey:env.TURNSTILE_SITE_KEY});
     if(!ready(env)) fail(503,'게시판 연결을 준비하고 있습니다. 잠시 후 다시 방문해 주세요.');
     const id=route.slice(1);
     if(route && !/^\/[A-Za-z0-9_-]{1,128}$/.test(route)) fail(404,'게시글을 찾을 수 없습니다.');
