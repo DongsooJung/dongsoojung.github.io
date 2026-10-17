@@ -6,6 +6,7 @@ import re
 import time
 from collections import deque
 from datetime import datetime, timedelta, timezone
+from html.parser import HTMLParser
 from pathlib import Path
 from urllib.error import HTTPError, URLError
 from urllib.request import Request, urlopen
@@ -183,6 +184,18 @@ def score_candidate(item: dict, text: str) -> tuple[int, list[str]]:
     return max(0, min(100, score)), reasons[:4]
 
 
+class ListingMetadata(HTMLParser):
+    """Read the platform's unit description without treating building totals as unit area."""
+    def __init__(self):
+        super().__init__(convert_charrefs=True)
+        self.description = ""
+
+    def handle_starttag(self, tag, attrs):
+        values = dict(attrs)
+        if tag == "meta" and (values.get("name") == "description" or values.get("property") == "og:description"):
+            self.description = self.description or values.get("content", "")
+
+
 def parse_listing(url: str, source: str) -> dict | None:
     title = html_lib.unescape(first(r"<title[^>]*>(.*?)</title>", source, re.I | re.S) or "")
     text = strip_html(source)
@@ -205,7 +218,11 @@ def parse_listing(url: str, source: str) -> dict | None:
 
     district = first(r"부산광역시\s+([^\s]+(?:구|군))", title) or first(r"부산광역시\s+([^\s]+(?:구|군))", text) or "부산"
     dong = first(r"부산광역시\s+[^\s]+(?:구|군)\s+([^\s]+(?:동|읍|면))", title) or ""
-    area_raw = first(r"(?:전용면적|전용|연면적)\s*([\d.]+)\s*(?:㎡|m²)", text)
+    metadata = ListingMetadata()
+    metadata.feed(source)
+    area_raw = first(r"전용면적\s*([\d.]+)\s*(?:㎡|m²)", metadata.description)
+    if area_raw is None:
+        area_raw = first(r"(?:전용면적|전용)\s*([\d.]+)\s*(?:㎡|m²)", text)
     area = float(area_raw) if area_raw else None
     kind = building_type(title, text)
     days = freshness_days(text)
@@ -227,6 +244,7 @@ def parse_listing(url: str, source: str) -> dict | None:
         "rent": rent,
         "rooms": rooms,
         "area_m2": area,
+        "area_basis": "exclusive" if area is not None else None,
         "building_type": kind,
         "freshness_days": days,
         "title": re.sub(r"\s*\|\s*당근부동산.*$", "", title).strip(),

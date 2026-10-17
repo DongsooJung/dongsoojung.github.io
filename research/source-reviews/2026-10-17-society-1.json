@@ -1,0 +1,479 @@
+{
+  "schemaVersion": 1,
+  "step": "society-1",
+  "checkedAt": "2026-10-17T01:26:08.333876+00:00",
+  "sourceResponses": [
+    {
+      "key": "ecb",
+      "url": "https://www.ecb.europa.eu/stats/eurofxref/eurofxref-hist-90d.xml",
+      "checkedAt": "2026-10-17T01:21:31.977105+00:00",
+      "status": 200,
+      "finalUrl": "https://www.ecb.europa.eu/stats/eurofxref/eurofxref-hist-90d.xml",
+      "contentType": "text/xml",
+      "sha256": "588db7a2888c39bb5045d62e6f0f6b25635401a70bbffc52186238e62e10ed77",
+      "bytes": 70579
+    },
+    {
+      "key": "trends",
+      "url": "https://trends.google.com/trending?geo=KR&hl=ko&hours=48",
+      "checkedAt": "2026-10-17T01:21:31.978104+00:00",
+      "status": 200,
+      "finalUrl": "https://trends.google.com/trending?geo=KR&hl=ko&hours=48",
+      "contentType": "text/html; charset=utf-8",
+      "sha256": "3f55b0f5fa3cce88c9fa8aad196b155401eb557da14656a97212d97e64a6700d",
+      "bytes": 1398562
+    },
+    {
+      "key": "kama9",
+      "url": "https://www.kama.or.kr/NewsController?board_id=968&boardmaster_id=Produce&cmd=V&menunum=0003",
+      "checkedAt": "2026-10-17T01:21:31.979107+00:00",
+      "status": 200,
+      "finalUrl": "https://www.kama.or.kr/NewsController?board_id=968&boardmaster_id=Produce&cmd=V&menunum=0003",
+      "contentType": "text/html;charset=EUC-KR",
+      "sha256": "ade14474f862e6b759ee262826f10a6503c8ca16661d84b1da7fe0dae9372f58",
+      "bytes": 77446
+    },
+    {
+      "key": "kama8",
+      "url": "https://www.kama.or.kr/NewsController?board_id=965&boardmaster_id=Produce&cmd=V&menunum=0003",
+      "checkedAt": "2026-10-17T01:21:31.979107+00:00",
+      "status": 200,
+      "finalUrl": "https://www.kama.or.kr/NewsController?board_id=965&boardmaster_id=Produce&cmd=V&menunum=0003",
+      "contentType": "text/html;charset=EUC-KR",
+      "sha256": "2a4ac798502b9f07984ce1020d07b00ac7a51f46bd3c2277bc9efd2da246fb04",
+      "bytes": 71866
+    },
+    {
+      "key": "kaida",
+      "url": "https://www.kaida.co.kr/ko/kaida/bbsList.do?bbsType=kaida&boardSeq=15",
+      "checkedAt": "2026-10-17T01:21:31.980111+00:00",
+      "status": 200,
+      "finalUrl": "https://www.kaida.co.kr/ko/kaida/bbsList.do?bbsType=kaida&boardSeq=15",
+      "contentType": "text/html;charset=utf-8",
+      "sha256": "2634290499a9d692341ab95f8bdabbe3cdd2395ba00efe8bbb711d82f2a31915",
+      "bytes": 65380
+    },
+    {
+      "key": "police",
+      "url": "https://www.police.go.kr/www/open/publice/publice03_2018.jsp",
+      "checkedAt": "2026-10-17T01:21:31.981107+00:00",
+      "status": 307,
+      "error": "HTTP error"
+    },
+    {
+      "key": "metro",
+      "url": "https://metro-lodging-data.stargate8224.chatgpt.site",
+      "checkedAt": "2026-10-17T01:21:31.982110+00:00",
+      "status": 401,
+      "error": "HTTP error"
+    },
+    {
+      "key": "police_new",
+      "url": "https://www.police.go.kr/user/bbs/BD_selectBbsList.do?estnColumn2=%EB%B6%84%EA%B8%B0&q_bbsCode=1115&q_searchKeyTy=estnColumn1___1001&q_searchVal=2026%EB%85%84+1%EB%B6%84%EA%B8%B0",
+      "checkedAt": "2026-10-17T01:22:59.668129+00:00",
+      "status": 307,
+      "error": "HTTP error"
+    }
+  ],
+  "projects": {
+    "/exchange-rate/": {
+      "reviewStatus": "needs_review",
+      "dataPeriod": "2026-10",
+      "dataAsOf": "2026-10-16",
+      "verifiedScope": "환율 2026-08~10 월평균·최저·최고, 최신 4개 통화 교차환율. 기존 변환기로 ECB 원문 55개 관측일을 재계산한 결과 게시본과 일치.",
+      "comparisons": [
+        {
+          "period": "2026-08",
+          "days": 21,
+          "matchesPublished": true
+        },
+        {
+          "period": "2026-09",
+          "days": 22,
+          "matchesPublished": true
+        },
+        {
+          "period": "2026-10",
+          "days": 12,
+          "matchesPublished": true
+        }
+      ],
+      "latest": {
+        "date": "2026-10-16",
+        "rates": {
+          "USD": 1332.1,
+          "JPY": 842.99,
+          "EUR": 1499.01,
+          "CNY": 199.23
+        }
+      },
+      "notVerified": [
+        "금리·물가",
+        "비트코인",
+        "시장 원자재",
+        "2026-07 이전 환율"
+      ],
+      "note": "10월은 2026-10-16까지 12개 관측일 부분 집계. 값이 같으므로 데이터 파일과 갱신일은 변경하지 않음."
+    },
+    "/google-trends/": {
+      "reviewStatus": "verified",
+      "dataPeriod": "2026-10",
+      "dataAsOf": "2026-10-17",
+      "collectedAt": "2026-10-17T01:21:31.978104+00:00",
+      "snapshotUpdatedAt": "2026-10-17T01:27:00.377Z",
+      "scope": "Google 공개 Trending Now 원문에서 추출·정렬한 검색어 100개 및 근사 트래픽·시작시각 대조. 카테고리 한글명은 사이트 변환 규칙.",
+      "rawCount": 371,
+      "exportCount": 100,
+      "totalApproxVolume": 1051000,
+      "note": "48시간 공개 스냅샷이며 완성된 10월 통계가 아님. 근사 트래픽 합계는 고유 이용자 수가 아님."
+    },
+    "/airbnb/": {
+      "reviewStatus": "verified",
+      "dataPeriod": "2026-10",
+      "dataAsOf": "2026-10-17",
+      "collectedAt": "2026-10-17T10:29:03+09:00",
+      "snapshotUpdatedAt": "2026-10-17T10:29:03+09:00",
+      "scope": "공개 매물 10건의 제목·지역·보증금·월세·방수·전용면적·건축물 유형을 각 원문과 대조. 건물 전체 연면적은 전용면적으로 사용하지 않음.",
+      "listingChecks": [
+        {
+          "key": "listing-4697552",
+          "url": "https://realty.daangn.com/articles/4697552",
+          "checkedAt": "2026-10-17T01:29:02.672003+00:00",
+          "status": 200,
+          "finalUrl": "https://realty.daangn.com/articles/4697552",
+          "contentType": "text/html; charset=utf-8",
+          "sha256": "90ccd10ad139fbb8936c69ca454d78d69dcf0878761c49647a25c50b25c0c669",
+          "bytes": 148146,
+          "matchedFields": [
+            "title",
+            "district",
+            "deposit",
+            "rent",
+            "rooms",
+            "area_m2",
+            "area_basis",
+            "building_type"
+          ]
+        },
+        {
+          "key": "listing-4713338",
+          "url": "https://realty.daangn.com/articles/4713338",
+          "checkedAt": "2026-10-17T01:29:02.672974+00:00",
+          "status": 200,
+          "finalUrl": "https://realty.daangn.com/articles/4713338",
+          "contentType": "text/html; charset=utf-8",
+          "sha256": "d35c2afe794e019fe66c7979e6f2e20d9a9f10e75429dd5f327eb6bef573c8a5",
+          "bytes": 148083,
+          "matchedFields": [
+            "title",
+            "district",
+            "deposit",
+            "rent",
+            "rooms",
+            "area_m2",
+            "area_basis",
+            "building_type"
+          ]
+        },
+        {
+          "key": "listing-1198391",
+          "url": "https://realty.daangn.com/articles/1198391",
+          "checkedAt": "2026-10-17T01:29:02.673973+00:00",
+          "status": 200,
+          "finalUrl": "https://realty.daangn.com/articles/1198391",
+          "contentType": "text/html; charset=utf-8",
+          "sha256": "8615b1ee0441adf98558b0d1ac7b3cb30012aeb4923949d7dae3fada854da4b3",
+          "bytes": 165853,
+          "matchedFields": [
+            "title",
+            "district",
+            "deposit",
+            "rent",
+            "rooms",
+            "area_m2",
+            "area_basis",
+            "building_type"
+          ]
+        },
+        {
+          "key": "listing-3207454",
+          "url": "https://realty.daangn.com/articles/3207454",
+          "checkedAt": "2026-10-17T01:29:02.674974+00:00",
+          "status": 200,
+          "finalUrl": "https://realty.daangn.com/articles/3207454",
+          "contentType": "text/html; charset=utf-8",
+          "sha256": "f97602d47b99ec6bc77a6c9aea8b8685b44fd9fde5e45af1d8ac6de929da7694",
+          "bytes": 164674,
+          "matchedFields": [
+            "title",
+            "district",
+            "deposit",
+            "rent",
+            "rooms",
+            "area_m2",
+            "area_basis",
+            "building_type"
+          ]
+        },
+        {
+          "key": "listing-2977836",
+          "url": "https://realty.daangn.com/articles/2977836",
+          "checkedAt": "2026-10-17T01:29:02.674974+00:00",
+          "status": 200,
+          "finalUrl": "https://realty.daangn.com/articles/2977836",
+          "contentType": "text/html; charset=utf-8",
+          "sha256": "eabf8c15296e9db74efd05187511d244ca47b3265b07871ad1004a316fd8a5c7",
+          "bytes": 165394,
+          "matchedFields": [
+            "title",
+            "district",
+            "deposit",
+            "rent",
+            "rooms",
+            "area_m2",
+            "area_basis",
+            "building_type"
+          ]
+        },
+        {
+          "key": "listing-4692826",
+          "url": "https://realty.daangn.com/articles/4692826",
+          "checkedAt": "2026-10-17T01:29:03.391970+00:00",
+          "status": 200,
+          "finalUrl": "https://realty.daangn.com/articles/4692826",
+          "contentType": "text/html; charset=utf-8",
+          "sha256": "a8990301f1e4a3e5c454233e4222b578720efa7629df10e08e9a773573179cc1",
+          "bytes": 162623,
+          "matchedFields": [
+            "title",
+            "district",
+            "deposit",
+            "rent",
+            "rooms",
+            "area_m2",
+            "area_basis",
+            "building_type"
+          ]
+        },
+        {
+          "key": "listing-4298874",
+          "url": "https://realty.daangn.com/articles/4298874",
+          "checkedAt": "2026-10-17T01:29:03.406976+00:00",
+          "status": 200,
+          "finalUrl": "https://realty.daangn.com/articles/4298874",
+          "contentType": "text/html; charset=utf-8",
+          "sha256": "97203612c31568c7edecdd544746b1b3776c034ae79cebc7edf796dd5d5eef7c",
+          "bytes": 163245,
+          "matchedFields": [
+            "title",
+            "district",
+            "deposit",
+            "rent",
+            "rooms",
+            "area_m2",
+            "area_basis",
+            "building_type"
+          ]
+        },
+        {
+          "key": "listing-4175649",
+          "url": "https://realty.daangn.com/articles/4175649",
+          "checkedAt": "2026-10-17T01:29:03.441974+00:00",
+          "status": 200,
+          "finalUrl": "https://realty.daangn.com/articles/4175649",
+          "contentType": "text/html; charset=utf-8",
+          "sha256": "645862b9722480e8c3dcf527bc146b12150951ad03e6dda4f77132fdcd725546",
+          "bytes": 167244,
+          "matchedFields": [
+            "title",
+            "district",
+            "deposit",
+            "rent",
+            "rooms",
+            "area_m2",
+            "area_basis",
+            "building_type"
+          ]
+        },
+        {
+          "key": "listing-4165847",
+          "url": "https://realty.daangn.com/articles/4165847",
+          "checkedAt": "2026-10-17T01:29:03.459971+00:00",
+          "status": 200,
+          "finalUrl": "https://realty.daangn.com/articles/4165847",
+          "contentType": "text/html; charset=utf-8",
+          "sha256": "ddeb92cf85755a972dc5a80ba17796ce7ba42a937226945301745127de2bfb66",
+          "bytes": 167088,
+          "matchedFields": [
+            "title",
+            "district",
+            "deposit",
+            "rent",
+            "rooms",
+            "area_m2",
+            "area_basis",
+            "building_type"
+          ]
+        },
+        {
+          "key": "listing-4597925",
+          "url": "https://realty.daangn.com/articles/4597925",
+          "checkedAt": "2026-10-17T01:29:03.463972+00:00",
+          "status": 200,
+          "finalUrl": "https://realty.daangn.com/articles/4597925",
+          "contentType": "text/html; charset=utf-8",
+          "sha256": "e0feb2621453d2737e5318814eefb12cafcbba5c4ad3a95392273d4577c23d78",
+          "bytes": 166275,
+          "matchedFields": [
+            "title",
+            "district",
+            "deposit",
+            "rent",
+            "rooms",
+            "area_m2",
+            "area_basis",
+            "building_type"
+          ]
+        }
+      ],
+      "crawl": {
+        "visited_urls": 70,
+        "successful_pages": 62,
+        "max_pages": 70
+      },
+      "note": "게시자의 매물정보 검증이며 인허가·매출·수익의 검증이 아님. 운영 적합성 점수는 규칙 기반 파생값.",
+      "areaCorrections": [
+        {
+          "id": "4165847",
+          "before": 767.83,
+          "after": 47.4,
+          "basis": "전용면적"
+        },
+        {
+          "id": "4597925",
+          "before": 750.74,
+          "after": 47.53,
+          "basis": "전용면적"
+        }
+      ]
+    },
+    "/research/crime-statistics/": {
+      "reviewStatus": "source_unavailable",
+      "dataPeriod": "2026-06",
+      "dataAsOf": null,
+      "snapshotUpdatedAt": null,
+      "collectedAt": null,
+      "postedCoverage": "2025Q3~2026Q2",
+      "sourceAttempts": [
+        {
+          "key": "police",
+          "url": "https://www.police.go.kr/www/open/publice/publice03_2018.jsp",
+          "checkedAt": "2026-10-17T01:21:31.981107+00:00",
+          "status": 307,
+          "error": "HTTP error"
+        },
+        {
+          "key": "police_new",
+          "url": "https://www.police.go.kr/user/bbs/BD_selectBbsList.do?estnColumn2=%EB%B6%84%EA%B8%B0&q_bbsCode=1115&q_searchKeyTy=estnColumn1___1001&q_searchVal=2026%EB%85%84+1%EB%B6%84%EA%B8%B0",
+          "checkedAt": "2026-10-17T01:22:59.668129+00:00",
+          "status": 307,
+          "error": "HTTP error"
+        }
+      ],
+      "internalChecks": [
+        {
+          "quarter": "2025Q3",
+          "rows": 43,
+          "total": [
+            451278,
+            347501,
+            77,
+            355188,
+            2620
+          ],
+          "internalSumCheck": "passed"
+        },
+        {
+          "quarter": "2025Q4",
+          "rows": 43,
+          "total": [
+            378712,
+            289323,
+            76.4,
+            306987,
+            2238
+          ],
+          "internalSumCheck": "passed"
+        },
+        {
+          "quarter": "2026Q1",
+          "rows": 43,
+          "total": [
+            373083,
+            282498,
+            75.7,
+            304289,
+            2390
+          ],
+          "internalSumCheck": "passed"
+        },
+        {
+          "quarter": "2026Q2",
+          "rows": 43,
+          "total": [
+            400822,
+            316415,
+            78.9,
+            336624,
+            2620
+          ],
+          "internalSumCheck": "passed"
+        }
+      ],
+      "note": "기존 4분기 172개 행의 내부 합계만 검산. 경찰청 원문은 신규·기존 주소 모두 HTTP 307 리디렉션 오류로 이번에 대조하지 못함. 9월·10월 자료 확보 또는 최신 공표월 확인으로 취급하지 않음.",
+      "nextAction": "경찰청 접근 정상화 후 2026년 3분기 공표 여부와 전국 PDF를 확인하고 기존 분기 원표도 재대조."
+    },
+    "/research/new-car-sales/": {
+      "reviewStatus": "needs_review",
+      "dataPeriod": "2026-08",
+      "dataAsOf": null,
+      "collectedAt": null,
+      "snapshotUpdatedAt": null,
+      "verifiedSubset": {
+        "period": "2026-09",
+        "scope": "수입 승용차 신규등록",
+        "cars": 34904,
+        "unit": "대",
+        "publishedAt": "2026-10-06",
+        "source": "한국수입자동차협회(KAIDA)",
+        "sourceUrl": "https://www.kaida.co.kr/ko/kaida/bbsList.do?bbsType=kaida&boardSeq=15",
+        "sourceRetrievedAt": "2026-10-17T01:21:31.980111+00:00"
+      },
+      "newPublication": {
+        "period": "2026-09",
+        "publishedAt": "2026-10-06",
+        "status": "provisional",
+        "url": "https://www.kama.or.kr/NewsController?board_id=968&boardmaster_id=Produce&cmd=V&menunum=0003",
+        "valuesRetrieved": false
+      },
+      "note": "기존 전체시장 시계열과 수입 승용차 신규등록은 범위가 달라 합산·대체하지 않음. 9월 자료 미공표 안내는 정정.",
+      "nextAction": "기존 권한으로 KAMA 원표를 확보한 뒤 판매·등록·승용·상용 범위를 맞춰 8월 합계 및 9월 전체값 검증. 유료 가입은 실행하지 않음."
+    },
+    "https://metro-lodging-data.stargate8224.chatgpt.site": {
+      "reviewStatus": "source_unavailable",
+      "dataPeriod": null,
+      "dataAsOf": null,
+      "collectedAt": null,
+      "snapshotUpdatedAt": null,
+      "sourceAttempt": {
+        "key": "metro",
+        "url": "https://metro-lodging-data.stargate8224.chatgpt.site",
+        "checkedAt": "2026-10-17T01:21:31.982110+00:00",
+        "status": 401,
+        "error": "HTTP error"
+      },
+      "note": "외부 대시보드 HTTP 401 인증 요구로 데이터·출처·관측기간을 읽을 수 없음.",
+      "nextAction": "공개 접근 또는 원본 데이터 제공이 가능해지면 출처·기간·단위 대조. 인증·게시 권한 없이 사이트를 변경하지 않음."
+    }
+  }
+}
