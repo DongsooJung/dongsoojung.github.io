@@ -177,16 +177,29 @@
       ],
       "release": {
         "branch": "codex/research-society-2-source-review",
-        "status": "awaiting_checks",
+        "status": "verified",
         "liveUrl": "https://www.stargateedu.co.kr/research/",
         "sourceReviewUrl": "https://www.stargateedu.co.kr/research/source-reviews/2026-10-17-society-2.json",
-        "pullRequest": "https://github.com/DongsooJung/dongsoojung.github.io/pull/187"
+        "pullRequest": "https://github.com/DongsooJung/dongsoojung.github.io/pull/187",
+        "commit": "c2610a578f2f3eacfad04b463f5666685170e746",
+        "verifiedAt": "2026-10-17T02:12:46.983Z",
+        "pagesRun": "https://github.com/DongsooJung/dongsoojung.github.io/actions/runs/38993824299",
+        "checks": [
+          "exact merge commit Pages build and deploy success",
+          "both public domains: completed society-2 and PR187",
+          "deployed JS and audit bytes match reviewed source",
+          "32 relevant Node tests pass",
+          "live Edge: currencies, actual-year CSV, query capture and live read-only procurement requests",
+          "Cafe 20 rows, stats date and collection time",
+          "four mobile pages",
+          "seven exclusive filters globally alphabetical; 63 unique; search, anchors, strategy; no script errors"
+        ]
       }
     },
     {
       "id": "urban-1",
       "label": "도시·공간 1차",
-      "status": "pending",
+      "status": "completed",
       "keys": [
         "/research/bukangi/",
         "/ds-research-urban-analytics/",
@@ -195,7 +208,82 @@
         "/strategy/weather-calendar/",
         "/research/urban-atlas/",
         "/election/"
-      ]
+      ],
+      "outcome": "reviewed_with_followups",
+      "completedAt": "2026-10-17T02:29:06.590856+00:00",
+      "itemResults": {
+        "/research/airport-congestion/": {
+          "status": "verified",
+          "checkedAt": "2026-10-17T02:29:06.590856+00:00",
+          "audit": "/research/source-reviews/2026-10-17-urban-1.json",
+          "nextAction": "시간별 자동 수집 유지. 날짜 버튼은 원자료 예측일을 표시하며 값이나 날짜가 바뀌면 이전 대조 해시를 재사용하지 않음."
+        },
+        "/research/gimpo-airport-congestion/": {
+          "status": "needs_review",
+          "checkedAt": "2026-10-17T02:29:06.590856+00:00",
+          "audit": "/research/source-reviews/2026-10-17-urban-1.json",
+          "nextAction": "승인된 원 API 응답에서 기준일 필드 제공 여부를 확인. 제공되지 않으면 한국공항공사에 시각 필드 의미를 확인하며 날짜를 추정하지 않음."
+        },
+        "/strategy/weather-calendar/": {
+          "status": "verified",
+          "checkedAt": "2026-10-17T02:29:06.590856+00:00",
+          "audit": "/research/source-reviews/2026-10-17-urban-1.json",
+          "nextAction": "조회 시 실제 수집시각·모델 자료/예보 구분·단위를 CSV에 보존. 월간 확정 관측은 별도 공식 원표를 확보한 뒤 별도 범위로 갱신."
+        },
+        "/research/bukangi/": {
+          "status": "needs_review",
+          "checkedAt": "2026-10-17T02:29:06.590856+00:00",
+          "audit": "/research/source-reviews/2026-10-17-urban-1.json",
+          "nextAction": "기존 기록별 원문·발표일·중복 인용을 대조하고, 이후 기관의 결과 공지가 확인될 때만 사건 경과를 추가."
+        },
+        "/ds-research-urban-analytics/": {
+          "status": "needs_review",
+          "checkedAt": "2026-10-17T02:29:06.590856+00:00",
+          "audit": "/research/source-reviews/2026-10-17-urban-1.json",
+          "nextAction": "독립 프로젝트의 기존 수집기로 생활인구 최신 공식 기준일·전체 응답 범위를 확인한 후 별도로 갱신. 포털에 새 폴더를 만들어 기존 프로젝트 URL을 덮어쓰지 않음."
+        },
+        "/election/": {
+          "status": "not_applicable",
+          "checkedAt": "2026-10-17T02:29:06.590856+00:00",
+          "audit": "/research/source-reviews/2026-10-17-urban-1.json",
+          "nextAction": "urban-2의 4개 개별 지도에서 공식 선거구역표·현행 행정코드·경계 버전을 각각 대조."
+        },
+        "/research/urban-atlas/": {
+          "status": "not_applicable",
+          "checkedAt": "2026-10-17T02:29:06.590856+00:00",
+          "audit": "/research/source-reviews/2026-10-17-urban-1.json",
+          "nextAction": "urban-2·urban-3에서 각 연결 지도의 기준일·원표·행정경계 버전을 별도 대조."
+        }
+      },
+      "followUps": [
+        {
+          "key": "/research/gimpo-airport-congestion/",
+          "nextAction": "승인된 원 API 응답에서 기준일 필드 제공 여부를 확인. 제공되지 않으면 한국공항공사에 시각 필드 의미를 확인하며 날짜를 추정하지 않음."
+        },
+        {
+          "key": "/research/bukangi/",
+          "nextAction": "기존 기록별 원문·발표일·중복 인용을 대조하고, 이후 기관의 결과 공지가 확인될 때만 사건 경과를 추가."
+        },
+        {
+          "key": "/ds-research-urban-analytics/",
+          "nextAction": "독립 프로젝트의 기존 수집기로 생활인구 최신 공식 기준일·전체 응답 범위를 확인한 후 별도로 갱신. 포털에 새 폴더를 만들어 기존 프로젝트 URL을 덮어쓰지 않음."
+        },
+        {
+          "key": "/election/",
+          "nextAction": "urban-2의 4개 개별 지도에서 공식 선거구역표·현행 행정코드·경계 버전을 각각 대조."
+        },
+        {
+          "key": "/research/urban-atlas/",
+          "nextAction": "urban-2·urban-3에서 각 연결 지도의 기준일·원표·행정경계 버전을 별도 대조."
+        }
+      ],
+      "release": {
+        "branch": "codex/research-urban-1-source-review",
+        "status": "awaiting_checks",
+        "liveUrl": "https://www.stargateedu.co.kr/research/",
+        "sourceReviewUrl": "https://www.stargateedu.co.kr/research/source-reviews/2026-10-17-urban-1.json",
+        "pullRequest": "https://github.com/DongsooJung/dongsoojung.github.io/pull/188"
+      }
     },
     {
       "id": "urban-2",
@@ -297,5 +385,5 @@
     }
   ],
   "automationId": "10",
-  "lastCompletedStep": "society-2"
+  "lastCompletedStep": "urban-1"
 }
