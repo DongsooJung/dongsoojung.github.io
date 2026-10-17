@@ -1,0 +1,115 @@
+{
+  "schemaVersion": 1,
+  "checkedAt": "2026-10-17T09:55:42.298406+00:00",
+  "basis": {
+    "election": "제22대 국회의원선거",
+    "electionDate": "2024-04-10",
+    "monthlyBasisApplicable": false,
+    "sourceUrl": "https://www.nec.go.kr/common/board/Download.do?bcIdx=264048&cbIdx=1486&streFileNm=250a3ff7-d546-40d2-ae1f-0e52ffe40694.pdf",
+    "sourceSha256": "56b4385011a22da426560234a9da7557e5c4e2f186db5923ce44c7ac606ffd7e",
+    "pdfPages": [
+      153
+    ],
+    "verifiedScope": "확정 선거구역표의 명시된 동 배정 대조. 구 일원의 하위 행정동 전수·신설·분할 검증과 경계 좌표 대조는 미완료."
+  },
+  "boundary": {
+    "path": "/seongnam-election/data/emd.geojson",
+    "sha256": "b5ca2894c7e4810b105c1b128dfac6752302065e8023209c44dc7d21d52761ff",
+    "sourceVersion": null,
+    "sourceCollectedAt": null,
+    "sourceClaim": "기존 게시본은 VWorld 유래로 기재하나 수집 원응답·기준일 미보관. 이번 API 응답은 코드 자릿수·도형 집합이 달라 대체하지 않음.",
+    "coverageCheck": {
+      "expectedAdministrativeUnits": 50,
+      "apiFeatures": 44,
+      "apiMatchedNames": 19,
+      "missingExpectedNames": [
+        "구미1동",
+        "금광1동",
+        "금광2동",
+        "상대원1동",
+        "상대원2동",
+        "상대원3동",
+        "서현1동",
+        "서현2동",
+        "수내1동",
+        "수내2동",
+        "수내3동",
+        "수진1동",
+        "수진2동",
+        "신흥1동",
+        "신흥2동",
+        "신흥3동",
+        "야탑1동",
+        "야탑2동",
+        "야탑3동",
+        "위례동",
+        "은행1동",
+        "은행2동",
+        "이매1동",
+        "이매2동",
+        "정자1동",
+        "정자2동",
+        "정자3동",
+        "태평1동",
+        "태평2동",
+        "태평3동",
+        "태평4동"
+      ],
+      "apiCodeLengths": [
+        8
+      ],
+      "cachedCodeLengths": [
+        10
+      ]
+    },
+    "sourceChecks": [
+      {
+        "city": "seongnam",
+        "prefix": "41131",
+        "url": "https://api.vworld.kr/req/data",
+        "layer": "LT_C_ADEMD_INFO",
+        "checkedAt": "2026-10-17T09:53:24.903198+00:00",
+        "status": 200,
+        "sha256": "29c4869252b64c01d9fd9e79d5427ff37ee8962c3cf9b28ae960213d5483aacf",
+        "bytes": 213584,
+        "apiStatus": "OK",
+        "errorCode": null,
+        "features": 17
+      },
+      {
+        "city": "seongnam",
+        "prefix": "41133",
+        "url": "https://api.vworld.kr/req/data",
+        "layer": "LT_C_ADEMD_INFO",
+        "checkedAt": "2026-10-17T09:53:25.000133+00:00",
+        "status": 200,
+        "sha256": "632e66f880fdda365b70ab9dde81e1787a91ad8bbb82c0f01f145a0d27f3e3ab",
+        "bytes": 121631,
+        "apiStatus": "OK",
+        "errorCode": null,
+        "features": 9
+      },
+      {
+        "city": "seongnam",
+        "prefix": "41135",
+        "url": "https://api.vworld.kr/req/data",
+        "layer": "LT_C_ADEMD_INFO",
+        "checkedAt": "2026-10-17T09:53:25.034132+00:00",
+        "status": 200,
+        "sha256": "df4b71b6637ad94d20a68e62fbda6a08b34320593b1d1f7ad1b1aa55a01640e8",
+        "bytes": 244648,
+        "apiStatus": "OK",
+        "errorCode": null,
+        "features": 18
+      }
+    ],
+    "policy": "목록·코드·기하 형식이 완전히 맞는 하나의 출처만 사용. API 부분과 저장 도형을 섞지 않음. 내부 일관성 검사는 좌표의 공식 정확성 검증이 아님."
+  },
+  "districtCounts": {
+    "수정구": 17,
+    "중원구": 11,
+    "분당구갑": 11,
+    "분당구을": 11
+  },
+  "nextAction": "VWorld의 현행 행정동에 해당하는 정확한 레이어·코드 체계와 원자료 버전을 확인하고 공식 행정동 원장 및 선거구 일원 규정을 대조한 후 전체 도형을 일괄 교체."
+}

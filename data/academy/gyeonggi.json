@@ -1,0 +1,600 @@
+{
+  "schemaVersion": 1,
+  "dataAsOf": "2026-09-30",
+  "sourcePublishedAt": "2026-10-14",
+  "collectedAt": "2026-10-17T09:43:59.352050+00:00",
+  "snapshotUpdatedAt": "2026-10-17T09:49:00.497355+00:00",
+  "source": {
+    "name": "경기도교육청 학원 및 교습소 공개 명부",
+    "url": "https://goe.go.kr/goe/na/ntt/selectNttInfo.do?nttSn=2377367&bbsId=2675&mi=10961",
+    "files": [
+      {
+        "kind": "academyCount",
+        "url": "https://www.goe.go.kr/resource/goe/na/bbs_2675/2026/10/4bba1941-d0e1-4e9b-9d67-1ca054b3fe96.xlsx",
+        "sha256": "93deaf37a811f82faf3cd6fd1d2d06c57ae0a0e35d69c5ce114cce86a8ffd4c1",
+        "collectedAt": "2026-10-17T09:43:59.352050+00:00"
+      },
+      {
+        "kind": "teachingRoomCount",
+        "url": "https://www.goe.go.kr/resource/goe/na/bbs_2675/2026/10/e6202e94-36c2-4a87-bdd2-76688194fe2b.xlsx",
+        "sha256": "259b4c22010895c238ffc2b83ac950e15a3713aab95d9ffdc906ad1b4b1d8f95",
+        "collectedAt": "2026-10-17T09:43:09.928249+00:00"
+      }
+    ]
+  },
+  "definition": "공개 명부 내 유형·시설명·전체 주소의 공백/NFKC 정규화 후 중복 제거. 등록번호 미제공으로 동일명·주소의 별도 등록은 구분 불가. 폐원 이력·수강생·면적당 밀도·수요지수 아님. 2월 게시본과 증감 비교 불가.",
+  "districts": [
+    {
+      "name": "수원시",
+      "academyCount": 2543,
+      "teachingRoomCount": 1147,
+      "total": 3690
+    },
+    {
+      "name": "용인시",
+      "academyCount": 2352,
+      "teachingRoomCount": 1077,
+      "total": 3429
+    },
+    {
+      "name": "고양시",
+      "academyCount": 2264,
+      "teachingRoomCount": 1150,
+      "total": 3414
+    },
+    {
+      "name": "성남시",
+      "academyCount": 2232,
+      "teachingRoomCount": 1001,
+      "total": 3233
+    },
+    {
+      "name": "화성시",
+      "academyCount": 2477,
+      "teachingRoomCount": 1043,
+      "total": 3520
+    },
+    {
+      "name": "부천시",
+      "academyCount": 1399,
+      "teachingRoomCount": 667,
+      "total": 2066
+    },
+    {
+      "name": "남양주시",
+      "academyCount": 1443,
+      "teachingRoomCount": 609,
+      "total": 2052
+    },
+    {
+      "name": "안양시",
+      "academyCount": 1132,
+      "teachingRoomCount": 703,
+      "total": 1835
+    },
+    {
+      "name": "김포시",
+      "academyCount": 1321,
+      "teachingRoomCount": 427,
+      "total": 1748
+    },
+    {
+      "name": "시흥시",
+      "academyCount": 1102,
+      "teachingRoomCount": 370,
+      "total": 1472
+    },
+    {
+      "name": "안산시",
+      "academyCount": 963,
+      "teachingRoomCount": 247,
+      "total": 1210
+    },
+    {
+      "name": "평택시",
+      "academyCount": 1062,
+      "teachingRoomCount": 317,
+      "total": 1379
+    },
+    {
+      "name": "의정부시",
+      "academyCount": 815,
+      "teachingRoomCount": 347,
+      "total": 1162
+    },
+    {
+      "name": "파주시",
+      "academyCount": 1036,
+      "teachingRoomCount": 314,
+      "total": 1350
+    },
+    {
+      "name": "광명시",
+      "academyCount": 594,
+      "teachingRoomCount": 295,
+      "total": 889
+    },
+    {
+      "name": "하남시",
+      "academyCount": 755,
+      "teachingRoomCount": 310,
+      "total": 1065
+    },
+    {
+      "name": "군포시",
+      "academyCount": 448,
+      "teachingRoomCount": 230,
+      "total": 678
+    },
+    {
+      "name": "광주시",
+      "academyCount": 607,
+      "teachingRoomCount": 214,
+      "total": 821
+    },
+    {
+      "name": "구리시",
+      "academyCount": 387,
+      "teachingRoomCount": 191,
+      "total": 578
+    },
+    {
+      "name": "이천시",
+      "academyCount": 434,
+      "teachingRoomCount": 157,
+      "total": 591
+    },
+    {
+      "name": "오산시",
+      "academyCount": 408,
+      "teachingRoomCount": 156,
+      "total": 564
+    },
+    {
+      "name": "양주시",
+      "academyCount": 495,
+      "teachingRoomCount": 112,
+      "total": 607
+    },
+    {
+      "name": "의왕시",
+      "academyCount": 197,
+      "teachingRoomCount": 157,
+      "total": 354
+    },
+    {
+      "name": "안성시",
+      "academyCount": 260,
+      "teachingRoomCount": 92,
+      "total": 352
+    },
+    {
+      "name": "양평군",
+      "academyCount": 130,
+      "teachingRoomCount": 104,
+      "total": 234
+    },
+    {
+      "name": "여주시",
+      "academyCount": 117,
+      "teachingRoomCount": 47,
+      "total": 164
+    },
+    {
+      "name": "과천시",
+      "academyCount": 156,
+      "teachingRoomCount": 150,
+      "total": 306
+    },
+    {
+      "name": "포천시",
+      "academyCount": 121,
+      "teachingRoomCount": 28,
+      "total": 149
+    },
+    {
+      "name": "동두천시",
+      "academyCount": 100,
+      "teachingRoomCount": 18,
+      "total": 118
+    },
+    {
+      "name": "가평군",
+      "academyCount": 61,
+      "teachingRoomCount": 23,
+      "total": 84
+    },
+    {
+      "name": "연천군",
+      "academyCount": 31,
+      "teachingRoomCount": 5,
+      "total": 36
+    }
+  ],
+  "totals": {
+    "academyCount": 27442,
+    "teachingRoomCount": 11708,
+    "total": 39150
+  },
+  "validation": {
+    "inputRows": 383546,
+    "uniqueFacilities": 39150,
+    "duplicateCourseRows": 344396,
+    "unmappedRows": 0,
+    "correctedAddressPrefixRows": 4,
+    "sheets": [
+      {
+        "kind": "academyCount",
+        "sheet": "수원",
+        "courseRows": 31917,
+        "duplicateCourseRows": 29374
+      },
+      {
+        "kind": "academyCount",
+        "sheet": "성남",
+        "courseRows": 32935,
+        "duplicateCourseRows": 30703
+      },
+      {
+        "kind": "academyCount",
+        "sheet": "안양",
+        "courseRows": 19853,
+        "duplicateCourseRows": 18721
+      },
+      {
+        "kind": "academyCount",
+        "sheet": "과천",
+        "courseRows": 7361,
+        "duplicateCourseRows": 7205
+      },
+      {
+        "kind": "academyCount",
+        "sheet": "부천",
+        "courseRows": 17112,
+        "duplicateCourseRows": 15713
+      },
+      {
+        "kind": "academyCount",
+        "sheet": "광명",
+        "courseRows": 6933,
+        "duplicateCourseRows": 6339
+      },
+      {
+        "kind": "academyCount",
+        "sheet": "안산",
+        "courseRows": 10618,
+        "duplicateCourseRows": 9655
+      },
+      {
+        "kind": "academyCount",
+        "sheet": "평택",
+        "courseRows": 11308,
+        "duplicateCourseRows": 10246
+      },
+      {
+        "kind": "academyCount",
+        "sheet": "군포",
+        "courseRows": 5782,
+        "duplicateCourseRows": 5334
+      },
+      {
+        "kind": "academyCount",
+        "sheet": "의왕",
+        "courseRows": 2963,
+        "duplicateCourseRows": 2766
+      },
+      {
+        "kind": "academyCount",
+        "sheet": "여주",
+        "courseRows": 926,
+        "duplicateCourseRows": 809
+      },
+      {
+        "kind": "academyCount",
+        "sheet": "화성오산",
+        "courseRows": 23451,
+        "duplicateCourseRows": 21115
+      },
+      {
+        "kind": "academyCount",
+        "sheet": "화성센터",
+        "courseRows": 5853,
+        "duplicateCourseRows": 5304
+      },
+      {
+        "kind": "academyCount",
+        "sheet": "광주",
+        "courseRows": 5167,
+        "duplicateCourseRows": 4560
+      },
+      {
+        "kind": "academyCount",
+        "sheet": "하남",
+        "courseRows": 7239,
+        "duplicateCourseRows": 6484
+      },
+      {
+        "kind": "academyCount",
+        "sheet": "양평",
+        "courseRows": 760,
+        "duplicateCourseRows": 630
+      },
+      {
+        "kind": "academyCount",
+        "sheet": "이천",
+        "courseRows": 3887,
+        "duplicateCourseRows": 3453
+      },
+      {
+        "kind": "academyCount",
+        "sheet": "용인",
+        "courseRows": 23717,
+        "duplicateCourseRows": 21365
+      },
+      {
+        "kind": "academyCount",
+        "sheet": "안성",
+        "courseRows": 2623,
+        "duplicateCourseRows": 2363
+      },
+      {
+        "kind": "academyCount",
+        "sheet": "김포",
+        "courseRows": 14545,
+        "duplicateCourseRows": 13224
+      },
+      {
+        "kind": "academyCount",
+        "sheet": "시흥",
+        "courseRows": 11675,
+        "duplicateCourseRows": 10573
+      },
+      {
+        "kind": "academyCount",
+        "sheet": "의정부",
+        "courseRows": 8527,
+        "duplicateCourseRows": 7712
+      },
+      {
+        "kind": "academyCount",
+        "sheet": "동두천",
+        "courseRows": 992,
+        "duplicateCourseRows": 892
+      },
+      {
+        "kind": "academyCount",
+        "sheet": "양주",
+        "courseRows": 5389,
+        "duplicateCourseRows": 4894
+      },
+      {
+        "kind": "academyCount",
+        "sheet": "고양",
+        "courseRows": 25384,
+        "duplicateCourseRows": 23120
+      },
+      {
+        "kind": "academyCount",
+        "sheet": "남양주",
+        "courseRows": 16175,
+        "duplicateCourseRows": 14732
+      },
+      {
+        "kind": "academyCount",
+        "sheet": "구리",
+        "courseRows": 5032,
+        "duplicateCourseRows": 4645
+      },
+      {
+        "kind": "academyCount",
+        "sheet": "파주",
+        "courseRows": 11267,
+        "duplicateCourseRows": 10231
+      },
+      {
+        "kind": "academyCount",
+        "sheet": "연천",
+        "courseRows": 218,
+        "duplicateCourseRows": 187
+      },
+      {
+        "kind": "academyCount",
+        "sheet": "포천",
+        "courseRows": 1349,
+        "duplicateCourseRows": 1228
+      },
+      {
+        "kind": "academyCount",
+        "sheet": "가평",
+        "courseRows": 338,
+        "duplicateCourseRows": 277
+      },
+      {
+        "kind": "teachingRoomCount",
+        "sheet": "수원",
+        "courseRows": 6379,
+        "duplicateCourseRows": 5232
+      },
+      {
+        "kind": "teachingRoomCount",
+        "sheet": "성남",
+        "courseRows": 4945,
+        "duplicateCourseRows": 3944
+      },
+      {
+        "kind": "teachingRoomCount",
+        "sheet": "안양",
+        "courseRows": 3413,
+        "duplicateCourseRows": 2710
+      },
+      {
+        "kind": "teachingRoomCount",
+        "sheet": "과천",
+        "courseRows": 760,
+        "duplicateCourseRows": 610
+      },
+      {
+        "kind": "teachingRoomCount",
+        "sheet": "부천",
+        "courseRows": 4076,
+        "duplicateCourseRows": 3409
+      },
+      {
+        "kind": "teachingRoomCount",
+        "sheet": "광명",
+        "courseRows": 1636,
+        "duplicateCourseRows": 1341
+      },
+      {
+        "kind": "teachingRoomCount",
+        "sheet": "안산",
+        "courseRows": 1377,
+        "duplicateCourseRows": 1130
+      },
+      {
+        "kind": "teachingRoomCount",
+        "sheet": "평택",
+        "courseRows": 1769,
+        "duplicateCourseRows": 1452
+      },
+      {
+        "kind": "teachingRoomCount",
+        "sheet": "군포",
+        "courseRows": 1584,
+        "duplicateCourseRows": 1354
+      },
+      {
+        "kind": "teachingRoomCount",
+        "sheet": "의왕",
+        "courseRows": 1147,
+        "duplicateCourseRows": 990
+      },
+      {
+        "kind": "teachingRoomCount",
+        "sheet": "여주",
+        "courseRows": 192,
+        "duplicateCourseRows": 145
+      },
+      {
+        "kind": "teachingRoomCount",
+        "sheet": "화성오산",
+        "courseRows": 5355,
+        "duplicateCourseRows": 4362
+      },
+      {
+        "kind": "teachingRoomCount",
+        "sheet": "화성센터",
+        "courseRows": 1094,
+        "duplicateCourseRows": 888
+      },
+      {
+        "kind": "teachingRoomCount",
+        "sheet": "광주",
+        "courseRows": 1002,
+        "duplicateCourseRows": 788
+      },
+      {
+        "kind": "teachingRoomCount",
+        "sheet": "하남",
+        "courseRows": 1835,
+        "duplicateCourseRows": 1525
+      },
+      {
+        "kind": "teachingRoomCount",
+        "sheet": "양평",
+        "courseRows": 345,
+        "duplicateCourseRows": 241
+      },
+      {
+        "kind": "teachingRoomCount",
+        "sheet": "이천",
+        "courseRows": 765,
+        "duplicateCourseRows": 608
+      },
+      {
+        "kind": "teachingRoomCount",
+        "sheet": "용인",
+        "courseRows": 5299,
+        "duplicateCourseRows": 4222
+      },
+      {
+        "kind": "teachingRoomCount",
+        "sheet": "안성",
+        "courseRows": 563,
+        "duplicateCourseRows": 471
+      },
+      {
+        "kind": "teachingRoomCount",
+        "sheet": "김포",
+        "courseRows": 2285,
+        "duplicateCourseRows": 1858
+      },
+      {
+        "kind": "teachingRoomCount",
+        "sheet": "시흥",
+        "courseRows": 1999,
+        "duplicateCourseRows": 1629
+      },
+      {
+        "kind": "teachingRoomCount",
+        "sheet": "의정부",
+        "courseRows": 1825,
+        "duplicateCourseRows": 1478
+      },
+      {
+        "kind": "teachingRoomCount",
+        "sheet": "동두천",
+        "courseRows": 89,
+        "duplicateCourseRows": 71
+      },
+      {
+        "kind": "teachingRoomCount",
+        "sheet": "양주",
+        "courseRows": 687,
+        "duplicateCourseRows": 575
+      },
+      {
+        "kind": "teachingRoomCount",
+        "sheet": "고양",
+        "courseRows": 5531,
+        "duplicateCourseRows": 4381
+      },
+      {
+        "kind": "teachingRoomCount",
+        "sheet": "남양주",
+        "courseRows": 3087,
+        "duplicateCourseRows": 2477
+      },
+      {
+        "kind": "teachingRoomCount",
+        "sheet": "구리",
+        "courseRows": 941,
+        "duplicateCourseRows": 751
+      },
+      {
+        "kind": "teachingRoomCount",
+        "sheet": "파주",
+        "courseRows": 1994,
+        "duplicateCourseRows": 1680
+      },
+      {
+        "kind": "teachingRoomCount",
+        "sheet": "연천",
+        "courseRows": 23,
+        "duplicateCourseRows": 18
+      },
+      {
+        "kind": "teachingRoomCount",
+        "sheet": "포천",
+        "courseRows": 149,
+        "duplicateCourseRows": 121
+      },
+      {
+        "kind": "teachingRoomCount",
+        "sheet": "가평",
+        "courseRows": 104,
+        "duplicateCourseRows": 81
+      }
+    ]
+  }
+}

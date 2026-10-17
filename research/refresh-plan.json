@@ -279,16 +279,29 @@
       ],
       "release": {
         "branch": "codex/research-urban-1-source-review",
-        "status": "awaiting_checks",
+        "status": "verified",
         "liveUrl": "https://www.stargateedu.co.kr/research/",
         "sourceReviewUrl": "https://www.stargateedu.co.kr/research/source-reviews/2026-10-17-urban-1.json",
-        "pullRequest": "https://github.com/DongsooJung/dongsoojung.github.io/pull/188"
+        "pullRequest": "https://github.com/DongsooJung/dongsoojung.github.io/pull/188",
+        "commit": "3c6e39eeb673d765d1a6a7ec54fa4dce46dce711",
+        "verifiedAt": "2026-10-17T02:39:41.552Z",
+        "pagesRun": "https://github.com/DongsooJung/dongsoojung.github.io/actions/runs/38995644191",
+        "checks": [
+          "PR CodeQL and security aggregate success after exact URL origin/path test fix",
+          "exact merge commit Pages build/deploy/report success",
+          "both public domains show completed urban-1 and PR188",
+          "six deployed pages and source audit exactly match reviewed source",
+          "22 relevant Node tests pass; affected 11 retested after test assertion repair",
+          "Edge local: 8 Incheon selection sums; 20 waiting rows; both airport JSON downloads; 47-day weather CSV; failure state; 6 mobile pages",
+          "Edge live: actual deployed airport and weather API responses and downloads, no script errors",
+          "live seven filters globally alphabetical; 63 unique; search, anchors, mobile and strategy regression"
+        ]
       }
     },
     {
       "id": "urban-2",
       "label": "도시·공간 2차",
-      "status": "pending",
+      "status": "completed",
       "keys": [
         "/sudogwon-academy-map/",
         "/gyeonggi-academy-map/",
@@ -297,7 +310,91 @@
         "/hwaseong-election/",
         "/suwon-election/",
         "/seongnam-election/"
-      ]
+      ],
+      "outcome": "reviewed_with_followups",
+      "completedAt": "2026-10-17T09:55:42.298406+00:00",
+      "itemResults": {
+        "/gyeonggi-academy-map/": {
+          "status": "verified",
+          "checkedAt": "2026-10-17T09:55:42.298406+00:00",
+          "audit": "/research/source-reviews/2026-10-17-urban-2.json",
+          "nextAction": "다음 공식 명부 공개 시 두 원본의 기준일·해시·시군별 합계·중복 제거를 다시 대조. 등록번호 제공 원표가 확보되면 시설 식별 정의를 개선."
+        },
+        "/seoul-academy-map/": {
+          "status": "needs_review",
+          "checkedAt": "2026-10-17T09:55:42.298406+00:00",
+          "audit": "/research/source-reviews/2026-10-17-urban-2.json",
+          "nextAction": "원제공기관에서 전체 CSV의 공통 관측 기준일 및 미래 등록일자 정정 여부를 확인. 월간 원표가 확보될 때만 9·10월 증감을 표시."
+        },
+        "/sudogwon-academy-map/": {
+          "status": "needs_review",
+          "checkedAt": "2026-10-17T09:55:42.298406+00:00",
+          "audit": "/research/source-reviews/2026-10-17-urban-2.json",
+          "nextAction": "서울 공통 관측 기준일과 시도별 등록번호 기반 비교 가능 정의를 확보할 때만 동시점 비교를 추가."
+        },
+        "/pyeongtaek-election/": {
+          "status": "needs_review",
+          "checkedAt": "2026-10-17T09:55:42.298406+00:00",
+          "audit": "/research/source-reviews/2026-10-17-urban-2.json",
+          "nextAction": "VWorld의 현행 행정동에 해당하는 정확한 레이어·코드 체계와 원자료 버전을 확인하고 공식 행정동 원장 및 선거구 일원 규정을 대조한 후 전체 도형을 일괄 교체."
+        },
+        "/hwaseong-election/": {
+          "status": "needs_review",
+          "checkedAt": "2026-10-17T09:55:42.298406+00:00",
+          "audit": "/research/source-reviews/2026-10-17-urban-2.json",
+          "nextAction": "VWorld의 현행 행정동에 해당하는 정확한 레이어·코드 체계와 원자료 버전을 확인하고 공식 행정동 원장 및 선거구 일원 규정을 대조한 후 전체 도형을 일괄 교체."
+        },
+        "/suwon-election/": {
+          "status": "needs_review",
+          "checkedAt": "2026-10-17T09:55:42.298406+00:00",
+          "audit": "/research/source-reviews/2026-10-17-urban-2.json",
+          "nextAction": "VWorld의 현행 행정동에 해당하는 정확한 레이어·코드 체계와 원자료 버전을 확인하고 공식 행정동 원장 및 선거구 일원 규정을 대조한 후 전체 도형을 일괄 교체."
+        },
+        "/seongnam-election/": {
+          "status": "needs_review",
+          "checkedAt": "2026-10-17T09:55:42.298406+00:00",
+          "audit": "/research/source-reviews/2026-10-17-urban-2.json",
+          "nextAction": "VWorld의 현행 행정동에 해당하는 정확한 레이어·코드 체계와 원자료 버전을 확인하고 공식 행정동 원장 및 선거구 일원 규정을 대조한 후 전체 도형을 일괄 교체."
+        }
+      },
+      "followUps": [
+        {
+          "key": "/seoul-academy-map/",
+          "reason": "서울 전체의 통계 기준일·기준월은 원문 미제공. 10월 부분 갱신을 월간 완결 통계로 표시하지 않음. / 등록일자 1행이 미래 2106년으로 기재되어 원문 오류를 기록. 시설 개원 상태 집계에는 등록일자를 필터로 사용하지 않음. / 기존 총계 25,522와 구별 저장합 25,480의 차이를 기록. 미검증 수요지수·학령인구·변화는 보존 JSON으로 옮기고 기본 지도는 공식 시설 수로 교체. 2013 참고 도형.",
+          "nextAction": "원제공기관에서 전체 CSV의 공통 관측 기준일 및 미래 등록일자 정정 여부를 확인. 월간 원표가 확보될 때만 9·10월 증감을 표시."
+        },
+        {
+          "key": "/sudogwon-academy-map/",
+          "reason": "시도별 시설 식별 기준·기준일이 달라 통합 합계나 지역 간 증감 비교 불가. 서울 전수 기준일 미확인. / 경계는 고정 커밋의 2013 참고 도형이며 현행 행정경계·면적당 밀도가 아님.",
+          "nextAction": "서울 공통 관측 기준일과 시도별 등록번호 기반 비교 가능 정의를 확보할 때만 동시점 비교를 추가."
+        },
+        {
+          "key": "/pyeongtaek-election/",
+          "reason": "공식 VWorld API 37개 도형의 [8]자리 코드와 저장 행정동 25개·10자리 코드의 범위가 다름. 일부 도형으로 자동 대체하지 않음. / 선거구는 2024년 제22대 기준. 월간 통계 기준월은 비적용이나 경계 버전이 미확인이라 검증 완료로 처리하지 않음.",
+          "nextAction": "VWorld의 현행 행정동에 해당하는 정확한 레이어·코드 체계와 원자료 버전을 확인하고 공식 행정동 원장 및 선거구 일원 규정을 대조한 후 전체 도형을 일괄 교체."
+        },
+        {
+          "key": "/hwaseong-election/",
+          "reason": "공식 VWorld API 39개 도형의 [8]자리 코드와 저장 행정동 29개·10자리 코드의 범위가 다름. 일부 도형으로 자동 대체하지 않음. / 선거구는 2024년 제22대 기준. 월간 통계 기준월은 비적용이나 경계 버전이 미확인이라 검증 완료로 처리하지 않음.",
+          "nextAction": "VWorld의 현행 행정동에 해당하는 정확한 레이어·코드 체계와 원자료 버전을 확인하고 공식 행정동 원장 및 선거구 일원 규정을 대조한 후 전체 도형을 일괄 교체."
+        },
+        {
+          "key": "/suwon-election/",
+          "reason": "공식 VWorld API 56개 도형의 [8]자리 코드와 저장 행정동 44개·10자리 코드의 범위가 다름. 일부 도형으로 자동 대체하지 않음. / 선거구는 2024년 제22대 기준. 월간 통계 기준월은 비적용이나 경계 버전이 미확인이라 검증 완료로 처리하지 않음.",
+          "nextAction": "VWorld의 현행 행정동에 해당하는 정확한 레이어·코드 체계와 원자료 버전을 확인하고 공식 행정동 원장 및 선거구 일원 규정을 대조한 후 전체 도형을 일괄 교체."
+        },
+        {
+          "key": "/seongnam-election/",
+          "reason": "공식 VWorld API 44개 도형의 [8]자리 코드와 저장 행정동 50개·10자리 코드의 범위가 다름. 일부 도형으로 자동 대체하지 않음. / 선거구는 2024년 제22대 기준. 월간 통계 기준월은 비적용이나 경계 버전이 미확인이라 검증 완료로 처리하지 않음.",
+          "nextAction": "VWorld의 현행 행정동에 해당하는 정확한 레이어·코드 체계와 원자료 버전을 확인하고 공식 행정동 원장 및 선거구 일원 규정을 대조한 후 전체 도형을 일괄 교체."
+        }
+      ],
+      "release": {
+        "branch": "codex/research-urban-2-source-review",
+        "status": "awaiting_checks",
+        "liveUrl": "https://www.stargateedu.co.kr/research/",
+        "sourceReviewUrl": "https://www.stargateedu.co.kr/research/source-reviews/2026-10-17-urban-2.json"
+      }
     },
     {
       "id": "urban-3",

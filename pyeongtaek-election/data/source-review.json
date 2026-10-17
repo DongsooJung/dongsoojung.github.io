@@ -1,0 +1,67 @@
+{
+  "schemaVersion": 1,
+  "checkedAt": "2026-10-17T09:55:42.298406+00:00",
+  "basis": {
+    "election": "제22대 국회의원선거",
+    "electionDate": "2024-04-10",
+    "monthlyBasisApplicable": false,
+    "sourceUrl": "https://www.nec.go.kr/common/board/Download.do?bcIdx=264048&cbIdx=1486&streFileNm=250a3ff7-d546-40d2-ae1f-0e52ffe40694.pdf",
+    "sourceSha256": "56b4385011a22da426560234a9da7557e5c4e2f186db5923ce44c7ac606ffd7e",
+    "pdfPages": [
+      153,
+      154
+    ],
+    "verifiedScope": "확정 선거구역표의 명시된 동 배정 대조. 구 일원의 하위 행정동 전수·신설·분할 검증과 경계 좌표 대조는 미완료."
+  },
+  "boundary": {
+    "path": "/pyeongtaek-election/data/emd.geojson",
+    "sha256": "dcd054194718120530b5aa1b3649869282b3d499a3f28bbadece30e68984e0fe",
+    "sourceVersion": null,
+    "sourceCollectedAt": null,
+    "sourceClaim": "기존 게시본은 VWorld 유래로 기재하나 수집 원응답·기준일 미보관. 이번 API 응답은 코드 자릿수·도형 집합이 달라 대체하지 않음.",
+    "coverageCheck": {
+      "expectedAdministrativeUnits": 25,
+      "apiFeatures": 37,
+      "apiMatchedNames": 16,
+      "missingExpectedNames": [
+        "비전1동",
+        "비전2동",
+        "송북동",
+        "송탄동",
+        "신장1동",
+        "신장2동",
+        "신평동",
+        "원평동",
+        "중앙동"
+      ],
+      "apiCodeLengths": [
+        8
+      ],
+      "cachedCodeLengths": [
+        10
+      ]
+    },
+    "sourceChecks": [
+      {
+        "city": "pyeongtaek",
+        "prefix": "41220",
+        "url": "https://api.vworld.kr/req/data",
+        "layer": "LT_C_ADEMD_INFO",
+        "checkedAt": "2026-10-17T09:53:23.995109+00:00",
+        "status": 200,
+        "sha256": "b1e5c34bb70f6e3b24ef38af6b202faf28ca7294ef859ed4ea84329842bc6d6e",
+        "bytes": 1156725,
+        "apiStatus": "OK",
+        "errorCode": null,
+        "features": 37
+      }
+    ],
+    "policy": "목록·코드·기하 형식이 완전히 맞는 하나의 출처만 사용. API 부분과 저장 도형을 섞지 않음. 내부 일관성 검사는 좌표의 공식 정확성 검증이 아님."
+  },
+  "districtCounts": {
+    "갑": 11,
+    "을": 8,
+    "병": 6
+  },
+  "nextAction": "VWorld의 현행 행정동에 해당하는 정확한 레이어·코드 체계와 원자료 버전을 확인하고 공식 행정동 원장 및 선거구 일원 규정을 대조한 후 전체 도형을 일괄 교체."
+}
