@@ -7,7 +7,7 @@ on:
 permissions:
   contents: read
 concurrency:
-  group: solapi-sms-production
+  group: cloudflare-worker-stargate
   cancel-in-progress: false
 jobs:
   deploy:
@@ -23,7 +23,7 @@ jobs:
         with:
           node-version: '24'
       - run: node --test tests/solapi-sms.test.mjs
-      - run: node server/sms/prepare.mjs
+      - run: node scripts/build-cloudflare-static.mjs
       - name: Install runtime secrets
         env:
           SOLAPI_API_KEY: ${{ secrets.SOLAPI_API_KEY }}
@@ -35,9 +35,8 @@ jobs:
             test -n "${!name}" || exit 1
           done
           node -e 'const fs=require("fs"); const names=["SOLAPI_API_KEY","SOLAPI_API_SECRET","SMS_ADMIN_TOKEN"];fs.writeFileSync(process.env.RUNNER_TEMP+"/sms-secrets.json",JSON.stringify(Object.fromEntries(names.map(k=>[k,process.env[k]]))),{mode:0o600})'
-          npx --yes wrangler@4.151.0 secret bulk "$RUNNER_TEMP/sms-secrets.json" --config server/sms/wrangler.jsonc
+          npx --yes wrangler@4.151.0 secret bulk "$RUNNER_TEMP/sms-secrets.json" --config wrangler.jsonc
           rm "$RUNNER_TEMP/sms-secrets.json"
-      - run: npx --yes wrangler@4.151.0 deploy --config server/sms/wrangler.jsonc
+      - run: npx --yes wrangler@4.151.0 deploy --config wrangler.jsonc
       - name: Check deployed API without sending
-        run: curl --fail --retry 5 --retry-delay 5 https://stargate-sms.stargate8225.workers.dev/api/sms
-
+        run: curl --fail --retry 5 --retry-delay 5 https://stargate.stargate8225.workers.dev/api/sms
