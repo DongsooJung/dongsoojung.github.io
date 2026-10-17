@@ -209,17 +209,19 @@ footer{
       <div class="meta-line">
         <span class="pill"><b>API</b> GetFinaStatInfoService_V2</span>
         <span class="pill"><b>페이지</b> numOfRows=100</span>
-        <span class="pill"><b>모드</b> <span id="sourceMode">실시간 API</span></span>
+        <span class="pill"><b>모드</b> <span id="sourceMode">불러오는 중</span></span>
       </div>
     </header>
 
     <section class="panel" aria-label="조회 설정">
       <h2>100건 단위 조회</h2>
-      <p class="cap">페이지 열면 기본 공공데이터 키로 자동 조회합니다. 키 입력은 필요 없습니다.</p>
+      <p class="cap">인증키가 없으면 2023년 저장본을 표시합니다. 신규 조회에는 본인의 공공데이터포털 인증키가 필요합니다. 사업연도·원자료 기준일·수집일은 서로 다릅니다.</p>
       <div class="controls controls-compact">
         <div class="field">
           <label for="bizYear">사업연도</label>
           <select id="bizYear">
+            <option value="2026">2026 (공표·수록 여부는 조회로 확인)</option>
+            <option value="2025">2025</option>
             <option value="2024">2024</option>
             <option value="2023" selected>2023</option>
             <option value="2022">2022</option>
@@ -239,11 +241,11 @@ footer{
         </div>
       </div>
       <details class="advanced">
-        <summary>고급 · serviceKey 변경 (선택)</summary>
+        <summary>신규 조회 · serviceKey 입력</summary>
         <div class="field" style="margin-top:10px">
           <label for="apiKey">공공데이터포털 serviceKey</label>
           <div class="key-row">
-            <input id="apiKey" type="password" autocomplete="off" placeholder="기본 키 사용 중 (변경 시에만 입력)" />
+            <input id="apiKey" type="password" autocomplete="off" placeholder="본인에게 발급된 serviceKey 입력" />
             <button type="button" id="toggleKey" title="키 표시/숨김">표시</button>
           </div>
         </div>
@@ -270,12 +272,12 @@ footer{
           <div class="hint">최대 100건</div>
         </article>
         <article class="tile">
-          <div class="lb">매출액 중앙값</div>
+          <div class="lb">원화 매출액 중앙값</div>
           <div class="val" id="kpiSales">—</div>
           <div class="hint">0원 제외</div>
         </article>
         <article class="tile">
-          <div class="lb">당기순이익 중앙값</div>
+          <div class="lb">원화 당기순이익 중앙값</div>
           <div class="val" id="kpiProfit">—</div>
           <div class="hint">현재 페이지</div>
         </article>
@@ -288,7 +290,7 @@ footer{
 
       <div class="section-title">
         <h2>시각화</h2>
-        <span class="cap">막대 · 부채비율 분포 · 자산–이익 산점도</span>
+        <span class="cap">KRW 행만 시각화 · 외화는 표·CSV에 원문 통화로 표시</span>
       </div>
       <div class="cards">
         <section class="card">
@@ -298,7 +300,7 @@ footer{
         </section>
         <section class="card half">
           <h3>부채비율 분포</h3>
-          <p class="cap">현재 페이지 기업 구간별 건수</p>
+          <p class="cap">현재 페이지 원화(KRW) 행 구간별 건수</p>
           <div class="chart-box"><canvas id="chartDebt" aria-label="부채비율 도넛 차트"></canvas></div>
         </section>
         <section class="card full">
@@ -310,7 +312,7 @@ footer{
 
       <div class="section-title">
         <h2>상세 표</h2>
-        <span class="cap">열 헤더 클릭으로 정렬</span>
+        <span class="cap">금액 열은 통화별로 나누어 정렬 · 서로 다른 통화를 비교하지 않습니다</span>
       </div>
       <section class="card tbl-card">
         <div class="tbl-scroll">
@@ -321,6 +323,7 @@ footer{
                 <th data-sort="crno">법인등록번호</th>
                 <th data-sort="bizYear">연도</th>
                 <th>재무제표구분</th>
+                <th>통화</th>
                 <th data-sort="enpSaleAmt">매출액</th>
                 <th data-sort="enpCrtmNpf">당기순이익</th>
                 <th data-sort="enpBzopPft">영업이익</th>
@@ -342,6 +345,7 @@ footer{
       <b>데이터 출처</b> 금융위원회 「기업 재무정보」 요약재무제표 API
       (<code>getSummFinaStat_V2</code>). 금액 단위는 원(KRW)이며 화면에서는 억·조로 축약합니다.
       응답에 기업명이 없어 법인등록번호(<code>crno</code>)로 식별합니다.
+      <a href="https://www.data.go.kr/data/15043459/openapi.do" target="_blank" rel="noopener">공식 데이터 설명</a> · <a href="/research/source-reviews/2026-10-17-society-2.json">이번 출처 점검</a><br>
       활용신청·키 발급: <a href="https://www.data.go.kr/" target="_blank" rel="noopener">data.go.kr</a>
     </aside>
 
@@ -352,6 +356,6 @@ footer{
   </div>
 
   <script src="./chart.umd.min.js"></script>
-  <script src="./app.js"></script>
+  <script src="./app.js?v=20261017-source-review"></script>
 </body>
 </html>

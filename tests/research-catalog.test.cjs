@@ -60,3 +60,13 @@ test('audited tourism awaiting a publication keeps its official calendar on unch
  reconcileSnapshot(entry,'/korea-tourism/',data,'2026-10-16T12:00:00Z','https://www.stargateedu.co.kr/korea-tourism/data.json');
  assert.equal(entry.reviewStatus,'awaiting_publication');assert.deepEqual(entry.issues,['9월 공표 대기']);
 });
+
+test('changed Cafe article counters invalidate prior original-source verification',()=>{
+ const data={cafeId:12730407,sourceStatDate:'2026101624',sourceUrl:'https://apis.naver.com/',articles:[{articleId:1,views:10}]};
+ const entry={reviewStatus:'verified',source:{verification:'verified'},issues:[],freshness:'target_period_verified',verifiedDataHash:snapshotFingerprint(data),evidence:[{kind:'official-source',url:'https://apis.naver.com/'}]};
+ reconcileSnapshot(entry,'/naver-cafe-research/',data,'2026-10-17T02:00:00Z','https://www.stargateedu.co.kr/naver-cafe-research/data/latest.json');
+ assert.equal(entry.reviewStatus,'verified');
+ reconcileSnapshot(entry,'/naver-cafe-research/',{...data,articles:[{articleId:1,views:11}]},'2026-10-17T02:00:00Z','https://www.stargateedu.co.kr/naver-cafe-research/data/latest.json');
+ assert.equal(entry.reviewStatus,'snapshot_checked');
+ assert.equal(entry.source.verification,'declared');
+});

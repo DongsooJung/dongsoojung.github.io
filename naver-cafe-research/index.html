@@ -76,7 +76,7 @@
           <small>인기글 1페이지</small>
         </article>
         <article>
-          <span>누적 조회</span>
+          <span>선택 20건 조회 합계</span>
           <strong data-metric-views>—</strong>
           <small>현재 표시 글 합계</small>
         </article>
@@ -115,7 +115,7 @@
             <label class="sort-control">
               <span class="sr-only">정렬 방식</span>
               <select data-sort>
-                <option value="rank">인기 순서</option>
+                <option value="rank">API 응답 순서</option>
                 <option value="views">조회 많은 순</option>
                 <option value="comments">댓글 많은 순</option>
                 <option value="latest">최신 작성 순</option>
@@ -133,7 +133,7 @@
 
         <div class="list-meta">
           <span data-result-count>0개 게시글</span>
-          <span>최근 7일 기준 · 원문은 새 창에서 열립니다.</span>
+          <span><span data-source-stat-date>원자료 집계 기준 미확인</span> · API 응답 앞 20건 · 월간 전수·조회수 순위 아님</span>
         </div>
         <div class="article-list" data-article-list></div>
         <div class="empty-state" data-empty hidden>
@@ -153,6 +153,7 @@
           <article><span>03</span><h3>OCR 보조</h3><p>구조화 응답이 막힌 화면은 사용자가 볼 수 있는 범위에서만 OCR로 확인합니다.</p></article>
           <article><span>04</span><h3>시간별 캐시</h3><p>실시간 요청 실패에도 마지막 성공 데이터가 유지됩니다.</p></article>
         </div>
+        <p class="method-disclosure">주제는 제목 키워드로 분류한 자체 규칙입니다. 선택한 20건의 조회·댓글 합계이며 카페 전체 활동량이나 고유 이용자 수를 뜻하지 않습니다. <a href="/research/source-reviews/2026-10-17-society-2.json">출처 점검 기록</a></p>
         <p class="method-disclosure">실시간 버튼은 Jina AI Reader를 읽기 전용 교차 출처 브리지로 사용할 수 있습니다. 공개 네이버 API 주소만 전달하며 계정·쿠키·개인정보는 전송하지 않습니다.</p>
       </section>
     </main>
@@ -177,6 +178,6 @@
       </div>
     </article>
   </template>
-  <script src="./app.js?v=20260725" defer></script>
+  <script src="./app.js?v=20261017-source-review" defer></script>
 </body>
 </html>
