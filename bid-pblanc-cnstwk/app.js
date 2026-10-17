@@ -76,6 +76,8 @@
     totalCount: 0,
     items: [],
     lastSaved: 0,
+    collectedAt: null,
+    query: {},
     loading: false,
     filterInstt: '',
     filterMethod: '',
@@ -627,7 +629,6 @@
   async function loadPage(pageNo) {
     if (state.loading) return;
     state.loading = true;
-    state.pageNo = pageNo;
     state.filterInstt = '';
     state.filterMethod = '';
     els.loadBtn.disabled = true;
@@ -637,6 +638,7 @@
     setNotice('');
 
     try {
+      const query = { inqryDiv: els.inqryDiv.value || '1', start: els.inqryBgnDt.value.trim(), end: els.inqryEndDt.value.trim() };
       let result;
       try {
         result = await fetchViaProxy(pageNo, true);
@@ -646,7 +648,12 @@
       }
       state.items = (result.items || []).map((row) => normalizeItem(row, pageNo)).filter(Boolean);
       state.totalCount = result.totalCount || state.items.length;
+      state.pageNo = pageNo;
       state.lastSaved = result.saved || 0;
+      state.collectedAt = new Date().toISOString();
+      state.query = query;
+      const dates = state.items.map(r => r.ntce_dt).filter(Boolean).sort();
+      document.getElementById('dataScope').textContent = `공고 등록일시 ${dates[0] || '미확인'} ~ ${dates.at(-1) || '미확인'} · 수집 ${state.collectedAt} · 현재 페이지 ${state.items.length}건 / 조회 결과 ${state.totalCount.toLocaleString('ko-KR')}건. 차트·CSV는 현재 페이지의 부분 조회입니다. 월간 전체 합계가 아닙니다.`;
       els.sourceMode.textContent =
         result.source === 'bridge'
           ? '저장 키 브리지'
@@ -708,13 +715,16 @@
       'bid_clse_dt',
       'openg_dt',
       'bid_ntce_dtl_url',
+      'query_div', 'query_start', 'query_end', 'collected_at', 'scope',
     ];
     const lines = [headers.join(',')];
     for (const row of items) {
       lines.push(
         headers
           .map((h) => {
-            const v = row[h] == null ? '' : String(row[h]);
+            const metadata = { query_div: state.query.inqryDiv, query_start: state.query.start, query_end: state.query.end, collected_at: state.collectedAt, scope: 'current_page_only' };
+            const value = metadata[h] ?? row[h];
+            const v = value == null ? '' : String(value);
             return `"${v.replaceAll('"', '""')}"`;
           })
           .join(','),

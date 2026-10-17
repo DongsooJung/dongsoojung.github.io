@@ -1,0 +1,616 @@
+{
+  "schemaVersion": 1,
+  "step": "society-2",
+  "checkedAt": "2026-10-17T02:04:58.790677+00:00",
+  "sourceChecks": [
+    {
+      "key": "procurement-doc",
+      "url": "https://www.data.go.kr/data/15129394/openapi.do",
+      "checkedAt": "2026-10-17T01:57:29.464006+00:00",
+      "request": null,
+      "status": 200,
+      "finalUrl": "https://www.data.go.kr/data/15129394/openapi.do",
+      "contentType": "text/html;charset=UTF-8",
+      "sha256": "4ab754cce21deb5730754eabfac72c4bc3d47b258861c2084579b008d72f8a16",
+      "bytes": 470590
+    },
+    {
+      "key": "fsc-doc",
+      "url": "https://www.data.go.kr/data/15043459/openapi.do",
+      "checkedAt": "2026-10-17T01:57:29.465013+00:00",
+      "request": null,
+      "status": 200,
+      "finalUrl": "https://www.data.go.kr/data/15043459/openapi.do",
+      "contentType": "text/html;charset=UTF-8",
+      "sha256": "2843cab13d47406ea0ebb7d0be28b20a9955c0f07b8f31133d95dc2493667f90",
+      "bytes": 212659
+    },
+    {
+      "key": "fsc-api",
+      "url": "https://apis.data.go.kr/1160100/service/GetFinaStatInfoService_V2/getSummFinaStat_V2?bizYear=2025&numOfRows=100&pageNo=1&resultType=json",
+      "checkedAt": "2026-10-17T01:57:29.466033+00:00",
+      "request": null,
+      "status": 401,
+      "finalUrl": "https://apis.data.go.kr/1160100/service/GetFinaStatInfoService_V2/getSummFinaStat_V2?bizYear=2025&numOfRows=100&pageNo=1&resultType=json",
+      "contentType": "application/json",
+      "sha256": "590786cb9c69b91f8bf8a7ffea2eb86317992d429be2571373783cc5caf80780",
+      "bytes": 186
+    },
+    {
+      "key": "civic",
+      "url": "https://civic-participation-hub.stargate8224.chatgpt.site",
+      "checkedAt": "2026-10-17T01:57:29.466033+00:00",
+      "request": null,
+      "status": 200,
+      "finalUrl": "https://civic-participation-hub.stargate8224.chatgpt.site",
+      "contentType": "text/html; charset=utf-8",
+      "sha256": "4a17fc7166b9ccd7a236dd8cb521c0367afeda1155b4bd54ff4863ee9fc288f4",
+      "bytes": 149961
+    },
+    {
+      "key": "cafe",
+      "url": "https://apis.naver.com/cafe-web/cafe2/WeeklyPopularArticleListV3.json?cafeId=12730407&mobileWeb=true&adUnit=PC_CAFE_BOARD&ad=false",
+      "checkedAt": "2026-10-17T01:57:29.467015+00:00",
+      "request": null,
+      "status": 200,
+      "finalUrl": "https://apis.naver.com/cafe-web/cafe2/WeeklyPopularArticleListV3.json?cafeId=12730407&mobileWeb=true&adUnit=PC_CAFE_BOARD&ad=false",
+      "contentType": "application/json;charset=utf-8",
+      "sha256": "e6a106bfc0960d777f947003da47c905f8405a76ff63d569920d4b39c2c2f51b",
+      "bytes": 228937
+    },
+    {
+      "key": "cnstwk-sep",
+      "url": "https://stargate-bid-api.vercel.app/api/bid-pblanc-cnstwk",
+      "checkedAt": "2026-10-17T01:57:29.469011+00:00",
+      "request": {
+        "pageNo": 1,
+        "pageSize": 100,
+        "inqryDiv": "1",
+        "inqryBgnDt": "202609010000",
+        "inqryEndDt": "202609302359",
+        "saveToSupabase": false
+      },
+      "status": 200,
+      "finalUrl": "https://stargate-bid-api.vercel.app/api/bid-pblanc-cnstwk",
+      "contentType": "application/json; charset=utf-8",
+      "sha256": "bcc39816bd03f10f23f8c0cffbea0cc44f08d4a310e6e5020933e5be31ba10a6",
+      "bytes": 534789
+    },
+    {
+      "key": "cnstwk-oct",
+      "url": "https://stargate-bid-api.vercel.app/api/bid-pblanc-cnstwk",
+      "checkedAt": "2026-10-17T01:57:29.470011+00:00",
+      "request": {
+        "pageNo": 1,
+        "pageSize": 100,
+        "inqryDiv": "1",
+        "inqryBgnDt": "202610010000",
+        "inqryEndDt": "202610171059",
+        "saveToSupabase": false
+      },
+      "status": 200,
+      "finalUrl": "https://stargate-bid-api.vercel.app/api/bid-pblanc-cnstwk",
+      "contentType": "application/json; charset=utf-8",
+      "sha256": "6038d388120483167629ebea2fc1eac9c624ff0eb0fb58d827e0f2962b9e23aa",
+      "bytes": 540415
+    },
+    {
+      "key": "servc-sep",
+      "url": "https://stargate-bid-api.vercel.app/api/bid-pblanc-servc",
+      "checkedAt": "2026-10-17T01:57:29.471012+00:00",
+      "request": {
+        "pageNo": 1,
+        "pageSize": 100,
+        "inqryDiv": "1",
+        "inqryBgnDt": "202609010000",
+        "inqryEndDt": "202609302359",
+        "saveToSupabase": false
+      },
+      "status": 200,
+      "finalUrl": "https://stargate-bid-api.vercel.app/api/bid-pblanc-servc",
+      "contentType": "application/json; charset=utf-8",
+      "sha256": "e5ca4b09a51be5f62c904e727026e7c45eabb608d32d520a1206d48df3028841",
+      "bytes": 471273
+    },
+    {
+      "key": "servc-oct",
+      "url": "https://stargate-bid-api.vercel.app/api/bid-pblanc-servc",
+      "checkedAt": "2026-10-17T01:57:30.656720+00:00",
+      "request": {
+        "pageNo": 1,
+        "pageSize": 100,
+        "inqryDiv": "1",
+        "inqryBgnDt": "202610010000",
+        "inqryEndDt": "202610171059",
+        "saveToSupabase": false
+      },
+      "status": 200,
+      "finalUrl": "https://stargate-bid-api.vercel.app/api/bid-pblanc-servc",
+      "contentType": "application/json; charset=utf-8",
+      "sha256": "79addfc25cfd102fd812b7a50784fb95e7ef6e8f304b8d93d531d8af0322d5f5",
+      "bytes": 466755
+    },
+    {
+      "key": "cnstwk-sep-last",
+      "url": "https://stargate-bid-api.vercel.app/api/bid-pblanc-cnstwk",
+      "checkedAt": "2026-10-17T02:01:22.882214+00:00",
+      "request": {
+        "pageNo": 93,
+        "pageSize": 100,
+        "inqryDiv": "1",
+        "inqryBgnDt": "202609010000",
+        "inqryEndDt": "202609302359",
+        "saveToSupabase": false
+      },
+      "status": 200,
+      "finalUrl": "https://stargate-bid-api.vercel.app/api/bid-pblanc-cnstwk",
+      "contentType": "application/json; charset=utf-8",
+      "sha256": "fa739ee4aa276ab251cd9b94114ff5bca55e9d783fc22e10264758556d3bbf76",
+      "bytes": 44703
+    },
+    {
+      "key": "cnstwk-oct-last",
+      "url": "https://stargate-bid-api.vercel.app/api/bid-pblanc-cnstwk",
+      "checkedAt": "2026-10-17T02:01:22.883216+00:00",
+      "request": {
+        "pageNo": 55,
+        "pageSize": 100,
+        "inqryDiv": "1",
+        "inqryBgnDt": "202610010000",
+        "inqryEndDt": "202610171059",
+        "saveToSupabase": false
+      },
+      "status": 200,
+      "finalUrl": "https://stargate-bid-api.vercel.app/api/bid-pblanc-cnstwk",
+      "contentType": "application/json; charset=utf-8",
+      "sha256": "90ce9d9cbb0dd07adc37c3dbbe6fa19b63b6c73429d8d57b82747c93a0930a4d",
+      "bytes": 523347
+    },
+    {
+      "key": "servc-sep-last",
+      "url": "https://stargate-bid-api.vercel.app/api/bid-pblanc-servc",
+      "checkedAt": "2026-10-17T02:01:22.884215+00:00",
+      "request": {
+        "pageNo": 121,
+        "pageSize": 100,
+        "inqryDiv": "1",
+        "inqryBgnDt": "202609010000",
+        "inqryEndDt": "202609302359",
+        "saveToSupabase": false
+      },
+      "error": "TimeoutError"
+    },
+    {
+      "key": "servc-oct-last",
+      "url": "https://stargate-bid-api.vercel.app/api/bid-pblanc-servc",
+      "checkedAt": "2026-10-17T02:01:22.885224+00:00",
+      "request": {
+        "pageNo": 68,
+        "pageSize": 100,
+        "inqryDiv": "1",
+        "inqryBgnDt": "202610010000",
+        "inqryEndDt": "202610171059",
+        "saveToSupabase": false
+      },
+      "status": 200,
+      "finalUrl": "https://stargate-bid-api.vercel.app/api/bid-pblanc-servc",
+      "contentType": "application/json; charset=utf-8",
+      "sha256": "c78c51ecdb3aae6e2ca49b6d9bd8edd6cb298d25e8f94ae21c4880d5e7e4109f",
+      "bytes": 274905
+    },
+    {
+      "key": "civic-source-0",
+      "url": "https://opinion.lawmaking.go.kr/",
+      "checkedAt": "2026-10-17T01:58:39.222524+00:00",
+      "request": null,
+      "status": 200,
+      "finalUrl": "https://opinion.lawmaking.go.kr/",
+      "contentType": "text/html;charset=UTF-8",
+      "sha256": "9bc62d10be553c9a553def5f83aab6ae73a45efd9930950cf379069907c757dd",
+      "bytes": 69338
+    },
+    {
+      "key": "civic-source-1",
+      "url": "https://pal.assembly.go.kr/",
+      "checkedAt": "2026-10-17T01:58:39.223526+00:00",
+      "request": null,
+      "status": 404,
+      "finalUrl": "http://pal.assembly.go.kr/napal/main/main.do",
+      "contentType": "text/html; charset=iso-8859-1",
+      "sha256": "80c3fe2ae1062abf56456f52518bd670f9ec3917b7f85e152b347ac6b6faf880",
+      "bytes": 196
+    },
+    {
+      "key": "civic-source-2",
+      "url": "https://petitions.assembly.go.kr/",
+      "checkedAt": "2026-10-17T01:58:39.224523+00:00",
+      "request": null,
+      "status": 200,
+      "finalUrl": "https://petitions.assembly.go.kr/",
+      "contentType": "text/html; charset=UTF-8",
+      "sha256": "77d52486ba1fa72db3c7ae7bc958cfbc34e7d26609fead88b13bee583e3467b4",
+      "bytes": 8083
+    },
+    {
+      "key": "civic-source-3",
+      "url": "https://sotong.go.kr/front/main/sotong_index.do",
+      "checkedAt": "2026-10-17T01:58:39.225524+00:00",
+      "request": null,
+      "status": 200,
+      "finalUrl": "https://sotong.go.kr/front/main/sotong_index.do",
+      "contentType": "text/html;charset=UTF-8",
+      "sha256": "d47732c992849a03b3bbbea0e9a3ae4fbd94c01a5e934e2fd61d7a29a7de0255",
+      "bytes": 178198
+    },
+    {
+      "key": "civic-source-4",
+      "url": "https://withpeople.go.kr/",
+      "checkedAt": "2026-10-17T01:58:39.226525+00:00",
+      "request": null,
+      "status": 200,
+      "finalUrl": "https://www.withpeople.go.kr/",
+      "contentType": "text/html;charset=UTF-8",
+      "sha256": "57f9b9904dd46d7f8bc51b38e6ba1dea0c6c5b5b0922b268aca93601068c66b8",
+      "bytes": 97684
+    },
+    {
+      "key": "civic-source-5",
+      "url": "https://www.bai.go.kr/bai/audit/auditDemand/auditDemandStep/tab01/",
+      "checkedAt": "2026-10-17T01:58:39.229043+00:00",
+      "request": null,
+      "status": 200,
+      "finalUrl": "https://www.bai.go.kr/bai/audit/auditDemand/auditDemandStep/tab01/",
+      "contentType": "text/html",
+      "sha256": "bd2b9cd0d0bc4c285bffbc2ab4d3f9dc7495c9fc9e2beb78e87e19c2e6931341",
+      "bytes": 3767
+    },
+    {
+      "key": "civic-source-6",
+      "url": "https://www.cheongwon.go.kr/",
+      "checkedAt": "2026-10-17T01:58:39.233044+00:00",
+      "request": null,
+      "status": 200,
+      "finalUrl": "https://www.cheongwon.go.kr/",
+      "contentType": "text/html;charset=UTF-8",
+      "sha256": "37cca0a20f9bfbee0992080b2c47aa6e01a711b0165c34df56e00cf8aaade7b4",
+      "bytes": 321
+    },
+    {
+      "key": "civic-source-7",
+      "url": "https://www.clean.go.kr/",
+      "checkedAt": "2026-10-17T01:58:39.234051+00:00",
+      "request": null,
+      "status": 307,
+      "finalUrl": "https://www.clean.go.kr/",
+      "contentType": null,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "key": "civic-source-8",
+      "url": "https://www.epeople.go.kr/",
+      "checkedAt": "2026-10-17T01:58:40.906818+00:00",
+      "request": null,
+      "status": 200,
+      "finalUrl": "https://www.epeople.go.kr/",
+      "contentType": "text/html; charset=UTF-8",
+      "sha256": "83df65fbbebfe011068c0644dad9d7fdd75587e11efe93828282c0ad8e6dae34",
+      "bytes": 184
+    },
+    {
+      "key": "civic-source-9",
+      "url": "https://www.epeople.go.kr/idea/index.npaid",
+      "checkedAt": "2026-10-17T01:58:40.977922+00:00",
+      "request": null,
+      "status": 200,
+      "finalUrl": "https://www.epeople.go.kr/idea/index.npaid",
+      "contentType": "text/html;charset=UTF-8",
+      "sha256": "739c42680ac07d0aa5607f0eefada330ade02d52078234a19cda64c4f15e8995",
+      "bytes": 82778
+    },
+    {
+      "key": "civic-source-10",
+      "url": "https://www.gov.kr/",
+      "checkedAt": "2026-10-17T01:58:41.000459+00:00",
+      "request": null,
+      "status": 200,
+      "finalUrl": "https://www.gov.kr/",
+      "contentType": "text/html;charset=UTF-8",
+      "sha256": "21ef1f2305cd29043100d7aec8e08b966b63ab028522c91d962932295ce9c0e4",
+      "bytes": 242
+    },
+    {
+      "key": "civic-source-11",
+      "url": "https://www.humanrights.go.kr/",
+      "checkedAt": "2026-10-17T01:58:41.016982+00:00",
+      "request": null,
+      "status": 200,
+      "finalUrl": "https://www.humanrights.go.kr/",
+      "contentType": "text/html;charset=utf-8",
+      "sha256": "d2f6c8b7331aa127319db8f8c4181716a1218e43601036321924f869149600e8",
+      "bytes": 8217
+    },
+    {
+      "key": "civic-source-12",
+      "url": "https://www.mybudget.go.kr/",
+      "checkedAt": "2026-10-17T01:58:41.044520+00:00",
+      "request": null,
+      "status": 200,
+      "finalUrl": "https://www.mybudget.go.kr/",
+      "contentType": "text/html;charset=UTF-8",
+      "sha256": "89c9eb383af72824c675791b792592fa660f175294df8239ffa0388e4f7dda41",
+      "bytes": 152657
+    },
+    {
+      "key": "civic-source-13",
+      "url": "https://www.open.go.kr/",
+      "checkedAt": "2026-10-17T01:58:41.086571+00:00",
+      "request": null,
+      "status": 200,
+      "finalUrl": "https://www.open.go.kr/",
+      "contentType": "text/html; charset=utf-8",
+      "sha256": "fe259e8726ec40ebdf2aefa1b357e30fc947e2c5b2ea5ad82df2cc483198cfae",
+      "bytes": 480
+    },
+    {
+      "key": "civic-source-14",
+      "url": "https://www.safetyreport.go.kr/",
+      "checkedAt": "2026-10-17T01:58:41.221259+00:00",
+      "request": null,
+      "status": 200,
+      "finalUrl": "https://www.safetyreport.go.kr/",
+      "contentType": "text/html; charset=UTF-8",
+      "sha256": "099c77c47c561f147ef449143fb7f7ca7790d2330bd1328f9e8fd64f956bfc88",
+      "bytes": 33815
+    },
+    {
+      "key": "civic-source-15",
+      "url": "https://www.simpan.go.kr/",
+      "checkedAt": "2026-10-17T01:58:41.249792+00:00",
+      "request": null,
+      "status": 200,
+      "finalUrl": "https://simpan.go.kr//",
+      "contentType": "text/html;charset=utf-8",
+      "sha256": "e857252645f203df2ebdbb9fe949fa68747b6ddd04ca5a4b3bfb3b76754ab92b",
+      "bytes": 1270
+    },
+    {
+      "key": "civic-source-16",
+      "url": "https://www.sinmungo.go.kr/",
+      "checkedAt": "2026-10-17T01:58:41.293854+00:00",
+      "request": null,
+      "status": 200,
+      "finalUrl": "https://www.sinmungo.go.kr/",
+      "contentType": "text/html;charset=utf-8",
+      "sha256": "18d7dc6f177cd97d59ea2f88e34f1b5471e2ab465a9adcfe3741139a8ed0c69e",
+      "bytes": 277
+    },
+    {
+      "key": "cafe-collection",
+      "url": "https://apis.naver.com/cafe-web/cafe2/WeeklyPopularArticleListV3.json?cafeId=12730407&mobileWeb=true&adUnit=PC_CAFE_BOARD&ad=false",
+      "status": 200,
+      "collectedAt": "2026-10-17T02:00:40.553Z",
+      "sha256": "e6a106bfc0960d777f947003da47c905f8405a76ff63d569920d4b39c2c2f51b",
+      "bytes": 228937
+    }
+  ],
+  "projects": {
+    "/bid-pblanc-cnstwk/": {
+      "reviewStatus": "verified",
+      "dataPeriod": "2026-10",
+      "dataAsOf": "2026-10-16",
+      "source": {
+        "label": "조달청 나라장터 공사 입찰공고 API",
+        "url": "https://www.data.go.kr/data/15129394/openapi.do",
+        "verification": "verified"
+      },
+      "verifiedScope": "기존 서버 프록시가 전달한 공식 API 원문(raw)과 화면 정규화 필드를 대조. 9·10월 각 첫 페이지 및 응답에 성공한 마지막 페이지만 검증. 전수 월간 금액 합계·계약 실적은 검증 범위 아님.",
+      "checks": [
+        {
+          "period": "2026-09",
+          "apiTotalCount": 9208,
+          "totalCountMeaning": "조회 조건에 대한 원 API 응답 건수. 모든 페이지를 재수집·독립 합산한 통계가 아님.",
+          "partialMonth": false,
+          "pagesChecked": [
+            {
+              "pageNo": 1,
+              "rowsChecked": 100,
+              "dateMin": "2026-09-01 08:08:21",
+              "dateMax": "2026-09-01 11:17:49",
+              "rawFieldComparison": "공고번호·차수·제목·등록일시·추정가격 일치",
+              "uniqueNoticeKeys": true
+            },
+            {
+              "pageNo": 93,
+              "rowsChecked": 8,
+              "dateMin": "2026-09-30 20:39:48",
+              "dateMax": "2026-09-30 22:50:56",
+              "rawFieldComparison": "공고번호·차수·제목·등록일시·추정가격 일치",
+              "uniqueNoticeKeys": true
+            }
+          ]
+        },
+        {
+          "period": "2026-10",
+          "apiTotalCount": 5495,
+          "totalCountMeaning": "조회 조건에 대한 원 API 응답 건수. 모든 페이지를 재수집·독립 합산한 통계가 아님.",
+          "partialMonth": true,
+          "pagesChecked": [
+            {
+              "pageNo": 1,
+              "rowsChecked": 100,
+              "dateMin": "2026-10-01 07:32:03",
+              "dateMax": "2026-10-01 11:21:12",
+              "rawFieldComparison": "공고번호·차수·제목·등록일시·추정가격 일치",
+              "uniqueNoticeKeys": true
+            },
+            {
+              "pageNo": 55,
+              "rowsChecked": 95,
+              "dateMin": "2026-10-16 17:22:46",
+              "dateMax": "2026-10-16 22:11:34",
+              "rawFieldComparison": "공고번호·차수·제목·등록일시·추정가격 일치",
+              "uniqueNoticeKeys": true
+            }
+          ]
+        }
+      ],
+      "issues": [
+        "10월은 월중 부분 조회입니다. 차트와 CSV는 현재 페이지 최대 100건입니다."
+      ],
+      "nextAction": "실시간 조회를 유지하며 공고 등록일시·응답 수집시각·페이지 범위를 구분. 전체 조회 건수와 페이지 금액 합계를 혼동하지 않음."
+    },
+    "/bid-pblanc-servc/": {
+      "reviewStatus": "verified",
+      "dataPeriod": "2026-10",
+      "dataAsOf": "2026-10-16",
+      "source": {
+        "label": "조달청 나라장터 용역 입찰공고 API",
+        "url": "https://www.data.go.kr/data/15129394/openapi.do",
+        "verification": "verified"
+      },
+      "verifiedScope": "기존 서버 프록시가 전달한 공식 API 원문(raw)과 화면 정규화 필드를 대조. 9·10월 각 첫 페이지 및 응답에 성공한 마지막 페이지만 검증. 전수 월간 금액 합계·계약 실적은 검증 범위 아님.",
+      "checks": [
+        {
+          "period": "2026-09",
+          "apiTotalCount": 12073,
+          "totalCountMeaning": "조회 조건에 대한 원 API 응답 건수. 모든 페이지를 재수집·독립 합산한 통계가 아님.",
+          "partialMonth": false,
+          "pagesChecked": [
+            {
+              "pageNo": 1,
+              "rowsChecked": 100,
+              "dateMin": "2026-09-01 00:30:02",
+              "dateMax": "2026-09-01 10:45:37",
+              "rawFieldComparison": "공고번호·차수·제목·등록일시·추정가격 일치",
+              "uniqueNoticeKeys": true
+            }
+          ]
+        },
+        {
+          "period": "2026-10",
+          "apiTotalCount": 6756,
+          "totalCountMeaning": "조회 조건에 대한 원 API 응답 건수. 모든 페이지를 재수집·독립 합산한 통계가 아님.",
+          "partialMonth": true,
+          "pagesChecked": [
+            {
+              "pageNo": 1,
+              "rowsChecked": 100,
+              "dateMin": "2026-10-01 08:05:00",
+              "dateMax": "2026-10-01 11:10:10",
+              "rawFieldComparison": "공고번호·차수·제목·등록일시·추정가격 일치",
+              "uniqueNoticeKeys": true
+            },
+            {
+              "pageNo": 68,
+              "rowsChecked": 56,
+              "dateMin": "2026-10-06 20:09:57",
+              "dateMax": "2026-10-16 20:09:46",
+              "rawFieldComparison": "공고번호·차수·제목·등록일시·추정가격 일치",
+              "uniqueNoticeKeys": true
+            }
+          ]
+        }
+      ],
+      "issues": [
+        "10월은 월중 부분 조회입니다. 차트와 CSV는 현재 페이지 최대 100건입니다.",
+        "9월 마지막 페이지 요청은 시간 초과로 미대조. 첫 100건과 원 API 조회 건수만 확인."
+      ],
+      "nextAction": "용역 9월 마지막 페이지는 접근 정상화 시 재확인. 월간 전수 통계가 필요하면 모든 페이지를 동일 조건으로 수집·중복 검증 후 별도로 합산."
+    },
+    "/naver-cafe-research/": {
+      "reviewStatus": "verified",
+      "dataPeriod": "2026-10",
+      "dataAsOf": "2026-10-16",
+      "collectedAt": "2026-10-17T02:00:40.581Z",
+      "source": {
+        "label": "네이버 카페 공개 인기글 API",
+        "url": "https://apis.naver.com/cafe-web/cafe2/WeeklyPopularArticleListV3.json?cafeId=12730407&mobileWeb=true&adUnit=PC_CAFE_BOARD&ad=false",
+        "verification": "verified"
+      },
+      "verifiedScope": "공식 운영 주체인 네이버 API 응답 앞 20건의 ID·제목·조회·댓글·좋아요·집계코드와 수집 변환본 대조.",
+      "sourceStatDate": "2026101624",
+      "sourceRows": 211,
+      "selectedRows": 20,
+      "publicReadableRows": 20,
+      "selectedViewsSum": 48205,
+      "selectedCommentsSum": 719,
+      "issues": [
+        "API 응답 앞 20건이며 조회수 순위·월간 전수 통계가 아닙니다. 집계코드 2026101624는 원문대로 보존하며 24시의 의미는 추정하지 않습니다.",
+        "주제는 제목 키워드 자체 규칙이며 공식 네이버 분류가 아닙니다."
+      ],
+      "nextAction": "매시간 수집 시 원자료 집계코드와 실제 수집시각을 함께 보존. 게시글 값이 바뀌면 이전 원출처 검증 상태를 재사용하지 않음."
+    },
+    "/fsc-financial/": {
+      "reviewStatus": "needs_review",
+      "dataPeriod": "2023",
+      "dataAsOf": "2023-12-31",
+      "collectedAt": "2026-07-26T20:33:58Z",
+      "source": {
+        "label": "금융위원회 기업 재무정보",
+        "url": "https://www.data.go.kr/data/15043459/openapi.do",
+        "verification": "partially_verified"
+      },
+      "verifiedScope": "공식 메타데이터에서 사업연도 기준·일 1회 갱신을 확인. 수치 원표는 인증키 없는 요청 HTTP 401 SERVICE_KEY_IS_NULL로 대조하지 못함.",
+      "monthlyBasis": "not_applicable: 사업연도와 원자료 basDt 기준이며 2026-09/10 월간 통계로 치환하지 않음.",
+      "snapshotRows": 100,
+      "snapshotBasisDates": [
+        "20230630",
+        "20231231"
+      ],
+      "snapshotCurrencyCounts": {
+        "CNY": 1,
+        "KRW": 99
+      },
+      "snapshotSha256": "8b69ddbc8f7e59436211b3ffb89973dff14d5da5e2cd6e28912edd11eb3dca36",
+      "dataChanged": false,
+      "issues": [
+        "저장본은 2023 사업연도, 수집일은 2026-07-26입니다. 확인일을 자료 기준일로 바꾸지 않았습니다.",
+        "공개 소스에 기본 인증키가 없는데 자동 조회한다고 안내하던 문구를 수정했습니다.",
+        "KRW 99건과 CNY 1건을 같은 원화 지표로 집계하던 오류를 수정했습니다. 원화 금액 지표·차트는 KRW만 사용하고 표·CSV는 원문 통화를 보존합니다."
+      ],
+      "nextAction": "기존에 승인된 사용자 키로 공식 API 수록 사업연도·기준일·통화·단위를 확인한 뒤 원표 수치와 저장본을 교체. 신규 유료 설정이나 키 공개는 하지 않음."
+    },
+    "https://civic-participation-hub.stargate8224.chatgpt.site": {
+      "reviewStatus": "needs_review",
+      "dataPeriod": null,
+      "dataAsOf": "2026-08-29",
+      "source": {
+        "label": "국회·정부·권익위 공식 참여 창구 안내",
+        "url": "https://www.epeople.go.kr/",
+        "verification": "partially_verified"
+      },
+      "monthlyBasis": "not_applicable: 월간 통계가 아닌 2026-08-29 버전의 안내·분류 문서.",
+      "verifiedScope": "공개 게시본의 문서 버전·17개 공식 주소 및 직접 HTTP 응답을 점검. HTTP 200만으로 신청 기능·기관 안내·법정 처리기간의 정확성을 검증했다고 보지 않음.",
+      "officialLinks": 17,
+      "http200Links": 15,
+      "failedLinks": [
+        {
+          "url": "https://pal.assembly.go.kr/",
+          "status": 404,
+          "error": null
+        },
+        {
+          "url": "https://www.clean.go.kr/",
+          "status": 307,
+          "error": null
+        }
+      ],
+      "issues": [
+        "2026-08-29 버전의 안내 문서이며 9·10월 자료로 날짜를 바꾸지 않았습니다.",
+        "국회 입법예고 루트는 HTTP 404, 청렴포털은 HTTP 307 반복 응답입니다.",
+        "처리기간·접수유형·로그인 후 기능은 원문 세부 안내와 추가 대조가 필요합니다."
+      ],
+      "nextAction": "입법예고 유효 진입 경로와 청렴포털 응답을 재확인하고 외부 문서 편집 경로를 확보해 원문 링크를 수정. 처리기간은 해당 기관 안내·현행 근거와 각각 대조 후 갱신."
+    }
+  },
+  "carriedForward": {
+    "/korea-tourism/": {
+      "status": "awaiting_publication",
+      "audit": "/research/source-reviews/2026-10-tourism-trade.json",
+      "latestOfficialPeriod": "2026-08",
+      "nextScheduledPublication": "2026-10-26",
+      "action": "기존 대조 기록 유지. 공표 예정일 전 확인일만 갱신하지 않음."
+    }
+  }
+}

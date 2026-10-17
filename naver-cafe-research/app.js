@@ -99,6 +99,7 @@
     const articles = sourceArticles.slice(0, 20).map((article, index) => ({
       rank: index + 1,
       articleId: Number(article.articleId),
+      sourceStatDate: String(article.statDate || ""),
       title: String(article.subject || "").trim(),
       author: String(article.nickname || "").trim(),
       writtenAt: new Date(Number(article.writeDateTimestamp)).toISOString(),
@@ -305,6 +306,8 @@
     state.payload.articles = articles;
     el.fetchedAt.textContent = dateTime.format(new Date(payload.fetchedAt));
     el.fetchedAt.dateTime = payload.fetchedAt;
+    const sourceDates = [...new Set(articles.map(a => a.sourceStatDate || payload.sourceStatDate).filter(Boolean))];
+    document.querySelector("[data-source-stat-date]").textContent = `원자료 집계코드 ${sourceDates.join(", ") || "미공개"} · 일부 게시글 관측`;
     el.sourceBadge.textContent = payload.sourceMode || "저장 데이터";
     el.download.disabled = false;
     renderMetrics(articles);
@@ -347,9 +350,11 @@
 
   function downloadCsv() {
     if (!state.payload) return;
-    const header = ["순위", "제목", "작성자", "작성시각", "조회", "댓글", "좋아요", "주제", "원문"];
+    const header = ["API 응답순", "원자료 집계코드", "수집시각", "제목", "작성자", "작성시각", "조회", "댓글", "좋아요", "주제", "원문"];
     const rows = state.payload.articles.map((article) => [
       article.rank,
+      article.sourceStatDate || state.payload.sourceStatDate || "",
+      state.payload.fetchedAt || "",
       article.title,
       article.author,
       article.writtenAt,
@@ -370,7 +375,7 @@
     const url = URL.createObjectURL(blob);
     const anchor = document.createElement("a");
     anchor.href = url;
-    anchor.download = `naver-cafe-popular-${new Date().toISOString().slice(0, 10)}.csv`;
+    anchor.download = `naver-cafe-popular-${(state.payload.fetchedAt || "unknown").slice(0, 10)}.csv`;
     anchor.click();
     URL.revokeObjectURL(url);
   }

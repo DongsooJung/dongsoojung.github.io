@@ -85,7 +85,11 @@
         "branch": "codex/research-society-1-source-review",
         "liveUrl": "https://www.stargateedu.co.kr/research/",
         "sourceReviewUrl": "https://www.stargateedu.co.kr/research/source-reviews/2026-10-17-society-1.json",
-        "pullRequest": "https://github.com/DongsooJung/dongsoojung.github.io/pull/186"
+        "pullRequest": "https://github.com/DongsooJung/dongsoojung.github.io/pull/186",
+        "status": "verified",
+        "commit": "b028aca400bb678348e04eaf8a92068f2116c416",
+        "verifiedAt": "2026-10-17T01:40:19.552Z",
+        "pagesRun": "https://github.com/DongsooJung/dongsoojung.github.io/actions/runs/38991666984"
       },
       "followUps": [
         {
@@ -109,7 +113,7 @@
     {
       "id": "society-2",
       "label": "경제·사회 2차",
-      "status": "pending",
+      "status": "completed",
       "keys": [
         "/korea-tourism/",
         "/bid-pblanc-cnstwk/",
@@ -123,7 +127,60 @@
           "status": "awaiting_publication",
           "checkedAt": "2026-10-16T10:33:48.637Z",
           "audit": "/research/source-reviews/2026-10-tourism-trade.json"
+        },
+        "/bid-pblanc-cnstwk/": {
+          "status": "verified",
+          "checkedAt": "2026-10-17T02:04:58.790677+00:00",
+          "audit": "/research/source-reviews/2026-10-17-society-2.json",
+          "nextAction": "실시간 조회를 유지하며 공고 등록일시·응답 수집시각·페이지 범위를 구분. 전체 조회 건수와 페이지 금액 합계를 혼동하지 않음."
+        },
+        "/bid-pblanc-servc/": {
+          "status": "verified",
+          "checkedAt": "2026-10-17T02:04:58.790677+00:00",
+          "audit": "/research/source-reviews/2026-10-17-society-2.json",
+          "nextAction": "용역 9월 마지막 페이지는 접근 정상화 시 재확인. 월간 전수 통계가 필요하면 모든 페이지를 동일 조건으로 수집·중복 검증 후 별도로 합산."
+        },
+        "/naver-cafe-research/": {
+          "status": "verified",
+          "checkedAt": "2026-10-17T02:04:58.790677+00:00",
+          "audit": "/research/source-reviews/2026-10-17-society-2.json",
+          "nextAction": "매시간 수집 시 원자료 집계코드와 실제 수집시각을 함께 보존. 게시글 값이 바뀌면 이전 원출처 검증 상태를 재사용하지 않음."
+        },
+        "/fsc-financial/": {
+          "status": "needs_review",
+          "checkedAt": "2026-10-17T02:04:58.790677+00:00",
+          "audit": "/research/source-reviews/2026-10-17-society-2.json",
+          "nextAction": "기존에 승인된 사용자 키로 공식 API 수록 사업연도·기준일·통화·단위를 확인한 뒤 원표 수치와 저장본을 교체. 신규 유료 설정이나 키 공개는 하지 않음."
+        },
+        "https://civic-participation-hub.stargate8224.chatgpt.site": {
+          "status": "needs_review",
+          "checkedAt": "2026-10-17T02:04:58.790677+00:00",
+          "audit": "/research/source-reviews/2026-10-17-society-2.json",
+          "nextAction": "입법예고 유효 진입 경로와 청렴포털 응답을 재확인하고 외부 문서 편집 경로를 확보해 원문 링크를 수정. 처리기간은 해당 기관 안내·현행 근거와 각각 대조 후 갱신."
         }
+      },
+      "completedAt": "2026-10-17T02:04:58.790677+00:00",
+      "outcome": "reviewed_with_followups",
+      "followUps": [
+        {
+          "key": "/bid-pblanc-servc/",
+          "nextAction": "용역 9월 마지막 페이지는 접근 정상화 시 재확인. 월간 전수 통계가 필요하면 모든 페이지를 동일 조건으로 수집·중복 검증 후 별도로 합산."
+        },
+        {
+          "key": "/fsc-financial/",
+          "nextAction": "기존에 승인된 사용자 키로 공식 API 수록 사업연도·기준일·통화·단위를 확인한 뒤 원표 수치와 저장본을 교체. 신규 유료 설정이나 키 공개는 하지 않음."
+        },
+        {
+          "key": "https://civic-participation-hub.stargate8224.chatgpt.site",
+          "nextAction": "입법예고 유효 진입 경로와 청렴포털 응답을 재확인하고 외부 문서 편집 경로를 확보해 원문 링크를 수정. 처리기간은 해당 기관 안내·현행 근거와 각각 대조 후 갱신."
+        }
+      ],
+      "release": {
+        "branch": "codex/research-society-2-source-review",
+        "status": "awaiting_checks",
+        "liveUrl": "https://www.stargateedu.co.kr/research/",
+        "sourceReviewUrl": "https://www.stargateedu.co.kr/research/source-reviews/2026-10-17-society-2.json",
+        "pullRequest": "https://github.com/DongsooJung/dongsoojung.github.io/pull/187"
       }
     },
     {
@@ -240,5 +297,5 @@
     }
   ],
   "automationId": "10",
-  "lastCompletedStep": "society-1"
+  "lastCompletedStep": "society-2"
 }

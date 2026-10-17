@@ -21,6 +21,7 @@ const formatKst = (timestamp) =>
 const normalizeArticle = (article, index) => ({
   rank: index + 1,
   articleId: Number(article.articleId),
+  sourceStatDate: String(article.statDate || ""),
   title: String(article.subject || "").trim(),
   author: String(article.nickname || "").trim(),
   writtenAt: new Date(Number(article.writeDateTimestamp)).toISOString(),

@@ -36,6 +36,8 @@
     items: [],
     sortKey: 'enpSaleAmt',
     sortDir: -1,
+    sourceMode: 'unloaded',
+    collectedAt: null,
     charts: { sales: null, debt: null, scatter: null },
   };
 
@@ -72,6 +74,10 @@
     return n.toLocaleString('ko-KR');
   }
 
+  function fmtMoney(v, currency) {
+    return currency === 'KRW' ? fmtWon(v) : `${num(v).toLocaleString('ko-KR')} ${currency || '통화 미확인'}`;
+  }
+
   function fmtRatio(v) {
     const n = num(v);
     return `${n.toFixed(1)}%`;
@@ -106,7 +112,7 @@
     const saved = localStorage.getItem(KEY_STORAGE) || '';
     // 저장된 사용자 키가 있으면 입력란에 복원합니다.
     els.key.value = saved && saved !== DEFAULT_SERVICE_KEY ? saved : '';
-    els.key.placeholder = '기본 키 사용 중 (변경 시에만 입력)';
+    els.key.placeholder = '본인에게 발급된 serviceKey 입력';
   }
 
   function updatePager() {
@@ -123,6 +129,10 @@
     const key = state.sortKey;
     const dir = state.sortDir;
     return [...state.items].sort((a, b) => {
+      const moneyKeys = ['enpSaleAmt', 'enpCrtmNpf', 'enpBzopPft', 'enpTastAmt', 'enpTdbtAmt', 'enpTcptAmt'];
+      if (moneyKeys.includes(key) && a.curCd !== b.curCd) {
+        return String(a.curCd || '').localeCompare(String(b.curCd || ''));
+      }
       const av = num(a[key]);
       const bv = num(b[key]);
       if (av === bv) return String(a.crno || '').localeCompare(String(b.crno || ''));
@@ -131,8 +141,9 @@
   }
 
   function renderKpis(items) {
-    const sales = items.map((d) => num(d.enpSaleAmt)).filter((n) => n !== 0);
-    const profits = items.map((d) => num(d.enpCrtmNpf));
+    const wonItems = items.filter(d => d.curCd === 'KRW');
+    const sales = wonItems.map((d) => num(d.enpSaleAmt)).filter((n) => n !== 0);
+    const profits = wonItems.map((d) => num(d.enpCrtmNpf));
     const debts = items.map((d) => num(d.fnclDebtRto)).filter((n) => n > 0 && n < 500);
     els.kpiCount.textContent = items.length.toLocaleString('ko-KR');
     els.kpiSales.textContent = sales.length ? fmtWon(median(sales)) : '—';
@@ -156,6 +167,7 @@
   }
 
   function renderCharts(items) {
+    items = items.filter(d => d.curCd === 'KRW');
     chartDefaults();
     destroyCharts();
 
@@ -334,12 +346,13 @@
         <td><code>${d.crno || '—'}</code></td>
         <td>${d.bizYear || '—'}</td>
         <td>${d.fnclDcdNm || d.fnclDcd || '—'}</td>
-        <td class="num">${fmtWon(d.enpSaleAmt)}</td>
-        <td class="num ${profit >= 0 ? 'pos' : 'neg'}">${fmtWon(d.enpCrtmNpf)}</td>
-        <td class="num">${fmtWon(d.enpBzopPft)}</td>
-        <td class="num">${fmtWon(d.enpTastAmt)}</td>
-        <td class="num">${fmtWon(d.enpTdbtAmt)}</td>
-        <td class="num">${fmtWon(d.enpTcptAmt)}</td>
+        <td>${d.curCd || '미확인'}</td>
+        <td class="num">${fmtMoney(d.enpSaleAmt, d.curCd)}</td>
+        <td class="num ${profit >= 0 ? 'pos' : 'neg'}">${fmtMoney(d.enpCrtmNpf, d.curCd)}</td>
+        <td class="num">${fmtMoney(d.enpBzopPft, d.curCd)}</td>
+        <td class="num">${fmtMoney(d.enpTastAmt, d.curCd)}</td>
+        <td class="num">${fmtMoney(d.enpTdbtAmt, d.curCd)}</td>
+        <td class="num">${fmtMoney(d.enpTcptAmt, d.curCd)}</td>
         <td class="num">${fmtRatio(d.fnclDebtRto)}</td>
         <td>${d.basDt || '—'}</td>
       `;
@@ -366,24 +379,26 @@
 
   async function loadSeed() {
     setStatus('샘플 데이터 로딩…');
-    els.sourceMode.textContent = '샘플(캐시)';
+    els.sourceMode.textContent = '과거 저장본';
     const res = await fetch('./data.json', { cache: 'no-store' });
     if (!res.ok) throw new Error(`data.json ${res.status}`);
     const data = await res.json();
     const items = Array.isArray(data.items) ? data.items : [];
+    state.sourceMode = 'historical_snapshot_unverified';
+    state.collectedAt = data.fetchedAt || null;
     applyItems(items, {
-      totalCount: data.totalCount || items.length,
+      totalCount: items.length,
       pageNo: data.pageNo || 1,
     });
     if (data.bizYear) els.year.value = String(data.bizYear);
-    setStatus(`샘플 ${items.length}건 표시 (2023 요약재무제표)`);
-    setNotice('오프라인 샘플입니다. 실시간 조회는 「100건 불러오기」를 누르세요.', 'info');
+    setStatus(`과거 저장본 ${items.length}건 · 사업연도 ${data.bizYear || '미확인'} · 수집 ${data.fetchedAt || '미공개'}`);
+    setNotice('2023년 저장본이며 이번 원표 수치 대조는 미완료입니다. 신규 조회에는 본인의 API 인증키가 필요합니다. 원화 금액 지표·차트는 KRW 행만 사용하며, 표·CSV에는 원문 통화를 보존합니다. 9·10월 월간 통계로 해석하지 마세요.', 'warn');
   }
 
   async function fetchPage(pageNo) {
     const key = resolveServiceKey();
     if (!key) {
-      setNotice('서비스 키를 확인할 수 없습니다.', 'warn');
+      setNotice('신규 조회에는 본인의 공공데이터포털 serviceKey가 필요합니다. 현재 표시된 저장본은 유지됩니다.', 'warn');
       return;
     }
     saveKey();
@@ -429,8 +444,10 @@
       if (!Array.isArray(items)) items = [items];
 
       const total = Number(body.totalCount || items.length || 0);
+      state.sourceMode = 'official_api';
+      state.collectedAt = new Date().toISOString();
       applyItems(items, { totalCount: total, pageNo });
-      els.sourceMode.textContent = '실시간 API';
+      els.sourceMode.textContent = '공식 API 조회';
       setStatus(`${items.length}건 로드 · 전체 ${total.toLocaleString('ko-KR')}건`);
       setNotice(
         year
@@ -453,12 +470,12 @@
     const cols = [
       'crno', 'bizYear', 'fnclDcdNm', 'enpSaleAmt', 'enpCrtmNpf', 'enpBzopPft',
       'enpTastAmt', 'enpTdbtAmt', 'enpTcptAmt', 'enpCptlAmt', 'fnclDebtRto',
-      'iclsPalClcAmt', 'curCd', 'basDt',
+      'iclsPalClcAmt', 'curCd', 'basDt', 'source_mode', 'collected_at',
     ];
     const lines = [cols.join(',')];
     rows.forEach((d) => {
       lines.push(cols.map((c) => {
-        const v = d[c] ?? '';
+        const v = c === 'source_mode' ? state.sourceMode : c === 'collected_at' ? state.collectedAt : d[c] ?? '';
         const s = String(v).replace(/"/g, '""');
         return /[",\n]/.test(s) ? `"${s}"` : s;
       }).join(','));
@@ -466,7 +483,8 @@
     const blob = new Blob(['\uFEFF' + lines.join('\n')], { type: 'text/csv;charset=utf-8' });
     const a = document.createElement('a');
     a.href = URL.createObjectURL(blob);
-    a.download = `fsc_fina_${els.year.value || 'all'}_p${state.pageNo}.csv`;
+    const years = [...new Set(rows.map(d => d.bizYear).filter(Boolean))].join('-') || 'unknown';
+    a.download = `fsc_fina_${years}_${state.sourceMode}_p${state.pageNo}.csv`;
     a.click();
     URL.revokeObjectURL(a.href);
   }
@@ -503,7 +521,7 @@
   }
 
   bind();
-  // 기본 키로 첫 페이지를 자동 조회. 실패 시에만 샘플로 폴백
+  // 사용자 키가 있으면 조회하고, 없거나 응답이 비어 있으면 과거 저장본 표시
   fetchPage(1).then(() => {
     if (!state.items.length) {
       return loadSeed().catch((e) => {
