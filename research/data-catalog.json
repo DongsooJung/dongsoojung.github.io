@@ -493,126 +493,431 @@
     },
     {
       "source": {
-        "label": null,
-        "url": null,
-        "verification": "pending"
+        "label": "경찰청 (원문 접근 오류)",
+        "url": "https://www.police.go.kr/user/bbs/BD_selectBbsList.do?estnColumn2=%EB%B6%84%EA%B8%B0&q_bbsCode=1115&q_searchKeyTy=estnColumn1___1001&q_searchVal=2026%EB%85%84+1%EB%B6%84%EA%B8%B0",
+        "verification": "unavailable"
       },
       "dataAsOf": null,
-      "dataPeriod": null,
+      "dataPeriod": "2026-06",
       "snapshotUpdatedAt": null,
       "collectedAt": null,
-      "checkedAt": null,
-      "reviewStatus": "pending",
+      "checkedAt": "2026-10-17T01:26:08.333876+00:00",
+      "reviewStatus": "source_unavailable",
       "freshness": "unverified",
-      "evidence": [],
-      "issues": [],
+      "evidence": [
+        {
+          "kind": "audit-record",
+          "url": "https://www.stargateedu.co.kr/research/source-reviews/2026-10-17-society-1.json",
+          "checkedAt": "2026-10-17T01:26:08.333876+00:00"
+        },
+        {
+          "kind": "source-attempt",
+          "key": "police_new",
+          "url": "https://www.police.go.kr/user/bbs/BD_selectBbsList.do?estnColumn2=%EB%B6%84%EA%B8%B0&q_bbsCode=1115&q_searchKeyTy=estnColumn1___1001&q_searchVal=2026%EB%85%84+1%EB%B6%84%EA%B8%B0",
+          "checkedAt": "2026-10-17T01:22:59.668129+00:00",
+          "status": 307,
+          "error": "HTTP error"
+        }
+      ],
+      "issues": [
+        "기존 4분기 172개 행의 내부 합계만 검산. 경찰청 원문은 신규·기존 주소 모두 HTTP 307 리디렉션 오류로 이번에 대조하지 못함. 9월·10월 자료 확보 또는 최신 공표월 확인으로 취급하지 않음."
+      ],
       "key": "/research/crime-statistics/",
       "url": "/research/crime-statistics/",
       "title": "범죄 발생·검거 현황 4개 분기 추이",
       "primary": "society",
       "classification": "경제·사회",
-      "sourceHint": "경찰청 공식 통계 · CSV 제공"
+      "sourceHint": "경찰청 공식 통계 · CSV 제공",
+      "nextAction": "경찰청 접근 정상화 후 2026년 3분기 공표 여부와 전국 PDF를 확인하고 기존 분기 원표도 재대조."
     },
     {
       "source": {
-        "label": null,
-        "url": null,
-        "verification": "pending"
+        "label": "KAMA·KAIDA (전체 시장 대조 중, 수입 승용 9월만 확인)",
+        "url": "https://www.kama.or.kr/NewsController?board_id=968&boardmaster_id=Produce&cmd=V&menunum=0003",
+        "verification": "partially_verified"
       },
       "dataAsOf": null,
-      "dataPeriod": null,
+      "dataPeriod": "2026-08",
       "snapshotUpdatedAt": null,
       "collectedAt": null,
-      "checkedAt": null,
-      "reviewStatus": "pending",
+      "checkedAt": "2026-10-17T01:26:08.333876+00:00",
+      "reviewStatus": "needs_review",
       "freshness": "unverified",
-      "evidence": [],
-      "issues": [],
+      "evidence": [
+        {
+          "kind": "audit-record",
+          "url": "https://www.stargateedu.co.kr/research/source-reviews/2026-10-17-society-1.json",
+          "checkedAt": "2026-10-17T01:26:08.333876+00:00"
+        },
+        {
+          "kind": "official-source",
+          "key": "kama9",
+          "url": "https://www.kama.or.kr/NewsController?board_id=968&boardmaster_id=Produce&cmd=V&menunum=0003",
+          "checkedAt": "2026-10-17T01:21:31.979107+00:00",
+          "status": 200,
+          "finalUrl": "https://www.kama.or.kr/NewsController?board_id=968&boardmaster_id=Produce&cmd=V&menunum=0003",
+          "contentType": "text/html;charset=EUC-KR",
+          "sha256": "ade14474f862e6b759ee262826f10a6503c8ca16661d84b1da7fe0dae9372f58",
+          "bytes": 77446,
+          "scope": "공표 제목·날짜 확인. 전체 시장 원표 수치 검증은 미완료."
+        },
+        {
+          "kind": "official-source",
+          "key": "kaida",
+          "url": "https://www.kaida.co.kr/ko/kaida/bbsList.do?bbsType=kaida&boardSeq=15",
+          "checkedAt": "2026-10-17T01:21:31.980111+00:00",
+          "status": 200,
+          "finalUrl": "https://www.kaida.co.kr/ko/kaida/bbsList.do?bbsType=kaida&boardSeq=15",
+          "contentType": "text/html;charset=utf-8",
+          "sha256": "2634290499a9d692341ab95f8bdabbe3cdd2395ba00efe8bbb711d82f2a31915",
+          "bytes": 65380,
+          "scope": "9월 수입 승용차 신규등록 34904대 확인."
+        }
+      ],
+      "issues": [
+        "기존 전체시장 시계열과 수입 승용차 신규등록은 범위가 달라 합산·대체하지 않음. 9월 자료 미공표 안내는 정정."
+      ],
       "key": "/research/new-car-sales/",
       "url": "/research/new-car-sales/",
       "title": "신차 등록과 중산층 소비 관측",
       "primary": "society",
       "classification": "경제·사회",
-      "sourceHint": "10월 5일 확인 · 공식 9월 총계 대기"
+      "sourceHint": "수입 승용 9월 확인 · 전체 시장 원표 대조 중",
+      "nextAction": "기존 권한으로 KAMA 원표를 확보한 뒤 판매·등록·승용·상용 범위를 맞춰 8월 합계 및 9월 전체값 검증. 유료 가입은 실행하지 않음."
     },
     {
       "source": {
-        "label": null,
-        "url": null,
-        "verification": "pending"
+        "label": "당근부동산 공개 원문 (게시자 매물정보)",
+        "url": "https://realty.daangn.com",
+        "verification": "verified"
       },
-      "dataAsOf": null,
-      "dataPeriod": null,
-      "snapshotUpdatedAt": null,
-      "collectedAt": null,
-      "checkedAt": null,
-      "reviewStatus": "pending",
-      "freshness": "unverified",
-      "evidence": [],
-      "issues": [],
+      "dataAsOf": "2026-10-17",
+      "dataPeriod": "2026-10",
+      "snapshotUpdatedAt": "2026-10-17T10:35:07+09:00",
+      "collectedAt": "2026-10-17T10:35:07+09:00",
+      "checkedAt": "2026-10-17T01:35:07.799993+00:00",
+      "reviewStatus": "verified",
+      "freshness": "target_period_verified",
+      "evidence": [
+        {
+          "kind": "audit-record",
+          "url": "https://www.stargateedu.co.kr/research/source-reviews/2026-10-17-society-1.json",
+          "checkedAt": "2026-10-17T01:26:08.333876+00:00"
+        },
+        {
+          "kind": "official-source",
+          "key": "listing-4697552",
+          "url": "https://realty.daangn.com/articles/4697552",
+          "checkedAt": "2026-10-17T01:35:06.838960+00:00",
+          "status": 200,
+          "finalUrl": "https://realty.daangn.com/articles/4697552",
+          "contentType": "text/html; charset=utf-8",
+          "sha256": "90ccd10ad139fbb8936c69ca454d78d69dcf0878761c49647a25c50b25c0c669",
+          "bytes": 148146,
+          "matchedFields": [
+            "title",
+            "district",
+            "deposit",
+            "rent",
+            "rooms",
+            "area_m2",
+            "area_basis",
+            "building_type"
+          ],
+          "scope": "공개 매물 10건의 제목·지역·보증금·월세·방수·전용면적·건축물 유형을 각 원문과 대조. 건물 전체 연면적은 전용면적으로 사용하지 않음."
+        },
+        {
+          "kind": "official-source",
+          "key": "listing-4713338",
+          "url": "https://realty.daangn.com/articles/4713338",
+          "checkedAt": "2026-10-17T01:35:06.839959+00:00",
+          "status": 200,
+          "finalUrl": "https://realty.daangn.com/articles/4713338",
+          "contentType": "text/html; charset=utf-8",
+          "sha256": "d35c2afe794e019fe66c7979e6f2e20d9a9f10e75429dd5f327eb6bef573c8a5",
+          "bytes": 148083,
+          "matchedFields": [
+            "title",
+            "district",
+            "deposit",
+            "rent",
+            "rooms",
+            "area_m2",
+            "area_basis",
+            "building_type"
+          ],
+          "scope": "공개 매물 10건의 제목·지역·보증금·월세·방수·전용면적·건축물 유형을 각 원문과 대조. 건물 전체 연면적은 전용면적으로 사용하지 않음."
+        },
+        {
+          "kind": "official-source",
+          "key": "listing-1198391",
+          "url": "https://realty.daangn.com/articles/1198391",
+          "checkedAt": "2026-10-17T01:35:06.840959+00:00",
+          "status": 200,
+          "finalUrl": "https://realty.daangn.com/articles/1198391",
+          "contentType": "text/html; charset=utf-8",
+          "sha256": "8615b1ee0441adf98558b0d1ac7b3cb30012aeb4923949d7dae3fada854da4b3",
+          "bytes": 165853,
+          "matchedFields": [
+            "title",
+            "district",
+            "deposit",
+            "rent",
+            "rooms",
+            "area_m2",
+            "area_basis",
+            "building_type"
+          ],
+          "scope": "공개 매물 10건의 제목·지역·보증금·월세·방수·전용면적·건축물 유형을 각 원문과 대조. 건물 전체 연면적은 전용면적으로 사용하지 않음."
+        },
+        {
+          "kind": "official-source",
+          "key": "listing-3207454",
+          "url": "https://realty.daangn.com/articles/3207454",
+          "checkedAt": "2026-10-17T01:35:06.840959+00:00",
+          "status": 200,
+          "finalUrl": "https://realty.daangn.com/articles/3207454",
+          "contentType": "text/html; charset=utf-8",
+          "sha256": "f97602d47b99ec6bc77a6c9aea8b8685b44fd9fde5e45af1d8ac6de929da7694",
+          "bytes": 164674,
+          "matchedFields": [
+            "title",
+            "district",
+            "deposit",
+            "rent",
+            "rooms",
+            "area_m2",
+            "area_basis",
+            "building_type"
+          ],
+          "scope": "공개 매물 10건의 제목·지역·보증금·월세·방수·전용면적·건축물 유형을 각 원문과 대조. 건물 전체 연면적은 전용면적으로 사용하지 않음."
+        },
+        {
+          "kind": "official-source",
+          "key": "listing-2977836",
+          "url": "https://realty.daangn.com/articles/2977836",
+          "checkedAt": "2026-10-17T01:35:06.841959+00:00",
+          "status": 200,
+          "finalUrl": "https://realty.daangn.com/articles/2977836",
+          "contentType": "text/html; charset=utf-8",
+          "sha256": "eabf8c15296e9db74efd05187511d244ca47b3265b07871ad1004a316fd8a5c7",
+          "bytes": 165394,
+          "matchedFields": [
+            "title",
+            "district",
+            "deposit",
+            "rent",
+            "rooms",
+            "area_m2",
+            "area_basis",
+            "building_type"
+          ],
+          "scope": "공개 매물 10건의 제목·지역·보증금·월세·방수·전용면적·건축물 유형을 각 원문과 대조. 건물 전체 연면적은 전용면적으로 사용하지 않음."
+        },
+        {
+          "kind": "official-source",
+          "key": "listing-4692826",
+          "url": "https://realty.daangn.com/articles/4692826",
+          "checkedAt": "2026-10-17T01:35:07.535963+00:00",
+          "status": 200,
+          "finalUrl": "https://realty.daangn.com/articles/4692826",
+          "contentType": "text/html; charset=utf-8",
+          "sha256": "a8990301f1e4a3e5c454233e4222b578720efa7629df10e08e9a773573179cc1",
+          "bytes": 162623,
+          "matchedFields": [
+            "title",
+            "district",
+            "deposit",
+            "rent",
+            "rooms",
+            "area_m2",
+            "area_basis",
+            "building_type"
+          ],
+          "scope": "공개 매물 10건의 제목·지역·보증금·월세·방수·전용면적·건축물 유형을 각 원문과 대조. 건물 전체 연면적은 전용면적으로 사용하지 않음."
+        },
+        {
+          "kind": "official-source",
+          "key": "listing-4298874",
+          "url": "https://realty.daangn.com/articles/4298874",
+          "checkedAt": "2026-10-17T01:35:07.546963+00:00",
+          "status": 200,
+          "finalUrl": "https://realty.daangn.com/articles/4298874",
+          "contentType": "text/html; charset=utf-8",
+          "sha256": "97203612c31568c7edecdd544746b1b3776c034ae79cebc7edf796dd5d5eef7c",
+          "bytes": 163245,
+          "matchedFields": [
+            "title",
+            "district",
+            "deposit",
+            "rent",
+            "rooms",
+            "area_m2",
+            "area_basis",
+            "building_type"
+          ],
+          "scope": "공개 매물 10건의 제목·지역·보증금·월세·방수·전용면적·건축물 유형을 각 원문과 대조. 건물 전체 연면적은 전용면적으로 사용하지 않음."
+        },
+        {
+          "kind": "official-source",
+          "key": "listing-4175649",
+          "url": "https://realty.daangn.com/articles/4175649",
+          "checkedAt": "2026-10-17T01:35:07.562001+00:00",
+          "status": 200,
+          "finalUrl": "https://realty.daangn.com/articles/4175649",
+          "contentType": "text/html; charset=utf-8",
+          "sha256": "645862b9722480e8c3dcf527bc146b12150951ad03e6dda4f77132fdcd725546",
+          "bytes": 167244,
+          "matchedFields": [
+            "title",
+            "district",
+            "deposit",
+            "rent",
+            "rooms",
+            "area_m2",
+            "area_basis",
+            "building_type"
+          ],
+          "scope": "공개 매물 10건의 제목·지역·보증금·월세·방수·전용면적·건축물 유형을 각 원문과 대조. 건물 전체 연면적은 전용면적으로 사용하지 않음."
+        },
+        {
+          "kind": "official-source",
+          "key": "listing-4165847",
+          "url": "https://realty.daangn.com/articles/4165847",
+          "checkedAt": "2026-10-17T01:35:07.590959+00:00",
+          "status": 200,
+          "finalUrl": "https://realty.daangn.com/articles/4165847",
+          "contentType": "text/html; charset=utf-8",
+          "sha256": "ddeb92cf85755a972dc5a80ba17796ce7ba42a937226945301745127de2bfb66",
+          "bytes": 167088,
+          "matchedFields": [
+            "title",
+            "district",
+            "deposit",
+            "rent",
+            "rooms",
+            "area_m2",
+            "area_basis",
+            "building_type"
+          ],
+          "scope": "공개 매물 10건의 제목·지역·보증금·월세·방수·전용면적·건축물 유형을 각 원문과 대조. 건물 전체 연면적은 전용면적으로 사용하지 않음."
+        },
+        {
+          "kind": "official-source",
+          "key": "listing-4597925",
+          "url": "https://realty.daangn.com/articles/4597925",
+          "checkedAt": "2026-10-17T01:35:07.594969+00:00",
+          "status": 200,
+          "finalUrl": "https://realty.daangn.com/articles/4597925",
+          "contentType": "text/html; charset=utf-8",
+          "sha256": "e0feb2621453d2737e5318814eefb12cafcbba5c4ad3a95392273d4577c23d78",
+          "bytes": 166275,
+          "matchedFields": [
+            "title",
+            "district",
+            "deposit",
+            "rent",
+            "rooms",
+            "area_m2",
+            "area_basis",
+            "building_type"
+          ],
+          "scope": "공개 매물 10건의 제목·지역·보증금·월세·방수·전용면적·건축물 유형을 각 원문과 대조. 건물 전체 연면적은 전용면적으로 사용하지 않음."
+        }
+      ],
+      "issues": [
+        "게시자의 매물정보 검증이며 인허가·매출·수익의 검증이 아님. 운영 적합성 점수는 규칙 기반 파생값."
+      ],
       "key": "/airbnb/",
       "url": "/airbnb/",
-      "title": "Airbnb 수익 예측",
+      "title": "부산 공유숙박 매물 검토",
       "primary": "society",
       "classification": "경제·사회",
-      "sourceHint": "Real Estate · ML"
+      "sourceHint": "당근부동산 공개 원문 · 조건 비교",
+      "nextAction": null
     },
     {
       "source": {
-        "label": null,
-        "url": null,
-        "verification": "pending"
+        "label": "외부 수도권 숙박시설 대시보드 (인증 필요)",
+        "url": "https://metro-lodging-data.stargate8224.chatgpt.site",
+        "verification": "unavailable"
       },
       "dataAsOf": null,
       "dataPeriod": null,
       "snapshotUpdatedAt": null,
       "collectedAt": null,
-      "checkedAt": null,
-      "reviewStatus": "pending",
+      "checkedAt": "2026-10-17T01:26:08.333876+00:00",
+      "reviewStatus": "source_unavailable",
       "freshness": "unverified",
-      "evidence": [],
-      "issues": [],
+      "evidence": [
+        {
+          "kind": "audit-record",
+          "url": "https://www.stargateedu.co.kr/research/source-reviews/2026-10-17-society-1.json",
+          "checkedAt": "2026-10-17T01:26:08.333876+00:00"
+        },
+        {
+          "kind": "source-attempt",
+          "key": "metro",
+          "url": "https://metro-lodging-data.stargate8224.chatgpt.site",
+          "checkedAt": "2026-10-17T01:21:31.982110+00:00",
+          "status": 401,
+          "error": "HTTP error"
+        }
+      ],
+      "issues": [
+        "외부 대시보드 HTTP 401 인증 요구로 데이터·출처·관측기간을 읽을 수 없음."
+      ],
       "key": "https://metro-lodging-data.stargate8224.chatgpt.site",
       "url": "https://metro-lodging-data.stargate8224.chatgpt.site",
       "title": "수도권 숙박시설 데이터",
       "primary": "society",
       "classification": "경제·사회",
-      "sourceHint": "행정안전부 · 관광데이터랩"
+      "sourceHint": "행정안전부 · 관광데이터랩",
+      "nextAction": "공개 접근 또는 원본 데이터 제공이 가능해지면 출처·기간·단위 대조. 인증·게시 권한 없이 사이트를 변경하지 않음."
     },
     {
       "source": {
-        "label": "유럽중앙은행(ECB) 기준환율 · Frankfurter API",
-        "url": "https://www.ecb.europa.eu/stats/policy_and_exchange_rates/euro_reference_exchange_rates/",
-        "verification": "declared"
+        "label": "ECB 환율 원문 (금리·물가·시장 지표는 별도 미대조)",
+        "url": "https://www.ecb.europa.eu/stats/eurofxref/eurofxref-hist-90d.xml",
+        "verification": "partially_verified"
       },
-      "dataAsOf": "2026-10-15",
+      "dataAsOf": "2026-10-16",
       "dataPeriod": "2026-10",
-      "snapshotUpdatedAt": "2026-10-15",
+      "snapshotUpdatedAt": "2026-10-16",
       "collectedAt": null,
-      "checkedAt": "2026-10-16T09:59:34.430Z",
-      "reviewStatus": "snapshot_checked",
-      "freshness": "target_period_in_snapshot",
+      "checkedAt": "2026-10-17T01:26:08.333876+00:00",
+      "reviewStatus": "needs_review",
+      "freshness": "partial_period_verified",
       "evidence": [
         {
-          "kind": "published-snapshot",
-          "url": "https://www.stargateedu.co.kr/exchange-rate/data.json",
-          "checkedAt": "2026-10-16T09:59:34.430Z",
-          "fields": {
-            "dataPeriod": "2026-10",
-            "dataAsOf": "2026-10-15",
-            "snapshotUpdatedAt": "2026-10-15"
-          }
+          "kind": "audit-record",
+          "url": "https://www.stargateedu.co.kr/research/source-reviews/2026-10-17-society-1.json",
+          "checkedAt": "2026-10-17T01:26:08.333876+00:00"
+        },
+        {
+          "kind": "official-source",
+          "key": "ecb",
+          "url": "https://www.ecb.europa.eu/stats/eurofxref/eurofxref-hist-90d.xml",
+          "checkedAt": "2026-10-17T01:21:31.977105+00:00",
+          "status": 200,
+          "finalUrl": "https://www.ecb.europa.eu/stats/eurofxref/eurofxref-hist-90d.xml",
+          "contentType": "text/xml",
+          "sha256": "588db7a2888c39bb5045d62e6f0f6b25635401a70bbffc52186238e62e10ed77",
+          "bytes": 70579,
+          "scope": "환율 2026-08~10 월평균·최저·최고, 최신 4개 통화 교차환율. 기존 변환기로 ECB 원문 55개 관측일을 재계산한 결과 게시본과 일치."
         }
       ],
       "issues": [
-        "10월은 진행 중인 월의 부분 집계입니다."
+        "10월은 2026-10-16까지 12개 관측일 부분 집계. 값이 같으므로 데이터 파일과 갱신일은 변경하지 않음.",
+        "환율 외 금리·물가·비트코인·시장 지표는 이번 원출처 대조 범위에 포함하지 않았습니다."
       ],
       "key": "/exchange-rate/",
       "url": "/exchange-rate/",
       "title": "환율·금리·물가 대시보드",
       "primary": "society",
       "classification": "경제·사회",
-      "sourceHint": "ECB · 한국은행 · Binance"
+      "sourceHint": "ECB · 한국은행 · Binance",
+      "nextAction": null
     },
     {
       "source": {
@@ -659,25 +964,46 @@
     },
     {
       "source": {
-        "label": null,
-        "url": null,
-        "verification": "pending"
+        "label": "Google Trends 공개 Trending Now",
+        "url": "https://trends.google.com/trending?geo=KR&hl=ko&hours=48",
+        "verification": "verified"
       },
-      "dataAsOf": null,
-      "dataPeriod": null,
-      "snapshotUpdatedAt": null,
-      "collectedAt": null,
-      "checkedAt": null,
-      "reviewStatus": "pending",
-      "freshness": "unverified",
-      "evidence": [],
-      "issues": [],
+      "dataAsOf": "2026-10-17",
+      "dataPeriod": "2026-10",
+      "snapshotUpdatedAt": "2026-10-17T01:27:00.377Z",
+      "collectedAt": "2026-10-17T01:21:31.978104+00:00",
+      "checkedAt": "2026-10-17T01:26:08.333876+00:00",
+      "reviewStatus": "verified",
+      "freshness": "target_period_verified",
+      "evidence": [
+        {
+          "kind": "audit-record",
+          "url": "https://www.stargateedu.co.kr/research/source-reviews/2026-10-17-society-1.json",
+          "checkedAt": "2026-10-17T01:26:08.333876+00:00"
+        },
+        {
+          "kind": "official-source",
+          "key": "trends",
+          "url": "https://trends.google.com/trending?geo=KR&hl=ko&hours=48",
+          "checkedAt": "2026-10-17T01:21:31.978104+00:00",
+          "status": 200,
+          "finalUrl": "https://trends.google.com/trending?geo=KR&hl=ko&hours=48",
+          "contentType": "text/html; charset=utf-8",
+          "sha256": "3f55b0f5fa3cce88c9fa8aad196b155401eb557da14656a97212d97e64a6700d",
+          "bytes": 1398562,
+          "scope": "Google 공개 Trending Now 원문에서 추출·정렬한 검색어 100개 및 근사 트래픽·시작시각 대조. 카테고리 한글명은 사이트 변환 규칙."
+        }
+      ],
+      "issues": [
+        "48시간 공개 스냅샷이며 완성된 10월 통계가 아님. 근사 트래픽 합계는 고유 이용자 수가 아님."
+      ],
       "key": "/google-trends/",
       "url": "/google-trends/",
       "title": "Google Trends 상위 100",
       "primary": "society",
       "classification": "경제·사회",
-      "sourceHint": "Google Trends · Chart.js"
+      "sourceHint": "Google Trends · Chart.js",
+      "nextAction": null
     },
     {
       "source": {

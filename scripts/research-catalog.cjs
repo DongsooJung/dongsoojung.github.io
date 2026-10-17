@@ -41,7 +41,8 @@ const statusLabels={pending:'출처 점검 대기',snapshot_checked:'게시본 �
 function render(catalog = JSON.parse(fs.readFileSync(catalogFile,'utf8'))) {
  const rows=[...catalog.projects].sort((a,b)=>a.title.localeCompare(b.title,'ko',{numeric:true})).map(p=>{
   const source=p.source.url ? `<a href="${escape(p.source.url)}" target="_blank" rel="noopener noreferrer">${escape(p.source.label||p.sourceHint)}</a>` : escape(p.sourceHint+' (미검증)');
-  const evidence=p.evidence.map(e=>`<a href="${escape(e.url)}" target="_blank" rel="noopener noreferrer">${escape(e.kind==='published-snapshot'?'게시본':'원출처')}</a>`).join(' · ');
+  const evidenceLabels={'published-snapshot':'게시본','official-source':'원출처','audit-record':'대조 기록','source-attempt':'접근 시도'};
+  const evidence=p.evidence.map(e=>`<a href="${escape(e.url)}" target="_blank" rel="noopener noreferrer">${escape(evidenceLabels[e.kind]||'근거')}</a>`).join(' · ');
   return `<tr><th scope="row"><a href="${escape(p.url)}">${escape(p.title)}</a></th><td>${escape(p.classification)}</td><td>${source}</td><td>${escape(p.dataAsOf||p.dataPeriod||'미확인')}</td><td>${escape(p.collectedAt||'미공개')}<br>게시본 갱신 ${escape(p.snapshotUpdatedAt||'미확인')}</td><td>${escape(statusLabels[p.reviewStatus]||p.reviewStatus)}${p.issues.length?'<br>'+escape(p.issues.join(' / ')):''}<br>${evidence}</td><td>${escape(p.checkedAt||'미확인')}</td></tr>`;
  }).join('\n');
  const count=catalog.projects.filter(p=>p.checkedAt).length;

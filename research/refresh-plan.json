@@ -29,7 +29,7 @@
     {
       "id": "society-1",
       "label": "경제·사회 1차",
-      "status": "pending",
+      "status": "completed",
       "keys": [
         "/research/crime-statistics/",
         "/research/new-car-sales/",
@@ -44,8 +44,67 @@
           "status": "verified",
           "checkedAt": "2026-10-16T10:33:48.637Z",
           "audit": "/research/source-reviews/2026-10-tourism-trade.json"
+        },
+        "/exchange-rate/": {
+          "status": "needs_review",
+          "checkedAt": "2026-10-17T01:26:08.333876+00:00",
+          "audit": "/research/source-reviews/2026-10-17-society-1.json"
+        },
+        "/google-trends/": {
+          "status": "verified",
+          "checkedAt": "2026-10-17T01:26:08.333876+00:00",
+          "audit": "/research/source-reviews/2026-10-17-society-1.json"
+        },
+        "/airbnb/": {
+          "status": "verified",
+          "checkedAt": "2026-10-17T01:26:08.333876+00:00",
+          "audit": "/research/source-reviews/2026-10-17-society-1.json"
+        },
+        "/research/crime-statistics/": {
+          "status": "source_unavailable",
+          "checkedAt": "2026-10-17T01:26:08.333876+00:00",
+          "audit": "/research/source-reviews/2026-10-17-society-1.json",
+          "nextAction": "경찰청 접근 정상화 후 2026년 3분기 공표 여부와 전국 PDF를 확인하고 기존 분기 원표도 재대조."
+        },
+        "/research/new-car-sales/": {
+          "status": "needs_review",
+          "checkedAt": "2026-10-17T01:26:08.333876+00:00",
+          "audit": "/research/source-reviews/2026-10-17-society-1.json",
+          "nextAction": "기존 권한으로 KAMA 원표를 확보한 뒤 판매·등록·승용·상용 범위를 맞춰 8월 합계 및 9월 전체값 검증. 유료 가입은 실행하지 않음."
+        },
+        "https://metro-lodging-data.stargate8224.chatgpt.site": {
+          "status": "source_unavailable",
+          "checkedAt": "2026-10-17T01:26:08.333876+00:00",
+          "audit": "/research/source-reviews/2026-10-17-society-1.json",
+          "nextAction": "공개 접근 또는 원본 데이터 제공이 가능해지면 출처·기간·단위 대조. 인증·게시 권한 없이 사이트를 변경하지 않음."
         }
-      }
+      },
+      "completedAt": "2026-10-17T01:35:32.987Z",
+      "outcome": "reviewed_with_followups",
+      "release": {
+        "branch": "codex/research-society-1-source-review",
+        "liveUrl": "https://www.stargateedu.co.kr/research/",
+        "sourceReviewUrl": "https://www.stargateedu.co.kr/research/source-reviews/2026-10-17-society-1.json",
+        "pullRequest": "https://github.com/DongsooJung/dongsoojung.github.io/pull/186"
+      },
+      "followUps": [
+        {
+          "key": "/exchange-rate/",
+          "nextAction": "환율 외 금리·물가·비트코인·시장 지표의 원출처를 별도 대조."
+        },
+        {
+          "key": "/research/crime-statistics/",
+          "nextAction": "경찰청 접근 정상화 후 2026년 3분기 공표 여부와 전국 PDF를 확인하고 기존 분기 원표도 재대조."
+        },
+        {
+          "key": "/research/new-car-sales/",
+          "nextAction": "기존 권한으로 KAMA 원표를 확보한 뒤 판매·등록·승용·상용 범위를 맞춰 8월 합계 및 9월 전체값 검증. 유료 가입은 실행하지 않음."
+        },
+        {
+          "key": "https://metro-lodging-data.stargate8224.chatgpt.site",
+          "nextAction": "공개 접근 또는 원본 데이터 제공이 가능해지면 출처·기간·단위 대조. 인증·게시 권한 없이 사이트를 변경하지 않음."
+        }
+      ]
     },
     {
       "id": "society-2",
@@ -181,5 +240,5 @@
     }
   ],
   "automationId": "10",
-  "lastCompletedStep": "setup"
+  "lastCompletedStep": "society-1"
 }
