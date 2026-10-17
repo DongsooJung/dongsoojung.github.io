@@ -22,7 +22,7 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '24'
-      - run: node --test tests/solapi-sms.test.mjs
+      - run: node --test tests/solapi-sms.test.mjs tests/solapi-crm.test.mjs
       - run: node scripts/build-cloudflare-static.mjs
       - name: Install runtime secrets
         env:
