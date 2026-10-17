@@ -1,0 +1,127 @@
+{
+  "schemaVersion": 1,
+  "checkedAt": "2026-10-17T09:55:42.298406+00:00",
+  "basis": {
+    "election": "제22대 국회의원선거",
+    "electionDate": "2024-04-10",
+    "monthlyBasisApplicable": false,
+    "sourceUrl": "https://www.nec.go.kr/common/board/Download.do?bcIdx=264048&cbIdx=1486&streFileNm=250a3ff7-d546-40d2-ae1f-0e52ffe40694.pdf",
+    "sourceSha256": "56b4385011a22da426560234a9da7557e5c4e2f186db5923ce44c7ac606ffd7e",
+    "pdfPages": [
+      153
+    ],
+    "verifiedScope": "확정 선거구역표의 명시된 동 배정 대조. 구 일원의 하위 행정동 전수·신설·분할 검증과 경계 좌표 대조는 미완료."
+  },
+  "boundary": {
+    "path": "/suwon-election/data/emd.geojson",
+    "sha256": "15b782cdb72e5d60a1f3edc346f469058df73f4942f085dc56016b7f66a9319e",
+    "sourceVersion": null,
+    "sourceCollectedAt": null,
+    "sourceClaim": "기존 게시본은 VWorld 유래로 기재하나 수집 원응답·기준일 미보관. 이번 API 응답은 코드 자릿수·도형 집합이 달라 대체하지 않음.",
+    "coverageCheck": {
+      "expectedAdministrativeUnits": 44,
+      "apiFeatures": 56,
+      "apiMatchedNames": 15,
+      "missingExpectedNames": [
+        "곡선동",
+        "광교1동",
+        "광교2동",
+        "권선1동",
+        "권선2동",
+        "망포1동",
+        "망포2동",
+        "매산동",
+        "매탄1동",
+        "매탄2동",
+        "매탄3동",
+        "매탄4동",
+        "세류1동",
+        "세류2동",
+        "세류3동",
+        "영통1동",
+        "영통2동",
+        "영통3동",
+        "우만1동",
+        "우만2동",
+        "율천동",
+        "정자1동",
+        "정자2동",
+        "정자3동",
+        "조원1동",
+        "조원2동",
+        "행궁동",
+        "화서1동",
+        "화서2동"
+      ],
+      "apiCodeLengths": [
+        8
+      ],
+      "cachedCodeLengths": [
+        10
+      ]
+    },
+    "sourceChecks": [
+      {
+        "city": "suwon",
+        "prefix": "41111",
+        "url": "https://api.vworld.kr/req/data",
+        "layer": "LT_C_ADEMD_INFO",
+        "checkedAt": "2026-10-17T09:53:23.998096+00:00",
+        "status": 200,
+        "sha256": "30b6d55c1845ee8b381aab3dcc77c9edd98bdf8d94cfbc0d62a9e4161fce14c0",
+        "bytes": 184327,
+        "apiStatus": "OK",
+        "errorCode": null,
+        "features": 11
+      },
+      {
+        "city": "suwon",
+        "prefix": "41113",
+        "url": "https://api.vworld.kr/req/data",
+        "layer": "LT_C_ADEMD_INFO",
+        "checkedAt": "2026-10-17T09:53:24.869203+00:00",
+        "status": 200,
+        "sha256": "71e2ec8e66cc8e941bd5f7ffc273ab69730356f21a283d805189e7eb70116680",
+        "bytes": 333942,
+        "apiStatus": "OK",
+        "errorCode": null,
+        "features": 16
+      },
+      {
+        "city": "suwon",
+        "prefix": "41115",
+        "url": "https://api.vworld.kr/req/data",
+        "layer": "LT_C_ADEMD_INFO",
+        "checkedAt": "2026-10-17T09:53:24.900230+00:00",
+        "status": 200,
+        "sha256": "900daac7a56f1c5fdf0aff7d3f58cff5774960d95fa764b50f754047389d0113",
+        "bytes": 173281,
+        "apiStatus": "OK",
+        "errorCode": null,
+        "features": 22
+      },
+      {
+        "city": "suwon",
+        "prefix": "41117",
+        "url": "https://api.vworld.kr/req/data",
+        "layer": "LT_C_ADEMD_INFO",
+        "checkedAt": "2026-10-17T09:53:24.902197+00:00",
+        "status": 200,
+        "sha256": "9aa217a96fc05d625e641cfe6be953b65e1ffc0e5510d173614aab673745ae1f",
+        "bytes": 202703,
+        "apiStatus": "OK",
+        "errorCode": null,
+        "features": 7
+      }
+    ],
+    "policy": "목록·코드·기하 형식이 완전히 맞는 하나의 출처만 사용. API 부분과 저장 도형을 섞지 않음. 내부 일관성 검사는 좌표의 공식 정확성 검증이 아님."
+  },
+  "districtCounts": {
+    "갑": 9,
+    "을": 7,
+    "병": 11,
+    "정": 8,
+    "무": 9
+  },
+  "nextAction": "VWorld의 현행 행정동에 해당하는 정확한 레이어·코드 체계와 원자료 버전을 확인하고 공식 행정동 원장 및 선거구 일원 규정을 대조한 후 전체 도형을 일괄 교체."
+}

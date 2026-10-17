@@ -1,0 +1,1054 @@
+{
+  "schemaVersion": 1,
+  "step": "urban-2",
+  "checkedAt": "2026-10-17T09:55:42.298406+00:00",
+  "sourceChecks": [
+    {
+      "key": "goe-info",
+      "url": "https://goe.go.kr/goe/na/ntt/selectNttInfo.do?nttSn=2377367&bbsId=2675&mi=10961",
+      "checkedAt": "2026-10-17T09:42:29.515309+00:00",
+      "status": 200,
+      "finalUrl": "https://goe.go.kr/goe/na/ntt/selectNttInfo.do?nttSn=2377367&bbsId=2675&mi=10961",
+      "receivedAt": "2026-10-17T09:42:30.091312+00:00",
+      "contentType": "text/html;charset=UTF-8",
+      "sha256": "40863a4d4c0d2eb19b692929e4b3b90bf9ffd39f30d36b327b110c4b124b11e9",
+      "bytes": 216987
+    },
+    {
+      "key": "gg-academy",
+      "url": "https://www.goe.go.kr/resource/goe/na/bbs_2675/2026/10/4bba1941-d0e1-4e9b-9d67-1ca054b3fe96.xlsx",
+      "checkedAt": "2026-10-17T09:43:34.681788+00:00",
+      "status": 200,
+      "finalUrl": "https://www.goe.go.kr/resource/goe/na/bbs_2675/2026/10/4bba1941-d0e1-4e9b-9d67-1ca054b3fe96.xlsx",
+      "receivedAt": "2026-10-17T09:43:59.352050+00:00",
+      "contentType": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+      "sha256": "93deaf37a811f82faf3cd6fd1d2d06c57ae0a0e35d69c5ce114cce86a8ffd4c1",
+      "bytes": 39442162
+    },
+    {
+      "key": "gg-teaching",
+      "url": "https://www.goe.go.kr/resource/goe/na/bbs_2675/2026/10/e6202e94-36c2-4a87-bdd2-76688194fe2b.xlsx",
+      "checkedAt": "2026-10-17T09:43:05.427785+00:00",
+      "status": 200,
+      "finalUrl": "https://www.goe.go.kr/resource/goe/na/bbs_2675/2026/10/e6202e94-36c2-4a87-bdd2-76688194fe2b.xlsx",
+      "receivedAt": "2026-10-17T09:43:09.928249+00:00",
+      "contentType": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+      "sha256": "259b4c22010895c238ffc2b83ac950e15a3713aab95d9ffdc906ad1b4b1d8f95",
+      "bytes": 7664061
+    },
+    {
+      "key": "seoul-doc",
+      "url": "https://data.seoul.go.kr/dataList/OA-20528/S/1/datasetView.do",
+      "checkedAt": "2026-10-17T09:42:04.124169+00:00",
+      "status": 200,
+      "finalUrl": "https://data.seoul.go.kr/dataList/OA-20528/S/1/datasetView.do",
+      "receivedAt": "2026-10-17T09:42:04.772653+00:00",
+      "contentType": "text/html;charset=UTF-8",
+      "sha256": "2466962c43c1fb4594639fbf0592cb6bb5e2b032df8a9a59aa12079ff14bfeda",
+      "bytes": 88707
+    },
+    {
+      "key": "seoul-sheet",
+      "url": "https://data.seoul.go.kr/dataList/sheetView.do?infId=OA-20528&srvType=S",
+      "checkedAt": "2026-10-17T09:46:45.174214+00:00",
+      "status": 200,
+      "finalUrl": "https://data.seoul.go.kr/dataList/sheetView.do?infId=OA-20528&srvType=S",
+      "receivedAt": "2026-10-17T09:46:45.471214+00:00",
+      "contentType": "text/html;charset=UTF-8",
+      "sha256": "0e5e95770f8cc626d8b6c52075a76bbb65aa6488400efaeb00f218cbe7c89126",
+      "bytes": 21114
+    },
+    {
+      "key": "seoul-csv",
+      "url": "https://datafile.seoul.go.kr/bigfile/iot/sheet/csv/download.do",
+      "method": "POST",
+      "checkedAt": "2026-10-17T09:47:31.056582+00:00",
+      "status": 200,
+      "bytes": 7055954,
+      "contentType": "application/x-msdownload;charset=CP949",
+      "sha256": "f6d32be76cd431b37218f6c6bca691851b507201eb6c7603a8d73bd416fc28be",
+      "receivedAt": "2026-10-17T09:47:34.174154+00:00"
+    },
+    {
+      "key": "nec-final-report",
+      "url": "https://www.nec.go.kr/common/board/Download.do?bcIdx=264048&cbIdx=1486&streFileNm=250a3ff7-d546-40d2-ae1f-0e52ffe40694.pdf",
+      "checkedAt": "2026-10-17T09:48:44.890829+00:00",
+      "status": 200,
+      "finalUrl": "https://www.nec.go.kr/common/board/Download.do?bcIdx=264048&cbIdx=1486&streFileNm=250a3ff7-d546-40d2-ae1f-0e52ffe40694.pdf",
+      "receivedAt": "2026-10-17T09:48:49.272046+00:00",
+      "contentType": "application/x-msdownload;charset=UTF-8",
+      "sha256": "56b4385011a22da426560234a9da7557e5c4e2f186db5923ce44c7ac606ffd7e",
+      "bytes": 20771512
+    },
+    {
+      "key": "national-boundary",
+      "url": "https://cdn.jsdelivr.net/gh/southkorea/southkorea-maps@9da257a50b5757eb87ee892eb5a8e268cea1103e/kostat/2013/json/skorea_municipalities_geo_simple.json",
+      "checkedAt": "2026-10-17T09:52:42.012704+00:00",
+      "status": 200,
+      "finalUrl": "https://cdn.jsdelivr.net/gh/southkorea/southkorea-maps@9da257a50b5757eb87ee892eb5a8e268cea1103e/kostat/2013/json/skorea_municipalities_geo_simple.json",
+      "receivedAt": "2026-10-17T09:52:42.906997+00:00",
+      "contentType": "application/json; charset=utf-8",
+      "sha256": "e0cf2030dc893f40b6e97dfa7183d47c2197ea74551b041eabfd7bc318a74285",
+      "bytes": 370402
+    }
+  ],
+  "boundarySourceChecks": [
+    {
+      "city": "pyeongtaek",
+      "prefix": "41220",
+      "url": "https://api.vworld.kr/req/data",
+      "layer": "LT_C_ADEMD_INFO",
+      "checkedAt": "2026-10-17T09:53:23.995109+00:00",
+      "status": 200,
+      "sha256": "b1e5c34bb70f6e3b24ef38af6b202faf28ca7294ef859ed4ea84329842bc6d6e",
+      "bytes": 1156725,
+      "apiStatus": "OK",
+      "errorCode": null,
+      "features": 37
+    },
+    {
+      "city": "hwaseong",
+      "prefix": "41591",
+      "url": "https://api.vworld.kr/req/data",
+      "layer": "LT_C_ADEMD_INFO",
+      "checkedAt": "2026-10-17T09:53:23.996097+00:00",
+      "status": 200,
+      "sha256": "a0aaada7c2e4015482c61e25299cc0742f0c8571a4df78d0be5aa68bcffd0c10",
+      "bytes": 802088,
+      "apiStatus": "OK",
+      "errorCode": null,
+      "features": 10
+    },
+    {
+      "city": "hwaseong",
+      "prefix": "41593",
+      "url": "https://api.vworld.kr/req/data",
+      "layer": "LT_C_ADEMD_INFO",
+      "checkedAt": "2026-10-17T09:53:23.997096+00:00",
+      "status": 200,
+      "sha256": "306ee6a803ec7700047bf4b904a71b30cd70873e785fb2d3885f12dc10d9ba88",
+      "bytes": 319743,
+      "apiStatus": "OK",
+      "errorCode": null,
+      "features": 6
+    },
+    {
+      "city": "hwaseong",
+      "prefix": "41595",
+      "url": "https://api.vworld.kr/req/data",
+      "layer": "LT_C_ADEMD_INFO",
+      "checkedAt": "2026-10-17T09:53:23.997096+00:00",
+      "status": 200,
+      "sha256": "d9e38821a8e38023e066e2f14b841bff556680f58205f746bdd7ff22ccbd6c7c",
+      "bytes": 214760,
+      "apiStatus": "OK",
+      "errorCode": null,
+      "features": 9
+    },
+    {
+      "city": "hwaseong",
+      "prefix": "41597",
+      "url": "https://api.vworld.kr/req/data",
+      "layer": "LT_C_ADEMD_INFO",
+      "checkedAt": "2026-10-17T09:53:23.998096+00:00",
+      "status": 200,
+      "sha256": "af3b3b726e8e7fd59096b709a27b30f851c3edd181015beded778befb6b753f0",
+      "bytes": 291186,
+      "apiStatus": "OK",
+      "errorCode": null,
+      "features": 14
+    },
+    {
+      "city": "suwon",
+      "prefix": "41111",
+      "url": "https://api.vworld.kr/req/data",
+      "layer": "LT_C_ADEMD_INFO",
+      "checkedAt": "2026-10-17T09:53:23.998096+00:00",
+      "status": 200,
+      "sha256": "30b6d55c1845ee8b381aab3dcc77c9edd98bdf8d94cfbc0d62a9e4161fce14c0",
+      "bytes": 184327,
+      "apiStatus": "OK",
+      "errorCode": null,
+      "features": 11
+    },
+    {
+      "city": "suwon",
+      "prefix": "41113",
+      "url": "https://api.vworld.kr/req/data",
+      "layer": "LT_C_ADEMD_INFO",
+      "checkedAt": "2026-10-17T09:53:24.869203+00:00",
+      "status": 200,
+      "sha256": "71e2ec8e66cc8e941bd5f7ffc273ab69730356f21a283d805189e7eb70116680",
+      "bytes": 333942,
+      "apiStatus": "OK",
+      "errorCode": null,
+      "features": 16
+    },
+    {
+      "city": "suwon",
+      "prefix": "41115",
+      "url": "https://api.vworld.kr/req/data",
+      "layer": "LT_C_ADEMD_INFO",
+      "checkedAt": "2026-10-17T09:53:24.900230+00:00",
+      "status": 200,
+      "sha256": "900daac7a56f1c5fdf0aff7d3f58cff5774960d95fa764b50f754047389d0113",
+      "bytes": 173281,
+      "apiStatus": "OK",
+      "errorCode": null,
+      "features": 22
+    },
+    {
+      "city": "suwon",
+      "prefix": "41117",
+      "url": "https://api.vworld.kr/req/data",
+      "layer": "LT_C_ADEMD_INFO",
+      "checkedAt": "2026-10-17T09:53:24.902197+00:00",
+      "status": 200,
+      "sha256": "9aa217a96fc05d625e641cfe6be953b65e1ffc0e5510d173614aab673745ae1f",
+      "bytes": 202703,
+      "apiStatus": "OK",
+      "errorCode": null,
+      "features": 7
+    },
+    {
+      "city": "seongnam",
+      "prefix": "41131",
+      "url": "https://api.vworld.kr/req/data",
+      "layer": "LT_C_ADEMD_INFO",
+      "checkedAt": "2026-10-17T09:53:24.903198+00:00",
+      "status": 200,
+      "sha256": "29c4869252b64c01d9fd9e79d5427ff37ee8962c3cf9b28ae960213d5483aacf",
+      "bytes": 213584,
+      "apiStatus": "OK",
+      "errorCode": null,
+      "features": 17
+    },
+    {
+      "city": "seongnam",
+      "prefix": "41133",
+      "url": "https://api.vworld.kr/req/data",
+      "layer": "LT_C_ADEMD_INFO",
+      "checkedAt": "2026-10-17T09:53:25.000133+00:00",
+      "status": 200,
+      "sha256": "632e66f880fdda365b70ab9dde81e1787a91ad8bbb82c0f01f145a0d27f3e3ab",
+      "bytes": 121631,
+      "apiStatus": "OK",
+      "errorCode": null,
+      "features": 9
+    },
+    {
+      "city": "seongnam",
+      "prefix": "41135",
+      "url": "https://api.vworld.kr/req/data",
+      "layer": "LT_C_ADEMD_INFO",
+      "checkedAt": "2026-10-17T09:53:25.034132+00:00",
+      "status": 200,
+      "sha256": "df4b71b6637ad94d20a68e62fbda6a08b34320593b1d1f7ad1b1aa55a01640e8",
+      "bytes": 244648,
+      "apiStatus": "OK",
+      "errorCode": null,
+      "features": 18
+    }
+  ],
+  "projects": {
+    "/gyeonggi-academy-map/": {
+      "reviewStatus": "verified",
+      "source": {
+        "label": "경기도교육청 학원 및 교습소 공개 명부",
+        "url": "https://goe.go.kr/goe/na/ntt/selectNttInfo.do?nttSn=2377367&bbsId=2675&mi=10961",
+        "verification": "verified"
+      },
+      "dataAsOf": "2026-09-30",
+      "dataPeriod": "2026-09",
+      "collectedAt": "2026-10-17T09:43:59.352050+00:00",
+      "snapshotUpdatedAt": "2026-10-17T09:49:00.497355+00:00",
+      "freshness": "target_period_verified",
+      "verifiedScope": "경기도교육청 2026-09-30 명부 2개 원본의 해시·31시군·383,546개 강좌 행·39,150개 유형/명칭/주소 중복 제거 시설 합계를 대조. 지도는 2013 참고 도형이며 현행 경계 검증 범위 밖.",
+      "issues": [
+        "등록번호 미제공으로 동일명·주소의 별도 등록은 구분 불가. 2월 게시본과 출처·집계 정의가 달라 증감 비교 불가.",
+        "성남 학원 주소의 접두어 오탈자 4개 강좌 행만 명시적으로 정정. 2013 참고 경계이며 면적당 밀도 아님."
+      ],
+      "nextAction": "다음 공식 명부 공개 시 두 원본의 기준일·해시·시군별 합계·중복 제거를 다시 대조. 등록번호 제공 원표가 확보되면 시설 식별 정의를 개선."
+    },
+    "/seoul-academy-map/": {
+      "reviewStatus": "needs_review",
+      "source": {
+        "label": "서울 열린데이터광장 서울시 학원 교습소정보 OA-20528",
+        "url": "https://data.seoul.go.kr/dataList/OA-20528/S/1/datasetView.do",
+        "verification": "partially_verified"
+      },
+      "dataAsOf": null,
+      "dataPeriod": null,
+      "collectedAt": "2026-10-17T09:47:34.174154+00:00",
+      "snapshotUpdatedAt": "2026-10-17T09:50:02.317774+00:00",
+      "freshness": "official_snapshot_without_uniform_period",
+      "verifiedScope": "공식 전체 CSV 25,507개 개원 시설의 학원지정번호 유일성, 학원 15,289·교습소 10,218, 25자치구 합계 대조. 공란 자치구 43행은 원문 도로명주소에서 복원. 행별 적재일 2023-10-18~2026-10-11은 전수 관측 기준일이 아님.",
+      "issues": [
+        "서울 전체의 통계 기준일·기준월은 원문 미제공. 10월 부분 갱신을 월간 완결 통계로 표시하지 않음.",
+        "등록일자 1행이 미래 2106년으로 기재되어 원문 오류를 기록. 시설 개원 상태 집계에는 등록일자를 필터로 사용하지 않음.",
+        "기존 총계 25,522와 구별 저장합 25,480의 차이를 기록. 미검증 수요지수·학령인구·변화는 보존 JSON으로 옮기고 기본 지도는 공식 시설 수로 교체. 2013 참고 도형."
+      ],
+      "nextAction": "원제공기관에서 전체 CSV의 공통 관측 기준일 및 미래 등록일자 정정 여부를 확인. 월간 원표가 확보될 때만 9·10월 증감을 표시."
+    },
+    "/sudogwon-academy-map/": {
+      "reviewStatus": "needs_review",
+      "source": {
+        "label": "서울 열린데이터·경기도교육청·인천교육청 공개 원본",
+        "url": "https://goe.go.kr/goe/na/ntt/selectNttInfo.do?nttSn=2377367&bbsId=2675&mi=10961",
+        "verification": "partially_verified"
+      },
+      "dataAsOf": null,
+      "dataPeriod": "혼재 (경기 2026-09·인천 2026-08·서울 전수 기준일 미제공)",
+      "collectedAt": null,
+      "snapshotUpdatedAt": null,
+      "freshness": "mixed_source_periods",
+      "verifiedScope": "서울 25,507·경기 39,150은 이번 공식 원본 대조 집계와 동일. 인천 6,839는 앞서 확인한 2026-08-01 명부 집계 유지. 지역별 정의·기준일·원문 다운로드를 분리하고 수도권 동시점 합계를 만들지 않음.",
+      "issues": [
+        "시도별 시설 식별 기준·기준일이 달라 통합 합계나 지역 간 증감 비교 불가. 서울 전수 기준일 미확인.",
+        "경계는 고정 커밋의 2013 참고 도형이며 현행 행정경계·면적당 밀도가 아님."
+      ],
+      "nextAction": "서울 공통 관측 기준일과 시도별 등록번호 기반 비교 가능 정의를 확보할 때만 동시점 비교를 추가."
+    },
+    "/pyeongtaek-election/": {
+      "reviewStatus": "needs_review",
+      "source": {
+        "label": "중앙선거관리위원회 제22대 선거구획정 보고서",
+        "url": "https://www.nec.go.kr/common/board/Download.do?bcIdx=264048&cbIdx=1486&streFileNm=250a3ff7-d546-40d2-ae1f-0e52ffe40694.pdf",
+        "verification": "partially_verified"
+      },
+      "dataAsOf": "2024-04-10",
+      "dataPeriod": "2024-04",
+      "collectedAt": null,
+      "snapshotUpdatedAt": null,
+      "freshness": "historical_election_boundary_version_unknown",
+      "verifiedScope": "확정 선거구역표 PDF [153, 154]쪽의 평택 선거구 동 배정과 기존 목록을 대조. 저장 도형 25개와 목록의 1:1 대응·코드 유일성은 내부 검사. PDF의 구 일원 하위동 전수와 경계 원자료 버전은 미확인.",
+      "issues": [
+        "공식 VWorld API 37개 도형의 [8]자리 코드와 저장 행정동 25개·10자리 코드의 범위가 다름. 일부 도형으로 자동 대체하지 않음.",
+        "선거구는 2024년 제22대 기준. 월간 통계 기준월은 비적용이나 경계 버전이 미확인이라 검증 완료로 처리하지 않음."
+      ],
+      "nextAction": "VWorld의 현행 행정동에 해당하는 정확한 레이어·코드 체계와 원자료 버전을 확인하고 공식 행정동 원장 및 선거구 일원 규정을 대조한 후 전체 도형을 일괄 교체."
+    },
+    "/hwaseong-election/": {
+      "reviewStatus": "needs_review",
+      "source": {
+        "label": "중앙선거관리위원회 제22대 선거구획정 보고서",
+        "url": "https://www.nec.go.kr/common/board/Download.do?bcIdx=264048&cbIdx=1486&streFileNm=250a3ff7-d546-40d2-ae1f-0e52ffe40694.pdf",
+        "verification": "partially_verified"
+      },
+      "dataAsOf": "2024-04-10",
+      "dataPeriod": "2024-04",
+      "collectedAt": null,
+      "snapshotUpdatedAt": null,
+      "freshness": "historical_election_boundary_version_unknown",
+      "verifiedScope": "확정 선거구역표 PDF [155]쪽의 화성 선거구 동 배정과 기존 목록을 대조. 저장 도형 29개와 목록의 1:1 대응·코드 유일성은 내부 검사. PDF의 구 일원 하위동 전수와 경계 원자료 버전은 미확인.",
+      "issues": [
+        "공식 VWorld API 39개 도형의 [8]자리 코드와 저장 행정동 29개·10자리 코드의 범위가 다름. 일부 도형으로 자동 대체하지 않음.",
+        "선거구는 2024년 제22대 기준. 월간 통계 기준월은 비적용이나 경계 버전이 미확인이라 검증 완료로 처리하지 않음."
+      ],
+      "nextAction": "VWorld의 현행 행정동에 해당하는 정확한 레이어·코드 체계와 원자료 버전을 확인하고 공식 행정동 원장 및 선거구 일원 규정을 대조한 후 전체 도형을 일괄 교체."
+    },
+    "/suwon-election/": {
+      "reviewStatus": "needs_review",
+      "source": {
+        "label": "중앙선거관리위원회 제22대 선거구획정 보고서",
+        "url": "https://www.nec.go.kr/common/board/Download.do?bcIdx=264048&cbIdx=1486&streFileNm=250a3ff7-d546-40d2-ae1f-0e52ffe40694.pdf",
+        "verification": "partially_verified"
+      },
+      "dataAsOf": "2024-04-10",
+      "dataPeriod": "2024-04",
+      "collectedAt": null,
+      "snapshotUpdatedAt": null,
+      "freshness": "historical_election_boundary_version_unknown",
+      "verifiedScope": "확정 선거구역표 PDF [153]쪽의 수원 선거구 동 배정과 기존 목록을 대조. 저장 도형 44개와 목록의 1:1 대응·코드 유일성은 내부 검사. PDF의 구 일원 하위동 전수와 경계 원자료 버전은 미확인.",
+      "issues": [
+        "공식 VWorld API 56개 도형의 [8]자리 코드와 저장 행정동 44개·10자리 코드의 범위가 다름. 일부 도형으로 자동 대체하지 않음.",
+        "선거구는 2024년 제22대 기준. 월간 통계 기준월은 비적용이나 경계 버전이 미확인이라 검증 완료로 처리하지 않음."
+      ],
+      "nextAction": "VWorld의 현행 행정동에 해당하는 정확한 레이어·코드 체계와 원자료 버전을 확인하고 공식 행정동 원장 및 선거구 일원 규정을 대조한 후 전체 도형을 일괄 교체."
+    },
+    "/seongnam-election/": {
+      "reviewStatus": "needs_review",
+      "source": {
+        "label": "중앙선거관리위원회 제22대 선거구획정 보고서",
+        "url": "https://www.nec.go.kr/common/board/Download.do?bcIdx=264048&cbIdx=1486&streFileNm=250a3ff7-d546-40d2-ae1f-0e52ffe40694.pdf",
+        "verification": "partially_verified"
+      },
+      "dataAsOf": "2024-04-10",
+      "dataPeriod": "2024-04",
+      "collectedAt": null,
+      "snapshotUpdatedAt": null,
+      "freshness": "historical_election_boundary_version_unknown",
+      "verifiedScope": "확정 선거구역표 PDF [153]쪽의 성남 선거구 동 배정과 기존 목록을 대조. 저장 도형 50개와 목록의 1:1 대응·코드 유일성은 내부 검사. PDF의 구 일원 하위동 전수와 경계 원자료 버전은 미확인.",
+      "issues": [
+        "공식 VWorld API 44개 도형의 [8]자리 코드와 저장 행정동 50개·10자리 코드의 범위가 다름. 일부 도형으로 자동 대체하지 않음.",
+        "선거구는 2024년 제22대 기준. 월간 통계 기준월은 비적용이나 경계 버전이 미확인이라 검증 완료로 처리하지 않음."
+      ],
+      "nextAction": "VWorld의 현행 행정동에 해당하는 정확한 레이어·코드 체계와 원자료 버전을 확인하고 공식 행정동 원장 및 선거구 일원 규정을 대조한 후 전체 도형을 일괄 교체."
+    }
+  },
+  "academyValidation": {
+    "seoul": {
+      "inputRows": 25507,
+      "uniqueFacilities": 25507,
+      "duplicateRows": 0,
+      "unmappedRows": 0,
+      "rowLoadedAtRange": [
+        "20231018",
+        "20261011"
+      ],
+      "rowLoadedAtCounts": {
+        "20231018": 5332,
+        "20231023": 18,
+        "20231029": 192,
+        "20231105": 59,
+        "20231113": 41,
+        "20231119": 56,
+        "20231126": 40,
+        "20231206": 64,
+        "20231210": 26,
+        "20231217": 44,
+        "20231224": 31,
+        "20231231": 55,
+        "20240128": 170,
+        "20240225": 206,
+        "20240317": 197,
+        "20240324": 60,
+        "20240331": 69,
+        "20240407": 64,
+        "20240428": 151,
+        "20240505": 46,
+        "20240512": 30,
+        "20240519": 61,
+        "20240526": 65,
+        "20240602": 66,
+        "20240609": 73,
+        "20240616": 65,
+        "20240623": 50,
+        "20240707": 132,
+        "20240714": 52,
+        "20240908": 446,
+        "20241006": 167,
+        "20241215": 673,
+        "20250112": 501,
+        "20250126": 274,
+        "20250209": 147,
+        "20250223": 204,
+        "20250309": 271,
+        "20250330": 442,
+        "20250406": 106,
+        "20250413": 115,
+        "20250420": 104,
+        "20250518": 385,
+        "20250525": 126,
+        "20250601": 190,
+        "20250608": 183,
+        "20250615": 117,
+        "20250622": 132,
+        "20250629": 114,
+        "20250706": 108,
+        "20250713": 115,
+        "20250720": 117,
+        "20250727": 333,
+        "20250803": 165,
+        "20250810": 133,
+        "20250824": 197,
+        "20250831": 145,
+        "20250907": 177,
+        "20250914": 158,
+        "20250928": 295,
+        "20251005": 158,
+        "20251012": 17,
+        "20251019": 92,
+        "20251102": 184,
+        "20251109": 113,
+        "20251116": 126,
+        "20251123": 115,
+        "20251214": 412,
+        "20260201": 1291,
+        "20260208": 171,
+        "20260215": 191,
+        "20260301": 263,
+        "20260308": 180,
+        "20260315": 272,
+        "20260329": 568,
+        "20260405": 225,
+        "20260426": 599,
+        "20260607": 1544,
+        "20260614": 355,
+        "20260621": 266,
+        "20260628": 219,
+        "20260705": 207,
+        "20260712": 470,
+        "20260719": 409,
+        "20260802": 469,
+        "20260809": 199,
+        "20260816": 157,
+        "20260906": 748,
+        "20260913": 262,
+        "20260927": 549,
+        "20261004": 357,
+        "20261011": 164
+      },
+      "futureRegistrationDateRows": 1,
+      "districtsRecoveredFromRoadAddress": 43
+    },
+    "gyeonggi": {
+      "inputRows": 383546,
+      "uniqueFacilities": 39150,
+      "duplicateCourseRows": 344396,
+      "unmappedRows": 0,
+      "correctedAddressPrefixRows": 4,
+      "sheets": [
+        {
+          "kind": "academyCount",
+          "sheet": "수원",
+          "courseRows": 31917,
+          "duplicateCourseRows": 29374
+        },
+        {
+          "kind": "academyCount",
+          "sheet": "성남",
+          "courseRows": 32935,
+          "duplicateCourseRows": 30703
+        },
+        {
+          "kind": "academyCount",
+          "sheet": "안양",
+          "courseRows": 19853,
+          "duplicateCourseRows": 18721
+        },
+        {
+          "kind": "academyCount",
+          "sheet": "과천",
+          "courseRows": 7361,
+          "duplicateCourseRows": 7205
+        },
+        {
+          "kind": "academyCount",
+          "sheet": "부천",
+          "courseRows": 17112,
+          "duplicateCourseRows": 15713
+        },
+        {
+          "kind": "academyCount",
+          "sheet": "광명",
+          "courseRows": 6933,
+          "duplicateCourseRows": 6339
+        },
+        {
+          "kind": "academyCount",
+          "sheet": "안산",
+          "courseRows": 10618,
+          "duplicateCourseRows": 9655
+        },
+        {
+          "kind": "academyCount",
+          "sheet": "평택",
+          "courseRows": 11308,
+          "duplicateCourseRows": 10246
+        },
+        {
+          "kind": "academyCount",
+          "sheet": "군포",
+          "courseRows": 5782,
+          "duplicateCourseRows": 5334
+        },
+        {
+          "kind": "academyCount",
+          "sheet": "의왕",
+          "courseRows": 2963,
+          "duplicateCourseRows": 2766
+        },
+        {
+          "kind": "academyCount",
+          "sheet": "여주",
+          "courseRows": 926,
+          "duplicateCourseRows": 809
+        },
+        {
+          "kind": "academyCount",
+          "sheet": "화성오산",
+          "courseRows": 23451,
+          "duplicateCourseRows": 21115
+        },
+        {
+          "kind": "academyCount",
+          "sheet": "화성센터",
+          "courseRows": 5853,
+          "duplicateCourseRows": 5304
+        },
+        {
+          "kind": "academyCount",
+          "sheet": "광주",
+          "courseRows": 5167,
+          "duplicateCourseRows": 4560
+        },
+        {
+          "kind": "academyCount",
+          "sheet": "하남",
+          "courseRows": 7239,
+          "duplicateCourseRows": 6484
+        },
+        {
+          "kind": "academyCount",
+          "sheet": "양평",
+          "courseRows": 760,
+          "duplicateCourseRows": 630
+        },
+        {
+          "kind": "academyCount",
+          "sheet": "이천",
+          "courseRows": 3887,
+          "duplicateCourseRows": 3453
+        },
+        {
+          "kind": "academyCount",
+          "sheet": "용인",
+          "courseRows": 23717,
+          "duplicateCourseRows": 21365
+        },
+        {
+          "kind": "academyCount",
+          "sheet": "안성",
+          "courseRows": 2623,
+          "duplicateCourseRows": 2363
+        },
+        {
+          "kind": "academyCount",
+          "sheet": "김포",
+          "courseRows": 14545,
+          "duplicateCourseRows": 13224
+        },
+        {
+          "kind": "academyCount",
+          "sheet": "시흥",
+          "courseRows": 11675,
+          "duplicateCourseRows": 10573
+        },
+        {
+          "kind": "academyCount",
+          "sheet": "의정부",
+          "courseRows": 8527,
+          "duplicateCourseRows": 7712
+        },
+        {
+          "kind": "academyCount",
+          "sheet": "동두천",
+          "courseRows": 992,
+          "duplicateCourseRows": 892
+        },
+        {
+          "kind": "academyCount",
+          "sheet": "양주",
+          "courseRows": 5389,
+          "duplicateCourseRows": 4894
+        },
+        {
+          "kind": "academyCount",
+          "sheet": "고양",
+          "courseRows": 25384,
+          "duplicateCourseRows": 23120
+        },
+        {
+          "kind": "academyCount",
+          "sheet": "남양주",
+          "courseRows": 16175,
+          "duplicateCourseRows": 14732
+        },
+        {
+          "kind": "academyCount",
+          "sheet": "구리",
+          "courseRows": 5032,
+          "duplicateCourseRows": 4645
+        },
+        {
+          "kind": "academyCount",
+          "sheet": "파주",
+          "courseRows": 11267,
+          "duplicateCourseRows": 10231
+        },
+        {
+          "kind": "academyCount",
+          "sheet": "연천",
+          "courseRows": 218,
+          "duplicateCourseRows": 187
+        },
+        {
+          "kind": "academyCount",
+          "sheet": "포천",
+          "courseRows": 1349,
+          "duplicateCourseRows": 1228
+        },
+        {
+          "kind": "academyCount",
+          "sheet": "가평",
+          "courseRows": 338,
+          "duplicateCourseRows": 277
+        },
+        {
+          "kind": "teachingRoomCount",
+          "sheet": "수원",
+          "courseRows": 6379,
+          "duplicateCourseRows": 5232
+        },
+        {
+          "kind": "teachingRoomCount",
+          "sheet": "성남",
+          "courseRows": 4945,
+          "duplicateCourseRows": 3944
+        },
+        {
+          "kind": "teachingRoomCount",
+          "sheet": "안양",
+          "courseRows": 3413,
+          "duplicateCourseRows": 2710
+        },
+        {
+          "kind": "teachingRoomCount",
+          "sheet": "과천",
+          "courseRows": 760,
+          "duplicateCourseRows": 610
+        },
+        {
+          "kind": "teachingRoomCount",
+          "sheet": "부천",
+          "courseRows": 4076,
+          "duplicateCourseRows": 3409
+        },
+        {
+          "kind": "teachingRoomCount",
+          "sheet": "광명",
+          "courseRows": 1636,
+          "duplicateCourseRows": 1341
+        },
+        {
+          "kind": "teachingRoomCount",
+          "sheet": "안산",
+          "courseRows": 1377,
+          "duplicateCourseRows": 1130
+        },
+        {
+          "kind": "teachingRoomCount",
+          "sheet": "평택",
+          "courseRows": 1769,
+          "duplicateCourseRows": 1452
+        },
+        {
+          "kind": "teachingRoomCount",
+          "sheet": "군포",
+          "courseRows": 1584,
+          "duplicateCourseRows": 1354
+        },
+        {
+          "kind": "teachingRoomCount",
+          "sheet": "의왕",
+          "courseRows": 1147,
+          "duplicateCourseRows": 990
+        },
+        {
+          "kind": "teachingRoomCount",
+          "sheet": "여주",
+          "courseRows": 192,
+          "duplicateCourseRows": 145
+        },
+        {
+          "kind": "teachingRoomCount",
+          "sheet": "화성오산",
+          "courseRows": 5355,
+          "duplicateCourseRows": 4362
+        },
+        {
+          "kind": "teachingRoomCount",
+          "sheet": "화성센터",
+          "courseRows": 1094,
+          "duplicateCourseRows": 888
+        },
+        {
+          "kind": "teachingRoomCount",
+          "sheet": "광주",
+          "courseRows": 1002,
+          "duplicateCourseRows": 788
+        },
+        {
+          "kind": "teachingRoomCount",
+          "sheet": "하남",
+          "courseRows": 1835,
+          "duplicateCourseRows": 1525
+        },
+        {
+          "kind": "teachingRoomCount",
+          "sheet": "양평",
+          "courseRows": 345,
+          "duplicateCourseRows": 241
+        },
+        {
+          "kind": "teachingRoomCount",
+          "sheet": "이천",
+          "courseRows": 765,
+          "duplicateCourseRows": 608
+        },
+        {
+          "kind": "teachingRoomCount",
+          "sheet": "용인",
+          "courseRows": 5299,
+          "duplicateCourseRows": 4222
+        },
+        {
+          "kind": "teachingRoomCount",
+          "sheet": "안성",
+          "courseRows": 563,
+          "duplicateCourseRows": 471
+        },
+        {
+          "kind": "teachingRoomCount",
+          "sheet": "김포",
+          "courseRows": 2285,
+          "duplicateCourseRows": 1858
+        },
+        {
+          "kind": "teachingRoomCount",
+          "sheet": "시흥",
+          "courseRows": 1999,
+          "duplicateCourseRows": 1629
+        },
+        {
+          "kind": "teachingRoomCount",
+          "sheet": "의정부",
+          "courseRows": 1825,
+          "duplicateCourseRows": 1478
+        },
+        {
+          "kind": "teachingRoomCount",
+          "sheet": "동두천",
+          "courseRows": 89,
+          "duplicateCourseRows": 71
+        },
+        {
+          "kind": "teachingRoomCount",
+          "sheet": "양주",
+          "courseRows": 687,
+          "duplicateCourseRows": 575
+        },
+        {
+          "kind": "teachingRoomCount",
+          "sheet": "고양",
+          "courseRows": 5531,
+          "duplicateCourseRows": 4381
+        },
+        {
+          "kind": "teachingRoomCount",
+          "sheet": "남양주",
+          "courseRows": 3087,
+          "duplicateCourseRows": 2477
+        },
+        {
+          "kind": "teachingRoomCount",
+          "sheet": "구리",
+          "courseRows": 941,
+          "duplicateCourseRows": 751
+        },
+        {
+          "kind": "teachingRoomCount",
+          "sheet": "파주",
+          "courseRows": 1994,
+          "duplicateCourseRows": 1680
+        },
+        {
+          "kind": "teachingRoomCount",
+          "sheet": "연천",
+          "courseRows": 23,
+          "duplicateCourseRows": 18
+        },
+        {
+          "kind": "teachingRoomCount",
+          "sheet": "포천",
+          "courseRows": 149,
+          "duplicateCourseRows": 121
+        },
+        {
+          "kind": "teachingRoomCount",
+          "sheet": "가평",
+          "courseRows": 104,
+          "duplicateCourseRows": 81
+        }
+      ]
+    }
+  },
+  "boundaryValidation": [
+    {
+      "key": "/pyeongtaek-election/",
+      "coverage": {
+        "expectedAdministrativeUnits": 25,
+        "apiFeatures": 37,
+        "apiMatchedNames": 16,
+        "missingExpectedNames": [
+          "비전1동",
+          "비전2동",
+          "송북동",
+          "송탄동",
+          "신장1동",
+          "신장2동",
+          "신평동",
+          "원평동",
+          "중앙동"
+        ],
+        "apiCodeLengths": [
+          8
+        ],
+        "cachedCodeLengths": [
+          10
+        ]
+      },
+      "districtCounts": {
+        "갑": 11,
+        "을": 8,
+        "병": 6
+      }
+    },
+    {
+      "key": "/hwaseong-election/",
+      "coverage": {
+        "expectedAdministrativeUnits": 29,
+        "apiFeatures": 39,
+        "apiMatchedNames": 16,
+        "missingExpectedNames": [
+          "기배동",
+          "동탄1동",
+          "동탄2동",
+          "동탄3동",
+          "동탄4동",
+          "동탄5동",
+          "동탄6동",
+          "동탄7동",
+          "동탄8동",
+          "동탄9동",
+          "병점1동",
+          "병점2동",
+          "화산동"
+        ],
+        "apiCodeLengths": [
+          8
+        ],
+        "cachedCodeLengths": [
+          10
+        ]
+      },
+      "districtCounts": {
+        "갑": 13,
+        "을": 5,
+        "병": 6,
+        "정": 5
+      }
+    },
+    {
+      "key": "/suwon-election/",
+      "coverage": {
+        "expectedAdministrativeUnits": 44,
+        "apiFeatures": 56,
+        "apiMatchedNames": 15,
+        "missingExpectedNames": [
+          "곡선동",
+          "광교1동",
+          "광교2동",
+          "권선1동",
+          "권선2동",
+          "망포1동",
+          "망포2동",
+          "매산동",
+          "매탄1동",
+          "매탄2동",
+          "매탄3동",
+          "매탄4동",
+          "세류1동",
+          "세류2동",
+          "세류3동",
+          "영통1동",
+          "영통2동",
+          "영통3동",
+          "우만1동",
+          "우만2동",
+          "율천동",
+          "정자1동",
+          "정자2동",
+          "정자3동",
+          "조원1동",
+          "조원2동",
+          "행궁동",
+          "화서1동",
+          "화서2동"
+        ],
+        "apiCodeLengths": [
+          8
+        ],
+        "cachedCodeLengths": [
+          10
+        ]
+      },
+      "districtCounts": {
+        "갑": 9,
+        "을": 7,
+        "병": 11,
+        "정": 8,
+        "무": 9
+      }
+    },
+    {
+      "key": "/seongnam-election/",
+      "coverage": {
+        "expectedAdministrativeUnits": 50,
+        "apiFeatures": 44,
+        "apiMatchedNames": 19,
+        "missingExpectedNames": [
+          "구미1동",
+          "금광1동",
+          "금광2동",
+          "상대원1동",
+          "상대원2동",
+          "상대원3동",
+          "서현1동",
+          "서현2동",
+          "수내1동",
+          "수내2동",
+          "수내3동",
+          "수진1동",
+          "수진2동",
+          "신흥1동",
+          "신흥2동",
+          "신흥3동",
+          "야탑1동",
+          "야탑2동",
+          "야탑3동",
+          "위례동",
+          "은행1동",
+          "은행2동",
+          "이매1동",
+          "이매2동",
+          "정자1동",
+          "정자2동",
+          "정자3동",
+          "태평1동",
+          "태평2동",
+          "태평3동",
+          "태평4동"
+        ],
+        "apiCodeLengths": [
+          8
+        ],
+        "cachedCodeLengths": [
+          10
+        ]
+      },
+      "districtCounts": {
+        "수정구": 17,
+        "중원구": 11,
+        "분당구갑": 11,
+        "분당구을": 11
+      }
+    }
+  ],
+  "limitations": [
+    "회차 점검 완료와 모든 수치·경계의 원출처 검증 완료는 구분합니다.",
+    "경기도 9월 말 명부만 통계 기준일이 명확하며 서울은 10월 부분 적재가 포함된 공개 CSV 스냅샷입니다.",
+    "원본 시설 명부의 성명·전화번호·개별 주소는 배포하지 않고 시군구 집계와 원본 해시만 공개합니다."
+  ]
+}

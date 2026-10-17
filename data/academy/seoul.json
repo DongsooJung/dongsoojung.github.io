@@ -1,0 +1,289 @@
+{
+  "schemaVersion": 1,
+  "dataAsOf": null,
+  "dataPeriod": null,
+  "sourceLatestRowLoadedAt": "2026-10-11",
+  "collectedAt": "2026-10-17T09:47:34.174154+00:00",
+  "snapshotUpdatedAt": "2026-10-17T09:50:02.317774+00:00",
+  "source": {
+    "name": "서울 열린데이터광장 서울시 학원 교습소정보 OA-20528",
+    "url": "https://data.seoul.go.kr/dataList/OA-20528/S/1/datasetView.do",
+    "downloadUrl": "https://datafile.seoul.go.kr/bigfile/iot/sheet/csv/download.do",
+    "downloadMethod": "POST",
+    "downloadForm": {
+      "srvType": "S",
+      "infId": "OA-20528",
+      "serviceKind": "0",
+      "pageNo": "1",
+      "ssUserId": "SAMPLE_VIEW",
+      "strWhere": "",
+      "strOrderby": "PEI_DSGN_NO ASC",
+      "filterCol": "",
+      "txtFilter": ""
+    },
+    "sha256": "f6d32be76cd431b37218f6c6bca691851b507201eb6c7603a8d73bd416fc28be"
+  },
+  "definition": "전체 CSV에서 등록상태 개원인 학원·교습소를 학원지정번호 1개당 1시설로 집계. 행별 적재일은 관측일·전수 기준일이 아니며 10월 월간 통계 또는 완결 집계가 아님. 과거 수요지수·2월 경기·8월 인천과 증감 비교 불가.",
+  "districts": [
+    {
+      "name": "종로구",
+      "academyCount": 208,
+      "teachingRoomCount": 77,
+      "total": 285
+    },
+    {
+      "name": "중구",
+      "academyCount": 112,
+      "teachingRoomCount": 47,
+      "total": 159
+    },
+    {
+      "name": "용산구",
+      "academyCount": 129,
+      "teachingRoomCount": 112,
+      "total": 241
+    },
+    {
+      "name": "성동구",
+      "academyCount": 326,
+      "teachingRoomCount": 258,
+      "total": 584
+    },
+    {
+      "name": "광진구",
+      "academyCount": 445,
+      "teachingRoomCount": 278,
+      "total": 723
+    },
+    {
+      "name": "동대문구",
+      "academyCount": 434,
+      "teachingRoomCount": 303,
+      "total": 737
+    },
+    {
+      "name": "중랑구",
+      "academyCount": 295,
+      "teachingRoomCount": 267,
+      "total": 562
+    },
+    {
+      "name": "성북구",
+      "academyCount": 514,
+      "teachingRoomCount": 481,
+      "total": 995
+    },
+    {
+      "name": "강북구",
+      "academyCount": 211,
+      "teachingRoomCount": 170,
+      "total": 381
+    },
+    {
+      "name": "도봉구",
+      "academyCount": 297,
+      "teachingRoomCount": 304,
+      "total": 601
+    },
+    {
+      "name": "노원구",
+      "academyCount": 746,
+      "teachingRoomCount": 672,
+      "total": 1418
+    },
+    {
+      "name": "은평구",
+      "academyCount": 566,
+      "teachingRoomCount": 510,
+      "total": 1076
+    },
+    {
+      "name": "서대문구",
+      "academyCount": 391,
+      "teachingRoomCount": 349,
+      "total": 740
+    },
+    {
+      "name": "마포구",
+      "academyCount": 765,
+      "teachingRoomCount": 398,
+      "total": 1163
+    },
+    {
+      "name": "양천구",
+      "academyCount": 1106,
+      "teachingRoomCount": 997,
+      "total": 2103
+    },
+    {
+      "name": "강서구",
+      "academyCount": 782,
+      "teachingRoomCount": 599,
+      "total": 1381
+    },
+    {
+      "name": "구로구",
+      "academyCount": 436,
+      "teachingRoomCount": 354,
+      "total": 790
+    },
+    {
+      "name": "금천구",
+      "academyCount": 212,
+      "teachingRoomCount": 151,
+      "total": 363
+    },
+    {
+      "name": "영등포구",
+      "academyCount": 501,
+      "teachingRoomCount": 368,
+      "total": 869
+    },
+    {
+      "name": "동작구",
+      "academyCount": 509,
+      "teachingRoomCount": 418,
+      "total": 927
+    },
+    {
+      "name": "관악구",
+      "academyCount": 453,
+      "teachingRoomCount": 283,
+      "total": 736
+    },
+    {
+      "name": "서초구",
+      "academyCount": 1212,
+      "teachingRoomCount": 621,
+      "total": 1833
+    },
+    {
+      "name": "강남구",
+      "academyCount": 2580,
+      "teachingRoomCount": 857,
+      "total": 3437
+    },
+    {
+      "name": "송파구",
+      "academyCount": 1239,
+      "teachingRoomCount": 749,
+      "total": 1988
+    },
+    {
+      "name": "강동구",
+      "academyCount": 820,
+      "teachingRoomCount": 595,
+      "total": 1415
+    }
+  ],
+  "totals": {
+    "academyCount": 15289,
+    "teachingRoomCount": 10218,
+    "total": 25507
+  },
+  "validation": {
+    "inputRows": 25507,
+    "uniqueFacilities": 25507,
+    "duplicateRows": 0,
+    "unmappedRows": 0,
+    "rowLoadedAtRange": [
+      "20231018",
+      "20261011"
+    ],
+    "rowLoadedAtCounts": {
+      "20231018": 5332,
+      "20231023": 18,
+      "20231029": 192,
+      "20231105": 59,
+      "20231113": 41,
+      "20231119": 56,
+      "20231126": 40,
+      "20231206": 64,
+      "20231210": 26,
+      "20231217": 44,
+      "20231224": 31,
+      "20231231": 55,
+      "20240128": 170,
+      "20240225": 206,
+      "20240317": 197,
+      "20240324": 60,
+      "20240331": 69,
+      "20240407": 64,
+      "20240428": 151,
+      "20240505": 46,
+      "20240512": 30,
+      "20240519": 61,
+      "20240526": 65,
+      "20240602": 66,
+      "20240609": 73,
+      "20240616": 65,
+      "20240623": 50,
+      "20240707": 132,
+      "20240714": 52,
+      "20240908": 446,
+      "20241006": 167,
+      "20241215": 673,
+      "20250112": 501,
+      "20250126": 274,
+      "20250209": 147,
+      "20250223": 204,
+      "20250309": 271,
+      "20250330": 442,
+      "20250406": 106,
+      "20250413": 115,
+      "20250420": 104,
+      "20250518": 385,
+      "20250525": 126,
+      "20250601": 190,
+      "20250608": 183,
+      "20250615": 117,
+      "20250622": 132,
+      "20250629": 114,
+      "20250706": 108,
+      "20250713": 115,
+      "20250720": 117,
+      "20250727": 333,
+      "20250803": 165,
+      "20250810": 133,
+      "20250824": 197,
+      "20250831": 145,
+      "20250907": 177,
+      "20250914": 158,
+      "20250928": 295,
+      "20251005": 158,
+      "20251012": 17,
+      "20251019": 92,
+      "20251102": 184,
+      "20251109": 113,
+      "20251116": 126,
+      "20251123": 115,
+      "20251214": 412,
+      "20260201": 1291,
+      "20260208": 171,
+      "20260215": 191,
+      "20260301": 263,
+      "20260308": 180,
+      "20260315": 272,
+      "20260329": 568,
+      "20260405": 225,
+      "20260426": 599,
+      "20260607": 1544,
+      "20260614": 355,
+      "20260621": 266,
+      "20260628": 219,
+      "20260705": 207,
+      "20260712": 470,
+      "20260719": 409,
+      "20260802": 469,
+      "20260809": 199,
+      "20260816": 157,
+      "20260906": 748,
+      "20260913": 262,
+      "20260927": 549,
+      "20261004": 357,
+      "20261011": 164
+    },
+    "futureRegistrationDateRows": 1,
+    "districtsRecoveredFromRoadAddress": 43
+  }
+}

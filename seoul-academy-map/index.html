@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html lang="ko"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>서울 학원 수요 지도 · 주간 갱신</title>
+<title>서울 학원·교습소 시설 수 지도</title>
 <style>
  :root{ --bg:#faf9f5; --surface:#fff; --border:rgba(0,0,0,0.12); --text:#1f1e1c; --muted:#6b6a64; --up:#A32D2D; --dn:#185FA5; }
  @media (prefers-color-scheme: dark){ :root{ --bg:#1c1b19; --surface:#262522; --border:rgba(255,255,255,0.14); --text:#f3f1ea; --muted:#a9a89f; --up:#F09595; --dn:#85B7EB; } }
+ table{border-collapse:collapse;width:100%;font-size:13px}th,td{border-bottom:1px solid var(--border);padding:8px 12px;text-align:right}th:first-child{text-align:left}caption{text-align:left;font-weight:600;padding:12px 0}p{overflow-wrap:anywhere}
  *{box-sizing:border-box;} body{margin:0;background:var(--bg);color:var(--text);font-family:"Pretendard","Apple SD Gothic Neo","Malgun Gothic",sans-serif;line-height:1.6;}
  .wrap{max-width:900px;margin:0 auto;padding:32px 24px 56px;}
  h1{font-size:22px;font-weight:600;margin:0 0 4px;} .sub{color:var(--muted);font-size:13px;margin:0 0 20px;}
@@ -18,42 +19,42 @@
   <script src="/assets/site-theme.js"></script>
 <link rel="stylesheet" href="/assets/stargate-tokens.css?v=20261017">
 </head><body><div class="wrap">
- <h1>서울 자치구별 학원 수요 지도 · 주간 갱신</h1>
- <p class="sub">학원 25,522개 · 학령인구·학원수 실데이터 + 소득지수 · 화살표=지난 회차 대비 변화 · 갱신 2026-07-29 05:08 · 누적 2회</p>
+ <h1>서울 자치구별 학원·교습소 시설 수</h1>
+ <!-- SEOUL_SUMMARY_START --><p class="sub">서울 학원·교습소 <strong>25,507개</strong> (학원 15,289 · 교습소 10,218)</p><p>전수 통계 기준일 미제공 · 행별 적재일 2023-10-18~2026-10-11 · 10월 부분 갱신 포함(월간 합계 아님)<br>원본 수집 2026-10-17T09:47:34.174154+00:00 · 집계 파일 생성 2026-10-17T09:50:02.317774+00:00</p><p>전체 CSV에서 등록상태 개원인 학원·교습소를 학원지정번호 1개당 1시설로 집계. 행별 적재일은 관측일·전수 기준일이 아니며 10월 월간 통계 또는 완결 집계가 아님. 과거 수요지수·2월 경기·8월 인천과 증감 비교 불가. 지도는 2013년 참고 경계로 현행 경계가 아니며 면적당 밀도는 제공하지 않습니다.</p><p><a href="https://data.seoul.go.kr/dataList/OA-20528/S/1/datasetView.do" target="_blank" rel="noopener">공식 원출처</a> · <a href="/data/academy/seoul.json" download>집계·검증 JSON</a> · <a href="/data/academy/seoul.csv" download>지역별 CSV</a> · <a href="/research/source-reviews/2026-10-17-urban-2.json">출처 점검</a></p><p>이전 화면의 총계 25,522개는 저장된 구별 합계 25,480개와 달랐습니다. 이번 공식 CSV 집계 25,507개와는 기준·정의가 달라 증감으로 해석하지 않습니다. 기존 수요지수는 산식·소득 입력·비교 회차를 검증하지 못해 기본 지도에서 제외했습니다. <a href="/data/academy/seoul-legacy-model.json" download>기존 모델 보존본(미검증)</a></p><p>원문 자치구 공란 43행은 도로명주소에서 복원했습니다. 등록일자 1행이 2106년으로 기재된 원문 오류는 기록하되 시설 수에 등록일자 필터를 적용하지 않았습니다.</p><!-- SEOUL_SUMMARY_END -->
  <div class="cols">
   <div class="panel">
-   <div class="legend"><span><i class="sw" style="background:#3C3489"></i>높음</span><span><i class="sw" style="background:#CECBF6"></i>낮음</span><span style="color:var(--up)">▲상승</span><span style="color:var(--dn)">▼하락</span></div>
+   <div class="legend"><span><i class="sw" style="background:#3C3489"></i>높음</span><span><i class="sw" style="background:#CECBF6"></i>낮음</span></div>
    <div id="map" style="width:100%;"></div>
-   <div id="readout">구 위에 마우스를 올리면 상세와 변화가 표시됩니다.</div>
+   <div id="readout">구 위에 마우스를 올리면 시설 수를 표시합니다.</div>
   </div>
-  <div class="panel"><b style="font-size:14px;font-weight:600;">수요지수 순위 (변화)</b><div id="rank" style="margin-top:10px;"></div></div>
+  <div class="panel"><b style="font-size:14px;font-weight:600;">시설 수 상위</b><div id="rank" style="margin-top:10px;"></div></div>
  </div>
- <p class="foot">Stargate Corporation · 주간 자동 갱신 파이프라인</p>
+ <p class="foot">서울 열린데이터광장 · 공식 CSV 시설 수 집계</p>
+<!-- SEOUL_TABLE_START --><div style="overflow-x:auto"><table><caption>서울 지역별 시설 수</caption><thead><tr><th scope="col">지역</th><th scope="col">학원</th><th scope="col">교습소</th><th scope="col">합계</th></tr></thead><tbody><tr><th scope="row">강남구</th><td>2,580</td><td>857</td><td>3,437</td></tr><tr><th scope="row">강동구</th><td>820</td><td>595</td><td>1,415</td></tr><tr><th scope="row">강북구</th><td>211</td><td>170</td><td>381</td></tr><tr><th scope="row">강서구</th><td>782</td><td>599</td><td>1,381</td></tr><tr><th scope="row">관악구</th><td>453</td><td>283</td><td>736</td></tr><tr><th scope="row">광진구</th><td>445</td><td>278</td><td>723</td></tr><tr><th scope="row">구로구</th><td>436</td><td>354</td><td>790</td></tr><tr><th scope="row">금천구</th><td>212</td><td>151</td><td>363</td></tr><tr><th scope="row">노원구</th><td>746</td><td>672</td><td>1,418</td></tr><tr><th scope="row">도봉구</th><td>297</td><td>304</td><td>601</td></tr><tr><th scope="row">동대문구</th><td>434</td><td>303</td><td>737</td></tr><tr><th scope="row">동작구</th><td>509</td><td>418</td><td>927</td></tr><tr><th scope="row">마포구</th><td>765</td><td>398</td><td>1,163</td></tr><tr><th scope="row">서대문구</th><td>391</td><td>349</td><td>740</td></tr><tr><th scope="row">서초구</th><td>1,212</td><td>621</td><td>1,833</td></tr><tr><th scope="row">성동구</th><td>326</td><td>258</td><td>584</td></tr><tr><th scope="row">성북구</th><td>514</td><td>481</td><td>995</td></tr><tr><th scope="row">송파구</th><td>1,239</td><td>749</td><td>1,988</td></tr><tr><th scope="row">양천구</th><td>1,106</td><td>997</td><td>2,103</td></tr><tr><th scope="row">영등포구</th><td>501</td><td>368</td><td>869</td></tr><tr><th scope="row">용산구</th><td>129</td><td>112</td><td>241</td></tr><tr><th scope="row">은평구</th><td>566</td><td>510</td><td>1,076</td></tr><tr><th scope="row">종로구</th><td>208</td><td>77</td><td>285</td></tr><tr><th scope="row">중구</th><td>112</td><td>47</td><td>159</td></tr><tr><th scope="row">중랑구</th><td>295</td><td>267</td><td>562</td></tr><tr><th scope="row">합계</th><td>15,289</td><td>10,218</td><td>25,507</td></tr></tbody></table></div><!-- SEOUL_TABLE_END -->
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
 <script>
-const values={"종로구": 32, "중구": 23, "용산구": 81, "성동구": 32, "광진구": 30, "동대문구": 13, "중랑구": 11, "성북구": 27, "강북구": 6, "도봉구": 8, "노원구": 28, "은평구": 21, "서대문구": 19, "마포구": 28, "양천구": 35, "강서구": 32, "구로구": 16, "금천구": 0, "영등포구": 27, "동작구": 21, "관악구": 14, "서초구": 85, "강남구": 100, "송파구": 68, "강동구": 46}, counts={"종로구": 291, "중구": 161, "용산구": 242, "성동구": 578, "광진구": 731, "동대문구": 733, "중랑구": 559, "성북구": 990, "강북구": 380, "도봉구": 597, "노원구": 1427, "은평구": 1076, "서대문구": 740, "마포구": 1172, "양천구": 2115, "강서구": 1393, "구로구": 791, "금천구": 364, "영등포구": 863, "동작구": 926, "관악구": 726, "서초구": 1817, "강남구": 3421, "송파구": 1970, "강동구": 1417}, schoolpop={"종로구": 19291, "중구": 12313, "용산구": 23515, "성동구": 35545, "광진구": 40204, "동대문구": 37048, "중랑구": 36802, "성북구": 56866, "강북구": 28710, "도봉구": 31372, "노원구": 66791, "은평구": 55684, "서대문구": 38212, "마포구": 44337, "양천구": 64677, "강서구": 66131, "구로구": 43107, "금천구": 16030, "영등포구": 41144, "동작구": 41099, "관악구": 39640, "서초구": 78963, "강남구": 114589, "송파구": 103515, "강동구": 80747}, delta={"종로구": 0, "중구": 0, "용산구": 0, "성동구": 0, "광진구": 0, "동대문구": 0, "중랑구": 0, "성북구": 0, "강북구": 0, "도봉구": 0, "노원구": 0, "은평구": 0, "서대문구": 0, "마포구": 0, "양천구": 0, "강서구": 0, "구로구": 0, "금천구": 0, "영등포구": 0, "동작구": 0, "관악구": 0, "서초구": 0, "강남구": 0, "송파구": 0, "강동구": 0};
+const counts={"종로구":285,"중구":159,"용산구":241,"성동구":584,"광진구":723,"동대문구":737,"중랑구":562,"성북구":995,"강북구":381,"도봉구":601,"노원구":1418,"은평구":1076,"서대문구":740,"마포구":1163,"양천구":2103,"강서구":1381,"구로구":790,"금천구":363,"영등포구":869,"동작구":927,"관악구":736,"서초구":1833,"강남구":3437,"송파구":1988,"강동구":1415};
 const isDark=matchMedia('(prefers-color-scheme: dark)').matches;
 const scheme=isDark?d3.schemePurples[7].slice().reverse():d3.schemePurples[7];
-const color=d3.scaleQuantize([0,100],scheme);
-const up=isDark?'#F09595':'#A32D2D', dn=isDark?'#85B7EB':'#185FA5';
-function arrow(v){return v>0?'<span style="color:'+up+'">▲'+v+'</span>':(v<0?'<span style="color:'+dn+'">▼'+Math.abs(v)+'</span>':'<span style="color:var(--muted)">–</span>');}
+const color=d3.scaleQuantize([0,Math.max(...Object.values(counts))],scheme);
 const W=560,H=440;
-const svg=d3.select('#map').append('svg').attr('viewBox','0 0 '+W+' '+H).attr('width','100%').attr('role','img').attr('aria-label','서울 학원 수요 주간 갱신 지도');
+const svg=d3.select('#map').append('svg').attr('viewBox','0 0 '+W+' '+H).attr('width','100%').attr('role','img').attr('aria-label','서울 학원·교습소 시설 수 지도');
 const tip=d3.select('#readout');
-d3.json('https://cdn.jsdelivr.net/gh/southkorea/seoul-maps@master/kostat/2013/json/seoul_municipalities_geo_simple.json').then(function(geo){
+d3.json('https://cdn.jsdelivr.net/gh/southkorea/southkorea-maps@9da257a50b5757eb87ee892eb5a8e268cea1103e/kostat/2013/json/skorea_municipalities_geo_simple.json').then(function(geo){
+  geo={type:'FeatureCollection',features:geo.features.filter(f=>String(f.properties.code).startsWith('11'))};
   const path=d3.geoPath(d3.geoMercator().fitSize([W,H-10],geo));
   svg.selectAll('path').data(geo.features).join('path').attr('d',path)
-   .attr('fill',function(d){return color(values[d.properties.name]||0);})
+   .attr('fill',function(d){return color(counts[d.properties.name]||0);})
    .attr('stroke',isDark?'rgba(255,255,255,0.25)':'#fff').attr('stroke-width',0.6).style('cursor','pointer')
-   .on('mousemove',function(e,d){var n=d.properties.name;tip.html('<b>'+n+'</b> · 수요지수 '+(values[n]||'-')+' '+arrow(delta[n]||0)+' · 학원 '+((counts[n]||0).toLocaleString())+'개 · 학령인구 약 '+Math.round((schoolpop[n]||0)/1000)+'천명');d3.select(this).attr('stroke-width',1.6).attr('stroke',isDark?'#fff':'#333');})
+   .on('mousemove',function(e,d){var n=d.properties.name;tip.html('<b>'+n+'</b> · 학원·교습소 '+((counts[n]??0).toLocaleString())+'개');d3.select(this).attr('stroke-width',1.6).attr('stroke',isDark?'#fff':'#333');})
    .on('mouseout',function(){d3.select(this).attr('stroke-width',0.6).attr('stroke',isDark?'rgba(255,255,255,0.25)':'#fff');});
   svg.selectAll('text').data(geo.features).join('text').attr('transform',function(d){return 'translate('+path.centroid(d)+')';})
-   .attr('text-anchor','middle').attr('dy','0.32em').attr('font-size',function(d){return (values[d.properties.name]||0)>=70?11:9.5;})
-   .attr('fill',function(d){var v=values[d.properties.name]||0;return (isDark?v>60:v<70)?'#e9e7f8':'#3C3489';})
+   .attr('text-anchor','middle').attr('dy','0.32em').attr('font-size',function(d){return (counts[d.properties.name]||0)>=1500?11:9.5;})
+   .attr('fill',function(d){var v=counts[d.properties.name]||0;return (isDark?v>1500:v<1800)?'#e9e7f8':'#3C3489';})
    .attr('pointer-events','none').text(function(d){return d.properties.name.replace('구','');});
-  var top=Object.entries(values).sort((a,b)=>b[1]-a[1]);var mx=top[0][1]||1;
+  var top=Object.entries(counts).sort((a,b)=>b[1]-a[1]);var mx=top[0][1]||1;
   document.getElementById('rank').innerHTML=top.slice(0,12).map(function(t,n){var w=Math.round(t[1]/mx*100);
-    return '<div style="margin-bottom:6px;"><div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:2px;"><span><span style="color:var(--muted)">'+(n+1)+'.</span> '+t[0]+' '+arrow(delta[t[0]]||0)+'</span><span style="font-weight:500">'+t[1]+'</span></div><div style="height:5px;background:var(--bg);border-radius:3px;"><div style="height:5px;width:'+w+'%;background:#534AB7;border-radius:3px;"></div></div></div>';}).join('');
+    return '<div style="margin-bottom:6px;"><div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:2px;"><span><span style="color:var(--muted)">'+(n+1)+'.</span> '+t[0]+' '+' '+'</span><span style="font-weight:500">'+t[1]+'</span></div><div style="height:5px;background:var(--bg);border-radius:3px;"><div style="height:5px;width:'+w+'%;background:#534AB7;border-radius:3px;"></div></div></div>';}).join('');
 });
 </script></body></html>

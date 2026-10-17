@@ -1,0 +1,110 @@
+{
+  "schemaVersion": 1,
+  "checkedAt": "2026-10-17T09:55:42.298406+00:00",
+  "basis": {
+    "election": "제22대 국회의원선거",
+    "electionDate": "2024-04-10",
+    "monthlyBasisApplicable": false,
+    "sourceUrl": "https://www.nec.go.kr/common/board/Download.do?bcIdx=264048&cbIdx=1486&streFileNm=250a3ff7-d546-40d2-ae1f-0e52ffe40694.pdf",
+    "sourceSha256": "56b4385011a22da426560234a9da7557e5c4e2f186db5923ce44c7ac606ffd7e",
+    "pdfPages": [
+      155
+    ],
+    "verifiedScope": "확정 선거구역표의 명시된 동 배정 대조. 구 일원의 하위 행정동 전수·신설·분할 검증과 경계 좌표 대조는 미완료."
+  },
+  "boundary": {
+    "path": "/hwaseong-election/data/emd.geojson",
+    "sha256": "9c2016eb280f2a593dff1756f1f9615ec2e8756e373578bc642c6ff9ec989faf",
+    "sourceVersion": null,
+    "sourceCollectedAt": null,
+    "sourceClaim": "기존 게시본은 VWorld 유래로 기재하나 수집 원응답·기준일 미보관. 이번 API 응답은 코드 자릿수·도형 집합이 달라 대체하지 않음.",
+    "coverageCheck": {
+      "expectedAdministrativeUnits": 29,
+      "apiFeatures": 39,
+      "apiMatchedNames": 16,
+      "missingExpectedNames": [
+        "기배동",
+        "동탄1동",
+        "동탄2동",
+        "동탄3동",
+        "동탄4동",
+        "동탄5동",
+        "동탄6동",
+        "동탄7동",
+        "동탄8동",
+        "동탄9동",
+        "병점1동",
+        "병점2동",
+        "화산동"
+      ],
+      "apiCodeLengths": [
+        8
+      ],
+      "cachedCodeLengths": [
+        10
+      ]
+    },
+    "sourceChecks": [
+      {
+        "city": "hwaseong",
+        "prefix": "41591",
+        "url": "https://api.vworld.kr/req/data",
+        "layer": "LT_C_ADEMD_INFO",
+        "checkedAt": "2026-10-17T09:53:23.996097+00:00",
+        "status": 200,
+        "sha256": "a0aaada7c2e4015482c61e25299cc0742f0c8571a4df78d0be5aa68bcffd0c10",
+        "bytes": 802088,
+        "apiStatus": "OK",
+        "errorCode": null,
+        "features": 10
+      },
+      {
+        "city": "hwaseong",
+        "prefix": "41593",
+        "url": "https://api.vworld.kr/req/data",
+        "layer": "LT_C_ADEMD_INFO",
+        "checkedAt": "2026-10-17T09:53:23.997096+00:00",
+        "status": 200,
+        "sha256": "306ee6a803ec7700047bf4b904a71b30cd70873e785fb2d3885f12dc10d9ba88",
+        "bytes": 319743,
+        "apiStatus": "OK",
+        "errorCode": null,
+        "features": 6
+      },
+      {
+        "city": "hwaseong",
+        "prefix": "41595",
+        "url": "https://api.vworld.kr/req/data",
+        "layer": "LT_C_ADEMD_INFO",
+        "checkedAt": "2026-10-17T09:53:23.997096+00:00",
+        "status": 200,
+        "sha256": "d9e38821a8e38023e066e2f14b841bff556680f58205f746bdd7ff22ccbd6c7c",
+        "bytes": 214760,
+        "apiStatus": "OK",
+        "errorCode": null,
+        "features": 9
+      },
+      {
+        "city": "hwaseong",
+        "prefix": "41597",
+        "url": "https://api.vworld.kr/req/data",
+        "layer": "LT_C_ADEMD_INFO",
+        "checkedAt": "2026-10-17T09:53:23.998096+00:00",
+        "status": 200,
+        "sha256": "af3b3b726e8e7fd59096b709a27b30f851c3edd181015beded778befb6b753f0",
+        "bytes": 291186,
+        "apiStatus": "OK",
+        "errorCode": null,
+        "features": 14
+      }
+    ],
+    "policy": "목록·코드·기하 형식이 완전히 맞는 하나의 출처만 사용. API 부분과 저장 도형을 섞지 않음. 내부 일관성 검사는 좌표의 공식 정확성 검증이 아님."
+  },
+  "districtCounts": {
+    "갑": 13,
+    "을": 5,
+    "병": 6,
+    "정": 5
+  },
+  "nextAction": "VWorld의 현행 행정동에 해당하는 정확한 레이어·코드 체계와 원자료 버전을 확인하고 공식 행정동 원장 및 선거구 일원 규정을 대조한 후 전체 도형을 일괄 교체."
+}

@@ -282,157 +282,283 @@
     },
     {
       "source": {
-        "label": null,
-        "url": null,
-        "verification": "pending"
+        "label": "서울 열린데이터·경기도교육청·인천교육청 공개 원본",
+        "url": "https://goe.go.kr/goe/na/ntt/selectNttInfo.do?nttSn=2377367&bbsId=2675&mi=10961",
+        "verification": "partially_verified"
       },
       "dataAsOf": null,
-      "dataPeriod": null,
+      "dataPeriod": "혼재 (경기 2026-09·인천 2026-08·서울 전수 기준일 미제공)",
       "snapshotUpdatedAt": null,
       "collectedAt": null,
-      "checkedAt": null,
-      "reviewStatus": "pending",
-      "freshness": "unverified",
-      "evidence": [],
-      "issues": [],
+      "checkedAt": "2026-10-17T09:55:42.298406+00:00",
+      "reviewStatus": "needs_review",
+      "freshness": "mixed_source_periods",
+      "evidence": [
+        {
+          "kind": "official-source",
+          "url": "https://goe.go.kr/goe/na/ntt/selectNttInfo.do?nttSn=2377367&bbsId=2675&mi=10961",
+          "checkedAt": "2026-10-17T09:55:42.298406+00:00",
+          "scope": "서울 25,507·경기 39,150은 이번 공식 원본 대조 집계와 동일. 인천 6,839는 앞서 확인한 2026-08-01 명부 집계 유지. 지역별 정의·기준일·원문 다운로드를 분리하고 수도권 동시점 합계를 만들지 않음."
+        },
+        {
+          "kind": "audit-record",
+          "url": "/research/source-reviews/2026-10-17-urban-2.json",
+          "checkedAt": "2026-10-17T09:55:42.298406+00:00"
+        },
+        {
+          "kind": "official-source",
+          "url": "https://data.seoul.go.kr/dataList/OA-20528/S/1/datasetView.do",
+          "checkedAt": "2026-10-17T09:55:42.298406+00:00",
+          "scope": "서울 공식 CSV 별도 대조"
+        }
+      ],
+      "issues": [
+        "시도별 시설 식별 기준·기준일이 달라 통합 합계나 지역 간 증감 비교 불가. 서울 전수 기준일 미확인.",
+        "경계는 고정 커밋의 2013 참고 도형이며 현행 행정경계·면적당 밀도가 아님."
+      ],
       "key": "/sudogwon-academy-map/",
       "url": "/sudogwon-academy-map/",
-      "title": "서울·경기 학원 밀집도 비교 지도",
+      "title": "수도권 학원·교습소 비교 지도",
       "primary": "urban",
       "classification": "도시·공간",
-      "sourceHint": "서울 열린데이터 · 경기데이터드림 · D3.js"
+      "sourceHint": "서울 CSV · 경기 9월 명부 · 인천 8월 명부",
+      "verifiedScope": "서울 25,507·경기 39,150은 이번 공식 원본 대조 집계와 동일. 인천 6,839는 앞서 확인한 2026-08-01 명부 집계 유지. 지역별 정의·기준일·원문 다운로드를 분리하고 수도권 동시점 합계를 만들지 않음.",
+      "nextAction": "서울 공통 관측 기준일과 시도별 등록번호 기반 비교 가능 정의를 확보할 때만 동시점 비교를 추가."
     },
     {
       "source": {
-        "label": null,
-        "url": null,
-        "verification": "pending"
+        "label": "경기도교육청 학원 및 교습소 공개 명부",
+        "url": "https://goe.go.kr/goe/na/ntt/selectNttInfo.do?nttSn=2377367&bbsId=2675&mi=10961",
+        "verification": "verified"
       },
-      "dataAsOf": null,
-      "dataPeriod": null,
-      "snapshotUpdatedAt": null,
-      "collectedAt": null,
-      "checkedAt": null,
-      "reviewStatus": "pending",
-      "freshness": "unverified",
-      "evidence": [],
-      "issues": [],
+      "dataAsOf": "2026-09-30",
+      "dataPeriod": "2026-09",
+      "snapshotUpdatedAt": "2026-10-17T09:49:00.497355+00:00",
+      "collectedAt": "2026-10-17T09:43:59.352050+00:00",
+      "checkedAt": "2026-10-17T09:55:42.298406+00:00",
+      "reviewStatus": "verified",
+      "freshness": "target_period_verified",
+      "evidence": [
+        {
+          "kind": "official-source",
+          "url": "https://goe.go.kr/goe/na/ntt/selectNttInfo.do?nttSn=2377367&bbsId=2675&mi=10961",
+          "checkedAt": "2026-10-17T09:55:42.298406+00:00",
+          "scope": "경기도교육청 2026-09-30 명부 2개 원본의 해시·31시군·383,546개 강좌 행·39,150개 유형/명칭/주소 중복 제거 시설 합계를 대조. 지도는 2013 참고 도형이며 현행 경계 검증 범위 밖."
+        },
+        {
+          "kind": "audit-record",
+          "url": "/research/source-reviews/2026-10-17-urban-2.json",
+          "checkedAt": "2026-10-17T09:55:42.298406+00:00"
+        }
+      ],
+      "issues": [
+        "등록번호 미제공으로 동일명·주소의 별도 등록은 구분 불가. 2월 게시본과 출처·집계 정의가 달라 증감 비교 불가.",
+        "성남 학원 주소의 접두어 오탈자 4개 강좌 행만 명시적으로 정정. 2013 참고 경계이며 면적당 밀도 아님."
+      ],
       "key": "/gyeonggi-academy-map/",
       "url": "/gyeonggi-academy-map/",
-      "title": "경기도 학원 밀집도 지도",
+      "title": "경기도 학원·교습소 시설 수 지도",
       "primary": "urban",
       "classification": "도시·공간",
-      "sourceHint": "경기데이터드림 · D3.js"
+      "sourceHint": "경기도교육청 · 2026-09-30 명부",
+      "verifiedScope": "경기도교육청 2026-09-30 명부 2개 원본의 해시·31시군·383,546개 강좌 행·39,150개 유형/명칭/주소 중복 제거 시설 합계를 대조. 지도는 2013 참고 도형이며 현행 경계 검증 범위 밖.",
+      "nextAction": "다음 공식 명부 공개 시 두 원본의 기준일·해시·시군별 합계·중복 제거를 다시 대조. 등록번호 제공 원표가 확보되면 시설 식별 정의를 개선."
     },
     {
       "source": {
-        "label": null,
-        "url": null,
-        "verification": "pending"
+        "label": "서울 열린데이터광장 서울시 학원 교습소정보 OA-20528",
+        "url": "https://data.seoul.go.kr/dataList/OA-20528/S/1/datasetView.do",
+        "verification": "partially_verified"
       },
       "dataAsOf": null,
       "dataPeriod": null,
-      "snapshotUpdatedAt": null,
-      "collectedAt": null,
-      "checkedAt": null,
-      "reviewStatus": "pending",
-      "freshness": "unverified",
-      "evidence": [],
-      "issues": [],
+      "snapshotUpdatedAt": "2026-10-17T09:50:02.317774+00:00",
+      "collectedAt": "2026-10-17T09:47:34.174154+00:00",
+      "checkedAt": "2026-10-17T09:55:42.298406+00:00",
+      "reviewStatus": "needs_review",
+      "freshness": "official_snapshot_without_uniform_period",
+      "evidence": [
+        {
+          "kind": "official-source",
+          "url": "https://data.seoul.go.kr/dataList/OA-20528/S/1/datasetView.do",
+          "checkedAt": "2026-10-17T09:55:42.298406+00:00",
+          "scope": "공식 전체 CSV 25,507개 개원 시설의 학원지정번호 유일성, 학원 15,289·교습소 10,218, 25자치구 합계 대조. 공란 자치구 43행은 원문 도로명주소에서 복원. 행별 적재일 2023-10-18~2026-10-11은 전수 관측 기준일이 아님."
+        },
+        {
+          "kind": "audit-record",
+          "url": "/research/source-reviews/2026-10-17-urban-2.json",
+          "checkedAt": "2026-10-17T09:55:42.298406+00:00"
+        }
+      ],
+      "issues": [
+        "서울 전체의 통계 기준일·기준월은 원문 미제공. 10월 부분 갱신을 월간 완결 통계로 표시하지 않음.",
+        "등록일자 1행이 미래 2106년으로 기재되어 원문 오류를 기록. 시설 개원 상태 집계에는 등록일자를 필터로 사용하지 않음.",
+        "기존 총계 25,522와 구별 저장합 25,480의 차이를 기록. 미검증 수요지수·학령인구·변화는 보존 JSON으로 옮기고 기본 지도는 공식 시설 수로 교체. 2013 참고 도형."
+      ],
       "key": "/seoul-academy-map/",
       "url": "/seoul-academy-map/",
-      "title": "서울 학원 수요지수 지도",
+      "title": "서울 학원·교습소 시설 수 지도",
       "primary": "urban",
       "classification": "도시·공간",
-      "sourceHint": "서울 열린데이터 · 국세청 · D3.js"
+      "sourceHint": "서울 열린데이터 OA-20528 · 부분 적재 포함",
+      "verifiedScope": "공식 전체 CSV 25,507개 개원 시설의 학원지정번호 유일성, 학원 15,289·교습소 10,218, 25자치구 합계 대조. 공란 자치구 43행은 원문 도로명주소에서 복원. 행별 적재일 2023-10-18~2026-10-11은 전수 관측 기준일이 아님.",
+      "nextAction": "원제공기관에서 전체 CSV의 공통 관측 기준일 및 미래 등록일자 정정 여부를 확인. 월간 원표가 확보될 때만 9·10월 증감을 표시."
     },
     {
       "source": {
-        "label": null,
-        "url": null,
-        "verification": "pending"
+        "label": "중앙선거관리위원회 제22대 선거구획정 보고서",
+        "url": "https://www.nec.go.kr/common/board/Download.do?bcIdx=264048&cbIdx=1486&streFileNm=250a3ff7-d546-40d2-ae1f-0e52ffe40694.pdf",
+        "verification": "partially_verified"
       },
-      "dataAsOf": null,
-      "dataPeriod": null,
+      "dataAsOf": "2024-04-10",
+      "dataPeriod": "2024-04",
       "snapshotUpdatedAt": null,
       "collectedAt": null,
-      "checkedAt": null,
-      "reviewStatus": "pending",
-      "freshness": "unverified",
-      "evidence": [],
-      "issues": [],
+      "checkedAt": "2026-10-17T09:55:42.298406+00:00",
+      "reviewStatus": "needs_review",
+      "freshness": "historical_election_boundary_version_unknown",
+      "evidence": [
+        {
+          "kind": "official-source",
+          "url": "https://www.nec.go.kr/common/board/Download.do?bcIdx=264048&cbIdx=1486&streFileNm=250a3ff7-d546-40d2-ae1f-0e52ffe40694.pdf",
+          "checkedAt": "2026-10-17T09:55:42.298406+00:00",
+          "scope": "확정 선거구역표 PDF [153, 154]쪽의 평택 선거구 동 배정과 기존 목록을 대조. 저장 도형 25개와 목록의 1:1 대응·코드 유일성은 내부 검사. PDF의 구 일원 하위동 전수와 경계 원자료 버전은 미확인."
+        },
+        {
+          "kind": "audit-record",
+          "url": "/research/source-reviews/2026-10-17-urban-2.json",
+          "checkedAt": "2026-10-17T09:55:42.298406+00:00"
+        }
+      ],
+      "issues": [
+        "공식 VWorld API 37개 도형의 [8]자리 코드와 저장 행정동 25개·10자리 코드의 범위가 다름. 일부 도형으로 자동 대체하지 않음.",
+        "선거구는 2024년 제22대 기준. 월간 통계 기준월은 비적용이나 경계 버전이 미확인이라 검증 완료로 처리하지 않음."
+      ],
       "key": "/pyeongtaek-election/",
       "url": "https://www.stargateedu.co.kr/pyeongtaek-election/",
       "title": "평택시 선거구 읍면동 지도",
       "primary": "urban",
       "classification": "도시·공간",
-      "sourceHint": "VWorld · Leaflet"
+      "sourceHint": "VWorld · Leaflet",
+      "verifiedScope": "확정 선거구역표 PDF [153, 154]쪽의 평택 선거구 동 배정과 기존 목록을 대조. 저장 도형 25개와 목록의 1:1 대응·코드 유일성은 내부 검사. PDF의 구 일원 하위동 전수와 경계 원자료 버전은 미확인.",
+      "nextAction": "VWorld의 현행 행정동에 해당하는 정확한 레이어·코드 체계와 원자료 버전을 확인하고 공식 행정동 원장 및 선거구 일원 규정을 대조한 후 전체 도형을 일괄 교체."
     },
     {
       "source": {
-        "label": null,
-        "url": null,
-        "verification": "pending"
+        "label": "중앙선거관리위원회 제22대 선거구획정 보고서",
+        "url": "https://www.nec.go.kr/common/board/Download.do?bcIdx=264048&cbIdx=1486&streFileNm=250a3ff7-d546-40d2-ae1f-0e52ffe40694.pdf",
+        "verification": "partially_verified"
       },
-      "dataAsOf": null,
-      "dataPeriod": null,
+      "dataAsOf": "2024-04-10",
+      "dataPeriod": "2024-04",
       "snapshotUpdatedAt": null,
       "collectedAt": null,
-      "checkedAt": null,
-      "reviewStatus": "pending",
-      "freshness": "unverified",
-      "evidence": [],
-      "issues": [],
+      "checkedAt": "2026-10-17T09:55:42.298406+00:00",
+      "reviewStatus": "needs_review",
+      "freshness": "historical_election_boundary_version_unknown",
+      "evidence": [
+        {
+          "kind": "official-source",
+          "url": "https://www.nec.go.kr/common/board/Download.do?bcIdx=264048&cbIdx=1486&streFileNm=250a3ff7-d546-40d2-ae1f-0e52ffe40694.pdf",
+          "checkedAt": "2026-10-17T09:55:42.298406+00:00",
+          "scope": "확정 선거구역표 PDF [155]쪽의 화성 선거구 동 배정과 기존 목록을 대조. 저장 도형 29개와 목록의 1:1 대응·코드 유일성은 내부 검사. PDF의 구 일원 하위동 전수와 경계 원자료 버전은 미확인."
+        },
+        {
+          "kind": "audit-record",
+          "url": "/research/source-reviews/2026-10-17-urban-2.json",
+          "checkedAt": "2026-10-17T09:55:42.298406+00:00"
+        }
+      ],
+      "issues": [
+        "공식 VWorld API 39개 도형의 [8]자리 코드와 저장 행정동 29개·10자리 코드의 범위가 다름. 일부 도형으로 자동 대체하지 않음.",
+        "선거구는 2024년 제22대 기준. 월간 통계 기준월은 비적용이나 경계 버전이 미확인이라 검증 완료로 처리하지 않음."
+      ],
       "key": "/hwaseong-election/",
       "url": "https://www.stargateedu.co.kr/hwaseong-election/",
       "title": "화성시 선거구 읍면동 지도",
       "primary": "urban",
       "classification": "도시·공간",
-      "sourceHint": "VWorld · Leaflet"
+      "sourceHint": "VWorld · Leaflet",
+      "verifiedScope": "확정 선거구역표 PDF [155]쪽의 화성 선거구 동 배정과 기존 목록을 대조. 저장 도형 29개와 목록의 1:1 대응·코드 유일성은 내부 검사. PDF의 구 일원 하위동 전수와 경계 원자료 버전은 미확인.",
+      "nextAction": "VWorld의 현행 행정동에 해당하는 정확한 레이어·코드 체계와 원자료 버전을 확인하고 공식 행정동 원장 및 선거구 일원 규정을 대조한 후 전체 도형을 일괄 교체."
     },
     {
       "source": {
-        "label": null,
-        "url": null,
-        "verification": "pending"
+        "label": "중앙선거관리위원회 제22대 선거구획정 보고서",
+        "url": "https://www.nec.go.kr/common/board/Download.do?bcIdx=264048&cbIdx=1486&streFileNm=250a3ff7-d546-40d2-ae1f-0e52ffe40694.pdf",
+        "verification": "partially_verified"
       },
-      "dataAsOf": null,
-      "dataPeriod": null,
+      "dataAsOf": "2024-04-10",
+      "dataPeriod": "2024-04",
       "snapshotUpdatedAt": null,
       "collectedAt": null,
-      "checkedAt": null,
-      "reviewStatus": "pending",
-      "freshness": "unverified",
-      "evidence": [],
-      "issues": [],
+      "checkedAt": "2026-10-17T09:55:42.298406+00:00",
+      "reviewStatus": "needs_review",
+      "freshness": "historical_election_boundary_version_unknown",
+      "evidence": [
+        {
+          "kind": "official-source",
+          "url": "https://www.nec.go.kr/common/board/Download.do?bcIdx=264048&cbIdx=1486&streFileNm=250a3ff7-d546-40d2-ae1f-0e52ffe40694.pdf",
+          "checkedAt": "2026-10-17T09:55:42.298406+00:00",
+          "scope": "확정 선거구역표 PDF [153]쪽의 수원 선거구 동 배정과 기존 목록을 대조. 저장 도형 44개와 목록의 1:1 대응·코드 유일성은 내부 검사. PDF의 구 일원 하위동 전수와 경계 원자료 버전은 미확인."
+        },
+        {
+          "kind": "audit-record",
+          "url": "/research/source-reviews/2026-10-17-urban-2.json",
+          "checkedAt": "2026-10-17T09:55:42.298406+00:00"
+        }
+      ],
+      "issues": [
+        "공식 VWorld API 56개 도형의 [8]자리 코드와 저장 행정동 44개·10자리 코드의 범위가 다름. 일부 도형으로 자동 대체하지 않음.",
+        "선거구는 2024년 제22대 기준. 월간 통계 기준월은 비적용이나 경계 버전이 미확인이라 검증 완료로 처리하지 않음."
+      ],
       "key": "/suwon-election/",
       "url": "https://www.stargateedu.co.kr/suwon-election/",
       "title": "수원시 선거구 읍면동 지도",
       "primary": "urban",
       "classification": "도시·공간",
-      "sourceHint": "VWorld · Leaflet"
+      "sourceHint": "VWorld · Leaflet",
+      "verifiedScope": "확정 선거구역표 PDF [153]쪽의 수원 선거구 동 배정과 기존 목록을 대조. 저장 도형 44개와 목록의 1:1 대응·코드 유일성은 내부 검사. PDF의 구 일원 하위동 전수와 경계 원자료 버전은 미확인.",
+      "nextAction": "VWorld의 현행 행정동에 해당하는 정확한 레이어·코드 체계와 원자료 버전을 확인하고 공식 행정동 원장 및 선거구 일원 규정을 대조한 후 전체 도형을 일괄 교체."
     },
     {
       "source": {
-        "label": null,
-        "url": null,
-        "verification": "pending"
+        "label": "중앙선거관리위원회 제22대 선거구획정 보고서",
+        "url": "https://www.nec.go.kr/common/board/Download.do?bcIdx=264048&cbIdx=1486&streFileNm=250a3ff7-d546-40d2-ae1f-0e52ffe40694.pdf",
+        "verification": "partially_verified"
       },
-      "dataAsOf": null,
-      "dataPeriod": null,
+      "dataAsOf": "2024-04-10",
+      "dataPeriod": "2024-04",
       "snapshotUpdatedAt": null,
       "collectedAt": null,
-      "checkedAt": null,
-      "reviewStatus": "pending",
-      "freshness": "unverified",
-      "evidence": [],
-      "issues": [],
+      "checkedAt": "2026-10-17T09:55:42.298406+00:00",
+      "reviewStatus": "needs_review",
+      "freshness": "historical_election_boundary_version_unknown",
+      "evidence": [
+        {
+          "kind": "official-source",
+          "url": "https://www.nec.go.kr/common/board/Download.do?bcIdx=264048&cbIdx=1486&streFileNm=250a3ff7-d546-40d2-ae1f-0e52ffe40694.pdf",
+          "checkedAt": "2026-10-17T09:55:42.298406+00:00",
+          "scope": "확정 선거구역표 PDF [153]쪽의 성남 선거구 동 배정과 기존 목록을 대조. 저장 도형 50개와 목록의 1:1 대응·코드 유일성은 내부 검사. PDF의 구 일원 하위동 전수와 경계 원자료 버전은 미확인."
+        },
+        {
+          "kind": "audit-record",
+          "url": "/research/source-reviews/2026-10-17-urban-2.json",
+          "checkedAt": "2026-10-17T09:55:42.298406+00:00"
+        }
+      ],
+      "issues": [
+        "공식 VWorld API 44개 도형의 [8]자리 코드와 저장 행정동 50개·10자리 코드의 범위가 다름. 일부 도형으로 자동 대체하지 않음.",
+        "선거구는 2024년 제22대 기준. 월간 통계 기준월은 비적용이나 경계 버전이 미확인이라 검증 완료로 처리하지 않음."
+      ],
       "key": "/seongnam-election/",
       "url": "https://www.stargateedu.co.kr/seongnam-election/",
       "title": "성남시 선거구 읍면동 지도",
       "primary": "urban",
       "classification": "도시·공간",
-      "sourceHint": "VWorld · Leaflet"
+      "sourceHint": "VWorld · Leaflet",
+      "verifiedScope": "확정 선거구역표 PDF [153]쪽의 성남 선거구 동 배정과 기존 목록을 대조. 저장 도형 50개와 목록의 1:1 대응·코드 유일성은 내부 검사. PDF의 구 일원 하위동 전수와 경계 원자료 버전은 미확인.",
+      "nextAction": "VWorld의 현행 행정동에 해당하는 정확한 레이어·코드 체계와 원자료 버전을 확인하고 공식 행정동 원장 및 선거구 일원 규정을 대조한 후 전체 도형을 일괄 교체."
     },
     {
       "source": {

@@ -47,6 +47,7 @@
   a:hover{text-decoration:underline}
 
   .nav{
+    flex-wrap:wrap;
     max-width:1240px;margin:0 auto;padding:16px 20px 0;
     display:flex;justify-content:space-between;align-items:center;gap:12px;
   }
@@ -56,7 +57,7 @@
     background:linear-gradient(135deg,#2f8fff,#3ec6b8);
     display:grid;place-items:center;color:#041018;font-weight:900;
   }
-  .nav .links{display:flex;gap:14px;font-size:13px;color:var(--muted)}
+  .nav .links{flex-wrap:wrap;display:flex;gap:14px;font-size:13px;color:var(--muted)}
   .nav .links a{color:var(--muted)}
   .nav .links a:hover{color:var(--ink)}
 
@@ -92,6 +93,7 @@
   }
 
   .side,.map-shell{
+    min-width:0;
     border:1px solid var(--line);
     background:linear-gradient(180deg,rgba(14,30,44,.92),rgba(10,22,34,.92));
     border-radius:18px;overflow:hidden;
@@ -145,7 +147,7 @@
   }
   .pill-btn{cursor:pointer}
   .pill-btn:hover{border-color:rgba(62,198,184,.5)}
-  .status-pill{color:var(--muted)}
+  .status-pill{max-width:100%;overflow-wrap:anywhere;color:var(--muted)}
   .status-pill.ok{color:#9fe8df}
   .status-pill.warn{color:#ffd089}
 
@@ -280,13 +282,13 @@
   </nav>
 
   <header>
-    <p class="kicker">22nd National Assembly · VWorld boundaries</p>
+    <p class="kicker">22nd National Assembly · Saved reference boundaries</p>
     <h1>수원시 국회의원 선거구 <em>읍면동</em> 지도</h1>
     <p class="lead">제22대 국회의원선거 획정안 기준 갑·을·병·정·무 5개 선거구를 읍면동 경계로 나눠 봅니다. 지도에서 구역을 클릭하거나 왼쪽 목록으로 바로 이동할 수 있습니다.</p>
     <div class="meta-row">
       <span class="chip"><strong>5</strong> 선거구</span>
       <span class="chip"><strong>44</strong> 읍면동</span>
-      <span class="chip">행정동 경계 · EPSG:4326</span>
+      <span class="chip">저장 행정동 참고 도형 · EPSG:4326</span>
       <span class="chip">NEC 선거구역 기준</span>
     </div>
   </header>
@@ -319,11 +321,9 @@
     </section>
   </div>
 
-  <p class="note">
-    자료: 중앙선거관리위원회 수원시 국회의원 선거구(갑·을·병·정·무) 구역 · 읍면동 경계는 VWorld 원천 자료를 바탕으로 저장한 캐시 GeoJSON을 사용합니다.
-    지도 타일은 VWorld Base → Carto Positron 순으로 폴백합니다.
-  </p>
+  <p class="note">선거구는 제22대 국회의원선거(2024-04-10) 기준입니다. <a href="https://www.nec.go.kr/common/board/Download.do?bcIdx=264048&amp;cbIdx=1486&amp;streFileNm=250a3ff7-d546-40d2-ae1f-0e52ffe40694.pdf#page=153" target="_blank" rel="noopener">선관위 확정 구역표(153~155쪽)</a>와 목록을 대조했습니다. 팔달구 ‘구 일원’은 기존 동 목록으로 표시하며 동 신설·분할을 전수 검증한 것은 아닙니다. 저장 경계의 원자료 버전·수집일은 확인되지 않았습니다. 2026년 9·10월 현행 경계로 해석하지 마세요. 경계는 한 출처 전체를 사용하며 API 일부와 저장본을 혼합하지 않습니다.<br><a href="./data/districts.json" download>선거구 목록 JSON</a> · <a href="./data/emd.geojson" download>저장 경계 GeoJSON</a> · <a href="./data/source-review.json">기준·출처·점검 기록</a></p>
 
+<script src="/assets/election-boundaries.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.js"></script>
 <script>
 const VWORLD_KEY = "6009C294-6D75-303C-A627-F8585ADBF867";
@@ -421,7 +421,7 @@ function styleFeature(feature, opts = {}) {
 function enrichFeature(f) {
   const p = f.properties || {};
   const name = p.emd_nm || p.emd_kor_nm || p.emdnm || p.full_nm || "";
-  const district = p.district || nameToDistrict[name] || "미분류";
+  const district = nameToDistrict[name] || "미분류";
   const emd_cd = p.emd_cd || p.emd_cd_ || p.emdcd || "";
   return {
     ...f,
@@ -500,22 +500,6 @@ function vworldJsonp(url, timeoutMs) {
     script.src = url + (url.indexOf("?") === -1 ? "?" : "&") + "callback=" + cb;
     document.head.appendChild(script);
   });
-}
-
-function mergeBoundaries(vw, local) {
-  var vwFeatures = (vw && vw.features) || [];
-  var localFeatures = (local && local.features) || [];
-  if (!localFeatures.length) {
-    return { type: "FeatureCollection", features: vwFeatures, source: "VWorld API \u00b7 " + vwFeatures.length + "\uac1c" };
-  }
-  var seen = {};
-  vwFeatures.forEach(function (f) { seen[f.properties.emd_nm] = true; });
-  var extra = localFeatures.filter(function (f) { return !seen[f.properties.emd_nm]; });
-  var features = vwFeatures.concat(extra);
-  var source = extra.length
-    ? "VWorld " + vwFeatures.length + " + \uce90\uc2dc " + extra.length
-    : "VWorld API \u00b7 " + vwFeatures.length + "\uac1c";
-  return { type: "FeatureCollection", features: features, source: source };
 }
 
 async function fetchVworldGeoJSON() {
@@ -601,7 +585,7 @@ function renderLegend() {
 
 function showInfo(props) {
   el.infoName.textContent = props.emd_nm;
-  el.infoMeta.textContent = `행정동 코드 ${props.emd_cd || "—"} · ${props.sgg_nm || CITY_NAME}`;
+  el.infoMeta.textContent = `저장 경계 코드 ${props.emd_cd || "—"} · ${props.sgg_nm || CITY_NAME}`;
   const color = (DISTRICTS[props.district] || DISTRICTS.all).color;
   el.infoBadges.innerHTML = `<span class="badge" style="border-color:${color};color:${color}">
     <span class="swatch" style="background:${color}"></span>${props.district_label}
@@ -673,7 +657,7 @@ function mountGeo(geo, sourceLabel) {
   renderList();
   renderLegend();
   fitActive();
-  setStatus(`${sourceLabel} · ${geo.features.length}개 읍면동`, "ok");
+  setStatus(`${sourceLabel} · ${geo.features.length}개 읍면동`, "warn");
 }
 
 async function loadBoundaries(preferVworld = true) {
@@ -685,19 +669,20 @@ async function loadBoundaries(preferVworld = true) {
   if (preferVworld) {
     try {
       const geo = await fetchVworldGeoJSON();
-      const merged = mergeBoundaries(geo, local);
-      if (merged.features.length >= 20) {
+      const merged = ElectionBoundaries.chooseCollection(geo, local, nameToDistrict);
+      if (merged.sourceMode === "api") {
         mountGeo(merged, merged.source);
         return;
       }
-      throw new Error(`too few features: ${merged.features.length}`);
+      throw new Error("API coverage or code scheme differs; retaining the complete saved layer");
     } catch (err) {
       console.warn("VWorld fallback:", err);
       setStatus("VWorld 실패 → 캐시 경계 사용", "warn");
     }
   }
   if (!local) throw new Error("boundary source unavailable");
-  mountGeo(local, preferVworld ? "캐시 GeoJSON" : "캐시 GeoJSON(강제)");
+  const selected = ElectionBoundaries.chooseCollection(null, local, nameToDistrict);
+  mountGeo(selected, selected.source);
 }
 
 el.search.addEventListener("input", () => renderList());
