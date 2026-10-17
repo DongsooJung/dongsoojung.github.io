@@ -1,0 +1,43 @@
+name: SOLAPI SMS console
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths: ['server/sms/**', 'sms/**', '.github/workflows/solapi-sms.yml']
+permissions:
+  contents: read
+concurrency:
+  group: solapi-sms-production
+  cancel-in-progress: false
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+      CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+      WRANGLER_SEND_METRICS: 'false'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - run: node --test tests/solapi-sms.test.mjs
+      - run: node server/sms/prepare.mjs
+      - name: Install runtime secrets
+        env:
+          SOLAPI_API_KEY: ${{ secrets.SOLAPI_API_KEY }}
+          SOLAPI_API_SECRET: ${{ secrets.SOLAPI_API_SECRET }}
+          SMS_ADMIN_TOKEN: ${{ secrets.SMS_ADMIN_TOKEN }}
+        shell: bash
+        run: |
+          for name in SOLAPI_API_KEY SOLAPI_API_SECRET SMS_ADMIN_TOKEN; do
+            test -n "${!name}" || exit 1
+          done
+          node -e 'const fs=require("fs"); const names=["SOLAPI_API_KEY","SOLAPI_API_SECRET","SMS_ADMIN_TOKEN"];fs.writeFileSync(process.env.RUNNER_TEMP+"/sms-secrets.json",JSON.stringify(Object.fromEntries(names.map(k=>[k,process.env[k]]))),{mode:0o600})'
+          npx --yes wrangler@4.151.0 secret bulk "$RUNNER_TEMP/sms-secrets.json" --config server/sms/wrangler.jsonc
+          rm "$RUNNER_TEMP/sms-secrets.json"
+      - run: npx --yes wrangler@4.151.0 deploy --config server/sms/wrangler.jsonc
+      - name: Check deployed API without sending
+        run: curl --fail --retry 5 --retry-delay 5 https://stargate-sms.stargate8225.workers.dev/api/sms
+
