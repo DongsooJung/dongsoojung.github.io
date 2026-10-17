@@ -7,181 +7,278 @@
   "projects": [
     {
       "source": {
-        "label": null,
-        "url": null,
-        "verification": "pending"
+        "label": "부산광역시 공식 공지·보도자료",
+        "url": "https://www.busan.go.kr/nbnews/1758071",
+        "verification": "partially_verified"
       },
-      "dataAsOf": null,
-      "dataPeriod": null,
+      "dataAsOf": "2026-10-06",
+      "dataPeriod": "2026-10",
       "snapshotUpdatedAt": null,
       "collectedAt": null,
-      "checkedAt": null,
-      "reviewStatus": "pending",
-      "freshness": "unverified",
-      "evidence": [],
-      "issues": [],
+      "checkedAt": "2026-10-17T02:29:06.590856+00:00",
+      "reviewStatus": "needs_review",
+      "freshness": "requires_followup",
+      "evidence": [
+        {
+          "kind": "official-source",
+          "url": "https://www.busan.go.kr/nbnews/1758071",
+          "checkedAt": "2026-10-17T02:29:06.590856+00:00",
+          "scope": "부산시 2026-10-06 관람 안내와 2026-10-01 후속 구조 계획의 원문만 대조해 별도 표시. 기존 9월 보도 19건은 보존하며 전부 검증 완료로 취급하지 않음."
+        },
+        {
+          "kind": "audit-record",
+          "url": "/research/source-reviews/2026-10-17-urban-1.json",
+          "checkedAt": "2026-10-17T02:29:06.590856+00:00"
+        }
+      ],
+      "issues": [
+        "19개 보도·시민 반응 기록의 개별 수치·최신 위치는 이번 대조 범위 밖입니다.",
+        "10월 1일 계획 공지를 실제 구조 완료나 현재 위치 확인으로 바꾸지 않았습니다."
+      ],
       "key": "/research/bukangi/",
       "url": "/research/bukangi/",
       "title": "부캉이 상황실",
       "primary": "urban",
       "classification": "도시·공간",
-      "sourceHint": "부산 북항 · 보도 19건"
+      "sourceHint": "부산시 10월 공지 · 보도 19건",
+      "verifiedScope": "부산시 2026-10-06 관람 안내와 2026-10-01 후속 구조 계획의 원문만 대조해 별도 표시. 기존 9월 보도 19건은 보존하며 전부 검증 완료로 취급하지 않음.",
+      "nextAction": "기존 기록별 원문·발표일·중복 인용을 대조하고, 이후 기관의 결과 공지가 확인될 때만 사건 경과를 추가."
     },
     {
       "source": {
-        "label": null,
-        "url": null,
-        "verification": "pending"
+        "label": "서울 열린데이터광장 도시·생활인구·대도시권 생활인구",
+        "url": "https://data.seoul.go.kr/dataList/OA-21285/A/1/datasetView.do",
+        "verification": "partially_verified"
       },
       "dataAsOf": null,
-      "dataPeriod": null,
-      "snapshotUpdatedAt": null,
+      "dataPeriod": "혼재 (2026-07·10)",
+      "snapshotUpdatedAt": "2026-10-17T09:27+09:00",
       "collectedAt": null,
-      "checkedAt": null,
-      "reviewStatus": "pending",
-      "freshness": "unverified",
-      "evidence": [],
-      "issues": [],
+      "checkedAt": "2026-10-17T02:29:06.590856+00:00",
+      "reviewStatus": "needs_review",
+      "freshness": "requires_followup",
+      "evidence": [
+        {
+          "kind": "official-source",
+          "url": "https://data.seoul.go.kr/dataList/OA-21285/A/1/datasetView.do",
+          "checkedAt": "2026-10-17T02:29:06.590856+00:00",
+          "scope": "라이브 URL은 별도 프로젝트 저장소가 제공하며 정상 HTTP 200. 게시 JSON이 해당 저장소 공개본과 같음을 확인. 45개 지점 분류 수·추정인구 구간 중앙값 합계·연령 비율의 내부 일관성 및 공식 데이터 설명을 확인했으나 인증 원 API의 개별 수치는 미대조."
+        },
+        {
+          "kind": "audit-record",
+          "url": "/research/source-reviews/2026-10-17-urban-1.json",
+          "checkedAt": "2026-10-17T02:29:06.590856+00:00"
+        }
+      ],
+      "issues": [
+        "도시 관측 2026-10-17과 내국인 생활인구 2026-07-31, 대도시권 생활인구 2026-10-12가 혼재합니다.",
+        "게시 파일 수집·생성일을 생활인구 기준일로 바꾸지 않았습니다. 45개 지점 추정치를 서울 전체 인구로 해석하지 않습니다."
+      ],
       "key": "/ds-research-urban-analytics/",
       "url": "/ds-research-urban-analytics/",
       "title": "실시간 도시 관측",
       "primary": "urban",
       "classification": "도시·공간",
-      "sourceHint": "서울 열린데이터광장 · 실시간"
+      "sourceHint": "서울 열린데이터광장 · 기준일 혼재",
+      "verifiedScope": "라이브 URL은 별도 프로젝트 저장소가 제공하며 정상 HTTP 200. 게시 JSON이 해당 저장소 공개본과 같음을 확인. 45개 지점 분류 수·추정인구 구간 중앙값 합계·연령 비율의 내부 일관성 및 공식 데이터 설명을 확인했으나 인증 원 API의 개별 수치는 미대조.",
+      "nextAction": "독립 프로젝트의 기존 수집기로 생활인구 최신 공식 기준일·전체 응답 범위를 확인한 후 별도로 갱신. 포털에 새 폴더를 만들어 기존 프로젝트 URL을 덮어쓰지 않음."
     },
     {
       "source": {
-        "label": "Incheon International Airport Corporation",
+        "label": "인천국제공항공사 승객예고·출국장 대기 현황",
         "url": "https://www.airport.kr/ap_ko/883/subview.do",
-        "verification": "declared"
+        "verification": "verified"
       },
-      "dataAsOf": "2026-10-16",
+      "dataAsOf": "2026-10-17",
       "dataPeriod": "2026-10",
-      "snapshotUpdatedAt": "2026-10-16T05:30:53.689Z",
-      "collectedAt": "2026-10-16T05:30:53.689Z",
-      "checkedAt": "2026-10-16T09:59:34.606Z",
-      "reviewStatus": "snapshot_checked",
-      "freshness": "target_period_in_snapshot",
+      "snapshotUpdatedAt": "2026-10-17T02:20:42.876Z",
+      "collectedAt": "2026-10-17T02:20:42.876Z",
+      "checkedAt": "2026-10-17T02:29:06.590856+00:00",
+      "reviewStatus": "verified",
+      "freshness": "target_period_verified_partial_scope",
       "evidence": [
         {
-          "kind": "published-snapshot",
-          "url": "https://www.stargateedu.co.kr/research/airport-congestion/data/latest.json",
-          "checkedAt": "2026-10-16T09:59:34.606Z",
-          "fields": {
-            "dataPeriod": "2026-10",
-            "dataAsOf": "2026-10-16",
-            "snapshotUpdatedAt": "2026-10-16T05:30:53.689Z"
-          }
+          "kind": "official-source",
+          "url": "https://www.airport.kr/ap_ko/883/subview.do",
+          "checkedAt": "2026-10-17T02:29:06.590856+00:00",
+          "scope": "공식 HTML 4개와 대기 JSON 2개를 기존 수집기로 변환. 예측일 2일×24시간의 T1·T2 출입국 구간 합계와 대기 20행의 실제 관측시각·범위를 대조. 예상 승객을 실제 이용 실적으로 해석하지 않음."
+        },
+        {
+          "kind": "audit-record",
+          "url": "/research/source-reviews/2026-10-17-urban-1.json",
+          "checkedAt": "2026-10-17T02:29:06.590856+00:00"
         }
       ],
-      "issues": [],
+      "issues": [
+        "10월 17·18일 예측과 17일 대기 관측이며 월간 전수 실적이 아닙니다. 혼잡 등급은 화면 자체 상대 산정입니다."
+      ],
       "key": "/research/airport-congestion/",
       "url": "/research/airport-congestion/",
       "title": "인천공항 혼잡도 연구 대시보드",
       "primary": "urban",
       "classification": "도시·공간",
-      "sourceHint": "인천국제공항공사 공식 실데이터"
+      "sourceHint": "인천국제공항공사 공식 실데이터",
+      "verifiedScope": "공식 HTML 4개와 대기 JSON 2개를 기존 수집기로 변환. 예측일 2일×24시간의 T1·T2 출입국 구간 합계와 대기 20행의 실제 관측시각·범위를 대조. 예상 승객을 실제 이용 실적으로 해석하지 않음.",
+      "nextAction": "시간별 자동 수집 유지. 날짜 버튼은 원자료 예측일을 표시하며 값이나 날짜가 바뀌면 이전 대조 해시를 재사용하지 않음.",
+      "verifiedDataHash": "989d546dd726058a1c8ad1e50629bb50d8c58b96e13f541b3badfdd663734281"
     },
     {
       "source": {
         "label": "한국공항공사 공항 혼잡도 정보_GW",
         "url": "https://www.data.go.kr/data/15159598/openapi.do",
-        "verification": "declared"
+        "verification": "partially_verified"
       },
       "dataAsOf": null,
       "dataPeriod": null,
-      "snapshotUpdatedAt": "2026-10-16T07:12:14.509Z",
-      "collectedAt": "2026-10-16T07:12:14.509Z",
-      "checkedAt": "2026-10-16T09:59:34.799Z",
-      "reviewStatus": "snapshot_checked",
-      "freshness": "unverified",
+      "snapshotUpdatedAt": "2026-10-17T02:20:44.701Z",
+      "collectedAt": "2026-10-17T02:20:44.701Z",
+      "checkedAt": "2026-10-17T02:29:06.590856+00:00",
+      "reviewStatus": "needs_review",
+      "freshness": "requires_followup",
       "evidence": [
         {
-          "kind": "published-snapshot",
-          "url": "https://www.stargateedu.co.kr/research/gimpo-airport-congestion/data/latest.json",
-          "checkedAt": "2026-10-16T09:59:34.799Z",
-          "fields": {
-            "dataPeriod": null,
-            "dataAsOf": null,
-            "snapshotUpdatedAt": "2026-10-16T07:12:14.509Z"
-          }
+          "kind": "official-source",
+          "url": "https://www.data.go.kr/data/15159598/openapi.do",
+          "checkedAt": "2026-10-17T02:29:06.590856+00:00",
+          "scope": "공식 API 명세·현재 프록시 정상 응답·GMP 국내선 구간 3개의 등급 범위와 관측시각을 확인. 프록시는 정규화 결과만 제공하므로 인증된 원 API 행의 날짜까지 검증한 것은 아님."
+        },
+        {
+          "kind": "audit-record",
+          "url": "/research/source-reviews/2026-10-17-urban-1.json",
+          "checkedAt": "2026-10-17T02:29:06.590856+00:00"
         }
       ],
       "issues": [
-        "원자료 observed_at은 시각만 제공하므로 관측 기준일의 원출처 대조가 필요합니다."
+        "원자료 PRC_HR가 HH:mm만 제공되어 관측 기준일·월은 미확인입니다. 수집일로 대신하지 않았습니다.",
+        "API 응답과 정적 저장본 모드를 구분하고 원문 상태를 담은 JSON 다운로드를 추가했습니다."
       ],
       "key": "/research/gimpo-airport-congestion/",
       "url": "/research/gimpo-airport-congestion/",
       "title": "김포공항 국내선 혼잡도",
       "primary": "urban",
       "classification": "도시·공간",
-      "sourceHint": "한국공항공사 공식 API · 연결 상태 표시"
+      "sourceHint": "한국공항공사 공식 API · 연결 상태 표시",
+      "verifiedScope": "공식 API 명세·현재 프록시 정상 응답·GMP 국내선 구간 3개의 등급 범위와 관측시각을 확인. 프록시는 정규화 결과만 제공하므로 인증된 원 API 행의 날짜까지 검증한 것은 아님.",
+      "nextAction": "승인된 원 API 응답에서 기준일 필드 제공 여부를 확인. 제공되지 않으면 한국공항공사에 시각 필드 의미를 확인하며 날짜를 추정하지 않음."
     },
     {
       "source": {
-        "label": null,
-        "url": null,
-        "verification": "pending"
+        "label": "Open-Meteo Forecast API·RainViewer",
+        "url": "https://open-meteo.com/en/docs",
+        "verification": "verified"
       },
-      "dataAsOf": null,
-      "dataPeriod": null,
+      "dataAsOf": "2026-10-17",
+      "dataPeriod": "2026-10",
       "snapshotUpdatedAt": null,
-      "collectedAt": null,
-      "checkedAt": null,
-      "reviewStatus": "pending",
-      "freshness": "unverified",
-      "evidence": [],
-      "issues": [],
+      "collectedAt": "2026-10-17T02:20:45.196232+00:00",
+      "checkedAt": "2026-10-17T02:29:06.590856+00:00",
+      "reviewStatus": "verified",
+      "freshness": "target_period_verified_partial_scope",
+      "evidence": [
+        {
+          "kind": "official-source",
+          "url": "https://open-meteo.com/en/docs",
+          "checkedAt": "2026-10-17T02:29:06.590856+00:00",
+          "scope": "서울 기본 좌표의 실제 요청과 공식 응답 47일·단위·최저≤최고·확률 범위 대조. RainViewer 과거 레이더 13프레임의 시각과 10분 간격을 확인. 기상청 확정 관측이나 발효 특보를 수집한 것으로 표시하지 않음."
+        },
+        {
+          "kind": "audit-record",
+          "url": "/research/source-reviews/2026-10-17-urban-1.json",
+          "checkedAt": "2026-10-17T02:29:06.590856+00:00"
+        }
+      ],
+      "issues": [
+        "과거 모델 자료와 향후 예보를 함께 표시하며 9·10월 전체 확정 관측 통계가 아닙니다.",
+        "API 실패 시 위험 신호 없음으로 표시하던 오류를 고쳐 판단 불가로 표시합니다. 신규 지역 조회 실패 시 이전 지역 자료·다운로드를 비웁니다."
+      ],
       "key": "/strategy/weather-calendar/",
       "url": "/strategy/weather-calendar/",
       "title": "월간 날씨 캘린더",
       "primary": "urban",
       "classification": "도시·공간",
-      "sourceHint": "Open‑Meteo · RainViewer · 기상청 특보"
+      "sourceHint": "Open‑Meteo · RainViewer · 기상청 특보",
+      "verifiedScope": "서울 기본 좌표의 실제 요청과 공식 응답 47일·단위·최저≤최고·확률 범위 대조. RainViewer 과거 레이더 13프레임의 시각과 10분 간격을 확인. 기상청 확정 관측이나 발효 특보를 수집한 것으로 표시하지 않음.",
+      "nextAction": "조회 시 실제 수집시각·모델 자료/예보 구분·단위를 CSV에 보존. 월간 확정 관측은 별도 공식 원표를 확보한 뒤 별도 범위로 갱신."
     },
     {
       "source": {
-        "label": null,
-        "url": null,
-        "verification": "pending"
+        "label": "선관위·교육청 등 레이어별 원자료 안내",
+        "url": "https://www.ice.go.kr/ice/na/ntt/selectNttInfo.do?nttSn=3381948",
+        "verification": "partially_verified"
       },
       "dataAsOf": null,
       "dataPeriod": null,
       "snapshotUpdatedAt": null,
       "collectedAt": null,
-      "checkedAt": null,
-      "reviewStatus": "pending",
-      "freshness": "unverified",
-      "evidence": [],
-      "issues": [],
+      "checkedAt": "2026-10-17T02:29:06.590856+00:00",
+      "reviewStatus": "not_applicable",
+      "freshness": "not_monthly_document",
+      "evidence": [
+        {
+          "kind": "official-source",
+          "url": "https://www.ice.go.kr/ice/na/ntt/selectNttInfo.do?nttSn=3381948",
+          "checkedAt": "2026-10-17T02:29:06.590856+00:00",
+          "scope": "단일 통계표가 아닌 지도 연결 안내. 인천교육청 공식 게시물의 2026-08-01 원본 기준·연2회 공표 안내와 게시 레이어의 시설 합계 6,839개 내부 합계를 확인. 원 XLSX를 이번에 재계산하거나 모든 레이어를 대조한 것은 아님."
+        },
+        {
+          "kind": "audit-record",
+          "url": "/research/source-reviews/2026-10-17-urban-1.json",
+          "checkedAt": "2026-10-17T02:29:06.590856+00:00"
+        }
+      ],
+      "issues": [
+        "단일 2026-09/10 기준월을 적용하지 않습니다. 인천 9개 비교권역을 현행 11개 군·구로 해석하지 않습니다.",
+        "연결된 지도 전체의 수치·경계 검증이 완료된 상태는 아닙니다."
+      ],
       "key": "/research/urban-atlas/",
       "url": "/research/urban-atlas/",
       "title": "행정경계 지표 아틀라스",
       "primary": "urban",
       "classification": "도시·공간",
-      "sourceHint": "선거 · 학원 · 주택"
+      "sourceHint": "선거 · 학원 · 주택",
+      "verifiedScope": "단일 통계표가 아닌 지도 연결 안내. 인천교육청 공식 게시물의 2026-08-01 원본 기준·연2회 공표 안내와 게시 레이어의 시설 합계 6,839개 내부 합계를 확인. 원 XLSX를 이번에 재계산하거나 모든 레이어를 대조한 것은 아님.",
+      "nextAction": "urban-2·urban-3에서 각 연결 지도의 기준일·원표·행정경계 버전을 별도 대조.",
+      "periodApplicability": "not_applicable"
     },
     {
       "source": {
-        "label": null,
-        "url": null,
-        "verification": "pending"
+        "label": "중앙선거관리위원회 제22대 국회의원선거 총람",
+        "url": "https://www.nec.go.kr/site/nec/ex/bbs/View.do?bcIdx=264681&cbIdx=1129",
+        "verification": "partially_verified"
       },
-      "dataAsOf": null,
+      "dataAsOf": "2024-04-10",
       "dataPeriod": null,
       "snapshotUpdatedAt": null,
       "collectedAt": null,
-      "checkedAt": null,
-      "reviewStatus": "pending",
-      "freshness": "unverified",
-      "evidence": [],
-      "issues": [],
+      "checkedAt": "2026-10-17T02:29:06.590856+00:00",
+      "reviewStatus": "not_applicable",
+      "freshness": "not_monthly_document",
+      "evidence": [
+        {
+          "kind": "official-source",
+          "url": "https://www.nec.go.kr/site/nec/ex/bbs/View.do?bcIdx=264681&cbIdx=1129",
+          "checkedAt": "2026-10-17T02:29:06.590856+00:00",
+          "scope": "공식 제22대 총람의 문서 종류와 현재 허브의 4개 시·16개 선거구 및 링크 범위를 확인. 월간 통계가 아닌 선거 기준 안내 문서. 개별 읍면동 대응·폴리곤은 도시·공간 2차 대조 대상."
+        },
+        {
+          "kind": "audit-record",
+          "url": "/research/source-reviews/2026-10-17-urban-1.json",
+          "checkedAt": "2026-10-17T02:29:06.590856+00:00"
+        }
+      ],
+      "issues": [
+        "2024년 제22대 선거 기준과 2026년 행정구역 개편·경계 갱신일은 서로 다릅니다.",
+        "16개는 지역구 수이며 폴리곤 원표 검증 완료 수가 아닙니다."
+      ],
       "key": "/election/",
       "url": "/election/",
       "title": "수도권 국회의원 선거구 지도 허브",
       "primary": "urban",
       "classification": "도시·공간",
-      "sourceHint": "4개 시 · 16개 선거구 · VWorld"
+      "sourceHint": "4개 시 · 16개 선거구 · VWorld",
+      "verifiedScope": "공식 제22대 총람의 문서 종류와 현재 허브의 4개 시·16개 선거구 및 링크 범위를 확인. 월간 통계가 아닌 선거 기준 안내 문서. 개별 읍면동 대응·폴리곤은 도시·공간 2차 대조 대상.",
+      "nextAction": "urban-2의 4개 개별 지도에서 공식 선거구역표·현행 행정코드·경계 버전을 각각 대조.",
+      "periodApplicability": "not_applicable"
     },
     {
       "source": {

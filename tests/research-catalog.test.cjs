@@ -70,3 +70,11 @@ test('changed Cafe article counters invalidate prior original-source verificatio
  assert.equal(entry.reviewStatus,'snapshot_checked');
  assert.equal(entry.source.verification,'declared');
 });
+
+test('airport forecasts and waiting values participate in the verification fingerprint',()=>{
+ const base={forecast_dates:{today:'20261017',tomorrow:'20261018'},forecast:{today:[{t1sumset2:10}]},waiting:[{wait_minutes:3}]};
+ assert.notEqual(snapshotFingerprint(base),snapshotFingerprint({...base,waiting:[{wait_minutes:4}]}));
+ assert.notEqual(snapshotFingerprint(base),snapshotFingerprint({...base,forecast:{today:[{t1sumset2:11}]}}));
+ const gimpo={airport:{code:'GMP'},observed_at:'11:20',overall:{level:1},zones:[{id:'A',level:2}]};
+ assert.notEqual(snapshotFingerprint(gimpo),snapshotFingerprint({...gimpo,zones:[{id:'A',level:3}]}));
+});

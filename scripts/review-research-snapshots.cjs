@@ -43,7 +43,7 @@ function inspectSnapshot(key,d,checkedAt){
  return result;
 }
 function snapshotFingerprint(data){
- return createHash('sha256').update(JSON.stringify({series:data.series,countries:data.countries,latestYm:data.latestYm,countryLatestYm:data.countryLatestYm,sourceMode:data.sourceMode,sourceUrl:data.sourceUrl,cafeId:data.cafeId,sourceStatDate:data.sourceStatDate,articles:data.articles})).digest('hex');
+ return createHash('sha256').update(JSON.stringify({series:data.series,countries:data.countries,latestYm:data.latestYm,countryLatestYm:data.countryLatestYm,sourceMode:data.sourceMode,sourceUrl:data.sourceUrl,cafeId:data.cafeId,sourceStatDate:data.sourceStatDate,articles:data.articles,forecast_dates:data.forecast_dates,forecast:data.forecast,waiting:data.waiting,airport:data.airport,observed_at:data.observed_at,overall:data.overall,zones:data.zones})).digest('hex');
 }
 function reconcileSnapshot(entry,key,data,checkedAt,url){
  const inspected=inspectSnapshot(key,data,checkedAt),fingerprint=snapshotFingerprint(data);

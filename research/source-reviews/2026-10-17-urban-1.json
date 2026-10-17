@@ -1,0 +1,515 @@
+{
+  "schemaVersion": 1,
+  "step": "urban-1",
+  "checkedAt": "2026-10-17T02:29:06.590856+00:00",
+  "sourceChecks": [
+    {
+      "key": "city-page",
+      "url": "https://www.stargateedu.co.kr/ds-research-urban-analytics/",
+      "checkedAt": "2026-10-17T02:20:42.275262+00:00",
+      "status": 200,
+      "finalUrl": "https://stargateedu.co.kr/ds-research-urban-analytics/",
+      "receivedAt": "2026-10-17T02:20:43.870185+00:00",
+      "contentType": "text/html; charset=utf-8",
+      "sha256": "c7298b505c3534ac6e13a9edf5ddae7f14977071129fe75636f373664422a8e9",
+      "bytes": 30091
+    },
+    {
+      "key": "city-data",
+      "url": "https://raw.githubusercontent.com/DongsooJung/ds-research-urban-analytics/main/docs/data.json",
+      "checkedAt": "2026-10-17T02:20:42.276265+00:00",
+      "status": 200,
+      "finalUrl": "https://raw.githubusercontent.com/DongsooJung/ds-research-urban-analytics/main/docs/data.json",
+      "receivedAt": "2026-10-17T02:20:43.753568+00:00",
+      "contentType": "text/plain; charset=utf-8",
+      "sha256": "02a522cef77f0c2ba28d6d4278e766e0ab1150724458aefc98383201843f4694",
+      "bytes": 30555
+    },
+    {
+      "key": "city-doc",
+      "url": "https://data.seoul.go.kr/dataList/OA-21285/A/1/datasetView.do",
+      "checkedAt": "2026-10-17T02:20:42.277266+00:00",
+      "status": 200,
+      "finalUrl": "https://data.seoul.go.kr/dataList/OA-21285/A/1/datasetView.do",
+      "receivedAt": "2026-10-17T02:20:43.669434+00:00",
+      "contentType": "text/html;charset=UTF-8",
+      "sha256": "e418327ca86b1a35c1b6c985de4bc9dcc14a56e763fce1ad8c096b395354f2ca",
+      "bytes": 95520
+    },
+    {
+      "key": "gimpo-proxy",
+      "url": "https://portfolio-stargate2.vercel.app/api/gimpo-airport-congestion",
+      "checkedAt": "2026-10-17T02:20:42.278265+00:00",
+      "status": 200,
+      "finalUrl": "https://portfolio-stargate2.vercel.app/api/gimpo-airport-congestion",
+      "receivedAt": "2026-10-17T02:20:44.694851+00:00",
+      "contentType": "application/json; charset=utf-8",
+      "sha256": "b95999ad14b3f5a9dc22bff5bf2dfb30213d3d8dab74f743190716a9141df627",
+      "bytes": 878
+    },
+    {
+      "key": "gimpo-doc",
+      "url": "https://www.data.go.kr/data/15159598/openapi.do",
+      "checkedAt": "2026-10-17T02:20:42.279261+00:00",
+      "status": 200,
+      "finalUrl": "https://www.data.go.kr/data/15159598/openapi.do",
+      "receivedAt": "2026-10-17T02:20:43.754572+00:00",
+      "contentType": "text/html;charset=UTF-8",
+      "sha256": "20acd92629a8c38c04a5006a6f71220c6d3ec73765c85f8f45b7a8e373b5355a",
+      "bytes": 204725
+    },
+    {
+      "key": "weather",
+      "url": "https://api.open-meteo.com/v1/forecast?latitude=37.5665&longitude=126.9780&current=temperature_2m&hourly=temperature_2m%2Cprecipitation_probability&daily=weather_code%2Ctemperature_2m_max%2Ctemperature_2m_min%2Capparent_temperature_max%2Capparent_temperature_min%2Cprecipitation_probability_max%2Cprecipitation_sum%2Cwind_gusts_10m_max&timezone=Asia%2FSeoul&past_days=31&forecast_days=16",
+      "checkedAt": "2026-10-17T02:20:42.281262+00:00",
+      "status": 200,
+      "finalUrl": "https://api.open-meteo.com/v1/forecast?latitude=37.5665&longitude=126.9780&current=temperature_2m&hourly=temperature_2m%2Cprecipitation_probability&daily=weather_code%2Ctemperature_2m_max%2Ctemperature_2m_min%2Capparent_temperature_max%2Capparent_temperature_min%2Cprecipitation_probability_max%2Cprecipitation_sum%2Cwind_gusts_10m_max&timezone=Asia%2FSeoul&past_days=31&forecast_days=16",
+      "receivedAt": "2026-10-17T02:20:45.196232+00:00",
+      "contentType": "application/json; charset=utf-8",
+      "sha256": "1e12117cd19c1cb863c7bdbcd9edb91efd865292a80203568bd86209d0cfd728",
+      "bytes": 32666
+    },
+    {
+      "key": "weather-doc",
+      "url": "https://open-meteo.com/en/docs",
+      "checkedAt": "2026-10-17T02:20:42.283261+00:00",
+      "status": 200,
+      "finalUrl": "https://open-meteo.com/en/docs",
+      "receivedAt": "2026-10-17T02:20:43.806011+00:00",
+      "contentType": "text/html; charset=utf-8",
+      "sha256": "df3cb94170a3104a847c55fb792228fafd9be415460d31bb962d73c76e4a0cfe",
+      "bytes": 607660
+    },
+    {
+      "key": "radar",
+      "url": "https://api.rainviewer.com/public/weather-maps.json",
+      "checkedAt": "2026-10-17T02:20:42.283261+00:00",
+      "status": 200,
+      "finalUrl": "https://api.rainviewer.com/public/weather-maps.json",
+      "receivedAt": "2026-10-17T02:20:44.133235+00:00",
+      "contentType": "application/json",
+      "sha256": "d79088b6c7766e73f3d717f5b59bc860045292962a8b40dd7bfb788671c728e2",
+      "bytes": 818
+    },
+    {
+      "key": "radar-doc",
+      "url": "https://www.rainviewer.com/api/weather-maps-api.html",
+      "checkedAt": "2026-10-17T02:20:43.670436+00:00",
+      "status": 200,
+      "finalUrl": "https://www.rainviewer.com/api/weather-maps-api.html",
+      "receivedAt": "2026-10-17T02:20:44.099174+00:00",
+      "contentType": "text/html",
+      "sha256": "8b78a127bbf04efae885015a98231cd3dd1ebf657a3bd72b07478f3fee5bdd20",
+      "bytes": 37699
+    },
+    {
+      "key": "election-doc",
+      "url": "https://www.nec.go.kr/site/nec/ex/bbs/View.do?bcIdx=264681&cbIdx=1129",
+      "checkedAt": "2026-10-17T02:20:43.754572+00:00",
+      "status": 200,
+      "finalUrl": "https://www.nec.go.kr/site/nec/ex/bbs/View.do?bcIdx=264681&cbIdx=1129",
+      "receivedAt": "2026-10-17T02:20:54.083313+00:00",
+      "contentType": "text/html; charset=utf-8",
+      "sha256": "9d10a691a7a6992ed5ddcf882e1d5b9fbc4fcd5912a4179ef165e5fc0b4237fb",
+      "bytes": 143297
+    },
+    {
+      "key": "incheon-edu-doc",
+      "url": "https://www.ice.go.kr/ice/na/ntt/selectNttInfo.do?nttSn=3381948",
+      "checkedAt": "2026-10-17T02:20:43.755569+00:00",
+      "status": 200,
+      "finalUrl": "https://www.ice.go.kr/ice/na/ntt/selectNttInfo.do?nttSn=3381948",
+      "receivedAt": "2026-10-17T02:20:44.052126+00:00",
+      "contentType": "text/html; charset=UTF-8",
+      "sha256": "7125d4ee370fba829a0ea802f17b3a84deb1ffb010197d62fadb9e942162f17f",
+      "bytes": 190473
+    },
+    {
+      "key": "bukangi-agency",
+      "url": "https://www.kcg.go.kr/busancgs/main.do",
+      "checkedAt": "2026-10-17T02:20:43.808011+00:00",
+      "status": 200,
+      "finalUrl": "https://www.kcg.go.kr/busancgs/main.do",
+      "receivedAt": "2026-10-17T02:20:45.331716+00:00",
+      "contentType": "text/html;charset=UTF-8",
+      "sha256": "591bbb6167c82ac5e6739e1a0f994652112fdef45393d211d6c6a549216ffa3f",
+      "bytes": 77887
+    },
+    {
+      "key": "airport-0",
+      "url": "https://www.airport.kr/pgn/ap_ko/passengerNoticeApiData.do?tmnlId=1",
+      "checkedAt": "2026-10-17T02:20:42.485Z",
+      "receivedAt": "2026-10-17T02:20:42.645Z",
+      "status": 200,
+      "sha256": "59fac0c2f6fda55d36f9bf1f525734ad5adf2625ab9ad2592abf6268826fef42",
+      "bytes": 2519
+    },
+    {
+      "key": "airport-1",
+      "url": "https://www.airport.kr/pgn/ap_ko/passengerNoticeApiData.do?tmnlId=2",
+      "checkedAt": "2026-10-17T02:20:42.486Z",
+      "receivedAt": "2026-10-17T02:20:42.648Z",
+      "status": 200,
+      "sha256": "49af6e2206338e8e39f2afa95366c9d616cd0738b305047e0bc9c18d5bb04c4b",
+      "bytes": 1691
+    },
+    {
+      "key": "airport-2",
+      "url": "https://www.airport.kr/ap_ko/883/subview.do?selTm=T1&pday=20261018",
+      "checkedAt": "2026-10-17T02:20:42.483Z",
+      "receivedAt": "2026-10-17T02:20:42.829Z",
+      "status": 200,
+      "sha256": "4330b6e11489e328ed9f45bc3d0e06106b01949bb857d9875e6643ba7c7ccb15",
+      "bytes": 85672
+    },
+    {
+      "key": "airport-3",
+      "url": "https://www.airport.kr/ap_ko/883/subview.do?selTm=T2&pday=20261018",
+      "checkedAt": "2026-10-17T02:20:42.484Z",
+      "receivedAt": "2026-10-17T02:20:42.839Z",
+      "status": 200,
+      "sha256": "70c336ca4d7e35fc2ba00a733f3004f93eef45560495eabc81f28bf8f576689d",
+      "bytes": 82708
+    },
+    {
+      "key": "airport-4",
+      "url": "https://www.airport.kr/ap_ko/883/subview.do?selTm=T1&pday=20261017",
+      "checkedAt": "2026-10-17T02:20:42.407Z",
+      "receivedAt": "2026-10-17T02:20:42.860Z",
+      "status": 200,
+      "sha256": "84418c48fdf6cf8858280b175e70ae81b96eacc5bf126441fca3477ca05d108d",
+      "bytes": 85676
+    },
+    {
+      "key": "airport-5",
+      "url": "https://www.airport.kr/ap_ko/883/subview.do?selTm=T2&pday=20261017",
+      "checkedAt": "2026-10-17T02:20:42.482Z",
+      "receivedAt": "2026-10-17T02:20:42.874Z",
+      "status": 200,
+      "sha256": "4045857950b27c7a58f42e011579f2612893da1b866b8da667cfb66f2cd07ce2",
+      "bytes": 82712
+    },
+    {
+      "key": "airport-6",
+      "url": "https://portfolio-stargate2.vercel.app/api/gimpo-airport-congestion",
+      "status": 200,
+      "receivedAt": "2026-10-17T02:20:44.351Z",
+      "sha256": "6afa120aa875b872bf7c5002ffefee9a8237db37f877aaffd10986b7dea189e9",
+      "bytes": 878
+    },
+    {
+      "key": "bukangi-oct6",
+      "url": "https://www.busan.go.kr/nbnews/1758071",
+      "checkedAt": "2026-10-17T02:25:14.128054+00:00",
+      "error": "URLError"
+    },
+    {
+      "key": "bukangi-oct1",
+      "url": "https://www.busan.go.kr/bsapc/news/1757513",
+      "checkedAt": "2026-10-17T02:25:14.129051+00:00",
+      "error": "URLError"
+    },
+    {
+      "key": "seoul-population-doc",
+      "url": "https://data.seoul.go.kr/dataList/OA-14991/A/1/datasetView.do",
+      "checkedAt": "2026-10-17T02:25:14.130018+00:00",
+      "status": 200,
+      "finalUrl": "https://data.seoul.go.kr/dataList/OA-14991/A/1/datasetView.do",
+      "receivedAt": "2026-10-17T02:25:14.883788+00:00",
+      "contentType": "text/html;charset=UTF-8",
+      "sha256": "b01a3e97728268c8bb8daed619418711df4a2bf374ec79c14f8d102c74baa1a6",
+      "bytes": 123352
+    },
+    {
+      "key": "seoul-movement-doc",
+      "url": "https://data.seoul.go.kr/dataList/OA-22850/A/1/datasetView.do",
+      "checkedAt": "2026-10-17T02:25:14.130018+00:00",
+      "status": 200,
+      "finalUrl": "https://data.seoul.go.kr/dataList/OA-22850/A/1/datasetView.do",
+      "receivedAt": "2026-10-17T02:25:14.814849+00:00",
+      "contentType": "text/html;charset=UTF-8",
+      "sha256": "33b8b573521dea8e8f4a108e7600c5b31282e5f296f6b1d0e7e1b45efbe59039",
+      "bytes": 126971
+    },
+    {
+      "key": "city-live-data",
+      "url": "https://www.stargateedu.co.kr/ds-research-urban-analytics/data.json",
+      "checkedAt": "2026-10-17T02:25:14.131024+00:00",
+      "status": 200,
+      "finalUrl": "https://stargateedu.co.kr/ds-research-urban-analytics/data.json",
+      "receivedAt": "2026-10-17T02:25:15.183718+00:00",
+      "contentType": "application/json; charset=utf-8",
+      "sha256": "02a522cef77f0c2ba28d6d4278e766e0ab1150724458aefc98383201843f4694",
+      "bytes": 30555
+    },
+    {
+      "transport": "Windows certificate trust store",
+      "sha256": "256b975027a40310325439924198c7f1ed965aa9edd7bf806b007965049ff2d6",
+      "url": "https://www.busan.go.kr/bsapc/news/1757513",
+      "status": 200,
+      "key": "bukangi-oct1",
+      "receivedAt": "2026-10-17T02:26:22.5467726Z"
+    },
+    {
+      "transport": "Windows certificate trust store",
+      "sha256": "7a1843609de3e325e7ce575ce8483223f4ba71f1468170206805e73eda7ebaa5",
+      "url": "https://www.busan.go.kr/nbnews/1758071",
+      "status": 200,
+      "key": "bukangi-oct6",
+      "receivedAt": "2026-10-17T02:26:22.8999498Z"
+    }
+  ],
+  "projects": {
+    "/research/airport-congestion/": {
+      "reviewStatus": "verified",
+      "dataPeriod": "2026-10",
+      "dataAsOf": "2026-10-17",
+      "collectedAt": "2026-10-17T02:20:42.876Z",
+      "snapshotUpdatedAt": "2026-10-17T02:20:42.876Z",
+      "source": {
+        "label": "인천국제공항공사 승객예고·출국장 대기 현황",
+        "url": "https://www.airport.kr/ap_ko/883/subview.do",
+        "verification": "verified"
+      },
+      "verifiedScope": "공식 HTML 4개와 대기 JSON 2개를 기존 수집기로 변환. 예측일 2일×24시간의 T1·T2 출입국 구간 합계와 대기 20행의 실제 관측시각·범위를 대조. 예상 승객을 실제 이용 실적으로 해석하지 않음.",
+      "checks": [
+        {
+          "period": "today",
+          "date": "20261017",
+          "rows": 24,
+          "terminalGateSumsMatch": true,
+          "totals": {
+            "t1sumset1": 58037,
+            "t1sumset2": 54495,
+            "t2sumset1": 49959,
+            "t2sumset2": 44904
+          }
+        },
+        {
+          "period": "tomorrow",
+          "date": "20261018",
+          "rows": 24,
+          "terminalGateSumsMatch": true,
+          "totals": {
+            "t1sumset1": 59259,
+            "t1sumset2": 55592,
+            "t2sumset1": 50565,
+            "t2sumset2": 48668
+          }
+        }
+      ],
+      "waitingRows": 20,
+      "waitingObservedAt": [
+        "20261017111900",
+        "20261017112029"
+      ],
+      "issues": [
+        "10월 17·18일 예측과 17일 대기 관측이며 월간 전수 실적이 아닙니다. 혼잡 등급은 화면 자체 상대 산정입니다."
+      ],
+      "nextAction": "시간별 자동 수집 유지. 날짜 버튼은 원자료 예측일을 표시하며 값이나 날짜가 바뀌면 이전 대조 해시를 재사용하지 않음."
+    },
+    "/research/gimpo-airport-congestion/": {
+      "reviewStatus": "needs_review",
+      "dataPeriod": null,
+      "dataAsOf": null,
+      "collectedAt": "2026-10-17T02:20:44.701Z",
+      "snapshotUpdatedAt": "2026-10-17T02:20:44.701Z",
+      "source": {
+        "label": "한국공항공사 공항 혼잡도 정보_GW",
+        "url": "https://www.data.go.kr/data/15159598/openapi.do",
+        "verification": "partially_verified"
+      },
+      "verifiedScope": "공식 API 명세·현재 프록시 정상 응답·GMP 국내선 구간 3개의 등급 범위와 관측시각을 확인. 프록시는 정규화 결과만 제공하므로 인증된 원 API 행의 날짜까지 검증한 것은 아님.",
+      "originalObservedTime": "11:20",
+      "zones": [
+        {
+          "id": "A",
+          "name": "1구간",
+          "route": "체크인 → 신분확인",
+          "level": 2,
+          "text": "보통"
+        },
+        {
+          "id": "B",
+          "name": "2구간",
+          "route": "신분확인 → 보안검색",
+          "level": 1,
+          "text": "원활"
+        },
+        {
+          "id": "C",
+          "name": "3구간",
+          "route": "보안검색 → 항공기 탑승",
+          "level": 1,
+          "text": "원활"
+        }
+      ],
+      "overall": {
+        "level": 1,
+        "text": "원활"
+      },
+      "issues": [
+        "원자료 PRC_HR가 HH:mm만 제공되어 관측 기준일·월은 미확인입니다. 수집일로 대신하지 않았습니다.",
+        "API 응답과 정적 저장본 모드를 구분하고 원문 상태를 담은 JSON 다운로드를 추가했습니다."
+      ],
+      "nextAction": "승인된 원 API 응답에서 기준일 필드 제공 여부를 확인. 제공되지 않으면 한국공항공사에 시각 필드 의미를 확인하며 날짜를 추정하지 않음."
+    },
+    "/strategy/weather-calendar/": {
+      "reviewStatus": "verified",
+      "dataPeriod": "2026-10",
+      "dataAsOf": "2026-10-17",
+      "collectedAt": "2026-10-17T02:20:45.196232+00:00",
+      "snapshotUpdatedAt": null,
+      "source": {
+        "label": "Open-Meteo Forecast API·RainViewer",
+        "url": "https://open-meteo.com/en/docs",
+        "verification": "verified"
+      },
+      "verifiedScope": "서울 기본 좌표의 실제 요청과 공식 응답 47일·단위·최저≤최고·확률 범위 대조. RainViewer 과거 레이더 13프레임의 시각과 10분 간격을 확인. 기상청 확정 관측이나 발효 특보를 수집한 것으로 표시하지 않음.",
+      "checks": {
+        "dailyRows": 47,
+        "modelPastRange": [
+          "2026-09-16",
+          "2026-10-16"
+        ],
+        "forecastRange": [
+          "2026-10-17",
+          "2026-11-01"
+        ],
+        "dailyUnits": {
+          "time": "iso8601",
+          "weather_code": "wmo code",
+          "temperature_2m_max": "°C",
+          "temperature_2m_min": "°C",
+          "apparent_temperature_max": "°C",
+          "apparent_temperature_min": "°C",
+          "precipitation_probability_max": "%",
+          "precipitation_sum": "mm",
+          "wind_gusts_10m_max": "km/h"
+        },
+        "currentModelTime": "2026-10-17T11:15",
+        "radarFrames": 13,
+        "radarLastTime": "2026-10-17T02:20:00+00:00"
+      },
+      "issues": [
+        "과거 모델 자료와 향후 예보를 함께 표시하며 9·10월 전체 확정 관측 통계가 아닙니다.",
+        "API 실패 시 위험 신호 없음으로 표시하던 오류를 고쳐 판단 불가로 표시합니다. 신규 지역 조회 실패 시 이전 지역 자료·다운로드를 비웁니다."
+      ],
+      "nextAction": "조회 시 실제 수집시각·모델 자료/예보 구분·단위를 CSV에 보존. 월간 확정 관측은 별도 공식 원표를 확보한 뒤 별도 범위로 갱신."
+    },
+    "/research/bukangi/": {
+      "reviewStatus": "needs_review",
+      "dataPeriod": "2026-10",
+      "dataAsOf": "2026-10-06",
+      "collectedAt": null,
+      "snapshotUpdatedAt": null,
+      "source": {
+        "label": "부산광역시 공식 공지·보도자료",
+        "url": "https://www.busan.go.kr/nbnews/1758071",
+        "verification": "partially_verified"
+      },
+      "verifiedScope": "부산시 2026-10-06 관람 안내와 2026-10-01 후속 구조 계획의 원문만 대조해 별도 표시. 기존 9월 보도 19건은 보존하며 전부 검증 완료로 취급하지 않음.",
+      "originalEditorialSnapshotAt": "2026-09-23T19:50:00+09:00",
+      "officialNotices": [
+        {
+          "date": "2026-10-06",
+          "url": "https://www.busan.go.kr/nbnews/1758071",
+          "kind": "관람 안내"
+        },
+        {
+          "date": "2026-10-01",
+          "url": "https://www.busan.go.kr/bsapc/news/1757513",
+          "kind": "후속 구조 계획"
+        }
+      ],
+      "issues": [
+        "19개 보도·시민 반응 기록의 개별 수치·최신 위치는 이번 대조 범위 밖입니다.",
+        "10월 1일 계획 공지를 실제 구조 완료나 현재 위치 확인으로 바꾸지 않았습니다."
+      ],
+      "nextAction": "기존 기록별 원문·발표일·중복 인용을 대조하고, 이후 기관의 결과 공지가 확인될 때만 사건 경과를 추가."
+    },
+    "/ds-research-urban-analytics/": {
+      "reviewStatus": "needs_review",
+      "dataPeriod": "혼재 (2026-07·10)",
+      "dataAsOf": null,
+      "collectedAt": null,
+      "snapshotUpdatedAt": "2026-10-17T09:27+09:00",
+      "source": {
+        "label": "서울 열린데이터광장 도시·생활인구·대도시권 생활인구",
+        "url": "https://data.seoul.go.kr/dataList/OA-21285/A/1/datasetView.do",
+        "verification": "partially_verified"
+      },
+      "verifiedScope": "라이브 URL은 별도 프로젝트 저장소가 제공하며 정상 HTTP 200. 게시 JSON이 해당 저장소 공개본과 같음을 확인. 45개 지점 분류 수·추정인구 구간 중앙값 합계·연령 비율의 내부 일관성 및 공식 데이터 설명을 확인했으나 인증 원 API의 개별 수치는 미대조.",
+      "componentPeriods": {
+        "city": "2026-10-17 08:55",
+        "subway": "2026-10-17 09:30:17",
+        "population": "20260731",
+        "movement": "20261012"
+      },
+      "checks": {
+        "areas": 45,
+        "categoryCountSum": 45,
+        "populationMin": 620000.0,
+        "populationMax": 674000.0,
+        "weightedMidpoint": 647000,
+        "ageRateSum": 99.99165378670789
+      },
+      "issues": [
+        "도시 관측 2026-10-17과 내국인 생활인구 2026-07-31, 대도시권 생활인구 2026-10-12가 혼재합니다.",
+        "게시 파일 수집·생성일을 생활인구 기준일로 바꾸지 않았습니다. 45개 지점 추정치를 서울 전체 인구로 해석하지 않습니다."
+      ],
+      "nextAction": "독립 프로젝트의 기존 수집기로 생활인구 최신 공식 기준일·전체 응답 범위를 확인한 후 별도로 갱신. 포털에 새 폴더를 만들어 기존 프로젝트 URL을 덮어쓰지 않음."
+    },
+    "/election/": {
+      "reviewStatus": "not_applicable",
+      "periodApplicability": "not_applicable",
+      "dataPeriod": null,
+      "dataAsOf": "2024-04-10",
+      "collectedAt": null,
+      "snapshotUpdatedAt": null,
+      "source": {
+        "label": "중앙선거관리위원회 제22대 국회의원선거 총람",
+        "url": "https://www.nec.go.kr/site/nec/ex/bbs/View.do?bcIdx=264681&cbIdx=1129",
+        "verification": "partially_verified"
+      },
+      "verifiedScope": "공식 제22대 총람의 문서 종류와 현재 허브의 4개 시·16개 선거구 및 링크 범위를 확인. 월간 통계가 아닌 선거 기준 안내 문서. 개별 읍면동 대응·폴리곤은 도시·공간 2차 대조 대상.",
+      "documentBasisLabel": "페이지 자료 기준일 2026-08-16",
+      "localDistrictCounts": {
+        "suwon": 5,
+        "seongnam": 4,
+        "hwaseong": 4,
+        "pyeongtaek": 3
+      },
+      "issues": [
+        "2024년 제22대 선거 기준과 2026년 행정구역 개편·경계 갱신일은 서로 다릅니다.",
+        "16개는 지역구 수이며 폴리곤 원표 검증 완료 수가 아닙니다."
+      ],
+      "nextAction": "urban-2의 4개 개별 지도에서 공식 선거구역표·현행 행정코드·경계 버전을 각각 대조."
+    },
+    "/research/urban-atlas/": {
+      "reviewStatus": "not_applicable",
+      "periodApplicability": "not_applicable",
+      "dataPeriod": null,
+      "dataAsOf": null,
+      "collectedAt": null,
+      "snapshotUpdatedAt": null,
+      "source": {
+        "label": "선관위·교육청 등 레이어별 원자료 안내",
+        "url": "https://www.ice.go.kr/ice/na/ntt/selectNttInfo.do?nttSn=3381948",
+        "verification": "partially_verified"
+      },
+      "verifiedScope": "단일 통계표가 아닌 지도 연결 안내. 인천교육청 공식 게시물의 2026-08-01 원본 기준·연2회 공표 안내와 게시 레이어의 시설 합계 6,839개 내부 합계를 확인. 원 XLSX를 이번에 재계산하거나 모든 레이어를 대조한 것은 아님.",
+      "layerBasis": {
+        "election": "제22대(2024)",
+        "incheonAcademy": "2026-08-01",
+        "incheonBoundary": "2013년 경계를 참고한 비교권역. 현행 행정경계와 다름.",
+        "otherLayers": "서울·경기 교육·주택의 개별 원문 기준을 후속 회차에서 확인"
+      },
+      "issues": [
+        "단일 2026-09/10 기준월을 적용하지 않습니다. 인천 9개 비교권역을 현행 11개 군·구로 해석하지 않습니다.",
+        "연결된 지도 전체의 수치·경계 검증이 완료된 상태는 아닙니다."
+      ],
+      "nextAction": "urban-2·urban-3에서 각 연결 지도의 기준일·원표·행정경계 버전을 별도 대조."
+    }
+  }
+}
