@@ -16,5 +16,9 @@ test('failed new-location request clears prior forecasts and disables download',
  const d=await dashboard(true);assert.match(d.node('calendar-grid').innerHTML,/available/);d.offline();d.node('locate').onclick();await d.flush();assert.doesNotMatch(d.node('calendar-grid').innerHTML,/day [^"]*available/);assert.match(d.node('alerts').innerHTML,/판단할 수 없습니다/);assert.equal(d.node('download-weather').disabled,true);
 });
 test('weather CSV preserves dates, data kind, units and actual retrieval time',async()=>{
- const d=await dashboard(true);d.node('download-weather').onclick();assert.equal(d.downloads.length,1);assert.match(d.blobs[0],/temperature_max_c/);assert.match(d.blobs[0],/collected_at/);assert.match(d.blobs[0],/forecast/);assert.match(d.blobs[0],/api.open-meteo.com/);
+ const d=await dashboard(true);d.node('download-weather').onclick();assert.equal(d.downloads.length,1);assert.match(d.blobs[0],/temperature_max_c/);assert.match(d.blobs[0],/collected_at/);assert.match(d.blobs[0],/forecast/);
+ const dataLine=d.blobs[0].trim().split(/\r?\n/)[1];
+ const source=new URL(JSON.parse(dataLine.slice(dataLine.lastIndexOf(',')+1)));
+ assert.equal(source.origin,'https://api.open-meteo.com');
+ assert.equal(source.pathname,'/v1/forecast');
 });
