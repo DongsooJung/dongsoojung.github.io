@@ -65,6 +65,10 @@ export async function handleRequest(request,env,options = {}) {
       return new Response(asset.body,{status:asset.status,headers});
     }
     if (request.headers.has('origin') && request.headers.get('origin') !== url.origin) return json({error:'Cross-origin admin request rejected'},403);
+    if(path==='/api/admin/site-alerts') {
+      if(request.method!=='GET')return json({error:'Use GET for alert status'},405);
+      return json(await object(env).siteAlertStatus());
+    }
     if (path === '/api/admin/board' || path.startsWith('/api/admin/board/')) return handleBoard(request,env,{admin:true,...options.board});
     const method = guardedPath.startsWith('/api/admin/analytics/') ? guardedPath.slice('/api/admin/analytics/'.length) : '';
     if (!adminMethods.has(method)) return json({error:'Unknown analytics method'},404);
@@ -112,7 +116,8 @@ export async function handleRequest(request,env,options = {}) {
     // Legacy public visit requests intentionally receive only the summary.
     const internalMethod = method === 'get_site_visit_stats' ? 'get_site_visit_summary' : method;
     const payload = validatePayload(internalMethod,await readPayload(request));
-    return cors(json(await object(env).analytics(internalMethod,payload)),origin);
+    const notify=internalMethod==='record_site_usage_event'&&['https://stargateedu.co.kr','https://www.stargateedu.co.kr'].includes(origin);
+    return cors(json(await object(env).analytics(internalMethod,payload,notify)),origin);
   } catch(error) { return cors(failure(error),origin); }
 }
 
