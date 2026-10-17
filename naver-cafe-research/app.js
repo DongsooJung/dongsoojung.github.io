@@ -99,7 +99,7 @@
     const articles = sourceArticles.slice(0, 20).map((article, index) => ({
       rank: index + 1,
       articleId: Number(article.articleId),
-    sourceStatDate: String(article.statDate || ""),
+      sourceStatDate: String(article.statDate || ""),
       title: String(article.subject || "").trim(),
       author: String(article.nickname || "").trim(),
       writtenAt: new Date(Number(article.writeDateTimestamp)).toISOString(),
