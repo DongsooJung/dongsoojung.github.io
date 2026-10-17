@@ -1,7 +1,9 @@
+import {validSession} from './session.mjs';
 const enc = new TextEncoder();
 export function json(data,status=200) { return Response.json(data,{status,headers:{'Cache-Control':'no-store','X-Content-Type-Options':'nosniff'}}); }
 export async function authorized(request,env) {
   if(!env.SMS_ADMIN_TOKEN) return false;
+  if(await validSession(request,env.SMS_ADMIN_TOKEN))return true;
   const hash=async value=>new Uint8Array(await crypto.subtle.digest('SHA-256',enc.encode(value)));
   const [a,b]=await Promise.all([hash(request.headers.get('x-admin-token')||''),hash(env.SMS_ADMIN_TOKEN)]);
   return a.reduce((diff,value,i)=>diff|(value^b[i]),0)===0;

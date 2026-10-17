@@ -2,14 +2,15 @@
   'use strict';
   const $=id=>document.getElementById(id);
   const state={contacts:[],templates:[],history:[],selected:new Set(),unlocked:false};
-  const token=$('admin-token'),notice=$('crm-status');
+  const notice=$('crm-status');
+  let authEpoch=0;
   const escape=value=>String(value??'').replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
   function tell(message,error=false){notice.textContent=message;notice.classList.toggle('error',error);}
   async function api(path,options={}) {
-    const auth=token.value;
-    const response=await fetch('/api/sms/'+path,{...options,headers:{'X-Admin-Token':auth,'Content-Type':'application/json'},cache:'no-store'});
+    const epoch=authEpoch;
+    const response=await fetch('/api/sms/'+path,{...options,headers:{'Content-Type':'application/json'},cache:'no-store'});
     const data=await response.json();
-    if(auth!==token.value)throw new Error('인증값이 변경됐습니다. 다시 연결해 주세요.');
+    if(epoch!==authEpoch)throw new Error('로그인 상태가 변경됐습니다. 다시 연결해 주세요.');
     if(!response.ok||!data.ok)throw new Error(data.message||'요청을 처리하지 못했습니다.');
     return data;
   }
@@ -19,14 +20,14 @@
     $('sms-form').hidden=name!=='compose';
   }
   document.querySelectorAll('[data-crm-tab]').forEach(el=>el.addEventListener('click',()=>tab(el.dataset.crmTab)));
-  function requireLogin(){if(!state.unlocked){tell('상단에 관리자 인증값을 입력하고 연결해 주세요.',true);return false;}return true;}
-  function lock(){state.unlocked=false;state.contacts=[];state.templates=[];state.history=[];state.selected.clear();resetContact();resetTemplate();$('report-list').replaceChildren();render();tell('관리자 연결 후 고객 목록과 문구를 불러옵니다.');}
-  token.addEventListener('input',lock);
+  function requireLogin(){if(!state.unlocked){tell('상단의 관리자 로그인으로 연결해 주세요.',true);return false;}return true;}
+  function lock(){state.unlocked=false;window.smsSignedIn=false;$('login-crm').hidden=false;$('connect-account').hidden=true;$('logout-crm').hidden=true;window.dispatchEvent(new Event('sms-auth-changed'));state.contacts=[];state.templates=[];state.history=[];state.selected.clear();resetContact();resetTemplate();$('report-list').replaceChildren();render();tell('관리자 로그인 후 고객 목록과 문구를 불러옵니다.');}
+
   async function load(){
     const [contacts,templates,history]=await Promise.all([api('contacts'),api('templates'),api('history')]);
-    state.contacts=contacts.contacts;state.templates=templates.templates;state.history=history.history;state.unlocked=true;render();
+    state.contacts=contacts.contacts;state.templates=templates.templates;state.history=history.history;state.unlocked=true;window.smsSignedIn=true;$('login-crm').hidden=true;$('connect-account').hidden=false;$('logout-crm').hidden=false;window.dispatchEvent(new Event('sms-auth-changed'));render();
   }
-  $('connect-account').addEventListener('click',async()=>{try{await load();tell('고객관리 서버에 연결됐습니다. 고객과 문구는 다른 기기에서도 같은 인증값으로 불러올 수 있습니다.');}catch(error){lock();tell(error.message,true);}});
+  $('connect-account').addEventListener('click',async()=>{try{await load();tell('관리자 로그인으로 연결됐습니다. 고객과 문구는 휴대폰과 PC에서 함께 사용할 수 있습니다.');}catch(error){lock();tell(error.message,true);}});
   function renderContacts(){
     const query=$('contact-search').value.trim().toLowerCase();
     const list=state.contacts.filter(v=>[v.name,v.phone,v.category,v.notes].some(x=>String(x).toLowerCase().includes(query)));
@@ -90,6 +91,7 @@
     try{const {reports}=await api('reports');$('report-list').innerHTML=reports.length?reports.map(v=>`<article class="crm-item"><h3>${escape(v.to)}</h3><p>${escape(v.statusMessage||'상태 코드 '+v.statusCode)}</p><small>코드 ${escape(v.statusCode)} · ${escape(v.dateCreated)}</small><details><summary>문자 내용</summary><pre>${escape(v.text)}</pre></details></article>`).join(''):'<div class="crm-empty">솔라피 발송 내역이 없습니다.</div>';tell('솔라피 최근 50건을 조회했습니다. 접수와 전송 완료 상태를 구분해 확인하세요.');}catch(error){tell(error.message,true);}finally{button.disabled=false;}
   });
   window.addEventListener('sms-submitted',async()=>{try{state.history=(await api('history')).history;renderHistory();}catch{}});
-  $('logout-crm').addEventListener('click',()=>{token.value='';token.dispatchEvent(new Event('input'));$('account-info').textContent='';$('report-list').replaceChildren();resetContact();resetTemplate();document.querySelectorAll('[data-name],[data-phone]').forEach(v=>v.value='');$('message').value='';$('message').dispatchEvent(new Event('input'));tab('compose');});
+  $('logout-crm').addEventListener('click',async()=>{try{await api('session',{method:'DELETE'});}catch(error){tell('로그아웃하지 못했습니다. 다시 시도해 주세요.',true);return;}authEpoch++;lock();$('account-info').textContent='';$('report-list').replaceChildren();resetContact();resetTemplate();document.querySelectorAll('[data-name],[data-phone]').forEach(v=>v.value='');$('message').value='';$('message').dispatchEvent(new Event('input'));tab('compose');});
   lock();
+  fetch('/api/sms/session',{cache:'no-store'}).then(r=>r.json()).then(data=>{if(data.signedIn){$('connect-account').hidden=false;$('connect-account').click();}}).catch(()=>{});
 })();

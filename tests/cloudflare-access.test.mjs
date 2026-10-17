@@ -61,6 +61,16 @@ test('admin HTML and full statistics require a verified Access assertion',async(
   assert.equal((await handleRequest(request('/api/admin/analytics/get_site_usage_stats',{}, {...headers,Origin:'https://stargateedu.co.kr'}),env,{access})).status,403);
 });
 
+test('SMS login issues an HttpOnly session only after verified existing administrator Access login',async()=>{
+  const {env}=environment();env.SMS_ADMIN_TOKEN='test-sms-session-secret';
+  const path='/admin/visitors/?sms-login=1';
+  const denied=await handleRequest(request(path,{}, {},'GET'),env,{access});
+  assert.equal(denied.status,401);assert.equal(denied.headers.get('set-cookie'),null);
+  const response=await handleRequest(request(path,{}, {'Cf-Access-Jwt-Assertion':await token()},'GET'),env,{access});
+  assert.equal(response.status,303);assert.equal(response.headers.get('location'),'/sms/');
+  assert.match(response.headers.get('set-cookie'),/__Host-stargate_sms=.*HttpOnly; Secure; SameSite=Strict/);
+});
+
 test('public compatibility endpoint returns summary only and the former full usage endpoint is closed',async()=>{
   const {env,calls}=environment();
   const response=await handleRequest(request('/api/analytics/get_site_visit_stats',{p_days:90}),env);

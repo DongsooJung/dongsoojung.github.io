@@ -106,8 +106,8 @@
 
 
       <section class="crm-login" aria-label="고객관리 로그인">
-        <div class="field"><label for="admin-token">관리자 인증값</label><input id="admin-token" type="password" autocomplete="current-password" placeholder="관리자 인증값 입력"></div>
-        <div class="crm-actions"><button type="button" class="mini-btn" id="connect-account">관리자 연결</button><button type="button" class="mini-btn" id="logout-crm">로그아웃</button></div>
+        <div><strong>스타게이트 고객관리</strong><p class="crm-help">기존 관리자 로그인으로 연결합니다. 별도 인증값 입력은 필요 없습니다.</p></div>
+        <div class="crm-actions"><a class="mini-btn" id="login-crm" href="/admin/visitors/?sms-login=1">관리자 로그인</a><button type="button" class="mini-btn" id="connect-account" hidden>연결 새로고침</button><button type="button" class="mini-btn" id="logout-crm" hidden>로그아웃</button></div>
         <p id="account-info" role="status"></p>
       </section>
       <div class="crm-tabs" role="tablist" aria-label="고객관리 메뉴">
@@ -170,7 +170,7 @@
             <div class="panel-head"><h2 id="send-title">최종 확인</h2><span>실제 문자 발송</span></div>
             <div class="panel-body">
 
-              <div class="field"><label for="sender">등록 발신번호</label><select id="sender" aria-label="등록 발신번호"><option value="">관리자 연결 후 선택</option></select></div><label class="consent"><input id="consent" type="checkbox" required><span>입력한 모든 고객에게 문자 수신 동의를 받았고, 발송 내용을 확인했습니다.</span></label>
+              <div class="field"><label for="sender">등록 발신번호</label><select id="sender" aria-label="등록 발신번호"><option value="">010-9587-8225 · 등록 확인 전</option></select><p class="crm-help">기본 발신번호: 010-9587-8225. 솔라피 등록 확인 후 발송할 수 있습니다.</p></div><label class="consent"><input id="consent" type="checkbox" required><span>입력한 모든 고객에게 문자 수신 동의를 받았고, 발송 내용을 확인했습니다.</span></label>
               <div class="confirm-row">
                 <input id="confirmation" autocomplete="off" required placeholder="‘발송’ 입력">
                 <button class="send-btn" id="send-button" type="submit" disabled>문자 발송</button>
@@ -197,7 +197,6 @@
       const previewList = document.getElementById('preview-list');
       const bulkInput = document.getElementById('bulk-input');
       const bulkApply = document.getElementById('bulk-apply');
-      const adminToken = document.getElementById('admin-token');
       const consent = document.getElementById('consent');
       const confirmation = document.getElementById('confirmation');
       const sendButton = document.getElementById('send-button');
@@ -212,20 +211,20 @@
       connectButton.addEventListener('click', async () => {
         connectButton.disabled = true;
         accountInfo.textContent = '솔라피 계정 확인 중…';
-        const requestedToken=adminToken.value;
         try {
-          const response = await fetch('/api/account', {headers:{'X-Admin-Token':adminToken.value},cache:'no-store'});
+          const response = await fetch('/api/account', {cache:'no-store'});
           const data = await response.json();
-          if(requestedToken!==adminToken.value)return;
           if(!response.ok || !data.ok) throw new Error(data.message || '연결 실패');
           sender.replaceChildren(...data.senders.map(number => new Option(number,number)));
+          if(data.senders.includes('01095878225'))sender.value='01095878225';
+          else sender.prepend(new Option('010-9587-8225 · 솔라피 등록 필요','',true,true));
           accountInfo.textContent = '잔액 ' + data.balance.toLocaleString() + '원 · 포인트 ' + data.point.toLocaleString() + 'P\n등록 발신번호 ' + data.senders.length + '개';
           if(!data.senders.length) accountInfo.textContent += '\n솔라피에서 발신번호를 먼저 등록해 주세요.';
-        } catch(error) { sender.replaceChildren(new Option('관리자 연결 후 선택','')); accountInfo.textContent = error.message; }
+        } catch(error) { sender.replaceChildren(new Option('010-9587-8225 · 등록 확인 전','')); accountInfo.textContent = error.message; }
         finally {connectButton.disabled=false;render();}
       });
       sender.addEventListener('change',render);
-      adminToken.addEventListener('input',()=>{sender.replaceChildren(new Option('관리자 연결 후 선택',''));accountInfo.textContent='';render();});
+      window.addEventListener('sms-auth-changed',()=>{if(!window.smsSignedIn){sender.replaceChildren(new Option('010-9587-8225 · 등록 확인 전',''));accountInfo.textContent='';}render();});
 
       rows.innerHTML = Array.from({ length: MAX }, (_, index) => `
         <tr>
@@ -276,7 +275,7 @@
           current.length <= MAX &&
           allComplete &&
           message.value.trim() &&
-          adminToken.value &&
+          window.smsSignedIn &&
           consent.checked &&
           confirmation.value.trim() === '발송'
           && apiReady
@@ -295,7 +294,7 @@
           render();
         });
       });
-      [...nameInputs, message, adminToken, confirmation].forEach((input) => input.addEventListener('input', render));
+      [...nameInputs, message, confirmation].forEach((input) => input.addEventListener('input', render));
       consent.addEventListener('change', render);
 
       bulkApply.addEventListener('click', () => {
@@ -333,8 +332,7 @@
           const response = await fetch('/api/sms', {
             method: 'POST',
             headers: {
-              'Content-Type': 'application/json',
-              'X-Admin-Token': adminToken.value
+              'Content-Type': 'application/json'
             },
             body: JSON.stringify({
               recipients: current,

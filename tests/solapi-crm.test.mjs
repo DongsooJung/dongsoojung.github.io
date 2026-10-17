@@ -2,6 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {CRMStore} from '../server/sms/crm.mjs';
 import handler from '../server/sms/handler.mjs';
+import {createSession,validSession,clearSession} from '../server/sms/session.mjs';
 class Storage {
   values=new Map();
   async get(key){return structuredClone(this.values.get(key));}
@@ -10,6 +11,20 @@ class Storage {
   async list({prefix}){return new Map([...this.values].filter(([key])=>key.startsWith(prefix)).map(([key,v])=>[key,structuredClone(v)]));}
   async transaction(fn){return fn(this);}
 }
+test('signed administrator cookies work without manual credentials and reject forged or expired sessions',async()=>{
+  const secret='unit-test-session-signing-secret';
+  const now=Date.now(),cookie=await createSession(secret,now);
+  assert.match(cookie,/HttpOnly; Secure; SameSite=Strict/);
+  const request=new Request('https://test.invalid/api/sms/contacts',{headers:{cookie:cookie.split(';')[0]}});
+  assert.equal(await validSession(request,secret,now),true);
+  assert.equal(await validSession(request,'other-secret',now),false);
+  assert.equal(await validSession(request,secret,now+28800000),false);
+  const broken=new Request(request,{headers:{cookie:cookie.split(';')[0].slice(0,-1)+'z'}});
+  assert.equal(await validSession(broken,secret,now),false);
+  const status=await handler.fetch(new Request('https://test.invalid/api/sms/session',{headers:{cookie:cookie.split(';')[0]}}),{SMS_ADMIN_TOKEN:secret});
+  assert.equal((await status.json()).signedIn,true);
+  assert.match(clearSession(),/Max-Age=0/);
+});
 test('customers persist across sessions, reject duplicate phones and stale edits',async()=>{
   const storage=new Storage(),store=new CRMStore(storage);
   const input={name:'검증 고객',phone:'010-0000-0001',category:'연구',notes:'상담 메모',consent:true};

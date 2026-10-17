@@ -1,4 +1,5 @@
 import smsWorker from '../server/sms/handler.mjs';
+import {createSession} from '../server/sms/session.mjs';
 import { MAX_IMPORT_BYTES, RequestError, isImportAuthorized, readPayload, validatePayload } from './analytics.mjs';
 import { verifyAccessRequest } from './access.mjs';
 import { DASHBOARD_COLLECTOR_VERSION } from './dashboard-refresh.mjs';
@@ -54,6 +55,10 @@ export async function handleRequest(request,env,options = {}) {
       return json({error:'Administrator authentication required'},401);
     }
     if (adminPage) {
+      if(request.method==='GET'&&guardedPath==='/admin/visitors/'&&url.searchParams.get('sms-login')==='1') {
+        if(!env.SMS_ADMIN_TOKEN)return json({error:'SMS session configuration required'},503);
+        return new Response(null,{status:303,headers:{Location:'/sms/','Cache-Control':'private, no-store','Set-Cookie':await createSession(env.SMS_ADMIN_TOKEN)}});
+      }
       const asset=await env.ASSETS.fetch(request),headers=new Headers(asset.headers);
       headers.set('Cache-Control','private, no-store');
       headers.set('Vary','Cf-Access-Jwt-Assertion, Cookie');

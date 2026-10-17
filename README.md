@@ -54,3 +54,5 @@ main 브랜치 루트 그대로 GitHub Pages 에서 서빙. 푸시 후 1~2분 �
 서버는 Cloudflare Worker의 암호화된 SOLAPI_API_KEY, SOLAPI_API_SECRET, SMS_ADMIN_TOKEN을 사용합니다. 활성 발신번호를 SOLAPI에서 조회하며 요청 ID를 Durable Object에 예약해 동일 요청 재발송을 차단합니다. SOLAPI 응답 대기 실패 시 발송 내역을 확인한 뒤 새 요청을 시작해야 합니다.
 
 고객관리 화면은 고객 최대 500명, 문구 최대 50개, 최근 발송 요청 200개를 서버 Durable Object에 보관합니다. 고객명·전화번호·분류·수신 동의와 메모를 관리하며, 다른 기기에서도 같은 관리자 인증값으로 불러옵니다. `/api/sms/contacts`, `/api/sms/templates`, `/api/sms/history`, `/api/sms/reports`는 모두 관리자 인증을 요구합니다. 접수 내역과 통신사 최종 결과는 구분합니다. 실제 발송은 SOLAPI 허용 IP 설정이 운영 서버와 맞아야 합니다.
+
+고객관리 로그인은 `/admin/visitors/?sms-login=1`의 기존 Cloudflare Access 관리자 인증을 재사용합니다. 검증 후 8시간 동안 유효한 HttpOnly/Secure 쿠키로 고객관리 API에 연결되며 화면에서 인증값을 입력하지 않습니다. 기본 발신번호는 010-9587-8225이고 SOLAPI 활성 발신번호에 포함된 경우만 선택됩니다.
