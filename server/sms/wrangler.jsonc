@@ -1,0 +1,10 @@
+{
+  "name": "stargate-sms",
+  "main": "worker.mjs",
+  "compatibility_date": "2026-10-17",
+  "workers_dev": true,
+  "preview_urls": false,
+  "durable_objects": { "bindings": [{"name":"SMS_REQUESTS","class_name":"SmsRequest"}] },
+  "migrations": [{"tag":"sms-v1","new_sqlite_classes":["SmsRequest"]}],
+  "assets": {"directory":"./public","binding":"ASSETS","run_worker_first":true,"html_handling":"auto-trailing-slash"}
+}
