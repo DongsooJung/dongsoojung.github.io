@@ -2,6 +2,7 @@ import { DurableObject } from 'cloudflare:workers';
 import { AnalyticsStore, RequestError, prepareHistoryImport } from './analytics.mjs';
 import { handleRequest } from './routes.mjs';
 import { DashboardStore } from './dashboard-refresh.mjs';
+import { SiteAlerts } from './site-alerts.mjs';
 
 export class VisitorAnalytics extends DurableObject {
   constructor(ctx, env) {
@@ -9,9 +10,13 @@ export class VisitorAnalytics extends DurableObject {
     this.store = new AnalyticsStore(ctx.storage);
     this.dashboards = new DashboardStore(ctx.storage);
     this.dashboardEnv = env;
+    this.alerts = new SiteAlerts(ctx.storage,env);
   }
-  async analytics(method, payload) {
+  async analytics(method, payload, notify=false) {
     const result = this.store.call(method, payload);
+    if(notify&&method==='record_site_usage_event'&&result===true) {
+      try {await this.alerts.record(payload);} catch {console.error('Site alert enqueue failed');}
+    }
     if (await this.ctx.storage.getAlarm() === null) await this.ctx.storage.setAlarm(Date.now() + 86400000);
     return result;
   }
@@ -34,10 +39,14 @@ export class VisitorAnalytics extends DurableObject {
   async refreshDashboards(trigger='scheduled') { return this.dashboards.refresh(this.dashboardEnv,{trigger}); }
   getDashboard(name) { return this.dashboards.get(name); }
   dashboardStatus() { return this.dashboards.status(); }
+  siteAlertStatus() { return this.alerts.status(); }
   async alarm() {
     if(await this.ctx.storage.get('boardLastPost')) { await this.ctx.storage.deleteAll(); return; }
+    await this.alerts.flush();
     this.store.prune();
-    await this.ctx.storage.setAlarm(Date.now() + 86400000);
+    const next=await this.alerts.nextAlarm();
+    const existing=await this.ctx.storage.getAlarm();
+    await this.ctx.storage.setAlarm(existing!==null&&existing>Date.now()?Math.min(next,existing):next);
   }
 }
 

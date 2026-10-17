@@ -50,7 +50,7 @@ footer{margin-top:64px;padding-top:20px;border-top:1px solid var(--line);color:v
       목적: 상담 접수 및 연락 · 보관: 상담 종료 후 1년</li>
     <li><strong>방문 통계</strong> (자동 처리)<br>
       항목: 브라우저에 저장되는 무작위 방문자·세션 식별값, 방문 페이지 경로와 제목, 클릭한 메뉴·링크, 기기 유형(모바일/PC), 방문 일자<br>
-      목적: 방문자 수 집계와 서비스 개선 · 이름, 연락처 등 개인을 직접 식별하는 정보는 포함하지 않습니다 · 보관: 수집일로부터 3년</li>
+      목적: 방문자 수 집계와 서비스 개선, 운영자가 신청한 접속·링크 클릭 통계 알림 · 이름, 연락처 등 개인을 직접 식별하는 정보는 포함하지 않습니다 · 보관: 수집일로부터 3년</li>
     <li><strong>날씨 기능의 위치</strong> (해당 기능에서 위치 사용을 허용한 경우에만)<br>
       브라우저에서 받은 현재 위치의 위도·경도를 날씨 조회를 위해 Open-Meteo에 직접 전송합니다. 운영자의 서버에는 저장하지 않습니다.</li>
   </ul>
@@ -59,6 +59,7 @@ footer{margin-top:64px;padding-top:20px;border-top:1px solid var(--line);color:v
   <ul>
     <li>Google Firebase Authentication, Cloud Firestore: 게시판 로그인 확인 및 게시글 저장</li>
     <li>Cloudflare Workers, Turnstile: 게시판 API 운영과 스팸 방지 검증 (접속 정보 등을 처리할 수 있음)</li>
+      <li>SOLAPI, 카카오: 운영 알림 활성화 시 운영자에게 익명 접속·클릭 통계와 페이지·링크 주소 전달 (방문자 식별값, 이름·연락처, URL 쿼리는 전송하지 않음)</li>
     <li>Supabase: 상담 신청과 방문 통계 데이터 저장</li>
     <li>GitHub Pages, Vercel: 웹사이트 호스팅 및 API 운영 (서비스 제공과 보안을 위해 IP 주소 등 접속 기록을 처리할 수 있음)</li>
     <li>카카오, 네이버: 이용자가 간편 입력을 선택한 경우 본인 확인</li>
