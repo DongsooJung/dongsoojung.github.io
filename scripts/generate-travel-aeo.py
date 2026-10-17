@@ -59,7 +59,7 @@ def page(path, lang, title, description, head, body):
 <html lang="{lang}"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>{html.escape(title)}</title><meta name="description" content="{html.escape(description, quote=True)}">
 <link rel="canonical" href="{ORIGIN}{path}"><meta property="og:url" content="{ORIGIN}{path}">
-{head}<style>{STYLE}</style></head><body><main>
+{head}<style>{STYLE}</style><link rel="stylesheet" href="/assets/stargate-tokens.css?v=20261017"></head><body><main>
 <nav><a href="/en/">STARGATE</a><a href="/stay/">Daechi Stay</a><a href="/en/korea-tourism/">Tourism data</a><a href="/en/cities/">City archive</a></nav>
 <h1>{html.escape(title)}</h1>{body}<footer><small>© 2026 Dongsoo Jung · Stargate Corporation · Urban engineering researcher</small></footer>
 </main></body></html>''')

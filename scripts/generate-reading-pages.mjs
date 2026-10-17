@@ -161,6 +161,7 @@ function renderBookPage(book, reviews, note, related, priceUpdatedAt) {
   <link rel="stylesheet" href="/reading/detail.css?v=20260907">
   <script src="/assets/theme-boot.js"></script>
   <script type="application/ld+json">${jsonLd(structuredData)}</script>
+<link rel="stylesheet" href="/assets/stargate-tokens.css?v=20261017">
 </head>
 <body>
   <a class="skip" href="#content">본문 바로가기</a>
