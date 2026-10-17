@@ -1,3 +1,4 @@
+import smsWorker from '../server/sms/handler.mjs';
 import { MAX_IMPORT_BYTES, RequestError, isImportAuthorized, readPayload, validatePayload } from './analytics.mjs';
 import { verifyAccessRequest } from './access.mjs';
 import { DASHBOARD_COLLECTOR_VERSION } from './dashboard-refresh.mjs';
@@ -41,6 +42,7 @@ function preflight(request,method) {
 
 export async function handleRequest(request,env,options = {}) {
   const url = new URL(request.url), path = url.pathname;
+  if(path === "/api/sms" || path === "/api/account") return smsWorker.fetch(request,env);
   if (path === '/api/blog-visitors') return handleBlogVisitors(request,env,options.blogVisitors);
   if(path.startsWith('/__/auth/')||path.startsWith('/__/firebase/')) return handleFirebaseAuth(request,env,options.firebaseAuth);
   const guardedPath=protectedPath(path);

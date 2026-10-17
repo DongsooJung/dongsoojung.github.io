@@ -49,3 +49,6 @@ Start-Process "index.html"
 ## 배포
 
 main 브랜치 루트 그대로 GitHub Pages 에서 서빙. 푸시 후 1~2분 내 반영.
+
+문자 운영 서버: https://stargate.stargate8225.workers.dev/sms/
+서버는 Cloudflare Worker의 암호화된 SOLAPI_API_KEY, SOLAPI_API_SECRET, SMS_ADMIN_TOKEN을 사용합니다. 활성 발신번호를 SOLAPI에서 조회하며 요청 ID를 Durable Object에 예약해 동일 요청 재발송을 차단합니다. SOLAPI 응답 대기 실패 시 발송 내역을 확인한 뒤 새 요청을 시작해야 합니다.

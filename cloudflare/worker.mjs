@@ -48,3 +48,5 @@ export default {
     ctx.waitUntil(object.refreshDashboards('scheduled'));
   },
 };
+
+export {SmsRequest} from '../server/sms/worker.mjs';
