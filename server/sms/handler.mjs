@@ -24,5 +24,5 @@ export default {async fetch(request,env) {
       return json(await object.submit(body));
     }
     return json({ok:false,message:'지원하지 않는 요청 방식입니다.'},405);
-  } catch { return json({ok:false,message:'솔라피 조회에 실패했습니다. 잠시 후 다시 시도해 주세요.'},502); }
+  } catch(error) { let detail=String(error.message||'연결 실패').slice(0,240); for(const secret of [env.SOLAPI_API_KEY,env.SOLAPI_API_SECRET,env.SMS_ADMIN_TOKEN]) if(secret) detail=detail.replaceAll(secret,'[비공개]'); return json({ok:false,message:'솔라피 연결 확인: '+detail},502); }
 }};
