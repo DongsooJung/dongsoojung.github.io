@@ -495,7 +495,13 @@
         "branch": "codex/research-urban-3-source-review",
         "status": "awaiting_checks",
         "liveUrl": "https://www.stargateedu.co.kr/research/",
-        "sourceReviewUrl": "https://www.stargateedu.co.kr/research/source-reviews/2026-10-18-urban-3.json"
+        "sourceReviewUrl": "https://www.stargateedu.co.kr/research/source-reviews/2026-10-18-urban-3.json",
+        "pullRequest": "https://github.com/DongsooJung/dongsoojung.github.io/pull/191",
+        "validation": [
+          "15 relevant Node tests and 4 Python source-grain regression tests passed",
+          "CSV receipt totals matched official grid control counts; court fields matched captured raw responses",
+          "local research hub browser regression: seven filters,63 unique,global alphabetical,anchors,group order,strategy44"
+        ]
       }
     },
     {
