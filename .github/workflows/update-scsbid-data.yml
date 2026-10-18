@@ -21,12 +21,18 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 24
-      - name: Collect official PPS procurement data
+      - name: Collect bidpublic notices
+        id: bidpublic
+        continue-on-error: true
         env:
           PPS_SCSBID_API_KEY: ${{ secrets.PPS_SCSBID_API_KEY }}
-        run: |
-          node scripts/update-bidpublic-data.mjs
-          node scripts/update-scsbid-data.mjs
+        run: node scripts/update-bidpublic-data.mjs
+      
+      - name: Collect scsbid awards
+        id: scsbid
+        env:
+          PPS_SCSBID_API_KEY: ${{ secrets.PPS_SCSBID_API_KEY }}
+        run: node scripts/update-scsbid-data.mjs
       - name: Commit refreshed snapshot
         run: |
           if git diff --quiet -- data/bidpublic data/scsbid; then 
@@ -54,17 +60,34 @@ jobs:
           echo "Push failed after 4 attempts"
           exit 1
       
-      - name: Report failure
-        if: failure()
+      - name: Report bidpublic failure
+        if: steps.bidpublic.outcome == 'failure'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           node -e "
           import('${{ github.workspace }}/.github/lib/collector-utils.mjs').then(({ reportFailure }) => {
             reportFailure({
-              workflowName: '조달청 데이터 수집',
+              workflowName: '조달청 입찰공고 수집 (bidpublic)',
               runId: '${{ github.run_id }}',
-              error: 'Workflow failed - check logs for details',
+              error: 'Bidpublic collection failed - check logs for details',
+              repo: '${{ github.repository }}',
+              token: process.env.GITHUB_TOKEN
+            });
+          });
+          "
+      
+      - name: Report scsbid failure
+        if: steps.scsbid.outcome == 'failure'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          node -e "
+          import('${{ github.workspace }}/.github/lib/collector-utils.mjs').then(({ reportFailure }) => {
+            reportFailure({
+              workflowName: '조달청 낙찰정보 수집 (scsbid)',
+              runId: '${{ github.run_id }}',
+              error: 'Scsbid collection failed - check logs for details',
               repo: '${{ github.repository }}',
               token: process.env.GITHUB_TOKEN
             });
