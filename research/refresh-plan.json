@@ -391,7 +391,7 @@
       ],
       "release": {
         "branch": "codex/research-urban-2-source-review",
-        "status": "awaiting_checks",
+        "status": "verified",
         "liveUrl": "https://www.stargateedu.co.kr/research/",
         "sourceReviewUrl": "https://www.stargateedu.co.kr/research/source-reviews/2026-10-17-urban-2.json",
         "pullRequest": "https://github.com/DongsooJung/dongsoojung.github.io/pull/190",
@@ -400,13 +400,25 @@
           "5 Python collector regression tests passed",
           "7 map pages: counts, tables, downloads, filters, search, partial API fallback and 390px mobile",
           "7 research filters, 63 unique, global alphabetical, anchors, group order and strategy 44"
+        ],
+        "commit": "f2f4022018f4bb5f7c53e3befbd90f6735a85382",
+        "verifiedAt": "2026-10-17T10:05:00.996Z",
+        "pagesRun": "https://github.com/DongsooJung/dongsoojung.github.io/actions/runs/39023418961",
+        "checks": [
+          "PR CodeQL JavaScript and aggregate success",
+          "exact merge commit Pages build/deploy/report success",
+          "17 changed files match reviewed source on both public domains",
+          "20 relevant Node tests and 5 Python collector regression tests passed",
+          "Edge live actual portal and pinned CDN: seven maps, tables, JSON/CSV downloads, filtering/search, source labels and 390px mobile",
+          "partial API regression keeps one complete saved layer",
+          "live seven filters globally alphabetical; 63 unique; anchors, usage group order and strategy 44; no script errors"
         ]
       }
     },
     {
       "id": "urban-3",
       "label": "도시·공간 3차",
-      "status": "pending",
+      "status": "completed",
       "keys": [
         "/research/accessibility-lab/",
         "/smart-city-gis/dashboard/",
@@ -415,7 +427,76 @@
         "/lh-sale-info/",
         "/hwaseong-real-estate/",
         "/court-auction/"
-      ]
+      ],
+      "completedAt": "2026-10-18T00:30:46.988856+00:00",
+      "outcome": "reviewed_with_followups",
+      "itemResults": {
+        "/volume/": {
+          "status": "verified",
+          "checkedAt": "2026-10-18T00:30:46.988856+00:00",
+          "audit": "/research/source-reviews/2026-10-18-urban-3.json",
+          "nextAction": "같은 RCPT_YR 필터·현행 스키마로 후속 공식 CSV 수집 후 취소 정정·신고 지연·범위·공식 전체 건수를 재대조."
+        },
+        "/choropleth/": {
+          "status": "verified",
+          "checkedAt": "2026-10-18T00:30:46.988856+00:00",
+          "audit": "/research/source-reviews/2026-10-18-urban-3.json",
+          "nextAction": "공식 CSV 재수집 시 동일 월일 비교와 분모·가격 표본수·25구 조인을 검증. 별도 경계 갱신 때 원본 버전과 인접행렬을 함께 대조."
+        },
+        "/research/accessibility-lab/": {
+          "status": "not_applicable",
+          "checkedAt": "2026-10-18T00:30:46.988856+00:00",
+          "audit": "/research/source-reviews/2026-10-18-urban-3.json",
+          "nextAction": "별도 smart-city-gis 원본 저장소에서 신규 OSM 수집·재계산과 수집일 표시를 완료하면 연결 안내를 갱신."
+        },
+        "/smart-city-gis/dashboard/": {
+          "status": "needs_review",
+          "checkedAt": "2026-10-18T00:30:46.988856+00:00",
+          "audit": "/research/source-reviews/2026-10-18-urban-3.json",
+          "nextAction": "별도 원본 저장소의 기존 OSM 수집기와 빌더를 사용해 재수집·재계산·정확한 수집일 표시 및 그 저장소의 PR/Pages 검증. 포털에 같은 경로 폴더를 만들지 않음."
+        },
+        "/lh-sale-info/": {
+          "status": "source_unavailable",
+          "checkedAt": "2026-10-18T00:30:46.988856+00:00",
+          "audit": "/research/source-reviews/2026-10-18-urban-3.json",
+          "nextAction": "승인된 비공개 인증키가 연결된 환경에서 원API 조회만 수행하고 공고별 날짜·정규화·전체 페이지를 대조. DB 저장 여부는 명시적으로 제어."
+        },
+        "/hwaseong-real-estate/": {
+          "status": "needs_review",
+          "checkedAt": "2026-10-18T00:30:46.988856+00:00",
+          "audit": "/research/source-reviews/2026-10-18-urban-3.json",
+          "nextAction": "기존 비공개 키가 연결된 환경에서 현행4구 법정코드·취소·신고지연·원표 페이지 전체를 대조하고 수집기 월 파라미터/화면/다운로드를 함께 갱신."
+        },
+        "/court-auction/": {
+          "status": "verified",
+          "checkedAt": "2026-10-18T00:30:46.988856+00:00",
+          "audit": "/research/source-reviews/2026-10-18-urban-3.json",
+          "nextAction": "다음 수집에도 철회/정정 목록을 함께 대조. 원문 법원별 전체 공고 범위와 별도 국토부 비교 자료를 확보해 확장하며 현재 범위를 전국전수로 표시하지 않음."
+        }
+      },
+      "followUps": [
+        {
+          "key": "/smart-city-gis/dashboard/",
+          "reason": "포털 내부 폴더가 없는 별도 GitHub Pages 프로젝트. 9·10월 OSM 원자료 재수집·점수 재계산은 미수행. / 실제 관측 시계열이 아닌 단일 단면이며 포털 카드의 시계열 안내를 수정.",
+          "nextAction": "별도 원본 저장소의 기존 OSM 수집기와 빌더를 사용해 재수집·재계산·정확한 수집일 표시 및 그 저장소의 PR/Pages 검증. 포털에 같은 경로 폴더를 만들지 않음."
+        },
+        {
+          "key": "/lh-sale-info/",
+          "reason": "기존 승인된 인증키가 이번 실행 환경에 없어 공식 공고 데이터 값을 대조하지 못함. 페이지30건을 전체/월간 공급량으로 해석하지 않음.",
+          "nextAction": "승인된 비공개 인증키가 연결된 환경에서 원API 조회만 수행하고 공고별 날짜·정규화·전체 페이지를 대조. DB 저장 여부는 명시적으로 제어."
+        },
+        {
+          "key": "/hwaseong-real-estate/",
+          "reason": "기존 수집기와 기본화면은2026-06 고정. 원표 접근/법정동 해석이 해결되지 않아9·10월 값으로 추정 교체하지 않음. / 원출처 거래키 기반 식별이 아닌 순번형 키이므로 키 유일성이 원거래 중복 없음의 증거가 아님.",
+          "nextAction": "기존 비공개 키가 연결된 환경에서 현행4구 법정코드·취소·신고지연·원표 페이지 전체를 대조하고 수집기 월 파라미터/화면/다운로드를 함께 갱신."
+        }
+      ],
+      "release": {
+        "branch": "codex/research-urban-3-source-review",
+        "status": "awaiting_checks",
+        "liveUrl": "https://www.stargateedu.co.kr/research/",
+        "sourceReviewUrl": "https://www.stargateedu.co.kr/research/source-reviews/2026-10-18-urban-3.json"
+      }
     },
     {
       "id": "research-1",
@@ -489,5 +570,5 @@
     }
   ],
   "automationId": "10",
-  "lastCompletedStep": "urban-1"
+  "lastCompletedStep": "urban-3"
 }

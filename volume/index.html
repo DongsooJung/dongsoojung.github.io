@@ -41,9 +41,10 @@ h1{font-size:30px;letter-spacing:-.4px;margin:26px 0 6px;background:var(--grad1)
 <div class="wrap">
   <div class="nav"><a href="/research/">← 연구 대시보드</a><a href="https://www.stargateedu.co.kr/">포털</a></div>
   <h1>서울 부동산 월별 거래량</h1>
-  <p class="lead">서울 부동산 실거래를 <b>유형별(아파트·연립다세대·오피스텔·단독다가구)</b> 월별 거래량으로 봅니다. 서울 열린데이터광장 실거래 집계 · 월간 자동 갱신. (당월은 접수 진행 중이라 잠정치)</p>
-  <div class="chips"><span class="chip">서울 열린데이터 실거래</span><span class="chip">유형별 스택</span><span class="chip">전년 동월 비교</span><span class="chip">월간 자동갱신</span></div>
+  <p class="lead">서울 부동산 실거래를 <b>유형별(아파트·연립다세대·오피스텔·단독다가구)</b> 월별 거래량으로 봅니다. 공식 접수연도 2025·2026 CSV에서 취소를 제외한 계약월 집계입니다. 2026년 10월은 16일까지의 부분 자료이며 신고 지연·취소 정정으로 과거 월도 바뀔 수 있습니다.</p>
+  <div class="chips"><span class="chip">서울 열린데이터 실거래</span><span class="chip">유형별 스택</span><span class="chip">전년 동월 비교</span><span class="chip">공식 CSV · 부분 집계</span></div>
 
+<section class="source-review" aria-label="출처·자료 기준" style="margin:20px auto;padding:16px;max-width:1200px;border:1px solid currentColor;border-radius:12px;font:13px/1.7 system-ui;overflow-wrap:anywhere"><strong>서울 거래량 · 원문 2026-10-17 갱신 표시 / 계약 자료 2026-10-16까지</strong><p>공식 CSV 236,932행 중 취소 13,481행과 2025~2026 계약 범위 밖 2,078행을 제외해 221,373행을 집계했습니다. 9월 6,534건·10월 부분 1,481건입니다. 동일 값 추가행 3,702개는 별도 거래 가능성이 있어 보존했으며 거래 식별자 없는 원본의 중복 검증 한계를 기록합니다. 접수연도 2025·2026 범위이며 전체 계약 원장 완결 집계가 아닙니다. 원본 수집 2026-10-18T00:25:57.911143+00:00 / 집계 파일 생성 2026-10-18T00:26:54.756382+00:00.</p><a href="/research/source-reviews/2026-10-18-urban-3.json">원출처 대조 기록</a> · <a href="/assets/seoul_monthly_type.json" download>집계·출처 JSON</a> · <a href="/assets/seoul_monthly_type.csv" download>월별 CSV</a></section>
   <div class="stats" id="stats"></div>
 
   <div class="card wide">
@@ -53,7 +54,7 @@ h1{font-size:30px;letter-spacing:-.4px;margin:26px 0 6px;background:var(--grad1)
 
   <div class="grid2">
     <div class="card">
-      <h2>유형 구성비</h2><div class="d" id="donutDesc">최근 완결월 기준.</div>
+      <h2>유형 구성비</h2><div class="d" id="donutDesc">최근 비진행월 참고값 · 완결 미보장.</div>
       <div id="donut" class="plot"></div>
     </div>
     <div class="card">
@@ -64,6 +65,7 @@ h1{font-size:30px;letter-spacing:-.4px;margin:26px 0 6px;background:var(--grad1)
   <p class="note" id="note">불러오는 중…</p>
 </div>
 
+<script src="/assets/property-quality.js"></script>
 <script>
 const COL={'아파트':'#7aa2ff','연립다세대':'#63d6a0','오피스텔':'#ffb86b','단독다가구':'#f778ba','기타':'#8b949e'};
 const SUB='#9aa7b8',LINE='#21304f';
@@ -74,6 +76,7 @@ const cfg={responsive:true,displayModeBar:false};
 const label=(m)=>m.slice(2); // 2026-05 -> 26-05
 
 fetch('/assets/seoul_monthly_type.json').then(r=>r.json()).then(d=>{
+  const quality=PropertyQuality.validateMonthly(d);
   const months=d.months, types=d.types.filter(t=>d.series[t].some(v=>v>0)); // 전부0(기타) 제외
   const total=d.total;
 
@@ -87,8 +90,8 @@ fetch('/assets/seoul_monthly_type.json').then(r=>r.json()).then(d=>{
      xaxis:{gridcolor:LINE,tickangle:-40},yaxis:{title:'거래량(건)',gridcolor:LINE}}),cfg);
 
   // 최근 완결월 = 마지막에서 두 번째(당월 잠정 제외)
-  const li = months.length-2, lm=months[li];
-  document.getElementById('donutDesc').textContent=`${lm} 기준 (당월 ${months[months.length-1]}은 잠정치라 제외).`;
+  const li = quality.referenceIndex, lm=months[li];
+  document.getElementById('donutDesc').textContent=`${lm} 참고값 · 확정 완결은 보장하지 않습니다. 진행월 부분 자료 ${[...quality.partial].join(", ")}와 구분합니다.`;
 
   // ② 구성비 도넛
   Plotly.newPlot('donut',[{type:'pie',hole:.55,
@@ -114,7 +117,7 @@ fetch('/assets/seoul_monthly_type.json').then(r=>r.json()).then(d=>{
   const prevSame=byMon[lmm] && byMon[lmm][prevY];
   const yoyPct=prevSame? Math.round((totLast/prevSame-1)*100):null;
   const aptShare=Math.round(d.series['아파트'][li]/totLast*100);
-  const peakI=total.slice(0,-1).indexOf(Math.max(...total.slice(0,-1)));
+  const peakI=total.indexOf(Math.max(...total.filter((_,i)=>!quality.partial.has(months[i]))));
   const stat=[
     [`${lm} 총거래`, totLast.toLocaleString()+'건', ''],
     ['전년 동월 대비', yoyPct==null?'—':(yoyPct>0?'+':'')+yoyPct+'%', yoyPct==null?'':(yoyPct>=0?'up':'down')],

@@ -127,7 +127,7 @@ async function loadData() {
 
 function fillFilters() {
   const selections = { sido: $("sido").value, usage: $("usage").value, court: $("court").value };
-  setOptions("sido", [...new Set(state.records.map((record) => record.시도).filter(Boolean))].sort(), "전국");
+  setOptions("sido", [...new Set(state.records.map((record) => record.시도).filter(Boolean))].sort(), "수집 범위 전체");
   setOptions("usage", [...new Set(state.records.map((record) => record.용도).filter(Boolean))].sort(), "전체 용도");
   setOptions("court", [...new Set(state.records.map((record) => record.법원).filter(Boolean))].sort(), "전체 법원");
   Object.entries(selections).forEach(([id, value]) => { $(id).value = value; });
@@ -142,8 +142,8 @@ function setOptions(id, values, firstLabel) {
 function syncMeta() {
   $("live-chip").textContent = "● 법원 원문 파싱 데이터";
   $("generated-chip").textContent = `수집 ${formatDateTime(state.meta.generated_at)}`;
-  $("source-chip").textContent = `공고 ${won.format(state.meta.notice_count || 0)}건 파싱`;
-  $("footer").textContent = `출처: ${state.meta.source} · 국토교통부 아파트 매매 실거래가 · 기준: ${state.meta.basis || "매각기일"} · 본 화면은 참고용이며 입찰 전 원문을 확인해야 합니다.`;
+  $("source-chip").textContent = `공고 ${won.format(state.meta.notice_count || 0)}건 · ${(state.meta.courts || []).join(" · ")} · 전수 미확인`;
+  $("footer").textContent = `출처: ${state.meta.source} · 국토교통부 아파트 매매 실거래가 · 기준: ${state.meta.basis || "매각기일"} · ${state.meta.coverage || "반환 범위만 표시 · 전국/월 전수 미확인"} · 입찰 전 원문을 확인해야 합니다.`;
 }
 
 function filtered() {
@@ -197,7 +197,7 @@ function renderMetrics(records) {
 }
 
 function renderScope(records) {
-  const location = $("sido").value || "전국";
+  const location = $("sido").value || "수집 범위 전체";
   const usage = $("usage").value || state.category;
   const schedule = $("date-range").value ? `${$("date-range").value}일 이내` : "모든 일정";
   $("result-scope").innerHTML = `<b>${safe(location)} · ${safe(usage)}</b> · ${safe(schedule)} · 현재 필터 ${won.format(records.length)}건`;
