@@ -1,0 +1,491 @@
+{
+  "schemaVersion": 1,
+  "step": "urban-3",
+  "checkedAt": "2026-10-18T00:30:46.988856+00:00",
+  "sourceChecks": [
+    {
+      "key": "smart-live",
+      "url": "https://www.stargateedu.co.kr/smart-city-gis/dashboard/",
+      "checkedAt": "2026-10-18T00:23:32.523369+00:00",
+      "status": 200,
+      "finalUrl": "https://stargateedu.co.kr/smart-city-gis/dashboard/",
+      "receivedAt": "2026-10-18T00:23:35.231362+00:00",
+      "contentType": "text/html; charset=utf-8",
+      "sha256": "8c6c0687eb9f32062365ff24b889ba746bcab599d6d8d7fc6a0f093d5fe15090",
+      "bytes": 1927430
+    },
+    {
+      "key": "smart-repo",
+      "url": "https://api.github.com/repos/DongsooJung/smart-city-gis",
+      "checkedAt": "2026-10-18T00:23:32.524370+00:00",
+      "status": 200,
+      "finalUrl": "https://api.github.com/repos/DongsooJung/smart-city-gis",
+      "receivedAt": "2026-10-18T00:23:34.833301+00:00",
+      "contentType": "application/json; charset=utf-8",
+      "sha256": "eebff21ff57f669a920439cb3c56dd4bb897a15cd5548f828838c1194b7e39e7",
+      "bytes": 5645
+    },
+    {
+      "key": "smart-readme",
+      "url": "https://raw.githubusercontent.com/DongsooJung/smart-city-gis/main/README.md",
+      "checkedAt": "2026-10-18T00:23:32.526372+00:00",
+      "status": 200,
+      "finalUrl": "https://raw.githubusercontent.com/DongsooJung/smart-city-gis/main/README.md",
+      "receivedAt": "2026-10-18T00:23:34.854299+00:00",
+      "contentType": "text/plain; charset=utf-8",
+      "sha256": "1660e214d6737b1cc9e6b21ccebf0413c613f374e6ac467e2d4c006efa28b50c",
+      "bytes": 5948
+    },
+    {
+      "key": "seoul-volume-doc",
+      "url": "https://data.seoul.go.kr/dataList/OA-21275/S/1/datasetView.do",
+      "checkedAt": "2026-10-18T00:23:32.527370+00:00",
+      "status": 200,
+      "finalUrl": "https://data.seoul.go.kr/dataList/OA-21275/S/1/datasetView.do",
+      "receivedAt": "2026-10-18T00:23:34.657298+00:00",
+      "contentType": "text/html;charset=UTF-8",
+      "sha256": "d4bfd7b41e57f9f88d0c73b0ad2141e0616ff0e4ce9b035282a575bac288dd2c",
+      "bytes": 89013
+    },
+    {
+      "key": "rtms-doc",
+      "url": "https://www.data.go.kr/data/15126469/openapi.do",
+      "checkedAt": "2026-10-18T00:23:32.529371+00:00",
+      "status": 200,
+      "finalUrl": "https://www.data.go.kr/data/15126469/openapi.do",
+      "receivedAt": "2026-10-18T00:23:34.902303+00:00",
+      "contentType": "text/html;charset=UTF-8",
+      "sha256": "5abc24f1c71ebf97a6ede9d5151a4e9f2dfeae2abe8e3a8e86a12754ace98f5c",
+      "bytes": 209067
+    },
+    {
+      "key": "court-home",
+      "url": "https://www.courtauction.go.kr/",
+      "checkedAt": "2026-10-18T00:23:32.534370+00:00",
+      "status": 200,
+      "finalUrl": "https://www.courtauction.go.kr/",
+      "receivedAt": "2026-10-18T00:23:34.613300+00:00",
+      "contentType": "text/html",
+      "sha256": "87294329ab587be7d567053c54577cebb663dcfcf378b1fb9a608f52036261cd",
+      "bytes": 847
+    },
+    {
+      "key": "volume-live",
+      "url": "https://www.stargateedu.co.kr/assets/seoul_monthly_type.json",
+      "checkedAt": "2026-10-18T00:23:32.536371+00:00",
+      "status": 200,
+      "finalUrl": "https://stargateedu.co.kr/assets/seoul_monthly_type.json",
+      "receivedAt": "2026-10-18T00:23:35.088362+00:00",
+      "contentType": "application/json; charset=utf-8",
+      "sha256": "2252eae1c9902461044feb2e96af9ca6906acabd87726cd93bb6c2e3f5442c78",
+      "bytes": 1555
+    },
+    {
+      "key": "prices-live",
+      "url": "https://www.stargateedu.co.kr/assets/gu_prices.json",
+      "checkedAt": "2026-10-18T00:23:34.615298+00:00",
+      "status": 200,
+      "finalUrl": "https://stargateedu.co.kr/assets/gu_prices.json",
+      "receivedAt": "2026-10-18T00:23:35.093362+00:00",
+      "contentType": "application/json; charset=utf-8",
+      "sha256": "93c2755e3f37124461220214fb1e22e1cea975b01fe03c97c9b8d843264a6088",
+      "bytes": 3043
+    },
+    {
+      "key": "hwaseong-proxy",
+      "url": "https://stargate-real-estate-api.vercel.app/api/region",
+      "checkedAt": "2026-10-18T00:25:16.698519+00:00",
+      "status": 404,
+      "bytes": 141,
+      "sha256": "acdb02c60c8354f66ea85900ba76f6260a6616fba714463e14ef936ad1404719",
+      "receivedAt": "2026-10-18T00:25:17.189576+00:00",
+      "contentType": "application/json; charset=utf-8"
+    },
+    {
+      "key": "lh-no-key",
+      "url": "https://apis.data.go.kr/B552555/lhLeaseNoticeInfo1/lhLeaseNoticeInfo1?PG_SZ=30&PAGE=1&UPP_AIS_TP_CD=05&PAN_NT_ST_DT=2026.09.01&CLSG_DT=2026.10.18",
+      "checkedAt": "2026-10-18T00:25:16.697520+00:00",
+      "status": 401,
+      "bytes": 186,
+      "sha256": "590786cb9c69b91f8bf8a7ffea2eb86317992d429be2571373783cc5caf80780",
+      "receivedAt": "2026-10-18T00:25:16.754041+00:00",
+      "contentType": "application/json"
+    },
+    {
+      "key": "lh-official-doc",
+      "url": "https://www.data.go.kr/data/15058530/openapi.do",
+      "checkedAt": "2026-10-18T00:25:16.755039+00:00",
+      "status": 200,
+      "bytes": 205474,
+      "sha256": "83aafa067a453329aa8837093e8c638fbb6a689d1219a1b4f04d933a166b33d2",
+      "receivedAt": "2026-10-18T00:25:17.083287+00:00",
+      "contentType": "text/html;charset=UTF-8"
+    },
+    {
+      "key": "rtms-no-key",
+      "url": "https://apis.data.go.kr/1613000/RTMSDataSvcAptTrade/getRTMSDataSvcAptTrade?LAWD_CD=41591&DEAL_YMD=202609&pageNo=1&numOfRows=1",
+      "checkedAt": "2026-10-18T00:25:16.696520+00:00",
+      "status": 401,
+      "bytes": 260,
+      "sha256": "12c2382f87dd48f7caa32e41c0f898c2691ea9a7e04449dc8e4c25e57256dca4",
+      "receivedAt": "2026-10-18T00:25:16.752040+00:00",
+      "contentType": "application/xml"
+    },
+    {
+      "key": "seoul-control-2025",
+      "url": "https://data.seoul.go.kr/dataList/dataView.do?onepagerow=1&srvType=S&infId=OA-21275&serviceKind=0&pageNo=1&ssUserId=SAMPLE_VIEW&strWhere=&strOrderby=CTRT_DAY%20DESC&filterCol=RCPT_YR&txtFilter=2025",
+      "checkedAt": "2026-10-18T00:28:11.102337+00:00",
+      "status": 200,
+      "bytes": 543,
+      "sha256": "ca07b455e4e36c1a5860764fe887f9df7c5626ae7fce55893cb15fc015f6abc7",
+      "receivedAt": "2026-10-18T00:28:11.548495+00:00",
+      "contentType": "text/html;charset=UTF-8"
+    },
+    {
+      "key": "seoul-control-2026",
+      "url": "https://data.seoul.go.kr/dataList/dataView.do?onepagerow=1&srvType=S&infId=OA-21275&serviceKind=0&pageNo=1&ssUserId=SAMPLE_VIEW&strWhere=&strOrderby=CTRT_DAY%20DESC&filterCol=RCPT_YR&txtFilter=2026",
+      "checkedAt": "2026-10-18T00:28:10.543337+00:00",
+      "status": 200,
+      "bytes": 499,
+      "sha256": "1695fdc4698f6c890e64f38f1079a66b779e431b753ecca609d478e09640c900",
+      "receivedAt": "2026-10-18T00:28:10.926336+00:00",
+      "contentType": "text/html;charset=UTF-8"
+    },
+    {
+      "key": "seoul-csv-2025",
+      "url": "https://datafile.seoul.go.kr/bigfile/iot/sheet/csv/download.do",
+      "checkedAt": "2026-10-18T00:25:48.002943+00:00",
+      "status": 200,
+      "bytes": 23398618,
+      "sha256": "c1ff9c3fb1a78ab6fd6db0f2e55d8114768692ed455366e2a31d142e7881bc3f",
+      "receivedAt": "2026-10-18T00:25:57.911143+00:00",
+      "contentType": "application/x-msdownload;charset=CP949"
+    },
+    {
+      "key": "seoul-csv-2026",
+      "url": "https://datafile.seoul.go.kr/bigfile/iot/sheet/csv/download.do",
+      "checkedAt": "2026-10-18T00:25:16.691518+00:00",
+      "status": 200,
+      "bytes": 17589892,
+      "sha256": "4855f85e490b62e274818765b64e595733646eb9fb5d04b32904ad95c25740d6",
+      "receivedAt": "2026-10-18T00:25:24.763154+00:00",
+      "contentType": "application/x-msdownload;charset=CP949"
+    },
+    {
+      "key": "seoul-sheet",
+      "url": "https://data.seoul.go.kr/dataList/sheetView.do?infId=OA-21275&srvType=S",
+      "checkedAt": "2026-10-18T00:25:15.854890+00:00",
+      "status": 200,
+      "bytes": 21238,
+      "sha256": "5b694bc72fa2bc3d001c0007cff546c59130ad90f7f336fde9934c4451e77573",
+      "receivedAt": "2026-10-18T00:25:16.765077+00:00",
+      "contentType": "text/html;charset=UTF-8"
+    },
+    {
+      "key": "smart-actual-meta",
+      "url": "https://raw.githubusercontent.com/DongsooJung/smart-city-gis/main/data/actual/metadata.json",
+      "checkedAt": "2026-10-18T00:25:15.853890+00:00",
+      "status": 200,
+      "bytes": 240,
+      "sha256": "a9c88deaecb7cef597ac0df5f88927f34376f9e15b0aff29568005e30f42db30",
+      "receivedAt": "2026-10-18T00:25:16.690518+00:00",
+      "contentType": "text/plain; charset=utf-8"
+    },
+    {
+      "key": "smart-architecture",
+      "url": "https://raw.githubusercontent.com/DongsooJung/smart-city-gis/main/docs/ARCHITECTURE.md",
+      "checkedAt": "2026-10-18T00:25:15.852889+00:00",
+      "status": 200,
+      "bytes": 2340,
+      "sha256": "45e4204b244224f19dd15c45b00e2db8f5f2d47b039610973eb4e9c64decbbd6",
+      "receivedAt": "2026-10-18T00:25:16.694520+00:00",
+      "contentType": "text/plain; charset=utf-8"
+    },
+    {
+      "key": "smart-builder",
+      "url": "https://raw.githubusercontent.com/DongsooJung/smart-city-gis/main/scripts/build_dashboard.py",
+      "checkedAt": "2026-10-18T00:25:15.852889+00:00",
+      "status": 200,
+      "bytes": 18710,
+      "sha256": "41e99c35bd94befa3fe13ab71516f7c8ad196a362e7eeef0202aa86092ca14eb",
+      "receivedAt": "2026-10-18T00:25:16.696520+00:00",
+      "contentType": "text/plain; charset=utf-8"
+    },
+    {
+      "key": "smart-fetcher",
+      "url": "https://raw.githubusercontent.com/DongsooJung/smart-city-gis/main/scripts/fetch_osm_data.py",
+      "checkedAt": "2026-10-18T00:25:15.853890+00:00",
+      "status": 200,
+      "bytes": 4726,
+      "sha256": "40f4c8cb55e046bd751327eb72e170f805dfdfb5dff87c3b7c4d738c135b4a6b",
+      "receivedAt": "2026-10-18T00:25:16.695523+00:00",
+      "contentType": "text/plain; charset=utf-8"
+    },
+    {
+      "key": "smart-tree",
+      "url": "https://api.github.com/repos/DongsooJung/smart-city-gis/git/trees/main?recursive=1",
+      "checkedAt": "2026-10-18T00:25:15.851889+00:00",
+      "status": 200,
+      "bytes": 11157,
+      "sha256": "ca1399e0c757ee7674f3942e9ec693f97496a7291e7cc18c12818d2b3c75ca4b",
+      "receivedAt": "2026-10-18T00:25:17.039283+00:00",
+      "contentType": "application/json; charset=utf-8"
+    }
+  ],
+  "courtSourceChecks": [
+    {
+      "url": "https://www.courtauction.go.kr/pgj/pgj143/selectRletDspslPbanc.on",
+      "method": "POST",
+      "status": 200,
+      "receivedAt": "2026-10-18T00:29:02.073Z",
+      "bytes": 1536,
+      "sha256": "5334f8581d742280581c864e45d989b1071810327df17ba22ab39bfd924cdc8b"
+    },
+    {
+      "url": "https://www.courtauction.go.kr/pgj/pgj143/selectRletDspslPbancDtl.on",
+      "method": "POST",
+      "status": 200,
+      "receivedAt": "2026-10-18T00:29:04.785Z",
+      "bytes": 124135,
+      "sha256": "16f7cf30e909664db1f852b9ebd634107f7573ef7bd889a8b4d4cf12b594fc13"
+    },
+    {
+      "url": "https://www.courtauction.go.kr/pgj/pgj143/selectRletDspslPbancDtl.on",
+      "method": "POST",
+      "status": 200,
+      "receivedAt": "2026-10-18T00:29:07.459Z",
+      "bytes": 158042,
+      "sha256": "e1f8e78b90449b2c74e4076512eb43af1cc599b9400ef823d7dfb61642168ebb"
+    },
+    {
+      "url": "https://www.courtauction.go.kr/pgj/pgj143/selectRletDspslPbancDtl.on",
+      "method": "POST",
+      "status": 200,
+      "receivedAt": "2026-10-18T00:29:10.843Z",
+      "bytes": 184878,
+      "sha256": "65eef3672f9680799488019faaf55e792c89e4193efa8ea1023895f7adda7ea8"
+    }
+  ],
+  "projects": {
+    "/volume/": {
+      "reviewStatus": "verified",
+      "source": {
+        "label": "서울 열린데이터광장 OA-21275 공식 CSV",
+        "url": "https://data.seoul.go.kr/dataList/OA-21275/S/1/datasetView.do",
+        "verification": "verified"
+      },
+      "dataAsOf": "2026-10-16",
+      "dataPeriod": "2026-10",
+      "collectedAt": "2026-10-18T00:25:57.911143+00:00",
+      "snapshotUpdatedAt": "2026-10-18T00:26:54.756382+00:00",
+      "freshness": "target_period_verified",
+      "verifiedScope": "2025·2026 접수 CSV 각 135,034·101,898행을 공식 그리드 조회 전체 건수와 대조. 취소 13,481·계약 범위 밖 2,078행 제외 후 221,373행의 22개월·4유형 합계 대조. 9월 6,534·10월16일까지 부분 1,481건.",
+      "issues": [
+        "10월은 진행월 부분이며 과거 월도 신고 지연·취소 정정으로 완결 미보장. 접수연도 2025·2026 자료의 계약월 집계이며 미래 접수 건은 미포함.",
+        "동일 값 추가행 3,702개는 거래 식별자가 없어 별도 거래일 수 있으므로 보존. 원장 ID 기반 중복 대조는 불가."
+      ],
+      "nextAction": "같은 RCPT_YR 필터·현행 스키마로 후속 공식 CSV 수집 후 취소 정정·신고 지연·범위·공식 전체 건수를 재대조."
+    },
+    "/choropleth/": {
+      "reviewStatus": "verified",
+      "source": {
+        "label": "서울 열린데이터광장 OA-21275 공식 CSV",
+        "url": "https://data.seoul.go.kr/dataList/OA-21275/S/1/datasetView.do",
+        "verification": "verified"
+      },
+      "dataAsOf": "2026-10-16",
+      "dataPeriod": "2026-10",
+      "collectedAt": "2026-10-18T00:25:57.911143+00:00",
+      "snapshotUpdatedAt": "2026-10-18T00:26:54.756382+00:00",
+      "freshness": "target_period_verified",
+      "verifiedScope": "같은 공식 접수 CSV에서 취소 제외·양수 면적 아파트의 개별 만원/평을 계산해 25구 중앙값 대조. 현재2026-01-01~10-16·전년2025-01-01~10-16 범위 일치. 구별 거래수 합은 월별 아파트 2026 합과 일치.",
+      "issues": [
+        "가격 표본수와 거래 건수를 구분. 자치구 중앙값의 단순평균은 서울 전체 거래가 중앙값 아님.",
+        "2013 참고 도형·25구 조인 확인. 현행 경계 좌표 대조는 범위 밖. Moran 수치는 기술통계이며 유의성 검정·인과효과를 뜻하지 않음.",
+        "10월 부분 자료·접수연도 제한·동일 값 행 식별 한계는 거래량과 동일."
+      ],
+      "nextAction": "공식 CSV 재수집 시 동일 월일 비교와 분모·가격 표본수·25구 조인을 검증. 별도 경계 갱신 때 원본 버전과 인접행렬을 함께 대조."
+    },
+    "/research/accessibility-lab/": {
+      "reviewStatus": "not_applicable",
+      "source": {
+        "label": "Smart City GIS 제공자 코드·OSM 수집 메타데이터",
+        "url": "https://github.com/DongsooJung/smart-city-gis/tree/d086031a394cf2ec81a31f51c192eacfa2f97058",
+        "verification": "verified_document"
+      },
+      "dataAsOf": null,
+      "dataPeriod": null,
+      "collectedAt": null,
+      "snapshotUpdatedAt": null,
+      "freshness": "document_version_verified",
+      "verifiedScope": "방법론 링크 안내 문서로 월간 통계 기준 비적용. 연결 대상 실제200·제공자 코드 버전·빌더 및 metadata 대조. 강남 핵심부 bbox·250m격자·4.5km/h·도로망 도달점 볼록껍질 근사와 2026-08-27 OSM 단면을 명시.",
+      "issues": [
+        "외부 보행성 점수의 9·10월 갱신·원OSM 대조 완료로 취급하지 않음."
+      ],
+      "nextAction": "별도 smart-city-gis 원본 저장소에서 신규 OSM 수집·재계산과 수집일 표시를 완료하면 연결 안내를 갱신."
+    },
+    "/smart-city-gis/dashboard/": {
+      "reviewStatus": "needs_review",
+      "source": {
+        "label": "OpenStreetMap 제공자 저장소 스냅샷",
+        "url": "https://github.com/DongsooJung/smart-city-gis/blob/d086031a394cf2ec81a31f51c192eacfa2f97058/data/actual/metadata.json",
+        "verification": "partially_verified"
+      },
+      "dataAsOf": null,
+      "dataPeriod": null,
+      "collectedAt": "2026-08-27T21:44:07+00:00",
+      "snapshotUpdatedAt": null,
+      "freshness": "older_snapshot_requires_source_refresh",
+      "verifiedScope": "라이브 HTML이 제공자 저장소 blob과 동일한지 해시로 대조. POI7207·격자수·점수 범위·단일2026연도와 빌더 확인. 8월27일은 제공자 metadata 수집일이며 관측 기준월로 사용하지 않음.",
+      "issues": [
+        "포털 내부 폴더가 없는 별도 GitHub Pages 프로젝트. 9·10월 OSM 원자료 재수집·점수 재계산은 미수행.",
+        "실제 관측 시계열이 아닌 단일 단면이며 포털 카드의 시계열 안내를 수정."
+      ],
+      "nextAction": "별도 원본 저장소의 기존 OSM 수집기와 빌더를 사용해 재수집·재계산·정확한 수집일 표시 및 그 저장소의 PR/Pages 검증. 포털에 같은 경로 폴더를 만들지 않음."
+    },
+    "/lh-sale-info/": {
+      "reviewStatus": "source_unavailable",
+      "source": {
+        "label": "LH 분양임대공고문 조회 서비스 공식 명세",
+        "url": "https://www.data.go.kr/data/15058530/openapi.do",
+        "verification": "documentation_checked"
+      },
+      "dataAsOf": null,
+      "dataPeriod": null,
+      "collectedAt": null,
+      "snapshotUpdatedAt": null,
+      "freshness": "source_authentication_required",
+      "verifiedScope": "공식 명세의 API주소·분양주택05·페이지 및 게시일/마감일 파라미터 대조. 인증키 없는 실제 원 API401을 기록. DB 쓰기/수집 버튼을 실행하지 않음.",
+      "issues": [
+        "기존 승인된 인증키가 이번 실행 환경에 없어 공식 공고 데이터 값을 대조하지 못함. 페이지30건을 전체/월간 공급량으로 해석하지 않음."
+      ],
+      "nextAction": "승인된 비공개 인증키가 연결된 환경에서 원API 조회만 수행하고 공고별 날짜·정규화·전체 페이지를 대조. DB 저장 여부는 명시적으로 제어."
+    },
+    "/hwaseong-real-estate/": {
+      "reviewStatus": "needs_review",
+      "source": {
+        "label": "국토교통부 아파트 매매 실거래가 원API 명세",
+        "url": "https://www.data.go.kr/data/15126469/openapi.do",
+        "verification": "documentation_checked"
+      },
+      "dataAsOf": null,
+      "dataPeriod": "2026-06",
+      "collectedAt": null,
+      "snapshotUpdatedAt": "2026-07-25T04:02:26.972Z",
+      "freshness": "older_than_target",
+      "verifiedScope": "저장6월 자료2672행·27배치·4구 합계·계약월·거래키 유일성 내부 검사와 API명세 대조. 9월 원API 인증미제공401, 기존 지역프록시 법정동 해석404를 기록. 저장본 원수치 검증 완료 아님.",
+      "issues": [
+        "기존 수집기와 기본화면은2026-06 고정. 원표 접근/법정동 해석이 해결되지 않아9·10월 값으로 추정 교체하지 않음.",
+        "원출처 거래키 기반 식별이 아닌 순번형 키이므로 키 유일성이 원거래 중복 없음의 증거가 아님."
+      ],
+      "nextAction": "기존 비공개 키가 연결된 환경에서 현행4구 법정코드·취소·신고지연·원표 페이지 전체를 대조하고 수집기 월 파라미터/화면/다운로드를 함께 갱신."
+    },
+    "/court-auction/": {
+      "reviewStatus": "verified",
+      "source": {
+        "label": "대한민국법원 매각공고 목록·상세 원응답",
+        "url": "https://www.courtauction.go.kr/pgj/index.on",
+        "verification": "verified"
+      },
+      "dataAsOf": null,
+      "dataPeriod": "2026-10",
+      "collectedAt": "2026-10-18T00:29:10.849Z",
+      "snapshotUpdatedAt": "2026-10-18T00:29:10.849Z",
+      "freshness": "partial_official_notices_verified",
+      "verifiedScope": "실제 법원 목록1·상세3응답의 원문·해시 보관. 3공고255원행 중 주택/상업202개에서 철회7개를 제외해116+79=195개. 법원/사건/물건/매각기일과 감정가·최저가·비율 원필드 대조.",
+      "issues": [
+        "반환된 공고는 서울중앙지법10월20·22·28일3건. 전국·10월전수·실제매각실적 검증 완료 아님.",
+        "정정목록1개는 철회와 중복되어 철회 우선 제외. 별도 실거래 비교 API의 수치는 이번 대조 범위 밖."
+      ],
+      "nextAction": "다음 수집에도 철회/정정 목록을 함께 대조. 원문 법원별 전체 공고 범위와 별도 국토부 비교 자료를 확보해 확장하며 현재 범위를 전국전수로 표시하지 않음."
+    }
+  },
+  "seoulValidation": {
+    "inputRows": 236932,
+    "includedRows": 221373,
+    "cancelledRows": 13481,
+    "outsideContractYears": 2078,
+    "identicalValueExtraRowsRetained": 3702,
+    "receiptRows": {
+      "2025": 135034,
+      "2026": 101898
+    },
+    "contractDateRange": [
+      "2025-01-01",
+      "2026-10-16"
+    ]
+  },
+  "smartProject": {
+    "repositoryCommit": "d086031a394cf2ec81a31f51c192eacfa2f97058",
+    "deployedBlobSha1": "7998b42ae2337ea17e7ba626e2ec00012a7eeac5",
+    "deployedMatchesRepository": true,
+    "poiCount": 7207,
+    "gridCells": 396,
+    "dataMetadata": {
+      "sourceMode": "openstreetmap-api",
+      "source": "OpenStreetMap contributors (ODbL)",
+      "fetchedAt": "2026-08-27T21:44:07+00:00",
+      "bbox": "37.480,127.020,37.520,127.080",
+      "poiCount": 7207,
+      "nodeCount": 15319,
+      "edgeCount": 19525
+    },
+    "years": [
+      2026
+    ],
+    "walkScoreRange": [
+      14.1,
+      78.7
+    ],
+    "interpretation": "라이브 HTML과 제공자 저장소를 대조. OSM 2026-08-27 메타데이터이며 9·10월 신규 원자료 수집/점수 재현은 이번 범위 밖."
+  },
+  "courtValidation": {
+    "responseCount": 4,
+    "notices": 3,
+    "rawDetailItems": 255,
+    "withdrawalRows": 7,
+    "correctedRows": 1,
+    "included": 195,
+    "housing": 116,
+    "commercial": 79,
+    "courtNames": [
+      "서울중앙지방법원"
+    ],
+    "saleDates": [
+      "2026-10-20",
+      "2026-10-22",
+      "2026-10-28"
+    ],
+    "rawPriceAndIdentityMatch": true,
+    "coverage": "반환된 공고 3건. 전국·10월 전수 미확인."
+  },
+  "hwaseongStoredValidation": {
+    "rows": 2672,
+    "batchCount": 27,
+    "districtTotals": [
+      {
+        "code": "41591",
+        "name": "만세구",
+        "total": 122
+      },
+      {
+        "code": "41593",
+        "name": "효행구",
+        "total": 160
+      },
+      {
+        "code": "41595",
+        "name": "병점구",
+        "total": 419
+      },
+      {
+        "code": "41597",
+        "name": "동탄구",
+        "total": 1971
+      }
+    ],
+    "contractMonth": "2026-06",
+    "sourceValuesVerified": false
+  },
+  "scope": "공식 CSV·법원 반환공고와 명세/문서 확인을 구분. 인증·외부 프로젝트 재수집 필요 항목을 완료 검증으로 처리하지 않음."
+}

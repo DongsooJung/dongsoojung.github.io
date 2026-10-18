@@ -562,157 +562,275 @@
     },
     {
       "source": {
-        "label": null,
-        "url": null,
-        "verification": "pending"
+        "label": "Smart City GIS 제공자 코드·OSM 수집 메타데이터",
+        "url": "https://github.com/DongsooJung/smart-city-gis/tree/d086031a394cf2ec81a31f51c192eacfa2f97058",
+        "verification": "verified_document"
       },
       "dataAsOf": null,
       "dataPeriod": null,
       "snapshotUpdatedAt": null,
       "collectedAt": null,
-      "checkedAt": null,
-      "reviewStatus": "pending",
-      "freshness": "unverified",
-      "evidence": [],
-      "issues": [],
+      "checkedAt": "2026-10-18T00:30:46.988856+00:00",
+      "reviewStatus": "not_applicable",
+      "freshness": "document_version_verified",
+      "evidence": [
+        {
+          "kind": "official-source",
+          "url": "https://github.com/DongsooJung/smart-city-gis/tree/d086031a394cf2ec81a31f51c192eacfa2f97058",
+          "checkedAt": "2026-10-18T00:30:46.988856+00:00",
+          "scope": "방법론 링크 안내 문서로 월간 통계 기준 비적용. 연결 대상 실제200·제공자 코드 버전·빌더 및 metadata 대조. 강남 핵심부 bbox·250m격자·4.5km/h·도로망 도달점 볼록껍질 근사와 2026-08-27 OSM 단면을 명시."
+        },
+        {
+          "kind": "audit-record",
+          "url": "/research/source-reviews/2026-10-18-urban-3.json",
+          "checkedAt": "2026-10-18T00:30:46.988856+00:00"
+        }
+      ],
+      "issues": [
+        "외부 보행성 점수의 9·10월 갱신·원OSM 대조 완료로 취급하지 않음."
+      ],
       "key": "/research/accessibility-lab/",
       "url": "/research/accessibility-lab/",
       "title": "접근성·보행성 랩",
       "primary": "urban",
       "classification": "도시·공간",
-      "sourceHint": "Isochrone · Walkability"
+      "sourceHint": "Isochrone · Walkability",
+      "verifiedScope": "방법론 링크 안내 문서로 월간 통계 기준 비적용. 연결 대상 실제200·제공자 코드 버전·빌더 및 metadata 대조. 강남 핵심부 bbox·250m격자·4.5km/h·도로망 도달점 볼록껍질 근사와 2026-08-27 OSM 단면을 명시.",
+      "nextAction": "별도 smart-city-gis 원본 저장소에서 신규 OSM 수집·재계산과 수집일 표시를 완료하면 연결 안내를 갱신."
     },
     {
       "source": {
-        "label": null,
-        "url": null,
-        "verification": "pending"
+        "label": "OpenStreetMap 제공자 저장소 스냅샷",
+        "url": "https://github.com/DongsooJung/smart-city-gis/blob/d086031a394cf2ec81a31f51c192eacfa2f97058/data/actual/metadata.json",
+        "verification": "partially_verified"
       },
       "dataAsOf": null,
       "dataPeriod": null,
       "snapshotUpdatedAt": null,
-      "collectedAt": null,
-      "checkedAt": null,
-      "reviewStatus": "pending",
-      "freshness": "unverified",
-      "evidence": [],
-      "issues": [],
+      "collectedAt": "2026-08-27T21:44:07+00:00",
+      "checkedAt": "2026-10-18T00:30:46.988856+00:00",
+      "reviewStatus": "needs_review",
+      "freshness": "older_snapshot_requires_source_refresh",
+      "evidence": [
+        {
+          "kind": "official-source",
+          "url": "https://github.com/DongsooJung/smart-city-gis/blob/d086031a394cf2ec81a31f51c192eacfa2f97058/data/actual/metadata.json",
+          "checkedAt": "2026-10-18T00:30:46.988856+00:00",
+          "scope": "라이브 HTML이 제공자 저장소 blob과 동일한지 해시로 대조. POI7207·격자수·점수 범위·단일2026연도와 빌더 확인. 8월27일은 제공자 metadata 수집일이며 관측 기준월로 사용하지 않음."
+        },
+        {
+          "kind": "audit-record",
+          "url": "/research/source-reviews/2026-10-18-urban-3.json",
+          "checkedAt": "2026-10-18T00:30:46.988856+00:00"
+        }
+      ],
+      "issues": [
+        "포털 내부 폴더가 없는 별도 GitHub Pages 프로젝트. 9·10월 OSM 원자료 재수집·점수 재계산은 미수행.",
+        "실제 관측 시계열이 아닌 단일 단면이며 포털 카드의 시계열 안내를 수정."
+      ],
       "key": "/smart-city-gis/dashboard/",
       "url": "https://stargateedu.co.kr/smart-city-gis/dashboard/",
       "title": "강남 보행성 · 15분도시 대시보드",
       "primary": "urban",
       "classification": "도시·공간",
-      "sourceHint": "Leaflet · Isochrone · Time-series"
+      "sourceHint": "별도 프로젝트 · OSM8월27일 단면",
+      "verifiedScope": "라이브 HTML이 제공자 저장소 blob과 동일한지 해시로 대조. POI7207·격자수·점수 범위·단일2026연도와 빌더 확인. 8월27일은 제공자 metadata 수집일이며 관측 기준월로 사용하지 않음.",
+      "nextAction": "별도 원본 저장소의 기존 OSM 수집기와 빌더를 사용해 재수집·재계산·정확한 수집일 표시 및 그 저장소의 PR/Pages 검증. 포털에 같은 경로 폴더를 만들지 않음."
     },
     {
       "source": {
-        "label": null,
-        "url": null,
-        "verification": "pending"
+        "label": "서울 열린데이터광장 OA-21275 공식 CSV",
+        "url": "https://data.seoul.go.kr/dataList/OA-21275/S/1/datasetView.do",
+        "verification": "verified"
       },
-      "dataAsOf": null,
-      "dataPeriod": null,
-      "snapshotUpdatedAt": null,
-      "collectedAt": null,
-      "checkedAt": null,
-      "reviewStatus": "pending",
-      "freshness": "unverified",
-      "evidence": [],
-      "issues": [],
+      "dataAsOf": "2026-10-16",
+      "dataPeriod": "2026-10",
+      "snapshotUpdatedAt": "2026-10-18T00:26:54.756382+00:00",
+      "collectedAt": "2026-10-18T00:25:57.911143+00:00",
+      "checkedAt": "2026-10-18T00:30:46.988856+00:00",
+      "reviewStatus": "verified",
+      "freshness": "target_period_verified",
+      "evidence": [
+        {
+          "kind": "official-source",
+          "url": "https://data.seoul.go.kr/dataList/OA-21275/S/1/datasetView.do",
+          "checkedAt": "2026-10-18T00:30:46.988856+00:00",
+          "scope": "같은 공식 접수 CSV에서 취소 제외·양수 면적 아파트의 개별 만원/평을 계산해 25구 중앙값 대조. 현재2026-01-01~10-16·전년2025-01-01~10-16 범위 일치. 구별 거래수 합은 월별 아파트 2026 합과 일치."
+        },
+        {
+          "kind": "audit-record",
+          "url": "/research/source-reviews/2026-10-18-urban-3.json",
+          "checkedAt": "2026-10-18T00:30:46.988856+00:00"
+        }
+      ],
+      "issues": [
+        "가격 표본수와 거래 건수를 구분. 자치구 중앙값의 단순평균은 서울 전체 거래가 중앙값 아님.",
+        "2013 참고 도형·25구 조인 확인. 현행 경계 좌표 대조는 범위 밖. Moran 수치는 기술통계이며 유의성 검정·인과효과를 뜻하지 않음.",
+        "10월 부분 자료·접수연도 제한·동일 값 행 식별 한계는 거래량과 동일."
+      ],
       "key": "/choropleth/",
       "url": "/choropleth/",
       "title": "Choropleth 지도",
       "primary": "urban",
       "classification": "도시·공간",
-      "sourceHint": "Plotly · GeoJSON"
+      "sourceHint": "서울 공식 CSV · 동기간중앙값 · 2013참고경계",
+      "verifiedScope": "같은 공식 접수 CSV에서 취소 제외·양수 면적 아파트의 개별 만원/평을 계산해 25구 중앙값 대조. 현재2026-01-01~10-16·전년2025-01-01~10-16 범위 일치. 구별 거래수 합은 월별 아파트 2026 합과 일치.",
+      "nextAction": "공식 CSV 재수집 시 동일 월일 비교와 분모·가격 표본수·25구 조인을 검증. 별도 경계 갱신 때 원본 버전과 인접행렬을 함께 대조."
     },
     {
       "source": {
-        "label": null,
-        "url": null,
-        "verification": "pending"
+        "label": "서울 열린데이터광장 OA-21275 공식 CSV",
+        "url": "https://data.seoul.go.kr/dataList/OA-21275/S/1/datasetView.do",
+        "verification": "verified"
       },
-      "dataAsOf": null,
-      "dataPeriod": null,
-      "snapshotUpdatedAt": null,
-      "collectedAt": null,
-      "checkedAt": null,
-      "reviewStatus": "pending",
-      "freshness": "unverified",
-      "evidence": [],
-      "issues": [],
+      "dataAsOf": "2026-10-16",
+      "dataPeriod": "2026-10",
+      "snapshotUpdatedAt": "2026-10-18T00:26:54.756382+00:00",
+      "collectedAt": "2026-10-18T00:25:57.911143+00:00",
+      "checkedAt": "2026-10-18T00:30:46.988856+00:00",
+      "reviewStatus": "verified",
+      "freshness": "target_period_verified",
+      "evidence": [
+        {
+          "kind": "official-source",
+          "url": "https://data.seoul.go.kr/dataList/OA-21275/S/1/datasetView.do",
+          "checkedAt": "2026-10-18T00:30:46.988856+00:00",
+          "scope": "2025·2026 접수 CSV 각 135,034·101,898행을 공식 그리드 조회 전체 건수와 대조. 취소 13,481·계약 범위 밖 2,078행 제외 후 221,373행의 22개월·4유형 합계 대조. 9월 6,534·10월16일까지 부분 1,481건."
+        },
+        {
+          "kind": "audit-record",
+          "url": "/research/source-reviews/2026-10-18-urban-3.json",
+          "checkedAt": "2026-10-18T00:30:46.988856+00:00"
+        }
+      ],
+      "issues": [
+        "10월은 진행월 부분이며 과거 월도 신고 지연·취소 정정으로 완결 미보장. 접수연도 2025·2026 자료의 계약월 집계이며 미래 접수 건은 미포함.",
+        "동일 값 추가행 3,702개는 거래 식별자가 없어 별도 거래일 수 있으므로 보존. 원장 ID 기반 중복 대조는 불가."
+      ],
       "key": "/volume/",
       "url": "/volume/",
       "title": "서울 부동산 월별 거래량",
       "primary": "urban",
       "classification": "도시·공간",
-      "sourceHint": "Plotly · 유형별"
+      "sourceHint": "서울 공식 CSV · 계약일2026-10-16까지",
+      "verifiedScope": "2025·2026 접수 CSV 각 135,034·101,898행을 공식 그리드 조회 전체 건수와 대조. 취소 13,481·계약 범위 밖 2,078행 제외 후 221,373행의 22개월·4유형 합계 대조. 9월 6,534·10월16일까지 부분 1,481건.",
+      "nextAction": "같은 RCPT_YR 필터·현행 스키마로 후속 공식 CSV 수집 후 취소 정정·신고 지연·범위·공식 전체 건수를 재대조."
     },
     {
       "source": {
-        "label": null,
-        "url": null,
-        "verification": "pending"
+        "label": "LH 분양임대공고문 조회 서비스 공식 명세",
+        "url": "https://www.data.go.kr/data/15058530/openapi.do",
+        "verification": "documentation_checked"
       },
       "dataAsOf": null,
       "dataPeriod": null,
       "snapshotUpdatedAt": null,
       "collectedAt": null,
-      "checkedAt": null,
-      "reviewStatus": "pending",
-      "freshness": "unverified",
-      "evidence": [],
-      "issues": [],
+      "checkedAt": "2026-10-18T00:30:46.988856+00:00",
+      "reviewStatus": "source_unavailable",
+      "freshness": "source_authentication_required",
+      "evidence": [
+        {
+          "kind": "source-attempt",
+          "url": "https://www.data.go.kr/data/15058530/openapi.do",
+          "checkedAt": "2026-10-18T00:30:46.988856+00:00",
+          "scope": "공식 명세의 API주소·분양주택05·페이지 및 게시일/마감일 파라미터 대조. 인증키 없는 실제 원 API401을 기록. DB 쓰기/수집 버튼을 실행하지 않음."
+        },
+        {
+          "kind": "audit-record",
+          "url": "/research/source-reviews/2026-10-18-urban-3.json",
+          "checkedAt": "2026-10-18T00:30:46.988856+00:00"
+        }
+      ],
+      "issues": [
+        "기존 승인된 인증키가 이번 실행 환경에 없어 공식 공고 데이터 값을 대조하지 못함. 페이지30건을 전체/월간 공급량으로 해석하지 않음."
+      ],
       "key": "/lh-sale-info/",
       "url": "/lh-sale-info/",
       "title": "LH 분양정보 관측소",
       "primary": "urban",
       "classification": "도시·공간",
-      "sourceHint": "한국토지주택공사 · data.go.kr"
+      "sourceHint": "한국토지주택공사 · data.go.kr",
+      "verifiedScope": "공식 명세의 API주소·분양주택05·페이지 및 게시일/마감일 파라미터 대조. 인증키 없는 실제 원 API401을 기록. DB 쓰기/수집 버튼을 실행하지 않음.",
+      "nextAction": "승인된 비공개 인증키가 연결된 환경에서 원API 조회만 수행하고 공고별 날짜·정규화·전체 페이지를 대조. DB 저장 여부는 명시적으로 제어."
     },
     {
       "source": {
-        "label": null,
-        "url": null,
-        "verification": "pending"
+        "label": "국토교통부 아파트 매매 실거래가 원API 명세",
+        "url": "https://www.data.go.kr/data/15126469/openapi.do",
+        "verification": "documentation_checked"
       },
       "dataAsOf": null,
-      "dataPeriod": null,
-      "snapshotUpdatedAt": null,
+      "dataPeriod": "2026-06",
+      "snapshotUpdatedAt": "2026-07-25T04:02:26.972Z",
       "collectedAt": null,
-      "checkedAt": null,
-      "reviewStatus": "pending",
-      "freshness": "unverified",
-      "evidence": [],
-      "issues": [],
+      "checkedAt": "2026-10-18T00:30:46.988856+00:00",
+      "reviewStatus": "needs_review",
+      "freshness": "older_than_target",
+      "evidence": [
+        {
+          "kind": "official-source",
+          "url": "https://www.data.go.kr/data/15126469/openapi.do",
+          "checkedAt": "2026-10-18T00:30:46.988856+00:00",
+          "scope": "저장6월 자료2672행·27배치·4구 합계·계약월·거래키 유일성 내부 검사와 API명세 대조. 9월 원API 인증미제공401, 기존 지역프록시 법정동 해석404를 기록. 저장본 원수치 검증 완료 아님."
+        },
+        {
+          "kind": "audit-record",
+          "url": "/research/source-reviews/2026-10-18-urban-3.json",
+          "checkedAt": "2026-10-18T00:30:46.988856+00:00"
+        }
+      ],
+      "issues": [
+        "기존 수집기와 기본화면은2026-06 고정. 원표 접근/법정동 해석이 해결되지 않아9·10월 값으로 추정 교체하지 않음.",
+        "원출처 거래키 기반 식별이 아닌 순번형 키이므로 키 유일성이 원거래 중복 없음의 증거가 아님."
+      ],
       "key": "/hwaseong-real-estate/",
       "url": "/hwaseong-real-estate/",
       "title": "화성 실거래 데이터 허브",
       "primary": "urban",
       "classification": "도시·공간",
-      "sourceHint": "국토교통부 · 2026.06"
+      "sourceHint": "국토교통부 · 2026-06저장본 · 후속대조 필요",
+      "verifiedScope": "저장6월 자료2672행·27배치·4구 합계·계약월·거래키 유일성 내부 검사와 API명세 대조. 9월 원API 인증미제공401, 기존 지역프록시 법정동 해석404를 기록. 저장본 원수치 검증 완료 아님.",
+      "nextAction": "기존 비공개 키가 연결된 환경에서 현행4구 법정코드·취소·신고지연·원표 페이지 전체를 대조하고 수집기 월 파라미터/화면/다운로드를 함께 갱신."
     },
     {
       "source": {
-        "label": null,
-        "url": null,
-        "verification": "pending"
+        "label": "대한민국법원 매각공고 목록·상세 원응답",
+        "url": "https://www.courtauction.go.kr/pgj/index.on",
+        "verification": "verified"
       },
       "dataAsOf": null,
-      "dataPeriod": null,
-      "snapshotUpdatedAt": null,
-      "collectedAt": null,
-      "checkedAt": null,
-      "reviewStatus": "pending",
-      "freshness": "unverified",
-      "evidence": [],
-      "issues": [],
+      "dataPeriod": "2026-10",
+      "snapshotUpdatedAt": "2026-10-18T00:29:10.849Z",
+      "collectedAt": "2026-10-18T00:29:10.849Z",
+      "checkedAt": "2026-10-18T00:30:46.988856+00:00",
+      "reviewStatus": "verified",
+      "freshness": "partial_official_notices_verified",
+      "evidence": [
+        {
+          "kind": "official-source",
+          "url": "https://www.courtauction.go.kr/pgj/index.on",
+          "checkedAt": "2026-10-18T00:30:46.988856+00:00",
+          "scope": "실제 법원 목록1·상세3응답의 원문·해시 보관. 3공고255원행 중 주택/상업202개에서 철회7개를 제외해116+79=195개. 법원/사건/물건/매각기일과 감정가·최저가·비율 원필드 대조."
+        },
+        {
+          "kind": "audit-record",
+          "url": "/research/source-reviews/2026-10-18-urban-3.json",
+          "checkedAt": "2026-10-18T00:30:46.988856+00:00"
+        }
+      ],
+      "issues": [
+        "반환된 공고는 서울중앙지법10월20·22·28일3건. 전국·10월전수·실제매각실적 검증 완료 아님.",
+        "정정목록1개는 철회와 중복되어 철회 우선 제외. 별도 실거래 비교 API의 수치는 이번 대조 범위 밖."
+      ],
       "key": "/court-auction/",
       "url": "/court-auction/",
       "title": "법원경매 × 실거래 비교",
       "primary": "urban",
       "classification": "도시·공간",
-      "sourceHint": "법원경매정보 · 국토부 실거래"
+      "sourceHint": "법원 원문 · 10월부분공고 · 철회제외",
+      "verifiedScope": "실제 법원 목록1·상세3응답의 원문·해시 보관. 3공고255원행 중 주택/상업202개에서 철회7개를 제외해116+79=195개. 법원/사건/물건/매각기일과 감정가·최저가·비율 원필드 대조.",
+      "nextAction": "다음 수집에도 철회/정정 목록을 함께 대조. 원문 법원별 전체 공고 범위와 별도 국토부 비교 자료를 확보해 확장하며 현재 범위를 전국전수로 표시하지 않음."
     },
     {
       "source": {

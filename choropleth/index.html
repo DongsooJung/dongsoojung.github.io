@@ -42,9 +42,10 @@ h1{font-size:30px;letter-spacing:-.4px;margin:26px 0 6px;background:var(--grad1)
 <div class="wrap">
   <div class="nav"><a href="/research/">← 연구 대시보드</a><a href="https://www.stargateedu.co.kr/">포털</a></div>
   <h1>서울 자치구 아파트 실거래 지도</h1>
-  <p class="lead">서울 25개 자치구 아파트 실거래를 <b>평단가·거래량·전년 대비 변동률</b> 3개 레이어로 봅니다. 서울 열린데이터광장 실거래 집계. 실제 경계의 <b>queen 인접행렬</b>로 레이어별 공간 자기상관(Moran's I)을 계산합니다.</p>
+  <p class="lead">서울 25개 자치구 아파트 실거래를 <b>평단가·거래량·전년 대비 변동률</b> 3개 레이어로 봅니다. 서울 열린데이터광장 실거래 집계. 2013 참고 경계의 공유 꼭짓점으로 queen 인접행렬을 만들고 기술통계 Moran's I를 계산합니다. 유의성 검정은 제공하지 않습니다.</p>
   <div class="chips"><span class="chip">서울 열린데이터 실거래</span><span class="chip">3-Layer</span><span class="chip">Queen Contiguity W</span><span class="chip">Moran's I</span><span class="chip">LISA Quadrants</span></div>
 
+<section class="source-review" aria-label="출처·자료 기준" style="margin:20px auto;padding:16px;max-width:1200px;border:1px solid currentColor;border-radius:12px;font:13px/1.7 system-ui;overflow-wrap:anywhere"><strong>서울 가격·거래량 · 2026-01-01~10-16 / 전년 같은 월일 창</strong><p>공식 원본의 취소 제외 아파트 거래를 사용합니다. 가격은 개별 거래금액÷면적×3.305785의 자치구 중앙값이며, 서울 전체 중앙값이 아닙니다. 가격 산정의 양수 면적 표본과 거래 건수를 구분합니다. 월별 접수 지연·정정 및 동일 값 행 식별 한계가 있습니다. 경계는 2013년이며 현행 경계로 표시하지 않습니다. 원본 수집 2026-10-18T00:25:57.911143+00:00.</p><a href="/research/source-reviews/2026-10-18-urban-3.json">원출처 대조 기록</a> · <a href="/assets/gu_prices.json" download>가격·범위 JSON</a> · <a href="/assets/gu_prices.csv" download>자치구 CSV</a></section>
   <div class="stats" id="stats"></div>
 
   <div class="card">
@@ -67,6 +68,7 @@ h1{font-size:30px;letter-spacing:-.4px;margin:26px 0 6px;background:var(--grad1)
   </div>
 </div>
 
+<script src="/assets/property-quality.js"></script>
 <script>
 const ACC='#7aa2ff',GOOD='#63d6a0',WARM='#ffb86b',PINK='#f778ba',SUB='#9aa7b8',LINE='#21304f';
 const DARK={paper_bgcolor:'rgba(0,0,0,0)',font:{color:SUB,family:'Pretendard,system-ui,sans-serif'},
@@ -76,7 +78,7 @@ const cfg={responsive:true,displayModeBar:false};
 const LAYER={
   price:{title:'평단가',unit:'만원/평',cbar:'만원/평',fmt:v=>Math.round(v).toLocaleString()+'만원',
          scale:[[0,'#12203f'],[0.45,'#31519e'],[0.75,'#4f7fff'],[1,'#b388ff']],div:false},
-  vol:{title:'2026 아파트 거래량',unit:'건',cbar:'건',fmt:v=>Math.round(v).toLocaleString()+'건',
+  vol:{title:'2026 동기간 아파트 거래량',unit:'건',cbar:'건',fmt:v=>Math.round(v).toLocaleString()+'건',
        scale:[[0,'#0f2018'],[0.5,'#1f8f5f'],[1,'#63d6a0']],div:false},
   yoy:{title:'전년 대비 변동률',unit:'%',cbar:'%',fmt:v=>(v>0?'+':'')+v+'%',
        scale:[[0,'#f778ba'],[0.5,'#152036'],[1,'#63d6a0']],div:true}
@@ -91,8 +93,10 @@ Promise.all([
   fetch('/assets/gu_prices.json').then(r=>r.json())
 ]).then(([geo,prices])=>{
   const F=geo.features;
+  PropertyQuality.joinDistricts(F,prices.districts);
   const en=F.map(f=>f.properties.name_eng), ko=F.map(f=>f.properties.name);
   const D=prices.districts, META=prices.meta;
+  LAYER.vol.title="아파트 거래량("+META.comparisonPeriod.currentStart+"~"+META.comparisonPeriod.currentEnd+")";
   const VALS={
     price:en.map(e=>D[e].price),
     vol:en.map(e=>D[e].vol),
@@ -121,7 +125,7 @@ Promise.all([
     const v=VALS[m], L=LAYER[m], M=moran(v);
     if(m==='price'){
       const mx=v.indexOf(Math.max(...v));
-      return [['평균 평단가',Math.round(M.mean).toLocaleString()+'만원'],
+      return [['구 중앙값의 단순평균',Math.round(M.mean).toLocaleString()+'만원'],
         ['최고 · '+ko[mx].replace('구',''),L.fmt(Math.max(...v))],
         ['최고/최저 격차',(Math.max(...v)/Math.min(...v)).toFixed(1)+'배'],
         ["Moran's I",M.I.toFixed(3)]];
@@ -172,10 +176,9 @@ Promise.all([
     document.getElementById('mapTitle').textContent=L.title+' ('+L.unit+')';
     document.getElementById('stats').innerHTML=kpis(m).map(([l,val])=>
       `<div class="stat"><div class="l">${l}</div><div class="v">${val}</div></div>`).join('');
-    const sign=M.I>0.3?'뚜렷한 양(+)의':M.I>0.05?'약한 양(+)의':M.I<-0.05?'음(−)의':'거의 없는';
     document.getElementById('moranNote').textContent=
-      `${L.title} Moran's I = ${M.I.toFixed(3)} → ${sign} 공간 자기상관. queen 인접행렬 25개 구·${totalEdges}개 인접쌍(행표준화). `+
-      `데이터: ${META.source} · ${META.period} · ${META.metric}.`;
+      `${L.title} Moran's I = ${M.I.toFixed(3)}. 기술통계이며 유의성 검정·인과효과를 뜻하지 않습니다. 2013 참고 도형의 공유 꼭짓점 기반 queen 행렬: 25구·${totalEdges}인접쌍(행표준화). `+
+      `현재 ${META.comparisonPeriod.currentStart}~${META.comparisonPeriod.currentEnd}, 전년 ${META.comparisonPeriod.previousStart}~${META.comparisonPeriod.previousEnd}. ${META.priceDefinition}`;
     document.querySelectorAll('#toggle button').forEach(b=>b.classList.toggle('on',b.dataset.m===m));
   }
 

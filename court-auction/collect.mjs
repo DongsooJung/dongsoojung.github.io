@@ -3,6 +3,7 @@
 import { writeFile } from "node:fs/promises";
 import { fileURLToPath } from "node:url";
 import path from "node:path";
+import sourceStatus from "./source-status.cjs";
 import {
   CourtAuctionHttpClient,
   getSaleNoticeDetail,
@@ -23,6 +24,17 @@ const client = new CourtAuctionHttpClient({
   jitterMs: 1_000,
   maxCallsPerSession: 40,
 });
+const changes = {withdrawn: new Set(), corrections: new Map()};
+const postJson = client.postJson.bind(client);
+client.postJson = async (...request) => {
+  const raw = await postJson(...request);
+  if (request[0] === "noticeDetail") {
+    const status = sourceStatus.readChanges(raw);
+    for (const key of status.withdrawn) changes.withdrawn.add(key);
+    for (const [key, note] of status.corrections) changes.corrections.set(key, note);
+  }
+  return raw;
+};
 
 console.log(`[1/3] ${month} 대한민국법원 매각공고 목록 조회`);
 const notices = await searchSaleNotices({
@@ -47,7 +59,7 @@ for (let index = 0; index < notices.items.length; index += 1) {
 }
 
 const seen = new Set();
-const records = rawItems
+const parsedRecords = rawItems
   .map(({ notice, item }) => normalizeRecord(notice, item))
   .filter((record) => {
     const key = `${record.법원코드}:${record.사건번호}:${record.물건번호}:${record.매각기일}`;
@@ -55,6 +67,8 @@ const records = rawItems
     seen.add(key);
     return record.구분 !== "기타";
   });
+const reconciled = sourceStatus.applyChanges(parsedRecords, changes);
+const records = reconciled.records;
 
 const generatedAt = new Date().toISOString();
 const commonMeta = {
@@ -65,6 +79,8 @@ const commonMeta = {
   basis: "매각기일",
   notice_count: notices.items.length,
   is_sample: false,
+  withdrawnExcluded: reconciled.excluded,
+  correctedNoticeItems: reconciled.corrected,
 };
 
 for (const category of ["주택", "상업용"]) {
@@ -74,6 +90,10 @@ for (const category of ["주택", "상업용"]) {
   const payload = {
     meta: {
       ...commonMeta,
+      source_url: "https://www.courtauction.go.kr/pgj/index.on",
+      courts: [...new Set(categoryRecords.map(record => record.법원))].sort(),
+      coverage: "반환된 공고의 물건만 포함. 전국·월 전수 미확인.",
+      partial: true,
       category,
       count: categoryRecords.length,
       months: [...new Set(categoryRecords.map((record) => record.매각기일.slice(0, 7)))].sort(),
