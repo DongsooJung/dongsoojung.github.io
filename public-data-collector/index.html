@@ -223,6 +223,7 @@
 <link rel="stylesheet" href="/assets/stargate-tokens.css?v=20261017">
 </head>
 <body>
+<aside id="source-review-note" aria-label="출처와 버전 점검" style="box-sizing:border-box;max-width:1100px;margin:18px auto;padding:14px 20px;border:1px solid #64748b;border-radius:12px;font:14px/1.7 system-ui,sans-serif;overflow-wrap:anywhere"><strong>출처·버전 점검 · 2026-10-19</strong><p style="margin:6px 0">수집기 코드와 국토부·소상공인시장진흥공단·기상청 API 명세 페이지를 대조했습니다. 수집은 브라우저에서 실행하며 자동 반복은 탭이 열려 있을 때만 작동합니다. 기본 조회는 지역·유형·페이지 수가 제한됩니다. 이번 점검에서 새 수집·Storage 저장을 실행하지 않았으므로 9·10월 자료의 확보 또는 전수 수집 완료를 뜻하지 않습니다. 동 코드·업종 코드와 인증된 응답 대조가 남아 있습니다.</p><a href="/research/source-reviews/2026-10-19-research-1.json">대조 범위·원문·후속 조치 (JSON)</a></aside>
   <div class="wrap">
     <header class="topbar">
       <a class="brand" href="/">
@@ -249,7 +250,7 @@
         <div class="ticker">
           <div class="row"><strong>APT TRADE</strong><span class="muted">실거래 → CSV</span></div>
           <div class="row"><strong>STORE DONG</strong><span class="muted">상권 패널</span></div>
-          <div class="row"><strong>UPJONG</strong><span class="muted">생존분석 코호트</span></div>
+          <div class="row"><strong>UPJONG</strong><span class="muted">상가업소 조회</span></div>
           <div class="row"><strong>FORECAST</strong><span class="muted">단기예보 스냅샷</span></div>
         </div>
       </div>
@@ -257,7 +258,7 @@
 
     <section class="section" id="collector">
       <h2>수집 실행</h2>
-      <p class="section-lead">체크한 API만 호출합니다. 서버가 CSV를 만들고 Supabase 버킷 <code>public-data-csv</code>에 올린 뒤, 아래에서 미리보기·다운로드할 수 있습니다.</p>
+      <p class="section-lead">체크한 API만 호출합니다. 브라우저가 API를 조회하고 CSV를 만듭니다. 저장 옵션을 켜면 Supabase 버킷 <code>public-data-csv</code>에 올린 뒤, 아래에서 미리보기·다운로드할 수 있습니다.</p>
 
       <div class="panel">
         <div class="controls">
