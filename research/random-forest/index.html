@@ -68,6 +68,7 @@
 <meta name="twitter:card" content="summary_large_image"><link rel="stylesheet" href="/assets/stargate-tokens.css?v=20261017">
 </head>
 <body>
+<aside id="source-review-note" aria-label="출처와 버전 점검" style="box-sizing:border-box;max-width:1100px;margin:18px auto;padding:14px 20px;border:1px solid #64748b;border-radius:12px;font:14px/1.7 system-ui,sans-serif;overflow-wrap:anywhere"><strong>출처·버전 점검 · 2026-10-19</strong><p style="margin:6px 0">합성 기업 1,500개·고정 시드 20260924의 시연입니다. Breiman·Strobl 원문과 구현 범위를 대조했습니다. AUC·중요도는 실제 기업의 부도 위험이나 정책의 인과효과가 아닙니다. 실측 9·10월 데이터로 갱신된 것으로 해석하지 않습니다.</p><a href="/research/source-reviews/2026-10-19-research-1.json">대조 범위·원문·후속 조치 (JSON)</a></aside>
   <nav class="wrap top"><a class="brand" href="/research/">STARGATE <span>RESEARCH</span></a><a class="back" href="/research/#ai-ml">연구 허브로 →</a></nav>
   <header class="wrap">
     <div class="kicker">AI RESEARCH × ENSEMBLE LEARNING × SPATIAL CREDIT RISK</div>
@@ -126,7 +127,7 @@
 
     <section id="method">
       <h2>방법론</h2>
-      <p class="sub">Breiman(2001)의 Random Forest를 그대로 구현했습니다. 각 트리는 부트스트랩 표본으로 학습하고, 매 분할마다 무작위로 고른 변수 일부에서만 최적 분할을 찾습니다.</p>
+      <p class="sub">Breiman(2001)의 부트스트랩·무작위 변수 선택 원리를 바탕으로 만든 브라우저용 단순화 구현입니다. 깊이·리프 크기 제한, 변수당 분위수 후보 24개, 리프 양성비율 평균을 사용하므로 원논문의 무제한 성장·다수결 구현과 동일하지 않습니다. 각 트리는 부트스트랩 표본으로 학습하고, 매 분할마다 무작위로 고른 변수 일부에서만 최적 분할을 찾습니다.</p>
       <div class="formula">p̂(x) = (1/B) Σ<sub>b=1..B</sub> T<sub>b</sub>(x; Θ<sub>b</sub>), &nbsp;&nbsp; Gini(t) = 1 − Σ<sub>k</sub> p<sub>tk</sub><sup>2</sup>, &nbsp;&nbsp; ΔI = Gini(t) − (n<sub>L</sub>/n)Gini(t<sub>L</sub>) − (n<sub>R</sub>/n)Gini(t<sub>R</sub>)</div>
       <div class="two">
         <div><h3>변수 구성</h3><ul>
@@ -154,7 +155,7 @@
       </ol>
     </section>
 
-    <div class="source">기준일: 2026년 9월 · 근거: <a href="https://doi.org/10.1023/A:1010933404324" target="_blank" rel="noopener">Breiman (2001), Random Forests, Machine Learning 45</a> · <a href="https://doi.org/10.1186/1471-2105-8-25" target="_blank" rel="noopener">Strobl et al. (2007), Bias in random forest variable importance</a> · <a href="https://doi.org/10.1214/08-AOAS169" target="_blank" rel="noopener">Ishwaran et al. (2008), Random Survival Forests</a> · <a href="https://github.com/DongsooJung/credit-survival-analysis" target="_blank" rel="noopener">credit-survival-analysis 리포지토리</a></div>
+    <div class="source">연구 설계 표기: 2026년 9월 · 합성 데이터 시드 20260924 · 월간 실측 통계 기준월 비적용 · 근거: <a href="https://doi.org/10.1023/A:1010933404324" target="_blank" rel="noopener">Breiman (2001), Random Forests, Machine Learning 45</a> · <a href="https://doi.org/10.1186/1471-2105-8-25" target="_blank" rel="noopener">Strobl et al. (2007), Bias in random forest variable importance</a> · <a href="https://doi.org/10.1214/08-AOAS169" target="_blank" rel="noopener">Ishwaran et al. (2008), Random Survival Forests</a> · <a href="https://github.com/DongsooJung/credit-survival-analysis" target="_blank" rel="noopener">credit-survival-analysis 리포지토리</a></div>
   </main>
 
 <script>

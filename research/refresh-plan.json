@@ -493,7 +493,7 @@
       ],
       "release": {
         "branch": "codex/research-urban-3-source-review",
-        "status": "awaiting_checks",
+        "status": "verified",
         "liveUrl": "https://www.stargateedu.co.kr/research/",
         "sourceReviewUrl": "https://www.stargateedu.co.kr/research/source-reviews/2026-10-18-urban-3.json",
         "pullRequest": "https://github.com/DongsooJung/dongsoojung.github.io/pull/191",
@@ -502,13 +502,26 @@
           "CSV receipt totals matched official grid control counts; court fields matched captured raw responses",
           "local research hub browser regression: seven filters,63 unique,global alphabetical,anchors,group order,strategy44",
           "mobile court table and bid-strategy panels stay within390px after layout fix"
+        ],
+        "commit": "5c5e372bf85dfc66277dead88d307cef7ebafac8",
+        "verifiedAt": "2026-10-18T00:38:31.690Z",
+        "pagesRun": "https://github.com/DongsooJung/dongsoojung.github.io/actions/runs/39083440915",
+        "checks": [
+          "PR CodeQL JavaScript and aggregate success",
+          "exact merge commit Pages build/deploy/report success",
+          "20 deployed files match reviewed source on both public domains",
+          "15 relevant Node tests and4 Python source-grain regression tests passed",
+          "official Seoul receipt totals matched CSV rows; monthly sums,district sums,prices,periods reconciled",
+          "court original identities and prices matched;7withdrawals removed;116housing/79commercial returned scope",
+          "Edge live:22month chart,three map layers,actual JSON/CSV downloads,search/table,failure state and6mobile pages",
+          "live7filters globally alphabetical,63unique,anchors,stablegroups,strategy44;no script errors"
         ]
       }
     },
     {
       "id": "research-1",
       "label": "연구·AI 1차",
-      "status": "pending",
+      "status": "completed",
       "keys": [
         "/research/information-economics/",
         "/research/researcher-vision/",
@@ -518,7 +531,84 @@
         "/public-data-collector/",
         "/did/",
         "/research/debate-analyzer/"
-      ]
+      ],
+      "completedAt": "2026-10-18T15:32:54.320105+00:00",
+      "outcome": "reviewed_with_followups",
+      "itemResults": {
+        "/research/information-economics/": {
+          "status": "not_applicable",
+          "checkedAt": "2026-10-18T15:32:54.320105+00:00",
+          "audit": "/research/source-reviews/2026-10-19-research-1.json",
+          "nextAction": "실증 착수 시 원자료·식별가정·추정코드와 추가 고전문헌 원문을 별도 대조."
+        },
+        "/research/researcher-vision/": {
+          "status": "not_applicable",
+          "checkedAt": "2026-10-18T15:32:54.320105+00:00",
+          "audit": "/research/source-reviews/2026-10-19-research-1.json",
+          "nextAction": "실증 결과를 추가할 때 실제 조사표·기간·단위·추정결과를 별도 검증."
+        },
+        "/research/random-forest/": {
+          "status": "not_applicable",
+          "checkedAt": "2026-10-18T15:32:54.320105+00:00",
+          "audit": "/research/source-reviews/2026-10-19-research-1.json",
+          "nextAction": "실자료 확보 후 시간·공간 분리 검증과 누수 통제. 합성 결과를 실제 정책효과로 표시하지 않음."
+        },
+        "/research/ai-freshness/": {
+          "status": "needs_review",
+          "checkedAt": "2026-10-18T15:32:54.320105+00:00",
+          "audit": "/research/source-reviews/2026-10-19-research-1.json",
+          "nextAction": "Google 제한 해소 후 동일 조건 원시 CSV를 재수집. Naver 유효 공유 링크 또는 기존 인증을 사용해 전체 기간을 재조회하고 정규화 창·완결 주를 함께 저장."
+        },
+        "/research/immigration-policy/": {
+          "status": "needs_review",
+          "checkedAt": "2026-10-18T15:32:54.320105+00:00",
+          "audit": "/research/source-reviews/2026-10-19-research-1.json",
+          "nextAction": "9월 월보 공표 시 실제 원표를 확보해 범위·F-5 총계를 대조. 현행 시행령 별표·매뉴얼 버전과 F-2/F-5/F-6 세부조건을 별도 검증."
+        },
+        "/public-data-collector/": {
+          "status": "needs_review",
+          "checkedAt": "2026-10-18T15:32:54.320105+00:00",
+          "audit": "/research/source-reviews/2026-10-19-research-1.json",
+          "nextAction": "기존 인증으로 저장을 끈 응답 대조 후 지역·업종 코드·페이지 종료 조건을 검증. CSV의 자료 기준과 수집시각을 구분."
+        },
+        "/did/": {
+          "status": "needs_review",
+          "checkedAt": "2026-10-18T15:32:54.320105+00:00",
+          "audit": "/research/source-reviews/2026-10-19-research-1.json",
+          "nextAction": "과거 raw 응답·수집시각을 확보해 일별 범주 합계를 대조. 정식 DID는 실제 정책일·집단·추정/불확실성 설계 후 별도 실행."
+        },
+        "/research/debate-analyzer/": {
+          "status": "not_applicable",
+          "checkedAt": "2026-10-18T15:32:54.320105+00:00",
+          "audit": "/research/source-reviews/2026-10-19-research-1.json",
+          "nextAction": "사람이 평가한 라벨과 비교 검증하기 전 점수를 사실성·토론 승패의 검증된 지표로 사용하지 않음."
+        }
+      },
+      "followUps": [
+        {
+          "key": "/research/ai-freshness/",
+          "nextAction": "Google 제한 해소 후 동일 조건 원시 CSV를 재수집. Naver 유효 공유 링크 또는 기존 인증을 사용해 전체 기간을 재조회하고 정규화 창·완결 주를 함께 저장."
+        },
+        {
+          "key": "/research/immigration-policy/",
+          "nextAction": "9월 월보 공표 시 실제 원표를 확보해 범위·F-5 총계를 대조. 현행 시행령 별표·매뉴얼 버전과 F-2/F-5/F-6 세부조건을 별도 검증."
+        },
+        {
+          "key": "/public-data-collector/",
+          "nextAction": "기존 인증으로 저장을 끈 응답 대조 후 지역·업종 코드·페이지 종료 조건을 검증. CSV의 자료 기준과 수집시각을 구분."
+        },
+        {
+          "key": "/did/",
+          "nextAction": "과거 raw 응답·수집시각을 확보해 일별 범주 합계를 대조. 정식 DID는 실제 정책일·집단·추정/불확실성 설계 후 별도 실행."
+        }
+      ],
+      "release": {
+        "branch": "codex/research-1-source-review",
+        "status": "awaiting_checks",
+        "liveUrl": "https://www.stargateedu.co.kr/research/",
+        "sourceReviewUrl": "https://www.stargateedu.co.kr/research/source-reviews/2026-10-19-research-1.json",
+        "pullRequest": "https://github.com/DongsooJung/dongsoojung.github.io/pull/193"
+      }
     },
     {
       "id": "research-2",
@@ -577,5 +667,5 @@
     }
   ],
   "automationId": "10",
-  "lastCompletedStep": "urban-3"
+  "lastCompletedStep": "research-1"
 }
