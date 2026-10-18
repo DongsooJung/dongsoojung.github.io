@@ -44,6 +44,13 @@ function preflight(request,method) {
 export async function handleRequest(request,env,options = {}) {
   const url = new URL(request.url), path = url.pathname;
   if(path === "/api/sms" || path.startsWith('/api/sms/') || path === "/api/account") return smsWorker.fetch(request,env);
+  if(['/sms/customers','/sms/customers/','/sms/customers/index.html'].includes(path)) {
+    if(path==='/sms/customers') return Response.redirect(url.origin+'/sms/customers/',308);
+    const assetUrl=new URL('/sms/',url.origin);
+    const asset=await env.ASSETS.fetch(new Request(assetUrl,request));
+    const headers=new Headers(asset.headers);headers.set('Cache-Control','no-store');
+    return new Response(asset.body,{status:asset.status,headers});
+  }
   if (path === '/api/blog-visitors') return handleBlogVisitors(request,env,options.blogVisitors);
   if(path.startsWith('/__/auth/')||path.startsWith('/__/firebase/')) return handleFirebaseAuth(request,env,options.firebaseAuth);
   const guardedPath=protectedPath(path);
@@ -57,7 +64,7 @@ export async function handleRequest(request,env,options = {}) {
     if (adminPage) {
       if(request.method==='GET'&&guardedPath==='/admin/visitors/'&&url.searchParams.get('sms-login')==='1') {
         if(!env.SMS_ADMIN_TOKEN)return json({error:'SMS session configuration required'},503);
-        return new Response(null,{status:303,headers:{Location:'/sms/','Cache-Control':'private, no-store','Set-Cookie':await createSession(env.SMS_ADMIN_TOKEN)}});
+        return new Response(null,{status:303,headers:{Location:({'analytics':'/sms/analytics/','customers':'/sms/customers/'}[url.searchParams.get('next')]||'/sms/'),'Cache-Control':'private, no-store','Set-Cookie':await createSession(env.SMS_ADMIN_TOKEN)}});
       }
       const asset=await env.ASSETS.fetch(request),headers=new Headers(asset.headers);
       headers.set('Cache-Control','private, no-store');

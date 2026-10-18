@@ -58,7 +58,7 @@ test('request history transitions from processing to accepted, keeps one record 
 });
 test('private CRM routes reject unauthorized and cross-origin requests before any storage access',async()=>{
   const env={SOLAPI_API_KEY:'test-key',SOLAPI_API_SECRET:'test-secret',SMS_ADMIN_TOKEN:'admin'};
-  for(const path of ['contacts','templates','history','reports']){
+  for(const path of ['contacts','templates','history','reports','analytics']){
     const response=await handler.fetch(new Request('https://test.invalid/api/sms/'+path),env);
     assert.equal(response.status,401);assert.equal(response.headers.get('cache-control'),'no-store');
   }
@@ -74,4 +74,16 @@ test('authenticated API returns saved customer records and reports validation er
   const invalid=await handler.fetch(request({name:'검증',phone:'123'}),env);assert.equal(invalid.status,400);
   const list=await handler.fetch(new Request('https://test.invalid/api/sms/contacts',{headers:{'x-admin-token':'admin'}}),env);
   assert.equal((await list.json()).contacts.length,1);
+});
+
+test('analytics uses the shared store, requires authentication and bounds the period',async()=>{
+  const calls=[];
+  const env={SOLAPI_API_KEY:'key',SOLAPI_API_SECRET:'secret',SMS_ADMIN_TOKEN:'admin',VISITOR_ANALYTICS:{idFromName:v=>{assert.equal(v,'stargate-visitors-v1');return v;},get:()=>({analytics:async(method,payload)=>{calls.push({method,payload});return {source:'cloudflare',pages:[],daily:[],page_views:12};}})}};
+  const query=(days,headers={'x-admin-token':'admin'},method='GET')=>handler.fetch(new Request('https://test.invalid/api/sms/analytics?days='+days,{headers,method}),env);
+  assert.equal((await query(7,{})).status,401);assert.equal(calls.length,0);
+  assert.equal((await query(7,{'x-admin-token':'admin',origin:'https://foreign.invalid'})).status,403);
+  for(const days of ['0','91','abc','1.5'])assert.equal((await query(days)).status,400);
+  assert.equal((await query(7,undefined,'POST')).status,405);assert.equal(calls.length,0);
+  const response=await query(7);assert.equal(response.headers.get('cache-control'),'no-store');
+  assert.equal((await response.json()).page_views,12);assert.deepEqual(calls,[{method:'get_site_usage_stats',payload:{p_days:7}}]);
 });

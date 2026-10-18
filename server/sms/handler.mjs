@@ -1,4 +1,5 @@
 import {json,authorized,account,validate,solapi} from './service.mjs';
+import {validatePayload} from '../../cloudflare/analytics.mjs';
 import {clearSession} from './session.mjs';
 export default {async fetch(request,env) {
   const url=new URL(request.url);
@@ -9,7 +10,7 @@ export default {async fetch(request,env) {
   }
   const resource=url.pathname.replace('/api/sms/','');
   const crmRoute=['contacts','templates','history'].includes(resource);
-  if(!['/api/sms','/api/account','/api/sms/reports','/api/sms/session'].includes(url.pathname)&&!crmRoute) return json({ok:false,message:'찾을 수 없습니다.'},404);
+  if(!['/api/sms','/api/account','/api/sms/reports','/api/sms/session','/api/sms/analytics'].includes(url.pathname)&&!crmRoute) return json({ok:false,message:'찾을 수 없습니다.'},404);
   const configured=Boolean(env.SOLAPI_API_KEY&&env.SOLAPI_API_SECRET&&env.SMS_ADMIN_TOKEN);
   if(url.pathname==='/api/sms'&&request.method==='GET') return json({ok:true,configured});
   if(url.pathname==='/api/sms/session'&&request.method==='GET') return json({ok:true,signedIn:await authorized(request,env)});
@@ -18,6 +19,15 @@ export default {async fetch(request,env) {
   if(!await authorized(request,env)) return json({ok:false,message:'관리자 로그인이 필요합니다.'},401);
   try {
     if(url.pathname==='/api/sms/session'&&request.method==='DELETE')return new Response(JSON.stringify({ok:true}),{headers:{'Content-Type':'application/json','Cache-Control':'no-store','Set-Cookie':clearSession()}});
+    if(url.pathname==='/api/sms/analytics') {
+      if(request.method!=='GET') return json({ok:false,message:'GET 요청이 필요합니다.'},405);
+      let payload;
+      try {payload=validatePayload('get_site_usage_stats',{p_days:Number(url.searchParams.get('days')||30)});}
+      catch {return json({ok:false,message:'조회 기간은 1~90일입니다.'},400);}
+      if(!env.VISITOR_ANALYTICS) return json({ok:false,message:'조회수 저장소를 연결해 주세요.'},503);
+      const store=env.VISITOR_ANALYTICS.get(env.VISITOR_ANALYTICS.idFromName('stargate-visitors-v1'));
+      return json({ok:true,...await store.analytics('get_site_usage_stats',payload)});
+    }
     if(crmRoute) {
       const object=env.SMS_REQUESTS.get(env.SMS_REQUESTS.idFromName('stargate-sms-crm-v1'));
       if(request.method==='GET') return json(await object.crm(resource));

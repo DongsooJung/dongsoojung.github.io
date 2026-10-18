@@ -74,7 +74,9 @@
       <a class="brand" href="https://blog.stargateedu.co.kr/"><span class="logo">D</span><span>DONGSOO.<span style="color:var(--accent)">PORTAL</span><small>OPERATIONS</small></span></a>
       <div class="nav-links">
         <a href="https://stargateedu.co.kr/research/">연구 대시보드</a>
-        <a href="/sms/" aria-current="page">문자 발송</a>
+        <a href="/sms/">문자 발송</a>
+        <a href="/sms/customers/">고객 관리</a>
+        <a href="/sms/analytics/">조회수 분석</a>
         <a href="https://stargateedu.co.kr/#projects">전체 프로젝트</a>
       </div>
       <div class="nav-end">
@@ -227,6 +229,7 @@
           if(data.senders.includes('01095878225'))sender.value='01095878225';
           else sender.prepend(new Option('010-9587-8225 · 솔라피 등록 필요','',true,true));
           accountInfo.textContent = '잔액 ' + data.balance.toLocaleString() + '원 · 포인트 ' + data.point.toLocaleString() + 'P\n등록 발신번호 ' + data.senders.length + '개';
+          accountInfo.textContent += data.senders.includes('01095878225') ? '\n010-9587-8225 · 솔라피 활성 발신번호 확인 완료 (실시간 조회)' : '\n010-9587-8225 · 활성 발신번호 목록에 없습니다.';
           if(!data.senders.length) accountInfo.textContent += '\n솔라피에서 발신번호를 먼저 등록해 주세요.';
         } catch(error) { sender.replaceChildren(new Option('010-9587-8225 · 등록 확인 전','')); accountInfo.textContent = error.message; }
         finally {connectButton.disabled=false;render();}
@@ -410,6 +413,7 @@
     })();
   </script>
   <script src="/assets/theme.js?v=20260729e" defer></script>
-  <script src="/sms/crm.js?v=20261017-1" defer></script>
+  <script src="/sms/crm.js?v=20261018-2" defer></script>
+  <script src="/sms/visit.js" defer></script>
 </body>
 </html>

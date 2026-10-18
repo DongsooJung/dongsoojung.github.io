@@ -19,6 +19,13 @@
     document.querySelectorAll('[data-crm-pane]').forEach(el=>el.hidden=el.dataset.crmPane!==name);
     $('sms-form').hidden=name!=='compose';
   }
+  const initialTab=location.pathname.includes('/customers')?'contacts':location.hash.slice(1);
+  if(['compose','contacts','templates','history'].includes(initialTab))tab(initialTab);
+  if(location.pathname.includes('/customers')){
+    document.title='고객 관리 | STARGATE';document.querySelector('h1').textContent='고객 관리';
+    document.querySelector('.sms-head p').textContent='고객 연락처와 상담 메모를 관리하고, 선택한 고객에게 문자를 작성하세요.';
+    $('login-crm').href='/admin/visitors/?sms-login=1&next=customers';
+  }
   document.querySelectorAll('[data-crm-tab]').forEach(el=>el.addEventListener('click',()=>tab(el.dataset.crmTab)));
   function requireLogin(){if(!state.unlocked){tell('상단의 관리자 로그인으로 연결해 주세요.',true);return false;}return true;}
   function lock(){state.unlocked=false;window.smsSignedIn=false;$('login-crm').hidden=false;$('connect-account').hidden=true;$('logout-crm').hidden=true;window.dispatchEvent(new Event('sms-auth-changed'));state.contacts=[];state.templates=[];state.history=[];state.selected.clear();resetContact();resetTemplate();$('report-list').replaceChildren();render();tell('관리자 로그인 후 고객 목록과 문구를 불러옵니다.');}

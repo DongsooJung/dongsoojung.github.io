@@ -142,3 +142,14 @@ test('a new collector version bootstraps an old checked failure once through nor
   await handleRequest(request('/api/dashboards/trade',{}, {},'GET'),env,context);
   assert.deepEqual(triggers,['bootstrap','bootstrap']);
 });
+
+test('customer page reuses SMS assets and administrator login returns only to fixed local destinations',async()=>{
+  const {env}=environment();env.SMS_ADMIN_TOKEN='test-sms-session-secret';
+  env.ASSETS.fetch=async request=>{assert.equal(new URL(request.url).pathname,'/sms/');return new Response('customer shell');};
+  const page=await handleRequest(request('/sms/customers/',{}, {},'GET'),env,{access});
+  assert.equal(await page.text(),'customer shell');
+  for(const [next,target] of [['analytics','/sms/analytics/'],['customers','/sms/customers/'],['https://evil.invalid','/sms/']]){
+    const response=await handleRequest(request('/admin/visitors/?sms-login=1&next='+encodeURIComponent(next),{}, {'Cf-Access-Jwt-Assertion':await token()},'GET'),env,{access});
+    assert.equal(response.status,303);assert.equal(response.headers.get('location'),target);
+  }
+});
