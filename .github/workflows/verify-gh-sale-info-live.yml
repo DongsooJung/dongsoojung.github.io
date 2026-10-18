@@ -17,6 +17,7 @@ on:
 
 permissions:
   contents: read
+  issues: write
 
 concurrency:
   group: verify-gh-sale-info-live
@@ -34,4 +35,34 @@ jobs:
       - name: Collect GH notices and verify Supabase readback
         env:
           GH_WAIT_FOR_DEPLOYMENT: ${{ github.event_name == 'push' && '1' || '0' }}
-        run: node scripts/verify-gh-sale-info-live.mjs
+        run: |
+          for attempt in 1 2 3; do
+            if node scripts/verify-gh-sale-info-live.mjs; then
+              echo "Verification succeeded on attempt $attempt"
+              exit 0
+            fi
+            if [ $attempt -lt 3 ]; then
+              delay=$((2 ** attempt))
+              echo "Verification failed, retrying in ${delay}s (attempt $attempt/3)..."
+              sleep $delay
+            fi
+          done
+          echo "Verification failed after 3 attempts"
+          exit 1
+      
+      - name: Report failure
+        if: failure()
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          node -e "
+          import('${{ github.workspace }}/.github/lib/collector-utils.mjs').then(({ reportFailure }) => {
+            reportFailure({
+              workflowName: 'GH 분양정보 수집',
+              runId: '${{ github.run_id }}',
+              error: 'Workflow failed - Supabase quota 문제일 가능성이 높습니다.',
+              repo: '${{ github.repository }}',
+              token: process.env.GITHUB_TOKEN
+            });
+          });
+          "

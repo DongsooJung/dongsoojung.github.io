@@ -7,6 +7,7 @@ on:
 
 permissions:
   contents: write
+  issues: write
 
 concurrency:
   group: update-kstartup-data
@@ -34,4 +35,36 @@ jobs:
           git config user.email "actions@users.noreply.github.com"
           git add data/kstartup/latest.json
           git commit -m "data: refresh K-Startup notices"
-          git push
+          
+          for attempt in 1 2 3 4; do
+            if git push; then
+              echo "Push succeeded on attempt $attempt"
+              exit 0
+            fi
+            if [ $attempt -lt 4 ]; then
+              delay=$((2 ** attempt))
+              echo "Push failed, retrying in ${delay}s (attempt $attempt/4)..."
+              sleep $delay
+              git pull --rebase origin main
+            fi
+          done
+          
+          echo "Push failed after 4 attempts"
+          exit 1
+      
+      - name: Report failure
+        if: failure()
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          node -e "
+          import('${{ github.workspace }}/.github/lib/collector-utils.mjs').then(({ reportFailure }) => {
+            reportFailure({
+              workflowName: 'K-Startup 데이터 수집',
+              runId: '${{ github.run_id }}',
+              error: 'Workflow failed - check logs for details',
+              repo: '${{ github.repository }}',
+              token: process.env.GITHUB_TOKEN
+            });
+          });
+          "

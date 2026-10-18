@@ -13,6 +13,7 @@ on:
 
 permissions:
   contents: read
+  issues: write
 
 jobs:
   collect:
@@ -59,6 +60,37 @@ jobs:
           fi
           if [ -z "$SUPABASE_SERVICE_KEY" ] && [ -z "$SUPABASE_ANON_KEY" ]; then
             echo "SUPABASE_SERVICE_KEY 또는 SUPABASE_ANON_KEY 시크릿이 필요합니다."
+            echo "저장소 owner가 GitHub Secrets에 추가해야 합니다."
             exit 1
           fi
-          node scripts/collect-public-data.mjs
+          
+          for attempt in 1 2 3; do
+            if node scripts/collect-public-data.mjs; then
+              echo "Collection succeeded on attempt $attempt"
+              exit 0
+            fi
+            if [ $attempt -lt 3 ]; then
+              delay=$((2 ** attempt))
+              echo "Collection failed, retrying in ${delay}s (attempt $attempt/3)..."
+              sleep $delay
+            fi
+          done
+          echo "Collection failed after 3 attempts"
+          exit 1
+      
+      - name: Report failure
+        if: failure()
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          node -e "
+          import('${{ github.workspace }}/.github/lib/collector-utils.mjs').then(({ reportFailure }) => {
+            reportFailure({
+              workflowName: '공공데이터 CSV 수집',
+              runId: '${{ github.run_id }}',
+              error: 'Workflow failed - Supabase secrets 누락 또는 네트워크 오류',
+              repo: '${{ github.repository }}',
+              token: process.env.GITHUB_TOKEN
+            });
+          });
+          "
