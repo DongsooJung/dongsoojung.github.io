@@ -12,6 +12,8 @@ if (!key) throw new Error('PPS_BIDPUBLIC_API_KEY 또는 공통 조달청 인증�
 const now = new Date(); const start = new Date(now.getTime() - 30 * 86400000); const outputDir = resolve('data/bidpublic');
 await mkdir(outputDir, { recursive: true });
 
+let anyFailed = false;
+
 async function fetchPage(config, pageNo, numOfRows) {
   return retryWithBackoff(
     async () => {
@@ -59,6 +61,7 @@ for (const [kind, config] of Object.entries(OPERATIONS)) {
     console.log(`${config.label}: ${items.length}건`);
   } catch (error) {
     console.error(`${config.label} 수집 실패:`, error.message);
+    anyFailed = true;
     const existing = await loadExistingData(outputPath);
     if (existing) {
       console.log(`${config.label}: 기존 데이터 유지됨 (수집 실패)`);
@@ -66,4 +69,9 @@ for (const [kind, config] of Object.entries(OPERATIONS)) {
       throw error;
     }
   }
+}
+
+if (anyFailed) {
+  console.error('일부 카테고리 수집 실패 - 실패 알림을 위해 non-zero exit');
+  process.exit(1);
 }

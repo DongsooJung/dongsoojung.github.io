@@ -21,6 +21,8 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 24
+      - name: Install undici for connect timeout control
+        run: npm install --no-save --no-package-lock undici@7
       - name: Collect bidpublic notices
         id: bidpublic
         continue-on-error: true
