@@ -1,6 +1,7 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { retryWithBackoff, loadExistingData, validateData } from '../.github/lib/collector-utils.mjs';
 
 const ENDPOINT = 'https://apis.data.go.kr/B552735/kisedKstartupService01/getAnnouncementInformation01';
 const PAGE_SIZE = 100;
@@ -70,20 +71,28 @@ function uniqueValues(items, field, split = false) {
 }
 
 async function fetchPage(page) {
-  const url = new URL(ENDPOINT);
-  url.searchParams.set('ServiceKey', /%[0-9A-Fa-f]{2}/.test(serviceKey) ? decodeURIComponent(serviceKey) : serviceKey);
-  url.searchParams.set('returnType', 'json');
-  url.searchParams.set('page', String(page));
-  url.searchParams.set('perPage', String(PAGE_SIZE));
-  url.searchParams.set('cond[rcrt_prgs_yn::EQ]', 'Y');
-  const response = await fetch(url, { headers: { Accept: 'application/json', 'User-Agent': 'stargate-kstartup-daily/1.0' } });
-  if (!response.ok) throw new Error(`K-Startup HTTP ${response.status}`);
-  const payload = await response.json();
-  return {
-    items: Array.isArray(payload.data) ? payload.data.map(normalizeItem) : [],
-    matchCount: payload.matchCount != null ? Number(payload.matchCount) : null,
-    totalCount: Number(payload.totalCount || 0),
-  };
+  return retryWithBackoff(
+    async () => {
+      const url = new URL(ENDPOINT);
+      url.searchParams.set('ServiceKey', /%[0-9A-Fa-f]{2}/.test(serviceKey) ? decodeURIComponent(serviceKey) : serviceKey);
+      url.searchParams.set('returnType', 'json');
+      url.searchParams.set('page', String(page));
+      url.searchParams.set('perPage', String(PAGE_SIZE));
+      url.searchParams.set('cond[rcrt_prgs_yn::EQ]', 'Y');
+      const response = await fetch(url, { 
+        headers: { Accept: 'application/json', 'User-Agent': 'stargate-kstartup-daily/1.0' },
+        signal: AbortSignal.timeout(30000),
+      });
+      if (!response.ok) throw new Error(`K-Startup HTTP ${response.status}`);
+      const payload = await response.json();
+      return {
+        items: Array.isArray(payload.data) ? payload.data.map(normalizeItem) : [],
+        matchCount: payload.matchCount != null ? Number(payload.matchCount) : null,
+        totalCount: Number(payload.totalCount || 0),
+      };
+    },
+    { maxAttempts: 3, baseDelayMs: 2000, label: `K-Startup page ${page}` }
+  );
 }
 
 const first = await fetchPage(1);
@@ -132,5 +141,21 @@ const output = {
 const here = path.dirname(fileURLToPath(import.meta.url));
 const outputPath = path.resolve(here, '../data/kstartup/latest.json');
 await fs.mkdir(path.dirname(outputPath), { recursive: true });
+
+const isValid = validateData(output, (data) => {
+  return data.ok && Array.isArray(data.items) && data.items.length > 0;
+});
+
+if (!isValid) {
+  console.warn('수집된 데이터가 유효하지 않습니다. 기존 파일을 유지합니다.');
+  const existing = await loadExistingData(outputPath);
+  if (existing) {
+    console.log('기존 데이터 유지됨:', outputPath);
+    process.exit(0);
+  } else {
+    throw new Error('유효하지 않은 데이터이며 기존 파일도 없습니다.');
+  }
+}
+
 await fs.writeFile(outputPath, `${JSON.stringify(output, null, 2)}\n`, 'utf8');
 console.log(`Wrote ${items.length} active notices to ${outputPath}`);
