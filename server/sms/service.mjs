@@ -23,6 +23,7 @@ export async function account(env,fetcher) {
   return {balance:Number(balance.balance)||0,point:Number(balance.point)||0,senders};
 }
 export function validate(body) {
+  if(body?.delivery!=null&&!['sms','kakao'].includes(body.delivery))throw new Error('지원하지 않는 발송 방식입니다.');
   if(body?.consent!==true) throw new Error('수신 동의 확인이 필요합니다.');
   if(!/^[a-f0-9-]{36}$/i.test(body?.requestId||'')) throw new Error('발송 요청 번호가 올바르지 않습니다.');
   if(!Array.isArray(body.recipients)||body.recipients.length<1||body.recipients.length>10) throw new Error('수신자는 1~10명까지 입력해 주세요.');
@@ -42,9 +43,14 @@ export function validate(body) {
   return messages;
 }
 export async function send(env,body,fetcher) {
-  const messages=validate(body);
-  const {senders}=await account(env,fetcher);
-  if(!senders.includes(body.sender)) throw new Error('활성화된 발신번호가 아닙니다. 솔라피에서 등록 상태를 확인해 주세요.');
+  let messages=validate(body);
+  if(body.delivery==='kakao') {
+    const {kakaoMessages}=await import('./kakao.mjs');
+    messages=await kakaoMessages(env,body,messages,fetcher);
+  } else {
+    const {senders}=await account(env,fetcher);
+    if(!senders.includes(body.sender)) throw new Error('활성화된 발신번호가 아닙니다. 솔라피에서 등록 상태를 확인해 주세요.');
+  }
   const data=await solapi(env,'/messages/v4/send-many/detail',{messages,strict:true,allowDuplicates:false,showMessageList:true},fetcher);
   const failed=Array.isArray(data.failedMessageList)?data.failedMessageList:[];
   const accepted=messages.length-failed.length;

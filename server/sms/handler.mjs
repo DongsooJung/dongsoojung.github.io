@@ -2,6 +2,7 @@ import {json,authorized,account,validate,solapi} from './service.mjs';
 import {validatePayload} from '../../cloudflare/analytics.mjs';
 import {clearSession} from './session.mjs';
 import {liveStatus} from './status.mjs';
+import {catalog,templates as kakaoTemplates} from './kakao.mjs';
 export default {async fetch(request,env) {
   const url=new URL(request.url);
   if(!url.pathname.startsWith('/api/')) {
@@ -11,7 +12,7 @@ export default {async fetch(request,env) {
   }
   const resource=url.pathname.replace('/api/sms/','');
   const crmRoute=['contacts','templates','history'].includes(resource);
-  if(!['/api/sms','/api/account','/api/sms/reports','/api/sms/session','/api/sms/analytics'].includes(url.pathname)&&!crmRoute) return json({ok:false,message:'찾을 수 없습니다.'},404);
+  if(!['/api/sms','/api/account','/api/sms/reports','/api/sms/session','/api/sms/analytics','/api/sms/kakao-channels','/api/sms/kakao-templates'].includes(url.pathname)&&!crmRoute) return json({ok:false,message:'찾을 수 없습니다.'},404);
   const configured=Boolean(env.SOLAPI_API_KEY&&env.SOLAPI_API_SECRET&&env.SMS_ADMIN_TOKEN);
   if(url.pathname==='/api/sms'&&request.method==='GET') return json({ok:true,configured,...(configured?await liveStatus(env):{mode:'live',senderVerified:false,message:'운영 서버 설정이 필요합니다.'})});
   if(url.pathname==='/api/sms/session'&&request.method==='GET') return json({ok:true,signedIn:await authorized(request,env)});
@@ -19,6 +20,8 @@ export default {async fetch(request,env) {
   if(!configured) return json({ok:false,message:'서버 연결을 준비 중입니다.'},503);
   if(!await authorized(request,env)) return json({ok:false,message:'관리자 로그인이 필요합니다.'},401);
   try {
+    if(url.pathname==='/api/sms/kakao-channels'&&request.method==='GET')return json({ok:true,...await catalog(env)});
+    if(url.pathname==='/api/sms/kakao-templates'&&request.method==='GET')return json({ok:true,...await kakaoTemplates(env,url.searchParams.get('channelId'))});
     if(url.pathname==='/api/sms/session'&&request.method==='DELETE')return new Response(JSON.stringify({ok:true}),{headers:{'Content-Type':'application/json','Cache-Control':'no-store','Set-Cookie':clearSession()}});
     if(url.pathname==='/api/sms/analytics') {
       if(request.method!=='GET') return json({ok:false,message:'GET 요청이 필요합니다.'},405);

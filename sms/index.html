@@ -68,6 +68,7 @@
   <link rel="stylesheet" href="/sms/crm.css?v=20261019-ten">
 <link rel="stylesheet" href="/assets/stargate-tokens.css?v=20261017">
   <link rel="stylesheet" href="/sms/workspace.css?v=20261019-2">
+<meta property="og:type" content="website"><meta property="og:title" content="스타게이트 고객 메시지 관리"><meta property="og:description" content="문자 작성·고객 목록·발송 기록. 기본 5명, 최대 10명. 운영자 본인 확인 후 사용합니다."><meta property="og:url" content="https://stargate.stargate8225.workers.dev/sms/"><meta property="og:image" content="https://stargate.stargate8225.workers.dev/assets/icons/icon-192.png">
 </head>
 <body class="research sms">
   <div class="wrap">
@@ -109,6 +110,7 @@
       </header>
 
 
+      <details class="share-panel"><summary>노션·카카오톡에 링크 공유</summary><p>운영자용 페이지입니다. 고객정보나 인증정보는 링크에 포함하지 않습니다.</p><div class="crm-actions"><button type="button" class="mini-btn" id="copy-page-link">링크 복사</button><button type="button" class="mini-btn" id="copy-notion-link">노션 링크 복사</button><button type="button" class="mini-btn" id="copy-kakao-text">카카오톡 소개 문구 복사</button></div><p id="share-status" role="status"></p><textarea id="share-copy-text" aria-label="공유 문구" readonly hidden></textarea></details>
       <div class="account-toolbar"><span class="sender-chip">등록 발신번호 <strong>010-9587-8225</strong></span><div class="crm-actions"><button type="button" class="mini-btn" id="connect-account" hidden>잔액 새로고침</button><button type="button" class="mini-btn" id="logout-crm" hidden>로그아웃</button></div><p id="account-info" role="status"></p></div>
       <div class="crm-tabs" role="tablist" aria-label="고객관리 메뉴">
         <button type="button" role="tab" aria-selected="true" data-crm-tab="compose">문자 작성</button>
@@ -140,7 +142,7 @@
           <div class="panel-head"><h2 id="compose-title"><span class="step-dot">1</span> 메시지 작성</h2><span>이름 자동 반영</span></div>
           <div class="panel-body">
             <div class="field">
-              <label for="quick-template">자주 쓰는 문구</label><select id="quick-template"><option value="">관리자 연결 후 선택</option></select><label for="message">메시지 내용</label>
+              <label for="delivery-mode">발송 방식</label><select id="delivery-mode"><option value="sms">문자 SMS / LMS</option><option value="kakao">카카오 알림톡 · 비즈니스 채널</option></select><div id="kakao-options" hidden><p id="kakao-status" role="status">스타게이트 비즈니스 채널과 승인 템플릿을 연결해 발송합니다.</p><button id="load-kakao" type="button" class="mini-btn">카카오 채널·설정 불러오기</button><label for="kakao-channel">카카오 비즈니스 채널</label><select id="kakao-channel"><option value="">비즈니스 채널 선택</option></select><label for="kakao-template">승인된 알림톡 템플릿</label><select id="kakao-template"><option value="">승인 템플릿 선택</option></select><div id="kakao-variables"></div><p class="crm-help"><a href="https://console.solapi.com/" target="_blank" rel="noopener">솔라피 채널 연동·템플릿 관리 ↗</a> · <a href="https://center-pf.kakao.com/" target="_blank" rel="noopener">카카오 비즈니스 채널 관리 ↗</a><br>채널 연동과 템플릿 승인이 필요합니다. 카카오 발송 실패 시 문자 대체 발송은 꺼져 있습니다.</p></div><label for="quick-template">자주 쓰는 문구</label><select id="quick-template"><option value="">관리자 연결 후 선택</option></select><label for="message">메시지 내용</label>
               <textarea id="message" maxlength="1000" required placeholder="{이름}님, 안녕하세요. 요청하신 연구 자료를 확인해 주세요.">안녕하세요, {이름}님. 요청하신 자료가 준비되었습니다. 감사합니다.</textarea>
               <div class="hint"><span><strong>{이름}</strong>은 고객명으로 자동 치환됩니다.</span><span id="message-length">0자</span></div>
             </div>
@@ -231,6 +233,7 @@
         finally {connectButton.disabled=false;render();}
       });
       sender.addEventListener('change',render);
+      window.addEventListener('sms-delivery-changed',render);
       window.addEventListener('sms-auth-changed',()=>{if(!window.smsSignedIn)accountInfo.textContent='';render();});
 
       rows.innerHTML = Array.from({ length: MAX }, (_, index) => `
@@ -269,10 +272,13 @@
       }
 
       function render() {
+        const delivery=window.smsDelivery?.()||{delivery:'sms',ready:true};
+        const isKakao=delivery.delivery==='kakao';
+        if(!sending)sendButton.textContent=isKakao?'카카오 알림톡 발송':'문자 발송';
         const current = recipients();
         const allComplete = current.every((item) => item.name && /^01(?:0\d{8}|[16789]\d{7,8})$/.test(item.phone.replace(/\D/g, '')));
         const template = message.value;
-        document.getElementById('send-readiness').textContent=!senderVerified?'발신번호 등록 상태를 확인해 주세요.':!current.length?'고객명·수신번호와 내용을 입력해 주세요.':!allComplete?'고객명과 올바른 휴대폰 번호를 입력해 주세요.':!message.value.trim()?'문자 내용을 입력해 주세요.':!consent.checked?'수신 동의 확인란을 체크해 주세요.':(window.smsSignedIn?'발송 준비 완료 · 실제 비용이 발생합니다.':'발송 준비 완료 · 버튼을 누르면 본인 확인 후 이어집니다.');
+        document.getElementById('send-readiness').textContent=isKakao&&!delivery.ready?'카카오 채널·승인 템플릿·변수를 확인해 주세요.':!isKakao&&!senderVerified?'발신번호 등록 상태를 확인해 주세요.':!current.length?'고객명·수신번호와 내용을 입력해 주세요.':!allComplete?'고객명과 올바른 휴대폰 번호를 입력해 주세요.':!message.value.trim()?'문자 내용을 입력해 주세요.':!consent.checked?'수신 동의 확인란을 체크해 주세요.':(window.smsSignedIn?'발송 준비 완료 · 실제 비용이 발생합니다.':'발송 준비 완료 · 버튼을 누르면 본인 확인 후 이어집니다.');
         count.textContent = `${current.length} / ${expandRecipients.checked?MAX:5}명 입력`;
         length.textContent = `${[...template].length}자`;
         [...rows.querySelectorAll('tr')].forEach((row, index) => {
@@ -289,7 +295,7 @@
           : '<div class="preview-empty">왼쪽에 고객 정보를 입력하면<br>개인화된 문자를 미리 볼 수 있습니다.</div>';
 
         sendButton.disabled = !(
-          !sending && senderVerified && sender.value && current.length > 0 &&
+          !sending && (isKakao?delivery.ready:senderVerified) && sender.value && current.length > 0 &&
           current.length <= MAX &&
           allComplete &&
           message.value.trim() &&
@@ -340,7 +346,8 @@
         if(sendButton.disabled || sending) return;
         if(!window.smsSignedIn){window.smsStartLogin();return;}
         const current = recipients();
-        if (!window.confirm(`${current.length}명에게 실제 문자를 발송할까요?`)) return;
+        const delivery=window.smsDelivery?.()||{delivery:'sms'};
+        if (!window.confirm(`${current.length}명에게 ${delivery.delivery==='kakao'?'카카오 알림톡':'문자'}을 실제 발송할까요?`)) return;
 
         sendButton.disabled = true;
         sending = true;
@@ -358,6 +365,7 @@
             body: JSON.stringify({
               requestId: pendingId,
               sender: sender.value,
+              ...delivery,
               consent: consent.checked,
               recipients: current,
               message: message.value
@@ -405,14 +413,15 @@
         render();
       }
 
-      window.smsCaptureDraft=()=>({recipients:recipients(),message:message.value,at:Date.now()});
-      try {const saved=sessionStorage.getItem('stargate-sms-draft');if(saved){sessionStorage.removeItem('stargate-sms-draft');const draft=JSON.parse(saved);if(Date.now()-draft.at<900000&&Array.isArray(draft.recipients)){if(draft.recipients.length>5){expandRecipients.checked=true;updateRecipientVisibility();}draft.recipients.slice(0,MAX).forEach((v,i)=>{nameInputs[i].value=String(v.name||'').slice(0,40);phoneInputs[i].value=formatPhone(String(v.phone||''));});message.value=String(draft.message||'').slice(0,1000);consent.checked=false;}}}catch{}
+      window.smsCaptureDraft=()=>({recipients:recipients(),message:message.value,delivery:window.smsDelivery?.().delivery||'sms',at:Date.now()});
+      try {const saved=sessionStorage.getItem('stargate-sms-draft');if(saved){sessionStorage.removeItem('stargate-sms-draft');const draft=JSON.parse(saved);if(Date.now()-draft.at<900000&&Array.isArray(draft.recipients)){if(draft.recipients.length>5){expandRecipients.checked=true;updateRecipientVisibility();}draft.recipients.slice(0,MAX).forEach((v,i)=>{nameInputs[i].value=String(v.name||'').slice(0,40);phoneInputs[i].value=formatPhone(String(v.phone||''));});message.value=String(draft.message||'').slice(0,1000);if(draft.delivery==='kakao'){window.smsPendingDelivery='kakao';message.value='';}consent.checked=false;}}}catch{}
       render();
       checkApi();
     })();
   </script>
   <script src="/assets/theme.js?v=20260729e" defer></script>
   <script src="/sms/crm.js?v=20261019-workspace" defer></script>
+  <script src="/sms/business.js?v=20261019-1" defer></script>
   <script src="/sms/visit.js" defer></script>
 </body>
 </html>

@@ -60,7 +60,7 @@ export class CRMStore {
     const now=new Date().toISOString(), key='history:'+body.requestId;
     await this.storage.transaction(async tx=>{
       const prior=await tx.get(key);
-      await tx.put(key,{id:body.requestId,createdAt:prior?.createdAt||now,updatedAt:now,recipients:body.recipients.map(v=>({name:v.name,phone:String(v.phone).replace(/\D/g,'')})),message:body.message,sender:body.sender,result});
+      await tx.put(key,{id:body.requestId,createdAt:prior?.createdAt||now,updatedAt:now,delivery:body.delivery||'sms',channelId:body.channelId||null,templateId:body.templateId||null,recipients:body.recipients.map(v=>({name:v.name,phone:String(v.phone).replace(/\D/g,'')})),message:body.message,sender:body.sender,result});
       const all=[...(await tx.list({prefix:'history:'})).entries()].sort((a,b)=>a[1].createdAt.localeCompare(b[1].createdAt));
       for(const [oldKey] of all.slice(0,Math.max(0,all.length-200))) await tx.delete(oldKey);
     });
