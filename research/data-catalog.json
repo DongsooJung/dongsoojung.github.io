@@ -2134,25 +2134,116 @@
     },
     {
       "source": {
-        "label": null,
-        "url": null,
-        "verification": "pending"
+        "label": "RAG·GraphRAG 원논문 / Microsoft GraphRAG v3.3.0 공식 문서·코드",
+        "url": "https://github.com/microsoft/graphrag/releases/tag/v3.3.0",
+        "verification": "document_reviewed"
       },
       "dataAsOf": null,
       "dataPeriod": null,
-      "snapshotUpdatedAt": null,
+      "snapshotUpdatedAt": "2026-10-19",
       "collectedAt": null,
-      "checkedAt": null,
-      "reviewStatus": "pending",
-      "freshness": "unverified",
-      "evidence": [],
-      "issues": [],
+      "checkedAt": "2026-10-19T06:35:34.716587+00:00",
+      "reviewStatus": "not_applicable",
+      "freshness": "not_applicable",
+      "evidence": [
+        {
+          "kind": "audit-record",
+          "url": "/research/source-reviews/2026-10-19-research-2.json",
+          "checkedAt": "2026-10-19T06:35:34.716587+00:00"
+        },
+        {
+          "kind": "published-snapshot",
+          "url": "https://www.stargateedu.co.kr/rag-graphrag/",
+          "checkedAt": "2026-10-19T06:29:41.112577+00:00",
+          "sha256": "f3f9d3411a99fb1551fdeb6ba4a4e858526812e2a1100f80cffda4bc036752a5",
+          "scope": "변경 전 7월 원고 기반 HTML"
+        },
+        {
+          "kind": "official-source",
+          "url": "https://api.github.com/repos/microsoft/graphrag/releases/latest",
+          "checkedAt": "2026-10-19T06:29:41.113566+00:00",
+          "sha256": "bb9c449a2ae4ad992b696f93a3b126d0c316ad025144208f00e702ab1da461bd",
+          "scope": "2026-07-25 원고/기존 PDF의 실제 버전을 확인하고 2026-10-19 개정 HTML·Markdown·PDF를 공식 RAG v4·GraphRAG v2 논문, GraphRAG 정식 v3.3.0(10월8일 공표) 및 고정 문서/코드와 대조. 월간 통계 기준월 비적용. Standard/Fast, 4검색모드, Global 토큰별 묶음, 증분 처리 코드의 존재를 확인. 자체 코퍼스 성능·비용·한국어 품질·갱신 실행을 검증한 것은 아님."
+        },
+        {
+          "kind": "official-source",
+          "url": "https://api.github.com/repos/microsoft/graphrag/git/ref/tags/v3.3.0",
+          "checkedAt": "2026-10-19T06:29:41.114567+00:00",
+          "sha256": "a462a2b2323c127c06e4cd066803ebd233b9d8efbf2c9c3dc9dd10b818215a25",
+          "scope": "2026-07-25 원고/기존 PDF의 실제 버전을 확인하고 2026-10-19 개정 HTML·Markdown·PDF를 공식 RAG v4·GraphRAG v2 논문, GraphRAG 정식 v3.3.0(10월8일 공표) 및 고정 문서/코드와 대조. 월간 통계 기준월 비적용. Standard/Fast, 4검색모드, Global 토큰별 묶음, 증분 처리 코드의 존재를 확인. 자체 코퍼스 성능·비용·한국어 품질·갱신 실행을 검증한 것은 아님."
+        },
+        {
+          "kind": "official-source",
+          "url": "https://raw.githubusercontent.com/microsoft/graphrag/5faaaf4f5685fa2056fa8c3bf9342cb089f2942f/docs/query/overview.md",
+          "checkedAt": "2026-10-19T06:30:15.184370+00:00",
+          "sha256": "ae9f06e8f8c4bd08993a0498af955d49e89ee81b159d8152666596f079ecefda",
+          "scope": "2026-07-25 원고/기존 PDF의 실제 버전을 확인하고 2026-10-19 개정 HTML·Markdown·PDF를 공식 RAG v4·GraphRAG v2 논문, GraphRAG 정식 v3.3.0(10월8일 공표) 및 고정 문서/코드와 대조. 월간 통계 기준월 비적용. Standard/Fast, 4검색모드, Global 토큰별 묶음, 증분 처리 코드의 존재를 확인. 자체 코퍼스 성능·비용·한국어 품질·갱신 실행을 검증한 것은 아님."
+        },
+        {
+          "kind": "official-source",
+          "url": "https://raw.githubusercontent.com/microsoft/graphrag/5faaaf4f5685fa2056fa8c3bf9342cb089f2942f/docs/index/methods.md",
+          "checkedAt": "2026-10-19T06:30:15.185371+00:00",
+          "sha256": "c5e622f27ee4a219c698f420d3f2c2e1ce3b3a5da893708141302b3037dfddb6",
+          "scope": "2026-07-25 원고/기존 PDF의 실제 버전을 확인하고 2026-10-19 개정 HTML·Markdown·PDF를 공식 RAG v4·GraphRAG v2 논문, GraphRAG 정식 v3.3.0(10월8일 공표) 및 고정 문서/코드와 대조. 월간 통계 기준월 비적용. Standard/Fast, 4검색모드, Global 토큰별 묶음, 증분 처리 코드의 존재를 확인. 자체 코퍼스 성능·비용·한국어 품질·갱신 실행을 검증한 것은 아님."
+        },
+        {
+          "kind": "official-source",
+          "url": "https://raw.githubusercontent.com/microsoft/graphrag/5faaaf4f5685fa2056fa8c3bf9342cb089f2942f/docs/query/global_search.md",
+          "checkedAt": "2026-10-19T06:30:15.185371+00:00",
+          "sha256": "21d90708c0d9a1c2b68258e5482bb7c1b94e269a3252a29bbcc0a069aecb8060",
+          "scope": "2026-07-25 원고/기존 PDF의 실제 버전을 확인하고 2026-10-19 개정 HTML·Markdown·PDF를 공식 RAG v4·GraphRAG v2 논문, GraphRAG 정식 v3.3.0(10월8일 공표) 및 고정 문서/코드와 대조. 월간 통계 기준월 비적용. Standard/Fast, 4검색모드, Global 토큰별 묶음, 증분 처리 코드의 존재를 확인. 자체 코퍼스 성능·비용·한국어 품질·갱신 실행을 검증한 것은 아님."
+        },
+        {
+          "kind": "official-source",
+          "url": "https://raw.githubusercontent.com/microsoft/graphrag/5faaaf4f5685fa2056fa8c3bf9342cb089f2942f/packages/graphrag/graphrag/index/update/incremental_index.py",
+          "checkedAt": "2026-10-19T06:30:38.909677+00:00",
+          "sha256": "f9c47d8959345ede23e6f23415c642a6d54f7f77b7e19c6c921b15ce81d42a99",
+          "scope": "2026-07-25 원고/기존 PDF의 실제 버전을 확인하고 2026-10-19 개정 HTML·Markdown·PDF를 공식 RAG v4·GraphRAG v2 논문, GraphRAG 정식 v3.3.0(10월8일 공표) 및 고정 문서/코드와 대조. 월간 통계 기준월 비적용. Standard/Fast, 4검색모드, Global 토큰별 묶음, 증분 처리 코드의 존재를 확인. 자체 코퍼스 성능·비용·한국어 품질·갱신 실행을 검증한 것은 아님."
+        },
+        {
+          "kind": "official-source",
+          "url": "https://arxiv.org/abs/2005.11401v4",
+          "checkedAt": "2026-10-19T06:29:42.468890+00:00",
+          "sha256": "bef497b78b824988b5a77b73db2f3d384d517425ea486580385a155be99f4a81",
+          "scope": "2026-07-25 원고/기존 PDF의 실제 버전을 확인하고 2026-10-19 개정 HTML·Markdown·PDF를 공식 RAG v4·GraphRAG v2 논문, GraphRAG 정식 v3.3.0(10월8일 공표) 및 고정 문서/코드와 대조. 월간 통계 기준월 비적용. Standard/Fast, 4검색모드, Global 토큰별 묶음, 증분 처리 코드의 존재를 확인. 자체 코퍼스 성능·비용·한국어 품질·갱신 실행을 검증한 것은 아님."
+        },
+        {
+          "kind": "official-source",
+          "url": "https://arxiv.org/abs/2404.16130v2",
+          "checkedAt": "2026-10-19T06:29:42.483933+00:00",
+          "sha256": "1336971d22c0a00098aac0e9ec30aae6ed28cb3ac58a38a2265c11ec9dbe3fd9",
+          "scope": "2026-07-25 원고/기존 PDF의 실제 버전을 확인하고 2026-10-19 개정 HTML·Markdown·PDF를 공식 RAG v4·GraphRAG v2 논문, GraphRAG 정식 v3.3.0(10월8일 공표) 및 고정 문서/코드와 대조. 월간 통계 기준월 비적용. Standard/Fast, 4검색모드, Global 토큰별 묶음, 증분 처리 코드의 존재를 확인. 자체 코퍼스 성능·비용·한국어 품질·갱신 실행을 검증한 것은 아님."
+        },
+        {
+          "kind": "official-source",
+          "url": "https://microsoft.github.io/graphrag/query/local_search/",
+          "checkedAt": "2026-10-19T06:29:42.447369+00:00",
+          "sha256": "a4822109042895526cb4b5122f4a8a4ffc1566d7cc40a61f3d9c5c62df21fccc",
+          "scope": "2026-07-25 원고/기존 PDF의 실제 버전을 확인하고 2026-10-19 개정 HTML·Markdown·PDF를 공식 RAG v4·GraphRAG v2 논문, GraphRAG 정식 v3.3.0(10월8일 공표) 및 고정 문서/코드와 대조. 월간 통계 기준월 비적용. Standard/Fast, 4검색모드, Global 토큰별 묶음, 증분 처리 코드의 존재를 확인. 자체 코퍼스 성능·비용·한국어 품질·갱신 실행을 검증한 것은 아님."
+        },
+        {
+          "kind": "official-source",
+          "url": "https://microsoft.github.io/graphrag/query/drift_search/",
+          "checkedAt": "2026-10-19T06:29:42.456376+00:00",
+          "sha256": "515ce4fe501c0a56d1da1676c01bd60d49d0628c6d9f84f2a6ed7d9df8ae119e",
+          "scope": "2026-07-25 원고/기존 PDF의 실제 버전을 확인하고 2026-10-19 개정 HTML·Markdown·PDF를 공식 RAG v4·GraphRAG v2 논문, GraphRAG 정식 v3.3.0(10월8일 공표) 및 고정 문서/코드와 대조. 월간 통계 기준월 비적용. Standard/Fast, 4검색모드, Global 토큰별 묶음, 증분 처리 코드의 존재를 확인. 자체 코퍼스 성능·비용·한국어 품질·갱신 실행을 검증한 것은 아님."
+        }
+      ],
+      "issues": [
+        "이 문서는 월간 통계가 아닌 방법론 자료. 최초 원고 2026-07-25, 개정판 2026-10-19, 확인 릴리스 공표 2026-10-08을 구분함.",
+        "기존 0-100 프로필 점수·실측 라우팅 비율·비용 배수에는 측정 근거가 없어 현재 화면/개정판에서 제외.",
+        "모델·인덱싱·증분 갱신을 실행하지 않음. 한국어 품질·권한/삭제·동일 제목 본문 변경·비용 비교는 후속 실험 필요.",
+        "기존 7월 PDF/MD는 변경하지 않은 이전판 보관본. 10월 자료 수치가 추가됐다는 의미가 아님."
+      ],
       "key": "/rag-graphrag/",
       "url": "/rag-graphrag/",
       "title": "RAG × GraphRAG 실무 의사결정 보고서",
       "primary": "research",
       "classification": "연구·AI",
-      "sourceHint": "STARGATE Research · 2026.07"
+      "sourceHint": "STARGATE Research · 개정 2026.10",
+      "verifiedScope": "2026-07-25 원고/기존 PDF의 실제 버전을 확인하고 2026-10-19 개정 HTML·Markdown·PDF를 공식 RAG v4·GraphRAG v2 논문, GraphRAG 정식 v3.3.0(10월8일 공표) 및 고정 문서/코드와 대조. 월간 통계 기준월 비적용. Standard/Fast, 4검색모드, Global 토큰별 묶음, 증분 처리 코드의 존재를 확인. 자체 코퍼스 성능·비용·한국어 품질·갱신 실행을 검증한 것은 아님.",
+      "documentVersion": "개정 2026-10-19 / 원고 2026-07-25 / GraphRAG v3.3.0",
+      "nextAction": "실제 코퍼스·정답 근거·한국어 질의셋과 고정 버전/설정으로 기준선·4모드·Standard/Fast를 비교. 갱신/삭제/동일 제목 변경·권한 반영과 요약 지지도를 검증하고 토큰·지연·갱신 비용을 실측하기 전 우위나 라우팅 비율을 제시하지 않음."
     },
     {
       "source": {

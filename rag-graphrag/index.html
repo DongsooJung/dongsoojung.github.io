@@ -152,6 +152,13 @@
       .hero,.section{padding:18px 0}.hero-card,.lab,.summary-card,.compare-card,.pipeline,.phase,.route-card,.matrix-wrap{box-shadow:none;background:white;color:#111;border-color:#bbb}
       .lead,.section-head p,.summary-card p,.compare-card>p,.recommend p,.phase p,td{color:#444}
     }
+
+    .route-notes,.qual-profile{display:grid;grid-template-columns:110px minmax(0,1fr);gap:12px;margin:0;align-content:start}
+    .route-notes dt,.qual-profile dt{color:var(--cyan);font-size:12px;font-weight:800}
+    .route-notes dd,.qual-profile dd{margin:0;color:var(--sub);font-size:12px;overflow-wrap:anywhere}
+    .source-review{margin-top:24px;padding:20px;border:1px solid var(--line);border-radius:16px;background:var(--panel);font-size:13px;color:var(--sub)}
+    .source-review a,.sources a{color:var(--cyan);text-decoration:underline}.sources{overflow-wrap:anywhere}
+    .lab-grid>*{min-width:0}.sources li{margin:9px 0}.qual-profile{grid-template-columns:85px minmax(0,1fr)}
   </style>
   <link rel="stylesheet" href="/assets/site-theme.css">
   <script src="/assets/site-theme.js"></script>
@@ -171,27 +178,29 @@
 
     <header class="hero">
       <div>
-        <div class="eyebrow">AI Architecture Report · 2026.07</div>
+        <div class="eyebrow">AI Architecture Report · 개정 2026.10</div>
         <h1>RAG는 검색하고,<br><span class="gradient">GraphRAG는 연결한다.</span></h1>
         <p class="lead">두 기술의 차이는 성능의 높고 낮음이 아니라 풀어야 할 질문의 구조입니다. 표준 RAG와 GraphRAG의 파이프라인, 비용, 질의 모드를 한 화면에서 비교하고 실제 도입 경로까지 정리했습니다.</p>
         <div class="hero-actions">
           <a class="btn primary" href="#decision-lab">내 질의에 맞는 방식 찾기 →</a>
-          <a class="btn" href="rag-practical-guide-20260725.pdf" download>RAG 원문 PDF ↓</a>
-          <a class="btn" href="graphrag-practical-guide-20260725.pdf" download>GraphRAG 원문 PDF ↓</a>
+          <a class="btn" href="rag-practical-guide-20261019.pdf" download>RAG 개정 PDF ↓</a>
+          <a class="btn" href="graphrag-practical-guide-20261019.pdf" download>GraphRAG 개정 PDF ↓</a>
         </div>
       </div>
       <aside class="hero-card" aria-label="핵심 결론">
         <div class="kicker">Executive verdict</div>
-        <div class="verdict">상위 호환이 아니라<br><strong>질문별 라우팅</strong>이 정답입니다.</div>
+        <div class="verdict">상위 호환이 아니라<br><strong>질문별 비교</strong>에서 시작합니다.</div>
         <div class="mini-metrics">
-          <div class="mini-metric"><b>4</b><span>권장 질의 경로</span></div>
-          <div class="mini-metric"><b>50–200</b><span>초기 골든 평가셋</span></div>
-          <div class="mini-metric"><b>100–300</b><span>GraphRAG 파일럿 문서</span></div>
+          <div class="mini-metric"><b>4</b><span>공식 검색 모드</span></div>
+          <div class="mini-metric"><b>v3.3.0</b><span>대조한 정식 릴리스</span></div>
+          <div class="mini-metric"><b>미실행</b><span>코퍼스 성능·비용 측정</span></div>
         </div>
       </aside>
     </header>
 
     <main>
+      <aside class="source-review" id="source-review-note"><strong>출처 대조 개정판 · 2026-10-19</strong><p>월간 통계 기준월 비적용. 확인한 정식 릴리스는 <a href="https://github.com/microsoft/graphrag/releases/tag/v3.3.0">GraphRAG v3.3.0</a>(2026-10-08 공표)입니다. 논문 RAG v4·GraphRAG v2와 공식 문서·고정 코드를 대조했습니다. 문서 확인일은 실자료의 관측 기준일이 아닙니다. 아래 화면은 절차 비교 안내이며 모델 실행·성능·비용 측정은 하지 않았습니다.</p><p>Fast 인덱싱과 증분 처리 코드의 존재를 반영하고 근거 없는 수치 비교를 제거했습니다. 한국어 품질·갱신 동작·비용 우위는 후속 실험이 필요합니다. <a href="/research/source-reviews/2026-10-19-research-2.json">대조 범위·버전·해시 (JSON)</a></p></aside>
+
       <section class="section reveal">
         <div class="section-head">
           <div><span class="section-no">01 · EXECUTIVE SUMMARY</span><h2>먼저 기억할 세 가지</h2></div>
@@ -201,7 +210,7 @@
           <article class="summary-card" style="--card-accent:var(--cyan)">
             <div class="icon">⌕</div><h3>RAG는 근거를 붙인다</h3>
             <p>외부 문서를 질의 시점에 찾아 프롬프트에 주입합니다. 최신성, 출처 추적, 문서 단위 권한 제어에 유리합니다.</p>
-            <span class="signal">국소 사실 조회에 최적</span>
+            <span class="signal">근거 청크 검색부터 검증</span>
           </article>
           <article class="summary-card" style="--card-accent:#c2a6ff">
             <div class="icon">◎</div><h3>GraphRAG는 관계를 만든다</h3>
@@ -209,8 +218,8 @@
             <span class="signal">연결·종합 질문에 강함</span>
           </article>
           <article class="summary-card" style="--card-accent:var(--mint)">
-            <div class="icon">⇄</div><h3>실무 답은 하이브리드다</h3>
-            <p>저비용 표준 RAG가 대부분의 질의를 처리하고, 관계형 질문만 Local·DRIFT·Global 경로로 보냅니다.</p>
+            <div class="icon">⇄</div><h3>라우팅은 비교할 설계안이다</h3>
+            <p>기존 RAG와 Local·DRIFT·Global을 질의별로 비교합니다. 라우팅 비율이나 비용 우위는 아직 측정하지 않았습니다.</p>
             <span class="signal">비용과 품질의 균형</span>
           </article>
         </div>
@@ -219,7 +228,7 @@
       <section class="section reveal" id="decision-lab">
         <div class="section-head">
           <div><span class="section-no">02 · INTERACTIVE DECISION LAB</span><h2>질문을 고르면 경로가 보입니다</h2></div>
-          <p>대표 질의 유형을 선택해 권장 검색 모드와 상대적인 비용·지연·추론력을 비교해 보세요.</p>
+          <p>대표 질의 유형을 선택해 비교 후보와 확인할 근거를 살펴보세요. 아래는 설계 안내이며 모델을 실행하거나 성능을 채점하지 않습니다.</p>
         </div>
         <div class="lab">
           <div class="query-tabs" role="tablist" aria-label="질의 유형">
@@ -228,50 +237,38 @@
             <button class="query-tab" type="button" data-mode="multihop">다중 홉 연결</button>
             <button class="query-tab" type="button" data-mode="global">전체 주제 요약</button>
           </div>
-          <div class="lab-grid">
+          <div class="lab-grid" id="mode-panel" role="tabpanel" aria-labelledby="tab-fact">
             <div class="recommend">
-              <small>Recommended route</small>
+              <small>Candidate route</small>
               <h3 id="mode-title"><span>표준 RAG</span></h3>
-              <p id="mode-copy">하이브리드 검색과 리랭커로 정확한 근거 청크를 찾는 가장 빠르고 경제적인 경로입니다.</p>
+              <p id="mode-copy">원문 청크 검색을 기준선으로 두고 하이브리드·리랭커의 추가 효과를 비교합니다. 성능·비용은 미측정입니다.</p>
               <div class="route"><b>질의</b><i>→</i><b id="mode-route">Hybrid Search</b><i>→</i><b>근거 기반 답변</b></div>
             </div>
-            <div class="bars" aria-label="상대 평가">
-              <div class="bar-row"><label>추론 범위</label><div class="bar-track"><div class="bar-fill" id="bar-reason" style="--value:38%"></div></div><output id="out-reason">38</output></div>
-              <div class="bar-row"><label>질의 비용</label><div class="bar-track"><div class="bar-fill" id="bar-cost" style="--value:24%"></div></div><output id="out-cost">24</output></div>
-              <div class="bar-row"><label>응답 지연</label><div class="bar-track"><div class="bar-fill" id="bar-latency" style="--value:22%"></div></div><output id="out-latency">22</output></div>
-              <div class="bar-row"><label>설명 가능성</label><div class="bar-track"><div class="bar-fill" id="bar-trace" style="--value:68%"></div></div><output id="out-trace">68</output></div>
-            </div>
+            <dl class="route-notes" aria-live="polite">
+              <dt>검색 범위</dt><dd id="out-reason">질의와 관련된 원문 청크</dd>
+              <dt>작업량 확인</dt><dd id="out-cost">검색·재순위화·생성 토큰을 별도 측정</dd>
+              <dt>성능·비용</dt><dd id="out-latency">이 프로젝트에서는 미측정</dd>
+              <dt>검증할 근거</dt><dd id="out-trace">원문 버전·인용 위치·정답 지지도</dd>
+            </dl>
           </div>
         </div>
       </section>
 
       <section class="section reveal" id="compare">
         <div class="section-head">
-          <div><span class="section-no">03 · CAPABILITY PROFILE</span><h2>두 시스템의 강점 곡선</h2></div>
-          <p>점수는 절대 벤치마크가 아니라 제공된 보고서를 바탕으로 한 상대적 설계 프로필입니다.</p>
+          <div><span class="section-no">03 · CAPABILITY PROFILE</span><h2>두 설계에서 확인할 것</h2></div>
+          <p>기존 0–100 점수에는 측정 근거가 없어 삭제했습니다. 아래는 공식 절차와 앞으로 수행할 평가를 구분한 설명입니다.</p>
         </div>
         <div class="compare">
           <article class="compare-card">
             <h3>표준 RAG <span>RETRIEVAL</span></h3>
             <p>유사한 청크를 빠르고 정확하게 찾아 근거 있는 답을 생성합니다.</p>
-            <div class="score-list">
-              <div class="score"><label>국소 사실 조회</label><i style="--score:92%"></i><b>92</b></div>
-              <div class="score"><label>다중 홉 추론</label><i style="--score:34%"></i><b>34</b></div>
-              <div class="score"><label>전역 요약</label><i style="--score:18%"></i><b>18</b></div>
-              <div class="score"><label>증분 갱신</label><i style="--score:90%"></i><b>90</b></div>
-              <div class="score"><label>비용 효율</label><i style="--score:88%"></i><b>88</b></div>
-            </div>
+            <dl class="qual-profile"><dt>검색</dt><dd>원문 청크를 찾는 기준선부터 비교</dd><dt>복합 질의</dt><dd>질의 분해·반복 검색도 후보</dd><dt>전역 질문</dt><dd>단일 top-k의 범위 한계를 평가</dd><dt>갱신</dt><dd>인덱스·캐시 반영을 실제 확인</dd><dt>성능·비용</dt><dd>이 프로젝트에서는 미측정</dd></dl>
           </article>
           <article class="compare-card graph">
             <h3>GraphRAG <span>SENSEMAKING</span></h3>
             <p>관계망과 계층 요약을 통해 코퍼스의 연결 구조와 전체 맥락을 이해합니다.</p>
-            <div class="score-list">
-              <div class="score"><label>국소 사실 조회</label><i style="--score:84%"></i><b>84</b></div>
-              <div class="score"><label>다중 홉 추론</label><i style="--score:91%"></i><b>91</b></div>
-              <div class="score"><label>전역 요약</label><i style="--score:95%"></i><b>95</b></div>
-              <div class="score"><label>증분 갱신</label><i style="--score:32%"></i><b>32</b></div>
-              <div class="score"><label>비용 효율</label><i style="--score:28%"></i><b>28</b></div>
-            </div>
+            <dl class="qual-profile"><dt>검색</dt><dd>Basic·Local·DRIFT·Global 제공</dd><dt>추출</dt><dd>Standard와 Fast 방식을 구분</dd><dt>전역 질문</dt><dd>커뮤니티 리포트를 이용해 종합</dd><dt>갱신</dt><dd>증분 코드 존재·변경 반영은 별도 검증</dd><dt>성능·비용</dt><dd>이 프로젝트에서는 미측정</dd></dl>
           </article>
         </div>
       </section>
@@ -293,9 +290,9 @@
             </div>
           </article>
           <article class="pipeline graph-pipe">
-            <h3>◎ GraphRAG · 지식 구조화 파이프라인</h3>
+            <h3>◎ Standard GraphRAG · 지식 구조화 예시</h3>
             <div class="steps">
-              <div class="step"><b>01</b><div><strong>텍스트 유닛 분할</strong><span>300–1,200 토큰 단위</span></div></div>
+              <div class="step"><b>01</b><div><strong>텍스트 유닛 분할</strong><span>청크 크기를 평가 변수로 설정</span></div></div>
               <div class="step"><b>02</b><div><strong>엔티티·관계 추출</strong><span>도메인 스키마와 프롬프트</span></div></div>
               <div class="step"><b>03</b><div><strong>엔티티 해소</strong><span>약칭·동의어·중복 노드 통합</span></div></div>
               <div class="step"><b>04</b><div><strong>커뮤니티 탐지</strong><span>Leiden 기반 계층 군집</span></div></div>
@@ -308,18 +305,18 @@
       <section class="section reveal">
         <div class="section-head">
           <div><span class="section-no">05 · DECISION MATRIX</span><h2>운영 관점 비교</h2></div>
-          <p>GraphRAG의 가치는 분명하지만, 그래프 구축·재계산 비용도 함께 판단해야 합니다.</p>
+          <p>Standard·Fast·검색 모드·갱신 범위를 분리해서 평가합니다. 비용 배수나 정확도 순위는 제시하지 않습니다.</p>
         </div>
         <div class="matrix-wrap">
           <table>
             <thead><tr><th>판단 항목</th><th>표준 RAG</th><th>GraphRAG</th><th>실무 해석</th></tr></thead>
             <tbody>
               <tr><td>검색 단위</td><td>텍스트 청크</td><td>엔티티·관계·커뮤니티</td><td>질문의 구조가 기술 선택을 결정</td></tr>
-              <tr><td>인덱싱 비용</td><td class="good">낮음</td><td class="bad">매우 높음</td><td>GraphRAG는 문서 전량 LLM 처리</td></tr>
-              <tr><td>질의 비용</td><td class="good">낮음</td><td class="warn">중–높음</td><td>Global은 커뮤니티 수에 비례</td></tr>
-              <tr><td>다중 홉</td><td class="bad">취약</td><td class="good">강함</td><td>관계 연결이 필요한 감사·조사에 유리</td></tr>
-              <tr><td>전역 요약</td><td class="bad">원리적 한계</td><td class="good">가능</td><td>코퍼스 전체 쟁점·리스크 탐색</td></tr>
-              <tr><td>증분 갱신</td><td class="good">용이</td><td class="bad">어려움</td><td>그래프·커뮤니티 재계산 고려</td></tr>
+              <tr><td>인덱싱</td><td>검색 인덱스 구성</td><td>Standard / Fast 선택</td><td>Fast는 일부 추출을 NLP로 대체하며 요약에는 LLM 사용</td></tr>
+              <tr><td>질의 작업량</td><td>검색·재순위화·생성</td><td>모드별 작업 단계 상이</td><td>Global은 리포트를 토큰 예산별 묶음으로 처리</td></tr>
+              <tr><td>다중 홉</td><td>질의 분해·반복 검색도 후보</td><td>Local·DRIFT 비교 후보</td><td>같은 질문·정답 근거로 평가 필요</td></tr>
+              <tr><td>전역 요약</td><td>단일 top-k 범위 한계 검토</td><td>Global 커뮤니티 요약</td><td>원논문의 특정 평가를 모든 도메인으로 일반화하지 않음</td></tr>
+              <tr><td>증분 갱신</td><td>인덱스·캐시 갱신 확인</td><td>v3.3.0에 증분 처리 코드 존재</td><td>본문 변경·삭제·리포트 재계산은 실행 검증 필요</td></tr>
               <tr><td>최대 실패 지점</td><td>파싱·검색 재현율</td><td>스키마·엔티티 해소</td><td>평가를 검색·생성으로 분리</td></tr>
             </tbody>
           </table>
@@ -329,15 +326,15 @@
       <section class="section reveal">
         <div class="section-head">
           <div><span class="section-no">06 · HYBRID ROUTER</span><h2>한 시스템 안에서 네 갈래로</h2></div>
-          <p>질의 분류기가 저비용 경로를 기본값으로 삼고, 필요한 경우에만 그래프 검색을 호출합니다.</p>
+          <p>아래는 질의별 비교 설계입니다. 자동 라우터를 구현하거나 실제 모델을 호출한 결과가 아니며, Basic 벡터 검색도 별도 기준선으로 사용할 수 있습니다.</p>
         </div>
         <div class="router">
           <div class="router-core"><div class="orb">⇄</div><strong>Query Router</strong><span>복잡도 · 범위 · 관계성 분류</span></div>
           <div class="routes">
-            <div class="route-card"><small>Local fact</small><b>표준 RAG</b><span>정확한 청크 + 하이브리드 검색</span><em>저비용 · 저지연</em></div>
+            <div class="route-card"><small>Local fact</small><b>표준 RAG</b><span>정확한 청크 + 하이브리드 검색</span><em>기준선 비교</em></div>
             <div class="route-card"><small>Entity detail</small><b>GraphRAG Local</b><span>노드 이웃·관계·원문 결합</span><em>엔티티 중심</em></div>
-            <div class="route-card"><small>Multi-hop</small><b>GraphRAG DRIFT</b><span>커뮤니티 통찰 + 동적 그래프 순회</span><em>품질·비용 중간해</em></div>
-            <div class="route-card"><small>Global sensemaking</small><b>GraphRAG Global</b><span>커뮤니티 리포트 Map–Reduce</span><em>고비용 · 전역 이해</em></div>
+            <div class="route-card"><small>Multi-hop</small><b>GraphRAG DRIFT</b><span>커뮤니티 통찰 + 동적 그래프 순회</span><em>후속 질문 탐색</em></div>
+            <div class="route-card"><small>Global sensemaking</small><b>GraphRAG Global</b><span>커뮤니티 리포트 Map–Reduce</span><em>전역 질문 후보</em></div>
           </div>
         </div>
       </section>
@@ -348,45 +345,59 @@
           <p>고급 아키텍처보다 골든 데이터셋, 파싱, 청킹, 검색 품질을 먼저 고정하는 순서입니다.</p>
         </div>
         <div class="roadmap">
-          <article class="phase"><h3>질문 지형 측정</h3><p>실제 질의 로그를 국소·엔티티·다중 홉·전역 유형으로 층화하고 50–200개 골든 평가셋을 만듭니다.</p><span class="time">FOUNDATION</span></article>
+          <article class="phase"><h3>질문 지형 측정</h3><p>질의와 정답 근거를 유형별로 모읍니다. 평가셋 크기·합격 기준은 업무 위험과 변동성을 보고 정합니다.</p><span class="time">FOUNDATION</span></article>
           <article class="phase"><h3>표준 RAG 기준선</h3><p>파싱 품질을 육안 검수하고 청킹 2–3안, 한국어 임베딩, 하이브리드 검색과 리랭커를 비교합니다.</p><span class="time">BASELINE</span></article>
-          <article class="phase"><h3>GraphRAG 파일럿</h3><p>핵심 문서 100–300건에서 도메인 스키마, 엔티티 해소 규칙, 커뮤니티 요약 품질과 비용을 검증합니다.</p><span class="time">PILOT</span></article>
+          <article class="phase"><h3>GraphRAG 파일럿</h3><p>핵심 문서에서 Standard·Fast의 추출 품질, 한국어 적합성, 커뮤니티 요약과 갱신 비용을 검증합니다.</p><span class="time">PILOT</span></article>
           <article class="phase"><h3>라우팅·운영화</h3><p>질문별 경로를 자동 선택하고 p95 지연, 질의당 비용, 충실도, 무응답률을 지속 모니터링합니다.</p><span class="time">PRODUCTION</span></article>
         </div>
       </section>
 
       <section class="callout reveal">
-        <div><h2>원문 심층 가이드도 함께 제공합니다.</h2><p>보고서 작성: 주식회사 별의문 · 2026-07-25 · 대시보드 요약은 제공된 두 원고를 기반으로 구성했습니다.</p></div>
+        <div><h2>원문 심층 가이드도 함께 제공합니다.</h2><p>최초 원고 2026-07-25 · 출처 대조 개정 2026-10-19. 새 Markdown·PDF와 화면의 주장 범위를 맞췄습니다. 월간 통계 기준월은 비적용입니다.</p></div>
         <div class="downloads">
-          <a class="btn primary" href="rag-practical-guide-20260725.pdf" download>RAG PDF</a>
-          <a class="btn" href="graphrag-practical-guide-20260725.pdf" download>GraphRAG PDF</a>
+          <a class="btn primary" href="rag-practical-guide-20261019.pdf" download>RAG PDF</a>
+          <a class="btn" href="graphrag-practical-guide-20261019.pdf" download>GraphRAG PDF</a>
           <button class="btn" type="button" onclick="window.print()">인쇄·PDF 저장</button>
         </div>
       </section>
+
+      <section class="section sources" id="sources"><h2>출처와 문서 버전</h2><p>공식 자료의 절차 대조와 이 문서의 평가 설계안을 구분합니다. 변경 가능한 공식 웹 문서는 이번 수신본 해시를 대조 기록에 보존합니다.</p><ul>
+        <li><a href="https://arxiv.org/abs/2005.11401v4">Lewis 등 RAG 논문 v4 (2021-04-12)</a></li>
+        <li><a href="https://arxiv.org/abs/2404.16130v2">Edge 등 GraphRAG 논문 v2 (2025-02-19)</a></li>
+        <li><a href="https://github.com/microsoft/graphrag/blob/v3.3.0/docs/query/overview.md">v3.3.0 Basic·Local·DRIFT·Global 개요</a> · <a href="https://github.com/microsoft/graphrag/blob/v3.3.0/docs/index/methods.md">Standard·Fast 인덱싱</a></li>
+        <li><a href="https://github.com/microsoft/graphrag/blob/v3.3.0/docs/query/global_search.md">Global의 리포트 묶음·Map–Reduce</a> · <a href="https://github.com/microsoft/graphrag/blob/v3.3.0/packages/graphrag/graphrag/index/update/incremental_index.py">증분 처리 코드</a></li>
+      </ul><p><a href="rag-practical-guide-20261019.md" download>RAG 개정 Markdown</a> · <a href="graphrag-practical-guide-20261019.md" download>GraphRAG 개정 Markdown</a></p>
+      <details id="previous-editions"><summary>2026-07-25 이전판 보관본</summary><p>수정하지 않은 이전판으로, 정정된 주장과 수치가 포함될 수 있습니다. 현재 판단에는 개정판과 대조 기록을 사용하세요.</p><p><a href="rag-practical-guide-20260725.pdf" download>RAG 이전 PDF</a> · <a href="rag-practical-guide-20260725.md" download>RAG 이전 Markdown</a> · <a href="graphrag-practical-guide-20260725.pdf" download>GraphRAG 이전 PDF</a> · <a href="graphrag-practical-guide-20260725.md" download>GraphRAG 이전 Markdown</a></p></details></section>
     </main>
 
     <footer><span>© 2026 Dongsoo Jung · Stargate Corporation</span><span><a href="/research/">Research Observatory</a> · <a href="/">Portal</a></span></footer>
   </div>
   <script>
     const modes={
-      fact:{title:"표준 RAG",copy:"하이브리드 검색과 리랭커로 정확한 근거 청크를 찾는 가장 빠르고 경제적인 경로입니다.",route:"Hybrid Search",values:[38,24,22,68]},
-      entity:{title:"GraphRAG Local",copy:"질의에서 엔티티를 잡고 그래프 이웃, 관계, 주장과 원문 청크를 함께 구성합니다.",route:"Entity Neighborhood",values:[68,48,45,88]},
-      multihop:{title:"GraphRAG DRIFT",copy:"커뮤니티 통찰로 후속 질의를 만들고 그래프를 동적으로 순회해 떨어진 사실을 연결합니다.",route:"Dynamic Traversal",values:[91,68,64,92]},
-      global:{title:"GraphRAG Global",copy:"계층형 커뮤니티 리포트를 Map–Reduce로 종합해 코퍼스 전체의 주제와 리스크를 요약합니다.",route:"Community Map–Reduce",values:[98,94,91,86]}
+      fact:{title:"표준 RAG",copy:"원문 청크 검색을 기준선으로 두고 하이브리드·리랭커를 비교합니다. 성능·비용은 미측정입니다.",route:"Vector / Hybrid",notes:["질의와 관련된 원문 청크","검색·재순위화·생성 토큰을 별도 측정","이 프로젝트에서는 미측정","원문 버전·인용 위치·정답 지지도"]},
+      entity:{title:"GraphRAG Local",copy:"공식 Local은 엔티티 관련 그래프 자료와 원문 청크를 결합합니다.",route:"Entity + Source Text",notes:["엔티티 관련 그래프와 원문","그래프 문맥·생성 토큰을 측정","이 프로젝트에서는 미측정","엔티티·관계 설명이 원문에 지지되는지"]},
+      multihop:{title:"GraphRAG DRIFT",copy:"커뮤니티 리포트로 초기 답변·후속 질문을 만들고 Local 검색으로 구체화합니다. 질의 분해 기준선과 비교합니다.",route:"Community + Local",notes:["커뮤니티 정보와 후속 질문","초기 탐색·후속 검색·생성을 구분","이 프로젝트에서는 미측정","각 후속 답변과 관계 연결의 근거"]},
+      global:{title:"GraphRAG Global",copy:"선택한 계층의 커뮤니티 리포트를 토큰 예산에 맞는 묶음으로 처리하고 중간 결과를 종합합니다.",route:"Community Map–Reduce",notes:["선택한 계층의 커뮤니티 리포트","토큰 예산별 Map 묶음과 Reduce","이 프로젝트에서는 미측정","요약 누락·원문 지지도·적용 코퍼스 범위"]}
     };
-    const bars=["reason","cost","latency","trace"];
-    document.querySelectorAll(".query-tab").forEach(tab=>tab.addEventListener("click",()=>{
-      document.querySelectorAll(".query-tab").forEach(item=>item.classList.remove("active"));
-      tab.classList.add("active");
+    const fields=["reason","cost","latency","trace"];
+    const tabs=[...document.querySelectorAll(".query-tab")];
+    function selectMode(tab){
+      tabs.forEach(item=>{const active=item===tab;item.classList.toggle("active",active);item.setAttribute("aria-selected",String(active));item.tabIndex=active?0:-1;});
+      document.getElementById("mode-panel").setAttribute("aria-labelledby",tab.id);
       const mode=modes[tab.dataset.mode];
-      document.getElementById("mode-title").innerHTML="<span>"+mode.title+"</span>";
+      document.getElementById("mode-title").textContent=mode.title;
       document.getElementById("mode-copy").textContent=mode.copy;
       document.getElementById("mode-route").textContent=mode.route;
-      bars.forEach((name,index)=>{
-        document.getElementById("bar-"+name).style.setProperty("--value",mode.values[index]+"%");
-        document.getElementById("out-"+name).textContent=mode.values[index];
-      });
-    }));
+      fields.forEach((name,index)=>{document.getElementById("out-"+name).textContent=mode.notes[index];});
+    }
+    tabs.forEach((tab,index)=>{
+      tab.setAttribute("role","tab");
+      tab.id="tab-"+tab.dataset.mode;
+      tab.setAttribute("aria-controls","mode-panel");
+      tab.addEventListener("click",()=>selectMode(tab));
+      tab.addEventListener("keydown",event=>{let next=index;if(event.key==="ArrowRight")next=(index+1)%tabs.length;else if(event.key==="ArrowLeft")next=(index+tabs.length-1)%tabs.length;else if(event.key==="Home")next=0;else if(event.key==="End")next=tabs.length-1;else return;event.preventDefault();selectMode(tabs[next]);tabs[next].focus();});
+    });
+    selectMode(tabs[0]);
     if("IntersectionObserver" in window){
       const observer=new IntersectionObserver(entries=>entries.forEach(entry=>{
         if(entry.isIntersecting){entry.target.classList.add("visible");observer.unobserve(entry.target)}

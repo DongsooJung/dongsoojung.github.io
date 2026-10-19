@@ -1,0 +1,358 @@
+{
+  "schemaVersion": 1,
+  "step": "research-2",
+  "checkedAt": "2026-10-19T06:35:34.716587+00:00",
+  "sourceChecks": [
+    {
+      "key": "live",
+      "url": "https://www.stargateedu.co.kr/rag-graphrag/",
+      "checkedAt": "2026-10-19T06:29:41.112577+00:00",
+      "status": 200,
+      "finalUrl": "https://stargateedu.co.kr/rag-graphrag/",
+      "receivedAt": "2026-10-19T06:29:42.728890+00:00",
+      "contentType": "text/html; charset=utf-8",
+      "sha256": "f3f9d3411a99fb1551fdeb6ba4a4e858526812e2a1100f80cffda4bc036752a5",
+      "bytes": 31367
+    },
+    {
+      "key": "release",
+      "url": "https://api.github.com/repos/microsoft/graphrag/releases/latest",
+      "checkedAt": "2026-10-19T06:29:41.113566+00:00",
+      "status": 200,
+      "finalUrl": "https://api.github.com/repos/microsoft/graphrag/releases/latest",
+      "receivedAt": "2026-10-19T06:29:42.467892+00:00",
+      "contentType": "application/json; charset=utf-8",
+      "sha256": "bb9c449a2ae4ad992b696f93a3b126d0c316ad025144208f00e702ab1da461bd",
+      "bytes": 2018
+    },
+    {
+      "key": "tag",
+      "url": "https://api.github.com/repos/microsoft/graphrag/git/ref/tags/v3.3.0",
+      "checkedAt": "2026-10-19T06:29:41.114567+00:00",
+      "status": 200,
+      "finalUrl": "https://api.github.com/repos/microsoft/graphrag/git/ref/tags/v3.3.0",
+      "receivedAt": "2026-10-19T06:29:42.446358+00:00",
+      "contentType": "application/json; charset=utf-8",
+      "sha256": "a462a2b2323c127c06e4cd066803ebd233b9d8efbf2c9c3dc9dd10b818215a25",
+      "bytes": 337
+    },
+    {
+      "key": "query",
+      "url": "https://microsoft.github.io/graphrag/query/overview/",
+      "checkedAt": "2026-10-19T06:29:41.115568+00:00",
+      "status": 200,
+      "finalUrl": "https://microsoft.github.io/graphrag/query/overview/",
+      "receivedAt": "2026-10-19T06:29:42.481933+00:00",
+      "contentType": "text/html; charset=utf-8",
+      "sha256": "7778e2af1f20a0115cc91ed60f00c3cd243b212b7f5e4ca53e929227cf7070b4",
+      "bytes": 39735
+    },
+    {
+      "key": "index",
+      "url": "https://microsoft.github.io/graphrag/index/overview/",
+      "checkedAt": "2026-10-19T06:29:41.116567+00:00",
+      "status": 200,
+      "finalUrl": "https://microsoft.github.io/graphrag/index/overview/",
+      "receivedAt": "2026-10-19T06:29:42.455378+00:00",
+      "contentType": "text/html; charset=utf-8",
+      "sha256": "c63bf3bddde901dca27b4efb02661489ec5e298612f8ae6c1416b518b0cfb4c7",
+      "bytes": 40031
+    },
+    {
+      "key": "methods",
+      "url": "https://microsoft.github.io/graphrag/index/methods/",
+      "checkedAt": "2026-10-19T06:29:41.118567+00:00",
+      "status": 200,
+      "finalUrl": "https://microsoft.github.io/graphrag/index/methods/",
+      "receivedAt": "2026-10-19T06:29:42.464379+00:00",
+      "contentType": "text/html; charset=utf-8",
+      "sha256": "cfd94d5c78185e2d01a93219b07ad2a344599b33064983769ae4a91fb16abddd",
+      "bytes": 40595
+    },
+    {
+      "key": "global",
+      "url": "https://microsoft.github.io/graphrag/query/global_search/",
+      "checkedAt": "2026-10-19T06:29:41.121083+00:00",
+      "status": 200,
+      "finalUrl": "https://microsoft.github.io/graphrag/query/global_search/",
+      "receivedAt": "2026-10-19T06:29:42.461409+00:00",
+      "contentType": "text/html; charset=utf-8",
+      "sha256": "e4466128920baa207a7c96bce0bce30f459b88387b9fac24606e942a030e6497",
+      "bytes": 43250
+    },
+    {
+      "key": "local",
+      "url": "https://microsoft.github.io/graphrag/query/local_search/",
+      "checkedAt": "2026-10-19T06:29:42.447369+00:00",
+      "status": 200,
+      "finalUrl": "https://microsoft.github.io/graphrag/query/local_search/",
+      "receivedAt": "2026-10-19T06:29:42.688362+00:00",
+      "contentType": "text/html; charset=utf-8",
+      "sha256": "a4822109042895526cb4b5122f4a8a4ffc1566d7cc40a61f3d9c5c62df21fccc",
+      "bytes": 41620
+    },
+    {
+      "key": "drift",
+      "url": "https://microsoft.github.io/graphrag/query/drift_search/",
+      "checkedAt": "2026-10-19T06:29:42.456376+00:00",
+      "status": 200,
+      "finalUrl": "https://microsoft.github.io/graphrag/query/drift_search/",
+      "receivedAt": "2026-10-19T06:29:42.709876+00:00",
+      "contentType": "text/html; charset=utf-8",
+      "sha256": "515ce4fe501c0a56d1da1676c01bd60d49d0628c6d9f84f2a6ed7d9df8ae119e",
+      "bytes": 41652
+    },
+    {
+      "key": "basic",
+      "url": "https://microsoft.github.io/graphrag/query/basic_search/",
+      "checkedAt": "2026-10-19T06:29:42.463380+00:00",
+      "status": 404,
+      "finalUrl": "https://microsoft.github.io/graphrag/query/basic_search/",
+      "receivedAt": "2026-10-19T06:29:42.715874+00:00",
+      "contentType": "text/html; charset=utf-8",
+      "sha256": "5a393e7553eb29b7d6d8a2e383911ba16bca3d664a5b72875282da95311da97c",
+      "bytes": 32087
+    },
+    {
+      "key": "update",
+      "url": "https://microsoft.github.io/graphrag/index/update/",
+      "checkedAt": "2026-10-19T06:29:42.465377+00:00",
+      "status": 404,
+      "finalUrl": "https://microsoft.github.io/graphrag/index/update/",
+      "receivedAt": "2026-10-19T06:29:42.692362+00:00",
+      "contentType": "text/html; charset=utf-8",
+      "sha256": "5a393e7553eb29b7d6d8a2e383911ba16bca3d664a5b72875282da95311da97c",
+      "bytes": 32087
+    },
+    {
+      "key": "rag-paper",
+      "url": "https://arxiv.org/abs/2005.11401v4",
+      "checkedAt": "2026-10-19T06:29:42.468890+00:00",
+      "status": 200,
+      "finalUrl": "https://arxiv.org/abs/2005.11401v4",
+      "receivedAt": "2026-10-19T06:29:42.623809+00:00",
+      "contentType": "text/html; charset=utf-8",
+      "sha256": "bef497b78b824988b5a77b73db2f3d384d517425ea486580385a155be99f4a81",
+      "bytes": 45847
+    },
+    {
+      "key": "graph-paper",
+      "url": "https://arxiv.org/abs/2404.16130v2",
+      "checkedAt": "2026-10-19T06:29:42.483933+00:00",
+      "status": 200,
+      "finalUrl": "https://arxiv.org/abs/2404.16130v2",
+      "receivedAt": "2026-10-19T06:29:42.597771+00:00",
+      "contentType": "text/html; charset=utf-8",
+      "sha256": "1336971d22c0a00098aac0e9ec30aae6ed28cb3ac58a38a2265c11ec9dbe3fd9",
+      "bytes": 43719
+    },
+    {
+      "key": "rag-old-pdf",
+      "url": "https://www.stargateedu.co.kr/rag-graphrag/rag-practical-guide-20260725.pdf",
+      "checkedAt": "2026-10-19T06:29:42.599785+00:00",
+      "status": 200,
+      "finalUrl": "https://stargateedu.co.kr/rag-graphrag/rag-practical-guide-20260725.pdf",
+      "receivedAt": "2026-10-19T06:29:43.085007+00:00",
+      "contentType": "application/pdf",
+      "sha256": "03bf5f533187bb7ea950283a208cae466e99bc607277d0c9d94b59f620d45404",
+      "bytes": 107853
+    },
+    {
+      "key": "graph-old-pdf",
+      "url": "https://www.stargateedu.co.kr/rag-graphrag/graphrag-practical-guide-20260725.pdf",
+      "checkedAt": "2026-10-19T06:29:42.625809+00:00",
+      "status": 200,
+      "finalUrl": "https://stargateedu.co.kr/rag-graphrag/graphrag-practical-guide-20260725.pdf",
+      "receivedAt": "2026-10-19T06:29:43.149783+00:00",
+      "contentType": "application/pdf",
+      "sha256": "5ca01fae06fbf5c7a6dae9b82e0f25cfc49c84d430043c6e3ddfe38a35808cd8",
+      "bytes": 114847
+    },
+    {
+      "key": "tag-tree",
+      "url": "https://api.github.com/repos/microsoft/graphrag/git/trees/5faaaf4f5685fa2056fa8c3bf9342cb089f2942f?recursive=1",
+      "checkedAt": "2026-10-19T06:30:02.465503+00:00",
+      "status": 200,
+      "finalUrl": "https://api.github.com/repos/microsoft/graphrag/git/trees/5faaaf4f5685fa2056fa8c3bf9342cb089f2942f?recursive=1",
+      "receivedAt": "2026-10-19T06:30:03.056977+00:00",
+      "contentType": "application/json; charset=utf-8",
+      "sha256": "dcb6287a20386231a5c9b62e3582eca8b0fc1eb08fccf88c071ef4b18ef64730",
+      "bytes": 296906
+    },
+    {
+      "key": "tag-query",
+      "url": "https://raw.githubusercontent.com/microsoft/graphrag/5faaaf4f5685fa2056fa8c3bf9342cb089f2942f/docs/query/overview.md",
+      "checkedAt": "2026-10-19T06:30:15.184370+00:00",
+      "status": 200,
+      "finalUrl": "https://raw.githubusercontent.com/microsoft/graphrag/5faaaf4f5685fa2056fa8c3bf9342cb089f2942f/docs/query/overview.md",
+      "receivedAt": "2026-10-19T06:30:16.199178+00:00",
+      "contentType": "text/plain; charset=utf-8",
+      "sha256": "ae9f06e8f8c4bd08993a0498af955d49e89ee81b159d8152666596f079ecefda",
+      "bytes": 2454
+    },
+    {
+      "key": "tag-methods",
+      "url": "https://raw.githubusercontent.com/microsoft/graphrag/5faaaf4f5685fa2056fa8c3bf9342cb089f2942f/docs/index/methods.md",
+      "checkedAt": "2026-10-19T06:30:15.185371+00:00",
+      "status": 200,
+      "finalUrl": "https://raw.githubusercontent.com/microsoft/graphrag/5faaaf4f5685fa2056fa8c3bf9342cb089f2942f/docs/index/methods.md",
+      "receivedAt": "2026-10-19T06:30:16.132506+00:00",
+      "contentType": "text/plain; charset=utf-8",
+      "sha256": "c5e622f27ee4a219c698f420d3f2c2e1ce3b3a5da893708141302b3037dfddb6",
+      "bytes": 4112
+    },
+    {
+      "key": "tag-global",
+      "url": "https://raw.githubusercontent.com/microsoft/graphrag/5faaaf4f5685fa2056fa8c3bf9342cb089f2942f/docs/query/global_search.md",
+      "checkedAt": "2026-10-19T06:30:15.185371+00:00",
+      "status": 200,
+      "finalUrl": "https://raw.githubusercontent.com/microsoft/graphrag/5faaaf4f5685fa2056fa8c3bf9342cb089f2942f/docs/query/global_search.md",
+      "receivedAt": "2026-10-19T06:30:16.185645+00:00",
+      "contentType": "text/plain; charset=utf-8",
+      "sha256": "21d90708c0d9a1c2b68258e5482bb7c1b94e269a3252a29bbcc0a069aecb8060",
+      "bytes": 6023
+    },
+    {
+      "key": "tag-cli",
+      "url": "https://raw.githubusercontent.com/microsoft/graphrag/5faaaf4f5685fa2056fa8c3bf9342cb089f2942f/docs/cli.md",
+      "checkedAt": "2026-10-19T06:30:15.186373+00:00",
+      "status": 200,
+      "finalUrl": "https://raw.githubusercontent.com/microsoft/graphrag/5faaaf4f5685fa2056fa8c3bf9342cb089f2942f/docs/cli.md",
+      "receivedAt": "2026-10-19T06:30:16.155542+00:00",
+      "contentType": "text/plain; charset=utf-8",
+      "sha256": "2d29f5d0a6fd97eb78a57e360b7146a10b7a906066388c9e7c4ecc02aabe624f",
+      "bytes": 195
+    },
+    {
+      "key": "tag-update",
+      "url": "https://raw.githubusercontent.com/microsoft/graphrag/5faaaf4f5685fa2056fa8c3bf9342cb089f2942f/packages/graphrag/graphrag/index/update/incremental_index.py",
+      "checkedAt": "2026-10-19T06:30:38.909677+00:00",
+      "status": 200,
+      "finalUrl": "https://raw.githubusercontent.com/microsoft/graphrag/5faaaf4f5685fa2056fa8c3bf9342cb089f2942f/packages/graphrag/graphrag/index/update/incremental_index.py",
+      "receivedAt": "2026-10-19T06:30:39.319936+00:00",
+      "contentType": "text/plain; charset=utf-8",
+      "sha256": "f9c47d8959345ede23e6f23415c642a6d54f7f77b7e19c6c921b15ce81d42a99",
+      "bytes": 2323
+    }
+  ],
+  "projects": {
+    "/rag-graphrag/": {
+      "status": "not_applicable",
+      "verifiedScope": "2026-07-25 원고/기존 PDF의 실제 버전을 확인하고 2026-10-19 개정 HTML·Markdown·PDF를 공식 RAG v4·GraphRAG v2 논문, GraphRAG 정식 v3.3.0(10월8일 공표) 및 고정 문서/코드와 대조. 월간 통계 기준월 비적용. Standard/Fast, 4검색모드, Global 토큰별 묶음, 증분 처리 코드의 존재를 확인. 자체 코퍼스 성능·비용·한국어 품질·갱신 실행을 검증한 것은 아님.",
+      "documentVersion": "개정 2026-10-19 / 원고 2026-07-25 / GraphRAG v3.3.0",
+      "issues": [
+        "이 문서는 월간 통계가 아닌 방법론 자료. 최초 원고 2026-07-25, 개정판 2026-10-19, 확인 릴리스 공표 2026-10-08을 구분함.",
+        "기존 0-100 프로필 점수·실측 라우팅 비율·비용 배수에는 측정 근거가 없어 현재 화면/개정판에서 제외.",
+        "모델·인덱싱·증분 갱신을 실행하지 않음. 한국어 품질·권한/삭제·동일 제목 본문 변경·비용 비교는 후속 실험 필요.",
+        "기존 7월 PDF/MD는 변경하지 않은 이전판 보관본. 10월 자료 수치가 추가됐다는 의미가 아님."
+      ],
+      "nextAction": "실제 코퍼스·정답 근거·한국어 질의셋과 고정 버전/설정으로 기준선·4모드·Standard/Fast를 비교. 갱신/삭제/동일 제목 변경·권한 반영과 요약 지지도를 검증하고 토큰·지연·갱신 비용을 실측하기 전 우위나 라우팅 비율을 제시하지 않음."
+    }
+  },
+  "upstreamVersion": {
+    "repository": "microsoft/graphrag",
+    "tag": "v3.3.0",
+    "commit": "5faaaf4f5685fa2056fa8c3bf9342cb089f2942f",
+    "publishedAt": "2026-10-08T18:28:43Z",
+    "prerelease": false,
+    "queryModes": [
+      "basic",
+      "local",
+      "drift",
+      "global"
+    ],
+    "tagPinnedSourceFiles": [
+      "docs/query/overview.md",
+      "docs/index/methods.md",
+      "docs/query/global_search.md",
+      "packages/graphrag/graphrag/index/update/incremental_index.py"
+    ]
+  },
+  "papers": [
+    {
+      "id": "2005.11401",
+      "version": "v4",
+      "revisedAt": "2021-04-12"
+    },
+    {
+      "id": "2404.16130",
+      "version": "v2",
+      "revisedAt": "2025-02-19"
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "rag-graphrag/index.html",
+      "sha256": "f3cf469d89c864d8c975caddfefe6ebeea902dd9e48e2ea9ecb029d56baccd4b",
+      "bytes": 36215
+    },
+    {
+      "path": "rag-graphrag/rag-practical-guide-20261019.md",
+      "sha256": "55cee13526c0faf4223c5207f463639a75eee950e1a5c8c57a28cddcbd4f670d",
+      "bytes": 4812
+    },
+    {
+      "path": "rag-graphrag/rag-practical-guide-20261019.pdf",
+      "sha256": "3c0e408e25d886852f4c39b3af3c93b5912b38c1c4f42ee2b228c78f369af306",
+      "bytes": 110212
+    },
+    {
+      "path": "rag-graphrag/graphrag-practical-guide-20261019.md",
+      "sha256": "1f0e8539e77be0f756de09342d51e7bec26200723cd88d9f0713c36f9c223735",
+      "bytes": 4967
+    },
+    {
+      "path": "rag-graphrag/graphrag-practical-guide-20261019.pdf",
+      "sha256": "d8ecf91baec94a7fa6119f0c2bf88141c030b735b77442503bc61a466d6f186c",
+      "bytes": 107140
+    }
+  ],
+  "preservedEditions": [
+    {
+      "path": "rag-graphrag/rag-practical-guide-20260725.md",
+      "sha256": "1c60a5c432a3a9ecc381c910960728e564a841b80afaa16f609d4df1db5ad8f8",
+      "unchanged": true
+    },
+    {
+      "path": "rag-graphrag/rag-practical-guide-20260725.pdf",
+      "sha256": "03bf5f533187bb7ea950283a208cae466e99bc607277d0c9d94b59f620d45404",
+      "unchanged": true
+    },
+    {
+      "path": "rag-graphrag/graphrag-practical-guide-20260725.md",
+      "sha256": "84db6d526dc53aae2ef5cbbf5729ac352f11035af9e7b92e9f56e21363bc00b1",
+      "unchanged": true
+    },
+    {
+      "path": "rag-graphrag/graphrag-practical-guide-20260725.pdf",
+      "sha256": "5ca01fae06fbf5c7a6dae9b82e0f25cfc49c84d430043c6e3ddfe38a35808cd8",
+      "unchanged": true
+    }
+  ],
+  "validation": {
+    "monthlyStatisticsApplicable": false,
+    "modelCalls": 0,
+    "indexingExecuted": false,
+    "costMeasured": false,
+    "benchmarkExecuted": false,
+    "newPdfPages": {
+      "rag": 2,
+      "graphrag": 2
+    },
+    "htmlAndMarkdownPdfRevisedTogether": true
+  },
+  "sourceLimitations": [
+    {
+      "key": "basic",
+      "status": 404,
+      "url": "https://microsoft.github.io/graphrag/query/basic_search/",
+      "nextAction": "독립 Basic URL 대신 공식 Query Overview와 v3.3.0 고정 문서의 Basic 절을 사용."
+    },
+    {
+      "key": "update",
+      "status": 404,
+      "url": "https://microsoft.github.io/graphrag/index/update/",
+      "nextAction": "독립 갱신 문서 URL 대신 v3.3.0 고정 증분 코드 확인. 실행 검증은 별도."
+    }
+  ]
+}
