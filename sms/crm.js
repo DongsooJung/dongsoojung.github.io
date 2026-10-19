@@ -4,6 +4,7 @@
   const state={contacts:[],templates:[],history:[],selected:new Set(),unlocked:false};
   const notice=$('crm-status');
   let authEpoch=0;
+  window.smsStartLogin=()=>{try{if(window.smsCaptureDraft)sessionStorage.setItem('stargate-sms-draft',JSON.stringify(window.smsCaptureDraft()));}catch{tell('작성 내용을 잠시 보관할 수 없습니다. 브라우저 저장소 설정을 확인해 주세요.',true);return;}location.assign('/admin/visitors/?sms-login=1'+(location.pathname.includes('/customers')?'&next=customers':''));};
   const escape=value=>String(value??'').replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
   function tell(message,error=false){notice.textContent=message;notice.classList.toggle('error',error);}
   async function api(path,options={}) {
@@ -24,21 +25,21 @@
   if(location.pathname.includes('/customers')){
     document.title='고객 관리 | STARGATE';document.querySelector('h1').textContent='고객 관리';
     document.querySelector('.sms-head p').textContent='고객 연락처와 상담 메모를 관리하고, 선택한 고객에게 문자를 작성하세요.';
-    $('login-crm').href='/admin/visitors/?sms-login=1&next=customers';
+
   }
-  document.querySelectorAll('[data-crm-tab]').forEach(el=>el.addEventListener('click',()=>tab(el.dataset.crmTab)));
-  function requireLogin(){if(!state.unlocked){tell('상단의 관리자 로그인으로 연결해 주세요.',true);return false;}return true;}
-  function lock(){state.unlocked=false;window.smsSignedIn=false;$('login-crm').hidden=false;$('connect-account').hidden=true;$('logout-crm').hidden=true;window.dispatchEvent(new Event('sms-auth-changed'));state.contacts=[];state.templates=[];state.history=[];state.selected.clear();resetContact();resetTemplate();$('report-list').replaceChildren();render();tell('관리자 로그인 후 고객 목록과 문구를 불러옵니다.');}
+  document.querySelectorAll('[data-crm-tab]').forEach(el=>el.addEventListener('click',()=>{if(el.dataset.crmTab!=='compose'&&!state.unlocked){window.smsStartLogin();return;}tab(el.dataset.crmTab);}));
+  function requireLogin(){if(!state.unlocked){window.smsStartLogin();return false;}return true;}
+  function lock(){state.unlocked=false;window.smsSignedIn=false;$('connect-account').hidden=true;$('logout-crm').hidden=true;window.dispatchEvent(new Event('sms-auth-changed'));state.contacts=[];state.templates=[];state.history=[];state.selected.clear();resetContact();resetTemplate();$('report-list').replaceChildren();render();tell('');}
 
   async function load(){
     const [contacts,templates,history]=await Promise.all([api('contacts'),api('templates'),api('history')]);
-    state.contacts=contacts.contacts;state.templates=templates.templates;state.history=history.history;state.unlocked=true;window.smsSignedIn=true;$('login-crm').hidden=true;$('connect-account').hidden=false;$('logout-crm').hidden=false;window.dispatchEvent(new Event('sms-auth-changed'));render();
+    state.contacts=contacts.contacts;state.templates=templates.templates;state.history=history.history;state.unlocked=true;window.smsSignedIn=true;$('connect-account').hidden=false;$('logout-crm').hidden=false;window.dispatchEvent(new Event('sms-auth-changed'));render();
   }
   $('connect-account').addEventListener('click',async()=>{try{await load();tell('관리자 로그인으로 연결됐습니다. 고객과 문구는 휴대폰과 PC에서 함께 사용할 수 있습니다.');}catch(error){lock();tell(error.message,true);}});
   function renderContacts(){
     const query=$('contact-search').value.trim().toLowerCase();
     const list=state.contacts.filter(v=>[v.name,v.phone,v.category,v.notes].some(x=>String(x).toLowerCase().includes(query)));
-    $('contact-count').textContent=`전체 ${state.contacts.length}명 · 선택 ${state.selected.size}명 / 최대 10명`;
+    $('contact-count').textContent=`전체 ${state.contacts.length}명 · 선택 ${state.selected.size}명 / 최대 5명`;
     $('contact-list').innerHTML=list.length?list.map(v=>`<article class="crm-item"><div class="crm-item-head"><label><input type="checkbox" data-select-contact="${escape(v.id)}" ${state.selected.has(v.id)?'checked':''} aria-label="${escape(v.name)} 선택"><span>${escape(v.name)} <small>${escape(v.category)}</small></span></label><span class="status">${v.consent?'수신 동의 기록':'동의 확인 필요'}</span></div><p>${escape(v.phone)}</p>${v.notes?`<p>${escape(v.notes)}</p>`:''}<div class="crm-actions"><button type="button" class="mini-btn" data-edit-contact="${escape(v.id)}">수정</button><button type="button" class="mini-btn" data-contact-history="${escape(v.phone)}">발송 기록</button><button type="button" class="mini-btn" data-delete-contact="${escape(v.id)}">삭제</button></div></article>`).join(''):`<div class="crm-empty">${state.unlocked?'저장된 고객이 없습니다. 왼쪽에서 첫 고객을 등록하세요.':'관리자 연결 후 고객 목록을 표시합니다.'}</div>`;
   }
   function renderTemplates(){
@@ -69,7 +70,7 @@
   });
   $('contact-list').addEventListener('change',event=>{
     const id=event.target.dataset.selectContact;if(!id)return;
-    if(event.target.checked){if(state.selected.size>=10){event.target.checked=false;tell('한 번에 최대 10명을 선택할 수 있습니다.',true);return;}state.selected.add(id);}else state.selected.delete(id);
+    if(event.target.checked){if(state.selected.size>=5){event.target.checked=false;tell('한 번에 최대 5명을 선택할 수 있습니다.',true);return;}state.selected.add(id);}else state.selected.delete(id);
     renderContacts();
   });
   document.addEventListener('click',async event=>{
@@ -89,7 +90,7 @@
     if(!selected.length){tell('발송할 고객을 선택해 주세요.',true);return;}
     const names=[...document.querySelectorAll('[data-name]')],phones=[...document.querySelectorAll('[data-phone]')];
     names.forEach((input,i)=>{input.value=selected[i]?.name||'';phones[i].value=selected[i]?.phone||'';});
-    $('message').dispatchEvent(new Event('input',{bubbles:true}));$('consent').checked=false;tab('compose');
+    $('message').dispatchEvent(new Event('input',{bubbles:true}));$('consent').checked=false;document.getElementById('recipients-fold').open=true;tab('compose');
     tell(`${selected.length}명을 발송 목록에 넣었습니다. 수신 동의를 다시 확인해 주세요.`);
   });
   $('refresh-history').addEventListener('click',async()=>{if(!requireLogin())return;try{state.history=(await api('history')).history;renderHistory();tell('발송 기록을 새로 불러왔습니다.');}catch(error){tell(error.message,true);}});
@@ -98,7 +99,7 @@
     try{const {reports}=await api('reports');$('report-list').innerHTML=reports.length?reports.map(v=>`<article class="crm-item"><h3>${escape(v.to)}</h3><p>${escape(v.statusMessage||'상태 코드 '+v.statusCode)}</p><small>코드 ${escape(v.statusCode)} · ${escape(v.dateCreated)}</small><details><summary>문자 내용</summary><pre>${escape(v.text)}</pre></details></article>`).join(''):'<div class="crm-empty">솔라피 발송 내역이 없습니다.</div>';tell('솔라피 최근 50건을 조회했습니다. 접수와 전송 완료 상태를 구분해 확인하세요.');}catch(error){tell(error.message,true);}finally{button.disabled=false;}
   });
   window.addEventListener('sms-submitted',async()=>{try{state.history=(await api('history')).history;renderHistory();}catch{}});
-  $('logout-crm').addEventListener('click',async()=>{try{await api('session',{method:'DELETE'});}catch(error){tell('로그아웃하지 못했습니다. 다시 시도해 주세요.',true);return;}authEpoch++;lock();$('account-info').textContent='';$('report-list').replaceChildren();resetContact();resetTemplate();document.querySelectorAll('[data-name],[data-phone]').forEach(v=>v.value='');$('message').value='';$('message').dispatchEvent(new Event('input'));tab('compose');});
+  $('logout-crm').addEventListener('click',async()=>{try{await api('session',{method:'DELETE'});}catch(error){tell('로그아웃하지 못했습니다. 다시 시도해 주세요.',true);return;}authEpoch++;try{sessionStorage.removeItem('stargate-sms-draft');}catch{}lock();$('account-info').textContent='';$('report-list').replaceChildren();resetContact();resetTemplate();document.querySelectorAll('[data-name],[data-phone]').forEach(v=>v.value='');$('message').value='';$('message').dispatchEvent(new Event('input'));tab('compose');});
   lock();
   fetch('/api/sms/session',{cache:'no-store'}).then(r=>r.json()).then(data=>{if(data.signedIn){$('connect-account').hidden=false;$('connect-account').click();}}).catch(()=>{});
 })();

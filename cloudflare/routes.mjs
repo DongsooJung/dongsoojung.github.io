@@ -44,6 +44,11 @@ function preflight(request,method) {
 export async function handleRequest(request,env,options = {}) {
   const url = new URL(request.url), path = url.pathname;
   if(path === "/api/sms" || path.startsWith('/api/sms/') || path === "/api/account") return smsWorker.fetch(request,env);
+  if(['/sms/','/sms/index.html','/sms/crm.js','/sms/crm.css','/sms/workspace.css'].includes(path)) {
+    const asset=await env.ASSETS.fetch(request),headers=new Headers(asset.headers);
+    headers.set('Cache-Control','no-store');
+    return new Response(asset.body,{status:asset.status,headers});
+  }
   if(['/sms/customers','/sms/customers/','/sms/customers/index.html'].includes(path)) {
     if(path==='/sms/customers') return Response.redirect(url.origin+'/sms/customers/',308);
     const assetUrl=new URL('/sms/',url.origin);

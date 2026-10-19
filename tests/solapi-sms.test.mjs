@@ -7,7 +7,7 @@ test('personalization, consent, duplicates and final message limits',()=>{
   assert.throws(()=>validate({...body,consent:false}));
   assert.throws(()=>validate({...body,recipients:[...body.recipients,...body.recipients]}));
   assert.throws(()=>validate({...body,message:'{이름}'.repeat(1000)}));
-  assert.throws(()=>validate({...body,recipients:Array(11).fill(body.recipients[0])}));
+  assert.throws(()=>validate({...body,recipients:Array(6).fill(body.recipients[0])}));
 });
 test('administrator authentication rejects missing and incorrect credentials',async()=>{
   const env={SMS_ADMIN_TOKEN:'sample-admin'};
