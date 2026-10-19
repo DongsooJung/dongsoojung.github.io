@@ -89,7 +89,7 @@
     if(!selected.length){tell('발송할 고객을 선택해 주세요.',true);return;}
     const names=[...document.querySelectorAll('[data-name]')],phones=[...document.querySelectorAll('[data-phone]')];
     names.forEach((input,i)=>{input.value=selected[i]?.name||'';phones[i].value=selected[i]?.phone||'';});
-    $('message').dispatchEvent(new Event('input',{bubbles:true}));$('consent').checked=false;$('confirmation').value='';tab('compose');
+    $('message').dispatchEvent(new Event('input',{bubbles:true}));$('consent').checked=false;tab('compose');
     tell(`${selected.length}명을 발송 목록에 넣었습니다. 수신 동의를 다시 확인해 주세요.`);
   });
   $('refresh-history').addEventListener('click',async()=>{if(!requireLogin())return;try{state.history=(await api('history')).history;renderHistory();tell('발송 기록을 새로 불러왔습니다.');}catch(error){tell(error.message,true);}});

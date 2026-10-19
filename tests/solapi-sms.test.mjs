@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {validate,send,authorized,solapi} from '../server/sms/service.mjs';
-const body={requestId:'d49e8d6f-7530-4a3b-8bc5-4ea61a744111',consent:true,confirmation:'발송',sender:'0212345678',message:'{이름}님 안녕하세요',recipients:[{name:'김고객',phone:'010-1234-5678'}]};
+const body={requestId:'d49e8d6f-7530-4a3b-8bc5-4ea61a744111',consent:true,sender:'0212345678',message:'{이름}님 안녕하세요',recipients:[{name:'김고객',phone:'010-1234-5678'}]};
 test('personalization, consent, duplicates and final message limits',()=>{
   assert.equal(validate(body)[0].text,'김고객님 안녕하세요');
   assert.throws(()=>validate({...body,consent:false}));
