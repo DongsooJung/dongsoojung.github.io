@@ -134,7 +134,7 @@
     .callout p{color:var(--sub);font-size:12px;margin:0}
     .downloads{display:flex;gap:8px;flex-wrap:wrap}
     footer{padding:23px 0 38px;border-top:1px solid var(--line);display:flex;justify-content:space-between;gap:20px;color:var(--muted);font-size:10px}
-    .reveal{opacity:0;transform:translateY(10px);transition:.45s ease}
+    .reveal{opacity:1;transform:none}
     .reveal.visible{opacity:1;transform:none}
     @media(max-width:900px){
       .hero{grid-template-columns:1fr}.summary-grid,.roadmap{grid-template-columns:1fr 1fr}
@@ -159,6 +159,11 @@
     .source-review{margin-top:24px;padding:20px;border:1px solid var(--line);border-radius:16px;background:var(--panel);font-size:13px;color:var(--sub)}
     .source-review a,.sources a{color:var(--cyan);text-decoration:underline}.sources{overflow-wrap:anywhere}
     .lab-grid>*{min-width:0}.sources li{margin:9px 0}.qual-profile{grid-template-columns:85px minmax(0,1fr)}
+    :root[data-theme="light"]{--cyan:#086689;--blue:#2859bb;--violet:#7140b5;--mint:#146247;--amber:#9a6400;--red:#ad2545}
+    :root[data-theme="light"] :is(.hero-card,.summary-card,.lab,.compare-card,.pipeline,.route-card,.phase,.callout,table){background:var(--panel);border-color:var(--line)}
+    :root[data-theme="light"] :is(.mini-metric,.recommend,.query-tab,.step,.route b,th){background:var(--panel2);border-color:var(--line)}
+    :root[data-theme="light"] :is(.logo,.btn.primary,.step b,.router-core .orb){color:#fff}
+    :root[data-theme="light"] .hero-card::after{background:rgba(8,102,137,.06)}
   </style>
   <link rel="stylesheet" href="/assets/site-theme.css">
   <script src="/assets/site-theme.js"></script>
