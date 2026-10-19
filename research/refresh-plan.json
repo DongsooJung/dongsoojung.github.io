@@ -604,18 +604,52 @@
       ],
       "release": {
         "branch": "codex/research-1-source-review",
-        "status": "awaiting_checks",
+        "status": "verified",
         "liveUrl": "https://www.stargateedu.co.kr/research/",
         "sourceReviewUrl": "https://www.stargateedu.co.kr/research/source-reviews/2026-10-19-research-1.json",
-        "pullRequest": "https://github.com/DongsooJung/dongsoojung.github.io/pull/193"
+        "pullRequest": "https://github.com/DongsooJung/dongsoojung.github.io/pull/193",
+        "commit": "0dfe3a6ee70b37776bbeb95c68c5573a6cabb307",
+        "verifiedAt": "2026-10-18T15:41:58.157Z",
+        "pagesRun": "https://github.com/DongsooJung/dongsoojung.github.io/actions/runs/39141391121",
+        "checks": [
+          "CodeQL aggregate and JavaScript success on PR head 71e931e538628d61bc6ff085dc56528fcd1624fe",
+          "Exact merge commit Pages build/report/deploy success",
+          "Both public domains: 11 changed content files match release",
+          "Live hub: 63 unique, 7 alphabetical filters, 9 groups, 5 lanes, strategy44",
+          "Live 8 methods pages, weighted CSV/JSON, source notes, downloads, mobile; no JS errors",
+          "12 Node tests, 8 inline JavaScript syntax checks"
+        ]
       }
     },
     {
       "id": "research-2",
       "label": "연구·AI 2차",
-      "status": "pending",
+      "status": "completed",
       "keys": [
         "/rag-graphrag/"
+      ],
+      "completedAt": "2026-10-19T06:35:34.716587+00:00",
+      "outcome": "document_reviewed_with_followups",
+      "itemResults": {
+        "/rag-graphrag/": {
+          "status": "not_applicable",
+          "checkedAt": "2026-10-19T06:35:34.716587+00:00",
+          "audit": "/research/source-reviews/2026-10-19-research-2.json",
+          "nextAction": "실제 코퍼스·정답 근거·한국어 질의셋과 고정 버전/설정으로 기준선·4모드·Standard/Fast를 비교. 갱신/삭제/동일 제목 변경·권한 반영과 요약 지지도를 검증하고 토큰·지연·갱신 비용을 실측하기 전 우위나 라우팅 비율을 제시하지 않음."
+        }
+      },
+      "release": {
+        "branch": "codex/research-2-source-review",
+        "status": "awaiting_checks",
+        "liveUrl": "https://www.stargateedu.co.kr/rag-graphrag/",
+        "sourceReviewUrl": "https://www.stargateedu.co.kr/research/source-reviews/2026-10-19-research-2.json",
+        "pullRequest": "https://github.com/DongsooJung/dongsoojung.github.io/pull/196"
+      },
+      "followUps": [
+        {
+          "key": "/rag-graphrag/",
+          "nextAction": "실제 코퍼스·정답 근거·한국어 질의셋과 고정 버전/설정으로 기준선·4모드·Standard/Fast를 비교. 갱신/삭제/동일 제목 변경·권한 반영과 요약 지지도를 검증하고 토큰·지연·갱신 비용을 실측하기 전 우위나 라우팅 비율을 제시하지 않음."
+        }
       ]
     },
     {
@@ -667,5 +701,5 @@
     }
   ],
   "automationId": "10",
-  "lastCompletedStep": "research-1"
+  "lastCompletedStep": "research-2"
 }
