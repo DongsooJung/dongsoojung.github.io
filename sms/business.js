@@ -1,11 +1,13 @@
 (() => {
   const $=id=>document.getElementById(id);
   const url='https://stargate.stargate8225.workers.dev/sms/';
+  const channelDescription='스타게이트 카카오톡 상담\nhttps://pf.kakao.com/_wJpen/chat\n채널 홈: https://pf.kakao.com/_wJpen';
   const description='스타게이트 고객 메시지 관리\n문자 작성 · 고객 목록 · 발송 기록\n기본 5명, 최대 10명까지 발송\n'+url+'\n※ 운영자용 페이지입니다. 발송과 고객정보 조회에는 본인 확인이 필요합니다.';
   async function copy(value){try{await navigator.clipboard.writeText(value);$('share-status').textContent='복사했습니다. 노션 또는 카카오톡 입력창에 붙여 넣으세요.';}catch{$('share-copy-text').hidden=false;$('share-copy-text').value=value;$('share-copy-text').focus();$('share-copy-text').select();$('share-status').textContent='아래 내용을 선택해 복사해 주세요.';}}
   $('copy-page-link').addEventListener('click',()=>copy(url));
   $('copy-notion-link').addEventListener('click',()=>copy('[스타게이트 고객 메시지 관리]('+url+')'));
   $('copy-kakao-text').addEventListener('click',()=>copy(description));
+  $('copy-channel-link').addEventListener('click',()=>copy(channelDescription));
   const channel=$('kakao-channel'),template=$('kakao-template'),fields=$('kakao-variables'),mode=$('delivery-mode');
   let list=[],approved=[],loaded=false,loading=false,unavailable=false,smsDraft='';
   window.smsDelivery=()=>{
@@ -19,7 +21,7 @@
   async function loadChannels(){
     if(!window.smsSignedIn){$('kakao-status').textContent='채널을 불러오려면 본인 확인이 필요합니다. 아래 설정 불러오기를 누르세요.';update();return;}
     if(loading)return;loading=true;
-    try{const data=await get('kakao-channels');list=data.channels;loaded=true;unavailable=false;channel.replaceChildren(new Option('비즈니스 채널 선택',''),...list.map(v=>new Option(v.name,v.id)));$('kakao-status').textContent=list.length?'발송할 스타게이트 채널과 승인 템플릿을 선택하세요.':'솔라피에 연결된 채널이 없습니다. 솔라피 콘솔에서 스타게이트 비즈니스 채널을 연동한 뒤 다시 불러오세요.';}
+    try{const data=await get('kakao-channels');list=data.channels;loaded=true;unavailable=false;channel.replaceChildren(new Option('비즈니스 채널 선택',''),...list.map(v=>new Option(v.name,v.id)));$('kakao-status').textContent=list.length?'발송할 스타게이트 채널과 승인 템플릿을 선택하세요.':'스타게이트 공개 채널은 확인됐지만 솔라피 계정에 연결된 채널은 없습니다. 아래 연동 안내를 확인한 뒤 다시 불러오세요.';}
     catch(error){unavailable=true;$('kakao-status').textContent=error.message;}
     finally{loading=false;update();}
   }

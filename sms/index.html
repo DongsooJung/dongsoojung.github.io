@@ -110,7 +110,7 @@
       </header>
 
 
-      <details class="share-panel"><summary>노션·카카오톡에 링크 공유</summary><p>운영자용 페이지입니다. 고객정보나 인증정보는 링크에 포함하지 않습니다.</p><div class="crm-actions"><button type="button" class="mini-btn" id="copy-page-link">링크 복사</button><button type="button" class="mini-btn" id="copy-notion-link">노션 링크 복사</button><button type="button" class="mini-btn" id="copy-kakao-text">카카오톡 소개 문구 복사</button></div><p id="share-status" role="status"></p><textarea id="share-copy-text" aria-label="공유 문구" readonly hidden></textarea></details>
+      <details class="share-panel"><summary>노션·카카오톡에 링크 공유</summary><p>운영자용 페이지입니다. 고객정보나 인증정보는 링크에 포함하지 않습니다.</p><div class="crm-actions"><button type="button" class="mini-btn" id="copy-page-link">링크 복사</button><button type="button" class="mini-btn" id="copy-notion-link">노션 링크 복사</button><button type="button" class="mini-btn" id="copy-kakao-text">카카오톡 소개 문구 복사</button><button type="button" class="mini-btn" id="copy-channel-link">고객용 카카오 상담 링크 복사</button></div><p id="share-status" role="status"></p><textarea id="share-copy-text" aria-label="공유 문구" readonly hidden></textarea></details>
       <div class="account-toolbar"><span class="sender-chip">등록 발신번호 <strong>010-9587-8225</strong></span><div class="crm-actions"><button type="button" class="mini-btn" id="connect-account" hidden>잔액 새로고침</button><button type="button" class="mini-btn" id="logout-crm" hidden>로그아웃</button></div><p id="account-info" role="status"></p></div>
       <div class="crm-tabs" role="tablist" aria-label="고객관리 메뉴">
         <button type="button" role="tab" aria-selected="true" data-crm-tab="compose">문자 작성</button>
@@ -142,7 +142,7 @@
           <div class="panel-head"><h2 id="compose-title"><span class="step-dot">1</span> 메시지 작성</h2><span>이름 자동 반영</span></div>
           <div class="panel-body">
             <div class="field">
-              <label for="delivery-mode">발송 방식</label><select id="delivery-mode"><option value="sms">문자 SMS / LMS</option><option value="kakao">카카오 알림톡 · 비즈니스 채널</option></select><div id="kakao-options" hidden><p id="kakao-status" role="status">스타게이트 비즈니스 채널과 승인 템플릿을 연결해 발송합니다.</p><button id="load-kakao" type="button" class="mini-btn">카카오 채널·설정 불러오기</button><label for="kakao-channel">카카오 비즈니스 채널</label><select id="kakao-channel"><option value="">비즈니스 채널 선택</option></select><label for="kakao-template">승인된 알림톡 템플릿</label><select id="kakao-template"><option value="">승인 템플릿 선택</option></select><div id="kakao-variables"></div><p class="crm-help"><a href="https://console.solapi.com/" target="_blank" rel="noopener">솔라피 채널 연동·템플릿 관리 ↗</a> · <a href="https://center-pf.kakao.com/" target="_blank" rel="noopener">카카오 비즈니스 채널 관리 ↗</a><br>채널 연동과 템플릿 승인이 필요합니다. 카카오 발송 실패 시 문자 대체 발송은 꺼져 있습니다.</p></div><label for="quick-template">자주 쓰는 문구</label><select id="quick-template"><option value="">관리자 연결 후 선택</option></select><label for="message">메시지 내용</label>
+              <label for="delivery-mode">발송 방식</label><select id="delivery-mode"><option value="sms">문자 SMS / LMS</option><option value="kakao">카카오 알림톡 · 비즈니스 채널</option></select><div id="kakao-options" hidden><div class="kakao-known-channel"><strong>스타게이트</strong><p><a href="https://pf.kakao.com/_wJpen" target="_blank" rel="noopener">채널 홈 ↗</a> · <a href="https://pf.kakao.com/_wJpen/chat" target="_blank" rel="noopener">1:1 카카오 상담 ↗</a></p><small>고객에게 공유할 상담 링크입니다. 1:1 상담은 채널의 채팅 설정에 따르며, 알림톡은 솔라피 연동과 템플릿 승인이 필요합니다.</small></div><p id="kakao-status" role="status">스타게이트 비즈니스 채널과 승인 템플릿을 연결해 발송합니다.</p><button id="load-kakao" type="button" class="mini-btn">카카오 채널·설정 불러오기</button><label for="kakao-channel">카카오 비즈니스 채널</label><select id="kakao-channel"><option value="">비즈니스 채널 선택</option></select><label for="kakao-template">승인된 알림톡 템플릿</label><select id="kakao-template"><option value="">승인 템플릿 선택</option></select><div id="kakao-variables"></div><details class="channel-setup-guide"><summary>스타게이트 채널 연동 안내</summary><ol><li>카카오 채널 관리자센터에서 검색용 아이디(@...)와 채널 카테고리를 확인합니다.</li><li>솔라피 콘솔 → 발송준비 → 카카오 → 채널/그룹 → 채널 연동에서 입력합니다.</li><li>담당자 휴대폰 010-9587-8225로 받은 인증번호를 솔라피에 직접 입력합니다.</li><li>정보성 알림톡 템플릿을 등록하고 승인받은 뒤 “카카오 채널·설정 불러오기”를 누릅니다.</li></ol><p class="crm-help">공개 주소의 _wJpen은 SOLAPI 채널 ID나 검색용 아이디를 대신하지 않습니다. 비즈니스 채널 심사·관리자 추가인증 상태도 확인해 주세요.</p></details><p class="crm-help"><a href="https://console.solapi.com/" target="_blank" rel="noopener">솔라피 채널 연동·템플릿 관리 ↗</a> · <a href="https://center-pf.kakao.com/" target="_blank" rel="noopener">카카오 비즈니스 채널 관리 ↗</a><br>채널 연동과 템플릿 승인이 필요합니다. 카카오 발송 실패 시 문자 대체 발송은 꺼져 있습니다.</p></div><label for="quick-template">자주 쓰는 문구</label><select id="quick-template"><option value="">관리자 연결 후 선택</option></select><label for="message">메시지 내용</label>
               <textarea id="message" maxlength="1000" required placeholder="{이름}님, 안녕하세요. 요청하신 연구 자료를 확인해 주세요.">안녕하세요, {이름}님. 요청하신 자료가 준비되었습니다. 감사합니다.</textarea>
               <div class="hint"><span><strong>{이름}</strong>은 고객명으로 자동 치환됩니다.</span><span id="message-length">0자</span></div>
             </div>
@@ -421,7 +421,7 @@
   </script>
   <script src="/assets/theme.js?v=20260729e" defer></script>
   <script src="/sms/crm.js?v=20261019-workspace" defer></script>
-  <script src="/sms/business.js?v=20261019-1" defer></script>
+  <script src="/sms/business.js?v=20261019-channel" defer></script>
   <script src="/sms/visit.js" defer></script>
 </body>
 </html>
