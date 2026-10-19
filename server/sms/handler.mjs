@@ -1,6 +1,7 @@
 import {json,authorized,account,validate,solapi} from './service.mjs';
 import {validatePayload} from '../../cloudflare/analytics.mjs';
 import {clearSession} from './session.mjs';
+import {liveStatus} from './status.mjs';
 export default {async fetch(request,env) {
   const url=new URL(request.url);
   if(!url.pathname.startsWith('/api/')) {
@@ -12,7 +13,7 @@ export default {async fetch(request,env) {
   const crmRoute=['contacts','templates','history'].includes(resource);
   if(!['/api/sms','/api/account','/api/sms/reports','/api/sms/session','/api/sms/analytics'].includes(url.pathname)&&!crmRoute) return json({ok:false,message:'찾을 수 없습니다.'},404);
   const configured=Boolean(env.SOLAPI_API_KEY&&env.SOLAPI_API_SECRET&&env.SMS_ADMIN_TOKEN);
-  if(url.pathname==='/api/sms'&&request.method==='GET') return json({ok:true,configured});
+  if(url.pathname==='/api/sms'&&request.method==='GET') return json({ok:true,configured,...(configured?await liveStatus(env):{mode:'live',senderVerified:false,message:'운영 서버 설정이 필요합니다.'})});
   if(url.pathname==='/api/sms/session'&&request.method==='GET') return json({ok:true,signedIn:await authorized(request,env)});
   if(request.headers.get('origin')&&request.headers.get('origin')!==url.origin) return json({ok:false,message:'요청 출처가 올바르지 않습니다.'},403);
   if(!configured) return json({ok:false,message:'서버 연결을 준비 중입니다.'},503);

@@ -35,3 +35,16 @@ test('signed upstream contract, active sender validation and partial rejection',
   const denied=await send(env,body,async(url,options)=>url.includes('send-many')?Response.json({groupInfo:{groupId:'g'},failedMessageList:[{to:'01012345678',statusMessage:'거절'}]}):upstream(url,options));
   assert.equal(denied.ok,false);assert.equal(denied.accepted,0);assert.equal(denied.failures[0].phone,'010****5678');
 });
+
+
+test('live sender status checks SOLAPI, caches requests and fails closed',async()=>{
+  const {liveStatus}=await import('../server/sms/status.mjs');
+  let calls=0;const env={SOLAPI_API_KEY:'status-test',SOLAPI_API_SECRET:'status-secret'};
+  const upstream=async()=>{calls++;return Response.json(['01095878225']);};
+  const now=Date.now();const [a,b]=await Promise.all([liveStatus(env,upstream,now),liveStatus(env,upstream,now)]);
+  assert.equal(a.senderVerified,true);assert.equal(b.mode,'live');assert.equal(calls,1);
+  assert.equal('balance' in a,false);assert.equal('senders' in a,false);
+  const inactive=await liveStatus(env,async()=>Response.json([]),now+61000);assert.equal(inactive.senderVerified,false);
+  const failure=await liveStatus({...env,SOLAPI_API_KEY:'different-key'},async()=>{throw Error('provider unavailable');},now+62000);
+  assert.equal(failure.senderVerified,false);assert.match(failure.message,/연결 확인 실패/);
+});
