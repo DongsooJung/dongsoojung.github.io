@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>고객관리 · 문자 발송 | STARGATE</title>
-  <meta name="description" content="SOLAPI를 통해 최대 5명의 고객에게 개인화 문자를 안전하게 발송하는 STARGATE 연구 운영 도구.">
+  <meta name="description" content="SOLAPI를 통해 최대 10명의 고객에게 개인화 문자를 안전하게 발송하는 STARGATE 연구 운영 도구.">
   <meta name="theme-color" content="#080c14" data-light-color="#f5f7fb" data-dark-color="#080c14">
   <meta name="robots" content="noindex,nofollow">
   <link rel="canonical" href="https://stargate.stargate8225.workers.dev/sms/">
@@ -65,9 +65,9 @@
     @media(max-width:900px){.workspace{grid-template-columns:1fr}.side{position:static}.sms-head{align-items:flex-start;flex-direction:column}}
     @media(max-width:560px){.sms-shell{padding-top:38px}.panel-body{padding:16px}.panel-head{padding:17px}.bulk,.confirm-row{grid-template-columns:1fr}.mini-btn,.send-btn{width:100%}.sms-head h1{font-size:38px}.status-badge{white-space:normal}}
   </style>
-  <link rel="stylesheet" href="/sms/crm.css?v=20261019-workspace">
+  <link rel="stylesheet" href="/sms/crm.css?v=20261019-ten">
 <link rel="stylesheet" href="/assets/stargate-tokens.css?v=20261017">
-  <link rel="stylesheet" href="/sms/workspace.css?v=20261019-1">
+  <link rel="stylesheet" href="/sms/workspace.css?v=20261019-2">
 </head>
 <body class="research sms">
   <div class="wrap">
@@ -145,7 +145,7 @@
               <div class="hint"><span><strong>{이름}</strong>은 고객명으로 자동 치환됩니다.</span><span id="message-length">0자</span></div>
             </div>
 
-            <details class="recipient-fold" id="recipients-fold" open><summary><span><span class="step-dot">2</span> 받는 고객</span><span id="recipient-count">0 / 5명 입력</span><span class="fold-label">펼치기 / 접기</span></summary><p class="crm-help">한 번에 최대 5명 · 이름과 휴대폰 번호를 입력하세요.</p><details class="bulk-fold"><summary>엑셀·텍스트에서 한 번에 붙여넣기</summary>
+            <details class="recipient-fold" id="recipients-fold" open><summary><span><span class="step-dot">2</span> 받는 고객</span><span id="recipient-count">0 / 5명 입력</span><span class="fold-label">펼치기 / 접기</span></summary><p class="crm-help">기본 5명 · 필요할 때 10명까지 늘릴 수 있습니다.</p><label class="recipient-expand"><input type="checkbox" id="expand-recipients" role="switch" aria-controls="recipient-rows"><span>10명까지 입력</span></label><p id="recipient-toggle-status" class="crm-help" role="status"></p><details class="bulk-fold"><summary>엑셀·텍스트에서 한 번에 붙여넣기</summary>
             <div class="bulk">
               <textarea id="bulk-input" aria-label="고객 일괄 입력" placeholder="홍길동, 010-1234-5678&#10;김연구, 010-9876-5432"></textarea>
               <button class="mini-btn" id="bulk-apply" type="button">목록에 반영</button>
@@ -187,7 +187,7 @@
 
   <script>
     (() => {
-      const MAX = 5;
+      const MAX = 10;
       const form = document.getElementById('sms-form');
       const rows = document.getElementById('recipient-rows');
       const message = document.getElementById('message');
@@ -243,6 +243,16 @@
 
       const nameInputs = [...rows.querySelectorAll('[data-name]')];
       const phoneInputs = [...rows.querySelectorAll('[data-phone]')];
+      const expandRecipients = document.getElementById('expand-recipients');
+      function updateRecipientVisibility(){[...rows.querySelectorAll('tr')].forEach((row,index)=>row.hidden=index>=5&&!expandRecipients.checked);}
+      window.smsExpandRecipients=()=>{expandRecipients.checked=true;updateRecipientVisibility();render();};
+      expandRecipients.addEventListener('change',()=>{
+        const extraFilled=nameInputs.slice(5).some((input,index)=>input.value.trim()||phoneInputs[index+5].value.trim());
+        if(!expandRecipients.checked&&extraFilled){expandRecipients.checked=true;document.getElementById('recipient-toggle-status').textContent='6~10번째 고객을 먼저 비우면 기본 5명으로 돌아갈 수 있습니다.';}
+        else document.getElementById('recipient-toggle-status').textContent='';
+        updateRecipientVisibility();render();
+      });
+      updateRecipientVisibility();
 
       function recipients() {
         return nameInputs.map((input, index) => ({
@@ -263,7 +273,7 @@
         const allComplete = current.every((item) => item.name && /^01(?:0\d{8}|[16789]\d{7,8})$/.test(item.phone.replace(/\D/g, '')));
         const template = message.value;
         document.getElementById('send-readiness').textContent=!senderVerified?'발신번호 등록 상태를 확인해 주세요.':!current.length?'고객명·수신번호와 내용을 입력해 주세요.':!allComplete?'고객명과 올바른 휴대폰 번호를 입력해 주세요.':!message.value.trim()?'문자 내용을 입력해 주세요.':!consent.checked?'수신 동의 확인란을 체크해 주세요.':(window.smsSignedIn?'발송 준비 완료 · 실제 비용이 발생합니다.':'발송 준비 완료 · 버튼을 누르면 본인 확인 후 이어집니다.');
-        count.textContent = `${current.length} / ${MAX}명 입력`;
+        count.textContent = `${current.length} / ${expandRecipients.checked?MAX:5}명 입력`;
         length.textContent = `${[...template].length}자`;
         [...rows.querySelectorAll('tr')].forEach((row, index) => {
           row.classList.toggle('ready', Boolean(nameInputs[index].value.trim() && phoneInputs[index].value.trim()));
@@ -311,6 +321,8 @@
           return { name: parts[0] || '', phone: parts[1] || '' };
         }).filter((item) => item.name || item.phone).slice(0, MAX);
 
+        if(parsed.length>5)expandRecipients.checked=true;
+        updateRecipientVisibility();
         parsed.forEach((item, index) => {
           nameInputs[index].value = item.name;
           phoneInputs[index].value = formatPhone(item.phone);
@@ -394,7 +406,7 @@
       }
 
       window.smsCaptureDraft=()=>({recipients:recipients(),message:message.value,at:Date.now()});
-      try {const saved=sessionStorage.getItem('stargate-sms-draft');if(saved){sessionStorage.removeItem('stargate-sms-draft');const draft=JSON.parse(saved);if(Date.now()-draft.at<900000&&Array.isArray(draft.recipients)){draft.recipients.slice(0,MAX).forEach((v,i)=>{nameInputs[i].value=String(v.name||'').slice(0,40);phoneInputs[i].value=formatPhone(String(v.phone||''));});message.value=String(draft.message||'').slice(0,1000);consent.checked=false;}}}catch{}
+      try {const saved=sessionStorage.getItem('stargate-sms-draft');if(saved){sessionStorage.removeItem('stargate-sms-draft');const draft=JSON.parse(saved);if(Date.now()-draft.at<900000&&Array.isArray(draft.recipients)){if(draft.recipients.length>5){expandRecipients.checked=true;updateRecipientVisibility();}draft.recipients.slice(0,MAX).forEach((v,i)=>{nameInputs[i].value=String(v.name||'').slice(0,40);phoneInputs[i].value=formatPhone(String(v.phone||''));});message.value=String(draft.message||'').slice(0,1000);consent.checked=false;}}}catch{}
       render();
       checkApi();
     })();

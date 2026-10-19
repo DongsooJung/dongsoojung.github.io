@@ -4,10 +4,11 @@ import {validate,send,authorized,solapi} from '../server/sms/service.mjs';
 const body={requestId:'d49e8d6f-7530-4a3b-8bc5-4ea61a744111',consent:true,sender:'0212345678',message:'{이름}님 안녕하세요',recipients:[{name:'김고객',phone:'010-1234-5678'}]};
 test('personalization, consent, duplicates and final message limits',()=>{
   assert.equal(validate(body)[0].text,'김고객님 안녕하세요');
+  assert.equal(validate({...body,recipients:Array.from({length:10},(_,i)=>({name:'고객'+i,phone:'0100000000'+i}))}).length,10);
   assert.throws(()=>validate({...body,consent:false}));
   assert.throws(()=>validate({...body,recipients:[...body.recipients,...body.recipients]}));
   assert.throws(()=>validate({...body,message:'{이름}'.repeat(1000)}));
-  assert.throws(()=>validate({...body,recipients:Array(6).fill(body.recipients[0])}));
+  assert.throws(()=>validate({...body,recipients:Array(11).fill(body.recipients[0])}));
 });
 test('administrator authentication rejects missing and incorrect credentials',async()=>{
   const env={SMS_ADMIN_TOKEN:'sample-admin'};

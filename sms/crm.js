@@ -39,7 +39,7 @@
   function renderContacts(){
     const query=$('contact-search').value.trim().toLowerCase();
     const list=state.contacts.filter(v=>[v.name,v.phone,v.category,v.notes].some(x=>String(x).toLowerCase().includes(query)));
-    $('contact-count').textContent=`전체 ${state.contacts.length}명 · 선택 ${state.selected.size}명 / 최대 5명`;
+    $('contact-count').textContent=`전체 ${state.contacts.length}명 · 선택 ${state.selected.size}명 / 최대 10명`;
     $('contact-list').innerHTML=list.length?list.map(v=>`<article class="crm-item"><div class="crm-item-head"><label><input type="checkbox" data-select-contact="${escape(v.id)}" ${state.selected.has(v.id)?'checked':''} aria-label="${escape(v.name)} 선택"><span>${escape(v.name)} <small>${escape(v.category)}</small></span></label><span class="status">${v.consent?'수신 동의 기록':'동의 확인 필요'}</span></div><p>${escape(v.phone)}</p>${v.notes?`<p>${escape(v.notes)}</p>`:''}<div class="crm-actions"><button type="button" class="mini-btn" data-edit-contact="${escape(v.id)}">수정</button><button type="button" class="mini-btn" data-contact-history="${escape(v.phone)}">발송 기록</button><button type="button" class="mini-btn" data-delete-contact="${escape(v.id)}">삭제</button></div></article>`).join(''):`<div class="crm-empty">${state.unlocked?'저장된 고객이 없습니다. 왼쪽에서 첫 고객을 등록하세요.':'관리자 연결 후 고객 목록을 표시합니다.'}</div>`;
   }
   function renderTemplates(){
@@ -70,7 +70,7 @@
   });
   $('contact-list').addEventListener('change',event=>{
     const id=event.target.dataset.selectContact;if(!id)return;
-    if(event.target.checked){if(state.selected.size>=5){event.target.checked=false;tell('한 번에 최대 5명을 선택할 수 있습니다.',true);return;}state.selected.add(id);}else state.selected.delete(id);
+    if(event.target.checked){if(state.selected.size>=10){event.target.checked=false;tell('한 번에 최대 10명을 선택할 수 있습니다.',true);return;}state.selected.add(id);}else state.selected.delete(id);
     renderContacts();
   });
   document.addEventListener('click',async event=>{
@@ -89,6 +89,7 @@
     if(!requireLogin())return;const selected=state.contacts.filter(v=>state.selected.has(v.id));
     if(!selected.length){tell('발송할 고객을 선택해 주세요.',true);return;}
     const names=[...document.querySelectorAll('[data-name]')],phones=[...document.querySelectorAll('[data-phone]')];
+    if(selected.length>5)window.smsExpandRecipients();
     names.forEach((input,i)=>{input.value=selected[i]?.name||'';phones[i].value=selected[i]?.phone||'';});
     $('message').dispatchEvent(new Event('input',{bubbles:true}));$('consent').checked=false;document.getElementById('recipients-fold').open=true;tab('compose');
     tell(`${selected.length}명을 발송 목록에 넣었습니다. 수신 동의를 다시 확인해 주세요.`);

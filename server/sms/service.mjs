@@ -25,7 +25,7 @@ export async function account(env,fetcher) {
 export function validate(body) {
   if(body?.consent!==true) throw new Error('수신 동의 확인이 필요합니다.');
   if(!/^[a-f0-9-]{36}$/i.test(body?.requestId||'')) throw new Error('발송 요청 번호가 올바르지 않습니다.');
-  if(!Array.isArray(body.recipients)||body.recipients.length<1||body.recipients.length>5) throw new Error('수신자는 1~5명까지 입력해 주세요.');
+  if(!Array.isArray(body.recipients)||body.recipients.length<1||body.recipients.length>10) throw new Error('수신자는 1~10명까지 입력해 주세요.');
   if(typeof body.message!=='string'||!body.message.trim()||body.message.length>1000) throw new Error('문자 내용은 1~1000자로 입력해 주세요.');
   if(!/^0\d{8,10}$/.test(body.sender||'')) throw new Error('등록된 발신번호를 선택해 주세요.');
   const seen=new Set();
