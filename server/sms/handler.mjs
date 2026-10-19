@@ -46,7 +46,7 @@ export default {async fetch(request,env) {
       const list=Array.isArray(data.messageList)?data.messageList:Object.values(data.messageList||{});
       return json({ok:true,reports:list.map(v=>({id:v.messageId,to:v.to,from:v.from,text:v.text,statusCode:v.statusCode,statusMessage:v.statusMessage,dateCreated:v.dateCreated})),nextKey:data.nextKey||null});
     }
-    if(url.pathname==='/api/account'&&request.method==='GET') return json({ok:true,...await account(env)});
+    if(url.pathname==='/api/account'&&request.method==='GET') return json({ok:true,credentialSuffix:env.SOLAPI_API_KEY.slice(-4),...await account(env)});
     if(url.pathname==='/api/sms'&&request.method==='POST') {
       if(!request.headers.get('content-type')?.includes('application/json')) return json({ok:false,message:'JSON 요청이 필요합니다.'},415);
       const text=await request.text();
@@ -57,5 +57,5 @@ export default {async fetch(request,env) {
       return json(await object.submit(body));
     }
     return json({ok:false,message:'지원하지 않는 요청 방식입니다.'},405);
-  } catch(error) { let detail=String(error.message||'연결 실패').slice(0,240); for(const secret of [env.SOLAPI_API_KEY,env.SOLAPI_API_SECRET,env.SMS_ADMIN_TOKEN]) if(secret) detail=detail.replaceAll(secret,'[비공개]'); return json({ok:false,message:'솔라피 연결 확인: '+detail},502); }
+  } catch(error) { let detail=String(error.message||'연결 실패').slice(0,240); for(const secret of [env.SOLAPI_API_KEY,env.SOLAPI_API_SECRET,env.SMS_ADMIN_TOKEN]) if(secret) detail=detail.replaceAll(secret,'[비공개]'); return json({ok:false,credentialSuffix:env.SOLAPI_API_KEY?.slice(-4),message:'솔라피 연결 확인: '+detail},502); }
 }};
