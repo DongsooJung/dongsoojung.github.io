@@ -3033,19 +3033,55 @@
     },
     {
       "source": {
-        "label": null,
-        "url": null,
-        "verification": "pending"
+        "label": "공식 정책·공개 상태·저자 문서/구현 (대조 범위 참조)",
+        "url": "https://attack.mitre.org/techniques/T1003/",
+        "verification": "partially_verified"
       },
       "dataAsOf": null,
       "dataPeriod": null,
-      "snapshotUpdatedAt": null,
+      "snapshotUpdatedAt": "2026-10-20",
       "collectedAt": null,
-      "checkedAt": null,
-      "reviewStatus": "pending",
+      "checkedAt": "2026-10-20T01:35:39.268134+00:00",
+      "reviewStatus": "needs_review",
       "freshness": "unverified",
-      "evidence": [],
-      "issues": [],
+      "evidence": [
+        {
+          "kind": "audit-record",
+          "url": "/research/source-reviews/2026-10-20-operations-1.json",
+          "checkedAt": "2026-10-20T01:35:39.268134+00:00"
+        },
+        {
+          "kind": "published-snapshot",
+          "url": "https://www.stargateedu.co.kr/cybersecurity/",
+          "checkedAt": "2026-10-20T01:31:03.960194+00:00",
+          "sha256": "bbbf83556d99fe47d0de1123e35ba8f9fdab0a8d6bbfc3a07f9bbc15f623535f",
+          "scope": "변경 전 응답; HTTP200도 원출처/기능 검증으로 간주하지 않음"
+        },
+        {
+          "kind": "official-source",
+          "url": "https://attack.mitre.org/techniques/T1003/",
+          "checkedAt": "2026-10-20T01:31:05.566037+00:00",
+          "sha256": "1e05d1f305ecb4a452019af5418861f672b0c2663122328706522890eff70b3f",
+          "scope": "정적 제품/기존 HTML·1쪽 PDF와 ATT&CK 분류 명칭 대조. 근거 없는 성능·KDP 도서 구현 단정 제거. 운영 보안 엔진·탐지·완화 실험은 미수행."
+        },
+        {
+          "kind": "official-source",
+          "url": "https://attack.mitre.org/techniques/T1021/",
+          "checkedAt": "2026-10-20T01:31:05.705446+00:00",
+          "sha256": "c8383e10010c1fc584edc41acd19f75e9c8d6d07113b939b1d32336efaae6e74",
+          "scope": "정적 제품/기존 HTML·1쪽 PDF와 ATT&CK 분류 명칭 대조. 근거 없는 성능·KDP 도서 구현 단정 제거. 운영 보안 엔진·탐지·완화 실험은 미수행."
+        },
+        {
+          "kind": "official-source",
+          "url": "https://attack.mitre.org/techniques/T1048/",
+          "checkedAt": "2026-10-20T01:31:05.726042+00:00",
+          "sha256": "de12f77f4cdd8c3c068ec040cf8f1748b7d409fb749280fc86fbc23adf12751f",
+          "scope": "정적 제품/기존 HTML·1쪽 PDF와 ATT&CK 분류 명칭 대조. 근거 없는 성능·KDP 도서 구현 단정 제거. 운영 보안 엔진·탐지·완화 실험은 미수행."
+        }
+      ],
+      "issues": [
+        "같은 라벨 로그·하드웨어·기간·분모로 탐지율/오탐/지연/처리량을 측정하고 특정 도서 판본·코드 대응 및 대응 승인 절차를 검증."
+      ],
       "key": "/cybersecurity/",
       "url": "/cybersecurity/",
       "title": "3AI Cybersecurity Suite",
@@ -3055,19 +3091,48 @@
     },
     {
       "source": {
-        "label": null,
-        "url": null,
-        "verification": "pending"
+        "label": "공식 정책·공개 상태·저자 문서/구현 (대조 범위 참조)",
+        "url": "https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement",
+        "verification": "document_reviewed"
       },
       "dataAsOf": null,
       "dataPeriod": null,
-      "snapshotUpdatedAt": null,
+      "snapshotUpdatedAt": "2026-10-20",
       "collectedAt": null,
-      "checkedAt": null,
-      "reviewStatus": "pending",
-      "freshness": "unverified",
-      "evidence": [],
-      "issues": [],
+      "checkedAt": "2026-10-20T01:35:39.268134+00:00",
+      "reviewStatus": "not_applicable",
+      "freshness": "not_applicable",
+      "evidence": [
+        {
+          "kind": "audit-record",
+          "url": "/research/source-reviews/2026-10-20-operations-1.json",
+          "checkedAt": "2026-10-20T01:35:39.268134+00:00"
+        },
+        {
+          "kind": "published-snapshot",
+          "url": "https://www.stargateedu.co.kr/research/app-privacy/",
+          "checkedAt": "2026-10-20T01:31:03.961199+00:00",
+          "sha256": "41206784de47170b6c5ce9bd2573d79b9a09429fcd46539281f061a34221cecf",
+          "scope": "변경 전 응답; HTTP200도 원출처/기능 검증으로 간주하지 않음"
+        },
+        {
+          "kind": "official-source",
+          "url": "https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement",
+          "checkedAt": "2026-10-20T01:31:05.539018+00:00",
+          "sha256": "67875c60e21f926c467eb7b677633f4bce87dc63fe053a73308e9b03d46e5998",
+          "scope": "검토안v0.1 작성2026-09-01·시행미정 원고와 GitHub 2026-04-27 시행 정책·Google Play 현재 공개 본문 대조. 앱 처리 사실이나 법적 적합성 인증이 아님."
+        },
+        {
+          "kind": "official-source",
+          "url": "https://support.google.com/googleplay/android-developer/answer/10144311?hl=ko",
+          "checkedAt": "2026-10-20T01:31:05.556527+00:00",
+          "sha256": "fd8e84dac4c7e570166594ce1d00870c6da7843b7df33170f2d29e021cbb9af9",
+          "scope": "검토안v0.1 작성2026-09-01·시행미정 원고와 GitHub 2026-04-27 시행 정책·Google Play 현재 공개 본문 대조. 앱 처리 사실이나 법적 적합성 인증이 아님."
+        }
+      ],
+      "issues": [
+        "실제 앱·SDK·수집·위탁·국외처리·보유기간·담당자가 확정된 뒤 정식 문서와 시행일을 결정."
+      ],
       "key": "/research/app-privacy/",
       "url": "/research/app-privacy/",
       "title": "스타게이트 에듀 개인정보처리방침",
@@ -3077,19 +3142,34 @@
     },
     {
       "source": {
-        "label": null,
-        "url": null,
-        "verification": "pending"
+        "label": "공식 정책·공개 상태·저자 문서/구현 (대조 범위 참조)",
+        "url": "https://www.stargateedu.co.kr/sms/",
+        "verification": "partially_verified"
       },
       "dataAsOf": null,
       "dataPeriod": null,
-      "snapshotUpdatedAt": null,
+      "snapshotUpdatedAt": "2026-10-20",
       "collectedAt": null,
-      "checkedAt": null,
-      "reviewStatus": "pending",
+      "checkedAt": "2026-10-20T01:35:39.268134+00:00",
+      "reviewStatus": "needs_review",
       "freshness": "unverified",
-      "evidence": [],
-      "issues": [],
+      "evidence": [
+        {
+          "kind": "audit-record",
+          "url": "/research/source-reviews/2026-10-20-operations-1.json",
+          "checkedAt": "2026-10-20T01:35:39.268134+00:00"
+        },
+        {
+          "kind": "published-snapshot",
+          "url": "https://www.stargateedu.co.kr/sms/",
+          "checkedAt": "2026-10-20T01:31:03.962197+00:00",
+          "sha256": "410f5c44cd6d091d7c88a250bc8ece2daf7c4b878d6fa5e766a9d769395b357d",
+          "scope": "변경 전 응답; HTTP200도 원출처/기능 검증으로 간주하지 않음"
+        }
+      ],
+      "issues": [
+        "현재 도메인의 발송 API 연결과 관리자 인증을 확인한 뒤 사용자가 승인한 별도 실제 발송 회차에서 전달·비용·기록을 검증."
+      ],
       "key": "/sms/",
       "url": "/sms/",
       "title": "고객 문자 발송 콘솔",
@@ -3099,19 +3179,34 @@
     },
     {
       "source": {
-        "label": null,
-        "url": null,
-        "verification": "pending"
+        "label": "공식 정책·공개 상태·저자 문서/구현 (대조 범위 참조)",
+        "url": "https://www.stargateedu.co.kr/quote-maker/",
+        "verification": "document_reviewed"
       },
       "dataAsOf": null,
       "dataPeriod": null,
-      "snapshotUpdatedAt": null,
+      "snapshotUpdatedAt": "2026-10-20",
       "collectedAt": null,
-      "checkedAt": null,
-      "reviewStatus": "pending",
-      "freshness": "unverified",
-      "evidence": [],
-      "issues": [],
+      "checkedAt": "2026-10-20T01:35:39.268134+00:00",
+      "reviewStatus": "not_applicable",
+      "freshness": "not_applicable",
+      "evidence": [
+        {
+          "kind": "audit-record",
+          "url": "/research/source-reviews/2026-10-20-operations-1.json",
+          "checkedAt": "2026-10-20T01:35:39.268134+00:00"
+        },
+        {
+          "kind": "published-snapshot",
+          "url": "https://www.stargateedu.co.kr/quote-maker/",
+          "checkedAt": "2026-10-20T01:31:03.963199+00:00",
+          "sha256": "de8b84f91f3d8ff63daba75e0ed869c94c9baa5f9fae4c4b6f4cbc070f07bc61",
+          "scope": "변경 전 응답; HTTP200도 원출처/기능 검증으로 간주하지 않음"
+        }
+      ],
+      "issues": [
+        "실제 결제·서버 사용권을 도입할 경우 별도 검증. Expo 연결은 최신 공식 배포·기기 실행을 확인한 뒤 저장 메타데이터 갱신."
+      ],
       "key": "/quote-maker/",
       "url": "/quote-maker/",
       "title": "하루 견적서 · Quote Maker",
@@ -3121,19 +3216,34 @@
     },
     {
       "source": {
-        "label": null,
-        "url": null,
-        "verification": "pending"
+        "label": "공식 정책·공개 상태·저자 문서/구현 (대조 범위 참조)",
+        "url": "https://2026-plan.vercel.app/dashboard",
+        "verification": "source_unavailable"
       },
       "dataAsOf": null,
       "dataPeriod": null,
       "snapshotUpdatedAt": null,
       "collectedAt": null,
-      "checkedAt": null,
-      "reviewStatus": "pending",
+      "checkedAt": "2026-10-20T01:35:39.268134+00:00",
+      "reviewStatus": "source_unavailable",
       "freshness": "unverified",
-      "evidence": [],
-      "issues": [],
+      "evidence": [
+        {
+          "kind": "audit-record",
+          "url": "/research/source-reviews/2026-10-20-operations-1.json",
+          "checkedAt": "2026-10-20T01:35:39.268134+00:00"
+        },
+        {
+          "kind": "published-snapshot",
+          "url": "https://2026-plan.vercel.app/dashboard",
+          "checkedAt": "2026-10-20T01:31:03.965199+00:00",
+          "sha256": "0fcfb12dfad07ba0b1ab80f7cd6c6c3c5aaea0804be09faee6ca0819e3769659",
+          "scope": "변경 전 응답; HTTP200도 원출처/기능 검증으로 간주하지 않음"
+        }
+      ],
+      "issues": [
+        "해당 앱 소유자의 정상 공개 접근 또는 명시적 인증 경로 확보 후 원문·데이터·현재 기능 대조."
+      ],
       "key": "https://2026-plan.vercel.app/dashboard",
       "url": "https://2026-plan.vercel.app/dashboard",
       "title": "2026 구독 관리 대시보드",
@@ -3143,19 +3253,41 @@
     },
     {
       "source": {
-        "label": null,
-        "url": null,
-        "verification": "pending"
+        "label": "공식 정책·공개 상태·저자 문서/구현 (대조 범위 참조)",
+        "url": "https://www.notion-status.com/api/v2/summary.json",
+        "verification": "partially_verified"
       },
       "dataAsOf": null,
       "dataPeriod": null,
-      "snapshotUpdatedAt": null,
+      "snapshotUpdatedAt": "2026-10-20",
       "collectedAt": null,
-      "checkedAt": null,
-      "reviewStatus": "pending",
+      "checkedAt": "2026-10-20T01:35:39.268134+00:00",
+      "reviewStatus": "needs_review",
       "freshness": "unverified",
-      "evidence": [],
-      "issues": [],
+      "evidence": [
+        {
+          "kind": "audit-record",
+          "url": "/research/source-reviews/2026-10-20-operations-1.json",
+          "checkedAt": "2026-10-20T01:35:39.268134+00:00"
+        },
+        {
+          "kind": "published-snapshot",
+          "url": "https://www.stargateedu.co.kr/onenote-notion-status/",
+          "checkedAt": "2026-10-20T01:31:03.968197+00:00",
+          "sha256": "5283f36934aa514ab283bff894b51098f042839914ed4318ab6972323482c7e3",
+          "scope": "변경 전 응답; HTTP200도 원출처/기능 검증으로 간주하지 않음"
+        },
+        {
+          "kind": "official-source",
+          "url": "https://www.notion-status.com/api/v2/summary.json",
+          "checkedAt": "2026-10-20T01:31:06.148344+00:00",
+          "sha256": "abd5409a71e5f07581e431d986c4f608fbf5d10266cf88b22d8681b89839a614",
+          "scope": "Notion 공식 공개 JSON과 갱신 시각, 상태 API404 및 Microsoft 상태 사이트 응답 확인. 개인 OneNote/Notion 계정·문서 상태 미확인."
+        }
+      ],
+      "issues": [
+        "프록시 연결·브라우저CORS와 Microsoft 공개 상태의 실제 범위를 검증. 상태 누락을 정상/장애로 단정하지 않고 공식 업데이트 시각과 조회시각을 구분."
+      ],
       "key": "/onenote-notion-status/",
       "url": "/onenote-notion-status/",
       "title": "OneNote · Notion 상태판",

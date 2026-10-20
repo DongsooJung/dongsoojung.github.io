@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>OneNote · Notion 상태판 · DONGSOO.PORTAL</title>
-<meta name="description" content="웹 OneNote와 Notion의 공식 상태·도달성·지연을 한 화면에서 실시간으로 확인합니다.">
+<meta name="description" content="공개 상태·도달성 조회. 조회 실패는 확인 불가로 표시하며 개인 계정 내부 상태와 구분합니다.">
 <meta name="theme-color" content="#0f2f2a">
 <link rel="canonical" href="https://stargateedu.co.kr/onenote-notion-status/">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -257,7 +257,7 @@ footer{margin-top:36px;padding-top:16px;border-top:1px solid var(--line);color:v
   <link rel="stylesheet" href="/assets/site-theme.css">
   <script src="/assets/site-theme.js"></script>
 <link rel="stylesheet" href="/assets/stargate-tokens.css?v=20261017">
-</head>
+<style>.operations-review{box-sizing:border-box;width:min(1120px,calc(100% - 40px));margin:24px auto;padding:18px 22px;border:1px solid #607f99;border-radius:14px;background:#102333;color:#eaf3fa;font:400 15px/1.8 system-ui,sans-serif;overflow-wrap:anywhere;word-break:normal}.operations-review h2{font-size:1.12rem;line-height:1.5;color:#fff;margin:0 0 10px}.operations-review p{color:#eaf3fa;margin:8px 0;font-size:15px}.operations-review a{color:#9fe6ff;text-decoration:underline}.operations-review strong{color:#fff}.operations-review small{color:#c2d7e7}@media print{.operations-review{background:white!important;color:black!important}.operations-review h2,.operations-review p,.operations-review a,.operations-review strong,.operations-review small{color:black!important}}</style></head>
 <body>
 <div class="wrap">
   <nav class="nav">
@@ -281,7 +281,7 @@ footer{margin-top:36px;padding-top:16px;border-top:1px solid var(--line);color:v
       <a class="btn" href="/strategy/">전략 대시보드</a>
       <span class="meta" id="checked-at">점검 대기 중…</span>
     </div>
-  </header>
+  </header><section class="operations-review" aria-labelledby="operations-review-title"><h2 id="operations-review-title">운영 자료·구현 대조 · 2026-10-20</h2><p><strong>공개 상태·도달성 점검의 범위</strong>입니다. 이번에는 상태 프록시가 HTTP 404여서 브라우저 대체 조회를 확인합니다. Notion 공식 상태 JSON의 응답과 제공자 갱신 시각을 구분하며, OneNote나 개인 워크스페이스 내부의 동작을 검증한 결과가 아닙니다.</p><p>조회 실패를 정상이나 실제 장애로 단정하지 않도록 요약을 수정했습니다. 확인 불가를 그대로 표시하며 평균 지연은 응답이 있는 유효한 측정값만 집계합니다. 과거 월간 가용률을 계산한 통계가 아닙니다.</p><p><small>확인일과 문서 작성·시행일 및 제공자 갱신 시각을 구분합니다. 월간 통계 기준월은 비적용입니다. <a href="/research/source-reviews/2026-10-20-operations-1.json" download>출처·검증 범위·후속 조치 JSON 내려받기</a></small></p></section>
 
   <section class="overview" aria-label="전체 요약">
     <article class="overall">

@@ -4,10 +4,10 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>3AI Cybersecurity Suite | STARGATE Portal</title>
-  <meta name="description" content="단 1초의 지연도 허용하지 않는 LLM 기반 위협 탐지 및 로그 분석 자동화 솔루션. 아마존 KDP 출간 도서의 보안 방법론을 소프트웨어로 구현한 3AI Cybersecurity Suite.">
+  <meta name="description" content="LLM 기반 보안 분석의 개념 설계와 정적 목업. 실제 탐지·오탐·처리량·자동 대응 성능은 미검증입니다.">
   <meta name="theme-color" content="#061018">
   <meta property="og:title" content="3AI Cybersecurity Suite">
-  <meta property="og:description" content="LLM 기반 위협 탐지 · 시맨틱 로그 분석 · SOC 자동화">
+  <meta property="og:description" content="LLM 기반 보안 분석의 개념 설계와 정적 목업. 실제 탐지·오탐·처리량·자동 대응 성능은 미검증입니다.">
   <meta property="og:url" content="https://stargateedu.co.kr/cybersecurity/">
   <meta property="og:type" content="website">
   <link rel="canonical" href="https://stargateedu.co.kr/cybersecurity/">
@@ -317,7 +317,7 @@
   <link rel="stylesheet" href="/assets/site-theme.css">
   <script src="/assets/site-theme.js"></script>
 <link rel="stylesheet" href="/assets/stargate-tokens.css?v=20261017">
-</head>
+<style>.operations-review{box-sizing:border-box;width:min(1120px,calc(100% - 40px));margin:24px auto;padding:18px 22px;border:1px solid #607f99;border-radius:14px;background:#102333;color:#eaf3fa;font:400 15px/1.8 system-ui,sans-serif;overflow-wrap:anywhere;word-break:normal}.operations-review h2{font-size:1.12rem;line-height:1.5;color:#fff;margin:0 0 10px}.operations-review p{color:#eaf3fa;margin:8px 0;font-size:15px}.operations-review a{color:#9fe6ff;text-decoration:underline}.operations-review strong{color:#fff}.operations-review small{color:#c2d7e7}@media print{.operations-review{background:white!important;color:black!important}.operations-review h2,.operations-review p,.operations-review a,.operations-review strong,.operations-review small{color:black!important}}</style></head>
 <body>
   <div class="wrap">
     <nav class="nav" aria-label="주요 메뉴">
@@ -337,18 +337,18 @@
     <header class="hero" id="top">
       <div class="hero-copy">
         <p class="product-mark" aria-label="제품명">PRODUCT<br><span>3AI Cybersecurity Suite</span></p>
-        <h1>단 1초의 지연도 허용하지 않는, LLM 기반 위협 탐지 및 로그 분석 자동화 솔루션</h1>
-        <p class="hero-lead">아마존 KDP 출간 도서의 검증된 보안 방법론을 100% 소프트웨어 아키텍처로 구현했습니다. 압도적인 데이터 처리량과 시맨틱 분석으로 SOC 업무 효율을 끌어올립니다.</p>
+        <h1>LLM 기반 보안 분석과 SOC 자동화를 위한 개념 설계</h1>
+        <p class="hero-lead">로그 문맥 분석, 위협 가설 탐색과 대응 문서화를 연결하는 설계안입니다. 공개 페이지는 UI 목업이며 운영 엔진·처리량·탐지 성능을 검증한 결과가 아닙니다.</p>
         <div class="hero-actions">
           <a class="btn primary" href="mailto:ceo@stargateedu.co.kr?subject=3AI%20Cybersecurity%20Suite%20무료%20데모%20신청&body=%EC%95%88%EB%85%95%ED%95%98%EC%84%B8%EC%9A%94.%0A3AI%20Cybersecurity%20Suite%20%EB%AC%B4%EB%A3%8C%20%EB%8D%B0%EB%AA%A8%EB%A5%BC%20%EC%8B%A0%EC%B2%AD%ED%95%A9%EB%8B%88%EB%8B%A4.">무료 데모 신청하기</a>
-          <a class="btn" href="/cybersecurity/whitepaper.pdf" download>도서 아키텍처 백서 다운로드 (PDF)</a>
+          <a class="btn" href="/cybersecurity/whitepaper.pdf" download>개념 설계 백서 다운로드 (2026-10-20 PDF)</a>
         </div>
       </div>
       <div class="hero-visual" aria-hidden="true">
         <div class="dash-mock">
           <div class="dash-top">
-            <div class="dash-title">SOC LIVE · THREAT BOARD</div>
-            <div class="pulse">High Risk</div>
+            <div class="dash-title">SOC UI · EXAMPLE</div>
+            <div class="pulse">예시 위험도</div>
           </div>
           <div class="dash-grid">
             <div class="panel-block">
@@ -360,24 +360,24 @@
               </div>
             </div>
             <div class="panel-block">
-              <h3>Realtime</h3>
+              <h3>목업</h3>
               <div class="metric-row">
-                <div class="metric good"><b>3m</b><span>탐지 시간</span></div>
-                <div class="metric warn"><b>&lt;15%</b><span>오탐률</span></div>
-                <div class="metric alert"><b>100K</b><span>EPS</span></div>
+                <div class="metric good"><b>미측정</b><span>탐지 시간</span></div>
+                <div class="metric warn"><b>미측정</b><span>오탐률</span></div>
+                <div class="metric alert"><b>미측정</b><span>EPS</span></div>
               </div>
             </div>
           </div>
           <div class="scanline"></div>
         </div>
       </div>
-    </header>
+    </header><section class="operations-review" aria-labelledby="operations-review-title"><h2 id="operations-review-title">운영 자료·구현 대조 · 2026-10-20</h2><p><strong>공개 화면은 보안 관제 목업과 개념 설계안</strong>입니다. 탐지 3분·오탐15%·100K EPS·탐지율40% 향상 등 기존 수치는 실험 자료·분모·환경을 확인할 수 없어 화면과 개정 백서에서 제외했습니다. 실제 로그나 보안 장비에 연결해 탐지·완화 기능을 실행하지 않았습니다.</p><p>MITRE ATT&amp;CK의 <a href="https://attack.mitre.org/techniques/T1003/">T1003</a>·<a href="https://attack.mitre.org/techniques/T1021/">T1021</a>·<a href="https://attack.mitre.org/techniques/T1048/">T1048</a>의 분류명만 대조했습니다. 이 분류의 사용은 탐지 성능·공격 귀속·자동 대응의 검증이 아닙니다. 도서 검색 링크도 특정 도서의 확인 근거로 사용하지 않습니다.</p><p><small>확인일과 문서 작성·시행일 및 제공자 갱신 시각을 구분합니다. 월간 통계 기준월은 비적용입니다. <a href="/research/source-reviews/2026-10-20-operations-1.json" download>출처·검증 범위·후속 조치 JSON 내려받기</a></small></p></section>
 
     <section class="section" id="why">
       <div class="section-head reveal">
         <div class="section-label">Why 3AI</div>
         <h2>왜 3AI Cybersecurity Suite인가?</h2>
-        <p class="section-lead">기존의 룰 기반 SIEM은 하루 평균 10,000건 이상의 경고를 발생시키며, 이 중 85% 이상이 오탐입니다. 3AI Suite는 LLM의 문맥 이해 능력으로 파편화된 로그 속에서 실제 위협만을 정확히 추출합니다.</p>
+        <p class="section-lead">SIEM의 경고량·오탐률과 탐지 시간은 환경·자료·평가 정의에 따라 달라집니다. 동일 로그·정답 라벨·하드웨어에서 비교한 측정 결과가 없어 일반적인 SIEM 수치나 제품 우위를 제시하지 않습니다.</p>
       </div>
       <div class="compare-wrap reveal">
         <table class="compare">
@@ -391,13 +391,13 @@
           <tbody>
             <tr>
               <td>위협 탐지 소요 시간</td>
-              <td>평균 45분</td>
-              <td class="hi">평균 3분 이내</td>
+              <td>측정 근거 없음</td>
+              <td class="hi">미측정</td>
             </tr>
             <tr>
               <td>오탐률 (False Positive)</td>
-              <td>80% 이상</td>
-              <td class="hi">15% 미만</td>
+              <td>자료·분모 미확인</td>
+              <td class="hi">미측정</td>
             </tr>
             <tr>
               <td>로그 연관성 분석</td>
@@ -406,8 +406,8 @@
             </tr>
             <tr>
               <td>대응 리포트 생성</td>
-              <td>수동 작성 (건당 1~2시간)</td>
-              <td class="hi">10초 이내 자동 생성 (MITRE ATT&amp;CK 맵핑)</td>
+              <td>환경별 측정 필요</td>
+              <td class="hi">ATT&amp;CK 매핑·생성 기능 설계 (구현 검증 필요)</td>
             </tr>
           </tbody>
         </table>
@@ -425,21 +425,21 @@
           <div class="engine-no" aria-hidden="true">01</div>
           <div>
             <h3>시맨틱 로그 분석 엔진</h3>
-            <p>정형화되지 않은 비정형 네트워크·애플리케이션·엔드포인트(EDR) 로그를 자연어 형태로 파싱합니다. 정상 행위로 위장한 APT 징후를 문맥적으로 분석해 탐지율을 40% 이상 향상시킵니다.</p>
+            <p>비정형 로그를 문맥 단위로 표현하는 모듈을 제안합니다. 탐지율 향상 수치는 측정 근거가 없어 제시하지 않으며, 라벨 자료와 기준선 비교가 필요합니다.</p>
           </div>
         </article>
         <article class="engine reveal">
           <div class="engine-no" aria-hidden="true">02</div>
           <div>
             <h3>자율형 위협 헌팅</h3>
-            <p>아마존 KDP 출간 도서의 딥러닝 기반 위협 식별 알고리즘을 적용했습니다. “최근 24시간 내 내부망 자격 증명 탈취 시도를 요약해 줘” 같은 자연어 프롬프트 한 줄로 심층 분석 결과를 제공합니다.</p>
+            <p>자연어 기반 위협 헌팅 인터페이스를 제안합니다. “최근 24시간 내 내부망 자격 증명 탈취 시도를 요약해 줘” 같은 자연어 프롬프트 한 줄로 심층 분석 결과를 제공합니다.</p>
           </div>
         </article>
         <article class="engine reveal">
           <div class="engine-no" aria-hidden="true">03</div>
           <div>
             <h3>원클릭 침해사고 대응(IR) 리포팅</h3>
-            <p>탐지된 위협의 원인(Root Cause), 타임라인, 영향도, 대응 가이드까지 포함한 종합 리포트를 PDF·Word·HTML 3종 포맷으로 즉시 출력합니다.</p>
+            <p>탐지된 위협의 원인(Root Cause), 타임라인, 영향도, 대응 가이드까지 포함한 종합 리포트를 PDF·Word·HTML로 내보내는 기능을 설계 대상으로 둡니다. 현재 공개 페이지에서 실제 로그로 실행한 결과는 아닙니다.</p>
           </div>
         </article>
       </div>
@@ -455,12 +455,12 @@
         <article class="step">
           <div class="step-num">STEP 01</div>
           <h3>다중 채널 로그 수집</h3>
-          <p>초당 100,000 EPS 처리. 방화벽, IDS/IPS, 웹 서버, AWS·Azure 등 50여 개 이상 이기종 시스템 로그를 실시간 수집·정규화합니다.</p>
+          <p>방화벽·서버·EDR 등 로그의 수집·정규화를 설계합니다. 처리량·지원 소스 수·지연은 아직 측정하거나 연결 검증하지 않았습니다.</p>
         </article>
         <article class="step">
           <div class="step-num">STEP 02</div>
           <h3>RAG 기반 컨텍스트 매핑</h3>
-          <p>도서 방법론 적용 구간. 로그를 벡터화해 Vector DB에 저장하고, 최신 CTI 및 도서 수록 보안워크 룰셋과 교차 검증합니다.</p>
+          <p>설계 제안 구간. 로그를 벡터화해 Vector DB에 저장하고, 최신 CTI 및 도서 수록 보안워크 룰셋과 교차 검증합니다.</p>
         </article>
         <article class="step">
           <div class="step-num">STEP 03</div>
@@ -484,7 +484,7 @@
             <span>GIS · 공간계량 · 위협 지형도</span>
           </div>
           <div class="dash-block">
-            <div class="dash-title" style="font-family:var(--font-display);font-size:13px;font-weight:700">3AI Suite · Live Defense</div>
+            <div class="dash-title" style="font-family:var(--font-display);font-size:13px;font-weight:700">3AI Suite · Design Preview</div>
             <div class="bars">
               <div class="bar"><i style="--w:86%"></i></div>
               <div class="bar"><i style="--w:64%"></i></div>
@@ -496,11 +496,11 @@
         <div class="reveal">
           <div class="section-label">The Foundation</div>
           <h2>도서와 솔루션의 결합</h2>
-          <blockquote class="quote">본 솔루션의 코어 알고리즘은 아마존 KDP에 출간된 저서의 연구 결과를 기반으로 설계되었습니다. 학술적 연구와 실증적 데이터(GIS 공간계량 및 통계 분석론)를 사이버 공간의 위협 지형도 분석에 융합한 시도입니다.</blockquote>
-          <p class="foundation-note">도서에서 다룬 7가지 핵심 위협 모델링을 알고리즘화했으며, 사용자는 책의 이론이 3AI Suite 안에서 실시간 방어막으로 작동하는 과정을 직접 확인할 수 있습니다.</p>
+          <blockquote class="quote">문헌과 공개 위협 분류를 보안 분석에 연결하려는 제안입니다. 특정 도서의 판본·저자·ISBN과 실행 알고리즘의 대응은 확인하지 못했습니다. 아래 Amazon 주소는 검색 결과이며 특정 저서의 출간·성능 근거가 아닙니다.</blockquote>
+          <p class="foundation-note">도서의 모델 개수나 실시간 방어 구현을 검증하지 않았습니다. 개정 백서에 설계 범위와 필요한 실증 과제를 구분해 기록합니다.</p>
           <div class="hero-actions" style="margin-top:22px">
             <a class="btn" href="/cybersecurity/whitepaper.pdf" download>백서 PDF 다운로드</a>
-            <a class="btn" href="https://www.amazon.com/s?k=cybersecurity+LLM+threat+detection" target="_blank" rel="noopener">Amazon KDP 도서 구매처 ↗</a>
+            <a class="btn" href="https://www.amazon.com/s?k=cybersecurity+LLM+threat+detection" target="_blank" rel="noopener">Amazon 검색 (특정 도서 근거 아님) ↗</a>
           </div>
         </div>
       </div>

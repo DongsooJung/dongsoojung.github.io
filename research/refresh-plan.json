@@ -862,16 +862,27 @@
       ],
       "release": {
         "branch": "codex/research-education-1-source-review",
-        "status": "awaiting_checks",
+        "status": "verified",
         "liveUrl": "https://www.stargateedu.co.kr/research/",
         "sourceReviewUrl": "https://www.stargateedu.co.kr/research/source-reviews/2026-10-20-education-1.json",
-        "pullRequest": "https://github.com/DongsooJung/dongsoojung.github.io/pull/198"
+        "pullRequest": "https://github.com/DongsooJung/dongsoojung.github.io/pull/198",
+        "commit": "de34d529cccee36a7fac068156e8bfbaea401b5e",
+        "verifiedAt": "2026-10-20T01:25:48.763Z",
+        "pagesRun": "https://github.com/DongsooJung/dongsoojung.github.io/actions/runs/39353209665",
+        "checks": [
+          "PR head 655622dfe1b5073ec061cc0a511bfb70a842ea4b: CodeQL aggregate and JavaScript success",
+          "Exact merge commit GitHub Pages build/report/deploy success",
+          "Both public domains: thirteen changed public files match normalized released content",
+          "Live hub:63 unique URLs, seven alphabetical filters, nine groups, five lanes, strategy44",
+          "Seven education routes and audit downloads; client-demo without score/credit/payment/POST; archive filters/keyboard and math slider boundaries",
+          "Fourteen independent archive calculations; ten own combinatorics exercises; eleven Node hub/catalog tests; no script errors"
+        ]
       }
     },
     {
       "id": "operations-1",
       "label": "운영·제품 1차",
-      "status": "pending",
+      "status": "completed",
       "keys": [
         "/cybersecurity/",
         "/research/app-privacy/",
@@ -879,7 +890,79 @@
         "/quote-maker/",
         "https://2026-plan.vercel.app/dashboard",
         "/onenote-notion-status/"
-      ]
+      ],
+      "completedAt": "2026-10-20T01:35:39.268134+00:00",
+      "outcome": "reviewed_with_followups",
+      "itemResults": {
+        "/cybersecurity/": {
+          "status": "needs_review",
+          "checkedAt": "2026-10-20T01:35:39.268134+00:00",
+          "audit": "/research/source-reviews/2026-10-20-operations-1.json",
+          "nextAction": "같은 라벨 로그·하드웨어·기간·분모로 탐지율/오탐/지연/처리량을 측정하고 특정 도서 판본·코드 대응 및 대응 승인 절차를 검증."
+        },
+        "/research/app-privacy/": {
+          "status": "not_applicable",
+          "checkedAt": "2026-10-20T01:35:39.268134+00:00",
+          "audit": "/research/source-reviews/2026-10-20-operations-1.json",
+          "nextAction": "실제 앱·SDK·수집·위탁·국외처리·보유기간·담당자가 확정된 뒤 정식 문서와 시행일을 결정."
+        },
+        "/sms/": {
+          "status": "needs_review",
+          "checkedAt": "2026-10-20T01:35:39.268134+00:00",
+          "audit": "/research/source-reviews/2026-10-20-operations-1.json",
+          "nextAction": "현재 도메인의 발송 API 연결과 관리자 인증을 확인한 뒤 사용자가 승인한 별도 실제 발송 회차에서 전달·비용·기록을 검증."
+        },
+        "/quote-maker/": {
+          "status": "not_applicable",
+          "checkedAt": "2026-10-20T01:35:39.268134+00:00",
+          "audit": "/research/source-reviews/2026-10-20-operations-1.json",
+          "nextAction": "실제 결제·서버 사용권을 도입할 경우 별도 검증. Expo 연결은 최신 공식 배포·기기 실행을 확인한 뒤 저장 메타데이터 갱신."
+        },
+        "https://2026-plan.vercel.app/dashboard": {
+          "status": "source_unavailable",
+          "checkedAt": "2026-10-20T01:35:39.268134+00:00",
+          "audit": "/research/source-reviews/2026-10-20-operations-1.json",
+          "nextAction": "해당 앱 소유자의 정상 공개 접근 또는 명시적 인증 경로 확보 후 원문·데이터·현재 기능 대조."
+        },
+        "/onenote-notion-status/": {
+          "status": "needs_review",
+          "checkedAt": "2026-10-20T01:35:39.268134+00:00",
+          "audit": "/research/source-reviews/2026-10-20-operations-1.json",
+          "nextAction": "프록시 연결·브라우저CORS와 Microsoft 공개 상태의 실제 범위를 검증. 상태 누락을 정상/장애로 단정하지 않고 공식 업데이트 시각과 조회시각을 구분."
+        }
+      },
+      "followUps": [
+        {
+          "key": "/cybersecurity/",
+          "nextAction": "같은 라벨 로그·하드웨어·기간·분모로 탐지율/오탐/지연/처리량을 측정하고 특정 도서 판본·코드 대응 및 대응 승인 절차를 검증."
+        },
+        {
+          "key": "/research/app-privacy/",
+          "nextAction": "실제 앱·SDK·수집·위탁·국외처리·보유기간·담당자가 확정된 뒤 정식 문서와 시행일을 결정."
+        },
+        {
+          "key": "/sms/",
+          "nextAction": "현재 도메인의 발송 API 연결과 관리자 인증을 확인한 뒤 사용자가 승인한 별도 실제 발송 회차에서 전달·비용·기록을 검증."
+        },
+        {
+          "key": "/quote-maker/",
+          "nextAction": "실제 결제·서버 사용권을 도입할 경우 별도 검증. Expo 연결은 최신 공식 배포·기기 실행을 확인한 뒤 저장 메타데이터 갱신."
+        },
+        {
+          "key": "https://2026-plan.vercel.app/dashboard",
+          "nextAction": "해당 앱 소유자의 정상 공개 접근 또는 명시적 인증 경로 확보 후 원문·데이터·현재 기능 대조."
+        },
+        {
+          "key": "/onenote-notion-status/",
+          "nextAction": "프록시 연결·브라우저CORS와 Microsoft 공개 상태의 실제 범위를 검증. 상태 누락을 정상/장애로 단정하지 않고 공식 업데이트 시각과 조회시각을 구분."
+        }
+      ],
+      "release": {
+        "branch": "codex/research-operations-1-source-review",
+        "status": "awaiting_checks",
+        "liveUrl": "https://www.stargateedu.co.kr/research/",
+        "sourceReviewUrl": "https://www.stargateedu.co.kr/research/source-reviews/2026-10-20-operations-1.json"
+      }
     },
     {
       "id": "acceptance",
@@ -889,5 +972,5 @@
     }
   ],
   "automationId": "10",
-  "lastCompletedStep": "education-1"
+  "lastCompletedStep": "operations-1"
 }
