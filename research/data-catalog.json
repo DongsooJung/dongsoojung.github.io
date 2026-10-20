@@ -87,15 +87,15 @@
       "source": {
         "label": "Incheon International Airport Corporation",
         "url": "https://www.airport.kr/ap_ko/883/subview.do",
-        "verification": "declared"
+        "verification": "verified"
       },
       "dataAsOf": "2026-10-21",
       "dataPeriod": "2026-10",
-      "snapshotUpdatedAt": "2026-10-20T22:08:43.318Z",
-      "collectedAt": "2026-10-20T22:08:43.318Z",
-      "checkedAt": "2026-10-20T23:06:28.750Z",
-      "reviewStatus": "snapshot_checked",
-      "freshness": "target_period_in_snapshot",
+      "snapshotUpdatedAt": "2026-10-20T23:53:23.790Z",
+      "collectedAt": "2026-10-20T23:53:23.790Z",
+      "checkedAt": "2026-10-20T23:53:24.001Z",
+      "reviewStatus": "verified",
+      "freshness": "target_window_verified",
       "evidence": [
         {
           "kind": "official-source",
@@ -126,11 +126,101 @@
           "url": "/research/source-reviews/2026-10-21-acceptance.json",
           "checkedAt": "2026-10-20T23:07:26.208Z",
           "scope": "게시본 변경·기간 필드 정합성 점검이며 원출처 재대조 아님."
+        },
+        {
+          "kind": "official-source",
+          "url": "https://www.airport.kr/pgn/ap_ko/passengerNoticeApiData.do?tmnlId=2",
+          "checkedAt": "2026-10-20T23:39:45.157Z",
+          "sha256": "df0e55749204627cdc8eb60ac88618997fb6788b115a60385230f2ecc12b6622",
+          "scope": "공식 HTML4개·대기 JSON2개의 원필드와21·22일 각24시간·20대기행을 독립 재계산. 예측은 실제 이용실적·월간통계가 아님."
+        },
+        {
+          "kind": "official-source",
+          "url": "https://www.airport.kr/pgn/ap_ko/passengerNoticeApiData.do?tmnlId=1",
+          "checkedAt": "2026-10-20T23:39:45.155Z",
+          "sha256": "ef211e5439d4b8b0b6966afece5c6869422365ccdbbb2d324f49ef0246d5262f",
+          "scope": "공식 HTML4개·대기 JSON2개의 원필드와21·22일 각24시간·20대기행을 독립 재계산. 예측은 실제 이용실적·월간통계가 아님."
+        },
+        {
+          "kind": "official-source",
+          "url": "https://www.airport.kr/ap_ko/883/subview.do?selTm=T1&pday=20261022",
+          "checkedAt": "2026-10-20T23:39:45.153Z",
+          "sha256": "57fa33be58cbcad47b5d6270571c21650a97d46df4c553934647ce3cba122c28",
+          "scope": "공식 HTML4개·대기 JSON2개의 원필드와21·22일 각24시간·20대기행을 독립 재계산. 예측은 실제 이용실적·월간통계가 아님."
+        },
+        {
+          "kind": "official-source",
+          "url": "https://www.airport.kr/ap_ko/883/subview.do?selTm=T2&pday=20261021",
+          "checkedAt": "2026-10-20T23:39:45.151Z",
+          "sha256": "64ce2de296a5402d187ac2a2078145a1435db28394b2613de479f467159d9258",
+          "scope": "공식 HTML4개·대기 JSON2개의 원필드와21·22일 각24시간·20대기행을 독립 재계산. 예측은 실제 이용실적·월간통계가 아님."
+        },
+        {
+          "kind": "official-source",
+          "url": "https://www.airport.kr/ap_ko/883/subview.do?selTm=T1&pday=20261021",
+          "checkedAt": "2026-10-20T23:39:45.083Z",
+          "sha256": "d18103ee78602f50297d42833de5c72b721f9d3ca1dec193e83a548cf70eb386",
+          "scope": "공식 HTML4개·대기 JSON2개의 원필드와21·22일 각24시간·20대기행을 독립 재계산. 예측은 실제 이용실적·월간통계가 아님."
+        },
+        {
+          "kind": "official-source",
+          "url": "https://www.airport.kr/ap_ko/883/subview.do?selTm=T2&pday=20261022",
+          "checkedAt": "2026-10-20T23:39:45.154Z",
+          "sha256": "39cb52b8859ad976b8922bb38ecfffb412e4474ebd2ce80ba300a582c8ee9af6",
+          "scope": "공식 HTML4개·대기 JSON2개의 원필드와21·22일 각24시간·20대기행을 독립 재계산. 예측은 실제 이용실적·월간통계가 아님."
+        },
+        {
+          "kind": "audit-record",
+          "url": "/research/source-reviews/2026-10-21-source-followup-1.json",
+          "checkedAt": "2026-10-20T23:45:30.026Z",
+          "scope": "공식 HTML4개·대기 JSON2개의 원필드와21·22일 각24시간·20대기행을 독립 재계산. 예측은 실제 이용실적·월간통계가 아님."
+        },
+        {
+          "kind": "official-source",
+          "url": "https://www.airport.kr/pgn/ap_ko/passengerNoticeApiData.do?tmnlId=1",
+          "checkedAt": "2026-10-20T23:53:23.408Z",
+          "sha256": "ef211e5439d4b8b0b6966afece5c6869422365ccdbbb2d324f49ef0246d5262f",
+          "scope": "공식 HTML4개·대기 JSON2개의 원필드와21·22일 각24시간·20대기행을 독립 재계산. 예측은 실제 이용실적·월간통계가 아님."
+        },
+        {
+          "kind": "official-source",
+          "url": "https://www.airport.kr/pgn/ap_ko/passengerNoticeApiData.do?tmnlId=2",
+          "checkedAt": "2026-10-20T23:53:23.409Z",
+          "sha256": "27472c29665e9e92c6c7ba29347ef0810d28de08ac282b71584a2e4a8cbcd44c",
+          "scope": "공식 HTML4개·대기 JSON2개의 원필드와21·22일 각24시간·20대기행을 독립 재계산. 예측은 실제 이용실적·월간통계가 아님."
+        },
+        {
+          "kind": "official-source",
+          "url": "https://www.airport.kr/ap_ko/883/subview.do?selTm=T2&pday=20261021",
+          "checkedAt": "2026-10-20T23:53:23.405Z",
+          "sha256": "182d6a92ea8ed23e5324fc296dae9f0e2daab8b0895a457a74e54c1d7b15a032",
+          "scope": "공식 HTML4개·대기 JSON2개의 원필드와21·22일 각24시간·20대기행을 독립 재계산. 예측은 실제 이용실적·월간통계가 아님."
+        },
+        {
+          "kind": "official-source",
+          "url": "https://www.airport.kr/ap_ko/883/subview.do?selTm=T1&pday=20261021",
+          "checkedAt": "2026-10-20T23:53:23.337Z",
+          "sha256": "de102507a523842bda5e6d8ca4ec5c11499b2ac89bf99d173411541f57d92bab",
+          "scope": "공식 HTML4개·대기 JSON2개의 원필드와21·22일 각24시간·20대기행을 독립 재계산. 예측은 실제 이용실적·월간통계가 아님."
+        },
+        {
+          "kind": "official-source",
+          "url": "https://www.airport.kr/ap_ko/883/subview.do?selTm=T1&pday=20261022",
+          "checkedAt": "2026-10-20T23:53:23.406Z",
+          "sha256": "dd93f79998d979cc93f1ea294473e127f3fb127240edd2e0f08790327114bfb6",
+          "scope": "공식 HTML4개·대기 JSON2개의 원필드와21·22일 각24시간·20대기행을 독립 재계산. 예측은 실제 이용실적·월간통계가 아님."
+        },
+        {
+          "kind": "official-source",
+          "url": "https://www.airport.kr/ap_ko/883/subview.do?selTm=T2&pday=20261022",
+          "checkedAt": "2026-10-20T23:53:23.407Z",
+          "sha256": "9535edb5f2b1c30f0b930db67bb389abe68825b458fbddfe20da8281110569f3",
+          "scope": "공식 HTML4개·대기 JSON2개의 원필드와21·22일 각24시간·20대기행을 독립 재계산. 예측은 실제 이용실적·월간통계가 아님."
         }
       ],
       "issues": [
-        "일별 예상 승객·대기 관측의 게시본입니다. 완성된 월간 실적이 아니며 혼잡 등급은 화면 자체 상대 산정입니다.",
-        "자동 수집으로 대조 당시의 게시 값이 바뀌었습니다. 과거 원출처 근거를 보존하며 현재 값은 재대조 대기입니다."
+        "공식 HTML4개·대기 JSON2개의 원필드와21·22일 각24시간·20대기행을 독립 재계산. 예측은 실제 이용실적·월간통계가 아님.",
+        "검증은 이 시각·이 저장본의 범위에 한정됩니다. 자동 갱신 뒤에는 현재 값의 원출처 재대조가 필요합니다."
       ],
       "key": "/research/airport-congestion/",
       "url": "/research/airport-congestion/",
@@ -138,9 +228,9 @@
       "primary": "urban",
       "classification": "도시·공간",
       "sourceHint": "인천국제공항공사 공식 실데이터",
-      "verifiedScope": "공식 HTML 4개와 대기 JSON 2개를 기존 수집기로 변환. 예측일 2일×24시간의 T1·T2 출입국 구간 합계와 대기 20행의 실제 관측시각·범위를 대조. 예상 승객을 실제 이용 실적으로 해석하지 않음.",
-      "nextAction": "시간별 자동 수집 유지. 날짜 버튼은 원자료 예측일을 표시하며 값이나 날짜가 바뀌면 이전 대조 해시를 재사용하지 않음.",
-      "verifiedDataHash": "989d546dd726058a1c8ad1e50629bb50d8c58b96e13f541b3badfdd663734281",
+      "verifiedScope": "공식 HTML4개·대기 JSON2개의 원필드와21·22일 각24시간·20대기행을 독립 재계산. 예측은 실제 이용실적·월간통계가 아님.",
+      "nextAction": "자동 수집 후 값 지문이 달라지면 과거 검증일·해시를 현재 검증으로 재사용하지 않고 원출처 재대조.",
+      "verifiedDataHash": "b1afbb067a2e54ab09e3521e4446de61a66526eb0009a36479606d0ab7192515",
       "previousReview": {
         "checkedAt": "2026-10-17T02:29:06.590856+00:00",
         "reviewStatus": "verified",
@@ -160,7 +250,8 @@
           "10월 17·18일 예측과 17일 대기 관측이며 월간 전수 실적이 아닙니다. 혼잡 등급은 화면 자체 상대 산정입니다."
         ],
         "scope": "과거 원출처 대조 이력. 현재 변경 게시본의 대조 완료를 뜻하지 않음."
-      }
+      },
+      "verifiedAt": "2026-10-20T23:53:24.001Z"
     },
     {
       "source": {
@@ -1001,15 +1092,15 @@
       "source": {
         "label": "당근부동산 공개 매물 수집본",
         "url": "https://realty.daangn.com",
-        "verification": "declared"
+        "verification": "verified"
       },
       "dataAsOf": null,
       "dataPeriod": null,
-      "snapshotUpdatedAt": "2026-10-20T14:04:33+09:00",
-      "collectedAt": "2026-10-20T14:04:33+09:00",
-      "checkedAt": "2026-10-20T23:06:28.775Z",
-      "reviewStatus": "snapshot_checked",
-      "freshness": "unverified",
+      "snapshotUpdatedAt": "2026-10-20T23:42:27.406232+00:00",
+      "collectedAt": "2026-10-20T23:39:17.242975+00:00",
+      "checkedAt": "2026-10-20T23:45:30.026Z",
+      "reviewStatus": "verified",
+      "freshness": "target_window_verified",
       "evidence": [
         {
           "kind": "audit-record",
@@ -1254,11 +1345,59 @@
           "url": "/research/source-reviews/2026-10-21-acceptance.json",
           "checkedAt": "2026-10-20T23:07:26.208Z",
           "scope": "게시본 변경·기간 필드 정합성 점검이며 원출처 재대조 아님."
+        },
+        {
+          "kind": "official-source",
+          "url": "https://realty.daangn.com/articles/4713338",
+          "checkedAt": "2026-10-20T23:39:17.242975+00:00",
+          "sha256": "26cbea3ce3625c80139d247a069a4b9ef4c6170ef6e704d16e00409e42582867",
+          "scope": "직전 게시 후보6건의 공개 매물 원문 필드만 재대조. 점수는 기존 자체 규칙으로 재계산. 기준후보3건 연결상태·신규 전체 탐색·인허가·영업·매출은 이번 검증 범위 밖."
+        },
+        {
+          "kind": "official-source",
+          "url": "https://realty.daangn.com/articles/4697552",
+          "checkedAt": "2026-10-20T23:39:17.276989+00:00",
+          "sha256": "cee28029ca41d522248ccbbdab81182ae6a3586b488884e9ed87aa642411ce70",
+          "scope": "직전 게시 후보6건의 공개 매물 원문 필드만 재대조. 점수는 기존 자체 규칙으로 재계산. 기준후보3건 연결상태·신규 전체 탐색·인허가·영업·매출은 이번 검증 범위 밖."
+        },
+        {
+          "kind": "official-source",
+          "url": "https://realty.daangn.com/articles/3207454",
+          "checkedAt": "2026-10-20T23:39:17.450010+00:00",
+          "sha256": "9d574eeaa0eca2ecc93cb3c930cbe684c9b34659108f826bd426520b70b1996d",
+          "scope": "직전 게시 후보6건의 공개 매물 원문 필드만 재대조. 점수는 기존 자체 규칙으로 재계산. 기준후보3건 연결상태·신규 전체 탐색·인허가·영업·매출은 이번 검증 범위 밖."
+        },
+        {
+          "kind": "official-source",
+          "url": "https://realty.daangn.com/articles/2977836",
+          "checkedAt": "2026-10-20T23:39:17.601082+00:00",
+          "sha256": "87722b3597c3269cc70b5ebd4824462d56e97c09e642613cef26598ec88f561b",
+          "scope": "직전 게시 후보6건의 공개 매물 원문 필드만 재대조. 점수는 기존 자체 규칙으로 재계산. 기준후보3건 연결상태·신규 전체 탐색·인허가·영업·매출은 이번 검증 범위 밖."
+        },
+        {
+          "kind": "official-source",
+          "url": "https://realty.daangn.com/articles/4175649",
+          "checkedAt": "2026-10-20T23:39:17.705736+00:00",
+          "sha256": "340f9f858dae04ff575c215df2a5860eece06add939825b9c6f08ab62dba999f",
+          "scope": "직전 게시 후보6건의 공개 매물 원문 필드만 재대조. 점수는 기존 자체 규칙으로 재계산. 기준후보3건 연결상태·신규 전체 탐색·인허가·영업·매출은 이번 검증 범위 밖."
+        },
+        {
+          "kind": "official-source",
+          "url": "https://realty.daangn.com/articles/4597925",
+          "checkedAt": "2026-10-20T23:39:17.822271+00:00",
+          "sha256": "2e8a9d43c91af990a432ac7eb5eaba889bdeff3295b7864053b9721e87b68fbb",
+          "scope": "직전 게시 후보6건의 공개 매물 원문 필드만 재대조. 점수는 기존 자체 규칙으로 재계산. 기준후보3건 연결상태·신규 전체 탐색·인허가·영업·매출은 이번 검증 범위 밖."
+        },
+        {
+          "kind": "audit-record",
+          "url": "/research/source-reviews/2026-10-21-source-followup-1.json",
+          "checkedAt": "2026-10-20T23:45:30.026Z",
+          "scope": "직전 게시 후보6건의 공개 매물 원문 필드만 재대조. 점수는 기존 자체 규칙으로 재계산. 기준후보3건 연결상태·신규 전체 탐색·인허가·영업·매출은 이번 검증 범위 밖."
         }
       ],
       "issues": [
-        "수집 시각은 매물의 실제 관측일·계약 가능일이 아닙니다. 후보·점수 변경은 개별 원문 재대조가 필요합니다.",
-        "자동 수집으로 대조 당시의 게시 값이 바뀌었습니다. 과거 원출처 근거를 보존하며 현재 값은 재대조 대기입니다."
+        "직전 게시 후보6건의 공개 매물 원문 필드만 재대조. 점수는 기존 자체 규칙으로 재계산. 기준후보3건 연결상태·신규 전체 탐색·인허가·영업·매출은 이번 검증 범위 밖.",
+        "검증은 이 시각·이 저장본의 범위에 한정됩니다. 자동 갱신 뒤에는 현재 값의 원출처 재대조가 필요합니다."
       ],
       "key": "/airbnb/",
       "url": "/airbnb/",
@@ -1266,8 +1405,8 @@
       "primary": "society",
       "classification": "경제·사회",
       "sourceHint": "당근부동산 공개 원문 · 조건 비교",
-      "nextAction": "현재 게시본의 해당 공식 원문을 다시 대조한 때만 verified로 승격. 확인일·수집일로 자료 기준을 대체하지 않음.",
-      "verifiedDataHash": "8be88f752393948881e9728c4fced3daab8da15b4f2d7cdf264e41fe0122a534",
+      "nextAction": "자동 수집 후 값 지문이 달라지면 과거 검증일·해시를 현재 검증으로 재사용하지 않고 원출처 재대조.",
+      "verifiedDataHash": "d2e6aeb9098d24c6809f7b1f34bfdf226a2aec90c74650ad12feee7da78590c2",
       "verificationSnapshot": {
         "commit": "3557229f4340f27a9596310b40c0a0ce7aef8ada",
         "file": "airbnb/candidates.json",
@@ -1292,7 +1431,10 @@
           "게시자의 매물정보 검증이며 인허가·매출·수익의 검증이 아님. 운영 적합성 점수는 규칙 기반 파생값."
         ],
         "scope": "과거 원출처 대조 이력. 현재 변경 게시본의 대조 완료를 뜻하지 않음."
-      }
+      },
+      "verifiedAt": "2026-10-20T23:45:30.026Z",
+      "verifiedScope": "직전 게시 후보6건의 공개 매물 원문 필드만 재대조. 점수는 기존 자체 규칙으로 재계산. 기준후보3건 연결상태·신규 전체 탐색·인허가·영업·매출은 이번 검증 범위 밖.",
+      "referenceDescription": "개별 공개 매물 · 관측일 미제공"
     },
     {
       "source": {
@@ -1455,15 +1597,15 @@
       "source": {
         "label": "Google Trends 공개 Trending Now",
         "url": "https://trends.google.com/trending?geo=KR&hl=ko&hours=48",
-        "verification": "declared"
+        "verification": "verified"
       },
       "dataAsOf": null,
       "dataPeriod": null,
-      "snapshotUpdatedAt": "2026-10-20T05:44:33+00:00",
-      "collectedAt": null,
-      "checkedAt": "2026-10-20T23:06:28.747Z",
-      "reviewStatus": "snapshot_checked",
-      "freshness": "unverified",
+      "snapshotUpdatedAt": "2026-10-21T08:42:27+09:00",
+      "collectedAt": "2026-10-20T23:39:16.051960+00:00",
+      "checkedAt": "2026-10-20T23:45:30.026Z",
+      "reviewStatus": "verified",
+      "freshness": "target_window_verified",
       "evidence": [
         {
           "kind": "audit-record",
@@ -1500,11 +1642,24 @@
           "url": "/research/source-reviews/2026-10-21-acceptance.json",
           "checkedAt": "2026-10-20T23:07:26.208Z",
           "scope": "게시본 변경·기간 필드 정합성 점검이며 원출처 재대조 아님."
+        },
+        {
+          "kind": "official-source",
+          "url": "https://trends.google.com/trending?geo=KR&hl=ko&hours=48",
+          "checkedAt": "2026-10-20T23:39:16.051960+00:00",
+          "sha256": "15cf4a29baea652369e9924e83520d4273855e45c1793cf85abe56fb760a26b8",
+          "scope": "공식 공개 페이지의 검색어·근사 트래픽·시작시각100건·독립 순위와 Google 공개 메뉴의 분류ID·명칭을 대조. 48시간 요청 이동창이며 월간 통계·고유 이용자 수가 아님. 자체 보정 제안은 공식 분류와 별도."
+        },
+        {
+          "kind": "audit-record",
+          "url": "/research/source-reviews/2026-10-21-source-followup-1.json",
+          "checkedAt": "2026-10-20T23:45:30.026Z",
+          "scope": "공식 공개 페이지의 검색어·근사 트래픽·시작시각100건·독립 순위와 Google 공개 메뉴의 분류ID·명칭을 대조. 48시간 요청 이동창이며 월간 통계·고유 이용자 수가 아님. 자체 보정 제안은 공식 분류와 별도."
         }
       ],
       "issues": [
-        "48시간 이동창 게시본입니다. 파일 updatedAt을 관측 기준일이나 공식 재대조일로 사용하지 않습니다.",
-        "자동 수집으로 대조 당시의 게시 값이 바뀌었습니다. 과거 원출처 근거를 보존하며 현재 값은 재대조 대기입니다."
+        "공식 공개 페이지의 검색어·근사 트래픽·시작시각100건·독립 순위와 Google 공개 메뉴의 분류ID·명칭을 대조. 48시간 요청 이동창이며 월간 통계·고유 이용자 수가 아님. 자체 보정 제안은 공식 분류와 별도.",
+        "검증은 이 시각·이 저장본의 범위에 한정됩니다. 자동 갱신 뒤에는 현재 값의 원출처 재대조가 필요합니다."
       ],
       "key": "/google-trends/",
       "url": "/google-trends/",
@@ -1512,8 +1667,8 @@
       "primary": "society",
       "classification": "경제·사회",
       "sourceHint": "Google Trends · Chart.js",
-      "nextAction": "현재 게시본의 해당 공식 원문을 다시 대조한 때만 verified로 승격. 확인일·수집일로 자료 기준을 대체하지 않음.",
-      "verifiedDataHash": "fd367db1bec429e653dc2c61304889433d0ca55ba346e9f2666bfea8521bee57",
+      "nextAction": "자동 수집 후 값 지문이 달라지면 과거 검증일·해시를 현재 검증으로 재사용하지 않고 원출처 재대조.",
+      "verifiedDataHash": "342eb3b343fe2a25a70e5383bedf5469261b80e4694abad6ec1da06b6f6ae902",
       "verificationSnapshot": {
         "commit": "3557229f4340f27a9596310b40c0a0ce7aef8ada",
         "file": "google-trends/data.json",
@@ -1538,7 +1693,10 @@
           "48시간 공개 스냅샷이며 완성된 10월 통계가 아님. 근사 트래픽 합계는 고유 이용자 수가 아님."
         ],
         "scope": "과거 원출처 대조 이력. 현재 변경 게시본의 대조 완료를 뜻하지 않음."
-      }
+      },
+      "verifiedAt": "2026-10-20T23:45:30.026Z",
+      "verifiedScope": "공식 공개 페이지의 검색어·근사 트래픽·시작시각100건·독립 순위와 Google 공개 메뉴의 분류ID·명칭을 대조. 48시간 요청 이동창이며 월간 통계·고유 이용자 수가 아님. 자체 보정 제안은 공식 분류와 별도.",
+      "referenceDescription": "대한민국 · 48시간 요청 이동창"
     },
     {
       "source": {
@@ -1571,10 +1729,38 @@
           "url": "https://datalab.visitkorea.or.kr/common/board/Download.do?bcIdx=310073&cbIdx=1127&streFileNm=46cd12a6-5f28-4c47-b4eb-c9188cb81ac7.pdf",
           "checkedAt": "2026-10-16T10:33:48.637Z",
           "scope": "공식 전체국가통계 XLSX 입국 시트의 중국·대만·베트남 2010-01~2026-08 200개월 대조"
+        },
+        {
+          "url": "https://datalab.visitkorea.or.kr/site/portal/ex/bbs/View.do?bcIdx=310073&cbIdx=1603",
+          "checkedAt": "2026-10-20T23:39:16.049966+00:00",
+          "sha256": "cfe43cf34c2cfe3cdbe328c66c4d84bba0821238ef842035fefa61edb2b8d3ab",
+          "kind": "official-source",
+          "scope": "공식 게시판 최신 공표8월과 공표일정 v1.1만 재확인. 기존8월 수치 원표는 이번에 재대조하지 않음."
+        },
+        {
+          "url": "https://datalab.visitkorea.or.kr/common/board/Download.do?bcIdx=310073&cbIdx=1127&streFileNm=46cd12a6-5f28-4c47-b4eb-c9188cb81ac7.pdf",
+          "checkedAt": "2026-10-20T23:39:16.050961+00:00",
+          "sha256": "1b74b41c4d3ef22ac12dfa8e680257e303fc205cc9c0263094de08b819a768ac",
+          "kind": "official-source",
+          "scope": "공식 게시판 최신 공표8월과 공표일정 v1.1만 재확인. 기존8월 수치 원표는 이번에 재대조하지 않음."
+        },
+        {
+          "url": "https://datalab.visitkorea.or.kr/site/portal/ex/bbs/List.do?cbIdx=1603&tgtTypeCd=CATE_CONT&searchKey2=spt01",
+          "checkedAt": "2026-10-20T23:40:34.992Z",
+          "sha256": "e20d60a3c3a73f02d25d341c150ac80fa736fdf22ea1fbf7ff1e1290a559091b",
+          "kind": "official-source",
+          "scope": "공식 게시판 최신 공표8월과 공표일정 v1.1만 재확인. 기존8월 수치 원표는 이번에 재대조하지 않음."
+        },
+        {
+          "kind": "audit-record",
+          "url": "/research/source-reviews/2026-10-21-source-followup-1.json",
+          "checkedAt": "2026-10-20T23:45:30.026Z",
+          "scope": "공식 게시판 최신 공표8월과 공표일정 v1.1만 재확인. 기존8월 수치 원표는 이번에 재대조하지 않음."
         }
       ],
       "issues": [
-        "공식 최신 자료는 2026-08 (2026-09-28 공표). 9월 자료 2026-10-26, 10월 자료 2026-11-25 공표 예정이며 실제 공표 후 갱신합니다."
+        "공식 게시판 최신 공표는2026-08(9월28일 공표). 2026-09 자료는10월26일, 2026-10 자료는11월25일 예정.",
+        "공표 상태만2026-10-21 재확인했으며 수치 기준·수집일·데이터 파일 갱신일·최종 수치 대조일10월16일은 유지합니다."
       ],
       "key": "/korea-tourism/",
       "url": "/korea-tourism/",
@@ -1583,7 +1769,40 @@
       "classification": "경제·사회",
       "sourceHint": "한국관광공사 · 공공데이터",
       "verifiedAt": "2026-10-16T10:33:48.637Z",
-      "verifiedDataHash": "d321f199a013a1ef6393da5c8d810add145eccc43c1e31312e664d1ec9a7a1d7"
+      "verifiedDataHash": "d321f199a013a1ef6393da5c8d810add145eccc43c1e31312e664d1ec9a7a1d7",
+      "publicationCheck": {
+        "checkedAt": "2026-10-20T23:45:30.026Z",
+        "latestListedDataPeriod": "2026-08",
+        "scheduledPublications": [
+          {
+            "dataPeriod": "2026-09",
+            "scheduledAt": "2026-10-26"
+          },
+          {
+            "dataPeriod": "2026-10",
+            "scheduledAt": "2026-11-25"
+          }
+        ],
+        "status": "not_yet_published",
+        "scope": "공식 게시판 최신 공표8월과 공표일정 v1.1만 재확인. 기존8월 수치 원표는 이번에 재대조하지 않음.",
+        "sources": [
+          {
+            "url": "https://datalab.visitkorea.or.kr/site/portal/ex/bbs/View.do?bcIdx=310073&cbIdx=1603",
+            "checkedAt": "2026-10-20T23:39:16.049966+00:00",
+            "sha256": "cfe43cf34c2cfe3cdbe328c66c4d84bba0821238ef842035fefa61edb2b8d3ab"
+          },
+          {
+            "url": "https://datalab.visitkorea.or.kr/common/board/Download.do?bcIdx=310073&cbIdx=1127&streFileNm=46cd12a6-5f28-4c47-b4eb-c9188cb81ac7.pdf",
+            "checkedAt": "2026-10-20T23:39:16.050961+00:00",
+            "sha256": "1b74b41c4d3ef22ac12dfa8e680257e303fc205cc9c0263094de08b819a768ac"
+          },
+          {
+            "url": "https://datalab.visitkorea.or.kr/site/portal/ex/bbs/List.do?cbIdx=1603&tgtTypeCd=CATE_CONT&searchKey2=spt01",
+            "checkedAt": "2026-10-20T23:40:34.992Z",
+            "sha256": "e20d60a3c3a73f02d25d341c150ac80fa736fdf22ea1fbf7ff1e1290a559091b"
+          }
+        ]
+      }
     },
     {
       "source": {
@@ -1752,15 +1971,15 @@
       "source": {
         "label": "Naver Cafe public popular-article API",
         "url": "https://apis.naver.com/cafe-web/cafe2/WeeklyPopularArticleListV3.json?cafeId=12730407&mobileWeb=true&adUnit=PC_CAFE_BOARD&ad=false",
-        "verification": "declared"
+        "verification": "verified"
       },
       "dataAsOf": "2026-10-20",
       "dataPeriod": "2026-10",
-      "snapshotUpdatedAt": "2026-10-20T21:50:24.917Z",
-      "collectedAt": "2026-10-20T21:50:24.917Z",
-      "checkedAt": "2026-10-20T23:06:28.787Z",
-      "reviewStatus": "snapshot_checked",
-      "freshness": "target_period_in_snapshot",
+      "snapshotUpdatedAt": "2026-10-20T23:39:16.052965+00:00",
+      "collectedAt": "2026-10-20T23:39:16.052965+00:00",
+      "checkedAt": "2026-10-20T23:45:30.026Z",
+      "reviewStatus": "verified",
+      "freshness": "target_window_verified",
       "evidence": [
         {
           "kind": "official-source",
@@ -1791,11 +2010,24 @@
           "url": "/research/source-reviews/2026-10-21-acceptance.json",
           "checkedAt": "2026-10-20T23:07:26.208Z",
           "scope": "게시본 변경·기간 필드 정합성 점검이며 원출처 재대조 아님."
+        },
+        {
+          "kind": "official-source",
+          "url": "https://apis.naver.com/cafe-web/cafe2/WeeklyPopularArticleListV3.json?cafeId=12730407&mobileWeb=true&adUnit=PC_CAFE_BOARD&ad=false",
+          "checkedAt": "2026-10-20T23:39:16.052965+00:00",
+          "sha256": "0fb95f0d988ef6b446dc7fa3afd05557dda8b584599e5ef6298fff01d01f9205",
+          "scope": "네이버 공개 인기글 API 앞20건의 ID·제목·조회·댓글·좋아요·집계코드와 응답 순서를 대조. 월간 전수 또는 조회수 정렬이 아님."
+        },
+        {
+          "kind": "audit-record",
+          "url": "/research/source-reviews/2026-10-21-source-followup-1.json",
+          "checkedAt": "2026-10-20T23:45:30.026Z",
+          "scope": "네이버 공개 인기글 API 앞20건의 ID·제목·조회·댓글·좋아요·집계코드와 응답 순서를 대조. 월간 전수 또는 조회수 정렬이 아님."
         }
       ],
       "issues": [
-        "API 응답 일부이며 조회수 순위·월간 전수 통계가 아닙니다. 집계코드 2026102024를 원문대로 보존하며 시간 의미를 추정하지 않습니다. 주제는 자체 제목 키워드 규칙입니다.",
-        "자동 수집으로 대조 당시의 게시 값이 바뀌었습니다. 과거 원출처 근거를 보존하며 현재 값은 재대조 대기입니다."
+        "네이버 공개 인기글 API 앞20건의 ID·제목·조회·댓글·좋아요·집계코드와 응답 순서를 대조. 월간 전수 또는 조회수 정렬이 아님.",
+        "검증은 이 시각·이 저장본의 범위에 한정됩니다. 자동 갱신 뒤에는 현재 값의 원출처 재대조가 필요합니다."
       ],
       "key": "/naver-cafe-research/",
       "url": "/naver-cafe-research/",
@@ -1803,9 +2035,9 @@
       "primary": "society",
       "classification": "경제·사회",
       "sourceHint": "네이버 카페 · 실시간/매시간",
-      "verifiedDataHash": "96a06907969fa8e8fe0305d822979d900d99821a6513b0afeec4f202a022b87f",
-      "verifiedScope": "공식 운영 주체인 네이버 API 응답 앞 20건의 ID·제목·조회·댓글·좋아요·집계코드와 수집 변환본 대조.",
-      "nextAction": "매시간 수집 시 원자료 집계코드와 실제 수집시각을 함께 보존. 게시글 값이 바뀌면 이전 원출처 검증 상태를 재사용하지 않음.",
+      "verifiedDataHash": "0a1c4e83b45db60ac7c8d01b82efcf24fb4e1c9cc5d967b0be5e92e836430a98",
+      "verifiedScope": "네이버 공개 인기글 API 앞20건의 ID·제목·조회·댓글·좋아요·집계코드와 응답 순서를 대조. 월간 전수 또는 조회수 정렬이 아님.",
+      "nextAction": "자동 수집 후 값 지문이 달라지면 과거 검증일·해시를 현재 검증으로 재사용하지 않고 원출처 재대조.",
       "previousReview": {
         "checkedAt": "2026-10-17T02:04:58.790677+00:00",
         "reviewStatus": "verified",
@@ -1827,7 +2059,8 @@
           "주제는 제목 키워드 자체 규칙이며 공식 네이버 분류가 아닙니다."
         ],
         "scope": "과거 원출처 대조 이력. 현재 변경 게시본의 대조 완료를 뜻하지 않음."
-      }
+      },
+      "verifiedAt": "2026-10-20T23:45:30.026Z"
     },
     {
       "source": {

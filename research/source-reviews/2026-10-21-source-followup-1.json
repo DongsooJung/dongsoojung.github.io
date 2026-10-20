@@ -1,0 +1,619 @@
+{
+  "schemaVersion": 1,
+  "step": "acceptance-source-followup-1",
+  "checkedAt": "2026-10-20T23:45:30.026Z",
+  "sourceBaseCommit": "44cd87a341b2ae962998942c59c73008c1b17f93",
+  "scope": "사용자가 공표 대기 재확인을 요청한 회차. 관광 일정/목록과 변경 게시본4개의 정확한 원출처 범위만 대조.",
+  "sourceResponses": [
+    {
+      "key": "tourism-list",
+      "url": "https://datalab.visitkorea.or.kr/site/portal/ex/bbs/List.do?cbIdx=1603&tgtTypeCd=CATE_CONT&searchKey2=spt01",
+      "checkedAt": "2026-10-20T23:39:16.048964+00:00",
+      "status": 200,
+      "finalUrl": "https://datalab.visitkorea.or.kr/datalab/portal/main/getMainForm.do",
+      "contentType": "text/html;charset=utf-8",
+      "sha256": "d78ad4810c9d62c3735cbed517edc632e9310a74bca35630d05ad45d6519b014",
+      "bytes": 595114,
+      "evidenceUse": "excluded: normal HTTP GET redirected to main; actual board verified by public menu navigation"
+    },
+    {
+      "key": "tourism-schedule",
+      "url": "https://datalab.visitkorea.or.kr/site/portal/ex/bbs/View.do?bcIdx=310073&cbIdx=1603",
+      "checkedAt": "2026-10-20T23:39:16.049966+00:00",
+      "status": 200,
+      "finalUrl": "https://datalab.visitkorea.or.kr/site/portal/ex/bbs/View.do?bcIdx=310073&cbIdx=1603",
+      "contentType": "text/html;charset=utf-8",
+      "sha256": "cfe43cf34c2cfe3cdbe328c66c4d84bba0821238ef842035fefa61edb2b8d3ab",
+      "bytes": 468061
+    },
+    {
+      "key": "tourism-calendar-pdf",
+      "url": "https://datalab.visitkorea.or.kr/common/board/Download.do?bcIdx=310073&cbIdx=1127&streFileNm=46cd12a6-5f28-4c47-b4eb-c9188cb81ac7.pdf",
+      "checkedAt": "2026-10-20T23:39:16.050961+00:00",
+      "status": 200,
+      "finalUrl": "https://datalab.visitkorea.or.kr/common/board/Download.do?bcIdx=310073&cbIdx=1127&streFileNm=46cd12a6-5f28-4c47-b4eb-c9188cb81ac7.pdf",
+      "contentType": "application/octet-stream",
+      "sha256": "1b74b41c4d3ef22ac12dfa8e680257e303fc205cc9c0263094de08b819a768ac",
+      "bytes": 63231
+    },
+    {
+      "key": "tourism-august",
+      "url": "https://datalab.visitkorea.or.kr/site/portal/ex/bbs/View.do?cbIdx=1603&cbIdx2=1127&bcIdx=311301&pageIndex=1&tgtTypeCd=CATE_CONT&searchKey2=spt01",
+      "checkedAt": "2026-10-20T23:39:16.051960+00:00",
+      "status": 200,
+      "finalUrl": "https://datalab.visitkorea.or.kr/site/portal/ex/bbs/View.do?cbIdx=1603&cbIdx2=1127&bcIdx=311301&pageIndex=1&tgtTypeCd=CATE_CONT&searchKey2=spt01",
+      "contentType": "text/html;charset=utf-8",
+      "sha256": "11e4938eb90d1b271b9351711848927efcb61c0239ae288e57553fc9ee57215f",
+      "bytes": 469414
+    },
+    {
+      "key": "trends",
+      "url": "https://trends.google.com/trending?geo=KR&hl=ko&hours=48",
+      "checkedAt": "2026-10-20T23:39:16.051960+00:00",
+      "status": 200,
+      "finalUrl": "https://trends.google.com/trending?geo=KR&hl=ko&hours=48",
+      "contentType": "text/html; charset=utf-8",
+      "sha256": "15cf4a29baea652369e9924e83520d4273855e45c1793cf85abe56fb760a26b8",
+      "bytes": 1473207
+    },
+    {
+      "key": "cafe",
+      "url": "https://apis.naver.com/cafe-web/cafe2/WeeklyPopularArticleListV3.json?cafeId=12730407&mobileWeb=true&adUnit=PC_CAFE_BOARD&ad=false",
+      "checkedAt": "2026-10-20T23:39:16.052965+00:00",
+      "status": 200,
+      "finalUrl": "https://apis.naver.com/cafe-web/cafe2/WeeklyPopularArticleListV3.json?cafeId=12730407&mobileWeb=true&adUnit=PC_CAFE_BOARD&ad=false",
+      "contentType": "application/json;charset=utf-8",
+      "sha256": "0fb95f0d988ef6b446dc7fa3afd05557dda8b584599e5ef6298fff01d01f9205",
+      "bytes": 238462
+    },
+    {
+      "key": "listing-4713338",
+      "url": "https://realty.daangn.com/articles/4713338",
+      "checkedAt": "2026-10-20T23:39:17.242975+00:00",
+      "status": 200,
+      "finalUrl": "https://realty.daangn.com/articles/4713338",
+      "contentType": "text/html; charset=utf-8",
+      "sha256": "26cbea3ce3625c80139d247a069a4b9ef4c6170ef6e704d16e00409e42582867",
+      "bytes": 149219
+    },
+    {
+      "key": "listing-4697552",
+      "url": "https://realty.daangn.com/articles/4697552",
+      "checkedAt": "2026-10-20T23:39:17.276989+00:00",
+      "status": 200,
+      "finalUrl": "https://realty.daangn.com/articles/4697552",
+      "contentType": "text/html; charset=utf-8",
+      "sha256": "cee28029ca41d522248ccbbdab81182ae6a3586b488884e9ed87aa642411ce70",
+      "bytes": 148263
+    },
+    {
+      "key": "listing-3207454",
+      "url": "https://realty.daangn.com/articles/3207454",
+      "checkedAt": "2026-10-20T23:39:17.450010+00:00",
+      "status": 200,
+      "finalUrl": "https://realty.daangn.com/articles/3207454",
+      "contentType": "text/html; charset=utf-8",
+      "sha256": "9d574eeaa0eca2ecc93cb3c930cbe684c9b34659108f826bd426520b70b1996d",
+      "bytes": 164659
+    },
+    {
+      "key": "listing-2977836",
+      "url": "https://realty.daangn.com/articles/2977836",
+      "checkedAt": "2026-10-20T23:39:17.601082+00:00",
+      "status": 200,
+      "finalUrl": "https://realty.daangn.com/articles/2977836",
+      "contentType": "text/html; charset=utf-8",
+      "sha256": "87722b3597c3269cc70b5ebd4824462d56e97c09e642613cef26598ec88f561b",
+      "bytes": 165568
+    },
+    {
+      "key": "listing-4175649",
+      "url": "https://realty.daangn.com/articles/4175649",
+      "checkedAt": "2026-10-20T23:39:17.705736+00:00",
+      "status": 200,
+      "finalUrl": "https://realty.daangn.com/articles/4175649",
+      "contentType": "text/html; charset=utf-8",
+      "sha256": "340f9f858dae04ff575c215df2a5860eece06add939825b9c6f08ab62dba999f",
+      "bytes": 167406
+    },
+    {
+      "key": "listing-4597925",
+      "url": "https://realty.daangn.com/articles/4597925",
+      "checkedAt": "2026-10-20T23:39:17.822271+00:00",
+      "status": 200,
+      "finalUrl": "https://realty.daangn.com/articles/4597925",
+      "contentType": "text/html; charset=utf-8",
+      "sha256": "2e8a9d43c91af990a432ac7eb5eaba889bdeff3295b7864053b9721e87b68fbb",
+      "bytes": 166316
+    },
+    {
+      "key": "airport-0",
+      "url": "https://www.airport.kr/pgn/ap_ko/passengerNoticeApiData.do?tmnlId=2",
+      "checkedAt": "2026-10-20T23:39:45.157Z",
+      "receivedAt": "2026-10-20T23:39:45.310Z",
+      "status": 200,
+      "sha256": "df0e55749204627cdc8eb60ac88618997fb6788b115a60385230f2ecc12b6622",
+      "bytes": 1692
+    },
+    {
+      "key": "airport-1",
+      "url": "https://www.airport.kr/pgn/ap_ko/passengerNoticeApiData.do?tmnlId=1",
+      "checkedAt": "2026-10-20T23:39:45.155Z",
+      "receivedAt": "2026-10-20T23:39:45.328Z",
+      "status": 200,
+      "sha256": "ef211e5439d4b8b0b6966afece5c6869422365ccdbbb2d324f49ef0246d5262f",
+      "bytes": 2513
+    },
+    {
+      "key": "airport-2",
+      "url": "https://www.airport.kr/ap_ko/883/subview.do?selTm=T1&pday=20261022",
+      "checkedAt": "2026-10-20T23:39:45.153Z",
+      "receivedAt": "2026-10-20T23:39:45.476Z",
+      "status": 200,
+      "sha256": "57fa33be58cbcad47b5d6270571c21650a97d46df4c553934647ce3cba122c28",
+      "bytes": 85662
+    },
+    {
+      "key": "airport-3",
+      "url": "https://www.airport.kr/ap_ko/883/subview.do?selTm=T2&pday=20261021",
+      "checkedAt": "2026-10-20T23:39:45.151Z",
+      "receivedAt": "2026-10-20T23:39:45.487Z",
+      "status": 200,
+      "sha256": "64ce2de296a5402d187ac2a2078145a1435db28394b2613de479f467159d9258",
+      "bytes": 82703
+    },
+    {
+      "key": "airport-4",
+      "url": "https://www.airport.kr/ap_ko/883/subview.do?selTm=T1&pday=20261021",
+      "checkedAt": "2026-10-20T23:39:45.083Z",
+      "receivedAt": "2026-10-20T23:39:45.540Z",
+      "status": 200,
+      "sha256": "d18103ee78602f50297d42833de5c72b721f9d3ca1dec193e83a548cf70eb386",
+      "bytes": 85661
+    },
+    {
+      "key": "airport-5",
+      "url": "https://www.airport.kr/ap_ko/883/subview.do?selTm=T2&pday=20261022",
+      "checkedAt": "2026-10-20T23:39:45.154Z",
+      "receivedAt": "2026-10-20T23:39:45.547Z",
+      "status": 200,
+      "sha256": "39cb52b8859ad976b8922bb38ecfffb412e4474ebd2ce80ba300a582c8ee9af6",
+      "bytes": 82701
+    },
+    {
+      "key": "airport-0",
+      "url": "https://www.airport.kr/pgn/ap_ko/passengerNoticeApiData.do?tmnlId=1",
+      "checkedAt": "2026-10-20T23:53:23.408Z",
+      "receivedAt": "2026-10-20T23:53:23.563Z",
+      "status": 200,
+      "sha256": "ef211e5439d4b8b0b6966afece5c6869422365ccdbbb2d324f49ef0246d5262f",
+      "bytes": 2513
+    },
+    {
+      "key": "airport-1",
+      "url": "https://www.airport.kr/pgn/ap_ko/passengerNoticeApiData.do?tmnlId=2",
+      "checkedAt": "2026-10-20T23:53:23.409Z",
+      "receivedAt": "2026-10-20T23:53:23.565Z",
+      "status": 200,
+      "sha256": "27472c29665e9e92c6c7ba29347ef0810d28de08ac282b71584a2e4a8cbcd44c",
+      "bytes": 1692
+    },
+    {
+      "key": "airport-2",
+      "url": "https://www.airport.kr/ap_ko/883/subview.do?selTm=T2&pday=20261021",
+      "checkedAt": "2026-10-20T23:53:23.405Z",
+      "receivedAt": "2026-10-20T23:53:23.730Z",
+      "status": 200,
+      "sha256": "182d6a92ea8ed23e5324fc296dae9f0e2daab8b0895a457a74e54c1d7b15a032",
+      "bytes": 82703
+    },
+    {
+      "key": "airport-3",
+      "url": "https://www.airport.kr/ap_ko/883/subview.do?selTm=T1&pday=20261021",
+      "checkedAt": "2026-10-20T23:53:23.337Z",
+      "receivedAt": "2026-10-20T23:53:23.771Z",
+      "status": 200,
+      "sha256": "de102507a523842bda5e6d8ca4ec5c11499b2ac89bf99d173411541f57d92bab",
+      "bytes": 85661
+    },
+    {
+      "key": "airport-4",
+      "url": "https://www.airport.kr/ap_ko/883/subview.do?selTm=T1&pday=20261022",
+      "checkedAt": "2026-10-20T23:53:23.406Z",
+      "receivedAt": "2026-10-20T23:53:23.776Z",
+      "status": 200,
+      "sha256": "dd93f79998d979cc93f1ea294473e127f3fb127240edd2e0f08790327114bfb6",
+      "bytes": 85662
+    },
+    {
+      "key": "airport-5",
+      "url": "https://www.airport.kr/ap_ko/883/subview.do?selTm=T2&pday=20261022",
+      "checkedAt": "2026-10-20T23:53:23.407Z",
+      "receivedAt": "2026-10-20T23:53:23.788Z",
+      "status": 200,
+      "sha256": "9535edb5f2b1c30f0b930db67bb389abe68825b458fbddfe20da8281110569f3",
+      "bytes": 82701
+    }
+  ],
+  "tourism": {
+    "status": "not_yet_published",
+    "numericCheckedAtPreserved": "2026-10-16T10:33:48.637Z",
+    "checkedAt": "2026-10-20T23:45:30.026Z",
+    "latestListedDataPeriod": "2026-08",
+    "scheduledPublications": [
+      {
+        "dataPeriod": "2026-09",
+        "scheduledAt": "2026-10-26"
+      },
+      {
+        "dataPeriod": "2026-10",
+        "scheduledAt": "2026-11-25"
+      }
+    ],
+    "scope": "공식 게시판 최신 공표8월과 공표일정 v1.1만 재확인. 기존8월 수치 원표는 이번에 재대조하지 않음.",
+    "sources": [
+      {
+        "url": "https://datalab.visitkorea.or.kr/site/portal/ex/bbs/View.do?bcIdx=310073&cbIdx=1603",
+        "checkedAt": "2026-10-20T23:39:16.049966+00:00",
+        "sha256": "cfe43cf34c2cfe3cdbe328c66c4d84bba0821238ef842035fefa61edb2b8d3ab"
+      },
+      {
+        "url": "https://datalab.visitkorea.or.kr/common/board/Download.do?bcIdx=310073&cbIdx=1127&streFileNm=46cd12a6-5f28-4c47-b4eb-c9188cb81ac7.pdf",
+        "checkedAt": "2026-10-20T23:39:16.050961+00:00",
+        "sha256": "1b74b41c4d3ef22ac12dfa8e680257e303fc205cc9c0263094de08b819a768ac"
+      },
+      {
+        "url": "https://datalab.visitkorea.or.kr/site/portal/ex/bbs/List.do?cbIdx=1603&tgtTypeCd=CATE_CONT&searchKey2=spt01",
+        "checkedAt": "2026-10-20T23:40:34.992Z",
+        "sha256": "e20d60a3c3a73f02d25d341c150ac80fa736fdf22ea1fbf7ff1e1290a559091b"
+      }
+    ],
+    "boardProof": {
+      "checkedAt": "2026-10-20T23:40:34.992Z",
+      "url": "https://datalab.visitkorea.or.kr/site/portal/ex/bbs/List.do?cbIdx=1603&tgtTypeCd=CATE_CONT&searchKey2=spt01",
+      "scope": "공식 게시판의 정상 메뉴 이동 후 공표 목록 확인. 개별 통계 파일 재수집이나 수치 대조는 아님.",
+      "links": [
+        {
+          "text": "2026년 한국관광통계 공표 예정일",
+          "href": "/site/portal/ex/bbs/View.do?cbIdx=1603&cbIdx2=1127&bcIdx=310073&pageIndex=1&tgtTypeCd=CATE_CONT&searchKey=&searchKey1=&searchKey2=spt01&searchKey3=&tabFlag=N&subFlag=N&cateCont=spt01"
+        },
+        {
+          "text": "한국관광통계 가이드북",
+          "href": "/site/portal/ex/bbs/View.do?cbIdx=1603&cbIdx2=1127&bcIdx=295706&pageIndex=1&tgtTypeCd=CATE_CONT&searchKey=&searchKey1=&searchKey2=spt01&searchKey3=&tabFlag=N&subFlag=N&cateCont=spt01"
+        },
+        {
+          "text": "2026년 8월 한국관광통계 공표",
+          "href": "/site/portal/ex/bbs/View.do?cbIdx=1603&cbIdx2=1127&bcIdx=311301&pageIndex=1&tgtTypeCd=CATE_CONT&searchKey=&searchKey1=&searchKey2=spt01&searchKey3=&tabFlag=N&subFlag=N&cateCont=spt01"
+        },
+        {
+          "text": "2026년 7월 한국관광통계 공표",
+          "href": "/site/portal/ex/bbs/View.do?cbIdx=1603&cbIdx2=1127&bcIdx=311134&pageIndex=1&tgtTypeCd=CATE_CONT&searchKey=&searchKey1=&searchKey2=spt01&searchKey3=&tabFlag=N&subFlag=N&cateCont=spt01"
+        },
+        {
+          "text": "2026년 6월 한국관광통계 공표",
+          "href": "/site/portal/ex/bbs/View.do?cbIdx=1603&cbIdx2=1127&bcIdx=310989&pageIndex=1&tgtTypeCd=CATE_CONT&searchKey=&searchKey1=&searchKey2=spt01&searchKey3=&tabFlag=N&subFlag=N&cateCont=spt01"
+        },
+        {
+          "text": "2026년 5월 한국관광통계 공표",
+          "href": "/site/portal/ex/bbs/View.do?cbIdx=1603&cbIdx2=1127&bcIdx=310862&pageIndex=1&tgtTypeCd=CATE_CONT&searchKey=&searchKey1=&searchKey2=spt01&searchKey3=&tabFlag=N&subFlag=N&cateCont=spt01"
+        },
+        {
+          "text": "2026년 4월 한국관광통계 공표",
+          "href": "/site/portal/ex/bbs/View.do?cbIdx=1603&cbIdx2=1127&bcIdx=310724&pageIndex=1&tgtTypeCd=CATE_CONT&searchKey=&searchKey1=&searchKey2=spt01&searchKey3=&tabFlag=N&subFlag=N&cateCont=spt01"
+        },
+        {
+          "text": "2026년 3월 한국관광통계 공표",
+          "href": "/site/portal/ex/bbs/View.do?cbIdx=1603&cbIdx2=1127&bcIdx=310653&pageIndex=1&tgtTypeCd=CATE_CONT&searchKey=&searchKey1=&searchKey2=spt01&searchKey3=&tabFlag=N&subFlag=N&cateCont=spt01"
+        },
+        {
+          "text": "2026년 2월 한국관광통계 공표",
+          "href": "/site/portal/ex/bbs/View.do?cbIdx=1603&cbIdx2=1127&bcIdx=310518&pageIndex=1&tgtTypeCd=CATE_CONT&searchKey=&searchKey1=&searchKey2=spt01&searchKey3=&tabFlag=N&subFlag=N&cateCont=spt01"
+        }
+      ],
+      "sha256": "e20d60a3c3a73f02d25d341c150ac80fa736fdf22ea1fbf7ff1e1290a559091b"
+    }
+  },
+  "projects": {
+    "/research/airport-congestion/": {
+      "status": "verified",
+      "checkedAt": "2026-10-20T23:53:24.001Z",
+      "scope": "공식 HTML4개·대기 JSON2개의 원필드와21·22일 각24시간·20대기행을 독립 재계산. 예측은 실제 이용실적·월간통계가 아님.",
+      "validation": {
+        "rowsPerDate": 24,
+        "dates": {
+          "today": "20261021",
+          "tomorrow": "20261022"
+        },
+        "waitingRows": 20,
+        "comparisons": [
+          {
+            "type": "waiting",
+            "terminal": "T1",
+            "rows": 12,
+            "rawFieldsMatch": true
+          },
+          {
+            "type": "waiting",
+            "terminal": "T2",
+            "rows": 8,
+            "rawFieldsMatch": true
+          },
+          {
+            "type": "forecast",
+            "terminal": "T2",
+            "date": "20261021",
+            "rows": 24,
+            "rawFieldsMatch": true,
+            "gateSumsMatch": true
+          },
+          {
+            "type": "forecast",
+            "terminal": "T1",
+            "date": "20261021",
+            "rows": 24,
+            "rawFieldsMatch": true,
+            "gateSumsMatch": true
+          },
+          {
+            "type": "forecast",
+            "terminal": "T1",
+            "date": "20261022",
+            "rows": 24,
+            "rawFieldsMatch": true,
+            "gateSumsMatch": true
+          },
+          {
+            "type": "forecast",
+            "terminal": "T2",
+            "date": "20261022",
+            "rows": 24,
+            "rawFieldsMatch": true,
+            "gateSumsMatch": true
+          }
+        ],
+        "scope": "공식 HTML4개·대기 JSON2개의 원필드와21·22일 각24시간·20대기행을 독립 재계산. 예측은 실제 이용실적·월간통계가 아님."
+      },
+      "dataHash": "b1afbb067a2e54ab09e3521e4446de61a66526eb0009a36479606d0ab7192515",
+      "nextAction": "자동 수집 후 값 지문이 달라지면 과거 검증일·해시를 현재 검증으로 재사용하지 않고 원출처 재대조."
+    },
+    "/naver-cafe-research/": {
+      "status": "verified",
+      "checkedAt": "2026-10-20T23:45:30.026Z",
+      "scope": "네이버 공개 인기글 API 앞20건의 ID·제목·조회·댓글·좋아요·집계코드와 응답 순서를 대조. 월간 전수 또는 조회수 정렬이 아님.",
+      "validation": {
+        "rows": 20,
+        "sourceStatDate": "2026102024",
+        "collectedAt": "2026-10-20T23:39:16.052965+00:00",
+        "scope": "네이버 공개 인기글 API 앞20건의 ID·제목·조회·댓글·좋아요·집계코드와 응답 순서를 대조. 월간 전수 또는 조회수 정렬이 아님."
+      },
+      "dataHash": "0a1c4e83b45db60ac7c8d01b82efcf24fb4e1c9cc5d967b0be5e92e836430a98",
+      "nextAction": "자동 수집 후 값 지문이 달라지면 과거 검증일·해시를 현재 검증으로 재사용하지 않고 원출처 재대조."
+    },
+    "/google-trends/": {
+      "status": "verified",
+      "checkedAt": "2026-10-20T23:45:30.026Z",
+      "scope": "공식 공개 페이지의 검색어·근사 트래픽·시작시각100건·독립 순위와 Google 공개 메뉴의 분류ID·명칭을 대조. 48시간 요청 이동창이며 월간 통계·고유 이용자 수가 아님. 자체 보정 제안은 공식 분류와 별도.",
+      "validation": {
+        "rows": 100,
+        "rawRows": 384,
+        "totalApproxVolume": 1546000,
+        "collectedAt": "2026-10-20T23:39:16.051960+00:00",
+        "scope": "공식 공개 페이지의 검색어·근사 트래픽·시작시각100건·독립 순위와 Google 공개 메뉴의 분류ID·명칭을 대조. 48시간 요청 이동창이며 월간 통계·고유 이용자 수가 아님. 자체 보정 제안은 공식 분류와 별도."
+      },
+      "dataHash": "342eb3b343fe2a25a70e5383bedf5469261b80e4694abad6ec1da06b6f6ae902",
+      "nextAction": "자동 수집 후 값 지문이 달라지면 과거 검증일·해시를 현재 검증으로 재사용하지 않고 원출처 재대조.",
+      "categoryValidation": {
+        "labels": {
+          "0": "모든 카테고리",
+          "1": "자동차",
+          "2": "미용 및 패션",
+          "3": "비즈니스 및 금융",
+          "4": "엔터테인먼트",
+          "5": "식음료",
+          "6": "게임",
+          "7": "건강",
+          "8": "취미 및 레저",
+          "9": "취업 및 교육",
+          "10": "법률 및 정부",
+          "11": "기타",
+          "13": "반려동물 및 동물",
+          "14": "정치",
+          "15": "과학",
+          "16": "쇼핑",
+          "17": "스포츠",
+          "18": "기술",
+          "19": "여행 및 교통",
+          "20": "기후"
+        },
+        "rowsCompared": 100,
+        "source": "Google Trending Now public category menu",
+        "correctedExamples": {
+          "15": "과학",
+          "16": "쇼핑",
+          "20": "기후"
+        },
+        "scope": "공식 분류ID와 명칭을 기본으로 사용하며 기존 제목별 자체 보정은 제안으로만 별도 CSV 기록."
+      }
+    },
+    "/airbnb/": {
+      "status": "verified",
+      "checkedAt": "2026-10-20T23:45:30.026Z",
+      "scope": "직전 게시 후보6건의 공개 매물 원문 필드만 재대조. 점수는 기존 자체 규칙으로 재계산. 기준후보3건 연결상태·신규 전체 탐색·인허가·영업·매출은 이번 검증 범위 밖.",
+      "validation": {
+        "rows": 6,
+        "checks": [
+          {
+            "id": "4713338",
+            "url": "https://realty.daangn.com/articles/4713338",
+            "fields": [
+              "title",
+              "district",
+              "deposit",
+              "rent",
+              "rooms",
+              "area_m2",
+              "area_basis",
+              "building_type"
+            ],
+            "priceIndependentCheck": true,
+            "changedFields": [
+              "freshness_days",
+              "score",
+              "reasons"
+            ],
+            "sourceSha256": "26cbea3ce3625c80139d247a069a4b9ef4c6170ef6e704d16e00409e42582867"
+          },
+          {
+            "id": "4697552",
+            "url": "https://realty.daangn.com/articles/4697552",
+            "fields": [
+              "title",
+              "district",
+              "deposit",
+              "rent",
+              "rooms",
+              "area_m2",
+              "area_basis",
+              "building_type"
+            ],
+            "priceIndependentCheck": true,
+            "changedFields": [
+              "freshness_days"
+            ],
+            "sourceSha256": "cee28029ca41d522248ccbbdab81182ae6a3586b488884e9ed87aa642411ce70"
+          },
+          {
+            "id": "3207454",
+            "url": "https://realty.daangn.com/articles/3207454",
+            "fields": [
+              "title",
+              "district",
+              "deposit",
+              "rent",
+              "rooms",
+              "area_m2",
+              "area_basis",
+              "building_type"
+            ],
+            "priceIndependentCheck": true,
+            "changedFields": [
+              "freshness_days"
+            ],
+            "sourceSha256": "9d574eeaa0eca2ecc93cb3c930cbe684c9b34659108f826bd426520b70b1996d"
+          },
+          {
+            "id": "2977836",
+            "url": "https://realty.daangn.com/articles/2977836",
+            "fields": [
+              "title",
+              "district",
+              "deposit",
+              "rent",
+              "rooms",
+              "area_m2",
+              "area_basis",
+              "building_type"
+            ],
+            "priceIndependentCheck": true,
+            "changedFields": [],
+            "sourceSha256": "87722b3597c3269cc70b5ebd4824462d56e97c09e642613cef26598ec88f561b"
+          },
+          {
+            "id": "4175649",
+            "url": "https://realty.daangn.com/articles/4175649",
+            "fields": [
+              "title",
+              "district",
+              "deposit",
+              "rent",
+              "rooms",
+              "area_m2",
+              "area_basis",
+              "building_type"
+            ],
+            "priceIndependentCheck": true,
+            "changedFields": [
+              "freshness_days"
+            ],
+            "sourceSha256": "340f9f858dae04ff575c215df2a5860eece06add939825b9c6f08ab62dba999f"
+          },
+          {
+            "id": "4597925",
+            "url": "https://realty.daangn.com/articles/4597925",
+            "fields": [
+              "title",
+              "district",
+              "deposit",
+              "rent",
+              "rooms",
+              "area_m2",
+              "area_basis",
+              "building_type"
+            ],
+            "priceIndependentCheck": true,
+            "changedFields": [
+              "freshness_days"
+            ],
+            "sourceSha256": "2e8a9d43c91af990a432ac7eb5eaba889bdeff3295b7864053b9721e87b68fbb"
+          }
+        ],
+        "collectedAt": "2026-10-20T23:39:17.242975+00:00",
+        "recheckedAt": "2026-10-20T23:42:27.406232+00:00",
+        "fullCrawlRepeated": false,
+        "scope": "직전 게시 후보6건의 공개 매물 원문 필드만 재대조. 점수는 기존 자체 규칙으로 재계산. 기준후보3건 연결상태·신규 전체 탐색·인허가·영업·매출은 이번 검증 범위 밖."
+      },
+      "dataHash": "d2e6aeb9098d24c6809f7b1f34bfdf226a2aec90c74650ad12feee7da78590c2",
+      "nextAction": "자동 수집 후 값 지문이 달라지면 과거 검증일·해시를 현재 검증으로 재사용하지 않고 원출처 재대조."
+    }
+  },
+  "statusCounts": {
+    "needs_review": 31,
+    "verified": 12,
+    "not_applicable": 15,
+    "source_unavailable": 4,
+    "awaiting_publication": 1
+  },
+  "acceptanceComplete": false,
+  "remaining": {
+    "needs_review": 31,
+    "source_unavailable": 4,
+    "awaiting_publication": 1
+  },
+  "browser": {
+    "status": "local_passed",
+    "verifiedAt": "2026-10-20T23:53:34.321Z",
+    "checks": [
+      "five source-audit JSON downloads match released proof",
+      "tourism CSV remains August; publication check dates separate",
+      "eight airport terminal/flow/date totals and JSON metadata",
+      "20 Cafe rows and collection/code CSV; 100 Trends rows and CSV; chart rendered",
+      "six listing rows; scope excludes baseline, licenses and revenue",
+      "390px five pages; no runtime errors; APIs blocked to test released snapshots"
+    ],
+    "scope": "API를 차단해 공개 저장본을 확인. 원문 비교는 별도로 기록한 실제 HTTP 응답과 대조한 결과."
+  },
+  "limitations": [
+    "각 검증은 기록된 저장본/시각/범위에 한정. 실시간 전체 서비스나 월간 전수 통계 검증이 아님.",
+    "공유숙박은 기존 후보6건의 원문 필드만 대조. 기준후보3건·신규 전체 탐색·인허가·영업 실적은 범위 밖.",
+    "공표 대기 수치를 예측하거나 확인일만 자료 기준월로 대체하지 않음."
+  ],
+  "downloadValidation": {
+    "trendsRows": 100,
+    "cafeRows": 20,
+    "tourismRows": 200,
+    "tourismLatest": "2026-08",
+    "tourismNumericFileUnchanged": true,
+    "checks": [
+      "Google official category names and separate site suggestions in CSV",
+      "window/source/collected/fileUpdated/verified timestamps remain distinct",
+      "Cafe source code and collection time in all rows",
+      "Tourism values unchanged and no fabricated September/October row"
+    ]
+  },
+  "tests": {
+    "node": 22,
+    "python": 5,
+    "status": "passed",
+    "scope": "hub/catalog/version15, official-vs-site-category2, airport API5; taxonomy2 and exclusive listing area3"
+  }
+}

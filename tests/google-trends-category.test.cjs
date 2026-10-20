@@ -1,0 +1,5 @@
+const test=require('node:test'),assert=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path'),vm=require('node:vm');
+const html=fs.readFileSync(path.join(__dirname,'../google-trends/index.html'),'utf8'),start=html.indexOf('  function correctCategory(item) {'),end=html.indexOf('  function chartDefaults()',start);
+assert.ok(start>0&&end>start);const correct=vm.runInNewContext(html.slice(start,end)+'\ncorrectCategory',{raw:{categoryLabels:{20:'기후',16:'쇼핑',15:'과학',18:'기술'}},window:{},CATEGORY_OVERRIDES:{'반도체':'전자제품'}});
+test('official numeric IDs govern display even when legacy payload text is wrong',()=>{assert.equal(correct({title:'오늘날씨',category:'쇼핑',categories:[20]}).category,'기후');assert.equal(correct({title:'가격',category:'정치',categories:[16]}).category,'쇼핑');});
+test('site suggestions remain distinct from official labels and unknown IDs stay explicit',()=>{const row=correct({title:'반도체',category:'과학',categories:[18]});assert.equal(row.category,'기술');assert.equal(row.siteCategorySuggestion,'전자제품');assert.equal(row.categoryCorrected,false);assert.match(correct({title:'unknown',category:'기타',categories:[999]}).category,/999.*미확인/);});

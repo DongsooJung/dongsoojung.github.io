@@ -214,7 +214,7 @@ footer{
 <link rel="stylesheet" href="/assets/site-theme.css">
 <script src="/assets/site-theme.js"></script>
 <link rel="stylesheet" href="/assets/stargate-tokens.css?v=20261017">
-</head>
+<style>.source-followup{box-sizing:border-box;width:calc(100% - 40px);max-width:1120px;margin:24px auto;padding:18px 20px;border:1px solid #607f99;border-radius:12px;background:#102333;color:#eaf3fa;font:400 14px/1.8 system-ui,sans-serif;overflow-wrap:anywhere}.source-followup h2{margin:0 0 8px;font-size:18px;color:#fff}.source-followup p{margin:8px 0;color:#eaf3fa}.source-followup a{color:#9fe6ff;text-decoration:underline}</style></head>
 <body>
   <div class="wrap">
     <nav class="nav" aria-label="주요 탐색">
@@ -379,7 +379,7 @@ footer{
       검색량은 Google이 표기하는 근사 트래픽(approx)입니다.
       라이브 재수집은 <code>/api/google-trends</code> 프록시를 사용하고, 실패 시 저장된
       <code>data.json</code> 캐시로 폴백합니다. 상단 상태 배지는 라이브·캐시·24시간 초과 데이터를 구분하며,
-      카테고리는 원본 분류 중 명백한 오분류를 고정밀 규칙으로 보정해 표시합니다.
+      카테고리는 Google 공개 메뉴의 분류를 기본으로 표시합니다. 기존 자체 보정 제안은 CSV에 별도 기록하며 공식 분류와 구분합니다.
       본 대시보드는 Google과 무관하며 비상업·연구 목적의 시각화입니다.
       시장·기업 전략 맥락은 <a href="/strategy/">전략 대시보드</a>에서 이어서 볼 수 있습니다.
     </aside>
@@ -494,14 +494,11 @@ footer{
 
   function correctCategory(item) {
     const title = String(item.title || "").trim().toLowerCase();
-    const corrected = CATEGORY_OVERRIDES[title];
-    if (!corrected || corrected === item.category) return { ...item, categoryCorrected: false };
-    return {
-      ...item,
-      categoryOriginal: item.category || "미분류",
-      category: corrected,
-      categoryCorrected: true
-    };
+    const labels = raw?.categoryLabels || window.GOOGLE_TRENDS_FALLBACK?.categoryLabels || {};
+    const categoryId = item.categories?.[0];
+    const official = categoryId != null ? (labels[categoryId] || `카테고리 ${categoryId} (미확인)`) : "미분류";
+    return { ...item, categoryOriginal: official, category: official, categoryCorrected: false,
+      siteCategorySuggestion: CATEGORY_OVERRIDES[title] || "" };
   }
 
   function chartDefaults() {
@@ -832,7 +829,7 @@ footer{
 
   function downloadCsv() {
     const list = getFiltered();
-    const header = ["rank","title","volume","category","geo","related","startedAt","exploreUrl"];
+    const header = ["rank","title","volume","category","geo","related","startedAt","exploreUrl","requestedHours","sourceUrl","collectedAt","snapshotUpdatedAt","sourceVerifiedAt","scope","siteCategorySuggestion"];
     const lines = [header.join(",")];
     for (const it of list) {
       const row = [
@@ -844,6 +841,13 @@ footer{
         csvEscape((it.related || []).join("|")),
         it.startedAt || "",
         csvEscape(it.exploreUrl || ""),
+        raw?.hours ?? "",
+        csvEscape(raw?.sourceUrl || ""),
+        csvEscape(raw?.collectedAt || ""),
+        csvEscape(raw?.updatedAt || ""),
+        csvEscape(raw?.sourceVerification?.checkedAt || ""),
+        csvEscape("이동창 근사 트래픽·월간 통계 및 고유 이용자 수 아님; 공식 메뉴 분류·자체 보정 제안 별도"),
+        csvEscape(it.siteCategorySuggestion || ""),
       ];
       lines.push(row.join(","));
     }
@@ -909,5 +913,6 @@ footer{
   });
 })();
 </script>
+<section class="source-followup" aria-labelledby="source-followup-title"><h2 id="source-followup-title">공표·원출처 재확인 · 2026-10-21</h2><p>대한민국48시간 요청의 공개 원문384행에서 중복을 제거한 검색어100개를 독립 순위 계산으로 대조했습니다. 근사 트래픽 합계는 고유 이용자 수가 아니며 완성된10월 통계가 아닙니다. 카테고리 ID·명칭은 Google 공개 메뉴와 대조했고 자체 보정 제안과 구분합니다. 파일 갱신 시각을 관측 기준일로 사용하지 않습니다.</p><p><a href="/research/source-reviews/2026-10-21-source-followup-1.json" download>원출처·대조 범위·수집 시각 JSON 내려받기</a></p></section>
 </body>
 </html>
