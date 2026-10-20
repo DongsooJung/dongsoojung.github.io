@@ -640,10 +640,21 @@
       },
       "release": {
         "branch": "codex/research-2-source-review",
-        "status": "awaiting_checks",
+        "status": "verified",
         "liveUrl": "https://www.stargateedu.co.kr/rag-graphrag/",
         "sourceReviewUrl": "https://www.stargateedu.co.kr/research/source-reviews/2026-10-19-research-2.json",
-        "pullRequest": "https://github.com/DongsooJung/dongsoojung.github.io/pull/196"
+        "pullRequest": "https://github.com/DongsooJung/dongsoojung.github.io/pull/196",
+        "commit": "52e80aa8a05c28bd098cce9d05e3fa1d4805f343",
+        "verifiedAt": "2026-10-19T06:44:51.518Z",
+        "pagesRun": "https://github.com/DongsooJung/dongsoojung.github.io/actions/runs/39211433695",
+        "checks": [
+          "PR CodeQL aggregate and JavaScript success on head 8122828a27c9f4bb25f8abb51a1fda6ea9f2bfac",
+          "Exact merge commit Pages build/report/deploy success",
+          "Both public domains: 9 changed content files match release; PDF binary hashes",
+          "Live hub: 63 unique, 7 alphabetical filters, 9 groups, 5 lanes, strategy44",
+          "Live route: 4 modes, keyboard tabs, light/dark/mobile/print, 8 downloads with hashes, no JS errors",
+          "12 Node tests; new PDF 4 pages rendered and checked"
+        ]
       },
       "followUps": [
         {
@@ -655,7 +666,7 @@
     {
       "id": "essays-1",
       "label": "난제·에세이 1차",
-      "status": "pending",
+      "status": "completed",
       "keys": [
         "/research/contradiction-lab/",
         "/research/climate-algebraic-geometry/",
@@ -664,7 +675,90 @@
         "/research/quantum-physics-challenges/",
         "/research/deep-earth-ocean-challenges/",
         "/research/disease-challenges/"
-      ]
+      ],
+      "completedAt": "2026-10-20T00:36:58.677999+00:00",
+      "outcome": "documents_reviewed_with_followups",
+      "itemResults": {
+        "/research/contradiction-lab/": {
+          "status": "needs_review",
+          "checkedAt": "2026-10-20T00:36:58.677999+00:00",
+          "audit": "/research/source-reviews/2026-10-20-essays-1.json",
+          "nextAction": "전체 참고문헌 본문, 한국 맥락 적용, 개입 효과와 탐색 도구의 오분류·유형 중첩을 별도 검증."
+        },
+        "/research/climate-algebraic-geometry/": {
+          "status": "not_applicable",
+          "checkedAt": "2026-10-20T00:36:58.677999+00:00",
+          "audit": "/research/source-reviews/2026-10-20-essays-1.json",
+          "nextAction": "명시한 다항 근사·열대화·관측 연산자 가정으로 기준선과 모형 적합·불확실성 검증."
+        },
+        "/research/korea-challenges/": {
+          "status": "needs_review",
+          "checkedAt": "2026-10-20T00:36:58.677999+00:00",
+          "audit": "/research/source-reviews/2026-10-20-essays-1.json",
+          "nextAction": "사망 확정 원표와 출생 원표의 동일 기준·반올림을 맞춰 자연증가를 검증하고 지역별/금융 모형은 별도 적합."
+        },
+        "/research/korean-unification-challenges/": {
+          "status": "needs_review",
+          "checkedAt": "2026-10-20T00:36:58.677999+00:00",
+          "audit": "/research/source-reviews/2026-10-20-essays-1.json",
+          "nextAction": "OHCHR 403 접근 정상화 후 본문과 판본 대조, IAEA 후속 2026 판본 및 개별 남북 비교통계 원표 확인."
+        },
+        "/research/quantum-physics-challenges/": {
+          "status": "needs_review",
+          "checkedAt": "2026-10-20T00:36:58.677999+00:00",
+          "audit": "/research/source-reviews/2026-10-20-essays-1.json",
+          "nextAction": "측정 리뷰의 합법적 공개 원문 확보 후 해석별 실험 예측·탈동조화의 한계를 문장별 대조."
+        },
+        "/research/deep-earth-ocean-challenges/": {
+          "status": "needs_review",
+          "checkedAt": "2026-10-20T00:36:58.677999+00:00",
+          "audit": "/research/source-reviews/2026-10-20-essays-1.json",
+          "nextAction": "암흑 산소의 후속 편집 조치·독립 재현 결과 확인; 내핵·LLSVP·시추 깊이와 남은 참고문헌의 실제 원문·수치 범위 대조."
+        },
+        "/research/disease-challenges/": {
+          "status": "needs_review",
+          "checkedAt": "2026-10-20T00:36:58.677999+00:00",
+          "audit": "/research/source-reviews/2026-10-20-essays-1.json",
+          "nextAction": "NIA 2025/2026 본문 접근 정상화 또는 공식 PDF 확보 후 판본 대조, IARC 통계 사용 시 질의·대상·연도별 원표 확보."
+        }
+      },
+      "followUps": [
+        {
+          "key": "/research/contradiction-lab/",
+          "nextAction": "전체 참고문헌 본문, 한국 맥락 적용, 개입 효과와 탐색 도구의 오분류·유형 중첩을 별도 검증."
+        },
+        {
+          "key": "/research/climate-algebraic-geometry/",
+          "nextAction": "명시한 다항 근사·열대화·관측 연산자 가정으로 기준선과 모형 적합·불확실성 검증."
+        },
+        {
+          "key": "/research/korea-challenges/",
+          "nextAction": "사망 확정 원표와 출생 원표의 동일 기준·반올림을 맞춰 자연증가를 검증하고 지역별/금융 모형은 별도 적합."
+        },
+        {
+          "key": "/research/korean-unification-challenges/",
+          "nextAction": "OHCHR 403 접근 정상화 후 본문과 판본 대조, IAEA 후속 2026 판본 및 개별 남북 비교통계 원표 확인."
+        },
+        {
+          "key": "/research/quantum-physics-challenges/",
+          "nextAction": "측정 리뷰의 합법적 공개 원문 확보 후 해석별 실험 예측·탈동조화의 한계를 문장별 대조."
+        },
+        {
+          "key": "/research/deep-earth-ocean-challenges/",
+          "nextAction": "암흑 산소의 후속 편집 조치·독립 재현 결과 확인; 내핵·LLSVP·시추 깊이와 남은 참고문헌의 실제 원문·수치 범위 대조."
+        },
+        {
+          "key": "/research/disease-challenges/",
+          "nextAction": "NIA 2025/2026 본문 접근 정상화 또는 공식 PDF 확보 후 판본 대조, IARC 통계 사용 시 질의·대상·연도별 원표 확보."
+        }
+      ],
+      "release": {
+        "branch": "codex/research-essays-1-source-review",
+        "status": "awaiting_checks",
+        "liveUrl": "https://www.stargateedu.co.kr/research/",
+        "sourceReviewUrl": "https://www.stargateedu.co.kr/research/source-reviews/2026-10-20-essays-1.json",
+        "pullRequest": "https://github.com/DongsooJung/dongsoojung.github.io/pull/197"
+      }
     },
     {
       "id": "education-1",
@@ -701,5 +795,5 @@
     }
   ],
   "automationId": "10",
-  "lastCompletedStep": "research-2"
+  "lastCompletedStep": "essays-1"
 }
