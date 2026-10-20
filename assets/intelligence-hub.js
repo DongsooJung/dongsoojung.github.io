@@ -36,7 +36,7 @@
           <div class="project-body">
             <div class="meta"><span class="pill accent">성대경시 · 중2</span><span class="pill">Factorial</span></div>
             <h3>성대경시 중등부 팩토리얼 유형</h3>
-            <p>2025 전기 중2 고난도 팩토리얼 유형을 재구성해 1000의 소인수 구조와 팩토리얼 나머지를 단계적으로 분석합니다.</p>
+            <p>자체 연습문항으로 1000의 소인수 구조와 팩토리얼 나머지를 분석합니다. 특정 대회 문항번호·난도와의 대응은 미검증입니다.</p>
             <div class="project-footer"><span>팩토리얼 · 나머지 · 모듈러</span><b>풀이 보기 →</b></div>
           </div>
         </a>

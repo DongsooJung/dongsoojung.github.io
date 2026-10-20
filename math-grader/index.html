@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>서술형 AI 채점 · STARGATE MATH</title>
-<meta name="description" content="손글씨 수학 답안을 단계별로 분석하는 STARGATE MATH 서술형 AI 채점 서비스">
+<meta name="description" content="답안 사진 미리보기와 채점 화면 예시를 제공하는 데모. 현재 공개 모드에서는 이미지 분석과 실제 채점을 수행하지 않습니다.">
 <script src="https://js.tosspayments.com/v2/standard"></script>
 <style>
   :root{
@@ -62,15 +62,15 @@
   footer{color:var(--sub);font-size:12px;text-align:center;margin-top:30px;line-height:1.8}
 </style>
 <link rel="stylesheet" href="/assets/stargate-tokens.css?v=20261017">
-</head>
+<style>.education-review{box-sizing:border-box;width:min(1120px,calc(100% - 40px));margin:26px auto;padding:20px 24px;border:1px solid #607f99;border-radius:14px;background:#102333;color:#eaf3fa;font:400 15px/1.8 system-ui,sans-serif;overflow-wrap:anywhere;word-break:normal}.education-review h2{font-size:1.12rem;margin:0 0 10px;color:#fff;line-height:1.5}.education-review p{margin:8px 0}.education-review a{color:#9fe6ff;text-decoration:underline}.education-review small{color:#c2d7e7}.education-review strong{color:#fff}.education-review table{width:100%;font-size:14px;border-collapse:collapse}.education-review th,.education-review td{border:1px solid #607f99;padding:8px;text-align:left;white-space:normal;color:inherit}.education-review .table-scroll{overflow-x:auto}.education-review th{background:#213a4e}@media print{.education-review{background:white!important;color:black!important}.education-review h2,.education-review a,.education-review small,.education-review strong{color:black!important}}</style></head>
 <body>
 <div class="wrap">
 
   <header>
     <div><a class="home" href="/">← STARGATE EDU</a><h1>서술형 AI 채점</h1></div>
     <div style="display:flex;gap:8px;align-items:center"><span class="status" id="service-status">연결 확인 중</span><div class="bal">잔여 <b id="credits">–</b>회</div></div>
-  </header>
-  <p class="sub">손으로 푼 답안을 찍어 올리면 단계별 부분점수와 처음 틀어진 지점을 찾아 드립니다. 처음 3회는 무료입니다.</p>
+  </header><section class="education-review" aria-labelledby="education-review-title"><h2 id="education-review-title">교육 자료·구현 대조 · 2026-10-20 개정</h2><p><strong>현재 브라우저 데모 모드</strong>를 확인했습니다. 사진은 브라우저 미리보기로 처리하고 현재 데모는 답안 내용을 해석하지 않습니다. 단계와 코멘트는 화면 예시이며 실제 정오나 점수를 평가하지 않습니다. 예시 잔액 3은 실제 사용권이 아니며 데모 사용으로 크레딧 차감이나 결제가 발생하지 않습니다.</p><p>운영 AI 모델·채점 정확도·부분점수 신뢰도는 검증하지 않았습니다. 실제 학생 평가에는 사용하지 말고 교사가 별도로 평가해야 합니다.</p><p><small>월간 통계 기준월은 비적용입니다. 확인일을 9·10월 자료 기준으로 바꾸지 않으며 원문 학년도·시행일·파일 판본을 구분합니다. <a href="/research/source-reviews/2026-10-20-education-1.json" download>출처·계산 검산·후속 조치 JSON 내려받기</a></small></p></section>
+  <p class="sub">현재 공개 화면은 채점 UI 데모입니다. 답안 사진 미리보기와 예시 결과를 확인할 수 있으며, 실제 이미지 인식·수학 채점은 수행하지 않습니다.</p>
 
   <div class="card">
     <label for="problem">문제</label>
@@ -89,12 +89,12 @@
 
   <div class="card">
     <label>답안 사진</label>
-    <div class="drop" id="drop">
+    <div class="drop" id="drop" role="button" tabindex="0" aria-label="답안 사진 선택">
       답안지를 여기에 끌어놓거나 눌러서 선택하십시오
       <div id="preview"></div>
     </div>
     <input type="file" id="file" accept="image/*" capture="environment" class="hide">
-    <button class="primary" id="submit" style="margin-top:14px" disabled>채점하기 (1회 차감)</button>
+    <button class="primary" id="submit" style="margin-top:14px" disabled>연결 확인 중</button>
     <div class="err hide" id="error"></div>
   </div>
 
@@ -119,6 +119,9 @@ const TOSS_CLIENT_KEY = String(runtime.tossClientKey || "");
 const QUERY_DEMO = runtime.apiMode === "query-demo";
 const CLIENT_DEMO = runtime.apiMode === "client-demo";
 const JSON_DEMO = QUERY_DEMO || CLIENT_DEMO;
+const submitLabel = JSON_DEMO ? "데모 결과 보기 (차감 없음)" : "채점하기 (1회 차감)";
+document.getElementById("submit").textContent = submitLabel;
+if (JSON_DEMO) document.querySelector(".bal").firstChild.textContent = "데모 예시 ";
 
 // 익명 uid (운영 전환 시 Firebase Auth ID 토큰으로 교체)
 const uid = localStorage.getItem("mg_uid") ||
@@ -150,11 +153,11 @@ const clientDemoApi = async (path, opts={}) => {
     ok:true, mode:"DEMO", readable:true, total_score:first+second, max_score:maxScore,
     steps:[
       {step_no:1,label:"문제 조건 파악",student_wrote:String(body.problem||"").slice(0,80),verdict:"correct",points:first,max_points:first,comment:"입력한 문제 문장을 기준으로 조건 파악 단계를 예시 표시합니다."},
-      {step_no:2,label:body.rubric?"채점 기준 적용":"풀이 전략 전개",student_wrote:body.rubric||"답안 이미지 메타데이터 수신 완료",verdict:"correct",points:second,max_points:second,comment:"운영 모드에서는 실제 이미지의 수식과 풀이 과정을 AI가 분석합니다."},
+      {step_no:2,label:body.rubric?"채점 기준 적용":"풀이 전략 전개",student_wrote:body.rubric||"답안 이미지 메타데이터 수신 완료",verdict:"correct",points:second,max_points:second,comment:"실제 이미지 분석 기능은 별도의 운영 검증이 필요합니다."},
       {step_no:3,label:"계산 및 검산",student_wrote:body.image?.name||"답안 이미지",verdict:"partial",points:0,max_points:third,comment:"현재 데모는 이미지 내용을 읽지 않으므로 계산 정확성을 판정하지 않습니다."},
     ],
-    first_error:"이미지 내용 분석은 Gemini 연동 후 활성화됩니다.",
-    hint:"운영 전환 전까지 이 점수는 UI 동작 확인용으로만 사용하십시오.",
+    first_error:"현재 공개 데모에는 이미지 분석 기능이 없습니다.",
+    hint:"이 결과는 화면 동작을 확인하는 예시입니다.",
     teacher_note:"배포 확인용 데모 결과입니다. 실제 학생 평가에 사용하지 마십시오.",
   });
 };
@@ -244,6 +247,7 @@ async function buy(code, amount){
 
 // ── 이미지 업로드 ───────────────────────────────────────────
 $("drop").onclick = () => $("file").click();
+$("drop").onkeydown = e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); $("file").click(); } };
 $("drop").ondragover = e => { e.preventDefault(); $("drop").classList.add("over"); };
 $("drop").ondragleave = () => $("drop").classList.remove("over");
 $("drop").ondrop = e => { e.preventDefault(); $("drop").classList.remove("over"); setFile(e.dataTransfer.files[0]); };
@@ -265,7 +269,7 @@ $("submit").onclick = async () => {
 
   $("error").classList.add("hide");
   $("submit").disabled = true;
-  $("submit").textContent = "채점 중입니다…";
+  $("submit").textContent = JSON_DEMO ? "예시 표시 중…" : "채점 중입니다…";
 
   const body = JSON_DEMO
     ? JSON.stringify({
@@ -297,7 +301,7 @@ $("submit").onclick = async () => {
   }catch{ showError("서버에 연결하지 못했습니다."); }
   finally{
     $("submit").disabled = !serviceReady;
-    $("submit").textContent = "채점하기 (1회 차감)";
+    $("submit").textContent = submitLabel;
     refresh();
   }
 };
@@ -307,25 +311,26 @@ function showError(m){ $("error").textContent = m; $("error").classList.remove("
 const VERDICT = { correct:"정답", partial:"부분", wrong:"오답", missing:"누락" };
 
 function render(d){
+  const demo = d.mode === "DEMO" || JSON_DEMO;
   const rows = (d.steps||[]).map(s => `
     <tr>
       <td>${s.step_no}</td>
       <td>${esc(s.label)}${s.student_wrote ? `<br><span style="color:var(--sub)">${esc(s.student_wrote)}</span>` : ""}</td>
-      <td class="v ${s.verdict}">${VERDICT[s.verdict]||s.verdict}</td>
-      <td class="v">${s.points}/${s.max_points}</td>
+      <td class="v ${s.verdict}">${demo ? "예시" : (VERDICT[s.verdict]||s.verdict)}</td>
+      <td class="v">${demo ? "—" : `${s.points}/${s.max_points}`}</td>
       <td style="color:var(--sub)">${esc(s.comment)}</td>
     </tr>`).join("");
 
   $("result").innerHTML = `
-    <div class="score">${d.total_score}<span> / ${d.max_score}점</span></div>
+    <div class="score">${demo ? "데모 화면 · 실제 채점 안 함" : `${d.total_score}<span> / ${d.max_score}점</span>`}</div>
     <table>
-      <thead><tr><th>단계</th><th>요구사항 · 학생 풀이</th><th>판정</th><th>점수</th><th>근거</th></tr></thead>
+      <thead><tr><th>단계</th><th>${demo ? "예시 입력" : "요구사항 · 학생 풀이"}</th><th>판정</th><th>점수</th><th>근거</th></tr></thead>
       <tbody>${rows}</tbody>
     </table>
-    ${d.first_error ? `<div class="note"><b>처음 틀어진 지점</b><br>${esc(d.first_error)}</div>` : ""}
+    ${d.first_error ? `<div class="note"><b>${demo ? "데모 설명" : "처음 틀어진 지점"}</b><br>${esc(d.first_error)}</div>` : ""}
     ${d.misconception ? `<div class="note"><b>개념 점검</b><br>${esc(d.misconception)}</div>` : ""}
     ${d.hint ? `<div class="note"><b>다시 풀어 볼 힌트</b><br>${esc(d.hint)}</div>` : ""}
-    ${d.teacher_note ? `<div class="note"><b>지도교사 코멘트</b><br>${esc(d.teacher_note)}</div>` : ""}`;
+    ${d.teacher_note ? `<div class="note"><b>${demo ? "사용 범위" : "지도교사 코멘트"}</b><br>${esc(d.teacher_note)}</div>` : ""}`;
   $("result").classList.remove("hide");
   $("result").scrollIntoView({behavior:"smooth", block:"start"});
 }
