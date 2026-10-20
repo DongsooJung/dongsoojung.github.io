@@ -1,0 +1,23 @@
+name: Kakao single-recipient integration test
+on:
+  push:
+    branches: [main]
+    paths: ['ops/kakao-self-test-20261020.json']
+permissions:
+  contents: read
+concurrency:
+  group: kakao-self-test-20261020
+  cancel-in-progress: false
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - name: Check registered channel and send at most one approved test
+        env:
+          SMS_ADMIN_TOKEN: ${{ secrets.SMS_ADMIN_TOKEN }}
+        run: node scripts/run-kakao-self-test.mjs
