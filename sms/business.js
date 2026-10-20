@@ -1,7 +1,7 @@
 (() => {
   const $=id=>document.getElementById(id);
   const url='https://stargate.stargate8225.workers.dev/sms/';
-  const channelDescription='스타게이트 카카오톡 상담\nhttps://pf.kakao.com/_wJpen/chat\n채널 홈: https://pf.kakao.com/_wJpen';
+  const channelDescription='스타게이트 대표 오픈카톡 상담\nhttps://open.kakao.com/o/gp59rISi\n교육·강의, AI 서비스, 연구·사업 협업 문의를 남겨 주세요.\n그룹 오픈채팅이며, 1:1 개별 상담은 입장 후 요청해 주세요.';
   const description='스타게이트 고객 메시지 관리\n문자 작성 · 고객 목록 · 발송 기록\n기본 5명, 최대 10명까지 발송\n'+url+'\n※ 운영자용 페이지입니다. 발송과 고객정보 조회에는 본인 확인이 필요합니다.';
   async function copy(value){try{await navigator.clipboard.writeText(value);$('share-status').textContent='복사했습니다. 노션 또는 카카오톡 입력창에 붙여 넣으세요.';}catch{$('share-copy-text').hidden=false;$('share-copy-text').value=value;$('share-copy-text').focus();$('share-copy-text').select();$('share-status').textContent='아래 내용을 선택해 복사해 주세요.';}}
   $('copy-page-link').addEventListener('click',()=>copy(url));

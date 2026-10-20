@@ -412,6 +412,12 @@ body.portal-dashboard-mode #personal-projects{margin-top:14px}
   body.portal-dashboard-mode #projects-grid .proj .row{justify-content:flex-start;flex-wrap:wrap}
 }
 
+
+
+.customer-care-card{display:flex;align-items:center;justify-content:space-between;gap:28px;padding:28px;border:1px solid var(--line2);border-radius:20px;background:var(--panel);scroll-margin-top:24px}
+.customer-care-copy{max-width:680px}.customer-care-copy h3{margin:8px 0 12px;font-size:clamp(22px,3vw,30px);line-height:1.4}.customer-care-copy p{margin:8px 0;color:var(--sub);line-height:1.8}.customer-care-copy .customer-care-note{font-size:12px;color:var(--muted)}
+.customer-care-actions{display:flex;flex-direction:column;align-items:center;gap:12px;flex-shrink:0}.customer-care-actions .kakao-consult-btn{display:inline-flex;align-items:center;justify-content:center;min-height:50px;padding:13px 22px;border:1px solid #e6cc00;border-radius:12px;background:#fee500;color:#191919;font-weight:800;text-decoration:none;white-space:nowrap}.kakao-consult-btn:hover{background:#f5da00}.kakao-consult-btn:focus-visible{outline:3px solid var(--acc);outline-offset:4px}.customer-care-actions .customer-admin-link{font-size:12px;color:var(--muted);text-decoration:underline}
+@media(max-width:700px){.customer-care-card{flex-direction:column;align-items:stretch;padding:22px}.customer-care-actions{align-items:stretch}.customer-care-actions .customer-admin-link{text-align:center}}
 </style>
 <link rel="stylesheet" href="/assets/personal-projects.css?v=20261009-version">
 <style>
@@ -441,7 +447,7 @@ body.portal-dashboard-mode #personal-projects{margin-top:14px}
       <a href="/global/" style="font-weight:700;color:var(--acc)">GLOBAL</a>
       <a href="/strategy/">전략</a>
       <a href="/board/">게시판</a>
-      <a href="https://stargate.stargate8225.workers.dev/sms/" target="_blank" rel="noopener nofollow">고객관리 ↗</a>
+      <a href="#customer-care">고객관리 · 상담</a>
       <a href="/research/">연구</a>
     </div>
     <label class="theme-switch">
@@ -1136,6 +1142,22 @@ body.portal-dashboard-mode #personal-projects{margin-top:14px}
       <p>부산 핫플, 강남 생활권, 양평 두물머리 등 검증한 이동 동선과 방문 정보를 한곳에 모았습니다.</p>
       <div class="hub-meta"><span>국내 여행 · 생활권 · 한·영 안내</span><b>여행 페이지 보기 →</b></div>
     </a>
+  </section>
+
+  <section class="sec" id="customer-care" aria-labelledby="customer-care-title">
+    <h2 id="customer-care-title">고객관리 · 상담</h2>
+    <div class="customer-care-card">
+      <div class="customer-care-copy">
+        <div class="hub-kicker">STARGATE · OPEN KAKAOTALK</div>
+        <h3>스타게이트 대표와 오픈카톡 상담</h3>
+        <p>교육·강의, AI 서비스, 연구·사업 협업에 대해 궁금한 점을 남겨 주세요.<br>주식회사 별의문(STARGATE) 정동수 대표에게 상담을 요청할 수 있습니다.</p>
+        <p class="customer-care-note">현재 연결은 그룹 오픈채팅입니다. 1:1 개별 상담을 원하시면 입장 후 요청해 주세요.</p>
+      </div>
+      <div class="customer-care-actions">
+        <a class="kakao-consult-btn" href="https://open.kakao.com/o/gp59rISi" target="_blank" rel="noopener noreferrer" data-analytics-label="대표 오픈카톡 상담" aria-label="스타게이트 대표 오픈카톡 상담 열기, 새 창">오픈카톡 상담 ↗</a>
+        <a class="customer-admin-link" href="https://stargate.stargate8225.workers.dev/sms/" target="_blank" rel="noopener nofollow">운영자 고객관리 ↗</a>
+      </div>
+    </div>
   </section>
 
   <footer>
