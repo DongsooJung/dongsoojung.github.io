@@ -754,16 +754,27 @@
       ],
       "release": {
         "branch": "codex/research-essays-1-source-review",
-        "status": "awaiting_checks",
+        "status": "verified",
         "liveUrl": "https://www.stargateedu.co.kr/research/",
         "sourceReviewUrl": "https://www.stargateedu.co.kr/research/source-reviews/2026-10-20-essays-1.json",
-        "pullRequest": "https://github.com/DongsooJung/dongsoojung.github.io/pull/197"
+        "pullRequest": "https://github.com/DongsooJung/dongsoojung.github.io/pull/197",
+        "commit": "b2cd30a4532fe6fd63b169abf08505b61c5a95d7",
+        "verifiedAt": "2026-10-20T00:43:38.051Z",
+        "pagesRun": "https://github.com/DongsooJung/dongsoojung.github.io/actions/runs/39349157247",
+        "checks": [
+          "Head d8513d8b15ce3922b6481ddd1c0653b6866b0adf: CodeQL aggregate and JavaScript success",
+          "Exact merge commit Pages build/report/deploy success",
+          "Both domains: 10 changed public files match released content",
+          "Live hub: 63 unique, seven alphabetical filters, nine groups, five lanes, strategy44",
+          "Seven essay routes, source JSON downloads, 390px mobile; contradiction search/filters/keyboard and five candidate branches",
+          "Eleven Node tests; unverified source scope retained in public audit"
+        ]
       }
     },
     {
       "id": "education-1",
       "label": "교육·수학 1차",
-      "status": "pending",
+      "status": "completed",
       "keys": [
         "/math-grader/",
         "/research/kmo-combinatorics/",
@@ -772,7 +783,89 @@
         "/research/math/2027-june-mock-15/",
         "/research/math/skku-middle-factorial/",
         "/research/math/thinking-bull-remainder/"
-      ]
+      ],
+      "completedAt": "2026-10-20T01:16:40.879603+00:00",
+      "outcome": "documents_reviewed_with_followups",
+      "itemResults": {
+        "/math-grader/": {
+          "status": "not_applicable",
+          "checkedAt": "2026-10-20T01:16:40.879603+00:00",
+          "audit": "/research/source-reviews/2026-10-20-education-1.json",
+          "nextAction": "운영 모드 전환 시 실제 모델·오류 사례·부분점수·개인정보 전송·차감 동작을 별도 검증."
+        },
+        "/research/kmo-combinatorics/": {
+          "status": "needs_review",
+          "checkedAt": "2026-10-20T01:16:40.879603+00:00",
+          "audit": "/research/source-reviews/2026-10-20-education-1.json",
+          "nextAction": "공식 기출과의 문항별 대응을 주장하려면 실제 원문과 사용 범위를 확인. 현재 자체 연습을 공식 기출 목록으로 취급하지 않음."
+        },
+        "/research/seoul-science-high-admission/": {
+          "status": "needs_review",
+          "checkedAt": "2026-10-20T01:16:40.879603+00:00",
+          "audit": "/research/source-reviews/2026-10-20-education-1.json",
+          "nextAction": "기존 2025 요강 링크가 200 빈 화면이므로 새 공식 원문 주소 확보; 2024 비교의 공식 원문 및 12월 최종 확정 공지 재확인."
+        },
+        "/research/math/archive/": {
+          "status": "not_applicable",
+          "checkedAt": "2026-10-20T01:16:40.879603+00:00",
+          "audit": "/research/source-reviews/2026-10-20-education-1.json",
+          "nextAction": "새 문항·정답 변경 시 scripts/check-education-math.cjs의 입력/조건과 검산을 함께 갱신. queued는 발행 완료가 아님."
+        },
+        "/research/math/2027-june-mock-15/": {
+          "status": "needs_review",
+          "checkedAt": "2026-10-20T01:16:40.879603+00:00",
+          "audit": "/research/source-reviews/2026-10-20-education-1.json",
+          "nextAction": "평가원 현행 자료실의 실제 수학 문제·정답표를 확보한 뒤 15번 조건·선택지와 대조. 자체 계산의 일치로 원문 검증을 대체하지 않음."
+        },
+        "/research/math/skku-middle-factorial/": {
+          "status": "not_applicable",
+          "checkedAt": "2026-10-20T01:16:40.879603+00:00",
+          "audit": "/research/source-reviews/2026-10-20-education-1.json",
+          "nextAction": "문항을 공식 기출로 연결할 때만 대회 원문·번호·판본을 별도 확인. 현재는 자체 연습으로 유지."
+        },
+        "/research/math/thinking-bull-remainder/": {
+          "status": "not_applicable",
+          "checkedAt": "2026-10-20T01:16:40.879603+00:00",
+          "audit": "/research/source-reviews/2026-10-20-education-1.json",
+          "nextAction": "현행 입학시험 규정이 필요하면 공식 지점·학년별 원문을 대조. 자체 연습 정답119를 실제 시험 출제 증거로 쓰지 않음."
+        }
+      },
+      "followUps": [
+        {
+          "key": "/math-grader/",
+          "nextAction": "운영 모드 전환 시 실제 모델·오류 사례·부분점수·개인정보 전송·차감 동작을 별도 검증."
+        },
+        {
+          "key": "/research/kmo-combinatorics/",
+          "nextAction": "공식 기출과의 문항별 대응을 주장하려면 실제 원문과 사용 범위를 확인. 현재 자체 연습을 공식 기출 목록으로 취급하지 않음."
+        },
+        {
+          "key": "/research/seoul-science-high-admission/",
+          "nextAction": "기존 2025 요강 링크가 200 빈 화면이므로 새 공식 원문 주소 확보; 2024 비교의 공식 원문 및 12월 최종 확정 공지 재확인."
+        },
+        {
+          "key": "/research/math/archive/",
+          "nextAction": "새 문항·정답 변경 시 scripts/check-education-math.cjs의 입력/조건과 검산을 함께 갱신. queued는 발행 완료가 아님."
+        },
+        {
+          "key": "/research/math/2027-june-mock-15/",
+          "nextAction": "평가원 현행 자료실의 실제 수학 문제·정답표를 확보한 뒤 15번 조건·선택지와 대조. 자체 계산의 일치로 원문 검증을 대체하지 않음."
+        },
+        {
+          "key": "/research/math/skku-middle-factorial/",
+          "nextAction": "문항을 공식 기출로 연결할 때만 대회 원문·번호·판본을 별도 확인. 현재는 자체 연습으로 유지."
+        },
+        {
+          "key": "/research/math/thinking-bull-remainder/",
+          "nextAction": "현행 입학시험 규정이 필요하면 공식 지점·학년별 원문을 대조. 자체 연습 정답119를 실제 시험 출제 증거로 쓰지 않음."
+        }
+      ],
+      "release": {
+        "branch": "codex/research-education-1-source-review",
+        "status": "awaiting_checks",
+        "liveUrl": "https://www.stargateedu.co.kr/research/",
+        "sourceReviewUrl": "https://www.stargateedu.co.kr/research/source-reviews/2026-10-20-education-1.json"
+      }
     },
     {
       "id": "operations-1",
@@ -795,5 +888,5 @@
     }
   ],
   "automationId": "10",
-  "lastCompletedStep": "essays-1"
+  "lastCompletedStep": "education-1"
 }

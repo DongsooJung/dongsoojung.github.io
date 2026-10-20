@@ -2653,63 +2653,191 @@
     },
     {
       "source": {
-        "label": null,
-        "url": null,
-        "verification": "pending"
+        "label": "공식 원문·저자 원고·직접 계산 (대조 범위 참조)",
+        "url": "https://github.com/DongsooJung/dongsoojung.github.io/blob/9717072c030e0a80ac985e13a8d20319a11d45fe/math-grader/index.html",
+        "verification": "document_reviewed"
       },
       "dataAsOf": null,
       "dataPeriod": null,
-      "snapshotUpdatedAt": null,
+      "snapshotUpdatedAt": "2026-10-20",
       "collectedAt": null,
-      "checkedAt": null,
-      "reviewStatus": "pending",
-      "freshness": "unverified",
-      "evidence": [],
-      "issues": [],
+      "checkedAt": "2026-10-20T01:16:40.879603+00:00",
+      "reviewStatus": "not_applicable",
+      "freshness": "not_applicable",
+      "evidence": [
+        {
+          "kind": "audit-record",
+          "url": "/research/source-reviews/2026-10-20-education-1.json",
+          "checkedAt": "2026-10-20T01:16:40.879603+00:00"
+        },
+        {
+          "kind": "published-snapshot",
+          "url": "https://www.stargateedu.co.kr/math-grader/",
+          "sha256": "9b4c60676c05bce3abf14d1dfc8eb8e576b153742e72e544727f08cf1560a2b2",
+          "checkedAt": "2026-10-20T01:09:02.945131+00:00",
+          "scope": "변경 전 HTML"
+        },
+        {
+          "kind": "implementation-version",
+          "url": "https://github.com/DongsooJung/dongsoojung.github.io/blob/9717072c030e0a80ac985e13a8d20319a11d45fe/math-grader/index.html",
+          "gitBlob": "fc6648de12aa79d19b06a68cd5f37a60fa19996d",
+          "scope": "공개 runtime-config의 client-demo와 HTML 구현 대조; 사진 미인식·고정 예시·결제 비활성 상태 확인. 운영 채점 성능 검증이 아님."
+        }
+      ],
+      "issues": [
+        "운영 모드 전환 시 실제 모델·오류 사례·부분점수·개인정보 전송·차감 동작을 별도 검증."
+      ],
       "key": "/math-grader/",
       "url": "/math-grader/",
       "title": "STARGATE MATH 서술형 풀이 AI",
       "primary": "education",
       "classification": "교육·수학",
-      "sourceHint": "Gemini · 단계별 풀이 · 검산"
+      "sourceHint": "이미지 미인식 · 예시 결과 · 차감 없음"
     },
     {
       "source": {
-        "label": null,
-        "url": null,
-        "verification": "pending"
+        "label": "공식 원문·저자 원고·직접 계산 (대조 범위 참조)",
+        "url": "https://www.kmo.or.kr/board/list.html?code=kmo_notice01&num=26255",
+        "verification": "partially_verified"
       },
       "dataAsOf": null,
       "dataPeriod": null,
-      "snapshotUpdatedAt": null,
+      "snapshotUpdatedAt": "2026-10-20",
       "collectedAt": null,
-      "checkedAt": null,
-      "reviewStatus": "pending",
-      "freshness": "unverified",
-      "evidence": [],
-      "issues": [],
+      "checkedAt": "2026-10-20T01:16:40.879603+00:00",
+      "reviewStatus": "needs_review",
+      "freshness": "not_applicable",
+      "evidence": [
+        {
+          "kind": "audit-record",
+          "url": "/research/source-reviews/2026-10-20-education-1.json",
+          "checkedAt": "2026-10-20T01:16:40.879603+00:00"
+        },
+        {
+          "kind": "published-snapshot",
+          "url": "https://www.stargateedu.co.kr/research/kmo-combinatorics/",
+          "sha256": "49e2ab6a51e8217aafb98fe719e6af9f2c2774cdf31e65043c039b04050922f0",
+          "checkedAt": "2026-10-20T01:09:02.946135+00:00",
+          "scope": "변경 전 HTML"
+        },
+        {
+          "kind": "implementation-version",
+          "url": "https://github.com/DongsooJung/dongsoojung.github.io/blob/9717072c030e0a80ac985e13a8d20319a11d45fe/research/kmo-combinatorics/index.html",
+          "gitBlob": "06ae2c72ae5f02ca9325764fcc789eaf02bf41b8",
+          "scope": "2026-09-29 공식 이용 안내와 자료실 확인, 자체 연습 10개 계산/경계조건 검산. 공식 기출 본문·문항 대응은 미확인으로 분리."
+        },
+        {
+          "kind": "official-source",
+          "url": "https://www.kmo.or.kr/board/list.html?code=kmo_notice01&num=26255",
+          "checkedAt": "2026-10-20T01:10:09.386797+00:00",
+          "sha256": "a5598d39e86bfe246da0cb4e818e29c4802b0000a04c78370dfb294c40a06abb",
+          "scope": "2026-09-29 공식 이용 안내와 자료실 확인, 자체 연습 10개 계산/경계조건 검산. 공식 기출 본문·문항 대응은 미확인으로 분리."
+        },
+        {
+          "kind": "official-source",
+          "url": "https://www.kmo.or.kr/kmo/sub06.html",
+          "checkedAt": "2026-10-20T01:12:34.743735+00:00",
+          "sha256": "747272fd8939c2b39643d4d4951310f3b5f282716e9b71470e79e5404bd88229",
+          "scope": "2026-09-29 공식 이용 안내와 자료실 확인, 자체 연습 10개 계산/경계조건 검산. 공식 기출 본문·문항 대응은 미확인으로 분리."
+        }
+      ],
+      "issues": [
+        "공식 기출과의 문항별 대응을 주장하려면 실제 원문과 사용 범위를 확인. 현재 자체 연습을 공식 기출 목록으로 취급하지 않음."
+      ],
       "key": "/research/kmo-combinatorics/",
       "url": "/research/kmo-combinatorics/",
-      "title": "최근 3년 KMO 조합 훈련 10선",
+      "title": "KMO 조합 연계 훈련 10선",
       "primary": "education",
       "classification": "교육·수학",
-      "sourceHint": "중등부 1차 중심 · 기출/연계 구분"
+      "sourceHint": "자체 연습 · 공식 기출 별도 연결"
     },
     {
       "source": {
-        "label": null,
-        "url": null,
-        "verification": "pending"
+        "label": "공식 원문·저자 원고·직접 계산 (대조 범위 참조)",
+        "url": "https://admission-sshs.info/notification/?bmode=view&idx=170725168",
+        "verification": "partially_verified"
       },
       "dataAsOf": null,
       "dataPeriod": null,
-      "snapshotUpdatedAt": null,
+      "snapshotUpdatedAt": "2026-10-20",
       "collectedAt": null,
-      "checkedAt": null,
-      "reviewStatus": "pending",
-      "freshness": "unverified",
-      "evidence": [],
-      "issues": [],
+      "checkedAt": "2026-10-20T01:16:40.879603+00:00",
+      "reviewStatus": "needs_review",
+      "freshness": "not_applicable",
+      "evidence": [
+        {
+          "kind": "audit-record",
+          "url": "/research/source-reviews/2026-10-20-education-1.json",
+          "checkedAt": "2026-10-20T01:16:40.879603+00:00"
+        },
+        {
+          "kind": "published-snapshot",
+          "url": "https://www.stargateedu.co.kr/research/seoul-science-high-admission/",
+          "sha256": "13455b390bcf09714eeb4a98384ecfd4c12497b99510d24ad05cd2b5e8d4c2d7",
+          "checkedAt": "2026-10-20T01:09:02.946135+00:00",
+          "scope": "변경 전 HTML"
+        },
+        {
+          "kind": "implementation-version",
+          "url": "https://github.com/DongsooJung/dongsoojung.github.io/blob/9717072c030e0a80ac985e13a8d20319a11d45fe/research/seoul-science-high-admission/index.html",
+          "gitBlob": "389c4567f0e3c7ead2fec292e1f5f83e26dd979c",
+          "scope": "2027(2026-04-07)·2026(2025-04-08) 공식 요강 PDF와 공개 2단계 게시물, 8월 합격예정자·9월 사전교육 공지 대조. 2024/2025 요강 및 3단계 세부문항 전수 검증은 아님."
+        },
+        {
+          "kind": "official-source",
+          "url": "https://admission-sshs.info/notification/?bmode=view&idx=170725168",
+          "checkedAt": "2026-10-20T01:10:58.611770+00:00",
+          "sha256": "ddfa2e9e5b3a1c7e3e2b89c490cfabe3216e6225ce09700d7b1157cb0843972b",
+          "scope": "2027(2026-04-07)·2026(2025-04-08) 공식 요강 PDF와 공개 2단계 게시물, 8월 합격예정자·9월 사전교육 공지 대조. 2024/2025 요강 및 3단계 세부문항 전수 검증은 아님."
+        },
+        {
+          "kind": "official-source",
+          "url": "https://admission-sshs.info/notification/?bmode=view&idx=170725168",
+          "checkedAt": "2026-10-20T01:11:35.543899+00:00",
+          "sha256": "3519d5f470fb11b7ddcf60ff0e79f086ade86ee754f4b7ff6b58f1a5b7aa9c19",
+          "scope": "2027(2026-04-07)·2026(2025-04-08) 공식 요강 PDF와 공개 2단계 게시물, 8월 합격예정자·9월 사전교육 공지 대조. 2024/2025 요강 및 3단계 세부문항 전수 검증은 아님.",
+          "artifact": "attached PDF"
+        },
+        {
+          "kind": "official-source",
+          "url": "https://admission-sshs.info/notification/?bmode=view&idx=160904132",
+          "checkedAt": "2026-10-20T01:11:35.544898+00:00",
+          "sha256": "82b233c797e0a982212e9fd9cdaff647e8f47118e9632a080d0437bd9c0675c7",
+          "scope": "2027(2026-04-07)·2026(2025-04-08) 공식 요강 PDF와 공개 2단계 게시물, 8월 합격예정자·9월 사전교육 공지 대조. 2024/2025 요강 및 3단계 세부문항 전수 검증은 아님.",
+          "artifact": "attached PDF"
+        },
+        {
+          "kind": "official-source",
+          "url": "https://admission-sshs.info/24/?bmode=view&idx=170539319",
+          "checkedAt": "2026-10-20T01:10:58.613517+00:00",
+          "sha256": "06709e2bf559a8a9462b070d71f43b0f7fbc2af244f3d5a3f3e6f51886766032",
+          "scope": "2027(2026-04-07)·2026(2025-04-08) 공식 요강 PDF와 공개 2단계 게시물, 8월 합격예정자·9월 사전교육 공지 대조. 2024/2025 요강 및 3단계 세부문항 전수 검증은 아님."
+        },
+        {
+          "kind": "official-source",
+          "url": "https://admission-sshs.info/24/?bmode=view&idx=157718432",
+          "checkedAt": "2026-10-20T01:10:58.613517+00:00",
+          "sha256": "43aea30ce39d7282a69ceb878b8e5c515fca841d73d82f3a4321dcc43d5fd586",
+          "scope": "2027(2026-04-07)·2026(2025-04-08) 공식 요강 PDF와 공개 2단계 게시물, 8월 합격예정자·9월 사전교육 공지 대조. 2024/2025 요강 및 3단계 세부문항 전수 검증은 아님."
+        },
+        {
+          "kind": "official-source",
+          "url": "https://admission-sshs.info/notification/?bmode=view&idx=173178613",
+          "checkedAt": "2026-10-20T01:10:09.386797+00:00",
+          "sha256": "0771e1689650f49965b7659be147a9758f97a823305b055049dd432e005ee6be",
+          "scope": "2027(2026-04-07)·2026(2025-04-08) 공식 요강 PDF와 공개 2단계 게시물, 8월 합격예정자·9월 사전교육 공지 대조. 2024/2025 요강 및 3단계 세부문항 전수 검증은 아님."
+        },
+        {
+          "kind": "official-source",
+          "url": "https://admission-sshs.info/notification/?bmode=view&idx=173605610",
+          "checkedAt": "2026-10-20T01:10:09.385791+00:00",
+          "sha256": "c541b670a8383665783704c814683c7c4ad8222ee95db0abb46e4a7252abfb0e",
+          "scope": "2027(2026-04-07)·2026(2025-04-08) 공식 요강 PDF와 공개 2단계 게시물, 8월 합격예정자·9월 사전교육 공지 대조. 2024/2025 요강 및 3단계 세부문항 전수 검증은 아님."
+        }
+      ],
+      "issues": [
+        "기존 2025 요강 링크가 200 빈 화면이므로 새 공식 원문 주소 확보; 2024 비교의 공식 원문 및 12월 최종 확정 공지 재확인."
+      ],
       "key": "/research/seoul-science-high-admission/",
       "url": "/research/seoul-science-high-admission/",
       "title": "서울과고 3단계 전형 연구",
@@ -2719,19 +2847,40 @@
     },
     {
       "source": {
-        "label": null,
-        "url": null,
-        "verification": "pending"
+        "label": "공식 원문·저자 원고·직접 계산 (대조 범위 참조)",
+        "url": "https://github.com/DongsooJung/dongsoojung.github.io/blob/9717072c030e0a80ac985e13a8d20319a11d45fe/research/math/archive/index.html",
+        "verification": "document_reviewed"
       },
       "dataAsOf": null,
       "dataPeriod": null,
-      "snapshotUpdatedAt": null,
+      "snapshotUpdatedAt": "2026-10-20",
       "collectedAt": null,
-      "checkedAt": null,
-      "reviewStatus": "pending",
-      "freshness": "unverified",
-      "evidence": [],
-      "issues": [],
+      "checkedAt": "2026-10-20T01:16:40.879603+00:00",
+      "reviewStatus": "not_applicable",
+      "freshness": "not_applicable",
+      "evidence": [
+        {
+          "kind": "audit-record",
+          "url": "/research/source-reviews/2026-10-20-education-1.json",
+          "checkedAt": "2026-10-20T01:16:40.879603+00:00"
+        },
+        {
+          "kind": "published-snapshot",
+          "url": "https://www.stargateedu.co.kr/research/math/archive/",
+          "sha256": "f608c7ce88ce0e59bcf2b63f5da5c34777d654166789171f82af9176941ace12",
+          "checkedAt": "2026-10-20T01:09:02.946135+00:00",
+          "scope": "변경 전 HTML"
+        },
+        {
+          "kind": "implementation-version",
+          "url": "https://github.com/DongsooJung/dongsoojung.github.io/blob/9717072c030e0a80ac985e13a8d20319a11d45fe/research/math/archive/index.html",
+          "gitBlob": "ff4d0e9f0ce58a0de7096f4b4d74b2ce7a323d89",
+          "scope": "데이터 원고 version2026-08-31과 14개 자체 연습문항의 실제 JSON/풀이를 확인·독립 검산; revision2026-10-20은 설명 수정일. 공식 기출·난도 인증이 아님."
+        }
+      ],
+      "issues": [
+        "새 문항·정답 변경 시 scripts/check-education-math.cjs의 입력/조건과 검산을 함께 갱신. queued는 발행 완료가 아님."
+      ],
       "key": "/research/math/archive/",
       "url": "/research/math/archive/",
       "title": "중등 수학 문제 14문제 아카이브",
@@ -2741,19 +2890,47 @@
     },
     {
       "source": {
-        "label": null,
-        "url": null,
-        "verification": "pending"
+        "label": "공식 원문·저자 원고·직접 계산 (대조 범위 참조)",
+        "url": "https://www.moe.go.kr/boardCnts/viewRenew.do?boardID=294&boardSeq=106462&lev=0&m=020402&opType=N&page=1&s=moe&searchType=null&statusYN=W",
+        "verification": "partially_verified"
       },
       "dataAsOf": null,
       "dataPeriod": null,
-      "snapshotUpdatedAt": null,
+      "snapshotUpdatedAt": "2026-10-20",
       "collectedAt": null,
-      "checkedAt": null,
-      "reviewStatus": "pending",
-      "freshness": "unverified",
-      "evidence": [],
-      "issues": [],
+      "checkedAt": "2026-10-20T01:16:40.879603+00:00",
+      "reviewStatus": "needs_review",
+      "freshness": "not_applicable",
+      "evidence": [
+        {
+          "kind": "audit-record",
+          "url": "/research/source-reviews/2026-10-20-education-1.json",
+          "checkedAt": "2026-10-20T01:16:40.879603+00:00"
+        },
+        {
+          "kind": "published-snapshot",
+          "url": "https://www.stargateedu.co.kr/research/math/2027-june-mock-15/",
+          "sha256": "b7716ec5cf31f3fdc2270c5c9afbde752d69aa598e440baa1af31c163b566f01",
+          "checkedAt": "2026-10-20T01:09:02.946135+00:00",
+          "scope": "변경 전 HTML"
+        },
+        {
+          "kind": "implementation-version",
+          "url": "https://github.com/DongsooJung/dongsoojung.github.io/blob/9717072c030e0a80ac985e13a8d20319a11d45fe/research/math/2027-june-mock-15/index.html",
+          "gitBlob": "63fe6f55ebeb7d489e87c7d45ef4ac11a654a211",
+          "scope": "교육부 2026-06-16 이의심사 발표는 확인. 6월4일 회차의 기존 재구성 조건만 자체 계산으로 검산(27). 원 CDN 404로 공식 문제·정답표의 재대조는 대기."
+        },
+        {
+          "kind": "official-source",
+          "url": "https://www.moe.go.kr/boardCnts/viewRenew.do?boardID=294&boardSeq=106462&lev=0&m=020402&opType=N&page=1&s=moe&searchType=null&statusYN=W",
+          "checkedAt": "2026-10-20T01:12:34.743735+00:00",
+          "sha256": "2ebf61a2cf5052a9129210c785aa9e821088303400f5d8b87cad561df51179f3",
+          "scope": "교육부 2026-06-16 이의심사 발표는 확인. 6월4일 회차의 기존 재구성 조건만 자체 계산으로 검산(27). 원 CDN 404로 공식 문제·정답표의 재대조는 대기."
+        }
+      ],
+      "issues": [
+        "평가원 현행 자료실의 실제 수학 문제·정답표를 확보한 뒤 15번 조건·선택지와 대조. 자체 계산의 일치로 원문 검증을 대체하지 않음."
+      ],
       "key": "/research/math/2027-june-mock-15/",
       "url": "/research/math/2027-june-mock-15/",
       "title": "2027학년도 6월 평가원 수학 15번",
@@ -2763,19 +2940,40 @@
     },
     {
       "source": {
-        "label": null,
-        "url": null,
-        "verification": "pending"
+        "label": "공식 원문·저자 원고·직접 계산 (대조 범위 참조)",
+        "url": "https://github.com/DongsooJung/dongsoojung.github.io/blob/9717072c030e0a80ac985e13a8d20319a11d45fe/research/math/skku-middle-factorial/index.html",
+        "verification": "document_reviewed"
       },
       "dataAsOf": null,
       "dataPeriod": null,
-      "snapshotUpdatedAt": null,
+      "snapshotUpdatedAt": "2026-10-20",
       "collectedAt": null,
-      "checkedAt": null,
-      "reviewStatus": "pending",
-      "freshness": "unverified",
-      "evidence": [],
-      "issues": [],
+      "checkedAt": "2026-10-20T01:16:40.879603+00:00",
+      "reviewStatus": "not_applicable",
+      "freshness": "not_applicable",
+      "evidence": [
+        {
+          "kind": "audit-record",
+          "url": "/research/source-reviews/2026-10-20-education-1.json",
+          "checkedAt": "2026-10-20T01:16:40.879603+00:00"
+        },
+        {
+          "kind": "published-snapshot",
+          "url": "https://www.stargateedu.co.kr/research/math/skku-middle-factorial/",
+          "sha256": "4811e2b0627f5308948720df564f7062d6eca939d98cfffd3d9033abcede50b6",
+          "checkedAt": "2026-10-20T01:09:02.946135+00:00",
+          "scope": "변경 전 HTML"
+        },
+        {
+          "kind": "implementation-version",
+          "url": "https://github.com/DongsooJung/dongsoojung.github.io/blob/9717072c030e0a80ac985e13a8d20319a11d45fe/research/math/skku-middle-factorial/index.html",
+          "gitBlob": "13eebb455d1a86bf25801ce58b241ba49c7257c0",
+          "scope": "팩토리얼 자체 문제의 원고와 BigInt 직접 합·축약 합 313 검산. 과거 대회 번호·배점·난도는 미대조로 주장 제거."
+        }
+      ],
+      "issues": [
+        "문항을 공식 기출로 연결할 때만 대회 원문·번호·판본을 별도 확인. 현재는 자체 연습으로 유지."
+      ],
       "key": "/research/math/skku-middle-factorial/",
       "url": "/research/math/skku-middle-factorial/",
       "title": "성대경시 중등부 팩토리얼 유형",
@@ -2785,19 +2983,47 @@
     },
     {
       "source": {
-        "label": null,
-        "url": null,
-        "verification": "pending"
+        "label": "공식 원문·저자 원고·직접 계산 (대조 범위 참조)",
+        "url": "https://www.thinking-bull.com/youtube",
+        "verification": "document_reviewed"
       },
       "dataAsOf": null,
       "dataPeriod": null,
-      "snapshotUpdatedAt": null,
+      "snapshotUpdatedAt": "2026-10-20",
       "collectedAt": null,
-      "checkedAt": null,
-      "reviewStatus": "pending",
-      "freshness": "unverified",
-      "evidence": [],
-      "issues": [],
+      "checkedAt": "2026-10-20T01:16:40.879603+00:00",
+      "reviewStatus": "not_applicable",
+      "freshness": "not_applicable",
+      "evidence": [
+        {
+          "kind": "audit-record",
+          "url": "/research/source-reviews/2026-10-20-education-1.json",
+          "checkedAt": "2026-10-20T01:16:40.879603+00:00"
+        },
+        {
+          "kind": "published-snapshot",
+          "url": "https://www.stargateedu.co.kr/research/math/thinking-bull-remainder/",
+          "sha256": "148e36a36f37dc6b567d4fd197ec46b3f0d68701782b619919d2631d20e8326f",
+          "checkedAt": "2026-10-20T01:09:02.949696+00:00",
+          "scope": "변경 전 HTML"
+        },
+        {
+          "kind": "implementation-version",
+          "url": "https://github.com/DongsooJung/dongsoojung.github.io/blob/9717072c030e0a80ac985e13a8d20319a11d45fe/research/math/thinking-bull-remainder/index.html",
+          "gitBlob": "ef59efce58a29718b93e49db46ba080e6be83154",
+          "scope": "자체 나머지 문제의 원고·최소 해119와 공식 안내 목록의 영상 링크 확인. 실제 영상·입학시험 문항/난도/현행 운영 방식은 미대조."
+        },
+        {
+          "kind": "official-source",
+          "url": "https://www.thinking-bull.com/youtube",
+          "checkedAt": "2026-10-20T01:09:04.627194+00:00",
+          "sha256": "3bbfd460535f6c3098aa20aca8855d1119bc3d46b4fe6b88ce3e457c3bee732a",
+          "scope": "자체 나머지 문제의 원고·최소 해119와 공식 안내 목록의 영상 링크 확인. 실제 영상·입학시험 문항/난도/현행 운영 방식은 미대조."
+        }
+      ],
+      "issues": [
+        "현행 입학시험 규정이 필요하면 공식 지점·학년별 원문을 대조. 자체 연습 정답119를 실제 시험 출제 증거로 쓰지 않음."
+      ],
       "key": "/research/math/thinking-bull-remainder/",
       "url": "/research/math/thinking-bull-remainder/",
       "title": "황소형 배수·나머지 사고력 문제",
