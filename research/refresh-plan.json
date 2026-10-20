@@ -910,7 +910,7 @@
           "status": "needs_review",
           "checkedAt": "2026-10-20T01:35:39.268134+00:00",
           "audit": "/research/source-reviews/2026-10-20-operations-1.json",
-          "nextAction": "현재 도메인의 발송 API 연결과 관리자 인증을 확인한 뒤 사용자가 승인한 별도 실제 발송 회차에서 전달·비용·기록을 검증."
+          "nextAction": "Workers 공개 health는200이지만 실제 발송·인증·잔액·전달·비용·기록 검증은 별도 승인 회차로 남김. 정적 포털 /api/sms의404를 실제 Workers 장애로 간주하지 않음."
         },
         "/quote-maker/": {
           "status": "not_applicable",
@@ -942,7 +942,7 @@
         },
         {
           "key": "/sms/",
-          "nextAction": "현재 도메인의 발송 API 연결과 관리자 인증을 확인한 뒤 사용자가 승인한 별도 실제 발송 회차에서 전달·비용·기록을 검증."
+          "nextAction": "Workers 공개 health는200이지만 실제 발송·인증·잔액·전달·비용·기록 검증은 별도 승인 회차로 남김. 정적 포털 /api/sms의404를 실제 Workers 장애로 간주하지 않음."
         },
         {
           "key": "/quote-maker/",
@@ -958,11 +958,14 @@
         }
       ],
       "release": {
-        "branch": "codex/research-operations-1-source-review",
+        "branch": "codex/research-operations-1-live-proof",
         "status": "awaiting_checks",
         "liveUrl": "https://www.stargateedu.co.kr/research/",
         "sourceReviewUrl": "https://www.stargateedu.co.kr/research/source-reviews/2026-10-20-operations-1.json",
-        "pullRequest": "https://github.com/DongsooJung/dongsoojung.github.io/pull/199"
+        "initialPullRequest": "https://github.com/DongsooJung/dongsoojung.github.io/pull/199",
+        "initialCommit": "be2721df774afab1cdfdfb5891fd1e2f5617305e",
+        "initialPagesRun": "https://github.com/DongsooJung/dongsoojung.github.io/actions/runs/39355432177",
+        "pullRequest": "https://github.com/DongsooJung/dongsoojung.github.io/pull/200"
       }
     },
     {

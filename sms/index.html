@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>고객관리 · 문자 발송 | STARGATE</title>
-  <meta name="description" content="최대10명 입력·개인화 미리보기 도구. 현재 공개 도메인 API는 연결 확인이 필요하며 실제 발송은 별도 검증입니다.">
+  <meta name="description" content="최대10명 입력·개인화 미리보기 도구. 실제 서비스는 Workers 콘솔이며 공개 health 확인과 실제 발송 검증은 구분합니다.">
   <meta name="theme-color" content="#080c14" data-light-color="#f5f7fb" data-dark-color="#080c14">
   <meta name="robots" content="noindex,nofollow">
   <link rel="canonical" href="https://stargate.stargate8225.workers.dev/sms/">
@@ -68,7 +68,7 @@
   <link rel="stylesheet" href="/sms/crm.css?v=20261019-ten">
 <link rel="stylesheet" href="/assets/stargate-tokens.css?v=20261017">
   <link rel="stylesheet" href="/sms/workspace.css?v=20261019-2">
-<meta property="og:type" content="website"><meta property="og:title" content="스타게이트 고객 메시지 관리"><meta property="og:description" content="최대10명 입력·개인화 미리보기 도구. 현재 공개 도메인 API는 연결 확인이 필요하며 실제 발송은 별도 검증입니다."><meta property="og:url" content="https://stargate.stargate8225.workers.dev/sms/"><meta property="og:image" content="https://stargate.stargate8225.workers.dev/assets/icons/icon-192.png">
+<meta property="og:type" content="website"><meta property="og:title" content="스타게이트 고객 메시지 관리"><meta property="og:description" content="최대10명 입력·개인화 미리보기 도구. 실제 서비스는 Workers 콘솔이며 공개 health 확인과 실제 발송 검증은 구분합니다."><meta property="og:url" content="https://stargate.stargate8225.workers.dev/sms/"><meta property="og:image" content="https://stargate.stargate8225.workers.dev/assets/icons/icon-192.png">
 <style>.operations-review{box-sizing:border-box;width:min(1120px,calc(100% - 40px));margin:24px auto;padding:18px 22px;border:1px solid #607f99;border-radius:14px;background:#102333;color:#eaf3fa;font:400 15px/1.8 system-ui,sans-serif;overflow-wrap:anywhere;word-break:normal}.operations-review h2{font-size:1.12rem;line-height:1.5;color:#fff;margin:0 0 10px}.operations-review p{color:#eaf3fa;margin:8px 0;font-size:15px}.operations-review a{color:#9fe6ff;text-decoration:underline}.operations-review strong{color:#fff}.operations-review small{color:#c2d7e7}@media print{.operations-review{background:white!important;color:black!important}.operations-review h2,.operations-review p,.operations-review a,.operations-review strong,.operations-review small{color:black!important}}</style></head>
 <body class="research sms">
   <div class="wrap">
@@ -107,7 +107,7 @@
           <p>메시지를 작성하고, 고객을 선택한 뒤 발송하세요.</p>
         </div>
         <div class="status-badge offline" id="api-status">운영 서버 연결 확인 중</div>
-      </header><section class="operations-review" aria-labelledby="operations-review-title"><h2 id="operations-review-title">운영 자료·구현 대조 · 2026-10-20</h2><p><strong>화면 미리보기와 실제 발송을 구분</strong>합니다. 수신자는 기본 5행·확장 최대 10행이며 입력 검증과 이름 치환을 확인했습니다. 이번 공개 도메인의 발송 상태 조회는 HTTP 404여서 운영 연결·발신번호 등록·실제 전달 성공은 검증하지 못했습니다.</p><p>문자·카카오 발송, 계정 인증과 잔액 조회를 실행하지 않았습니다. 미리보기의 성공을 발송 성공으로 기록하지 않으며 서버 연결·등록 발신번호·입력·동의가 준비되지 않으면 발송 버튼은 비활성 상태입니다.</p><p><small>확인일과 문서 작성·시행일 및 제공자 갱신 시각을 구분합니다. 월간 통계 기준월은 비적용입니다. <a href="/research/source-reviews/2026-10-20-operations-1.json" download>출처·검증 범위·후속 조치 JSON 내려받기</a></small></p></section>
+      </header><section class="operations-review" aria-labelledby="operations-review-title"><h2 id="operations-review-title">운영 자료·구현 대조 · 2026-10-20</h2><p><strong>화면 미리보기와 실제 발송을 구분</strong>합니다. 수신자는 기본 5행·확장 최대 10행이며 입력 검증과 이름 치환을 확인했습니다. 포털 정적 /api/sms는404이지만 실제 서비스는 <a href="https://stargate.stargate8225.workers.dev/sms/">Workers 문자 콘솔</a>로 이동합니다. Workers 공개 health GET은200이며 configured·senderVerified가 true로 응답했습니다. 실제 전달 성공을 검증한 것은 아닙니다.</p><p>문자·카카오 발송, 계정 인증과 잔액 조회를 실행하지 않았습니다. 미리보기의 성공을 발송 성공으로 기록하지 않으며 서버 연결·등록 발신번호·입력·동의가 준비되지 않으면 발송 버튼은 비활성 상태입니다.</p><p><small>확인일과 문서 작성·시행일 및 제공자 갱신 시각을 구분합니다. 월간 통계 기준월은 비적용입니다. <a href="/research/source-reviews/2026-10-20-operations-1.json" download>출처·검증 범위·후속 조치 JSON 내려받기</a></small></p></section>
 
 
       <details class="share-panel"><summary>노션·카카오톡에 링크 공유</summary><p>운영자용 페이지입니다. 고객정보나 인증정보는 링크에 포함하지 않습니다.</p><div class="crm-actions"><button type="button" class="mini-btn" id="copy-page-link">링크 복사</button><button type="button" class="mini-btn" id="copy-notion-link">노션 링크 복사</button><button type="button" class="mini-btn" id="copy-kakao-text">카카오톡 소개 문구 복사</button><button type="button" class="mini-btn" id="copy-channel-link">고객용 카카오 상담 링크 복사</button></div><p id="share-status" role="status"></p><textarea id="share-copy-text" aria-label="공유 문구" readonly hidden></textarea></details>
