@@ -725,7 +725,13 @@ table.q-items td:first-child{padding-right:12px}
   }
 
   // init
-  if (PAY_URL && !['https://gumroad.com/l/hello','https://gumroad.com/'].includes(PAY_URL)) { $('payLink').href = PAY_URL; } else { $('payLink').removeAttribute('href'); $('payLink').setAttribute('aria-disabled','true'); $('payLink').textContent = '결제 미연동'; }
+  let paymentHref = null;
+  try {
+    const paymentUrl = new URL(PAY_URL);
+    const isPlaceholder = paymentUrl.hostname === 'gumroad.com' && (paymentUrl.pathname === '/l/hello' || paymentUrl.pathname === '/');
+    if (paymentUrl.protocol === 'https:' && !isPlaceholder) paymentHref = paymentUrl.href;
+  } catch { /* Unconfigured links remain disabled. */ }
+  if (paymentHref) { $('payLink').href = paymentHref; } else { $('payLink').removeAttribute('href'); $('payLink').setAttribute('aria-disabled','true'); $('payLink').textContent = '결제 미연동'; }
   $('quoteNo').value = defaultQuoteNo();
   $('quoteDate').valueAsDate = new Date();
   try { logoDataUrl = localStorage.getItem(STORAGE_LOGO) || ''; } catch { logoDataUrl = ''; }
