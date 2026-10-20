@@ -1,0 +1,823 @@
+{
+  "schemaVersion": 1,
+  "step": "acceptance",
+  "checkedAt": "2026-10-20T23:07:26.208Z",
+  "sourceBaseCommit": "9fd0cdb8ac176f3da9bf8f72cbdbb425c82ed1c1",
+  "outcome": "conditional_technical_acceptance",
+  "scope": "63개 허브 구조·원장 정합성·HTTP 가용성 및 변경된 7개 게시본. 원출처 전수 재대조나 모든 서비스 기능 검증이 아님.",
+  "filters": {
+    "all": 63,
+    "urban": 21,
+    "society": 13,
+    "research": 9,
+    "essays": 7,
+    "education": 7,
+    "operations": 6
+  },
+  "statusCounts": {
+    "needs_review": 31,
+    "snapshot_checked": 4,
+    "verified": 8,
+    "not_applicable": 15,
+    "source_unavailable": 4,
+    "awaiting_publication": 1
+  },
+  "items": [
+    {
+      "key": "/exchange-rate/",
+      "status": "needs_review",
+      "checkedAt": "2026-10-20T23:06:28.769Z",
+      "previousVerification": null,
+      "issues": [
+        "10월은 진행 중인 월의 부분 집계입니다. 환율 외 금리·물가·비트코인·시장 지표는 별도 원출처 대조가 필요합니다."
+      ],
+      "nextAction": "현재 게시본의 해당 공식 원문을 다시 대조한 때만 verified로 승격. 확인일·수집일로 자료 기준을 대체하지 않음."
+    },
+    {
+      "key": "/trade/",
+      "status": "verified",
+      "checkedAt": "2026-10-16T10:33:48.637Z",
+      "previousVerification": null,
+      "issues": [],
+      "nextAction": "현재 게시본의 해당 공식 원문을 다시 대조한 때만 verified로 승격. 확인일·수집일로 자료 기준을 대체하지 않음."
+    },
+    {
+      "key": "/research/airport-congestion/",
+      "status": "snapshot_checked",
+      "checkedAt": "2026-10-20T23:06:28.750Z",
+      "previousVerification": {
+        "checkedAt": "2026-10-17T02:29:06.590856+00:00",
+        "dataHash": "989d546dd726058a1c8ad1e50629bb50d8c58b96e13f541b3badfdd663734281",
+        "issues": [
+          "10월 17·18일 예측과 17일 대기 관측이며 월간 전수 실적이 아닙니다. 혼잡 등급은 화면 자체 상대 산정입니다."
+        ],
+        "scope": "과거 원출처 대조 이력. 현재 변경 게시본의 대조 완료를 뜻하지 않음."
+      },
+      "issues": [
+        "일별 예상 승객·대기 관측의 게시본입니다. 완성된 월간 실적이 아니며 혼잡 등급은 화면 자체 상대 산정입니다.",
+        "자동 수집으로 대조 당시의 게시 값이 바뀌었습니다. 과거 원출처 근거를 보존하며 현재 값은 재대조 대기입니다."
+      ],
+      "nextAction": "시간별 자동 수집 유지. 날짜 버튼은 원자료 예측일을 표시하며 값이나 날짜가 바뀌면 이전 대조 해시를 재사용하지 않음."
+    },
+    {
+      "key": "/research/gimpo-airport-congestion/",
+      "status": "needs_review",
+      "checkedAt": "2026-10-20T23:06:28.760Z",
+      "previousVerification": null,
+      "issues": [
+        "원자료 observed_at은 시각만 제공하므로 관측 기준일의 원출처 대조가 필요합니다."
+      ],
+      "nextAction": "승인된 원 API 응답에서 기준일 필드 제공 여부를 확인. 제공되지 않으면 한국공항공사에 시각 필드 의미를 확인하며 날짜를 추정하지 않음."
+    },
+    {
+      "key": "/naver-cafe-research/",
+      "status": "snapshot_checked",
+      "checkedAt": "2026-10-20T23:06:28.787Z",
+      "previousVerification": {
+        "checkedAt": "2026-10-17T02:04:58.790677+00:00",
+        "dataHash": "96a06907969fa8e8fe0305d822979d900d99821a6513b0afeec4f202a022b87f",
+        "issues": [
+          "API 응답 앞 20건이며 조회수 순위·월간 전수 통계가 아닙니다. 집계코드 2026101624는 원문대로 보존하며 24시의 의미는 추정하지 않습니다.",
+          "주제는 제목 키워드 자체 규칙이며 공식 네이버 분류가 아닙니다."
+        ],
+        "scope": "과거 원출처 대조 이력. 현재 변경 게시본의 대조 완료를 뜻하지 않음."
+      },
+      "issues": [
+        "API 응답 일부이며 조회수 순위·월간 전수 통계가 아닙니다. 집계코드 2026102024를 원문대로 보존하며 시간 의미를 추정하지 않습니다. 주제는 자체 제목 키워드 규칙입니다.",
+        "자동 수집으로 대조 당시의 게시 값이 바뀌었습니다. 과거 원출처 근거를 보존하며 현재 값은 재대조 대기입니다."
+      ],
+      "nextAction": "매시간 수집 시 원자료 집계코드와 실제 수집시각을 함께 보존. 게시글 값이 바뀌면 이전 원출처 검증 상태를 재사용하지 않음."
+    },
+    {
+      "key": "/google-trends/",
+      "status": "snapshot_checked",
+      "checkedAt": "2026-10-20T23:06:28.747Z",
+      "previousVerification": {
+        "checkedAt": "2026-10-17T01:26:08.333876+00:00",
+        "dataHash": "fd367db1bec429e653dc2c61304889433d0ca55ba346e9f2666bfea8521bee57",
+        "issues": [
+          "48시간 공개 스냅샷이며 완성된 10월 통계가 아님. 근사 트래픽 합계는 고유 이용자 수가 아님."
+        ],
+        "scope": "과거 원출처 대조 이력. 현재 변경 게시본의 대조 완료를 뜻하지 않음."
+      },
+      "issues": [
+        "48시간 이동창 게시본입니다. 파일 updatedAt을 관측 기준일이나 공식 재대조일로 사용하지 않습니다.",
+        "자동 수집으로 대조 당시의 게시 값이 바뀌었습니다. 과거 원출처 근거를 보존하며 현재 값은 재대조 대기입니다."
+      ],
+      "nextAction": "현재 게시본의 해당 공식 원문을 다시 대조한 때만 verified로 승격. 확인일·수집일로 자료 기준을 대체하지 않음."
+    },
+    {
+      "key": "/airbnb/",
+      "status": "snapshot_checked",
+      "checkedAt": "2026-10-20T23:06:28.775Z",
+      "previousVerification": {
+        "checkedAt": "2026-10-17T01:35:07.799993+00:00",
+        "dataHash": "8be88f752393948881e9728c4fced3daab8da15b4f2d7cdf264e41fe0122a534",
+        "issues": [
+          "게시자의 매물정보 검증이며 인허가·매출·수익의 검증이 아님. 운영 적합성 점수는 규칙 기반 파생값."
+        ],
+        "scope": "과거 원출처 대조 이력. 현재 변경 게시본의 대조 완료를 뜻하지 않음."
+      },
+      "issues": [
+        "수집 시각은 매물의 실제 관측일·계약 가능일이 아닙니다. 후보·점수 변경은 개별 원문 재대조가 필요합니다.",
+        "자동 수집으로 대조 당시의 게시 값이 바뀌었습니다. 과거 원출처 근거를 보존하며 현재 값은 재대조 대기입니다."
+      ],
+      "nextAction": "현재 게시본의 해당 공식 원문을 다시 대조한 때만 verified로 승격. 확인일·수집일로 자료 기준을 대체하지 않음."
+    }
+  ],
+  "routes": [
+    {
+      "key": "/airbnb/",
+      "url": "https://www.stargateedu.co.kr/airbnb/",
+      "finalUrl": "https://stargateedu.co.kr/airbnb/",
+      "checkedAt": "2026-10-20T23:07:27.753Z",
+      "status": 200,
+      "bytes": 16940,
+      "sha256": "187286b1e9f3ca8f08741178a5bf2186a26ff4c38f4f93ea8a3eefe5936e3bf4",
+      "scope": "HTTP availability only; not official-source or numerical verification"
+    },
+    {
+      "key": "/bid-pblanc-cnstwk/",
+      "url": "https://www.stargateedu.co.kr/bid-pblanc-cnstwk/",
+      "finalUrl": "https://stargateedu.co.kr/bid-pblanc-cnstwk/",
+      "checkedAt": "2026-10-20T23:07:28.191Z",
+      "status": 200,
+      "bytes": 21796,
+      "sha256": "c380f6b315307a3f6ffad3ca45597ec22f002754b7dd27de0603a91ff081150e",
+      "scope": "HTTP availability only; not official-source or numerical verification"
+    },
+    {
+      "key": "/bid-pblanc-servc/",
+      "url": "https://www.stargateedu.co.kr/bid-pblanc-servc/",
+      "finalUrl": "https://stargateedu.co.kr/bid-pblanc-servc/",
+      "checkedAt": "2026-10-20T23:07:28.596Z",
+      "status": 200,
+      "bytes": 21787,
+      "sha256": "b1eeac71a764542e78a4d591405171675fd691cfc5d3899f73a1e2ab2c9925d5",
+      "scope": "HTTP availability only; not official-source or numerical verification"
+    },
+    {
+      "key": "/choropleth/",
+      "url": "https://www.stargateedu.co.kr/choropleth/",
+      "finalUrl": "https://stargateedu.co.kr/choropleth/",
+      "checkedAt": "2026-10-20T23:07:27.278Z",
+      "status": 200,
+      "bytes": 12535,
+      "sha256": "592a6c1765738a720f0521859e1cdf858bd6c4ffff3cf727bc841901e3608f2f",
+      "scope": "HTTP availability only; not official-source or numerical verification"
+    },
+    {
+      "key": "/court-auction/",
+      "url": "https://www.stargateedu.co.kr/court-auction/",
+      "finalUrl": "https://stargateedu.co.kr/court-auction/",
+      "checkedAt": "2026-10-20T23:07:27.730Z",
+      "status": 200,
+      "bytes": 39619,
+      "sha256": "c56bf58a296cf03fb95e55726f12cdc8fef155187dbcdd0c06d2d822375d8bb5",
+      "scope": "HTTP availability only; not official-source or numerical verification"
+    },
+    {
+      "key": "/cybersecurity/",
+      "url": "https://www.stargateedu.co.kr/cybersecurity/",
+      "finalUrl": "https://stargateedu.co.kr/cybersecurity/",
+      "checkedAt": "2026-10-20T23:07:30.978Z",
+      "status": 200,
+      "bytes": 28636,
+      "sha256": "93d19a5e5b88075632cdc2c3917be7d4cc4f5c72231157b246f9d46787043da1",
+      "scope": "HTTP availability only; not official-source or numerical verification"
+    },
+    {
+      "key": "/did/",
+      "url": "https://www.stargateedu.co.kr/did/",
+      "finalUrl": "https://stargateedu.co.kr/did/",
+      "checkedAt": "2026-10-20T23:07:29.457Z",
+      "status": 200,
+      "bytes": 10489,
+      "sha256": "bfe1a11cf5b90b3824bb434ba26879a7eba0f3946e45e5c227449e842b9bc275",
+      "scope": "HTTP availability only; not official-source or numerical verification"
+    },
+    {
+      "key": "/ds-research-urban-analytics/",
+      "url": "https://www.stargateedu.co.kr/ds-research-urban-analytics/",
+      "finalUrl": "https://stargateedu.co.kr/ds-research-urban-analytics/",
+      "checkedAt": "2026-10-20T23:07:26.291Z",
+      "status": 200,
+      "bytes": 30091,
+      "sha256": "c7298b505c3534ac6e13a9edf5ddae7f14977071129fe75636f373664422a8e9",
+      "scope": "HTTP availability only; not official-source or numerical verification"
+    },
+    {
+      "key": "/election/",
+      "url": "https://www.stargateedu.co.kr/election/",
+      "finalUrl": "https://stargateedu.co.kr/election/",
+      "checkedAt": "2026-10-20T23:07:26.804Z",
+      "status": 200,
+      "bytes": 9375,
+      "sha256": "eb6f353a9961996d1fad241c555bac578ea01092b125866fc67955260db584b5",
+      "scope": "HTTP availability only; not official-source or numerical verification"
+    },
+    {
+      "key": "/exchange-rate/",
+      "url": "https://www.stargateedu.co.kr/exchange-rate/",
+      "finalUrl": "https://stargateedu.co.kr/exchange-rate/",
+      "checkedAt": "2026-10-20T23:07:28.145Z",
+      "status": 200,
+      "bytes": 86738,
+      "sha256": "62e7a402837327f6214f4a0e6772653759e789cf9b1bfe7479ce2ad10ccc6e38",
+      "scope": "HTTP availability only; not official-source or numerical verification"
+    },
+    {
+      "key": "/fsc-financial/",
+      "url": "https://www.stargateedu.co.kr/fsc-financial/",
+      "finalUrl": "https://stargateedu.co.kr/fsc-financial/",
+      "checkedAt": "2026-10-20T23:07:28.603Z",
+      "status": 200,
+      "bytes": 17118,
+      "sha256": "69ea8942ed06ffb691e513b609cd1563ddcf029bc9eada7d8cb86897e8750842",
+      "scope": "HTTP availability only; not official-source or numerical verification"
+    },
+    {
+      "key": "/google-trends/",
+      "url": "https://www.stargateedu.co.kr/google-trends/",
+      "finalUrl": "https://stargateedu.co.kr/google-trends/",
+      "checkedAt": "2026-10-20T23:07:28.165Z",
+      "status": 200,
+      "bytes": 37795,
+      "sha256": "402f76914d05ea07917a2244b329a83ac8b92ea516dc12d77f4b26fc73720fa0",
+      "scope": "HTTP availability only; not official-source or numerical verification"
+    },
+    {
+      "key": "/gyeonggi-academy-map/",
+      "url": "https://www.stargateedu.co.kr/gyeonggi-academy-map/",
+      "finalUrl": "https://stargateedu.co.kr/gyeonggi-academy-map/",
+      "checkedAt": "2026-10-20T23:07:26.808Z",
+      "status": 200,
+      "bytes": 10178,
+      "sha256": "81a5f8d8143524996dc284f306a661fdc4ad75d0a20a157c159abde5cd54ff90",
+      "scope": "HTTP availability only; not official-source or numerical verification"
+    },
+    {
+      "key": "/hwaseong-election/",
+      "url": "https://www.stargateedu.co.kr/hwaseong-election/",
+      "finalUrl": "https://stargateedu.co.kr/hwaseong-election/",
+      "checkedAt": "2026-10-20T23:07:26.850Z",
+      "status": 200,
+      "bytes": 28006,
+      "sha256": "86f011895754e882aa31935a76ed46fa2e92d7766bd92b5c23900b5fa2830c17",
+      "scope": "HTTP availability only; not official-source or numerical verification"
+    },
+    {
+      "key": "/hwaseong-real-estate/",
+      "url": "https://www.stargateedu.co.kr/hwaseong-real-estate/",
+      "finalUrl": "https://stargateedu.co.kr/hwaseong-real-estate/",
+      "checkedAt": "2026-10-20T23:07:27.730Z",
+      "status": 200,
+      "bytes": 38647,
+      "sha256": "378148f5a22c2aa7bbc32cb14fad2d324812e33d27e8f789cd47b1c472cbbea0",
+      "scope": "HTTP availability only; not official-source or numerical verification"
+    },
+    {
+      "key": "/korea-tourism/",
+      "url": "https://www.stargateedu.co.kr/korea-tourism/",
+      "finalUrl": "https://stargateedu.co.kr/korea-tourism/",
+      "checkedAt": "2026-10-20T23:07:28.176Z",
+      "status": 200,
+      "bytes": 32909,
+      "sha256": "325ea2fc8603d0a5cddb048302f1686af21a7bba6388dc5cf9cf8f2e7206e6a9",
+      "scope": "HTTP availability only; not official-source or numerical verification"
+    },
+    {
+      "key": "/lh-sale-info/",
+      "url": "https://www.stargateedu.co.kr/lh-sale-info/",
+      "finalUrl": "https://stargateedu.co.kr/lh-sale-info/",
+      "checkedAt": "2026-10-20T23:07:27.615Z",
+      "status": 200,
+      "bytes": 21277,
+      "sha256": "a286c440b2e321298ee2a3ca0df93e8876c9ca6c87e054a3158221d0921fa6e2",
+      "scope": "HTTP availability only; not official-source or numerical verification"
+    },
+    {
+      "key": "/math-grader/",
+      "url": "https://www.stargateedu.co.kr/math-grader/",
+      "finalUrl": "https://stargateedu.co.kr/math-grader/",
+      "checkedAt": "2026-10-20T23:07:30.334Z",
+      "status": 200,
+      "bytes": 19888,
+      "sha256": "5c5a54533a9a017879c4bde0f019468c9d81b6c091673a77549e5f27c0e02dbe",
+      "scope": "HTTP availability only; not official-source or numerical verification"
+    },
+    {
+      "key": "/naver-cafe-research/",
+      "url": "https://www.stargateedu.co.kr/naver-cafe-research/",
+      "finalUrl": "https://stargateedu.co.kr/naver-cafe-research/",
+      "checkedAt": "2026-10-20T23:07:28.853Z",
+      "status": 200,
+      "bytes": 10067,
+      "sha256": "393f65e1767adbdebeb61605fc0fa77180b30dd03b6f119ef2347cbfdb23da28",
+      "scope": "HTTP availability only; not official-source or numerical verification"
+    },
+    {
+      "key": "/onenote-notion-status/",
+      "url": "https://www.stargateedu.co.kr/onenote-notion-status/",
+      "finalUrl": "https://stargateedu.co.kr/onenote-notion-status/",
+      "checkedAt": "2026-10-20T23:07:31.401Z",
+      "status": 200,
+      "bytes": 13130,
+      "sha256": "3be8716601170bcd783aa78abe7a5e81c624d4d8314a403977f9f4b331ab9f7e",
+      "scope": "HTTP availability only; not official-source or numerical verification"
+    },
+    {
+      "key": "/public-data-collector/",
+      "url": "https://www.stargateedu.co.kr/public-data-collector/",
+      "finalUrl": "https://stargateedu.co.kr/public-data-collector/",
+      "checkedAt": "2026-10-20T23:07:29.436Z",
+      "status": 200,
+      "bytes": 24508,
+      "sha256": "4cded2fdf90eeef52a8043828ce018033313c56c90093009f431106754d641fe",
+      "scope": "HTTP availability only; not official-source or numerical verification"
+    },
+    {
+      "key": "/pyeongtaek-election/",
+      "url": "https://www.stargateedu.co.kr/pyeongtaek-election/",
+      "finalUrl": "https://stargateedu.co.kr/pyeongtaek-election/",
+      "checkedAt": "2026-10-20T23:07:26.849Z",
+      "status": 200,
+      "bytes": 27316,
+      "sha256": "18480b5956370b091152f1248f60ac43defba6d0de7a99e3976f884b2f29dfd0",
+      "scope": "HTTP availability only; not official-source or numerical verification"
+    },
+    {
+      "key": "/quote-maker/",
+      "url": "https://www.stargateedu.co.kr/quote-maker/",
+      "finalUrl": "https://stargateedu.co.kr/quote-maker/",
+      "checkedAt": "2026-10-20T23:07:31.164Z",
+      "status": 200,
+      "bytes": 35072,
+      "sha256": "61997f73af4331bcd7e937052590466adbfdd7bb8478fcdc9214680e3c1ae6cc",
+      "scope": "HTTP availability only; not official-source or numerical verification"
+    },
+    {
+      "key": "/rag-graphrag/",
+      "url": "https://www.stargateedu.co.kr/rag-graphrag/",
+      "finalUrl": "https://stargateedu.co.kr/rag-graphrag/",
+      "checkedAt": "2026-10-20T23:07:29.685Z",
+      "status": 200,
+      "bytes": 36612,
+      "sha256": "05a3aad81d1109f7f4a64a99b2dda558781bc63896addb474bc8bd388a28c8fa",
+      "scope": "HTTP availability only; not official-source or numerical verification"
+    },
+    {
+      "key": "/research/accessibility-lab/",
+      "url": "https://www.stargateedu.co.kr/research/accessibility-lab/",
+      "finalUrl": "https://stargateedu.co.kr/research/accessibility-lab/",
+      "checkedAt": "2026-10-20T23:07:27.256Z",
+      "status": 200,
+      "bytes": 3575,
+      "sha256": "aadda88a233df274c1a9fde941c6ea4b3d59bba0c123d45731bd596846d2d6d9",
+      "scope": "HTTP availability only; not official-source or numerical verification"
+    },
+    {
+      "key": "/research/ai-freshness/",
+      "url": "https://www.stargateedu.co.kr/research/ai-freshness/",
+      "finalUrl": "https://stargateedu.co.kr/research/ai-freshness/",
+      "checkedAt": "2026-10-20T23:07:29.265Z",
+      "status": 200,
+      "bytes": 10042,
+      "sha256": "56cebc0e924b64d0e58b1bcae09035652720959b85b26638f3206d9568a950bb",
+      "scope": "HTTP availability only; not official-source or numerical verification"
+    },
+    {
+      "key": "/research/airport-congestion/",
+      "url": "https://www.stargateedu.co.kr/research/airport-congestion/",
+      "finalUrl": "https://stargateedu.co.kr/research/airport-congestion/",
+      "checkedAt": "2026-10-20T23:07:26.293Z",
+      "status": 200,
+      "bytes": 23078,
+      "sha256": "6a15e463820115a90a04cd5943087aa8f96e036154015a288198e49986c64633",
+      "scope": "HTTP availability only; not official-source or numerical verification"
+    },
+    {
+      "key": "/research/app-privacy/",
+      "url": "https://www.stargateedu.co.kr/research/app-privacy/",
+      "finalUrl": "https://stargateedu.co.kr/research/app-privacy/",
+      "checkedAt": "2026-10-20T23:07:31.116Z",
+      "status": 200,
+      "bytes": 15632,
+      "sha256": "7e59d0850b0c20c6ebbc9d0c152f97805d33c104208c371c17eafce9a9ba1372",
+      "scope": "HTTP availability only; not official-source or numerical verification"
+    },
+    {
+      "key": "/research/bukangi/",
+      "url": "https://www.stargateedu.co.kr/research/bukangi/",
+      "finalUrl": "https://stargateedu.co.kr/research/bukangi/",
+      "checkedAt": "2026-10-20T23:07:26.216Z",
+      "status": 200,
+      "bytes": 27576,
+      "sha256": "e68345b12e681794f08b0c7e3d28a8dcc1769c1e77fb406f301e9366c821ee41",
+      "scope": "HTTP availability only; not official-source or numerical verification"
+    },
+    {
+      "key": "/research/climate-algebraic-geometry/",
+      "url": "https://www.stargateedu.co.kr/research/climate-algebraic-geometry/",
+      "finalUrl": "https://stargateedu.co.kr/research/climate-algebraic-geometry/",
+      "checkedAt": "2026-10-20T23:07:29.899Z",
+      "status": 200,
+      "bytes": 9594,
+      "sha256": "70873b5f9a5a51bf8686fa76dd69340e72d710018f4a48225f4be34bedfeab52",
+      "scope": "HTTP availability only; not official-source or numerical verification"
+    },
+    {
+      "key": "/research/contradiction-lab/",
+      "url": "https://www.stargateedu.co.kr/research/contradiction-lab/",
+      "finalUrl": "https://stargateedu.co.kr/research/contradiction-lab/",
+      "checkedAt": "2026-10-20T23:07:29.876Z",
+      "status": 200,
+      "bytes": 38773,
+      "sha256": "97e93ea1c19210e2c5a73a98ca79306321378cbabfe51ee6ce7b76144df7480c",
+      "scope": "HTTP availability only; not official-source or numerical verification"
+    },
+    {
+      "key": "/research/crime-statistics/",
+      "url": "https://www.stargateedu.co.kr/research/crime-statistics/",
+      "finalUrl": "https://stargateedu.co.kr/research/crime-statistics/",
+      "checkedAt": "2026-10-20T23:07:27.731Z",
+      "status": 200,
+      "bytes": 32282,
+      "sha256": "0ad91e3de6b46244872d40957dd9c99eb9ee9b9a5ff2f1229beb8a661eaedac1",
+      "scope": "HTTP availability only; not official-source or numerical verification"
+    },
+    {
+      "key": "/research/debate-analyzer/",
+      "url": "https://www.stargateedu.co.kr/research/debate-analyzer/",
+      "finalUrl": "https://stargateedu.co.kr/research/debate-analyzer/",
+      "checkedAt": "2026-10-20T23:07:29.680Z",
+      "status": 200,
+      "bytes": 48786,
+      "sha256": "db76dbb2d47b57ae80e13a4ede1a40eea84f0eb49df8df0c980a6be752982ee7",
+      "scope": "HTTP availability only; not official-source or numerical verification"
+    },
+    {
+      "key": "/research/deep-earth-ocean-challenges/",
+      "url": "https://www.stargateedu.co.kr/research/deep-earth-ocean-challenges/",
+      "finalUrl": "https://stargateedu.co.kr/research/deep-earth-ocean-challenges/",
+      "checkedAt": "2026-10-20T23:07:30.300Z",
+      "status": 200,
+      "bytes": 20151,
+      "sha256": "31d75ca19faf811ef488401ad901f6f5f5ab788368e23c94fe896634361b3ca4",
+      "scope": "HTTP availability only; not official-source or numerical verification"
+    },
+    {
+      "key": "/research/disease-challenges/",
+      "url": "https://www.stargateedu.co.kr/research/disease-challenges/",
+      "finalUrl": "https://stargateedu.co.kr/research/disease-challenges/",
+      "checkedAt": "2026-10-20T23:07:30.308Z",
+      "status": 200,
+      "bytes": 13857,
+      "sha256": "6725a2a5ffaa88a93e51a913974a727e0372efaec50e18972c106f5a72b988d1",
+      "scope": "HTTP availability only; not official-source or numerical verification"
+    },
+    {
+      "key": "/research/gimpo-airport-congestion/",
+      "url": "https://www.stargateedu.co.kr/research/gimpo-airport-congestion/",
+      "finalUrl": "https://stargateedu.co.kr/research/gimpo-airport-congestion/",
+      "checkedAt": "2026-10-20T23:07:26.295Z",
+      "status": 200,
+      "bytes": 15997,
+      "sha256": "91b8fe2b0b38b3dde96d1026319cebde64defa941afff3e57d00f9330f66cfc8",
+      "scope": "HTTP availability only; not official-source or numerical verification"
+    },
+    {
+      "key": "/research/immigration-policy/",
+      "url": "https://www.stargateedu.co.kr/research/immigration-policy/",
+      "finalUrl": "https://stargateedu.co.kr/research/immigration-policy/",
+      "checkedAt": "2026-10-20T23:07:29.276Z",
+      "status": 200,
+      "bytes": 38765,
+      "sha256": "99992c12866c8cad0d82a6ba5bc6aaa51ceca937479d25b85b2d418b94e27326",
+      "scope": "HTTP availability only; not official-source or numerical verification"
+    },
+    {
+      "key": "/research/information-economics/",
+      "url": "https://www.stargateedu.co.kr/research/information-economics/",
+      "finalUrl": "https://stargateedu.co.kr/research/information-economics/",
+      "checkedAt": "2026-10-20T23:07:28.855Z",
+      "status": 200,
+      "bytes": 12835,
+      "sha256": "ad64bc4e43726320b951ddba0dfe5989d9690e9e2eb1c6977d31d27c765eb378",
+      "scope": "HTTP availability only; not official-source or numerical verification"
+    },
+    {
+      "key": "/research/kmo-combinatorics/",
+      "url": "https://www.stargateedu.co.kr/research/kmo-combinatorics/",
+      "finalUrl": "https://stargateedu.co.kr/research/kmo-combinatorics/",
+      "checkedAt": "2026-10-20T23:07:30.532Z",
+      "status": 200,
+      "bytes": 9226,
+      "sha256": "fededf622518c574592785248b6990d076544f2eeebc142e7f83a0968412967a",
+      "scope": "HTTP availability only; not official-source or numerical verification"
+    },
+    {
+      "key": "/research/korea-challenges/",
+      "url": "https://www.stargateedu.co.kr/research/korea-challenges/",
+      "finalUrl": "https://stargateedu.co.kr/research/korea-challenges/",
+      "checkedAt": "2026-10-20T23:07:29.912Z",
+      "status": 200,
+      "bytes": 14954,
+      "sha256": "9d4ed461b39503f8a6584e562db0bc57e8e679ba88f37233dc80300ba9b04559",
+      "scope": "HTTP availability only; not official-source or numerical verification"
+    },
+    {
+      "key": "/research/korean-unification-challenges/",
+      "url": "https://www.stargateedu.co.kr/research/korean-unification-challenges/",
+      "finalUrl": "https://stargateedu.co.kr/research/korean-unification-challenges/",
+      "checkedAt": "2026-10-20T23:07:30.124Z",
+      "status": 200,
+      "bytes": 15932,
+      "sha256": "ed408025bd1ae0abc4049df32befa3e194af4405bffd9c2b9c19795445c1c847",
+      "scope": "HTTP availability only; not official-source or numerical verification"
+    },
+    {
+      "key": "/research/math/2027-june-mock-15/",
+      "url": "https://www.stargateedu.co.kr/research/math/2027-june-mock-15/",
+      "finalUrl": "https://stargateedu.co.kr/research/math/2027-june-mock-15/",
+      "checkedAt": "2026-10-20T23:07:30.743Z",
+      "status": 200,
+      "bytes": 17621,
+      "sha256": "3d6c80bd3f81351fa9cf33e41636ec76eda47fa87bca8c5220a0ff8bdd2dfaef",
+      "scope": "HTTP availability only; not official-source or numerical verification"
+    },
+    {
+      "key": "/research/math/archive/",
+      "url": "https://www.stargateedu.co.kr/research/math/archive/",
+      "finalUrl": "https://stargateedu.co.kr/research/math/archive/",
+      "checkedAt": "2026-10-20T23:07:30.713Z",
+      "status": 200,
+      "bytes": 10507,
+      "sha256": "26db2c726f4f5ef4e9f8b667a7d161cb2ea08c88fa4f9fede027ca60b319e4e6",
+      "scope": "HTTP availability only; not official-source or numerical verification"
+    },
+    {
+      "key": "/research/math/skku-middle-factorial/",
+      "url": "https://www.stargateedu.co.kr/research/math/skku-middle-factorial/",
+      "finalUrl": "https://stargateedu.co.kr/research/math/skku-middle-factorial/",
+      "checkedAt": "2026-10-20T23:07:30.759Z",
+      "status": 200,
+      "bytes": 8050,
+      "sha256": "3395218654e8bf9ed93f820a3c9b581089c0c1530e28d7cb54af229ad4429cff",
+      "scope": "HTTP availability only; not official-source or numerical verification"
+    },
+    {
+      "key": "/research/math/thinking-bull-remainder/",
+      "url": "https://www.stargateedu.co.kr/research/math/thinking-bull-remainder/",
+      "finalUrl": "https://stargateedu.co.kr/research/math/thinking-bull-remainder/",
+      "checkedAt": "2026-10-20T23:07:30.942Z",
+      "status": 200,
+      "bytes": 8202,
+      "sha256": "36ca55ef282fc34f83607ff48011aa7916a803107ed0a7d903e6cbacec6bff01",
+      "scope": "HTTP availability only; not official-source or numerical verification"
+    },
+    {
+      "key": "/research/new-car-sales/",
+      "url": "https://www.stargateedu.co.kr/research/new-car-sales/",
+      "finalUrl": "https://stargateedu.co.kr/research/new-car-sales/",
+      "checkedAt": "2026-10-20T23:07:27.732Z",
+      "status": 200,
+      "bytes": 22063,
+      "sha256": "77e1d1652c988aa7d300eff1a97fc571369bacfc29dbf5dc8725e0ad57daa744",
+      "scope": "HTTP availability only; not official-source or numerical verification"
+    },
+    {
+      "key": "/research/quantum-physics-challenges/",
+      "url": "https://www.stargateedu.co.kr/research/quantum-physics-challenges/",
+      "finalUrl": "https://stargateedu.co.kr/research/quantum-physics-challenges/",
+      "checkedAt": "2026-10-20T23:07:30.132Z",
+      "status": 200,
+      "bytes": 13370,
+      "sha256": "c77ecac571a1f9ee7fde9e12f8f6d546ef629b083961a45a9c572dcb179f473d",
+      "scope": "HTTP availability only; not official-source or numerical verification"
+    },
+    {
+      "key": "/research/random-forest/",
+      "url": "https://www.stargateedu.co.kr/research/random-forest/",
+      "finalUrl": "https://stargateedu.co.kr/research/random-forest/",
+      "checkedAt": "2026-10-20T23:07:29.048Z",
+      "status": 200,
+      "bytes": 27741,
+      "sha256": "7cef2c293fe3e0c4aba486cf0fd5d796f8721c536820e95b74a37ee010b65e0a",
+      "scope": "HTTP availability only; not official-source or numerical verification"
+    },
+    {
+      "key": "/research/researcher-vision/",
+      "url": "https://www.stargateedu.co.kr/research/researcher-vision/",
+      "finalUrl": "https://stargateedu.co.kr/research/researcher-vision/",
+      "checkedAt": "2026-10-20T23:07:29.030Z",
+      "status": 200,
+      "bytes": 17790,
+      "sha256": "1d1686d50c6f00c47235083fe4d094f59342c1ce41b672b2d685f48c4d873149",
+      "scope": "HTTP availability only; not official-source or numerical verification"
+    },
+    {
+      "key": "/research/seoul-science-high-admission/",
+      "url": "https://www.stargateedu.co.kr/research/seoul-science-high-admission/",
+      "finalUrl": "https://stargateedu.co.kr/research/seoul-science-high-admission/",
+      "checkedAt": "2026-10-20T23:07:30.543Z",
+      "status": 200,
+      "bytes": 34887,
+      "sha256": "2be1e71ab03a9c8ccdd285f654c2286b79968113d45b198e9c6cecd3f4018638",
+      "scope": "HTTP availability only; not official-source or numerical verification"
+    },
+    {
+      "key": "/research/urban-atlas/",
+      "url": "https://www.stargateedu.co.kr/research/urban-atlas/",
+      "finalUrl": "https://stargateedu.co.kr/research/urban-atlas/",
+      "checkedAt": "2026-10-20T23:07:26.299Z",
+      "status": 200,
+      "bytes": 5037,
+      "sha256": "c822ca027fb46da6ef93f5bddfa503045265ba69ac63fa04eb76032f79fd695b",
+      "scope": "HTTP availability only; not official-source or numerical verification"
+    },
+    {
+      "key": "/seongnam-election/",
+      "url": "https://www.stargateedu.co.kr/seongnam-election/",
+      "finalUrl": "https://stargateedu.co.kr/seongnam-election/",
+      "checkedAt": "2026-10-20T23:07:27.231Z",
+      "status": 200,
+      "bytes": 28663,
+      "sha256": "88c8b748424c45bde19030accb5da9597125957a8cd49d21af895f9a183a2531",
+      "scope": "HTTP availability only; not official-source or numerical verification"
+    },
+    {
+      "key": "/seoul-academy-map/",
+      "url": "https://www.stargateedu.co.kr/seoul-academy-map/",
+      "finalUrl": "https://stargateedu.co.kr/seoul-academy-map/",
+      "checkedAt": "2026-10-20T23:07:26.844Z",
+      "status": 200,
+      "bytes": 9700,
+      "sha256": "24a58712c6cffb086af8ccce3a6877d9856bd90db85e073ddb2f9f8995bcfeae",
+      "scope": "HTTP availability only; not official-source or numerical verification"
+    },
+    {
+      "key": "/smart-city-gis/dashboard/",
+      "url": "https://stargateedu.co.kr/smart-city-gis/dashboard/",
+      "finalUrl": "https://stargateedu.co.kr/smart-city-gis/dashboard/",
+      "checkedAt": "2026-10-20T23:07:27.265Z",
+      "status": 200,
+      "bytes": 1927430,
+      "sha256": "8c6c0687eb9f32062365ff24b889ba746bcab599d6d8d7fc6a0f093d5fe15090",
+      "scope": "HTTP availability only; not official-source or numerical verification"
+    },
+    {
+      "key": "/sms/",
+      "url": "https://www.stargateedu.co.kr/sms/",
+      "finalUrl": "https://stargateedu.co.kr/sms/",
+      "checkedAt": "2026-10-20T23:07:31.163Z",
+      "status": 200,
+      "bytes": 37808,
+      "sha256": "a78b2eae6ce094ce9e7ab7af9f494bd4c9c3458c08e98bced96b7367e383036f",
+      "scope": "HTTP availability only; not official-source or numerical verification"
+    },
+    {
+      "key": "/strategy/weather-calendar/",
+      "url": "https://www.stargateedu.co.kr/strategy/weather-calendar/",
+      "finalUrl": "https://stargateedu.co.kr/strategy/weather-calendar/",
+      "checkedAt": "2026-10-20T23:07:26.297Z",
+      "status": 200,
+      "bytes": 34013,
+      "sha256": "81e9edec68fd1d71f6fd0bf814389c120c8b98cbf200ea494fbf33e8db0305a2",
+      "scope": "HTTP availability only; not official-source or numerical verification"
+    },
+    {
+      "key": "/sudogwon-academy-map/",
+      "url": "https://www.stargateedu.co.kr/sudogwon-academy-map/",
+      "finalUrl": "https://stargateedu.co.kr/sudogwon-academy-map/",
+      "checkedAt": "2026-10-20T23:07:26.807Z",
+      "status": 200,
+      "bytes": 10161,
+      "sha256": "33da3883e118aa9e4f8c07a0e1ee2585d2f724eacb7dd53cdfa1f23251dcbb1b",
+      "scope": "HTTP availability only; not official-source or numerical verification"
+    },
+    {
+      "key": "/suwon-election/",
+      "url": "https://www.stargateedu.co.kr/suwon-election/",
+      "finalUrl": "https://stargateedu.co.kr/suwon-election/",
+      "checkedAt": "2026-10-20T23:07:27.227Z",
+      "status": 200,
+      "bytes": 28445,
+      "sha256": "82bb59fa0c921ca28f8e2f3b18c14d77fbfdce94d10a4f6b599c28a4719c10df",
+      "scope": "HTTP availability only; not official-source or numerical verification"
+    },
+    {
+      "key": "/trade/",
+      "url": "https://www.stargateedu.co.kr/trade/",
+      "finalUrl": "https://stargateedu.co.kr/trade/",
+      "checkedAt": "2026-10-20T23:07:28.159Z",
+      "status": 200,
+      "bytes": 45191,
+      "sha256": "e058ef4a3a52801e4dd2ac1bb10c342d5d108cf0494c4f64b39c6afadc48782d",
+      "scope": "HTTP availability only; not official-source or numerical verification"
+    },
+    {
+      "key": "/volume/",
+      "url": "https://www.stargateedu.co.kr/volume/",
+      "finalUrl": "https://stargateedu.co.kr/volume/",
+      "checkedAt": "2026-10-20T23:07:27.294Z",
+      "status": 200,
+      "bytes": 9758,
+      "sha256": "5ad11fbdf51172c7c61a25b2b7f213cba2e0cb6c27b2d528bbeb087cb9468ec4",
+      "scope": "HTTP availability only; not official-source or numerical verification"
+    },
+    {
+      "key": "https://2026-plan.vercel.app/dashboard",
+      "url": "https://2026-plan.vercel.app/dashboard",
+      "finalUrl": "https://2026-plan.vercel.app/dashboard",
+      "checkedAt": "2026-10-20T23:07:31.368Z",
+      "status": 401,
+      "bytes": 23,
+      "sha256": "0fcfb12dfad07ba0b1ab80f7cd6c6c3c5aaea0804be09faee6ca0819e3769659",
+      "scope": "HTTP availability only; not official-source or numerical verification"
+    },
+    {
+      "key": "https://civic-participation-hub.stargate8224.chatgpt.site",
+      "url": "https://civic-participation-hub.stargate8224.chatgpt.site/",
+      "finalUrl": "https://civic-participation-hub.stargate8224.chatgpt.site/",
+      "checkedAt": "2026-10-20T23:07:28.849Z",
+      "status": 200,
+      "bytes": 149961,
+      "sha256": "f1e182c3b3bdda7b13ff6e0c7b2d9545497f06fe9bc986cd0227e63bbe0b6acc",
+      "scope": "HTTP availability only; not official-source or numerical verification"
+    },
+    {
+      "key": "https://metro-lodging-data.stargate8224.chatgpt.site",
+      "url": "https://metro-lodging-data.stargate8224.chatgpt.site/",
+      "finalUrl": "https://metro-lodging-data.stargate8224.chatgpt.site/",
+      "checkedAt": "2026-10-20T23:07:28.088Z",
+      "status": 401,
+      "bytes": 4331,
+      "sha256": "8b195ccf773aa24f6241ee0019d33da43a6dbb986aae7a59db87ca20a22395ce",
+      "scope": "HTTP availability only; not official-source or numerical verification"
+    }
+  ],
+  "deferred": [
+    {
+      "key": "/korea-tourism/",
+      "nextEligibleDate": "2026-10-26",
+      "reason": "공식 공표 일정 전이므로 원출처·게시본 재조회와 checkedAt 변경을 모두 생략.",
+      "checkedAtPreserved": "2026-10-16T10:33:48.637Z"
+    }
+  ],
+  "remaining": {
+    "snapshot_checked": 4,
+    "needs_review": 31,
+    "source_unavailable": 4,
+    "awaiting_publication": 1
+  },
+  "checks": {
+    "catalog63": true,
+    "unique63": true,
+    "exclusiveFilters": true,
+    "essaysSeparate7": true,
+    "officialEvidenceForVerified": true,
+    "priorOfficialCheckDatesPreserved": true,
+    "publicationWaitPreserved": true,
+    "unitTests": 17,
+    "browser": "local_passed",
+    "hubBrowser": {
+      "unique": 63,
+      "filters": 7,
+      "groups": 9,
+      "strategyTotal": 44,
+      "alphabetical": true,
+      "search": true,
+      "hash": true,
+      "keyboard": true,
+      "mobile": true,
+      "pageErrors": []
+    }
+  },
+  "acceptanceComplete": false,
+  "automationAction": "keep_active",
+  "limitations": [
+    "HTTP200은 원출처·수치·기능 검증을 뜻하지 않음. 인증 요구·오류는 해당 경로의 결과로만 기록.",
+    "8개 verified는 각각 과거 원출처 대조 범위/시각에 한정. 4개 변경 게시본을 이전 verified 근거로 승격하지 않음."
+  ],
+  "browserChecks": {
+    "base": "http://127.0.0.1:56168",
+    "verifiedAt": "2026-10-20T23:08:35.006Z",
+    "rows": 63,
+    "statusCounts": {
+      "verified": 8,
+      "snapshot_checked": 4,
+      "needs_review": 31,
+      "not_applicable": 15,
+      "source_unavailable": 4,
+      "awaiting_publication": 1
+    },
+    "checks": [
+      "63 rows and six review statuses reconcile",
+      "four changed data versions shown as pending original-source review",
+      "390px page fits; table can scroll horizontally",
+      "public JSON keeps seven-item scope, route-only checks and publication deferment"
+    ],
+    "pageErrors": []
+  }
+}

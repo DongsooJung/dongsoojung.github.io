@@ -959,20 +959,96 @@
       ],
       "release": {
         "branch": "codex/research-operations-1-live-proof",
-        "status": "awaiting_checks",
+        "status": "verified",
         "liveUrl": "https://www.stargateedu.co.kr/research/",
         "sourceReviewUrl": "https://www.stargateedu.co.kr/research/source-reviews/2026-10-20-operations-1.json",
         "initialPullRequest": "https://github.com/DongsooJung/dongsoojung.github.io/pull/199",
         "initialCommit": "be2721df774afab1cdfdfb5891fd1e2f5617305e",
         "initialPagesRun": "https://github.com/DongsooJung/dongsoojung.github.io/actions/runs/39355432177",
-        "pullRequest": "https://github.com/DongsooJung/dongsoojung.github.io/pull/200"
+        "pullRequest": "https://github.com/DongsooJung/dongsoojung.github.io/pull/200",
+        "commit": "3557229f4340f27a9596310b40c0a0ce7aef8ada",
+        "verifiedAt": "2026-10-20T01:56:22.898Z",
+        "pagesRun": "https://github.com/DongsooJung/dongsoojung.github.io/actions/runs/39356006075",
+        "workerRun": "https://github.com/DongsooJung/dongsoojung.github.io/actions/runs/39356006408",
+        "checks": [
+          "PR head 34b08e793dc7555aa6d46eadf5ff5d534588004f: CodeQL aggregate and JavaScript success",
+          "Exact merge commit GitHub Pages build/report/deploy and Cloudflare Worker workflow success",
+          "Both public domains: thirteen changed public files match normalized released content",
+          "Live hub:63 unique URLs, seven alphabetical filters, nine groups, five lanes, strategy44",
+          "Five public routes and source JSON / revised security PDF downloads; external 401 retained; no SMS, payment or authentication actions",
+          "Thirteen Node hub/catalog/status tests; quote VAT modes and actual one-page PDF visual check; simulated status failures stay unknown; no script errors"
+        ]
       }
     },
     {
       "id": "acceptance",
       "label": "전 항목 검증·최종 배포·예약 종료",
       "status": "pending",
-      "keys": []
+      "keys": [],
+      "outcome": "conditional_technical_acceptance",
+      "latestAudit": "/research/source-reviews/2026-10-21-acceptance.json",
+      "lastAttemptAt": "2026-10-20T23:07:26.208Z",
+      "itemResults": {
+        "/exchange-rate/": {
+          "status": "needs_review",
+          "checkedAt": "2026-10-20T23:06:28.769Z",
+          "audit": "/research/source-reviews/2026-10-21-acceptance.json",
+          "nextAction": "현재 게시본의 해당 공식 원문을 다시 대조한 때만 verified로 승격. 확인일·수집일로 자료 기준을 대체하지 않음."
+        },
+        "/trade/": {
+          "status": "verified",
+          "checkedAt": "2026-10-16T10:33:48.637Z",
+          "audit": "/research/source-reviews/2026-10-21-acceptance.json",
+          "nextAction": "현재 게시본의 해당 공식 원문을 다시 대조한 때만 verified로 승격. 확인일·수집일로 자료 기준을 대체하지 않음."
+        },
+        "/research/airport-congestion/": {
+          "status": "snapshot_checked",
+          "checkedAt": "2026-10-20T23:06:28.750Z",
+          "audit": "/research/source-reviews/2026-10-21-acceptance.json",
+          "nextAction": "시간별 자동 수집 유지. 날짜 버튼은 원자료 예측일을 표시하며 값이나 날짜가 바뀌면 이전 대조 해시를 재사용하지 않음."
+        },
+        "/research/gimpo-airport-congestion/": {
+          "status": "needs_review",
+          "checkedAt": "2026-10-20T23:06:28.760Z",
+          "audit": "/research/source-reviews/2026-10-21-acceptance.json",
+          "nextAction": "승인된 원 API 응답에서 기준일 필드 제공 여부를 확인. 제공되지 않으면 한국공항공사에 시각 필드 의미를 확인하며 날짜를 추정하지 않음."
+        },
+        "/naver-cafe-research/": {
+          "status": "snapshot_checked",
+          "checkedAt": "2026-10-20T23:06:28.787Z",
+          "audit": "/research/source-reviews/2026-10-21-acceptance.json",
+          "nextAction": "매시간 수집 시 원자료 집계코드와 실제 수집시각을 함께 보존. 게시글 값이 바뀌면 이전 원출처 검증 상태를 재사용하지 않음."
+        },
+        "/google-trends/": {
+          "status": "snapshot_checked",
+          "checkedAt": "2026-10-20T23:06:28.747Z",
+          "audit": "/research/source-reviews/2026-10-21-acceptance.json",
+          "nextAction": "현재 게시본의 해당 공식 원문을 다시 대조한 때만 verified로 승격. 확인일·수집일로 자료 기준을 대체하지 않음."
+        },
+        "/airbnb/": {
+          "status": "snapshot_checked",
+          "checkedAt": "2026-10-20T23:06:28.775Z",
+          "audit": "/research/source-reviews/2026-10-21-acceptance.json",
+          "nextAction": "현재 게시본의 해당 공식 원문을 다시 대조한 때만 verified로 승격. 확인일·수집일로 자료 기준을 대체하지 않음."
+        }
+      },
+      "checkpoints": {
+        "structure": "passed",
+        "sourceAndNumericalAcceptance": "followups_required",
+        "liveBrowser": "local_passed",
+        "publicationWait": {
+          "key": "/korea-tourism/",
+          "nextEligibleDate": "2026-10-26"
+        }
+      },
+      "release": {
+        "branch": "codex/research-acceptance-20261021",
+        "status": "awaiting_checks",
+        "liveUrl": "https://www.stargateedu.co.kr/research/data-review/",
+        "sourceReviewUrl": "https://www.stargateedu.co.kr/research/source-reviews/2026-10-21-acceptance.json",
+        "pullRequest": "https://github.com/DongsooJung/dongsoojung.github.io/pull/202"
+      },
+      "nextAction": "공표 대기는10월26일 이후만 재조회. 변경된4개 게시본과 기존 원출처·범위 미완료의 후속 근거를 순서대로 처리하며 전체 검증이 끝나기 전 완료·예약 종료로 바꾸지 않음."
     }
   ],
   "automationId": "10",
