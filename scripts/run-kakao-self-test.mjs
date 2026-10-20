@@ -19,10 +19,13 @@ const channel=matching[0];
 const {templates}=await api('/api/sms/kakao-templates?channelId='+encodeURIComponent(channel.id));
 write({stage:'templates',channel:channel.name,approved:templates.length,templates:templates.map(v=>({id:v.templateId,name:v.name||v.templateName,variables:[...new Set([...JSON.stringify(v).matchAll(/#\{([^{}]+)\}/g)].map(m=>m[1]))]}))});
 const safeNames=new Set(['이름','고객명','성함']);
-const eligible=templates.filter(v=>/테스트|연동\s?확인/i.test(String(v.name||v.templateName||'')+' '+v.content)&&[...JSON.stringify(v).matchAll(/#\{([^{}]+)\}/g)].every(m=>safeNames.has(m[1])));
+const approvedWelcomeId='KA01TP261020100401758IYdVDkGdfPE';
+const isApprovedWelcome=v=>v.templateId===approvedWelcomeId&&(v.name||v.templateName)==='회원가입 환영 안내'&&[...JSON.stringify(v).matchAll(/#\{([^{}]+)\}/g)].every(m=>['고객명','가입일시','아이디'].includes(m[1]));
+const eligible=templates.filter(v=>isApprovedWelcome(v)||(/테스트|연동\s?확인/i.test(String(v.name||v.templateName||'')+' '+v.content)&&[...JSON.stringify(v).matchAll(/#\{([^{}]+)\}/g)].every(m=>safeNames.has(m[1]))));
 if(!eligible.length){write({state:'blocked',reason:templates.length?'no_suitable_test_template':'no_approved_template',sent:0});process.exit(0);}
 const template=eligible.sort((a,b)=>String(a.templateId).localeCompare(String(b.templateId)))[0];
-const kakaoVariables=Object.fromEntries([...JSON.stringify(template).matchAll(/#\{([^{}]+)\}/g)].map(m=>[m[1],'정동수']));
+const testValues={'이름':'정동수(연동 테스트)','고객명':'정동수(연동 테스트)','성함':'정동수(연동 테스트)','가입일시':new Date().toLocaleString('ko-KR',{timeZone:'Asia/Seoul'})+' (연동 테스트)','아이디':'stargate-integration-test'};
+const kakaoVariables=Object.fromEntries([...JSON.stringify(template).matchAll(/#\{([^{}]+)\}/g)].map(m=>[m[1],testValues[m[1]]]));
 const message=String(template.content||'').replace(/#\{([^{}]+)\}/g,(_,name)=>kakaoVariables[name]).trim();
 if(!message||message.length>1000||/#\{/.test(message))throw Error('Test template could not be rendered');
 const {history}=await api('/api/sms/history');
