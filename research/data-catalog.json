@@ -3165,10 +3165,24 @@
           "checkedAt": "2026-10-20T01:31:03.962197+00:00",
           "sha256": "410f5c44cd6d091d7c88a250bc8ece2daf7c4b878d6fa5e766a9d769395b357d",
           "scope": "변경 전 응답; HTTP200도 원출처/기능 검증으로 간주하지 않음"
+        },
+        {
+          "kind": "implementation-check",
+          "url": "https://stargate.stargate8225.workers.dev/sms/",
+          "checkedAt": "2026-10-20T01:51:53.546Z",
+          "sha256": "fc3a3ff63fc9bfe3675d8f6f16773d26ab58cd0868981a891897f0c75e77d780",
+          "scope": "포털 /sms/가 canonical Workers 문자 콘솔로 JavaScript 이동하는 구현과 실제 Workers 공개 GET /sms/·/api/sms HTTP200을 대조. 최대10명 입력/미리보기와 공개 health의 configured·senderVerified 응답 범위만 확인. 포털 정적 /api/sms404는 Workers 상태가 아님. 실제 발송·인증·잔액·고객 데이터 조회 미실행."
+        },
+        {
+          "kind": "implementation-check",
+          "url": "https://stargate.stargate8225.workers.dev/api/sms",
+          "checkedAt": "2026-10-20T01:51:54.318Z",
+          "sha256": "237171e91cd9f03a4a033f180feccf59ff470c476175f528f8c38ac0a9bc4a46",
+          "scope": "포털 /sms/가 canonical Workers 문자 콘솔로 JavaScript 이동하는 구현과 실제 Workers 공개 GET /sms/·/api/sms HTTP200을 대조. 최대10명 입력/미리보기와 공개 health의 configured·senderVerified 응답 범위만 확인. 포털 정적 /api/sms404는 Workers 상태가 아님. 실제 발송·인증·잔액·고객 데이터 조회 미실행."
         }
       ],
       "issues": [
-        "현재 도메인의 발송 API 연결과 관리자 인증을 확인한 뒤 사용자가 승인한 별도 실제 발송 회차에서 전달·비용·기록을 검증."
+        "Workers 공개 health는200이지만 실제 발송·인증·잔액·전달·비용·기록 검증은 별도 승인 회차로 남김. 정적 포털 /api/sms의404를 실제 Workers 장애로 간주하지 않음."
       ],
       "key": "/sms/",
       "url": "/sms/",

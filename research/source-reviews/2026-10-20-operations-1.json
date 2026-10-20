@@ -200,6 +200,33 @@
       "contentType": "application/json; charset=utf-8",
       "sha256": "694c53357e7c33e36d99ad25e2d962d1f15a57ea6243d5da72ffbf878835c905",
       "bytes": 723
+    },
+    {
+      "key": "sms-worker-page",
+      "url": "https://stargate.stargate8225.workers.dev/sms/",
+      "checkedAt": "2026-10-20T01:51:53.546Z",
+      "receivedAt": "2026-10-20T01:51:54.317Z",
+      "status": 200,
+      "finalUrl": "https://stargate.stargate8225.workers.dev/sms/",
+      "sha256": "fc3a3ff63fc9bfe3675d8f6f16773d26ab58cd0868981a891897f0c75e77d780",
+      "bytes": 36703
+    },
+    {
+      "key": "sms-worker-health",
+      "url": "https://stargate.stargate8225.workers.dev/api/sms",
+      "checkedAt": "2026-10-20T01:51:54.318Z",
+      "receivedAt": "2026-10-20T01:51:55.231Z",
+      "status": 200,
+      "finalUrl": "https://stargate.stargate8225.workers.dev/api/sms",
+      "sha256": "237171e91cd9f03a4a033f180feccf59ff470c476175f528f8c38ac0a9bc4a46",
+      "bytes": 157,
+      "publicFields": {
+        "ok": true,
+        "configured": true,
+        "mode": "live",
+        "senderVerified": true,
+        "providerCheckedAt": "2026-10-20T01:51:52.940Z"
+      }
     }
   ],
   "items": [
@@ -290,9 +317,10 @@
         "gitBlob": "b9908567028aa817d42c1ee4888db1ecec0e31a4",
         "revision": "2026-10-20"
       },
-      "verifiedScope": "프런트 입력·개인화 미리보기와 최대10명 서버 코드 범위 대조. 공개 GET /api/sms는404. 실제 발송·인증·잔액 조회 미실행.",
+      "verifiedScope": "포털 /sms/가 canonical Workers 문자 콘솔로 JavaScript 이동하는 구현과 실제 Workers 공개 GET /sms/·/api/sms HTTP200을 대조. 최대10명 입력/미리보기와 공개 health의 configured·senderVerified 응답 범위만 확인. 포털 정적 /api/sms404는 Workers 상태가 아님. 실제 발송·인증·잔액·고객 데이터 조회 미실행.",
       "officialSources": [],
-      "nextAction": "현재 도메인의 발송 API 연결과 관리자 인증을 확인한 뒤 사용자가 승인한 별도 실제 발송 회차에서 전달·비용·기록을 검증."
+      "nextAction": "Workers 공개 health는200이지만 실제 발송·인증·잔액·전달·비용·기록 검증은 별도 승인 회차로 남김. 정적 포털 /api/sms의404를 실제 Workers 장애로 간주하지 않음.",
+      "routingCheckedAt": "2026-10-20T01:51:53.546Z"
     },
     {
       "key": "/quote-maker/",
@@ -372,7 +400,8 @@
     {
       "url": "https://www.stargateedu.co.kr/api/sms",
       "status": 404,
-      "nextAction": "현재 도메인의 발송 API 연결과 관리자 인증을 확인한 뒤 사용자가 승인한 별도 실제 발송 회차에서 전달·비용·기록을 검증."
+      "nextAction": "Workers 공개 health는200이지만 실제 발송·인증·잔액·전달·비용·기록 검증은 별도 승인 회차로 남김. 정적 포털 /api/sms의404를 실제 Workers 장애로 간주하지 않음.",
+      "scope": "정적 포털 origin 전용. 실제 서비스는 Workers의 /api/sms이고 공개 GET200을 별도 확인."
     },
     {
       "url": "https://www.stargateedu.co.kr/api/service-status",
@@ -414,6 +443,19 @@
       "SMS synthetic recipient preview only; >10 rejected; consent false and send disabled",
       "Notion/API failure simulated separately from actual official observation; unknown stays unknown"
     ],
-    "limitations": "Browser test blocks non-GET, selected external status endpoints and optional remote font assets; no real send/payment/private-account action."
+    "limitations": "Browser tests block non-GET and private SMS/account endpoints, selected Notion endpoints and optional remote fonts; allow the canonical public Workers console and its public health GET only. No real send/payment/private-account action."
+  },
+  "smsRoutingObservation": {
+    "checkedAt": "2026-10-20T01:51:53.546Z",
+    "portalUrl": "https://www.stargateedu.co.kr/sms/",
+    "canonicalServiceUrl": "https://stargate.stargate8225.workers.dev/sms/",
+    "publicHealth": {
+      "ok": true,
+      "configured": true,
+      "mode": "live",
+      "senderVerified": true,
+      "providerCheckedAt": "2026-10-20T01:51:52.940Z"
+    },
+    "scope": "포털 /sms/가 canonical Workers 문자 콘솔로 JavaScript 이동하는 구현과 실제 Workers 공개 GET /sms/·/api/sms HTTP200을 대조. 최대10명 입력/미리보기와 공개 health의 configured·senderVerified 응답 범위만 확인. 포털 정적 /api/sms404는 Workers 상태가 아님. 실제 발송·인증·잔액·고객 데이터 조회 미실행."
   }
 }
