@@ -68,21 +68,21 @@
     const okCount = probes.filter((p) => p.ok).length;
     const downCount = probes.filter((p) => p.state === 'down').length;
     const degradedCount = probes.filter((p) => p.state === 'degraded').length;
-    const latencies = probes.filter((p) => p.ok).map((p) => p.latencyMs);
+    const latencies = probes.filter((p) => p.ok && Number.isFinite(p.latencyMs) && p.latencyMs >= 0).map((p) => p.latencyMs);
     const avgLatencyMs = latencies.length
       ? Math.round(latencies.reduce((a, b) => a + b, 0) / latencies.length)
       : null;
     let state = 'operational';
     if (downCount === probes.length) state = 'down';
     else if (downCount > 0 || degradedCount > 0) state = 'degraded';
+    else if (probes.some((p) => p.state !== 'operational')) state = 'unknown';
     return { state, okCount, total: probes.length, avgLatencyMs };
   }
 
   function rollup(a, b) {
-    const ranks = { operational: 0, degraded: 1, down: 2, unknown: 1 };
-    const max = Math.max(ranks[a] ?? 1, ranks[b] ?? 1);
-    if (max >= 2) return 'down';
-    if (max === 1) return 'degraded';
+    if (a === 'down' || b === 'down') return 'down';
+    if (a === 'degraded' || b === 'degraded') return 'degraded';
+    if (a !== 'operational' || b !== 'operational') return 'unknown';
     return 'operational';
   }
 
@@ -368,7 +368,7 @@
     const all = [
       ...(data.services.onenote.probes || []),
       ...(data.services.notion.probes || []),
-    ].filter((p) => p.ok && typeof p.latencyMs === 'number');
+    ].filter((p) => p.ok && Number.isFinite(p.latencyMs) && p.latencyMs >= 0);
     if (!all.length) return null;
     return Math.round(all.reduce((sum, p) => sum + p.latencyMs, 0) / all.length);
   }
@@ -379,7 +379,7 @@
     el.overallState.textContent = STATE_LABEL[overall] || '확인불가';
     el.overallSub.textContent =
       data.source === 'fallback'
-        ? 'API 프록시 없이 브라우저 폴백으로 조회했습니다. OneNote는 프록시 연결 후 완전 점검됩니다.'
+        ? 'API 프록시 없이 브라우저 폴백으로 조회했습니다. OneNote는 이번 조회 범위에서 확인할 수 없습니다. 프록시 연결도 계정 내부 정상 여부를 보장하지 않습니다.'
         : `리전 ${data.region || '—'} · 공개 상태·웹 엔드포인트 기반`;
     el.statOnenote.textContent = STATE_LABEL[data.services.onenote.overall] || '—';
     el.statNotion.textContent = STATE_LABEL[data.services.notion.overall] || '—';

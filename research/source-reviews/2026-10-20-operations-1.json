@@ -1,0 +1,419 @@
+{
+  "schemaVersion": 1,
+  "step": "operations-1",
+  "checkedAt": "2026-10-20T01:35:39.268134+00:00",
+  "sourceChecks": [
+    {
+      "key": "live-0",
+      "url": "https://www.stargateedu.co.kr/cybersecurity/",
+      "checkedAt": "2026-10-20T01:31:03.960194+00:00",
+      "status": 200,
+      "finalUrl": "https://stargateedu.co.kr/cybersecurity/",
+      "receivedAt": "2026-10-20T01:31:05.704446+00:00",
+      "contentType": "text/html; charset=utf-8",
+      "sha256": "bbbf83556d99fe47d0de1123e35ba8f9fdab0a8d6bbfc3a07f9bbc15f623535f",
+      "bytes": 26599
+    },
+    {
+      "key": "live-1",
+      "url": "https://www.stargateedu.co.kr/research/app-privacy/",
+      "checkedAt": "2026-10-20T01:31:03.961199+00:00",
+      "status": 200,
+      "finalUrl": "https://stargateedu.co.kr/research/app-privacy/",
+      "receivedAt": "2026-10-20T01:31:05.725043+00:00",
+      "contentType": "text/html; charset=utf-8",
+      "sha256": "41206784de47170b6c5ce9bd2573d79b9a09429fcd46539281f061a34221cecf",
+      "bytes": 13753
+    },
+    {
+      "key": "live-2",
+      "url": "https://www.stargateedu.co.kr/sms/",
+      "checkedAt": "2026-10-20T01:31:03.962197+00:00",
+      "status": 200,
+      "finalUrl": "https://stargateedu.co.kr/sms/",
+      "receivedAt": "2026-10-20T01:31:05.565037+00:00",
+      "contentType": "text/html; charset=utf-8",
+      "sha256": "410f5c44cd6d091d7c88a250bc8ece2daf7c4b878d6fa5e766a9d769395b357d",
+      "bytes": 34754
+    },
+    {
+      "key": "live-3",
+      "url": "https://www.stargateedu.co.kr/quote-maker/",
+      "checkedAt": "2026-10-20T01:31:03.963199+00:00",
+      "status": 200,
+      "finalUrl": "https://stargateedu.co.kr/quote-maker/",
+      "receivedAt": "2026-10-20T01:31:05.555526+00:00",
+      "contentType": "text/html; charset=utf-8",
+      "sha256": "de8b84f91f3d8ff63daba75e0ed869c94c9baa5f9fae4c4b6f4cbc070f07bc61",
+      "bytes": 32056
+    },
+    {
+      "key": "live-4",
+      "url": "https://2026-plan.vercel.app/dashboard",
+      "checkedAt": "2026-10-20T01:31:03.965199+00:00",
+      "status": 401,
+      "finalUrl": "https://2026-plan.vercel.app/dashboard",
+      "receivedAt": "2026-10-20T01:31:06.376732+00:00",
+      "contentType": "text/plain;charset=UTF-8",
+      "sha256": "0fcfb12dfad07ba0b1ab80f7cd6c6c3c5aaea0804be09faee6ca0819e3769659",
+      "bytes": 23
+    },
+    {
+      "key": "live-5",
+      "url": "https://www.stargateedu.co.kr/onenote-notion-status/",
+      "checkedAt": "2026-10-20T01:31:03.968197+00:00",
+      "status": 200,
+      "finalUrl": "https://stargateedu.co.kr/onenote-notion-status/",
+      "receivedAt": "2026-10-20T01:31:05.750599+00:00",
+      "contentType": "text/html; charset=utf-8",
+      "sha256": "5283f36934aa514ab283bff894b51098f042839914ed4318ab6972323482c7e3",
+      "bytes": 11252
+    },
+    {
+      "key": "security-whitepaper",
+      "url": "https://www.stargateedu.co.kr/cybersecurity/whitepaper.html",
+      "checkedAt": "2026-10-20T01:31:03.968197+00:00",
+      "status": 200,
+      "finalUrl": "https://stargateedu.co.kr/cybersecurity/whitepaper.html",
+      "receivedAt": "2026-10-20T01:31:05.769452+00:00",
+      "contentType": "text/html; charset=utf-8",
+      "sha256": "f43940fb83c57b087838022d10aa00a4d3b80e38936c0fe5ba59bdaaacc475bd",
+      "bytes": 6092
+    },
+    {
+      "key": "security-pdf",
+      "url": "https://www.stargateedu.co.kr/cybersecurity/whitepaper.pdf",
+      "checkedAt": "2026-10-20T01:31:03.969198+00:00",
+      "status": 200,
+      "finalUrl": "https://stargateedu.co.kr/cybersecurity/whitepaper.pdf",
+      "receivedAt": "2026-10-20T01:31:05.537018+00:00",
+      "contentType": "application/pdf",
+      "sha256": "b94d85523a09fe68e7de2843cabfe9cd2818561613ac9d25cd388e7dcc8703db",
+      "bytes": 1529
+    },
+    {
+      "key": "github-privacy",
+      "url": "https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement",
+      "checkedAt": "2026-10-20T01:31:05.539018+00:00",
+      "status": 200,
+      "finalUrl": "https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement",
+      "receivedAt": "2026-10-20T01:31:06.883653+00:00",
+      "contentType": "text/html; charset=utf-8",
+      "sha256": "67875c60e21f926c467eb7b677633f4bce87dc63fe053a73308e9b03d46e5998",
+      "bytes": 304990
+    },
+    {
+      "key": "play-user-data",
+      "url": "https://support.google.com/googleplay/android-developer/answer/10144311?hl=ko",
+      "checkedAt": "2026-10-20T01:31:05.556527+00:00",
+      "status": 200,
+      "finalUrl": "https://support.google.com/googleplay/android-developer/answer/10144311?hl=ko",
+      "receivedAt": "2026-10-20T01:31:06.513568+00:00",
+      "contentType": "text/html; charset=UTF-8",
+      "sha256": "fd8e84dac4c7e570166594ce1d00870c6da7843b7df33170f2d29e021cbb9af9",
+      "bytes": 1710574
+    },
+    {
+      "key": "mitre-t1003",
+      "url": "https://attack.mitre.org/techniques/T1003/",
+      "checkedAt": "2026-10-20T01:31:05.566037+00:00",
+      "status": 200,
+      "finalUrl": "https://attack.mitre.org/techniques/T1003/",
+      "receivedAt": "2026-10-20T01:31:06.150848+00:00",
+      "contentType": "text/html; charset=utf-8",
+      "sha256": "1e05d1f305ecb4a452019af5418861f672b0c2663122328706522890eff70b3f",
+      "bytes": 92929
+    },
+    {
+      "key": "mitre-t1021",
+      "url": "https://attack.mitre.org/techniques/T1021/",
+      "checkedAt": "2026-10-20T01:31:05.705446+00:00",
+      "status": 200,
+      "finalUrl": "https://attack.mitre.org/techniques/T1021/",
+      "receivedAt": "2026-10-20T01:31:06.145332+00:00",
+      "contentType": "text/html; charset=utf-8",
+      "sha256": "c8383e10010c1fc584edc41acd19f75e9c8d6d07113b939b1d32336efaae6e74",
+      "bytes": 70003
+    },
+    {
+      "key": "mitre-t1048",
+      "url": "https://attack.mitre.org/techniques/T1048/",
+      "checkedAt": "2026-10-20T01:31:05.726042+00:00",
+      "status": 200,
+      "finalUrl": "https://attack.mitre.org/techniques/T1048/",
+      "receivedAt": "2026-10-20T01:31:06.145332+00:00",
+      "contentType": "text/html; charset=utf-8",
+      "sha256": "de12f77f4cdd8c3c068ec040cf8f1748b7d409fb749280fc86fbc23adf12751f",
+      "bytes": 63774
+    },
+    {
+      "key": "sms-health",
+      "url": "https://www.stargateedu.co.kr/api/sms",
+      "checkedAt": "2026-10-20T01:31:05.753869+00:00",
+      "status": 404,
+      "finalUrl": "https://stargateedu.co.kr/api/sms",
+      "receivedAt": "2026-10-20T01:31:06.241112+00:00",
+      "contentType": "text/html; charset=utf-8",
+      "sha256": "aab7d62e147c1b3fcf324828c21a1985bb5b14b4a5a254244d984adf1780d5f5",
+      "bytes": 1279
+    },
+    {
+      "key": "status-api",
+      "url": "https://www.stargateedu.co.kr/api/service-status",
+      "checkedAt": "2026-10-20T01:31:05.770452+00:00",
+      "status": 404,
+      "finalUrl": "https://stargateedu.co.kr/api/service-status",
+      "receivedAt": "2026-10-20T01:31:06.271665+00:00",
+      "contentType": "text/html; charset=utf-8",
+      "sha256": "aab7d62e147c1b3fcf324828c21a1985bb5b14b4a5a254244d984adf1780d5f5",
+      "bytes": 1279
+    },
+    {
+      "key": "notion-summary",
+      "url": "https://www.notion-status.com/api/v2/summary.json",
+      "checkedAt": "2026-10-20T01:31:06.148344+00:00",
+      "status": 200,
+      "finalUrl": "https://www.notion-status.com/api/v2/summary.json",
+      "receivedAt": "2026-10-20T01:31:06.539088+00:00",
+      "contentType": "application/json",
+      "sha256": "abd5409a71e5f07581e431d986c4f608fbf5d10266cf88b22d8681b89839a614",
+      "bytes": 7673
+    },
+    {
+      "key": "microsoft-status",
+      "url": "https://status.cloud.microsoft/",
+      "checkedAt": "2026-10-20T01:31:06.148344+00:00",
+      "status": 200,
+      "finalUrl": "https://status.cloud.microsoft/",
+      "receivedAt": "2026-10-20T01:31:06.303184+00:00",
+      "contentType": "text/html",
+      "sha256": "da57acd4ad051de9ee2fe3f6c9b64a7fa4fb364ed2f7f13f46fa9b62b9b0de11",
+      "bytes": 2058
+    },
+    {
+      "key": "quote-expo",
+      "url": "https://www.stargateedu.co.kr/quote-maker/expo-go-deploy.json",
+      "checkedAt": "2026-10-20T01:31:06.151845+00:00",
+      "status": 200,
+      "finalUrl": "https://stargateedu.co.kr/quote-maker/expo-go-deploy.json",
+      "receivedAt": "2026-10-20T01:31:06.617544+00:00",
+      "contentType": "application/json; charset=utf-8",
+      "sha256": "694c53357e7c33e36d99ad25e2d962d1f15a57ea6243d5da72ffbf878835c905",
+      "bytes": 723
+    }
+  ],
+  "items": [
+    {
+      "key": "/cybersecurity/",
+      "title": "3AI Cybersecurity Suite",
+      "reviewStatus": "needs_review",
+      "checkedAt": "2026-10-20T01:35:39.268134+00:00",
+      "monthlyReference": {
+        "status": "not_applicable",
+        "reason": "고정 통계 월이 없는 제품·정책 문서·도구·순간 상태 조회. 문서 판본과 실제 요청 시각을 별도로 기록."
+      },
+      "documentVersion": {
+        "baseCommit": "de34d529cccee36a7fac068156e8bfbaea401b5e",
+        "gitBlob": "b40834cd782eb8e93794affb7d054193eab31312",
+        "revision": "2026-10-20"
+      },
+      "verifiedScope": "정적 제품/기존 HTML·1쪽 PDF와 ATT&CK 분류 명칭 대조. 근거 없는 성능·KDP 도서 구현 단정 제거. 운영 보안 엔진·탐지·완화 실험은 미수행.",
+      "officialSources": [
+        {
+          "kind": "official-source",
+          "url": "https://attack.mitre.org/techniques/T1003/",
+          "checkedAt": "2026-10-20T01:31:05.566037+00:00",
+          "sha256": "1e05d1f305ecb4a452019af5418861f672b0c2663122328706522890eff70b3f",
+          "scope": "정적 제품/기존 HTML·1쪽 PDF와 ATT&CK 분류 명칭 대조. 근거 없는 성능·KDP 도서 구현 단정 제거. 운영 보안 엔진·탐지·완화 실험은 미수행."
+        },
+        {
+          "kind": "official-source",
+          "url": "https://attack.mitre.org/techniques/T1021/",
+          "checkedAt": "2026-10-20T01:31:05.705446+00:00",
+          "sha256": "c8383e10010c1fc584edc41acd19f75e9c8d6d07113b939b1d32336efaae6e74",
+          "scope": "정적 제품/기존 HTML·1쪽 PDF와 ATT&CK 분류 명칭 대조. 근거 없는 성능·KDP 도서 구현 단정 제거. 운영 보안 엔진·탐지·완화 실험은 미수행."
+        },
+        {
+          "kind": "official-source",
+          "url": "https://attack.mitre.org/techniques/T1048/",
+          "checkedAt": "2026-10-20T01:31:05.726042+00:00",
+          "sha256": "de12f77f4cdd8c3c068ec040cf8f1748b7d409fb749280fc86fbc23adf12751f",
+          "scope": "정적 제품/기존 HTML·1쪽 PDF와 ATT&CK 분류 명칭 대조. 근거 없는 성능·KDP 도서 구현 단정 제거. 운영 보안 엔진·탐지·완화 실험은 미수행."
+        }
+      ],
+      "nextAction": "같은 라벨 로그·하드웨어·기간·분모로 탐지율/오탐/지연/처리량을 측정하고 특정 도서 판본·코드 대응 및 대응 승인 절차를 검증."
+    },
+    {
+      "key": "/research/app-privacy/",
+      "title": "스타게이트 에듀 개인정보처리방침",
+      "reviewStatus": "not_applicable",
+      "checkedAt": "2026-10-20T01:35:39.268134+00:00",
+      "monthlyReference": {
+        "status": "not_applicable",
+        "reason": "고정 통계 월이 없는 제품·정책 문서·도구·순간 상태 조회. 문서 판본과 실제 요청 시각을 별도로 기록."
+      },
+      "documentVersion": {
+        "baseCommit": "de34d529cccee36a7fac068156e8bfbaea401b5e",
+        "gitBlob": "0915b40195b9f503c0d87ff8c454abe2afd8f6b6",
+        "revision": "2026-10-20"
+      },
+      "verifiedScope": "검토안v0.1 작성2026-09-01·시행미정 원고와 GitHub 2026-04-27 시행 정책·Google Play 현재 공개 본문 대조. 앱 처리 사실이나 법적 적합성 인증이 아님.",
+      "officialSources": [
+        {
+          "kind": "official-source",
+          "url": "https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement",
+          "checkedAt": "2026-10-20T01:31:05.539018+00:00",
+          "sha256": "67875c60e21f926c467eb7b677633f4bce87dc63fe053a73308e9b03d46e5998",
+          "scope": "검토안v0.1 작성2026-09-01·시행미정 원고와 GitHub 2026-04-27 시행 정책·Google Play 현재 공개 본문 대조. 앱 처리 사실이나 법적 적합성 인증이 아님."
+        },
+        {
+          "kind": "official-source",
+          "url": "https://support.google.com/googleplay/android-developer/answer/10144311?hl=ko",
+          "checkedAt": "2026-10-20T01:31:05.556527+00:00",
+          "sha256": "fd8e84dac4c7e570166594ce1d00870c6da7843b7df33170f2d29e021cbb9af9",
+          "scope": "검토안v0.1 작성2026-09-01·시행미정 원고와 GitHub 2026-04-27 시행 정책·Google Play 현재 공개 본문 대조. 앱 처리 사실이나 법적 적합성 인증이 아님."
+        }
+      ],
+      "nextAction": "실제 앱·SDK·수집·위탁·국외처리·보유기간·담당자가 확정된 뒤 정식 문서와 시행일을 결정."
+    },
+    {
+      "key": "/sms/",
+      "title": "고객 문자 발송 콘솔",
+      "reviewStatus": "needs_review",
+      "checkedAt": "2026-10-20T01:35:39.268134+00:00",
+      "monthlyReference": {
+        "status": "not_applicable",
+        "reason": "고정 통계 월이 없는 제품·정책 문서·도구·순간 상태 조회. 문서 판본과 실제 요청 시각을 별도로 기록."
+      },
+      "documentVersion": {
+        "baseCommit": "de34d529cccee36a7fac068156e8bfbaea401b5e",
+        "gitBlob": "b9908567028aa817d42c1ee4888db1ecec0e31a4",
+        "revision": "2026-10-20"
+      },
+      "verifiedScope": "프런트 입력·개인화 미리보기와 최대10명 서버 코드 범위 대조. 공개 GET /api/sms는404. 실제 발송·인증·잔액 조회 미실행.",
+      "officialSources": [],
+      "nextAction": "현재 도메인의 발송 API 연결과 관리자 인증을 확인한 뒤 사용자가 승인한 별도 실제 발송 회차에서 전달·비용·기록을 검증."
+    },
+    {
+      "key": "/quote-maker/",
+      "title": "하루 견적서 · Quote Maker",
+      "reviewStatus": "not_applicable",
+      "checkedAt": "2026-10-20T01:35:39.268134+00:00",
+      "monthlyReference": {
+        "status": "not_applicable",
+        "reason": "고정 통계 월이 없는 제품·정책 문서·도구·순간 상태 조회. 문서 판본과 실제 요청 시각을 별도로 기록."
+      },
+      "documentVersion": {
+        "baseCommit": "de34d529cccee36a7fac068156e8bfbaea401b5e",
+        "gitBlob": "edb6d01e5200156c9f0fe3fec677a1b8a4b0f9a3",
+        "revision": "2026-10-20"
+      },
+      "verifiedScope": "브라우저 계산·PDF와 로컬 횟수/체험 키 구현 대조. 구매 인증·영구 라이선스나 현재 Expo 기기 실행을 검증한 것은 아님.",
+      "officialSources": [],
+      "nextAction": "실제 결제·서버 사용권을 도입할 경우 별도 검증. Expo 연결은 최신 공식 배포·기기 실행을 확인한 뒤 저장 메타데이터 갱신."
+    },
+    {
+      "key": "https://2026-plan.vercel.app/dashboard",
+      "title": "2026 구독 관리 대시보드",
+      "reviewStatus": "source_unavailable",
+      "checkedAt": "2026-10-20T01:35:39.268134+00:00",
+      "monthlyReference": {
+        "status": "not_applicable",
+        "reason": "고정 통계 월이 없는 제품·정책 문서·도구·순간 상태 조회. 문서 판본과 실제 요청 시각을 별도로 기록."
+      },
+      "documentVersion": {
+        "url": "https://2026-plan.vercel.app/dashboard",
+        "httpStatus": 401,
+        "sha256": "0fcfb12dfad07ba0b1ab80f7cd6c6c3c5aaea0804be09faee6ca0819e3769659",
+        "version": "content inaccessible"
+      },
+      "verifiedScope": "외부 공개 URL HTTP401. 인증된 내용·데이터·통화·CSV 기능을 열람하거나 변경하지 않음.",
+      "officialSources": [],
+      "nextAction": "해당 앱 소유자의 정상 공개 접근 또는 명시적 인증 경로 확보 후 원문·데이터·현재 기능 대조."
+    },
+    {
+      "key": "/onenote-notion-status/",
+      "title": "OneNote · Notion 상태판",
+      "reviewStatus": "needs_review",
+      "checkedAt": "2026-10-20T01:35:39.268134+00:00",
+      "monthlyReference": {
+        "status": "not_applicable",
+        "reason": "고정 통계 월이 없는 제품·정책 문서·도구·순간 상태 조회. 문서 판본과 실제 요청 시각을 별도로 기록."
+      },
+      "documentVersion": {
+        "baseCommit": "de34d529cccee36a7fac068156e8bfbaea401b5e",
+        "gitBlob": "cf2bc22936fcbc482718ed87ff8c0da6fc4971a2",
+        "revision": "2026-10-20"
+      },
+      "verifiedScope": "Notion 공식 공개 JSON과 갱신 시각, 상태 API404 및 Microsoft 상태 사이트 응답 확인. 개인 OneNote/Notion 계정·문서 상태 미확인.",
+      "officialSources": [
+        {
+          "kind": "official-source",
+          "url": "https://www.notion-status.com/api/v2/summary.json",
+          "checkedAt": "2026-10-20T01:31:06.148344+00:00",
+          "sha256": "abd5409a71e5f07581e431d986c4f608fbf5d10266cf88b22d8681b89839a614",
+          "scope": "Notion 공식 공개 JSON과 갱신 시각, 상태 API404 및 Microsoft 상태 사이트 응답 확인. 개인 OneNote/Notion 계정·문서 상태 미확인."
+        }
+      ],
+      "nextAction": "프록시 연결·브라우저CORS와 Microsoft 공개 상태의 실제 범위를 검증. 상태 누락을 정상/장애로 단정하지 않고 공식 업데이트 시각과 조회시각을 구분."
+    }
+  ],
+  "instantStatusObservation": {
+    "source": "https://www.notion-status.com/api/v2/summary.json",
+    "receivedAt": "2026-10-20T01:31:06.539088+00:00",
+    "providerUpdatedAt": "2026-10-15T21:47:36Z",
+    "status": {
+      "description": "All Systems Operational",
+      "indicator": "none"
+    },
+    "scope": "공개 상태 JSON의 응답값. 제공자 갱신일을 관측 기준일로 대체하지 않음. 계정 내부 상태 미확인."
+  },
+  "accessLimitations": [
+    {
+      "url": "https://www.stargateedu.co.kr/api/sms",
+      "status": 404,
+      "nextAction": "현재 도메인의 발송 API 연결과 관리자 인증을 확인한 뒤 사용자가 승인한 별도 실제 발송 회차에서 전달·비용·기록을 검증."
+    },
+    {
+      "url": "https://www.stargateedu.co.kr/api/service-status",
+      "status": 404,
+      "nextAction": "프록시 연결·브라우저CORS와 Microsoft 공개 상태의 실제 범위를 검증. 상태 누락을 정상/장애로 단정하지 않고 공식 업데이트 시각과 조회시각을 구분."
+    },
+    {
+      "url": "https://2026-plan.vercel.app/dashboard",
+      "status": 401,
+      "nextAction": "해당 앱 소유자의 정상 공개 접근 또는 명시적 인증 경로 확보 후 원문·데이터·현재 기능 대조."
+    }
+  ],
+  "pdfRevision": {
+    "previousSha256": "b94d85523a09fe68e7de2843cabfe9cd2818561613ac9d25cd388e7dcc8703db",
+    "previousPages": 1,
+    "revision": "2026-10-20",
+    "scope": "기존 성능 단정 제거; 개정 PDF는 개념 설계·미측정·실증 과제와 실제 출처를 명시."
+  },
+  "actionsNotPerformed": [
+    "SMS/Kakao delivery",
+    "account/balance retrieval",
+    "payment/purchase",
+    "security response or log ingestion",
+    "authenticated external dashboard access"
+  ],
+  "artifacts": [
+    {
+      "path": "cybersecurity/whitepaper.pdf",
+      "revision": "2026-10-20",
+      "sha256": "f446f0bb48d08047bfe154920d28b0c986a06358242bf8b0c749f43a8a63448e",
+      "pages": 2
+    }
+  ],
+  "browserValidation": {
+    "verifiedAt": "2026-10-20T01:42:51.348Z",
+    "scope": [
+      "390px mobile and five local routes; source-audit JSON and security PDF downloads",
+      "Quote VAT modes 803000/730000/730000; actual one-page PDF visually checked; scroll offset and empty-logo rejection repaired",
+      "SMS synthetic recipient preview only; >10 rejected; consent false and send disabled",
+      "Notion/API failure simulated separately from actual official observation; unknown stays unknown"
+    ],
+    "limitations": "Browser test blocks non-GET, selected external status endpoints and optional remote font assets; no real send/payment/private-account action."
+  }
+}
