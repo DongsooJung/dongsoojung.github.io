@@ -1,0 +1,860 @@
+{
+  "schemaVersion": 1,
+  "step": "essays-1",
+  "checkedAt": "2026-10-20T00:36:58.677999+00:00",
+  "sourceChecks": [
+    {
+      "key": "live-0",
+      "url": "https://www.stargateedu.co.kr/research/contradiction-lab/",
+      "checkedAt": "2026-10-20T00:30:39.304820+00:00",
+      "status": 200,
+      "finalUrl": "https://stargateedu.co.kr/research/contradiction-lab/",
+      "receivedAt": "2026-10-20T00:30:40.832698+00:00",
+      "contentType": "text/html; charset=utf-8",
+      "sha256": "09bcd69e1ecb3a3f1062d21e55a2ca08319a04374e6806a82dff5b01c0afbbc0",
+      "bytes": 35825
+    },
+    {
+      "key": "live-1",
+      "url": "https://www.stargateedu.co.kr/research/climate-algebraic-geometry/",
+      "checkedAt": "2026-10-20T00:30:39.305817+00:00",
+      "status": 200,
+      "finalUrl": "https://stargateedu.co.kr/research/climate-algebraic-geometry/",
+      "receivedAt": "2026-10-20T00:30:40.866007+00:00",
+      "contentType": "text/html; charset=utf-8",
+      "sha256": "686f9d179287f98b23985ccc7b737e7504bd3904d155f8485842631b7f9959c8",
+      "bytes": 7455
+    },
+    {
+      "key": "original-1-1",
+      "url": "https://www.ipcc.ch/report/ar6/syr/",
+      "checkedAt": "2026-10-20T00:30:39.306820+00:00",
+      "status": 200,
+      "finalUrl": "https://www.ipcc.ch/report/ar6/syr/",
+      "receivedAt": "2026-10-20T00:30:41.111188+00:00",
+      "contentType": "text/html; charset=UTF-8",
+      "sha256": "46992f22e1234703841de35597ce095a9d475b0ca3f625b893e7d3b8ddbf05cd",
+      "bytes": 279548
+    },
+    {
+      "key": "original-1-2",
+      "url": "https://cds.climate.copernicus.eu/datasets/reanalysis-era5-single-levels",
+      "checkedAt": "2026-10-20T00:30:39.307817+00:00",
+      "status": 200,
+      "finalUrl": "https://cds.climate.copernicus.eu/datasets/reanalysis-era5-single-levels?tab=overview",
+      "receivedAt": "2026-10-20T00:30:45.707374+00:00",
+      "contentType": "text/html; charset=utf-8",
+      "sha256": "5aab6b09ed690f838b848b682a8fa1d2cc94d5d68e63cb1ab1d2434c94745387",
+      "bytes": 433534
+    },
+    {
+      "key": "original-1-3",
+      "url": "https://gml.noaa.gov/",
+      "checkedAt": "2026-10-20T00:30:39.307817+00:00",
+      "status": 200,
+      "finalUrl": "https://gml.noaa.gov/",
+      "receivedAt": "2026-10-20T00:30:41.311293+00:00",
+      "contentType": "text/html; charset=UTF-8",
+      "sha256": "3a76f01b5237e195272d2b99e954367964257691472053a6c77eae0a871e721c",
+      "bytes": 33759
+    },
+    {
+      "key": "live-2",
+      "url": "https://www.stargateedu.co.kr/research/korea-challenges/",
+      "checkedAt": "2026-10-20T00:30:39.308815+00:00",
+      "status": 200,
+      "finalUrl": "https://stargateedu.co.kr/research/korea-challenges/",
+      "receivedAt": "2026-10-20T00:30:40.861285+00:00",
+      "contentType": "text/html; charset=utf-8",
+      "sha256": "becaaae4cd8af66dd9c3ee502c1de4e20e66efdd9430ac040f18402e49a85768",
+      "bytes": 12622
+    },
+    {
+      "key": "original-2-1",
+      "url": "https://mods.go.kr/board.es?act=view&bid=204&list_no=443686&mid=a10301020300",
+      "checkedAt": "2026-10-20T00:30:39.308815+00:00",
+      "status": 200,
+      "finalUrl": "https://mods.go.kr/board.es?act=view&bid=204&list_no=443686&mid=a10301020300",
+      "receivedAt": "2026-10-20T00:30:41.559792+00:00",
+      "contentType": "text/html;charset=UTF-8",
+      "sha256": "4bdba0eb555c5420ab81f7f6103124d90986eb174decfeb2a742f83bca6546fc",
+      "bytes": 102201
+    },
+    {
+      "key": "original-2-2",
+      "url": "https://mods.go.kr/board.es?act=view&bid=215&list_no=439535&mid=a10301040300",
+      "checkedAt": "2026-10-20T00:30:39.309815+00:00",
+      "status": 200,
+      "finalUrl": "https://mods.go.kr/board.es?act=view&bid=215&list_no=439535&mid=a10301040300",
+      "receivedAt": "2026-10-20T00:30:41.672423+00:00",
+      "contentType": "text/html;charset=UTF-8",
+      "sha256": "107acf8243bde504834e8967d1ab987e295baff17b2de433c8727c5769c481b2",
+      "bytes": 104966
+    },
+    {
+      "key": "original-2-3",
+      "url": "https://mods.go.kr/board.es?act=view&bid=12305&list_no=428618&mid=a90104010304",
+      "checkedAt": "2026-10-20T00:30:40.834699+00:00",
+      "status": 200,
+      "finalUrl": "https://mods.go.kr/board.es?act=view&bid=12305&list_no=428618&mid=a90104010304",
+      "receivedAt": "2026-10-20T00:30:41.684422+00:00",
+      "contentType": "text/html;charset=UTF-8",
+      "sha256": "7485ab5e0f439d67b9b846b13428bd402650b11376a75e9b2efb3fa0dbcc24e6",
+      "bytes": 42244
+    },
+    {
+      "key": "live-3",
+      "url": "https://www.stargateedu.co.kr/research/korean-unification-challenges/",
+      "checkedAt": "2026-10-20T00:30:40.864005+00:00",
+      "status": 200,
+      "finalUrl": "https://stargateedu.co.kr/research/korean-unification-challenges/",
+      "receivedAt": "2026-10-20T00:30:41.353884+00:00",
+      "contentType": "text/html; charset=utf-8",
+      "sha256": "00d5b6720ef62917bd079781f0085db6a0e2486f693d5ba76fec98a0f08f2a1d",
+      "bytes": 13656
+    },
+    {
+      "key": "original-3-1",
+      "url": "https://www.iaea.org/sites/default/files/gc/gc69-13.pdf",
+      "checkedAt": "2026-10-20T00:30:40.867006+00:00",
+      "status": 200,
+      "finalUrl": "https://www.iaea.org/sites/default/files/gc/gc69-13.pdf",
+      "receivedAt": "2026-10-20T00:30:41.297263+00:00",
+      "contentType": "application/pdf",
+      "sha256": "bd1c47402e65852a4c145da45df8b66ef7da44b0faac250d7f27f6b5f8a6106c",
+      "bytes": 1107604
+    },
+    {
+      "key": "original-3-2",
+      "url": "https://www.bok.or.kr/portal/bbs/B0000501/view.do?menuNo=201264&nttId=10093292",
+      "checkedAt": "2026-10-20T00:30:41.112188+00:00",
+      "status": 200,
+      "finalUrl": "https://www.bok.or.kr/portal/bbs/B0000501/view.do?menuNo=201264&nttId=10093292",
+      "receivedAt": "2026-10-20T00:30:41.437892+00:00",
+      "contentType": "text/html;charset=utf-8",
+      "sha256": "509634e0e86d7865c04e964cdfb411f82e3684ed539d6414e5ec3713f125849b",
+      "bytes": 405914
+    },
+    {
+      "key": "original-3-3",
+      "url": "https://nkinfo.unikorea.go.kr/nkp/stats/openapi/kosisView.do?menuId=NKSTATS_1159&statsTy=18",
+      "checkedAt": "2026-10-20T00:30:41.300256+00:00",
+      "status": 200,
+      "finalUrl": "https://nkinfo.unikorea.go.kr/nkp/stats/openapi/kosisView.do?menuId=NKSTATS_1159&statsTy=18",
+      "receivedAt": "2026-10-20T00:30:41.801907+00:00",
+      "contentType": "text/html;charset=utf-8",
+      "sha256": "1d34ff80978a41b500bd5788dcdebc2bb6550dc7c989c0c847e8b71530ac5f28",
+      "bytes": 181324
+    },
+    {
+      "key": "original-3-4",
+      "url": "https://www.ohchr.org/en/documents/country-reports/ahrc6058-situation-human-rights-democratic-peoples-republic-korea-report",
+      "checkedAt": "2026-10-20T00:30:41.312297+00:00",
+      "status": 403,
+      "finalUrl": "https://www.ohchr.org/en/documents/country-reports/ahrc6058-situation-human-rights-democratic-peoples-republic-korea-report",
+      "receivedAt": "2026-10-20T00:30:41.967733+00:00",
+      "contentType": "text/html; charset=UTF-8",
+      "sha256": "1bdd1876c7ea15ea65bb9b12dbfb48621c63c9a2dac045ef3f87f6548e9f6d49",
+      "bytes": 5824
+    },
+    {
+      "key": "live-4",
+      "url": "https://www.stargateedu.co.kr/research/quantum-physics-challenges/",
+      "checkedAt": "2026-10-20T00:30:41.354885+00:00",
+      "status": 200,
+      "finalUrl": "https://stargateedu.co.kr/research/quantum-physics-challenges/",
+      "receivedAt": "2026-10-20T00:30:41.807910+00:00",
+      "contentType": "text/html; charset=utf-8",
+      "sha256": "7b39a39f2315aa436fc6fa8c9c567ee473c2b04b54c657bca97fc64536f7dc1f",
+      "bytes": 11311
+    },
+    {
+      "key": "original-4-1",
+      "url": "https://doi.org/10.1080/14786435.2025.2601922",
+      "checkedAt": "2026-10-20T00:30:41.439891+00:00",
+      "status": 403,
+      "finalUrl": "https://www.tandfonline.com/doi/full/10.1080/14786435.2025.2601922",
+      "receivedAt": "2026-10-20T00:30:41.874490+00:00",
+      "contentType": "text/html; charset=UTF-8",
+      "sha256": "d906e1d93e3e2b66e1ad47b9bbac0ce5245e50848c3d549be39a2ba9e0c9c4ea",
+      "bytes": 5598
+    },
+    {
+      "key": "original-4-2",
+      "url": "https://home.cern/science/physics/standard-model",
+      "checkedAt": "2026-10-20T00:30:41.560792+00:00",
+      "status": 200,
+      "finalUrl": "https://home.cern/science/physics/standard-model",
+      "receivedAt": "2026-10-20T00:30:44.923607+00:00",
+      "contentType": "text/html",
+      "sha256": "a109e55039a9e739311c4dd91795076030b04e078c415bfaf35a3969cba716f6",
+      "bytes": 251360
+    },
+    {
+      "key": "original-4-3",
+      "url": "https://cerncourier.com/quantum-gravity-beyond-frameworks/",
+      "checkedAt": "2026-10-20T00:30:41.673391+00:00",
+      "status": 200,
+      "finalUrl": "https://cerncourier.com/quantum-gravity-beyond-frameworks/",
+      "receivedAt": "2026-10-20T00:30:43.743735+00:00",
+      "contentType": "text/html; charset=UTF-8",
+      "sha256": "f4432a7c20ade55613f3f8222e997522e5c54d45ac0b8df4bc193674dec33fec",
+      "bytes": 96095
+    },
+    {
+      "key": "original-4-4",
+      "url": "https://doi.org/10.1038/s41467-024-46402-9",
+      "checkedAt": "2026-10-20T00:30:41.685420+00:00",
+      "status": 200,
+      "finalUrl": "https://www.nature.com/articles/s41467-024-46402-9?error=cookies_not_supported&code=1cc13cfd-7eda-4120-b595-8d9dc11ddc11",
+      "receivedAt": "2026-10-20T00:30:44.427898+00:00",
+      "contentType": "text/html; charset=utf-8",
+      "sha256": "d5cbae36717121bd03b8ba498eabd8c1ab781c0eb94dabb2e6d09fa187cb2411",
+      "bytes": 754762
+    },
+    {
+      "key": "live-5",
+      "url": "https://www.stargateedu.co.kr/research/deep-earth-ocean-challenges/",
+      "checkedAt": "2026-10-20T00:30:41.802934+00:00",
+      "status": 200,
+      "finalUrl": "https://stargateedu.co.kr/research/deep-earth-ocean-challenges/",
+      "receivedAt": "2026-10-20T00:30:42.257720+00:00",
+      "contentType": "text/html; charset=utf-8",
+      "sha256": "89fc03c224999c71c8c253e8146e91359db015cb50a948f63b69a9d64c110105",
+      "bytes": 17138
+    },
+    {
+      "key": "original-5-1",
+      "url": "https://seabed2030.org/",
+      "checkedAt": "2026-10-20T00:30:41.808911+00:00",
+      "status": 200,
+      "finalUrl": "https://seabed2030.org/",
+      "receivedAt": "2026-10-20T00:30:42.342727+00:00",
+      "contentType": "text/html; charset=UTF-8",
+      "sha256": "7795064a6aaf2b20b0a66a43ddbe0f629945265c9614a589f1e417d47d75875d",
+      "bytes": 838157
+    },
+    {
+      "key": "live-6",
+      "url": "https://www.stargateedu.co.kr/research/disease-challenges/",
+      "checkedAt": "2026-10-20T00:30:41.875457+00:00",
+      "status": 200,
+      "finalUrl": "https://stargateedu.co.kr/research/disease-challenges/",
+      "receivedAt": "2026-10-20T00:30:42.454764+00:00",
+      "contentType": "text/html; charset=utf-8",
+      "sha256": "bdbddcceb3b782a65391906511f43fd6ca95a201b920c613947ddf4ad0ea67ed",
+      "bytes": 11581
+    },
+    {
+      "key": "original-6-1",
+      "url": "https://www.who.int/news-room/fact-sheets/detail/cancer",
+      "checkedAt": "2026-10-20T00:30:41.968732+00:00",
+      "status": 200,
+      "finalUrl": "https://www.who.int/news-room/fact-sheets/detail/cancer",
+      "receivedAt": "2026-10-20T00:30:42.350246+00:00",
+      "contentType": "text/html; charset=utf-8",
+      "sha256": "cfe96c4c197758a1acc0cdb8d9f1dc9a1eefdf7e6f5dafa014a15d2c5ddfa8ff",
+      "bytes": 118367
+    },
+    {
+      "key": "original-6-2",
+      "url": "https://gco.iarc.who.int/",
+      "checkedAt": "2026-10-20T00:30:42.258720+00:00",
+      "status": 200,
+      "finalUrl": "https://gco.iarc.who.int/",
+      "receivedAt": "2026-10-20T00:30:44.140380+00:00",
+      "contentType": "text/html",
+      "sha256": "034bf82c421efa58cbceb429041a6962a2b017de1a1f1ca2a53fb9835ad6147c",
+      "bytes": 3095
+    },
+    {
+      "key": "original-6-3",
+      "url": "https://www.nia.nih.gov/about/2025-nih-dementia-research-progress-report",
+      "checkedAt": "2026-10-20T00:30:42.344727+00:00",
+      "status": 405,
+      "finalUrl": "https://www.nia.nih.gov/about/2025-nih-dementia-research-progress-report",
+      "receivedAt": "2026-10-20T00:30:42.879212+00:00",
+      "contentType": "text/html; charset=UTF-8",
+      "sha256": "9a6cb88310cae532203070df5c30db8e0bbc97d1c5deeef822df3f47e8e227a2",
+      "bytes": 2533
+    },
+    {
+      "key": "original-6-4",
+      "url": "https://www.who.int/publications/i/item/9789240102309",
+      "checkedAt": "2026-10-20T00:30:42.351247+00:00",
+      "status": 200,
+      "finalUrl": "https://www.who.int/publications/i/item/9789240102309",
+      "receivedAt": "2026-10-20T00:30:43.415013+00:00",
+      "contentType": "text/html; charset=utf-8",
+      "sha256": "370930aeee2c0474624e18d912dc9ee5bba2dcc6b3fe595631ef96829ef3f46e",
+      "bytes": 89387
+    },
+    {
+      "key": "birth-final",
+      "url": "https://mods.go.kr/board.es?act=view&bid=204&list_no=446625&mid=a10301020300",
+      "checkedAt": "2026-10-20T00:30:42.456767+00:00",
+      "status": 200,
+      "finalUrl": "https://mods.go.kr/board.es?act=view&bid=204&list_no=446625&mid=a10301020300",
+      "receivedAt": "2026-10-20T00:30:43.535574+00:00",
+      "contentType": "text/html;charset=UTF-8",
+      "sha256": "8c05e694292044d2c1ddd623ee0dd69213769de35d60190795748b1ed520a591",
+      "bytes": 102010
+    },
+    {
+      "key": "iho-coverage",
+      "url": "https://iho.int/en/global-seabed-mapping-reaches-new-milestone-as-five-million-square-kilometres-added-in-a-year",
+      "checkedAt": "2026-10-20T00:30:42.880211+00:00",
+      "status": 200,
+      "finalUrl": "https://iho.int/en/global-seabed-mapping-reaches-new-milestone-as-five-million-square-kilometres-added-in-a-year",
+      "receivedAt": "2026-10-20T00:30:44.038122+00:00",
+      "contentType": "text/html",
+      "sha256": "d27b15d5e79c7fc940c6d8df63e9ccdd4949eae1d9db415355e60ab2c4073b1b",
+      "bytes": 1323
+    },
+    {
+      "key": "gebco-grid",
+      "url": "https://www.gebco.net/data-products/gridded-bathymetry-data/gebco2026-grid",
+      "checkedAt": "2026-10-20T00:30:43.416013+00:00",
+      "status": 404,
+      "finalUrl": "https://www.gebco.net/data-products/gridded-bathymetry-data/gebco2026-grid",
+      "receivedAt": "2026-10-20T00:30:44.844098+00:00",
+      "contentType": "text/html; charset=UTF-8",
+      "sha256": "98fd047a7de2f28c7dbb3c661c74ffb9822dc8f0c93ea2c9c6b1ee795200241a",
+      "bytes": 43998
+    },
+    {
+      "key": "nobel-arrow",
+      "url": "https://www.nobelprize.org/prizes/economic-sciences/1972/press-release/",
+      "checkedAt": "2026-10-20T00:30:43.537570+00:00",
+      "status": 200,
+      "finalUrl": "https://www.nobelprize.org/prizes/economic-sciences/1972/press-release/",
+      "receivedAt": "2026-10-20T00:30:45.426726+00:00",
+      "contentType": "text/html; charset=UTF-8",
+      "sha256": "d9f677049af894c4914333303e11cf7840353b75bace69a0a72174a55777fc0b",
+      "bytes": 166883
+    },
+    {
+      "key": "nobel-ostrom",
+      "url": "https://www.nobelprize.org/prizes/economic-sciences/2009/press-release/",
+      "checkedAt": "2026-10-20T00:30:43.745731+00:00",
+      "status": 200,
+      "finalUrl": "https://www.nobelprize.org/prizes/economic-sciences/2009/press-release/",
+      "receivedAt": "2026-10-20T00:30:44.088635+00:00",
+      "contentType": "text/html; charset=UTF-8",
+      "sha256": "44a2c990185ee2cd5779b47c4ae0c1535bb60c375dcac919a01f3ae4cb3ba1d2",
+      "bytes": 171582
+    },
+    {
+      "key": "goodhart-paper",
+      "url": "https://arxiv.org/abs/1803.04585",
+      "checkedAt": "2026-10-20T00:30:44.039122+00:00",
+      "status": 200,
+      "finalUrl": "https://arxiv.org/abs/1803.04585",
+      "receivedAt": "2026-10-20T00:30:44.157856+00:00",
+      "contentType": "text/html; charset=utf-8",
+      "sha256": "fb105c859d2f37c2295ee96b588e6a386b50aa10ec2c79a20ca66dae2e69d868",
+      "bytes": 42620
+    },
+    {
+      "key": "induced-paper",
+      "url": "https://www.aeaweb.org/articles?id=10.1257/aer.101.6.2616",
+      "checkedAt": "2026-10-20T00:30:44.093300+00:00",
+      "status": 200,
+      "finalUrl": "https://www.aeaweb.org/articles?id=10.1257/aer.101.6.2616",
+      "receivedAt": "2026-10-20T00:30:45.141264+00:00",
+      "contentType": "text/html; charset=UTF-8",
+      "sha256": "313d5e104e897686af04ce59eebccea6f77483c09ecc27d8a2428f704d5800c5",
+      "bytes": 29571
+    },
+    {
+      "key": "quantum-doi-meta",
+      "url": "https://api.crossref.org/works/10.1080/14786435.2025.2601922",
+      "checkedAt": "2026-10-20T00:30:44.141344+00:00",
+      "status": 200,
+      "finalUrl": "https://api.crossref.org/works/10.1080/14786435.2025.2601922",
+      "receivedAt": "2026-10-20T00:30:45.233421+00:00",
+      "contentType": "application/json",
+      "sha256": "a6334a456d8378c51f765a51b763934205cb624fa9b31c413b720988ccde42bb",
+      "bytes": 60341
+    },
+    {
+      "key": "manybody-doi-meta",
+      "url": "https://api.crossref.org/works/10.1038/s41467-024-46402-9",
+      "checkedAt": "2026-10-20T00:30:44.158855+00:00",
+      "status": 200,
+      "finalUrl": "https://api.crossref.org/works/10.1038/s41467-024-46402-9",
+      "receivedAt": "2026-10-20T00:30:45.205421+00:00",
+      "contentType": "application/json",
+      "sha256": "e4c903e04d95d5c96e2fbb924e07308dbccf04c71b3a76b828bdfb834c4289ad",
+      "bytes": 63305
+    },
+    {
+      "key": "gebco-release",
+      "url": "https://www.gebco.net/news/release-gebco2026-grid",
+      "checkedAt": "2026-10-20T00:32:00.476752+00:00",
+      "status": 200,
+      "finalUrl": "https://www.gebco.net/news/release-gebco2026-grid",
+      "receivedAt": "2026-10-20T00:32:02.623897+00:00",
+      "contentType": "text/html; charset=UTF-8",
+      "sha256": "ef1191a74f9a55f3c5aecf98bb145709c0f25dae237638752cec313f4ec23bc0",
+      "bytes": 51716
+    },
+    {
+      "key": "seabed-release",
+      "url": "https://seabed2030.org/2026/04/20/global-seabed-mapping-reaches-new-milestone-as-five-million-square-kilometres-added-in-a-year/",
+      "checkedAt": "2026-10-20T00:32:00.477747+00:00",
+      "status": 200,
+      "finalUrl": "https://seabed2030.org/2026/04/20/global-seabed-mapping-reaches-new-milestone-as-five-million-square-kilometres-added-in-a-year/",
+      "receivedAt": "2026-10-20T00:32:02.673899+00:00",
+      "contentType": "text/html; charset=UTF-8",
+      "sha256": "656914637a8caa4fe2c76c88c4a93bc4f58261c4652c53da7b88046cca68927e",
+      "bytes": 198555
+    },
+    {
+      "key": "dark-oxygen",
+      "url": "https://www.nature.com/articles/s41561-024-01480-8",
+      "checkedAt": "2026-10-20T00:32:00.478749+00:00",
+      "status": 200,
+      "finalUrl": "https://www.nature.com/articles/s41561-024-01480-8?error=cookies_not_supported&code=4ce77ea8-6b3c-4dd1-8463-aff174d73175",
+      "receivedAt": "2026-10-20T00:32:03.389659+00:00",
+      "contentType": "text/html; charset=utf-8",
+      "sha256": "6619871028d21375fb4b0d28fdab278dd831ecc6849512a9a5c6af4311830691",
+      "bytes": 400461
+    },
+    {
+      "key": "bok-2025",
+      "url": "https://www.bok.or.kr/portal/bbs/B0000501/view.do?nttId=11063399&menuNo=201264",
+      "checkedAt": "2026-10-20T00:32:00.478749+00:00",
+      "status": 200,
+      "finalUrl": "https://www.bok.or.kr/portal/bbs/B0000501/view.do?nttId=11063399&menuNo=201264",
+      "receivedAt": "2026-10-20T00:32:01.514031+00:00",
+      "contentType": "text/html;charset=utf-8",
+      "sha256": "482fcad9b0ba4cbe8ee4994c6a8317be22ab08a64b083026319914e26bb0e549",
+      "bytes": 406440
+    },
+    {
+      "key": "nia-2026",
+      "url": "https://www.nia.nih.gov/about/2026-nih-alzheimers-disease-and-related-dementias-research-progress-report-advances-and",
+      "checkedAt": "2026-10-20T00:32:00.479748+00:00",
+      "status": 405,
+      "finalUrl": "https://www.nia.nih.gov/about/2026-nih-alzheimers-disease-and-related-dementias-research-progress-report-advances-and",
+      "receivedAt": "2026-10-20T00:32:01.780820+00:00",
+      "contentType": "text/html; charset=UTF-8",
+      "sha256": "dd89a479efad44330a80385c8f1f827d424aba2539d3e186be139d046acd9eaf",
+      "bytes": 2533
+    }
+  ],
+  "items": [
+    {
+      "key": "/research/contradiction-lab/",
+      "title": "모순연구소 — AI는 인간의 모순을 풀 수 있는가",
+      "reviewStatus": "needs_review",
+      "checkedAt": "2026-10-20T00:36:58.677999+00:00",
+      "dataAsOf": null,
+      "dataPeriod": null,
+      "collectedAt": null,
+      "snapshotUpdatedAt": "2026-10-20",
+      "monthlyReference": {
+        "status": "not_applicable",
+        "reason": "정해진 월간 통계 대시보드가 아닌 문헌·연구 의제 문서. 인용한 연간 수치·원문 판본은 별도로 관리하며 미확인 자료의 최신화를 의미하지 않음."
+      },
+      "documentVersion": {
+        "baseCommit": "a24344dcc94d9dfd79a20d95f590784245a1d7bd",
+        "sha256": "f76331624e27780aec89a8cc3859e25f4cf61b15100eae26b0f448f194e596af",
+        "gitBlob": "42ecbd796a32e60ccf01f2dd090dd92a47391334",
+        "revision": "2026-10-20"
+      },
+      "verifiedScope": "문헌 사례 17개·정성 분류, 원 논문들의 일부 개념·미국 교통 연구 범위 대조. AI 효과 실험은 없음.",
+      "officialSources": [
+        {
+          "kind": "official-source",
+          "url": "https://www.nobelprize.org/prizes/economic-sciences/1972/press-release/",
+          "checkedAt": "2026-10-20T00:30:43.537570+00:00",
+          "sha256": "d9f677049af894c4914333303e11cf7840353b75bace69a0a72174a55777fc0b",
+          "scope": "문헌 사례 17개·정성 분류, 원 논문들의 일부 개념·미국 교통 연구 범위 대조. AI 효과 실험은 없음."
+        },
+        {
+          "kind": "official-source",
+          "url": "https://www.nobelprize.org/prizes/economic-sciences/2009/press-release/",
+          "checkedAt": "2026-10-20T00:30:43.745731+00:00",
+          "sha256": "44a2c990185ee2cd5779b47c4ae0c1535bb60c375dcac919a01f3ae4cb3ba1d2",
+          "scope": "문헌 사례 17개·정성 분류, 원 논문들의 일부 개념·미국 교통 연구 범위 대조. AI 효과 실험은 없음."
+        },
+        {
+          "kind": "official-source",
+          "url": "https://www.aeaweb.org/articles?id=10.1257/aer.101.6.2616",
+          "checkedAt": "2026-10-20T00:30:44.093300+00:00",
+          "sha256": "313d5e104e897686af04ce59eebccea6f77483c09ecc27d8a2428f704d5800c5",
+          "scope": "문헌 사례 17개·정성 분류, 원 논문들의 일부 개념·미국 교통 연구 범위 대조. AI 효과 실험은 없음."
+        },
+        {
+          "kind": "official-source",
+          "url": "https://arxiv.org/abs/1803.04585",
+          "checkedAt": "2026-10-20T00:30:44.039122+00:00",
+          "sha256": "fb105c859d2f37c2295ee96b588e6a386b50aa10ec2c79a20ca66dae2e69d868",
+          "scope": "문헌 사례 17개·정성 분류, 원 논문들의 일부 개념·미국 교통 연구 범위 대조. AI 효과 실험은 없음."
+        }
+      ],
+      "issues": [
+        "전체 참고문헌 본문, 한국 맥락 적용, 개입 효과와 탐색 도구의 오분류·유형 중첩을 별도 검증.",
+        "확인일 2026-10-20과 자료 관측기간·원문 공표/개정일을 구분. 2026-09/10 관측값을 추정하거나 수집하지 않음."
+      ],
+      "nextAction": "전체 참고문헌 본문, 한국 맥락 적용, 개입 효과와 탐색 도구의 오분류·유형 중첩을 별도 검증."
+    },
+    {
+      "key": "/research/climate-algebraic-geometry/",
+      "title": "기후변화 난제 3가지",
+      "reviewStatus": "not_applicable",
+      "checkedAt": "2026-10-20T00:36:58.677999+00:00",
+      "dataAsOf": null,
+      "dataPeriod": null,
+      "collectedAt": null,
+      "snapshotUpdatedAt": "2026-10-20",
+      "monthlyReference": {
+        "status": "not_applicable",
+        "reason": "정해진 월간 통계 대시보드가 아닌 문헌·연구 의제 문서. 인용한 연간 수치·원문 판본은 별도로 관리하며 미확인 자료의 최신화를 의미하지 않음."
+      },
+      "documentVersion": {
+        "baseCommit": "a24344dcc94d9dfd79a20d95f590784245a1d7bd",
+        "sha256": "78b4443aba404c31da70b4b3793fad979fb25bbc09fab9024f9ef09f6a2b6171",
+        "gitBlob": "11a33a75a46d545ccde8b487dc2f1bf400ff05f3",
+        "revision": "2026-10-20"
+      },
+      "verifiedScope": "IPCC AR6 2023 판본과 ERA5·NOAA 제공처 확인. 통계 관측값 없는 저자 연구 의제의 월간 기준월 비적용. 수학적 효과·기후 경보를 검증한 것은 아님.",
+      "officialSources": [
+        {
+          "kind": "official-source",
+          "url": "https://www.ipcc.ch/report/ar6/syr/",
+          "checkedAt": "2026-10-20T00:30:39.306820+00:00",
+          "sha256": "46992f22e1234703841de35597ce095a9d475b0ca3f625b893e7d3b8ddbf05cd",
+          "scope": "IPCC AR6 2023 판본과 ERA5·NOAA 제공처 확인. 통계 관측값 없는 저자 연구 의제의 월간 기준월 비적용. 수학적 효과·기후 경보를 검증한 것은 아님."
+        },
+        {
+          "kind": "official-source",
+          "url": "https://cds.climate.copernicus.eu/datasets/reanalysis-era5-single-levels",
+          "checkedAt": "2026-10-20T00:30:39.307817+00:00",
+          "sha256": "5aab6b09ed690f838b848b682a8fa1d2cc94d5d68e63cb1ab1d2434c94745387",
+          "scope": "IPCC AR6 2023 판본과 ERA5·NOAA 제공처 확인. 통계 관측값 없는 저자 연구 의제의 월간 기준월 비적용. 수학적 효과·기후 경보를 검증한 것은 아님."
+        },
+        {
+          "kind": "official-source",
+          "url": "https://gml.noaa.gov/",
+          "checkedAt": "2026-10-20T00:30:39.307817+00:00",
+          "sha256": "3a76f01b5237e195272d2b99e954367964257691472053a6c77eae0a871e721c",
+          "scope": "IPCC AR6 2023 판본과 ERA5·NOAA 제공처 확인. 통계 관측값 없는 저자 연구 의제의 월간 기준월 비적용. 수학적 효과·기후 경보를 검증한 것은 아님."
+        }
+      ],
+      "issues": [
+        "명시한 다항 근사·열대화·관측 연산자 가정으로 기준선과 모형 적합·불확실성 검증.",
+        "확인일 2026-10-20과 자료 관측기간·원문 공표/개정일을 구분. 2026-09/10 관측값을 추정하거나 수집하지 않음."
+      ],
+      "nextAction": "명시한 다항 근사·열대화·관측 연산자 가정으로 기준선과 모형 적합·불확실성 검증."
+    },
+    {
+      "key": "/research/korea-challenges/",
+      "title": "대한민국의 난제 3가지",
+      "reviewStatus": "needs_review",
+      "checkedAt": "2026-10-20T00:36:58.677999+00:00",
+      "dataAsOf": "2025",
+      "dataPeriod": "2025년 출생(확정 공표 요약·100명 단위); 가계 자산·부채 2025-03, 소득 2024; 의료 보고서 2023",
+      "collectedAt": null,
+      "snapshotUpdatedAt": "2026-10-20",
+      "monthlyReference": {
+        "status": "not_applicable",
+        "reason": "정해진 월간 통계 대시보드가 아닌 문헌·연구 의제 문서. 인용한 연간 수치·원문 판본은 별도로 관리하며 미확인 자료의 최신화를 의미하지 않음."
+      },
+      "documentVersion": {
+        "baseCommit": "a24344dcc94d9dfd79a20d95f590784245a1d7bd",
+        "sha256": "f7b9e45eab09fda6cd933e13d28e054f1c8ec7e658de47491e359d57ed2dd93c",
+        "gitBlob": "8cae1375d6ef79b5003da9973203c6e48ec29ec8",
+        "revision": "2026-10-20"
+      },
+      "verifiedScope": "2025년 확정 출생 공표 요약 254,300명 및 인용 자료 판본/기간 확인. 사망 확정·자연증가·정책 인과효과는 검증하지 않음.",
+      "officialSources": [
+        {
+          "kind": "official-source",
+          "url": "https://mods.go.kr/board.es?act=view&bid=204&list_no=446625&mid=a10301020300",
+          "checkedAt": "2026-10-20T00:30:42.456767+00:00",
+          "sha256": "8c05e694292044d2c1ddd623ee0dd69213769de35d60190795748b1ed520a591",
+          "scope": "2025년 확정 출생 공표 요약 254,300명 및 인용 자료 판본/기간 확인. 사망 확정·자연증가·정책 인과효과는 검증하지 않음."
+        },
+        {
+          "kind": "official-source",
+          "url": "https://mods.go.kr/board.es?act=view&bid=215&list_no=439535&mid=a10301040300",
+          "checkedAt": "2026-10-20T00:30:39.309815+00:00",
+          "sha256": "107acf8243bde504834e8967d1ab987e295baff17b2de433c8727c5769c481b2",
+          "scope": "2025년 확정 출생 공표 요약 254,300명 및 인용 자료 판본/기간 확인. 사망 확정·자연증가·정책 인과효과는 검증하지 않음."
+        },
+        {
+          "kind": "official-source",
+          "url": "https://mods.go.kr/board.es?act=view&bid=12305&list_no=428618&mid=a90104010304",
+          "checkedAt": "2026-10-20T00:30:40.834699+00:00",
+          "sha256": "7485ab5e0f439d67b9b846b13428bd402650b11376a75e9b2efb3fa0dbcc24e6",
+          "scope": "2025년 확정 출생 공표 요약 254,300명 및 인용 자료 판본/기간 확인. 사망 확정·자연증가·정책 인과효과는 검증하지 않음."
+        }
+      ],
+      "issues": [
+        "사망 확정 원표와 출생 원표의 동일 기준·반올림을 맞춰 자연증가를 검증하고 지역별/금융 모형은 별도 적합.",
+        "확인일 2026-10-20과 자료 관측기간·원문 공표/개정일을 구분. 2026-09/10 관측값을 추정하거나 수집하지 않음."
+      ],
+      "nextAction": "사망 확정 원표와 출생 원표의 동일 기준·반올림을 맞춰 자연증가를 검증하고 지역별/금융 모형은 별도 적합."
+    },
+    {
+      "key": "/research/korean-unification-challenges/",
+      "title": "한반도 통일의 난제 3가지",
+      "reviewStatus": "needs_review",
+      "checkedAt": "2026-10-20T00:36:58.677999+00:00",
+      "dataAsOf": "2025",
+      "dataPeriod": "한국은행 2025년 북한 실질 GDP 전년 대비 추정; IAEA 2025 보고서",
+      "collectedAt": null,
+      "snapshotUpdatedAt": "2026-10-20",
+      "monthlyReference": {
+        "status": "not_applicable",
+        "reason": "정해진 월간 통계 대시보드가 아닌 문헌·연구 의제 문서. 인용한 연간 수치·원문 판본은 별도로 관리하며 미확인 자료의 최신화를 의미하지 않음."
+      },
+      "documentVersion": {
+        "baseCommit": "a24344dcc94d9dfd79a20d95f590784245a1d7bd",
+        "sha256": "3555641fd70666b2ebf986b7bdd2f42fb1f7f06a5d069b1103d75a66833a9ab2",
+        "gitBlob": "49d7e646d66047571b6b4a4744df70b66d20d10c",
+        "revision": "2026-10-20"
+      },
+      "verifiedScope": "한국은행 2025년 GDP 추정 3.5%, 2026-07-31 공표와 IAEA 2025 PDF 판본 확인. 비교통계 개별 원표·OHCHR 본문·2026 IAEA 후속판 미확인.",
+      "officialSources": [
+        {
+          "kind": "official-source",
+          "url": "https://www.bok.or.kr/portal/bbs/B0000501/view.do?nttId=11063399&menuNo=201264",
+          "checkedAt": "2026-10-20T00:32:00.478749+00:00",
+          "sha256": "482fcad9b0ba4cbe8ee4994c6a8317be22ab08a64b083026319914e26bb0e549",
+          "scope": "한국은행 2025년 GDP 추정 3.5%, 2026-07-31 공표와 IAEA 2025 PDF 판본 확인. 비교통계 개별 원표·OHCHR 본문·2026 IAEA 후속판 미확인."
+        },
+        {
+          "kind": "official-source",
+          "url": "https://www.iaea.org/sites/default/files/gc/gc69-13.pdf",
+          "checkedAt": "2026-10-20T00:30:40.867006+00:00",
+          "sha256": "bd1c47402e65852a4c145da45df8b66ef7da44b0faac250d7f27f6b5f8a6106c",
+          "scope": "한국은행 2025년 GDP 추정 3.5%, 2026-07-31 공표와 IAEA 2025 PDF 판본 확인. 비교통계 개별 원표·OHCHR 본문·2026 IAEA 후속판 미확인."
+        }
+      ],
+      "issues": [
+        "OHCHR 403 접근 정상화 후 본문과 판본 대조, IAEA 후속 2026 판본 및 개별 남북 비교통계 원표 확인.",
+        "확인일 2026-10-20과 자료 관측기간·원문 공표/개정일을 구분. 2026-09/10 관측값을 추정하거나 수집하지 않음."
+      ],
+      "nextAction": "OHCHR 403 접근 정상화 후 본문과 판본 대조, IAEA 후속 2026 판본 및 개별 남북 비교통계 원표 확인."
+    },
+    {
+      "key": "/research/quantum-physics-challenges/",
+      "title": "현대 양자물리학의 3대 난제",
+      "reviewStatus": "needs_review",
+      "checkedAt": "2026-10-20T00:36:58.677999+00:00",
+      "dataAsOf": null,
+      "dataPeriod": null,
+      "collectedAt": null,
+      "snapshotUpdatedAt": "2026-10-20",
+      "monthlyReference": {
+        "status": "not_applicable",
+        "reason": "정해진 월간 통계 대시보드가 아닌 문헌·연구 의제 문서. 인용한 연간 수치·원문 판본은 별도로 관리하며 미확인 자료의 최신화를 의미하지 않음."
+      },
+      "documentVersion": {
+        "baseCommit": "a24344dcc94d9dfd79a20d95f590784245a1d7bd",
+        "sha256": "212f57e375b684ec2b3e476ba00a90f276d7e16ae5c65567087dcf450b85eb79",
+        "gitBlob": "fba96a522905d2902c6a847dceafc585e14a5d4d",
+        "revision": "2026-10-20"
+      },
+      "verifiedScope": "CERN 설명·2025-09-09 양자중력 글·2024-03-08 다체 리뷰 대조. 측정 리뷰는 Crossref 발행 메타데이터만 확인. 이론의 완성·예측 성능을 검증한 것은 아님.",
+      "officialSources": [
+        {
+          "kind": "official-source",
+          "url": "https://home.cern/science/physics/standard-model",
+          "checkedAt": "2026-10-20T00:30:41.560792+00:00",
+          "sha256": "a109e55039a9e739311c4dd91795076030b04e078c415bfaf35a3969cba716f6",
+          "scope": "CERN 설명·2025-09-09 양자중력 글·2024-03-08 다체 리뷰 대조. 측정 리뷰는 Crossref 발행 메타데이터만 확인. 이론의 완성·예측 성능을 검증한 것은 아님."
+        },
+        {
+          "kind": "official-source",
+          "url": "https://cerncourier.com/quantum-gravity-beyond-frameworks/",
+          "checkedAt": "2026-10-20T00:30:41.673391+00:00",
+          "sha256": "f4432a7c20ade55613f3f8222e997522e5c54d45ac0b8df4bc193674dec33fec",
+          "scope": "CERN 설명·2025-09-09 양자중력 글·2024-03-08 다체 리뷰 대조. 측정 리뷰는 Crossref 발행 메타데이터만 확인. 이론의 완성·예측 성능을 검증한 것은 아님."
+        },
+        {
+          "kind": "official-source",
+          "url": "https://doi.org/10.1038/s41467-024-46402-9",
+          "checkedAt": "2026-10-20T00:30:41.685420+00:00",
+          "sha256": "d5cbae36717121bd03b8ba498eabd8c1ab781c0eb94dabb2e6d09fa187cb2411",
+          "scope": "CERN 설명·2025-09-09 양자중력 글·2024-03-08 다체 리뷰 대조. 측정 리뷰는 Crossref 발행 메타데이터만 확인. 이론의 완성·예측 성능을 검증한 것은 아님."
+        }
+      ],
+      "issues": [
+        "측정 리뷰의 합법적 공개 원문 확보 후 해석별 실험 예측·탈동조화의 한계를 문장별 대조.",
+        "확인일 2026-10-20과 자료 관측기간·원문 공표/개정일을 구분. 2026-09/10 관측값을 추정하거나 수집하지 않음."
+      ],
+      "nextAction": "측정 리뷰의 합법적 공개 원문 확보 후 해석별 실험 예측·탈동조화의 한계를 문장별 대조."
+    },
+    {
+      "key": "/research/deep-earth-ocean-challenges/",
+      "title": "심해·지구 내부의 난제",
+      "reviewStatus": "needs_review",
+      "checkedAt": "2026-10-20T00:36:58.677999+00:00",
+      "dataAsOf": "2026",
+      "dataPeriod": "GEBCO_2026 현대 측량 기준 충족 면적 비율 28.7%; 2026-04-27 격자 공표",
+      "collectedAt": null,
+      "snapshotUpdatedAt": "2026-10-20",
+      "monthlyReference": {
+        "status": "not_applicable",
+        "reason": "정해진 월간 통계 대시보드가 아닌 문헌·연구 의제 문서. 인용한 연간 수치·원문 판본은 별도로 관리하며 미확인 자료의 최신화를 의미하지 않음."
+      },
+      "documentVersion": {
+        "baseCommit": "a24344dcc94d9dfd79a20d95f590784245a1d7bd",
+        "sha256": "33411360d659f1b981d21d27eb5a6b37c43fa3a515f1429d7d8695a18ab53a26",
+        "gitBlob": "55355fcf9d23f04f996fb01505e2e320468c887c",
+        "revision": "2026-10-20"
+      },
+      "verifiedScope": "GEBCO_2026 28.7%와 2024 암흑 산소 논문의 2026-04-08 편집자 주의문 확인. 9·10월 관측률 또는 나머지 지구과학 문헌의 전수 대조가 아님.",
+      "officialSources": [
+        {
+          "kind": "official-source",
+          "url": "https://www.gebco.net/news/release-gebco2026-grid",
+          "checkedAt": "2026-10-20T00:32:00.476752+00:00",
+          "sha256": "ef1191a74f9a55f3c5aecf98bb145709c0f25dae237638752cec313f4ec23bc0",
+          "scope": "GEBCO_2026 28.7%와 2024 암흑 산소 논문의 2026-04-08 편집자 주의문 확인. 9·10월 관측률 또는 나머지 지구과학 문헌의 전수 대조가 아님."
+        },
+        {
+          "kind": "official-source",
+          "url": "https://seabed2030.org/2026/04/20/global-seabed-mapping-reaches-new-milestone-as-five-million-square-kilometres-added-in-a-year/",
+          "checkedAt": "2026-10-20T00:32:00.477747+00:00",
+          "sha256": "656914637a8caa4fe2c76c88c4a93bc4f58261c4652c53da7b88046cca68927e",
+          "scope": "GEBCO_2026 28.7%와 2024 암흑 산소 논문의 2026-04-08 편집자 주의문 확인. 9·10월 관측률 또는 나머지 지구과학 문헌의 전수 대조가 아님."
+        },
+        {
+          "kind": "official-source",
+          "url": "https://www.nature.com/articles/s41561-024-01480-8",
+          "checkedAt": "2026-10-20T00:32:00.478749+00:00",
+          "sha256": "6619871028d21375fb4b0d28fdab278dd831ecc6849512a9a5c6af4311830691",
+          "scope": "GEBCO_2026 28.7%와 2024 암흑 산소 논문의 2026-04-08 편집자 주의문 확인. 9·10월 관측률 또는 나머지 지구과학 문헌의 전수 대조가 아님."
+        }
+      ],
+      "issues": [
+        "암흑 산소의 후속 편집 조치·독립 재현 결과 확인; 내핵·LLSVP·시추 깊이와 남은 참고문헌의 실제 원문·수치 범위 대조.",
+        "확인일 2026-10-20과 자료 관측기간·원문 공표/개정일을 구분. 2026-09/10 관측값을 추정하거나 수집하지 않음."
+      ],
+      "nextAction": "암흑 산소의 후속 편집 조치·독립 재현 결과 확인; 내핵·LLSVP·시추 깊이와 남은 참고문헌의 실제 원문·수치 범위 대조."
+    },
+    {
+      "key": "/research/disease-challenges/",
+      "title": "질병의 3대 난제",
+      "reviewStatus": "needs_review",
+      "checkedAt": "2026-10-20T00:36:58.677999+00:00",
+      "dataAsOf": null,
+      "dataPeriod": null,
+      "collectedAt": null,
+      "snapshotUpdatedAt": "2026-10-20",
+      "monthlyReference": {
+        "status": "not_applicable",
+        "reason": "정해진 월간 통계 대시보드가 아닌 문헌·연구 의제 문서. 인용한 연간 수치·원문 판본은 별도로 관리하며 미확인 자료의 최신화를 의미하지 않음."
+      },
+      "documentVersion": {
+        "baseCommit": "a24344dcc94d9dfd79a20d95f590784245a1d7bd",
+        "sha256": "47aabb75eb701059d435dd244b71118b5203a4ce2fc27eca9ee9aaeaece84818",
+        "gitBlob": "7a2a52382714fb9be975b9738895742dad291138",
+        "revision": "2026-10-20"
+      },
+      "verifiedScope": "WHO 암 설명문 2026-07-03 판본과 WHO AMR 2025-02-06 인간 보건 연구 의제 대조. IARC 개별 원표·NIA 본문·치료효과는 미검증.",
+      "officialSources": [
+        {
+          "kind": "official-source",
+          "url": "https://www.who.int/news-room/fact-sheets/detail/cancer",
+          "checkedAt": "2026-10-20T00:30:41.968732+00:00",
+          "sha256": "cfe96c4c197758a1acc0cdb8d9f1dc9a1eefdf7e6f5dafa014a15d2c5ddfa8ff",
+          "scope": "WHO 암 설명문 2026-07-03 판본과 WHO AMR 2025-02-06 인간 보건 연구 의제 대조. IARC 개별 원표·NIA 본문·치료효과는 미검증."
+        },
+        {
+          "kind": "official-source",
+          "url": "https://www.who.int/publications/i/item/9789240102309",
+          "checkedAt": "2026-10-20T00:30:42.351247+00:00",
+          "sha256": "370930aeee2c0474624e18d912dc9ee5bba2dcc6b3fe595631ef96829ef3f46e",
+          "scope": "WHO 암 설명문 2026-07-03 판본과 WHO AMR 2025-02-06 인간 보건 연구 의제 대조. IARC 개별 원표·NIA 본문·치료효과는 미검증."
+        }
+      ],
+      "issues": [
+        "NIA 2025/2026 본문 접근 정상화 또는 공식 PDF 확보 후 판본 대조, IARC 통계 사용 시 질의·대상·연도별 원표 확보.",
+        "확인일 2026-10-20과 자료 관측기간·원문 공표/개정일을 구분. 2026-09/10 관측값을 추정하거나 수집하지 않음."
+      ],
+      "nextAction": "NIA 2025/2026 본문 접근 정상화 또는 공식 PDF 확보 후 판본 대조, IARC 통계 사용 시 질의·대상·연도별 원표 확보."
+    }
+  ],
+  "verificationPolicy": "HTTP 200만으로 원출처 검증으로 취급하지 않음. JS 도전 페이지·메타데이터만·포털 셸은 해당 범위만 기록. not_applicable은 월간 기준월의 비적용이지 연구의 타당성 인증이 아님.",
+  "accessLimitations": [
+    {
+      "sourceKey": "original-3-4",
+      "url": "https://www.ohchr.org/en/documents/country-reports/ahrc6058-situation-human-rights-democratic-peoples-republic-korea-report",
+      "status": 403,
+      "reason": "OHCHR 본문 403"
+    },
+    {
+      "sourceKey": "original-4-1",
+      "url": "https://doi.org/10.1080/14786435.2025.2601922",
+      "status": 403,
+      "reason": "측정 리뷰 출판사 본문 403; Crossref 메타데이터만 대체 확인"
+    },
+    {
+      "sourceKey": "original-6-3",
+      "url": "https://www.nia.nih.gov/about/2025-nih-dementia-research-progress-report",
+      "status": 405,
+      "reason": "NIA 2025 본문 405"
+    },
+    {
+      "sourceKey": "nia-2026",
+      "url": "https://www.nia.nih.gov/about/2026-nih-alzheimers-disease-and-related-dementias-research-progress-report-advances-and",
+      "status": 405,
+      "reason": "NIA 2026 후보 주소 본문 405"
+    },
+    {
+      "sourceKey": "iho-coverage",
+      "url": "https://iho.int/en/global-seabed-mapping-reaches-new-milestone-as-five-million-square-kilometres-added-in-a-year",
+      "status": 200,
+      "reason": "200이지만 JS/cookie challenge 1,323 bytes; GEBCO 공식 격자 공표로 대조"
+    },
+    {
+      "sourceKey": "original-6-2",
+      "url": "https://gco.iarc.who.int/",
+      "status": 200,
+      "reason": "IARC 포털 셸만 응답; 개별 통계 쿼리/값 미수집"
+    }
+  ],
+  "verifiedFacts": [
+    {
+      "key": "/research/korea-challenges/",
+      "value": 254300,
+      "unit": "명 (100명 단위 요약)",
+      "observationPeriod": "2025",
+      "sourcePublishedAt": "2026-08-26",
+      "sourceKey": "birth-final"
+    },
+    {
+      "key": "/research/korean-unification-challenges/",
+      "value": 3.5,
+      "unit": "% 전년 대비 실질 GDP 증가율 (한국은행 추정)",
+      "observationPeriod": "2025",
+      "sourcePublishedAt": "2026-07-31",
+      "sourceKey": "bok-2025"
+    },
+    {
+      "key": "/research/deep-earth-ocean-challenges/",
+      "value": 28.7,
+      "unit": "% 세계 해저 면적, 현대 측량 기준 충족",
+      "datasetVersion": "GEBCO_2026",
+      "observationPeriod": null,
+      "sourcePublishedAt": "2026-04-27",
+      "announcementDate": "2026-04-20",
+      "sourceKey": "gebco-release"
+    },
+    {
+      "key": "/research/deep-earth-ocean-challenges/",
+      "sourceKey": "dark-oxygen",
+      "articlePublishedAt": "2024-07-22",
+      "editorialNoticeDate": "2026-04-08",
+      "status": "publisher_concerns_under_consideration",
+      "scope": "게재 논문 철회 확정이나 독립 재현 성공을 뜻하지 않음."
+    }
+  ]
+}
