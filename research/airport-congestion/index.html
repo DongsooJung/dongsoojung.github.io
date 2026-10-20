@@ -30,7 +30,7 @@
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image"><link rel="stylesheet" href="/assets/stargate-tokens.css?v=20261017">
-</head>
+<style>.source-followup{box-sizing:border-box;width:calc(100% - 40px);max-width:1120px;margin:24px auto;padding:18px 20px;border:1px solid #607f99;border-radius:12px;background:#102333;color:#eaf3fa;font:400 14px/1.8 system-ui,sans-serif;overflow-wrap:anywhere}.source-followup h2{margin:0 0 8px;font-size:18px;color:#fff}.source-followup p{margin:8px 0;color:#eaf3fa}.source-followup a{color:#9fe6ff;text-decoration:underline}</style></head>
 <body>
   <nav class="top"><div class="wrap"><a class="brand" href="/research/">STARGATE <b>RESEARCH</b></a><div class="topnav"><a href="#forecast">시간대별 예측</a><a href="#gates">출입국장 비교</a><a href="#arrivals">실시간 대기</a><a href="/research/gimpo-airport-congestion/">김포공항</a><a href="/research/">연구 허브</a></div></div></nav>
   <header><div class="wrap head"><div class="eyebrow"><i class="pulse"></i> INCHEON AIRPORT LIVE DATA MONITOR</div><h1>인천공항 혼잡도 연구 대시보드</h1><p class="subtitle">제1·2여객터미널의 시간대별 예상 승객 수와 실시간 출국장 대기시간을 한 화면에서 비교합니다.</p><div class="updated"><span>수집 시각 <strong id="updated-at">확인 중</strong></span><span>전달 상태 <strong id="data-mode">확인 중</strong></span><span>화면 자동 갱신 <strong>60초</strong></span><span>API 캐시 <strong>5분</strong></span></div></div></header>
@@ -75,5 +75,6 @@
     }
     document.querySelectorAll('.seg').forEach(group=>group.addEventListener('click',e=>{if(e.target.tagName!=='BUTTON')return;group.querySelectorAll('button').forEach(b=>b.classList.toggle('active',b===e.target));state[group.id.split('-')[0]]=e.target.dataset.value;render()}));$('refresh').addEventListener('click',load);load();setInterval(load,60000);
   </script>
+<section class="source-followup" aria-labelledby="source-followup-title"><h2 id="source-followup-title">공표·원출처 재확인 · 2026-10-21</h2><p>공식 예측표4개와 출국장 대기 JSON2개를 저장본과 대조했습니다. 10월21·22일 각24시간과 대기20행의 원필드·터미널별 구간 합계를 확인했습니다. 예상 승객은 실제 이용 실적이 아니며 월간 전수 통계가 아닙니다. 실시간 응답은 이 저장본의 대조 이후에도 바뀔 수 있습니다.</p><p><a href="/research/source-reviews/2026-10-21-source-followup-1.json" download>원출처·대조 범위·수집 시각 JSON 내려받기</a></p></section>
 </body>
 </html>

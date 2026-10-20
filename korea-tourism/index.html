@@ -129,7 +129,7 @@ footer{margin-top:56px;padding-top:20px;border-top:1px solid var(--line);color:v
 <script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "Dataset", "@id": "https://stargateedu.co.kr/korea-tourism/#dataset", "name": "Monthly inbound visitors to Korea: China, Taiwan and Vietnam", "description": "Monthly nationality-based entry counts converted from Korea Tourism Organization official XLSX statistics. Counts are arrivals, not unique travelers.", "url": "https://stargateedu.co.kr/korea-tourism/", "dateModified": "2026-10-16", "temporalCoverage": "2010-01/2026-08", "spatialCoverage": "South Korea", "variableMeasured": ["China arrivals", "Taiwan arrivals", "Vietnam arrivals"], "creator": {"@type": "Organization", "name": "Korea Tourism Organization", "url": "https://datalab.visitkorea.or.kr/"}, "publisher": {"@type": "Organization", "name": "Stargate Corporation", "url": "https://stargateedu.co.kr"}, "isBasedOn": "https://datalab.visitkorea.or.kr/common/board/Download.do?bcIdx=311301&cbIdx=1127&streFileNm=5146fdf7-8c3e-47cd-84c0-83e798c28c15.xlsx", "inLanguage": ["ko", "en"], "distribution": [{"@type": "DataDownload", "encodingFormat": "text/csv", "contentUrl": "https://stargateedu.co.kr/korea-tourism/data.csv"}, {"@type": "DataDownload", "encodingFormat": "application/json", "contentUrl": "https://stargateedu.co.kr/korea-tourism/data.json"}]}, {"@type": "Person", "@id": "https://stargateedu.co.kr/#dongsoo", "name": "Dongsoo Jung", "alternateName": "정동수", "url": "https://stargateedu.co.kr/", "jobTitle": "Urban engineering researcher"}]}</script>
 <!-- travel-aeo-head:end -->
 <link rel="stylesheet" href="/assets/stargate-tokens.css?v=20261017">
-</head>
+<style>.source-followup{box-sizing:border-box;width:calc(100% - 40px);max-width:1120px;margin:24px auto;padding:18px 20px;border:1px solid #607f99;border-radius:12px;background:#102333;color:#eaf3fa;font:400 14px/1.8 system-ui,sans-serif;overflow-wrap:anywhere}.source-followup h2{margin:0 0 8px;font-size:18px;color:#fff}.source-followup p{margin:8px 0;color:#eaf3fa}.source-followup a{color:#9fe6ff;text-decoration:underline}</style></head>
 <body>
 <div class="wrap">
 
@@ -145,7 +145,7 @@ footer{margin-top:56px;padding-top:20px;border-top:1px solid var(--line);color:v
     <div class="meta-line">
       <span class="pill">자료 기준 <b id="metaUpdated">—</b></span>
       <span class="pill">공표일 <b id="metaPublished">—</b></span>
-      <span class="pill">파일 갱신일 <b id="metaFileUpdated">—</b></span>
+      <span class="pill">데이터 파일 갱신일 <b id="metaFileUpdated">—</b></span>
       <span class="pill">커버리지 <b id="metaRange">—</b></span>
       <span class="pill">단위 <b>명 (입국자 수)</b></span>
       <span class="pill" id="metaMode">—</span>
@@ -160,7 +160,7 @@ footer{margin-top:56px;padding-top:20px;border-top:1px solid var(--line);color:v
 
 <!-- travel-aeo-body:start -->
 <section class="note" aria-labelledby="tourism-summary"><h2 id="tourism-summary">최신 공표월 핵심 수치: 2026-08</h2>
-<p>중국 827,704명 · 대만 245,277명 · 베트남 59,299명</p><p>공표일: 2026-09-28 · 파일 갱신일: <time datetime="2026-10-16">2026-10-16</time> · 수록 기간: 2010-01–2026-08. 입국 건수 기준이며 고유 여행자 수가 아닙니다. 다음 공표 예정: 2026-09 자료 2026-10-26 (현재 미공표).</p>
+<p>중국 827,704명 · 대만 245,277명 · 베트남 59,299명</p><p>공표일: 2026-09-28 · 데이터 파일 갱신일: <time datetime="2026-10-16">2026-10-16</time> · 수록 기간: 2010-01–2026-08. 입국 건수 기준이며 고유 여행자 수가 아닙니다. 다음 공표 예정: 2026-09 자료 2026-10-26 (현재 미공표).</p>
 <p><a href="/en/korea-tourism/">English summary &amp; monthly table</a> · <a href="/korea-tourism/data.csv">원자료 CSV</a> · <a href="https://datalab.visitkorea.or.kr/common/board/Download.do?bcIdx=311301&amp;cbIdx=1127&amp;streFileNm=5146fdf7-8c3e-47cd-84c0-83e798c28c15.xlsx">한국관광공사 공식 XLSX</a></p></section>
 <!-- travel-aeo-body:end -->
   <div class="filters" id="rangeFilters" role="group" aria-label="기간 필터">
@@ -664,5 +664,6 @@ async function refreshData(){
   document.getElementById('refreshBtn').addEventListener('click', refreshData);
 })();
 </script>
+<section class="source-followup" aria-labelledby="source-followup-title"><h2 id="source-followup-title">공표·원출처 재확인 · 2026-10-21</h2><p>공식 게시판과 공표일정 v1.1을 다시 확인했습니다. 최신 공표는2026년8월이며, 9월 자료는10월26일·10월 자료는11월25일 공표 예정입니다. 이번에는 공표 상태만 확인했습니다. 수치 기준8월·수집일·데이터 데이터 파일 갱신일10월16일과 마지막 수치 원표 대조일10월16일을 유지합니다.</p><p><a href="/research/source-reviews/2026-10-21-source-followup-1.json" download>원출처·대조 범위·수집 시각 JSON 내려받기</a></p></section>
 </body>
 </html>

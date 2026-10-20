@@ -43,8 +43,8 @@
           checked += project.checkedAt ? 1 : 0;
           verified += project.reviewStatus === 'verified' ? 1 : 0;
           const source = project.source.label || `${project.sourceHint} (미검증)`;
-          const period = project.dataAsOf || project.dataPeriod || (project.reviewStatus === 'not_applicable' ? '비적용' : '미확인');
-          entry.details.textContent = `출처: ${source} · 분류: ${project.classification} · 자료 기준: ${period} · 수집: ${project.collectedAt || '미공개'} · 게시본 갱신: ${project.snapshotUpdatedAt || '미확인'}`;
+          const period = project.dataAsOf || project.dataPeriod || project.referenceDescription || (project.reviewStatus === 'not_applicable' ? '비적용' : '미확인');
+          entry.details.textContent = `출처: ${source} · 분류: ${project.classification} · 자료 기준: ${period} · 수집: ${project.collectedAt || '미공개'} · 게시본 갱신: ${project.snapshotUpdatedAt || '미확인'} · 확인: ${project.checkedAt || '미확인'} (UTC)`;
           entry.node.dataset.state = project.reviewStatus === 'verified' ? 'ok'
             : project.reviewStatus === 'needs_review' ? 'error'
             : project.freshness === 'older_than_target' ? 'stale' : 'unknown';
