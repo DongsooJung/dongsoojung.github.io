@@ -98,3 +98,10 @@
 이번 회차에서 실제 문자·카카오·외부 메시지·결제·계정 인증·보안 대응을 실행하지 않았다. 근거와 후속 조치는 /research/source-reviews/2026-10-20-operations-1.json에 있다. 다음 단계 acceptance에서 전수 분류/정렬/중복/라이브와 남은 원출처·접근 제한을 종합 점검한다. 관광9월은10월26일 공표 예정이므로 그 이전 재확인·임의 최신화를 하지 않는다. 최종 수락과 후속 조치 정리가 끝나기 전 예약10을 종료하지 않는다.
 
 운영·제품 배포 후 문자 콘솔의 canonical Workers 이동을 추가 확인했다. 포털 정적 /api/sms404와 실제 Workers /api/sms200을 구분한다. 공개 health의 configured·senderVerified와 10명 미리보기만 검증하며 실제 발송·잔액·고객 데이터·인증을 대조한 것이 아니다. 기존 오류 없이 배포한 PR199의 보완 근거이며 접근 장애로 단정하지 않는다.
+
+
+## 2026-10-21 최종 수락 점검 1차
+
+63개 고유URL·7개 배타 필터·난제7개 분리·원장/공식 근거 정합성을 점검했다. 변경된 게시본7개만 기존 코드로 기간·값 지문을 대조했다. 인천공항·카페·트렌드·공유숙박4개는 자동 수집 후 값이 바뀌어 snapshot_checked로 조정하고 과거 공식 대조일과 원문 근거는 보존한다. 무역은 같은 지문으로 기존 검증일을 유지한다. 환율·김포는 기존 미완료 상태를 보존한다. 한국 시간 날짜 경계와 공표일 전 조회 방지를 검증했다.
+
+상태: verified8·not_applicable15·snapshot_checked4·needs_review31·source_unavailable4·awaiting_publication1. HTTP 가용성 및 허브 동작 합격은 수치·원출처 전수 검증 완료가 아니다. 관광 checkedAt은10월16일을 보존하고10월26일 이전 재조회하지 않았다. acceptance는 후속 대조가 남아 pending이며 일일 예약10은 유지한다. 근거: /research/source-reviews/2026-10-21-acceptance.json
