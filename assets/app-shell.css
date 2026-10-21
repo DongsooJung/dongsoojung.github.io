@@ -127,3 +127,18 @@ html.is-app .sg-mode-web{display:none}
   html.is-app .sg-top,html.is-app .wrap{max-width:480px;margin-left:auto;margin-right:auto;background:#fff}
   html.is-app .app-tabbar{max-width:480px;margin:0 auto}
 }
+/* 좁은 화면(웹): [모바일] 버튼을 아이콘+작은 글자로 줄여 로고와 한 줄에 배치, 버전 배지는 숨김 */
+@media(max-width:560px){
+  .nav .brand{flex-wrap:nowrap;align-items:center;gap:10px}
+  .nav .brand .sg-mode-web{flex-direction:column;gap:2px;width:44px;min-width:44px;height:44px;min-height:44px;padding:0;border-radius:12px;font-size:10px;line-height:1}
+  .nav .brand .sg-mode-web svg{width:18px;height:18px}
+  .nav .brand .tag{display:none}
+  .nav .brand .name{white-space:nowrap}
+}
+@media(max-width:400px){
+  .nav .brand{gap:7px}
+  .nav .brand .sg-mode-web{width:36px;min-width:36px;height:38px;min-height:38px;border-radius:10px;font-size:9px}
+  .nav .brand .sg-mode-web svg{width:16px;height:16px}
+  .nav .brand .logo{width:30px;height:30px}
+  .nav .brand .name{font-size:13px}
+}

@@ -187,6 +187,7 @@
   function buildWebToggle() {
     const nav = document.querySelector('.nav');
     if (!nav || nav.querySelector('.sg-mode')) return;
+    const brand = nav.querySelector('.brand');
     const btn = document.createElement('button');
     btn.type = 'button';
     btn.className = 'sg-mode sg-mode-web';
@@ -194,7 +195,7 @@
     btn.setAttribute('aria-label', '모바일 화면으로 보기');
     btn.dataset.analyticsLabel = '모바일 화면 전환';
     btn.innerHTML = `${SVG(ICON.phone).replace('class="ti"', '')}<span>모바일</span>`;
-    nav.prepend(btn);
+    (brand || nav).prepend(btn); // 로고 바로 앞(같은 줄)에 배치
   }
 
   function setMode(mode) {
