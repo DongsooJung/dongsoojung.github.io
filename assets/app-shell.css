@@ -190,3 +190,48 @@ html.is-app:not(.is-fold) .sg-top{gap:6px;padding-left:8px;padding-right:8px}
 html.is-app:not(.is-fold) .sg-top .sg-mode{width:30px}
 html.is-app:not(.is-fold) .sg-logo{font-size:15px}
 html.is-app:not(.is-fold) .sg-search{padding:0 8px;gap:6px}
+
+/* ───────── 폴드7 실기기(크롬 750×832 CSS px) 미세 조정 ───────── */
+/* 상단: 배너는 전체 폭, 원형 메뉴는 그 아래 5×2 */
+html.is-app.is-fold .sg-home{grid-template-columns:minmax(0,1fr);gap:0;padding:12px 16px 0}
+html.is-app.is-fold .sg-slide{height:210px;padding:0 24px}
+html.is-app.is-fold .sg-slide strong{max-width:58%;font-size:22px;line-height:1.25}
+html.is-app.is-fold .sg-slide span{max-width:52%;font-size:12.5px}
+html.is-app.is-fold .sg-cats{grid-template-columns:repeat(5,minmax(0,1fr));gap:12px 4px;margin-top:12px;padding:14px 8px}
+html.is-app.is-fold .sg-cats .ico{width:46px;height:46px;font-size:22px}
+html.is-app.is-fold .sg-cats a{font-size:11.5px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+html.is-app.is-fold .sg-head{padding:16px 0 6px}
+
+/* 추천 서비스: 쿠팡 태블릿처럼 위 썸네일 + 아래 글의 세로 카드 2열 */
+html.is-app.is-fold #projects-grid{column-gap:12px;row-gap:12px;padding:4px 16px 0}
+html.is-app.is-fold #projects-grid > .proj{grid-template-columns:minmax(0,1fr);gap:8px;padding:0 0 12px;border:0!important}
+html.is-app.is-fold #projects-grid > .proj .thumb{width:100%;height:96px;border-radius:12px}
+html.is-app.is-fold #projects-grid > .proj .thumb .emo{font-size:32px}
+html.is-app.is-fold #projects-grid > .proj h3,
+html.is-app.is-fold #projects-grid > .proj .ttl{font-size:14px;line-height:1.35;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+html.is-app.is-fold #projects-grid > .proj p,
+html.is-app.is-fold #projects-grid > .proj .sub{font-size:12px}
+
+/* 휴대폰 다크 모드: 브라우저 강제 어둡게 대신 직접 만든 다크 화면 사용 */
+html.is-app{color-scheme:light dark}
+@media (prefers-color-scheme: dark){
+  html.is-app,html.is-app[data-theme]{
+    color-scheme:dark;
+    --bg:#121214; --bg2:#1c1c20; --panel:#1c1c20; --panel2:#24242a; --card:#1c1c20;
+    --line:#2a2a30; --line2:#34343c; --ink:#f2f3f5; --text:#f2f3f5; --sub:#a3a8b0; --muted:#80868f; --acc:#6b93ff; --acc2:#6b93ff; --grad2:#1c1c20
+  }
+  html.is-app.is-app body,html.is-app.is-fold body,html.is-app .sg-top,html.is-app .app-tabbar{background:var(--bg)!important}
+  html.is-app .sg-top,html.is-app .wrap{background:var(--bg)}
+  html.is-app .sg-logo,html.is-app .sg-cats a,html.is-app .sg-head h2,html.is-app .app-tabbar a[aria-current="page"],
+  html.is-app #projects-grid > .proj h3,html.is-app #projects-grid > .proj .ttl{color:var(--ink)}
+  html.is-app .sg-search{background:var(--panel)}
+  html.is-app .sg-search input{color:var(--ink)}
+  html.is-app .sg-cats .ico,html.is-app.is-fold .sg-cats .ico{background:var(--panel2)}
+  html.is-app.is-fold .sg-cats{background:var(--panel)}
+  html.is-app .sg-gap{background:#0b0b0d}
+  html.is-app #projects-grid > .proj{background:transparent}
+  html.is-app #projects-grid > .proj .tags span,html.is-app #projects-grid > .proj .row .tag{background:var(--panel2);color:var(--sub)}
+  html.is-app .customer-care-card{background:var(--panel)}
+  html.is-app .sg-top .sg-mode{color:var(--sub)}
+  @media(min-width:560px){html.is-app:not(.is-fold) body{background:#0b0b0d!important}}
+}

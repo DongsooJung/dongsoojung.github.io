@@ -51,7 +51,7 @@
     { href: '/election/', icon: '🗳️', label: '선거구' , keys: '선거 수원 성남 화성 평택' },
     { href: 'https://shop.stargateedu.co.kr/', icon: '🛍️', label: '쇼핑' , keys: '쇼핑몰 교재 상품' },
     { href: 'https://blog.stargateedu.co.kr/', icon: '✍️', label: '블로그' },
-    { href: '/global/', icon: '🌐', label: 'GLOBAL' },
+    { href: '/global/', icon: '🌐', label: '글로벌', keys: 'GLOBAL 해외' },
   ];
 
   const ext = (href) => (href.startsWith('http') ? ' rel="noopener"' : '');
