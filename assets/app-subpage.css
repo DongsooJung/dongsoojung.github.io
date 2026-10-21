@@ -1,0 +1,86 @@
+/* STARGATE 하위 페이지(연구·전략) 모바일·폴드 모드 — app-shell.css 위에 덧씌우는 허브 전용 규칙 */
+
+/* 웹 화면: 내비 맨 앞 [모바일] [폴드] 버튼 묶음 */
+.sg-mode-group{display:inline-flex;gap:6px;flex:0 0 auto}
+.nav .sg-mode-group .sg-mode-web{height:30px;padding:0 9px;font-size:11.5px}
+@media(max-width:560px){
+  .nav .sg-mode-group .sg-mode-web{flex-direction:column;gap:2px;width:34px;min-width:34px;height:38px;padding:0;border-radius:10px;font-size:9px}
+  .nav .sg-mode-group .sg-mode-web svg{width:16px;height:16px}
+}
+.sg-mode-group .stargate-click-count{display:none!important}
+html.is-app .sg-mode-group{display:none}
+
+/* 상단 제목줄: [웹] [←] 제목 [검색] [폴드/모바일] */
+.sg-back{display:none}
+html.is-app .sg-back{display:grid;place-items:center;flex:0 0 auto;width:28px;height:40px;color:var(--ink)}
+html.is-app .sg-back svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+.sg-page-title{display:none}
+html.is-app .sg-page-title{display:block;flex:0 1 auto;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font:800 16px/1.2 var(--font-sans,system-ui);color:var(--ink);letter-spacing:-.02em}
+html.is-app:not(.is-fold) .sg-sub-top .sg-page-title{max-width:30%;font-size:14px}
+html.is-app.is-fold .sg-sub-top .sg-page-title{font-size:18px}
+
+/* 웹 전용 요소 정리 */
+html.is-app body.research .hero,html.is-app body.strategy .hero,
+html.is-app body.research .toolbar .search,html.is-app body.strategy .toolbar .search,
+html.is-app body.research .section-head .switch-link,html.is-app body.strategy .section-head .switch-link{display:none!important}
+html.is-app body.research .wrap,html.is-app body.strategy .wrap{width:auto;max-width:none;padding:0 16px calc(76px + env(safe-area-inset-bottom))}
+html.is-app.is-fold body.research .wrap,html.is-app.is-fold body.strategy .wrap{padding:0 18px 28px}
+html.is-app body.research main,html.is-app body.strategy main{padding-top:10px}
+
+/* 섹션·필터 */
+html.is-app .feature{padding:16px;margin:12px 0 0;border:0;border-radius:16px;background:var(--panel2,#f5f6f8);box-shadow:none}
+html.is-app .feature h2{font-size:17px}
+html.is-app .feature p{font-size:13px}
+html.is-app .section{padding-top:18px;margin-top:0}
+html.is-app .section-head h2{font-size:17px}
+html.is-app .section-head p{font-size:12.5px}
+html.is-app .toolbar{position:sticky;top:calc(env(safe-area-inset-top) + 56px);z-index:20;margin:0 -16px;padding:8px 16px;background:var(--bg)}
+html.is-app.is-fold .toolbar{margin:0 -18px;padding:8px 18px}
+html.is-app .filters{flex-wrap:nowrap;overflow-x:auto;gap:6px;scrollbar-width:none}
+html.is-app .filters::-webkit-scrollbar{display:none}
+html.is-app .filter{flex:0 0 auto;min-height:34px;border-radius:999px}
+html.is-app .decision-paths{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none}
+
+/* 그룹 접기 막대 */
+html.is-app .card-group{border:0;border-radius:14px;background:transparent;box-shadow:none}
+html.is-app .card-group-summary{padding:12px 2px;border-bottom:1px solid var(--line)}
+html.is-app .card-group .grid{padding:0}
+
+/* 카드: 모바일은 쿠팡 목록형(왼쪽 썸네일 + 오른쪽 글) */
+html.is-app:not(.is-fold) .grid{grid-template-columns:minmax(0,1fr)!important;gap:0!important}
+html.is-app:not(.is-fold) .project{display:grid!important;grid-template-columns:84px minmax(0,1fr)!important;gap:12px;align-items:start;min-height:0;padding:12px 0;border:0;border-bottom:1px solid var(--line);border-radius:0;background:transparent;box-shadow:none;transform:none}
+html.is-app:not(.is-fold) .project .visual{width:84px;height:84px;min-height:0;border:0;border-radius:10px;font-size:30px}
+html.is-app .project-body{padding:0;gap:4px}
+html.is-app .project .meta{gap:4px}
+html.is-app .project .pill{padding:2px 6px;font-size:10px}
+html.is-app .project h3{margin:2px 0 0;font-size:15px;line-height:1.35}
+html.is-app .project p{font-size:12.5px;line-height:1.5;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+html.is-app .project-footer{margin-top:2px;padding-top:0;border:0;font-size:11px}
+html.is-app .project-footer b{display:none}
+
+/* 카드: 폴드는 세로 카드 2열 */
+html.is-app.is-fold .grid{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:12px!important;padding-top:12px}
+html.is-app.is-fold .project{display:flex!important;flex-direction:column;gap:8px;padding:0 0 10px;border:0;border-radius:0;background:transparent;box-shadow:none;transform:none}
+html.is-app.is-fold .project .visual{width:100%;height:96px;min-height:0;border:0;border-radius:12px;font-size:32px}
+html.is-app.is-fold .project h3{font-size:14px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+
+html.is-app .stargate-click-count{display:none!important}
+
+/* 검색·필터로 숨긴 카드·그룹은 계속 숨김(위 display 규칙보다 우선) */
+html.is-app .project[hidden],html.is-app.is-fold .project[hidden],html.is-app [data-card][hidden],html.is-app [data-card-group][hidden]{display:none!important}
+
+/* 상단 줄은 고정 배치(허브 페이지 구조에서 sticky가 풀리는 문제 방지) */
+html.is-app .sg-sub-top{position:fixed;left:0;right:0;top:0}
+html.is-app.is-fold .sg-sub-top{left:64px;margin-left:0}
+html.is-app body.research,html.is-app body.strategy{padding-top:calc(env(safe-area-inset-top) + 56px)}
+html.is-app .toolbar{position:static;margin:0;padding:6px 0;background:transparent}
+html.is-app.is-fold .toolbar{margin:0}
+
+/* 카드의 출처·검증 상세 문구는 앱 모드에서 숨김(웹 화면에는 그대로 표시) */
+html.is-app .project .dashboard-data-status,html.is-app .project .dashboard-data-details,html.is-app .project .dashboard-data-state{display:none!important}
+html.is-app .dashboard-data-summary{font-size:11.5px}
+
+/* 하단 버전 표시(개발자 로그 링크) — #208과 같은 규칙, 병합 순서와 무관하게 표시 */
+.sg-foot{display:none}
+html.is-app .sg-foot{display:flex;align-items:center;justify-content:center;gap:8px;margin:28px 0 8px;padding:12px;border-top:1px solid var(--line);color:var(--muted);font-size:12px;text-decoration:none}
+html.is-app .sg-foot b{padding:2px 8px;border-radius:999px;background:color-mix(in srgb,#2fbf71 14%,transparent);color:#1f9d5c;font:600 11px/1.4 var(--font-mono,monospace)}

@@ -8,6 +8,12 @@
   <meta name="theme-color" content="#080c14" data-light-color="#f5f7fb" data-dark-color="#080c14">
   <link rel="canonical" href="https://stargateedu.co.kr/strategy/">
   <script src="/assets/theme-boot.js?v=20261016-strategy-shelves"></script>
+<script>
+/* 화면 모드: 홈에서 고른 [모바일]·[폴드] 모드를 이어받습니다. ?view=mobile|fold|web 으로도 지정 가능. 앱 모드에서는 흰색(휴대폰 다크 모드면 다크) 테마로 고정합니다. */
+(function(){try{var k='stargateViewMode',v=new URLSearchParams(location.search).get('view'),r=document.documentElement;
+if(v==='mobile'||v==='fold'||v==='web')localStorage.setItem(k,v);
+var m=localStorage.getItem(k);if(m==='mobile'||m==='fold'){r.classList.add('is-app');if(m==='fold')r.classList.add('is-fold');r.dataset.theme=matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light'}}catch(e){}})();
+</script>
   <link rel="stylesheet" href="/assets/intelligence-hub.css?v=20260904-sort-b">
   <link rel="stylesheet" href="/assets/dashboard-data-status.css?v=20261016">
   <style id="mobile-nav-overflow-fix">
@@ -36,6 +42,9 @@
 .decision-paths{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.decision-paths a{border:1px solid var(--line2);background:var(--panel);border-radius:14px;padding:20px;color:var(--ink);text-decoration:none;display:flex;flex-direction:column;gap:8px;min-height:100px}.decision-paths a:hover{border-color:var(--accent)}.decision-paths span{color:var(--sub);font-size:14px}.decision-paths a:focus-visible,.comparison-reference>summary:focus-visible,[data-reset-strategy]:focus-visible{outline:2px solid var(--accent);outline-offset:4px}.comparison-reference{border:1px solid var(--line2);border-radius:16px;padding:18px;margin:28px 0}.comparison-reference>summary{cursor:pointer;font-weight:700;min-height:32px}.comparison-reference .feature{margin-top:20px}[data-card-group],#decision-entry-title{scroll-margin-top:24px}@media(max-width:620px){.decision-paths{grid-template-columns:1fr}.decision-paths a{padding:16px;min-height:88px}.comparison-reference{padding:12px}}
 </style>
 <link rel="stylesheet" href="/assets/stargate-tokens.css?v=20261017">
+<link rel="stylesheet" href="/assets/app-shell.css?v=20261021-sub">
+<link rel="stylesheet" href="/assets/app-subpage.css?v=20261021-sub">
+<script src="/assets/app-subpage.js?v=20261021-sub" defer></script>
 </head>
 <body class="strategy">
   <div class="wrap">
