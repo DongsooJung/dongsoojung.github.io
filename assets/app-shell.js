@@ -93,6 +93,14 @@
       <div class="sg-head" id="sg-projects"><h2 data-sg-title>추천 서비스</h2><a href="#" data-sg-all data-analytics-ignore>전체보기 ›</a></div>`;
     wrap.prepend(home);
 
+    // 하단 버전 표시: 누르면 개발자 로그로 이동
+    const foot = document.createElement('a');
+    foot.className = 'sg-foot';
+    foot.href = '/work-log/';
+    foot.dataset.analyticsLabel = '앱 버전 개발자 로그';
+    foot.innerHTML = '<span>STARGATE</span><b>v0.0.3</b><span>개발자 로그 ›</span>';
+    wrap.append(foot);
+
     const empty = document.createElement('p');
     empty.className = 'sg-empty';
     empty.textContent = '검색 결과가 없습니다.';
