@@ -429,13 +429,13 @@ body.portal-dashboard-mode #personal-projects{margin-top:14px}
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630"><link rel="stylesheet" href="/assets/stargate-tokens.css?v=20261017">
 <script>
-/* 화면 모드: 기본은 웹. 왼쪽 위 [모바일] 버튼으로 전환하면 localStorage에 저장됩니다. ?view=mobile / ?view=web 으로도 지정 가능합니다. */
-(function(){try{var k='stargateViewMode',v=new URLSearchParams(location.search).get('view');
-if(v==='mobile'||v==='web')localStorage.setItem(k,v);
-if(localStorage.getItem(k)==='mobile')document.documentElement.classList.add('is-app')}catch(e){}})();
+/* 화면 모드: 기본은 웹. 왼쪽 위 [모바일]·[폴드] 버튼으로 전환하면 localStorage에 저장됩니다. ?view=mobile|fold|web 으로도 지정 가능합니다. */
+(function(){try{var k='stargateViewMode',v=new URLSearchParams(location.search).get('view'),r=document.documentElement;
+if(v==='mobile'||v==='fold'||v==='web')localStorage.setItem(k,v);
+var m=localStorage.getItem(k);if(m==='mobile'||m==='fold')r.classList.add('is-app');if(m==='fold')r.classList.add('is-fold')}catch(e){}})();
 </script>
-<link rel="stylesheet" href="/assets/app-shell.css?v=20261021-toggle2">
-<script src="/assets/app-shell.js?v=20261021-toggle2" defer></script>
+<link rel="stylesheet" href="/assets/app-shell.css?v=20261021-fold">
+<script src="/assets/app-shell.js?v=20261021-fold" defer></script>
 </head>
 <body>
 

@@ -1,5 +1,6 @@
 // STARGATE "모바일(심플) 모드" 홈 화면.
 // 기본은 기존 웹 홈페이지이며, 왼쪽 위 [모바일] 버튼을 누르면 html.is-app 클래스가 붙어 심플 모드로 전환됩니다.
+// [폴드] 버튼은 갤럭시 Z 폴드7 펼친 화면(984×1092 CSS px) 기준 2단 레이아웃으로, html.is-app.is-fold 가 붙습니다.
 // 선택은 localStorage(stargateViewMode)에 저장되어 다음 방문에도 유지되고, [웹] 버튼으로 되돌릴 수 있습니다.
 (() => {
   const root = document.documentElement;
@@ -14,6 +15,7 @@
     chat: '<path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12z"/>',
     chart: '<path d="M4 19V9m6 10V5m6 14v-7m4 7H2"/>',
     phone: '<rect x="6.5" y="2.5" width="11" height="19" rx="2.5"/><path d="M11 18h2"/>',
+    fold: '<rect x="2.5" y="4" width="19" height="16" rx="2.5"/><path d="M12 4v16"/>',
     monitor: '<rect x="2.5" y="4" width="19" height="13" rx="2"/><path d="M8 21h8M12 17v4"/>',
   };
 
@@ -64,7 +66,9 @@
       <label class="sg-search">
         ${SVG(ICON.search).replace('class="ti"', '')}
         <input id="sg-search" type="search" enterkeyhint="search" placeholder="검색" aria-label="서비스 검색" autocomplete="off">
-      </label>`;
+      </label>
+      <button class="sg-mode sg-mode-alt" type="button" data-view-mode="fold" aria-label="폴드 화면으로 보기" data-analytics-label="폴드 화면 전환">${SVG(ICON.fold).replace('class="ti"', '')}<span>폴드</span></button>
+      <button class="sg-mode sg-mode-alt" type="button" data-view-mode="mobile" aria-label="모바일 화면으로 보기" data-analytics-label="모바일 화면 전환">${SVG(ICON.phone).replace('class="ti"', '')}<span>모바일</span></button>`;
     document.body.prepend(top);
     addEventListener('scroll', () => top.classList.toggle('is-scrolled', scrollY > 4), { passive: true });
   }
@@ -183,27 +187,35 @@
     buildTabbar();
   }
 
-  // 웹 화면 왼쪽 위(로고 앞)에 [모바일] 버튼 추가
+  // 웹 화면 왼쪽 위(로고 앞)에 [모바일] [폴드] 버튼 추가
   function buildWebToggle() {
     const nav = document.querySelector('.nav');
     if (!nav || nav.querySelector('.sg-mode')) return;
     const brand = nav.querySelector('.brand');
-    const btn = document.createElement('button');
-    btn.type = 'button';
-    btn.className = 'sg-mode sg-mode-web';
-    btn.dataset.viewMode = 'mobile';
-    btn.setAttribute('aria-label', '모바일 화면으로 보기');
-    btn.dataset.analyticsLabel = '모바일 화면 전환';
-    btn.innerHTML = `${SVG(ICON.phone).replace('class="ti"', '')}<span>모바일</span>`;
-    (brand || nav).prepend(btn); // 로고 바로 앞(같은 줄)에 배치
+    const make = (mode, icon, label, aria) => {
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = `sg-mode sg-mode-web sg-mode-${mode}`;
+      btn.dataset.viewMode = mode;
+      btn.setAttribute('aria-label', aria);
+      btn.dataset.analyticsLabel = `${label} 화면 전환`;
+      btn.innerHTML = `${SVG(icon).replace('class="ti"', '')}<span>${label}</span>`;
+      return btn;
+    };
+    // 로고 바로 앞(같은 줄)에 배치
+    (brand || nav).prepend(make('mobile', ICON.phone, '모바일', '모바일 화면으로 보기'), make('fold', ICON.fold, '폴드', '폴드 펼친 화면으로 보기'));
   }
 
   function setMode(mode) {
-    const mobile = mode === 'mobile';
-    if (mobile) buildMobile();
-    root.classList.toggle('is-app', mobile);
-    saveMode(mobile ? 'mobile' : 'web');
+    const app = mode === 'mobile' || mode === 'fold';
+    if (app) buildMobile();
+    root.classList.toggle('is-app', app);
+    root.classList.toggle('is-fold', mode === 'fold');
+    saveMode(app ? mode : 'web');
     scrollTo({ top: 0 });
+    // 배너 폭이 바뀌므로 현재 슬라이드 위치를 다시 맞춤
+    const track = document.querySelector('.sg-banner-track');
+    if (track) track.scrollLeft = 0;
   }
 
   function init() {
