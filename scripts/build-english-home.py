@@ -147,7 +147,7 @@ copy = {
     '부산 핫플, 강남 생활권, 양평 두물머리 등 검증한 이동 동선과 방문 정보를 한곳에 모았습니다.': 'Find source-checked routes and visitor information for Busan, Gangnam and Dumulmeori.',
     '국내 여행 · 생활권 · 한·영 안내': 'Korean travel · neighborhoods · Korean and English guides',
     '여행 페이지 보기': 'Explore travel',
-    '상호 : 주식회사 별의문 · 대표자명 : 정동수 · 사업자번호 : 848-86-03835 · 통신판매업신고번호 : 2025-서울강남-05246호 · 주소 : 서울특별시 강남구 삼성로63길 8-15, 204호 (대치동) · 전화 : 070-8018-8227 · 개인정보보호책임자 : 정동수 · 이메일 : ceo@stargateedu.co.kr': 'Business: Stargate Corporation (주식회사 별의문) · CEO: Dongsoo Jung · Business registration: 848-86-03835 · Mail-order registration: 2025-Seoul Gangnam-05246 · Address: 204, 8-15 Samseong-ro 63-gil, Gangnam-gu, Seoul, Korea · Phone: 070-8018-8227 · Privacy officer: Dongsoo Jung · Email: ceo@stargateedu.co.kr',
+    '상호 : 주식회사 별의문 · 대표자명 : 정동수 · 사업자번호 : 848-86-03835 · 통신판매업신고번호 : 2025-서울강남-05246호 · 주소 : 서울특별시 강남구 삼성로63길 8-15, 204호 (대치동) · 전화 : 070-8018-8227 · 개인정보보호책임자 : 정동수 · 이메일 : support@stargateedu.co.kr': 'Business: Stargate Corporation (주식회사 별의문) · CEO: Dongsoo Jung · Business registration: 848-86-03835 · Mail-order registration: 2025-Seoul Gangnam-05246 · Address: 204, 8-15 Samseong-ro 63-gil, Gangnam-gu, Seoul, Korea · Phone: 070-8018-8227 · Privacy officer: Dongsoo Jung · Email: support@stargateedu.co.kr',
     '화면을 한 번 누르면 음악이 재생됩니다': 'Tap the page once to play music',
 }
 
@@ -223,7 +223,7 @@ for old, new in script_copy.items():
         source = source.replace(old, new)
 
 # Remove stale private Gmail references and keep every inquiry address consistent.
-source = source.replace('jds068888@gmail.com', 'ceo@stargateedu.co.kr')
+source = source.replace('support@stargateedu.co.kr', 'support@stargateedu.co.kr')
 source = source.replace('/assets/dashboard-data-status.js?v=20261015-1', '/assets/dashboard-data-status.js?v=20261016-en-1')
 source = source.replace('</style>', '@media(max-width:480px){body{zoom:1}}\n</style>', 1)
 (ROOT / 'en' / 'index.html').write_text(source, encoding='utf-8')

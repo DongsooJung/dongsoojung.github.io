@@ -4,7 +4,7 @@
  */
 window.STARGATE_PAYMENT = Object.freeze({
   provider: "NHN KCP",
-  supportEmail: "ceo@stargateedu.co.kr",
+  supportEmail: "support@stargateedu.co.kr",
   apiBase: "",
   successUrl: "https://shop.stargateedu.co.kr/success.html",
   cancelUrl: "https://shop.stargateedu.co.kr/cancel.html"

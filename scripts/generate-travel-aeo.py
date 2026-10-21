@@ -140,7 +140,7 @@ def main(tourism_only=False):
     update('/stay/', '/ko/stay/', '/stay/', [lodging, faq(False), PERSON], englishfaq, '    <section class="inquiry"')
     koreanfaq = '<p><a href="/stay/" lang="en">English stay page</a></p><img src="/stay/assets/hero-interior.png" alt="대치 스테이 소개 이미지"><p>서울 강남구 대치동 체류 안내. 호스트: 정동수, 도시공학 연구자.</p>'
     koreanfaq += ''.join(f'<section><h2>{q[2]}</h2><p>{q[3]}</p></section>' for q in questions)
-    koreanfaq += '<p><a href="mailto:stay@stargateedu.co.kr?subject=Daechi%20Stay%20availability">예약 가능일 이메일 문의</a> · <a href="/stay/#inquiry">일정 입력 문의</a> · <a href="/gangnam-guide/">강남 생활권 가이드</a> · <a href="/dumulmeori/">두물머리 당일 여행</a> · <a href="/busan-guide/">부산 여행 가이드</a></p>'
+    koreanfaq += '<p><a href="mailto:support@stargateedu.co.kr?subject=Daechi%20Stay%20availability">예약 가능일 이메일 문의</a> · <a href="/stay/#inquiry">일정 입력 문의</a> · <a href="/gangnam-guide/">강남 생활권 가이드</a> · <a href="/dumulmeori/">두물머리 당일 여행</a> · <a href="/busan-guide/">부산 여행 가이드</a></p>'
     page('/ko/stay/', 'ko', '대치 스테이 | 강남 체류·예약 안내', '대치동 숙소 위치, 공항 이동, 예약 문의와 결제 안내. 영어·한국어 호스트 지원.', metadata('/ko/stay/', '/ko/stay/', '/stay/', [lodging, faq(True), PERSON]), koreanfaq)
 
 

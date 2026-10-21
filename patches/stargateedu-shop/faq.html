@@ -260,7 +260,7 @@ input:focus,select:focus,textarea:focus{outline:none;border-color:var(--teal);bo
     </a>
     <nav class="nav" aria-label="고객센터 메뉴">
       <a href="#faq">자주 묻는 질문</a>
-      <a href="mailto:ceo@stargateedu.co.kr?subject=STARGATE%20EDU%20상담%20문의">1:1 문의</a>
+      <a href="mailto:support@stargateedu.co.kr?subject=STARGATE%20EDU%20상담%20문의">1:1 문의</a>
     </nav>
   </div>
 </header>
@@ -273,7 +273,7 @@ input:focus,select:focus,textarea:focus{outline:none;border-color:var(--teal);bo
       <h1>궁금한 점을<br><span class="accent">먼저 확인</span>하세요.</h1>
       <p>대치동 KOI·수학 프리미엄 1:1 지도에 대해 자주 묻는 질문을 정리했습니다. 답을 찾지 못하셨다면 이메일로 문의해 주세요. 확인 후 순차적으로 회신드립니다.</p>
       <span class="hero__note"><span class="hero__dot"></span> 대면(대치동) / 온라인 병행</span>
-      <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:20px"><a class="btn btn--primary" href="mailto:ceo@stargateedu.co.kr?subject=STARGATE%20EDU%20상담%20문의">1:1 이메일 문의</a><a class="btn btn--ghost" href="/faq-guide.pdf" download>PDF 안내문 다운로드</a></div>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:20px"><a class="btn btn--primary" href="mailto:support@stargateedu.co.kr?subject=STARGATE%20EDU%20상담%20문의">1:1 이메일 문의</a><a class="btn btn--ghost" href="/faq-guide.pdf" download>PDF 안내문 다운로드</a></div>
     </div>
   </section>
 
@@ -319,7 +319,7 @@ input:focus,select:focus,textarea:focus{outline:none;border-color:var(--teal);bo
       사업자등록번호 <span class="mono">848-86-03835</span><br>
       주소 서울특별시 강남구 삼성로63길 8-15, 204호 (대치동)<br>
       전화 <a class="mono" href="tel:070-8018-8227">070-8018-8227</a><br>
-      문의 <a class="mono" href="mailto:ceo@stargateedu.co.kr">ceo@stargateedu.co.kr</a>
+      문의 <a class="mono" href="mailto:support@stargateedu.co.kr">support@stargateedu.co.kr</a>
     </div>
   </div>
 </footer>
@@ -594,7 +594,7 @@ function bindBody(el,p,body,inner){
 
 /* ===================== 문의 작성 ===================== */
 const modal=$("#writeModal");
-function openModal(){ window.location.href="mailto:ceo@stargateedu.co.kr?subject=STARGATE%20EDU%20상담%20문의"; }
+function openModal(){ window.location.href="mailto:support@stargateedu.co.kr?subject=STARGATE%20EDU%20상담%20문의"; }
 function closeModal(){ modal.classList.remove("is-open"); document.body.style.overflow=""; }
 $("#openWrite").addEventListener("click",openModal);
 modal.querySelectorAll("[data-close]").forEach(b=>b.addEventListener("click",closeModal));
