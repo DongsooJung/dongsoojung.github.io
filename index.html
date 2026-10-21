@@ -43,6 +43,8 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Hahmlet:wght@500;600;700&family=IBM+Plex+Mono:wght@500;600&family=IBM+Plex+Sans+KR:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/assets/portal-fonts.css">
+<link rel="stylesheet" href="/assets/font-preferences.css?v=20261021-1">
+<script src="/assets/font-preferences.js?v=20261021-1"></script>
 <script>
 (() => {
   const key = 'stargate-theme';
@@ -465,6 +467,14 @@ var m=localStorage.getItem(k);if(m==='mobile'||m==='fold')r.classList.add('is-ap
         <option value="light">화이트</option>
         <option value="ocean">오션</option>
         <option value="mono">모노</option>
+      </select>
+    </label>
+    <label class="theme-switch font-switch">
+      <span class="visually-hidden">글꼴</span>
+      <select id="font-select" aria-label="글꼴 선택">
+        <option value="original">기본 서체</option>
+        <option value="pen">나눔손글씨 펜체</option>
+        <option value="brush">나눔손글씨 붓체</option>
       </select>
     </label>
     <button class="theme-toggle" id="theme-toggle" type="button" data-theme-toggle aria-label="다음 디자인으로 전환" aria-pressed="false">
