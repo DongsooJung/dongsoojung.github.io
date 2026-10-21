@@ -35,6 +35,17 @@
     '.card-actions a',
     '.newsletter a',
   ].join(',');
+  const inlineBadgeSelector = [
+    'a.chip',
+    'a.btn',
+    'a.button',
+    'a.compact-button',
+    'a.text-link',
+    'a.back',
+    'a.switch-link',
+    'a.home',
+    'button:not(.proj):not(.hub-card)',
+  ].join(',');
   const memory = {};
   const clickCounts = new Map();
   const pageViews = new Map();
@@ -127,6 +138,7 @@
       .stargate-analytics-counted{position:relative!important}
       .stargate-click-count{position:absolute;z-index:9;top:4px;right:4px;display:inline-flex;align-items:center;justify-content:center;min-width:17px;height:17px;padding:0 5px;border:1px solid rgba(255,255,255,.3);border-radius:999px;background:rgba(8,13,24,.82);color:#fff;font:700 9px/1 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;letter-spacing:0;box-shadow:0 2px 8px rgba(0,0,0,.24);pointer-events:none;font-variant-numeric:tabular-nums}
       :root[data-theme="light"] .stargate-click-count,:root[data-theme="mono"] .stargate-click-count{border-color:rgba(23,32,51,.2);background:rgba(255,255,255,.92);color:#172033;box-shadow:0 2px 8px rgba(41,61,92,.16)}
+      .stargate-click-count.is-inline{position:static;top:auto;right:auto;margin-left:6px;vertical-align:middle;flex:0 0 auto;box-shadow:none}
     `;
     document.head.append(style);
   }
@@ -153,6 +165,8 @@
         badge.setAttribute('aria-hidden', 'true');
         element.append(badge);
       }
+      // 칩·버튼처럼 작은 요소는 배지를 글자 뒤에 나란히 두어 글자를 가리지 않게 합니다.
+      badge.classList.toggle('is-inline', element.matches(inlineBadgeSelector));
       badge.textContent = Number(count).toLocaleString('ko-KR');
       badge.title = `최근 사용 ${Number(count).toLocaleString('ko-KR')}회`;
       element.classList.add('stargate-analytics-counted');

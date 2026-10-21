@@ -244,7 +244,7 @@ a{color:var(--acc); text-decoration:none} a:hover{text-decoration:underline}
 .hub-meta b{color:var(--hub);font-size:12px}
 
 /* Project grid */
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:16px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(290px,100%),1fr));gap:16px}
 .proj{position:relative;border:1px solid var(--line);border-radius:16px;overflow:hidden;
   background:linear-gradient(180deg,var(--panel2),var(--panel));transition:.18s all;display:flex;flex-direction:column}
 .proj:hover{border-color:var(--acc);transform:translateY(-2px);box-shadow:0 14px 40px rgba(79,127,255,.18)}
@@ -428,6 +428,14 @@ body.portal-dashboard-mode #personal-projects{margin-top:14px}
 <meta property="og:image" content="https://stargateedu.co.kr/assets/og/research.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630"><link rel="stylesheet" href="/assets/stargate-tokens.css?v=20261017">
+<script>
+/* 화면 모드: 기본은 웹. 왼쪽 위 [모바일] 버튼으로 전환하면 localStorage에 저장됩니다. ?view=mobile / ?view=web 으로도 지정 가능합니다. */
+(function(){try{var k='stargateViewMode',v=new URLSearchParams(location.search).get('view');
+if(v==='mobile'||v==='web')localStorage.setItem(k,v);
+if(localStorage.getItem(k)==='mobile')document.documentElement.classList.add('is-app')}catch(e){}})();
+</script>
+<link rel="stylesheet" href="/assets/app-shell.css?v=20261021-toggle2">
+<script src="/assets/app-shell.js?v=20261021-toggle2" defer></script>
 </head>
 <body>
 
@@ -475,7 +483,7 @@ body.portal-dashboard-mode #personal-projects{margin-top:14px}
 
   <div class="quick-links">
     <a class="chip mono" style="border-color:#ffb000;color:#ffcb5c;background:rgba(255,176,0,.10)" href="/aphorisms.html">오늘의 격언</a>
-    <a id="visitor-summary-link" class="chip mono" style="border-color:#7aa2ff;color:#dbe6ff;background:rgba(79,127,255,.14);font-weight:600;padding-right:48px" href="/admin/visitors/" rel="nofollow" aria-label="사이트 사용 분석 대시보드">오늘 <strong id="visitor-today-count" style="color:var(--ink)">-</strong> · 누적 <strong id="visitor-total-count" style="color:var(--ink)">-</strong></a>
+    <a id="visitor-summary-link" class="chip mono" style="border-color:#7aa2ff;color:#dbe6ff;background:rgba(79,127,255,.14);font-weight:600" href="/admin/visitors/" rel="nofollow" aria-label="사이트 사용 분석 대시보드">오늘 <strong id="visitor-today-count" style="color:var(--ink)">-</strong> · 누적 <strong id="visitor-total-count" style="color:var(--ink)">-</strong></a>
   </div>
 
   <section class="hero">
@@ -1497,7 +1505,7 @@ if ('serviceWorker' in navigator) {
 }
 </script>
 <script src="/assets/visitor-counter.js?v=20261015-cloudflare-1" defer></script>
-<script src="/assets/usage-analytics.js?v=20261015-cloudflare-1" defer></script>
+<script src="/assets/usage-analytics.js?v=20261021-inline-badge" defer></script>
 
 <script>
 (()=>{

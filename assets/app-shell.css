@@ -1,0 +1,144 @@
+/* STARGATE "모바일(심플) 모드" — 쿠팡 앱처럼 흰 바탕·검색 중심·목록형 구성.
+   왼쪽 위 [모바일] 버튼으로 html.is-app 이 붙을 때만 적용되며, 테마 선택과 관계없이 흰 바탕으로 고정합니다. */
+html.is-app,
+html.is-app[data-theme]{
+  color-scheme:light;
+  --bg:#ffffff; --bg2:#f5f6f8; --panel:#ffffff; --panel2:#f5f6f8; --card:#ffffff;
+  --line:#eceef1; --line2:#e2e5ea;
+  --ink:#111111; --text:#111111; --sub:#5f6670; --muted:#8a9099;
+  --acc:#346aff; --acc2:#346aff;
+  --grad2:#ffffff;
+  -webkit-tap-highlight-color:transparent;overscroll-behavior-y:none
+}
+html.is-app body{background:#fff!important;color:var(--ink);overscroll-behavior-y:none}
+html.is-app body::before,html.is-app body::after{display:none!important}
+html.is-app .wrap{max-width:none;padding:0 0 calc(64px + env(safe-area-inset-bottom))}
+
+/* 웹 전용 요소 정리 */
+html.is-app .nav,
+html.is-app .portal-view-switcher,
+html.is-app .quick-links,
+html.is-app .hero,
+html.is-app #intelligence,
+html.is-app .portal-dashboard-summary,
+html.is-app .project-toggle-row,
+html.is-app footer{display:none!important}
+html.is-app .stargate-click-count{display:none!important}
+
+/* 1) 상단: 로고 + 검색창 + 아이콘 (스크롤 시 고정) */
+.sg-top{display:none}
+html.is-app .sg-top{position:sticky;top:0;z-index:50;display:flex;align-items:center;gap:10px;padding:calc(env(safe-area-inset-top) + 8px) 12px 8px;background:#fff;border-bottom:1px solid transparent;transition:border-color .2s}
+html.is-app .sg-top.is-scrolled{border-bottom-color:var(--line)}
+.sg-logo{flex:0 0 auto;font:800 17px/1 var(--font-sans);letter-spacing:-.03em;color:#111;text-decoration:none}
+.sg-logo b{color:var(--acc)}
+.sg-search{flex:1;min-width:0;display:flex;align-items:center;gap:8px;height:40px;padding:0 12px;border:2px solid var(--acc);border-radius:8px;background:#fff}
+.sg-search svg{flex:0 0 18px;width:18px;height:18px;stroke:var(--acc);fill:none;stroke-width:2.2;stroke-linecap:round}
+.sg-search input{flex:1;min-width:0;width:100%;border:0;outline:0;background:transparent;font:500 14px/1 var(--font-sans);color:#111}
+.sg-search input::placeholder{color:#9aa0a8}
+
+/* 2) 배너 캐러셀 */
+.sg-home{display:none}
+html.is-app .sg-home{display:block}
+.sg-banner{position:relative}
+.sg-banner-track{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none}
+.sg-banner-track::-webkit-scrollbar{display:none}
+.sg-slide{flex:0 0 100%;scroll-snap-align:start;display:flex;flex-direction:column;justify-content:center;gap:6px;height:200px;padding:0 20px;color:#fff;text-decoration:none;box-sizing:border-box;background:#e9edf3 center/cover no-repeat}
+.sg-slide small{font:700 11px/1 var(--font-mono);letter-spacing:.08em;opacity:.9}
+.sg-slide strong{max-width:60%;font:800 22px/1.28 var(--font-sans);letter-spacing:-.02em;word-break:keep-all}
+.sg-slide span{max-width:58%;font-size:13px;line-height:1.45;opacity:.92;word-break:keep-all}
+.sg-slide:not(.is-dark-text) strong,.sg-slide:not(.is-dark-text) span{text-shadow:0 1px 10px rgba(0,0,0,.25)}
+.sg-slide.is-dark-text{color:#111}
+.sg-slide.is-dark-text small{color:var(--acc);opacity:1}
+.sg-dots{position:absolute;right:12px;bottom:12px;padding:3px 9px;border-radius:999px;background:rgba(0,0,0,.35);color:#fff;font:600 11px/1.4 var(--font-mono)}
+
+/* 3) 동그란 메뉴 아이콘 5×2 */
+.sg-cats{display:grid;grid-template-columns:repeat(5,1fr);gap:14px 0;padding:18px 6px 16px}
+.sg-cats a{display:flex;flex-direction:column;align-items:center;gap:7px;color:#111;text-decoration:none;font-size:11.5px;line-height:1.2;text-align:center;word-break:keep-all}
+.sg-cats .ico{display:grid;place-items:center;width:50px;height:50px;border-radius:50%;background:#f3f5f8;font-size:23px}
+.sg-cats a:active .ico{background:#e6eaf0}
+
+.sg-gap{height:8px;background:#f2f3f5}
+.sg-head{display:flex;align-items:baseline;justify-content:space-between;padding:18px 14px 10px}
+.sg-head h2{margin:0;font:700 17px/1.2 var(--font-sans);color:#111;letter-spacing:-.02em}
+.sg-head a{font-size:12.5px;color:var(--sub);text-decoration:none}
+
+/* 4) 프로젝트 목록: 쿠팡 상품 목록처럼 "썸네일 + 제목 + 설명" 가로형 */
+html.is-app #projects{padding:0;margin:0}
+html.is-app #projects > h2,html.is-app #projects > .desc{display:none}
+html.is-app #projects-grid{display:flex!important;flex-direction:column;gap:0;padding:0 14px}
+html.is-app #projects-grid > .proj{display:grid!important;grid-template-columns:88px minmax(0,1fr);gap:12px;align-items:start;min-height:0;padding:14px 0;border:0;border-bottom:1px solid var(--line);border-radius:0;background:#fff;box-shadow:none;transform:none;overflow:visible}
+html.is-app #projects-grid > .proj:last-child{border-bottom:0}
+html.is-app #projects-grid > .proj .badge{display:none}
+html.is-app #projects-grid > .proj .thumb{width:88px;height:88px;aspect-ratio:auto;border-radius:10px}
+html.is-app #projects-grid > .proj .thumb .emo{font-size:30px;filter:none}
+html.is-app #projects-grid > .proj .body{padding:2px 0 0;gap:5px}
+html.is-app #projects-grid > .proj h3,html.is-app #projects-grid > .proj .ttl{margin:0;font:600 15px/1.35 var(--font-sans);color:#111;letter-spacing:-.02em}
+html.is-app #projects-grid > .proj p,html.is-app #projects-grid > .proj .sub{margin:0;font-size:12.5px;line-height:1.5;color:var(--sub);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+html.is-app #projects-grid > .proj .tags{display:flex;flex-wrap:wrap;gap:4px;margin-top:2px}
+html.is-app #projects-grid > .proj .tags span{padding:2px 6px;border:0;border-radius:4px;background:#f2f4f7;color:#5f6670;font-size:10.5px}
+html.is-app #projects-grid > .proj .tags span:nth-child(n+3),html.is-app #projects-grid > .proj .row .go{display:none}
+html.is-app #projects-grid > .proj .row{margin-top:2px}
+html.is-app #projects-grid > .proj .row .tag{padding:2px 6px;border:0;border-radius:4px;background:#f2f4f7;color:#5f6670;font-size:10.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
+html.is-app .sec{padding:0;margin:0}
+html.is-app .sec h2{font-size:17px}
+html.is-app #travel-spots,html.is-app #customer-care{padding:18px 14px 0}
+html.is-app .customer-care-card{background:#f7f8fa;border:0;box-shadow:none}
+
+/* 검색 결과 */
+.sg-empty{display:none;padding:40px 14px;text-align:center;color:var(--muted);font-size:14px}
+html.is-app.sg-searching .sg-hide-on-search{display:none!important}
+html.is-app.sg-searching .sg-empty.is-on{display:block}
+html.is-app #projects-grid > .proj.sg-miss{display:none!important}
+
+/* 5) 하단 탭바 */
+.app-tabbar{display:none}
+html.is-app .app-tabbar{position:fixed;left:0;right:0;bottom:0;z-index:60;display:grid;grid-template-columns:repeat(5,1fr);padding:4px 0 env(safe-area-inset-bottom);background:#fff;border-top:1px solid var(--line)}
+.app-tabbar a{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;min-height:54px;color:#8a9099;text-decoration:none;font-size:10.5px;font-weight:600}
+.app-tabbar .ti{width:24px;height:24px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.app-tabbar a[aria-current="page"]{color:#111}
+.app-tabbar a[aria-current="page"] .ti{stroke-width:2.3}
+html.is-app .homepage-music-hint{bottom:calc(72px + env(safe-area-inset-bottom))}
+html.is-app a,html.is-app button{-webkit-user-select:none;user-select:none}
+
+/* 모노 테마에서 활성 세그먼트 글자가 배경과 같은 색이 되는 문제 보정(웹·앱 공통) */
+:root[data-theme="mono"] .portal-view-btn.is-active{color:#fafafa}
+
+/* 전체보기·검색 중에는 홈에서 숨긴 나머지 프로젝트도 표시 */
+html.is-app.sg-all body:not(.portal-dashboard-mode) #projects-grid > .proj:not([data-home-featured]):not([hidden]):not(.sg-miss),
+html.is-app.sg-searching body:not(.portal-dashboard-mode) #projects-grid > .proj:not([data-home-featured]):not([hidden]):not(.sg-miss){display:grid!important}
+html.is-app.sg-searching .sg-head a{display:none}
+.sg-cats a[hidden]{display:none}
+html.is-app.sg-searching #travel-spots,html.is-app.sg-searching #customer-care{display:none!important}
+html.is-app.sg-no-project-hit .sg-head,html.is-app.sg-no-project-hit .sg-gap{display:none}
+
+/* 화면 전환 버튼: 웹에서는 로고 앞 [모바일], 모바일 모드에서는 상단 왼쪽 [웹] */
+.sg-mode{appearance:none;display:inline-flex;align-items:center;justify-content:center;gap:4px;flex:0 0 auto;cursor:pointer;font:700 12px/1 var(--font-sans,system-ui);-webkit-tap-highlight-color:transparent}
+.sg-mode svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
+.sg-mode-web{height:34px;padding:0 11px;border:1px solid var(--line2);border-radius:999px;background:var(--panel);color:var(--ink)}
+.sg-mode-web:hover{border-color:var(--acc);color:var(--acc)}
+.sg-top .sg-mode{flex-direction:column;gap:2px;width:34px;height:40px;padding:0;border:0;background:transparent;color:#5f6670;font-size:10px}
+.sg-top .sg-mode svg{width:20px;height:20px}
+html.is-app .sg-mode-web{display:none}
+.sg-mode .stargate-click-count{display:none!important}
+@media(min-width:700px){.sg-mode-web{height:30px;padding:0 9px;font-size:11.5px}}
+/* 넓은 화면에서 모바일 모드를 켜면 휴대폰 폭(480px)으로 가운데 정렬 */
+@media(min-width:560px){
+  html.is-app body{background:#f2f3f5!important}
+  html.is-app .sg-top,html.is-app .wrap{max-width:480px;margin-left:auto;margin-right:auto;background:#fff}
+  html.is-app .app-tabbar{max-width:480px;margin:0 auto}
+}
+/* 좁은 화면(웹): [모바일] 버튼을 아이콘+작은 글자로 줄여 로고와 한 줄에 배치, 버전 배지는 숨김 */
+@media(max-width:560px){
+  .nav .brand{flex-wrap:nowrap;align-items:center;gap:10px}
+  .nav .brand .sg-mode-web{flex-direction:column;gap:2px;width:44px;min-width:44px;height:44px;min-height:44px;padding:0;border-radius:12px;font-size:10px;line-height:1}
+  .nav .brand .sg-mode-web svg{width:18px;height:18px}
+  .nav .brand .tag{display:none}
+  .nav .brand .name{white-space:nowrap}
+}
+@media(max-width:400px){
+  .nav .brand{gap:7px}
+  .nav .brand .sg-mode-web{width:36px;min-width:36px;height:38px;min-height:38px;border-radius:10px;font-size:9px}
+  .nav .brand .sg-mode-web svg{width:16px;height:16px}
+  .nav .brand .logo{width:30px;height:30px}
+  .nav .brand .name{font-size:13px}
+}
