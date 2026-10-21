@@ -17,7 +17,7 @@ html[data-font="pen"] body,html[data-font="brush"] body {
 html:is([data-font="pen"],[data-font="brush"]) :is(.hero h1,.sec h2,.hub-card h3,.id .meta .nm,.proj .ttl) {
   font-family:var(--font-display);font-weight:400;letter-spacing:0;line-height:1.35;
 }
-html:is([data-font="pen"],[data-font="brush"]) .hero h1 {font-size:clamp(2.6rem,4vw,3.6rem)}
+html:is([data-font="pen"],[data-font="brush"]) .hero h1 {font-size:clamp(2.6rem,calc(4vw * var(--reader-scale,1)),3.6rem)}
 html:is([data-font="pen"],[data-font="brush"]) :is(.lead,.desc,.hub-card p,.proj .sub,.kv dt,.kv dd,.id .meta .ro) {
   font-size:1.375rem;font-weight:400;line-height:1.75;letter-spacing:0;
 }
@@ -35,3 +35,18 @@ html:is([data-font="pen"],[data-font="brush"]) :is(.chip,.btn,.nav .links a,.pro
 /* Keep both preference controls reachable when header links wrap. */
 .wrap .nav {flex-wrap:wrap}
 .wrap .hero > * {min-width:0}
+
+/* Text sizing respects the visitor's browser font-size preference. */
+html[data-text-size="small"] {font-size:87.5%;--reader-scale:.875}
+html[data-text-size="large"] {font-size:112.5%;--reader-scale:1.125}
+html[data-text-size="normal"] {--reader-scale:1}
+.nav .text-size-switch select {min-width:70px;min-height:32px}
+html[data-font="original"]:is([data-text-size="small"],[data-text-size="large"]) .hero h1 {font-size:clamp(2.05rem,calc(3.6vw * var(--reader-scale)),2.85rem)}
+html[data-font="original"]:is([data-text-size="small"],[data-text-size="large"]) .sec h2 {font-size:clamp(1.35rem,calc(2vw * var(--reader-scale)),1.65rem)}
+html[data-font="original"]:is([data-text-size="small"],[data-text-size="large"]) .hub-card h3 {font-size:clamp(1.35rem,calc(1.8vw * var(--reader-scale)),1.55rem)}
+html[data-font="original"]:is([data-text-size="small"],[data-text-size="large"]) .sec .desc {font-size:calc(13.5px * var(--reader-scale))}
+html[data-font="original"]:is([data-text-size="small"],[data-text-size="large"]) :is(.proj .sub,.hub-card p) {font-size:calc(12.5px * var(--reader-scale))}
+html[data-font="original"]:is([data-text-size="small"],[data-text-size="large"]) .proj .ttl {font-size:calc(15px * var(--reader-scale))}
+html[data-font="original"]:is([data-text-size="small"],[data-text-size="large"]) .kv {font-size:calc(13px * var(--reader-scale))}
+html[data-font="original"]:is([data-text-size="small"],[data-text-size="large"]) .kv dt {font-size:calc(11px * var(--reader-scale))}
+html[data-font="original"]:is([data-text-size="small"],[data-text-size="large"]) .id .meta .ro {font-size:calc(12px * var(--reader-scale))}
