@@ -142,3 +142,51 @@ html.is-app .sg-mode-web{display:none}
   .nav .brand .logo{width:30px;height:30px}
   .nav .brand .name{font-size:13px}
 }
+
+/* ───────── 화면 전환 버튼(모바일·폴드) ───────── */
+.sg-top .sg-mode-alt{margin-left:-2px}
+html.is-app:not(.is-fold) .sg-top .sg-mode-alt[data-view-mode="mobile"],
+html.is-app.is-fold .sg-top .sg-mode-alt[data-view-mode="fold"]{display:none}
+.nav .brand .sg-mode-web + .sg-mode-web{margin-left:-4px}
+@media(max-width:560px){
+  .nav .brand{gap:6px}
+  .nav .brand .sg-mode-web{width:34px;min-width:34px;height:38px;min-height:38px;border-radius:10px;font-size:9px}
+  .nav .brand .sg-mode-web svg{width:16px;height:16px}
+  .nav .brand .sg-mode-web + .sg-mode-web{margin-left:0}
+  .nav .brand .logo{width:30px;height:30px}
+  .nav .brand .name{font-size:13px}
+}
+@media(max-width:380px){.nav .brand .name{font-size:11px}}
+
+/* ───────── 폴드7 펼친 화면(984×1092) 전용: 왼쪽 레일 + 2단 구성 ───────── */
+html.is-app.is-fold .sg-top,
+html.is-app.is-fold .wrap{max-width:none;margin-left:64px;margin-right:0}
+html.is-app.is-fold .sg-top{padding-left:18px;padding-right:18px;gap:14px}
+html.is-app.is-fold .sg-logo{font-size:19px}
+html.is-app.is-fold .sg-search{height:42px}
+html.is-app.is-fold .wrap{padding-bottom:28px}
+
+html.is-app.is-fold .app-tabbar{top:0;bottom:0;right:auto;width:64px;max-width:none;margin:0;display:flex;flex-direction:column;align-items:stretch;gap:4px;padding:calc(env(safe-area-inset-top) + 64px) 0 env(safe-area-inset-bottom);border-top:0;border-right:1px solid var(--line)}
+html.is-app.is-fold .app-tabbar a{min-height:62px;font-size:10px}
+
+html.is-app.is-fold .sg-home{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(0,1fr);gap:14px;padding:14px 18px 0}
+html.is-app.is-fold .sg-banner{border-radius:16px;overflow:hidden}
+html.is-app.is-fold .sg-slide{height:250px;padding:0 26px}
+html.is-app.is-fold .sg-slide strong{font-size:24px}
+html.is-app.is-fold .sg-cats{align-content:center;gap:16px 0;padding:14px 6px;border-radius:16px;background:#f7f8fa}
+html.is-app.is-fold .sg-cats .ico{background:#fff}
+html.is-app.is-fold .sg-gap{display:none}
+html.is-app.is-fold .sg-head{grid-column:1/-1;padding:14px 0 4px}
+
+html.is-app.is-fold #projects-grid{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr));column-gap:28px;padding:0 18px}
+html.is-app.is-fold #projects-grid > .proj:last-child{border-bottom:1px solid var(--line)}
+html.is-app.is-fold #travel-spots,html.is-app.is-fold #customer-care{padding:22px 18px 0}
+html.is-app.is-fold .homepage-music-hint{bottom:16px}
+@media(min-width:560px){html.is-app.is-fold body{background:#fff!important}}
+html.is-app.is-fold .sg-cats{grid-template-columns:repeat(5,minmax(0,1fr));padding:14px 4px}
+html.is-app.is-fold .sg-cats .ico{width:44px;height:44px;font-size:21px}
+html.is-app.is-fold .sg-cats a{font-size:11px;min-width:0}
+html.is-app:not(.is-fold) .sg-top{gap:6px;padding-left:8px;padding-right:8px}
+html.is-app:not(.is-fold) .sg-top .sg-mode{width:30px}
+html.is-app:not(.is-fold) .sg-logo{font-size:15px}
+html.is-app:not(.is-fold) .sg-search{padding:0 8px;gap:6px}
