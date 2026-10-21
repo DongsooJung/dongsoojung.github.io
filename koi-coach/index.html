@@ -46,6 +46,7 @@ a{color:var(--acc); text-decoration:none} a:hover{text-decoration:underline}
   display:inline-flex;align-items:center;justify-content:center;color:#0b1020;font-weight:900}
 .brand .name{font-size:15px}
 .brand .tag{font-size:11px;color:var(--muted);margin-left:6px}
+.brand a.tag{text-decoration:none;cursor:pointer}.brand a.tag:hover{color:var(--acc,currentColor);text-decoration:underline}
 .nav .links{display:flex;gap:14px;font-size:13px;color:var(--sub)}
 .nav .links a{color:var(--sub)} .nav .links a:hover{color:var(--ink)}
 
@@ -141,7 +142,7 @@ footer{margin-top:72px;padding-top:22px;border-top:1px solid var(--line);color:v
     <div class="brand">
       <span class="logo">D</span>
       <span class="name">DONGSOO.<span style="color:var(--acc)">PORTAL</span></span>
-      <span class="tag">0.0.2</span>
+      <a class="tag" href="/work-log/" title="버전 0.0.3 · 개발자 로그 보기" aria-label="버전 0.0.3 · 개발자 로그 보기" data-analytics-label="버전 배지 개발자 로그">0.0.3</a>
     </div>
     <div class="links">
       <a href="/">홈</a>

@@ -235,3 +235,9 @@ html.is-app{color-scheme:light dark}
   html.is-app .sg-top .sg-mode{color:var(--sub)}
   @media(min-width:560px){html.is-app:not(.is-fold) body{background:#0b0b0d!important}}
 }
+
+/* 모바일·폴드 하단 버전 표시(개발자 로그 링크) */
+.sg-foot{display:none}
+html.is-app .sg-foot{display:flex;align-items:center;justify-content:center;gap:8px;margin:28px 16px 8px;padding:12px;border-top:1px solid var(--line);color:var(--muted);font-size:12px;text-decoration:none}
+html.is-app .sg-foot b{padding:2px 8px;border-radius:999px;background:color-mix(in srgb,#2fbf71 14%,transparent);color:#1f9d5c;font:600 11px/1.4 var(--font-mono)}
+html.is-app .sg-foot .stargate-click-count{display:none}
