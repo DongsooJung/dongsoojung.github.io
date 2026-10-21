@@ -429,14 +429,13 @@ body.portal-dashboard-mode #personal-projects{margin-top:14px}
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630"><link rel="stylesheet" href="/assets/stargate-tokens.css?v=20261017">
 <script>
-/* 앱(TWA·설치형 PWA) 실행 감지: ?app=0 으로 웹 화면 강제, ?src=app 으로 앱 화면 미리보기 */
-(function(){try{var q=new URLSearchParams(location.search),k='stargateAppMode',on=false;
-if(q.get('app')==='0'){sessionStorage.removeItem(k);return}
-if(q.get('src')==='app'||q.get('app')==='1'||document.referrer.indexOf('android-app://kr.co.stargateedu.twa')===0||matchMedia('(display-mode: standalone)').matches||navigator.standalone===true||sessionStorage.getItem(k)==='1')on=true;
-if(on){sessionStorage.setItem(k,'1');document.documentElement.classList.add('is-app')}}catch(e){}})();
+/* 화면 모드: 기본은 웹. 왼쪽 위 [모바일] 버튼으로 전환하면 localStorage에 저장됩니다. ?view=mobile / ?view=web 으로도 지정 가능합니다. */
+(function(){try{var k='stargateViewMode',v=new URLSearchParams(location.search).get('view');
+if(v==='mobile'||v==='web')localStorage.setItem(k,v);
+if(localStorage.getItem(k)==='mobile')document.documentElement.classList.add('is-app')}catch(e){}})();
 </script>
-<link rel="stylesheet" href="/assets/app-shell.css?v=20261021-simple">
-<script src="/assets/app-shell.js?v=20261021-simple" defer></script>
+<link rel="stylesheet" href="/assets/app-shell.css?v=20261021-toggle">
+<script src="/assets/app-shell.js?v=20261021-toggle" defer></script>
 </head>
 <body>
 

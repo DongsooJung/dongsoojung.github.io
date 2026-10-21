@@ -1,8 +1,10 @@
-// STARGATE 앱(TWA·설치형 PWA) 전용 "심플 모드" 홈 화면.
-// html.is-app 클래스는 <head>의 감지 스크립트가 먼저 붙입니다. 웹 화면에서는 아무것도 하지 않습니다.
+// STARGATE "모바일(심플) 모드" 홈 화면.
+// 기본은 기존 웹 홈페이지이며, 왼쪽 위 [모바일] 버튼을 누르면 html.is-app 클래스가 붙어 심플 모드로 전환됩니다.
+// 선택은 localStorage(stargateViewMode)에 저장되어 다음 방문에도 유지되고, [웹] 버튼으로 되돌릴 수 있습니다.
 (() => {
   const root = document.documentElement;
-  if (!root.classList.contains('is-app')) return;
+  const MODE_KEY = 'stargateViewMode';
+  const saveMode = (mode) => { try { localStorage.setItem(MODE_KEY, mode); } catch (_) {} };
 
   const SVG = (paths) => `<svg class="ti" viewBox="0 0 24 24" aria-hidden="true">${paths}</svg>`;
   const ICON = {
@@ -11,6 +13,8 @@
     search: '<circle cx="11" cy="11" r="6.5"/><path d="m16 16 5 5"/>',
     chat: '<path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12z"/>',
     chart: '<path d="M4 19V9m6 10V5m6 14v-7m4 7H2"/>',
+    phone: '<rect x="6.5" y="2.5" width="11" height="19" rx="2.5"/><path d="M11 18h2"/>',
+    monitor: '<rect x="2.5" y="4" width="19" height="13" rx="2"/><path d="M8 21h8M12 17v4"/>',
   };
 
   const TABS = [
@@ -21,11 +25,18 @@
     { key: 'research', href: '/research/', label: '연구', icon: ICON.chart },
   ];
 
+  const B = '/assets/app-banners/';
   const BANNERS = [
-    { href: '/koi-coach/', bg: 'linear-gradient(120deg,#1f3fd1,#4f7fff)', kicker: 'KOI · ALGORITHM', title: 'KOI 알고리즘 코치', sub: '정보올림피아드 대비 문제 풀이' },
-    { href: '/research/', bg: 'linear-gradient(120deg,#0f6e56,#2fb38a)', kicker: 'RESEARCH', title: '연구 대시보드', sub: '도시·경제·공공데이터 관측' },
-    { href: '/gh-sale-info/', bg: 'linear-gradient(120deg,#a32d2d,#e0663f)', kicker: 'LIVE DATA', title: 'GH 청약 공고', sub: '경기 공공주택 공고를 매일 수집' },
-    { href: 'https://shop.stargateedu.co.kr/', bg: 'linear-gradient(120deg,#1a1a2e,#ba7517)', kicker: 'SHOP', title: '스타게이트 쇼핑몰', sub: '교재·디지털 상품' },
+    { href: '/koi-coach/', img: '01-koi', kicker: 'KOI · ALGORITHM', title: 'KOI 알고리즘 코치', sub: '정보올림피아드 대비 문제 풀이' },
+    { href: '/research/', img: '02-research', kicker: 'RESEARCH', title: '연구 대시보드', sub: '도시·경제·공공데이터 관측' },
+    { href: '/gh-sale-info/', img: '03-gh-cheongyak', kicker: 'LIVE DATA', title: 'GH 청약 공고', sub: '경기 공공주택 공고를 매일 수집' },
+    { href: 'https://shop.stargateedu.co.kr/', img: '04-shop', kicker: 'SHOP', title: '스타게이트 쇼핑몰', sub: '교재·디지털 상품' },
+    { href: '/strategy/', img: '05-strategy', kicker: 'STRATEGY', title: '전략 인사이트', sub: '플랫폼 기업·산업 분석 리서치' },
+    { href: '/board/', img: '06-board', kicker: 'BOARD', title: '게시판', sub: '공지와 이야기를 나누는 공간', dark: true },
+    { href: '#customer-care', img: '07-consult', kicker: 'CONSULT', title: '1:1 상담', sub: '교육·AI·연구 협업 상담 신청', dark: true },
+    { href: '/election/', img: '08-election', kicker: 'ELECTION', title: '선거구 대시보드', sub: '수원·성남·화성·평택 16개 구', dark: true },
+    { href: 'https://blog.stargateedu.co.kr/', img: '09-blog', kicker: 'BLOG', title: '스타게이트 블로그', sub: '교육·AI·연구 이야기', dark: true },
+    { href: '/global/', img: '10-global', kicker: 'GLOBAL', title: 'GLOBAL STARGATE', sub: 'Korea Intelligence로 세계와 연결' },
   ];
 
   const CATS = [
@@ -48,12 +59,12 @@
     const top = document.createElement('header');
     top.className = 'sg-top';
     top.innerHTML = `
+      <button class="sg-mode" type="button" data-view-mode="web" aria-label="웹 화면으로 보기" data-analytics-label="웹 화면 전환">${SVG(ICON.monitor).replace('class="ti"', '')}<span>웹</span></button>
       <a class="sg-logo" href="/" aria-label="스타게이트 홈">STAR<b>GATE</b></a>
       <label class="sg-search">
         ${SVG(ICON.search).replace('class="ti"', '')}
         <input id="sg-search" type="search" enterkeyhint="search" placeholder="검색" aria-label="서비스 검색" autocomplete="off">
-      </label>
-      <a class="sg-icon" href="#customer-care" aria-label="상담">${SVG(ICON.chat).replace('class="ti"', '')}</a>`;
+      </label>`;
     document.body.prepend(top);
     addEventListener('scroll', () => top.classList.toggle('is-scrolled', scrollY > 4), { passive: true });
   }
@@ -67,7 +78,7 @@
     home.innerHTML = `
       <div class="sg-banner sg-hide-on-search">
         <div class="sg-banner-track">
-          ${BANNERS.map((b) => `<a class="sg-slide" href="${b.href}"${ext(b.href)} style="background:${b.bg}" data-analytics-label="앱 배너 ${b.title}"><small>${b.kicker}</small><strong>${b.title}</strong><span>${b.sub}</span></a>`).join('')}
+          ${BANNERS.map((b, i) => `<a class="sg-slide${b.dark ? ' is-dark-text' : ''}" href="${b.href}"${ext(b.href)} style="background-image:url('${B}${b.img}.webp')" data-analytics-label="앱 배너 ${b.title}"${i ? '' : ' data-first'}><small>${b.kicker}</small><strong>${b.title}</strong><span>${b.sub}</span></a>`).join('')}
         </div>
         <div class="sg-dots" aria-hidden="true">1 / ${BANNERS.length}</div>
       </div>
@@ -162,11 +173,47 @@
     });
   }
 
-  function init() {
+  let built = false;
+  function buildMobile() {
+    if (built) return;
+    built = true;
     buildTop();
     buildHome();
     bindSearch();
     buildTabbar();
+  }
+
+  // 웹 화면 왼쪽 위(로고 앞)에 [모바일] 버튼 추가
+  function buildWebToggle() {
+    const nav = document.querySelector('.nav');
+    if (!nav || nav.querySelector('.sg-mode')) return;
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'sg-mode sg-mode-web';
+    btn.dataset.viewMode = 'mobile';
+    btn.setAttribute('aria-label', '모바일 화면으로 보기');
+    btn.dataset.analyticsLabel = '모바일 화면 전환';
+    btn.innerHTML = `${SVG(ICON.phone).replace('class="ti"', '')}<span>모바일</span>`;
+    nav.prepend(btn);
+  }
+
+  function setMode(mode) {
+    const mobile = mode === 'mobile';
+    if (mobile) buildMobile();
+    root.classList.toggle('is-app', mobile);
+    saveMode(mobile ? 'mobile' : 'web');
+    scrollTo({ top: 0 });
+  }
+
+  function init() {
+    buildWebToggle();
+    if (root.classList.contains('is-app')) buildMobile();
+    document.addEventListener('click', (event) => {
+      const btn = event.target.closest('[data-view-mode]');
+      if (!btn) return;
+      event.preventDefault();
+      setMode(btn.dataset.viewMode);
+    });
   }
 
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);

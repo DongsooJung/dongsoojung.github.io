@@ -1,5 +1,5 @@
-/* STARGATE 앱(TWA·설치형 PWA) 전용 "심플 모드" — 쿠팡 앱처럼 흰 바탕·검색 중심·목록형 구성.
-   html.is-app 일 때만 적용되며 웹 화면에는 영향이 없습니다. 앱에서는 테마 선택과 관계없이 흰 바탕으로 고정합니다. */
+/* STARGATE "모바일(심플) 모드" — 쿠팡 앱처럼 흰 바탕·검색 중심·목록형 구성.
+   왼쪽 위 [모바일] 버튼으로 html.is-app 이 붙을 때만 적용되며, 테마 선택과 관계없이 흰 바탕으로 고정합니다. */
 html.is-app,
 html.is-app[data-theme]{
   color-scheme:light;
@@ -35,8 +35,6 @@ html.is-app .sg-top.is-scrolled{border-bottom-color:var(--line)}
 .sg-search svg{flex:0 0 18px;width:18px;height:18px;stroke:var(--acc);fill:none;stroke-width:2.2;stroke-linecap:round}
 .sg-search input{flex:1;min-width:0;width:100%;border:0;outline:0;background:transparent;font:500 14px/1 var(--font-sans);color:#111}
 .sg-search input::placeholder{color:#9aa0a8}
-.sg-icon{flex:0 0 auto;display:grid;place-items:center;width:36px;height:40px;color:#111}
-.sg-icon svg{width:24px;height:24px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
 
 /* 2) 배너 캐러셀 */
 .sg-home{display:none}
@@ -44,10 +42,13 @@ html.is-app .sg-home{display:block}
 .sg-banner{position:relative}
 .sg-banner-track{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none}
 .sg-banner-track::-webkit-scrollbar{display:none}
-.sg-slide{flex:0 0 100%;scroll-snap-align:start;display:flex;flex-direction:column;justify-content:flex-end;gap:6px;height:168px;padding:20px;color:#fff;text-decoration:none;box-sizing:border-box}
-.sg-slide small{font:700 11px/1 var(--font-mono);letter-spacing:.08em;opacity:.85}
-.sg-slide strong{font:800 21px/1.3 var(--font-sans);letter-spacing:-.02em}
-.sg-slide span{font-size:13px;opacity:.9}
+.sg-slide{flex:0 0 100%;scroll-snap-align:start;display:flex;flex-direction:column;justify-content:center;gap:6px;height:200px;padding:0 20px;color:#fff;text-decoration:none;box-sizing:border-box;background:#e9edf3 center/cover no-repeat}
+.sg-slide small{font:700 11px/1 var(--font-mono);letter-spacing:.08em;opacity:.9}
+.sg-slide strong{max-width:60%;font:800 22px/1.28 var(--font-sans);letter-spacing:-.02em;word-break:keep-all}
+.sg-slide span{max-width:58%;font-size:13px;line-height:1.45;opacity:.92;word-break:keep-all}
+.sg-slide:not(.is-dark-text) strong,.sg-slide:not(.is-dark-text) span{text-shadow:0 1px 10px rgba(0,0,0,.25)}
+.sg-slide.is-dark-text{color:#111}
+.sg-slide.is-dark-text small{color:var(--acc);opacity:1}
 .sg-dots{position:absolute;right:12px;bottom:12px;padding:3px 9px;border-radius:999px;background:rgba(0,0,0,.35);color:#fff;font:600 11px/1.4 var(--font-mono)}
 
 /* 3) 동그란 메뉴 아이콘 5×2 */
@@ -109,3 +110,20 @@ html.is-app.sg-searching .sg-head a{display:none}
 .sg-cats a[hidden]{display:none}
 html.is-app.sg-searching #travel-spots,html.is-app.sg-searching #customer-care{display:none!important}
 html.is-app.sg-no-project-hit .sg-head,html.is-app.sg-no-project-hit .sg-gap{display:none}
+
+/* 화면 전환 버튼: 웹에서는 로고 앞 [모바일], 모바일 모드에서는 상단 왼쪽 [웹] */
+.sg-mode{appearance:none;display:inline-flex;align-items:center;justify-content:center;gap:4px;flex:0 0 auto;cursor:pointer;font:700 12px/1 var(--font-sans,system-ui);-webkit-tap-highlight-color:transparent}
+.sg-mode svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
+.sg-mode-web{height:34px;padding:0 11px;border:1px solid var(--line2);border-radius:999px;background:var(--panel);color:var(--ink)}
+.sg-mode-web:hover{border-color:var(--acc);color:var(--acc)}
+.sg-top .sg-mode{flex-direction:column;gap:2px;width:34px;height:40px;padding:0;border:0;background:transparent;color:#5f6670;font-size:10px}
+.sg-top .sg-mode svg{width:20px;height:20px}
+html.is-app .sg-mode-web{display:none}
+.sg-mode .stargate-click-count{display:none!important}
+@media(min-width:700px){.sg-mode-web{height:30px;padding:0 9px;font-size:11.5px}}
+/* 넓은 화면에서 모바일 모드를 켜면 휴대폰 폭(480px)으로 가운데 정렬 */
+@media(min-width:560px){
+  html.is-app body{background:#f2f3f5!important}
+  html.is-app .sg-top,html.is-app .wrap{max-width:480px;margin-left:auto;margin-right:auto;background:#fff}
+  html.is-app .app-tabbar{max-width:480px;margin:0 auto}
+}
