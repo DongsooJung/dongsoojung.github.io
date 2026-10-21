@@ -1,0 +1,326 @@
+{
+  "schemaVersion": 1,
+  "step": "acceptance-bukangi-followup",
+  "checkedAt": "2026-10-21T14:49:40.733Z",
+  "sourceBaseCommit": "c257af85a8149270ece4ad17db758ad3b4dafc24",
+  "key": "/research/bukangi/",
+  "reviewStatus": "needs_review",
+  "verifiedScope": "부산시 2026-10-20 3차 유도 계획과 해수부 원문을 대조. 계획·등록일·본문 기준일을 구분. 과거19기록과 작업 결과·현재 위치는 검증 미완료.",
+  "sourceChecks": [
+    {
+      "key": "busan-plan",
+      "url": "https://www.busan.go.kr/nbtnewsBU/1759961",
+      "checkedAt": "2026-10-21T14:47:35.276726+00:00",
+      "status": 200,
+      "finalUrl": "https://www.busan.go.kr/nbtnewsBU/1759961",
+      "contentType": "text/html; charset=UTF-8",
+      "sha256": "d093af61394af0849cb947145d4bc7794f4db891f4a245e0722d8864f9f91c6b",
+      "bytes": 57924,
+      "kind": "official-source",
+      "scope": "작성일2026-10-20, 21일3차유도 추진 계획·안전통제"
+    },
+    {
+      "key": "mof-plan",
+      "url": "https://www.mof.go.kr/doc/ko/selectDoc.do?bbsSeq=10&docSeq=69051&menuSeq=971",
+      "checkedAt": "2026-10-21T14:47:35.277726+00:00",
+      "status": 200,
+      "finalUrl": "https://www.mof.go.kr/doc/ko/selectDoc.do?bbsSeq=10&docSeq=69051&menuSeq=971",
+      "contentType": "text/html;charset=UTF-8",
+      "sha256": "1c07919a20de5d35af4ac7989df59eb27d009dca84ef4f8f62d5d01a30839ba2",
+      "bytes": 135664,
+      "kind": "official-source",
+      "scope": "등록일2026-10-21, 본문 오늘20일·내일21일 및261020 첨부명. 약3m흑상어·3차유도 계획. 결과 보고가 아님."
+    }
+  ],
+  "referenceDates": {
+    "busanPublishedAt": "2026-10-20",
+    "mofRegisteredAt": "2026-10-21",
+    "mofBodyReferenceDate": "2026-10-20",
+    "plannedActionDate": "2026-10-21",
+    "dataPeriodApplicable": false,
+    "reason": "월간 통계가 아닌 사건별 발표·계획. 2026-10월 완결 통계가 아님."
+  },
+  "historicalIndex": {
+    "count": 19,
+    "uniqueSourceUrls": 13,
+    "repeatedSources": [
+      {
+        "url": "https://n.news.naver.com/article/023/0004000016",
+        "recordIds": [
+          "07",
+          "08"
+        ]
+      },
+      {
+        "url": "https://www.yna.co.kr/view/AKR20260922142851051",
+        "recordIds": [
+          "10",
+          "11"
+        ]
+      },
+      {
+        "url": "https://www.fnnews.com/news/202609211600184225",
+        "recordIds": [
+          "12",
+          "19"
+        ]
+      },
+      {
+        "url": "https://www.busan.com/view/busan/view.php?code=2026092018351398589",
+        "recordIds": [
+          "13",
+          "16"
+        ]
+      },
+      {
+        "url": "https://www.hankookilbo.com/news/article/A2026092013010001774",
+        "recordIds": [
+          "14",
+          "18"
+        ]
+      },
+      {
+        "url": "https://www.fnnews.com/news/202609200516355637",
+        "recordIds": [
+          "15",
+          "17"
+        ]
+      }
+    ],
+    "editorialDate": "2026-09-23",
+    "originalClaimedCutoff": "2026-09-23 19:50 KST",
+    "latestDisplayedEventLabel": "9/23 19:57",
+    "cutoffVerified": false,
+    "notes": "기존19:50 편집 마감 표기보다19:57 기록이 있어 정확한 시각을 확정하지 않음. 반복 URL은 별도 사건/인용 기록일 수 있으며 독립 원출처19개로 세지 않음.",
+    "records": [
+      {
+        "id": "01",
+        "kind": "반응",
+        "tone": "유머",
+        "displayedEventTime": "9/23 19:57",
+        "title": "“부캉이 아직 안갔나벼”",
+        "sourceUrl": "https://x.com/allroundnobody/status/2102713894548697167",
+        "reviewStatus": "needs_review",
+        "scope": "2026-09-23 편집 목록의 기존 표기 보존. 사건 시각·게시 시각·인용 수치의 원문 전수 대조는 미완료."
+      },
+      {
+        "id": "02",
+        "kind": "반응",
+        "tone": "유머",
+        "displayedEventTime": "9/23 19:51",
+        "title": "“부캉이 직캠만 보고있음”",
+        "sourceUrl": "https://x.com/technomucho/status/2102712368631599344",
+        "reviewStatus": "needs_review",
+        "scope": "2026-09-23 편집 목록의 기존 표기 보존. 사건 시각·게시 시각·인용 수치의 원문 전수 대조는 미완료."
+      },
+      {
+        "id": "03",
+        "kind": "반응",
+        "tone": "우려",
+        "displayedEventTime": "9/23 19:54",
+        "title": "좁아서 숨 쉬러 떠오르는 것 아니냐",
+        "sourceUrl": "https://x.com/realdonmisae/status/2102713241453646208",
+        "reviewStatus": "needs_review",
+        "scope": "2026-09-23 편집 목록의 기존 표기 보존. 사건 시각·게시 시각·인용 수치의 원문 전수 대조는 미완료."
+      },
+      {
+        "id": "04",
+        "kind": "보도",
+        "tone": "사실",
+        "displayedEventTime": "9/23 오후",
+        "title": "수로 제원과 유도 시나리오가 구체화됐다",
+        "sourceUrl": "https://n.news.naver.com/mnews/article/658/0000156484",
+        "reviewStatus": "needs_review",
+        "scope": "2026-09-23 편집 목록의 기존 표기 보존. 사건 시각·게시 시각·인용 수치의 원문 전수 대조는 미완료."
+      },
+      {
+        "id": "05",
+        "kind": "보도",
+        "tone": "사실",
+        "displayedEventTime": "9/23 14:52",
+        "title": "엿새째. 연휴에도 남을 듯, 유관기관 비상근무",
+        "sourceUrl": "https://www.yna.co.kr/view/AKR20260923123700051",
+        "reviewStatus": "needs_review",
+        "scope": "2026-09-23 편집 목록의 기존 표기 보존. 사건 시각·게시 시각·인용 수치의 원문 전수 대조는 미완료."
+      },
+      {
+        "id": "06",
+        "kind": "반응",
+        "tone": "애정",
+        "displayedEventTime": "9/23 오전",
+        "title": "“예뻐 죽겠다.” 수조 원짜리 홍보라고 했다",
+        "sourceUrl": "https://www.ajunews.com/view/20260923092833050",
+        "reviewStatus": "needs_review",
+        "scope": "2026-09-23 편집 목록의 기존 표기 보존. 사건 시각·게시 시각·인용 수치의 원문 전수 대조는 미완료."
+      },
+      {
+        "id": "07",
+        "kind": "반응",
+        "tone": "애정",
+        "displayedEventTime": "9/23 현장",
+        "title": "창원에서 올라와 30분 만에 직관",
+        "sourceUrl": "https://n.news.naver.com/article/023/0004000016",
+        "reviewStatus": "needs_review",
+        "scope": "2026-09-23 편집 목록의 기존 표기 보존. 사건 시각·게시 시각·인용 수치의 원문 전수 대조는 미완료."
+      },
+      {
+        "id": "08",
+        "kind": "보도",
+        "tone": "사실",
+        "displayedEventTime": "9/22 분석",
+        "title": "동해 대형 상어, 2022년 1마리에서 올해 68마리",
+        "sourceUrl": "https://n.news.naver.com/article/023/0004000016",
+        "reviewStatus": "needs_review",
+        "scope": "2026-09-23 편집 목록의 기존 표기 보존. 사건 시각·게시 시각·인용 수치의 원문 전수 대조는 미완료."
+      },
+      {
+        "id": "09",
+        "kind": "반응",
+        "tone": "안전",
+        "displayedEventTime": "9/22 라디오",
+        "title": "“던져주지 않는 게 훨씬 낫다”",
+        "sourceUrl": "https://www.hankyung.com/article/2026092218797",
+        "reviewStatus": "needs_review",
+        "scope": "2026-09-23 편집 목록의 기존 표기 보존. 사건 시각·게시 시각·인용 수치의 원문 전수 대조는 미완료."
+      },
+      {
+        "id": "10",
+        "kind": "보도",
+        "tone": "사실",
+        "displayedEventTime": "9/22 오후",
+        "title": "추석까지 기다린다. 안 나가면 외해 유도",
+        "sourceUrl": "https://www.yna.co.kr/view/AKR20260922142851051",
+        "reviewStatus": "needs_review",
+        "scope": "2026-09-23 편집 목록의 기존 표기 보존. 사건 시각·게시 시각·인용 수치의 원문 전수 대조는 미완료."
+      },
+      {
+        "id": "11",
+        "kind": "보도",
+        "tone": "관광",
+        "displayedEventTime": "9/21 집계",
+        "title": "평시 2천 명이 주말 이틀 2만, 월요일도 1만",
+        "sourceUrl": "https://www.yna.co.kr/view/AKR20260922142851051",
+        "reviewStatus": "needs_review",
+        "scope": "2026-09-23 편집 목록의 기존 표기 보존. 사건 시각·게시 시각·인용 수치의 원문 전수 대조는 미완료."
+      },
+      {
+        "id": "12",
+        "kind": "반응",
+        "tone": "우려",
+        "displayedEventTime": "9/21 보도",
+        "title": "1m 물고기에 ‘출산설’. 확인된 사실은 아니다",
+        "sourceUrl": "https://www.fnnews.com/news/202609211600184225",
+        "reviewStatus": "needs_review",
+        "scope": "2026-09-23 편집 목록의 기존 표기 보존. 사건 시각·게시 시각·인용 수치의 원문 전수 대조는 미완료."
+      },
+      {
+        "id": "13",
+        "kind": "보도",
+        "tone": "관광",
+        "displayedEventTime": "9/20 16:00",
+        "title": "영상 조회 800만. 주차장 462면은 찼다",
+        "sourceUrl": "https://www.busan.com/view/busan/view.php?code=2026092018351398589",
+        "reviewStatus": "needs_review",
+        "scope": "2026-09-23 편집 목록의 기존 표기 보존. 사건 시각·게시 시각·인용 수치의 원문 전수 대조는 미완료."
+      },
+      {
+        "id": "14",
+        "kind": "보도",
+        "tone": "관광",
+        "displayedEventTime": "9/20 낮",
+        "title": "실시간 중계 글이 뜨고, 카페는 인력이 바닥났다",
+        "sourceUrl": "https://www.hankookilbo.com/news/article/A2026092013010001774",
+        "reviewStatus": "needs_review",
+        "scope": "2026-09-23 편집 목록의 기존 표기 보존. 사건 시각·게시 시각·인용 수치의 원문 전수 대조는 미완료."
+      },
+      {
+        "id": "15",
+        "kind": "반응",
+        "tone": "애정",
+        "displayedEventTime": "9/19 저녁",
+        "title": "“생태계가 건강하다는 증거”",
+        "sourceUrl": "https://www.fnnews.com/news/202609200516355637",
+        "reviewStatus": "needs_review",
+        "scope": "2026-09-23 편집 목록의 기존 표기 보존. 사건 시각·게시 시각·인용 수치의 원문 전수 대조는 미완료."
+      },
+      {
+        "id": "16",
+        "kind": "반응",
+        "tone": "안전",
+        "displayedEventTime": "9/19 17:00–18:30",
+        "title": "생닭을 던진 남성은 곧바로 퇴장",
+        "sourceUrl": "https://www.busan.com/view/busan/view.php?code=2026092018351398589",
+        "reviewStatus": "needs_review",
+        "scope": "2026-09-23 편집 목록의 기존 표기 보존. 사건 시각·게시 시각·인용 수치의 원문 전수 대조는 미완료."
+      },
+      {
+        "id": "17",
+        "kind": "반응",
+        "tone": "애정",
+        "displayedEventTime": "9/19 17:00",
+        "title": "“엄마, 나 상어 꼬리 봤어.”",
+        "sourceUrl": "https://www.fnnews.com/news/202609200516355637",
+        "reviewStatus": "needs_review",
+        "scope": "2026-09-23 편집 목록의 기존 표기 보존. 사건 시각·게시 시각·인용 수치의 원문 전수 대조는 미완료."
+      },
+      {
+        "id": "18",
+        "kind": "보도",
+        "tone": "안전",
+        "displayedEventTime": "9/18 당일",
+        "title": "유도하다가 철수. 자극하면 공격성이 커질 수 있다",
+        "sourceUrl": "https://www.hankookilbo.com/news/article/A2026092013010001774",
+        "reviewStatus": "needs_review",
+        "scope": "2026-09-23 편집 목록의 기존 표기 보존. 사건 시각·게시 시각·인용 수치의 원문 전수 대조는 미완료."
+      },
+      {
+        "id": "19",
+        "kind": "보도",
+        "tone": "사실",
+        "displayedEventTime": "9/18 08:57",
+        "title": "북항 친수공원 수로에서 3.5m 상어 최초 신고",
+        "sourceUrl": "https://www.fnnews.com/news/202609211600184225",
+        "reviewStatus": "needs_review",
+        "scope": "2026-09-23 편집 목록의 기존 표기 보존. 사건 시각·게시 시각·인용 수치의 원문 전수 대조는 미완료."
+      }
+    ]
+  },
+  "nonAdoptedResultReports": {
+    "status": "official_result_not_verified",
+    "reason": "검색에서10월21일 수로 밖 이동을 다룬 언론 보도가 발견되었으나 이번 대조의 공식 원문은 계획서다. 계획을 성공·실패나 현재 위치로 바꾸지 않음.",
+    "discoveryUrls": [
+      "https://www.yna.co.kr/amp/view/AKR20261021162352051",
+      "https://imnews.imbc.com/replay/2026/nwdesk/article/6859715_37004.html"
+    ]
+  },
+  "numericChanges": [],
+  "nextAction": "공식 결과 원문을 확보할 때만 결과·위치를 추가. 과거19기록은13개 고유 URL별 원문 게시일·사건시각·인용 수치 및 중복을 대조.",
+  "acceptanceComplete": false,
+  "validation": {
+    "checkedAt": "2026-10-21T14:51:26.040Z",
+    "tests": {
+      "node": 15,
+      "failed": 0
+    },
+    "browser": {
+      "base": "http://127.0.0.1:47279",
+      "verifiedAt": "2026-10-21T14:50:43.716Z",
+      "checks": [
+        "19 historical records,13 unique sources,six duplicate-source groups",
+        "official plan/date discrepancy and result uncertainty labels",
+        "downloaded audit JSON exact match",
+        "kind filters and archived opinion disclosure",
+        "390px mobile no horizontal overflow; desktop/mobile screenshots",
+        "63-row public review retains needs_review"
+      ],
+      "pageErrors": []
+    },
+    "checks": [
+      "Official HTML source hashes, named document and date fields compared",
+      "19 records map to13 exact URLs; six repeated-source pairs; no claim of19 independent sources",
+      "Monthly period not applied; page registry date and plan/event dates remain separate",
+      "No tourism refetch or numeric changes"
+    ],
+    "acceptanceComplete": false
+  }
+}

@@ -7,17 +7,17 @@
   "projects": [
     {
       "source": {
-        "label": "부산광역시 공식 공지·보도자료",
-        "url": "https://www.busan.go.kr/nbnews/1758071",
+        "label": "부산시·해양수산부 3차 유도 계획 원문",
+        "url": "https://www.busan.go.kr/nbtnewsBU/1759961",
         "verification": "partially_verified"
       },
-      "dataAsOf": "2026-10-06",
-      "dataPeriod": "2026-10",
-      "snapshotUpdatedAt": null,
-      "collectedAt": null,
-      "checkedAt": "2026-10-17T02:29:06.590856+00:00",
+      "dataAsOf": null,
+      "dataPeriod": "혼재 (9월 과거 기록·10월 공식 계획)",
+      "snapshotUpdatedAt": "2026-10-21T14:49:40.733Z",
+      "collectedAt": "2026-10-21T14:47:35.276726+00:00",
+      "checkedAt": "2026-10-21T14:49:40.733Z",
       "reviewStatus": "needs_review",
-      "freshness": "requires_followup",
+      "freshness": "official_plan_checked_results_unverified",
       "evidence": [
         {
           "kind": "official-source",
@@ -29,20 +29,52 @@
           "kind": "audit-record",
           "url": "/research/source-reviews/2026-10-17-urban-1.json",
           "checkedAt": "2026-10-17T02:29:06.590856+00:00"
+        },
+        {
+          "kind": "official-source",
+          "url": "https://www.busan.go.kr/nbtnewsBU/1759961",
+          "checkedAt": "2026-10-21T14:47:35.276726+00:00",
+          "sha256": "d093af61394af0849cb947145d4bc7794f4db891f4a245e0722d8864f9f91c6b",
+          "scope": "작성일2026-10-20, 21일3차유도 추진 계획·안전통제"
+        },
+        {
+          "kind": "official-source",
+          "url": "https://www.mof.go.kr/doc/ko/selectDoc.do?bbsSeq=10&docSeq=69051&menuSeq=971",
+          "checkedAt": "2026-10-21T14:47:35.277726+00:00",
+          "sha256": "1c07919a20de5d35af4ac7989df59eb27d009dca84ef4f8f62d5d01a30839ba2",
+          "scope": "등록일2026-10-21, 본문 오늘20일·내일21일 및261020 첨부명. 약3m흑상어·3차유도 계획. 결과 보고가 아님."
+        },
+        {
+          "kind": "audit-record",
+          "url": "/research/source-reviews/2026-10-21-bukangi-followup.json",
+          "checkedAt": "2026-10-21T14:49:40.733Z",
+          "scope": "부산시 2026-10-20 3차 유도 계획과 해수부 원문을 대조. 계획·등록일·본문 기준일을 구분. 과거19기록과 작업 결과·현재 위치는 검증 미완료."
         }
       ],
       "issues": [
-        "19개 보도·시민 반응 기록의 개별 수치·최신 위치는 이번 대조 범위 밖입니다.",
-        "10월 1일 계획 공지를 실제 구조 완료나 현재 위치 확인으로 바꾸지 않았습니다."
+        "부산시 작성일10월20일·해수부 등록일10월21일과 본문 기준20일을 구분. 작업 결과·현재 위치는 공식 결과 원문 미대조.",
+        "9월19기록은 고유 원문13개. 사건시각·게시일·개별 수치 전수 대조 미완료. 19:50 편집 표기와19:57 기록 불일치.",
+        "과거 편집 의견을 접힌 기록으로 옮기고 현재 상황 판단과 구분. 약3m흑상어 공식 표현과 과거3.5m무태상어 표기를 혼합하지 않음."
       ],
       "key": "/research/bukangi/",
       "url": "/research/bukangi/",
       "title": "부캉이 상황실",
       "primary": "urban",
       "classification": "도시·공간",
-      "sourceHint": "부산시 10월 공지 · 보도 19건",
-      "verifiedScope": "부산시 2026-10-06 관람 안내와 2026-10-01 후속 구조 계획의 원문만 대조해 별도 표시. 기존 9월 보도 19건은 보존하며 전부 검증 완료로 취급하지 않음.",
-      "nextAction": "기존 기록별 원문·발표일·중복 인용을 대조하고, 이후 기관의 결과 공지가 확인될 때만 사건 경과를 추가."
+      "sourceHint": "부산시·해수부 3차 계획 · 과거19기록 미완료",
+      "verifiedScope": "부산시 2026-10-20 3차 유도 계획과 해수부 원문을 대조. 계획·등록일·본문 기준일을 구분. 과거19기록과 작업 결과·현재 위치는 검증 미완료.",
+      "nextAction": "공식 결과 원문을 확보할 때만 결과·위치를 추가. 과거19기록은13개 고유 URL별 원문 게시일·사건시각·인용 수치 및 중복을 대조.",
+      "previousReview": {
+        "checkedAt": "2026-10-17T02:29:06.590856+00:00",
+        "dataAsOf": "2026-10-06",
+        "dataPeriod": "2026-10",
+        "verifiedScope": "부산시 2026-10-06 관람 안내와 2026-10-01 후속 구조 계획의 원문만 대조해 별도 표시. 기존 9월 보도 19건은 보존하며 전부 검증 완료로 취급하지 않음.",
+        "issues": [
+          "19개 보도·시민 반응 기록의 개별 수치·최신 위치는 이번 대조 범위 밖입니다.",
+          "10월 1일 계획 공지를 실제 구조 완료나 현재 위치 확인으로 바꾸지 않았습니다."
+        ]
+      },
+      "referenceDescription": "사건별 발표 · 월간 기준월 비적용"
     },
     {
       "source": {

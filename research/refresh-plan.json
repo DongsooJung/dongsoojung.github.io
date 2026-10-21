@@ -986,7 +986,7 @@
       "status": "pending",
       "keys": [],
       "outcome": "conditional_technical_acceptance",
-      "latestAudit": "/research/source-reviews/2026-10-21-source-followup-1.json",
+      "latestAudit": "/research/source-reviews/2026-10-21-bukangi-followup.json",
       "lastAttemptAt": "2026-10-20T23:07:26.208Z",
       "itemResults": {
         "/exchange-rate/": {
@@ -1037,6 +1037,12 @@
           "publicationCheckedAt": "2026-10-20T23:45:30.026Z",
           "nextEligibleDate": "2026-10-26",
           "audit": "/research/source-reviews/2026-10-21-source-followup-1.json"
+        },
+        "/research/bukangi/": {
+          "status": "needs_review",
+          "checkedAt": "2026-10-21T14:49:40.733Z",
+          "audit": "/research/source-reviews/2026-10-21-bukangi-followup.json",
+          "nextAction": "공식 결과 원문을 확보할 때만 결과·위치를 추가. 과거19기록은13개 고유 URL별 원문 게시일·사건시각·인용 수치 및 중복을 대조."
         }
       },
       "checkpoints": {
@@ -1068,7 +1074,7 @@
           "Tourism not re-fetched before October26; original checkedAt retained"
         ]
       },
-      "nextAction": "공표 대기는10월26일 이후만 재조회. 변경된4개 게시본과 기존 원출처·범위 미완료의 후속 근거를 순서대로 처리하며 전체 검증이 끝나기 전 완료·예약 종료로 바꾸지 않음.",
+      "nextAction": "관광은10월26일 이후 공표 확인. 부캉이 공식 결과·과거 원문 및 다른 미완료 항목을 순차 대조. 완료 근거 있는 저장본을 반복 조회하지 않음.",
       "sourceFollowups": [
         {
           "id": "source-followup-1-20261021",
@@ -1085,10 +1091,39 @@
           "outcome": "four_snapshots_verified_publication_wait_confirmed",
           "release": {
             "branch": "codex/research-source-followup-20261021",
-            "status": "awaiting_checks",
+            "status": "verified",
             "liveUrl": "https://www.stargateedu.co.kr/research/data-review/",
             "sourceReviewUrl": "https://www.stargateedu.co.kr/research/source-reviews/2026-10-21-source-followup-1.json",
-            "pullRequest": "https://github.com/DongsooJung/dongsoojung.github.io/pull/203"
+            "pullRequest": "https://github.com/DongsooJung/dongsoojung.github.io/pull/203",
+            "commit": "9945416e652b0982f1a886172c9eb977b0e367f9",
+            "pullRequestMergeCommit": "e357e63c5efe161575b482a5cccb31d42385203b",
+            "verifiedAt": "2026-10-21T00:00:23.026Z",
+            "pagesRun": "https://github.com/DongsooJung/dongsoojung.github.io/actions/runs/39518393342",
+            "checks": [
+              "Exact PR head CodeQL aggregate and JavaScript success",
+              "Exact deployed SHA Pages build/report/deploy; descendant contains unchanged scoped files",
+              "Both domains sixteen changed public files match released content",
+              "Live63 unique URLs/seven alphabetical filters/nine groups/strategy44; search/hash/keyboard/mobile",
+              "Five pages audit JSON and CSV downloads; airport8 totals, Cafe20, Trends100 official categories, listings6",
+              "Tourism August values unchanged; only publication check renewed; September October26 / October November25",
+              "Node22 and Python5 tests; independent source fields/ranking/sums and export metadata checks"
+            ]
+          }
+        },
+        {
+          "id": "bukangi-followup-20261021",
+          "status": "completed",
+          "checkedAt": "2026-10-21T14:49:40.733Z",
+          "keys": [
+            "/research/bukangi/"
+          ],
+          "audit": "/research/source-reviews/2026-10-21-bukangi-followup.json",
+          "outcome": "official_plan_checked_historical_claims_separated_followup_required",
+          "release": {
+            "branch": "codex/bukangi-followup-20261021",
+            "status": "awaiting_checks",
+            "liveUrl": "https://www.stargateedu.co.kr/research/bukangi/",
+            "sourceReviewUrl": "https://www.stargateedu.co.kr/research/source-reviews/2026-10-21-bukangi-followup.json"
           }
         }
       ]
