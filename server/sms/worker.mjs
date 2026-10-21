@@ -1,8 +1,10 @@
 import { DurableObject } from 'cloudflare:workers';
 import {json,authorized,account,validate,send} from './service.mjs';
 import {CRMStore} from './crm.mjs';
+import {chatbotStorage} from './chatbot.mjs';
 
 export class SmsRequest extends DurableObject {
+  async chatbot(action,payload) { return chatbotStorage(this.ctx.storage,action,payload); }
   async crm(action,body) {
     const store=new CRMStore(this.ctx.storage);
     try {

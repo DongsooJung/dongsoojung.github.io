@@ -3,6 +3,8 @@ import { AnalyticsStore, RequestError, prepareHistoryImport } from './analytics.
 import { handleRequest } from './routes.mjs';
 import { DashboardStore } from './dashboard-refresh.mjs';
 import { SiteAlerts } from './site-alerts.mjs';
+import {handleChatbot,channelOverlay} from '../server/sms/chatbot.mjs';
+import {chatbotAdmin} from '../server/sms/chatbot-admin.mjs';
 
 export class VisitorAnalytics extends DurableObject {
   constructor(ctx, env) {
@@ -51,7 +53,12 @@ export class VisitorAnalytics extends DurableObject {
 }
 
 export default {
-  fetch:handleRequest,
+  async fetch(request,env,ctx) {
+    const path=new URL(request.url).pathname;
+    if(path==='/admin/kakao/')return chatbotAdmin(request,env);
+    if(path.startsWith('/api/kakao/'))return handleChatbot(request,env);
+    return channelOverlay(await handleRequest(request,env,ctx),path);
+  },
   scheduled(controller,env,ctx) {
     const object=env.VISITOR_ANALYTICS.get(env.VISITOR_ANALYTICS.idFromName('stargate-visitors-v1'));
     ctx.waitUntil(object.refreshDashboards('scheduled'));

@@ -1,0 +1,24 @@
+import {verifyAccessRequest} from '../../cloudflare/access.mjs';
+import {CHANNEL,getAlimtalkStatus} from './chatbot.mjs';
+
+export async function chatbotAdmin(request,env){
+ if(!await verifyAccessRequest(request,env))return new Response('관리자 로그인이 필요합니다.',{status:401,headers:{'Content-Type':'text/plain; charset=utf-8','Cache-Control':'private, no-store'}});
+ if(request.method!=='GET')return new Response(null,{status:405,headers:{Allow:'GET'}});
+ const nonce=crypto.randomUUID().replaceAll('-','');
+ const key=env.KAKAO_SKILL_KEY||'';
+ const endpoint=new URL('/api/kakao/skill',request.url).href;
+ const alimtalk=await getAlimtalkStatus(env);
+ const alimtalkSummary=alimtalk.connected===true?'SOLAPI에서 스타게이트AI 채널 연결을 확인했습니다. 승인된 알림톡 템플릿: '+alimtalk.channels.reduce((count,channel)=>count+channel.approvedTemplates.length,0)+'개.':alimtalk.connected===false?'SOLAPI 계정에 스타게이트AI 채널이 아직 연결되지 않았습니다.':'SOLAPI 채널 연결 상태를 확인하지 못했습니다. 잠시 후 다시 열어 주세요.';
+ const page=`<!doctype html><html lang="ko"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex,nofollow"><title>스타게이트AI 연결 설정</title>
+<style>*{box-sizing:border-box}body{margin:0;padding:32px 20px;background:#0b1220;color:#e7eef9;font:16px/1.75 system-ui,sans-serif}main{max-width:840px;margin:auto}h1{font-size:30px;margin:16px 0 8px}h2{font-size:21px;margin:30px 0 12px}p{color:#c4d1e4}section{background:#142035;border:1px solid #334760;border-radius:16px;padding:22px;margin:20px 0}label{display:block;color:#b9cce6;font-size:14px;margin:16px 0 6px}input{width:100%;padding:12px;border:1px solid #526785;border-radius:8px;background:#0b1220;color:#fff;font:14px monospace}button,a.button{display:inline-block;border:0;border-radius:8px;padding:11px 16px;margin:10px 8px 0 0;background:#fee500;color:#151515;font:700 14px system-ui;cursor:pointer;text-decoration:none}a{color:#9bc6ff}li{margin:10px 0}.status{border-left:3px solid #72d9b0;padding-left:14px}code{overflow-wrap:anywhere}small{color:#aebdd3}#copied{min-height:1.75em;color:#72d9b0}</style>
+<main><a href="/sms/customers/">← 고객관리</a><h1>스타게이트AI 연결 설정</h1><p>채널 ${CHANNEL.name} · 검색용 아이디 ${CHANNEL.searchId}</p><p class="status">AI 응답 서버는 운영 중입니다. 카카오 채널의 챗봇 연결·배포는 관리자센터에서 완료해야 합니다.</p>
+<section><h2>1. 카카오 챗봇 스킬 연결</h2><a class="button" href="https://i.kakao.com/" target="_blank" rel="noopener noreferrer">챗봇 관리자센터 열기</a>
+<ol><li>‘스타게이트AI’ 봇을 선택합니다. 없다면 새 봇을 만듭니다.</li><li>스킬 메뉴에서 ‘스타게이트AI 상담’을 만들고 아래 주소를 URL과 Test URL에 넣습니다.</li><li>헤더값과 테스트 헤더값에 아래 이름·값을 모두 등록하고 저장합니다.</li><li>웰컴 블록과 폴백 블록의 응답에 이 스킬을 적용합니다. ‘서비스 안내’, ‘상담 요청’, ‘채널 안내’ 발화용 블록에도 같은 스킬을 적용합니다.</li><li>봇 테스트에서 인사와 일반 질문의 응답을 확인합니다.</li><li>설정의 카카오톡 채널 연결에서 ‘스타게이트AI’(${CHANNEL.searchId})를 운영 채널로 지정하고 배포합니다.</li></ol>
+<label for="endpoint">URL / Test URL</label><input id="endpoint" readonly value="${endpoint}"><button data-copy="endpoint">주소 복사</button>
+<label for="header-name">헤더 이름</label><input id="header-name" readonly value="x-api-key"><button data-copy="header-name">헤더 이름 복사</button>
+<label for="header-value">헤더 값</label><input id="header-value" readonly type="password" value="${key}"><button data-copy="header-value">헤더 값 복사</button><small>이 값은 카카오 스킬 설정에만 입력하세요.</small><p id="copied" role="status"></p></section>
+<section><h2>2. 알림톡 채널 연결</h2><p>${alimtalkSummary}</p><ol><li>이미 연결된 경우 기존 채널을 사용합니다. 새로 연결해야 한다면 SOLAPI에서 검색용 아이디 <strong>stargateai</strong>로 선택하고 소유자 인증을 완료합니다.</li><li>상담 접수·예약 확정·변경 중 사용하는 템플릿을 등록하고 승인을 받습니다.</li><li>고객관리에서 ‘카카오 알림톡’ → ‘카카오 채널·설정 불러오기’로 채널과 승인 템플릿을 확인합니다.</li></ol><a class="button" href="https://console.solapi.com/" target="_blank" rel="noopener noreferrer">SOLAPI 열기</a><a class="button" href="/sms/customers/">고객관리 열기</a></section>
+<section><h2>3. 채널에서 마지막 확인</h2><p>배포 후 아래 채널에 ‘안녕하세요’와 ‘반복 업무를 줄이려면 무엇부터 정리하나요?’를 입력해 보세요. 인사 메뉴와 AI 답변이 모두 표시되어야 합니다.</p><a class="button" href="${CHANNEL.chat}" target="_blank" rel="noopener noreferrer">스타게이트AI 채팅 열기</a><p><small>현재 AI 답변은 전체 하루 50회, 사용자별 하루 10회로 제한됩니다. 예약·결제·상담원 전환을 자동 실행하지 않습니다.</small></p></section></main>
+<script nonce="${nonce}">for(const button of document.querySelectorAll('[data-copy]'))button.addEventListener('click',async()=>{const input=document.getElementById(button.dataset.copy);try{await navigator.clipboard.writeText(input.value);document.getElementById('copied').textContent='복사했습니다.';}catch{input.focus();input.select();document.getElementById('copied').textContent='선택된 값을 직접 복사해 주세요.';}});</script></html>`;
+ return new Response(page,{headers:{'Content-Type':'text/html; charset=utf-8','Cache-Control':'private, no-store','X-Frame-Options':'DENY','X-Content-Type-Options':'nosniff','Referrer-Policy':'no-referrer','Content-Security-Policy':`default-src 'none'; style-src 'unsafe-inline'; script-src 'nonce-${nonce}'; base-uri 'none'; frame-ancestors 'none'; form-action 'none'`}});
+}
