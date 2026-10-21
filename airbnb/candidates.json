@@ -1,5 +1,5 @@
 {
-  "checked_at_kst": "2026-10-20T14:04:33+09:00",
+  "checked_at_kst": "2026-10-21T14:05:54+09:00",
   "filters": {
     "max_deposit_manwon": 1000,
     "max_rent_manwon": 100,
@@ -8,7 +8,7 @@
   "source_mode": "public-listings",
   "crawl": {
     "visited_urls": 70,
-    "successful_pages": 62,
+    "successful_pages": 61,
     "max_pages": 70
   },
   "baseline": [
@@ -105,7 +105,7 @@
       "area_m2": 74.1,
       "area_basis": "exclusive",
       "building_type": "단독주택",
-      "freshness_days": 6,
+      "freshness_days": 7,
       "title": "기장읍 22평 단독/전원주택 월세 1,000 / 50만원",
       "legal_risk": "상대적으로 낮음",
       "host_claim": false,
@@ -129,14 +129,14 @@
       "area_m2": 72.42,
       "area_basis": "exclusive",
       "building_type": "단독주택",
-      "freshness_days": 1,
+      "freshness_days": 2,
       "title": "기장읍 22평 단독/전원주택 월세 1,000 / 60만원",
       "legal_risk": "상대적으로 낮음",
       "host_claim": false,
-      "score": 73,
+      "score": 70,
       "reasons": [
         "주택용도",
-        "최근 등록"
+        "7일 이내"
       ],
       "is_new": false
     },
@@ -163,50 +163,5 @@
       "is_new": false
     }
   ],
-  "disclaimer": "공개 매물 원문에서 확인한 값만 수록하며 인허가 가능 여부는 별도 확인이 필요합니다.",
-  "candidate_recheck_at": "2026-10-20T23:42:27.406232+00:00",
-  "snapshotUpdatedAt": "2026-10-20T23:42:27.406232+00:00",
-  "recheckScope": {
-    "candidateCount": 6,
-    "fullCrawlRepeated": false,
-    "baselineRechecked": false,
-    "baselineObservationPreserved": true
-  },
-  "sourceVerification": {
-    "checkedAt": "2026-10-20T23:45:30.026Z",
-    "scope": "직전 게시 후보6건의 공개 매물 원문 필드만 재대조. 점수는 기존 자체 규칙으로 재계산. 기준후보3건 연결상태·신규 전체 탐색·인허가·영업·매출은 이번 검증 범위 밖.",
-    "sourceChecks": [
-      {
-        "url": "https://realty.daangn.com/articles/4713338",
-        "checkedAt": "2026-10-20T23:39:17.242975+00:00",
-        "sha256": "26cbea3ce3625c80139d247a069a4b9ef4c6170ef6e704d16e00409e42582867"
-      },
-      {
-        "url": "https://realty.daangn.com/articles/4697552",
-        "checkedAt": "2026-10-20T23:39:17.276989+00:00",
-        "sha256": "cee28029ca41d522248ccbbdab81182ae6a3586b488884e9ed87aa642411ce70"
-      },
-      {
-        "url": "https://realty.daangn.com/articles/3207454",
-        "checkedAt": "2026-10-20T23:39:17.450010+00:00",
-        "sha256": "9d574eeaa0eca2ecc93cb3c930cbe684c9b34659108f826bd426520b70b1996d"
-      },
-      {
-        "url": "https://realty.daangn.com/articles/2977836",
-        "checkedAt": "2026-10-20T23:39:17.601082+00:00",
-        "sha256": "87722b3597c3269cc70b5ebd4824462d56e97c09e642613cef26598ec88f561b"
-      },
-      {
-        "url": "https://realty.daangn.com/articles/4175649",
-        "checkedAt": "2026-10-20T23:39:17.705736+00:00",
-        "sha256": "340f9f858dae04ff575c215df2a5860eece06add939825b9c6f08ab62dba999f"
-      },
-      {
-        "url": "https://realty.daangn.com/articles/4597925",
-        "checkedAt": "2026-10-20T23:39:17.822271+00:00",
-        "sha256": "2e8a9d43c91af990a432ac7eb5eaba889bdeff3295b7864053b9721e87b68fbb"
-      }
-    ],
-    "dataHash": "d2e6aeb9098d24c6809f7b1f34bfdf226a2aec90c74650ad12feee7da78590c2"
-  }
+  "disclaimer": "공개 매물 원문에서 확인한 값만 수록하며 인허가 가능 여부는 별도 확인이 필요합니다."
 }
