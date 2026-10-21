@@ -1,0 +1,63 @@
+/* STARGATE 앱(TWA·설치형 PWA) 전용 화면. html.is-app 일 때만 적용되며 웹 화면에는 영향이 없습니다. */
+html.is-app{-webkit-tap-highlight-color:transparent;overscroll-behavior-y:none}
+html.is-app body{overscroll-behavior-y:none}
+html.is-app .wrap{padding:0 16px calc(84px + env(safe-area-inset-bottom))}
+
+/* 1) 상단바: 한 줄로 축소, 스크롤해도 고정 */
+html.is-app .nav{position:sticky;top:0;z-index:50;display:flex;flex-wrap:nowrap;align-items:center;gap:10px;min-height:56px;margin:0 -16px;padding:calc(env(safe-area-inset-top) + 8px) 16px 8px;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+html.is-app .nav .brand{gap:9px;min-width:0}
+html.is-app .nav .brand .logo{width:34px;height:34px;font-size:17px;border-radius:10px}
+html.is-app .nav .brand .name{font-size:16px;white-space:nowrap}
+html.is-app .nav .brand .tag,
+html.is-app .nav .lang-switch,
+html.is-app .nav .links,
+html.is-app .nav .theme-switch{display:none!important}
+html.is-app .nav .theme-toggle{margin-left:auto;width:40px;height:40px;min-width:40px;padding:0;justify-content:center;border-radius:12px}
+html.is-app .nav .theme-toggle [data-theme-label]{display:none}
+html.is-app .nav .theme-toggle .stargate-click-count{display:none}
+
+/* 2) 웹용 상단 요소 숨김(앱 카드로 대체) */
+html.is-app .quick-links,
+html.is-app .hero{display:none!important}
+html.is-app .portal-view-switcher{margin:12px 0 0;padding:4px;border-radius:12px}
+html.is-app .portal-view-switcher .label{display:none}
+html.is-app .portal-view-buttons{display:grid;grid-template-columns:1fr 1fr;gap:4px;width:100%}
+html.is-app .portal-view-btn{min-height:36px;padding:0 10px;font-size:13px;border-radius:9px}
+html.is-app .portal-view-btn .stargate-click-count{display:none}
+
+/* 3) 앱 홈 블록 */
+.app-home{display:none}
+html.is-app .app-home{display:block;margin-top:14px}
+.app-greet{padding:16px 16px 14px;border:1px solid var(--line);border-radius:16px;background:var(--grad2);color:#fff}
+:root[data-theme="light"] .app-greet,:root[data-theme="mono"] .app-greet{background:var(--panel);color:var(--ink)}
+.app-greet .k{font:600 11px/1 var(--font-mono);letter-spacing:.08em;color:var(--acc);text-transform:uppercase}
+.app-greet h2{margin:8px 0 4px;font:700 19px/1.35 var(--font-sans);letter-spacing:-.01em}
+.app-greet p{margin:0;color:var(--sub);font-size:13px;line-height:1.5}
+.app-stats{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-top:10px}
+.app-stat{display:flex;flex-direction:column;gap:6px;min-height:60px;padding:11px 14px;border:1px solid var(--line);border-radius:14px;background:var(--panel);color:var(--ink);text-decoration:none}
+.app-stat span{font-size:12px;color:var(--sub)}
+.app-stat strong{font:700 20px/1 var(--font-mono);font-variant-numeric:tabular-nums}
+.app-section-title{margin:20px 2px 10px;font:700 15px/1 var(--font-sans);color:var(--ink)}
+.app-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:6px 4px}
+.app-grid a{display:flex;flex-direction:column;align-items:center;gap:7px;min-height:76px;padding:8px 2px;border-radius:14px;color:var(--ink);text-decoration:none;font-size:12px;line-height:1.25;text-align:center;word-break:keep-all}
+.app-grid a:active{background:var(--panel)}
+.app-grid .ico{display:grid;place-items:center;width:46px;height:46px;border-radius:14px;background:var(--panel);border:1px solid var(--line);font-size:21px}
+.app-grid .stargate-click-count,.app-tabbar .stargate-click-count,.app-stat .stargate-click-count{display:none}
+
+/* 4) 앱에서 섹션 간격 축소 */
+html.is-app .sec{padding-top:26px;margin-top:0}
+html.is-app .sec h2{font-size:17px}
+html.is-app footer{display:none}
+
+/* 5) 하단 탭바 */
+.app-tabbar{display:none}
+html.is-app .app-tabbar{position:fixed;left:0;right:0;bottom:0;z-index:60;display:grid;grid-template-columns:repeat(5,1fr);padding:6px 4px calc(6px + env(safe-area-inset-bottom));background:var(--bg);border-top:1px solid var(--line)}
+.app-tabbar a{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;min-height:52px;color:var(--muted);text-decoration:none;font-size:11px;font-weight:600}
+.app-tabbar a .ti{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.app-tabbar a[aria-current="page"]{color:var(--acc)}
+html.is-app .homepage-music-hint{bottom:calc(76px + env(safe-area-inset-bottom))}
+
+html.is-app a,html.is-app button{-webkit-user-select:none;user-select:none}
+
+/* 모노 테마에서 활성 세그먼트 글자가 배경과 같은 색이 되는 문제 보정(웹·앱 공통) */
+:root[data-theme="mono"] .portal-view-btn.is-active{color:#fafafa}
