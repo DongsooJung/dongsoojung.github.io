@@ -1,82 +1,172 @@
-// STARGATE 앱(TWA·설치형 PWA) 전용 홈 화면 구성.
+// STARGATE 앱(TWA·설치형 PWA) 전용 "심플 모드" 홈 화면.
 // html.is-app 클래스는 <head>의 감지 스크립트가 먼저 붙입니다. 웹 화면에서는 아무것도 하지 않습니다.
 (() => {
   const root = document.documentElement;
   if (!root.classList.contains('is-app')) return;
 
-  const TABS = [
-    { href: '/', icon: '<path d="M3 10.5 12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/>', label: '홈', match: (p) => p === '/' || p === '/index.html' },
-    { href: '/strategy/', icon: '<path d="M4 19V9m6 10V5m6 14v-7m4 7H2"/>', label: '전략', match: (p) => p.startsWith('/strategy') },
-    { href: '/board/', icon: '<path d="M4 5h16v11H8l-4 4z"/><path d="M8 9h8M8 12h5"/>', label: '게시판', match: (p) => p.startsWith('/board') },
-    { href: '/#customer-care', icon: '<path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12z"/>', label: '상담', match: () => false },
-    { href: '/research/', icon: '<circle cx="11" cy="11" r="6.5"/><path d="m16 16 5 5"/>', label: '연구', match: (p) => p.startsWith('/research') },
-  ];
-
-  const SHORTCUTS = [
-    { href: '/koi-coach/', icon: '🧠', label: 'KOI 코치' },
-    { href: '#customer-care', icon: '💬', label: '1:1 상담' },
-    { href: '/gh-sale-info/', icon: '🏠', label: 'GH 청약' },
-    { href: '/election/', icon: '🗳️', label: '선거구' },
-    { href: 'https://shop.stargateedu.co.kr/', icon: '🛍️', label: '쇼핑몰' },
-    { href: 'https://blog.stargateedu.co.kr/', icon: '✍️', label: '블로그' },
-    { href: '/global/', icon: '🌐', label: 'GLOBAL' },
-    { href: '/aphorisms.html', icon: '📜', label: '오늘의 격언' },
-  ];
-
-  const el = (tag, attrs = {}, html = '') => {
-    const node = document.createElement(tag);
-    Object.entries(attrs).forEach(([k, v]) => node.setAttribute(k, v));
-    if (html) node.innerHTML = html;
-    return node;
+  const SVG = (paths) => `<svg class="ti" viewBox="0 0 24 24" aria-hidden="true">${paths}</svg>`;
+  const ICON = {
+    home: '<path d="M3 10.5 12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/>',
+    menu: '<path d="M4 6h16M4 12h16M4 18h16"/>',
+    search: '<circle cx="11" cy="11" r="6.5"/><path d="m16 16 5 5"/>',
+    chat: '<path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12z"/>',
+    chart: '<path d="M4 19V9m6 10V5m6 14v-7m4 7H2"/>',
   };
 
-  function buildHome() {
-    const anchor = document.querySelector('.portal-view-switcher') || document.querySelector('.nav');
-    if (!anchor || document.querySelector('.app-home')) return;
+  const TABS = [
+    { key: 'home', href: '/', label: '홈', icon: ICON.home },
+    { key: 'all', href: '#sg-projects', label: '전체메뉴', icon: ICON.menu },
+    { key: 'search', href: '#sg-search', label: '검색', icon: ICON.search },
+    { key: 'consult', href: '#customer-care', label: '상담', icon: ICON.chat },
+    { key: 'research', href: '/research/', label: '연구', icon: ICON.chart },
+  ];
 
-    const home = el('section', { class: 'app-home', 'aria-label': '앱 홈' });
-    home.innerHTML = `
-      <div class="app-greet">
-        <div class="k">STARGATE</div>
-        <h2>AI·공간데이터·KOI 교육 포털</h2>
-        <p>연구 대시보드, 공공데이터 서비스, 상담을 한 곳에서 이용하세요.</p>
-      </div>
-      <div class="app-stats">
-        <a class="app-stat" href="/admin/visitors/" rel="nofollow" data-analytics-label="앱 오늘 방문"><span>오늘 방문</span><strong data-app-mirror="visitor-today-count">-</strong></a>
-        <a class="app-stat" href="/admin/visitors/" rel="nofollow" data-analytics-label="앱 누적 방문"><span>누적 방문</span><strong data-app-mirror="visitor-total-count">-</strong></a>
-        <a class="app-stat" href="#projects" data-analytics-label="앱 게시된 프로젝트"><span>게시된 프로젝트</span><strong data-app-mirror="ops-live-count">-</strong></a>
-        <a class="app-stat" href="#projects" data-analytics-label="앱 30일 조회"><span>최근 30일 조회</span><strong data-app-mirror="ops-view-count">-</strong></a>
-      </div>
-      <h2 class="app-section-title">바로가기</h2>
-      <nav class="app-grid" aria-label="바로가기">
-        ${SHORTCUTS.map((s) => `<a href="${s.href}"${s.href.startsWith('http') ? ' rel="noopener"' : ''} data-analytics-label="앱 바로가기 ${s.label}"><span class="ico" aria-hidden="true">${s.icon}</span>${s.label}</a>`).join('')}
-      </nav>`;
-    anchor.after(home);
+  const BANNERS = [
+    { href: '/koi-coach/', bg: 'linear-gradient(120deg,#1f3fd1,#4f7fff)', kicker: 'KOI · ALGORITHM', title: 'KOI 알고리즘 코치', sub: '정보올림피아드 대비 문제 풀이' },
+    { href: '/research/', bg: 'linear-gradient(120deg,#0f6e56,#2fb38a)', kicker: 'RESEARCH', title: '연구 대시보드', sub: '도시·경제·공공데이터 관측' },
+    { href: '/gh-sale-info/', bg: 'linear-gradient(120deg,#a32d2d,#e0663f)', kicker: 'LIVE DATA', title: 'GH 청약 공고', sub: '경기 공공주택 공고를 매일 수집' },
+    { href: 'https://shop.stargateedu.co.kr/', bg: 'linear-gradient(120deg,#1a1a2e,#ba7517)', kicker: 'SHOP', title: '스타게이트 쇼핑몰', sub: '교재·디지털 상품' },
+  ];
+
+  const CATS = [
+    { href: '/koi-coach/', icon: '🧠', label: 'KOI' , keys: '정보올림피아드 알고리즘 코딩 코치' },
+    { href: '/strategy/', icon: '📊', label: '전략' },
+    { href: '/research/', icon: '🔬', label: '연구' },
+    { href: '/board/', icon: '📝', label: '게시판' },
+    { href: '#customer-care', icon: '💬', label: '상담' },
+    { href: '/gh-sale-info/', icon: '🏠', label: '청약' , keys: 'GH 공공주택 분양 부동산' },
+    { href: '/election/', icon: '🗳️', label: '선거구' , keys: '선거 수원 성남 화성 평택' },
+    { href: 'https://shop.stargateedu.co.kr/', icon: '🛍️', label: '쇼핑' , keys: '쇼핑몰 교재 상품' },
+    { href: 'https://blog.stargateedu.co.kr/', icon: '✍️', label: '블로그' },
+    { href: '/global/', icon: '🌐', label: 'GLOBAL' },
+  ];
+
+  const ext = (href) => (href.startsWith('http') ? ' rel="noopener"' : '');
+
+  function buildTop() {
+    if (document.querySelector('.sg-top')) return;
+    const top = document.createElement('header');
+    top.className = 'sg-top';
+    top.innerHTML = `
+      <a class="sg-logo" href="/" aria-label="스타게이트 홈">STAR<b>GATE</b></a>
+      <label class="sg-search">
+        ${SVG(ICON.search).replace('class="ti"', '')}
+        <input id="sg-search" type="search" enterkeyhint="search" placeholder="검색" aria-label="서비스 검색" autocomplete="off">
+      </label>
+      <a class="sg-icon" href="#customer-care" aria-label="상담">${SVG(ICON.chat).replace('class="ti"', '')}</a>`;
+    document.body.prepend(top);
+    addEventListener('scroll', () => top.classList.toggle('is-scrolled', scrollY > 4), { passive: true });
   }
 
-  // 기존 웹 카운터 값이 갱신되면 앱 카드에도 그대로 반영합니다.
-  function mirrorCounters() {
-    document.querySelectorAll('[data-app-mirror]').forEach((target) => {
-      const source = document.getElementById(target.dataset.appMirror);
-      if (!source) return;
-      const sync = () => { target.textContent = (source.textContent || '-').trim() || '-'; };
-      sync();
-      new MutationObserver(sync).observe(source, { childList: true, characterData: true, subtree: true });
+  function buildHome() {
+    const wrap = document.querySelector('.wrap');
+    if (!wrap || document.querySelector('.sg-home')) return;
+    const home = document.createElement('section');
+    home.className = 'sg-home';
+    home.setAttribute('aria-label', '앱 홈');
+    home.innerHTML = `
+      <div class="sg-banner sg-hide-on-search">
+        <div class="sg-banner-track">
+          ${BANNERS.map((b) => `<a class="sg-slide" href="${b.href}"${ext(b.href)} style="background:${b.bg}" data-analytics-label="앱 배너 ${b.title}"><small>${b.kicker}</small><strong>${b.title}</strong><span>${b.sub}</span></a>`).join('')}
+        </div>
+        <div class="sg-dots" aria-hidden="true">1 / ${BANNERS.length}</div>
+      </div>
+      <nav class="sg-cats" aria-label="메뉴">
+        ${CATS.map((c) => `<a href="${c.href}"${ext(c.href)} data-sg-key="${c.label} ${c.keys || ''}" data-analytics-label="앱 메뉴 ${c.label}"><span class="ico" aria-hidden="true">${c.icon}</span>${c.label}</a>`).join('')}
+      </nav>
+      <div class="sg-gap"></div>
+      <div class="sg-head" id="sg-projects"><h2 data-sg-title>추천 서비스</h2><a href="#" data-sg-all data-analytics-ignore>전체보기 ›</a></div>`;
+    wrap.prepend(home);
+
+    const empty = document.createElement('p');
+    empty.className = 'sg-empty';
+    empty.textContent = '검색 결과가 없습니다.';
+    document.getElementById('projects-grid')?.after(empty);
+
+    // 배너 자동 넘김 + 순서 표시
+    const track = home.querySelector('.sg-banner-track');
+    const dots = home.querySelector('.sg-dots');
+    let index = 0;
+    track.addEventListener('scroll', () => {
+      index = Math.round(track.scrollLeft / track.clientWidth);
+      dots.textContent = `${index + 1} / ${BANNERS.length}`;
+    }, { passive: true });
+    setInterval(() => {
+      if (document.hidden || root.classList.contains('sg-searching')) return;
+      const next = (index + 1) % BANNERS.length;
+      track.scrollTo({ left: next * track.clientWidth, behavior: 'smooth' });
+    }, 4500);
+
+    // 전체보기: 홈에서 숨겨 둔 나머지 프로젝트까지 펼치기
+    home.querySelector('[data-sg-all]').addEventListener('click', (event) => {
+      event.preventDefault();
+      const on = root.classList.toggle('sg-all');
+      event.currentTarget.textContent = on ? '접기 ‹' : '전체보기 ›';
+    });
+  }
+
+  function bindSearch() {
+    const input = document.getElementById('sg-search');
+    const cards = [...document.querySelectorAll('#projects-grid > .proj')];
+    const empty = document.querySelector('.sg-empty');
+    if (!input) return;
+    input.addEventListener('input', () => {
+      const q = input.value.trim().toLowerCase();
+      root.classList.toggle('sg-searching', !!q);
+      let hits = 0;
+      cards.forEach((card) => {
+        const miss = !!q && (card.hidden || !card.textContent.toLowerCase().includes(q));
+        card.classList.toggle('sg-miss', miss);
+        if (q && !miss) hits += 1;
+      });
+      let menuHits = 0;
+      document.querySelectorAll('.sg-cats a').forEach((a) => {
+        const miss = !!q && !a.dataset.sgKey.toLowerCase().includes(q);
+        a.hidden = miss;
+        if (q && !miss) menuHits += 1;
+      });
+      const title = document.querySelector('[data-sg-title]');
+      if (title) title.textContent = q ? `프로젝트 검색 결과 ${hits}건` : '추천 서비스';
+      root.classList.toggle('sg-no-project-hit', !!q && hits === 0 && menuHits > 0);
+      empty?.classList.toggle('is-on', !!q && hits === 0 && menuHits === 0);
+      if (q && menuHits === 0) document.getElementById('sg-projects')?.scrollIntoView({ block: 'start' });
     });
   }
 
   function buildTabbar() {
     if (document.querySelector('.app-tabbar')) return;
     const path = location.pathname;
-    const bar = el('nav', { class: 'app-tabbar', 'aria-label': '앱 메뉴' });
-    bar.innerHTML = TABS.map((t) => `<a href="${t.href}"${t.match(path) ? ' aria-current="page"' : ''} data-analytics-label="앱 탭 ${t.label}"><svg class="ti" viewBox="0 0 24 24" aria-hidden="true">${t.icon}</svg>${t.label}</a>`).join('');
+    const current = path === '/' || path === '/index.html' ? 'home' : path.startsWith('/research') ? 'research' : '';
+    const bar = document.createElement('nav');
+    bar.className = 'app-tabbar';
+    bar.setAttribute('aria-label', '앱 메뉴');
+    bar.innerHTML = TABS.map((t) => `<a href="${t.href}" data-tab="${t.key}"${t.key === current ? ' aria-current="page"' : ''} data-analytics-label="앱 탭 ${t.label}">${SVG(t.icon)}${t.label}</a>`).join('');
     document.body.append(bar);
+
+    bar.querySelector('[data-tab="search"]').addEventListener('click', (event) => {
+      event.preventDefault();
+      scrollTo({ top: 0, behavior: 'smooth' });
+      document.getElementById('sg-search')?.focus();
+    });
+    bar.querySelector('[data-tab="all"]').addEventListener('click', (event) => {
+      event.preventDefault();
+      root.classList.add('sg-all');
+      const more = document.querySelector('[data-sg-all]');
+      if (more) more.textContent = '접기 ‹';
+      document.getElementById('sg-projects')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+    bar.querySelector('[data-tab="home"]').addEventListener('click', (event) => {
+      if (current !== 'home') return;
+      event.preventDefault();
+      scrollTo({ top: 0, behavior: 'smooth' });
+    });
   }
 
   function init() {
+    buildTop();
     buildHome();
+    bindSearch();
     buildTabbar();
-    mirrorCounters();
   }
 
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
