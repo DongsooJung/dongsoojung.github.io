@@ -27,8 +27,9 @@ test('withdrawal identity includes court, sale date, case and item; it wins over
 });
 test('court output excludes withdrawals and declares returned coverage; pages parse',()=>{
  let count=0;const keys=new Set();for(const f of ['data.json','data_commercial.json']){
-  const d=json('court-auction/'+f);assert.equal(d.meta.withdrawnExcluded,9);assert.equal(d.meta.partial,true);assert.deepEqual(d.meta.courts,['서울중앙지방법원']);assert.match(d.meta.coverage,/전수 미확인/);assert.equal(d.meta.count,d.records.length);
+  // 매일 자동 수집으로 건수가 바뀌므로 고정 숫자 대신 무결성 규칙을 검사합니다.
+  const d=json('court-auction/'+f);assert.ok(Number.isInteger(d.meta.withdrawnExcluded)&&d.meta.withdrawnExcluded>=0,'withdrawnExcluded must be a non-negative integer');assert.equal(d.meta.partial,true);assert.deepEqual(d.meta.courts,['서울중앙지방법원']);assert.match(d.meta.coverage,/전수 미확인/);assert.equal(d.meta.count,d.records.length);
   for(const r of d.records){const key=[r.법원코드,r.매각기일,r.사건번호,r.물건번호].join(':');assert.ok(!keys.has(key));keys.add(key);assert.ok(r.최저매각가>=0&&r.감정가>0);}count+=d.records.length;
- }assert.equal(count,193);
+ }assert.ok(count>0,'court output must contain at least one record');assert.equal(keys.size,count);
  for(const f of ['volume/index.html','choropleth/index.html']){const html=fs.readFileSync(path.join(root,f),'utf8');for(const m of html.matchAll(/<script(?:\s[^>]*)?>([\s\S]*?)<\/script>/g))new vm.Script(m[1]);assert.match(html,/download/);assert.doesNotMatch(html,/月間|月間自動|月間自動更新/);}
 });
