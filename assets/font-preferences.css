@@ -1,10 +1,12 @@
 /* User-selectable handwriting; the original typography is the default. */
 :root[data-font="pen"] {
+  --sg-font:"Nanum Pen Script","IBM Plex Sans KR",cursive;
   --font-sans:"Nanum Pen Script","IBM Plex Sans KR",cursive;
   --font-display:"Nanum Pen Script","IBM Plex Sans KR",cursive;
   --font-mono:"Nanum Pen Script",ui-monospace,monospace;
 }
 :root[data-font="brush"] {
+  --sg-font:"Nanum Brush Script","IBM Plex Sans KR",cursive;
   --font-sans:"Nanum Brush Script","IBM Plex Sans KR",cursive;
   --font-display:"Nanum Brush Script","IBM Plex Sans KR",cursive;
   --font-mono:"Nanum Brush Script",ui-monospace,monospace;
@@ -29,3 +31,7 @@ html:is([data-font="pen"],[data-font="brush"]) :is(.chip,.btn,.nav .links a,.pro
   .nav .font-switch select {max-width:158px}
   html:is([data-font="pen"],[data-font="brush"]) .hero h1 {font-size:2.65rem}
 }
+
+/* Keep both preference controls reachable when header links wrap. */
+.wrap .nav {flex-wrap:wrap}
+.wrap .hero > * {min-width:0}
