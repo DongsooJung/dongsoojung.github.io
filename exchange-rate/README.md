@@ -128,4 +128,8 @@ python3 exchange-rate/fetch_bitcoin.py
 - [Federal Reserve/FRED 실효 연방기금금리](https://fred.stlouisfed.org/series/FEDFUNDS) — H.15 월평균, `FEDFUNDS`
 
 
-2026-10-22 원출처 후속: ECB XML 7,119관측일·334개월과 BTCUSDT111개월 대조. 10월 환율은21일까지15관측일, BTC10월은수집 당시 부분 월봉. `usd*` JSON 필드명은호환성을위해유지하나단위는USDT이며 CSV는usdt_midrange로내보냅니다. 원문에없는실시간관측일을수집일로대신하지않습니다. 금리·물가·금리차·시장자료는이번검증범위밖입니다.
+2026-10-22 원출처 후속: ECB XML 7,119관측일·334개월과 BTCUSDT111개월 대조. 10월 환율은21일까지15관측일, BTC10월은수집 당시 부분 월봉. `usd*` JSON 필드명은호환성을위해유지하나단위는USDT이며 CSV는usdt_midrange로내보냅니다. 원문에없는실시간관측일을수집일로대신하지않습니다. 당시 금리·물가·금리차·시장자료는검증범위밖입니다.
+
+2026-10-23 후속: 시장5지표28년을 Stanford CSV/World Bank 월원표와 독립 Decimal 계산으로 대조했습니다. 2026년은1~9월9관측치 부분평균입니다. FRED Brent 일자료 연결실패로 세계은행 월자료를 사용하며 `brentObservationUnit=months`, `brentSource=worldbank`를 JSON/화면/CSV에 표시합니다. 월자료를 영업일로 세지 않습니다. DRAM은 수록된 소비자 소매가 관측값의 산술평균이며 생산자/도매 현물지수가 아닙니다. 부분평균의 비교대상은 전년 전체 평균입니다.
+
+세계은행 자료 기준월9월·원표 파일공표10월2일·수집/파일생성/대조일을 분리합니다. `observedAt`의 월자료에는 가짜 일자를 넣지 않으며 미래/빈 행은 기준월을 전진시키지 않습니다. 모든 원출처 실패 시 파일/갱신일을 보존합니다. ECOS1~9월9행·FRED 공식 HTML5~9월5행만 추가 대조했고 과거320/355행은 미완료입니다. 해당 수치파일과 FX/BTC 완료본은 변경하지 않았습니다. 근거 `/research/source-reviews/2026-10-23-macro-followup.json`, 회귀검증 `python scripts/test_market_sources.py`.

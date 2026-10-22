@@ -12,9 +12,11 @@ DRAM은 Stanford DAM 공개 CSV의 전체 DRAM 최저 소매가격(USD/GB)을 �
 import csv
 import io
 import json
+import math
 import sys
 import urllib.request
 from collections import defaultdict
+from decimal import Decimal, ROUND_HALF_EVEN
 from datetime import date, datetime, timezone
 from pathlib import Path
 
@@ -41,6 +43,13 @@ def download_text(url):
 
 def mean(values):
     return sum(values) / len(values) if values else None
+
+
+def rounded_mean(values, digits):
+    if not values:
+        return None
+    exact = sum(Decimal(str(value)) for value in values) / len(values)
+    return float(exact.quantize(Decimal(1).scaleb(-digits), rounding=ROUND_HALF_EVEN))
 
 
 def fetch_dram():
@@ -123,12 +132,16 @@ def fetch_world_bank():
             continue
         if year < START_YEAR:
             continue
-        observed = f"{year:04d}-{month:02d}-01"
+        observed = f"{year:04d}-{month:02d}"
+        if not 1 <= month <= 12 or observed > date.today().strftime("%Y-%m"):
+            continue
+        has_value = False
         for key, column in columns.items():
             value = row[column]
-            if isinstance(value, (int, float)):
+            if isinstance(value, (int, float)) and not isinstance(value, bool) and math.isfinite(float(value)):
                 yearly[key][year].append(float(value))
-        if last_period is None or observed > last_period:
+                has_value = True
+        if has_value and (last_period is None or observed > last_period):
             last_period = observed
     workbook_updated = str(sheet["A4"].value or "").replace("Updated on ", "")
     commodity_keys = ("gasUsdPerMmbtu", "copperUsdPerMt", "goldUsdPerOz")
@@ -157,18 +170,30 @@ def main():
     }
     commodity_last, workbook_updated = None, None
 
+    failures = {}
+    collected = {}
     try:
         dram, dram_last = fetch_dram()
+        collected["dram"] = datetime.now(timezone.utc).isoformat()
     except Exception as exc:
+        failures["dram"] = type(exc).__name__
         print(f"DRAM 갱신 실패 — 기존 값 유지: {exc}", file=sys.stderr)
     try:
         brent, brent_last = fetch_brent()
+        collected["brent"] = datetime.now(timezone.utc).isoformat()
     except Exception as exc:
+        failures["brent"] = type(exc).__name__
         print(f"브렌트유 갱신 실패 — 기존 값 유지: {exc}", file=sys.stderr)
     try:
         commodities, commodity_last, workbook_updated = fetch_world_bank()
+        collected["commodities"] = datetime.now(timezone.utc).isoformat()
     except Exception as exc:
+        failures["commodities"] = type(exc).__name__
         print(f"원자재 갱신 실패 — 기존 값 유지: {exc}", file=sys.stderr)
+
+    if not (dram or brent or any(commodities.values())):
+        print("모든 원출처 연결 실패 — 기존 파일/갱신일 보존", file=sys.stderr)
+        return 1
 
     # 일부 소스만 실패해도 나머지와 기존 JSON을 합친다.
     existing_by_year = {
@@ -193,7 +218,7 @@ def main():
         prev = existing_by_year.get(year, {})
         row = {"year": year, "partial": year == current_year}
         if dram.get(year):
-            row["dramUsdPerGb"] = round(mean(dram[year]), 3)
+            row["dramUsdPerGb"] = rounded_mean(dram[year], 3)
             row["dramObservations"] = len(dram[year])
         elif prev.get("dramUsdPerGb") is not None:
             row["dramUsdPerGb"] = prev["dramUsdPerGb"]
@@ -201,16 +226,22 @@ def main():
                 row["dramObservations"] = prev["dramObservations"]
         # 브렌트유: FRED 우선, 없으면 세계은행 Pink Sheet, 그래도 없으면 기존 JSON
         if brent.get(year):
-            row["brentUsdPerBbl"] = round(mean(brent[year]), 2)
+            row["brentUsdPerBbl"] = rounded_mean(brent[year], 2)
             row["brentObservations"] = len(brent[year])
+            row["brentObservationUnit"] = "days"
+            row["brentSource"] = "fred"
         elif commodities.get("brentUsdPerBbl", {}).get(year):
             vals = commodities["brentUsdPerBbl"][year]
-            row["brentUsdPerBbl"] = round(mean(vals), 2)
+            row["brentUsdPerBbl"] = rounded_mean(vals, 2)
             row["brentObservations"] = len(vals)
+            row["brentObservationUnit"] = "months"
+            row["brentSource"] = "worldbank"
         elif prev.get("brentUsdPerBbl") is not None:
             row["brentUsdPerBbl"] = prev["brentUsdPerBbl"]
             if prev.get("brentObservations") is not None:
                 row["brentObservations"] = prev["brentObservations"]
+            row["brentObservationUnit"] = prev.get("brentObservationUnit", "unknown")
+            row["brentSource"] = "retained"
         observation_keys = {
             "goldUsdPerOz": "goldObservations",
             "copperUsdPerMt": "copperObservations",
@@ -219,7 +250,7 @@ def main():
         for key, observation_key in observation_keys.items():
             values = commodities.get(key, {}).get(year, [])
             if values:
-                row[key] = round(mean(values), 2)
+                row[key] = rounded_mean(values, 2)
                 row[observation_key] = len(values)
             elif prev.get(key) is not None:
                 row[key] = prev[key]
@@ -231,6 +262,8 @@ def main():
     payload = {
         "updatedAt": datetime.now(timezone.utc).strftime("%Y-%m-%d"),
         "sourceMode": "public-csv",
+        "snapshotUpdatedAt": datetime.now(timezone.utc).isoformat(),
+        "collectionFailures": failures,
         "coverage": {
             "start": series[0]["year"],
             "end": series[-1]["year"],
@@ -244,12 +277,18 @@ def main():
                 "unit": "USD/GB",
                 "url": "https://dam.stanford.edu/memory-prices.html",
                 "observedAt": dram_last or old_sources.get("dram", {}).get("observedAt"),
+                "collectedAt": collected.get("dram") or old_sources.get("dram", {}).get("collectedAt"),
+                "state": "collected" if dram else "retained",
+                "aggregation": "mean_of_available_source_observations",
             },
             "brent": {
-                "name": "FRED DCOILBRENTEU / World Bank Pink Sheet Brent",
-                "metric": "Brent Europe 현물·월별 가격",
+                "name": "FRED/EIA DCOILBRENTEU" if brent else ("World Bank Pink Sheet Brent" if commodities.get("brentUsdPerBbl") else old_sources.get("brent", {}).get("name", "미확인")),
+                "metric": "Brent 일 관측가격 평균" if brent else "Brent 월평균 가격의 평균",
+                "frequency": "daily" if brent else ("monthly" if commodities.get("brentUsdPerBbl") else old_sources.get("brent", {}).get("frequency", "unknown")),
+                "collectedAt": collected.get("brent") if brent else (collected.get("commodities") if commodities.get("brentUsdPerBbl") else old_sources.get("brent", {}).get("collectedAt")),
+                "state": "collected" if brent or commodities.get("brentUsdPerBbl") else "retained",
                 "unit": "USD/barrel",
-                "url": "https://www.worldbank.org/en/research/commodity-markets",
+                "url": "https://fred.stlouisfed.org/series/DCOILBRENTEU" if brent else "https://www.worldbank.org/en/research/commodity-markets",
                 "observedAt": brent_last
                 or commodity_last
                 or old_sources.get("brent", {}).get("observedAt"),
@@ -262,6 +301,9 @@ def main():
                 "workbookUpdated": workbook_updated
                 or old_sources.get("commodities", {}).get("workbookUpdated"),
                 "indexBaseYear": INDEX_BASE_YEAR,
+                "frequency": "monthly",
+                "collectedAt": collected.get("commodities") or old_sources.get("commodities", {}).get("collectedAt"),
+                "state": "collected" if any(commodities.values()) else "retained",
             },
         },
         "series": series,

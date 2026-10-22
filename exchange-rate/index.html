@@ -191,7 +191,7 @@ footer{margin-top:56px;padding-top:20px;border-top:1px solid var(--line);color:v
       <span class="refresh-status" id="refreshStatus" role="status" aria-live="polite">환율·금리·물가·비트코인·시장 데이터를 최신 파일에서 다시 확인합니다.</span>
     </div>
   </header>
-<section class="source-followup" aria-labelledby="source-followup-title"><h2 id="source-followup-title">원출처 대조 · 환율과 비트코인 · 2026-10-22</h2><p>환율은 ECB 공식 XML 7,119관측일·334개월을 다시 계산했습니다. 10월은21일까지15관측일 부분 집계입니다. 원문에 없는 초기 CNY63개월은 빈칸으로 두고, USD 가중치와 통화별 관측수를 구분합니다.</p><p>BTC는 USDT 단위의 월 고저 중간값=(고가+저가)/2입니다. 시간·거래량 가중 평균 또는 USD 환산값이 아닙니다. 9월이 마지막 완결월이고10월은 수집 당시 부분 월봉입니다. 원문 관측시각 미제공 · 수집 2026-10-22T05:41:53.842033+00:00 · 파일 생성 2026-10-22T05:44:57.661254+00:00 · 이번 대조 2026-10-22T05:47:15.383Z.</p><p>금리·물가·금리차·시장 자료는 이번 원문 대조 범위 밖입니다. <a href="/research/source-reviews/2026-10-22-fx-followup.json" download>원출처·기간·정의·검증 JSON 내려받기</a></p></section>
+<section class="source-followup" aria-labelledby="source-followup-title"><h2 id="source-followup-title">원출처 대조 · 시장·금리·물가 · 2026-10-23</h2><p>시장5지표의1999~2026년28개 연도를 원표와 대조했습니다. 2026년은1~9월9관측치의 부분 평균입니다. Brent는 FRED 일자료 연결 실패로 세계은행 월자료를 사용합니다. DRAM은 소비자 최저 소매가의 수록 관측값 평균입니다.</p><p>세계은행 자료 기준월2026-09 · 파일 공표2026-10-02 · 수집 2026-10-22T20:40:20.525953+00:00 · 집계 파일 생성 2026-10-22T20:47:07.225905+00:00 · 원표 대조 2026-10-22T20:47:07.229866+00:00. 다음 파일 공표 예정11월3일이며10월값을 추정하지 않습니다.</p><p>한국은행은2026년1~9월9행과 전년동월 CPI, 금리차는 공식 표의5~9월5행만 대조했습니다. 과거320행·355행은 미완료이며 기존 수치파일과 갱신일을 유지합니다. 한국 익일물−미국 실효 연방기금금리 차이이며 정책금리 목표범위 차이가 아닙니다.</p><p>이전 환율334개월·BTC111개월 완료 저장본과 대조일은 보존합니다. 초기 CNY63개월은 원문에 없어 빈칸이며10월은 부분 집계입니다. <a href="/research/source-reviews/2026-10-22-fx-followup.json">환율·BTC 이전 근거</a> · <a href="/research/source-reviews/2026-10-23-macro-followup.json" download>이번 원출처·검증 범위 JSON 내려받기</a></p></section>
 
   <div class="controls">
     <div class="fgroup" role="group" aria-label="통화 선택">
@@ -427,7 +427,7 @@ footer{margin-top:56px;padding-top:20px;border-top:1px solid var(--line);color:v
 <script src="./chart.umd.min.js"></script>
 <script src="./fallback-data.js?v=20261022-source"></script>
 <script src="./bok-fallback.js"></script>
-<script src="./market-fallback.js"></script>
+<script src="./market-fallback.js?v=20261023"></script>
 <script src="./rate-gap-fallback.js"></script>
 <script src="./bitcoin-fallback.js?v=20261022-source"></script>
 <script src="/assets/dashboard-data-status.js?v=20261015-1"></script>
@@ -1296,11 +1296,14 @@ function renderMarketKPIs(){
   const period = row => row && row.partial ? `${row.year} YTD` : String(row ? row.year : '—');
   const delta = (value, label='전년 대비') => value==null ? `<span>${label} —</span>`
     : `<b class="${value>=0?'up':'down'}">${value>=0?'▲':'▼'} ${Math.abs(value).toLocaleString('ko-KR',{maximumFractionDigits:1})}%</b> <span>${label}</span>`;
+  const comparison = row => row?.partial ? '전년 전체 평균 대비' : '전년 대비';
+  const brentUnit = brent?.brentObservationUnit==='months'?'개월':brent?.brentObservationUnit==='days'?'영업일':'관측';
+  const brentProvider = brent?.brentSource==='worldbank'?'World Bank · 월가격':brent?.brentSource==='fred'?'FRED · U.S. EIA 일가격':'보관본 · 출처별 확인 필요';
   const tiles = [
-    {color:MK.dram, lb:'DRAM 연평균 소매가격', val:dram?`$${fmt(dram.dramUsdPerGb,2)}<small>/GB · ${period(dram)}</small>`:'—', delta:delta(dramYoy)},
-    {color:MK.brent, lb:'브렌트유 연평균 현물가격', val:brent?`$${fmt(brent.brentUsdPerBbl,2)}<small>/배럴 · ${period(brent)}</small>`:'—', delta:delta(brentYoy)},
+    {color:MK.dram, lb:'DRAM 수록 소매가 평균', val:dram?`$${fmt(dram.dramUsdPerGb,2)}<small>/GB · ${period(dram)}</small>`:'—', delta:delta(dramYoy,comparison(dram))},
+    {color:MK.brent, lb:'브렌트유 연평균 현물가격', val:brent?`$${fmt(brent.brentUsdPerBbl,2)}<small>/배럴 · ${period(brent)}</small>`:'—', delta:delta(brentYoy,comparison(brent))},
     {color:MK.dram, lb:'DRAM 연간 관측치', val:dram?`${dram.dramObservations||'—'}<small>개 가격 관측</small>`:'—', delta:'<span>Stanford DAM · 최저 소매가</span>'},
-    {color:MK.brent, lb:'유가 연간 관측치', val:brent?`${brent.brentObservations||'—'}<small>영업일</small>`:'—', delta:'<span>FRED · 원출처 U.S. EIA</span>'},
+    {color:MK.brent, lb:'유가 연간 관측치', val:brent?`${brent.brentObservations||'—'}<small>${brentUnit}</small>`:'—', delta:`<span>${brentProvider}</span>`},
   ];
   tiles.forEach(t=>{
     const tile = document.createElement('div');
@@ -1330,7 +1333,7 @@ function buildMarket(){
             ticks:{color:MUTED,padding:6,callback:v=>'$'+v},title:{display:true,text:'Brent (USD/barrel)',color:MUTED,font:{size:10.5}}},
       },
       plugins:{legend:legendStyle,tooltip:{...tooltipStyle,callbacks:{
-        title:items=>`${items[0].label}년 연평균`,
+        title:items=>`${items[0].label}년 ${marketRows()[items[0].dataIndex]?.partial?'부분 평균':'연평균'}`,
         label:it=>it.parsed.y==null?'':(it.datasetIndex===0?` $${fmt(it.parsed.y,2)}/GB · DRAM`:` $${fmt(it.parsed.y,2)}/배럴 · Brent`),
       }}},
     },plugins:[crosshair,endLabels],
@@ -1358,14 +1361,14 @@ function renderCommodityKPIs(){
     const tile = document.createElement('div'); tile.className='tile';
     tile.innerHTML = `<div class="lb"><span class="key" style="background:${metric.color}"></span><span>${metric.label}</span></div>
       <div class="val">${row?`$${fmt(row[metric.key],2)}<small>${metric.unit} · ${row.partial?row.year+' YTD':row.year}</small>`:'—'}</div>
-      <div class="delta">${yoy==null?'<span>전년 대비 —</span>':`<b class="${yoy>=0?'up':'down'}">${yoy>=0?'▲':'▼'} ${Math.abs(yoy).toLocaleString('ko-KR',{maximumFractionDigits:1})}%</b> <span>전년 대비</span>`}</div>`;
+      <div class="delta">${yoy==null?'<span>전년 대비 —</span>':`<b class="${yoy>=0?'up':'down'}">${yoy>=0?'▲':'▼'} ${Math.abs(yoy).toLocaleString('ko-KR',{maximumFractionDigits:1})}%</b> <span>${row?.partial?'전년 전체 평균 대비':'전년 대비'}</span>`}</div>`;
     el.appendChild(tile);
   });
   const source = MARKET && MARKET.sources ? MARKET.sources.commodities : null;
   const tile = document.createElement('div'); tile.className='tile';
   tile.innerHTML = `<div class="lb"><span class="key" style="background:var(--acc)"></span><span>세계은행 데이터 기준</span></div>
-    <div class="val">${source&&source.observedAt?source.observedAt.slice(0,7):'—'}<small>최근 발표월</small></div>
-    <div class="delta"><span>${source&&source.workbookUpdated?`파일 갱신 ${source.workbookUpdated}`:'Pink Sheet'}</span></div>`;
+    <div class="val">${source&&source.observedAt?source.observedAt.slice(0,7):'—'}<small>자료 기준월</small></div>
+    <div class="delta"><span>${source&&source.workbookUpdated?`원표 파일 공표 ${source.workbookUpdated}`:'Pink Sheet'}</span></div>`;
   el.appendChild(tile);
 }
 function commodityBaseYear(){
@@ -1439,10 +1442,11 @@ function setupUsdStatsToggle(){
   btn.addEventListener('click',()=>setOpen(body.hidden));
 }
 function downloadMarketCSV(){
-  const lines = ['year,partial,dram_usd_per_gb,dram_observations,brent_usd_per_barrel,brent_observations,gold_usd_per_oz,copper_usd_per_mt,natural_gas_usd_per_mmbtu'];
-  marketRows().forEach(r=>lines.push([r.year,r.partial?'Y':'N',r.dramUsdPerGb??'',r.dramObservations??'',r.brentUsdPerBbl??'',r.brentObservations??'',r.goldUsdPerOz??'',r.copperUsdPerMt??'',r.gasUsdPerMmbtu??''].join(',')));
-  const blob = new Blob(['﻿'+lines.join('\n')], {type:'text/csv;charset=utf-8'});
-  const a = document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='dram-brent-annual.csv'; a.click(); URL.revokeObjectURL(a.href);
+  const lines = ['year,partial,dram_usd_per_gb,dram_observations,brent_usd_per_barrel,brent_observations,brent_observation_unit,brent_source,gold_usd_per_oz,gold_observations,copper_usd_per_mt,copper_observations,natural_gas_usd_per_mmbtu,gas_observations,worldbank_data_period,worldbank_file_publication,worldbank_collected_at,snapshot_updated_at'];
+  const source=MARKET?.sources?.commodities||{};
+  marketRows().forEach(r=>lines.push([r.year,r.partial?'Y':'N',r.dramUsdPerGb??'',r.dramObservations??'',r.brentUsdPerBbl??'',r.brentObservations??'',r.brentObservationUnit||'unknown',r.brentSource||'unknown',r.goldUsdPerOz??'',r.goldObservations??'',r.copperUsdPerMt??'',r.copperObservations??'',r.gasUsdPerMmbtu??'',r.gasObservations??'',source.observedAt||'',source.workbookUpdated||'',source.collectedAt||'',MARKET.snapshotUpdatedAt||''].map(v=>'"'+String(v).replaceAll('"','""')+'"').join(',')));
+  const blob=new Blob(['\ufeff'+lines.join('\n')],{type:'text/csv;charset=utf-8'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='dram-brent-annual.csv';a.click();URL.revokeObjectURL(a.href);
 }
 
 /* ─── 한·미 익일물 단기금리 차 · 30년 ────────────────── */

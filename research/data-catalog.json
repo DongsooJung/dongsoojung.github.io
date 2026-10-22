@@ -1509,17 +1509,17 @@
     },
     {
       "source": {
-        "label": "ECB 공식 XML · Binance BTCUSDT (나머지 모듈 별도 미대조)",
-        "url": "https://www.ecb.europa.eu/stats/eurofxref/eurofxref-hist.xml",
+        "label": "ECB·Binance·ECOS·FRED 관측표·Stanford·World Bank (범위별 대조)",
+        "url": "https://www.worldbank.org/en/research/commodity-markets",
         "verification": "partially_verified"
       },
       "dataAsOf": null,
-      "dataPeriod": "혼재 (환율10월21일·BTC10월부분·다른지표별기준)",
+      "dataPeriod": "혼재 (FX/BTC10월부분·시장/금리9월)",
       "snapshotUpdatedAt": "2026-10-22T05:47:15.383Z",
       "collectedAt": null,
-      "checkedAt": "2026-10-22T05:47:15.383Z",
+      "checkedAt": "2026-10-22T20:52:39.095Z",
       "reviewStatus": "needs_review",
-      "freshness": "two_modules_verified_other_modules_pending",
+      "freshness": "three_modules_verified_two_partial_windows",
       "evidence": [
         {
           "kind": "audit-record",
@@ -1576,20 +1576,122 @@
           "url": "/research/source-reviews/2026-10-22-fx-followup.json",
           "checkedAt": "2026-10-22T05:47:15.383Z",
           "scope": "ECB 공식 XML7119일→334개월 환율과 Binance BTCUSDT111개월 원문 OHLC·고저 중간값 대조. 10월 부분 집계. 금리·물가·금리차·시장 지표는 이번 대조 범위 밖."
+        },
+        {
+          "kind": "source-attempt",
+          "url": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=IRSTCI01KRM156N&cosd=1996-10-01",
+          "checkedAt": "2026-10-22T20:40:19.509963+00:00",
+          "scope": "직접 수집 실패. 이 응답을 수치검증 근거로 사용하지 않음.",
+          "reason": "RemoteDisconnected",
+          "nextAction": "공식 원표 접근 정상화 후 미완료 구간 대조."
+        },
+        {
+          "kind": "source-attempt",
+          "url": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=FEDFUNDS&cosd=1996-10-01",
+          "checkedAt": "2026-10-22T20:40:19.510964+00:00",
+          "scope": "직접 수집 실패. 이 응답을 수치검증 근거로 사용하지 않음.",
+          "reason": "RemoteDisconnected",
+          "nextAction": "공식 원표 접근 정상화 후 미완료 구간 대조."
+        },
+        {
+          "kind": "official-source",
+          "url": "https://dam.stanford.edu/assets/memory-prices/memory-prices.csv",
+          "checkedAt": "2026-10-22T20:40:19.510964+00:00",
+          "sha256": "7de01bbf52d95883e34643f12c77ce9351086597ea3ec38fd56268ad50aaf962",
+          "scope": "원문 전체의 연도별 평균·관측 수 독립 대조."
+        },
+        {
+          "kind": "source-attempt",
+          "url": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=DCOILBRENTEU",
+          "checkedAt": "2026-10-22T20:40:19.511965+00:00",
+          "scope": "직접 수집 실패. 이 응답을 수치검증 근거로 사용하지 않음.",
+          "reason": "TimeoutError",
+          "nextAction": "공식 원표 접근 정상화 후 미완료 구간 대조."
+        },
+        {
+          "kind": "official-source",
+          "url": "https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx",
+          "checkedAt": "2026-10-22T20:40:19.512964+00:00",
+          "sha256": "ea1c350827878ea3bbe30e3cda16a13fd3bd5b409b8458940dc94a36b5a33154",
+          "scope": "원문 전체의 연도별 평균·관측 수 독립 대조."
+        },
+        {
+          "kind": "official-source",
+          "url": "https://www.worldbank.org/en/research/commodity-markets",
+          "checkedAt": "2026-10-22T20:40:19.513964+00:00",
+          "sha256": "0d3333ae1cca87a34852dc6e9d12ae3834db01c338d92c8ebffb366a732c557e",
+          "scope": "10월2일 파일 공표·다음11월3일 일정, 자료 관측월은9월."
+        },
+        {
+          "kind": "official-source",
+          "url": "https://ecos.bok.or.kr/api/StatisticSearch/sample/json/kr/1/10/722Y001/M/202601/202610/0101000",
+          "checkedAt": "2026-10-22T20:40:20.503942+00:00",
+          "sha256": "c2b3b82a3cc01c5f1cdf2b9b07a1fa88689c3af759d8300036d2706d7b42ce9a",
+          "scope": "응답9개월과 전년동월10개월의 코드·단위·값 대조."
+        },
+        {
+          "kind": "official-source",
+          "url": "https://ecos.bok.or.kr/api/StatisticSearch/sample/json/kr/1/10/901Y009/M/202601/202610/0",
+          "checkedAt": "2026-10-22T20:40:20.526954+00:00",
+          "sha256": "6d7c7affc192962584bf6db8828c7a3440cbdb4473c6385221ba2cf8448b1b53",
+          "scope": "응답9개월과 전년동월10개월의 코드·단위·값 대조."
+        },
+        {
+          "kind": "official-source",
+          "url": "https://ecos.bok.or.kr/api/StatisticSearch/sample/json/kr/1/10/901Y009/M/202501/202510/0",
+          "checkedAt": "2026-10-22T20:40:20.692148+00:00",
+          "sha256": "7c0e2ffa1c6395a250aca579dd06996456f8c0f703ce0ec4f881ff620fae923b",
+          "scope": "응답9개월과 전년동월10개월의 코드·단위·값 대조."
+        },
+        {
+          "kind": "source-attempt",
+          "url": "https://fred.stlouisfed.org/series/IRSTCI01KRM156N",
+          "checkedAt": "2026-10-22T20:44:57.076987+00:00",
+          "scope": "직접 수집 실패. 이 응답을 수치검증 근거로 사용하지 않음.",
+          "reason": "TimeoutError",
+          "nextAction": "공식 원표 접근 정상화 후 미완료 구간 대조."
+        },
+        {
+          "kind": "source-attempt",
+          "url": "https://fred.stlouisfed.org/series/FEDFUNDS",
+          "checkedAt": "2026-10-22T20:44:57.077953+00:00",
+          "scope": "직접 수집 실패. 이 응답을 수치검증 근거로 사용하지 않음.",
+          "reason": "TimeoutError",
+          "nextAction": "공식 원표 접근 정상화 후 미완료 구간 대조."
+        },
+        {
+          "kind": "official-source",
+          "url": "https://fred.stlouisfed.org/series/IRSTCI01KRM156N",
+          "checkedAt": "2026-10-22T20:52:39.095Z",
+          "transport": "web.open",
+          "scope": "공식 HTML 최근5개월 관측표·단위·빈도만 대조, 원문 응답 해시없음."
+        },
+        {
+          "kind": "official-source",
+          "url": "https://fred.stlouisfed.org/series/FEDFUNDS",
+          "checkedAt": "2026-10-22T20:52:39.095Z",
+          "transport": "web.open",
+          "scope": "공식 HTML 최근5개월 관측표·단위·빈도만 대조, 원문 응답 해시없음."
+        },
+        {
+          "kind": "audit-record",
+          "url": "/research/source-reviews/2026-10-23-macro-followup.json",
+          "checkedAt": "2026-10-22T20:52:39.095Z",
+          "scope": "시장5지표28년 원표 대조, 한국은행9개월·금리차5개월의 제한된 구간 대조. FX/BTC 완료 저장본은 변경하지 않음."
         }
       ],
       "issues": [
-        "환율은10월21일까지15관측일의 부분 월 집계. BTC10월은 수집 당시 부분 월봉이며 관측시각은 원문 미제공.",
-        "ECB XML에 없는2000-01~2005-03 CNY63개월을 비우고 통화별관측수를 공개. USD 가중치에 CNY 최소관측수를 사용하지 않음.",
-        "BTC는USD가 아닌USDT 단위의 고저 중간값. 금리·물가·금리차·시장 원표 대조는 미완료."
+        "FX/BTC는 이전 완료 저장본·대조일 유지. 10월은 부분 집계.",
+        "시장은2026년1~9월9관측치의 부분평균. 파일공표10월2일을10월 관측값으로 취급하지 않음. Brent는 월자료이며DRAM은소비자소매가.",
+        "한국은행1~9월9행,금리차5~9월5행만 이번 원문대조. 과거320/355행은미완료. 직접FRED CSV 연결실패는HTML최근5행확인과분리."
       ],
       "key": "/exchange-rate/",
       "url": "/exchange-rate/",
       "title": "환율·금리·물가 대시보드",
       "primary": "society",
       "classification": "경제·사회",
-      "sourceHint": "ECB원문 · BTCUSDT · 다른지표별미완료",
-      "nextAction": "기존 키/공개 원표로 BOK·금리차·시장3모듈을 별도 대조. 이미 대조한 FX/BTC 저장본은 자동수집지문이 바뀐 때만 재확인.",
+      "sourceHint": "모듈별 원표·자료 기준과 검증 범위 분리",
+      "nextAction": "BOK 과거320행과 금리차355행은 기존 수집코드/공식 원표로 후속 대조. 시장은11월3일 이후, 관광은10월26일 이후. 그 전에는 다음 원출처 미완료 프로젝트 처리.",
       "previousReview": {
         "checkedAt": "2026-10-20T23:06:28.769Z",
         "dataAsOf": "2026-10-20",
@@ -1603,7 +1705,7 @@
           "verification": "declared"
         }
       },
-      "verifiedScope": "ECB 공식 XML7119일→334개월 환율과 Binance BTCUSDT111개월 원문 OHLC·고저 중간값 대조. 10월 부분 집계. 금리·물가·금리차·시장 지표는 이번 대조 범위 밖.",
+      "verifiedScope": "시장5지표28년 원표 대조, 한국은행9개월·금리차5개월의 제한된 구간 대조. FX/BTC 완료 저장본은 변경하지 않음.",
       "moduleReviews": {
         "fx": {
           "status": "verified",
@@ -1637,10 +1739,46 @@
           "status": "needs_review",
           "keys": [
             "bok_data.json",
-            "rate_gap.json",
-            "market_data.json"
+            "rate_gap.json"
           ],
-          "scope": "이전 값/시각을 보존. 이번 원표 대조·수치 갱신 범위 밖."
+          "scope": "최근 부분 구간만 원표 대조. 과거구간은 미완료이며 수치파일/원래 갱신일 유지."
+        },
+        "market": {
+          "status": "verified",
+          "checkedAt": "2026-10-22T20:52:39.095Z",
+          "dataPeriod": "2026-09",
+          "partial": true,
+          "sourceDataUrls": [
+            "https://dam.stanford.edu/assets/memory-prices/memory-prices.csv",
+            "https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx"
+          ],
+          "dataAsOf": "2026-09",
+          "snapshotUpdatedAt": "2026-10-22T20:47:07.225905+00:00",
+          "collectedAt": "2026-10-22T20:40:20.525953+00:00",
+          "workbookPublishedAt": "2026-10-02",
+          "scope": "1999~2026년28개 연도·5지표를 원문과 독립 Decimal 집계로 대조. 2026년은1~9월9관측치 부분평균. Brent는 세계은행 월자료 대체본이며 FRED 일자료가 아님.",
+          "snapshotFingerprint": "6c11dff008b93e7026c88bf9c6eccda0daf55905906df65592dd93a95913f5c6",
+          "nextEligibleDate": "2026-11-03"
+        },
+        "bok": {
+          "status": "needs_review",
+          "checkedAt": "2026-10-22T20:52:39.095Z",
+          "dataPeriod": "2026-01..2026-09",
+          "verifiedRows": 9,
+          "historicalRowsOutsideScope": 320,
+          "scope": "ECOS722Y001/0101000(연%)·901Y009/0(2020=100), 전년동월 원표로 CPI YoY 검산. 2026년1~9월 일치. API 응답에10월 행 없음; 미공표로 단정하지 않음.",
+          "snapshotFileUnchanged": true,
+          "nextAction": "기존 인증키/공개 원표로1999-05~2025-12의320행 추가 대조."
+        },
+        "rateGap": {
+          "status": "needs_review",
+          "checkedAt": "2026-10-22T20:52:39.095Z",
+          "dataPeriod": "2026-05..2026-09",
+          "verifiedRows": 5,
+          "historicalRowsOutsideScope": 355,
+          "snapshotFileUnchanged": true,
+          "scope": "한국 OECD 익일물 월금리 − 미국 실효 연방기금 월금리 (%p). 정책금리 목표범위 차이가 아님. 최근5개월 HTML 표만 일치. 전체360개월 검증 아님.",
+          "nextAction": "FRED CSV 또는 OECD 원표 접근 정상화 후 나머지355개월 대조."
         }
       }
     },

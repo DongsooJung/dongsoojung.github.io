@@ -986,14 +986,14 @@
       "status": "pending",
       "keys": [],
       "outcome": "conditional_technical_acceptance",
-      "latestAudit": "/research/source-reviews/2026-10-22-fx-followup.json",
+      "latestAudit": "/research/source-reviews/2026-10-23-macro-followup.json",
       "lastAttemptAt": "2026-10-20T23:07:26.208Z",
       "itemResults": {
         "/exchange-rate/": {
           "status": "needs_review",
-          "checkedAt": "2026-10-22T05:47:15.383Z",
-          "audit": "/research/source-reviews/2026-10-22-fx-followup.json",
-          "nextAction": "기존 키/공개 원표로 BOK·금리차·시장3모듈을 별도 대조. 이미 대조한 FX/BTC 저장본은 자동수집지문이 바뀐 때만 재확인."
+          "checkedAt": "2026-10-22T20:52:39.095Z",
+          "audit": "/research/source-reviews/2026-10-23-macro-followup.json",
+          "nextAction": "BOK 과거320행과 금리차355행은 기존 수집코드/공식 원표로 후속 대조. 시장은11월3일 이후, 관광은10월26일 이후. 그 전에는 다음 원출처 미완료 프로젝트 처리."
         },
         "/trade/": {
           "status": "verified",
@@ -1074,7 +1074,7 @@
           "Tourism not re-fetched before October26; original checkedAt retained"
         ]
       },
-      "nextAction": "관광은10월26일 이후. FX/BTC의 완료 범위를 반복하지 않고 BOK·금리차·시장 및 다른 원출처/범위 미완료를 처리. 부캉이는 공식 결과 확보 후만 갱신.",
+      "nextAction": "BOK 과거320행과 금리차355행은 기존 수집코드/공식 원표로 후속 대조. 시장은11월3일 이후, 관광은10월26일 이후. 그 전에는 다음 원출처 미완료 프로젝트 처리.",
       "sourceFollowups": [
         {
           "id": "source-followup-1-20261021",
@@ -1151,11 +1151,37 @@
           "outcome": "fx_and_btc_modules_verified_units_and_sample_counts_corrected",
           "release": {
             "branch": "codex/fx-delivery-20261022",
-            "status": "awaiting_checks",
+            "status": "verified",
             "liveUrl": "https://www.stargateedu.co.kr/exchange-rate/",
             "sourceReviewUrl": "https://www.stargateedu.co.kr/research/source-reviews/2026-10-22-fx-followup.json",
             "previousPullRequest": "https://github.com/DongsooJung/dongsoojung.github.io/pull/213",
-            "pullRequest": "https://github.com/DongsooJung/dongsoojung.github.io/pull/214"
+            "pullRequest": "https://github.com/DongsooJung/dongsoojung.github.io/pull/214",
+            "externalChecks": [
+              {
+                "context": "Vercel – stargate-private-gateway",
+                "state": "failure",
+                "description": "Deployment rate limited — retry in 24 hours."
+              },
+              {
+                "context": "Vercel – stargate-onbid-api",
+                "state": "failure",
+                "description": "Deployment rate limited — retry in 24 hours."
+              }
+            ],
+            "commit": "03461e0c9e1ebf44ad0be73da01d60c6ffaa1940",
+            "pullRequestMergeCommit": "03461e0c9e1ebf44ad0be73da01d60c6ffaa1940",
+            "verifiedAt": "2026-10-22T06:06:18.541Z",
+            "pagesRun": "https://github.com/DongsooJung/dongsoojung.github.io/actions/runs/39731623515",
+            "checks": [
+              "Exact PR head CodeQL aggregate and JavaScript passed",
+              "Exact deployed SHA Pages run success and deploy/completion steps success",
+              "Both domains eight changed public files exact; plan has PR214 and acceptance pending",
+              "63 unique projects/seven alphabetical filters/nine groups/strategy44 live passed",
+              "ECB7119 source days/334 months and BTC111 source klines independently checked",
+              "FX334/BTC111/combined334 CSV values and source audit JSON matched",
+              "Unit/midrange/partial/range/fallback/mobile/runtime browser checks passed",
+              "Node19 and Python3 regression tests passed; other macro modules need review"
+            ]
           },
           "releases": [
             {
@@ -1166,6 +1192,22 @@
               "reason": "New static files matched; successful legacy Worker payload replaced FX values in the actual browser, omitting corrected counts/partial flags and retaining old CNY."
             }
           ]
+        },
+        {
+          "id": "macro-followup-20261023",
+          "status": "completed",
+          "checkedAt": "2026-10-22T20:52:39.095Z",
+          "keys": [
+            "/exchange-rate/"
+          ],
+          "audit": "/research/source-reviews/2026-10-23-macro-followup.json",
+          "outcome": "market_verified_bok_and_rate_gap_recent_windows_only",
+          "release": {
+            "branch": "codex/macro-followup-20261023",
+            "status": "awaiting_checks",
+            "liveUrl": "https://www.stargateedu.co.kr/exchange-rate/",
+            "sourceReviewUrl": "https://www.stargateedu.co.kr/research/source-reviews/2026-10-23-macro-followup.json"
+          }
         }
       ]
     }
