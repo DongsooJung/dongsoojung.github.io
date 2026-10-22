@@ -154,7 +154,7 @@ footer{margin-top:56px;padding-top:20px;border-top:1px solid var(--line);color:v
   header.head h1{font-size:24px}
   .chart-box{height:300px} .card.half .chart-box{height:260px}
 }
-.source-followup{margin:18px 0 24px;padding:18px;border:1px solid #607f99;border-radius:12px;background:#102333;color:#eaf3fa;font-size:14px;line-height:1.8;overflow-wrap:anywhere}.source-followup h2{font-size:18px;color:#fff;margin:0 0 8px}.source-followup p{color:#eaf3fa;margin:8px 0}.source-followup a{color:#9fe6ff;text-decoration:underline}</style>
+#btcKpis .delta,#btcKpis .delta span{white-space:normal;overflow-wrap:anywhere}.source-followup{margin:18px 0 24px;padding:18px;border:1px solid #607f99;border-radius:12px;background:#102333;color:#eaf3fa;font-size:14px;line-height:1.8;overflow-wrap:anywhere}.source-followup h2{font-size:18px;color:#fff;margin:0 0 8px}.source-followup p{color:#eaf3fa;margin:8px 0}.source-followup a{color:#9fe6ff;text-decoration:underline}</style>
   <link rel="stylesheet" href="/assets/site-theme.css">
   <script src="/assets/site-theme.js"></script>
 <link rel="stylesheet" href="/assets/stargate-tokens.css?v=20261017">
@@ -1189,7 +1189,7 @@ function renderBtcKPIs(){
     {color:BTC_COLOR, lb:'BTC 월 고저 중간값', val:`${fmt(last.usd,0)} USDT<small>${ymKorean(last.ym)}${last.partial?' · 진행중':''}</small>`, delta:delta(mom,'전월 대비')},
     {color:BTC_COLOR, lb:'전년 동월 대비', val:yoy==null?'—':`${yoy>=0?'+':''}${fmt(yoy,1)}<small>%</small>`, delta:`<span>${ymKorean(last.ym)} vs ${+last.ym.slice(0,4)-1}년</span>`},
     {color:BTC_COLOR, lb:'기간 내 최고가', val:`${fmt(maxUsd,0)} USDT<small>월중 고가</small>`, delta:`<span>선택 기간 ${rows.length}개월</span>`},
-    {color:BTC_COLOR, lb:'기간 내 최저가', val:`${fmt(minUsd,0)} USDT<small>월중 저가</small>`, delta:`<span>원문 관측시각 ${BTC.observedAt||'미제공'} · 수집 ${BTC.collectedAt||'미공개'}</span>`},
+    {color:BTC_COLOR, lb:'기간 내 최저가', val:`${fmt(minUsd,0)} USDT<small>월중 저가</small>`, delta:`<span>원문 관측시각 ${BTC.observedAt||'미제공'} · 수집 ${BTC.collectedAt?new Date(BTC.collectedAt).toLocaleString('ko-KR',{timeZone:'Asia/Seoul',hour12:false})+' KST':'미공개'}</span>`},
   ];
   tiles.forEach(t=>{
     const tile = document.createElement('div');

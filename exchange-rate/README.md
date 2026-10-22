@@ -119,7 +119,7 @@ python3 exchange-rate/fetch_bitcoin.py
 ## 출처
 
 - [유럽중앙은행 환율 통계](https://www.ecb.europa.eu/stats/policy_and_exchange_rates/euro_reference_exchange_rates/) — 일일 기준환율
-- [Frankfurter API](https://frankfurter.dev/) — ECB 환율 JSON 제공
+- [ECB 공식 XML](https://www.ecb.europa.eu/stats/eurofxref/eurofxref-hist.xml) — 현재 수집 원문. 이전 미러 제공 이력은 Git 기록에 보존.
 - [한국은행 ECOS 경제통계시스템 API](https://ecos.bok.or.kr/) — 기준금리 `722Y001`, 소비자물가지수 `901Y009`
 - [Stanford DAM Memory Prices](https://dam.stanford.edu/memory-prices.html) — DRAM 최저 소비자 소매가격 CSV
 - [FRED DCOILBRENTEU](https://fred.stlouisfed.org/series/DCOILBRENTEU) — 브렌트유 현물가격(원출처 U.S. EIA)
