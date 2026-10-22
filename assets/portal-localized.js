@@ -72,11 +72,6 @@
       ja:['空間計量ラボ · 都市空間分析','アクセシビリティ、歩行性、土地利用エントロピー、DID、空間自己相関、コロプレス可視化の研究コードです。','研究 · GitHub','開く →']
     },
     {
-      href:'/stay/',badge:'STAY',emoji:'🏠',bg:'linear-gradient(135deg,#3b2a1c,#8B5A3C 60%,#C9A77B)',
-      zh:['Stay with Dongsoo · 大峙洞住宿','由博士背景房东亲自运营的大峙洞高品质短租住宿，可通过 Airbnb 与 WeHome 预订。','Airbnb · WeHome','打开 →'],
-      ja:['Stay with Dongsoo · 大峙洞ステイ','博士課程修了のホストが直接運営する大峙洞のプレミアム短期滞在施設。AirbnbとWeHomeで予約できます。','Airbnb · WeHome','開く →']
-    },
-    {
       href:'/exchange-rate/',badge:'NEW · API',emoji:'💱',bg:'radial-gradient(360px 160px at 24% 24%,rgba(57,135,229,.45),transparent 60%),radial-gradient(280px 160px at 80% 80%,rgba(176,109,224,.32),transparent 60%),linear-gradient(135deg,#0c1730,#12224a)',
       zh:['月度宏观经济仪表板 · 汇率、利率与物价','汇总主要货币汇率、韩国银行基准利率与消费者物价，并展示趋势区间和环比变化。','Chart.js · 韩国进出口银行 · 韩国银行 API','打开 →'],
       ja:['月次マクロ経済ダッシュボード · 為替・金利・物価','主要通貨の為替、韓国銀行の政策金利、消費者物価を集計し、トレンド帯と前月比を表示します。','Chart.js · 韓国輸出入銀行 · 韓国銀行API','開く →']
