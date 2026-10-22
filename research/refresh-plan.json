@@ -1150,12 +1150,22 @@
           "audit": "/research/source-reviews/2026-10-22-fx-followup.json",
           "outcome": "fx_and_btc_modules_verified_units_and_sample_counts_corrected",
           "release": {
-            "branch": "codex/fx-followup-20261022",
+            "branch": "codex/fx-delivery-20261022",
             "status": "awaiting_checks",
             "liveUrl": "https://www.stargateedu.co.kr/exchange-rate/",
             "sourceReviewUrl": "https://www.stargateedu.co.kr/research/source-reviews/2026-10-22-fx-followup.json",
-            "pullRequest": "https://github.com/DongsooJung/dongsoojung.github.io/pull/213"
-          }
+            "previousPullRequest": "https://github.com/DongsooJung/dongsoojung.github.io/pull/213",
+            "pullRequest": "https://github.com/DongsooJung/dongsoojung.github.io/pull/214"
+          },
+          "releases": [
+            {
+              "pullRequest": "https://github.com/DongsooJung/dongsoojung.github.io/pull/213",
+              "commit": "ad2f9cb71a8129c6d02ddc069c7a8bf04639f7ac",
+              "pagesRun": "https://github.com/DongsooJung/dongsoojung.github.io/actions/runs/39730780082",
+              "status": "live_validation_failed",
+              "reason": "New static files matched; successful legacy Worker payload replaced FX values in the actual browser, omitting corrected counts/partial flags and retaining old CNY."
+            }
+          ]
         }
       ]
     }
