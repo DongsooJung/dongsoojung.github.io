@@ -527,11 +527,31 @@ async function loadJSON(path, fallbackVar){
   }
 }
 let cloudflareDataFallback = false;
+let cloudflareDataFallbackReason = '';
+function isCurrentFxPayload(payload){
+  const bundledDate = window.FALLBACK_DATA?.observedAt || '';
+  return payload?.sourceDataUrl === 'https://www.ecb.europa.eu/stats/eurofxref/eurofxref-hist.xml'
+    && typeof payload.observedAt === 'string' && payload.observedAt >= bundledDate
+    && payload.latest?.date === payload.observedAt
+    && Array.isArray(payload.series) && payload.series.length > 0
+    && payload.series.every(row => typeof row.partial === 'boolean'
+      && Number.isInteger(row.days) && row.days > 0
+      && row.rates?.USD?.observations === row.days
+      && Object.values(row.rates).every(rate => Number.isInteger(rate.observations) && rate.observations > 0));
+}
 const loadData = async () => {
   cloudflareDataFallback = false;
+  cloudflareDataFallbackReason = '';
   if (window.StargateDashboardData?.enabled) {
-    try { return await window.StargateDashboardData.load('exchange-rate'); }
-    catch (_) { cloudflareDataFallback = true; }
+    try {
+      const payload = await window.StargateDashboardData.load('exchange-rate');
+      if (isCurrentFxPayload(payload)) return payload;
+      cloudflareDataFallback = true;
+      cloudflareDataFallbackReason = '집계 형식·기준일 갱신 대기';
+    } catch (_) {
+      cloudflareDataFallback = true;
+      cloudflareDataFallbackReason = '자료 연결 대기';
+    }
   }
   return loadJSON('./data.json', 'FALLBACK_DATA');
 };
@@ -1501,7 +1521,7 @@ function renderMeta(){
     : (DATA.sourceMode === 'api' ? '자동 갱신: 공식 API 연동 중' : '시드 데이터 (근사 월평균)');
   if (window.StargateDashboardData?.enabled) {
     document.getElementById('metaMode').textContent = cloudflareDataFallback
-      ? 'Cloudflare 연결 대기/실패 · 정적 보관본 표시'
+      ? cloudflareDataFallbackReason+' · 원문 대조 보관본 표시'
       : window.StargateDashboardData.describe(window.StargateDashboardData.meta('exchange-rate'));
   }
 }

@@ -210,5 +210,40 @@
     }
   ],
   "nextAction": "기존 키/공개 원표로 BOK·금리차·시장3모듈을 별도 대조. 이미 대조한 FX/BTC 저장본은 자동수집지문이 바뀐 때만 재확인.",
-  "acceptanceComplete": false
+  "acceptanceComplete": false,
+  "deliveryCorrection": {
+    "discoveredAt": "2026-10-22T05:58:52.381Z",
+    "response": {
+      "url": "https://stargate.stargate8225.workers.dev/api/dashboards/exchange-rate",
+      "status": 200,
+      "checkedAt": "2026-10-22T05:58:52.381Z",
+      "sha256": "395ec0e113acc5a8523e41909ca862b4ccaece3eb5bfd86403aef7168c47c312",
+      "meta": {
+        "name": "exchange-rate",
+        "label": "환율",
+        "mode": "official_collection",
+        "status": "ok",
+        "source_at": "2026-10-21",
+        "refreshed_at": "2026-10-22T01:30:52.083Z",
+        "checked_at": "2026-10-22T01:30:52.083Z",
+        "error": null,
+        "collector_version": "20261016-trade-audit-1",
+        "source_url": "https://www.ecb.europa.eu/stats/eurofxref/eurofxref-hist-90d.xml",
+        "next_refresh_at": "2026-10-22T07:30:52.083Z",
+        "stale": false
+      },
+      "legacyFormat": true
+    },
+    "initialRelease": {
+      "pullRequest": "https://github.com/DongsooJung/dongsoojung.github.io/pull/213",
+      "commit": "ad2f9cb71a8129c6d02ddc069c7a8bf04639f7ac",
+      "pagesRun": "https://github.com/DongsooJung/dongsoojung.github.io/actions/runs/39730780082",
+      "status": "live_validation_failed",
+      "reason": "New static files matched; successful legacy Worker payload replaced FX values in the actual browser, omitting corrected counts/partial flags and retaining old CNY."
+    },
+    "fix": "Check source URL, per-currency counts, partial flags and observed date before accepting Worker payload; otherwise use corrected GitHub Pages JSON/fallback. Refresh uses the same guard.",
+    "backendSettingsChanged": false,
+    "regressions": 4,
+    "status": "awaiting_live_verification"
+  }
 }
