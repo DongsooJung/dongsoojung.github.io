@@ -3,10 +3,10 @@
   "sourceUrl": "https://www.ecb.europa.eu/stats/policy_and_exchange_rates/euro_reference_exchange_rates/",
   "sourceMode": "ecb",
   "sourceDataUrl": "https://www.ecb.europa.eu/stats/eurofxref/eurofxref-hist.xml",
-  "collectedAt": "2026-10-22T05:42:26.261670+00:00",
-  "snapshotUpdatedAt": "2026-10-22T05:44:57.661254+00:00",
-  "updatedAt": "2026-10-21",
-  "observedAt": "2026-10-21",
+  "collectedAt": "2026-10-22T21:39:27.818855+00:00",
+  "snapshotUpdatedAt": "2026-10-22T21:39:27.818874+00:00",
+  "updatedAt": "2026-10-22",
+  "observedAt": "2026-10-22",
   "coverage": {
     "start": "1999-01",
     "end": "2026-10",
@@ -41,12 +41,12 @@
   ],
   "notes": "ECB가 영업일마다 공표하는 EUR 기준환율에서 KRW 교차환율을 계산했습니다. USD·EUR·CNY는 1단위당 원화, JPY는 100엔당 원화입니다. CNY는 초기 일부 기간에 공표되지 않아 비어 있을 수 있습니다. 시장 체결가가 아닌 일일 공식 기준환율이며 GitHub Actions가 매일 갱신합니다. 커버리지: 1999-01 ~ 2026-10.",
   "latest": {
-    "date": "2026-10-21",
+    "date": "2026-10-22",
     "rates": {
-      "USD": 1325.57,
-      "JPY": 839.62,
-      "EUR": 1489.15,
-      "CNY": 198.56
+      "USD": 1324.63,
+      "JPY": 843.47,
+      "EUR": 1484.25,
+      "CNY": 198.47
     }
   },
   "series": [
@@ -9925,40 +9925,34 @@
     },
     {
       "ym": "2026-10",
-      "days": 15,
+      "days": 16,
       "rates": {
         "USD": {
-          "avg": 1339.21,
-          "min": 1325.57,
+          "avg": 1338.3,
+          "min": 1324.63,
           "max": 1361.27,
-          "observations": 15
+          "observations": 16
         },
         "JPY": {
-          "avg": 846.83,
+          "avg": 846.62,
           "min": 839.62,
           "max": 861.65,
-          "observations": 15
+          "observations": 16
         },
         "EUR": {
-          "avg": 1502.28,
-          "min": 1489.15,
+          "avg": 1501.15,
+          "min": 1484.25,
           "max": 1537.96,
-          "observations": 15
+          "observations": 16
         },
         "CNY": {
-          "avg": 200.06,
-          "min": 198.56,
+          "avg": 199.96,
+          "min": 198.47,
           "max": 203.04,
-          "observations": 15
+          "observations": 16
         }
       },
       "partial": true
     }
-  ],
-  "sourceVerification": {
-    "checkedAt": "2026-10-22T05:44:57.661254+00:00",
-    "sourceUrl": "https://www.ecb.europa.eu/stats/eurofxref/eurofxref-hist.xml",
-    "sourceSha256": "3d41341a76ae4918d4daa5c720254643820a652e9f850b7a7c1189feb90d809a",
-    "scope": "이 저장 응답과 계산을 대조. 이후 자동 갱신은 별도 재대조 필요."
-  }
+  ]
 }
