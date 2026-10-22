@@ -15,7 +15,7 @@
    FRED/EIA의 **브렌트유 일일 현물가격(USD/배럴)** 을 연간 평균으로 집계.
 5. **금 · 구리 · 천연가스** — 세계은행 **Pink Sheet** 월별 가격을 연평균하고
    **1999년=100** 비교지수와 최신 실제 단가를 표시 (1999~현재).
-6. **비트코인** — Binance Vision **BTCUSDT 월봉**으로 월평균·고가·저가를 집계.
+6. **비트코인** — Binance Vision **BTCUSDT 월봉**의 고저 중간값=(고가+저가)/2·고가·저가를 집계. 단위 USDT이며 시간/거래량 가중 평균이나 USD 환산값이 아닙니다.
 7. **오늘 데이터 새로고침** — 캐시를 우회해 환율·금리·물가·비트코인·시장 JSON을 다시 읽고
    각 데이터의 실제 최신 관측일을 화면에 표시.
 
@@ -34,7 +34,7 @@
 | `fetch_bitcoin.py` | Binance Vision BTCUSDT 월봉 수집 → `bitcoin_data.json`/`bitcoin-fallback.js` |
 | `data.json` | 월별 통화별 `{avg, min, max}` 매매기준율 |
 | `bok_data.json` | 월별 `{baseRate, cpi, cpiYoY}` 금리·물가 |
-| `bitcoin_data.json` | 월별 `{usd, usdMin, usdMax}` 비트코인 시세 |
+| `bitcoin_data.json` | 월별 `{usd, usdMin, usdMax}` (호환 필드명) 비트코인 고저 중간값·범위. 실제 단위 USDT |
 | `market_data.json` | 연도별 DRAM·유가·금·구리·천연가스 가격 |
 | `rate_gap.json` | 월별 `{koreaRate, usRate, gap}` 한·미 익일물 금리와 차이 |
 | `fallback-data.js` · `bok-fallback.js` · `bitcoin-fallback.js` · `market-fallback.js` · `rate-gap-fallback.js` | JSON 로드 실패 시 내장 폴백 |
@@ -95,7 +95,7 @@ python3 exchange-rate/fetch_bitcoin.py
 ## 집계 로직
 
 **환율 (`fetch_data.py`)**
-- 2024년 1월부터 현재까지 ECB 일일 기준환율을 한 번에 가져옵니다.
+- 1999년 1월부터 현재까지 ECB 원문 XML의 일일 기준환율을 한 번에 가져옵니다. 원문에 없는 CNY는 비워 둡니다.
 - EUR 기준 `USD·JPY·KRW·CNY` 값에서 통화 1단위당 원화 교차환율을 계산합니다.
 - 각 월의 `avg/min/max`와 가장 최근 영업일의 `latest`를 생성합니다.
 - 최신 관측치가 7일보다 오래되면 성공 처리하지 않아 오래된 데이터가 정상으로 표시되는 일을 막습니다.
@@ -126,3 +126,6 @@ python3 exchange-rate/fetch_bitcoin.py
 - [World Bank Commodity Markets](https://www.worldbank.org/en/research/commodity-markets) — 금·구리·미국 천연가스 Pink Sheet
 - [OECD/FRED 한국 콜머니·은행간 익일물 금리](https://fred.stlouisfed.org/series/IRSTCI01KRM156N) — 월평균, `IRSTCI01KRM156N`
 - [Federal Reserve/FRED 실효 연방기금금리](https://fred.stlouisfed.org/series/FEDFUNDS) — H.15 월평균, `FEDFUNDS`
+
+
+2026-10-22 원출처 후속: ECB XML 7,119관측일·334개월과 BTCUSDT111개월 대조. 10월 환율은21일까지15관측일, BTC10월은수집 당시 부분 월봉. `usd*` JSON 필드명은호환성을위해유지하나단위는USDT이며 CSV는usdt_midrange로내보냅니다. 원문에없는실시간관측일을수집일로대신하지않습니다. 금리·물가·금리차·시장자료는이번검증범위밖입니다.

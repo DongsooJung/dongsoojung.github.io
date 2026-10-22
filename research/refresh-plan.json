@@ -986,14 +986,14 @@
       "status": "pending",
       "keys": [],
       "outcome": "conditional_technical_acceptance",
-      "latestAudit": "/research/source-reviews/2026-10-21-bukangi-followup.json",
+      "latestAudit": "/research/source-reviews/2026-10-22-fx-followup.json",
       "lastAttemptAt": "2026-10-20T23:07:26.208Z",
       "itemResults": {
         "/exchange-rate/": {
           "status": "needs_review",
-          "checkedAt": "2026-10-20T23:06:28.769Z",
-          "audit": "/research/source-reviews/2026-10-21-acceptance.json",
-          "nextAction": "현재 게시본의 해당 공식 원문을 다시 대조한 때만 verified로 승격. 확인일·수집일로 자료 기준을 대체하지 않음."
+          "checkedAt": "2026-10-22T05:47:15.383Z",
+          "audit": "/research/source-reviews/2026-10-22-fx-followup.json",
+          "nextAction": "기존 키/공개 원표로 BOK·금리차·시장3모듈을 별도 대조. 이미 대조한 FX/BTC 저장본은 자동수집지문이 바뀐 때만 재확인."
         },
         "/trade/": {
           "status": "verified",
@@ -1074,7 +1074,7 @@
           "Tourism not re-fetched before October26; original checkedAt retained"
         ]
       },
-      "nextAction": "관광은10월26일 이후 공표 확인. 부캉이 공식 결과·과거 원문 및 다른 미완료 항목을 순차 대조. 완료 근거 있는 저장본을 반복 조회하지 않음.",
+      "nextAction": "관광은10월26일 이후. FX/BTC의 완료 범위를 반복하지 않고 BOK·금리차·시장 및 다른 원출처/범위 미완료를 처리. 부캉이는 공식 결과 확보 후만 갱신.",
       "sourceFollowups": [
         {
           "id": "source-followup-1-20261021",
@@ -1121,10 +1121,39 @@
           "outcome": "official_plan_checked_historical_claims_separated_followup_required",
           "release": {
             "branch": "codex/bukangi-followup-20261021",
-            "status": "awaiting_checks",
+            "status": "verified",
             "liveUrl": "https://www.stargateedu.co.kr/research/bukangi/",
             "sourceReviewUrl": "https://www.stargateedu.co.kr/research/source-reviews/2026-10-21-bukangi-followup.json",
-            "pullRequest": "https://github.com/DongsooJung/dongsoojung.github.io/pull/210"
+            "pullRequest": "https://github.com/DongsooJung/dongsoojung.github.io/pull/210",
+            "commit": "43f53467f103a2733b677155887b20ba830bc7a3",
+            "pullRequestMergeCommit": "43f53467f103a2733b677155887b20ba830bc7a3",
+            "verifiedAt": "2026-10-21T15:02:07.826Z",
+            "pagesRun": "https://github.com/DongsooJung/dongsoojung.github.io/actions/runs/39621550543",
+            "checks": [
+              "Exact PR head CodeQL aggregate and JavaScript passed",
+              "Pages exact SHA run success; build/report and deploy action/completion steps success; job wrapper status recorded separately",
+              "Both domains four changed public files and new plan batch match",
+              "Live63 unique projects/seven alphabetical filters/nine groups/strategy44 passed",
+              "Source HTML dates/hashes;19 historical rows/13 exact URLs/six repeated-source pairs",
+              "Live filters,archived opinion,audit JSON download,390px mobile,no runtime errors",
+              "Fifteen existing Node tests passed; source/numerical acceptance remains pending"
+            ]
+          }
+        },
+        {
+          "id": "fx-followup-20261022",
+          "status": "completed",
+          "checkedAt": "2026-10-22T05:47:15.383Z",
+          "keys": [
+            "/exchange-rate/"
+          ],
+          "audit": "/research/source-reviews/2026-10-22-fx-followup.json",
+          "outcome": "fx_and_btc_modules_verified_units_and_sample_counts_corrected",
+          "release": {
+            "branch": "codex/fx-followup-20261022",
+            "status": "awaiting_checks",
+            "liveUrl": "https://www.stargateedu.co.kr/exchange-rate/",
+            "sourceReviewUrl": "https://www.stargateedu.co.kr/research/source-reviews/2026-10-22-fx-followup.json"
           }
         }
       ]
