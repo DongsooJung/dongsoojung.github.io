@@ -57,6 +57,19 @@ class MarketSources(unittest.TestCase):
         self.assertEqual(market.rounded_mean([3.35, 3.36], 2), 3.36)
         self.assertEqual(market.rounded_mean([3.34, 3.35], 2), 3.34)
 
+    def test_partial_failure_preserves_retained_brent_provenance(self):
+        old_source = {'name':'FRED/EIA DCOILBRENTEU', 'url':market.BRENT_URL, 'frequency':'daily', 'metric':'daily mean', 'observedAt':'2026-09-30', 'collectedAt':'2026-10-01T00:00:00Z'}
+        with tempfile.TemporaryDirectory() as folder:
+            target = Path(folder) / 'market_data.json'
+            target.write_text(json.dumps({'sources':{'brent':old_source}, 'series':[{'year':2026, 'partial':True, 'brentUsdPerBbl':90., 'brentObservations':20, 'brentObservationUnit':'days', 'brentSource':'fred'}]}))
+            with patch.object(market, 'DATA_PATH', target), patch.object(market, 'fetch_dram', return_value=({2026:[3.]}, '2026-09-01')), patch.object(market, 'fetch_brent', side_effect=TimeoutError), patch.object(market, 'fetch_world_bank', side_effect=TimeoutError):
+                self.assertEqual(market.main(), 0)
+            payload = json.loads(target.read_text())
+        self.assertEqual(payload['sources']['brent'], {**old_source, 'state':'retained'})
+        self.assertEqual(payload['series'][0]['brentSource'], 'fred')
+        self.assertEqual(payload['series'][0]['brentObservationUnit'], 'days')
+        self.assertEqual(payload['series'][0]['brentState'], 'retained')
+
 
 if __name__ == '__main__':
     unittest.main()

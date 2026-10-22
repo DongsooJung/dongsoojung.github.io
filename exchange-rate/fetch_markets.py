@@ -241,7 +241,8 @@ def main():
             if prev.get("brentObservations") is not None:
                 row["brentObservations"] = prev["brentObservations"]
             row["brentObservationUnit"] = prev.get("brentObservationUnit", "unknown")
-            row["brentSource"] = "retained"
+            row["brentSource"] = prev.get("brentSource", "unknown")
+            row["brentState"] = "retained"
         observation_keys = {
             "goldUsdPerOz": "goldObservations",
             "copperUsdPerMt": "copperObservations",
@@ -308,6 +309,8 @@ def main():
         },
         "series": series,
     }
+    if not brent and not commodities.get("brentUsdPerBbl"):
+        payload["sources"]["brent"] = {**old_sources.get("brent", {}), "state": "retained"}
     DATA_PATH.write_text(json.dumps(payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     (DATA_PATH.parent / "market-fallback.js").write_text(
         "window.MARKET_FALLBACK = " + json.dumps(payload, ensure_ascii=False) + ";\n",
