@@ -3,10 +3,10 @@
 ## 2026-10-22 (KST)
 
 - Main repository: DongsooJung/dongsoojung.github.io
-- Last push: 2026-10-22T00:04:47Z (data: refresh PPS procurement snapshots)
-- Recent scheduled workflow runs: Predominantly successful (including Update PPS procurement data, Update K-Startup data, Collect and verify GH sale-info, Update portfolio blog from Notion, Update reading dashboard from Notion, Update Gimpo airport congestion data, Remote Service Health Check, Update airport congestion data, Update Naver Cafe popular articles, Update exchange rate data, and others). Failures observed: Vercel production request (run at 2026-10-22T00:08Z, conclusion: failure); Collect public data CSV (run at 2026-10-21T19:15Z, conclusion: failure).
+- Last push: 2026-10-22T07:10:54Z (data: update airport congestion snapshot)
+- Recent scheduled workflow runs: Predominantly successful. Latest scheduled runs all succeeded (including Remote Service Health Check, Update airport congestion data, Update used-car public indicators, Update Google Trends data, Update Naver Cafe popular articles, Update used-car market dashboard, Update CLASS101 daily archive, Update Busan Airbnb dashboard, Update tutoring strategy dashboard, Update Gimpo airport congestion data, and others). Earlier failures observed: Vercel production request (run at 2026-10-22T00:08Z, conclusion: failure); Collect public data CSV (run at 2026-10-21T19:15Z, conclusion: failure).
 - Open issues: 3
-- Status: Update loops operating normally overall; the failed Vercel production request and public data collection workflows warrant review.
+- Status: Update loops operating normally overall; recent scheduled workflows are succeeding consistently, while earlier Vercel and public data collection failures warrant review.
 
 ## 2026-10-21 (KST)
 
