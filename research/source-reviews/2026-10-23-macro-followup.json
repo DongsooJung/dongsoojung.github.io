@@ -1,0 +1,421 @@
+{
+  "schemaVersion": 1,
+  "step": "acceptance-macro-followup",
+  "checkedAt": "2026-10-22T20:52:39.095Z",
+  "sourceBaseCommit": "a6486cda4393c6c899464886237bcaf8e9e395c2",
+  "key": "/exchange-rate/",
+  "reviewStatus": "needs_review",
+  "verifiedScope": "시장5지표28년 원표 대조, 한국은행9개월·금리차5개월의 제한된 구간 대조. FX/BTC 완료 저장본은 변경하지 않음.",
+  "sourceChecks": [
+    {
+      "key": "korea-rate",
+      "url": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=IRSTCI01KRM156N&cosd=1996-10-01",
+      "checkedAt": "2026-10-22T20:40:19.509963+00:00",
+      "error": "RemoteDisconnected",
+      "kind": "source-attempt",
+      "scope": "직접 수집 실패. 이 응답을 수치검증 근거로 사용하지 않음."
+    },
+    {
+      "key": "us-rate",
+      "url": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=FEDFUNDS&cosd=1996-10-01",
+      "checkedAt": "2026-10-22T20:40:19.510964+00:00",
+      "error": "RemoteDisconnected",
+      "kind": "source-attempt",
+      "scope": "직접 수집 실패. 이 응답을 수치검증 근거로 사용하지 않음."
+    },
+    {
+      "key": "dram",
+      "url": "https://dam.stanford.edu/assets/memory-prices/memory-prices.csv",
+      "checkedAt": "2026-10-22T20:40:19.510964+00:00",
+      "status": 200,
+      "finalUrl": "https://dam.stanford.edu/assets/memory-prices/memory-prices.csv",
+      "contentType": "text/csv",
+      "sha256": "7de01bbf52d95883e34643f12c77ce9351086597ea3ec38fd56268ad50aaf962",
+      "bytes": 205635,
+      "receivedAt": "2026-10-22T20:40:21.360565+00:00",
+      "lastModified": "Thu, 01 Oct 2026 13:05:10 GMT",
+      "kind": "official-source",
+      "scope": "원문 전체의 연도별 평균·관측 수 독립 대조."
+    },
+    {
+      "key": "brent",
+      "url": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=DCOILBRENTEU",
+      "checkedAt": "2026-10-22T20:40:19.511965+00:00",
+      "error": "TimeoutError",
+      "kind": "source-attempt",
+      "scope": "직접 수집 실패. 이 응답을 수치검증 근거로 사용하지 않음."
+    },
+    {
+      "key": "worldbank",
+      "url": "https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx",
+      "checkedAt": "2026-10-22T20:40:19.512964+00:00",
+      "status": 200,
+      "finalUrl": "https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx",
+      "contentType": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+      "sha256": "ea1c350827878ea3bbe30e3cda16a13fd3bd5b409b8458940dc94a36b5a33154",
+      "bytes": 586099,
+      "receivedAt": "2026-10-22T20:40:20.525953+00:00",
+      "lastModified": "Fri, 02 Oct 2026 18:57:55 GMT",
+      "kind": "official-source",
+      "scope": "원문 전체의 연도별 평균·관측 수 독립 대조."
+    },
+    {
+      "key": "worldbank-doc",
+      "url": "https://www.worldbank.org/en/research/commodity-markets",
+      "checkedAt": "2026-10-22T20:40:19.513964+00:00",
+      "status": 200,
+      "finalUrl": "https://www.worldbank.org/en/research/commodity-markets",
+      "contentType": "text/html;charset=utf-8",
+      "sha256": "0d3333ae1cca87a34852dc6e9d12ae3834db01c338d92c8ebffb366a732c557e",
+      "bytes": 55912,
+      "receivedAt": "2026-10-22T20:40:20.502953+00:00",
+      "lastModified": "Mon, 19 Oct 2026 19:34:48 GMT",
+      "kind": "official-source",
+      "scope": "10월2일 파일 공표·다음11월3일 일정, 자료 관측월은9월."
+    },
+    {
+      "key": "bok-rate",
+      "url": "https://ecos.bok.or.kr/api/StatisticSearch/sample/json/kr/1/10/722Y001/M/202601/202610/0101000",
+      "checkedAt": "2026-10-22T20:40:20.503942+00:00",
+      "status": 200,
+      "finalUrl": "https://ecos.bok.or.kr/api/StatisticSearch/sample/json/kr/1/10/722Y001/M/202601/202610/0101000",
+      "contentType": "application/json; charset=UTF-8",
+      "sha256": "c2b3b82a3cc01c5f1cdf2b9b07a1fa88689c3af759d8300036d2706d7b42ce9a",
+      "bytes": 2999,
+      "receivedAt": "2026-10-22T20:40:20.690147+00:00",
+      "lastModified": null,
+      "kind": "official-source",
+      "scope": "응답9개월과 전년동월10개월의 코드·단위·값 대조."
+    },
+    {
+      "key": "bok-cpi",
+      "url": "https://ecos.bok.or.kr/api/StatisticSearch/sample/json/kr/1/10/901Y009/M/202601/202610/0",
+      "checkedAt": "2026-10-22T20:40:20.526954+00:00",
+      "status": 200,
+      "finalUrl": "https://ecos.bok.or.kr/api/StatisticSearch/sample/json/kr/1/10/901Y009/M/202601/202610/0",
+      "contentType": "application/json; charset=UTF-8",
+      "sha256": "6d7c7affc192962584bf6db8828c7a3440cbdb4473c6385221ba2cf8448b1b53",
+      "bytes": 2667,
+      "receivedAt": "2026-10-22T20:40:20.961404+00:00",
+      "lastModified": null,
+      "kind": "official-source",
+      "scope": "응답9개월과 전년동월10개월의 코드·단위·값 대조."
+    },
+    {
+      "key": "bok-cpi-prior",
+      "url": "https://ecos.bok.or.kr/api/StatisticSearch/sample/json/kr/1/10/901Y009/M/202501/202510/0",
+      "checkedAt": "2026-10-22T20:40:20.692148+00:00",
+      "status": 200,
+      "finalUrl": "https://ecos.bok.or.kr/api/StatisticSearch/sample/json/kr/1/10/901Y009/M/202501/202510/0",
+      "contentType": "application/json; charset=UTF-8",
+      "sha256": "7c0e2ffa1c6395a250aca579dd06996456f8c0f703ce0ec4f881ff620fae923b",
+      "bytes": 2961,
+      "receivedAt": "2026-10-22T20:40:21.044016+00:00",
+      "lastModified": null,
+      "kind": "official-source",
+      "scope": "응답9개월과 전년동월10개월의 코드·단위·값 대조."
+    },
+    {
+      "key": "korea-rate-page",
+      "url": "https://fred.stlouisfed.org/series/IRSTCI01KRM156N",
+      "checkedAt": "2026-10-22T20:44:57.076987+00:00",
+      "error": "TimeoutError",
+      "kind": "source-attempt",
+      "scope": "직접 수집 실패. 이 응답을 수치검증 근거로 사용하지 않음."
+    },
+    {
+      "key": "us-rate-page",
+      "url": "https://fred.stlouisfed.org/series/FEDFUNDS",
+      "checkedAt": "2026-10-22T20:44:57.077953+00:00",
+      "error": "TimeoutError",
+      "kind": "source-attempt",
+      "scope": "직접 수집 실패. 이 응답을 수치검증 근거로 사용하지 않음."
+    }
+  ],
+  "fredHtmlExtract": {
+    "checkedAt": "2026-10-22T20:52:39.095Z",
+    "transport": "web.open",
+    "scope": "공식 HTML 관측표 최근5개월 직접 추출. 전체 CSV 확보 실패; 원문 응답 해시는 없음.",
+    "sources": [
+      {
+        "url": "https://fred.stlouisfed.org/series/IRSTCI01KRM156N",
+        "series": "IRSTCI01KRM156N",
+        "publishedUpdatedAt": "Oct 15, 2026 3:49 PM CDT",
+        "unit": "Percent, Not Seasonally Adjusted",
+        "frequency": "Monthly",
+        "values": [
+          2.537,
+          2.537,
+          2.62,
+          2.809,
+          3.044
+        ]
+      },
+      {
+        "url": "https://fred.stlouisfed.org/series/FEDFUNDS",
+        "series": "FEDFUNDS",
+        "publishedUpdatedAt": "Oct 1, 2026 3:16 PM CDT",
+        "nextReleaseCalendarDate": "2026-10-23",
+        "note": "공표 일정은10월 월자료 확보의 증거가 아님.",
+        "unit": "Percent, Not Seasonally Adjusted",
+        "frequency": "Monthly",
+        "values": [
+          3.63,
+          3.63,
+          3.63,
+          3.63,
+          3.75
+        ]
+      }
+    ],
+    "months": [
+      "2026-05",
+      "2026-06",
+      "2026-07",
+      "2026-08",
+      "2026-09"
+    ]
+  },
+  "validation": {
+    "checkedAt": "2026-10-22T20:47:07.229866+00:00",
+    "market": {
+      "years": 28,
+      "metrics": 5,
+      "latestPeriod": "2026-09",
+      "observations2026": {
+        "dramObservations": 9,
+        "brentObservations": 9,
+        "goldObservations": 9,
+        "copperObservations": 9,
+        "gasObservations": 9
+      },
+      "numeric2026": {
+        "dramUsdPerGb": 3.836,
+        "brentUsdPerBbl": 94,
+        "goldUsdPerOz": 4552,
+        "copperUsdPerMt": 13431.22,
+        "gasUsdPerMmbtu": 3.52
+      },
+      "brentSource": "World Bank monthly",
+      "workbookPublishedAt": "2026-10-02",
+      "workbookCells": {
+        "period": "A799:A807",
+        "brent": "C799:C807",
+        "gas": "H799:H807",
+        "copper": "BM799:BM807",
+        "gold": "BR799:BR807"
+      }
+    },
+    "bok": {
+      "verifiedMonths": [
+        "2026-01",
+        "2026-02",
+        "2026-03",
+        "2026-04",
+        "2026-05",
+        "2026-06",
+        "2026-07",
+        "2026-08",
+        "2026-09"
+      ],
+      "verifiedRows": 9,
+      "priorYearRows": 10,
+      "OctoberInResponse": false,
+      "numericFileUnchanged": true,
+      "historicalRowsOutsideScope": 320
+    },
+    "rateGap": {
+      "fullCsv": "source_unavailable",
+      "verifiedMonths": [
+        "2026-05",
+        "2026-06",
+        "2026-07",
+        "2026-08",
+        "2026-09"
+      ],
+      "verifiedRows": 5,
+      "historicalRowsOutsideScope": 355,
+      "numericFileUnchanged": true,
+      "definition": "한국 OECD 익일물 월금리 − 미국 실효 연방기금 월금리 (%p). 정책금리 목표범위 차이가 아님.",
+      "nextAction": "FRED CSV 또는 OECD 원표 접근 정상화 후 나머지355개월 대조."
+    },
+    "nextWorldBankPublication": "2026-11-03",
+    "sourcesChecked": {
+      "korea-rate": {
+        "key": "korea-rate",
+        "url": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=IRSTCI01KRM156N&cosd=1996-10-01",
+        "checkedAt": "2026-10-22T20:40:19.509963+00:00",
+        "error": "RemoteDisconnected"
+      },
+      "us-rate": {
+        "key": "us-rate",
+        "url": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=FEDFUNDS&cosd=1996-10-01",
+        "checkedAt": "2026-10-22T20:40:19.510964+00:00",
+        "error": "RemoteDisconnected"
+      },
+      "dram": {
+        "key": "dram",
+        "url": "https://dam.stanford.edu/assets/memory-prices/memory-prices.csv",
+        "checkedAt": "2026-10-22T20:40:19.510964+00:00",
+        "status": 200,
+        "finalUrl": "https://dam.stanford.edu/assets/memory-prices/memory-prices.csv",
+        "contentType": "text/csv",
+        "sha256": "7de01bbf52d95883e34643f12c77ce9351086597ea3ec38fd56268ad50aaf962",
+        "bytes": 205635,
+        "receivedAt": "2026-10-22T20:40:21.360565+00:00",
+        "lastModified": "Thu, 01 Oct 2026 13:05:10 GMT"
+      },
+      "brent": {
+        "key": "brent",
+        "url": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=DCOILBRENTEU",
+        "checkedAt": "2026-10-22T20:40:19.511965+00:00",
+        "error": "TimeoutError"
+      },
+      "worldbank": {
+        "key": "worldbank",
+        "url": "https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx",
+        "checkedAt": "2026-10-22T20:40:19.512964+00:00",
+        "status": 200,
+        "finalUrl": "https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx",
+        "contentType": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+        "sha256": "ea1c350827878ea3bbe30e3cda16a13fd3bd5b409b8458940dc94a36b5a33154",
+        "bytes": 586099,
+        "receivedAt": "2026-10-22T20:40:20.525953+00:00",
+        "lastModified": "Fri, 02 Oct 2026 18:57:55 GMT"
+      },
+      "worldbank-doc": {
+        "key": "worldbank-doc",
+        "url": "https://www.worldbank.org/en/research/commodity-markets",
+        "checkedAt": "2026-10-22T20:40:19.513964+00:00",
+        "status": 200,
+        "finalUrl": "https://www.worldbank.org/en/research/commodity-markets",
+        "contentType": "text/html;charset=utf-8",
+        "sha256": "0d3333ae1cca87a34852dc6e9d12ae3834db01c338d92c8ebffb366a732c557e",
+        "bytes": 55912,
+        "receivedAt": "2026-10-22T20:40:20.502953+00:00",
+        "lastModified": "Mon, 19 Oct 2026 19:34:48 GMT"
+      },
+      "bok-rate": {
+        "key": "bok-rate",
+        "url": "https://ecos.bok.or.kr/api/StatisticSearch/sample/json/kr/1/10/722Y001/M/202601/202610/0101000",
+        "checkedAt": "2026-10-22T20:40:20.503942+00:00",
+        "status": 200,
+        "finalUrl": "https://ecos.bok.or.kr/api/StatisticSearch/sample/json/kr/1/10/722Y001/M/202601/202610/0101000",
+        "contentType": "application/json; charset=UTF-8",
+        "sha256": "c2b3b82a3cc01c5f1cdf2b9b07a1fa88689c3af759d8300036d2706d7b42ce9a",
+        "bytes": 2999,
+        "receivedAt": "2026-10-22T20:40:20.690147+00:00",
+        "lastModified": null
+      },
+      "bok-cpi": {
+        "key": "bok-cpi",
+        "url": "https://ecos.bok.or.kr/api/StatisticSearch/sample/json/kr/1/10/901Y009/M/202601/202610/0",
+        "checkedAt": "2026-10-22T20:40:20.526954+00:00",
+        "status": 200,
+        "finalUrl": "https://ecos.bok.or.kr/api/StatisticSearch/sample/json/kr/1/10/901Y009/M/202601/202610/0",
+        "contentType": "application/json; charset=UTF-8",
+        "sha256": "6d7c7affc192962584bf6db8828c7a3440cbdb4473c6385221ba2cf8448b1b53",
+        "bytes": 2667,
+        "receivedAt": "2026-10-22T20:40:20.961404+00:00",
+        "lastModified": null
+      },
+      "bok-cpi-prior": {
+        "key": "bok-cpi-prior",
+        "url": "https://ecos.bok.or.kr/api/StatisticSearch/sample/json/kr/1/10/901Y009/M/202501/202510/0",
+        "checkedAt": "2026-10-22T20:40:20.692148+00:00",
+        "status": 200,
+        "finalUrl": "https://ecos.bok.or.kr/api/StatisticSearch/sample/json/kr/1/10/901Y009/M/202501/202510/0",
+        "contentType": "application/json; charset=UTF-8",
+        "sha256": "7c0e2ffa1c6395a250aca579dd06996456f8c0f703ce0ec4f881ff620fae923b",
+        "bytes": 2961,
+        "receivedAt": "2026-10-22T20:40:21.044016+00:00",
+        "lastModified": null
+      },
+      "korea-rate-page": {
+        "key": "korea-rate-page",
+        "url": "https://fred.stlouisfed.org/series/IRSTCI01KRM156N",
+        "checkedAt": "2026-10-22T20:44:57.076987+00:00",
+        "error": "TimeoutError"
+      },
+      "us-rate-page": {
+        "key": "us-rate-page",
+        "url": "https://fred.stlouisfed.org/series/FEDFUNDS",
+        "checkedAt": "2026-10-22T20:44:57.077953+00:00",
+        "error": "TimeoutError"
+      }
+    },
+    "browser": {
+      "base": "http://127.0.0.1:60639",
+      "verifiedAt": "2026-10-22T20:54:27.123Z",
+      "checks": [
+        "Market28 years and JSON/CSV18 fields values/counts/source/units match",
+        "World Bank9 monthly observations, September data versus October2 publication",
+        "Partial year compared with previous full year; DRAM retail definition",
+        "BOK329/rate gap360/FX334/BTC111 retained; recent window scope visible",
+        "Range filters,390px mobile,no overflow and no runtime errors",
+        "JSON404 loads matching corrected fallback source metadata"
+      ],
+      "pageErrors": []
+    },
+    "tests": {
+      "nodePassed": 19,
+      "pythonPassed": 5
+    }
+  },
+  "moduleReviews": {
+    "market": {
+      "status": "verified",
+      "checkedAt": "2026-10-22T20:52:39.095Z",
+      "dataPeriod": "2026-09",
+      "partial": true,
+      "sourceDataUrls": [
+        "https://dam.stanford.edu/assets/memory-prices/memory-prices.csv",
+        "https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx"
+      ],
+      "dataAsOf": "2026-09",
+      "snapshotUpdatedAt": "2026-10-22T20:47:07.225905+00:00",
+      "collectedAt": "2026-10-22T20:40:20.525953+00:00",
+      "workbookPublishedAt": "2026-10-02",
+      "scope": "1999~2026년28개 연도·5지표를 원문과 독립 Decimal 집계로 대조. 2026년은1~9월9관측치 부분평균. Brent는 세계은행 월자료 대체본이며 FRED 일자료가 아님.",
+      "snapshotFingerprint": "6c11dff008b93e7026c88bf9c6eccda0daf55905906df65592dd93a95913f5c6",
+      "nextEligibleDate": "2026-11-03"
+    },
+    "bok": {
+      "status": "needs_review",
+      "checkedAt": "2026-10-22T20:52:39.095Z",
+      "dataPeriod": "2026-01..2026-09",
+      "verifiedRows": 9,
+      "historicalRowsOutsideScope": 320,
+      "scope": "ECOS722Y001/0101000(연%)·901Y009/0(2020=100), 전년동월 원표로 CPI YoY 검산. 2026년1~9월 일치. API 응답에10월 행 없음; 미공표로 단정하지 않음.",
+      "snapshotFileUnchanged": true,
+      "nextAction": "기존 인증키/공개 원표로1999-05~2025-12의320행 추가 대조."
+    },
+    "rateGap": {
+      "status": "needs_review",
+      "checkedAt": "2026-10-22T20:52:39.095Z",
+      "dataPeriod": "2026-05..2026-09",
+      "verifiedRows": 5,
+      "historicalRowsOutsideScope": 355,
+      "snapshotFileUnchanged": true,
+      "scope": "한국 OECD 익일물 월금리 − 미국 실효 연방기금 월금리 (%p). 정책금리 목표범위 차이가 아님. 최근5개월 HTML 표만 일치. 전체360개월 검증 아님.",
+      "nextAction": "FRED CSV 또는 OECD 원표 접근 정상화 후 나머지355개월 대조."
+    }
+  },
+  "deferred": [
+    {
+      "key": "/korea-tourism/",
+      "status": "awaiting_publication",
+      "nextEligibleDate": "2026-10-26",
+      "action": "not_refetched"
+    }
+  ],
+  "corrections": [
+    "Brent 월자료9건을9영업일로 표시하던 오류를9개월·World Bank로 수정.",
+    "세계은행 자료 기준월2026-09와 파일공표2026-10-02, 수집/파일생성/대조일 분리.",
+    "2026부분평균의 비교대상은 전년 전체평균임을 표시. DRAM은 소비자 소매가 수록 관측값 평균.",
+    "이진 소수 반올림 경계값을 Decimal half-even으로 집계;28년5지표 독립 검산.",
+    "모든 출처 실패 시 파일/갱신일 보존. 미래/빈 월행은 기준월을 전진시키지 않음."
+  ],
+  "nextAction": "BOK 과거320행과 금리차355행은 기존 수집코드/공식 원표로 후속 대조. 시장은11월3일 이후, 관광은10월26일 이후. 그 전에는 다음 원출처 미완료 프로젝트 처리.",
+  "acceptanceComplete": false
+}
