@@ -154,7 +154,7 @@ footer{margin-top:56px;padding-top:20px;border-top:1px solid var(--line);color:v
   header.head h1{font-size:24px}
   .chart-box{height:300px} .card.half .chart-box{height:260px}
 }
-</style>
+#btcKpis .delta,#btcKpis .delta span{white-space:normal;overflow-wrap:anywhere}.source-followup{margin:18px 0 24px;padding:18px;border:1px solid #607f99;border-radius:12px;background:#102333;color:#eaf3fa;font-size:14px;line-height:1.8;overflow-wrap:anywhere}.source-followup h2{font-size:18px;color:#fff;margin:0 0 8px}.source-followup p{color:#eaf3fa;margin:8px 0}.source-followup a{color:#9fe6ff;text-decoration:underline}</style>
   <link rel="stylesheet" href="/assets/site-theme.css">
   <script src="/assets/site-theme.js"></script>
 <link rel="stylesheet" href="/assets/stargate-tokens.css?v=20261017">
@@ -191,6 +191,7 @@ footer{margin-top:56px;padding-top:20px;border-top:1px solid var(--line);color:v
       <span class="refresh-status" id="refreshStatus" role="status" aria-live="polite">환율·금리·물가·비트코인·시장 데이터를 최신 파일에서 다시 확인합니다.</span>
     </div>
   </header>
+<section class="source-followup" aria-labelledby="source-followup-title"><h2 id="source-followup-title">원출처 대조 · 환율과 비트코인 · 2026-10-22</h2><p>환율은 ECB 공식 XML 7,119관측일·334개월을 다시 계산했습니다. 10월은21일까지15관측일 부분 집계입니다. 원문에 없는 초기 CNY63개월은 빈칸으로 두고, USD 가중치와 통화별 관측수를 구분합니다.</p><p>BTC는 USDT 단위의 월 고저 중간값=(고가+저가)/2입니다. 시간·거래량 가중 평균 또는 USD 환산값이 아닙니다. 9월이 마지막 완결월이고10월은 수집 당시 부분 월봉입니다. 원문 관측시각 미제공 · 수집 2026-10-22T05:41:53.842033+00:00 · 파일 생성 2026-10-22T05:44:57.661254+00:00 · 이번 대조 2026-10-22T05:47:15.383Z.</p><p>금리·물가·금리차·시장 자료는 이번 원문 대조 범위 밖입니다. <a href="/research/source-reviews/2026-10-22-fx-followup.json" download>원출처·기간·정의·검증 JSON 내려받기</a></p></section>
 
   <div class="controls">
     <div class="fgroup" role="group" aria-label="통화 선택">
@@ -260,7 +261,7 @@ footer{margin-top:56px;padding-top:20px;border-top:1px solid var(--line);color:v
 
     <div class="sec-divider" style="grid-column:1/-1;margin-top:12px;display:flex;align-items:baseline;gap:10px;flex-wrap:wrap">
       <h2 style="font-size:19px;margin:0">디지털 자산 · 비트코인</h2>
-      <span class="cap" style="margin:0">Binance BTC/USDT 월봉 · 월평균=(고가+저가)/2 · 상단 기간 필터 연동</span>
+      <span class="cap" style="margin:0">Binance BTC/USDT 월봉 · 고저 중간값=(고가+저가)/2 · 단위 USDT · 상단 기간 필터 연동</span>
     </div>
 
     <section class="kpis" id="btcKpis" style="grid-column:1/-1" aria-label="비트코인 월간 지표"></section>
@@ -268,12 +269,12 @@ footer{margin-top:56px;padding-top:20px;border-top:1px solid var(--line);color:v
     <div class="card full">
       <div class="thead-row">
         <div>
-          <h2>비트코인 월별 시세 (USD)</h2>
-          <div class="cap" style="margin-bottom:0">월평균 라인과 월중 최저–최고 변동밴드 · BTC/USDT</div>
+          <h2>비트코인 월별 고저 중간값 (USDT)</h2>
+          <div class="cap" style="margin-bottom:0">월 고저 중간값과 월중 최저–최고 변동밴드 · BTC/USDT</div>
         </div>
         <button class="dl" id="btcCsvBtn" type="button">⬇ 월간 CSV</button>
       </div>
-      <div class="chart-box"><canvas id="btcChart" role="img" aria-label="비트코인 월평균 시세와 월중 최저·최고 변동밴드 선 그래프"></canvas></div>
+      <div class="chart-box"><canvas id="btcChart" role="img" aria-label="비트코인 월 고저 중간값과 월중 최저·최고 변동밴드 선 그래프"></canvas></div>
     </div>
 
     <div class="sec-divider" style="grid-column:1/-1;margin-top:12px;display:flex;align-items:baseline;gap:10px;flex-wrap:wrap">
@@ -381,7 +382,7 @@ footer{margin-top:56px;padding-top:20px;border-top:1px solid var(--line);color:v
   <div class="note">
     <b>데이터 출처 및 갱신</b> — 유럽중앙은행(ECB)
     <a href="https://www.ecb.europa.eu/stats/policy_and_exchange_rates/euro_reference_exchange_rates/" target="_blank" rel="noopener">일일 기준환율</a>을
-    Frankfurter API로 수집해 통화별 원화 교차환율과 월평균·월최저·월최고를 계산합니다.
+    ECB 공식 XML로 수집해 통화별 원화 교차환율과 월평균·월최저·월최고를 계산합니다. 원문에 없는 초기 CNY 관측치는 비워 둡니다.
     GitHub Actions가 영업일마다 <code>data.json</code>을 갱신합니다. 인증키와 국내 PC 설치가 필요하지 않습니다.
     USD·EUR·CNY는 <b>1단위당</b>, 엔(JPY)은 <b>100엔당</b> 원화이며 시장의 초단기 체결가가 아닌 공식 일일 기준환율입니다.
     <br><br>
@@ -408,7 +409,7 @@ footer{margin-top:56px;padding-top:20px;border-top:1px solid var(--line);color:v
     <br><br>
     <b>비트코인</b> — Binance Vision 공개 API의
     <a href="https://data-api.binance.vision/" target="_blank" rel="noopener">BTCUSDT 월봉</a>을 사용합니다.
-    월평균은 <b>(고가+저가)/2</b>이며, 밴드의 상·하단은 해당 월의 고가·저가입니다. 당월은 진행 중(YTD) 값입니다.
+    <b>월 고저 중간값=(고가+저가)/2</b>이며 시간·거래량 가중 평균이 아닙니다. 단위는 USDT이고 USD로 환산하지 않았습니다. 밴드의 상·하단은 해당 월봉의 고가·저가입니다. 당월은 진행 중인 월의 부분 집계입니다.
   </div>
 
   <footer>
@@ -424,11 +425,11 @@ footer{margin-top:56px;padding-top:20px;border-top:1px solid var(--line);color:v
 </div>
 
 <script src="./chart.umd.min.js"></script>
-<script src="./fallback-data.js"></script>
+<script src="./fallback-data.js?v=20261022-source"></script>
 <script src="./bok-fallback.js"></script>
 <script src="./market-fallback.js"></script>
 <script src="./rate-gap-fallback.js"></script>
-<script src="./bitcoin-fallback.js"></script>
+<script src="./bitcoin-fallback.js?v=20261022-source"></script>
 <script src="/assets/dashboard-data-status.js?v=20261015-1"></script>
 <script>
 'use strict';
@@ -639,9 +640,9 @@ function downloadBlob(filename, lines){
 function downloadFxCSV(){
   const rows = filteredSeries();
   const cols = CURS.map(c=>c.code);
-  const lines = ['ym,'+cols.map(c=>`${c}_avg,${c}_min,${c}_max`).join(',')];
-  rows.forEach(r=> lines.push([r.ym,
-    ...cols.flatMap(c=>[rateOf(r,c,'avg')??'',rateOf(r,c,'min')??'',rateOf(r,c,'max')??''])
+  const lines = ['ym,partial,reference_days,'+cols.map(c=>`${c}_avg,${c}_min,${c}_max,${c}_observations`).join(',')+',source_observed_date,collected_at'];
+  rows.forEach(r=> lines.push([r.ym,r.partial?'Y':'N',r.days??'',
+    ...cols.flatMap(c=>[rateOf(r,c,'avg')??'',rateOf(r,c,'min')??'',rateOf(r,c,'max')??'',rateOf(r,c,'observations')??'']),DATA.observedAt||'',DATA.collectedAt||''
   ].join(',')));
   downloadBlob(`exchange-rate_fx_${rangeLabel()}.csv`, lines);
 }
@@ -655,9 +656,9 @@ function downloadSelectedAll(){
   // 환율 + 금리·물가 + 선택 통화 전월비를 한 파일로
   const rows = filteredSeries();
   const cols = CURS.map(c=>c.code);
-  const lines = ['ym,'+cols.map(c=>`${c}_avg,${c}_min,${c}_max`).join(',')+',base_rate,cpi,cpi_yoy'];
-  rows.forEach(r=> lines.push([r.ym,
-    ...cols.flatMap(c=>[rateOf(r,c,'avg')??'',rateOf(r,c,'min')??'',rateOf(r,c,'max')??'']),
+  const lines = ['ym,fx_partial,fx_reference_days,'+cols.map(c=>`${c}_avg,${c}_min,${c}_max,${c}_observations`).join(',')+',base_rate,cpi,cpi_yoy'];
+  rows.forEach(r=> lines.push([r.ym,r.partial?'Y':'N',r.days??'',
+    ...cols.flatMap(c=>[rateOf(r,c,'avg')??'',rateOf(r,c,'min')??'',rateOf(r,c,'max')??'',rateOf(r,c,'observations')??'']),
     macroVal(r.ym,'baseRate')??'', macroVal(r.ym,'cpi')??'', macroVal(r.ym,'cpiYoY')??''
   ].join(',')));
   downloadBlob(`exchange-rate_selected_${rangeLabel()}.csv`, lines);
@@ -912,7 +913,7 @@ function aggregateUsdPeriods(rows, grain){
       max:highs.length?Math.max(...highs):null,
       observations,
       months:new Set(periodRows.map(row=>row.ym)).size,
-      complete:new Set(periodRows.map(row=>row.ym)).size === (grain==='quarter'?3:12),
+      complete:new Set(periodRows.map(row=>row.ym)).size === (grain==='quarter'?3:12) && !periodRows.some(row=>row.partial===true),
       change:null,
     };
   }).sort((a,b)=>a.key.localeCompare(b.key));
@@ -1185,10 +1186,10 @@ function renderBtcKPIs(){
   const delta = (value, label) => value==null ? `<span>${label} —</span>`
     : `<b class="${value>=0?'up':'down'}">${value>=0?'▲':'▼'} ${Math.abs(value).toLocaleString('ko-KR',{maximumFractionDigits:1})}%</b> <span>${label}</span>`;
   const tiles = [
-    {color:BTC_COLOR, lb:'BTC 월평균 시세', val:`$${fmt(last.usd,0)}<small>${ymKorean(last.ym)}${last.partial?' · 진행중':''}</small>`, delta:delta(mom,'전월 대비')},
+    {color:BTC_COLOR, lb:'BTC 월 고저 중간값', val:`${fmt(last.usd,0)} USDT<small>${ymKorean(last.ym)}${last.partial?' · 진행중':''}</small>`, delta:delta(mom,'전월 대비')},
     {color:BTC_COLOR, lb:'전년 동월 대비', val:yoy==null?'—':`${yoy>=0?'+':''}${fmt(yoy,1)}<small>%</small>`, delta:`<span>${ymKorean(last.ym)} vs ${+last.ym.slice(0,4)-1}년</span>`},
-    {color:BTC_COLOR, lb:'기간 내 최고가', val:`$${fmt(maxUsd,0)}<small>월중 고가</small>`, delta:`<span>선택 기간 ${rows.length}개월</span>`},
-    {color:BTC_COLOR, lb:'기간 내 최저가', val:`$${fmt(minUsd,0)}<small>월중 저가</small>`, delta:`<span>관측 ${BTC.observedAt||'—'}</span>`},
+    {color:BTC_COLOR, lb:'기간 내 최고가', val:`${fmt(maxUsd,0)} USDT<small>월중 고가</small>`, delta:`<span>선택 기간 ${rows.length}개월</span>`},
+    {color:BTC_COLOR, lb:'기간 내 최저가', val:`${fmt(minUsd,0)} USDT<small>월중 저가</small>`, delta:`<span>원문 관측시각 ${BTC.observedAt||'미제공'} · 수집 ${BTC.collectedAt?new Date(BTC.collectedAt).toLocaleString('ko-KR',{timeZone:'Asia/Seoul',hour12:false})+' KST':'미공개'}</span>`},
   ];
   tiles.forEach(t=>{
     const tile = document.createElement('div');
@@ -1206,7 +1207,7 @@ function buildBtc(){
        pointRadius:0, fill:'+1', $noLabel:true, tension:.2, spanGaps:true},
       {label:'월중 최저', data:[], borderColor:'transparent', backgroundColor:'transparent',
        pointRadius:0, fill:false, $noLabel:true, tension:.2, spanGaps:true},
-      {label:'월평균 시세', $labelText:'BTC', data:[], borderColor:BTC_COLOR, backgroundColor:BTC_COLOR, $labelColor:BTC_COLOR,
+      {label:'월 고저 중간값', $labelText:'BTC', data:[], borderColor:BTC_COLOR, backgroundColor:BTC_COLOR, $labelColor:BTC_COLOR,
        borderWidth:2.6, tension:.24, spanGaps:true, pointRadius:0, pointHoverRadius:5,
        pointHoverBackgroundColor:BTC_COLOR, pointHoverBorderColor:SURFACE, pointHoverBorderWidth:2},
     ]},
@@ -1218,8 +1219,8 @@ function buildBtc(){
         x:{grid:{display:false}, border:{color:BASELINE},
            ticks:{color:MUTED, maxRotation:0, autoSkip:true, maxTicksLimit:14, callback:function(v){ return ymLabel(this.getLabelForValue(v)); }}},
         y:{border:{display:false}, grid:{color:GRID, drawTicks:false}, beginAtZero:false,
-           ticks:{color:MUTED, padding:8, callback:v=>'$'+Number(v).toLocaleString('en-US')},
-           title:{display:true, text:'USD / BTC', color:MUTED, font:{size:10.5}}},
+           ticks:{color:MUTED, padding:8, callback:v=>Number(v).toLocaleString('en-US')+' USDT'},
+           title:{display:true, text:'USDT / BTC', color:MUTED, font:{size:10.5}}},
       },
       plugins:{
         legend:{display:false},
@@ -1227,9 +1228,9 @@ function buildBtc(){
           title:items=>ymKorean(items[0].label),
           label:it=>{
             if (it.parsed.y==null) return '';
-            if (it.dataset.label==='월평균 시세') return ` $${fmt(it.parsed.y,2)} · 월평균`;
-            if (it.dataset.label==='월중 최고') return ` $${fmt(it.parsed.y,2)} · 고가`;
-            if (it.dataset.label==='월중 최저') return ` $${fmt(it.parsed.y,2)} · 저가`;
+            if (it.dataset.label==='월 고저 중간값') return ` ${fmt(it.parsed.y,2)} USDT · 월 고저 중간값`;
+            if (it.dataset.label==='월중 최고') return ` ${fmt(it.parsed.y,2)} USDT · 고가`;
+            if (it.dataset.label==='월중 최저') return ` ${fmt(it.parsed.y,2)} USDT · 저가`;
             return '';
           },
         }},
@@ -1249,8 +1250,8 @@ function updateBtc(){
   charts.btc.update();
 }
 function downloadBtcCSV(){
-  const lines = ['ym,partial,usd_avg,usd_open,usd_close,usd_min,usd_max'];
-  filteredBtc().forEach(r=>lines.push([r.ym,r.partial?'Y':'N',r.usd??'',r.usdOpen??'',r.usdClose??'',r.usdMin??'',r.usdMax??''].join(',')));
+  const lines = ['ym,partial,usdt_midrange,usdt_open,usdt_close,usdt_min,usdt_max,unit,value_definition,collected_at,source_observation_time'];
+  filteredBtc().forEach(r=>lines.push([r.ym,r.partial?'Y':'N',r.usd??'',r.usdOpen??'',r.usdClose??'',r.usdMin??'',r.usdMax??'','USDT','high_low_midrange',BTC.collectedAt||'',BTC.observedAt||''].join(',')));
   const blob = new Blob(['\ufeff'+lines.join('\n')], {type:'text/csv;charset=utf-8'});
   const a = document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='bitcoin-monthly.csv'; a.click(); URL.revokeObjectURL(a.href);
 }

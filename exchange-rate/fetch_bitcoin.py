@@ -2,12 +2,13 @@
 """비트코인 월별 시세를 집계한다.
 
 Binance Vision 공개 API의 BTCUSDT 월봉(OHLC)을 사용한다.
-인증키 없이 내려받을 수 있으며, 월평균은 (고가+저가)/2 로 계산한다.
+인증키 없이 내려받을 수 있으며, 월 고저 중간값은 (고가+저가)/2이며 단위는 USDT다. 시간·거래량 가중 평균이 아니다.
 """
 
 from __future__ import annotations
 
 import json
+from decimal import Decimal
 import sys
 import time
 import urllib.request
@@ -64,41 +65,52 @@ def main():
         print(f"비트코인 데이터 갱신 실패 — 기존 데이터를 유지합니다: {exc}", file=sys.stderr)
         return 0
 
-    today = date.today()
+    collected_at = datetime.now(timezone.utc)
+    today = collected_at.date()
     series = []
     observed_at = None
+    latest_closed_period = None
     for row in klines:
         open_time = datetime.fromtimestamp(int(row[0]) / 1000, tz=timezone.utc)
         close_time = datetime.fromtimestamp(int(row[6]) / 1000, tz=timezone.utc)
         ym = f"{open_time.year:04d}-{open_time.month:02d}"
-        open_px = float(row[1])
-        high = float(row[2])
-        low = float(row[3])
-        close = float(row[4])
+        open_px = Decimal(str(row[1]))
+        high = Decimal(str(row[2]))
+        low = Decimal(str(row[3]))
+        close = Decimal(str(row[4]))
         avg = (high + low) / 2
         series.append(
             {
                 "ym": ym,
                 "partial": open_time.year == today.year and open_time.month == today.month,
-                "usd": round(avg, 2),
-                "usdOpen": round(open_px, 2),
-                "usdClose": round(close, 2),
-                "usdMin": round(low, 2),
-                "usdMax": round(high, 2),
+                "usd": float(round(avg, 2)),
+                "usdOpen": float(round(open_px, 2)),
+                "usdClose": float(round(close, 2)),
+                "usdMin": float(round(low, 2)),
+                "usdMax": float(round(high, 2)),
             }
         )
-        observed = min(close_time.date(), today).isoformat()
-        observed_at = observed
+        if close_time < collected_at:
+            latest_closed_period = ym
+            observed_at = close_time.date().isoformat()
+        else:
+            observed_at = None
 
     payload = {
         "updatedAt": datetime.now(timezone.utc).strftime("%Y-%m-%d"),
         "sourceMode": "binance-vision",
         "observedAt": observed_at,
+        "collectedAt": collected_at.isoformat(),
+        "snapshotUpdatedAt": collected_at.isoformat(),
+        "latestClosedPeriod": latest_closed_period,
+        "priceUnit": "USDT",
+        "valueDefinition": "high_low_midrange",
+        "legacyPriceFields": "usd* fields retain names for compatibility; values are USDT, without USD conversion",
         "sources": {
             "bitcoin": {
                 "name": "Binance Vision BTCUSDT Monthly Klines",
-                "metric": "BTC/USDT 월봉 · 평균=(고가+저가)/2",
-                "unit": "USD",
+                "metric": "BTC/USDT 월봉 · 고저 중간값=(고가+저가)/2",
+                "unit": "USDT",
                 "url": "https://data-api.binance.vision/",
                 "observedAt": observed_at,
             }
@@ -110,7 +122,7 @@ def main():
         "window.BITCOIN_FALLBACK = " + json.dumps(payload, ensure_ascii=False) + ";\n",
         encoding="utf-8",
     )
-    print(f"완료: 비트코인 월별 시세 {len(series)}개월 갱신 (관측 {observed_at}).")
+    print(f"완료: BTCUSDT {len(series)}개월 갱신 (마지막 완결월 {latest_closed_period}, 현재 월 기준시각 미제공).")
     return 0
 
 

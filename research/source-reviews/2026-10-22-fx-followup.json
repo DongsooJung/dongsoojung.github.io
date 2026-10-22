@@ -1,0 +1,214 @@
+{
+  "schemaVersion": 1,
+  "step": "acceptance-fx-followup",
+  "checkedAt": "2026-10-22T05:47:15.383Z",
+  "sourceBaseCommit": "d98e9287fc1ecf7c27692bc0a4cea4cfdc03d7d9",
+  "key": "/exchange-rate/",
+  "reviewStatus": "needs_review",
+  "verifiedScope": "ECB 공식 XML7119일→334개월 환율과 Binance BTCUSDT111개월 원문 OHLC·고저 중간값 대조. 10월 부분 집계. 금리·물가·금리차·시장 지표는 이번 대조 범위 밖.",
+  "sourceChecks": [
+    {
+      "key": "ecb-full",
+      "url": "https://www.ecb.europa.eu/stats/eurofxref/eurofxref-hist.xml",
+      "checkedAt": "2026-10-22T05:41:53.237626+00:00",
+      "status": 200,
+      "finalUrl": "https://www.ecb.europa.eu/stats/eurofxref/eurofxref-hist.xml",
+      "contentType": "text/xml",
+      "sha256": "3d41341a76ae4918d4daa5c720254643820a652e9f850b7a7c1189feb90d809a",
+      "bytes": 8205511,
+      "receivedAt": "2026-10-22T05:42:26.261670+00:00",
+      "kind": "official-source",
+      "scope": "원문 XML 전체7119관측일의334개월 교차환율·통화별 관측 수·평균·최저·최고 및10월21일 최신값"
+    },
+    {
+      "key": "btc",
+      "url": "https://data-api.binance.vision/api/v3/klines?symbol=BTCUSDT&interval=1M&limit=1000&startTime=1501545600000",
+      "checkedAt": "2026-10-22T05:41:53.239618+00:00",
+      "status": 200,
+      "finalUrl": "https://data-api.binance.vision/api/v3/klines?symbol=BTCUSDT&interval=1M&limit=1000&startTime=1501545600000",
+      "contentType": "application/json;charset=UTF-8",
+      "sha256": "80fe28d318362b80b26a54b57da6c7908c211e33cb75bce640defd1e979f7126",
+      "bytes": 21368,
+      "receivedAt": "2026-10-22T05:41:53.842033+00:00",
+      "kind": "official-source",
+      "scope": "BTCUSDT111월봉 OHLC와Decimal 고저 중간값. 현월관측시각 미제공·USDT단위·수집일 분리"
+    }
+  ],
+  "validation": {
+    "checkedAt": "2026-10-22T05:44:57.661254+00:00",
+    "fx": {
+      "days": 7119,
+      "months": 334,
+      "latestDate": "2026-10-21",
+      "octoberDays": 15,
+      "currencies": [
+        "USD",
+        "JPY",
+        "EUR",
+        "CNY"
+      ],
+      "method": "independent Decimal cross-rates and monthly count/mean/min/max; .01 rounding tolerance",
+      "oldCnyScope": "XML has no CNY for2000-01..2005-03; those prior mirror values are omitted, not replaced by estimates"
+    },
+    "bitcoin": {
+      "months": 111,
+      "lastClosedPeriod": "2026-09",
+      "activeMonth": "2026-10",
+      "partial": true,
+      "unit": "USDT",
+      "definition": "(high+low)/2 midrange, not an average",
+      "sourceObservationTime": null
+    },
+    "otherModules": "BOK,rate gap,market values unchanged and not verified in this batch",
+    "tests": {
+      "nodePassed": 15,
+      "pythonPassed": 3,
+      "failed": 0
+    },
+    "browser": {
+      "base": "http://127.0.0.1:3905",
+      "verifiedAt": "2026-10-22T05:48:56.325Z",
+      "checks": [
+        "334 FX rows and111 BTC rows loaded; official dates and units visible",
+        "BTC chart/KPI USDT and high-low midrange, not average; source observation null",
+        "JSON audit download exact; FX334/BTC111/combined CSV downloads and partial/count metadata",
+        "last12 range filter updates charts",
+        "JSON404 fallback loads corrected data and blank unsupported historical CNY",
+        "390px mobile no overflow; screenshots; no runtime errors"
+      ],
+      "pageErrors": []
+    },
+    "csv": [
+      "FX334 rows, all four currencies and observation counts, blank unsupported CNY",
+      "BTC111 rows, exact midrange/unit/collection metadata and no inferred observation date",
+      "Combined334 rows and field counts"
+    ]
+  },
+  "moduleReviews": {
+    "fx": {
+      "status": "verified",
+      "dataAsOf": "2026-10-21",
+      "dataPeriod": "2026-10",
+      "partial": true,
+      "observationsThisMonth": 15,
+      "collectedAt": "2026-10-22T05:42:26.261670+00:00",
+      "snapshotUpdatedAt": "2026-10-22T05:44:57.661254+00:00",
+      "scope": "월간 전체가 아닌10월21일까지 ECB15관측일. 334개월 재계산.",
+      "dataHash": "d54438ec0ed17535d5da1e09cc3836e34938a12c91a6d068c06b398d4cf63964",
+      "verifiedAt": "2026-10-22T05:47:15.383Z"
+    },
+    "bitcoin": {
+      "status": "verified",
+      "dataAsOf": null,
+      "dataPeriod": "2026-10",
+      "partial": true,
+      "latestClosedPeriod": "2026-09",
+      "collectedAt": "2026-10-22T05:41:53.842033+00:00",
+      "snapshotUpdatedAt": "2026-10-22T05:44:57.661254+00:00",
+      "sourceObservationTime": null,
+      "unit": "USDT",
+      "valueDefinition": "high_low_midrange",
+      "legacyFields": "usd* names retained for compatibility; no USD conversion",
+      "scope": "출처 월봉의 고저 중간값. 시간/거래량 가중 평균이 아니며10월은 수집 당시 부분 월봉.",
+      "dataHash": "a548e5b7009456e66d1798d6623bd32502edbd116e809d29c6576941fa355e18",
+      "verifiedAt": "2026-10-22T05:47:15.383Z"
+    },
+    "other": {
+      "status": "needs_review",
+      "keys": [
+        "bok_data.json",
+        "rate_gap.json",
+        "market_data.json"
+      ],
+      "scope": "이전 값/시각을 보존. 이번 원표 대조·수치 갱신 범위 밖."
+    }
+  },
+  "corrections": {
+    "cnyOmittedMonths": [
+      "2000-01",
+      "2000-02",
+      "2000-03",
+      "2000-04",
+      "2000-05",
+      "2000-06",
+      "2000-07",
+      "2000-08",
+      "2000-09",
+      "2000-10",
+      "2000-11",
+      "2000-12",
+      "2001-01",
+      "2001-02",
+      "2001-03",
+      "2001-04",
+      "2001-05",
+      "2001-06",
+      "2001-07",
+      "2001-08",
+      "2001-09",
+      "2001-10",
+      "2001-11",
+      "2001-12",
+      "2002-01",
+      "2002-02",
+      "2002-03",
+      "2002-04",
+      "2002-05",
+      "2002-06",
+      "2002-07",
+      "2002-08",
+      "2002-09",
+      "2002-10",
+      "2002-11",
+      "2002-12",
+      "2003-01",
+      "2003-02",
+      "2003-03",
+      "2003-04",
+      "2003-05",
+      "2003-06",
+      "2003-07",
+      "2003-08",
+      "2003-09",
+      "2003-10",
+      "2003-11",
+      "2003-12",
+      "2004-01",
+      "2004-02",
+      "2004-03",
+      "2004-04",
+      "2004-05",
+      "2004-06",
+      "2004-07",
+      "2004-08",
+      "2004-09",
+      "2004-10",
+      "2004-11",
+      "2004-12",
+      "2005-01",
+      "2005-02",
+      "2005-03"
+    ],
+    "referenceDayCountChangedMonths": [
+      "2000-01"
+    ],
+    "reason": "과거 미러에 있던 CNY 값 중 이번 ECB 공식 XML에 없는63개월은 비워 둠. USD 분기/연 가중치에 쓰는days는USD의 관측수로 계산하며 통화별관측수를 따로 공개.",
+    "bitcoinLabels": "월평균·USD 표기를 월고저중간값·USDT로 수정. 원문에 없는 현월 실제 관측일을 수집일에서 추정하지 않음."
+  },
+  "deferred": [
+    {
+      "key": "/korea-tourism/",
+      "status": "awaiting_publication",
+      "nextEligibleDate": "2026-10-26",
+      "action": "not_refetched"
+    },
+    {
+      "key": "/research/bukangi/",
+      "status": "needs_review",
+      "reason": "결과 관련 언론 검색 결과를 공식 원문 대조로 사용하지 않음. 기존 공식 계획/검증일 유지.",
+      "nextAction": "공식 결과 원문을 확보한 뒤만 결과·위치를 추가."
+    }
+  ],
+  "nextAction": "기존 키/공개 원표로 BOK·금리차·시장3모듈을 별도 대조. 이미 대조한 FX/BTC 저장본은 자동수집지문이 바뀐 때만 재확인.",
+  "acceptanceComplete": false
+}
