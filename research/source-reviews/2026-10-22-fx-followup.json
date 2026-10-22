@@ -61,7 +61,7 @@
     },
     "otherModules": "BOK,rate gap,market values unchanged and not verified in this batch",
     "tests": {
-      "nodePassed": 15,
+      "nodePassed": 19,
       "pythonPassed": 3,
       "failed": 0
     },
@@ -244,6 +244,20 @@
     "fix": "Check source URL, per-currency counts, partial flags and observed date before accepting Worker payload; otherwise use corrected GitHub Pages JSON/fallback. Refresh uses the same guard.",
     "backendSettingsChanged": false,
     "regressions": 4,
-    "status": "awaiting_live_verification"
+    "status": "corrected_and_locally_verified",
+    "browser": {
+      "base": "http://127.0.0.1:27530",
+      "verifiedAt": "2026-10-22T06:00:27.168Z",
+      "checks": [
+        "334 FX rows and111 BTC rows loaded; official dates and units visible",
+        "BTC chart/KPI USDT and high-low midrange, not average; source observation null",
+        "JSON audit download exact; FX334/BTC111/combined CSV downloads and partial/count metadata",
+        "last12 range filter updates charts",
+        "Legacy200 delivery rejected in full browser; refresh retains corrected data",
+        "JSON404 fallback loads corrected data and blank unsupported historical CNY",
+        "390px mobile no overflow; screenshots; no runtime errors"
+      ],
+      "pageErrors": []
+    }
   }
 }
