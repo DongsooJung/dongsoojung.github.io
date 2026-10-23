@@ -133,3 +133,8 @@ python3 exchange-rate/fetch_bitcoin.py
 2026-10-23 후속: 시장5지표28년을 Stanford CSV/World Bank 월원표와 독립 Decimal 계산으로 대조했습니다. 2026년은1~9월9관측치 부분평균입니다. FRED Brent 일자료 연결실패로 세계은행 월자료를 사용하며 `brentObservationUnit=months`, `brentSource=worldbank`를 JSON/화면/CSV에 표시합니다. 월자료를 영업일로 세지 않습니다. DRAM은 수록된 소비자 소매가 관측값의 산술평균이며 생산자/도매 현물지수가 아닙니다. 부분평균의 비교대상은 전년 전체 평균입니다.
 
 세계은행 자료 기준월9월·원표 파일공표10월2일·수집/파일생성/대조일을 분리합니다. `observedAt`의 월자료에는 가짜 일자를 넣지 않으며 미래/빈 행은 기준월을 전진시키지 않습니다. 모든 원출처 실패 시 파일/갱신일을 보존합니다. ECOS1~9월9행·FRED 공식 HTML5~9월5행만 추가 대조했고 과거320/355행은 미완료입니다. 해당 수치파일과 FX/BTC 완료본은 변경하지 않았습니다. 근거 `/research/source-reviews/2026-10-23-macro-followup.json`, 회귀검증 `python scripts/test_market_sources.py`.
+
+
+2026-10-23 BOK 전수 후속: ECOS68응답·기준금리329개월(1999-05..2026-09)·CPI341개월(전년동월12개월포함)을 대조했습니다. 원문코드/단위/기간/중복/공통구간연속성·987표시수치+658원문수치 검증. CPI원문3자리 등 정밀도를cpiRaw/cpiPriorYearRaw로보존하고, 표시2자리만Decimal half-even으로반올림합니다. 기존9개표시값의0.01차이는반올림경계정정이며공식자료개정으로주장하지않습니다. YoY는원문정밀도로계산합니다. 출처연결/단위/범위검증실패는파일/갱신일보존·비정상종료1. API키는공개원문증거URL에노출하지않습니다. sourceChecks/collectedAt/snapshotUpdatedAt/sourceVerification은자료기준월과별도입니다. sourceVerification은해당검증저장본에만적용됩니다.
+
+FX/BTC/시장자동수집후지문변경을확인해카탈로그모듈은snapshot_checked로분리했습니다. 이전공식대조는previousVerification에보존합니다. 시장의현재Brent는FRED일자료203건이며이전WB월자료9건과동일검증범위가아닙니다. 전체프로젝트는needs_review이고금리차과거355행대조도남았습니다. 테스트 python scripts/test_bok_sources.py. 근거 /research/source-reviews/2026-10-23-bok-history.json

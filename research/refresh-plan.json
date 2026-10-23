@@ -986,14 +986,14 @@
       "status": "pending",
       "keys": [],
       "outcome": "conditional_technical_acceptance",
-      "latestAudit": "/research/source-reviews/2026-10-23-macro-followup.json",
+      "latestAudit": "/research/source-reviews/2026-10-23-bok-history.json",
       "lastAttemptAt": "2026-10-20T23:07:26.208Z",
       "itemResults": {
         "/exchange-rate/": {
           "status": "needs_review",
-          "checkedAt": "2026-10-22T20:52:39.095Z",
-          "audit": "/research/source-reviews/2026-10-23-macro-followup.json",
-          "nextAction": "BOK 과거320행과 금리차355행은 기존 수집코드/공식 원표로 후속 대조. 시장은11월3일 이후, 관광은10월26일 이후. 그 전에는 다음 원출처 미완료 프로젝트 처리."
+          "checkedAt": "2026-10-23T11:43:51.750Z",
+          "audit": "/research/source-reviews/2026-10-23-bok-history.json",
+          "nextAction": "금리차 과거355행과 자동수집으로 바뀐FX/BTC/시장 모듈은 원문 재대조 필요. 같은 접근 실패만 반복하지 말고 다음 원출처 미완료 프로젝트를 처리. 관광은10월26일, World Bank는11월3일 이후."
         },
         "/trade/": {
           "status": "verified",
@@ -1074,7 +1074,7 @@
           "Tourism not re-fetched before October26; original checkedAt retained"
         ]
       },
-      "nextAction": "BOK 과거320행과 금리차355행은 기존 수집코드/공식 원표로 후속 대조. 시장은11월3일 이후, 관광은10월26일 이후. 그 전에는 다음 원출처 미완료 프로젝트 처리.",
+      "nextAction": "금리차 과거355행과 자동수집으로 바뀐FX/BTC/시장 모듈은 원문 재대조 필요. 같은 접근 실패만 반복하지 말고 다음 원출처 미완료 프로젝트를 처리. 관광은10월26일, World Bank는11월3일 이후.",
       "sourceFollowups": [
         {
           "id": "source-followup-1-20261021",
@@ -1204,10 +1204,54 @@
           "outcome": "market_verified_bok_and_rate_gap_recent_windows_only",
           "release": {
             "branch": "codex/macro-followup-20261023",
-            "status": "awaiting_checks",
+            "status": "verified",
             "liveUrl": "https://www.stargateedu.co.kr/exchange-rate/",
             "sourceReviewUrl": "https://www.stargateedu.co.kr/research/source-reviews/2026-10-23-macro-followup.json",
-            "pullRequest": "https://github.com/DongsooJung/dongsoojung.github.io/pull/216"
+            "pullRequest": "https://github.com/DongsooJung/dongsoojung.github.io/pull/216",
+            "commit": "6f0e8fdf4d7530be30b932eb923bd1c5d79651e7",
+            "pullRequestHead": "8c1be252cff44ec0be7212623a67fecd41e63858",
+            "pullRequestMergeCommit": "6f0e8fdf4d7530be30b932eb923bd1c5d79651e7",
+            "verifiedAt": "2026-10-22T21:02:01.827Z",
+            "pagesRun": "https://github.com/DongsooJung/dongsoojung.github.io/actions/runs/39853599036",
+            "checks": [
+              "Exact PR head CodeQL aggregate and JavaScript passed",
+              "Exact merge SHA Pages build/report/deploy success",
+              "Both domains six changed public files and plan batch match",
+              "Market28 years/5 metrics independently validated; CSV28 rows18 fields,units/counts and JSON404 fallback match",
+              "BOK9 and FRED5 recent months only; historical320/355 rows pending, unchanged snapshot dates",
+              "Live63 unique projects/7 alphabetical filters/9 groups/strategy44 and390px mobile passed",
+              "Node19/Python5 regression tests passed; acceptance remains pending"
+            ],
+            "externalChecks": [
+              {
+                "context": "Vercel – stargate-onbid-api",
+                "state": "success",
+                "description": "Deployment has completed",
+                "targetUrl": "https://vercel.com/stargate2/stargate-onbid-api/62t1HDsM7PwRtgdPcCcZtwq3xSeE"
+              },
+              {
+                "context": "Vercel – stargate-private-gateway",
+                "state": "success",
+                "description": "Deployment has completed",
+                "targetUrl": "https://vercel.com/stargate2/stargate-private-gateway/47u22ow2K5v6ECZpTy3LjK2CuU38"
+              }
+            ]
+          }
+        },
+        {
+          "id": "bok-history-20261023",
+          "status": "completed",
+          "checkedAt": "2026-10-23T11:43:51.750Z",
+          "keys": [
+            "/exchange-rate/"
+          ],
+          "audit": "/research/source-reviews/2026-10-23-bok-history.json",
+          "outcome": "bok329_full_originals_verified_changed_auto_snapshots_demoted",
+          "release": {
+            "branch": "codex/bok-history-20261023",
+            "status": "awaiting_checks",
+            "liveUrl": "https://www.stargateedu.co.kr/exchange-rate/",
+            "sourceReviewUrl": "https://www.stargateedu.co.kr/research/source-reviews/2026-10-23-bok-history.json"
           }
         }
       ]
