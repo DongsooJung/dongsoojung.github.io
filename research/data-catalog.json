@@ -1509,17 +1509,17 @@
     },
     {
       "source": {
-        "label": "ECB·Binance·ECOS·FRED 관측표·Stanford·World Bank (범위별 대조)",
-        "url": "https://www.worldbank.org/en/research/commodity-markets",
+        "label": "한국은행 ECOS 전체329개월 검증 · 다른 모듈별 별도 상태",
+        "url": "https://ecos.bok.or.kr/api/",
         "verification": "partially_verified"
       },
       "dataAsOf": null,
-      "dataPeriod": "혼재 (FX/BTC10월부분·시장/금리9월)",
-      "snapshotUpdatedAt": "2026-10-22T05:47:15.383Z",
+      "dataPeriod": "혼재 (BOK9월·FX10월22일·BTC10월부분·Brent10월20일·WB9월)",
+      "snapshotUpdatedAt": null,
       "collectedAt": null,
-      "checkedAt": "2026-10-22T20:52:39.095Z",
+      "checkedAt": "2026-10-23T11:43:51.750Z",
       "reviewStatus": "needs_review",
-      "freshness": "three_modules_verified_two_partial_windows",
+      "freshness": "bok_full_verified_changed_modules_snapshot_checked",
       "evidence": [
         {
           "kind": "audit-record",
@@ -1678,20 +1678,503 @@
           "url": "/research/source-reviews/2026-10-23-macro-followup.json",
           "checkedAt": "2026-10-22T20:52:39.095Z",
           "scope": "시장5지표28년 원표 대조, 한국은행9개월·금리차5개월의 제한된 구간 대조. FX/BTC 완료 저장본은 변경하지 않음."
+        },
+        {
+          "kind": "official-source",
+          "url": "https://ecos.bok.or.kr/api/StatisticSearch/sample/json/kr/1/10/722Y001/M/199905/200002/0101000",
+          "checkedAt": "2026-10-23T11:37:43.238217+00:00",
+          "sha256": "79878c8cf21574f80385796204dde5c02cdfa8fe462f00f5758677c31cf252e5",
+          "scope": "요청범위 전체 row의 통계코드·항목·단위·기간·중복 및 실제 수치 검산."
+        },
+        {
+          "kind": "official-source",
+          "url": "https://ecos.bok.or.kr/api/StatisticSearch/sample/json/kr/1/10/722Y001/M/200003/200012/0101000",
+          "checkedAt": "2026-10-23T11:37:43.851320+00:00",
+          "sha256": "e7efb932165e1c83e06b591342284944f44df4922a36b73225ec6ec016cb2545",
+          "scope": "요청범위 전체 row의 통계코드·항목·단위·기간·중복 및 실제 수치 검산."
+        },
+        {
+          "kind": "official-source",
+          "url": "https://ecos.bok.or.kr/api/StatisticSearch/sample/json/kr/1/10/901Y009/M/199805/199902/0",
+          "checkedAt": "2026-10-23T11:37:43.239183+00:00",
+          "sha256": "43ef2d7b66e86f513202daee3723d9f25bcf2be013e68543818a5c6fec2e7076",
+          "scope": "요청범위 전체 row의 통계코드·항목·단위·기간·중복 및 실제 수치 검산."
+        },
+        {
+          "kind": "official-source",
+          "url": "https://ecos.bok.or.kr/api/StatisticSearch/sample/json/kr/1/10/722Y001/M/200101/200110/0101000",
+          "checkedAt": "2026-10-23T11:37:44.120047+00:00",
+          "sha256": "26e72ecd92f7a37c8127cc485a590b6d7117636530211ce505699b64bf65fa37",
+          "scope": "요청범위 전체 row의 통계코드·항목·단위·기간·중복 및 실제 수치 검산."
+        },
+        {
+          "kind": "official-source",
+          "url": "https://ecos.bok.or.kr/api/StatisticSearch/sample/json/kr/1/10/722Y001/M/200111/200208/0101000",
+          "checkedAt": "2026-10-23T11:37:44.357577+00:00",
+          "sha256": "9742af458d40692d34befc8d9896eba49f97e792eaf29d92edd38b0c816978bf",
+          "scope": "요청범위 전체 row의 통계코드·항목·단위·기간·중복 및 실제 수치 검산."
+        },
+        {
+          "kind": "official-source",
+          "url": "https://ecos.bok.or.kr/api/StatisticSearch/sample/json/kr/1/10/901Y009/M/199903/199912/0",
+          "checkedAt": "2026-10-23T11:37:44.129062+00:00",
+          "sha256": "68ad52878854071c9803cb51ba1a4967a8c538a4391725ef457fb39d464d8fdd",
+          "scope": "요청범위 전체 row의 통계코드·항목·단위·기간·중복 및 실제 수치 검산."
+        },
+        {
+          "kind": "official-source",
+          "url": "https://ecos.bok.or.kr/api/StatisticSearch/sample/json/kr/1/10/722Y001/M/200209/200306/0101000",
+          "checkedAt": "2026-10-23T11:37:44.630448+00:00",
+          "sha256": "905fe8d0a07c23bf1372f003ab18199941ff831f4234590c0d5910a8cc4902ab",
+          "scope": "요청범위 전체 row의 통계코드·항목·단위·기간·중복 및 실제 수치 검산."
+        },
+        {
+          "kind": "official-source",
+          "url": "https://ecos.bok.or.kr/api/StatisticSearch/sample/json/kr/1/10/722Y001/M/200307/200404/0101000",
+          "checkedAt": "2026-10-23T11:37:44.875753+00:00",
+          "sha256": "465a82e63d682d351e00b16be4ba0f94b0acd9fa0b6446e227cde72c9e3ae4cd",
+          "scope": "요청범위 전체 row의 통계코드·항목·단위·기간·중복 및 실제 수치 검산."
+        },
+        {
+          "kind": "official-source",
+          "url": "https://ecos.bok.or.kr/api/StatisticSearch/sample/json/kr/1/10/901Y009/M/200001/200010/0",
+          "checkedAt": "2026-10-23T11:37:44.641967+00:00",
+          "sha256": "0f83d0a8fead07599cf1908a222c411d1376c1deee1d207ca308d56b34769704",
+          "scope": "요청범위 전체 row의 통계코드·항목·단위·기간·중복 및 실제 수치 검산."
+        },
+        {
+          "kind": "official-source",
+          "url": "https://ecos.bok.or.kr/api/StatisticSearch/sample/json/kr/1/10/722Y001/M/200405/200502/0101000",
+          "checkedAt": "2026-10-23T11:37:45.114813+00:00",
+          "sha256": "cd7cdb65e30fe85a9fa997c7e80c151b619f0952c27bde91d4d34e678aca1df2",
+          "scope": "요청범위 전체 row의 통계코드·항목·단위·기간·중복 및 실제 수치 검산."
+        },
+        {
+          "kind": "official-source",
+          "url": "https://ecos.bok.or.kr/api/StatisticSearch/sample/json/kr/1/10/722Y001/M/200503/200512/0101000",
+          "checkedAt": "2026-10-23T11:37:45.380189+00:00",
+          "sha256": "54ee37471f452a8686245e24dd466aab4561ff23a53460ef53377f1a9066c6fb",
+          "scope": "요청범위 전체 row의 통계코드·항목·단위·기간·중복 및 실제 수치 검산."
+        },
+        {
+          "kind": "official-source",
+          "url": "https://ecos.bok.or.kr/api/StatisticSearch/sample/json/kr/1/10/901Y009/M/200011/200108/0",
+          "checkedAt": "2026-10-23T11:37:45.143366+00:00",
+          "sha256": "593d97832f4209b6dbb9d1798a328731b3bb792bfa76306da9db8638f24a06ac",
+          "scope": "요청범위 전체 row의 통계코드·항목·단위·기간·중복 및 실제 수치 검산."
+        },
+        {
+          "kind": "official-source",
+          "url": "https://ecos.bok.or.kr/api/StatisticSearch/sample/json/kr/1/10/722Y001/M/200601/200610/0101000",
+          "checkedAt": "2026-10-23T11:37:45.626725+00:00",
+          "sha256": "6b111b32e8fccf27a77e563695b593fc3ee8a94b6f8aa76f64965b1ea707c02a",
+          "scope": "요청범위 전체 row의 통계코드·항목·단위·기간·중복 및 실제 수치 검산."
+        },
+        {
+          "kind": "official-source",
+          "url": "https://ecos.bok.or.kr/api/StatisticSearch/sample/json/kr/1/10/901Y009/M/200109/200206/0",
+          "checkedAt": "2026-10-23T11:37:45.672351+00:00",
+          "sha256": "d815e5f631b9b2f2c5658837e84190b50cb6e913405d667c20b4ad2f58d17480",
+          "scope": "요청범위 전체 row의 통계코드·항목·단위·기간·중복 및 실제 수치 검산."
+        },
+        {
+          "kind": "official-source",
+          "url": "https://ecos.bok.or.kr/api/StatisticSearch/sample/json/kr/1/10/722Y001/M/200611/200708/0101000",
+          "checkedAt": "2026-10-23T11:37:45.973708+00:00",
+          "sha256": "42a5ad03846b6c1a760262c10116d339a666a41f950b24483349813d588a0aeb",
+          "scope": "요청범위 전체 row의 통계코드·항목·단위·기간·중복 및 실제 수치 검산."
+        },
+        {
+          "kind": "official-source",
+          "url": "https://ecos.bok.or.kr/api/StatisticSearch/sample/json/kr/1/10/722Y001/M/200709/200806/0101000",
+          "checkedAt": "2026-10-23T11:37:46.242805+00:00",
+          "sha256": "8bf4d51b8b174cbfa6e446119c6fb69036cd70c9e3ec5b2e38e9c8a014188189",
+          "scope": "요청범위 전체 row의 통계코드·항목·단위·기간·중복 및 실제 수치 검산."
+        },
+        {
+          "kind": "official-source",
+          "url": "https://ecos.bok.or.kr/api/StatisticSearch/sample/json/kr/1/10/901Y009/M/200207/200304/0",
+          "checkedAt": "2026-10-23T11:37:46.191899+00:00",
+          "sha256": "77dd1e1c6c49c0de0bf8c597a662acacbe36147432629024c8a70ed9bae3414e",
+          "scope": "요청범위 전체 row의 통계코드·항목·단위·기간·중복 및 실제 수치 검산."
+        },
+        {
+          "kind": "official-source",
+          "url": "https://ecos.bok.or.kr/api/StatisticSearch/sample/json/kr/1/10/722Y001/M/200807/200904/0101000",
+          "checkedAt": "2026-10-23T11:37:46.508193+00:00",
+          "sha256": "9bdfe8afe2baa4313e588fc11643619b23dd996924e334fae854ef02010c9bee",
+          "scope": "요청범위 전체 row의 통계코드·항목·단위·기간·중복 및 실제 수치 검산."
+        },
+        {
+          "kind": "official-source",
+          "url": "https://ecos.bok.or.kr/api/StatisticSearch/sample/json/kr/1/10/722Y001/M/200905/201002/0101000",
+          "checkedAt": "2026-10-23T11:37:46.839460+00:00",
+          "sha256": "88fa5b910bf824b61c546094fceafecebf40c1621d19739768bbded9abbe50da",
+          "scope": "요청범위 전체 row의 통계코드·항목·단위·기간·중복 및 실제 수치 검산."
+        },
+        {
+          "kind": "official-source",
+          "url": "https://ecos.bok.or.kr/api/StatisticSearch/sample/json/kr/1/10/901Y009/M/200305/200402/0",
+          "checkedAt": "2026-10-23T11:37:46.706945+00:00",
+          "sha256": "0f28ac7cd1181ecc847adc0ddfd0f4e887545349cf71d10284b9a01b59c1b40b",
+          "scope": "요청범위 전체 row의 통계코드·항목·단위·기간·중복 및 실제 수치 검산."
+        },
+        {
+          "kind": "official-source",
+          "url": "https://ecos.bok.or.kr/api/StatisticSearch/sample/json/kr/1/10/722Y001/M/201003/201012/0101000",
+          "checkedAt": "2026-10-23T11:37:47.110925+00:00",
+          "sha256": "606c65b7dffa0161f4f8298b2478de38c87210bff7f64925c30110ec44f424c2",
+          "scope": "요청범위 전체 row의 통계코드·항목·단위·기간·중복 및 실제 수치 검산."
+        },
+        {
+          "kind": "official-source",
+          "url": "https://ecos.bok.or.kr/api/StatisticSearch/sample/json/kr/1/10/722Y001/M/201101/201110/0101000",
+          "checkedAt": "2026-10-23T11:37:47.352635+00:00",
+          "sha256": "42ee4bd5cf02b2273a9c4e71af527db80648469270d6ac2e1f705ac3462a2884",
+          "scope": "요청범위 전체 row의 통계코드·항목·단위·기간·중복 및 실제 수치 검산."
+        },
+        {
+          "kind": "official-source",
+          "url": "https://ecos.bok.or.kr/api/StatisticSearch/sample/json/kr/1/10/901Y009/M/200403/200412/0",
+          "checkedAt": "2026-10-23T11:37:47.228649+00:00",
+          "sha256": "69f55b9aa1fcc446d32d3a0c0562102d786ad792c5ff392143b41ba3fec02747",
+          "scope": "요청범위 전체 row의 통계코드·항목·단위·기간·중복 및 실제 수치 검산."
+        },
+        {
+          "kind": "official-source",
+          "url": "https://ecos.bok.or.kr/api/StatisticSearch/sample/json/kr/1/10/722Y001/M/201111/201208/0101000",
+          "checkedAt": "2026-10-23T11:37:47.624253+00:00",
+          "sha256": "25eb2af02bc73eb2f9e2528dea99718501fbec3b0fcc8ef7e09ca5ef58df570b",
+          "scope": "요청범위 전체 row의 통계코드·항목·단위·기간·중복 및 실제 수치 검산."
+        },
+        {
+          "kind": "official-source",
+          "url": "https://ecos.bok.or.kr/api/StatisticSearch/sample/json/kr/1/10/722Y001/M/201209/201306/0101000",
+          "checkedAt": "2026-10-23T11:37:47.907924+00:00",
+          "sha256": "21aa1508bab83e783637cc767d303506986018169417e41e3699ccb46b088980",
+          "scope": "요청범위 전체 row의 통계코드·항목·단위·기간·중복 및 실제 수치 검산."
+        },
+        {
+          "kind": "official-source",
+          "url": "https://ecos.bok.or.kr/api/StatisticSearch/sample/json/kr/1/10/722Y001/M/201307/201404/0101000",
+          "checkedAt": "2026-10-23T11:37:48.321097+00:00",
+          "sha256": "6c8337eda9b111ff2e43010f22b5cdfb3aa64b45826b07d802ac1f8590a8dad9",
+          "scope": "요청범위 전체 row의 통계코드·항목·단위·기간·중복 및 실제 수치 검산."
+        },
+        {
+          "kind": "official-source",
+          "url": "https://ecos.bok.or.kr/api/StatisticSearch/sample/json/kr/1/10/901Y009/M/200501/200510/0",
+          "checkedAt": "2026-10-23T11:37:47.745346+00:00",
+          "sha256": "fe0e0e4be5aef78832f376dd16dc93b5862dab26eb4151d6b0f0a1fc01d8e4fd",
+          "scope": "요청범위 전체 row의 통계코드·항목·단위·기간·중복 및 실제 수치 검산."
+        },
+        {
+          "kind": "official-source",
+          "url": "https://ecos.bok.or.kr/api/StatisticSearch/sample/json/kr/1/10/722Y001/M/201405/201502/0101000",
+          "checkedAt": "2026-10-23T11:37:48.568207+00:00",
+          "sha256": "67f704817e817c4b090da43d4de3ae371e847eece21b26cd2a033c0b7ca44e3a",
+          "scope": "요청범위 전체 row의 통계코드·항목·단위·기간·중복 및 실제 수치 검산."
+        },
+        {
+          "kind": "official-source",
+          "url": "https://ecos.bok.or.kr/api/StatisticSearch/sample/json/kr/1/10/722Y001/M/201503/201512/0101000",
+          "checkedAt": "2026-10-23T11:37:48.823085+00:00",
+          "sha256": "481be3ccc5053d2ca903f3f2d82586dd8df2c3e217f78f1f9caaea1e14a03a4b",
+          "scope": "요청범위 전체 row의 통계코드·항목·단위·기간·중복 및 실제 수치 검산."
+        },
+        {
+          "kind": "official-source",
+          "url": "https://ecos.bok.or.kr/api/StatisticSearch/sample/json/kr/1/10/901Y009/M/200511/200608/0",
+          "checkedAt": "2026-10-23T11:37:48.583791+00:00",
+          "sha256": "fd48629a171f041bd8f5a4818aa2a523377dd215fb0e19ef3ed7bab698e31bb9",
+          "scope": "요청범위 전체 row의 통계코드·항목·단위·기간·중복 및 실제 수치 검산."
+        },
+        {
+          "kind": "official-source",
+          "url": "https://ecos.bok.or.kr/api/StatisticSearch/sample/json/kr/1/10/722Y001/M/201601/201610/0101000",
+          "checkedAt": "2026-10-23T11:37:49.079518+00:00",
+          "sha256": "f4cf645f036e785f6d0ebf8196d5aabaa22095c9227a2fce0ad4519d5945e471",
+          "scope": "요청범위 전체 row의 통계코드·항목·단위·기간·중복 및 실제 수치 검산."
+        },
+        {
+          "kind": "official-source",
+          "url": "https://ecos.bok.or.kr/api/StatisticSearch/sample/json/kr/1/10/722Y001/M/201611/201708/0101000",
+          "checkedAt": "2026-10-23T11:37:49.328184+00:00",
+          "sha256": "1b1707aebbf9d8166f628fee6ba5bc90bf5ebf1acb24b273145674500dd343c2",
+          "scope": "요청범위 전체 row의 통계코드·항목·단위·기간·중복 및 실제 수치 검산."
+        },
+        {
+          "kind": "official-source",
+          "url": "https://ecos.bok.or.kr/api/StatisticSearch/sample/json/kr/1/10/901Y009/M/200609/200706/0",
+          "checkedAt": "2026-10-23T11:37:49.099044+00:00",
+          "sha256": "d886dcb20e2fcabe333e35cee9d7bfe491134470076a6a8fd2d35b1b6ae28002",
+          "scope": "요청범위 전체 row의 통계코드·항목·단위·기간·중복 및 실제 수치 검산."
+        },
+        {
+          "kind": "official-source",
+          "url": "https://ecos.bok.or.kr/api/StatisticSearch/sample/json/kr/1/10/722Y001/M/201709/201806/0101000",
+          "checkedAt": "2026-10-23T11:37:49.627336+00:00",
+          "sha256": "e6ee2523dc941d0190aa50f69a7a7b48d94d73aee3a729686d3a1d4cf3568599",
+          "scope": "요청범위 전체 row의 통계코드·항목·단위·기간·중복 및 실제 수치 검산."
+        },
+        {
+          "kind": "official-source",
+          "url": "https://ecos.bok.or.kr/api/StatisticSearch/sample/json/kr/1/10/722Y001/M/201807/201904/0101000",
+          "checkedAt": "2026-10-23T11:37:49.873510+00:00",
+          "sha256": "fb5037caa8dcbbe09c6463a5d834f0e75c4a560a0105e3c8b3024bce1445789c",
+          "scope": "요청범위 전체 row의 통계코드·항목·단위·기간·중복 및 실제 수치 검산."
+        },
+        {
+          "kind": "official-source",
+          "url": "https://ecos.bok.or.kr/api/StatisticSearch/sample/json/kr/1/10/901Y009/M/200707/200804/0",
+          "checkedAt": "2026-10-23T11:37:49.642924+00:00",
+          "sha256": "932f520d12637e589016c7a7cf84bdf23cac3738c26445e7746c464f3dcd8588",
+          "scope": "요청범위 전체 row의 통계코드·항목·단위·기간·중복 및 실제 수치 검산."
+        },
+        {
+          "kind": "official-source",
+          "url": "https://ecos.bok.or.kr/api/StatisticSearch/sample/json/kr/1/10/722Y001/M/201905/202002/0101000",
+          "checkedAt": "2026-10-23T11:37:50.126196+00:00",
+          "sha256": "a94f2730ebf46a4dc77e29c8bbf7fb7c851fca39cdf71375a23f9fd5dd984c88",
+          "scope": "요청범위 전체 row의 통계코드·항목·단위·기간·중복 및 실제 수치 검산."
+        },
+        {
+          "kind": "official-source",
+          "url": "https://ecos.bok.or.kr/api/StatisticSearch/sample/json/kr/1/10/722Y001/M/202003/202012/0101000",
+          "checkedAt": "2026-10-23T11:37:50.362184+00:00",
+          "sha256": "b48b424756f6f0e518a28e3654a42477f4c8b1ea389734a2f61d8033631f98d3",
+          "scope": "요청범위 전체 row의 통계코드·항목·단위·기간·중복 및 실제 수치 검산."
+        },
+        {
+          "kind": "official-source",
+          "url": "https://ecos.bok.or.kr/api/StatisticSearch/sample/json/kr/1/10/901Y009/M/200805/200902/0",
+          "checkedAt": "2026-10-23T11:37:50.162248+00:00",
+          "sha256": "6c1ab5c0ac32805c924fbefeeed7590ef5f647d8a0fb915279a1ff32f50e6a68",
+          "scope": "요청범위 전체 row의 통계코드·항목·단위·기간·중복 및 실제 수치 검산."
+        },
+        {
+          "kind": "official-source",
+          "url": "https://ecos.bok.or.kr/api/StatisticSearch/sample/json/kr/1/10/722Y001/M/202101/202110/0101000",
+          "checkedAt": "2026-10-23T11:37:50.604142+00:00",
+          "sha256": "c1329e6157a2fa4abf78c25b682b230b5909e67b626cf3103556db0dc030606c",
+          "scope": "요청범위 전체 row의 통계코드·항목·단위·기간·중복 및 실제 수치 검산."
+        },
+        {
+          "kind": "official-source",
+          "url": "https://ecos.bok.or.kr/api/StatisticSearch/sample/json/kr/1/10/722Y001/M/202111/202208/0101000",
+          "checkedAt": "2026-10-23T11:37:50.927632+00:00",
+          "sha256": "c2bcceaae07c86388067707afcb7cd5a9e90d519dbdabee1275febc76db2d3d1",
+          "scope": "요청범위 전체 row의 통계코드·항목·단위·기간·중복 및 실제 수치 검산."
+        },
+        {
+          "kind": "official-source",
+          "url": "https://ecos.bok.or.kr/api/StatisticSearch/sample/json/kr/1/10/901Y009/M/200903/200912/0",
+          "checkedAt": "2026-10-23T11:37:50.676207+00:00",
+          "sha256": "817424b5c9ec4c170f2afcc43bd1cec988efd605e2a7d9c64a97f6839fa36ae5",
+          "scope": "요청범위 전체 row의 통계코드·항목·단위·기간·중복 및 실제 수치 검산."
+        },
+        {
+          "kind": "official-source",
+          "url": "https://ecos.bok.or.kr/api/StatisticSearch/sample/json/kr/1/10/722Y001/M/202209/202306/0101000",
+          "checkedAt": "2026-10-23T11:37:51.182274+00:00",
+          "sha256": "e06df646a9b9b77538f669f8a6fa9c46077cdb20101ab52ec239baa0cec6584b",
+          "scope": "요청범위 전체 row의 통계코드·항목·단위·기간·중복 및 실제 수치 검산."
+        },
+        {
+          "kind": "official-source",
+          "url": "https://ecos.bok.or.kr/api/StatisticSearch/sample/json/kr/1/10/722Y001/M/202307/202404/0101000",
+          "checkedAt": "2026-10-23T11:37:51.429474+00:00",
+          "sha256": "1eb23bf3f25756ab091ae4e487caac5f4366eccea9276771bd882d74e8f67e99",
+          "scope": "요청범위 전체 row의 통계코드·항목·단위·기간·중복 및 실제 수치 검산."
+        },
+        {
+          "kind": "official-source",
+          "url": "https://ecos.bok.or.kr/api/StatisticSearch/sample/json/kr/1/10/901Y009/M/201001/201010/0",
+          "checkedAt": "2026-10-23T11:37:51.188294+00:00",
+          "sha256": "cbbc98860a0dc79ced215bc2f70a28cc1fa5a117ddefc69d0cd5f9cfd295cad4",
+          "scope": "요청범위 전체 row의 통계코드·항목·단위·기간·중복 및 실제 수치 검산."
+        },
+        {
+          "kind": "official-source",
+          "url": "https://ecos.bok.or.kr/api/StatisticSearch/sample/json/kr/1/10/722Y001/M/202405/202502/0101000",
+          "checkedAt": "2026-10-23T11:37:51.687140+00:00",
+          "sha256": "a72b363b49c648f7856a026f8aaf9a603891856156462bb93bb55ebfc31298ec",
+          "scope": "요청범위 전체 row의 통계코드·항목·단위·기간·중복 및 실제 수치 검산."
+        },
+        {
+          "kind": "official-source",
+          "url": "https://ecos.bok.or.kr/api/StatisticSearch/sample/json/kr/1/10/722Y001/M/202503/202512/0101000",
+          "checkedAt": "2026-10-23T11:37:51.965008+00:00",
+          "sha256": "2a4d1212d20718551bbafead0f7938a5d76e4fc919d3e8431e6f10318236f494",
+          "scope": "요청범위 전체 row의 통계코드·항목·단위·기간·중복 및 실제 수치 검산."
+        },
+        {
+          "kind": "official-source",
+          "url": "https://ecos.bok.or.kr/api/StatisticSearch/sample/json/kr/1/10/901Y009/M/201011/201108/0",
+          "checkedAt": "2026-10-23T11:37:51.690162+00:00",
+          "sha256": "e2a1611af32c71d2f48e4e251d0278ed8ee2d604c20a8ad68abe6be56de003cd",
+          "scope": "요청범위 전체 row의 통계코드·항목·단위·기간·중복 및 실제 수치 검산."
+        },
+        {
+          "kind": "official-source",
+          "url": "https://ecos.bok.or.kr/api/StatisticSearch/sample/json/kr/1/10/722Y001/M/202601/202610/0101000",
+          "checkedAt": "2026-10-23T11:37:52.231031+00:00",
+          "sha256": "c2b3b82a3cc01c5f1cdf2b9b07a1fa88689c3af759d8300036d2706d7b42ce9a",
+          "scope": "요청범위 전체 row의 통계코드·항목·단위·기간·중복 및 실제 수치 검산."
+        },
+        {
+          "kind": "official-source",
+          "url": "https://ecos.bok.or.kr/api/StatisticSearch/sample/json/kr/1/10/901Y009/M/201109/201206/0",
+          "checkedAt": "2026-10-23T11:37:52.237037+00:00",
+          "sha256": "40e18291c8a31d5990dfa5605695eff614146e224ae34790d72e0da78c7796f5",
+          "scope": "요청범위 전체 row의 통계코드·항목·단위·기간·중복 및 실제 수치 검산."
+        },
+        {
+          "kind": "official-source",
+          "url": "https://ecos.bok.or.kr/api/StatisticSearch/sample/json/kr/1/10/901Y009/M/201207/201304/0",
+          "checkedAt": "2026-10-23T11:37:52.789425+00:00",
+          "sha256": "404be8f05e32ace83bc266337c1bb1ccecdcaae3793b533617db5ad9eae0d1ff",
+          "scope": "요청범위 전체 row의 통계코드·항목·단위·기간·중복 및 실제 수치 검산."
+        },
+        {
+          "kind": "official-source",
+          "url": "https://ecos.bok.or.kr/api/StatisticSearch/sample/json/kr/1/10/901Y009/M/201305/201402/0",
+          "checkedAt": "2026-10-23T11:37:53.294434+00:00",
+          "sha256": "281595ebd7590e3d542f32dae604a0d6431eb117be7747a6967a5160230e4863",
+          "scope": "요청범위 전체 row의 통계코드·항목·단위·기간·중복 및 실제 수치 검산."
+        },
+        {
+          "kind": "official-source",
+          "url": "https://ecos.bok.or.kr/api/StatisticSearch/sample/json/kr/1/10/901Y009/M/201403/201412/0",
+          "checkedAt": "2026-10-23T11:37:53.821520+00:00",
+          "sha256": "c67386c45d49e2cf4899013f01f6b9bc202923fc4a0bf3aa4829ac7f2ffb6c60",
+          "scope": "요청범위 전체 row의 통계코드·항목·단위·기간·중복 및 실제 수치 검산."
+        },
+        {
+          "kind": "official-source",
+          "url": "https://ecos.bok.or.kr/api/StatisticSearch/sample/json/kr/1/10/901Y009/M/201501/201510/0",
+          "checkedAt": "2026-10-23T11:37:54.326643+00:00",
+          "sha256": "2e3a8a4b20dba86d263340df89a722d8eee946765d57f1eda7ca021bfe19d33a",
+          "scope": "요청범위 전체 row의 통계코드·항목·단위·기간·중복 및 실제 수치 검산."
+        },
+        {
+          "kind": "official-source",
+          "url": "https://ecos.bok.or.kr/api/StatisticSearch/sample/json/kr/1/10/901Y009/M/201511/201608/0",
+          "checkedAt": "2026-10-23T11:37:54.821345+00:00",
+          "sha256": "eab6497a09eccc4961be409c8a452dd1bd2b2b67b7489d59c4dce4734211d98d",
+          "scope": "요청범위 전체 row의 통계코드·항목·단위·기간·중복 및 실제 수치 검산."
+        },
+        {
+          "kind": "official-source",
+          "url": "https://ecos.bok.or.kr/api/StatisticSearch/sample/json/kr/1/10/901Y009/M/201609/201706/0",
+          "checkedAt": "2026-10-23T11:37:55.336947+00:00",
+          "sha256": "a7ca3c1cc6a321000fad0458b49e6997d8ffbc88a1bb93aab6428f6e9dd3996d",
+          "scope": "요청범위 전체 row의 통계코드·항목·단위·기간·중복 및 실제 수치 검산."
+        },
+        {
+          "kind": "official-source",
+          "url": "https://ecos.bok.or.kr/api/StatisticSearch/sample/json/kr/1/10/901Y009/M/201707/201804/0",
+          "checkedAt": "2026-10-23T11:37:55.863960+00:00",
+          "sha256": "cf922c79e916ba65fcf39da29d21d5361dc0c777f9d5cfc8aadb6ea1b32c04b8",
+          "scope": "요청범위 전체 row의 통계코드·항목·단위·기간·중복 및 실제 수치 검산."
+        },
+        {
+          "kind": "official-source",
+          "url": "https://ecos.bok.or.kr/api/StatisticSearch/sample/json/kr/1/10/901Y009/M/201805/201902/0",
+          "checkedAt": "2026-10-23T11:37:56.387388+00:00",
+          "sha256": "a600478456e025dbf9803d5530fb02d723708c5463820ad09aa9e8ed1a55e091",
+          "scope": "요청범위 전체 row의 통계코드·항목·단위·기간·중복 및 실제 수치 검산."
+        },
+        {
+          "kind": "official-source",
+          "url": "https://ecos.bok.or.kr/api/StatisticSearch/sample/json/kr/1/10/901Y009/M/201903/201912/0",
+          "checkedAt": "2026-10-23T11:37:56.911386+00:00",
+          "sha256": "c55ac237d38c36d1b4c26c53652768c91ec58a43ff887ca899955f2a74bb0c08",
+          "scope": "요청범위 전체 row의 통계코드·항목·단위·기간·중복 및 실제 수치 검산."
+        },
+        {
+          "kind": "official-source",
+          "url": "https://ecos.bok.or.kr/api/StatisticSearch/sample/json/kr/1/10/901Y009/M/202001/202010/0",
+          "checkedAt": "2026-10-23T11:37:57.458429+00:00",
+          "sha256": "8b0be43331e3a7e7bcae7d680925bc59f61b8a387a206a5e07060b9bf4aa87c2",
+          "scope": "요청범위 전체 row의 통계코드·항목·단위·기간·중복 및 실제 수치 검산."
+        },
+        {
+          "kind": "official-source",
+          "url": "https://ecos.bok.or.kr/api/StatisticSearch/sample/json/kr/1/10/901Y009/M/202011/202108/0",
+          "checkedAt": "2026-10-23T11:37:57.956331+00:00",
+          "sha256": "0188e8dab6ff0faed9a3829479ad6888fc39ca1ea732b62e3b474000a7c15448",
+          "scope": "요청범위 전체 row의 통계코드·항목·단위·기간·중복 및 실제 수치 검산."
+        },
+        {
+          "kind": "official-source",
+          "url": "https://ecos.bok.or.kr/api/StatisticSearch/sample/json/kr/1/10/901Y009/M/202109/202206/0",
+          "checkedAt": "2026-10-23T11:37:58.465370+00:00",
+          "sha256": "33e69c9a4ee89bcc8f4d164a44c71cea459ee64fd67604ba3636bcbc187797cd",
+          "scope": "요청범위 전체 row의 통계코드·항목·단위·기간·중복 및 실제 수치 검산."
+        },
+        {
+          "kind": "official-source",
+          "url": "https://ecos.bok.or.kr/api/StatisticSearch/sample/json/kr/1/10/901Y009/M/202207/202304/0",
+          "checkedAt": "2026-10-23T11:37:58.977277+00:00",
+          "sha256": "eef069a3f150d60631537466831fe0938da987ed8137a6c49a0400259e40c623",
+          "scope": "요청범위 전체 row의 통계코드·항목·단위·기간·중복 및 실제 수치 검산."
+        },
+        {
+          "kind": "official-source",
+          "url": "https://ecos.bok.or.kr/api/StatisticSearch/sample/json/kr/1/10/901Y009/M/202305/202402/0",
+          "checkedAt": "2026-10-23T11:37:59.491851+00:00",
+          "sha256": "741c204d74c47a23f136a05334267f22696fa12949ab6efc708455cf3fc90012",
+          "scope": "요청범위 전체 row의 통계코드·항목·단위·기간·중복 및 실제 수치 검산."
+        },
+        {
+          "kind": "official-source",
+          "url": "https://ecos.bok.or.kr/api/StatisticSearch/sample/json/kr/1/10/901Y009/M/202403/202412/0",
+          "checkedAt": "2026-10-23T11:38:00.026782+00:00",
+          "sha256": "2c419abcd9f3a6337dd69467d09632d351ac391694e6ce0b32dc32270490a7bb",
+          "scope": "요청범위 전체 row의 통계코드·항목·단위·기간·중복 및 실제 수치 검산."
+        },
+        {
+          "kind": "official-source",
+          "url": "https://ecos.bok.or.kr/api/StatisticSearch/sample/json/kr/1/10/901Y009/M/202501/202510/0",
+          "checkedAt": "2026-10-23T11:38:00.577567+00:00",
+          "sha256": "7c0e2ffa1c6395a250aca579dd06996456f8c0f703ce0ec4f881ff620fae923b",
+          "scope": "요청범위 전체 row의 통계코드·항목·단위·기간·중복 및 실제 수치 검산."
+        },
+        {
+          "kind": "official-source",
+          "url": "https://ecos.bok.or.kr/api/StatisticSearch/sample/json/kr/1/10/901Y009/M/202511/202608/0",
+          "checkedAt": "2026-10-23T11:38:01.210058+00:00",
+          "sha256": "e91fef3d5bb914e1b9af8501a758a5f278477b69fa389a45b528108865661e81",
+          "scope": "요청범위 전체 row의 통계코드·항목·단위·기간·중복 및 실제 수치 검산."
+        },
+        {
+          "kind": "official-source",
+          "url": "https://ecos.bok.or.kr/api/StatisticSearch/sample/json/kr/1/10/901Y009/M/202609/202610/0",
+          "checkedAt": "2026-10-23T11:38:01.743983+00:00",
+          "sha256": "3a11e368462f43de5da258fd84ef5f0a153b1ca02ed3e04cee2af043dab0b522",
+          "scope": "요청범위 전체 row의 통계코드·항목·단위·기간·중복 및 실제 수치 검산."
+        },
+        {
+          "kind": "audit-record",
+          "url": "/research/source-reviews/2026-10-23-bok-history.json",
+          "checkedAt": "2026-10-23T11:43:51.750Z",
+          "scope": "ECOS 원문68응답·기준금리329개월·CPI341개월(전년동월12개월포함) 전수 대조. 987표시수치+658원문/전년동월수치 검산. 원문 정밀도를 보존하며 CPI표시2자리만 Decimal half-even. API 응답에10월 없음."
         }
       ],
       "issues": [
-        "FX/BTC는 이전 완료 저장본·대조일 유지. 10월은 부분 집계.",
-        "시장은2026년1~9월9관측치의 부분평균. 파일공표10월2일을10월 관측값으로 취급하지 않음. Brent는 월자료이며DRAM은소비자소매가.",
-        "한국은행1~9월9행,금리차5~9월5행만 이번 원문대조. 과거320/355행은미완료. 직접FRED CSV 연결실패는HTML최근5행확인과분리."
+        "한국은행329개월 원문 대조 완료. 소수3자리 CPI 원문과 전년동월 값을JSON/CSV에 보존하며 표시2자리반올림9건정정.",
+        "API응답에10월 행 없음.9월 기준·실제 수집·파일 생성·원문 대조시각 구분.",
+        "자동수집으로FX/BTC/시장 지문이 이전검증본과 달라snapshot_checked. 과거 검증은previousVerification에 보존하며 새자료verified아님.",
+        "금리차 과거355행 원문 대조 미완료."
       ],
       "key": "/exchange-rate/",
       "url": "/exchange-rate/",
       "title": "환율·금리·물가 대시보드",
       "primary": "society",
       "classification": "경제·사회",
-      "sourceHint": "모듈별 원표·자료 기준과 검증 범위 분리",
-      "nextAction": "BOK 과거320행과 금리차355행은 기존 수집코드/공식 원표로 후속 대조. 시장은11월3일 이후, 관광은10월26일 이후. 그 전에는 다음 원출처 미완료 프로젝트 처리.",
+      "sourceHint": "BOK 전수329개월 · 변경 저장본 별도 미검증",
+      "nextAction": "금리차 과거355행과 자동수집으로 바뀐FX/BTC/시장 모듈은 원문 재대조 필요. 같은 접근 실패만 반복하지 말고 다음 원출처 미완료 프로젝트를 처리. 관광은10월26일, World Bank는11월3일 이후.",
       "previousReview": {
         "checkedAt": "2026-10-20T23:06:28.769Z",
         "dataAsOf": "2026-10-20",
@@ -1705,70 +2188,107 @@
           "verification": "declared"
         }
       },
-      "verifiedScope": "시장5지표28년 원표 대조, 한국은행9개월·금리차5개월의 제한된 구간 대조. FX/BTC 완료 저장본은 변경하지 않음.",
+      "verifiedScope": "ECOS 원문68응답·기준금리329개월·CPI341개월(전년동월12개월포함) 전수 대조. 987표시수치+658원문/전년동월수치 검산. 원문 정밀도를 보존하며 CPI표시2자리만 Decimal half-even. API 응답에10월 없음.",
       "moduleReviews": {
         "fx": {
-          "status": "verified",
-          "dataAsOf": "2026-10-21",
-          "dataPeriod": "2026-10",
-          "partial": true,
-          "observationsThisMonth": 15,
-          "collectedAt": "2026-10-22T05:42:26.261670+00:00",
-          "snapshotUpdatedAt": "2026-10-22T05:44:57.661254+00:00",
-          "scope": "월간 전체가 아닌10월21일까지 ECB15관측일. 334개월 재계산.",
-          "dataHash": "d54438ec0ed17535d5da1e09cc3836e34938a12c91a6d068c06b398d4cf63964",
-          "verifiedAt": "2026-10-22T05:47:15.383Z"
+          "status": "snapshot_checked",
+          "snapshotCheckedAt": "2026-10-23T11:43:51.750Z",
+          "dataHash": "ba1b1a9aeb2ec4b9ef3a7e421f177a8cbd2779133370cdd33c40dd1d802ad454",
+          "previousVerification": {
+            "status": "verified",
+            "dataAsOf": "2026-10-21",
+            "dataPeriod": "2026-10",
+            "partial": true,
+            "observationsThisMonth": 15,
+            "collectedAt": "2026-10-22T05:42:26.261670+00:00",
+            "snapshotUpdatedAt": "2026-10-22T05:44:57.661254+00:00",
+            "scope": "월간 전체가 아닌10월21일까지 ECB15관측일. 334개월 재계산.",
+            "dataHash": "d54438ec0ed17535d5da1e09cc3836e34938a12c91a6d068c06b398d4cf63964",
+            "verifiedAt": "2026-10-22T05:47:15.383Z"
+          },
+          "dataAsOf": "2026-10-22",
+          "collectedAt": "2026-10-22T21:39:27.818855+00:00",
+          "snapshotUpdatedAt": "2026-10-22T21:39:27.818874+00:00",
+          "scope": "자동 수집으로 이전 원표 대조본 이후 수치/범위 변경. 이번에는 파일 지문만 확인하며 새 원문 대조 완료로 취급하지 않음.",
+          "nextAction": "기존 원문 수집기로 변경된10월 부분구간을 재대조."
         },
         "bitcoin": {
-          "status": "verified",
+          "status": "snapshot_checked",
+          "snapshotCheckedAt": "2026-10-23T11:43:51.750Z",
+          "dataHash": "18f24751e57ac11b2785bb2f12ee81cd0c7566ec50af796a1b1a688a99cb3c0c",
+          "previousVerification": {
+            "status": "verified",
+            "dataAsOf": null,
+            "dataPeriod": "2026-10",
+            "partial": true,
+            "latestClosedPeriod": "2026-09",
+            "collectedAt": "2026-10-22T05:41:53.842033+00:00",
+            "snapshotUpdatedAt": "2026-10-22T05:44:57.661254+00:00",
+            "sourceObservationTime": null,
+            "unit": "USDT",
+            "valueDefinition": "high_low_midrange",
+            "legacyFields": "usd* names retained for compatibility; no USD conversion",
+            "scope": "출처 월봉의 고저 중간값. 시간/거래량 가중 평균이 아니며10월은 수집 당시 부분 월봉.",
+            "dataHash": "a548e5b7009456e66d1798d6623bd32502edbd116e809d29c6576941fa355e18",
+            "verifiedAt": "2026-10-22T05:47:15.383Z"
+          },
           "dataAsOf": null,
-          "dataPeriod": "2026-10",
-          "partial": true,
-          "latestClosedPeriod": "2026-09",
-          "collectedAt": "2026-10-22T05:41:53.842033+00:00",
-          "snapshotUpdatedAt": "2026-10-22T05:44:57.661254+00:00",
-          "sourceObservationTime": null,
-          "unit": "USDT",
-          "valueDefinition": "high_low_midrange",
-          "legacyFields": "usd* names retained for compatibility; no USD conversion",
-          "scope": "출처 월봉의 고저 중간값. 시간/거래량 가중 평균이 아니며10월은 수집 당시 부분 월봉.",
-          "dataHash": "a548e5b7009456e66d1798d6623bd32502edbd116e809d29c6576941fa355e18",
-          "verifiedAt": "2026-10-22T05:47:15.383Z"
+          "collectedAt": "2026-10-22T21:39:35.455002+00:00",
+          "snapshotUpdatedAt": "2026-10-22T21:39:35.455002+00:00",
+          "scope": "자동 수집으로 이전 원표 대조본 이후 수치/범위 변경. 이번에는 파일 지문만 확인하며 새 원문 대조 완료로 취급하지 않음.",
+          "nextAction": "기존 원문 수집기로 변경된10월 부분구간을 재대조."
         },
         "other": {
           "status": "needs_review",
           "keys": [
-            "bok_data.json",
             "rate_gap.json"
           ],
-          "scope": "최근 부분 구간만 원표 대조. 과거구간은 미완료이며 수치파일/원래 갱신일 유지."
+          "scope": "금리차 최근5개월만 기존 대조. 과거355행과 변경된FX/BTC/시장 저장본은 별도 미완료."
         },
         "market": {
-          "status": "verified",
-          "checkedAt": "2026-10-22T20:52:39.095Z",
-          "dataPeriod": "2026-09",
-          "partial": true,
-          "sourceDataUrls": [
-            "https://dam.stanford.edu/assets/memory-prices/memory-prices.csv",
-            "https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx"
-          ],
-          "dataAsOf": "2026-09",
-          "snapshotUpdatedAt": "2026-10-22T20:47:07.225905+00:00",
-          "collectedAt": "2026-10-22T20:40:20.525953+00:00",
-          "workbookPublishedAt": "2026-10-02",
-          "scope": "1999~2026년28개 연도·5지표를 원문과 독립 Decimal 집계로 대조. 2026년은1~9월9관측치 부분평균. Brent는 세계은행 월자료 대체본이며 FRED 일자료가 아님.",
-          "snapshotFingerprint": "6c11dff008b93e7026c88bf9c6eccda0daf55905906df65592dd93a95913f5c6",
-          "nextEligibleDate": "2026-11-03"
+          "status": "snapshot_checked",
+          "snapshotCheckedAt": "2026-10-23T11:43:51.750Z",
+          "dataHash": "e68e2aa93d627d9f8d7d2af85f649f98134dbedd230dea4c7ada7924c0b331b3",
+          "previousVerification": {
+            "status": "verified",
+            "checkedAt": "2026-10-22T20:52:39.095Z",
+            "dataPeriod": "2026-09",
+            "partial": true,
+            "sourceDataUrls": [
+              "https://dam.stanford.edu/assets/memory-prices/memory-prices.csv",
+              "https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx"
+            ],
+            "dataAsOf": "2026-09",
+            "snapshotUpdatedAt": "2026-10-22T20:47:07.225905+00:00",
+            "collectedAt": "2026-10-22T20:40:20.525953+00:00",
+            "workbookPublishedAt": "2026-10-02",
+            "scope": "1999~2026년28개 연도·5지표를 원문과 독립 Decimal 집계로 대조. 2026년은1~9월9관측치 부분평균. Brent는 세계은행 월자료 대체본이며 FRED 일자료가 아님.",
+            "snapshotFingerprint": "6c11dff008b93e7026c88bf9c6eccda0daf55905906df65592dd93a95913f5c6",
+            "nextEligibleDate": "2026-11-03"
+          },
+          "dataAsOf": null,
+          "collectedAt": null,
+          "snapshotUpdatedAt": "2026-10-22T21:39:33.652657+00:00",
+          "scope": "자동 수집으로 이전 원표 대조본 이후 수치/범위 변경. 이번에는 파일 지문만 확인하며 새 원문 대조 완료로 취급하지 않음.",
+          "nextAction": "시장새저장본은 FRED 일자료 포함. 기존 World Bank9개월 검증과 분리해 다음 허용 회차에 원문 대조. World Bank 원표는11월3일 이후."
         },
         "bok": {
-          "status": "needs_review",
-          "checkedAt": "2026-10-22T20:52:39.095Z",
-          "dataPeriod": "2026-01..2026-09",
-          "verifiedRows": 9,
-          "historicalRowsOutsideScope": 320,
-          "scope": "ECOS722Y001/0101000(연%)·901Y009/0(2020=100), 전년동월 원표로 CPI YoY 검산. 2026년1~9월 일치. API 응답에10월 행 없음; 미공표로 단정하지 않음.",
-          "snapshotFileUnchanged": true,
-          "nextAction": "기존 인증키/공개 원표로1999-05~2025-12의320행 추가 대조."
+          "status": "verified",
+          "checkedAt": "2026-10-23T11:41:58.634989+00:00",
+          "verifiedAt": "2026-10-23T11:41:58.634989+00:00",
+          "dataAsOf": "2026-09",
+          "dataPeriod": "1999-05..2026-09",
+          "partial": false,
+          "verifiedRows": 329,
+          "historicalRowsOutsideScope": 0,
+          "sourceRequests": 68,
+          "cpiRowsIncludingLookback": 341,
+          "dataHash": "69e3415989c015fd189f89b47165cdd09f0d1302f9fd5018163aa74fc931f055",
+          "collectedAt": "2026-10-23T11:38:02.167441+00:00",
+          "snapshotUpdatedAt": "2026-10-23T11:41:58.597404+00:00",
+          "sourceObservationTime": null,
+          "scope": "ECOS 원문68응답·기준금리329개월·CPI341개월(전년동월12개월포함) 전수 대조. 987표시수치+658원문/전년동월수치 검산. 원문 정밀도를 보존하며 CPI표시2자리만 Decimal half-even. API 응답에10월 없음.",
+          "nextAction": "게시본 값 지문이 바뀌면 해당 원문을 재대조. 월간10월자료는 실제 원문 확보시에만 추가."
         },
         "rateGap": {
           "status": "needs_review",

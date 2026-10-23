@@ -191,7 +191,7 @@ footer{margin-top:56px;padding-top:20px;border-top:1px solid var(--line);color:v
       <span class="refresh-status" id="refreshStatus" role="status" aria-live="polite">환율·금리·물가·비트코인·시장 데이터를 최신 파일에서 다시 확인합니다.</span>
     </div>
   </header>
-<section class="source-followup" aria-labelledby="source-followup-title"><h2 id="source-followup-title">원출처 대조 · 시장·금리·물가 · 2026-10-23</h2><p>시장5지표의1999~2026년28개 연도를 원표와 대조했습니다. 2026년은1~9월9관측치의 부분 평균입니다. Brent는 FRED 일자료 연결 실패로 세계은행 월자료를 사용합니다. DRAM은 소비자 최저 소매가의 수록 관측값 평균입니다.</p><p>세계은행 자료 기준월2026-09 · 파일 공표2026-10-02 · 수집 2026-10-22T20:40:20.525953+00:00 · 집계 파일 생성 2026-10-22T20:47:07.225905+00:00 · 원표 대조 2026-10-22T20:47:07.229866+00:00. 다음 파일 공표 예정11월3일이며10월값을 추정하지 않습니다.</p><p>한국은행은2026년1~9월9행과 전년동월 CPI, 금리차는 공식 표의5~9월5행만 대조했습니다. 과거320행·355행은 미완료이며 기존 수치파일과 갱신일을 유지합니다. 한국 익일물−미국 실효 연방기금금리 차이이며 정책금리 목표범위 차이가 아닙니다.</p><p>이전 환율334개월·BTC111개월 완료 저장본과 대조일은 보존합니다. 초기 CNY63개월은 원문에 없어 빈칸이며10월은 부분 집계입니다. <a href="/research/source-reviews/2026-10-22-fx-followup.json">환율·BTC 이전 근거</a> · <a href="/research/source-reviews/2026-10-23-macro-followup.json" download>이번 원출처·검증 범위 JSON 내려받기</a></p></section>
+<section class="source-followup" aria-labelledby="source-followup-title"><h2 id="source-followup-title">원출처 대조 · 한국은행 전체329개월 · 2026-10-23</h2><p>한국은행 ECOS 원문68응답으로 기준금리329개월과 CPI341개월(전년동월12개월 포함)을 대조했습니다. 1999년5월~2026년9월의987개 표시수치와658개 원문·전년동월 수치를 검산했습니다. API 응답에10월 행은 없으며 미공표라고 단정하거나 값을 추정하지 않습니다.</p><p>자료 기준월2026-09 · 원문 개별 공표시각 미제공 · 수집 2026-10-23T11:38:02.167441+00:00 · 파일 생성 2026-10-23T11:41:58.597404+00:00 · 원문 대조 2026-10-23T11:41:58.634989+00:00. CPI 원문 정밀도와 전년동월 값을 JSON/CSV에 보존합니다. 표시2자리 반올림 경계9건을 Decimal half-even으로 고쳤으며 전년비는 반올림 전 원문으로 계산합니다.</p><p>자동 수집 후 환율·BTC·시장 저장본이 이전 대조본과 달라졌습니다. 기존 검증 이력은 보존하지만 새 저장본은 재대조가 필요합니다. 현재 Brent는 FRED/EIA 일자료203관측일(10월20일까지)이며 이전 World Bank 월자료9개월 검증과 구분합니다. 금리차 과거355행도 미완료입니다. <a href="/research/source-reviews/2026-10-23-macro-followup.json">이전 검증 범위</a> · <a href="/research/source-reviews/2026-10-23-bok-history.json" download>이번 원출처·수치 대조 JSON 내려받기</a></p></section>
 
   <div class="controls">
     <div class="fgroup" role="group" aria-label="통화 선택">
@@ -426,7 +426,7 @@ footer{margin-top:56px;padding-top:20px;border-top:1px solid var(--line);color:v
 
 <script src="./chart.umd.min.js"></script>
 <script src="./fallback-data.js?v=20261022-source"></script>
-<script src="./bok-fallback.js"></script>
+<script src="./bok-fallback.js?v=20261023-history"></script>
 <script src="./market-fallback.js?v=20261023"></script>
 <script src="./rate-gap-fallback.js"></script>
 <script src="./bitcoin-fallback.js?v=20261022-source"></script>
@@ -667,10 +667,9 @@ function downloadFxCSV(){
   downloadBlob(`exchange-rate_fx_${rangeLabel()}.csv`, lines);
 }
 function downloadMacroCSV(){
-  const rows = filteredMacro();
-  const lines = ['ym,base_rate,cpi,cpi_yoy'];
-  rows.forEach(r=> lines.push([r.ym, r.baseRate??'', r.cpi??'', r.cpiYoY??''].join(',')));
-  downloadBlob(`exchange-rate_macro_${rangeLabel()}.csv`, lines);
+  const rows=filteredMacro(), lines=['ym,partial,base_rate_percent,cpi_2020_100_rounded_2dp,cpi_yoy_percent,cpi_raw,cpi_prior_year_raw,data_period,collected_at,snapshot_updated_at,source_verified_at'];
+  rows.forEach(r=>lines.push([r.ym,r.partial?'Y':'N',r.baseRate??'',r.cpi??'',r.cpiYoY??'',r.cpiRaw??'',r.cpiPriorYearRaw??'',BOK.observedAt||'',BOK.collectedAt||'',BOK.snapshotUpdatedAt||'',BOK.sourceVerification?.checkedAt||''].join(',')));
+  downloadBlob(`exchange-rate_macro_${rangeLabel()}.csv`,lines);
 }
 function downloadSelectedAll(){
   // 환율 + 금리·물가 + 선택 통화 전월비를 한 파일로
