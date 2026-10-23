@@ -1,5 +1,13 @@
 # GitHub Repo Update Loop Log
 
+## 2026-10-23 (KST)
+
+- Main repository: DongsooJung/dongsoojung.github.io
+- Last push: 2026-10-23T00:05:40Z (data: refresh PPS procurement snapshots)
+- Recent scheduled workflow runs: Predominantly successful (including Vercel production request, Collect and verify GH sale-info, Update portfolio blog from Notion, Update PPS procurement data, Update reading dashboard from Notion, Update Gimpo airport congestion data, Remote Service Health Check, Update airport congestion data, Update Naver Cafe popular articles, Update exchange rate data, and others). Failures observed: Update K-Startup data (conclusion: failure) and Collect public data CSV (conclusion: failure).
+- Open issues: 4
+- Status: Update loops operating normally overall; scheduled data updates succeeding consistently. Recurring collector failures for K-Startup and public data CSV warrant review. Open issues remain low at 4.
+
 ## 2026-10-22 (KST)
 
 - Main repository: DongsooJung/dongsoojung.github.io
