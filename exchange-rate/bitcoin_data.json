@@ -1,9 +1,9 @@
 {
-  "updatedAt": "2026-10-23",
+  "updatedAt": "2026-10-24",
   "sourceMode": "binance-vision",
   "observedAt": null,
-  "collectedAt": "2026-10-23T21:31:20.578297+00:00",
-  "snapshotUpdatedAt": "2026-10-23T21:31:20.578297+00:00",
+  "collectedAt": "2026-10-24T17:37:24.373692+00:00",
+  "snapshotUpdatedAt": "2026-10-24T17:39:11.814640+00:00",
   "latestClosedPeriod": "2026-09",
   "priceUnit": "USDT",
   "valueDefinition": "high_low_midrange",
@@ -1011,11 +1011,17 @@
     {
       "ym": "2026-10",
       "partial": true,
-      "usd": 83510.0,
+      "usd": 83220.37,
       "usdOpen": 83623.59,
-      "usdClose": 81361.0,
-      "usdMin": 79800.0,
+      "usdClose": 80170.4,
+      "usdMin": 79220.74,
       "usdMax": 87220.0
     }
-  ]
+  ],
+  "sourceVerification": {
+    "checkedAt": "2026-10-24T17:39:11.814640+00:00",
+    "sourceUrl": "https://data-api.binance.vision/api/v3/klines?symbol=BTCUSDT&interval=1M&limit=1000&startTime=1501545600000",
+    "sourceSha256": "8d0d02362d047324ea522ffaa8a3cae7cbe8ebdc4e9da5dcbe92739c25712beb",
+    "scope": "이 저장 응답과 계산을 대조. 이후 자동 갱신은 별도 재대조 필요."
+  }
 }

@@ -1,0 +1,327 @@
+{
+  "schemaVersion": 1,
+  "step": "acceptance-exchange-closeout",
+  "checkedAt": "2026-10-24T17:41:38.747Z",
+  "sourceBaseCommit": "0324e6107943d5e8db596955138cd3dc8ebe1126",
+  "key": "/exchange-rate/",
+  "reviewStatus": "verified",
+  "verifiedScope": "환율334개월·BTC111개월·Brent28년원문대조.기존BOK329개월/금리차360개월/시장나머지4지표는검증본의값·범위동일성을확인해원문검증일유지.5모듈모두기록된저장본범위에서검증완료.",
+  "sourceChecks": [
+    {
+      "key": "brent",
+      "url": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=DCOILBRENTEU",
+      "checkedAt": "2026-10-24T17:37:23.693385+00:00",
+      "status": 200,
+      "finalUrl": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=DCOILBRENTEU",
+      "contentType": "application/csv",
+      "sha256": "a1fec56bfa6bc77dc5e017fa8976e6eaca2fa2ae43773209ac5923f1269c8b33",
+      "bytes": 170183,
+      "receivedAt": "2026-10-24T17:37:24.213280+00:00",
+      "kind": "official-source",
+      "scope": "FRED/EIA Brent원문일자료의1999~2026년28개연도평균·관측수와10월20일최신관측."
+    },
+    {
+      "key": "ecb-full",
+      "url": "https://www.ecb.europa.eu/stats/eurofxref/eurofxref-hist.xml",
+      "checkedAt": "2026-10-24T17:37:23.694352+00:00",
+      "status": 200,
+      "finalUrl": "https://www.ecb.europa.eu/stats/eurofxref/eurofxref-hist.xml",
+      "contentType": "text/xml",
+      "sha256": "f47aba8838aa3e4e2daf2cfda1ff29d7ddd5fee40ee08ff31d8dbf836645c435",
+      "bytes": 8207670,
+      "receivedAt": "2026-10-24T17:37:55.921438+00:00",
+      "kind": "official-source",
+      "scope": "ECB XML 전체7121관측일·334개월의교차환율/통화별관측수/평균/최저/최고/최신값."
+    },
+    {
+      "key": "btc",
+      "url": "https://data-api.binance.vision/api/v3/klines?symbol=BTCUSDT&interval=1M&limit=1000&startTime=1501545600000",
+      "checkedAt": "2026-10-24T17:37:23.694352+00:00",
+      "status": 200,
+      "finalUrl": "https://data-api.binance.vision/api/v3/klines?symbol=BTCUSDT&interval=1M&limit=1000&startTime=1501545600000",
+      "contentType": "application/json;charset=UTF-8",
+      "sha256": "8d0d02362d047324ea522ffaa8a3cae7cbe8ebdc4e9da5dcbe92739c25712beb",
+      "bytes": 21368,
+      "receivedAt": "2026-10-24T17:37:24.373692+00:00",
+      "kind": "official-source",
+      "scope": "BTCUSDT111월봉의OHLC·고저중간값,9월완결·10월부분,관측시각미제공."
+    }
+  ],
+  "validation": {
+    "checkedAt": "2026-10-24T17:39:11.814640+00:00",
+    "fx": {
+      "days": 7121,
+      "months": 334,
+      "latestDate": "2026-10-23",
+      "octoberDays": 17,
+      "currencies": [
+        "USD",
+        "JPY",
+        "EUR",
+        "CNY"
+      ],
+      "method": "independent Decimal cross-rates and monthly count/mean/min/max; .01 rounding tolerance",
+      "oldCnyScope": "XML has no CNY for2000-01..2005-03; those prior mirror values are omitted, not replaced by estimates"
+    },
+    "bitcoin": {
+      "months": 111,
+      "lastClosedPeriod": "2026-09",
+      "activeMonth": "2026-10",
+      "partial": true,
+      "unit": "USDT",
+      "definition": "(high+low)/2 midrange, not an average",
+      "sourceObservationTime": null
+    },
+    "otherModules": "BOK/rate gap completed versions are not refetched; market component checked separately",
+    "market": {
+      "checkedAt": "2026-10-24T17:39:36.207106+00:00",
+      "brentYears": 28,
+      "brentObservedAt": "2026-10-20",
+      "brentYearObservations": 203,
+      "brentYearPartial": true,
+      "unit": "USD/barrel",
+      "observationUnit": "days",
+      "unchangedOtherMetrics": 4,
+      "unchangedMetricYears": 28,
+      "originalVerificationCarriedForward": "2026-10-22T20:47:07.229866+00:00",
+      "otherSourcesRefetched": false
+    },
+    "tests": {
+      "nodePassed": 19,
+      "failed": 0
+    },
+    "browser": {
+      "base": "http://127.0.0.1:26716",
+      "verifiedAt": "2026-10-24T17:44:42.726Z",
+      "checks": [
+        "334 FX rows and111 BTC rows loaded; official dates and units visible",
+        "BTC chart/KPI USDT and high-low midrange, not average; source observation null",
+        "JSON audit download exact; FX334/BTC111/combined CSV downloads and partial/count metadata",
+        "last12 range filter updates charts",
+        "Legacy200 delivery rejected in full browser; refresh retains corrected data",
+        "JSON404 fallback loads corrected data and blank unsupported historical CNY",
+        "390px mobile no overflow; screenshots; no runtime errors"
+      ],
+      "pageErrors": []
+    }
+  },
+  "moduleReviews": {
+    "fx": {
+      "status": "verified",
+      "verifiedAt": "2026-10-24T17:39:11.814640+00:00",
+      "checkedAt": "2026-10-24T17:39:11.814640+00:00",
+      "dataAsOf": "2026-10-23",
+      "dataPeriod": "2026-10",
+      "partial": true,
+      "observationsThisMonth": 17,
+      "collectedAt": "2026-10-24T17:37:55.921438+00:00",
+      "snapshotUpdatedAt": "2026-10-24T17:39:11.814640+00:00",
+      "dataHash": "ade024b559cc011d5a3c5eaf0d14d61b8d1347f8d275fd421dd5ed5a3c448621",
+      "scope": "ECB공식XML7121일→334개월대조.10월23일까지17관측일부분집계. 초기CNY63개월은원문에없어빈칸.",
+      "previousVerification": {
+        "status": "snapshot_checked",
+        "snapshotCheckedAt": "2026-10-23T11:43:51.750Z",
+        "dataHash": "ba1b1a9aeb2ec4b9ef3a7e421f177a8cbd2779133370cdd33c40dd1d802ad454",
+        "previousVerification": {
+          "status": "verified",
+          "dataAsOf": "2026-10-21",
+          "dataPeriod": "2026-10",
+          "partial": true,
+          "observationsThisMonth": 15,
+          "collectedAt": "2026-10-22T05:42:26.261670+00:00",
+          "snapshotUpdatedAt": "2026-10-22T05:44:57.661254+00:00",
+          "scope": "월간 전체가 아닌10월21일까지 ECB15관측일. 334개월 재계산.",
+          "dataHash": "d54438ec0ed17535d5da1e09cc3836e34938a12c91a6d068c06b398d4cf63964",
+          "verifiedAt": "2026-10-22T05:47:15.383Z"
+        },
+        "dataAsOf": "2026-10-22",
+        "collectedAt": "2026-10-22T21:39:27.818855+00:00",
+        "snapshotUpdatedAt": "2026-10-22T21:39:27.818874+00:00",
+        "scope": "자동 수집으로 이전 원표 대조본 이후 수치/범위 변경. 이번에는 파일 지문만 확인하며 새 원문 대조 완료로 취급하지 않음.",
+        "nextAction": "기존 원문 수집기로 변경된10월 부분구간을 재대조."
+      }
+    },
+    "bitcoin": {
+      "status": "verified",
+      "verifiedAt": "2026-10-24T17:39:11.814640+00:00",
+      "checkedAt": "2026-10-24T17:39:11.814640+00:00",
+      "dataAsOf": null,
+      "dataPeriod": "2026-10",
+      "partial": true,
+      "latestClosedPeriod": "2026-09",
+      "collectedAt": "2026-10-24T17:37:24.373692+00:00",
+      "snapshotUpdatedAt": "2026-10-24T17:39:11.814640+00:00",
+      "dataHash": "23a640f643b3eb7b317cf2d4a97b3d9682746f02b2d7afddc335f78baff808bd",
+      "unit": "USDT",
+      "sourceObservationTime": null,
+      "scope": "Binance BTCUSDT111개월OHLC와고저중간값을Decimal검산.월평균/USD환산아님.10월부분월봉·실제관측시각미제공.",
+      "previousVerification": {
+        "status": "snapshot_checked",
+        "snapshotCheckedAt": "2026-10-23T11:43:51.750Z",
+        "dataHash": "18f24751e57ac11b2785bb2f12ee81cd0c7566ec50af796a1b1a688a99cb3c0c",
+        "previousVerification": {
+          "status": "verified",
+          "dataAsOf": null,
+          "dataPeriod": "2026-10",
+          "partial": true,
+          "latestClosedPeriod": "2026-09",
+          "collectedAt": "2026-10-22T05:41:53.842033+00:00",
+          "snapshotUpdatedAt": "2026-10-22T05:44:57.661254+00:00",
+          "sourceObservationTime": null,
+          "unit": "USDT",
+          "valueDefinition": "high_low_midrange",
+          "legacyFields": "usd* names retained for compatibility; no USD conversion",
+          "scope": "출처 월봉의 고저 중간값. 시간/거래량 가중 평균이 아니며10월은 수집 당시 부분 월봉.",
+          "dataHash": "a548e5b7009456e66d1798d6623bd32502edbd116e809d29c6576941fa355e18",
+          "verifiedAt": "2026-10-22T05:47:15.383Z"
+        },
+        "dataAsOf": null,
+        "collectedAt": "2026-10-22T21:39:35.455002+00:00",
+        "snapshotUpdatedAt": "2026-10-22T21:39:35.455002+00:00",
+        "scope": "자동 수집으로 이전 원표 대조본 이후 수치/범위 변경. 이번에는 파일 지문만 확인하며 새 원문 대조 완료로 취급하지 않음.",
+        "nextAction": "기존 원문 수집기로 변경된10월 부분구간을 재대조."
+      }
+    },
+    "market": {
+      "status": "verified",
+      "checkedAt": "2026-10-24T17:39:36.207106+00:00",
+      "verifiedAt": "2026-10-24T17:39:36.207106+00:00",
+      "dataAsOf": null,
+      "dataPeriod": "혼재 (Brent10월20일까지·나머지9월)",
+      "partial": true,
+      "dataHash": "e68e2aa93d627d9f8d7d2af85f649f98134dbedd230dea4c7ada7924c0b331b3",
+      "scope": "Brent FRED/EIA일자료28년평균·관측수원문대조.2026년10월20일까지203관측일부분평균.나머지4지표28년은기존원표대조값/관측수와동일해기존검증일유지.",
+      "components": {
+        "brent": {
+          "verifiedAt": "2026-10-24T17:39:36.207106+00:00",
+          "sourceUrl": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=DCOILBRENTEU",
+          "sourceSha256": "a1fec56bfa6bc77dc5e017fa8976e6eaca2fa2ae43773209ac5923f1269c8b33",
+          "observedAt": "2026-10-20"
+        },
+        "unchanged": {
+          "keys": [
+            "dramUsdPerGb",
+            "dramObservations",
+            "goldUsdPerOz",
+            "goldObservations",
+            "copperUsdPerMt",
+            "copperObservations",
+            "gasUsdPerMmbtu",
+            "gasObservations"
+          ],
+          "verifiedAt": "2026-10-22T20:47:07.229866+00:00",
+          "audit": "/research/source-reviews/2026-10-23-macro-followup.json",
+          "sourceChecks": [
+            {
+              "url": "https://dam.stanford.edu/assets/memory-prices/memory-prices.csv",
+              "sha256": "7de01bbf52d95883e34643f12c77ce9351086597ea3ec38fd56268ad50aaf962",
+              "checkedAt": "2026-10-22T20:40:19.510964+00:00"
+            },
+            {
+              "url": "https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx",
+              "sha256": "ea1c350827878ea3bbe30e3cda16a13fd3bd5b409b8458940dc94a36b5a33154",
+              "checkedAt": "2026-10-22T20:40:19.512964+00:00"
+            }
+          ],
+          "originalSourceRefetched": false
+        }
+      },
+      "nextEligibleDate": "2026-10-28",
+      "previousVerification": {
+        "status": "snapshot_checked",
+        "snapshotCheckedAt": "2026-10-23T11:43:51.750Z",
+        "dataHash": "e68e2aa93d627d9f8d7d2af85f649f98134dbedd230dea4c7ada7924c0b331b3",
+        "previousVerification": {
+          "status": "verified",
+          "checkedAt": "2026-10-22T20:52:39.095Z",
+          "dataPeriod": "2026-09",
+          "partial": true,
+          "sourceDataUrls": [
+            "https://dam.stanford.edu/assets/memory-prices/memory-prices.csv",
+            "https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx"
+          ],
+          "dataAsOf": "2026-09",
+          "snapshotUpdatedAt": "2026-10-22T20:47:07.225905+00:00",
+          "collectedAt": "2026-10-22T20:40:20.525953+00:00",
+          "workbookPublishedAt": "2026-10-02",
+          "scope": "1999~2026년28개 연도·5지표를 원문과 독립 Decimal 집계로 대조. 2026년은1~9월9관측치 부분평균. Brent는 세계은행 월자료 대체본이며 FRED 일자료가 아님.",
+          "snapshotFingerprint": "6c11dff008b93e7026c88bf9c6eccda0daf55905906df65592dd93a95913f5c6",
+          "nextEligibleDate": "2026-11-03"
+        },
+        "dataAsOf": null,
+        "collectedAt": null,
+        "snapshotUpdatedAt": "2026-10-22T21:39:33.652657+00:00",
+        "scope": "자동 수집으로 이전 원표 대조본 이후 수치/범위 변경. 이번에는 파일 지문만 확인하며 새 원문 대조 완료로 취급하지 않음.",
+        "nextAction": "시장새저장본은 FRED 일자료 포함. 기존 World Bank9개월 검증과 분리해 다음 허용 회차에 원문 대조. World Bank 원표는11월3일 이후."
+      }
+    }
+  },
+  "preservedCompletedVersions": [
+    {
+      "key": "bok",
+      "rows": 329,
+      "verifiedAt": "2026-10-23T11:41:58.634989+00:00",
+      "originalSourceRefetched": false
+    },
+    {
+      "key": "rateGap",
+      "rows": 360,
+      "verifiedAt": "2026-10-24T02:39:08.379362+00:00",
+      "originalSourceRefetched": false
+    }
+  ],
+  "unchangedMarketComponents": {
+    "keys": [
+      "dramUsdPerGb",
+      "dramObservations",
+      "goldUsdPerOz",
+      "goldObservations",
+      "copperUsdPerMt",
+      "copperObservations",
+      "gasUsdPerMmbtu",
+      "gasObservations"
+    ],
+    "verifiedAt": "2026-10-22T20:47:07.229866+00:00",
+    "audit": "/research/source-reviews/2026-10-23-macro-followup.json",
+    "sourceChecks": [
+      {
+        "url": "https://dam.stanford.edu/assets/memory-prices/memory-prices.csv",
+        "sha256": "7de01bbf52d95883e34643f12c77ce9351086597ea3ec38fd56268ad50aaf962",
+        "checkedAt": "2026-10-22T20:40:19.510964+00:00"
+      },
+      {
+        "url": "https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx",
+        "sha256": "ea1c350827878ea3bbe30e3cda16a13fd3bd5b409b8458940dc94a36b5a33154",
+        "checkedAt": "2026-10-22T20:40:19.512964+00:00"
+      }
+    ],
+    "originalSourceRefetched": false
+  },
+  "officialMetadata": {
+    "brent": {
+      "url": "https://fred.stlouisfed.org/series/DCOILBRENTEU",
+      "transport": "web.open",
+      "checkedAt": "2026-10-24T17:41:38.747Z",
+      "frequency": "daily",
+      "unit": "Dollars per Barrel",
+      "seasonalAdjustment": "Not Seasonally Adjusted",
+      "publishedUpdatedAt": "Oct 21, 2026 12:18 PM CDT",
+      "nextReleaseCalendarDate": "2026-10-28",
+      "note": "공표일정만으로새관측값확보를주장하지않음."
+    }
+  },
+  "deferred": [
+    {
+      "key": "/korea-tourism/",
+      "nextEligibleDate": "2026-10-26",
+      "action": "not_refetched"
+    },
+    {
+      "key": "worldbank-monthly",
+      "nextEligibleDate": "2026-11-03",
+      "action": "not_refetched"
+    }
+  ],
+  "nextAction": "이exchange-rate완료저장본은반복하지않고다음미완료 /research/bukangi/ 공식결과원문·과거13개고유출처의19기록을대조. 결과원문미확보시결과/위치확정금지하고 /ds-research-urban-analytics/ 등다음항목진행.관광은10월26일이후,WorldBank는11월3일이후. 최종수락에서변경된게시본만별도조정.",
+  "acceptanceComplete": false
+}

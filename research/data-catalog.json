@@ -1509,17 +1509,17 @@
     },
     {
       "source": {
-        "label": "한국은행329개월·FRED금리차360개월 검증 · 다른모듈 재대조대기",
-        "url": "https://fred.stlouisfed.org/series/IRSTCI01KRM156N",
-        "verification": "partially_verified"
+        "label": "ECB·Binance·FRED/EIA 원문 대조 + 기존 ECOS/WB/Stanford 완료본 유지",
+        "url": "https://www.ecb.europa.eu/stats/eurofxref/eurofxref-hist.xml",
+        "verification": "verified"
       },
       "dataAsOf": null,
-      "dataPeriod": "혼재 (BOK9월·FX10월22일·BTC10월부분·Brent10월20일·WB9월)",
+      "dataPeriod": "혼재 (FX10월23일·BTC10월부분·Brent10월20일·BOK/금리차/WB9월)",
       "snapshotUpdatedAt": null,
       "collectedAt": null,
-      "checkedAt": "2026-10-24T02:40:34.198Z",
-      "reviewStatus": "needs_review",
-      "freshness": "bok_and_rate_gap_verified_other_changed_snapshots_pending",
+      "checkedAt": "2026-10-24T17:41:38.747Z",
+      "reviewStatus": "verified",
+      "freshness": "verified_scoped_mixed_periods",
       "evidence": [
         {
           "kind": "audit-record",
@@ -2194,21 +2194,55 @@
           "url": "/research/source-reviews/2026-10-24-rategap-history.json",
           "checkedAt": "2026-10-24T02:40:34.198Z",
           "scope": "FRED 원문CSV2개 각360행·공통360개월1080수치와 한국−미국 차이를 독립Decimal로 검산. 단위%·차이%p·월별·계절미조정. API응답에10월행없음."
+        },
+        {
+          "kind": "official-source",
+          "url": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=DCOILBRENTEU",
+          "checkedAt": "2026-10-24T17:37:23.693385+00:00",
+          "sha256": "a1fec56bfa6bc77dc5e017fa8976e6eaca2fa2ae43773209ac5923f1269c8b33",
+          "scope": "FRED/EIA Brent원문일자료의1999~2026년28개연도평균·관측수와10월20일최신관측."
+        },
+        {
+          "kind": "official-source",
+          "url": "https://www.ecb.europa.eu/stats/eurofxref/eurofxref-hist.xml",
+          "checkedAt": "2026-10-24T17:37:23.694352+00:00",
+          "sha256": "f47aba8838aa3e4e2daf2cfda1ff29d7ddd5fee40ee08ff31d8dbf836645c435",
+          "scope": "ECB XML 전체7121관측일·334개월의교차환율/통화별관측수/평균/최저/최고/최신값."
+        },
+        {
+          "kind": "official-source",
+          "url": "https://data-api.binance.vision/api/v3/klines?symbol=BTCUSDT&interval=1M&limit=1000&startTime=1501545600000",
+          "checkedAt": "2026-10-24T17:37:23.694352+00:00",
+          "sha256": "8d0d02362d047324ea522ffaa8a3cae7cbe8ebdc4e9da5dcbe92739c25712beb",
+          "scope": "BTCUSDT111월봉의OHLC·고저중간값,9월완결·10월부분,관측시각미제공."
+        },
+        {
+          "kind": "official-source",
+          "url": "https://fred.stlouisfed.org/series/DCOILBRENTEU",
+          "checkedAt": "2026-10-24T17:41:38.747Z",
+          "transport": "web.open",
+          "scope": "FRED공식원문페이지의USD/barrel·일별·계절미조정·공표시각확인."
+        },
+        {
+          "kind": "audit-record",
+          "url": "/research/source-reviews/2026-10-25-exchange-closeout.json",
+          "checkedAt": "2026-10-24T17:41:38.747Z",
+          "scope": "환율334개월·BTC111개월·Brent28년원문대조.기존BOK329개월/금리차360개월/시장나머지4지표는검증본의값·범위동일성을확인해원문검증일유지.5모듈모두기록된저장본범위에서검증완료."
         }
       ],
       "issues": [
-        "금리차1996-10..2026-09의360개월1080수치원문대조완료. 기존355개월미완료해소. 수치변경없음.",
-        "기준월9월·시리즈공표갱신일·실제수집일·파일생성일·원문대조일분리. 응답에10월값없음.",
-        "한국익일물월평균−미국실효연방기금월평균은%p차이. 정책금리목표범위차이아님.",
-        "FX/BTC/시장의자동수집후변경본은원문재대조대기. 이전검증이력보존."
+        "환율10월은23일까지17관측일·BTC10월은수집당시부분월봉·Brent2026년은20일까지203관측일부분평균.",
+        "BOK/금리차·WB/DRAM은기존완료값과동일해원문검증일유지.확인일만올려새원문검증으로표시하지않음.",
+        "BTC는USDT고저중간값이며실제현월관측시각은미제공.자료기준·수집·파일생성·원문대조시각은모듈별분리.",
+        "검증은원장에기록된저장본에만적용하며이후자동갱신본은수치지문이바뀌면재대조필요."
       ],
       "key": "/exchange-rate/",
       "url": "/exchange-rate/",
       "title": "환율·금리·물가 대시보드",
       "primary": "society",
       "classification": "경제·사회",
-      "sourceHint": "BOK329개월·금리차360개월 · FX/BTC/시장별도",
-      "nextAction": "BOK329개월·금리차360개월완료저장본은수치지문변경전반복하지않음. 다음은변경된FX/BTC부분구간·FRED시장저장본또는다음원출처미완료프로젝트최대8개. 관광10월26일·WorldBank11월3일이후.",
+      "sourceHint": "5모듈검증완료·모듈별자료기간/대조일구분",
+      "nextAction": "이exchange-rate완료저장본은반복하지않고다음미완료 /research/bukangi/ 공식결과원문·과거13개고유출처의19기록을대조. 결과원문미확보시결과/위치확정금지하고 /ds-research-urban-analytics/ 등다음항목진행.관광은10월26일이후,WorldBank는11월3일이후. 최종수락에서변경된게시본만별도조정.",
       "previousReview": {
         "checkedAt": "2026-10-20T23:06:28.769Z",
         "dataAsOf": "2026-10-20",
@@ -2222,91 +2256,156 @@
           "verification": "declared"
         }
       },
-      "verifiedScope": "금리차360개월1080수치전체대조. BOK329개월기존완료본은수치일치시검증일유지.",
+      "verifiedScope": "환율334개월·BTC111개월·Brent28년원문대조.기존BOK329개월/금리차360개월/시장나머지4지표는검증본의값·범위동일성을확인해원문검증일유지.5모듈모두기록된저장본범위에서검증완료.",
       "moduleReviews": {
         "fx": {
-          "status": "snapshot_checked",
-          "snapshotCheckedAt": "2026-10-23T11:43:51.750Z",
-          "dataHash": "ba1b1a9aeb2ec4b9ef3a7e421f177a8cbd2779133370cdd33c40dd1d802ad454",
+          "status": "verified",
+          "verifiedAt": "2026-10-24T17:39:11.814640+00:00",
+          "checkedAt": "2026-10-24T17:39:11.814640+00:00",
+          "dataAsOf": "2026-10-23",
+          "dataPeriod": "2026-10",
+          "partial": true,
+          "observationsThisMonth": 17,
+          "collectedAt": "2026-10-24T17:37:55.921438+00:00",
+          "snapshotUpdatedAt": "2026-10-24T17:39:11.814640+00:00",
+          "dataHash": "ade024b559cc011d5a3c5eaf0d14d61b8d1347f8d275fd421dd5ed5a3c448621",
+          "scope": "ECB공식XML7121일→334개월대조.10월23일까지17관측일부분집계. 초기CNY63개월은원문에없어빈칸.",
           "previousVerification": {
-            "status": "verified",
-            "dataAsOf": "2026-10-21",
-            "dataPeriod": "2026-10",
-            "partial": true,
-            "observationsThisMonth": 15,
-            "collectedAt": "2026-10-22T05:42:26.261670+00:00",
-            "snapshotUpdatedAt": "2026-10-22T05:44:57.661254+00:00",
-            "scope": "월간 전체가 아닌10월21일까지 ECB15관측일. 334개월 재계산.",
-            "dataHash": "d54438ec0ed17535d5da1e09cc3836e34938a12c91a6d068c06b398d4cf63964",
-            "verifiedAt": "2026-10-22T05:47:15.383Z"
-          },
-          "dataAsOf": "2026-10-22",
-          "collectedAt": "2026-10-22T21:39:27.818855+00:00",
-          "snapshotUpdatedAt": "2026-10-22T21:39:27.818874+00:00",
-          "scope": "자동 수집으로 이전 원표 대조본 이후 수치/범위 변경. 이번에는 파일 지문만 확인하며 새 원문 대조 완료로 취급하지 않음.",
-          "nextAction": "기존 원문 수집기로 변경된10월 부분구간을 재대조."
+            "status": "snapshot_checked",
+            "snapshotCheckedAt": "2026-10-23T11:43:51.750Z",
+            "dataHash": "ba1b1a9aeb2ec4b9ef3a7e421f177a8cbd2779133370cdd33c40dd1d802ad454",
+            "previousVerification": {
+              "status": "verified",
+              "dataAsOf": "2026-10-21",
+              "dataPeriod": "2026-10",
+              "partial": true,
+              "observationsThisMonth": 15,
+              "collectedAt": "2026-10-22T05:42:26.261670+00:00",
+              "snapshotUpdatedAt": "2026-10-22T05:44:57.661254+00:00",
+              "scope": "월간 전체가 아닌10월21일까지 ECB15관측일. 334개월 재계산.",
+              "dataHash": "d54438ec0ed17535d5da1e09cc3836e34938a12c91a6d068c06b398d4cf63964",
+              "verifiedAt": "2026-10-22T05:47:15.383Z"
+            },
+            "dataAsOf": "2026-10-22",
+            "collectedAt": "2026-10-22T21:39:27.818855+00:00",
+            "snapshotUpdatedAt": "2026-10-22T21:39:27.818874+00:00",
+            "scope": "자동 수집으로 이전 원표 대조본 이후 수치/범위 변경. 이번에는 파일 지문만 확인하며 새 원문 대조 완료로 취급하지 않음.",
+            "nextAction": "기존 원문 수집기로 변경된10월 부분구간을 재대조."
+          }
         },
         "bitcoin": {
-          "status": "snapshot_checked",
-          "snapshotCheckedAt": "2026-10-23T11:43:51.750Z",
-          "dataHash": "18f24751e57ac11b2785bb2f12ee81cd0c7566ec50af796a1b1a688a99cb3c0c",
-          "previousVerification": {
-            "status": "verified",
-            "dataAsOf": null,
-            "dataPeriod": "2026-10",
-            "partial": true,
-            "latestClosedPeriod": "2026-09",
-            "collectedAt": "2026-10-22T05:41:53.842033+00:00",
-            "snapshotUpdatedAt": "2026-10-22T05:44:57.661254+00:00",
-            "sourceObservationTime": null,
-            "unit": "USDT",
-            "valueDefinition": "high_low_midrange",
-            "legacyFields": "usd* names retained for compatibility; no USD conversion",
-            "scope": "출처 월봉의 고저 중간값. 시간/거래량 가중 평균이 아니며10월은 수집 당시 부분 월봉.",
-            "dataHash": "a548e5b7009456e66d1798d6623bd32502edbd116e809d29c6576941fa355e18",
-            "verifiedAt": "2026-10-22T05:47:15.383Z"
-          },
+          "status": "verified",
+          "verifiedAt": "2026-10-24T17:39:11.814640+00:00",
+          "checkedAt": "2026-10-24T17:39:11.814640+00:00",
           "dataAsOf": null,
-          "collectedAt": "2026-10-22T21:39:35.455002+00:00",
-          "snapshotUpdatedAt": "2026-10-22T21:39:35.455002+00:00",
-          "scope": "자동 수집으로 이전 원표 대조본 이후 수치/범위 변경. 이번에는 파일 지문만 확인하며 새 원문 대조 완료로 취급하지 않음.",
-          "nextAction": "기존 원문 수집기로 변경된10월 부분구간을 재대조."
-        },
-        "other": {
-          "status": "snapshot_checked",
-          "keys": [
-            "data.json",
-            "bitcoin_data.json",
-            "market_data.json"
-          ],
-          "scope": "금리차360개월완료. FX/BTC/시장은이전검증이력과새자동수집저장본을분리해원문재대조대기."
+          "dataPeriod": "2026-10",
+          "partial": true,
+          "latestClosedPeriod": "2026-09",
+          "collectedAt": "2026-10-24T17:37:24.373692+00:00",
+          "snapshotUpdatedAt": "2026-10-24T17:39:11.814640+00:00",
+          "dataHash": "23a640f643b3eb7b317cf2d4a97b3d9682746f02b2d7afddc335f78baff808bd",
+          "unit": "USDT",
+          "sourceObservationTime": null,
+          "scope": "Binance BTCUSDT111개월OHLC와고저중간값을Decimal검산.월평균/USD환산아님.10월부분월봉·실제관측시각미제공.",
+          "previousVerification": {
+            "status": "snapshot_checked",
+            "snapshotCheckedAt": "2026-10-23T11:43:51.750Z",
+            "dataHash": "18f24751e57ac11b2785bb2f12ee81cd0c7566ec50af796a1b1a688a99cb3c0c",
+            "previousVerification": {
+              "status": "verified",
+              "dataAsOf": null,
+              "dataPeriod": "2026-10",
+              "partial": true,
+              "latestClosedPeriod": "2026-09",
+              "collectedAt": "2026-10-22T05:41:53.842033+00:00",
+              "snapshotUpdatedAt": "2026-10-22T05:44:57.661254+00:00",
+              "sourceObservationTime": null,
+              "unit": "USDT",
+              "valueDefinition": "high_low_midrange",
+              "legacyFields": "usd* names retained for compatibility; no USD conversion",
+              "scope": "출처 월봉의 고저 중간값. 시간/거래량 가중 평균이 아니며10월은 수집 당시 부분 월봉.",
+              "dataHash": "a548e5b7009456e66d1798d6623bd32502edbd116e809d29c6576941fa355e18",
+              "verifiedAt": "2026-10-22T05:47:15.383Z"
+            },
+            "dataAsOf": null,
+            "collectedAt": "2026-10-22T21:39:35.455002+00:00",
+            "snapshotUpdatedAt": "2026-10-22T21:39:35.455002+00:00",
+            "scope": "자동 수집으로 이전 원표 대조본 이후 수치/범위 변경. 이번에는 파일 지문만 확인하며 새 원문 대조 완료로 취급하지 않음.",
+            "nextAction": "기존 원문 수집기로 변경된10월 부분구간을 재대조."
+          }
         },
         "market": {
-          "status": "snapshot_checked",
-          "snapshotCheckedAt": "2026-10-23T11:43:51.750Z",
-          "dataHash": "e68e2aa93d627d9f8d7d2af85f649f98134dbedd230dea4c7ada7924c0b331b3",
-          "previousVerification": {
-            "status": "verified",
-            "checkedAt": "2026-10-22T20:52:39.095Z",
-            "dataPeriod": "2026-09",
-            "partial": true,
-            "sourceDataUrls": [
-              "https://dam.stanford.edu/assets/memory-prices/memory-prices.csv",
-              "https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx"
-            ],
-            "dataAsOf": "2026-09",
-            "snapshotUpdatedAt": "2026-10-22T20:47:07.225905+00:00",
-            "collectedAt": "2026-10-22T20:40:20.525953+00:00",
-            "workbookPublishedAt": "2026-10-02",
-            "scope": "1999~2026년28개 연도·5지표를 원문과 독립 Decimal 집계로 대조. 2026년은1~9월9관측치 부분평균. Brent는 세계은행 월자료 대체본이며 FRED 일자료가 아님.",
-            "snapshotFingerprint": "6c11dff008b93e7026c88bf9c6eccda0daf55905906df65592dd93a95913f5c6",
-            "nextEligibleDate": "2026-11-03"
-          },
+          "status": "verified",
+          "checkedAt": "2026-10-24T17:39:36.207106+00:00",
+          "verifiedAt": "2026-10-24T17:39:36.207106+00:00",
           "dataAsOf": null,
-          "collectedAt": null,
-          "snapshotUpdatedAt": "2026-10-22T21:39:33.652657+00:00",
-          "scope": "자동 수집으로 이전 원표 대조본 이후 수치/범위 변경. 이번에는 파일 지문만 확인하며 새 원문 대조 완료로 취급하지 않음.",
-          "nextAction": "시장새저장본은 FRED 일자료 포함. 기존 World Bank9개월 검증과 분리해 다음 허용 회차에 원문 대조. World Bank 원표는11월3일 이후."
+          "dataPeriod": "혼재 (Brent10월20일까지·나머지9월)",
+          "partial": true,
+          "dataHash": "e68e2aa93d627d9f8d7d2af85f649f98134dbedd230dea4c7ada7924c0b331b3",
+          "scope": "Brent FRED/EIA일자료28년평균·관측수원문대조.2026년10월20일까지203관측일부분평균.나머지4지표28년은기존원표대조값/관측수와동일해기존검증일유지.",
+          "components": {
+            "brent": {
+              "verifiedAt": "2026-10-24T17:39:36.207106+00:00",
+              "sourceUrl": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=DCOILBRENTEU",
+              "sourceSha256": "a1fec56bfa6bc77dc5e017fa8976e6eaca2fa2ae43773209ac5923f1269c8b33",
+              "observedAt": "2026-10-20"
+            },
+            "unchanged": {
+              "keys": [
+                "dramUsdPerGb",
+                "dramObservations",
+                "goldUsdPerOz",
+                "goldObservations",
+                "copperUsdPerMt",
+                "copperObservations",
+                "gasUsdPerMmbtu",
+                "gasObservations"
+              ],
+              "verifiedAt": "2026-10-22T20:47:07.229866+00:00",
+              "audit": "/research/source-reviews/2026-10-23-macro-followup.json",
+              "sourceChecks": [
+                {
+                  "url": "https://dam.stanford.edu/assets/memory-prices/memory-prices.csv",
+                  "sha256": "7de01bbf52d95883e34643f12c77ce9351086597ea3ec38fd56268ad50aaf962",
+                  "checkedAt": "2026-10-22T20:40:19.510964+00:00"
+                },
+                {
+                  "url": "https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx",
+                  "sha256": "ea1c350827878ea3bbe30e3cda16a13fd3bd5b409b8458940dc94a36b5a33154",
+                  "checkedAt": "2026-10-22T20:40:19.512964+00:00"
+                }
+              ],
+              "originalSourceRefetched": false
+            }
+          },
+          "nextEligibleDate": "2026-10-28",
+          "previousVerification": {
+            "status": "snapshot_checked",
+            "snapshotCheckedAt": "2026-10-23T11:43:51.750Z",
+            "dataHash": "e68e2aa93d627d9f8d7d2af85f649f98134dbedd230dea4c7ada7924c0b331b3",
+            "previousVerification": {
+              "status": "verified",
+              "checkedAt": "2026-10-22T20:52:39.095Z",
+              "dataPeriod": "2026-09",
+              "partial": true,
+              "sourceDataUrls": [
+                "https://dam.stanford.edu/assets/memory-prices/memory-prices.csv",
+                "https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx"
+              ],
+              "dataAsOf": "2026-09",
+              "snapshotUpdatedAt": "2026-10-22T20:47:07.225905+00:00",
+              "collectedAt": "2026-10-22T20:40:20.525953+00:00",
+              "workbookPublishedAt": "2026-10-02",
+              "scope": "1999~2026년28개 연도·5지표를 원문과 독립 Decimal 집계로 대조. 2026년은1~9월9관측치 부분평균. Brent는 세계은행 월자료 대체본이며 FRED 일자료가 아님.",
+              "snapshotFingerprint": "6c11dff008b93e7026c88bf9c6eccda0daf55905906df65592dd93a95913f5c6",
+              "nextEligibleDate": "2026-11-03"
+            },
+            "dataAsOf": null,
+            "collectedAt": null,
+            "snapshotUpdatedAt": "2026-10-22T21:39:33.652657+00:00",
+            "scope": "자동 수집으로 이전 원표 대조본 이후 수치/범위 변경. 이번에는 파일 지문만 확인하며 새 원문 대조 완료로 취급하지 않음.",
+            "nextAction": "시장새저장본은 FRED 일자료 포함. 기존 World Bank9개월 검증과 분리해 다음 허용 회차에 원문 대조. World Bank 원표는11월3일 이후."
+          }
         },
         "bok": {
           "status": "verified",
@@ -2326,9 +2425,9 @@
           "scope": "ECOS 원문68응답·기준금리329개월·CPI341개월(전년동월12개월포함) 전수 대조. 987표시수치+658원문/전년동월수치 검산. 원문 정밀도를 보존하며 CPI표시2자리만 Decimal half-even. API 응답에10월 없음.",
           "nextAction": "게시본 값 지문이 바뀌면 해당 원문을 재대조. 월간10월자료는 실제 원문 확보시에만 추가.",
           "snapshotReconciliation": {
-            "checkedAt": "2026-10-24T02:40:34.198Z",
-            "scope": "기존원표대조329개월의수치/범위/원문정밀도와현재파일series동일. 원문재수집아님; 기존검증일유지.",
+            "checkedAt": "2026-10-24T17:41:38.747Z",
             "valuesUnchanged": true,
+            "scope": "현재series전체가이전원문대조완료본과동일. 원문재수집·원문검증일변경없음.",
             "currentPayloadHash": "69e3415989c015fd189f89b47165cdd09f0d1302f9fd5018163aa74fc931f055"
           }
         },
@@ -2356,8 +2455,39 @@
             "scope": "한국 OECD 익일물 월금리 − 미국 실효 연방기금 월금리 (%p). 정책금리 목표범위 차이가 아님. 최근5개월 HTML 표만 일치. 전체360개월 검증 아님.",
             "nextAction": "FRED CSV 또는 OECD 원표 접근 정상화 후 나머지355개월 대조."
           },
-          "nextAction": "실제10월원문확보또는게시본수치변경시만추가대조. 공표일정만으로월자료확보를주장하지않음."
+          "nextAction": "실제10월원문확보또는게시본수치변경시만추가대조. 공표일정만으로월자료확보를주장하지않음.",
+          "snapshotReconciliation": {
+            "checkedAt": "2026-10-24T17:41:38.747Z",
+            "valuesUnchanged": true,
+            "scope": "현재series전체가이전원문대조완료본과동일. 원문재수집·원문검증일변경없음.",
+            "currentPayloadHash": "1c5f4399a68c9800a4138b79f50a9a4eae9b7aa3c215762e0b97b23b9e5abcdc"
+          }
         }
+      },
+      "previousVerification": {
+        "reviewStatus": "needs_review",
+        "checkedAt": "2026-10-24T02:40:34.198Z",
+        "source": {
+          "label": "한국은행329개월·FRED금리차360개월 검증 · 다른모듈 재대조대기",
+          "url": "https://fred.stlouisfed.org/series/IRSTCI01KRM156N",
+          "verification": "partially_verified"
+        },
+        "issues": [
+          "금리차1996-10..2026-09의360개월1080수치원문대조완료. 기존355개월미완료해소. 수치변경없음.",
+          "기준월9월·시리즈공표갱신일·실제수집일·파일생성일·원문대조일분리. 응답에10월값없음.",
+          "한국익일물월평균−미국실효연방기금월평균은%p차이. 정책금리목표범위차이아님.",
+          "FX/BTC/시장의자동수집후변경본은원문재대조대기. 이전검증이력보존."
+        ],
+        "verifiedScope": "금리차360개월1080수치전체대조. BOK329개월기존완료본은수치일치시검증일유지."
+      },
+      "verifiedAt": "2026-10-24T17:41:38.747Z",
+      "verifiedDataHash": "ade024b559cc011d5a3c5eaf0d14d61b8d1347f8d275fd421dd5ed5a3c448621",
+      "verifiedModuleHashes": {
+        "fx": "ade024b559cc011d5a3c5eaf0d14d61b8d1347f8d275fd421dd5ed5a3c448621",
+        "bitcoin": "23a640f643b3eb7b317cf2d4a97b3d9682746f02b2d7afddc335f78baff808bd",
+        "market": "e68e2aa93d627d9f8d7d2af85f649f98134dbedd230dea4c7ada7924c0b331b3",
+        "bok": "69e3415989c015fd189f89b47165cdd09f0d1302f9fd5018163aa74fc931f055",
+        "rateGap": "1c5f4399a68c9800a4138b79f50a9a4eae9b7aa3c215762e0b97b23b9e5abcdc"
       }
     },
     {
