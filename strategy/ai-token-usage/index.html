@@ -79,6 +79,23 @@
     .sum strong { display: block; font-size: 18px; margin-top: 2px; }
 
     .boxes { display: grid; gap: 14px; margin-top: 4px; }
+    .viewbar { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; margin-top: 18px; }
+    .seg { display: inline-flex; border: 1px solid var(--line); border-radius: 4px; overflow: hidden; }
+    .seg button { background: var(--panel); color: var(--dim); border: 0; padding: 5px 12px; font-size: 12px; cursor: pointer; }
+    .seg button + button { border-left: 1px solid var(--line); }
+    .seg button[aria-pressed="true"] { background: var(--ink); color: var(--bg); }
+    .boxes.as-gauge { grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); }
+    .boxes.as-gauge .box.live { grid-column: span 2; }
+    .gpair { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+    .gauge { text-align: center; margin-top: 6px; }
+    .gauge svg { width: 100%; max-width: 230px; display: block; margin: 0 auto; }
+    .gauge .gl { margin: 0; font-size: 12px; color: var(--dim); }
+    .gauge .gr { margin: 0; font-size: 12px; }
+    .gauge .gs { margin: 0; font-size: 12px; color: var(--faint); }
+    .gauge .gs .st, .gauge .gs .dv { color: var(--fill, var(--off)); }
+    .as-gauge .meta-line { margin-left: 0; text-align: center; }
+    .stale { color: var(--warn); }
+    @media (max-width: 560px) { .boxes.as-gauge .box.live { grid-column: auto; } }
     .box { --c: var(--line); border: 1.5px solid var(--c); border-radius: 3px; background: var(--panel); padding: 10px 14px 12px; }
     .box-head { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; font-size: 13px; }
     .chip { background: var(--c); color: #fff; padding: 0 6px; border-radius: 2px; font-size: 12px; }
@@ -162,7 +179,7 @@
       <p class="prompt"><b>stargate@ai-usage</b>:~$ usage --all --month 2026-10</p>
       <h1>AI 서비스 한도 · 결제 주기 모니터</h1>
       <p class="lead">각 서비스의 월 한도를 100%로 두고, 결제일부터 지난 시간 비율을 <b>적정선</b>(흰 세로선)으로 표시합니다. 사용률이 적정선보다 높으면 다음 결제일 전에 한도를 넘길 속도입니다.</p>
-      <p class="note" id="sync-note"><b>사용량 미연동</b> · 계정 사용량은 아직 자동 연결되지 않았습니다. 각 행의 <span aria-hidden="true">[입력]</span> 버튼으로 현재 %를 넣으면 이 브라우저에만 저장되어 판정(여유·적정·초과 예상·소진)이 계산됩니다.</p>
+      <p class="note" id="sync-note"><b>월 한도 사용량 미연동</b> · 5시간·주간 실측은 자동 수집되지만, 아래 월 한도 10개는 자동 연결되지 않았습니다. 각 행의 <span aria-hidden="true">[입력]</span> 버튼으로 현재 %를 넣으면 이 브라우저에만 저장되어 판정(여유·적정·초과 예상·소진)이 계산됩니다.</p>
       <p class="prompt" id="clock" aria-live="polite">기준 시각 계산 중…</p>
     </header>
 
@@ -173,13 +190,24 @@
       <div class="sum"><span>입력된 사용량</span><strong id="sum-input">0 / 10</strong></div>
     </section>
 
-    <h2 id="boxes-title">서비스별 월 한도 (결제일 빠른 순)</h2>
-    <div class="legend" aria-label="막대 색 범례">
-      <span style="--k:var(--ok)">여유 (적정선 −5%p 미만)</span>
-      <span style="--k:var(--warn)">적정 (±5%p)</span>
-      <span style="--k:var(--hot)">초과 예상 · 소진</span>
-      <span style="--k:var(--off)">미연동</span>
+    <div class="viewbar">
+      <div class="legend" aria-label="색 범례" style="margin-top:0">
+        <span style="--k:var(--ok)">여유 (적정선 −5%p 미만)</span>
+        <span style="--k:var(--warn)">적정 (±5%p)</span>
+        <span style="--k:var(--hot)">초과 예상 · 소진</span>
+        <span style="--k:var(--off)">미연동</span>
+      </div>
+      <div class="seg" role="group" aria-label="보기 방식">
+        <button type="button" data-view="bar" aria-pressed="true">막대</button>
+        <button type="button" data-view="gauge" aria-pressed="false">반원</button>
+      </div>
     </div>
+
+    <h2 id="live-title">실측 사용량 · 5시간 / 주간</h2>
+    <p class="prompt" id="live-meta">사용량 데이터를 불러오는 중…</p>
+    <div class="boxes" id="live" aria-labelledby="live-title"></div>
+
+    <h2 id="boxes-title">서비스별 월 한도 (결제일 빠른 순)</h2>
     <div class="boxes" id="boxes" aria-labelledby="boxes-title">
       <noscript><p class="note">이 화면은 JavaScript로 리셋 시간과 적정선을 계산합니다. 아래 월 한도 금액 표는 그대로 확인하실 수 있습니다.</p></noscript>
     </div>
@@ -288,9 +316,162 @@
     function el(tag, cls, text) { var e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; }
 
     var boxes = document.getElementById("boxes");
+    var live = document.getElementById("live");
+    var liveMeta = document.getElementById("live-meta");
+    var usage = null;
+    var VIEW_KEY = "sg-ai-usage-view";
+    var view = "bar";
+    try { if (localStorage.getItem(VIEW_KEY) === "gauge") view = "gauge"; } catch (e) {}
+    var VENDOR_COLOR = { claude: "claude", codex: "openai", openai: "openai", gemini: "google", google: "google" };
+
+    // 창 하나(5시간·주간·월간)의 상태 계산
+    function model(used, start, end, now) {
+      var pace = Math.max(0, Math.min(100, (now - start) / (end - start) * 100));
+      var j = judge(used, pace);
+      var m = { used: used, pace: pace, end: end, left: end - now, st: j.st, fill: j.fill, dv: null, full: null };
+      if (used != null) m.dv = Math.round(used - pace);
+      if (j.st === "초과 예상" && used > 0 && now > start) {
+        var full = new Date(now.getTime() + (100 - used) / (used / (now - start)));
+        if (full < end) m.full = full;
+      }
+      return m;
+    }
+    function fmtShort(d) {
+      var hm = pad(d.getUTCHours()) + ":" + pad(d.getUTCMinutes());
+      return (d.getUTCMonth() + 1) + "/" + pad(d.getUTCDate()) + "(" + DOW[d.getUTCDay()] + ") " + hm;
+    }
+    function fmtFull(d, withTime) { return (d.getUTCMonth() + 1) + "/" + pad(d.getUTCDate()) + (withTime ? " " + pad(d.getUTCHours()) + ":" + pad(d.getUTCMinutes()) : ""); }
+
+    // 반원 게이지 SVG (사용률 호 + 적정선 눈금 + 바늘)
+    var NS = "http://www.w3.org/2000/svg";
+    function svgEl(tag, attrs) { var e = document.createElementNS(NS, tag); for (var k in attrs) e.setAttribute(k, attrs[k]); return e; }
+    function pt(cx, cy, r, pct) { var a = Math.PI * (1 - pct / 100); return [cx + r * Math.cos(a), cy - r * Math.sin(a)]; }
+    function gaugeSVG(m, foot) {
+      var cx = 110, cy = 112, r = 70;
+      var s = svgEl("svg", { viewBox: "0 0 220 150", role: "img" });
+      var arc = "M " + (cx - r) + " " + cy + " A " + r + " " + r + " 0 0 1 " + (cx + r) + " " + cy;
+      s.appendChild(svgEl("path", { d: arc, fill: "none", stroke: "var(--track)", "stroke-width": 12 }));
+      var u = Math.min(100, m.used || 0);
+      if (u > 0) s.appendChild(svgEl("path", { d: arc, fill: "none", stroke: m.fill, "stroke-width": 12, pathLength: 100, "stroke-dasharray": u + " 100" }));
+      [0, 25, 50, 75, 100].forEach(function (p) {
+        var a = pt(cx, cy, r + 9, p), b = pt(cx, cy, r + 15, p), t = pt(cx, cy, r + 26, p);
+        s.appendChild(svgEl("line", { x1: a[0], y1: a[1], x2: b[0], y2: b[1], stroke: "var(--faint)", "stroke-width": 1.5 }));
+        var tx = svgEl("text", { x: t[0], y: t[1], "text-anchor": "middle", "dominant-baseline": "middle", fill: "var(--faint)", "font-size": 10 });
+        tx.textContent = p; s.appendChild(tx);
+      });
+      var p1 = pt(cx, cy, r - 10, m.pace), p2 = pt(cx, cy, r + 10, m.pace);
+      s.appendChild(svgEl("line", { x1: p1[0], y1: p1[1], x2: p2[0], y2: p2[1], stroke: "var(--pace)", "stroke-width": 3 }));
+      var n = pt(cx, cy, 30, u);
+      s.appendChild(svgEl("line", { x1: cx, y1: cy, x2: n[0], y2: n[1], stroke: m.used == null ? "var(--off)" : m.fill, "stroke-width": 3, "stroke-linecap": "round" }));
+      s.appendChild(svgEl("circle", { cx: cx, cy: cy, r: 4, fill: m.used == null ? "var(--off)" : m.fill }));
+      var big = svgEl("text", { x: cx, y: cy - 38, "text-anchor": "middle", fill: m.used == null ? "var(--off)" : m.fill, "font-size": 22, "font-weight": 700 });
+      big.textContent = (m.used == null ? 0 : Math.round(m.used)) + "%"; s.appendChild(big);
+      var lab = svgEl("text", { x: cx, y: cy + 26, "text-anchor": "middle", fill: "var(--ink)", "font-size": 12 });
+      lab.textContent = foot; s.appendChild(lab);
+      s.setAttribute("aria-label", foot + " 사용 " + (m.used == null ? "미연동" : Math.round(m.used) + "%") + ", 적정선 " + Math.round(m.pace) + "%, " + m.st);
+      return s;
+    }
+
+    function statusLine(m, cls) {
+      var p = el("p", cls);
+      p.appendChild(document.createTextNode("(" + fmtLeft(m.left) + ") "));
+      p.appendChild(el("span", "st", m.st));
+      p.appendChild(document.createTextNode(" · 적정선 " + Math.round(m.pace) + "%"));
+      if (m.dv != null) { p.appendChild(document.createTextNode(" · ")); p.appendChild(el("span", "dv", (m.dv >= 0 ? "+" : "") + m.dv + "%p")); }
+      if (m.full) p.appendChild(document.createTextNode(" · " + fmtFull(m.full, m.left < 2 * 86400000) + " 소진 예상"));
+      return p;
+    }
+
+    // 박스 하나 그리기: item = {chip,name,acct,color,live,windows:[{label,m,resetText,onEdit}],metas:[]}
+    function buildItem(item) {
+      var box = el("article", "box" + (item.live ? " live" : ""));
+      box.style.setProperty("--c", "var(--c-" + item.color + ")"); box.dataset.c = item.color;
+      var head = el("div", "box-head");
+      head.appendChild(el("span", "chip", item.chip));
+      head.appendChild(el("span", "name", item.name));
+      if (item.acct) head.appendChild(el("span", "acct", item.acct));
+      box.appendChild(head);
+      var wrapG = view === "gauge" ? el("div", item.windows.length > 1 ? "gpair" : "") : null;
+      item.windows.forEach(function (w) {
+        var m = w.m;
+        if (view === "gauge") {
+          var g = el("div", "gauge");
+          g.style.setProperty("--fill", m.fill);
+          g.appendChild(gaugeSVG(m, w.label));
+          g.appendChild(el("p", "gr", "↻ " + w.resetText));
+          var sl = statusLine(m, "gs");
+          if (w.onEdit) sl.appendChild(editBtn(item.name, w));
+          g.appendChild(sl);
+          wrapG.appendChild(g);
+        } else {
+          var row = el("div", "row");
+          row.style.setProperty("--fill", m.fill);
+          row.appendChild(el("span", "lbl", w.label));
+          var bar = el("div", "bar"); bar.setAttribute("aria-hidden", "true");
+          var f = el("i"); f.style.width = Math.min(100, m.used || 0) + "%";
+          var mk = el("u"); mk.style.left = "calc(" + m.pace + "% - 1px)";
+          bar.appendChild(f); bar.appendChild(mk); row.appendChild(bar);
+          row.appendChild(el("span", "pct", (m.used == null ? 0 : Math.round(m.used)) + "%"));
+          row.appendChild(el("span", "reset", w.resetText));
+          box.appendChild(row);
+          var sub = statusLine(m, "sub"); sub.style.setProperty("--fill", m.fill);
+          if (w.onEdit) sub.appendChild(editBtn(item.name, w));
+          box.appendChild(sub);
+        }
+      });
+      if (wrapG) box.appendChild(wrapG);
+      (item.metas || []).forEach(function (t) {
+        var p = el("p", "meta-line");
+        if (typeof t === "string") p.textContent = t; else p.appendChild(t);
+        box.appendChild(p);
+      });
+      box.setAttribute("aria-label", item.name + " " + item.windows.map(function (w) { return w.label + " " + (w.m.used == null ? "미연동" : Math.round(w.m.used) + "%") + " " + w.m.st; }).join(", "));
+      return box;
+    }
+    function editBtn(name, w) {
+      var b = el("button", "edit", "입력"); b.type = "button";
+      b.setAttribute("aria-label", name + " 현재 사용률 입력");
+      b.addEventListener("click", w.onEdit);
+      return b;
+    }
+
+    function renderLive(now) {
+      live.replaceChildren();
+      if (!usage || !usage.accounts || !usage.accounts.length) { liveMeta.textContent = usage === false ? "실측 데이터를 불러오지 못했습니다." : "사용량 데이터를 불러오는 중…"; return; }
+      var upd = new Date(new Date(usage.updated_at).getTime() + KST);
+      var ageMin = Math.round((now - upd) / 60000);
+      liveMeta.textContent = "";
+      liveMeta.appendChild(document.createTextNode("마지막 수집 " + fmtShort(upd) + " · "));
+      liveMeta.appendChild(el("span", ageMin > 180 ? "stale" : "", ageMin < 1 ? "방금 전" : (ageMin < 60 ? ageMin + "분 전" : Math.floor(ageMin / 60) + "시간 " + (ageMin % 60) + "분 전")));
+      liveMeta.appendChild(document.createTextNode(" · 1시간마다 자동 수집"));
+      usage.accounts.forEach(function (a) {
+        var obs = new Date(new Date(a.observed_at).getTime() + KST);
+        var wins = (a.windows || []).map(function (w) {
+          var winMs = w.window_minutes * 60000;
+          var end = new Date(new Date(w.resets_at).getTime() + KST);
+          var used = typeof w.used === "number" ? w.used : null;
+          var rolled = false;
+          while (now >= end) { end = new Date(end.getTime() + winMs); rolled = true; }
+          if (rolled) used = 0;
+          var m = model(used, new Date(end.getTime() - winMs), end, now);
+          if (rolled) m.st = "리셋됨 · 재관측 대기";
+          return { label: w.label, m: m, resetText: fmtShort(end) };
+        });
+        var oage = Math.round((now - obs) / 60000);
+        var metas = [];
+        var src = el("span"); src.textContent = "관측 " + (oage < 60 ? oage + "분 전" : Math.floor(oage / 60) + "시간 전") + " · 출처 " + a.source;
+        if (oage > 180) src.className = "stale";
+        metas.push(src);
+        if (a.extra) metas.push(a.extra);
+        live.appendChild(buildItem({ chip: a.label, name: a.account, acct: "· " + a.plan, color: VENDOR_COLOR[a.vendor] || "notion", live: true, windows: wins, metas: metas }));
+      });
+    }
+
     function render() {
       var now = kstNow();
       document.getElementById("clock").textContent = "기준 시각 " + now.getUTCFullYear() + "-" + pad(now.getUTCMonth() + 1) + "-" + pad(now.getUTCDate()) + " " + pad(now.getUTCHours()) + ":" + pad(now.getUTCMinutes()) + " KST · 1분마다 갱신";
+      live.className = boxes.className = "boxes" + (view === "gauge" ? " as-gauge" : "");
+      renderLive(now);
       boxes.replaceChildren();
       var inputs = 0, nextSvc = null, nextEnd = null;
       SERVICES.forEach(function (s) {
@@ -298,71 +479,39 @@
         if (used != null) inputs++;
         var c = cycle(s.day, now);
         if (!nextEnd || c.end < nextEnd) { nextEnd = c.end; nextSvc = s; }
-        var j = judge(used, c.pace);
-        var pace = Math.round(c.pace);
-
-        var box = el("article", "box");
-        box.style.setProperty("--c", "var(--c-" + s.color + ")"); box.dataset.c = s.color;
-        box.style.setProperty("--fill", j.fill);
-        box.setAttribute("aria-label", s.name + " 월 한도 " + (used == null ? "사용량 미연동" : "사용 " + used + "%") + ", 적정선 " + pace + "%, " + j.st);
-
-        var head = el("div", "box-head");
-        head.appendChild(el("span", "chip", s.chip));
-        head.appendChild(el("span", "name", s.name));
-        head.appendChild(el("span", "acct", "· 월 " + won(s.limit) + " · 결제일 " + s.dayLabel));
-        box.appendChild(head);
-
-        var row = el("div", "row");
-        row.appendChild(el("span", "lbl", "월간"));
-        var bar = el("div", "bar");
-        bar.setAttribute("aria-hidden", "true");
-        var fill = el("i"); fill.style.width = Math.min(100, used || 0) + "%";
-        var mark = el("u"); mark.style.left = "calc(" + Math.min(100, c.pace) + "% - 1px)";
-        bar.appendChild(fill); bar.appendChild(mark);
-        row.appendChild(bar);
-        row.appendChild(el("span", "pct", (used == null ? 0 : Math.round(used)) + "%"));
-        row.appendChild(el("span", "reset", fmtReset(c.end)));
-        box.appendChild(row);
-
-        var sub = el("p", "sub");
-        sub.appendChild(document.createTextNode("(" + fmtLeft(c.end - now) + ") "));
-        sub.appendChild(el("span", "st", j.st));
-        sub.appendChild(document.createTextNode(" · 적정선 " + pace + "%"));
-        if (used != null) {
-          var dv = Math.round(used - c.pace);
-          sub.appendChild(document.createTextNode(" · "));
-          sub.appendChild(el("span", "dv", (dv >= 0 ? "+" : "") + dv + "%p"));
-        }
-        if (j.st === "초과 예상" && used > 0) {
-          var hrsElapsed = (now - c.start) / 3600000;
-          var hrsToFull = (100 - used) / (used / hrsElapsed);
-          var full = new Date(now.getTime() + hrsToFull * 3600000);
-          if (full < c.end) sub.appendChild(document.createTextNode(" · " + (full.getUTCMonth() + 1) + "/" + pad(full.getUTCDate()) + " 소진 예상"));
-        }
-        var btn = el("button", "edit", "입력");
-        btn.type = "button";
-        btn.setAttribute("aria-label", s.name + " 현재 사용률 입력");
-        btn.addEventListener("click", function () {
-          var v = window.prompt(s.name + " 현재 사용률(%)을 입력하세요. 비우면 미연동으로 되돌립니다.", used == null ? "" : String(used));
-          if (v === null) return;
-          v = v.trim().replace("%", "");
-          if (v === "") delete saved[s.id];
-          else { var n = Number(v); if (!isFinite(n) || n < 0) return; saved[s.id] = Math.min(n, 999); }
-          save(saved); render();
-        });
-        sub.appendChild(btn);
-        box.appendChild(sub);
-
+        var m = model(used, c.start, c.end, now);
         var remain = used == null ? null : Math.max(0, Math.round(s.limit * (100 - Math.min(100, used)) / 100));
-        box.appendChild(el("p", "meta-line", "일 환산 " + won(Math.round(s.limit / 30)) + " · 잔여 " + (remain == null ? "미확인" : won(remain)) + " · 주기 " + (c.start.getUTCMonth() + 1) + "/" + c.start.getUTCDate() + " → " + (c.end.getUTCMonth() + 1) + "/" + c.end.getUTCDate()));
-        boxes.appendChild(box);
+        boxes.appendChild(buildItem({
+          chip: s.chip, name: s.name, acct: "· 월 " + won(s.limit) + " · 결제일 " + s.dayLabel, color: s.color,
+          windows: [{ label: view === "gauge" ? "월간 · " + s.dayLabel : "월간", m: m, resetText: fmtReset(c.end), onEdit: function () {
+            var v = window.prompt(s.name + " 현재 사용률(%)을 입력하세요. 비우면 미연동으로 되돌립니다.", used == null ? "" : String(used));
+            if (v === null) return;
+            v = v.trim().replace("%", "");
+            if (v === "") delete saved[s.id];
+            else { var n = Number(v); if (!isFinite(n) || n < 0) return; saved[s.id] = Math.min(n, 999); }
+            save(saved); render();
+          } }],
+          metas: ["일 환산 " + won(Math.round(s.limit / 30)) + " · 잔여 " + (remain == null ? "미확인" : won(remain)) + " · 주기 " + (c.start.getUTCMonth() + 1) + "/" + c.start.getUTCDate() + " → " + (c.end.getUTCMonth() + 1) + "/" + c.end.getUTCDate()]
+        }));
       });
       document.getElementById("sum-input").textContent = inputs + " / " + SERVICES.length;
       document.getElementById("sum-next").textContent = nextSvc ? nextSvc.name + " " + (nextEnd.getUTCMonth() + 1) + "/" + nextEnd.getUTCDate() : "—";
       document.getElementById("sync-note").hidden = inputs === SERVICES.length;
+      document.querySelectorAll(".seg button").forEach(function (b) { b.setAttribute("aria-pressed", String(b.dataset.view === view)); });
+    }
+    document.querySelectorAll(".seg button").forEach(function (b) {
+      b.addEventListener("click", function () { view = b.dataset.view; try { localStorage.setItem(VIEW_KEY, view); } catch (e) {} render(); });
+    });
+    function loadUsage() {
+      fetch("/data/ai-usage.json?t=" + Date.now(), { cache: "no-store" })
+        .then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); })
+        .then(function (j) { usage = j; render(); })
+        .catch(function () { usage = false; render(); });
     }
     render();
+    loadUsage();
     setInterval(render, 60000);
+    setInterval(loadUsage, 10 * 60000);
 
     // 결제일 달력
     var byDay = {};
