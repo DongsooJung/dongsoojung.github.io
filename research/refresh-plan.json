@@ -1075,7 +1075,7 @@
           "Tourism not re-fetched before October26; original checkedAt retained"
         ]
       },
-      "nextAction": "이exchange-rate완료저장본은반복하지않고다음미완료 /research/bukangi/ 공식결과원문·과거13개고유출처의19기록을대조. 결과원문미확보시결과/위치확정금지하고 /ds-research-urban-analytics/ 등다음항목진행.관광은10월26일이후,WorldBank는11월3일이후. 최종수락에서변경된게시본만별도조정.",
+      "nextAction": "10월26일이후에는관광공표대기를우선확인. 그전에는이exchange-rate완료저장본은반복하지않고다음미완료 /research/bukangi/ 공식결과원문·과거13개고유출처의19기록을대조. 결과원문미확보시결과/위치확정금지하고 /ds-research-urban-analytics/ 등다음항목진행.관광은10월26일이후,WorldBank는11월3일이후. 최종수락에서변경된게시본만별도조정.",
       "sourceFollowups": [
         {
           "id": "source-followup-1-20261021",
@@ -1344,10 +1344,16 @@
             "branch": "codex/exchange-closeout-20261025",
             "status": "awaiting_checks",
             "liveUrl": "https://www.stargateedu.co.kr/exchange-rate/",
-            "sourceReviewUrl": "https://www.stargateedu.co.kr/research/source-reviews/2026-10-25-exchange-closeout.json"
+            "sourceReviewUrl": "https://www.stargateedu.co.kr/research/source-reviews/2026-10-25-exchange-closeout.json",
+            "pullRequest": "https://github.com/DongsooJung/dongsoojung.github.io/pull/220"
           }
         }
-      ]
+      ],
+      "publicationPriority": {
+        "key": "/korea-tourism/",
+        "eligibleOn": "2026-10-26",
+        "rule": "공표일도래시실제원문공표부터대조"
+      }
     }
   ],
   "automationId": "10",
