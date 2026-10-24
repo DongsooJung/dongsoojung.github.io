@@ -13,16 +13,20 @@ FRED 그래프 CSV는 API 키 없이 내려받을 수 있다.
 import csv
 import io
 import json
+import hashlib
+import math
 import sys
 import urllib.parse
 import urllib.request
 from datetime import date, datetime, timezone
+from decimal import Decimal, ROUND_HALF_EVEN
 from pathlib import Path
 
 
 FRED_CSV = "https://fred.stlouisfed.org/graph/fredgraph.csv"
 YEARS = 30
 DATA_PATH = Path(__file__).parent / "rate_gap.json"
+SOURCE_CHECKS = []
 
 SERIES = {
     "korea": {
@@ -54,6 +58,28 @@ def month_sequence(start_ym, end_ym):
             y, m = y + 1, 1
 
 
+def parse_series(text, series_id, start, today):
+    reader = csv.DictReader(io.StringIO(text))
+    if reader.fieldnames != ["observation_date", series_id]:
+        raise ValueError("FRED 날짜/시리즈 열 불일치")
+    rows, seen = {}, set()
+    for row in reader:
+        observed = date.fromisoformat(row["observation_date"])
+        if observed.day != 1 or not start <= observed <= today or observed in seen:
+            raise ValueError("FRED 월별 기간/범위/중복 불일치")
+        seen.add(observed)
+        raw = row.get(series_id)
+        if not raw or raw == ".":
+            continue
+        value = float(raw)
+        if not math.isfinite(value):
+            raise ValueError("FRED 비유한 금리")
+        rows[observed.strftime("%Y-%m")] = value
+    if not rows:
+        raise ValueError("FRED 유효한 월별 관측 없음")
+    return rows
+
+
 def fetch_series(series_id, start):
     params = urllib.parse.urlencode({
         "id": series_id,
@@ -64,20 +90,9 @@ def fetch_series(series_id, start):
         headers={"User-Agent": "stargateedu-dashboard/1.0"},
     )
     with urllib.request.urlopen(req, timeout=60) as response:
-        text = response.read().decode("utf-8-sig")
-
-    rows = {}
-    for row in csv.DictReader(io.StringIO(text)):
-        raw = row.get(series_id)
-        if not raw or raw == ".":
-            continue
-        try:
-            ym = row["observation_date"][:7]
-            rows[ym] = float(raw)
-        except (KeyError, ValueError):
-            continue
-    if not rows:
-        raise RuntimeError(f"FRED {series_id}: 유효한 관측치가 없습니다.")
+        raw = response.read()
+    rows = parse_series(raw.decode("utf-8-sig"), series_id, start, date.today())
+    SOURCE_CHECKS.append({"url":req.full_url,"seriesId":series_id,"sha256":hashlib.sha256(raw).hexdigest(),"receivedAt":datetime.now(timezone.utc).isoformat(),"rows":len(rows)})
     return rows
 
 
@@ -109,9 +124,10 @@ def main():
     series = [
         {
             "ym": ym,
-            "koreaRate": round(korea[ym], 3),
-            "usRate": round(us[ym], 3),
-            "gap": round(korea[ym] - us[ym], 3),
+            "partial": ym == today.strftime("%Y-%m"),
+            "koreaRate": float(Decimal(str(korea[ym])).quantize(Decimal('.001'),rounding=ROUND_HALF_EVEN)),
+            "usRate": float(Decimal(str(us[ym])).quantize(Decimal('.001'),rounding=ROUND_HALF_EVEN)),
+            "gap": float((Decimal(str(korea[ym])) - Decimal(str(us[ym]))).quantize(Decimal('.001'),rounding=ROUND_HALF_EVEN)),
         }
         for ym in common_months
     ]
@@ -123,6 +139,11 @@ def main():
         "source": "FRED (OECD 한국 익일물 금리 · Federal Reserve 미국 실효 연방기금금리)",
         "sourceMode": "api",
         "updatedAt": datetime.now(timezone.utc).strftime("%Y-%m-%d"),
+        "observedAt": common_months[-1],
+        "sourceObservationTime": None,
+        "collectedAt": max((c["receivedAt"] for c in SOURCE_CHECKS),default=datetime.now(timezone.utc).isoformat()),
+        "snapshotUpdatedAt": datetime.now(timezone.utc).isoformat(),
+        "sourceChecks": list(SOURCE_CHECKS),
         "unit": "% · 금리차는 %p",
         "definition": "금리차 = 한국 콜머니·은행간 익일물 월평균 − 미국 실효 연방기금금리 월평균",
         "coverage": {"start": series[0]["ym"], "end": series[-1]["ym"], "months": len(series)},

@@ -138,3 +138,6 @@ python3 exchange-rate/fetch_bitcoin.py
 2026-10-23 BOK 전수 후속: ECOS68응답·기준금리329개월(1999-05..2026-09)·CPI341개월(전년동월12개월포함)을 대조했습니다. 원문코드/단위/기간/중복/공통구간연속성·987표시수치+658원문수치 검증. CPI원문3자리 등 정밀도를cpiRaw/cpiPriorYearRaw로보존하고, 표시2자리만Decimal half-even으로반올림합니다. 기존9개표시값의0.01차이는반올림경계정정이며공식자료개정으로주장하지않습니다. YoY는원문정밀도로계산합니다. 출처연결/단위/범위검증실패는파일/갱신일보존·비정상종료1. API키는공개원문증거URL에노출하지않습니다. sourceChecks/collectedAt/snapshotUpdatedAt/sourceVerification은자료기준월과별도입니다. sourceVerification은해당검증저장본에만적용됩니다.
 
 FX/BTC/시장자동수집후지문변경을확인해카탈로그모듈은snapshot_checked로분리했습니다. 이전공식대조는previousVerification에보존합니다. 시장의현재Brent는FRED일자료203건이며이전WB월자료9건과동일검증범위가아닙니다. 전체프로젝트는needs_review이고금리차과거355행대조도남았습니다. 테스트 python scripts/test_bok_sources.py. 근거 /research/source-reviews/2026-10-23-bok-history.json
+
+
+2026-10-24 금리차 전수 후속: FRED CSV2개·각360개월(1996-10..2026-09),공통360행1080수치와한국−미국차이를독립Decimal로대조했습니다. 기존수치변경없고과거355행미완료해소. 월별·계절미조정·금리%/차이%p. 기준월9월·원시리즈갱신일·수집/파일생성/대조일분리. 공식HTML의H.15다음공표10월26일은10월월자료확보의증거가아닙니다. sourceObservationTime=null. 새금리차CSV는전체/선택기간·정의·단위·기간·수집/대조일을함께내보냅니다. 연결실패/누락/중복/비유한값/열스키마오류는기존파일/갱신일보존. FX/BTC/시장재대조와최종수락은미완료·일일예약유지. 근거 /research/source-reviews/2026-10-24-rategap-history.json
