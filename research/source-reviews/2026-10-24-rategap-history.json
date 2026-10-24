@@ -1,0 +1,148 @@
+{
+  "schemaVersion": 1,
+  "step": "acceptance-rate-gap-history",
+  "checkedAt": "2026-10-24T02:40:34.198Z",
+  "sourceBaseCommit": "8e12c8b61c4ae96d2c1f466485d43de07a035971",
+  "key": "/exchange-rate/",
+  "reviewStatus": "needs_review",
+  "verifiedScope": "FRED 원문CSV2개 각360행·공통360개월1080수치와 한국−미국 차이를 독립Decimal로 검산. 단위%·차이%p·월별·계절미조정. API응답에10월행없음.",
+  "sourceChecks": [
+    {
+      "key": "korea",
+      "url": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=IRSTCI01KRM156N&cosd=1996-10-01",
+      "checkedAt": "2026-10-24T02:37:32.654176+00:00",
+      "status": 200,
+      "receivedAt": "2026-10-24T02:37:33.349012+00:00",
+      "contentType": "application/csv",
+      "bytes": 6175,
+      "sha256": "233997065079956ea5d761f9fbbbbea7fc62db68ba94f2b7fa2e3331f9e422ba",
+      "kind": "official-source",
+      "scope": "해당시리즈전체360개월의원문수치·날짜열·중복·범위검증. 공통360행의차이독립검산."
+    },
+    {
+      "key": "us",
+      "url": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=FEDFUNDS&cosd=1996-10-01",
+      "checkedAt": "2026-10-24T02:37:32.654176+00:00",
+      "status": 200,
+      "receivedAt": "2026-10-24T02:37:33.366126+00:00",
+      "contentType": "application/csv",
+      "bytes": 5786,
+      "sha256": "4e1b65c1ee1fcc58ca09e758ee1491d40a92302ef276178dfe7e0abeb25919f7",
+      "kind": "official-source",
+      "scope": "해당시리즈전체360개월의원문수치·날짜열·중복·범위검증. 공통360행의차이독립검산."
+    }
+  ],
+  "officialMetadata": {
+    "checkedAt": "2026-10-24T02:40:34.198Z",
+    "transport": "web.open",
+    "scope": "공식시리즈HTML의월별·계절미조정·%단위와최신9월관측 및 공표갱신일 확인. 원문응답해시없음.",
+    "sources": [
+      {
+        "url": "https://fred.stlouisfed.org/series/IRSTCI01KRM156N",
+        "seriesId": "IRSTCI01KRM156N",
+        "latestPeriod": "2026-09",
+        "latestValue": 3.044,
+        "publishedUpdatedAt": "Oct 15, 2026 3:49 PM CDT",
+        "nextRelease": null
+      },
+      {
+        "url": "https://fred.stlouisfed.org/series/FEDFUNDS",
+        "seriesId": "FEDFUNDS",
+        "latestPeriod": "2026-09",
+        "latestValue": 3.75,
+        "publishedUpdatedAt": "Oct 1, 2026 3:16 PM CDT",
+        "nextReleaseCalendarDate": "2026-10-26",
+        "note": "H.15공표일정은10월월자료확보의증거가아님."
+      }
+    ]
+  },
+  "validation": {
+    "checkedAt": "2026-10-24T02:39:08.379362+00:00",
+    "requests": 2,
+    "sourceRows": {
+      "IRSTCI01KRM156N": 360,
+      "FEDFUNDS": 360
+    },
+    "outputMonths": 360,
+    "numericValuesVerified": 1080,
+    "coverage": {
+      "start": "1996-10",
+      "end": "2026-09",
+      "months": 360
+    },
+    "numericCorrections": [],
+    "units": {
+      "koreaRate": "percent",
+      "usRate": "percent",
+      "gap": "percentage_points"
+    },
+    "frequency": "monthly",
+    "seasonalAdjustment": "not_seasonally_adjusted",
+    "sourceObservationTime": null,
+    "octoberInResponse": false,
+    "definition": "한국 OECD 콜머니·은행간 익일물 월평균 − 미국 실효 연방기금 월평균. 정책금리 목표범위 차이가 아님.",
+    "tests": {
+      "nodePassed": 19,
+      "pythonPassed": 4
+    },
+    "browser": {
+      "base": "http://127.0.0.1:55720",
+      "verifiedAt": "2026-10-24T02:41:47.645Z",
+      "checks": [
+        "360 monthly rows/1080 values match official-source-backed JSON",
+        "CSV360 rows11 fields matches all values,units,definitions and distinct source timestamps",
+        "Last12 filter produces12 chart points and12 CSV rows",
+        "No inferred October or observation timestamp; September latest and percentage-point definition visible",
+        "BOK329 remains available; source audit download matches",
+        "JSON404 fallback,390px mobile,no overflow,no runtime errors"
+      ],
+      "pageErrors": []
+    }
+  },
+  "moduleReview": {
+    "status": "verified",
+    "checkedAt": "2026-10-24T02:39:08.379362+00:00",
+    "verifiedAt": "2026-10-24T02:39:08.379362+00:00",
+    "dataAsOf": "2026-09",
+    "dataPeriod": "1996-10..2026-09",
+    "verifiedRows": 360,
+    "historicalRowsOutsideScope": 0,
+    "partial": false,
+    "dataHash": "1c5f4399a68c9800a4138b79f50a9a4eae9b7aa3c215762e0b97b23b9e5abcdc",
+    "collectedAt": "2026-10-24T02:37:33.366126+00:00",
+    "snapshotUpdatedAt": "2026-10-24T02:39:08.280843+00:00",
+    "sourceObservationTime": null,
+    "scope": "FRED 원문CSV2개 각360행·공통360개월1080수치와 한국−미국 차이를 독립Decimal로 검산. 단위%·차이%p·월별·계절미조정. API응답에10월행없음.",
+    "previousVerification": {
+      "status": "needs_review",
+      "checkedAt": "2026-10-22T20:52:39.095Z",
+      "dataPeriod": "2026-05..2026-09",
+      "verifiedRows": 5,
+      "historicalRowsOutsideScope": 355,
+      "snapshotFileUnchanged": true,
+      "scope": "한국 OECD 익일물 월금리 − 미국 실효 연방기금 월금리 (%p). 정책금리 목표범위 차이가 아님. 최근5개월 HTML 표만 일치. 전체360개월 검증 아님.",
+      "nextAction": "FRED CSV 또는 OECD 원표 접근 정상화 후 나머지355개월 대조."
+    },
+    "nextAction": "실제10월원문확보또는게시본수치변경시만추가대조. 공표일정만으로월자료확보를주장하지않음."
+  },
+  "bokReconciliation": {
+    "valuesUnchanged": true,
+    "originalSourceRefetched": false,
+    "priorVerifiedAt": "2026-10-23T11:41:58.634989+00:00"
+  },
+  "otherModules": "FX/BTC/시장원문재수집없음. snapshot_checked와기존검증이력유지.",
+  "deferred": [
+    {
+      "key": "/korea-tourism/",
+      "nextEligibleDate": "2026-10-26",
+      "action": "not_refetched"
+    },
+    {
+      "key": "worldbank-monthly",
+      "nextEligibleDate": "2026-11-03",
+      "action": "not_refetched"
+    }
+  ],
+  "nextAction": "BOK329개월·금리차360개월완료저장본은수치지문변경전반복하지않음. 다음은변경된FX/BTC부분구간·FRED시장저장본또는다음원출처미완료프로젝트최대8개. 관광10월26일·WorldBank11월3일이후.",
+  "acceptanceComplete": false
+}

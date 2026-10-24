@@ -1509,17 +1509,17 @@
     },
     {
       "source": {
-        "label": "한국은행 ECOS 전체329개월 검증 · 다른 모듈별 별도 상태",
-        "url": "https://ecos.bok.or.kr/api/",
+        "label": "한국은행329개월·FRED금리차360개월 검증 · 다른모듈 재대조대기",
+        "url": "https://fred.stlouisfed.org/series/IRSTCI01KRM156N",
         "verification": "partially_verified"
       },
       "dataAsOf": null,
       "dataPeriod": "혼재 (BOK9월·FX10월22일·BTC10월부분·Brent10월20일·WB9월)",
       "snapshotUpdatedAt": null,
       "collectedAt": null,
-      "checkedAt": "2026-10-23T11:43:51.750Z",
+      "checkedAt": "2026-10-24T02:40:34.198Z",
       "reviewStatus": "needs_review",
-      "freshness": "bok_full_verified_changed_modules_snapshot_checked",
+      "freshness": "bok_and_rate_gap_verified_other_changed_snapshots_pending",
       "evidence": [
         {
           "kind": "audit-record",
@@ -2160,21 +2160,55 @@
           "url": "/research/source-reviews/2026-10-23-bok-history.json",
           "checkedAt": "2026-10-23T11:43:51.750Z",
           "scope": "ECOS 원문68응답·기준금리329개월·CPI341개월(전년동월12개월포함) 전수 대조. 987표시수치+658원문/전년동월수치 검산. 원문 정밀도를 보존하며 CPI표시2자리만 Decimal half-even. API 응답에10월 없음."
+        },
+        {
+          "kind": "official-source",
+          "url": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=IRSTCI01KRM156N&cosd=1996-10-01",
+          "checkedAt": "2026-10-24T02:37:32.654176+00:00",
+          "sha256": "233997065079956ea5d761f9fbbbbea7fc62db68ba94f2b7fa2e3331f9e422ba",
+          "scope": "해당시리즈전체360개월의원문수치·날짜열·중복·범위검증. 공통360행의차이독립검산."
+        },
+        {
+          "kind": "official-source",
+          "url": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=FEDFUNDS&cosd=1996-10-01",
+          "checkedAt": "2026-10-24T02:37:32.654176+00:00",
+          "sha256": "4e1b65c1ee1fcc58ca09e758ee1491d40a92302ef276178dfe7e0abeb25919f7",
+          "scope": "해당시리즈전체360개월의원문수치·날짜열·중복·범위검증. 공통360행의차이독립검산."
+        },
+        {
+          "kind": "official-source",
+          "url": "https://fred.stlouisfed.org/series/IRSTCI01KRM156N",
+          "checkedAt": "2026-10-24T02:40:34.198Z",
+          "transport": "web.open",
+          "scope": "공식시리즈HTML의월별·계절미조정·%단위와최신9월관측 및 공표갱신일 확인. 원문응답해시없음."
+        },
+        {
+          "kind": "official-source",
+          "url": "https://fred.stlouisfed.org/series/FEDFUNDS",
+          "checkedAt": "2026-10-24T02:40:34.198Z",
+          "transport": "web.open",
+          "scope": "공식시리즈HTML의월별·계절미조정·%단위와최신9월관측 및 공표갱신일 확인. 원문응답해시없음."
+        },
+        {
+          "kind": "audit-record",
+          "url": "/research/source-reviews/2026-10-24-rategap-history.json",
+          "checkedAt": "2026-10-24T02:40:34.198Z",
+          "scope": "FRED 원문CSV2개 각360행·공통360개월1080수치와 한국−미국 차이를 독립Decimal로 검산. 단위%·차이%p·월별·계절미조정. API응답에10월행없음."
         }
       ],
       "issues": [
-        "한국은행329개월 원문 대조 완료. 소수3자리 CPI 원문과 전년동월 값을JSON/CSV에 보존하며 표시2자리반올림9건정정.",
-        "API응답에10월 행 없음.9월 기준·실제 수집·파일 생성·원문 대조시각 구분.",
-        "자동수집으로FX/BTC/시장 지문이 이전검증본과 달라snapshot_checked. 과거 검증은previousVerification에 보존하며 새자료verified아님.",
-        "금리차 과거355행 원문 대조 미완료."
+        "금리차1996-10..2026-09의360개월1080수치원문대조완료. 기존355개월미완료해소. 수치변경없음.",
+        "기준월9월·시리즈공표갱신일·실제수집일·파일생성일·원문대조일분리. 응답에10월값없음.",
+        "한국익일물월평균−미국실효연방기금월평균은%p차이. 정책금리목표범위차이아님.",
+        "FX/BTC/시장의자동수집후변경본은원문재대조대기. 이전검증이력보존."
       ],
       "key": "/exchange-rate/",
       "url": "/exchange-rate/",
       "title": "환율·금리·물가 대시보드",
       "primary": "society",
       "classification": "경제·사회",
-      "sourceHint": "BOK 전수329개월 · 변경 저장본 별도 미검증",
-      "nextAction": "금리차 과거355행과 자동수집으로 바뀐FX/BTC/시장 모듈은 원문 재대조 필요. 같은 접근 실패만 반복하지 말고 다음 원출처 미완료 프로젝트를 처리. 관광은10월26일, World Bank는11월3일 이후.",
+      "sourceHint": "BOK329개월·금리차360개월 · FX/BTC/시장별도",
+      "nextAction": "BOK329개월·금리차360개월완료저장본은수치지문변경전반복하지않음. 다음은변경된FX/BTC부분구간·FRED시장저장본또는다음원출처미완료프로젝트최대8개. 관광10월26일·WorldBank11월3일이후.",
       "previousReview": {
         "checkedAt": "2026-10-20T23:06:28.769Z",
         "dataAsOf": "2026-10-20",
@@ -2188,7 +2222,7 @@
           "verification": "declared"
         }
       },
-      "verifiedScope": "ECOS 원문68응답·기준금리329개월·CPI341개월(전년동월12개월포함) 전수 대조. 987표시수치+658원문/전년동월수치 검산. 원문 정밀도를 보존하며 CPI표시2자리만 Decimal half-even. API 응답에10월 없음.",
+      "verifiedScope": "금리차360개월1080수치전체대조. BOK329개월기존완료본은수치일치시검증일유지.",
       "moduleReviews": {
         "fx": {
           "status": "snapshot_checked",
@@ -2239,11 +2273,13 @@
           "nextAction": "기존 원문 수집기로 변경된10월 부분구간을 재대조."
         },
         "other": {
-          "status": "needs_review",
+          "status": "snapshot_checked",
           "keys": [
-            "rate_gap.json"
+            "data.json",
+            "bitcoin_data.json",
+            "market_data.json"
           ],
-          "scope": "금리차 최근5개월만 기존 대조. 과거355행과 변경된FX/BTC/시장 저장본은 별도 미완료."
+          "scope": "금리차360개월완료. FX/BTC/시장은이전검증이력과새자동수집저장본을분리해원문재대조대기."
         },
         "market": {
           "status": "snapshot_checked",
@@ -2288,17 +2324,39 @@
           "snapshotUpdatedAt": "2026-10-23T11:41:58.597404+00:00",
           "sourceObservationTime": null,
           "scope": "ECOS 원문68응답·기준금리329개월·CPI341개월(전년동월12개월포함) 전수 대조. 987표시수치+658원문/전년동월수치 검산. 원문 정밀도를 보존하며 CPI표시2자리만 Decimal half-even. API 응답에10월 없음.",
-          "nextAction": "게시본 값 지문이 바뀌면 해당 원문을 재대조. 월간10월자료는 실제 원문 확보시에만 추가."
+          "nextAction": "게시본 값 지문이 바뀌면 해당 원문을 재대조. 월간10월자료는 실제 원문 확보시에만 추가.",
+          "snapshotReconciliation": {
+            "checkedAt": "2026-10-24T02:40:34.198Z",
+            "scope": "기존원표대조329개월의수치/범위/원문정밀도와현재파일series동일. 원문재수집아님; 기존검증일유지.",
+            "valuesUnchanged": true,
+            "currentPayloadHash": "69e3415989c015fd189f89b47165cdd09f0d1302f9fd5018163aa74fc931f055"
+          }
         },
         "rateGap": {
-          "status": "needs_review",
-          "checkedAt": "2026-10-22T20:52:39.095Z",
-          "dataPeriod": "2026-05..2026-09",
-          "verifiedRows": 5,
-          "historicalRowsOutsideScope": 355,
-          "snapshotFileUnchanged": true,
-          "scope": "한국 OECD 익일물 월금리 − 미국 실효 연방기금 월금리 (%p). 정책금리 목표범위 차이가 아님. 최근5개월 HTML 표만 일치. 전체360개월 검증 아님.",
-          "nextAction": "FRED CSV 또는 OECD 원표 접근 정상화 후 나머지355개월 대조."
+          "status": "verified",
+          "checkedAt": "2026-10-24T02:39:08.379362+00:00",
+          "verifiedAt": "2026-10-24T02:39:08.379362+00:00",
+          "dataAsOf": "2026-09",
+          "dataPeriod": "1996-10..2026-09",
+          "verifiedRows": 360,
+          "historicalRowsOutsideScope": 0,
+          "partial": false,
+          "dataHash": "1c5f4399a68c9800a4138b79f50a9a4eae9b7aa3c215762e0b97b23b9e5abcdc",
+          "collectedAt": "2026-10-24T02:37:33.366126+00:00",
+          "snapshotUpdatedAt": "2026-10-24T02:39:08.280843+00:00",
+          "sourceObservationTime": null,
+          "scope": "FRED 원문CSV2개 각360행·공통360개월1080수치와 한국−미국 차이를 독립Decimal로 검산. 단위%·차이%p·월별·계절미조정. API응답에10월행없음.",
+          "previousVerification": {
+            "status": "needs_review",
+            "checkedAt": "2026-10-22T20:52:39.095Z",
+            "dataPeriod": "2026-05..2026-09",
+            "verifiedRows": 5,
+            "historicalRowsOutsideScope": 355,
+            "snapshotFileUnchanged": true,
+            "scope": "한국 OECD 익일물 월금리 − 미국 실효 연방기금 월금리 (%p). 정책금리 목표범위 차이가 아님. 최근5개월 HTML 표만 일치. 전체360개월 검증 아님.",
+            "nextAction": "FRED CSV 또는 OECD 원표 접근 정상화 후 나머지355개월 대조."
+          },
+          "nextAction": "실제10월원문확보또는게시본수치변경시만추가대조. 공표일정만으로월자료확보를주장하지않음."
         }
       }
     },
