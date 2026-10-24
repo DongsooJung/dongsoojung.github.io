@@ -419,6 +419,7 @@ body.portal-dashboard-mode #personal-projects{margin-top:14px}
 .customer-care-card{display:flex;align-items:center;justify-content:space-between;gap:28px;padding:28px;border:1px solid var(--line2);border-radius:20px;background:var(--panel);scroll-margin-top:24px}
 .customer-care-copy{max-width:680px}.customer-care-copy h3{margin:8px 0 12px;font-size:clamp(22px,3vw,30px);line-height:1.4}.customer-care-copy p{margin:8px 0;color:var(--sub);line-height:1.8}.customer-care-copy .customer-care-note{font-size:12px;color:var(--muted)}
 .customer-care-actions{display:flex;flex-direction:column;align-items:center;gap:12px;flex-shrink:0}.customer-care-actions .kakao-consult-btn{display:inline-flex;align-items:center;justify-content:center;min-height:50px;padding:13px 22px;border:1px solid #e6cc00;border-radius:12px;background:#fee500;color:#191919;font-weight:800;text-decoration:none;white-space:nowrap}.customer-group-link{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:9px 18px;border:1px solid var(--line2);border-radius:10px;color:var(--ink);font-size:13px}.kakao-consult-btn:hover{background:#f5da00}.kakao-consult-btn:focus-visible{outline:3px solid var(--acc);outline-offset:4px}.customer-care-actions .customer-admin-link{font-size:12px;color:var(--muted);text-decoration:underline}
+.zoom-hero-banner{border-color:#ffb000;background:rgba(255,176,0,.10)}.zoom-hero-banner:hover{background:rgba(255,176,0,.18)}.zoom-hero-banner .app-hero-new{background:#ff5d5d;color:#fff}.zoom-hero-banner .app-hero-go{color:#ffb000}.zoom-class-actions{flex-wrap:wrap;gap:10px}.zoom-btn{display:inline-flex;align-items:center;justify-content:center;min-height:46px;padding:11px 20px;border:1px solid var(--line2);border-radius:12px;color:var(--ink);font-weight:700;text-decoration:none}.zoom-btn:hover{text-decoration:none;border-color:#ffb000}.zoom-btn-main{border-color:#ffb000;background:#ffb000;color:#1a1300}.zoom-btn:focus-visible{outline:3px solid var(--acc);outline-offset:3px}
 .app-hero-banner{display:flex;align-items:center;gap:12px;margin-top:16px;max-width:520px;padding:12px 16px;border:1px solid var(--acc);border-radius:12px;background:rgba(79,127,255,.08);color:var(--ink);text-decoration:none}.app-hero-banner:hover{background:rgba(79,127,255,.15);text-decoration:none}.app-hero-banner:focus-visible{outline:3px solid var(--acc);outline-offset:3px}.app-hero-new{flex-shrink:0;padding:3px 8px;border-radius:6px;background:var(--acc);color:#0b1020;font-size:11px;font-weight:800;letter-spacing:.04em}.app-hero-text{display:flex;flex-direction:column;min-width:0;flex:1}.app-hero-text b{font-size:15px}.app-hero-text span{font-size:12.5px;color:var(--muted)}.app-hero-go{flex-shrink:0;font-weight:700;color:var(--acc)}.app-install-actions{display:flex;align-items:center;gap:16px}.app-install-qr{display:flex;flex-direction:column;align-items:center;gap:4px;font-size:11px;color:var(--muted)}.app-install-qr img{width:96px;height:96px;border-radius:8px;background:#fff;padding:4px}@media(max-width:760px){.app-install-qr{display:none}}
 .app-install-card{display:flex;align-items:center;justify-content:space-between;gap:18px;flex-wrap:wrap;padding:20px 22px;border:1px solid var(--line2);border-radius:16px;background:var(--panel)}.app-install-copy h3{margin:4px 0 6px}.app-install-copy p{margin:0;color:var(--muted);font-size:14px}.play-install-btn{display:inline-flex;align-items:center;gap:10px;min-height:52px;padding:10px 20px;border-radius:12px;background:#000;color:#fff;border:1px solid #3c3c3c;text-decoration:none;white-space:nowrap}.play-install-btn:hover{background:#1f1f1f;text-decoration:none}.play-install-btn:focus-visible{outline:3px solid var(--acc);outline-offset:4px}.play-install-btn svg{width:26px;height:26px;flex-shrink:0}.play-install-btn small{display:block;font-size:11px;line-height:1.1;opacity:.85}.play-install-btn b{display:block;font-size:17px;line-height:1.2}@media(max-width:560px){.app-install-card{flex-direction:column;align-items:stretch;text-align:center}.play-install-btn{justify-content:center}}
 @media(max-width:700px){.customer-care-card{flex-direction:column;align-items:stretch;padding:22px}.customer-care-actions{align-items:stretch}.customer-care-actions .customer-admin-link{text-align:center}}
@@ -524,6 +525,11 @@ var m=localStorage.getItem(k);if(m==='mobile'||m==='fold')r.classList.add('is-ap
           ◉ 연구 대시보드
         </a>
       </div>
+      <a class="app-hero-banner zoom-hero-banner" href="/zoom-class/" data-analytics-label="히어로 ZOOM 실시간 수업 배너" aria-label="ZOOM 실시간 수업 11월 8일 개강 안내 보기">
+        <span class="app-hero-new">LIVE</span>
+        <span class="app-hero-text"><b>ZOOM 실시간 수업 11월 8일(일) 개강</b><span>KOI·알고리즘·수학을 대치동 강사와 실시간으로</span></span>
+        <span class="app-hero-go">안내 →</span>
+      </a>
       <a class="app-hero-banner" href="https://play.google.com/store/apps/details?id=kr.co.stargateedu.twa&referrer=utm_source%3Dwww%26utm_medium%3Dhero_banner" target="_blank" rel="noopener noreferrer" data-analytics-label="히어로 앱 설치 배너" aria-label="스타게이트 앱 Google Play에서 설치하기, 새 창">
         <span class="app-hero-new">NEW</span>
         <span class="app-hero-text"><b>스타게이트 앱 출시</b><span>KOI 기출·AI 수학 채점·1:1 상담을 앱으로</span></span>
@@ -1163,6 +1169,21 @@ var m=localStorage.getItem(k);if(m==='mobile'||m==='fold')r.classList.add('is-ap
         </div>
       </a>
 
+    </div>
+  </section>
+
+  <section class="sec" id="zoom-class" aria-labelledby="zoom-class-title">
+    <h2 id="zoom-class-title">ZOOM 실시간 수업</h2>
+    <div class="app-install-card">
+      <div class="app-install-copy">
+        <div class="hub-kicker">STARGATE · LIVE CLASS · 2026.11.08 개강</div>
+        <h3>11월 8일(일), ZOOM 실시간 수업을 시작합니다</h3>
+        <p>KOI 정보올림피아드·알고리즘과 수학 수업을 대표 강사가 ZOOM으로 실시간 지도합니다. 화면 공유로 코드를 함께 검토하고, 질문에는 수업 중에 바로 답합니다. 지방·해외에서도 대치동 커리큘럼 그대로 수강할 수 있습니다.</p>
+      </div>
+      <div class="app-install-actions zoom-class-actions">
+        <a class="zoom-btn zoom-btn-main" href="/zoom-class/" data-analytics-label="ZOOM 수업 안내 페이지">수업 안내 보기 →</a>
+        <a class="zoom-btn" href="https://shop.stargateedu.co.kr/#zoom-live" data-analytics-label="ZOOM 수업 쇼핑몰">쇼핑몰에서 보기 ↗</a>
+      </div>
     </div>
   </section>
 
