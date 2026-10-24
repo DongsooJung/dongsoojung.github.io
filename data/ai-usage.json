@@ -1,7 +1,7 @@
 {
   "schema": 1,
-  "updated_at": "2026-10-24T16:12:00+09:00",
-  "note": "Claude 예약 작업이 1시간마다 갱신합니다. 이메일은 마스킹합니다.",
+  "updated_at": "2026-10-24T16:47:00+09:00",
+  "note": "Claude 예약 작업이 3시간마다 갱신합니다. 이메일은 마스킹합니다.",
   "accounts": [
     {
       "id": "claude-pro",
@@ -54,6 +54,39 @@
         }
       ],
       "extra": ""
+    },
+    {
+      "id": "cursor-pro",
+      "vendor": "cursor",
+      "label": "Cursor",
+      "account": "Cursor Pro",
+      "plan": "Pro",
+      "source": "cursor.com 대시보드 > Spending",
+      "observed_at": "2026-10-24T16:47:00+09:00",
+      "windows": [
+        {
+          "key": "month",
+          "label": "자체모델",
+          "used": 48,
+          "window_minutes": 43200,
+          "resets_at": "2026-10-27T00:00:00+09:00"
+        },
+        {
+          "key": "month-other",
+          "label": "기타모델",
+          "used": 100,
+          "window_minutes": 43200,
+          "resets_at": "2026-10-27T00:00:00+09:00"
+        },
+        {
+          "key": "bot-week",
+          "label": "봇·주간",
+          "used": 3,
+          "window_minutes": 10080,
+          "resets_at": "2026-10-29T00:00:00+09:00"
+        }
+      ],
+      "extra": "자체모델 = Cursor 모델(Grok·Composer) · 기타모델 소진 시 온디맨드(꺼짐) · 크레딧 US$5/US$25 남음(11/14 만료) · 최근 7일 27.8M 토큰"
     }
   ]
 }

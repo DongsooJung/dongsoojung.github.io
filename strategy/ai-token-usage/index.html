@@ -86,7 +86,8 @@
     .seg button[aria-pressed="true"] { background: var(--ink); color: var(--bg); }
     .boxes.as-gauge { grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); }
     .boxes.as-gauge .box.live { grid-column: span 2; }
-    .gpair { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+    .boxes.as-gauge .box.wide { grid-column: 1 / -1; }
+    .gpair { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 6px; }
     .gauge { text-align: center; margin-top: 6px; }
     .gauge svg { width: 100%; max-width: 230px; display: block; margin: 0 auto; }
     .gauge .gl { margin: 0; font-size: 12px; color: var(--dim); }
@@ -102,7 +103,7 @@
     [data-theme="mono"] .chip, .box[data-c="grok"] .chip { color: #111; }
     .box-head .name { font-weight: 700; }
     .box-head .acct { color: var(--dim); }
-    .row { display: grid; grid-template-columns: 42px minmax(0,1fr) 46px 150px; align-items: center; gap: 10px; margin-top: 8px; font-size: 13px; }
+    .row { display: grid; grid-template-columns: 64px minmax(0,1fr) 46px 150px; align-items: center; gap: 10px; margin-top: 8px; font-size: 13px; }
     .row .lbl { color: var(--ink); }
     .bar { position: relative; height: 16px; background: var(--track); }
     .bar i { position: absolute; inset: 0 auto 0 0; background: var(--fill, var(--off)); }
@@ -110,10 +111,10 @@
     .pct { text-align: right; color: var(--fill, var(--off)); }
     .reset { color: var(--ink); white-space: nowrap; }
     .reset::before { content: "↻ "; color: var(--dim); }
-    .sub { margin: 2px 0 0 52px; color: var(--faint); font-size: 12px; }
+    .sub { margin: 2px 0 0 74px; color: var(--faint); font-size: 12px; }
     .sub .st { color: var(--fill, var(--off)); }
     .sub .dv { color: var(--fill, var(--off)); }
-    .meta-line { margin: 6px 0 0 52px; color: var(--faint); font-size: 12px; }
+    .meta-line { margin: 6px 0 0 74px; color: var(--faint); font-size: 12px; }
     .edit { margin-left: 8px; background: none; border: 1px solid var(--line); color: var(--dim); border-radius: 3px; font-size: 11px; padding: 0 6px; cursor: pointer; }
     .edit:hover { color: var(--ink); border-color: var(--dim); }
 
@@ -152,9 +153,9 @@
 
     @media (max-width: 720px) {
       .summary { grid-template-columns: 1fr 1fr; }
-      .row { grid-template-columns: 36px minmax(0,1fr) 40px; }
+      .row { grid-template-columns: 56px minmax(0,1fr) 40px; }
       .row .reset { grid-column: 2 / -1; font-size: 12px; }
-      .sub, .meta-line, .snu .big { margin-left: 46px; }
+      .sub, .meta-line, .snu .big { margin-left: 66px; }
       h1 { font-size: 20px; }
     }
   </style>
@@ -179,7 +180,7 @@
       <p class="prompt"><b>stargate@ai-usage</b>:~$ usage --all --month 2026-10</p>
       <h1>AI 서비스 한도 · 결제 주기 모니터</h1>
       <p class="lead">각 서비스의 월 한도를 100%로 두고, 결제일부터 지난 시간 비율을 <b>적정선</b>(흰 세로선)으로 표시합니다. 사용률이 적정선보다 높으면 다음 결제일 전에 한도를 넘길 속도입니다.</p>
-      <p class="note" id="sync-note"><b>월 한도 사용량 미연동</b> · 5시간·주간 실측은 자동 수집되지만, 아래 월 한도 10개는 자동 연결되지 않았습니다. 각 행의 <span aria-hidden="true">[입력]</span> 버튼으로 현재 %를 넣으면 이 브라우저에만 저장되어 판정(여유·적정·초과 예상·소진)이 계산됩니다.</p>
+      <p class="note" id="sync-note"><b>월 한도 사용량 미연동</b> · 5시간·주간 실측과 Cursor 월 한도는 자동 수집되지만, 나머지 월 한도 9개는 자동 연결되지 않았습니다. 각 행의 <span aria-hidden="true">[입력]</span> 버튼으로 현재 %를 넣으면 이 브라우저에만 저장되어 판정(여유·적정·초과 예상·소진)이 계산됩니다.</p>
       <p class="prompt" id="clock" aria-live="polite">기준 시각 계산 중…</p>
     </header>
 
@@ -203,7 +204,7 @@
       </div>
     </div>
 
-    <h2 id="live-title">실측 사용량 · 5시간 / 주간</h2>
+    <h2 id="live-title">실측 사용량 · Claude · Codex · Cursor</h2>
     <p class="prompt" id="live-meta">사용량 데이터를 불러오는 중…</p>
     <div class="boxes" id="live" aria-labelledby="live-title"></div>
 
@@ -238,7 +239,7 @@
       <h2 id="table-title">월 한도 금액</h2>
       <div class="tbl">
         <table>
-          <caption>출처: AI 토큰·한도 지도 (2026-10). 일 환산은 월 사용액 ÷ 30을 원 단위로 반올림한 값입니다. 결제일은 2026년 8월 토스뱅크 출금일과 9월 일일 메모를 기준으로 맞춘 날짜입니다. 리셋 시각은 결제일 00:00(KST)로 가정했습니다.</caption>
+          <caption>출처: AI 토큰·한도 지도 (2026-10). 일 환산은 월 사용액 ÷ 30을 원 단위로 반올림한 값입니다. 결제일은 2026년 8월 토스뱅크 출금일과 9월 일일 메모를 기준으로 맞춘 날짜입니다. 리셋 시각은 결제일 00:00(KST)로 가정했습니다. Cursor 결제일은 대시보드의 사용량 리셋일(10월 27일)로 바로잡았습니다(2026-10-24 확인).</caption>
           <thead>
             <tr><th>서비스</th><th>개별 한도</th><th>결제일</th><th>현재 소진</th><th>잔여</th><th>합계 대비</th><th>일 환산</th></tr>
           </thead>
@@ -248,9 +249,9 @@
             <tr><td>Genspark</td><td>₩29,100</td><td>7일</td><td>₩0</td><td>₩29,100</td><td>12.1%</td><td>₩970</td></tr>
             <tr><td>Perplexity</td><td>₩8,500</td><td>13일</td><td>₩0</td><td>₩8,500</td><td>3.5%</td><td>₩283</td></tr>
             <tr><td>Claude</td><td>₩37,900</td><td>20일</td><td>₩0</td><td>₩37,900</td><td>15.7%</td><td>₩1,263</td></tr>
-            <tr><td>Cursor</td><td>₩30,000</td><td>20일</td><td>₩0</td><td>₩30,000</td><td>12.4%</td><td>₩1,000</td></tr>
             <tr><td>Gemini</td><td>₩7,300</td><td>21일</td><td>₩0</td><td>₩7,300</td><td>3.0%</td><td>₩243</td></tr>
             <tr><td>Grok</td><td>₩14,300</td><td>24일</td><td>₩0</td><td>₩14,300</td><td>5.9%</td><td>₩477</td></tr>
+            <tr><td>Cursor</td><td>₩30,000</td><td>27일</td><td>실측</td><td>—</td><td>12.4%</td><td>₩1,000</td></tr>
             <tr><td>Manus</td><td>₩49,900</td><td>27일</td><td>₩0</td><td>₩49,900</td><td>20.7%</td><td>₩1,663</td></tr>
             <tr><td>Kimi</td><td>₩27,200</td><td>30일</td><td>₩0</td><td>₩27,200</td><td>11.3%</td><td>₩907</td></tr>
           </tbody>
@@ -270,9 +271,9 @@
       { id: "genspark",   chip: "Genspark",   name: "Genspark",   color: "genspark",   limit: 29100, day: 7,  dayLabel: "7일",   used: null },
       { id: "perplexity", chip: "Perplexity", name: "Perplexity", color: "perplexity", limit: 8500,  day: 13, dayLabel: "13일",  used: null },
       { id: "claude",     chip: "Claude",     name: "Claude",     color: "claude",     limit: 37900, day: 20, dayLabel: "20일",  used: null },
-      { id: "cursor",     chip: "Cursor",     name: "Cursor",     color: "cursor",     limit: 30000, day: 20, dayLabel: "20일",  used: null },
       { id: "gemini",     chip: "Gemini",     name: "Gemini",     color: "google",     limit: 7300,  day: 21, dayLabel: "21일",  used: null },
       { id: "grok",       chip: "Grok",       name: "Grok",       color: "grok",       limit: 14300, day: 24, dayLabel: "24일",  used: null },
+      { id: "cursor",     chip: "Cursor",     name: "Cursor",     color: "cursor",     limit: 30000, day: 27, dayLabel: "27일",  used: null, live: "cursor" },
       { id: "manus",      chip: "Manus",      name: "Manus",      color: "manus",      limit: 49900, day: 27, dayLabel: "27일",  used: null },
       { id: "kimi",       chip: "Kimi",       name: "Kimi",       color: "kimi",       limit: 27200, day: 30, dayLabel: "30일",  used: null }
     ];
@@ -322,7 +323,7 @@
     var VIEW_KEY = "sg-ai-usage-view";
     var view = "bar";
     try { if (localStorage.getItem(VIEW_KEY) === "gauge") view = "gauge"; } catch (e) {}
-    var VENDOR_COLOR = { claude: "claude", codex: "openai", openai: "openai", gemini: "google", google: "google" };
+    var VENDOR_COLOR = { cursor: "cursor", claude: "claude", codex: "openai", openai: "openai", gemini: "google", google: "google" };
 
     // 창 하나(5시간·주간·월간)의 상태 계산
     function model(used, start, end, now) {
@@ -384,7 +385,7 @@
 
     // 박스 하나 그리기: item = {chip,name,acct,color,live,windows:[{label,m,resetText,onEdit}],metas:[]}
     function buildItem(item) {
-      var box = el("article", "box" + (item.live ? " live" : ""));
+      var box = el("article", "box" + (item.live ? " live" : "") + (item.windows.length > 2 ? " wide" : ""));
       box.style.setProperty("--c", "var(--c-" + item.color + ")"); box.dataset.c = item.color;
       var head = el("div", "box-head");
       head.appendChild(el("span", "chip", item.chip));
@@ -443,7 +444,7 @@
       liveMeta.textContent = "";
       liveMeta.appendChild(document.createTextNode("마지막 수집 " + fmtShort(upd) + " · "));
       liveMeta.appendChild(el("span", ageMin > 180 ? "stale" : "", ageMin < 1 ? "방금 전" : (ageMin < 60 ? ageMin + "분 전" : Math.floor(ageMin / 60) + "시간 " + (ageMin % 60) + "분 전")));
-      liveMeta.appendChild(document.createTextNode(" · 1시간마다 자동 수집"));
+      liveMeta.appendChild(document.createTextNode(" · 3시간마다 자동 수집"));
       usage.accounts.forEach(function (a) {
         var obs = new Date(new Date(a.observed_at).getTime() + KST);
         var wins = (a.windows || []).map(function (w) {
@@ -475,7 +476,8 @@
       boxes.replaceChildren();
       var inputs = 0, nextSvc = null, nextEnd = null;
       SERVICES.forEach(function (s) {
-        var used = (saved[s.id] != null) ? saved[s.id] : s.used;
+        var liveAcc = s.live && usage && usage.accounts ? usage.accounts.filter(function (a) { return a.vendor === s.live; })[0] : null;
+        var used = liveAcc && liveAcc.windows && liveAcc.windows[0] && typeof liveAcc.windows[0].used === "number" ? liveAcc.windows[0].used : ((saved[s.id] != null) ? saved[s.id] : s.used);
         if (used != null) inputs++;
         var c = cycle(s.day, now);
         if (!nextEnd || c.end < nextEnd) { nextEnd = c.end; nextSvc = s; }
@@ -483,7 +485,7 @@
         var remain = used == null ? null : Math.max(0, Math.round(s.limit * (100 - Math.min(100, used)) / 100));
         boxes.appendChild(buildItem({
           chip: s.chip, name: s.name, acct: "· 월 " + won(s.limit) + " · 결제일 " + s.dayLabel, color: s.color,
-          windows: [{ label: view === "gauge" ? "월간 · " + s.dayLabel : "월간", m: m, resetText: fmtReset(c.end), onEdit: function () {
+          windows: [{ label: view === "gauge" ? "월간 · " + s.dayLabel : "월간", m: m, resetText: fmtReset(c.end), onEdit: liveAcc ? null : function () {
             var v = window.prompt(s.name + " 현재 사용률(%)을 입력하세요. 비우면 미연동으로 되돌립니다.", used == null ? "" : String(used));
             if (v === null) return;
             v = v.trim().replace("%", "");
