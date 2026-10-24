@@ -1,0 +1,25 @@
+diff --git a/index.html b/index.html
+index 31c824f..7f9af1e 100644
+--- a/index.html
++++ b/index.html
+@@ -115,7 +115,7 @@
+         <div class="sg-card__tag">PRODUCT 3</div>
+         <h3 class="sg-card__title">AI Cybersecurity Suite</h3>
+         <p class="sg-card__desc">LLM 기반 위협탐지·로그분석 자동화 — Amazon KDP 출간 도서 기반.</p>
+-        <a class="sg-card__cta" href="https://blog.stargateedu.co.kr/">자세히 보기 →</a>
++        <a class="sg-card__cta" href="https://stargateedu.co.kr/cybersecurity/">자세히 보기 →</a>
+       </article>
+       <article class="sg-card">
+         <div class="sg-card__tag">RESEARCH</div>
+diff --git "a/\354\212\244\355\203\200\352\262\214\354\235\264\355\212\270 \355\206\265\355\225\251 \353\204\244\353\271\204.js" "b/\354\212\244\355\203\200\352\262\214\354\235\264\355\212\270 \355\206\265\355\225\251 \353\204\244\353\271\204.js"
+index f89d695..9495329 100644
+--- "a/\354\212\244\355\203\200\352\262\214\354\235\264\355\212\270 \355\206\265\355\225\251 \353\204\244\353\271\204.js"	
++++ "b/\354\212\244\355\203\200\352\262\214\354\235\264\355\212\270 \355\206\265\355\225\251 \353\204\244\353\271\204.js"	
+@@ -114,6 +114,7 @@
+     <div class="sg-footer__col">
+       <h4>사업영역</h4>
+       <a href="${SITES.main.url}/procurement-center.html">입찰 준비센터</a>
++      <a href="https://stargateedu.co.kr/cybersecurity/">AI 사이버 보안</a>
+       <a href="${SITES.main.url}">AI · 공간계량</a>
+       <a href="${SITES.main.url}/monetization.html">수익화 전략</a>
+       <a href="${SITES.shop.url}">디지털 상품</a>
