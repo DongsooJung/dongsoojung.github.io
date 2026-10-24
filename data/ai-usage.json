@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "updated_at": "2026-10-24T12:39:00+09:00",
+  "updated_at": "2026-10-24T16:12:00+09:00",
   "note": "Claude 예약 작업이 1시간마다 갱신합니다. 이메일은 마스킹합니다.",
   "accounts": [
     {
@@ -10,12 +10,24 @@
       "account": "j***@gmail.com",
       "plan": "Pro",
       "source": "claude.ai 설정 > 사용량",
-      "observed_at": "2026-10-24T12:36:00+09:00",
+      "observed_at": "2026-10-24T16:12:00+09:00",
       "windows": [
-        { "key": "5h", "label": "5시간", "used": 38, "window_minutes": 300, "resets_at": "2026-10-24T15:50:00+09:00" },
-        { "key": "week", "label": "주간", "used": 27, "window_minutes": 10080, "resets_at": "2026-10-30T01:00:00+09:00" }
+        {
+          "key": "5h",
+          "label": "5시간",
+          "used": 11,
+          "window_minutes": 300,
+          "resets_at": "2026-10-24T20:50:00+09:00"
+        },
+        {
+          "key": "week",
+          "label": "주간",
+          "used": 31,
+          "window_minutes": 10080,
+          "resets_at": "2026-10-30T01:00:00+09:00"
+        }
       ],
-      "extra": "주간 제품별: 채팅 30% · Cowork 70% · Claude Code 0% · 월간 지출 한도 US$30 중 US$5.14"
+      "extra": "주간 제품별: 채팅 27% · Cowork 73% · Claude Code 0% · 월간 지출 한도 US$30 중 US$5.14"
     },
     {
       "id": "codex-plus",
@@ -26,8 +38,20 @@
       "source": "PC Codex 로컬 기록(마지막 사용 시점)",
       "observed_at": "2026-10-24T12:32:43+09:00",
       "windows": [
-        { "key": "5h", "label": "5시간", "used": 22, "window_minutes": 300, "resets_at": "2026-10-24T15:10:07+09:00" },
-        { "key": "week", "label": "주간", "used": 27, "window_minutes": 10080, "resets_at": "2026-10-25T09:34:49+09:00" }
+        {
+          "key": "5h",
+          "label": "5시간",
+          "used": 22,
+          "window_minutes": 300,
+          "resets_at": "2026-10-24T15:10:07+09:00"
+        },
+        {
+          "key": "week",
+          "label": "주간",
+          "used": 27,
+          "window_minutes": 10080,
+          "resets_at": "2026-10-25T09:34:49+09:00"
+        }
       ],
       "extra": ""
     }
