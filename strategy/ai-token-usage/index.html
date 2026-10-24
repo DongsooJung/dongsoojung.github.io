@@ -4,91 +4,147 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>AI 토큰 한도 사용률 | STARGATE 전략 대시보드</title>
-  <meta name="description" content="2026년 10월 AI 서비스 10곳의 월 한도와 ChatGPT 유료 서울대 계정 보유량 7,000토큰을 확인합니다. 표시된 소진 0%는 실제 계정 사용량이 아닌 초기값입니다.">
+  <meta name="description" content="2026년 10월 AI 서비스 10곳의 월 한도, 결제 주기 적정선, 리셋까지 남은 시간과 ChatGPT 유료 서울대 계정 보유량 7,000토큰을 터미널형 화면으로 확인합니다.">
   <link rel="canonical" href="https://stargateedu.co.kr/strategy/ai-token-usage/">
   <meta property="og:title" content="AI 토큰 한도 사용률 | STARGATE 전략 대시보드">
-  <meta property="og:description" content="2026년 10월 AI 서비스 10곳의 월 한도와 ChatGPT 유료 서울대 계정 보유량 7,000토큰을 확인합니다. 표시된 소진 0%는 실제 계정 사용량이 아닌 초기값입니다.">
+  <meta property="og:description" content="2026년 10월 AI 서비스 10곳의 월 한도, 결제 주기 적정선, 리셋까지 남은 시간과 ChatGPT 유료 서울대 계정 보유량 7,000토큰을 터미널형 화면으로 확인합니다.">
   <meta property="og:url" content="https://stargateedu.co.kr/strategy/ai-token-usage/">
   <meta property="og:image" content="https://stargateedu.co.kr/assets/og/strategy.png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="theme-color" content="#101820" data-light-color="#f4f6f8" data-dark-color="#101820">
+  <meta name="theme-color" content="#1b1d1f" data-light-color="#f4f1ea" data-dark-color="#1b1d1f">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nanum+Gothic+Coding:wght@400;700&display=swap">
   <script src="/assets/theme-boot.js"></script>
   <script src="/assets/theme.js" defer></script>
   <style>
     :root, [data-theme="dark"] {
-      --bg:#101820; --panel:#172230; --ink:#e8eef6; --muted:#93a0b4; --line:#2c3a4c;
-      --accent:#79b8ff; --track:#314158; --tick:#8ea0b8;
+      --bg:#1b1d1f; --panel:#232527; --ink:#e4e4e0; --dim:#8a8d90; --faint:#5c6064; --line:#3a3d40;
+      --track:#3b3e42; --pace:#f2f2ee;
+      --ok:#3fb950; --warn:#e3c31d; --hot:#ef4b4b; --off:#6e7378;
+      --c-claude:#d9603b; --c-openai:#2ea043; --c-google:#3b74e6; --c-notion:#9a9a9a;
+      --c-perplexity:#20b2aa; --c-cursor:#a371f7; --c-genspark:#e08a2b; --c-grok:#c9c9c9;
+      --c-manus:#d4a017; --c-kimi:#e05d9e; --c-snu:#4a7bd0;
     }
     [data-theme="light"] {
-      --bg:#f4f6f8; --panel:#fff; --ink:#172033; --muted:#5d6b80; --line:#d7e0ea;
-      --accent:#1d5fbf; --track:#d5deea; --tick:#6d7c90;
+      --bg:#f4f1ea; --panel:#fffdf8; --ink:#1f2328; --dim:#5e646b; --faint:#8b9097; --line:#d6d0c4;
+      --track:#e2ddd2; --pace:#1f2328;
+      --ok:#1a7f37; --warn:#b08800; --hot:#cf222e; --off:#8b9097;
+      --c-claude:#c2512f; --c-openai:#1a7f37; --c-google:#2557c7; --c-notion:#6e7781;
+      --c-perplexity:#138a84; --c-cursor:#8250df; --c-genspark:#bc6c13; --c-grok:#57606a;
+      --c-manus:#a37800; --c-kimi:#bf3989; --c-snu:#2557c7;
     }
     [data-theme="ocean"] {
-      --bg:#071422; --panel:#0e2438; --ink:#e7f3fb; --muted:#8eb0c6; --line:#1d3d56;
-      --accent:#3ec8c0; --track:#1a4560; --tick:#8eb0c6;
+      --bg:#071422; --panel:#0c1f31; --ink:#e7f3fb; --dim:#8eb0c6; --faint:#567a92; --line:#1d3d56;
+      --track:#173650; --pace:#e7f3fb;
+      --ok:#3ec8a0; --warn:#e8c547; --hot:#ff6b6b; --off:#567a92;
+      --c-claude:#e07a55; --c-openai:#3ec8a0; --c-google:#5b9bff; --c-notion:#a0b4c4;
+      --c-perplexity:#3ec8c0; --c-cursor:#b48cff; --c-genspark:#f0a050; --c-grok:#c8d6e0;
+      --c-manus:#e8c547; --c-kimi:#f07ab8; --c-snu:#5b9bff;
     }
     [data-theme="mono"] {
-      --bg:#111; --panel:#1b1b1b; --ink:#f2f2f2; --muted:#9a9a9a; --line:#333;
-      --accent:#f2f2f2; --track:#3a3a3a; --tick:#8a8a8a;
+      --bg:#111; --panel:#181818; --ink:#f2f2f2; --dim:#9a9a9a; --faint:#666; --line:#333;
+      --track:#2e2e2e; --pace:#fff;
+      --ok:#d0d0d0; --warn:#a8a8a8; --hot:#fff; --off:#555;
+      --c-claude:#eee; --c-openai:#ddd; --c-google:#ccc; --c-notion:#bbb; --c-perplexity:#ccc;
+      --c-cursor:#ddd; --c-genspark:#ccc; --c-grok:#bbb; --c-manus:#ddd; --c-kimi:#ccc; --c-snu:#ddd;
     }
     * { box-sizing: border-box; }
-    body { margin: 0; background: var(--bg); color: var(--ink); font-family: "Pretendard", "Noto Sans KR", system-ui, sans-serif; line-height: 1.5; }
-    a { color: var(--accent); }
-    .wrap { width: min(1180px, calc(100% - 32px)); margin: 0 auto; }
-    .top { display: flex; justify-content: space-between; align-items: center; gap: 16px; padding: 18px 0; }
-    .brand { color: var(--ink); font-weight: 700; text-decoration: none; letter-spacing: .02em; }
+    html { -webkit-text-size-adjust: 100%; }
+    body { margin: 0; background: var(--bg); color: var(--ink); line-height: 1.5; }
+    :root { --mono: "Nanum Gothic Coding", "D2Coding", "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+    html body .term, html body .term :is(h1,h2,h3,p,a,li,td,th,span,strong,button,select,label,div,b,em,small) { font-family: var(--mono) !important; letter-spacing: 0 !important; }
+    a { color: var(--c-google); }
+    .wrap { width: min(980px, calc(100% - 32px)); margin: 0 auto; }
+
+    .top { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 18px 0 10px; flex-wrap: wrap; }
+    .brand { color: var(--ink); font-weight: 700; text-decoration: none; }
     .top-actions { display: flex; align-items: center; gap: 12px; font-size: 13px; }
-    select { background: var(--panel); color: var(--ink); border: 1px solid var(--line); border-radius: 8px; padding: 6px 8px; }
-    h1 { margin: 8px 0 10px; font-size: 32px; line-height: 1.2; letter-spacing: -.03em; }
-    h2 { margin: 0 0 6px; font-size: 18px; }
-    .lead { max-width: 720px; margin: 0; color: var(--muted); }
-    .meta { margin: 8px 0 0; color: var(--muted); font-size: 12px; }
-    .hero { display: grid; grid-template-columns: minmax(240px, 340px) 1fr; gap: 24px; align-items: center; padding: 8px 0 28px; }
-    .stats { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
-    .stat { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 14px 16px; }
-    .stat strong { display: block; font-size: 22px; letter-spacing: -.03em; }
-    .stat span { display: block; margin-top: 4px; color: var(--muted); font-size: 12px; }
-    .panel { background: var(--panel); border: 1px solid var(--line); border-radius: 16px; padding: 18px; }
-    .gauges { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 16px; margin-top: 12px; }
-    .gauge { padding: 8px 8px 14px; border: 1px solid var(--line); border-radius: 14px; background: var(--bg); }
-    .gauge h3 { margin: 4px 8px 0; font-size: 15px; }
-    .gauge p { margin: 0 8px; color: var(--muted); font-size: 12px; }
-    table { width: 100%; border-collapse: collapse; margin-top: 8px; font-size: 14px; }
-    th, td { padding: 10px 8px; border-bottom: 1px solid var(--line); text-align: right; }
-    th:first-child, td:first-child { text-align: left; }
-    th { color: var(--muted); font-size: 12px; font-weight: 600; }
-    footer { padding: 28px 0 40px; color: var(--muted); font-size: 12px; }
+    select { background: var(--panel); color: var(--ink); border: 1px solid var(--line); border-radius: 4px; padding: 5px 8px; }
+
+    .prompt { margin: 14px 0 4px; color: var(--dim); font-size: 13px; }
+    .prompt b { color: var(--ok); font-weight: 400; }
+    h1 { margin: 2px 0 6px; font-size: 24px; line-height: 1.3; }
+    h2 { margin: 30px 0 10px; font-size: 15px; color: var(--dim); font-weight: 400; }
+    h2::before { content: "## "; color: var(--faint); }
+    .lead { margin: 0; color: var(--dim); font-size: 13px; max-width: 760px; }
+    .note { margin: 10px 0 0; padding: 8px 12px; border: 1px dashed var(--line); border-radius: 4px; color: var(--dim); font-size: 12px; }
+    .note b { color: var(--warn); font-weight: 400; }
+
+    .summary { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap: 10px; margin-top: 18px; }
+    .sum { border: 1px solid var(--line); border-radius: 4px; padding: 10px 12px; background: var(--panel); }
+    .sum span { display: block; color: var(--dim); font-size: 11px; }
+    .sum strong { display: block; font-size: 18px; margin-top: 2px; }
+
+    .boxes { display: grid; gap: 14px; margin-top: 4px; }
+    .box { --c: var(--line); border: 1.5px solid var(--c); border-radius: 3px; background: var(--panel); padding: 10px 14px 12px; }
+    .box-head { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; font-size: 13px; }
+    .chip { background: var(--c); color: #fff; padding: 0 6px; border-radius: 2px; font-size: 12px; }
+    [data-theme="mono"] .chip, .box[data-c="grok"] .chip { color: #111; }
+    .box-head .name { font-weight: 700; }
+    .box-head .acct { color: var(--dim); }
+    .row { display: grid; grid-template-columns: 42px minmax(0,1fr) 46px 150px; align-items: center; gap: 10px; margin-top: 8px; font-size: 13px; }
+    .row .lbl { color: var(--ink); }
+    .bar { position: relative; height: 16px; background: var(--track); }
+    .bar i { position: absolute; inset: 0 auto 0 0; background: var(--fill, var(--off)); }
+    .bar u { position: absolute; top: -3px; bottom: -3px; width: 2px; background: var(--pace); text-decoration: none; }
+    .pct { text-align: right; color: var(--fill, var(--off)); }
+    .reset { color: var(--ink); white-space: nowrap; }
+    .reset::before { content: "↻ "; color: var(--dim); }
+    .sub { margin: 2px 0 0 52px; color: var(--faint); font-size: 12px; }
+    .sub .st { color: var(--fill, var(--off)); }
+    .sub .dv { color: var(--fill, var(--off)); }
+    .meta-line { margin: 6px 0 0 52px; color: var(--faint); font-size: 12px; }
+    .edit { margin-left: 8px; background: none; border: 1px solid var(--line); color: var(--dim); border-radius: 3px; font-size: 11px; padding: 0 6px; cursor: pointer; }
+    .edit:hover { color: var(--ink); border-color: var(--dim); }
+
+    .snu .big { font-size: 22px; font-weight: 700; margin: 8px 0 0 52px; }
+    .snu .big small { font-size: 12px; color: var(--dim); font-weight: 400; margin-left: 6px; }
+
+    .legend { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 10px; font-size: 12px; color: var(--dim); }
+    .legend span::before { content: "■ "; color: var(--k); }
+
     .cal-head { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; }
-    .cal-nav { display: flex; align-items: center; gap: 8px; }
-    .cal-nav button { background: var(--panel); color: var(--ink); border: 1px solid var(--line); border-radius: 8px; padding: 6px 12px; font: inherit; cursor: pointer; }
+    .cal-head h2 { margin: 30px 0 10px; }
+    .cal-nav { display: flex; align-items: center; gap: 8px; font-size: 13px; }
+    .cal-nav button { background: var(--panel); color: var(--ink); border: 1px solid var(--line); border-radius: 3px; padding: 4px 10px; cursor: pointer; }
     .cal-nav button:disabled { opacity: .35; cursor: default; }
-    .cal-nav p { margin: 0; min-width: 8em; text-align: center; font-weight: 700; }
+    .cal-nav p { margin: 0; min-width: 8em; text-align: center; }
     .month-scroll { overflow-x: auto; }
-    .month { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 8px; margin-top: 12px; min-width: 720px; }
-    .dow { color: var(--muted); font-size: 12px; font-weight: 600; text-align: center; }
-    .day { min-height: 84px; border: 1px solid var(--line); border-radius: 12px; background: var(--panel); padding: 8px; }
+    .month { display: grid; grid-template-columns: repeat(7, minmax(0,1fr)); gap: 6px; min-width: 640px; }
+    .dow { color: var(--dim); font-size: 12px; text-align: center; }
+    .day { min-height: 74px; border: 1px solid var(--line); border-radius: 3px; background: var(--panel); padding: 6px; font-size: 12px; }
     .day.empty { min-height: 0; background: transparent; border-color: transparent; }
-    .day strong { display: block; font-size: 13px; }
-    .day.has { border-color: var(--accent); }
-    .day.today strong { color: var(--accent); }
-    .day ul { margin: 6px 0 0; padding: 0; list-style: none; }
-    .day li { color: var(--ink); font-size: 12px; line-height: 1.35; }
-    @media (max-width: 800px) {
-      .hero, .stats { grid-template-columns: 1fr 1fr; }
-      h1 { font-size: 26px; }
-    }
-    @media (max-width: 560px) {
-      .stats { grid-template-columns: 1fr; }
-      .day { min-height: 68px; padding: 6px; }
-      .day li { font-size: 11px; }
+    .day.has { border-color: var(--dim); }
+    .day.today { border-color: var(--ok); }
+    .day.today strong { color: var(--ok); }
+    .day ul { margin: 4px 0 0; padding: 0; list-style: none; }
+    .day li { line-height: 1.35; }
+    .day li::before { content: "▪ "; color: var(--k, var(--dim)); }
+
+    .tbl { border: 1px solid var(--line); border-radius: 3px; background: var(--panel); overflow-x: auto; }
+    table { width: 100%; border-collapse: collapse; font-size: 13px; min-width: 620px; }
+    th, td { padding: 8px 10px; border-bottom: 1px dashed var(--line); text-align: right; white-space: nowrap; }
+    th:first-child, td:first-child { text-align: left; }
+    th { color: var(--dim); font-weight: 400; }
+    tbody tr:last-child td { border-bottom: 0; }
+    caption { caption-side: bottom; text-align: left; padding: 10px; color: var(--faint); font-size: 12px; white-space: normal; }
+    footer { padding: 28px 0 40px; color: var(--faint); font-size: 12px; }
+
+    @media (max-width: 720px) {
+      .summary { grid-template-columns: 1fr 1fr; }
+      .row { grid-template-columns: 36px minmax(0,1fr) 40px; }
+      .row .reset { grid-column: 2 / -1; font-size: 12px; }
+      .sub, .meta-line, .snu .big { margin-left: 46px; }
+      h1 { font-size: 20px; }
     }
   </style>
 <link rel="stylesheet" href="/assets/stargate-tokens.css?v=20261017">
 </head>
 <body>
-  <div class="wrap">
+  <div class="wrap term">
     <nav class="top" aria-label="주요 메뉴">
       <a class="brand" href="/strategy/">STARGATE STRATEGY</a>
       <div class="top-actions">
@@ -101,47 +157,42 @@
         </select>
       </div>
     </nav>
+
     <header>
-      <p class="meta">2026-10 · AI 토큰·한도 지도</p>
-      <h1>서비스별 월 한도와 보유 토큰</h1>
-      <p class="lead">각 월 사용액을 그 서비스의 100%로 두었습니다. 바늘의 0%는 시각화 초기값이며 실제 계정 사용량을 연결한 값은 아닙니다. 서울대 계정의 보유 토큰은 아래에 별도로 표시합니다.</p>
+      <p class="prompt"><b>stargate@ai-usage</b>:~$ usage --all --month 2026-10</p>
+      <h1>AI 서비스 한도 · 결제 주기 모니터</h1>
+      <p class="lead">각 서비스의 월 한도를 100%로 두고, 결제일부터 지난 시간 비율을 <b>적정선</b>(흰 세로선)으로 표시합니다. 사용률이 적정선보다 높으면 다음 결제일 전에 한도를 넘길 속도입니다.</p>
+      <p class="note" id="sync-note"><b>사용량 미연동</b> · 계정 사용량은 아직 자동 연결되지 않았습니다. 각 행의 <span aria-hidden="true">[입력]</span> 버튼으로 현재 %를 넣으면 이 브라우저에만 저장되어 판정(여유·적정·초과 예상·소진)이 계산됩니다.</p>
+      <p class="prompt" id="clock" aria-live="polite">기준 시각 계산 중…</p>
     </header>
-    <section class="hero" aria-label="전체 소진 요약">
-      <div class="panel">
-        <svg width="100%" viewBox="0 0 320 188" role="img" aria-label="서비스 10개 개별 한도 소진율. 눈금 0%에서 100%, 현재 소진 0%."><path d="M 60.0 150.0 A 100 100 0 0 1 260.0 150.0" fill="none" stroke="var(--track)" stroke-width="16" stroke-linecap="round"/><line x1="74.0" y1="150.0" x2="48.0" y2="150.0" stroke="var(--accent)" stroke-width="3" stroke-linecap="round"/><text x="34.0" y="150.0" text-anchor="middle" dominant-baseline="middle" fill="var(--accent)" font-size="11">0</text><line x1="99.2" y1="89.2" x2="80.8" y2="70.8" stroke="var(--tick)" stroke-width="1.5" stroke-linecap="round"/><text x="70.9" y="60.9" text-anchor="middle" dominant-baseline="middle" fill="var(--tick)" font-size="11">25</text><line x1="160.0" y1="64.0" x2="160.0" y2="38.0" stroke="var(--tick)" stroke-width="1.5" stroke-linecap="round"/><text x="160.0" y="24.0" text-anchor="middle" dominant-baseline="middle" fill="var(--tick)" font-size="11">50</text><line x1="220.8" y1="89.2" x2="239.2" y2="70.8" stroke="var(--tick)" stroke-width="1.5" stroke-linecap="round"/><text x="249.1" y="60.9" text-anchor="middle" dominant-baseline="middle" fill="var(--tick)" font-size="11">75</text><line x1="246.0" y1="150.0" x2="272.0" y2="150.0" stroke="var(--tick)" stroke-width="1.5" stroke-linecap="round"/><text x="286.0" y="150.0" text-anchor="middle" dominant-baseline="middle" fill="var(--tick)" font-size="11">100</text><line x1="144.0" y1="150.0" x2="68.0" y2="150.0" stroke="var(--accent)" stroke-width="3" stroke-linecap="round"/><circle cx="160" cy="150" r="4" fill="var(--accent)"/><text x="160" y="114" text-anchor="middle" fill="var(--accent)" font-size="22" font-weight="650">0%</text><text x="160" y="134" text-anchor="middle" fill="var(--muted)" font-size="11">현재 소진</text></svg>
-        <p class="meta" style="margin:0">눈금 단위: 서비스별 한도 %. 10개 바늘이 같은 0%에 있습니다.</p>
-      </div>
-      <div class="stats">
-        <article class="stat"><strong>0%</strong><span>서비스당 현재 소진</span></article>
-        <article class="stat"><strong>100%</strong><span>서비스당 남은 한도</span></article>
-        <article class="stat"><strong>₩241,065</strong><span>남은 한도 10개 합계</span></article>
-        <article class="stat"><strong>10</strong><span>반원 계기</span></article>
-      </div>
+
+    <section class="summary" aria-label="요약">
+      <div class="sum"><span>월 한도 합계</span><strong>₩241,065</strong></div>
+      <div class="sum"><span>서비스</span><strong>10개</strong></div>
+      <div class="sum"><span>다음 결제</span><strong id="sum-next">—</strong></div>
+      <div class="sum"><span>입력된 사용량</span><strong id="sum-input">0 / 10</strong></div>
     </section>
-    <section class="panel" aria-labelledby="snu-tokens-title" style="margin-bottom:28px">
-      <p class="meta" style="margin-top:0">계정별 보유 토큰</p>
-      <h2 id="snu-tokens-title">ChatGPT 유료 · 서울대 계정</h2>
-      <p style="margin:12px 0;font-size:28px;font-weight:700;letter-spacing:-.03em">7,000<span style="margin-left:6px;font-size:14px;font-weight:400;color:var(--muted)">토큰 보유</span></p>
-      <p class="meta">사용량 미확인 · 총 제공 한도 미확인 · 갱신일 미확인</p>
-      <p class="meta">사용자 제공 보유량 · 확인일 2026-10-15 · 월 한도 금액 합계에는 포함하지 않습니다.</p>
-    </section>
-    <section aria-labelledby="gauges-title">
-      <h2 id="gauges-title">서비스별 개별 한도 반원</h2>
-      <p class="meta">눈금 0–100%는 그 서비스의 월 한도입니다. 왼쪽 바늘이 현재 소진 0%입니다. 합계 대비는 10개 합계 ₩241,065 기준입니다. 결제일이 빠른 순서(3일 → 30일)로 놓았습니다.</p>
-      <div class="gauges">
-        <article class="gauge"><h3>Notion AI</h3><svg width="100%" viewBox="0 0 220 150" role="img" aria-label="Notion AI 개별 한도 소진율. 눈금 0%에서 100%, 현재 소진 0%, 결제일 3일."><path d="M 40.0 118.0 A 70 70 0 0 1 180.0 118.0" fill="none" stroke="var(--track)" stroke-width="12" stroke-linecap="round"/><line x1="54.0" y1="118.0" x2="28.0" y2="118.0" stroke="var(--accent)" stroke-width="3" stroke-linecap="round"/><text x="14.0" y="118.0" text-anchor="middle" dominant-baseline="middle" fill="var(--accent)" font-size="11">0</text><line x1="70.4" y1="78.4" x2="52.0" y2="60.0" stroke="var(--tick)" stroke-width="1.5" stroke-linecap="round"/><text x="42.1" y="50.1" text-anchor="middle" dominant-baseline="middle" fill="var(--tick)" font-size="11">25</text><line x1="110.0" y1="62.0" x2="110.0" y2="36.0" stroke="var(--tick)" stroke-width="1.5" stroke-linecap="round"/><text x="110.0" y="22.0" text-anchor="middle" dominant-baseline="middle" fill="var(--tick)" font-size="11">50</text><line x1="149.6" y1="78.4" x2="168.0" y2="60.0" stroke="var(--tick)" stroke-width="1.5" stroke-linecap="round"/><text x="177.9" y="50.1" text-anchor="middle" dominant-baseline="middle" fill="var(--tick)" font-size="11">75</text><line x1="166.0" y1="118.0" x2="192.0" y2="118.0" stroke="var(--tick)" stroke-width="1.5" stroke-linecap="round"/><text x="206.0" y="118.0" text-anchor="middle" dominant-baseline="middle" fill="var(--tick)" font-size="11">100</text><line x1="98.8" y1="118.0" x2="48.0" y2="118.0" stroke="var(--accent)" stroke-width="3" stroke-linecap="round"/><circle cx="110" cy="118" r="4" fill="var(--accent)"/><text x="110" y="82" text-anchor="middle" fill="var(--accent)" font-size="22" font-weight="650">0%</text><text x="110" y="102" text-anchor="middle" fill="var(--muted)" font-size="11">현재 소진</text><text x="110" y="140" text-anchor="middle" fill="var(--ink)" font-size="12" font-weight="650">3일</text></svg><p>사용 ₩0 · 한도 ₩7,865</p><p>합계 대비 3.3%</p><p>결제일 3일</p></article>
-<article class="gauge"><h3>ChatGPT</h3><svg width="100%" viewBox="0 0 220 150" role="img" aria-label="ChatGPT 개별 한도 소진율. 눈금 0%에서 100%, 현재 소진 0%, 결제일 6·7일."><path d="M 40.0 118.0 A 70 70 0 0 1 180.0 118.0" fill="none" stroke="var(--track)" stroke-width="12" stroke-linecap="round"/><line x1="54.0" y1="118.0" x2="28.0" y2="118.0" stroke="var(--accent)" stroke-width="3" stroke-linecap="round"/><text x="14.0" y="118.0" text-anchor="middle" dominant-baseline="middle" fill="var(--accent)" font-size="11">0</text><line x1="70.4" y1="78.4" x2="52.0" y2="60.0" stroke="var(--tick)" stroke-width="1.5" stroke-linecap="round"/><text x="42.1" y="50.1" text-anchor="middle" dominant-baseline="middle" fill="var(--tick)" font-size="11">25</text><line x1="110.0" y1="62.0" x2="110.0" y2="36.0" stroke="var(--tick)" stroke-width="1.5" stroke-linecap="round"/><text x="110.0" y="22.0" text-anchor="middle" dominant-baseline="middle" fill="var(--tick)" font-size="11">50</text><line x1="149.6" y1="78.4" x2="168.0" y2="60.0" stroke="var(--tick)" stroke-width="1.5" stroke-linecap="round"/><text x="177.9" y="50.1" text-anchor="middle" dominant-baseline="middle" fill="var(--tick)" font-size="11">75</text><line x1="166.0" y1="118.0" x2="192.0" y2="118.0" stroke="var(--tick)" stroke-width="1.5" stroke-linecap="round"/><text x="206.0" y="118.0" text-anchor="middle" dominant-baseline="middle" fill="var(--tick)" font-size="11">100</text><line x1="98.8" y1="118.0" x2="48.0" y2="118.0" stroke="var(--accent)" stroke-width="3" stroke-linecap="round"/><circle cx="110" cy="118" r="4" fill="var(--accent)"/><text x="110" y="82" text-anchor="middle" fill="var(--accent)" font-size="22" font-weight="650">0%</text><text x="110" y="102" text-anchor="middle" fill="var(--muted)" font-size="11">현재 소진</text><text x="110" y="140" text-anchor="middle" fill="var(--ink)" font-size="12" font-weight="650">6·7일</text></svg><p>사용 ₩0 · 한도 ₩29,000</p><p>합계 대비 12.0%</p><p>결제일 6·7일</p></article>
-<article class="gauge"><h3>Genspark</h3><svg width="100%" viewBox="0 0 220 150" role="img" aria-label="Genspark 개별 한도 소진율. 눈금 0%에서 100%, 현재 소진 0%, 결제일 7일."><path d="M 40.0 118.0 A 70 70 0 0 1 180.0 118.0" fill="none" stroke="var(--track)" stroke-width="12" stroke-linecap="round"/><line x1="54.0" y1="118.0" x2="28.0" y2="118.0" stroke="var(--accent)" stroke-width="3" stroke-linecap="round"/><text x="14.0" y="118.0" text-anchor="middle" dominant-baseline="middle" fill="var(--accent)" font-size="11">0</text><line x1="70.4" y1="78.4" x2="52.0" y2="60.0" stroke="var(--tick)" stroke-width="1.5" stroke-linecap="round"/><text x="42.1" y="50.1" text-anchor="middle" dominant-baseline="middle" fill="var(--tick)" font-size="11">25</text><line x1="110.0" y1="62.0" x2="110.0" y2="36.0" stroke="var(--tick)" stroke-width="1.5" stroke-linecap="round"/><text x="110.0" y="22.0" text-anchor="middle" dominant-baseline="middle" fill="var(--tick)" font-size="11">50</text><line x1="149.6" y1="78.4" x2="168.0" y2="60.0" stroke="var(--tick)" stroke-width="1.5" stroke-linecap="round"/><text x="177.9" y="50.1" text-anchor="middle" dominant-baseline="middle" fill="var(--tick)" font-size="11">75</text><line x1="166.0" y1="118.0" x2="192.0" y2="118.0" stroke="var(--tick)" stroke-width="1.5" stroke-linecap="round"/><text x="206.0" y="118.0" text-anchor="middle" dominant-baseline="middle" fill="var(--tick)" font-size="11">100</text><line x1="98.8" y1="118.0" x2="48.0" y2="118.0" stroke="var(--accent)" stroke-width="3" stroke-linecap="round"/><circle cx="110" cy="118" r="4" fill="var(--accent)"/><text x="110" y="82" text-anchor="middle" fill="var(--accent)" font-size="22" font-weight="650">0%</text><text x="110" y="102" text-anchor="middle" fill="var(--muted)" font-size="11">현재 소진</text><text x="110" y="140" text-anchor="middle" fill="var(--ink)" font-size="12" font-weight="650">7일</text></svg><p>사용 ₩0 · 한도 ₩29,100</p><p>합계 대비 12.1%</p><p>결제일 7일</p></article>
-<article class="gauge"><h3>Perplexity</h3><svg width="100%" viewBox="0 0 220 150" role="img" aria-label="Perplexity 개별 한도 소진율. 눈금 0%에서 100%, 현재 소진 0%, 결제일 13일."><path d="M 40.0 118.0 A 70 70 0 0 1 180.0 118.0" fill="none" stroke="var(--track)" stroke-width="12" stroke-linecap="round"/><line x1="54.0" y1="118.0" x2="28.0" y2="118.0" stroke="var(--accent)" stroke-width="3" stroke-linecap="round"/><text x="14.0" y="118.0" text-anchor="middle" dominant-baseline="middle" fill="var(--accent)" font-size="11">0</text><line x1="70.4" y1="78.4" x2="52.0" y2="60.0" stroke="var(--tick)" stroke-width="1.5" stroke-linecap="round"/><text x="42.1" y="50.1" text-anchor="middle" dominant-baseline="middle" fill="var(--tick)" font-size="11">25</text><line x1="110.0" y1="62.0" x2="110.0" y2="36.0" stroke="var(--tick)" stroke-width="1.5" stroke-linecap="round"/><text x="110.0" y="22.0" text-anchor="middle" dominant-baseline="middle" fill="var(--tick)" font-size="11">50</text><line x1="149.6" y1="78.4" x2="168.0" y2="60.0" stroke="var(--tick)" stroke-width="1.5" stroke-linecap="round"/><text x="177.9" y="50.1" text-anchor="middle" dominant-baseline="middle" fill="var(--tick)" font-size="11">75</text><line x1="166.0" y1="118.0" x2="192.0" y2="118.0" stroke="var(--tick)" stroke-width="1.5" stroke-linecap="round"/><text x="206.0" y="118.0" text-anchor="middle" dominant-baseline="middle" fill="var(--tick)" font-size="11">100</text><line x1="98.8" y1="118.0" x2="48.0" y2="118.0" stroke="var(--accent)" stroke-width="3" stroke-linecap="round"/><circle cx="110" cy="118" r="4" fill="var(--accent)"/><text x="110" y="82" text-anchor="middle" fill="var(--accent)" font-size="22" font-weight="650">0%</text><text x="110" y="102" text-anchor="middle" fill="var(--muted)" font-size="11">현재 소진</text><text x="110" y="140" text-anchor="middle" fill="var(--ink)" font-size="12" font-weight="650">13일</text></svg><p>사용 ₩0 · 한도 ₩8,500</p><p>합계 대비 3.5%</p><p>결제일 13일</p></article>
-<article class="gauge"><h3>Claude</h3><svg width="100%" viewBox="0 0 220 150" role="img" aria-label="Claude 개별 한도 소진율. 눈금 0%에서 100%, 현재 소진 0%, 결제일 20일."><path d="M 40.0 118.0 A 70 70 0 0 1 180.0 118.0" fill="none" stroke="var(--track)" stroke-width="12" stroke-linecap="round"/><line x1="54.0" y1="118.0" x2="28.0" y2="118.0" stroke="var(--accent)" stroke-width="3" stroke-linecap="round"/><text x="14.0" y="118.0" text-anchor="middle" dominant-baseline="middle" fill="var(--accent)" font-size="11">0</text><line x1="70.4" y1="78.4" x2="52.0" y2="60.0" stroke="var(--tick)" stroke-width="1.5" stroke-linecap="round"/><text x="42.1" y="50.1" text-anchor="middle" dominant-baseline="middle" fill="var(--tick)" font-size="11">25</text><line x1="110.0" y1="62.0" x2="110.0" y2="36.0" stroke="var(--tick)" stroke-width="1.5" stroke-linecap="round"/><text x="110.0" y="22.0" text-anchor="middle" dominant-baseline="middle" fill="var(--tick)" font-size="11">50</text><line x1="149.6" y1="78.4" x2="168.0" y2="60.0" stroke="var(--tick)" stroke-width="1.5" stroke-linecap="round"/><text x="177.9" y="50.1" text-anchor="middle" dominant-baseline="middle" fill="var(--tick)" font-size="11">75</text><line x1="166.0" y1="118.0" x2="192.0" y2="118.0" stroke="var(--tick)" stroke-width="1.5" stroke-linecap="round"/><text x="206.0" y="118.0" text-anchor="middle" dominant-baseline="middle" fill="var(--tick)" font-size="11">100</text><line x1="98.8" y1="118.0" x2="48.0" y2="118.0" stroke="var(--accent)" stroke-width="3" stroke-linecap="round"/><circle cx="110" cy="118" r="4" fill="var(--accent)"/><text x="110" y="82" text-anchor="middle" fill="var(--accent)" font-size="22" font-weight="650">0%</text><text x="110" y="102" text-anchor="middle" fill="var(--muted)" font-size="11">현재 소진</text><text x="110" y="140" text-anchor="middle" fill="var(--ink)" font-size="12" font-weight="650">20일</text></svg><p>사용 ₩0 · 한도 ₩37,900</p><p>합계 대비 15.7%</p><p>결제일 20일</p></article>
-<article class="gauge"><h3>Cursor</h3><svg width="100%" viewBox="0 0 220 150" role="img" aria-label="Cursor 개별 한도 소진율. 눈금 0%에서 100%, 현재 소진 0%, 결제일 20일."><path d="M 40.0 118.0 A 70 70 0 0 1 180.0 118.0" fill="none" stroke="var(--track)" stroke-width="12" stroke-linecap="round"/><line x1="54.0" y1="118.0" x2="28.0" y2="118.0" stroke="var(--accent)" stroke-width="3" stroke-linecap="round"/><text x="14.0" y="118.0" text-anchor="middle" dominant-baseline="middle" fill="var(--accent)" font-size="11">0</text><line x1="70.4" y1="78.4" x2="52.0" y2="60.0" stroke="var(--tick)" stroke-width="1.5" stroke-linecap="round"/><text x="42.1" y="50.1" text-anchor="middle" dominant-baseline="middle" fill="var(--tick)" font-size="11">25</text><line x1="110.0" y1="62.0" x2="110.0" y2="36.0" stroke="var(--tick)" stroke-width="1.5" stroke-linecap="round"/><text x="110.0" y="22.0" text-anchor="middle" dominant-baseline="middle" fill="var(--tick)" font-size="11">50</text><line x1="149.6" y1="78.4" x2="168.0" y2="60.0" stroke="var(--tick)" stroke-width="1.5" stroke-linecap="round"/><text x="177.9" y="50.1" text-anchor="middle" dominant-baseline="middle" fill="var(--tick)" font-size="11">75</text><line x1="166.0" y1="118.0" x2="192.0" y2="118.0" stroke="var(--tick)" stroke-width="1.5" stroke-linecap="round"/><text x="206.0" y="118.0" text-anchor="middle" dominant-baseline="middle" fill="var(--tick)" font-size="11">100</text><line x1="98.8" y1="118.0" x2="48.0" y2="118.0" stroke="var(--accent)" stroke-width="3" stroke-linecap="round"/><circle cx="110" cy="118" r="4" fill="var(--accent)"/><text x="110" y="82" text-anchor="middle" fill="var(--accent)" font-size="22" font-weight="650">0%</text><text x="110" y="102" text-anchor="middle" fill="var(--muted)" font-size="11">현재 소진</text><text x="110" y="140" text-anchor="middle" fill="var(--ink)" font-size="12" font-weight="650">20일</text></svg><p>사용 ₩0 · 한도 ₩30,000</p><p>합계 대비 12.4%</p><p>결제일 20일</p></article>
-<article class="gauge"><h3>Gemini</h3><svg width="100%" viewBox="0 0 220 150" role="img" aria-label="Gemini 개별 한도 소진율. 눈금 0%에서 100%, 현재 소진 0%, 결제일 21일."><path d="M 40.0 118.0 A 70 70 0 0 1 180.0 118.0" fill="none" stroke="var(--track)" stroke-width="12" stroke-linecap="round"/><line x1="54.0" y1="118.0" x2="28.0" y2="118.0" stroke="var(--accent)" stroke-width="3" stroke-linecap="round"/><text x="14.0" y="118.0" text-anchor="middle" dominant-baseline="middle" fill="var(--accent)" font-size="11">0</text><line x1="70.4" y1="78.4" x2="52.0" y2="60.0" stroke="var(--tick)" stroke-width="1.5" stroke-linecap="round"/><text x="42.1" y="50.1" text-anchor="middle" dominant-baseline="middle" fill="var(--tick)" font-size="11">25</text><line x1="110.0" y1="62.0" x2="110.0" y2="36.0" stroke="var(--tick)" stroke-width="1.5" stroke-linecap="round"/><text x="110.0" y="22.0" text-anchor="middle" dominant-baseline="middle" fill="var(--tick)" font-size="11">50</text><line x1="149.6" y1="78.4" x2="168.0" y2="60.0" stroke="var(--tick)" stroke-width="1.5" stroke-linecap="round"/><text x="177.9" y="50.1" text-anchor="middle" dominant-baseline="middle" fill="var(--tick)" font-size="11">75</text><line x1="166.0" y1="118.0" x2="192.0" y2="118.0" stroke="var(--tick)" stroke-width="1.5" stroke-linecap="round"/><text x="206.0" y="118.0" text-anchor="middle" dominant-baseline="middle" fill="var(--tick)" font-size="11">100</text><line x1="98.8" y1="118.0" x2="48.0" y2="118.0" stroke="var(--accent)" stroke-width="3" stroke-linecap="round"/><circle cx="110" cy="118" r="4" fill="var(--accent)"/><text x="110" y="82" text-anchor="middle" fill="var(--accent)" font-size="22" font-weight="650">0%</text><text x="110" y="102" text-anchor="middle" fill="var(--muted)" font-size="11">현재 소진</text><text x="110" y="140" text-anchor="middle" fill="var(--ink)" font-size="12" font-weight="650">21일</text></svg><p>사용 ₩0 · 한도 ₩7,300</p><p>합계 대비 3.0%</p><p>결제일 21일</p></article>
-<article class="gauge"><h3>Grok</h3><svg width="100%" viewBox="0 0 220 150" role="img" aria-label="Grok 개별 한도 소진율. 눈금 0%에서 100%, 현재 소진 0%, 결제일 24일."><path d="M 40.0 118.0 A 70 70 0 0 1 180.0 118.0" fill="none" stroke="var(--track)" stroke-width="12" stroke-linecap="round"/><line x1="54.0" y1="118.0" x2="28.0" y2="118.0" stroke="var(--accent)" stroke-width="3" stroke-linecap="round"/><text x="14.0" y="118.0" text-anchor="middle" dominant-baseline="middle" fill="var(--accent)" font-size="11">0</text><line x1="70.4" y1="78.4" x2="52.0" y2="60.0" stroke="var(--tick)" stroke-width="1.5" stroke-linecap="round"/><text x="42.1" y="50.1" text-anchor="middle" dominant-baseline="middle" fill="var(--tick)" font-size="11">25</text><line x1="110.0" y1="62.0" x2="110.0" y2="36.0" stroke="var(--tick)" stroke-width="1.5" stroke-linecap="round"/><text x="110.0" y="22.0" text-anchor="middle" dominant-baseline="middle" fill="var(--tick)" font-size="11">50</text><line x1="149.6" y1="78.4" x2="168.0" y2="60.0" stroke="var(--tick)" stroke-width="1.5" stroke-linecap="round"/><text x="177.9" y="50.1" text-anchor="middle" dominant-baseline="middle" fill="var(--tick)" font-size="11">75</text><line x1="166.0" y1="118.0" x2="192.0" y2="118.0" stroke="var(--tick)" stroke-width="1.5" stroke-linecap="round"/><text x="206.0" y="118.0" text-anchor="middle" dominant-baseline="middle" fill="var(--tick)" font-size="11">100</text><line x1="98.8" y1="118.0" x2="48.0" y2="118.0" stroke="var(--accent)" stroke-width="3" stroke-linecap="round"/><circle cx="110" cy="118" r="4" fill="var(--accent)"/><text x="110" y="82" text-anchor="middle" fill="var(--accent)" font-size="22" font-weight="650">0%</text><text x="110" y="102" text-anchor="middle" fill="var(--muted)" font-size="11">현재 소진</text><text x="110" y="140" text-anchor="middle" fill="var(--ink)" font-size="12" font-weight="650">24일</text></svg><p>사용 ₩0 · 한도 ₩14,300</p><p>합계 대비 5.9%</p><p>결제일 24일</p></article>
-<article class="gauge"><h3>Manus</h3><svg width="100%" viewBox="0 0 220 150" role="img" aria-label="Manus 개별 한도 소진율. 눈금 0%에서 100%, 현재 소진 0%, 결제일 27일."><path d="M 40.0 118.0 A 70 70 0 0 1 180.0 118.0" fill="none" stroke="var(--track)" stroke-width="12" stroke-linecap="round"/><line x1="54.0" y1="118.0" x2="28.0" y2="118.0" stroke="var(--accent)" stroke-width="3" stroke-linecap="round"/><text x="14.0" y="118.0" text-anchor="middle" dominant-baseline="middle" fill="var(--accent)" font-size="11">0</text><line x1="70.4" y1="78.4" x2="52.0" y2="60.0" stroke="var(--tick)" stroke-width="1.5" stroke-linecap="round"/><text x="42.1" y="50.1" text-anchor="middle" dominant-baseline="middle" fill="var(--tick)" font-size="11">25</text><line x1="110.0" y1="62.0" x2="110.0" y2="36.0" stroke="var(--tick)" stroke-width="1.5" stroke-linecap="round"/><text x="110.0" y="22.0" text-anchor="middle" dominant-baseline="middle" fill="var(--tick)" font-size="11">50</text><line x1="149.6" y1="78.4" x2="168.0" y2="60.0" stroke="var(--tick)" stroke-width="1.5" stroke-linecap="round"/><text x="177.9" y="50.1" text-anchor="middle" dominant-baseline="middle" fill="var(--tick)" font-size="11">75</text><line x1="166.0" y1="118.0" x2="192.0" y2="118.0" stroke="var(--tick)" stroke-width="1.5" stroke-linecap="round"/><text x="206.0" y="118.0" text-anchor="middle" dominant-baseline="middle" fill="var(--tick)" font-size="11">100</text><line x1="98.8" y1="118.0" x2="48.0" y2="118.0" stroke="var(--accent)" stroke-width="3" stroke-linecap="round"/><circle cx="110" cy="118" r="4" fill="var(--accent)"/><text x="110" y="82" text-anchor="middle" fill="var(--accent)" font-size="22" font-weight="650">0%</text><text x="110" y="102" text-anchor="middle" fill="var(--muted)" font-size="11">현재 소진</text><text x="110" y="140" text-anchor="middle" fill="var(--ink)" font-size="12" font-weight="650">27일</text></svg><p>사용 ₩0 · 한도 ₩49,900</p><p>합계 대비 20.7%</p><p>결제일 27일</p></article>
-<article class="gauge"><h3>Kimi</h3><svg width="100%" viewBox="0 0 220 150" role="img" aria-label="Kimi 개별 한도 소진율. 눈금 0%에서 100%, 현재 소진 0%, 결제일 30일."><path d="M 40.0 118.0 A 70 70 0 0 1 180.0 118.0" fill="none" stroke="var(--track)" stroke-width="12" stroke-linecap="round"/><line x1="54.0" y1="118.0" x2="28.0" y2="118.0" stroke="var(--accent)" stroke-width="3" stroke-linecap="round"/><text x="14.0" y="118.0" text-anchor="middle" dominant-baseline="middle" fill="var(--accent)" font-size="11">0</text><line x1="70.4" y1="78.4" x2="52.0" y2="60.0" stroke="var(--tick)" stroke-width="1.5" stroke-linecap="round"/><text x="42.1" y="50.1" text-anchor="middle" dominant-baseline="middle" fill="var(--tick)" font-size="11">25</text><line x1="110.0" y1="62.0" x2="110.0" y2="36.0" stroke="var(--tick)" stroke-width="1.5" stroke-linecap="round"/><text x="110.0" y="22.0" text-anchor="middle" dominant-baseline="middle" fill="var(--tick)" font-size="11">50</text><line x1="149.6" y1="78.4" x2="168.0" y2="60.0" stroke="var(--tick)" stroke-width="1.5" stroke-linecap="round"/><text x="177.9" y="50.1" text-anchor="middle" dominant-baseline="middle" fill="var(--tick)" font-size="11">75</text><line x1="166.0" y1="118.0" x2="192.0" y2="118.0" stroke="var(--tick)" stroke-width="1.5" stroke-linecap="round"/><text x="206.0" y="118.0" text-anchor="middle" dominant-baseline="middle" fill="var(--tick)" font-size="11">100</text><line x1="98.8" y1="118.0" x2="48.0" y2="118.0" stroke="var(--accent)" stroke-width="3" stroke-linecap="round"/><circle cx="110" cy="118" r="4" fill="var(--accent)"/><text x="110" y="82" text-anchor="middle" fill="var(--accent)" font-size="22" font-weight="650">0%</text><text x="110" y="102" text-anchor="middle" fill="var(--muted)" font-size="11">현재 소진</text><text x="110" y="140" text-anchor="middle" fill="var(--ink)" font-size="12" font-weight="650">30일</text></svg><p>사용 ₩0 · 한도 ₩27,200</p><p>합계 대비 11.3%</p><p>결제일 30일</p></article>
-      </div>
-    </section>
-    <section aria-labelledby="cal-title" style="margin-top:28px">
+
+    <h2 id="boxes-title">서비스별 월 한도 (결제일 빠른 순)</h2>
+    <div class="legend" aria-label="막대 색 범례">
+      <span style="--k:var(--ok)">여유 (적정선 −5%p 미만)</span>
+      <span style="--k:var(--warn)">적정 (±5%p)</span>
+      <span style="--k:var(--hot)">초과 예상 · 소진</span>
+      <span style="--k:var(--off)">미연동</span>
+    </div>
+    <div class="boxes" id="boxes" aria-labelledby="boxes-title">
+      <noscript><p class="note">이 화면은 JavaScript로 리셋 시간과 적정선을 계산합니다. 아래 월 한도 금액 표는 그대로 확인하실 수 있습니다.</p></noscript>
+    </div>
+
+    <h2>계정별 보유 토큰</h2>
+    <article class="box snu" style="--c:var(--c-snu)" aria-label="ChatGPT 유료 서울대 계정 보유 토큰">
+      <div class="box-head"><span class="chip">ChatGPT</span><span class="name">서울대 계정</span><span class="acct">· 유료</span></div>
+      <p class="big">7,000<small>토큰 보유</small></p>
+      <p class="meta-line">사용량 미확인 · 총 제공 한도 미확인 · 갱신일 미확인</p>
+      <p class="meta-line">사용자 제공 보유량 · 확인일 2026-10-15 · 월 한도 금액 합계에는 포함하지 않습니다.</p>
+    </article>
+
+    <section aria-labelledby="cal-title">
       <div class="cal-head">
         <h2 id="cal-title">2026년 결제일</h2>
         <div class="cal-nav">
@@ -150,122 +201,212 @@
           <button type="button" id="cal-next">다음 달</button>
         </div>
       </div>
-      <p class="meta">2026년 1월부터 12월까지입니다. 달을 바꾸면 그달 1일의 요일에 맞춰 칸이 이동합니다. 같은 날의 서비스는 한 칸에 함께 적습니다.</p>
       <div class="month-scroll">
         <div class="month" id="cal-grid" role="grid" aria-label="2026년 결제일"></div>
       </div>
     </section>
-    <script>
-      (function () {
-        var services = {
-          3: ["Notion AI"],
-          6: ["ChatGPT"],
-          7: ["ChatGPT", "Genspark"],
-          13: ["Perplexity"],
-          20: ["Claude", "Cursor"],
-          21: ["Gemini"],
-          24: ["Grok"],
-          27: ["Manus"],
-          30: ["Kimi"]
-        };
-        var weekdays = ["일", "월", "화", "수", "목", "금", "토"];
-        var weekdayNames = ["일요일", "월요일", "화요일", "수요일", "목요일", "금요일", "토요일"];
-        var year = 2026;
-        var now = new Date();
-        var today = now.getFullYear() === year ? { m: now.getMonth(), d: now.getDate() } : null;
-        var month = today ? today.m : 9;
-        var grid = document.getElementById("cal-grid");
-        var label = document.getElementById("cal-label");
-        var prev = document.getElementById("cal-prev");
-        var next = document.getElementById("cal-next");
 
-        function emptyCell() {
-          var cell = document.createElement("div");
-          cell.className = "day empty";
-          cell.setAttribute("role", "gridcell");
-          return cell;
-        }
-
-        function render() {
-          var firstDow = new Date(year, month, 1).getDay();
-          var count = new Date(year, month + 1, 0).getDate();
-          var trailing = (7 - ((firstDow + count) % 7)) % 7;
-          grid.replaceChildren();
-          grid.setAttribute("aria-label", year + "년 " + (month + 1) + "월 결제일");
-          weekdays.forEach(function (name) {
-            var head = document.createElement("div");
-            head.className = "dow";
-            head.setAttribute("role", "columnheader");
-            head.textContent = name;
-            grid.appendChild(head);
-          });
-          for (var i = 0; i < firstDow; i++) grid.appendChild(emptyCell());
-          for (var day = 1; day <= count; day++) {
-            var names = services[day] || [];
-            var dow = new Date(year, month, day).getDay();
-            var isToday = today && today.m === month && today.d === day;
-            var article = document.createElement("article");
-            article.className = "day" + (names.length ? " has" : "") + (isToday ? " today" : "");
-            article.setAttribute("role", "gridcell");
-            var aria = (month + 1) + "월 " + day + "일 " + weekdayNames[dow];
-            if (isToday) aria += ", 오늘";
-            if (names.length) aria += ", " + names.join(", ");
-            article.setAttribute("aria-label", aria);
-            var strong = document.createElement("strong");
-            strong.textContent = String(day);
-            article.appendChild(strong);
-            if (names.length) {
-              var list = document.createElement("ul");
-              names.forEach(function (name) {
-                var item = document.createElement("li");
-                item.textContent = name;
-                list.appendChild(item);
-              });
-              article.appendChild(list);
-            }
-            grid.appendChild(article);
-          }
-          for (var t = 0; t < trailing; t++) grid.appendChild(emptyCell());
-          label.textContent = year + "년 " + (month + 1) + "월";
-          prev.disabled = month === 0;
-          next.disabled = month === 11;
-        }
-
-        prev.addEventListener("click", function () {
-          if (month > 0) { month -= 1; render(); }
-        });
-        next.addEventListener("click", function () {
-          if (month < 11) { month += 1; render(); }
-        });
-        render();
-      })();
-    </script>
-    <section aria-labelledby="table-title" style="margin-top:28px">
+    <section aria-labelledby="table-title">
       <h2 id="table-title">월 한도 금액</h2>
-      <div class="panel" style="overflow-x:auto">
+      <div class="tbl">
         <table>
-          <caption class="meta" style="caption-side:bottom;text-align:left">출처: AI 토큰·한도 지도 (2026-10). 일 환산은 월 사용액 ÷ 30을 원 단위로 반올림한 값입니다. 결제일은 2026년 8월 토스뱅크 출금일과 9월 일일 메모를 기준으로 맞춘 날짜입니다. Perplexity 13일, Genspark 7일, Gemini 21일, Claude 20일, Manus 27일입니다. 반원 아래 숫자도 같은 결제일입니다.</caption>
+          <caption>출처: AI 토큰·한도 지도 (2026-10). 일 환산은 월 사용액 ÷ 30을 원 단위로 반올림한 값입니다. 결제일은 2026년 8월 토스뱅크 출금일과 9월 일일 메모를 기준으로 맞춘 날짜입니다. 리셋 시각은 결제일 00:00(KST)로 가정했습니다.</caption>
           <thead>
-            <tr>
-              <th>서비스</th><th>개별 한도</th><th>결제일</th><th>현재 소진</th><th>잔여</th><th>합계 대비</th><th>일 환산</th>
-            </tr>
+            <tr><th>서비스</th><th>개별 한도</th><th>결제일</th><th>현재 소진</th><th>잔여</th><th>합계 대비</th><th>일 환산</th></tr>
           </thead>
           <tbody>
             <tr><td>Notion AI</td><td>₩7,865</td><td>3일</td><td>₩0</td><td>₩7,865</td><td>3.3%</td><td>₩262</td></tr>
-<tr><td>ChatGPT</td><td>₩29,000</td><td>6·7일</td><td>₩0</td><td>₩29,000</td><td>12.0%</td><td>₩967</td></tr>
-<tr><td>Genspark</td><td>₩29,100</td><td>7일</td><td>₩0</td><td>₩29,100</td><td>12.1%</td><td>₩970</td></tr>
-<tr><td>Perplexity</td><td>₩8,500</td><td>13일</td><td>₩0</td><td>₩8,500</td><td>3.5%</td><td>₩283</td></tr>
-<tr><td>Claude</td><td>₩37,900</td><td>20일</td><td>₩0</td><td>₩37,900</td><td>15.7%</td><td>₩1,263</td></tr>
-<tr><td>Cursor</td><td>₩30,000</td><td>20일</td><td>₩0</td><td>₩30,000</td><td>12.4%</td><td>₩1,000</td></tr>
-<tr><td>Gemini</td><td>₩7,300</td><td>21일</td><td>₩0</td><td>₩7,300</td><td>3.0%</td><td>₩243</td></tr>
-<tr><td>Grok</td><td>₩14,300</td><td>24일</td><td>₩0</td><td>₩14,300</td><td>5.9%</td><td>₩477</td></tr>
-<tr><td>Manus</td><td>₩49,900</td><td>27일</td><td>₩0</td><td>₩49,900</td><td>20.7%</td><td>₩1,663</td></tr>
-<tr><td>Kimi</td><td>₩27,200</td><td>30일</td><td>₩0</td><td>₩27,200</td><td>11.3%</td><td>₩907</td></tr>
+            <tr><td>ChatGPT</td><td>₩29,000</td><td>6·7일</td><td>₩0</td><td>₩29,000</td><td>12.0%</td><td>₩967</td></tr>
+            <tr><td>Genspark</td><td>₩29,100</td><td>7일</td><td>₩0</td><td>₩29,100</td><td>12.1%</td><td>₩970</td></tr>
+            <tr><td>Perplexity</td><td>₩8,500</td><td>13일</td><td>₩0</td><td>₩8,500</td><td>3.5%</td><td>₩283</td></tr>
+            <tr><td>Claude</td><td>₩37,900</td><td>20일</td><td>₩0</td><td>₩37,900</td><td>15.7%</td><td>₩1,263</td></tr>
+            <tr><td>Cursor</td><td>₩30,000</td><td>20일</td><td>₩0</td><td>₩30,000</td><td>12.4%</td><td>₩1,000</td></tr>
+            <tr><td>Gemini</td><td>₩7,300</td><td>21일</td><td>₩0</td><td>₩7,300</td><td>3.0%</td><td>₩243</td></tr>
+            <tr><td>Grok</td><td>₩14,300</td><td>24일</td><td>₩0</td><td>₩14,300</td><td>5.9%</td><td>₩477</td></tr>
+            <tr><td>Manus</td><td>₩49,900</td><td>27일</td><td>₩0</td><td>₩49,900</td><td>20.7%</td><td>₩1,663</td></tr>
+            <tr><td>Kimi</td><td>₩27,200</td><td>30일</td><td>₩0</td><td>₩27,200</td><td>11.3%</td><td>₩907</td></tr>
           </tbody>
         </table>
       </div>
     </section>
+
     <footer>STARGATE · 2026 전략 대시보드 · <a href="/strategy/">전략 허브로 돌아가기</a></footer>
   </div>
+
+  <script>
+  (function () {
+    // 서비스 데이터: used는 사용률(%) — null이면 미연동. 값이 확인되면 여기 숫자를 넣으면 됩니다.
+    var SERVICES = [
+      { id: "notion",     chip: "Notion",     name: "Notion AI",  color: "notion",     limit: 7865,  day: 3,  dayLabel: "3일",   used: null },
+      { id: "chatgpt",    chip: "OpenAI",     name: "ChatGPT",    color: "openai",     limit: 29000, day: 6,  dayLabel: "6·7일", used: null },
+      { id: "genspark",   chip: "Genspark",   name: "Genspark",   color: "genspark",   limit: 29100, day: 7,  dayLabel: "7일",   used: null },
+      { id: "perplexity", chip: "Perplexity", name: "Perplexity", color: "perplexity", limit: 8500,  day: 13, dayLabel: "13일",  used: null },
+      { id: "claude",     chip: "Claude",     name: "Claude",     color: "claude",     limit: 37900, day: 20, dayLabel: "20일",  used: null },
+      { id: "cursor",     chip: "Cursor",     name: "Cursor",     color: "cursor",     limit: 30000, day: 20, dayLabel: "20일",  used: null },
+      { id: "gemini",     chip: "Gemini",     name: "Gemini",     color: "google",     limit: 7300,  day: 21, dayLabel: "21일",  used: null },
+      { id: "grok",       chip: "Grok",       name: "Grok",       color: "grok",       limit: 14300, day: 24, dayLabel: "24일",  used: null },
+      { id: "manus",      chip: "Manus",      name: "Manus",      color: "manus",      limit: 49900, day: 27, dayLabel: "27일",  used: null },
+      { id: "kimi",       chip: "Kimi",       name: "Kimi",       color: "kimi",       limit: 27200, day: 30, dayLabel: "30일",  used: null }
+    ];
+    var STORE = "sg-ai-usage-v1";
+    var KST = 9 * 3600 * 1000;
+    var DOW = ["일", "월", "화", "수", "목", "금", "토"];
+
+    function load() { try { return JSON.parse(localStorage.getItem(STORE) || "{}") || {}; } catch (e) { return {}; } }
+    function save(o) { try { localStorage.setItem(STORE, JSON.stringify(o)); } catch (e) {} }
+    var saved = load();
+
+    // KST 기준 날짜 계산(모든 Date는 UTC 메서드로 KST 벽시계를 다룸)
+    function kstNow() { return new Date(Date.now() + KST); }
+    function lastDay(y, m) { return new Date(Date.UTC(y, m + 1, 0)).getUTCDate(); }
+    function billDate(y, m, d) { return new Date(Date.UTC(y, m, Math.min(d, lastDay(y, m)))); }
+    function cycle(day, now) {
+      var y = now.getUTCFullYear(), m = now.getUTCMonth();
+      var thisBill = billDate(y, m, day);
+      var start, end;
+      if (now >= thisBill) { start = thisBill; end = billDate(y, m + 1, day); }
+      else { start = billDate(y, m - 1, day); end = thisBill; }
+      return { start: start, end: end, pace: (now - start) / (end - start) * 100 };
+    }
+    function pad(n) { return (n < 10 ? "0" : "") + n; }
+    function fmtReset(d) { return (d.getUTCMonth() + 1) + "/" + pad(d.getUTCDate()) + "(" + DOW[d.getUTCDay()] + ") 00:00"; }
+    function fmtLeft(ms) {
+      var h = Math.max(0, Math.floor(ms / 3600000)), dd = Math.floor(h / 24), hh = h % 24, mm = Math.max(0, Math.floor(ms / 60000) % 60);
+      if (dd > 0) return dd + "일 " + hh + "시간 후";
+      if (hh > 0) return hh + "시간 " + mm + "분 후";
+      return mm + "분 후";
+    }
+    function judge(used, pace) {
+      if (used == null) return { st: "미연동", fill: "var(--off)" };
+      if (used >= 100) return { st: "소진", fill: "var(--hot)" };
+      var dv = used - pace;
+      if (dv > 5) return { st: "초과 예상", fill: "var(--hot)" };
+      if (dv >= -5) return { st: "적정", fill: "var(--warn)" };
+      return { st: "여유", fill: "var(--ok)" };
+    }
+    function won(n) { return "₩" + n.toLocaleString("ko-KR"); }
+    function el(tag, cls, text) { var e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; }
+
+    var boxes = document.getElementById("boxes");
+    function render() {
+      var now = kstNow();
+      document.getElementById("clock").textContent = "기준 시각 " + now.getUTCFullYear() + "-" + pad(now.getUTCMonth() + 1) + "-" + pad(now.getUTCDate()) + " " + pad(now.getUTCHours()) + ":" + pad(now.getUTCMinutes()) + " KST · 1분마다 갱신";
+      boxes.replaceChildren();
+      var inputs = 0, nextSvc = null, nextEnd = null;
+      SERVICES.forEach(function (s) {
+        var used = (saved[s.id] != null) ? saved[s.id] : s.used;
+        if (used != null) inputs++;
+        var c = cycle(s.day, now);
+        if (!nextEnd || c.end < nextEnd) { nextEnd = c.end; nextSvc = s; }
+        var j = judge(used, c.pace);
+        var pace = Math.round(c.pace);
+
+        var box = el("article", "box");
+        box.style.setProperty("--c", "var(--c-" + s.color + ")"); box.dataset.c = s.color;
+        box.style.setProperty("--fill", j.fill);
+        box.setAttribute("aria-label", s.name + " 월 한도 " + (used == null ? "사용량 미연동" : "사용 " + used + "%") + ", 적정선 " + pace + "%, " + j.st);
+
+        var head = el("div", "box-head");
+        head.appendChild(el("span", "chip", s.chip));
+        head.appendChild(el("span", "name", s.name));
+        head.appendChild(el("span", "acct", "· 월 " + won(s.limit) + " · 결제일 " + s.dayLabel));
+        box.appendChild(head);
+
+        var row = el("div", "row");
+        row.appendChild(el("span", "lbl", "월간"));
+        var bar = el("div", "bar");
+        bar.setAttribute("aria-hidden", "true");
+        var fill = el("i"); fill.style.width = Math.min(100, used || 0) + "%";
+        var mark = el("u"); mark.style.left = "calc(" + Math.min(100, c.pace) + "% - 1px)";
+        bar.appendChild(fill); bar.appendChild(mark);
+        row.appendChild(bar);
+        row.appendChild(el("span", "pct", (used == null ? 0 : Math.round(used)) + "%"));
+        row.appendChild(el("span", "reset", fmtReset(c.end)));
+        box.appendChild(row);
+
+        var sub = el("p", "sub");
+        sub.appendChild(document.createTextNode("(" + fmtLeft(c.end - now) + ") "));
+        sub.appendChild(el("span", "st", j.st));
+        sub.appendChild(document.createTextNode(" · 적정선 " + pace + "%"));
+        if (used != null) {
+          var dv = Math.round(used - c.pace);
+          sub.appendChild(document.createTextNode(" · "));
+          sub.appendChild(el("span", "dv", (dv >= 0 ? "+" : "") + dv + "%p"));
+        }
+        if (j.st === "초과 예상" && used > 0) {
+          var hrsElapsed = (now - c.start) / 3600000;
+          var hrsToFull = (100 - used) / (used / hrsElapsed);
+          var full = new Date(now.getTime() + hrsToFull * 3600000);
+          if (full < c.end) sub.appendChild(document.createTextNode(" · " + (full.getUTCMonth() + 1) + "/" + pad(full.getUTCDate()) + " 소진 예상"));
+        }
+        var btn = el("button", "edit", "입력");
+        btn.type = "button";
+        btn.setAttribute("aria-label", s.name + " 현재 사용률 입력");
+        btn.addEventListener("click", function () {
+          var v = window.prompt(s.name + " 현재 사용률(%)을 입력하세요. 비우면 미연동으로 되돌립니다.", used == null ? "" : String(used));
+          if (v === null) return;
+          v = v.trim().replace("%", "");
+          if (v === "") delete saved[s.id];
+          else { var n = Number(v); if (!isFinite(n) || n < 0) return; saved[s.id] = Math.min(n, 999); }
+          save(saved); render();
+        });
+        sub.appendChild(btn);
+        box.appendChild(sub);
+
+        var remain = used == null ? null : Math.max(0, Math.round(s.limit * (100 - Math.min(100, used)) / 100));
+        box.appendChild(el("p", "meta-line", "일 환산 " + won(Math.round(s.limit / 30)) + " · 잔여 " + (remain == null ? "미확인" : won(remain)) + " · 주기 " + (c.start.getUTCMonth() + 1) + "/" + c.start.getUTCDate() + " → " + (c.end.getUTCMonth() + 1) + "/" + c.end.getUTCDate()));
+        boxes.appendChild(box);
+      });
+      document.getElementById("sum-input").textContent = inputs + " / " + SERVICES.length;
+      document.getElementById("sum-next").textContent = nextSvc ? nextSvc.name + " " + (nextEnd.getUTCMonth() + 1) + "/" + nextEnd.getUTCDate() : "—";
+      document.getElementById("sync-note").hidden = inputs === SERVICES.length;
+    }
+    render();
+    setInterval(render, 60000);
+
+    // 결제일 달력
+    var byDay = {};
+    SERVICES.forEach(function (s) { (byDay[s.day] = byDay[s.day] || []).push(s); });
+    byDay[7] = (byDay[7] || []).concat([{ name: "ChatGPT", color: "openai" }]);
+    var year = 2026, now0 = kstNow();
+    var today = now0.getUTCFullYear() === year ? { m: now0.getUTCMonth(), d: now0.getUTCDate() } : null;
+    var month = today ? today.m : 9;
+    var grid = document.getElementById("cal-grid"), label = document.getElementById("cal-label");
+    var prev = document.getElementById("cal-prev"), next = document.getElementById("cal-next");
+    var dayNames = ["일요일", "월요일", "화요일", "수요일", "목요일", "금요일", "토요일"];
+    function emptyCell() { var c = el("div", "day empty"); c.setAttribute("role", "gridcell"); return c; }
+    function renderCal() {
+      var firstDow = new Date(year, month, 1).getDay(), count = new Date(year, month + 1, 0).getDate();
+      var trailing = (7 - ((firstDow + count) % 7)) % 7;
+      grid.replaceChildren();
+      grid.setAttribute("aria-label", year + "년 " + (month + 1) + "월 결제일");
+      DOW.forEach(function (n) { var h = el("div", "dow", n); h.setAttribute("role", "columnheader"); grid.appendChild(h); });
+      for (var i = 0; i < firstDow; i++) grid.appendChild(emptyCell());
+      for (var d = 1; d <= count; d++) {
+        var list = [];
+        Object.keys(byDay).forEach(function (k) { if (Math.min(+k, count) === d) list = list.concat(byDay[k]); });
+        var isToday = today && today.m === month && today.d === d;
+        var a = el("article", "day" + (list.length ? " has" : "") + (isToday ? " today" : ""));
+        a.setAttribute("role", "gridcell");
+        var aria = (month + 1) + "월 " + d + "일 " + dayNames[new Date(year, month, d).getDay()] + (isToday ? ", 오늘" : "");
+        if (list.length) aria += ", " + list.map(function (s) { return s.name; }).join(", ");
+        a.setAttribute("aria-label", aria);
+        a.appendChild(el("strong", null, String(d)));
+        if (list.length) {
+          var ul = el("ul");
+          list.forEach(function (s) { var li = el("li", null, s.name); li.style.setProperty("--k", "var(--c-" + s.color + ")"); ul.appendChild(li); });
+          a.appendChild(ul);
+        }
+        grid.appendChild(a);
+      }
+      for (var t = 0; t < trailing; t++) grid.appendChild(emptyCell());
+      label.textContent = year + "년 " + (month + 1) + "월";
+      prev.disabled = month === 0; next.disabled = month === 11;
+    }
+    prev.addEventListener("click", function () { if (month > 0) { month--; renderCal(); } });
+    next.addEventListener("click", function () { if (month < 11) { month++; renderCal(); } });
+    renderCal();
+  })();
+  </script>
 </body>
 </html>
