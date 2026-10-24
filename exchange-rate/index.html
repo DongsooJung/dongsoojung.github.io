@@ -191,7 +191,7 @@ footer{margin-top:56px;padding-top:20px;border-top:1px solid var(--line);color:v
       <span class="refresh-status" id="refreshStatus" role="status" aria-live="polite">환율·금리·물가·비트코인·시장 데이터를 최신 파일에서 다시 확인합니다.</span>
     </div>
   </header>
-<section class="source-followup" aria-labelledby="source-followup-title"><h2 id="source-followup-title">원출처 대조 · 한·미 금리차360개월 · 2026-10-24</h2><p>FRED 공식 CSV2개에서 한국과 미국 각각360개월을 확보했습니다. 1996년10월~2026년9월의공통360행·1,080수치와 한국−미국 차이를 독립 계산으로 검산했습니다. 기존 수치는 모두 일치하며 과거355개월의 미완료 대조를 해소했습니다.</p><p>기준월2026-09 · 원시리즈 갱신: 한국10월15일/미국10월1일(CDT) · 수집 2026-10-24T02:37:33.366126+00:00 · 파일 생성 2026-10-24T02:39:08.280843+00:00 · 원문 대조 2026-10-24T02:39:08.379362+00:00. 원문에없는관측시각은미제공으로두며10월행을추정하지않습니다. 공표일정은10월월자료확보를뜻하지않습니다.</p><p>금리는월별·계절미조정·%이며차이는%p입니다. 한국 콜머니·은행간 익일물 월평균과 미국 실효 연방기금 월평균의차이로, 정책금리 목표범위 차이가 아닙니다. 한국은행329개월의이전완료검증은수치일치시검증일을유지합니다. FX/BTC/시장새저장본은원문재대조대기입니다. <a href="/research/source-reviews/2026-10-23-bok-history.json">한국은행 이전 근거</a> · <a href="/research/source-reviews/2026-10-24-rategap-history.json" download>이번 원출처·수치 대조 JSON 내려받기</a></p></section>
+<section class="source-followup" aria-labelledby="source-followup-title"><h2 id="source-followup-title">원출처 대조 · 5개 모듈 저장본 검증 완료 · 2026-10-25</h2><p>환율334개월·BTC111개월·Brent28년을 원문과 대조했습니다. 환율은ECB7,121관측일이며10월은23일까지17관측일 부분집계입니다. 원문에없는초기CNY63개월은빈칸입니다. BTC는USDT의월고저중간값으로10월은진행중인부분월봉이며9월이마지막완결월입니다.</p><p>Brent는FRED/EIA일자료로10월20일까지203관측일의2026년부분평균입니다. 세계은행월자료9개월과단위가다릅니다. DRAM·금·구리·가스의28년값/관측수,한국은행329개월,금리차360개월은기존원문대조완료본과동일해당시검증일을유지합니다. 세계은행월표를새로조회하거나10월값을추정하지않았습니다.</p><p>환율수집 2026-10-24T17:37:55.921438+00:00 · BTC수집 2026-10-24T17:37:24.373692+00:00 · 유가수집 2026-10-24T17:37:24.213280+00:00. 파일생성·개별원문대조시각은다운로드JSON에구분했습니다. BTC현월의실제관측시각은원문미제공입니다. 이후자동갱신본은이검증일의저장본과구분해야합니다. <a href="/research/source-reviews/2026-10-25-exchange-closeout.json" download>모듈별원출처·기간·검증JSON 내려받기</a></p></section>
 
   <div class="controls">
     <div class="fgroup" role="group" aria-label="통화 선택">
@@ -425,11 +425,11 @@ footer{margin-top:56px;padding-top:20px;border-top:1px solid var(--line);color:v
 </div>
 
 <script src="./chart.umd.min.js"></script>
-<script src="./fallback-data.js?v=20261022-source"></script>
+<script src="./fallback-data.js?v=20261025-reviewed"></script>
 <script src="./bok-fallback.js?v=20261023-history"></script>
-<script src="./market-fallback.js?v=20261023"></script>
+<script src="./market-fallback.js?v=20261025-reviewed"></script>
 <script src="./rate-gap-fallback.js?v=20261024-history"></script>
-<script src="./bitcoin-fallback.js?v=20261022-source"></script>
+<script src="./bitcoin-fallback.js?v=20261025-reviewed"></script>
 <script src="/assets/dashboard-data-status.js?v=20261015-1"></script>
 <script>
 'use strict';

@@ -986,14 +986,15 @@
       "status": "pending",
       "keys": [],
       "outcome": "conditional_technical_acceptance",
-      "latestAudit": "/research/source-reviews/2026-10-24-rategap-history.json",
+      "latestAudit": "/research/source-reviews/2026-10-25-exchange-closeout.json",
       "lastAttemptAt": "2026-10-20T23:07:26.208Z",
       "itemResults": {
         "/exchange-rate/": {
-          "status": "needs_review",
-          "checkedAt": "2026-10-24T02:40:34.198Z",
-          "audit": "/research/source-reviews/2026-10-24-rategap-history.json",
-          "nextAction": "BOK329개월·금리차360개월완료저장본은수치지문변경전반복하지않음. 다음은변경된FX/BTC부분구간·FRED시장저장본또는다음원출처미완료프로젝트최대8개. 관광10월26일·WorldBank11월3일이후."
+          "status": "verified",
+          "checkedAt": "2026-10-24T17:41:38.747Z",
+          "audit": "/research/source-reviews/2026-10-25-exchange-closeout.json",
+          "scope": "환율334개월·BTC111개월·Brent28년원문대조.기존BOK329개월/금리차360개월/시장나머지4지표는검증본의값·범위동일성을확인해원문검증일유지.5모듈모두기록된저장본범위에서검증완료.",
+          "nextAction": "이exchange-rate완료저장본은반복하지않고다음미완료 /research/bukangi/ 공식결과원문·과거13개고유출처의19기록을대조. 결과원문미확보시결과/위치확정금지하고 /ds-research-urban-analytics/ 등다음항목진행.관광은10월26일이후,WorldBank는11월3일이후. 최종수락에서변경된게시본만별도조정."
         },
         "/trade/": {
           "status": "verified",
@@ -1074,7 +1075,7 @@
           "Tourism not re-fetched before October26; original checkedAt retained"
         ]
       },
-      "nextAction": "BOK329개월·금리차360개월완료저장본은수치지문변경전반복하지않음. 다음은변경된FX/BTC부분구간·FRED시장저장본또는다음원출처미완료프로젝트최대8개. 관광10월26일·WorldBank11월3일이후.",
+      "nextAction": "10월26일이후에는관광공표대기를우선확인. 그전에는이exchange-rate완료저장본은반복하지않고다음미완료 /research/bukangi/ 공식결과원문·과거13개고유출처의19기록을대조. 결과원문미확보시결과/위치확정금지하고 /ds-research-urban-analytics/ 등다음항목진행.관광은10월26일이후,WorldBank는11월3일이후. 최종수락에서변경된게시본만별도조정.",
       "sourceFollowups": [
         {
           "id": "source-followup-1-20261021",
@@ -1295,13 +1296,64 @@
           "outcome": "rate_gap360_full_originals_verified_355_historical_gap_closed",
           "release": {
             "branch": "codex/rategap-history-20261024",
-            "status": "awaiting_checks",
+            "status": "verified",
             "liveUrl": "https://www.stargateedu.co.kr/exchange-rate/",
             "sourceReviewUrl": "https://www.stargateedu.co.kr/research/source-reviews/2026-10-24-rategap-history.json",
-            "pullRequest": "https://github.com/DongsooJung/dongsoojung.github.io/pull/219"
+            "pullRequest": "https://github.com/DongsooJung/dongsoojung.github.io/pull/219",
+            "commit": "9702159106243be6a2d43c1a432491c4f3db2204",
+            "pullRequestHead": "cb5e7055d0ff103ac224e427597357b1b94a3c15",
+            "pullRequestMergeCommit": "9702159106243be6a2d43c1a432491c4f3db2204",
+            "verifiedAt": "2026-10-24T02:47:13.846Z",
+            "pagesRun": "https://github.com/DongsooJung/dongsoojung.github.io/actions/runs/40055472609",
+            "checks": [
+              "Exact PR head CodeQL aggregate and JavaScript passed",
+              "Exact merge SHA Pages build/report/deploy success",
+              "Both domains six changed public files and plan batch match",
+              "FRED2 CSV originals/360 months1080 values independently checked; no numerical changes",
+              "Rate-gap CSV360 rows11 fields and last12 range match JSON/fallback; percentage-point units and separate timestamps",
+              "Rate-gap355 historical gap closed; BOK329 values match with prior verification dates preserved; FX/BTC/market source review pending",
+              "Live63 unique projects/7 alphabetical filters/9 groups/strategy44;390px mobile and no runtime errors",
+              "Node19/Python4 regression tests passed; acceptance remains pending"
+            ],
+            "externalChecks": [
+              {
+                "context": "Vercel – stargate-private-gateway",
+                "state": "success",
+                "description": "Deployment has completed",
+                "targetUrl": "https://vercel.com/stargate2/stargate-private-gateway/14BBTs5cpa6Re9wg7jbvivRJuahn"
+              },
+              {
+                "context": "Vercel – stargate-onbid-api",
+                "state": "success",
+                "description": "Deployment has completed",
+                "targetUrl": "https://vercel.com/stargate2/stargate-onbid-api/EyhSGDczoD45fHCyYPih7Y7kCHBe"
+              }
+            ]
+          }
+        },
+        {
+          "id": "exchange-closeout-20261025",
+          "status": "completed",
+          "checkedAt": "2026-10-24T17:41:38.747Z",
+          "keys": [
+            "/exchange-rate/"
+          ],
+          "audit": "/research/source-reviews/2026-10-25-exchange-closeout.json",
+          "outcome": "all_five_exchange_modules_verified_for_recorded_versions",
+          "release": {
+            "branch": "codex/exchange-closeout-20261025",
+            "status": "awaiting_checks",
+            "liveUrl": "https://www.stargateedu.co.kr/exchange-rate/",
+            "sourceReviewUrl": "https://www.stargateedu.co.kr/research/source-reviews/2026-10-25-exchange-closeout.json",
+            "pullRequest": "https://github.com/DongsooJung/dongsoojung.github.io/pull/220"
           }
         }
-      ]
+      ],
+      "publicationPriority": {
+        "key": "/korea-tourism/",
+        "eligibleOn": "2026-10-26",
+        "rule": "공표일도래시실제원문공표부터대조"
+      }
     }
   ],
   "automationId": "10",
