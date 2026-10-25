@@ -1,0 +1,362 @@
+{
+  "schemaVersion": 1,
+  "step": "acceptance-tourism-publication-urban-retirement",
+  "checkedAt": "2026-10-25T23:54:40.152Z",
+  "sourceBaseCommit": "2d5913cb9392d644fffbf6eb630a470faf357ce7",
+  "keys": [
+    "/korea-tourism/",
+    "/ds-research-urban-analytics/"
+  ],
+  "tourism": {
+    "reviewStatus": "awaiting_publication",
+    "publicationCheckedAt": "2026-10-25T23:41:07.758Z",
+    "publicationCheckedAtKst": "2026-10-26 08:41",
+    "latestListedDataPeriod": "2026-08",
+    "requestedDataPeriod": "2026-09",
+    "scheduledAt": "2026-10-26",
+    "status": "september_not_listed_at_morning_check",
+    "scope": "정상 공식 메뉴 이동 후 월별 공표 목록을 확인. 해당 시각9월 공표 게시물 없음. 하루 전체 미공표를 단정하지 않음. 8월 수치 원표 재다운로드/재대조를 하지 않음.",
+    "list": {
+      "url": "https://datalab.visitkorea.or.kr/site/portal/ex/bbs/List.do?cbIdx=1603&tgtTypeCd=CATE_CONT&searchKey2=spt01",
+      "renderedHtmlSha256": "74bb33523162393efaa805e8ade9289aa8eea2caea106859c987a324117f2ca1",
+      "links": [
+        {
+          "text": "2026년 한국관광통계 공표 예정일",
+          "href": "/site/portal/ex/bbs/View.do?cbIdx=1603&cbIdx2=1127&bcIdx=310073&pageIndex=1&tgtTypeCd=CATE_CONT&searchKey=&searchKey1=&searchKey2=spt01&searchKey3=&tabFlag=N&subFlag=N&cateCont=spt01"
+        },
+        {
+          "text": "한국관광통계 가이드북",
+          "href": "/site/portal/ex/bbs/View.do?cbIdx=1603&cbIdx2=1127&bcIdx=295706&pageIndex=1&tgtTypeCd=CATE_CONT&searchKey=&searchKey1=&searchKey2=spt01&searchKey3=&tabFlag=N&subFlag=N&cateCont=spt01"
+        },
+        {
+          "text": "2026년 8월 한국관광통계 공표",
+          "href": "/site/portal/ex/bbs/View.do?cbIdx=1603&cbIdx2=1127&bcIdx=311301&pageIndex=1&tgtTypeCd=CATE_CONT&searchKey=&searchKey1=&searchKey2=spt01&searchKey3=&tabFlag=N&subFlag=N&cateCont=spt01"
+        },
+        {
+          "text": "2026년 7월 한국관광통계 공표",
+          "href": "/site/portal/ex/bbs/View.do?cbIdx=1603&cbIdx2=1127&bcIdx=311134&pageIndex=1&tgtTypeCd=CATE_CONT&searchKey=&searchKey1=&searchKey2=spt01&searchKey3=&tabFlag=N&subFlag=N&cateCont=spt01"
+        },
+        {
+          "text": "2026년 6월 한국관광통계 공표",
+          "href": "/site/portal/ex/bbs/View.do?cbIdx=1603&cbIdx2=1127&bcIdx=310989&pageIndex=1&tgtTypeCd=CATE_CONT&searchKey=&searchKey1=&searchKey2=spt01&searchKey3=&tabFlag=N&subFlag=N&cateCont=spt01"
+        },
+        {
+          "text": "2026년 5월 한국관광통계 공표",
+          "href": "/site/portal/ex/bbs/View.do?cbIdx=1603&cbIdx2=1127&bcIdx=310862&pageIndex=1&tgtTypeCd=CATE_CONT&searchKey=&searchKey1=&searchKey2=spt01&searchKey3=&tabFlag=N&subFlag=N&cateCont=spt01"
+        },
+        {
+          "text": "2026년 4월 한국관광통계 공표",
+          "href": "/site/portal/ex/bbs/View.do?cbIdx=1603&cbIdx2=1127&bcIdx=310724&pageIndex=1&tgtTypeCd=CATE_CONT&searchKey=&searchKey1=&searchKey2=spt01&searchKey3=&tabFlag=N&subFlag=N&cateCont=spt01"
+        },
+        {
+          "text": "2026년 3월 한국관광통계 공표",
+          "href": "/site/portal/ex/bbs/View.do?cbIdx=1603&cbIdx2=1127&bcIdx=310653&pageIndex=1&tgtTypeCd=CATE_CONT&searchKey=&searchKey1=&searchKey2=spt01&searchKey3=&tabFlag=N&subFlag=N&cateCont=spt01"
+        },
+        {
+          "text": "2026년 2월 한국관광통계 공표",
+          "href": "/site/portal/ex/bbs/View.do?cbIdx=1603&cbIdx2=1127&bcIdx=310518&pageIndex=1&tgtTypeCd=CATE_CONT&searchKey=&searchKey1=&searchKey2=spt01&searchKey3=&tabFlag=N&subFlag=N&cateCont=spt01"
+        }
+      ]
+    },
+    "httpNavigationChecks": [
+      {
+        "key": "old-board",
+        "url": "https://datalab.visitkorea.or.kr/site/portal/ex/bbs/List.do?cbIdx=1603&tgtTypeCd=CATE_CONT&searchKey2=spt01",
+        "collectedAt": "2026-10-25T23:40:36.070Z",
+        "status": 200,
+        "finalUrl": "https://datalab.visitkorea.or.kr/datalab/portal/main/getMainForm.do",
+        "bytes": 594655,
+        "sha256": "c826b11608e3aa22f661b6439630525bf1462d5883b6ab41ea5b8313acabd16b"
+      },
+      {
+        "key": "old-august",
+        "url": "https://datalab.visitkorea.or.kr/site/portal/ex/bbs/View.do?cbIdx=1603&cbIdx2=1127&bcIdx=311301",
+        "collectedAt": "2026-10-25T23:40:37.218Z",
+        "status": 200,
+        "finalUrl": "https://datalab.visitkorea.or.kr/site/portal/ex/bbs/View.do?cbIdx=1603&cbIdx2=1127&bcIdx=311301",
+        "bytes": 469356,
+        "sha256": "6fc68110ce4091ce6caf9401156288bb981df5d80de16c4d71666db2e4c884a9"
+      },
+      {
+        "key": "old-schedule",
+        "url": "https://datalab.visitkorea.or.kr/site/portal/ex/bbs/View.do?bcIdx=310073&cbIdx=1603",
+        "collectedAt": "2026-10-25T23:40:37.677Z",
+        "status": 200,
+        "finalUrl": "https://datalab.visitkorea.or.kr/site/portal/ex/bbs/View.do?bcIdx=310073&cbIdx=1603",
+        "bytes": 468061,
+        "sha256": "de17dbe0b3356e3c83a8c76c49f5608dabdba1e0df98d7c4eab3195e398f0714"
+      }
+    ],
+    "schedule": {
+      "sourceUrl": "https://datalab.visitkorea.or.kr/common/board/Download.do?bcIdx=310073&cbIdx=1127&streFileNm=46cd12a6-5f28-4c47-b4eb-c9188cb81ac7.pdf",
+      "priorCheckedAt": "2026-10-20T23:39:16.050961+00:00",
+      "pdfFetchedThisTurn": false,
+      "note": "기존 검증 공표 예정일10월26일 유지. 이번에는 일정 게시물/동일 첨부 링크만 확인하며 PDF를 새 수치 검증으로 취급하지 않음."
+    },
+    "savedValuesPreserved": {
+      "dataPeriod": "2026-08",
+      "collectedAt": "2026-10-16T10:28:23.996613+00:00",
+      "snapshotUpdatedAt": "2026-10-16",
+      "lastNumericalCheckedAt": "2026-10-16T10:33:48.637Z",
+      "files": [
+        {
+          "file": "korea-tourism/data.json",
+          "sha256": "abb0a9ebc94f90616ca0b795a9124c2e9f1b1c152f658035b5d01259a82db56d"
+        },
+        {
+          "file": "korea-tourism/data.csv",
+          "sha256": "855e1c262e15ae4926b82f072f238503cfdc48bbd9bd3ac80aebe5d49bd718e5"
+        },
+        {
+          "file": "korea-tourism/fallback-data.js",
+          "sha256": "252e8b3ee1ecccd4b1b4d4785514d1f114672c41d9d24777cec1b74a994a634e"
+        }
+      ]
+    },
+    "nextAction": "다음 일일 회차 또는 사용자의 재개 요청 시 공식 목록의9월 공표 원문부터 확인. 실제 공표된 XLSX만 기존 import_kto_workbook.py로 변환·원수치·기간·국가·CSV·fallback·화면을 함께 대조. 10월분 예정은11월25일이며 추정값을 만들지 않음."
+  },
+  "urban": {
+    "reviewStatus": "needs_review",
+    "repository": "DongsooJung/ds-research-urban-analytics",
+    "previousSourceRevision": "75987e0bd3d971db35f9c80decd46db184bab509",
+    "officialSourceChecks": [
+      {
+        "key": "population-doc",
+        "url": "https://data.seoul.go.kr/dataList/OA-14991/A/1/datasetView.do",
+        "checkedAt": "2026-10-25T23:43:53.173Z",
+        "status": 200,
+        "finalUrl": "https://data.seoul.go.kr/dataList/OA-14991/A/1/datasetView.do",
+        "bytes": 123352,
+        "sha256": "b01a3e97728268c8bb8daed619418711df4a2bf374ec79c14f8d102c74baa1a6"
+      },
+      {
+        "key": "city-doc",
+        "url": "https://data.seoul.go.kr/dataList/OA-21285/A/1/datasetView.do",
+        "checkedAt": "2026-10-25T23:43:53.606Z",
+        "status": 200,
+        "finalUrl": "https://data.seoul.go.kr/dataList/OA-21285/A/1/datasetView.do",
+        "bytes": 95520,
+        "sha256": "c0464285eec9c840e254c20d8796cbd160c93d6602ce1f3e7687a6067ae8dcfe"
+      }
+    ],
+    "sampleApiChecks": [
+      {
+        "key": "default",
+        "url": "http://openapi.seoul.go.kr:8088/sample/json/SPOP_LOCAL_RESD_DONG/1/5",
+        "checkedAt": "2026-10-25T23:43:03.343Z",
+        "status": 200,
+        "bytes": 5493,
+        "sha256": "ca9cc3096e467bcc1705ad8d665c10963d21486f226fb1b9b1b54c7959d8c72f",
+        "result": {
+          "CODE": "INFO-000",
+          "MESSAGE": "정상 처리되었습니다"
+        },
+        "totalCount": 630988,
+        "firstDate": "20260731",
+        "returnedRows": 5,
+        "firstHour": "00"
+      },
+      {
+        "key": "oct22",
+        "url": "http://openapi.seoul.go.kr:8088/sample/json/SPOP_LOCAL_RESD_DONG/1/5/20261022/06",
+        "checkedAt": "2026-10-25T23:43:05.454Z",
+        "status": 200,
+        "bytes": 82,
+        "sha256": "3cca3288065e641403e5076ee83d32d69de4425718148e0a4c25eeded68a0a8a",
+        "result": {
+          "CODE": "INFO-200",
+          "MESSAGE": "해당하는 데이터가 없습니다."
+        }
+      },
+      {
+        "key": "oct21",
+        "url": "http://openapi.seoul.go.kr:8088/sample/json/SPOP_LOCAL_RESD_DONG/1/5/20261021/06",
+        "checkedAt": "2026-10-25T23:43:05.508Z",
+        "status": 200,
+        "bytes": 82,
+        "sha256": "3cca3288065e641403e5076ee83d32d69de4425718148e0a4c25eeded68a0a8a",
+        "result": {
+          "CODE": "INFO-200",
+          "MESSAGE": "해당하는 데이터가 없습니다."
+        }
+      }
+    ],
+    "confirmedSourceStatus": {
+      "service": "SPOP_LOCAL_RESD_DONG",
+      "productionStatus": "discontinued",
+      "productionEndedOn": "2026-07-31",
+      "reason": "서울시 공식 OA-14991 설명: 국가표준250m격자 단위 전환에 따라 기존 데이터 생산이7월31일이후종료.",
+      "scope": "기관의 자료 생산 종료 설명과 공개sample5행의기준일,특정10월요청의INFO-200만확인. 424개행정동수치전수또는원API전체값검증이아님."
+    },
+    "sourceCodeReview": {
+      "files": [
+        {
+          "file": "README.md",
+          "url": "https://raw.githubusercontent.com/DongsooJung/ds-research-urban-analytics/75987e0bd3d971db35f9c80decd46db184bab509/README.md",
+          "status": 200,
+          "checkedAt": "2026-10-25T23:42:14.390Z",
+          "bytes": 9998,
+          "sha256": "675f0fa8812e9ba64d4bab7ab6f4f76a64ae18bc6855eb6578a4b6773d71bde0"
+        },
+        {
+          "file": ".github/workflows/refresh.yml",
+          "url": "https://raw.githubusercontent.com/DongsooJung/ds-research-urban-analytics/75987e0bd3d971db35f9c80decd46db184bab509/.github/workflows/refresh.yml",
+          "status": 200,
+          "checkedAt": "2026-10-25T23:42:14.644Z",
+          "bytes": 1473,
+          "sha256": "7be3de325e2f3900da1e2f003ddd71a352ecf869e76c92397fe52a7fb0d4c685"
+        },
+        {
+          "file": "scripts/snapshot.py",
+          "url": "https://raw.githubusercontent.com/DongsooJung/ds-research-urban-analytics/75987e0bd3d971db35f9c80decd46db184bab509/scripts/snapshot.py",
+          "status": 200,
+          "checkedAt": "2026-10-25T23:42:14.875Z",
+          "bytes": 3264,
+          "sha256": "4b3f62ab6f906802dbb738148479eb18e26c84df9e64253089f05c14f6358046"
+        },
+        {
+          "file": "scripts/build_docs.py",
+          "url": "https://raw.githubusercontent.com/DongsooJung/ds-research-urban-analytics/75987e0bd3d971db35f9c80decd46db184bab509/scripts/build_docs.py",
+          "status": 200,
+          "checkedAt": "2026-10-25T23:42:15.114Z",
+          "bytes": 8653,
+          "sha256": "380040c32a10bd46397b6bffc2bdcc4c08d8f90abea9160ba59351ec52f4e4b2"
+        },
+        {
+          "file": "src/seoul_citydata/api.py",
+          "url": "https://raw.githubusercontent.com/DongsooJung/ds-research-urban-analytics/75987e0bd3d971db35f9c80decd46db184bab509/src/seoul_citydata/api.py",
+          "status": 200,
+          "checkedAt": "2026-10-25T23:42:15.356Z",
+          "bytes": 3239,
+          "sha256": "233e38d97c1dcbdabfdab53d2db037210d6c25d1c70305bae41746e66d9858f8"
+        },
+        {
+          "file": "src/seoul_citydata/population.py",
+          "url": "https://raw.githubusercontent.com/DongsooJung/ds-research-urban-analytics/75987e0bd3d971db35f9c80decd46db184bab509/src/seoul_citydata/population.py",
+          "status": 200,
+          "checkedAt": "2026-10-25T23:42:15.600Z",
+          "bytes": 12624,
+          "sha256": "eedc53d96ccc0e8535c0d89fbd6a88c2737c91cc2df3760a6b8b063966bb7f86"
+        },
+        {
+          "file": "src/seoul_citydata/mobility.py",
+          "url": "https://raw.githubusercontent.com/DongsooJung/ds-research-urban-analytics/75987e0bd3d971db35f9c80decd46db184bab509/src/seoul_citydata/mobility.py",
+          "status": 200,
+          "checkedAt": "2026-10-25T23:42:15.849Z",
+          "bytes": 12860,
+          "sha256": "7e42e12696d6c7f9aaefba1d8ca5528025e0c8061c9799773b7820ac004ff956"
+        },
+        {
+          "file": "docs/data.json",
+          "url": "https://raw.githubusercontent.com/DongsooJung/ds-research-urban-analytics/75987e0bd3d971db35f9c80decd46db184bab509/docs/data.json",
+          "status": 200,
+          "checkedAt": "2026-10-25T23:42:16.081Z",
+          "bytes": 29932,
+          "sha256": "62e78ea19c203d8c5866d7d580659effce9ba2d99f37b19aace05ddcf3866759"
+        }
+      ],
+      "scope": "기존 승인키는GitHubActions에서만쓰며 현재실행환경키미제공. 수집기와품질최소행수·기준일전달을읽고 공식종료안내를코드/화면/JSON/README에반영. sample로45개지점또는전체생활인구를갱신하지않음."
+    },
+    "publishedSnapshot": {
+      "cityObservedAt": "2026-10-26 06:15",
+      "fileGeneratedAt": "2026-10-26T06:45+09:00",
+      "populationObservedDate": "20260731",
+      "populationObservedHour": "06",
+      "populationRetrievedAt": "2026-10-26 06:45:58",
+      "movementReferenceDate": "20261021",
+      "movementFileGeneratedOn": "25-10-2026",
+      "areaCount": 45,
+      "populationDongCount": 424,
+      "scope": "각각의관측/파일생성/재조회시각을구분. 변경전후source객체를제외한모든숫자와시간값동일."
+    },
+    "changes": [
+      "D-4 갱신 안내를7월생산종료와재조회시각설명으로교체",
+      "production_status/discontinued 및production_ended_on 필드추가",
+      "화면·향후생성기·README·자료JSON을함께반영. 관측값변경없음.",
+      "독립프로젝트의실제원본에서수정하며포털에해당경로폴더를만들지않음."
+    ],
+    "release": {
+      "checkedAt": "2026-10-25T23:53:11.612Z",
+      "pullRequest": "https://github.com/DongsooJung/ds-research-urban-analytics/pull/7",
+      "head": "22d97fb916088cfc7da188aab95ba0115cf6a072",
+      "commit": "a94dc0b5975d9f3d5df5bc18b6e2af0ff96f0d20",
+      "pagesRun": "https://github.com/DongsooJung/ds-research-urban-analytics/actions/runs/40246659779",
+      "jobs": [
+        {
+          "name": "build",
+          "conclusion": "success"
+        },
+        {
+          "name": "report-build-status",
+          "conclusion": "success"
+        },
+        {
+          "name": "deploy",
+          "conclusion": "success"
+        }
+      ],
+      "results": [
+        {
+          "domain": "https://www.stargateedu.co.kr",
+          "matches": [
+            {
+              "file": "index.html",
+              "sha256": "d90b050edb5a15e04d73a23e7e39d932d17b50dd4b7cbd9036a9f76f762af44d"
+            },
+            {
+              "file": "data.json",
+              "sha256": "a1b88e9ea71c3f0c6ecf36516913ae7b6d37b0372c3ef735335d75e4d1ea82dc"
+            }
+          ]
+        },
+        {
+          "domain": "https://stargateedu.co.kr",
+          "matches": [
+            {
+              "file": "index.html",
+              "sha256": "d90b050edb5a15e04d73a23e7e39d932d17b50dd4b7cbd9036a9f76f762af44d"
+            },
+            {
+              "file": "data.json",
+              "sha256": "a1b88e9ea71c3f0c6ecf36516913ae7b6d37b0372c3ef735335d75e4d1ea82dc"
+            }
+          ]
+        }
+      ],
+      "ci": "No GitHub PR checks configured;19 focused local tests passed;exact-head and mergeability checked",
+      "numericAndTimestampValuesUnchanged": true
+    },
+    "browser": {
+      "checkedAt": "2026-10-25T23:53:08.377Z",
+      "base": "https://www.stargateedu.co.kr/ds-research-urban-analytics/",
+      "checks": [
+        "Production-end badge and source note;no D-4 claim",
+        "Historical reference date/ten-dong table and numeric/timestamp JSON unchanged",
+        "390px production-end header fits;no runtime errors"
+      ],
+      "mobile": {
+        "width": 390,
+        "currentFullPageWidth": 418,
+        "baselineFullPageWidth": null,
+        "wholePageOverflow": "existing_layout_issue_not_changed_in_this_scope"
+      },
+      "errors": []
+    },
+    "validation": {
+      "pythonTests": 19,
+      "numbersAndTimesUnchanged": true,
+      "scope": "생산종료표시·원래기준일·10행표·모바일표시검증. 전체390px페이지가로넘침418px는기존과동일하며이번범위에서레이아웃수정없음."
+    },
+    "nextAction": "기존7월행정동API에9·10월을반복요청해갱신하지않음. 새250m격자원자료의기간·내국인/외국인범위·거주/체류정의·비식별과행정동재집계호환성을대조한뒤별도전환. 실시간45지점과이동자료의개별원수치전수대조도남음."
+  },
+  "counts": {
+    "projects": 63,
+    "filtersIncludingAll": 7,
+    "essays": 7
+  },
+  "worldBank": {
+    "eligibleOn": "2026-11-03",
+    "fetched": false
+  },
+  "acceptance": "pending"
+}

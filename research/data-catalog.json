@@ -174,12 +174,12 @@
         "verification": "partially_verified"
       },
       "dataAsOf": null,
-      "dataPeriod": "혼재 (2026-07·10)",
-      "snapshotUpdatedAt": "2026-10-17T09:27+09:00",
+      "dataPeriod": "혼재: 도시10/26·내국인생활인구7/31(생산종료)·대도시권10/21",
+      "snapshotUpdatedAt": "2026-10-26T06:45+09:00",
       "collectedAt": null,
-      "checkedAt": "2026-10-17T02:29:06.590856+00:00",
+      "checkedAt": "2026-10-25T23:54:40.152Z",
       "reviewStatus": "needs_review",
-      "freshness": "requires_followup",
+      "freshness": "mixed_realtime_and_discontinued_population",
       "evidence": [
         {
           "kind": "official-source",
@@ -191,20 +191,51 @@
           "kind": "audit-record",
           "url": "/research/source-reviews/2026-10-17-urban-1.json",
           "checkedAt": "2026-10-17T02:29:06.590856+00:00"
+        },
+        {
+          "kind": "official-source",
+          "url": "https://data.seoul.go.kr/dataList/OA-14991/A/1/datasetView.do",
+          "checkedAt": "2026-10-25T23:43:53.173Z",
+          "sha256": "b01a3e97728268c8bb8daed619418711df4a2bf374ec79c14f8d102c74baa1a6",
+          "scope": "기관의 자료 생산 종료 설명과 공개sample5행의기준일,특정10월요청의INFO-200만확인. 424개행정동수치전수또는원API전체값검증이아님."
+        },
+        {
+          "kind": "official-source",
+          "url": "https://data.seoul.go.kr/dataList/OA-21285/A/1/datasetView.do",
+          "checkedAt": "2026-10-25T23:43:53.606Z",
+          "sha256": "c0464285eec9c840e254c20d8796cbd160c93d6602ce1f3e7687a6067ae8dcfe",
+          "scope": "실시간도시데이터121장소범위/샘플광화문제한과개별장소별1회호출설명을대조. 45개지점원수치대조아님."
+        },
+        {
+          "kind": "audit-record",
+          "url": "/research/source-reviews/2026-10-26-tourism-urban.json",
+          "checkedAt": "2026-10-25T23:54:40.152Z",
+          "scope": "서울시 공식 설명에서 기존 내국인 행정동 자료의7월31일 이후 생산 종료를확인. 공개sample5행/10월2일자요청·코드·실제게시본범위를대조하고표시를수정. 현재도시45지점/생활인구424행의원수치전수대조는미완료."
         }
       ],
       "issues": [
-        "도시 관측 2026-10-17과 내국인 생활인구 2026-07-31, 대도시권 생활인구 2026-10-12가 혼재합니다.",
-        "게시 파일 수집·생성일을 생활인구 기준일로 바꾸지 않았습니다. 45개 지점 추정치를 서울 전체 인구로 해석하지 않습니다."
+        "내국인 행정동 생활인구는7월31일이후생산종료. 반복재조회시각을9·10월관측일로쓰지않음.",
+        "도시10월26일·생활인구7월31일·대도시권10월21일은서로다른기준. 45개지점추정치를서울전체인구로해석하지않음.",
+        "현재실행환경에기존인증키미제공. sample5행은전체424행/45지점검증을대체하지않음. 새250m자료와구자료연결시계열은미검증."
       ],
       "key": "/ds-research-urban-analytics/",
       "url": "/ds-research-urban-analytics/",
       "title": "실시간 도시 관측",
       "primary": "urban",
       "classification": "도시·공간",
-      "sourceHint": "서울 열린데이터광장 · 기준일 혼재",
-      "verifiedScope": "라이브 URL은 별도 프로젝트 저장소가 제공하며 정상 HTTP 200. 게시 JSON이 해당 저장소 공개본과 같음을 확인. 45개 지점 분류 수·추정인구 구간 중앙값 합계·연령 비율의 내부 일관성 및 공식 데이터 설명을 확인했으나 인증 원 API의 개별 수치는 미대조.",
-      "nextAction": "독립 프로젝트의 기존 수집기로 생활인구 최신 공식 기준일·전체 응답 범위를 확인한 후 별도로 갱신. 포털에 새 폴더를 만들어 기존 프로젝트 URL을 덮어쓰지 않음."
+      "sourceHint": "45개 대표지점 · 내국인 생활인구7/31 생산종료",
+      "verifiedScope": "서울시 공식 설명에서 기존 내국인 행정동 자료의7월31일 이후 생산 종료를확인. 공개sample5행/10월2일자요청·코드·실제게시본범위를대조하고표시를수정. 현재도시45지점/생활인구424행의원수치전수대조는미완료.",
+      "nextAction": "기존7월행정동API에9·10월을반복요청해갱신하지않음. 새250m격자원자료의기간·내국인/외국인범위·거주/체류정의·비식별과행정동재집계호환성을대조한뒤별도전환. 실시간45지점과이동자료의개별원수치전수대조도남음.",
+      "previousReview": {
+        "checkedAt": "2026-10-17T02:29:06.590856+00:00",
+        "dataPeriod": "혼재 (2026-07·10)",
+        "snapshotUpdatedAt": "2026-10-17T09:27+09:00",
+        "verifiedScope": "라이브 URL은 별도 프로젝트 저장소가 제공하며 정상 HTTP 200. 게시 JSON이 해당 저장소 공개본과 같음을 확인. 45개 지점 분류 수·추정인구 구간 중앙값 합계·연령 비율의 내부 일관성 및 공식 데이터 설명을 확인했으나 인증 원 API의 개별 수치는 미대조.",
+        "issues": [
+          "도시 관측 2026-10-17과 내국인 생활인구 2026-07-31, 대도시권 생활인구 2026-10-12가 혼재합니다.",
+          "게시 파일 수집·생성일을 생활인구 기준일로 바꾸지 않았습니다. 45개 지점 추정치를 서울 전체 인구로 해석하지 않습니다."
+        ]
+      }
     },
     {
       "source": {
@@ -2801,11 +2832,24 @@
           "url": "/research/source-reviews/2026-10-21-source-followup-1.json",
           "checkedAt": "2026-10-20T23:45:30.026Z",
           "scope": "공식 게시판 최신 공표8월과 공표일정 v1.1만 재확인. 기존8월 수치 원표는 이번에 재대조하지 않음."
+        },
+        {
+          "kind": "official-source",
+          "url": "https://datalab.visitkorea.or.kr/site/portal/ex/bbs/List.do?cbIdx=1603&tgtTypeCd=CATE_CONT&searchKey2=spt01",
+          "checkedAt": "2026-10-25T23:41:07.758Z",
+          "renderedHtmlSha256": "74bb33523162393efaa805e8ade9289aa8eea2caea106859c987a324117f2ca1",
+          "scope": "정상 공식 메뉴 이동 후 월별 공표 목록을 확인. 해당 시각9월 공표 게시물 없음. 하루 전체 미공표를 단정하지 않음. 8월 수치 원표 재다운로드/재대조를 하지 않음."
+        },
+        {
+          "kind": "audit-record",
+          "url": "/research/source-reviews/2026-10-26-tourism-urban.json",
+          "checkedAt": "2026-10-25T23:54:40.152Z",
+          "scope": "정상 공식 메뉴 이동 후 월별 공표 목록을 확인. 해당 시각9월 공표 게시물 없음. 하루 전체 미공표를 단정하지 않음. 8월 수치 원표 재다운로드/재대조를 하지 않음."
         }
       ],
       "issues": [
-        "공식 게시판 최신 공표는2026-08(9월28일 공표). 2026-09 자료는10월26일, 2026-10 자료는11월25일 예정.",
-        "공표 상태만2026-10-21 재확인했으며 수치 기준·수집일·데이터 파일 갱신일·최종 수치 대조일10월16일은 유지합니다."
+        "2026-10-26 08:41(KST) 공식 목록 최신 공표는8월. 예정일은오늘이나해당시각9월원문은목록에없음. 하루전체미공표를단정하지않음.",
+        "8월수치기준·수집일·파일갱신일·마지막원표대조일10월16일은보존. 이번은공표상태점검이며수치갱신아님."
       ],
       "key": "/korea-tourism/",
       "url": "/korea-tourism/",
@@ -2816,7 +2860,7 @@
       "verifiedAt": "2026-10-16T10:33:48.637Z",
       "verifiedDataHash": "d321f199a013a1ef6393da5c8d810add145eccc43c1e31312e664d1ec9a7a1d7",
       "publicationCheck": {
-        "checkedAt": "2026-10-20T23:45:30.026Z",
+        "checkedAt": "2026-10-25T23:41:07.758Z",
         "latestListedDataPeriod": "2026-08",
         "scheduledPublications": [
           {
@@ -2828,26 +2872,22 @@
             "scheduledAt": "2026-11-25"
           }
         ],
-        "status": "not_yet_published",
-        "scope": "공식 게시판 최신 공표8월과 공표일정 v1.1만 재확인. 기존8월 수치 원표는 이번에 재대조하지 않음.",
+        "status": "not_listed_at_morning_check",
+        "scope": "정상 공식 메뉴 이동 후 월별 공표 목록을 확인. 해당 시각9월 공표 게시물 없음. 하루 전체 미공표를 단정하지 않음. 8월 수치 원표 재다운로드/재대조를 하지 않음.",
         "sources": [
           {
-            "url": "https://datalab.visitkorea.or.kr/site/portal/ex/bbs/View.do?bcIdx=310073&cbIdx=1603",
-            "checkedAt": "2026-10-20T23:39:16.049966+00:00",
-            "sha256": "cfe43cf34c2cfe3cdbe328c66c4d84bba0821238ef842035fefa61edb2b8d3ab"
-          },
-          {
-            "url": "https://datalab.visitkorea.or.kr/common/board/Download.do?bcIdx=310073&cbIdx=1127&streFileNm=46cd12a6-5f28-4c47-b4eb-c9188cb81ac7.pdf",
-            "checkedAt": "2026-10-20T23:39:16.050961+00:00",
-            "sha256": "1b74b41c4d3ef22ac12dfa8e680257e303fc205cc9c0263094de08b819a768ac"
-          },
-          {
             "url": "https://datalab.visitkorea.or.kr/site/portal/ex/bbs/List.do?cbIdx=1603&tgtTypeCd=CATE_CONT&searchKey2=spt01",
-            "checkedAt": "2026-10-20T23:40:34.992Z",
-            "sha256": "e20d60a3c3a73f02d25d341c150ac80fa736fdf22ea1fbf7ff1e1290a559091b"
+            "checkedAt": "2026-10-25T23:41:07.758Z",
+            "renderedHtmlSha256": "74bb33523162393efaa805e8ade9289aa8eea2caea106859c987a324117f2ca1"
+          },
+          {
+            "url": "https://datalab.visitkorea.or.kr/site/portal/ex/bbs/View.do?bcIdx=310073&cbIdx=1603",
+            "checkedAt": "2026-10-25T23:40:37.677Z",
+            "sha256": "de17dbe0b3356e3c83a8c76c49f5608dabdba1e0df98d7c4eab3195e398f0714"
           }
         ]
-      }
+      },
+      "nextAction": "다음 일일 회차 또는 사용자의 재개 요청 시 공식 목록의9월 공표 원문부터 확인. 실제 공표된 XLSX만 기존 import_kto_workbook.py로 변환·원수치·기간·국가·CSV·fallback·화면을 함께 대조. 10월분 예정은11월25일이며 추정값을 만들지 않음."
     },
     {
       "source": {
