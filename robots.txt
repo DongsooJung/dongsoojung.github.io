@@ -1,5 +1,4 @@
 User-agent: *
-Allow: /
 Disallow: /api/
 Disallow: /admin/
 Disallow: /patches/
@@ -8,3 +7,11 @@ Disallow: /strategy/job-opportunities/data/
 
 Sitemap: https://stargateedu.co.kr/sitemap.xml
 Sitemap: https://stargateedu.co.kr/reading/sitemap.xml
+
+# ChatGPT search access; preserve the same restricted paths.
+User-agent: OAI-SearchBot
+Disallow: /api/
+Disallow: /admin/
+Disallow: /patches/
+Disallow: /cardnews/admin/
+Disallow: /strategy/job-opportunities/data/
