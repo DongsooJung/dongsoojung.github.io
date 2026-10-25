@@ -1,0 +1,709 @@
+{
+  "schemaVersion": 1,
+  "step": "acceptance-urban-evidence",
+  "checkedAt": "2026-10-25T08:47:51.587Z",
+  "sourceBaseCommit": "4e884be282d00b99ed3ce0ded983d93442e0f0e2",
+  "keys": [
+    "/research/bukangi/",
+    "/research/gimpo-airport-congestion/"
+  ],
+  "projects": {
+    "/research/bukangi/": {
+      "reviewStatus": "needs_review",
+      "sourceChecks": [
+        {
+          "key": "historic-1",
+          "url": "https://x.com/allroundnobody/status/2102713894548697167",
+          "checkedAt": "2026-10-25T08:43:32.694414+00:00",
+          "status": 200,
+          "finalUrl": "https://x.com/allroundnobody/status/2102713894548697167",
+          "contentType": "text/html; charset=UTF-8",
+          "bytes": 82484,
+          "sha256": "679efdf108b9288b99ff7cac77efe8854736f7b8be889fb56f4e7aa928b24f28",
+          "title": "X on X / X",
+          "kind": "historical-publisher",
+          "bodyVerification": "body_unavailable"
+        },
+        {
+          "key": "historic-2",
+          "url": "https://x.com/technomucho/status/2102712368631599344",
+          "checkedAt": "2026-10-25T08:43:32.695413+00:00",
+          "status": 200,
+          "finalUrl": "https://x.com/technomucho/status/2102712368631599344",
+          "contentType": "text/html; charset=UTF-8",
+          "bytes": 82176,
+          "sha256": "43f8a966526ddc99153e7b6133931d51d57d42fea2247f602c6aadd9642508a8",
+          "title": "X on X / X",
+          "kind": "historical-publisher",
+          "bodyVerification": "body_unavailable"
+        },
+        {
+          "key": "historic-3",
+          "url": "https://x.com/realdonmisae/status/2102713241453646208",
+          "checkedAt": "2026-10-25T08:43:32.696413+00:00",
+          "status": 200,
+          "finalUrl": "https://x.com/realdonmisae/status/2102713241453646208",
+          "contentType": "text/html; charset=UTF-8",
+          "bytes": 93278,
+          "sha256": "6202744c902a6311d10d7a76d60788542bd69e25a52a6747f693fffc92c23563",
+          "title": "X on X / X",
+          "kind": "historical-publisher",
+          "bodyVerification": "body_unavailable"
+        },
+        {
+          "key": "historic-4",
+          "url": "https://n.news.naver.com/mnews/article/658/0000156484",
+          "checkedAt": "2026-10-25T08:43:32.697414+00:00",
+          "status": 200,
+          "finalUrl": "https://n.news.naver.com/mnews/article/658/0000156484",
+          "contentType": "text/html; charset=utf-8",
+          "bytes": 281559,
+          "sha256": "0ff24d1f6c252144aa1ee5e279861568b42f02afb96c0b7df198b86742b8b6ce",
+          "title": "[속보] 상어 '부캉이' 추석 연휴에도 부산 체류할 듯",
+          "kind": "historical-publisher",
+          "bodyVerification": "article_text_matched"
+        },
+        {
+          "key": "historic-5",
+          "url": "https://www.yna.co.kr/view/AKR20260923123700051",
+          "checkedAt": "2026-10-25T08:43:33.760954+00:00",
+          "status": 200,
+          "finalUrl": "https://www.yna.co.kr/view/AKR20260923123700051",
+          "contentType": "text/html;charset=UTF-8",
+          "bytes": 166344,
+          "sha256": "41f6717499eba11b7e16f726bb3185f937ec03fccbe6a475c0b13ba0035cdc89",
+          "title": "상어 '부캉이' 추석 연휴도 부산 체류 할 듯…유관기관 비상근무 | 연합뉴스",
+          "kind": "historical-publisher",
+          "bodyVerification": "article_text_matched"
+        },
+        {
+          "key": "historic-6",
+          "url": "https://www.ajunews.com/view/20260923092833050",
+          "checkedAt": "2026-10-25T08:43:33.813469+00:00",
+          "status": 200,
+          "finalUrl": "https://www.ajunews.com/view/20260923092833050",
+          "contentType": "text/html; charset=UTF-8",
+          "bytes": 107265,
+          "sha256": "6ff631f9542db8dcbed59a13857e26642a9130a0e87f3f5217726c5c9d7c1758",
+          "title": "\"예뻐 죽겠다\"… 부산시장 홀린 상어 '부캉이' 추석 연휴에도 머무나 | 아주경제",
+          "kind": "historical-publisher",
+          "bodyVerification": "article_text_matched"
+        },
+        {
+          "key": "historic-7",
+          "url": "https://n.news.naver.com/article/023/0004000016",
+          "checkedAt": "2026-10-25T08:43:33.890059+00:00",
+          "status": 200,
+          "finalUrl": "https://n.news.naver.com/article/023/0004000016",
+          "contentType": "text/html; charset=utf-8",
+          "bytes": 302148,
+          "sha256": "7b95ed3cd2ff4eda1ffef2be31be8e39471e46a51c891858faf5d454c464097c",
+          "title": "국민 상어 된 ‘부캉이’… 안 떠나니 못 떠나니?",
+          "kind": "historical-publisher",
+          "bodyVerification": "article_text_matched"
+        },
+        {
+          "key": "historic-8",
+          "url": "https://www.hankyung.com/article/2026092218797",
+          "checkedAt": "2026-10-25T08:43:33.992166+00:00",
+          "status": 200,
+          "finalUrl": "https://www.hankyung.com/article/2026092218797",
+          "contentType": "text/html; charset=UTF-8",
+          "bytes": 98232,
+          "sha256": "07a08b41f31ad0029de261a0dfaa97bec31793f46d2758a27be41f955296d679",
+          "title": "북항 상어에 이건 절대 던져주지 마세요 전문가 경고 나섰다 | 한국경제",
+          "kind": "historical-publisher",
+          "bodyVerification": "article_text_matched"
+        },
+        {
+          "key": "historic-9",
+          "url": "https://www.yna.co.kr/view/AKR20260922142851051",
+          "checkedAt": "2026-10-25T08:43:34.100933+00:00",
+          "status": 200,
+          "finalUrl": "https://www.yna.co.kr/view/AKR20260922142851051",
+          "contentType": "text/html;charset=UTF-8",
+          "bytes": 160811,
+          "sha256": "24623c097dd86a311a5f70a11b627ffb1ee6e2c6b6edd6af363682be7740ad2d",
+          "title": "상어 '부캉이' 장기체류 조짐…추석 연휴 후 외해 유도 검토(종합) | 연합뉴스",
+          "kind": "historical-publisher",
+          "bodyVerification": "article_text_matched"
+        },
+        {
+          "key": "historic-10",
+          "url": "https://www.fnnews.com/news/202609211600184225",
+          "checkedAt": "2026-10-25T08:43:34.144937+00:00",
+          "status": 200,
+          "finalUrl": "https://www.fnnews.com/news/202609211600184225",
+          "contentType": "text/html;charset=UTF-8",
+          "bytes": 77514,
+          "sha256": "ba4aa20f7bc183f5e66df504304d7a61dc5f671740d73d30706ca86f2321220d",
+          "title": "\"육아 중이라 못 나가나\"...부산 북항 상어 출몰 나흘째, 수로 안쪽서 1m 물고기 포착 - 파이낸셜뉴스",
+          "kind": "historical-publisher",
+          "bodyVerification": "article_text_matched"
+        },
+        {
+          "key": "historic-11",
+          "url": "https://www.busan.com/view/busan/view.php?code=2026092018351398589",
+          "checkedAt": "2026-10-25T08:43:34.178486+00:00",
+          "status": 200,
+          "finalUrl": "https://www.busan.com/view/busan/view.php?code=2026092018351398589",
+          "contentType": "text/html; charset=UTF-8",
+          "bytes": 197919,
+          "sha256": "e8c1fc413f512ca50b9360d3993d6ceee0eb22ca10cd7fdf6623137c5ceaacde",
+          "title": "상어 한 마리가 만든 ‘부산 핫플 1위’ 북항 친수공원 - 부산일보",
+          "kind": "historical-publisher",
+          "bodyVerification": "article_text_matched"
+        },
+        {
+          "key": "historic-12",
+          "url": "https://www.hankookilbo.com/news/article/A2026092013010001774",
+          "checkedAt": "2026-10-25T08:43:34.230487+00:00",
+          "status": 200,
+          "finalUrl": "https://www.hankookilbo.com/news/article/A2026092013010001774",
+          "contentType": "text/html; charset=utf-8",
+          "bytes": 169751,
+          "sha256": "d7a0e53646d750250a267927aeb24257ba25f65afe16020413a830f05d316f45",
+          "title": "\"상어 아직 있어요\" 실시간 중계까지… '핫플' 된 부산 친수공원-사회ㅣ한국일보",
+          "kind": "historical-publisher",
+          "bodyVerification": "article_text_matched"
+        },
+        {
+          "key": "historic-13",
+          "url": "https://www.fnnews.com/news/202609200516355637",
+          "checkedAt": "2026-10-25T08:43:34.281041+00:00",
+          "status": 200,
+          "finalUrl": "https://www.fnnews.com/news/202609200516355637",
+          "contentType": "text/html;charset=UTF-8",
+          "bytes": 74979,
+          "sha256": "e021ba3e4f33e54ac9f8e5c9fe34af9130df37d084c2560a4765284aba10e02b",
+          "title": "[르포]부산 도심공원서 연이틀 출몰한 상어 보러 1500명 몰렸다 - 파이낸셜뉴스",
+          "kind": "historical-publisher",
+          "bodyVerification": "article_text_matched"
+        },
+        {
+          "key": "busan-emoticon",
+          "url": "https://www.busan.go.kr/nbtnewsBU/1760532",
+          "checkedAt": "2026-10-25T08:43:34.410661+00:00",
+          "status": null,
+          "error": "<urlopen error [WinError 10054] 현재 연결은 원격 호스트에 의해 강제로 끊겼습니다>",
+          "kind": "access-attempt",
+          "bodyVerification": "connection_failed"
+        },
+        {
+          "key": "nifs-species",
+          "url": "https://nifs.go.kr/news/actionNewsView.do?MENU_ID=M0000307&NEWS_SEQ=4915",
+          "checkedAt": "2026-10-25T08:43:34.464663+00:00",
+          "status": 200,
+          "finalUrl": "https://nifs.go.kr/news/actionNewsView.do?MENU_ID=M0000307&NEWS_SEQ=4915",
+          "contentType": "text/html;charset=utf-8",
+          "bytes": 929,
+          "sha256": "249b74396f8374e36aec014789ff8706c2761fd524b2e7f3505b10ef5467f95e",
+          "title": "국립수산과학원",
+          "kind": "access-attempt",
+          "bodyVerification": "soft_404"
+        },
+        {
+          "key": "busan-kids-repost",
+          "url": "https://www.busan.go.kr/kids/user/article/view.busan?articleIdx=3566&menuCd=DOM_000001701008000000&pageIndex=1",
+          "checkedAt": "2026-10-25T08:43:34.535299+00:00",
+          "status": 200,
+          "finalUrl": "https://www.busan.go.kr/kids/user/article/view.busan?articleIdx=3566&menuCd=DOM_000001701008000000&pageIndex=1",
+          "contentType": "text/html; charset=UTF-8",
+          "bytes": 40205,
+          "sha256": "4182aa047629ae9e38cd15b2cb9fcbd79d2cac1f7943ba8ca97e50e40fb69e80",
+          "title": "부산시 어린이신문 - Big아이 도란도란 도란도란 소식섬 > 전체 기사보기 > \"이젠 스스로 나가렴\"… 돌아온 부캉이, 추가 구조작업 않기로",
+          "kind": "editorial-report",
+          "bodyVerification": "editorial_article_not_agency_result"
+        },
+        {
+          "key": "nifs-species-full",
+          "url": "https://nifs.go.kr/news/actionNewsView.do?MENU_ID=M0000307&NEWS_D_DATE_BEGIN=2000-01-01&NEWS_D_DATE_END=2100-01-01&NEWS_D_SUBJECT=&NEWS_SEQ=4915&PARENT_NEWS_HG_CODE=&selectPage=1",
+          "checkedAt": "2026-10-25T08:44:05.508Z",
+          "status": 200,
+          "finalUrl": "https://nifs.go.kr/news/actionNewsView.do?MENU_ID=M0000307&NEWS_D_DATE_BEGIN=2000-01-01&NEWS_D_DATE_END=2100-01-01&NEWS_D_SUBJECT=&NEWS_SEQ=4915&PARENT_NEWS_HG_CODE=&selectPage=1",
+          "contentType": "text/html;charset=utf-8",
+          "bytes": 330251,
+          "sha256": "016bd9173fbc06eed72a5ea9481ec9f697d6f14d37b636d358c64689c85563f7",
+          "kind": "official-source",
+          "scope": "2026-10-06 수과원 종 판별 보도자료 본문: 흑상어/Carcharhinus obscurus·약3m·암컷. 실행 결과·현재 위치를 입증하지 않음."
+        },
+        {
+          "key": "busan-emoticon-retry",
+          "url": "https://www.busan.go.kr/nbtnewsBU/1760532",
+          "checkedAt": "2026-10-25T08:44:06.298Z",
+          "status": 200,
+          "finalUrl": "https://www.busan.go.kr/nbtnewsBU/1760532",
+          "contentType": "text/html; charset=UTF-8",
+          "bytes": 58229,
+          "sha256": "feb19037956ddbc9088d74bee0bd45ea05b777a8b08b37a1573453157836073a",
+          "kind": "official-source",
+          "scope": "2026-10-25 부산시 보도자료 제목·부제·작성일 메타데이터:26일14시/선착순5만/16종 배포계획. 본문 편집영역은 공백이어서 첨부 전체 본문 대조는 하지 않음. 작업 결과를 입증하지 않음."
+        }
+      ],
+      "verifiedScope": "수과원10월6일 종 판별 본문과 부산시10월25일 공지 메타데이터를 대조. 과거13URL 중 기사10개/16기록의 본문을 대조하고 사건/발행일·요약을 정정. X3개 원문·유도 결과기관 직접발표·현재 위치·보도 속 원통계는 미완료.",
+      "referenceDates": {
+        "nifsPublishedAt": "2026-10-06",
+        "busanNoticePublishedAt": "2026-10-25",
+        "busanPlannedDistributionAt": "2026-10-26T14:00:00+09:00",
+        "historicalEditedDate": "2026-09-23",
+        "dataPeriodApplicable": false,
+        "reason": "사건별 발표/보도 기록으로 월간 통계 기준월 비적용. 프로젝트 검증 미완료는 유지."
+      },
+      "historicalIndex": {
+        "count": 19,
+        "uniqueSourceUrls": 13,
+        "repeatedSources": [
+          {
+            "url": "https://n.news.naver.com/article/023/0004000016",
+            "recordIds": [
+              "07",
+              "08"
+            ]
+          },
+          {
+            "url": "https://www.yna.co.kr/view/AKR20260922142851051",
+            "recordIds": [
+              "10",
+              "11"
+            ]
+          },
+          {
+            "url": "https://www.fnnews.com/news/202609211600184225",
+            "recordIds": [
+              "12",
+              "19"
+            ]
+          },
+          {
+            "url": "https://www.busan.com/view/busan/view.php?code=2026092018351398589",
+            "recordIds": [
+              "13",
+              "16"
+            ]
+          },
+          {
+            "url": "https://www.hankookilbo.com/news/article/A2026092013010001774",
+            "recordIds": [
+              "14",
+              "18"
+            ]
+          },
+          {
+            "url": "https://www.fnnews.com/news/202609200516355637",
+            "recordIds": [
+              "15",
+              "17"
+            ]
+          }
+        ],
+        "editorialDate": "2026-09-23",
+        "originalClaimedCutoff": "2026-09-23 19:50 KST",
+        "latestDisplayedEventLabel": "9/23 19:57",
+        "cutoffVerified": false,
+        "notes": "기존19:50 편집 마감 표기보다19:57 기록이 있어 정확한 시각을 확정하지 않음. 반복 URL은 별도 사건/인용 기록일 수 있으며 독립 원출처19개로 세지 않음.",
+        "records": [
+          {
+            "id": "01",
+            "kind": "반응",
+            "tone": "유머",
+            "displayedEventTime": "9/23 19:57",
+            "title": "“부캉이 아직 안갔나벼”",
+            "sourceUrl": "https://x.com/allroundnobody/status/2102713894548697167",
+            "reviewStatus": "source_unavailable",
+            "scope": "X HTTP200은 공개 글 본문이 없는 셸. 기존 인용·시각을 확인하지 못함.",
+            "evidenceStatus": "body_unavailable",
+            "sourcePublishedAt": null,
+            "sourceModifiedAt": null,
+            "checkedAt": "2026-10-25T08:43:32.694414+00:00",
+            "sourceSha256": "679efdf108b9288b99ff7cac77efe8854736f7b8be889fb56f4e7aa928b24f28"
+          },
+          {
+            "id": "02",
+            "kind": "반응",
+            "tone": "유머",
+            "displayedEventTime": "9/23 19:51",
+            "title": "“부캉이 직캠만 보고있음”",
+            "sourceUrl": "https://x.com/technomucho/status/2102712368631599344",
+            "reviewStatus": "source_unavailable",
+            "scope": "X HTTP200은 공개 글 본문이 없는 셸. 기존 인용·시각을 확인하지 못함.",
+            "evidenceStatus": "body_unavailable",
+            "sourcePublishedAt": null,
+            "sourceModifiedAt": null,
+            "checkedAt": "2026-10-25T08:43:32.695413+00:00",
+            "sourceSha256": "43f8a966526ddc99153e7b6133931d51d57d42fea2247f602c6aadd9642508a8"
+          },
+          {
+            "id": "03",
+            "kind": "반응",
+            "tone": "우려",
+            "displayedEventTime": "9/23 19:54",
+            "title": "좁아서 숨 쉬러 떠오르는 것 아니냐",
+            "sourceUrl": "https://x.com/realdonmisae/status/2102713241453646208",
+            "reviewStatus": "source_unavailable",
+            "scope": "X HTTP200은 공개 글 본문이 없는 셸. 호흡 가설은 생물학적 사실로 채택하지 않음.",
+            "evidenceStatus": "body_unavailable",
+            "sourcePublishedAt": null,
+            "sourceModifiedAt": null,
+            "checkedAt": "2026-10-25T08:43:32.696413+00:00",
+            "sourceSha256": "6202744c902a6311d10d7a76d60788542bd69e25a52a6747f693fffc92c23563"
+          },
+          {
+            "id": "04",
+            "kind": "보도",
+            "tone": "사실",
+            "displayedEventTime": "9/23 오후",
+            "title": "수로 제원과 유도 시나리오가 구체화됐다",
+            "sourceUrl": "https://n.news.naver.com/mnews/article/658/0000156484",
+            "reviewStatus": "needs_review",
+            "scope": "1.5km·30~60m·2.5~4m와 유도 검토는 해당 보도 본문에 존재. 독립 제원 측량·기관 원표를 대조한 것은 아님.",
+            "evidenceStatus": "article_text_matched",
+            "sourcePublishedAt": "2026-09-23T15:05+09:00",
+            "sourceModifiedAt": null,
+            "checkedAt": "2026-10-25T08:43:32.697414+00:00",
+            "sourceSha256": "0ff24d1f6c252144aa1ee5e279861568b42f02afb96c0b7df198b86742b8b6ce"
+          },
+          {
+            "id": "05",
+            "kind": "보도",
+            "tone": "사실",
+            "displayedEventTime": "9/23 14:52",
+            "title": "엿새째. 연휴에도 남을 듯, 유관기관 비상근무",
+            "sourceUrl": "https://www.yna.co.kr/view/AKR20260923123700051",
+            "reviewStatus": "needs_review",
+            "scope": "9월23일13시 현장과 비상근무/경비10명증원·경찰배치협의가 본문에 존재. 게시14:52와 사건13시 구분.",
+            "evidenceStatus": "article_text_matched",
+            "sourcePublishedAt": "2026-09-23T14:52:03+09:00",
+            "sourceModifiedAt": "2026-09-23T15:10:46+09:00",
+            "checkedAt": "2026-10-25T08:43:33.760954+00:00",
+            "sourceSha256": "41f6717499eba11b7e16f726bb3185f937ec03fccbe6a475c0b13ba0035cdc89"
+          },
+          {
+            "id": "06",
+            "kind": "반응",
+            "tone": "애정",
+            "displayedEventTime": "9/23 오전",
+            "title": "“예뻐 죽겠다.” 수조 원짜리 홍보라고 했다",
+            "sourceUrl": "https://www.ajunews.com/view/20260923092833050",
+            "reviewStatus": "needs_review",
+            "scope": "시장 발언의 기사 인용을 대조. 원 CBS 음성·전체 전사본을 검증한 것은 아님.",
+            "evidenceStatus": "article_text_matched",
+            "sourcePublishedAt": "2026-09-23T09:42:51+09:00",
+            "sourceModifiedAt": "2026-09-23T09:42:51+09:00",
+            "checkedAt": "2026-10-25T08:43:33.813469+00:00",
+            "sourceSha256": "6ff631f9542db8dcbed59a13857e26642a9130a0e87f3f5217726c5c9d7c1758"
+          },
+          {
+            "id": "07",
+            "kind": "반응",
+            "tone": "애정",
+            "displayedEventTime": "9/23 현장",
+            "title": "창원에서 올라와 30분 만에 직관",
+            "sourceUrl": "https://n.news.naver.com/article/023/0004000016",
+            "reviewStatus": "needs_review",
+            "scope": "본문 현장은9월22일, 게시일은9월23일. 기존9/23현장 표기를 정정. 김진호27세·30분대기·닷새3만은 해당 보도 내용.",
+            "evidenceStatus": "article_text_matched",
+            "sourcePublishedAt": "2026-09-23T00:47+09:00",
+            "sourceModifiedAt": "2026-09-23T09:34+09:00",
+            "checkedAt": "2026-10-25T08:43:33.890059+00:00",
+            "sourceSha256": "7b95ed3cd2ff4eda1ffef2be31be8e39471e46a51c891858faf5d454c464097c"
+          },
+          {
+            "id": "08",
+            "kind": "보도",
+            "tone": "사실",
+            "displayedEventTime": "9/22 분석",
+            "title": "동해 대형 상어, 2022년 1마리에서 올해 68마리",
+            "sourceUrl": "https://n.news.naver.com/article/023/0004000016",
+            "reviewStatus": "needs_review",
+            "scope": "해당 기사 게시일9월23일. 2022년1마리/올해8월11일까지68마리·수온차1.9도는 기사 인용 확인이며 수과원 원조사·집계표 확인은 아님.",
+            "evidenceStatus": "article_text_matched",
+            "sourcePublishedAt": "2026-09-23T00:47+09:00",
+            "sourceModifiedAt": "2026-09-23T09:34+09:00",
+            "checkedAt": "2026-10-25T08:43:33.890059+00:00",
+            "sourceSha256": "7b95ed3cd2ff4eda1ffef2be31be8e39471e46a51c891858faf5d454c464097c"
+          },
+          {
+            "id": "09",
+            "kind": "반응",
+            "tone": "안전",
+            "displayedEventTime": "9/22 라디오",
+            "title": "“던져주지 않는 게 훨씬 낫다”",
+            "sourceUrl": "https://www.hankyung.com/article/2026092218797",
+            "reviewStatus": "needs_review",
+            "scope": "9월22일 라디오 발언의 기사 인용 대조. 원 방송 음성·전체 전사본은 미확보. meta수정18:50:00이발행18:50:53보다53초이른원문값을그대로기록.",
+            "evidenceStatus": "article_text_matched",
+            "sourcePublishedAt": "2026-09-22T18:50:53+09:00",
+            "sourceModifiedAt": "2026-09-22T18:50:00+09:00",
+            "checkedAt": "2026-10-25T08:43:33.992166+00:00",
+            "sourceSha256": "07a08b41f31ad0029de261a0dfaa97bec31793f46d2758a27be41f955296d679"
+          },
+          {
+            "id": "10",
+            "kind": "보도",
+            "tone": "사실",
+            "displayedEventTime": "9/22 오후",
+            "title": "추석까지 기다린다. 안 나가면 외해 유도",
+            "sourceUrl": "https://www.yna.co.kr/view/AKR20260922142851051",
+            "reviewStatus": "needs_review",
+            "scope": "연휴 이후 외해 유도 검토는 계획으로만 보도됨. 실제 유도 성공으로 해석하지 않음.",
+            "evidenceStatus": "article_text_matched",
+            "sourcePublishedAt": "2026-09-22T19:28:37+09:00",
+            "sourceModifiedAt": "2026-09-23T15:15:12+09:00",
+            "checkedAt": "2026-10-25T08:43:34.100933+00:00",
+            "sourceSha256": "24623c097dd86a311a5f70a11b627ffb1ee6e2c6b6edd6af363682be7740ad2d"
+          },
+          {
+            "id": "11",
+            "kind": "보도",
+            "tone": "관광",
+            "displayedEventTime": "9/21 집계",
+            "title": "평시 2천 명이 주말 이틀 2만, 월요일도 1만",
+            "sourceUrl": "https://www.yna.co.kr/view/AKR20260922142851051",
+            "reviewStatus": "needs_review",
+            "scope": "평소2천/주말이틀2만/월요일1만은 기사 본문 수치 대조. 방문 계수 원자료·중복/측정방법은 미확보.",
+            "evidenceStatus": "article_text_matched",
+            "sourcePublishedAt": "2026-09-22T19:28:37+09:00",
+            "sourceModifiedAt": "2026-09-23T15:15:12+09:00",
+            "checkedAt": "2026-10-25T08:43:34.100933+00:00",
+            "sourceSha256": "24623c097dd86a311a5f70a11b627ffb1ee6e2c6b6edd6af363682be7740ad2d"
+          },
+          {
+            "id": "12",
+            "kind": "반응",
+            "tone": "우려",
+            "displayedEventTime": "9/21 보도",
+            "title": "1m 물고기에 ‘출산설’. 확인된 사실은 아니다",
+            "sourceUrl": "https://www.fnnews.com/news/202609211600184225",
+            "reviewStatus": "needs_review",
+            "scope": "URL에20260921이포함되지만 게시meta는9월22일04:30, 본문은21일취재기준. 기존9/21보도 표기 정정. 출산 미확인 유지.",
+            "evidenceStatus": "article_text_matched",
+            "sourcePublishedAt": "2026-09-22T04:30:00+09:00",
+            "sourceModifiedAt": "2026-09-22T10:18:42+09:00",
+            "checkedAt": "2026-10-25T08:43:34.144937+00:00",
+            "sourceSha256": "ba4aa20f7bc183f5e66df504304d7a61dc5f671740d73d30706ca86f2321220d"
+          },
+          {
+            "id": "13",
+            "kind": "보도",
+            "tone": "관광",
+            "displayedEventTime": "9/20 16:00",
+            "title": "영상 조회 800만. 주차장 462면은 찼다",
+            "sourceUrl": "https://www.busan.com/view/busan/view.php?code=2026092018351398589",
+            "reviewStatus": "needs_review",
+            "scope": "영상800만·주차462면은 기사 본문 대조. 해당 원문에서 확인되지 않는 시설공단 작명 주장을 현재 요약에서 제거.",
+            "evidenceStatus": "article_text_matched",
+            "sourcePublishedAt": "2026-09-20T18:39:29+09:00",
+            "sourceModifiedAt": "2026-09-21T07:48:24+09:00",
+            "checkedAt": "2026-10-25T08:43:34.178486+00:00",
+            "sourceSha256": "e8c1fc413f512ca50b9360d3993d6ceee0eb22ca10cd7fdf6623137c5ceaacde"
+          },
+          {
+            "id": "14",
+            "kind": "보도",
+            "tone": "관광",
+            "displayedEventTime": "9/20 낮",
+            "title": "실시간 중계 글이 뜨고, 카페는 인력이 바닥났다",
+            "sourceUrl": "https://www.hankookilbo.com/news/article/A2026092013010001774",
+            "reviewStatus": "needs_review",
+            "scope": "카페 인력부족은 기사에 실린 점주 SNS 주장. 원SNS/매출 장부 미확인. 해당 기사에 없는 안전문자 관련 요약 제거.",
+            "evidenceStatus": "article_text_matched",
+            "sourcePublishedAt": "2026-09-20T14:40:00+09:00",
+            "sourceModifiedAt": "2026-09-20T15:22:00+09:00",
+            "checkedAt": "2026-10-25T08:43:34.230487+00:00",
+            "sourceSha256": "d7a0e53646d750250a267927aeb24257ba25f65afe16020413a830f05d316f45"
+          },
+          {
+            "id": "15",
+            "kind": "반응",
+            "tone": "애정",
+            "displayedEventTime": "9/19 저녁",
+            "title": "“생태계가 건강하다는 증거”",
+            "sourceUrl": "https://www.fnnews.com/news/202609200516355637",
+            "reviewStatus": "needs_review",
+            "scope": "9월19일 시장Facebook발언을9월20일 기사가 인용. 원게시 시각이 없어 기존저녁 표기는삭제.",
+            "evidenceStatus": "article_text_matched",
+            "sourcePublishedAt": "2026-09-20T10:20:23+09:00",
+            "sourceModifiedAt": "2026-09-20T11:54:46+09:00",
+            "checkedAt": "2026-10-25T08:43:34.281041+00:00",
+            "sourceSha256": "e021ba3e4f33e54ac9f8e5c9fe34af9130df37d084c2560a4765284aba10e02b"
+          },
+          {
+            "id": "16",
+            "kind": "반응",
+            "tone": "안전",
+            "displayedEventTime": "9/19 17:00–18:30",
+            "title": "생닭을 던진 남성은 곧바로 퇴장",
+            "sourceUrl": "https://www.busan.com/view/busan/view.php?code=2026092018351398589",
+            "reviewStatus": "needs_review",
+            "scope": "9월19일17시~18시30분 생닭 투척/퇴장은9월20일 기사 본문과 일치. 경찰 원기록 미확인.",
+            "evidenceStatus": "article_text_matched",
+            "sourcePublishedAt": "2026-09-20T18:39:29+09:00",
+            "sourceModifiedAt": "2026-09-21T07:48:24+09:00",
+            "checkedAt": "2026-10-25T08:43:34.178486+00:00",
+            "sourceSha256": "e8c1fc413f512ca50b9360d3993d6ceee0eb22ca10cd7fdf6623137c5ceaacde"
+          },
+          {
+            "id": "17",
+            "kind": "반응",
+            "tone": "애정",
+            "displayedEventTime": "9/19 17:00",
+            "title": "“엄마, 나 상어 꼬리 봤어.”",
+            "sourceUrl": "https://www.fnnews.com/news/202609200516355637",
+            "reviewStatus": "needs_review",
+            "scope": "9월19일17시 현장/16시최대1500명/목말통제는9월20일 기사. 대사는 기존 편집 축약이므로 현재 제목을 간접서술로 변경.",
+            "evidenceStatus": "article_text_matched",
+            "sourcePublishedAt": "2026-09-20T10:20:23+09:00",
+            "sourceModifiedAt": "2026-09-20T11:54:46+09:00",
+            "checkedAt": "2026-10-25T08:43:34.281041+00:00",
+            "sourceSha256": "e021ba3e4f33e54ac9f8e5c9fe34af9130df37d084c2560a4765284aba10e02b"
+          },
+          {
+            "id": "18",
+            "kind": "보도",
+            "tone": "안전",
+            "displayedEventTime": "9/18 당일",
+            "title": "유도하다가 철수. 자극하면 공격성이 커질 수 있다",
+            "sourceUrl": "https://www.hankookilbo.com/news/article/A2026092013010001774",
+            "reviewStatus": "needs_review",
+            "scope": "유도 중단 사유는 기사에 존재하지만 작업 당일을 특정하는 원기록은 없음. 기존9/18당일을9/20보도로수정. 무태상어는당시추정.",
+            "evidenceStatus": "article_text_matched",
+            "sourcePublishedAt": "2026-09-20T14:40:00+09:00",
+            "sourceModifiedAt": "2026-09-20T15:22:00+09:00",
+            "checkedAt": "2026-10-25T08:43:34.230487+00:00",
+            "sourceSha256": "d7a0e53646d750250a267927aeb24257ba25f65afe16020413a830f05d316f45"
+          },
+          {
+            "id": "19",
+            "kind": "보도",
+            "tone": "사실",
+            "displayedEventTime": "9/18 08:57",
+            "title": "북항 친수공원 수로에서 3.5m 상어 최초 신고",
+            "sourceUrl": "https://www.fnnews.com/news/202609211600184225",
+            "reviewStatus": "needs_review",
+            "scope": "9월18일08:57신고·약3.5m는9월22일 기사 본문. 후속10월6일 수과원 판별약3m흑상어와분리.",
+            "evidenceStatus": "article_text_matched",
+            "sourcePublishedAt": "2026-09-22T04:30:00+09:00",
+            "sourceModifiedAt": "2026-09-22T10:18:42+09:00",
+            "checkedAt": "2026-10-25T08:43:34.144937+00:00",
+            "sourceSha256": "ba4aa20f7bc183f5e66df504304d7a61dc5f671740d73d30706ca86f2321220d"
+          }
+        ],
+        "articleBodiesMatched": 10,
+        "recordsMatchedWithinArticleScope": 16,
+        "unavailableBodies": 3,
+        "independentOfficialStatisticChecks": 0
+      },
+      "resultReport": {
+        "url": "https://www.busan.go.kr/kids/user/article/view.busan?articleIdx=3566&menuCd=DOM_000001701008000000&pageIndex=1",
+        "publishedAt": "2026-10-23T09:28:54+09:00",
+        "byline": "현직기자01",
+        "classification": "official_site_editorial_report",
+        "reason": "어린이신문의 취재 기사이며 기관 직접 결과 보고서가 아님. 결과·위치 확정 근거로 승격하지 않음."
+      },
+      "remaining": [
+        "X3개의 공개 글 실제 본문/게시시각 미확보",
+        "과거 보도 수치의 기관 원집계/원방송·원SNS 미확보",
+        "공식 기관의 유도 실행 결과 원문·현재 위치 미확보"
+      ],
+      "nextAction": "기관 직접 결과 발표 또는 원기록을 확보했을 때만 결과/위치를 갱신. X 본문 미확보는 유지하며 같은 셸 반복 확인으로 verified 처리하지 않음."
+    },
+    "/research/gimpo-airport-congestion/": {
+      "reviewStatus": "needs_review",
+      "checkedAt": "2026-10-25T08:45:12.143Z",
+      "authenticatedRawApiKeyAvailable": false,
+      "checks": [
+        {
+          "key": "gimpo-doc",
+          "url": "https://www.data.go.kr/data/15159598/openapi.do",
+          "checkedAt": "2026-10-25T08:45:12.145Z",
+          "status": 200,
+          "finalUrl": "https://www.data.go.kr/data/15159598/openapi.do",
+          "bytes": 204725,
+          "sha256": "a3f715ab581ca4e659fb7812d96af120cbc38fdd751bd07e2729b8f411781712"
+        },
+        {
+          "key": "gimpo-proxy",
+          "url": "https://portfolio-stargate2.vercel.app/api/gimpo-airport-congestion",
+          "checkedAt": "2026-10-25T08:45:12.615Z",
+          "status": 200,
+          "finalUrl": "https://portfolio-stargate2.vercel.app/api/gimpo-airport-congestion",
+          "bytes": 878,
+          "sha256": "920b84f4b81e6746129cbeb0114163aabed3bfdc738d33a0f11a4e02ca001745",
+          "fields": [
+            "status",
+            "generated_at",
+            "generated_at_kst",
+            "source",
+            "source_url",
+            "source_endpoint",
+            "airport",
+            "observed_at",
+            "overall",
+            "zones",
+            "record_count",
+            "message",
+            "delivery"
+          ],
+          "observed_at": "17:45",
+          "generated_at": "2026-10-25T08:45:13.889Z",
+          "statusValue": "ok",
+          "zones": 3
+        }
+      ],
+      "collector": {
+        "path": "scripts/update-gimpo-airport-congestion.mjs",
+        "sha256": "0be826f81d28a9aebccd7a20e6afc528f415e72a647e06f9dee194633ae2b95e"
+      },
+      "normalizer": {
+        "path": "server/api/gimpo-airport-congestion.js",
+        "sha256": "17f748bd32501d246518061ca4b13d1131c16d7b8fc75dd22d34047896da7ca9",
+        "scope": "관측 필드 중 PRC_HR만observed_at으로내보내며 다른 원응답 필드를 공개하지않음. 공개프록시에 날짜가없는것만으로 원API에날짜가없다고 단정할수없음."
+      },
+      "officialDoc": {
+        "publishedAt": "2026-05-26",
+        "modifiedAt": "2026-08-19",
+        "updateCycle": "실시간",
+        "scope": "국내선3구간 혼잡도와 API문서 수정일을대조. 수정일은관측일아님."
+      },
+      "reason": "현재실행환경에승인된원API키미제공. 운영프록시HTTP200/3구간/시각17:45만확인, 인증된원API의관측기준일필드미대조. 기존정적저장본수집/생성시각과값을유지.",
+      "nextAction": "승인된원API원응답확보시날짜필드존재/의미부터대조. 제공되지않으면기관설명확보전까지관측일null유지. 외부문의는발송하지않음.",
+      "savedSnapshot": {
+        "file": "research/gimpo-airport-congestion/data/latest.json",
+        "sha256": "9b4a8d92dc1026d6998810169cb4026c6dbbbad13c903612c2f14173fe73a69b",
+        "dataAsOf": null,
+        "dataPeriod": null,
+        "snapshotUpdatedAt": "2026-10-25T06:09:36.627Z",
+        "collectedAt": "2026-10-25T06:09:36.627Z",
+        "checkedAt": "2026-10-25T08:47:51.587Z",
+        "reviewStatus": "snapshot_checked",
+        "freshness": "unverified",
+        "issues": [
+          "원자료 observed_at은 시각만 제공하므로 관측 기준일의 원출처 대조가 필요합니다."
+        ],
+        "source": {
+          "label": "한국공항공사 공항 혼잡도 정보_GW",
+          "url": "https://www.data.go.kr/data/15159598/openapi.do",
+          "verification": "declared"
+        },
+        "scope": "원장에10월20일로남아있던파일생성/수집필드를실제저장본10월25일메타데이터와정합화. 정적파일값·생성/수집시각은변경하지않음. 관측기준일null유지. 원출처검증이아님."
+      }
+    }
+  },
+  "publicationGates": {
+    "tourism": {
+      "eligibleOn": "2026-10-26",
+      "fetched": false
+    },
+    "worldBank": {
+      "eligibleOn": "2026-11-03",
+      "fetched": false
+    }
+  },
+  "acceptance": "pending",
+  "counts": {
+    "projects": 63,
+    "filtersIncludingAll": 7,
+    "essays": 7
+  },
+  "nextAction": "관광9월은10월26일이후실제공표원문부터우선대조. 그전에는 /ds-research-urban-analytics/ 독립프로젝트의승인된기존수집기/원API범위대조. 부캉이결과및김포원응답은근거확보후재개. WorldBank11월3일이후. 최종수락미완료로예약10유지."
+}
