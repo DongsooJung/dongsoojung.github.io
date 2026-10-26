@@ -179,3 +179,12 @@ ECOS 원문68응답·기준금리329개월·CPI341개월을 확보하고 코드/
 다음 미완료 도시 관측은 독립 원본 저장소를 확인했다. 서울시 OA-14991은 국가표준250m격자 전환에 따라 기존 내국인 행정동 자료 생산이7월31일 이후 종료됐다고 명시한다. 공개sample 기본5행은20260731이고 확인한20261021/20261022는INFO-200이다. 전체424행/45개지점의원수치검증은아니다. 원본 저장소 PR7에서 D-4 안내를 종료·과거 기준일·재조회 시각으로 바꾸고 JSON/생성기/README/화면을 함께 고쳤다. 숫자와기준일·수집/생성시각은변경하지않았다. 새250m자료의인구정의·외국인범위·비식별·행정동호환성을확인한뒤별도전환한다.
 
 독립 원본: https://github.com/DongsooJung/ds-research-urban-analytics/pull/7 · 배포 a94dc0b5975d9f3d5df5bc18b6e2af0ff96f0d20 · https://github.com/DongsooJung/ds-research-urban-analytics/actions/runs/40246659779. 19개테스트·양도메인HTML/JSON동일성·생산종료표시브라우저검증통과. 기존390px전체418px가로넘침은수정전후동일해이번수정범위에서보존했다. 도시프로젝트needs_review/관광awaiting_publication/전체acceptance pending. 근거 /research/source-reviews/2026-10-26-tourism-urban.json. WorldBank11월3일전재조회없음. 63고유프로젝트·7필터·난제7개분리·가나다순과일일예약10을유지한다.
+
+
+## 2026-10-26 야간 회차 · 새9월내국인원본 별도 스냅샷
+
+관광은23:40 KST정상공표목록에서8월최신/9월게시물미확인이다. 기존8월수치와수집·파일·수치원표대조일은보존했다. 실제공표원문을다음회차우선확인한다.
+
+다음도시원본OA-23016의공식9월ZIP을확보했다. CP949·쉼표헤더/세미콜론행32열,30일/720시점/307440행의일시·코드유일성·427코드집합·유한/음수·비식별없는행의성연령합계를검사했다. 9월30일23시427코드의추정합계10350034.02명은시점합계로월누적/평균이아니다. 13664원값·JSON/CSV427행·비식별7개를독립Decimal대조했다. 기존424명칭표로12코드가해석되지않아이름을결합하지않고구7월과연결·증감을만들지않는다. 성연령비식별을0으로대체하지않고비율을계산하지않는다.
+
+독립도시원본PR8 https://github.com/DongsooJung/ds-research-urban-analytics/pull/8 / 배포 f148582e9116af59b6c3320d493269d09c5005e5 / https://github.com/DongsooJung/ds-research-urban-analytics/actions/runs/40344597202. 새패널·JSON·CSV·재현임포터·셸템플릿을반영하고기존data.json과모든기존값/시각은그대로다. Python28테스트/선택원값13664개/양도메인4파일/실제다운로드·390px새패널검증통과. 새9월코드스냅샷모듈은기록된범위에서verified,도시전체는원명칭·다른원수치가남아needs_review다. 근거 /research/source-reviews/2026-10-26-native-population.json. 63프로젝트/7배타가나다순필터/난제7개유지. 전체수락pending·일일예약10유지. 완료새9월값재수집반복금지,WorldBank11월3일전조회금지.

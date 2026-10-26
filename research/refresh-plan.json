@@ -986,7 +986,7 @@
       "status": "pending",
       "keys": [],
       "outcome": "conditional_technical_acceptance",
-      "latestAudit": "/research/source-reviews/2026-10-26-tourism-urban.json",
+      "latestAudit": "/research/source-reviews/2026-10-26-native-population.json",
       "lastAttemptAt": "2026-10-20T23:07:26.208Z",
       "itemResults": {
         "/exchange-rate/": {
@@ -1036,10 +1036,10 @@
         "/korea-tourism/": {
           "status": "awaiting_publication",
           "checkedAt": "2026-10-16T10:33:48.637Z",
-          "publicationCheckedAt": "2026-10-25T23:41:07.758Z",
+          "publicationCheckedAt": "2026-10-26T14:40:19.676Z",
           "nextEligibleDate": "2026-10-26",
-          "audit": "/research/source-reviews/2026-10-26-tourism-urban.json",
-          "scope": "정상 공식 메뉴 이동 후 월별 공표 목록을 확인. 해당 시각9월 공표 게시물 없음. 하루 전체 미공표를 단정하지 않음. 8월 수치 원표 재다운로드/재대조를 하지 않음."
+          "audit": "/research/source-reviews/2026-10-26-native-population.json",
+          "scope": "정상 공식 메뉴 이동 후 해당 시각 공표 목록 최신은8월,9월게시물미확인. 수치원표는재수집하지않았고기준/수집/파일/수치검증일은보존."
         },
         "/research/bukangi/": {
           "status": "needs_review",
@@ -1050,10 +1050,10 @@
         },
         "/ds-research-urban-analytics/": {
           "status": "needs_review",
-          "checkedAt": "2026-10-25T23:54:40.152Z",
-          "audit": "/research/source-reviews/2026-10-26-tourism-urban.json",
-          "scope": "서울시 공식 설명에서 기존 내국인 행정동 자료의7월31일 이후 생산 종료를확인. 공개sample5행/10월2일자요청·코드·실제게시본범위를대조하고표시를수정. 현재도시45지점/생활인구424행의원수치전수대조는미완료.",
-          "nextAction": "기존7월행정동API에9·10월을반복요청해갱신하지않음. 새250m격자원자료의기간·내국인/외국인범위·거주/체류정의·비식별과행정동재집계호환성을대조한뒤별도전환. 실시간45지점과이동자료의개별원수치전수대조도남음."
+          "checkedAt": "2026-10-26T15:01:31.713Z",
+          "audit": "/research/source-reviews/2026-10-26-native-population.json",
+          "scope": "새250m기반내국인행정동9월원본30일/720시점/307440행을검사하고마지막9월30일23시427코드의13664셀및JSON/CSV를대조. 월누적/평균이나구7월대비증감이아님. 비식별7개보존/명칭미결합. 프로젝트전체원수치검증완료아님.",
+          "nextAction": "새9월코드스냅샷의완료값은반복재수집하지않음. 공식현행행정동명칭/코드대조후에만이름표시와호환성판단. 원문미확보시다음미완료학원시설등진행. 10월신규원문이실제확보될때만해당원본과화면/파일을함께갱신."
         }
       },
       "checkpoints": {
@@ -1085,7 +1085,7 @@
           "Tourism not re-fetched before October26; original checkedAt retained"
         ]
       },
-      "nextAction": "관광9월의실제공표원문을다음일일회차/사용자재개시우선확인. 미공표면다음미완료로진행. 도시내국인행정동자료7월31일생산종료는확인됐으므로구API를9·10월로반복재조회하지않고새250m원자료의정의/범위/비식별/행정동호환성전환을대조. WorldBank11월3일이후. 전체원수치·최종수락미완료/예약10유지.",
+      "nextAction": "관광9월실제공표원문우선. 새9월427코드별도스냅샷은완료값재수집반복금지. 도시공식신구행정동명칭/코드/공간정의호환성대조는계속하되원문미확보시다음미완료학원시설등진행. 10월신규공식자료확보때만별도전환. WorldBank11월3일이후. 전체수락pending/일일예약10유지.",
       "sourceFollowups": [
         {
           "id": "source-followup-1-20261021",
@@ -1453,10 +1453,63 @@
           },
           "release": {
             "branch": "codex/tourism-publication-20261026",
-            "status": "awaiting_checks",
+            "status": "verified",
             "liveUrl": "https://www.stargateedu.co.kr/research/data-review/",
             "sourceReviewUrl": "https://www.stargateedu.co.kr/research/source-reviews/2026-10-26-tourism-urban.json",
-            "pullRequest": "https://github.com/DongsooJung/dongsoojung.github.io/pull/222"
+            "pullRequest": "https://github.com/DongsooJung/dongsoojung.github.io/pull/222",
+            "commit": "664e952aca0d64242b713b8513eaeb8f34253702",
+            "pullRequestHead": "fdbe71edf3ef0d6fd05a712342b8f5e06be71978",
+            "pullRequestMergeCommit": "664e952aca0d64242b713b8513eaeb8f34253702",
+            "verifiedAt": "2026-10-26T00:01:40.270Z",
+            "pagesRun": "https://github.com/DongsooJung/dongsoojung.github.io/actions/runs/40247150817",
+            "checks": [
+              "Exact portal PR head CodeQL aggregate and JavaScript passed",
+              "Exact portal merged SHA Pages build/report/deploy success",
+              "Both domains five changed portal public files match;public plan PR222 active/pending",
+              "Independent urban PR7 exact merge Pages and both domain HTML/JSON match;19 focused local tests/no GitHub PR checks configured",
+              "Official OA-14991 production end and public sample scope verified;424 dongs/45 areas numerical originals remain pending",
+              "Tourism latest listed August at Oct26 08:41 KST;August data/collection/file/last numerical check dates preserved",
+              "63 unique projects/7 alphabetical filters/9 groups/strategy44;15 portal tests;tourism390px and source download pass",
+              "Urban390px production-end header visible;pre-existing full-page418px overflow recorded;no numerical/observation/collection timestamp changes"
+            ],
+            "externalChecks": [
+              {
+                "context": "Vercel – stargate-onbid-api",
+                "state": "success",
+                "description": "Deployment has completed",
+                "targetUrl": "https://vercel.com/stargate2/stargate-onbid-api/7ywuXUF5NiT7hebjR19R3MwtbvJi"
+              },
+              {
+                "context": "Vercel – stargate-private-gateway",
+                "state": "success",
+                "description": "Deployment has completed",
+                "targetUrl": "https://vercel.com/stargate2/stargate-private-gateway/ExiZ7TSKvcJguRnFzT7gNTXwUZkp"
+              }
+            ]
+          }
+        },
+        {
+          "id": "tourism-september-20261026",
+          "status": "completed",
+          "checkedAt": "2026-10-26T15:01:31.713Z",
+          "keys": [
+            "/korea-tourism/",
+            "/ds-research-urban-analytics/"
+          ],
+          "audit": "/research/source-reviews/2026-10-26-native-population.json",
+          "outcome": "tourism_wait_confirmed_new_native_september_code_snapshot_verified",
+          "dependentRelease": {
+            "repository": "DongsooJung/ds-research-urban-analytics",
+            "status": "verified",
+            "pullRequest": "https://github.com/DongsooJung/ds-research-urban-analytics/pull/8",
+            "commit": "f148582e9116af59b6c3320d493269d09c5005e5",
+            "pagesRun": "https://github.com/DongsooJung/ds-research-urban-analytics/actions/runs/40344597202"
+          },
+          "release": {
+            "branch": "codex/tourism-september-20261026",
+            "status": "awaiting_checks",
+            "liveUrl": "https://www.stargateedu.co.kr/research/data-review/",
+            "sourceReviewUrl": "https://www.stargateedu.co.kr/research/source-reviews/2026-10-26-native-population.json"
           }
         }
       ],

@@ -174,12 +174,12 @@
         "verification": "partially_verified"
       },
       "dataAsOf": null,
-      "dataPeriod": "혼재: 도시10/26·내국인생활인구7/31(생산종료)·대도시권10/21",
-      "snapshotUpdatedAt": "2026-10-26T06:45+09:00",
+      "dataPeriod": "별도새원본9/30 23시·구내국인7/31종료·실시간지표별기준혼재",
+      "snapshotUpdatedAt": "2026-10-26T14:56:37.160774+00:00",
       "collectedAt": null,
-      "checkedAt": "2026-10-25T23:54:40.152Z",
+      "checkedAt": "2026-10-26T15:01:31.713Z",
       "reviewStatus": "needs_review",
-      "freshness": "mixed_realtime_and_discontinued_population",
+      "freshness": "separate_native_september_snapshot_verified_other_sources_pending",
       "evidence": [
         {
           "kind": "official-source",
@@ -211,30 +211,66 @@
           "url": "/research/source-reviews/2026-10-26-tourism-urban.json",
           "checkedAt": "2026-10-25T23:54:40.152Z",
           "scope": "서울시 공식 설명에서 기존 내국인 행정동 자료의7월31일 이후 생산 종료를확인. 공개sample5행/10월2일자요청·코드·실제게시본범위를대조하고표시를수정. 현재도시45지점/생활인구424행의원수치전수대조는미완료."
+        },
+        {
+          "kind": "official-source",
+          "url": "https://data.seoul.go.kr/dataList/OA-23016/A/1/datasetView.do",
+          "checkedAt": "2026-10-26T15:01:31.713Z",
+          "sha256": "28fcfadb58f1e9897d2bc1c3d54cb607a6f01c0a01600acf39cac8782ab513fa",
+          "scope": "새250m기반내국인행정동9월원본30일/720시점/307440행을검사하고마지막9월30일23시427코드의13664셀및JSON/CSV를대조. 월누적/평균이나구7월대비증감이아님."
+        },
+        {
+          "kind": "official-source",
+          "url": "https://datafile.seoul.go.kr/bigfile/iot/inf/nio_download.do?useCache=false",
+          "checkedAt": "2026-10-26T15:01:31.713Z",
+          "postFields": {
+            "infId": "OA-23016",
+            "infSeq": "1",
+            "seq": "202609"
+          },
+          "sha256": "34564933d176268d47bcf577eb9c02d4605ff0402a44d20600762556730b5945",
+          "scope": "새250m기반내국인행정동9월원본30일/720시점/307440행을검사하고마지막9월30일23시427코드의13664셀및JSON/CSV를대조. 월누적/평균이나구7월대비증감이아님."
+        },
+        {
+          "kind": "audit-record",
+          "url": "/research/source-reviews/2026-10-26-native-population.json",
+          "checkedAt": "2026-10-26T15:01:31.713Z",
+          "scope": "새250m기반내국인행정동9월원본30일/720시점/307440행을검사하고마지막9월30일23시427코드의13664셀및JSON/CSV를대조. 월누적/평균이나구7월대비증감이아님. 비식별7개보존/명칭미결합. 프로젝트전체원수치검증완료아님."
         }
       ],
       "issues": [
-        "내국인 행정동 생활인구는7월31일이후생산종료. 반복재조회시각을9·10월관측일로쓰지않음.",
-        "도시10월26일·생활인구7월31일·대도시권10월21일은서로다른기준. 45개지점추정치를서울전체인구로해석하지않음.",
-        "현재실행환경에기존인증키미제공. sample5행은전체424행/45지점검증을대체하지않음. 새250m자료와구자료연결시계열은미검증."
+        "신구자료의코드명칭·공간정의·연속성미확인;연결시계열금지",
+        "실시간도시45지점및다른모듈의개별원수치전수대조미완료"
       ],
       "key": "/ds-research-urban-analytics/",
       "url": "/ds-research-urban-analytics/",
       "title": "실시간 도시 관측",
       "primary": "urban",
       "classification": "도시·공간",
-      "sourceHint": "45개 대표지점 · 내국인 생활인구7/31 생산종료",
-      "verifiedScope": "서울시 공식 설명에서 기존 내국인 행정동 자료의7월31일 이후 생산 종료를확인. 공개sample5행/10월2일자요청·코드·실제게시본범위를대조하고표시를수정. 현재도시45지점/생활인구424행의원수치전수대조는미완료.",
-      "nextAction": "기존7월행정동API에9·10월을반복요청해갱신하지않음. 새250m격자원자료의기간·내국인/외국인범위·거주/체류정의·비식별과행정동재집계호환성을대조한뒤별도전환. 실시간45지점과이동자료의개별원수치전수대조도남음.",
+      "sourceHint": "새9월427코드 · 구7월자료와체계분리",
+      "verifiedScope": "새250m기반내국인행정동9월원본30일/720시점/307440행을검사하고마지막9월30일23시427코드의13664셀및JSON/CSV를대조. 월누적/평균이나구7월대비증감이아님. 비식별7개보존/명칭미결합. 프로젝트전체원수치검증완료아님.",
+      "nextAction": "새9월코드스냅샷의완료값은반복재수집하지않음. 공식현행행정동명칭/코드대조후에만이름표시와호환성판단. 원문미확보시다음미완료학원시설등진행. 10월신규원문이실제확보될때만해당원본과화면/파일을함께갱신.",
       "previousReview": {
-        "checkedAt": "2026-10-17T02:29:06.590856+00:00",
-        "dataPeriod": "혼재 (2026-07·10)",
-        "snapshotUpdatedAt": "2026-10-17T09:27+09:00",
-        "verifiedScope": "라이브 URL은 별도 프로젝트 저장소가 제공하며 정상 HTTP 200. 게시 JSON이 해당 저장소 공개본과 같음을 확인. 45개 지점 분류 수·추정인구 구간 중앙값 합계·연령 비율의 내부 일관성 및 공식 데이터 설명을 확인했으나 인증 원 API의 개별 수치는 미대조.",
+        "checkedAt": "2026-10-25T23:54:40.152Z",
+        "dataPeriod": "혼재: 도시10/26·내국인생활인구7/31(생산종료)·대도시권10/21",
+        "verifiedScope": "서울시 공식 설명에서 기존 내국인 행정동 자료의7월31일 이후 생산 종료를확인. 공개sample5행/10월2일자요청·코드·실제게시본범위를대조하고표시를수정. 현재도시45지점/생활인구424행의원수치전수대조는미완료.",
         "issues": [
-          "도시 관측 2026-10-17과 내국인 생활인구 2026-07-31, 대도시권 생활인구 2026-10-12가 혼재합니다.",
-          "게시 파일 수집·생성일을 생활인구 기준일로 바꾸지 않았습니다. 45개 지점 추정치를 서울 전체 인구로 해석하지 않습니다."
+          "내국인 행정동 생활인구는7월31일이후생산종료. 반복재조회시각을9·10월관측일로쓰지않음.",
+          "도시10월26일·생활인구7월31일·대도시권10월21일은서로다른기준. 45개지점추정치를서울전체인구로해석하지않음.",
+          "현재실행환경에기존인증키미제공. sample5행은전체424행/45지점검증을대체하지않음. 새250m자료와구자료연결시계열은미검증."
         ]
+      },
+      "components": {
+        "nativeSeptember": {
+          "reviewStatus": "verified",
+          "dataPeriod": "2026-09",
+          "dataAsOf": "2026-09-30T23:00:00+09:00",
+          "collectedAt": "2026-10-26T14:42:17.775101+00:00",
+          "snapshotUpdatedAt": "2026-10-26T14:56:37.160774+00:00",
+          "checkedAt": "2026-10-26T15:01:31.713Z",
+          "scope": "새250m기반내국인행정동9월원본30일/720시점/307440행을검사하고마지막9월30일23시427코드의13664셀및JSON/CSV를대조. 월누적/평균이나구7월대비증감이아님.",
+          "audit": "/research/source-reviews/2026-10-26-native-population.json"
+        }
       }
     },
     {
@@ -2845,11 +2881,24 @@
           "url": "/research/source-reviews/2026-10-26-tourism-urban.json",
           "checkedAt": "2026-10-25T23:54:40.152Z",
           "scope": "정상 공식 메뉴 이동 후 월별 공표 목록을 확인. 해당 시각9월 공표 게시물 없음. 하루 전체 미공표를 단정하지 않음. 8월 수치 원표 재다운로드/재대조를 하지 않음."
+        },
+        {
+          "kind": "official-source",
+          "url": "https://datalab.visitkorea.or.kr/site/portal/ex/bbs/List.do?cbIdx=1603&tgtTypeCd=CATE_CONT&searchKey2=spt01",
+          "checkedAt": "2026-10-26T14:40:19.676Z",
+          "renderedHtmlSha256": "74bb33523162393efaa805e8ade9289aa8eea2caea106859c987a324117f2ca1",
+          "scope": "정상 공식 메뉴 이동 후 해당 시각 공표 목록 최신은8월,9월게시물미확인. 수치원표는재수집하지않았고기준/수집/파일/수치검증일은보존."
+        },
+        {
+          "kind": "audit-record",
+          "url": "/research/source-reviews/2026-10-26-native-population.json",
+          "checkedAt": "2026-10-26T15:01:31.713Z",
+          "scope": "정상 공식 메뉴 이동 후 해당 시각 공표 목록 최신은8월,9월게시물미확인. 수치원표는재수집하지않았고기준/수집/파일/수치검증일은보존."
         }
       ],
       "issues": [
-        "2026-10-26 08:41(KST) 공식 목록 최신 공표는8월. 예정일은오늘이나해당시각9월원문은목록에없음. 하루전체미공표를단정하지않음.",
-        "8월수치기준·수집일·파일갱신일·마지막원표대조일10월16일은보존. 이번은공표상태점검이며수치갱신아님."
+        "2026-10-26 23:40 KST 공식 공표 목록은8월이최신,해당시각9월게시물미확인. 공표예정일경과만으로수치를만들지않음.",
+        "8월수치기준·수집/파일갱신일·마지막수치원표대조일10월16일을보존. 이번관광확인은공표상태점검만."
       ],
       "key": "/korea-tourism/",
       "url": "/korea-tourism/",
@@ -2860,7 +2909,7 @@
       "verifiedAt": "2026-10-16T10:33:48.637Z",
       "verifiedDataHash": "d321f199a013a1ef6393da5c8d810add145eccc43c1e31312e664d1ec9a7a1d7",
       "publicationCheck": {
-        "checkedAt": "2026-10-25T23:41:07.758Z",
+        "checkedAt": "2026-10-26T14:40:19.676Z",
         "latestListedDataPeriod": "2026-08",
         "scheduledPublications": [
           {
@@ -2872,22 +2921,17 @@
             "scheduledAt": "2026-11-25"
           }
         ],
-        "status": "not_listed_at_morning_check",
-        "scope": "정상 공식 메뉴 이동 후 월별 공표 목록을 확인. 해당 시각9월 공표 게시물 없음. 하루 전체 미공표를 단정하지 않음. 8월 수치 원표 재다운로드/재대조를 하지 않음.",
+        "status": "not_listed_at_night_check",
+        "scope": "정상 공식 메뉴 이동 후 해당 시각 공표 목록 최신은8월,9월게시물미확인. 수치원표는재수집하지않았고기준/수집/파일/수치검증일은보존.",
         "sources": [
           {
             "url": "https://datalab.visitkorea.or.kr/site/portal/ex/bbs/List.do?cbIdx=1603&tgtTypeCd=CATE_CONT&searchKey2=spt01",
-            "checkedAt": "2026-10-25T23:41:07.758Z",
+            "checkedAt": "2026-10-26T14:40:19.676Z",
             "renderedHtmlSha256": "74bb33523162393efaa805e8ade9289aa8eea2caea106859c987a324117f2ca1"
-          },
-          {
-            "url": "https://datalab.visitkorea.or.kr/site/portal/ex/bbs/View.do?bcIdx=310073&cbIdx=1603",
-            "checkedAt": "2026-10-25T23:40:37.677Z",
-            "sha256": "de17dbe0b3356e3c83a8c76c49f5608dabdba1e0df98d7c4eab3195e398f0714"
           }
         ]
       },
-      "nextAction": "다음 일일 회차 또는 사용자의 재개 요청 시 공식 목록의9월 공표 원문부터 확인. 실제 공표된 XLSX만 기존 import_kto_workbook.py로 변환·원수치·기간·국가·CSV·fallback·화면을 함께 대조. 10월분 예정은11월25일이며 추정값을 만들지 않음."
+      "nextAction": "다음회차/재개시9월실제공표원문을우선확인하고확인된XLSX만기존변환기로반영. 10월분예정11월25일. 공표일경과만으로값을추정하지않음."
     },
     {
       "source": {
