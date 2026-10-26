@@ -61,7 +61,7 @@ function makeStructuredData(book, reviews, canonical) {
   };
   const reviewNodes = reviews.map((review) => ({
     '@type': 'Review', '@id': `${canonical}#review-${review.id}`,
-    itemReviewed: { '@id': `${canonical}#book` }, author: { '@type': 'Person', name: '정동수' },
+    itemReviewed: { '@id': `${canonical}#book` }, author: { '@type': 'Person', name: '별의문' },
     ...(review.end ? { datePublished: review.end } : {}),
     ...(review.oneline || review.review ? { reviewBody: review.oneline || review.review } : {}),
     ...(Number.isFinite(review.rating) && review.rating > 0 ? { reviewRating: {

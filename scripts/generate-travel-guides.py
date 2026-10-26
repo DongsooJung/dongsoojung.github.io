@@ -154,7 +154,7 @@ def render(slug, lang):
     source_ids = list(dict.fromkeys(source for _, _, ids in g['questions'] for source in ids))
     source_ids += [s for item in g.get('highlights', []) for s in item[4] if s not in source_ids]
     source_ids = list(dict.fromkeys(source_ids))
-    person = {'@type': 'Person', '@id': ORIGIN + '/#dongsoo', 'name': 'Dongsoo Jung', 'alternateName': '정동수', 'url': ORIGIN + '/', 'jobTitle': 'Urban engineering researcher'}
+    person = {'@type': 'Person', '@id': ORIGIN + '/#dongsoo', 'name': 'Dongsoo Jung', 'alternateName': '별의문', 'url': ORIGIN + '/', 'jobTitle': 'Urban engineering researcher'}
     article = {'@type': 'Article', '@id': ORIGIN + path + '#article', 'headline': g['title'], 'description': g['intro'], 'inLanguage': lang, 'datePublished': DATE, 'dateModified': DATE, 'author': person, 'publisher': {'@type': 'Organization', 'name': 'Stargate Corporation', 'url': ORIGIN}, 'mainEntityOfPage': ORIGIN + path, 'citation': [SOURCES[s][1] for s in source_ids]}
     faq = {'@type': 'FAQPage', '@id': ORIGIN + path + '#faq', 'inLanguage': lang, 'mainEntity': [{'@type': 'Question', 'name': q, 'acceptedAnswer': {'@type': 'Answer', 'text': a}} for q, a, _ in g['questions']]}
     graph = [article, faq, person]
@@ -206,7 +206,7 @@ def render(slug, lang):
 <link rel="stylesheet" href="/assets/travel/guides.css"><link rel="icon" href="/assets/icons/favicon.ico"><script type="application/ld+json">{schema}</script><link rel="stylesheet" href="/assets/stargate-tokens.css?v=20261017"></head>
 <body><a class="skip" href="#content">{'본문으로 이동' if ko else 'Skip to content'}</a>
 <div class="shell"><nav aria-label="{'여행 메뉴' if ko else 'Travel navigation'}"><a class="brand" href="/{'' if ko else 'en/'}">STARGATE<span>TRAVEL NOTES</span></a><div><a href="{nav_path}">{nav_label}</a><a href="{pair}" lang="{'en' if ko else 'ko'}">{'English' if ko else '한국어'}</a></div></nav>
-<header><p class="eyebrow">{'생활권과 여행' if ko else 'NEIGHBORHOODS & TRAVEL'}</p><h1>{escape(g['title'])}</h1><p class="intro">{escape(g['intro'])}</p><p class="byline">{'정동수 · 도시공학 연구자' if ko else 'Dongsoo Jung · Urban engineering researcher'} · <time datetime="{DATE}">{DATE}</time></p><div class="jump">{jump_highlights}<a href="#route">{'추천 동선' if ko else 'Route plan'}</a><a href="#sources">{'공식 출처' if ko else 'Official sources'}</a></div></header>
+<header><p class="eyebrow">{'생활권과 여행' if ko else 'NEIGHBORHOODS & TRAVEL'}</p><h1>{escape(g['title'])}</h1><p class="intro">{escape(g['intro'])}</p><p class="byline">{'별의문 · 도시공간 연구' if ko else 'Dongsoo Jung · Urban engineering researcher'} · <time datetime="{DATE}">{DATE}</time></p><div class="jump">{jump_highlights}<a href="#route">{'추천 동선' if ko else 'Route plan'}</a><a href="#sources">{'공식 출처' if ko else 'Official sources'}</a></div></header>
 {photo}<main id="content">{body}{related}{refs}</main><footer>© 2026 Dongsoo Jung · Stargate Corporation</footer></div></body></html>''', encoding='utf-8')
 
 
