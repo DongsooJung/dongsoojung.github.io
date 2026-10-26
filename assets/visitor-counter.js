@@ -4,7 +4,7 @@
   const supabaseUrl = 'https://inftexpcnfinglwlrvsj.supabase.co';
   const publishableKey = 'sb_publishable_-D0A-aWNMTMTHXeL0oqBXg_9Tz0bdvs';
   const cloudflareOrigin = 'https://stargate.stargate8225.workers.dev';
-  const cloudflareAnalytics = ['stargateedu.co.kr', 'www.stargateedu.co.kr', 'stargate.stargate8225.workers.dev'].includes(window.location.hostname);
+  const cloudflareAnalytics = ['stargateedu.co.kr', 'www.stargateedu.co.kr', 'www.stargatekorea.net', 'stargate.stargate8225.workers.dev'].includes(window.location.hostname);
   const rpcBase = cloudflareAnalytics ? `${window.location.origin === cloudflareOrigin ? '' : cloudflareOrigin}/api/analytics/` : `${supabaseUrl}/rest/v1/rpc/`;
   const storagePrefix = cloudflareAnalytics ? 'stargateCloudflareVisitorV1' : 'stargateVisitorV3';
 

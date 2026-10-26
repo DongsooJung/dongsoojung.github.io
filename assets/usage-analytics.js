@@ -4,7 +4,7 @@
   const supabaseUrl = 'https://inftexpcnfinglwlrvsj.supabase.co';
   const publishableKey = 'sb_publishable_-D0A-aWNMTMTHXeL0oqBXg_9Tz0bdvs';
   const cloudflareOrigin = 'https://stargate.stargate8225.workers.dev';
-  const cloudflareHosts = new Set(['stargateedu.co.kr', 'www.stargateedu.co.kr', 'stargate.stargate8225.workers.dev']);
+  const cloudflareHosts = new Set(['stargateedu.co.kr', 'www.stargateedu.co.kr', 'www.stargatekorea.net', 'stargate.stargate8225.workers.dev']);
   const cloudflareAnalytics = cloudflareHosts.has(window.location.hostname);
   const rpcBase = cloudflareAnalytics ? `${window.location.origin === cloudflareOrigin ? '' : cloudflareOrigin}/api/analytics/` : `${supabaseUrl}/rest/v1/rpc/`;
   const rpcHeaders = cloudflareAnalytics ? {
@@ -51,6 +51,7 @@
   const pageViews = new Map();
   const recent7PageViews = new Map();
   const previous7PageViews = new Map();
+  const pageViewRows = [];
   const clicksByPath = new Map();
   const listeners = new Set();
   let lastClick = { key: '', at: 0 };
@@ -319,10 +320,23 @@
     pages.forEach((row) => {
       const path = normalizeUsagePath(row.page_path);
       const views = Number(row.page_views) || 0;
-      map.set(path, views);
-      if (path !== '/') map.set(path.replace(/\/$/, ''), views);
+      const total = (Number(map.get(path)) || 0) + views;
+      map.set(path, total);
+      if (path !== '/') map.set(path.replace(/\/$/, ''), total);
     });
     return map;
+  }
+  function pageRows(data) {
+    const rows = new Map();
+    const pages = Array.isArray(data?.pages) ? data.pages : [];
+    pages.forEach((row) => {
+      const path = normalizeUsagePath(row.page_path);
+      const views = Number(row.page_views) || 0;
+      rows.set(path, (Number(rows.get(path)) || 0) + views);
+    });
+    return [...rows.entries()]
+      .map(([page_path, page_views]) => ({ page_path, page_views }))
+      .sort((left, right) => right.page_views - left.page_views || left.page_path.localeCompare(right.page_path));
   }
 
   async function loadPageViews() {
@@ -335,6 +349,7 @@
       const map30 = pageMap(data30);
       const map7 = pageMap(data7);
       const map14 = pageMap(data14);
+      pageViewRows.splice(0, pageViewRows.length, ...pageRows(data30));
 
       map30.forEach((views, path) => pageViews.set(path, views));
       map7.forEach((views, path) => recent7PageViews.set(path, views));
@@ -401,6 +416,10 @@
     pageViewsFor,
     pathClicksFor,
     trendFor,
+    getPageViewRows(limit = 12) {
+      const size = Math.min(50, Math.max(1, Number.isFinite(Number(limit)) ? Math.floor(Number(limit)) : 12));
+      return pageViewRows.slice(0, size).map((row) => ({ ...row }));
+    },
     whenReady: () => usageReady,
     getLoadState: () => ({ ...loadState }),
     subscribe(listener) {

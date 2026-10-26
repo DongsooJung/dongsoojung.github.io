@@ -86,8 +86,10 @@ test('public compatibility endpoint returns summary only and the former full usa
   assert.equal((await handleRequest(request('/api/analytics/get_site_usage_summary',{p_days:90}),env)).status,400);
 });
 
-test('public CORS is limited to the three site origins and permits bounded preflight headers',async()=>{
+test('public CORS is limited to configured site origins and permits bounded preflight headers',async()=>{
   const {env,calls}=environment();
+  assert.ok(PUBLIC_ORIGINS.has('https://www.stargatekorea.net'));
+  assert.equal(PUBLIC_ORIGINS.has('https://www.stargatekorea.net.evil.test'),false);
   for(const origin of PUBLIC_ORIGINS){
     const preflight=await handleRequest(request('/api/analytics/get_site_visit_summary',{}, {Origin:origin,'Access-Control-Request-Method':'POST','Access-Control-Request-Headers':'content-type'},'OPTIONS'),env);
     assert.equal(preflight.status,204);assert.equal(preflight.headers.get('Access-Control-Allow-Origin'),origin);assert.equal(preflight.headers.get('Vary'),'Origin');

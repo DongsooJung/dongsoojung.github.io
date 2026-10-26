@@ -405,7 +405,15 @@ body.portal-dashboard-mode .portal-dashboard-summary{display:grid;grid-template-
 .portal-dashboard-summary .ops-stat{padding:12px 14px;border:1px solid var(--line);border-radius:12px;background:color-mix(in srgb,var(--card) 86%,transparent)}
 .portal-dashboard-summary .ops-stat span{display:block;color:var(--muted);font-size:10px;font-weight:800}
 .portal-dashboard-summary .ops-stat strong{display:block;margin-top:3px;color:var(--text);font-size:18px;font-weight:900;font-variant-numeric:tabular-nums}
-
+.home-page-views{display:grid;grid-template-columns:minmax(180px,.9fr) minmax(0,1.6fr);gap:18px;align-items:start;margin:18px 0 22px;padding:18px;border:1px solid var(--line);border-radius:16px;background:linear-gradient(135deg,color-mix(in srgb,var(--card) 94%,var(--acc) 6%),color-mix(in srgb,var(--card) 88%,transparent))}
+.home-page-view-kicker{margin:0 0 5px;color:var(--acc);font-size:10px;font-weight:900;letter-spacing:.12em;text-transform:uppercase}
+.home-page-views h3{margin:0;color:var(--text);font-size:16px;line-height:1.35}
+.home-page-view-status{margin:7px 0 0;color:var(--muted);font-size:12px;line-height:1.5}
+.home-page-view-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px;margin:0;padding:0;list-style:none}
+.home-page-view-item{display:grid;grid-template-columns:22px minmax(0,1fr) auto;gap:8px;align-items:center;padding:9px 10px;border:1px solid var(--line);border-radius:10px;background:color-mix(in srgb,var(--bg) 40%,transparent)}
+.home-page-view-rank{display:inline-flex;align-items:center;justify-content:center;width:20px;height:20px;border-radius:999px;background:color-mix(in srgb,var(--acc) 18%,transparent);color:var(--acc);font-size:10px;font-weight:900;font-variant-numeric:tabular-nums}
+.home-page-view-link{overflow:hidden;color:var(--text);font-size:12px;font-weight:760;text-decoration:none;text-overflow:ellipsis;white-space:nowrap}.home-page-view-link:hover{text-decoration:underline;text-decoration-color:var(--acc);text-underline-offset:3px}
+.home-page-view-count{color:var(--text);font-size:12px;font-variant-numeric:tabular-nums;white-space:nowrap}
 body.portal-dashboard-mode #personal-projects{margin-top:14px}
 @media(max-width:820px){
   .portal-view-switcher{align-items:stretch;flex-direction:column}.portal-view-switcher .label{display:none}.portal-view-buttons{width:100%}.portal-view-btn{flex:1;padding:10px 12px}
@@ -413,6 +421,7 @@ body.portal-dashboard-mode #personal-projects{margin-top:14px}
   body.portal-dashboard-mode #projects-grid .proj{grid-template-columns:1fr;gap:8px;padding:13px}
   body.portal-dashboard-mode #projects-grid .proj .body{grid-template-columns:1fr;gap:7px}
   body.portal-dashboard-mode .portal-dashboard-summary{grid-template-columns:repeat(2,1fr)}
+  .home-page-views{grid-template-columns:1fr;gap:12px;padding:15px}.home-page-view-list{grid-template-columns:1fr}
   body.portal-dashboard-mode #projects-grid .proj .row{justify-content:flex-start;flex-wrap:wrap}
 }
 
@@ -596,6 +605,14 @@ var m=localStorage.getItem(k);if(m==='mobile'||m==='fold')r.classList.add('is-ap
       <div class="ops-stat"><span>최근 30일 조회</span><strong id="ops-view-count">-</strong></div>
       <div class="ops-stat"><span>홈 클릭</span><strong id="ops-click-count">-</strong></div>
     </div>
+    <section class="home-page-views" id="home-page-view-panel" aria-labelledby="home-page-view-heading">
+      <div>
+        <p class="home-page-view-kicker">Cloudflare Analytics</p>
+        <h3 id="home-page-view-heading">최근 30일 페이지별 조회</h3>
+        <p class="home-page-view-status" id="home-page-view-status" role="status">최근 30일 · 연결된 사이트 도메인 합산 · 집계 정보를 불러오는 중입니다.</p>
+      </div>
+      <ol class="home-page-view-list" id="home-page-view-list" aria-live="polite"></ol>
+    </section>
     <div class="project-toggle-row">
       <button class="project-toggle kakao-send-toggle" id="kakao-send-toggle" type="button" aria-expanded="false" aria-controls="kakao-send-cta kakao-send-card" data-analytics-ignore>카카오톡 보내기 펼치기</button>
       <div class="project-sort-wrap">
@@ -1554,9 +1571,9 @@ if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => navigator.serviceWorker.register('/sw.js'));
 }
 </script>
-<script src="/assets/visitor-counter.js?v=20261015-cloudflare-1" defer></script>
-<script src="/assets/usage-analytics.js?v=20261021-inline-badge" defer></script>
-
+<script src="/assets/visitor-counter.js?v=20261026-cloudflare-www-1" defer></script>
+<script src="/assets/usage-analytics.js?v=20261026-cloudflare-www-1" defer></script>
+<script src="/assets/home-page-views.js?v=20261026-cloudflare-pages-1" defer></script>
 <script>
 (()=>{
   const mainBtn=document.getElementById("portal-view-main");
