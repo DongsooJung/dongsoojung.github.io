@@ -1,10 +1,36 @@
 {
   "schema": 1,
-  "updated_at": "2026-10-24T16:47:00+09:00",
+  "updated_at": "2026-10-26T15:04:00+09:00",
   "note": "Claude 예약 작업이 3시간마다 갱신합니다. 이메일은 마스킹합니다.",
   "accounts": [
     {
-      "id": "claude-pro",
+      "id": "claude-ceo",
+      "vendor": "claude",
+      "label": "Claude",
+      "account": "c***@stargateedu.co.kr",
+      "plan": "미확인",
+      "source": "claude.ai 설정 > 사용량",
+      "observed_at": null,
+      "windows": [
+        {
+          "key": "5h",
+          "label": "5시간",
+          "used": null,
+          "window_minutes": 300,
+          "resets_at": null
+        },
+        {
+          "key": "week",
+          "label": "주간",
+          "used": null,
+          "window_minutes": 10080,
+          "resets_at": null
+        }
+      ],
+      "extra": "미수집 — 다음 자동 수집 대기"
+    },
+    {
+      "id": "claude-jds",
       "vendor": "claude",
       "label": "Claude",
       "account": "j***@gmail.com",
@@ -30,10 +56,62 @@
       "extra": "주간 제품별: 채팅 27% · Cowork 73% · Claude Code 0% · 월간 지출 한도 US$30 중 US$5.14"
     },
     {
-      "id": "codex-plus",
+      "id": "claude-sg8224",
+      "vendor": "claude",
+      "label": "Claude",
+      "account": "s***@gmail.com",
+      "plan": "미확인",
+      "source": "claude.ai 설정 > 사용량",
+      "observed_at": null,
+      "windows": [
+        {
+          "key": "5h",
+          "label": "5시간",
+          "used": null,
+          "window_minutes": 300,
+          "resets_at": null
+        },
+        {
+          "key": "week",
+          "label": "주간",
+          "used": null,
+          "window_minutes": 10080,
+          "resets_at": null
+        }
+      ],
+      "extra": "미수집 — 다음 자동 수집 대기"
+    },
+    {
+      "id": "codex-snu",
       "vendor": "codex",
-      "label": "Codex",
-      "account": "ChatGPT Plus",
+      "label": "ChatGPT",
+      "account": "***@snu.ac.kr",
+      "plan": "미확인",
+      "source": "PC Codex 로컬 기록(마지막 사용 시점)",
+      "observed_at": null,
+      "windows": [
+        {
+          "key": "5h",
+          "label": "5시간",
+          "used": null,
+          "window_minutes": 300,
+          "resets_at": null
+        },
+        {
+          "key": "week",
+          "label": "주간",
+          "used": null,
+          "window_minutes": 10080,
+          "resets_at": null
+        }
+      ],
+      "extra": "미수집 — 다음 자동 수집 대기"
+    },
+    {
+      "id": "codex-jds",
+      "vendor": "codex",
+      "label": "ChatGPT",
+      "account": "j***@gmail.com",
       "plan": "Plus",
       "source": "PC Codex 로컬 기록(마지막 사용 시점)",
       "observed_at": "2026-10-24T12:32:43+09:00",
@@ -62,12 +140,12 @@
       "account": "Cursor Pro",
       "plan": "Pro",
       "source": "cursor.com 대시보드 > Spending",
-      "observed_at": "2026-10-24T16:47:00+09:00",
+      "observed_at": "2026-10-26T15:04:00+09:00",
       "windows": [
         {
           "key": "month",
           "label": "자체모델",
-          "used": 48,
+          "used": 50,
           "window_minutes": 43200,
           "resets_at": "2026-10-27T00:00:00+09:00"
         },

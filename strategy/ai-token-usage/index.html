@@ -375,6 +375,7 @@
 
     function statusLine(m, cls) {
       var p = el("p", cls);
+      if (m.unknown) { p.appendChild(el("span", "st", m.st)); return p; }
       p.appendChild(document.createTextNode("(" + fmtLeft(m.left) + ") "));
       p.appendChild(el("span", "st", m.st));
       p.appendChild(document.createTextNode(" · 적정선 " + Math.round(m.pace) + "%"));
@@ -446,22 +447,24 @@
       liveMeta.appendChild(el("span", ageMin > 180 ? "stale" : "", ageMin < 1 ? "방금 전" : (ageMin < 60 ? ageMin + "분 전" : Math.floor(ageMin / 60) + "시간 " + (ageMin % 60) + "분 전")));
       liveMeta.appendChild(document.createTextNode(" · 3시간마다 자동 수집"));
       usage.accounts.forEach(function (a) {
-        var obs = new Date(new Date(a.observed_at).getTime() + KST);
+        var obs = a.observed_at ? new Date(new Date(a.observed_at).getTime() + KST) : now;
         var wins = (a.windows || []).map(function (w) {
           var winMs = w.window_minutes * 60000;
-          var end = new Date(new Date(w.resets_at).getTime() + KST);
+          var known = !!w.resets_at;
+          var end = known ? new Date(new Date(w.resets_at).getTime() + KST) : new Date(now.getTime() + winMs);
           var used = typeof w.used === "number" ? w.used : null;
           var rolled = false;
-          while (now >= end) { end = new Date(end.getTime() + winMs); rolled = true; }
-          if (rolled) used = 0;
+          while (known && now >= end) { end = new Date(end.getTime() + winMs); rolled = true; }
+          if (rolled && used != null) used = 0;
           var m = model(used, new Date(end.getTime() - winMs), end, now);
-          if (rolled) m.st = "리셋됨 · 재관측 대기";
-          return { label: w.label, m: m, resetText: fmtShort(end) };
+          if (rolled && used != null) m.st = "리셋됨 · 재관측 대기";
+          if (!known && used == null) { m.st = "미수집"; m.pace = 0; m.unknown = true; }
+          return { label: w.label, m: m, resetText: known ? fmtShort(end) : "미확인" };
         });
         var oage = Math.round((now - obs) / 60000);
         var metas = [];
-        var src = el("span"); src.textContent = "관측 " + (oage < 60 ? oage + "분 전" : Math.floor(oage / 60) + "시간 전") + " · 출처 " + a.source;
-        if (oage > 180) src.className = "stale";
+        var src = el("span"); src.textContent = (a.observed_at ? "관측 " + (oage < 60 ? oage + "분 전" : Math.floor(oage / 60) + "시간 전") : "아직 관측 없음") + " · 출처 " + a.source;
+        if (a.observed_at && oage > 180) src.className = "stale";
         metas.push(src);
         if (a.extra) metas.push(a.extra);
         live.appendChild(buildItem({ chip: a.label, name: a.account, acct: "· " + a.plan, color: VENDOR_COLOR[a.vendor] || "notion", live: true, windows: wins, metas: metas }));
