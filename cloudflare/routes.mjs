@@ -7,7 +7,8 @@ import { handleBoard } from './board.mjs';
 import { handleFirebaseAuth } from './firebase-auth.mjs';
 import { handleBlogVisitors } from './blog-visitors.mjs';
 
-export const PUBLIC_ORIGINS = new Set(['https://stargateedu.co.kr','https://www.stargateedu.co.kr','https://stargate.stargate8225.workers.dev']);
+export const PUBLIC_ORIGINS = new Set(['https://stargateedu.co.kr','https://www.stargateedu.co.kr','https://www.stargatekorea.net','https://stargate.stargate8225.workers.dev']);
+const ALERT_ORIGINS = new Set(['https://stargateedu.co.kr','https://www.stargateedu.co.kr','https://www.stargatekorea.net']);
 const publicMethods = new Set(['record_site_visit','record_site_usage_event','get_site_button_click_counts','get_site_visit_stats','get_site_visit_summary','get_site_usage_summary']);
 const adminMethods = new Set(['get_site_visit_stats','get_site_usage_stats']);
 const dashboardNames = new Set(['exchange-rate','trade','urban']);
@@ -128,7 +129,7 @@ export async function handleRequest(request,env,options = {}) {
     // Legacy public visit requests intentionally receive only the summary.
     const internalMethod = method === 'get_site_visit_stats' ? 'get_site_visit_summary' : method;
     const payload = validatePayload(internalMethod,await readPayload(request));
-    const notify=internalMethod==='record_site_usage_event'&&['https://stargateedu.co.kr','https://www.stargateedu.co.kr'].includes(origin);
+    const notify=internalMethod==='record_site_usage_event'&&ALERT_ORIGINS.has(origin);
     return cors(json(await object(env).analytics(internalMethod,payload,notify)),origin);
   } catch(error) { return cors(failure(error),origin); }
 }

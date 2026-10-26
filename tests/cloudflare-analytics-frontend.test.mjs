@@ -330,8 +330,8 @@ test('90-day control stays hidden on original hosts and before historical import
   }
 });
 
-test('canonical apex and www collect and read public Cloudflare aggregates without Supabase credentials', async () => {
-  for(const hostname of ['stargateedu.co.kr','www.stargateedu.co.kr']){
+test('configured site hosts collect and read public Cloudflare aggregates without Supabase credentials', async () => {
+  for(const hostname of ['stargateedu.co.kr','www.stargateedu.co.kr','www.stargatekorea.net']){
     const env = browser(hostname, { 'stargateVisitorV3:visitorId': 'old-supabase-browser' });
     runInNewContext(read('assets/visitor-counter.js'), env.context);
     runInNewContext(read('assets/usage-analytics.js'), env.context);
@@ -348,8 +348,26 @@ test('canonical apex and www collect and read public Cloudflare aggregates witho
   }
 });
 
+test('Cloudflare usage exposes sorted 30-day page-view rows without mixing clicks', async () => {
+  const pages = [
+    { page_path: '/research/', page_views: 4 },
+    { page_path: '/', page_views: 3 },
+    { page_path: '/research', page_views: 2 },
+    { page_path: '/strategy/', page_views: 0 },
+  ];
+  const env = browser('www.stargatekorea.net', {}, false, { get_site_usage_summary: { source: 'cloudflare', pages, buttons: [{ target_url: '/research/', clicks: 999 }] } });
+  runInNewContext(read('assets/usage-analytics.js'), env.context);
+  await env.context.window.StargateUsage.whenReady();
+  assert.deepEqual(JSON.parse(JSON.stringify(env.context.window.StargateUsage.getPageViewRows())), [
+    { page_path: '/research/', page_views: 6 },
+    { page_path: '/', page_views: 3 },
+    { page_path: '/strategy/', page_views: 0 },
+  ]);
+  assert.equal(env.context.window.StargateUsage.pageViewsFor(new env.Anchor('https://www.stargatekorea.net/research/')), 6);
+});
+
 test('lookalike hostnames retain the original transport rather than being trusted canonical hosts', async () => {
-  for(const hostname of ['stargateedu.co.kr.evil.test','notstargateedu.co.kr','stargate.stargate8225.workers.dev.evil.test']){
+  for(const hostname of ['stargateedu.co.kr.evil.test','www.stargatekorea.net.evil.test','notstargateedu.co.kr','stargate.stargate8225.workers.dev.evil.test']){
     const env=browser(hostname);
     runInNewContext(read('assets/visitor-counter.js'),env.context);
     await settle();
@@ -426,11 +444,11 @@ test('historical relative admin-button counts match the absolute protected link 
     {element_label:label,target_url:'https://external.example/admin/visitors/',clicks:7},
     {element_label:label,target_url:'https://stargateedu.co.kr.evil.test/admin/visitors/',clicks:9},
   ];
-  for(const hostname of ['stargateedu.co.kr','www.stargateedu.co.kr',cloudflareHost]){
+  for(const hostname of ['stargateedu.co.kr','www.stargateedu.co.kr','www.stargatekorea.net',cloudflareHost]){
     const env=browser(hostname,{},false,{get_site_button_click_counts:rows});
     runInNewContext(read('assets/usage-analytics.js'),env.context);
     await env.context.window.StargateUsage.whenReady();
-    for(const targetHost of ['stargateedu.co.kr','www.stargateedu.co.kr',cloudflareHost]){
+    for(const targetHost of ['stargateedu.co.kr','www.stargateedu.co.kr','www.stargatekorea.net',cloudflareHost]){
       const anchor=new env.Anchor('https://'+targetHost+'/admin/visitors/');anchor.dataset.analyticsLabel=label;
       assert.equal(env.context.window.StargateUsage.clickCountFor(anchor),40,hostname+' -> '+targetHost);
     }
