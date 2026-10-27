@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<meta name="color-scheme" content="light">
+<meta name="robots" content="noindex, nofollow">
+<title>별의문 스타게이트</title>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <p class="eyebrow">STARGATE EDU</p>
+    <h1 id="appTitle">별의문 스타게이트</h1>
+    <p class="sub" id="appSub"></p>
+  </header>
+  <section class="strip" aria-label="나의 진도">
+    <div class="kpi"><b id="kPath">0/0</b><span>경로 체크</span></div>
+    <div class="kpi"><b id="kSolved">0/0</b><span>맞힌 연습</span></div>
+  </section>
+  <nav class="tabs" role="tablist" aria-label="화면">
+    <button class="tab" type="button" role="tab" data-view="path" aria-selected="true">학습 경로</button>
+    <button class="tab" type="button" role="tab" data-view="practice" aria-selected="false">연습</button>
+    <button class="tab" type="button" role="tab" data-view="record" aria-selected="false">기록</button>
+    <button class="tab" type="button" role="tab" data-view="about" aria-selected="false">안내</button>
+  </nav>
+  <main id="view"></main>
+</div>
+<div class="sheet" id="sheet" hidden role="dialog" aria-modal="true" aria-labelledby="sheetTitle">
+  <article class="paper" id="paper"></article>
+</div>
+<script type="module" src="/src/app.js"></script>
+</body>
+</html>
