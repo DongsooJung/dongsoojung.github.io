@@ -155,3 +155,11 @@ test('customer page reuses SMS assets and administrator login returns only to fi
     assert.equal(response.status,303);assert.equal(response.headers.get('location'),target);
   }
 });
+
+test('stargatekorea.net visits use a separate visitor store', async () => {
+  const { storeName } = await import('../cloudflare/routes.mjs');
+  assert.equal(storeName('https://www.stargatekorea.net'), 'stargatekorea-visitors-v1');
+  assert.equal(storeName('https://www.stargateedu.co.kr'), 'stargate-visitors-v1');
+  assert.equal(storeName('https://stargateedu.co.kr'), 'stargate-visitors-v1');
+  assert.equal(storeName(null), 'stargate-visitors-v1');
+});

@@ -16,7 +16,10 @@ const dashboardNames = new Set(['exchange-rate','trade','urban']);
 function json(value, status = 200) {
   return Response.json(value,{status,headers:{'Cache-Control':'no-store','X-Content-Type-Options':'nosniff'}});
 }
-function object(env) { return env.VISITOR_ANALYTICS.get(env.VISITOR_ANALYTICS.idFromName('stargate-visitors-v1')); }
+// Each public site keeps its own visitor store; stargatekorea.net must not show stargateedu.co.kr totals.
+export const SITE_STORES = new Map([['https://www.stargatekorea.net','stargatekorea-visitors-v1']]);
+export function storeName(origin) { return SITE_STORES.get(origin) || 'stargate-visitors-v1'; }
+function object(env, origin) { return env.VISITOR_ANALYTICS.get(env.VISITOR_ANALYTICS.idFromName(storeName(origin))); }
 function protectedPath(path) {
   let decoded=path;
   for(let count=0;count<16;count++) {
@@ -130,7 +133,7 @@ export async function handleRequest(request,env,options = {}) {
     const internalMethod = method === 'get_site_visit_stats' ? 'get_site_visit_summary' : method;
     const payload = validatePayload(internalMethod,await readPayload(request));
     const notify=internalMethod==='record_site_usage_event'&&ALERT_ORIGINS.has(origin);
-    return cors(json(await object(env).analytics(internalMethod,payload,notify)),origin);
+    return cors(json(await object(env,origin).analytics(internalMethod,payload,notify)),origin);
   } catch(error) { return cors(failure(error),origin); }
 }
 
