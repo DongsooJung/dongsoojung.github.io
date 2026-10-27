@@ -12,6 +12,7 @@ npm run dev
 ```
 
 Cursor에서 폴더를 열면 `.cursor/rules/apps-in-toss.mdc`가 자동 적용됩니다.
+클로드 코드에서 이 폴더를 열면 `CLAUDE.md`와 `.mcp.json`으로 콘솔 등록을 이어갑니다. 첫 실행에서 MCP 승인과 토스 비즈니스 로그인이 필요합니다.
 작업 순서와 붙여 넣을 프롬프트는 `TASKS.md`에 있습니다.
 
 ## 구조
@@ -24,8 +25,10 @@ src/storage.js             저장소 어댑터 (토스 Storage API / 로컬 개�
 src/style.css              라이트 단일 테마
 apps-in-toss.config.ts     앱인토스 설정 (appName은 콘솔 등록값으로 교체)
 supabase/migrations/       3단계 동기화용 테이블
-.cursor/rules/             출시 규칙 (항상 적용)
-.cursor/mcp.json           앱인토스 콘솔 MCP
+.cursor/rules/             출시 규칙 (Cursor)
+.cursor/mcp.json           콘솔 MCP 주소 (Cursor)
+CLAUDE.md                  클로드 코드 이어하기
+.mcp.json                  클로드 코드용 콘솔 MCP (OAuth client id 포함)
 ```
 
 ## 빌드·출시
