@@ -177,9 +177,9 @@
       "dataPeriod": "별도새원본9/30 23시·구내국인7/31종료·실시간지표별기준혼재",
       "snapshotUpdatedAt": "2026-10-26T14:56:37.160774+00:00",
       "collectedAt": null,
-      "checkedAt": "2026-10-26T15:01:31.713Z",
+      "checkedAt": "2026-10-27T05:48:00.179Z",
       "reviewStatus": "needs_review",
-      "freshness": "separate_native_september_snapshot_verified_other_sources_pending",
+      "freshness": "september_population_verified_august_names_reference_separate",
       "evidence": [
         {
           "kind": "official-source",
@@ -236,20 +236,45 @@
           "url": "/research/source-reviews/2026-10-26-native-population.json",
           "checkedAt": "2026-10-26T15:01:31.713Z",
           "scope": "새250m기반내국인행정동9월원본30일/720시점/307440행을검사하고마지막9월30일23시427코드의13664셀및JSON/CSV를대조. 월누적/평균이나구7월대비증감이아님. 비식별7개보존/명칭미결합. 프로젝트전체원수치검증완료아님."
+        },
+        {
+          "kind": "official-source",
+          "url": "https://data.seoul.go.kr/dataVisual/seoul/seoulLivingPopulation.do",
+          "checkedAt": "2026-10-27T05:41:34.643095+00:00",
+          "sha256": "59791f25148af07578cb445cb2064e79bae40a281473114da47f53e99e4daefb",
+          "scope": "공식전국행정동ZIP의최신8월코드표에서서울427행/25구/2562필드와공개명칭JSON·CSV를대조. 9월원본427코드집합과정확일치. 참고동명만별도표시하며9월관측일명칭·경계/구7월과연속성은미확인."
+        },
+        {
+          "kind": "official-source",
+          "url": "https://datafile.seoul.go.kr/bigfile/iot/inf/nio_download.do?useCache=false",
+          "postFields": {
+            "infId": "DOWNLOAD",
+            "infSeq": "4",
+            "seq": "18"
+          },
+          "checkedAt": "2026-10-27T05:48:00.179Z",
+          "sha256": "69e8c5dad71dffbc6d0d9be8f9ad607e3d02e72a2577cbaf1b9ba795518226e4",
+          "scope": "공식전국행정동ZIP의최신8월코드표에서서울427행/25구/2562필드와공개명칭JSON·CSV를대조. 9월원본427코드집합과정확일치. 참고동명만별도표시하며9월관측일명칭·경계/구7월과연속성은미확인."
+        },
+        {
+          "kind": "audit-record",
+          "url": "/research/source-reviews/2026-10-27-urban-name-reference.json",
+          "checkedAt": "2026-10-27T05:48:00.179Z",
+          "scope": "공식전국행정동ZIP의최신8월코드표에서서울427행/25구/2562필드와공개명칭JSON·CSV를대조. 9월원본427코드집합과정확일치. 참고동명만별도표시하며9월관측일명칭·경계/구7월과연속성은미확인."
         }
       ],
       "issues": [
-        "신구자료의코드명칭·공간정의·연속성미확인;연결시계열금지",
-        "실시간도시45지점및다른모듈의개별원수치전수대조미완료"
+        "9월관측일명칭과신구공간경계·추계정의연속성미확인. 8월참고동명으로연결시계열/증감률금지.",
+        "기존실시간도시45지점과다른모듈원수치전수대조는미완료."
       ],
       "key": "/ds-research-urban-analytics/",
       "url": "/ds-research-urban-analytics/",
       "title": "실시간 도시 관측",
       "primary": "urban",
       "classification": "도시·공간",
-      "sourceHint": "새9월427코드 · 구7월자료와체계분리",
-      "verifiedScope": "새250m기반내국인행정동9월원본30일/720시점/307440행을검사하고마지막9월30일23시427코드의13664셀및JSON/CSV를대조. 월누적/평균이나구7월대비증감이아님. 비식별7개보존/명칭미결합. 프로젝트전체원수치검증완료아님.",
-      "nextAction": "새9월코드스냅샷의완료값은반복재수집하지않음. 공식현행행정동명칭/코드대조후에만이름표시와호환성판단. 원문미확보시다음미완료학원시설등진행. 10월신규원문이실제확보될때만해당원본과화면/파일을함께갱신.",
+      "sourceHint": "새9월427코드 · 동명은공식8월코드표참고",
+      "verifiedScope": "새250m기반내국인행정동9월원본30일/720시점/307440행을검사하고마지막9월30일23시427코드의13664셀및JSON/CSV를대조. 월누적/평균이나구7월대비증감이아님. 비식별7개보존/명칭미결합. 프로젝트전체원수치검증완료아님. 이번에는별도공식8월명칭427행/2562필드를대조.9월명칭·경계확정아님.",
+      "nextAction": "8월참고동명및새9월수치완료값반복재수집금지. 신구정의·경계연속성은근거확보때만판단. 다음미완료서울/수도권학원시설의공통관측일·미래등록일·식별자범위를대조. 관광공표원문우선,WorldBank11월3일이후.",
       "previousReview": {
         "checkedAt": "2026-10-25T23:54:40.152Z",
         "dataPeriod": "혼재: 도시10/26·내국인생활인구7/31(생산종료)·대도시권10/21",
@@ -270,6 +295,17 @@
           "checkedAt": "2026-10-26T15:01:31.713Z",
           "scope": "새250m기반내국인행정동9월원본30일/720시점/307440행을검사하고마지막9월30일23시427코드의13664셀및JSON/CSV를대조. 월누적/평균이나구7월대비증감이아님.",
           "audit": "/research/source-reviews/2026-10-26-native-population.json"
+        },
+        "nativeNameReference": {
+          "reviewStatus": "verified",
+          "dataPeriod": "2026-08",
+          "dataAsOf": null,
+          "collectedAt": "2026-10-27T05:41:43.218568+00:00",
+          "snapshotUpdatedAt": "2026-10-27T05:45:27.068200+00:00",
+          "checkedAt": "2026-10-27T05:48:00.179Z",
+          "scope": "공식전국행정동ZIP의최신8월코드표에서서울427행/25구/2562필드와공개명칭JSON·CSV를대조. 9월원본427코드집합과정확일치. 참고동명만별도표시하며9월관측일명칭·경계/구7월과연속성은미확인.",
+          "namesEffectiveAtObservation": "not_verified",
+          "audit": "/research/source-reviews/2026-10-27-urban-name-reference.json"
         }
       }
     },
@@ -2894,11 +2930,24 @@
           "url": "/research/source-reviews/2026-10-26-native-population.json",
           "checkedAt": "2026-10-26T15:01:31.713Z",
           "scope": "정상 공식 메뉴 이동 후 해당 시각 공표 목록 최신은8월,9월게시물미확인. 수치원표는재수집하지않았고기준/수집/파일/수치검증일은보존."
+        },
+        {
+          "kind": "official-source",
+          "url": "https://datalab.visitkorea.or.kr/site/portal/ex/bbs/List.do?cbIdx=1603&tgtTypeCd=CATE_CONT&searchKey2=spt01",
+          "checkedAt": "2026-10-27T05:40:54.082Z",
+          "renderedHtmlSha256": "74bb33523162393efaa805e8ade9289aa8eea2caea106859c987a324117f2ca1",
+          "scope": "10월27일14:40 KST 정상 공식 메뉴의 해당 시각 공표 목록에서8월이최신이고9월게시물미확인. 이후공표여부는단정하지않음. 수치원표는재수집하지않음."
+        },
+        {
+          "kind": "audit-record",
+          "url": "/research/source-reviews/2026-10-27-urban-name-reference.json",
+          "checkedAt": "2026-10-27T05:48:00.179Z",
+          "scope": "10월27일14:40 KST 정상 공식 메뉴의 해당 시각 공표 목록에서8월이최신이고9월게시물미확인. 이후공표여부는단정하지않음. 수치원표는재수집하지않음."
         }
       ],
       "issues": [
-        "2026-10-26 23:40 KST 공식 공표 목록은8월이최신,해당시각9월게시물미확인. 공표예정일경과만으로수치를만들지않음.",
-        "8월수치기준·수집/파일갱신일·마지막수치원표대조일10월16일을보존. 이번관광확인은공표상태점검만."
+        "10월27일14:40 KST 정상 공식 메뉴의 해당 시각 공표 목록에서8월이최신이고9월게시물미확인. 이후공표여부는단정하지않음. 수치원표는재수집하지않음.",
+        "8월기준·수집/파일갱신일·마지막수치원표대조일10월16일유지. 이번은공표상태확인만."
       ],
       "key": "/korea-tourism/",
       "url": "/korea-tourism/",
@@ -2909,7 +2958,7 @@
       "verifiedAt": "2026-10-16T10:33:48.637Z",
       "verifiedDataHash": "d321f199a013a1ef6393da5c8d810add145eccc43c1e31312e664d1ec9a7a1d7",
       "publicationCheck": {
-        "checkedAt": "2026-10-26T14:40:19.676Z",
+        "checkedAt": "2026-10-27T05:40:54.082Z",
         "latestListedDataPeriod": "2026-08",
         "scheduledPublications": [
           {
@@ -2921,17 +2970,17 @@
             "scheduledAt": "2026-11-25"
           }
         ],
-        "status": "not_listed_at_night_check",
-        "scope": "정상 공식 메뉴 이동 후 해당 시각 공표 목록 최신은8월,9월게시물미확인. 수치원표는재수집하지않았고기준/수집/파일/수치검증일은보존.",
+        "status": "not_listed_at_afternoon_check",
+        "scope": "10월27일14:40 KST 정상 공식 메뉴의 해당 시각 공표 목록에서8월이최신이고9월게시물미확인. 이후공표여부는단정하지않음. 수치원표는재수집하지않음.",
         "sources": [
           {
             "url": "https://datalab.visitkorea.or.kr/site/portal/ex/bbs/List.do?cbIdx=1603&tgtTypeCd=CATE_CONT&searchKey2=spt01",
-            "checkedAt": "2026-10-26T14:40:19.676Z",
+            "checkedAt": "2026-10-27T05:40:54.082Z",
             "renderedHtmlSha256": "74bb33523162393efaa805e8ade9289aa8eea2caea106859c987a324117f2ca1"
           }
         ]
       },
-      "nextAction": "다음회차/재개시9월실제공표원문을우선확인하고확인된XLSX만기존변환기로반영. 10월분예정11월25일. 공표일경과만으로값을추정하지않음."
+      "nextAction": "다음회차에9월실제공표원문을우선확인하고새XLSX가있을때만기존변환기로갱신. 10월분예정11월25일. 공표일만으로추정하지않음."
     },
     {
       "source": {

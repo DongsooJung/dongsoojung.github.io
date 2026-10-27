@@ -188,3 +188,12 @@ ECOS 원문68응답·기준금리329개월·CPI341개월을 확보하고 코드/
 다음도시원본OA-23016의공식9월ZIP을확보했다. CP949·쉼표헤더/세미콜론행32열,30일/720시점/307440행의일시·코드유일성·427코드집합·유한/음수·비식별없는행의성연령합계를검사했다. 9월30일23시427코드의추정합계10350034.02명은시점합계로월누적/평균이아니다. 13664원값·JSON/CSV427행·비식별7개를독립Decimal대조했다. 기존424명칭표로12코드가해석되지않아이름을결합하지않고구7월과연결·증감을만들지않는다. 성연령비식별을0으로대체하지않고비율을계산하지않는다.
 
 독립도시원본PR8 https://github.com/DongsooJung/ds-research-urban-analytics/pull/8 / 배포 f148582e9116af59b6c3320d493269d09c5005e5 / https://github.com/DongsooJung/ds-research-urban-analytics/actions/runs/40344597202. 새패널·JSON·CSV·재현임포터·셸템플릿을반영하고기존data.json과모든기존값/시각은그대로다. Python28테스트/선택원값13664개/양도메인4파일/실제다운로드·390px새패널검증통과. 새9월코드스냅샷모듈은기록된범위에서verified,도시전체는원명칭·다른원수치가남아needs_review다. 근거 /research/source-reviews/2026-10-26-native-population.json. 63프로젝트/7배타가나다순필터/난제7개유지. 전체수락pending·일일예약10유지. 완료새9월값재수집반복금지,WorldBank11월3일전조회금지.
+
+
+## 2026-10-27 · 공식 8월 행정동 참고 명칭
+
+관광은14:40 KST정상공표목록에서8월최신/9월게시물미확인이다. 수치·기준·수집·파일갱신·수치검증일은유지했다.
+
+서울시생활인구안내가제공하는전국행정동코드ZIP의최신파일은2026년8월이다. 서울427행/25구/2562필드를공개JSON·CSV와대조했고9월생활인구원본427코드집합과정확일치한다. 구표에서미해석12코드의동명을확인했으나9월코드표로재표기하지않는다. 별도8월참고동명/수집일을표시하고9월관측일명칭·경계및구7월과연속성은미확인이다. 참고파일누락/부분/코드불일치시원문코드만표시한다. 인구JSON/CSV·기존data.json의모든값/시각은보존했다.
+
+독립도시원본PR9 https://github.com/DongsooJung/ds-research-urban-analytics/pull/9 / 200eab58c5fec367518d99a3fb8681450114eee6 / https://github.com/DongsooJung/ds-research-urban-analytics/actions/runs/40457205294. Python34테스트·427명칭원행·양도메인3파일·실제JSON/CSV다운로드·누락/부분명칭대체·390px새패널검증통과. 코드표재현은독립저장소scripts/import_native_admin_names.py. 전체프로젝트needs_review,8월명칭참고범위만verified. 근거 /research/source-reviews/2026-10-27-urban-name-reference.json. 다음은미완료학원시설의공통관측일·미래등록일·식별자대조. 관광공표우선/WorldBank11월3일이후. 63고유/7필터가나다순/난제7개유지,전체수락pending·일일예약10유지.
