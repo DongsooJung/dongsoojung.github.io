@@ -1,7 +1,7 @@
 {
-  "updatedAt": "2026-10-24",
+  "updatedAt": "2026-10-26",
   "sourceMode": "public-csv",
-  "snapshotUpdatedAt": "2026-10-24T17:39:36.207106+00:00",
+  "snapshotUpdatedAt": "2026-10-26T22:42:11.937159+00:00",
   "collectionFailures": {},
   "coverage": {
     "start": 1999,
@@ -16,7 +16,7 @@
       "unit": "USD/GB",
       "url": "https://dam.stanford.edu/memory-prices.html",
       "observedAt": "2026-09-01",
-      "collectedAt": "2026-10-23T21:31:18.511940+00:00",
+      "collectedAt": "2026-10-26T22:42:11.226553+00:00",
       "state": "collected",
       "aggregation": "mean_of_available_source_observations"
     },
@@ -24,7 +24,7 @@
       "name": "FRED/EIA DCOILBRENTEU",
       "metric": "Brent 일 관측가격 평균",
       "frequency": "daily",
-      "collectedAt": "2026-10-24T17:37:24.213280+00:00",
+      "collectedAt": "2026-10-26T22:42:11.453608+00:00",
       "state": "collected",
       "unit": "USD/barrel",
       "url": "https://fred.stlouisfed.org/series/DCOILBRENTEU",
@@ -38,7 +38,7 @@
       "workbookUpdated": "October 02, 2026",
       "indexBaseYear": 1999,
       "frequency": "monthly",
-      "collectedAt": "2026-10-23T21:31:19.135734+00:00",
+      "collectedAt": "2026-10-26T22:42:11.933110+00:00",
       "state": "collected"
     }
   },
@@ -491,42 +491,5 @@
       "gasUsdPerMmbtu": 3.52,
       "gasObservations": 9
     }
-  ],
-  "sourceVerification": {
-    "checkedAt": "2026-10-24T17:39:36.207106+00:00",
-    "scope": "Brent 원문 일자료의28개 연도 평균·관측수를 새로 대조. DRAM/금/구리/가스는 기존 원표 대조본과28년값·관측수가동일해기존검증일유지.",
-    "brent": {
-      "verifiedAt": "2026-10-24T17:39:36.207106+00:00",
-      "sourceUrl": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=DCOILBRENTEU",
-      "sourceSha256": "a1fec56bfa6bc77dc5e017fa8976e6eaca2fa2ae43773209ac5923f1269c8b33",
-      "observedAt": "2026-10-20"
-    },
-    "unchangedComponents": {
-      "keys": [
-        "dramUsdPerGb",
-        "dramObservations",
-        "goldUsdPerOz",
-        "goldObservations",
-        "copperUsdPerMt",
-        "copperObservations",
-        "gasUsdPerMmbtu",
-        "gasObservations"
-      ],
-      "verifiedAt": "2026-10-22T20:47:07.229866+00:00",
-      "audit": "/research/source-reviews/2026-10-23-macro-followup.json",
-      "sourceChecks": [
-        {
-          "url": "https://dam.stanford.edu/assets/memory-prices/memory-prices.csv",
-          "sha256": "7de01bbf52d95883e34643f12c77ce9351086597ea3ec38fd56268ad50aaf962",
-          "checkedAt": "2026-10-22T20:40:19.510964+00:00"
-        },
-        {
-          "url": "https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx",
-          "sha256": "ea1c350827878ea3bbe30e3cda16a13fd3bd5b409b8458940dc94a36b5a33154",
-          "checkedAt": "2026-10-22T20:40:19.512964+00:00"
-        }
-      ],
-      "originalSourceRefetched": false
-    }
-  }
+  ]
 }

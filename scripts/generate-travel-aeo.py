@@ -12,7 +12,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 ORIGIN = 'https://stargateedu.co.kr'
 PERSON = {'@type': 'Person', '@id': ORIGIN + '/#dongsoo', 'name': 'Dongsoo Jung',
-          'alternateName': '정동수', 'url': ORIGIN + '/', 'jobTitle': 'Urban engineering researcher'}
+          'alternateName': '별의문', 'url': ORIGIN + '/', 'jobTitle': 'Urban engineering researcher'}
 STYLE = '''body{margin:0;background:#0a0d14;color:#e6edf3;font:16px/1.7 system-ui,sans-serif}main{max-width:1000px;margin:auto;padding:28px 22px 60px}a{color:#91b5ff}nav{display:flex;flex-wrap:wrap;gap:20px}h1{font-size:clamp(26px,5vw,40px)}h2{font-size:24px}section{margin:30px 0}table{width:100%;border-collapse:collapse}th,td{padding:10px;text-align:left;border-bottom:1px solid #263452}.scroll{overflow-x:auto}img{width:100%;max-height:360px;object-fit:cover;border-radius:12px}small{font-size:14px;color:#b8c4d4}'''
 CITY_NAMES = dict(zip(
     '서울 인천 대전 대구 부산 울산 광주 수원 성남 용인 부천 화성 광명 과천 의정부 양주 파주 일산 청주 충주 전주 영광 포항 경산 영천 구미 김천 진주 밀양 진해 강릉 속초 원주 춘천 여주 제주 도쿄 교토 오사카 고베 단둥 장백현 연변 예루살렘 텔아비브 하이파 나사렛 네타냐 베들레헴 여리고 런던 옥스퍼드 파리 암스테르담 베를린 프랑크푸르트 드레스덴 프라하 비엔나 취리히 루체른 베른 로마 밀라노 베니스 포지타노 이스탄불 갑바도기아 파묵칼레 아테네 밧모섬 모스크바 로스토프온돈 하산 뉴욕 보스턴 뉴헤이븐 시애틀 호놀룰루 코나 신의주 강계 무산 회령'.split(),
@@ -138,7 +138,7 @@ def main(tourism_only=False):
     englishfaq = '<section class="section"><div class="shell"><h2>Planning your Daechi stay</h2><p><a href="/ko/stay/" lang="ko">한국어 이용 안내</a> · <a href="/en/korea-tourism/">Korea tourism statistics</a> · <a href="/en/gangnam-guide/">Gangnam neighborhood guide</a> · <a href="/en/dumulmeori/">Dumulmeori day trip</a> · <a href="/en/busan-guide/">Busan travel guide</a></p>'
     englishfaq += ''.join(f'<h3>{q[0]}</h3><p>{q[1]}</p>' for q in questions) + '</div></section>'
     update('/stay/', '/ko/stay/', '/stay/', [lodging, faq(False), PERSON], englishfaq, '    <section class="inquiry"')
-    koreanfaq = '<p><a href="/stay/" lang="en">English stay page</a></p><img src="/stay/assets/hero-interior.png" alt="대치 스테이 소개 이미지"><p>서울 강남구 대치동 체류 안내. 호스트: 정동수, 도시공학 연구자.</p>'
+    koreanfaq = '<p><a href="/stay/" lang="en">English stay page</a></p><img src="/stay/assets/hero-interior.png" alt="대치 스테이 소개 이미지"><p>서울 강남구 대치동 체류 안내. 호스트: 주식회사 별의문.</p>'
     koreanfaq += ''.join(f'<section><h2>{q[2]}</h2><p>{q[3]}</p></section>' for q in questions)
     koreanfaq += '<p><a href="mailto:support@stargateedu.co.kr?subject=Daechi%20Stay%20availability">예약 가능일 이메일 문의</a> · <a href="/stay/#inquiry">일정 입력 문의</a> · <a href="/gangnam-guide/">강남 생활권 가이드</a> · <a href="/dumulmeori/">두물머리 당일 여행</a> · <a href="/busan-guide/">부산 여행 가이드</a></p>'
     page('/ko/stay/', 'ko', '대치 스테이 | 강남 체류·예약 안내', '대치동 숙소 위치, 공항 이동, 예약 문의와 결제 안내. 영어·한국어 호스트 지원.', metadata('/ko/stay/', '/ko/stay/', '/stay/', [lodging, faq(True), PERSON]), koreanfaq)

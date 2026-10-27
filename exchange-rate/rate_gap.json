@@ -1,33 +1,25 @@
 {
   "source": "FRED (OECD 한국 익일물 금리 · Federal Reserve 미국 실효 연방기금금리)",
   "sourceMode": "api",
-  "updatedAt": "2026-10-24",
+  "updatedAt": "2026-10-26",
   "observedAt": "2026-09",
   "sourceObservationTime": null,
-  "collectedAt": "2026-10-24T02:37:33.366126+00:00",
-  "snapshotUpdatedAt": "2026-10-24T02:39:08.280843+00:00",
+  "collectedAt": "2026-10-26T22:42:13.241483+00:00",
+  "snapshotUpdatedAt": "2026-10-26T22:42:13.244186+00:00",
   "sourceChecks": [
     {
-      "key": "korea",
       "url": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=IRSTCI01KRM156N&cosd=1996-10-01",
-      "checkedAt": "2026-10-24T02:37:32.654176+00:00",
-      "status": 200,
-      "receivedAt": "2026-10-24T02:37:33.349012+00:00",
-      "contentType": "application/csv",
-      "bytes": 6175,
+      "seriesId": "IRSTCI01KRM156N",
       "sha256": "233997065079956ea5d761f9fbbbbea7fc62db68ba94f2b7fa2e3331f9e422ba",
-      "seriesId": "IRSTCI01KRM156N"
+      "receivedAt": "2026-10-26T22:42:12.783160+00:00",
+      "rows": 360
     },
     {
-      "key": "us",
       "url": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=FEDFUNDS&cosd=1996-10-01",
-      "checkedAt": "2026-10-24T02:37:32.654176+00:00",
-      "status": 200,
-      "receivedAt": "2026-10-24T02:37:33.366126+00:00",
-      "contentType": "application/csv",
-      "bytes": 5786,
+      "seriesId": "FEDFUNDS",
       "sha256": "4e1b65c1ee1fcc58ca09e758ee1491d40a92302ef276178dfe7e0abeb25919f7",
-      "seriesId": "FEDFUNDS"
+      "receivedAt": "2026-10-26T22:42:13.241483+00:00",
+      "rows": 360
     }
   ],
   "unit": "% · 금리차는 %p",
@@ -2572,10 +2564,5 @@
       "usRate": 3.75,
       "gap": -0.706
     }
-  ],
-  "sourceVerification": {
-    "checkedAt": "2026-10-24T02:39:08.379362+00:00",
-    "scope": "공식 FRED CSV2개 전체360개월·1080수치를 독립 Decimal 계산으로 대조.",
-    "audit": "/research/source-reviews/2026-10-24-rategap-history.json"
-  }
+  ]
 }

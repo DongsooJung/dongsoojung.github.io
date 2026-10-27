@@ -67,7 +67,7 @@ def replace_once(old, new):
     source = source.replace(old, new, 1)
 
 source = re.sub(r'<html lang="ko"', '<html lang="en"', source, count=1)
-replace_once('<title>정동수 · Dongsoo Jung — Stargate Corp / AI Lab</title>', '<title>Dongsoo Jung — Stargate Corp / AI Lab</title>')
+replace_once('<title>별의문 · Stargate Corp / AI Lab</title>', '<title>Dongsoo Jung — Stargate Corp / AI Lab</title>')
 source = re.sub(r'(<meta name="description" content=")[^"]*(">)', r'\1Dongsoo Jung’s portal connecting AI, spatial data, urban and industry research, and KOI education with verifiable projects and services.\2', source, count=1)
 source = re.sub(r'(<meta property="og:description" content=")[^"]*(">)', r'\1AI, spatial data, research and KOI education from Stargate Corp.\2', source, count=1)
 source = re.sub(r'(<meta property="og:title" content=")[^"]*(">)', r'\1Dongsoo Jung — Stargate Corp / AI Lab\2', source, count=1)
@@ -75,8 +75,8 @@ source = source.replace('href="./', 'href="/')
 source = source.replace('aria-current="page">한국어', '>한국어', 1).replace('hreflang="en">English', 'hreflang="en" aria-current="page">English', 1)
 source = source.replace('rel="canonical" href="https://stargateedu.co.kr/"', 'rel="canonical" href="https://stargateedu.co.kr/en/"', 1)
 source = source.replace('property="og:url" content="https://stargateedu.co.kr/"', 'property="og:url" content="https://stargateedu.co.kr/en/"', 1)
-source = source.replace('"name":"정동수"', '"name":"Dongsoo Jung"', 1)
-source = source.replace('"alternateName":"Dongsoo Jung"', '"alternateName":"정동수"', 1)
+source = source.replace('"name":"별의문"', '"name":"Dongsoo Jung"', 1)
+source = source.replace('"alternateName":"Dongsoo Jung"', '"alternateName":"별의문"', 1)
 source = source.replace('"url":"https://stargateedu.co.kr/"', '"url":"https://stargateedu.co.kr/en/"', 1)
 source = source.replace('"name":"서울대학교"', '"name":"Seoul National University"', 1)
 source = source.replace('"name":"북한대학원대학교"', '"name":"University of North Korean Studies"', 1)
@@ -119,7 +119,7 @@ copy = {
     '검증 가능한 결과물과 서비스로 연결합니다.': 'verifiable work and services.',
     'DID · 정책효과': 'DID · policy impact', 'KOI · 알고리즘': 'KOI · algorithms',
     '공간데이터 AI 분석': 'Spatial-data AI analysis', '플랫폼 재무 분석': 'Platform financial analysis',
-    '정동수 · Dongsoo Jung': 'Dongsoo Jung', 'Stargate Corp CEO · 도시공간 데이터 연구자': 'Stargate Corp CEO · urban and spatial-data researcher',
+    '별의문 · STARGATE': 'Dongsoo Jung', 'Stargate Corp CEO · 도시공간 데이터 연구자': 'Stargate Corp CEO · urban and spatial-data researcher',
     '서울대 스마트도시공학 박사과정 수료': 'Completed doctoral coursework in Smart City Engineering at Seoul National University',
     '공간계량 · 헤도닉 가격모형 · DID · Python/GIS': 'Spatial econometrics · hedonic pricing · DID · Python/GIS',
     '공군 시설장교(서울공항 PM) · 공군참모총장상 · 토목기사': 'ROK Air Force facilities officer (Seoul Air Base PM) · Chief of Staff Award · Civil Engineer',
@@ -147,7 +147,7 @@ copy = {
     '부산 핫플, 강남 생활권, 양평 두물머리 등 검증한 이동 동선과 방문 정보를 한곳에 모았습니다.': 'Find source-checked routes and visitor information for Busan, Gangnam and Dumulmeori.',
     '국내 여행 · 생활권 · 한·영 안내': 'Korean travel · neighborhoods · Korean and English guides',
     '여행 페이지 보기': 'Explore travel',
-    '상호 : 주식회사 별의문 · 대표자명 : 정동수 · 사업자번호 : 848-86-03835 · 통신판매업신고번호 : 2025-서울강남-05246호 · 주소 : 서울특별시 강남구 삼성로63길 8-15, 204호 (대치동) · 전화 : 070-8018-8227 · 개인정보보호책임자 : 정동수 · 이메일 : support@stargateedu.co.kr': 'Business: Stargate Corporation (주식회사 별의문) · CEO: Dongsoo Jung · Business registration: 848-86-03835 · Mail-order registration: 2025-Seoul Gangnam-05246 · Address: 204, 8-15 Samseong-ro 63-gil, Gangnam-gu, Seoul, Korea · Phone: 070-8018-8227 · Privacy officer: Dongsoo Jung · Email: support@stargateedu.co.kr',
+    '상호 : 주식회사 별의문 · 대표자명 : 정동수 · 사업자번호 : 848-86-03835 · 통신판매업신고번호 : 2025-서울강남-05246호 · 주소 : 서울특별시 강남구 삼성로63길 8-15, 204호 (대치동) · 전화 : 070-8018-8227 · 개인정보보호책임자 : 별의문 · 이메일 : support@stargateedu.co.kr': 'Business: Stargate Corporation (주식회사 별의문) · CEO: Dongsoo Jung · Business registration: 848-86-03835 · Mail-order registration: 2025-Seoul Gangnam-05246 · Address: 204, 8-15 Samseong-ro 63-gil, Gangnam-gu, Seoul, Korea · Phone: 070-8018-8227 · Privacy officer: Dongsoo Jung · Email: support@stargateedu.co.kr',
     '화면을 한 번 누르면 음악이 재생됩니다': 'Tap the page once to play music',
 }
 
@@ -172,7 +172,7 @@ loose_copy = {
     '· 누적 ': '· Total ',
     '공간계량·GIS·DID 연구, 공공데이터 기반 AI 제품, KOI 알고리즘 교육을\n        검증 가능한 결과물과 서비스로 연결합니다.': 'Spatial econometrics, GIS and DID research, public-data AI products, and KOI education become verifiable work and services.',
     '↗ 전략 인사이트': '↗ Strategy insights', '◉ 연구 대시보드': '◉ Research dashboards',
-    '<div class="avatar">정</div>': '<div class="avatar">DJ</div>',
+    '<div class="avatar">별</div>': '<div class="avatar">DJ</div>',
     '글로벌 허브 →': 'Global hub →', '전략 허브 →': 'Strategy hub →', '연구 허브 →': 'Research hub →',
     '🟡 카카오톡 보내기': '🟡 Send to KakaoTalk',
     '혁신의숲 · THE VC · 매출 14곳 확인': 'Innoforest · THE VC · 14 revenue figures verified',
