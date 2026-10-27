@@ -68,7 +68,7 @@ select.sel{border:1px solid var(--line);background:var(--surface);border-radius:
 .card .meta{display:flex;justify-content:space-between;align-items:center;gap:6px}
 .badge{font-size:11.5px;font-weight:600;padding:2px 8px;border-radius:999px;background:var(--sunk);letter-spacing:.02em}
 .stars{color:var(--star);font-size:13px;letter-spacing:1px}
-.stars .off{color:var(--line)}
+.stars .off{color:var(--muted)}
 .card h3{font-size:18px;line-height:1.3}
 .card p{margin:0;font-size:13.5px;color:var(--muted);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
 .card .foot{display:flex;justify-content:space-between;align-items:center;font-size:12px;color:var(--muted);border-top:1px dashed var(--line);padding-top:8px;margin-top:auto}

@@ -10,8 +10,11 @@ function rec(id){return S.rec[id]||(S.rec[id]={status:"new",tries:0,hints:0,star
 /* ---------- helpers ---------- */
 const $=s=>document.querySelector(s);
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
-const plain=h=>h.replace(/<[^>]+>/g," ");
-const starHTML=n=>`<span class="stars" aria-label="난이도 ${n}">${"★".repeat(n)}<span class="off">${"★".repeat(3-n)}</span></span>`;
+const plain=h=>h.replace(/<br\s*\/?>/gi," ").replace(/<[^>]+>/g,"").replace(/[ \t]{2,}/g," ").trim();
+const starHTML=n=>{
+  const lv=[1,2,3].includes(n)?n:1;
+  return `<span class="stars" aria-label="난이도 ${lv}">${"★".repeat(lv)}<span class="off">${"☆".repeat(3-lv)}</span></span>`;
+};
 const norm=v=>String(v).replace(/\s|,/g,"").replace(/[°개번살일째가지초cm²]+$/,"");
 
 /* ---------- state ---------- */
