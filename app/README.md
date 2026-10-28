@@ -60,6 +60,12 @@ bubblewrap build   # twa-manifest.json을 읽어 Gradle 프로젝트 생성 + �
 
 ## 4. Google Play Console 배포
 
+공개 스토어에는 이미 올라가 있습니다. 2026-10-28 확인 주소는 `https://play.google.com/store/apps/details?id=kr.co.stargateedu.twa`이고, 업데이트 날짜는 2026. 10. 15.입니다. PR 169(개인정보 보호책임자·운영자 표기)는 같은 날 `main`에 머지되어 있습니다. 답변표와 공개 페이지의 차이는 [`play-console-answers.md`](play-console-answers.md) 9항에 있습니다. 데이터 보안에서 위치가 제3자 공유로 보이면, 콘솔에서 공유 안 함으로 다시 제출합니다. `ceo@stargateedu.co.kr`로 콘솔 첫 화면이 스피너에서 멈추면 `https://play.google.com/console/developers`의 개발자 계정 목록을 먼저 확인합니다.
+
+iOS는 Apple Developer Program 1년 멤버십 승인 전입니다. 승인 뒤에 넣을 등록정보·개인정보 영양 라벨은 [`ios/README.md`](ios/README.md)에 있습니다. 멤버십 전에는 Safari 홈 화면 추가를 쓰며, 사이트 전체를 담은 WebView만으로 App Store에 내지 않습니다.
+
+처음 등록할 때 쓴 순서는 아래와 같습니다.
+
 1. [Play Console](https://play.google.com/console) 개발자 계정 등록 ($25, 1회) + 본인 인증
    - Stargate는 **법인(조직) 계정**으로 등록 → 개인 계정에만 적용되는
      "비공개 테스트 12명 × 14일" 요건이 없어 바로 프로덕션 트랙에 제출할 수 있습니다.
