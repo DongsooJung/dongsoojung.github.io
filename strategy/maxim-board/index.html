@@ -21,13 +21,27 @@ footer{padding:18px 0 30px;display:flex;justify-content:space-between;color:var(
 :fullscreen .top,:fullscreen footer{display:none}:fullscreen .board{min-height:100vh;padding:28px 0}:fullscreen .wrap{width:min(1400px,calc(100% - 48px))}
 @media(max-width:720px){.top span{display:none}.board{padding-top:24px}.quote-stage{min-height:390px;padding:36px 24px}.controls{grid-template-columns:1fr}.buttons,.tools{justify-content:center}.progress{grid-row:1}.meta{flex-direction:column;gap:5px}.filters{justify-content:center}footer{display:block}.hint{margin-top:5px}}
 @media(prefers-reduced-motion:reduce){*{animation:none!important;scroll-behavior:auto!important}}
+
+/* Bilingual Peter Thiel quotation display */
+.quote-bilingual{width:100%;min-width:0}
+.quote-locale{min-width:0}
+.quote-locale[hidden]{display:none}
+.locale-label{display:none;color:var(--cyan);font-size:12px;font-weight:850;letter-spacing:.1em;margin:0 0 13px}
+.quote-bilingual.has-original{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(18px,4vw,56px);align-items:center;text-align:left}
+.quote-bilingual.has-original .locale-label{display:block}
+.quote-bilingual.has-original #quoteText{font-size:clamp(24px,3.3vw,47px);line-height:1.4;text-align:left;overflow-wrap:anywhere}
+.quote-bilingual.has-original .quote-locale.en{border-left:1px solid var(--line);padding-left:clamp(18px,3vw,40px)}
+.quote-bilingual.has-original .quote-locale.en .locale-label{color:var(--gold)}
+.quote-bilingual.has-original #quoteOriginal{max-width:100%;margin:0;text-align:left;color:#d5e3f3;font-size:clamp(17px,1.9vw,25px);line-height:1.55;font-weight:650;letter-spacing:-.015em;overflow-wrap:anywhere}
+@media(max-width:720px){.quote-bilingual.has-original{grid-template-columns:1fr;gap:23px;text-align:center}.quote-bilingual.has-original #quoteText{text-align:center;font-size:clamp(25px,5.6vw,36px)}.quote-bilingual.has-original .quote-locale.en{border-left:0;border-top:1px solid var(--line);padding:20px 0 0}.quote-bilingual.has-original #quoteOriginal{text-align:center;font-size:clamp(17px,4.1vw,21px)}.quote-bilingual.has-original .locale-label{text-align:center}}
+
 </style>
 </head>
 <body>
 <header class="wrap top"><a href="/strategy/">← 전략 대시보드</a><div class="brand">STARGATE <b>MAXIM</b></div><span>Execution · Learning · Leadership</span></header>
 <main class="wrap board">
 <div class="eyebrow"><i class="pulse"></i> LIVE MAXIM BOARD</div>
-<section class="quote-stage" aria-live="polite"><div class="quote" id="quoteBox"><p id="quoteText"></p><p class="original" id="quoteOriginal" lang="en" hidden></p><div class="author" id="quoteAuthor"></div><div class="context" id="quoteContext"></div><a class="source" id="quoteSource" href="#" target="_blank" rel="noopener noreferrer" hidden>원문 출처 보기 ↗</a></div></section>
+<section class="quote-stage" aria-live="polite"><div class="quote" id="quoteBox"><div class="quote-bilingual" id="quoteBilingual"><div class="quote-locale ko"><span class="locale-label">한국어 번역</span><p id="quoteText"></p></div><div class="quote-locale en" id="quoteEnglish" hidden><span class="locale-label" lang="en">ENGLISH ORIGINAL</span><p class="original" id="quoteOriginal" lang="en"></p></div></div><div class="author" id="quoteAuthor"></div><div class="context" id="quoteContext"></div><a class="source" id="quoteSource" href="#" target="_blank" rel="noopener noreferrer" hidden>원문 출처 보기 ↗</a></div></section>
 <div class="controls">
 <div class="buttons"><button class="btn" id="prev" aria-label="이전 격언">←</button><button class="btn primary" id="play" aria-label="자동 재생 일시정지">Ⅱ</button><button class="btn" id="next" aria-label="다음 격언">→</button></div>
 <div class="progress" aria-hidden="true"><i id="bar"></i></div>
@@ -54,8 +68,8 @@ const quotes=[
 {text:"혼자서는 할 수 있는 일이 적지만, 함께하면 많은 일을 할 수 있다.",author:"헬렌 켈러",context:"협업과 조직",category:"리더십"},
 {text:"리더십과 배움은 서로에게 없어서는 안 된다.",author:"존 F. 케네디",context:"성장하는 리더",category:"리더십"},
 {text:"본보기가 되는 것은 다른 사람에게 영향을 주는 주된 방법이 아니라 유일한 방법이다.",author:"알베르트 슈바이처",context:"행동으로 이끄는 리더십",category:"리더십"},
-{text:"암호화폐는 분산시키지만 AI는 중앙집중화한다.",author:"피터 틸 · 번역",context:"2018 · 리드 호프먼과의 대담 · 기술과 권력 집중",category:"AI",sourceLabel:"2018 대담 원문",source:"https://www.bishoprockcap.com/assets/library/peter-thiel/February%202018%20Cardinal%20Conversations%20-%20Reid%20Hoffman%20and%20Peter%20Thiel%20on%20Technology%20and%20Politics%20%5BNEW%5D%20%28transcript%29"},
-{text:"인터넷을 금지했었고 이제 AI까지 금지한다면, 경제성장은 사실상 사라질 것이다.",author:"피터 틸 · 번역",context:"2026 · The Builders 대담 · 혁신과 경제성장",category:"AI",sourceLabel:"2026 인터뷰 발언록",source:"https://omny.fm/shows/the-builders/peter-thiel"},
+{text:"암호화폐는 분산시키지만 AI는 중앙집중화한다.",original:"Crypto's decentralizing, AI is centralizing.",author:"피터 틸 · 번역",context:"2018 · 리드 호프먼과의 대담 · 기술과 권력 집중",category:"AI",sourceLabel:"2018 대담 원문",source:"https://www.bishoprockcap.com/assets/library/peter-thiel/February%202018%20Cardinal%20Conversations%20-%20Reid%20Hoffman%20and%20Peter%20Thiel%20on%20Technology%20and%20Politics%20%5BNEW%5D%20%28transcript%29"},
+{text:"인터넷을 금지했더라면, 지금 AI까지 금지한다면 경제성장은 사실상 없을 것이다.",original:"But I would say if we had outlawed the internet and if we now outlaw AI, there will be virtually no growth.",author:"피터 틸 · 번역",context:"2026 · The Builders 대담 · 혁신과 경제성장",category:"AI",sourceLabel:"2026 인터뷰 발언록",source:"https://www.iheart.com/podcast/1119-the-builders-347224769/episode/peter-thiel-we-need-to-hit-348165179/"},
 {"text":"다른 누구도 제공하지 않는 것을 세상에 제공해야 한다.","original":"You want to be offering something to the world that no one else is offering","author":"피터 틸 · 번역","context":"2014 · Authors@Wharton · 새로운 가치를 만드는 독점","category":"독점","sourceLabel":"Wharton 공식 대담 · 2014-10-03","source":"https://knowledge.wharton.upenn.edu/article/peter-thiels-notes-on-startups/","accent":"#ffd166"},
 {"text":"아주 작은 시장에서 시작해 그 시장 전체를 장악하라.","original":"You start with a really small market and you take over that whole market.","author":"피터 틸 · 번역","context":"2014 · Stanford CS183B · 작은 시장에서 시작해 점차 확장","category":"창업","sourceLabel":"Y Combinator 공식 강연 · 13:13부터","source":"https://www.youtube.com/watch?v=3Fx5Q8xGU8k&t=793s","accent":"#64f0ba"},
 {"text":"경쟁은 패자들의 것이다.","original":"Competition Is for Losers","author":"피터 틸 · 번역","context":"2014 · Authors@Wharton · 본인이 인용한 발췌 기사 제목 · 경쟁보다 고유한 가치","category":"경쟁","sourceLabel":"Wharton 공식 대담 · 2014-10-03","source":"https://knowledge.wharton.upenn.edu/article/peter-thiels-notes-on-startups/","accent":"#66d8ff"},
@@ -64,7 +78,7 @@ const quotes=[
 let filter="전체",visible=[...quotes],index=0,playing=true,timer,startAt;
 const DURATION=8000,q=id=>document.getElementById(id);
 function refreshList(){visible=filter==="전체"?[...quotes]:quotes.filter(x=>x.category===filter);index=0;render()}
-function render(){const item=visible[index];const box=q("quoteBox");box.classList.remove("enter");void box.offsetWidth;box.classList.add("enter");q("quoteText").textContent=item.text;q("quoteOriginal").hidden=!item.original;q("quoteOriginal").textContent=item.original||"";q("quoteAuthor").textContent="— "+item.author;q("quoteContext").textContent=item.context;const source=q("quoteSource");source.hidden=!item.source;if(item.source){source.href=item.source;source.textContent="출처 · "+item.sourceLabel+" ↗"}q("category").textContent=item.category;q("counter").textContent=String(index+1).padStart(2,"0")+" / "+String(visible.length).padStart(2,"0");restart()}
+function render(){const item=visible[index];const box=q("quoteBox");box.classList.remove("enter");void box.offsetWidth;box.classList.add("enter");q("quoteText").textContent=item.text;q("quoteEnglish").hidden=!item.original;q("quoteBilingual").classList.toggle("has-original",Boolean(item.original));q("quoteOriginal").textContent=item.original||"";q("quoteAuthor").textContent="— "+item.author;q("quoteContext").textContent=item.context;const source=q("quoteSource");source.hidden=!item.source;if(item.source){source.href=item.source;source.textContent="출처 · "+item.sourceLabel+" ↗"}q("category").textContent=item.category;q("counter").textContent=String(index+1).padStart(2,"0")+" / "+String(visible.length).padStart(2,"0");restart()}
 function move(delta){index=(index+delta+visible.length)%visible.length;render()}
 function restart(){clearInterval(timer);startAt=Date.now();q("bar").style.width="0%";if(playing)timer=setInterval(()=>{const p=(Date.now()-startAt)/DURATION*100;q("bar").style.width=Math.min(p,100)+"%";if(p>=100)move(1)},80)}
 function toggle(){playing=!playing;q("play").textContent=playing?"Ⅱ":"▶";restart()}
