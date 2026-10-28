@@ -1,4 +1,4 @@
-# STARGATE 비상장주식 인텔리전스 (MVP v0.1)
+# STARGATE 비상장주식 인텔리전스 (MVP v0.2)
 
 - 경로: `/unlisted-stocks/`
 - 앱 연동: Stargate Google Play TWA는 `stargateedu.co.kr`을 표시하므로, 웹 포털 메뉴에서 이 경로로 진입할 수 있습니다. 별도의 AAB 재빌드 없이 웹 기능을 업데이트할 수 있습니다.
@@ -32,9 +32,24 @@ CSV 저장은 브라우저 안에서 처리합니다. 가져온 데이터/관심
 - OpenDART API 호출이 필요하면 **서버/서버리스 함수에서 비밀키를 관리**합니다. 브라우저 HTML에 API 키를 넣지 않습니다.
 - 매매 중개, 사용자 자산 관리, 맞춤 투자권유를 제공하지 않습니다.
 
+## OpenDART 자동 수집 · IPO 공시 모니터링 (v0.2)
+
+- 수집기: `scripts/update-unlisted-dart.py`; 예약 실행: `.github/workflows/update-unlisted-dart.yml` (평일 09:35 KST).
+- 공개 스냅샷: `unlisted-stocks/data/opendart.json`; 브라우저 렌더러: `unlisted-stocks/dart-insights.js`.
+- API 인증키는 GitHub Actions secret `OPENDART_API_KEY` 또는 `DART_API_KEY`로만 사용합니다. 브라우저·JSON으로 유출하지 않습니다.
+- 시세표 5개 기업만 대상으로, 고유번호 ZIP에서 유일한 정확 회사명 매칭을 확인한 경우에만 해당 기업의 재무 API를 조회합니다.
+- 사업연도 및 반기 재무제표를 연결(CFS) 우선, 없으면 별도(OFS)로 구분해 표시합니다. 중간기간 손익은 누적 금액을 사용합니다.
+- 최근 60일 OpenDART 기타법인(E)의 지분증권(C001) 공시를 조회합니다. 화면은 최대 30건을 표시합니다.
+- 증권신고서 제출은 IPO 신청·승인·상장을 증명하지 않습니다. 상장예비심사/공모는 [KRX KIND](https://kind.krx.co.kr/external/dst/main/main_contents.htm)에서 확인하세요.
+- API 수집 실패 시 마지막 검증 스냅샷을 유지하고, 인증키 미설정 상태는 숫자를 임의로 채우지 않습니다.
+- 로컬 테스트: `python -m unittest discover -s tests -p 'test_unlisted_dart.py'`.
+
+공식 문서: [OpenDART 고유번호](https://opendart.fss.or.kr/guide/detail.do?apiGrpCd=DS001&apiId=2019018), [재무제표](https://opendart.fss.or.kr/guide/detail.do?apiGrpCd=DS003&apiId=2019020), [공시검색](https://opendart.fss.or.kr/guide/detail.do?apiGrpCd=DS001&apiId=2019001).
+
+**운영 검증:** 워크플로 실행 성공 → JSON의 `status=ok`, `updated_at` 확인 → 기업명/보고기간/공시 원문 대조.
 ## 다음 개발 단계
 
 1. 정식 시세 공급 계약 또는 허가된 피드 확보: 종목·체결일·종가·거래량·기준시간 포함, 라이선스 및 재배포 조건 검토.
-2. OpenDART 고유번호 매핑/공시 검색/재무제표 API를 서버에서 수집해 출처·보고기간을 함께 저장.
+2. OpenDART 기업검색 범위를 확대하고 감사보고서·정정공시까지 활용해 재무지표를 보강.
 3. 비교기업 평가모형: EV/EBITDA·PER·PBR·희석 주식 수·유동성 할인·시나리오 분석; 대상기업/재무 기간 정합성 테스트.
 4. 증권사 연결이나 투자자문 기능 추가 전 인허가·법률 검토.

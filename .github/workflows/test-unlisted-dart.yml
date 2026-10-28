@@ -1,0 +1,43 @@
+name: Verify unlisted dashboard and OpenDART collector
+
+on:
+  pull_request:
+    paths:
+      - 'scripts/update-unlisted-dart.py'
+      - 'tests/test_unlisted_dart.py'
+      - 'unlisted-stocks/**'
+      - '.github/workflows/test-unlisted-dart.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Collector offline unit tests
+        run: python -m unittest discover -s tests -p 'test_unlisted_dart.py' -v
+      - name: Browser script syntax
+        run: node --check unlisted-stocks/dart-insights.js
+      - name: Validate public placeholder and HTML integration
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          data = json.loads(Path('unlisted-stocks/data/opendart.json').read_text())
+          html = Path('unlisted-stocks/index.html').read_text()
+          assert data['status'] in ('not_configured', 'ok')
+          assert data['source'] == 'OpenDART'
+          assert 'dart-insights.js' in html
+          for key in ('dartFinancialBody', 'dartIpoRows', 'dartCompany', 'dartStatus'):
+              assert 'id="' + key + '"' in html
+          print('dashboard HTML and JSON contract verified')
+          PY
