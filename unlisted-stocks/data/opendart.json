@@ -1,13 +1,1038 @@
 {
   "schema": 1,
   "source": "OpenDART",
-  "updated_at": null,
-  "status": "not_configured",
-  "financials": [],
-  "equity_filings": [],
-  "equity_window": null,
+  "updated_at": "2026-10-29T07:38:50+09:00",
+  "status": "ok",
+  "financials": [
+    {
+      "name": "아리바이오",
+      "market_code": "192230",
+      "corp_code": "01028322",
+      "match": "unique_exact_name",
+      "periods": [
+        {
+          "year": 2026,
+          "report_code": "11012",
+          "period": "2026 H1",
+          "fs_div": "OFS",
+          "metrics": {
+            "revenue": 6477000575,
+            "operating_profit": -4836373132,
+            "net_income": -20035902028,
+            "assets": 255622118815,
+            "liabilities": 168357640440,
+            "equity": 87264478375
+          },
+          "source": "OpenDART fnlttSinglAcntAll"
+        },
+        {
+          "year": 2025,
+          "report_code": "11011",
+          "period": "2025 FY",
+          "fs_div": "OFS",
+          "metrics": {
+            "revenue": 10975799634,
+            "operating_profit": -8996615592,
+            "net_income": -31229442326,
+            "assets": 211754054640,
+            "liabilities": 150702650914,
+            "equity": 61051403726
+          },
+          "source": "OpenDART fnlttSinglAcntAll"
+        },
+        {
+          "year": 2024,
+          "report_code": "11011",
+          "period": "2024 FY",
+          "fs_div": "OFS",
+          "metrics": {
+            "revenue": 35228971748,
+            "operating_profit": 13313175549,
+            "net_income": 3867429983,
+            "assets": 184985801357,
+            "liabilities": 94152884011,
+            "equity": 90832917346
+          },
+          "source": "OpenDART fnlttSinglAcntAll"
+        }
+      ]
+    },
+    {
+      "name": "SK에코플랜트",
+      "market_code": "003340",
+      "corp_code": null,
+      "match": "not_found",
+      "periods": []
+    },
+    {
+      "name": "LS전선",
+      "market_code": "104230",
+      "corp_code": "00683283",
+      "match": "unique_exact_name",
+      "periods": [
+        {
+          "year": 2026,
+          "report_code": "11012",
+          "period": "2026 H1",
+          "fs_div": "CFS",
+          "metrics": {
+            "revenue": 4523185000000,
+            "operating_profit": 238403000000,
+            "net_income": 50414000000,
+            "assets": 10483786000000,
+            "liabilities": 8270972000000,
+            "equity": 2212814000000
+          },
+          "source": "OpenDART fnlttSinglAcntAll"
+        },
+        {
+          "year": 2025,
+          "report_code": "11011",
+          "period": "2025 FY",
+          "fs_div": "CFS",
+          "metrics": {
+            "revenue": 7588160000000,
+            "operating_profit": 279845000000,
+            "net_income": 100571000000,
+            "assets": 9003343000000,
+            "liabilities": 6846653000000,
+            "equity": 2156690000000
+          },
+          "source": "OpenDART fnlttSinglAcntAll"
+        },
+        {
+          "year": 2024,
+          "report_code": "11011",
+          "period": "2024 FY",
+          "fs_div": "CFS",
+          "metrics": {
+            "revenue": 6765269000000,
+            "operating_profit": 274534000000,
+            "net_income": 44732000000,
+            "assets": 7299077000000,
+            "liabilities": 5460170000000,
+            "equity": 1838907000000
+          },
+          "source": "OpenDART fnlttSinglAcntAll"
+        }
+      ]
+    },
+    {
+      "name": "아이엠증권",
+      "market_code": "030010",
+      "corp_code": "00148665",
+      "match": "unique_exact_name",
+      "periods": [
+        {
+          "year": 2026,
+          "report_code": "11012",
+          "period": "2026 H1",
+          "fs_div": "CFS",
+          "metrics": {
+            "revenue": 4237853334203,
+            "operating_profit": 51729494751,
+            "net_income": 42645844519,
+            "assets": 13074664417034,
+            "liabilities": 11910458923088,
+            "equity": 1164205493946
+          },
+          "source": "OpenDART fnlttSinglAcntAll"
+        },
+        {
+          "year": 2025,
+          "report_code": "11011",
+          "period": "2025 FY",
+          "fs_div": "CFS",
+          "metrics": {
+            "revenue": 2423598732214,
+            "operating_profit": 87405670606,
+            "net_income": 75604577518,
+            "assets": 10145504950720,
+            "liabilities": 9011221270981,
+            "equity": 1134283679739
+          },
+          "source": "OpenDART fnlttSinglAcntAll"
+        },
+        {
+          "year": 2024,
+          "report_code": "11011",
+          "period": "2024 FY",
+          "fs_div": "CFS",
+          "metrics": {
+            "revenue": 2057608494907,
+            "operating_profit": -224083936834,
+            "net_income": -158827646018,
+            "assets": 7933697058584,
+            "liabilities": 6772704549581,
+            "equity": 1160992509003
+          },
+          "source": "OpenDART fnlttSinglAcntAll"
+        }
+      ]
+    },
+    {
+      "name": "삼성메디슨",
+      "market_code": "018360",
+      "corp_code": "00120988",
+      "match": "unique_exact_name",
+      "periods": [
+        {
+          "year": 2026,
+          "report_code": "11012",
+          "period": "2026 H1",
+          "fs_div": "CFS",
+          "metrics": {
+            "revenue": 391570696212,
+            "operating_profit": 53948964734,
+            "net_income": 39464529549,
+            "assets": 931730866576,
+            "liabilities": 256235129188,
+            "equity": 675495737388
+          },
+          "source": "OpenDART fnlttSinglAcntAll"
+        },
+        {
+          "year": 2025,
+          "report_code": "11011",
+          "period": "2025 FY",
+          "fs_div": "CFS",
+          "metrics": {
+            "revenue": 665088563658,
+            "operating_profit": 87044494061,
+            "net_income": 62954941485,
+            "assets": 851725137529,
+            "liabilities": 221835531496,
+            "equity": 629889606033
+          },
+          "source": "OpenDART fnlttSinglAcntAll"
+        },
+        {
+          "year": 2024,
+          "report_code": "11011",
+          "period": "2024 FY",
+          "fs_div": "CFS",
+          "metrics": {
+            "revenue": 571239868716,
+            "operating_profit": 79265536112,
+            "net_income": 73023708431,
+            "assets": 767744027876,
+            "liabilities": 217364804091,
+            "equity": 550379223785
+          },
+          "source": "OpenDART fnlttSinglAcntAll"
+        }
+      ]
+    }
+  ],
+  "equity_filings": [
+    {
+      "name": "현대카드",
+      "report": "투자설명서(일괄신고)",
+      "received": "20261028",
+      "rcept_no": "20261028000490",
+      "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20261028000490",
+      "stage": "equity_filing_not_ipo_confirmation"
+    },
+    {
+      "name": "국민은행",
+      "report": "투자설명서(일괄신고)",
+      "received": "20261028",
+      "rcept_no": "20261028000475",
+      "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20261028000475",
+      "stage": "equity_filing_not_ipo_confirmation"
+    },
+    {
+      "name": "현대카드",
+      "report": "일괄신고추가서류",
+      "received": "20261028",
+      "rcept_no": "20261028000473",
+      "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20261028000473",
+      "stage": "equity_filing_not_ipo_confirmation"
+    },
+    {
+      "name": "신영해피투모로우제12호기업인수목적",
+      "report": "증권신고서(지분증권)",
+      "received": "20261028",
+      "rcept_no": "20261028000471",
+      "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20261028000471",
+      "stage": "equity_filing_not_ipo_confirmation"
+    },
+    {
+      "name": "애큐온캐피탈",
+      "report": "투자설명서(일괄신고)",
+      "received": "20261028",
+      "rcept_no": "20261028000454",
+      "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20261028000454",
+      "stage": "equity_filing_not_ipo_confirmation"
+    },
+    {
+      "name": "애큐온캐피탈",
+      "report": "일괄신고추가서류",
+      "received": "20261028",
+      "rcept_no": "20261028000449",
+      "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20261028000449",
+      "stage": "equity_filing_not_ipo_confirmation"
+    },
+    {
+      "name": "데스틴파워",
+      "report": "증권신고서(지분증권)",
+      "received": "20261028",
+      "rcept_no": "20261028000434",
+      "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20261028000434",
+      "stage": "equity_filing_not_ipo_confirmation"
+    },
+    {
+      "name": "제이비우리캐피탈",
+      "report": "투자설명서(일괄신고)",
+      "received": "20261028",
+      "rcept_no": "20261028000432",
+      "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20261028000432",
+      "stage": "equity_filing_not_ipo_confirmation"
+    },
+    {
+      "name": "하나증권",
+      "report": "증권발행실적보고서",
+      "received": "20261028",
+      "rcept_no": "20261028000419",
+      "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20261028000419",
+      "stage": "equity_filing_not_ipo_confirmation"
+    },
+    {
+      "name": "오릭스캐피탈코리아",
+      "report": "투자설명서(일괄신고)",
+      "received": "20261028",
+      "rcept_no": "20261028000417",
+      "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20261028000417",
+      "stage": "equity_filing_not_ipo_confirmation"
+    },
+    {
+      "name": "아이비케이투자증권",
+      "report": "증권발행실적보고서",
+      "received": "20261028",
+      "rcept_no": "20261028000415",
+      "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20261028000415",
+      "stage": "equity_filing_not_ipo_confirmation"
+    },
+    {
+      "name": "현대캐피탈",
+      "report": "투자설명서(일괄신고)",
+      "received": "20261028",
+      "rcept_no": "20261028000412",
+      "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20261028000412",
+      "stage": "equity_filing_not_ipo_confirmation"
+    },
+    {
+      "name": "하나은행",
+      "report": "투자설명서(일괄신고)",
+      "received": "20261028",
+      "rcept_no": "20261028000410",
+      "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20261028000410",
+      "stage": "equity_filing_not_ipo_confirmation"
+    },
+    {
+      "name": "아이비케이투자증권",
+      "report": "투자설명서(일괄신고)",
+      "received": "20261028",
+      "rcept_no": "20261028000409",
+      "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20261028000409",
+      "stage": "equity_filing_not_ipo_confirmation"
+    },
+    {
+      "name": "제이비우리캐피탈",
+      "report": "일괄신고추가서류",
+      "received": "20261028",
+      "rcept_no": "20261028000397",
+      "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20261028000397",
+      "stage": "equity_filing_not_ipo_confirmation"
+    },
+    {
+      "name": "메리츠증권",
+      "report": "증권발행실적보고서",
+      "received": "20261028",
+      "rcept_no": "20261028000395",
+      "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20261028000395",
+      "stage": "equity_filing_not_ipo_confirmation"
+    },
+    {
+      "name": "하나캐피탈",
+      "report": "투자설명서(일괄신고)",
+      "received": "20261028",
+      "rcept_no": "20261028000394",
+      "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20261028000394",
+      "stage": "equity_filing_not_ipo_confirmation"
+    },
+    {
+      "name": "오릭스캐피탈코리아",
+      "report": "일괄신고추가서류",
+      "received": "20261028",
+      "rcept_no": "20261028000391",
+      "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20261028000391",
+      "stage": "equity_filing_not_ipo_confirmation"
+    },
+    {
+      "name": "현대캐피탈",
+      "report": "일괄신고추가서류",
+      "received": "20261028",
+      "rcept_no": "20261028000390",
+      "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20261028000390",
+      "stage": "equity_filing_not_ipo_confirmation"
+    },
+    {
+      "name": "하나캐피탈",
+      "report": "일괄신고추가서류",
+      "received": "20261028",
+      "rcept_no": "20261028000389",
+      "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20261028000389",
+      "stage": "equity_filing_not_ipo_confirmation"
+    },
+    {
+      "name": "국민은행",
+      "report": "일괄신고추가서류",
+      "received": "20261028",
+      "rcept_no": "20261028000388",
+      "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20261028000388",
+      "stage": "equity_filing_not_ipo_confirmation"
+    },
+    {
+      "name": "아이비케이투자증권",
+      "report": "일괄신고추가서류(파생결합증권-주가연계증권)",
+      "received": "20261028",
+      "rcept_no": "20261028000384",
+      "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20261028000384",
+      "stage": "equity_filing_not_ipo_confirmation"
+    },
+    {
+      "name": "부산은행",
+      "report": "투자설명서(일괄신고)",
+      "received": "20261028",
+      "rcept_no": "20261028000367",
+      "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20261028000367",
+      "stage": "equity_filing_not_ipo_confirmation"
+    },
+    {
+      "name": "하나증권",
+      "report": "일괄신고서(파생결합증권-상장지수증권)",
+      "received": "20261028",
+      "rcept_no": "20261028000352",
+      "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20261028000352",
+      "stage": "equity_filing_not_ipo_confirmation"
+    },
+    {
+      "name": "하나증권",
+      "report": "일괄신고서(기타파생결합증권)",
+      "received": "20261028",
+      "rcept_no": "20261028000346",
+      "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20261028000346",
+      "stage": "equity_filing_not_ipo_confirmation"
+    },
+    {
+      "name": "하나은행",
+      "report": "일괄신고추가서류",
+      "received": "20261028",
+      "rcept_no": "20261028000365",
+      "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20261028000365",
+      "stage": "equity_filing_not_ipo_confirmation"
+    },
+    {
+      "name": "하나증권",
+      "report": "일괄신고서(파생결합증권-주가연계증권)",
+      "received": "20261028",
+      "rcept_no": "20261028000341",
+      "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20261028000341",
+      "stage": "equity_filing_not_ipo_confirmation"
+    },
+    {
+      "name": "메리츠증권",
+      "report": "증권발행실적보고서",
+      "received": "20261028",
+      "rcept_no": "20261028000364",
+      "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20261028000364",
+      "stage": "equity_filing_not_ipo_confirmation"
+    },
+    {
+      "name": "부산은행",
+      "report": "일괄신고추가서류",
+      "received": "20261028",
+      "rcept_no": "20261028000363",
+      "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20261028000363",
+      "stage": "equity_filing_not_ipo_confirmation"
+    },
+    {
+      "name": "하나증권",
+      "report": "투자설명서(일괄신고)",
+      "received": "20261028",
+      "rcept_no": "20261028000357",
+      "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20261028000357",
+      "stage": "equity_filing_not_ipo_confirmation"
+    },
+    {
+      "name": "하나증권",
+      "report": "일괄신고추가서류(파생결합사채-주가연계파생결합사채)",
+      "received": "20261028",
+      "rcept_no": "20261028000350",
+      "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20261028000350",
+      "stage": "equity_filing_not_ipo_confirmation"
+    },
+    {
+      "name": "신한은행",
+      "report": "증권발행실적보고서",
+      "received": "20261028",
+      "rcept_no": "20261028000343",
+      "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20261028000343",
+      "stage": "equity_filing_not_ipo_confirmation"
+    },
+    {
+      "name": "KTE",
+      "report": "증권신고서(지분증권)",
+      "received": "20261028",
+      "rcept_no": "20261028000336",
+      "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20261028000336",
+      "stage": "equity_filing_not_ipo_confirmation"
+    },
+    {
+      "name": "신한은행",
+      "report": "투자설명서(일괄신고)",
+      "received": "20261028",
+      "rcept_no": "20261028000305",
+      "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20261028000305",
+      "stage": "equity_filing_not_ipo_confirmation"
+    },
+    {
+      "name": "부산은행",
+      "report": "증권발행실적보고서",
+      "received": "20261028",
+      "rcept_no": "20261028000285",
+      "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20261028000285",
+      "stage": "equity_filing_not_ipo_confirmation"
+    },
+    {
+      "name": "신한은행",
+      "report": "일괄신고추가서류",
+      "received": "20261028",
+      "rcept_no": "20261028000267",
+      "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20261028000267",
+      "stage": "equity_filing_not_ipo_confirmation"
+    },
+    {
+      "name": "국민은행",
+      "report": "증권발행실적보고서",
+      "received": "20261028",
+      "rcept_no": "20261028000260",
+      "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20261028000260",
+      "stage": "equity_filing_not_ipo_confirmation"
+    },
+    {
+      "name": "하나증권",
+      "report": "투자설명서(일괄신고)",
+      "received": "20261028",
+      "rcept_no": "20261028000251",
+      "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20261028000251",
+      "stage": "equity_filing_not_ipo_confirmation"
+    },
+    {
+      "name": "아이엠증권",
+      "report": "투자설명서(일괄신고)",
+      "received": "20261028",
+      "rcept_no": "20261028000249",
+      "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20261028000249",
+      "stage": "equity_filing_not_ipo_confirmation"
+    },
+    {
+      "name": "하나증권",
+      "report": "투자설명서(일괄신고)",
+      "received": "20261028",
+      "rcept_no": "20261028000246",
+      "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20261028000246",
+      "stage": "equity_filing_not_ipo_confirmation"
+    },
+    {
+      "name": "아이엠증권",
+      "report": "일괄신고추가서류(기타파생결합사채)",
+      "received": "20261028",
+      "rcept_no": "20261028000245",
+      "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20261028000245",
+      "stage": "equity_filing_not_ipo_confirmation"
+    },
+    {
+      "name": "하나증권",
+      "report": "일괄신고추가서류(파생결합사채-주가연계파생결합사채)",
+      "received": "20261028",
+      "rcept_no": "20261028000242",
+      "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20261028000242",
+      "stage": "equity_filing_not_ipo_confirmation"
+    },
+    {
+      "name": "한국투자증권",
+      "report": "투자설명서(일괄신고)",
+      "received": "20261028",
+      "rcept_no": "20261028000237",
+      "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20261028000237",
+      "stage": "equity_filing_not_ipo_confirmation"
+    },
+    {
+      "name": "하나증권",
+      "report": "일괄신고추가서류(파생결합사채-주가연계파생결합사채)",
+      "received": "20261028",
+      "rcept_no": "20261028000234",
+      "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20261028000234",
+      "stage": "equity_filing_not_ipo_confirmation"
+    },
+    {
+      "name": "한국투자증권",
+      "report": "일괄신고추가서류(파생결합증권-주가연계증권)",
+      "received": "20261028",
+      "rcept_no": "20261028000228",
+      "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20261028000228",
+      "stage": "equity_filing_not_ipo_confirmation"
+    },
+    {
+      "name": "DB캐피탈",
+      "report": "증권발행실적보고서",
+      "received": "20261028",
+      "rcept_no": "20261028000210",
+      "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20261028000210",
+      "stage": "equity_filing_not_ipo_confirmation"
+    },
+    {
+      "name": "한국투자증권",
+      "report": "증권발행실적보고서",
+      "received": "20261028",
+      "rcept_no": "20261028000203",
+      "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20261028000203",
+      "stage": "equity_filing_not_ipo_confirmation"
+    },
+    {
+      "name": "신한투자증권",
+      "report": "증권발행실적보고서",
+      "received": "20261028",
+      "rcept_no": "20261028000202",
+      "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20261028000202",
+      "stage": "equity_filing_not_ipo_confirmation"
+    },
+    {
+      "name": "아이비케이투자증권",
+      "report": "투자설명서(일괄신고)",
+      "received": "20261028",
+      "rcept_no": "20261028000192",
+      "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20261028000192",
+      "stage": "equity_filing_not_ipo_confirmation"
+    },
+    {
+      "name": "아이비케이투자증권",
+      "report": "일괄신고추가서류(기타파생결합사채)",
+      "received": "20261028",
+      "rcept_no": "20261028000184",
+      "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20261028000184",
+      "stage": "equity_filing_not_ipo_confirmation"
+    },
+    {
+      "name": "BNK투자증권",
+      "report": "투자설명서(일괄신고)",
+      "received": "20261028",
+      "rcept_no": "20261028000173",
+      "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20261028000173",
+      "stage": "equity_filing_not_ipo_confirmation"
+    },
+    {
+      "name": "케이비증권",
+      "report": "투자설명서(일괄신고)",
+      "received": "20261028",
+      "rcept_no": "20261028000166",
+      "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20261028000166",
+      "stage": "equity_filing_not_ipo_confirmation"
+    },
+    {
+      "name": "케이비증권",
+      "report": "투자설명서(일괄신고)",
+      "received": "20261028",
+      "rcept_no": "20261028000164",
+      "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20261028000164",
+      "stage": "equity_filing_not_ipo_confirmation"
+    },
+    {
+      "name": "한국투자증권",
+      "report": "증권발행실적보고서",
+      "received": "20261028",
+      "rcept_no": "20261028000160",
+      "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20261028000160",
+      "stage": "equity_filing_not_ipo_confirmation"
+    },
+    {
+      "name": "한국투자증권",
+      "report": "투자설명서(일괄신고)",
+      "received": "20261028",
+      "rcept_no": "20261028000159",
+      "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20261028000159",
+      "stage": "equity_filing_not_ipo_confirmation"
+    },
+    {
+      "name": "한국투자증권",
+      "report": "투자설명서(일괄신고)",
+      "received": "20261028",
+      "rcept_no": "20261028000158",
+      "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20261028000158",
+      "stage": "equity_filing_not_ipo_confirmation"
+    },
+    {
+      "name": "케이엠에프",
+      "report": "투자설명서",
+      "received": "20261028",
+      "rcept_no": "20261028000157",
+      "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20261028000157",
+      "stage": "equity_filing_not_ipo_confirmation"
+    },
+    {
+      "name": "케이비증권",
+      "report": "일괄신고추가서류(파생결합사채-주가연계파생결합사채)",
+      "received": "20261028",
+      "rcept_no": "20261028000149",
+      "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20261028000149",
+      "stage": "equity_filing_not_ipo_confirmation"
+    },
+    {
+      "name": "BNK투자증권",
+      "report": "일괄신고추가서류(파생결합사채-주가연계파생결합사채)",
+      "received": "20261028",
+      "rcept_no": "20261028000147",
+      "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20261028000147",
+      "stage": "equity_filing_not_ipo_confirmation"
+    },
+    {
+      "name": "케이비증권",
+      "report": "일괄신고추가서류(파생결합증권-주가연계증권)",
+      "received": "20261028",
+      "rcept_no": "20261028000146",
+      "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20261028000146",
+      "stage": "equity_filing_not_ipo_confirmation"
+    },
+    {
+      "name": "메리츠증권",
+      "report": "투자설명서(일괄신고)",
+      "received": "20261028",
+      "rcept_no": "20261028000135",
+      "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20261028000135",
+      "stage": "equity_filing_not_ipo_confirmation"
+    },
+    {
+      "name": "메리츠증권",
+      "report": "투자설명서(일괄신고)",
+      "received": "20261028",
+      "rcept_no": "20261028000133",
+      "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20261028000133",
+      "stage": "equity_filing_not_ipo_confirmation"
+    },
+    {
+      "name": "한국투자증권",
+      "report": "일괄신고추가서류(파생결합사채-주가연계파생결합사채)",
+      "received": "20261028",
+      "rcept_no": "20261028000130",
+      "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20261028000130",
+      "stage": "equity_filing_not_ipo_confirmation"
+    },
+    {
+      "name": "한국투자증권",
+      "report": "일괄신고추가서류(파생결합증권-주가연계증권)",
+      "received": "20261028",
+      "rcept_no": "20261028000123",
+      "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20261028000123",
+      "stage": "equity_filing_not_ipo_confirmation"
+    },
+    {
+      "name": "메리츠증권",
+      "report": "일괄신고추가서류(파생결합증권-주가연계증권)",
+      "received": "20261028",
+      "rcept_no": "20261028000120",
+      "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20261028000120",
+      "stage": "equity_filing_not_ipo_confirmation"
+    },
+    {
+      "name": "메리츠증권",
+      "report": "일괄신고추가서류(파생결합사채-주가연계파생결합사채)",
+      "received": "20261028",
+      "rcept_no": "20261028000117",
+      "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20261028000117",
+      "stage": "equity_filing_not_ipo_confirmation"
+    },
+    {
+      "name": "메리츠증권",
+      "report": "투자설명서(일괄신고)",
+      "received": "20261028",
+      "rcept_no": "20261028000095",
+      "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20261028000095",
+      "stage": "equity_filing_not_ipo_confirmation"
+    },
+    {
+      "name": "메리츠증권",
+      "report": "투자설명서(일괄신고)",
+      "received": "20261028",
+      "rcept_no": "20261028000092",
+      "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20261028000092",
+      "stage": "equity_filing_not_ipo_confirmation"
+    },
+    {
+      "name": "메리츠증권",
+      "report": "일괄신고추가서류(파생결합증권-주가연계증권)",
+      "received": "20261028",
+      "rcept_no": "20261028000071",
+      "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20261028000071",
+      "stage": "equity_filing_not_ipo_confirmation"
+    },
+    {
+      "name": "메리츠증권",
+      "report": "일괄신고추가서류(파생결합사채-주가연계파생결합사채)",
+      "received": "20261028",
+      "rcept_no": "20261028000047",
+      "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20261028000047",
+      "stage": "equity_filing_not_ipo_confirmation"
+    },
+    {
+      "name": "케이엠에프",
+      "report": "[기재정정]증권신고서(지분증권)",
+      "received": "20261027",
+      "rcept_no": "20261027000388",
+      "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20261027000388",
+      "stage": "equity_filing_not_ipo_confirmation"
+    },
+    {
+      "name": "솔리스",
+      "report": "[기재정정]증권신고서(합병)",
+      "received": "20261027",
+      "rcept_no": "20261027000378",
+      "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20261027000378",
+      "stage": "equity_filing_not_ipo_confirmation"
+    },
+    {
+      "name": "국민은행",
+      "report": "투자설명서(일괄신고)",
+      "received": "20261027",
+      "rcept_no": "20261027000366",
+      "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20261027000366",
+      "stage": "equity_filing_not_ipo_confirmation"
+    },
+    {
+      "name": "엔키화이트햇",
+      "report": "[기재정정]증권신고서(지분증권)",
+      "received": "20261027",
+      "rcept_no": "20261027000363",
+      "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20261027000363",
+      "stage": "equity_filing_not_ipo_confirmation"
+    },
+    {
+      "name": "메리츠증권",
+      "report": "투자설명서(일괄신고)",
+      "received": "20261027",
+      "rcept_no": "20261027000348",
+      "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20261027000348",
+      "stage": "equity_filing_not_ipo_confirmation"
+    },
+    {
+      "name": "메리츠증권",
+      "report": "일괄신고추가서류",
+      "received": "20261027",
+      "rcept_no": "20261027000345",
+      "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20261027000345",
+      "stage": "equity_filing_not_ipo_confirmation"
+    },
+    {
+      "name": "하나증권",
+      "report": "증권발행실적보고서",
+      "received": "20261027",
+      "rcept_no": "20261027000344",
+      "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20261027000344",
+      "stage": "equity_filing_not_ipo_confirmation"
+    },
+    {
+      "name": "하나증권",
+      "report": "증권발행실적보고서",
+      "received": "20261027",
+      "rcept_no": "20261027000339",
+      "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20261027000339",
+      "stage": "equity_filing_not_ipo_confirmation"
+    },
+    {
+      "name": "BNK투자증권",
+      "report": "투자설명서(일괄신고)",
+      "received": "20261027",
+      "rcept_no": "20261027000336",
+      "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20261027000336",
+      "stage": "equity_filing_not_ipo_confirmation"
+    },
+    {
+      "name": "국민은행",
+      "report": "일괄신고추가서류",
+      "received": "20261027",
+      "rcept_no": "20261027000332",
+      "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20261027000332",
+      "stage": "equity_filing_not_ipo_confirmation"
+    },
+    {
+      "name": "신한은행",
+      "report": "증권발행실적보고서",
+      "received": "20261027",
+      "rcept_no": "20261027000330",
+      "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20261027000330",
+      "stage": "equity_filing_not_ipo_confirmation"
+    },
+    {
+      "name": "BNK투자증권",
+      "report": "일괄신고추가서류(파생결합사채-주가연계파생결합사채)",
+      "received": "20261027",
+      "rcept_no": "20261027000326",
+      "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20261027000326",
+      "stage": "equity_filing_not_ipo_confirmation"
+    },
+    {
+      "name": "하나증권",
+      "report": "투자설명서(일괄신고)",
+      "received": "20261027",
+      "rcept_no": "20261027000325",
+      "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20261027000325",
+      "stage": "equity_filing_not_ipo_confirmation"
+    },
+    {
+      "name": "부산은행",
+      "report": "투자설명서(일괄신고)",
+      "received": "20261027",
+      "rcept_no": "20261027000316",
+      "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20261027000316",
+      "stage": "equity_filing_not_ipo_confirmation"
+    },
+    {
+      "name": "하나증권",
+      "report": "일괄신고추가서류(파생결합사채-주가연계파생결합사채)",
+      "received": "20261027",
+      "rcept_no": "20261027000315",
+      "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20261027000315",
+      "stage": "equity_filing_not_ipo_confirmation"
+    },
+    {
+      "name": "아델",
+      "report": "[기재정정]증권신고서(지분증권)",
+      "received": "20261027",
+      "rcept_no": "20261027000312",
+      "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20261027000312",
+      "stage": "equity_filing_not_ipo_confirmation"
+    },
+    {
+      "name": "케이비캐피탈",
+      "report": "증권발행실적보고서",
+      "received": "20261027",
+      "rcept_no": "20261027000311",
+      "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20261027000311",
+      "stage": "equity_filing_not_ipo_confirmation"
+    },
+    {
+      "name": "하나증권",
+      "report": "투자설명서(일괄신고)",
+      "received": "20261027",
+      "rcept_no": "20261027000308",
+      "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20261027000308",
+      "stage": "equity_filing_not_ipo_confirmation"
+    },
+    {
+      "name": "하나증권",
+      "report": "투자설명서(일괄신고)",
+      "received": "20261027",
+      "rcept_no": "20261027000305",
+      "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20261027000305",
+      "stage": "equity_filing_not_ipo_confirmation"
+    },
+    {
+      "name": "하나증권",
+      "report": "일괄신고추가서류(파생결합사채-주가연계파생결합사채)",
+      "received": "20261027",
+      "rcept_no": "20261027000293",
+      "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20261027000293",
+      "stage": "equity_filing_not_ipo_confirmation"
+    },
+    {
+      "name": "하나증권",
+      "report": "일괄신고추가서류(파생결합증권-주가연계증권)",
+      "received": "20261027",
+      "rcept_no": "20261027000292",
+      "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20261027000292",
+      "stage": "equity_filing_not_ipo_confirmation"
+    },
+    {
+      "name": "롯데캐피탈",
+      "report": "증권발행실적보고서",
+      "received": "20261027",
+      "rcept_no": "20261027000288",
+      "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20261027000288",
+      "stage": "equity_filing_not_ipo_confirmation"
+    },
+    {
+      "name": "부산은행",
+      "report": "일괄신고추가서류",
+      "received": "20261027",
+      "rcept_no": "20261027000279",
+      "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20261027000279",
+      "stage": "equity_filing_not_ipo_confirmation"
+    },
+    {
+      "name": "DB캐피탈",
+      "report": "투자설명서(일괄신고)",
+      "received": "20261027",
+      "rcept_no": "20261027000269",
+      "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20261027000269",
+      "stage": "equity_filing_not_ipo_confirmation"
+    },
+    {
+      "name": "DB캐피탈",
+      "report": "일괄신고추가서류",
+      "received": "20261027",
+      "rcept_no": "20261027000263",
+      "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20261027000263",
+      "stage": "equity_filing_not_ipo_confirmation"
+    },
+    {
+      "name": "신한은행",
+      "report": "투자설명서(일괄신고)",
+      "received": "20261027",
+      "rcept_no": "20261027000262",
+      "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20261027000262",
+      "stage": "equity_filing_not_ipo_confirmation"
+    },
+    {
+      "name": "래블업",
+      "report": "증권발행실적보고서",
+      "received": "20261027",
+      "rcept_no": "20261027000261",
+      "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20261027000261",
+      "stage": "equity_filing_not_ipo_confirmation"
+    },
+    {
+      "name": "한국투자증권",
+      "report": "투자설명서(일괄신고)",
+      "received": "20261027",
+      "rcept_no": "20261027000258",
+      "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20261027000258",
+      "stage": "equity_filing_not_ipo_confirmation"
+    },
+    {
+      "name": "케이비증권",
+      "report": "투자설명서(일괄신고)",
+      "received": "20261027",
+      "rcept_no": "20261027000255",
+      "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20261027000255",
+      "stage": "equity_filing_not_ipo_confirmation"
+    },
+    {
+      "name": "신한은행",
+      "report": "일괄신고추가서류",
+      "received": "20261027",
+      "rcept_no": "20261027000250",
+      "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20261027000250",
+      "stage": "equity_filing_not_ipo_confirmation"
+    }
+  ],
+  "equity_window": {
+    "start": "2026-08-30",
+    "end": "2026-10-29"
+  },
   "notes": [
-    "No authenticated OpenDART snapshot has been collected yet.",
-    "Company identity and IPO classification require authoritative source verification."
+    "Only unique exact corporate-name matches are linked; stock codes alone cannot identify DART corp_code.",
+    "Financial data is returned only when an eligible report exists.",
+    "Equity filings from non-listed issuers are NOT confirmed IPO applications or approvals."
   ]
 }
