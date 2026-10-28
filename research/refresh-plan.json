@@ -986,7 +986,7 @@
       "status": "pending",
       "keys": [],
       "outcome": "conditional_technical_acceptance",
-      "latestAudit": "/research/source-reviews/2026-10-28-car-sales.json",
+      "latestAudit": "/research/source-reviews/2026-10-28-car-overview.json",
       "lastAttemptAt": "2026-10-20T23:07:26.208Z",
       "itemResults": {
         "/exchange-rate/": {
@@ -1071,10 +1071,10 @@
         },
         "/research/new-car-sales/": {
           "status": "needs_review",
-          "checkedAt": "2026-10-28T00:30:03.277Z",
-          "audit": "/research/source-reviews/2026-10-28-car-sales.json",
-          "scope": "현대차회사국내판매9월49022·25.7%와KAMA확정발표본문전체135370·14.3%를서로다른범위로대조. 산업부PDF1/2/4/6쪽잠정값135396/기준157898/현대49022대조. 과거월전수및개인/법인/연령전수검증완료아님.",
-          "nextAction": "9월확인값은반복재수집하지않고KAMA상세확정표및과거월전체원표를확보해판본·국산/수입·승용/상용·누계를대조. 현대차개별조업일수는원문확보시에만추가. 개인·법인·연령구분미연결값추정금지."
+          "checkedAt": "2026-10-28T00:40:16.076Z",
+          "audit": "/research/source-reviews/2026-10-28-car-overview.json",
+          "scope": "9월종합내수/생산/수출·국산/수입·친환경4종내수/수출·7업체내수·원표1~9월누계및KAIDA수입승용개인/법인/연료를대조. KAMA확정공개본문과산업부잠정원표를다른판본으로유지. 전체시장개인/법인/연령/렌터카원수치검증아님.",
+          "nextAction": "완료한9월원표범위는반복대조하지않음. KAMA상세확정원표와과거월원표,9월전체시장구매주체·연령/렌터카원자료가실제확보될때범위를맞춰추가. 연간·운용대수/수입승용비율로9월전체시장을추정하지않음."
         }
       },
       "checkpoints": {
@@ -1676,10 +1676,56 @@
           "outcome": "september_hyundai_and_market_points_verified_distinct_vintages",
           "release": {
             "branch": "codex/car-september-20261028",
-            "status": "awaiting_checks",
+            "status": "verified",
             "liveUrl": "https://www.stargateedu.co.kr/research/new-car-sales/",
             "sourceReviewUrl": "https://www.stargateedu.co.kr/research/source-reviews/2026-10-28-car-sales.json",
-            "pullRequest": "https://github.com/DongsooJung/dongsoojung.github.io/pull/233"
+            "pullRequest": "https://github.com/DongsooJung/dongsoojung.github.io/pull/233",
+            "commit": "21d91fa3b8adc1048dcfc6d8992262fcf3342597",
+            "pullRequestHead": "b50e05fe87e9ce98a38fabf7eb32cfbae2a4a254",
+            "pullRequestMergeCommit": "21d91fa3b8adc1048dcfc6d8992262fcf3342597",
+            "verifiedAt": "2026-10-28T00:34:17.192Z",
+            "pagesRun": "https://github.com/DongsooJung/dongsoojung.github.io/actions/runs/40609444148",
+            "checks": [
+              "PR233 exact head CodeQL aggregate and JavaScript success",
+              "Exact merged SHA Pages build/report/deploy;both domains eight changed public files exact;public plan PR233 active/pending",
+              "Hyundai official September domestic49022 and YoY-25.7%;company days unspecified;market-average3days remains separate",
+              "KAMA confirmed public body135370/-14.3% versus ministry provisional135396;26-unit vintage gap explicitly retained",
+              "September chart/table and21-row CSV plus separate company CSV/JSON exact;two market points verified;historical points pending/future months blank",
+              "14 Node tests including incorrect ratios/future rows/company-day claims rejection and repeated generation",
+              "63 unique/seven alphabetical exclusive filters/essays7/nine groups/strategy44/search/hash/mobile/keyboard pass",
+              "Live buyer/age controls and imported passenger34904 CSV remain separate;390px panel readable/no runtime errors"
+            ],
+            "externalChecks": [
+              {
+                "context": "Vercel – stargate-private-gateway",
+                "state": "success",
+                "description": "Deployment has completed",
+                "targetUrl": "https://vercel.com/stargate2/stargate-private-gateway/DhujataDBCpqDHVfvutLukQHirTV"
+              },
+              {
+                "context": "Vercel – stargate-onbid-api",
+                "state": "success",
+                "description": "Deployment has completed",
+                "targetUrl": "https://vercel.com/stargate2/stargate-onbid-api/BYn7Uoj3yREJh69eH5WMDWTx8UY8"
+              }
+            ]
+          }
+        },
+        {
+          "id": "car-overview-20261028",
+          "status": "completed",
+          "checkedAt": "2026-10-28T00:40:16.076Z",
+          "keys": [
+            "/research/new-car-sales/"
+          ],
+          "audit": "/research/source-reviews/2026-10-28-car-overview.json",
+          "outcome": "september_comprehensive_auto_market_and_import_buyer_scopes_checked",
+          "release": {
+            "branch": "codex/car-overview-20261028",
+            "status": "awaiting_checks",
+            "liveUrl": "https://www.stargateedu.co.kr/research/new-car-sales/",
+            "sourceReviewUrl": "https://www.stargateedu.co.kr/research/source-reviews/2026-10-28-car-overview.json",
+            "pullRequest": "https://github.com/DongsooJung/dongsoojung.github.io/pull/234"
           }
         }
       ],

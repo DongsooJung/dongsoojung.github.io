@@ -1,6 +1,8 @@
 const fs=require('node:fs'),path=require('node:path');
 const root=path.resolve(__dirname,'..'),dir=path.join(root,'research/new-car-sales'),read=f=>fs.readFileSync(path.join(dir,f),'utf8'),esc=x=>String(x).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const {validateOverview,overviewKpis,overviewIntro,overviewHtml,buyerSegments,overviewCsv}=require('./car-overview.cjs');
 function validate(d){
+ validateOverview(d);
  if(d.dataPeriod!=='2026-09'||d.market.period!==d.dataPeriod||d.hyundai.period!==d.dataPeriod)throw Error('Period mismatch');
  for(const y of ['2025','2026'])if(d.years[y].length!==12||d.years[y].some(n=>n!==null&&(!Number.isSafeInteger(n)||n<0)))throw Error('Invalid series');
  if(d.years['2026'].slice(9).some(n=>n!==null)||d.years['2026'][8]!==d.market.sales)throw Error('Future or mixed series');
@@ -11,11 +13,24 @@ function validate(d){
 }
 function render(){
  const d=JSON.parse(read('data/market-sales.json'));validate(d);let h=read('index.html').replaceAll('\r\n','\n');const n=x=>x.toLocaleString('ko-KR');
- const kpis=`<section class="kpis" aria-label="핵심 지표"><article class="card"><label>9월 현대차 국내판매</label><strong>${n(d.hyundai.domesticSales)}대</strong><small>현대차 공식 발표 · 2026-10-01</small></article><article class="card"><label>현대차 국내판매 · 전년 동월비</label><strong class="down">−25.7%</strong><small>2025년 9월 ${n(d.hyundai.previousYearDomesticSales)}대 대비</small></article><article class="card"><label>9월 전체 내수 · KAMA 확정 본문</label><strong>${n(d.market.sales)}대</strong><small>국산 + 수입 · 승용 + 상용</small></article><article class="card"><label>전체 내수 · 전년 동월비</label><strong class="down">−14.3%</strong><small>현대차 개별 실적과 범위 구분</small></article></section>`;
+ const kpis=overviewKpis(d);
  h=h.replace(/<section class="kpis"[\s\S]*?<\/section>/,kpis);
  const marker='<!-- CAR_SEPTEMBER_START -->',end='<!-- CAR_SEPTEMBER_END -->';
- const note=`${marker}<section class="notice" id="hyundai-september"><span class="icon" aria-hidden="true">📉</span><div><h2 style="font-size:20px;margin:0 0 10px">현대차 국내판매, 영업일수 감소 속 25.7% 줄어</h2><p>2026년 9월 현대차 국내판매는 <b>49,022대</b>로 전년 동월 <b>66,001대 대비 25.7% 감소</b>했습니다. 회사는 추석 연휴에 따른 영업일수 감소와 신차 대기수요를 배경으로 설명했습니다. 감소 일수는 회사 원문에 명시되지 않았으며, 이 설명만으로 감소폭 전체의 원인을 확정하지 않습니다.</p><p style="margin-top:10px"><a href="${esc(d.hyundai.sourceUrl)}" target="_blank" rel="noopener">현대차 10월 1일 원문 ↗</a> · <a href="data/hyundai-202609.csv" download>현대차 국내판매 CSV</a> · <a href="data/market-sales.json" download>기준·공표·수집일 JSON</a></p></div></section><section class="notice" id="september-source-note"><span class="icon" aria-hidden="true">🗓️</span><p><b>9월 판본과 범위:</b> <a href="${esc(d.market.sourceUrl)}" target="_blank" rel="noopener">KAMA 10월 19일 확정 발표 본문</a>은 전체 내수 135,370대(−14.3%)입니다. <a href="${esc(d.ministry.sourceUrl)}" target="_blank" rel="noopener">산업부 같은 날 잠정 원표</a>는 135,396대로 26대 차이가 있습니다. 차트의 9월 값은 KAMA 공개 본문 수치를 쓰며, 잠정 원표의 누계·국산·수입 항목을 섞어 확정 합계로 만들지 않습니다. 산업부의 <b>평균 영업일수 3일 감소</b>는 시장 전체 설명으로, 현대차의 개별 조업일수와 구분합니다. <br>9월 원문 수집 ${esc(d.market.collectedAt)} · 파일 생성 ${esc(d.snapshotUpdatedAt)}. 2025년 9월 비교값 외의 과거 차트 값은 기존 게시본이며 이번 원표 미대조입니다. <a href="data/source-review.json">출처·검증 범위</a></p></section>${end}`;
+ const note=marker+overviewIntro(d)+end;
  if(h.includes(marker))h=h.slice(0,h.indexOf(marker))+note+h.slice(h.indexOf(end)+end.length);else h=h.replace(/    <section class="notice"><span class="icon">🗓️<\/span>[\s\S]*?<\/section>/,note);
+ const startOverview='<!-- CAR_OVERVIEW_START -->',endOverview='<!-- CAR_OVERVIEW_END -->';
+ const content=overviewHtml(d);
+ if(h.includes(startOverview))h=h.slice(0,h.indexOf(startOverview))+content+h.slice(h.indexOf(endOverview)+endOverview.length);else h=h.replace(kpis,kpis+content);
+ h=h.replace(/<title>[^<]+<\/title>/,'<title>2026년 9월 자동차 시장 종합 관측 | STARGATE Intelligence</title>');
+ h=h.replace(/<meta name="description" content="[^"]+">/,'<meta name="description" content="2026년 9월 국내 자동차 내수·생산·수출과 국산·수입·친환경차, 업체별 판매, 개인·법인 수입 승용차 등록을 원문 판본별로 비교합니다.">');
+ h=h.replace('MIDDLE-CLASS CONSUMPTION PROXY','AUTO MARKET · SEPTEMBER 2026').replace('신차 등록으로 보는<br>중산층 소비의 온도','2026년 9월<br>자동차 시장 종합 관측');
+ h=h.replace(/<header class="hero">([\s\S]*?)<p>[\s\S]*?<\/p>/,'<header class="hero">$1<p>전체 내수·생산·수출과 친환경차, 업체별 판매 흐름을 함께 봅니다. 구매주체는 확인된 9월 수입 승용차 범위로 구분하고 판매·등록·운용대수를 섞지 않습니다.</p>');
+ h=h.replace(/<div class="segment-grid">[\s\S]*?<\/div><\/section>/,buyerSegments(d)+'</section>');
+ h=h.replace('가계소비 신호와 기업·영업용 수요를 분리하는 분석 틀입니다. 현재 공개자료로 확인 가능한 범위를 정확히 표시합니다.','2026년 9월 KAIDA 수입 승용차 신규등록 34,904대의 개인·법인 구분입니다. 전체 시장 비중이 아닙니다.');
+ h=h.replaceAll('원자료 연결 전','9월 원자료 미연결');
+ h=h.replace('20대부터 70대 이상까지 개인 명의 신규등록을 나누는 분석 구조입니다. 법인·렌터카에는 구매자 연령을 적용하지 않습니다.','2026년 9월 개인 명의 연령별 원표는 아직 확보하지 못했습니다. 수치를 추정하지 않으며 법인·렌터카에 구매자 연령을 적용하지 않습니다.');
+ h=h.replace(/<section class="panel"><div class="sources"><b>자료 범위와 출처<\/b>[\s\S]*?<\/div><\/section>/,'<section class="panel"><div class="sources"><b>자료 범위와 출처</b><br>2026년 9월: 종합 제목 지표는 KAMA 확정 발표 공개본문, 상세 구성·업체·1~9월 누계는 산업부10월19일 잠정 PDF, 수입 승용차 개인·법인·연료는 KAIDA10월6일 원문입니다. 2025년 연간 개인·법인 및 렌터카 운용대수는 9월 현재 지표에서 제외했습니다. 연령·렌터카별9월 신규등록은 미확인입니다. 과거 월별 차트의2025년9월 비교값 이외는 이번 전수 원표 미대조입니다. <a href="data/september-overview.csv" download>종합 CSV</a> · <a href="data/market-sales.json" download>출처·기준·판본 JSON</a></div></section>');
+ fs.writeFileSync(path.join(dir,'data/september-overview.csv'),overviewCsv(d));
  h=h.replace('2026년 1–8월</span>','2026년 9월 반영</span>');
  h=h.replace('판매대수는 시장 전체의 방향을 보여주며, 중산층 가계소비 분석에서는 개인 등록 비중을 함께 확인해야 합니다.','9월은 KAMA 확정 발표 본문, 과거 값은 이전 게시본입니다. 2025년 9월 비교값만 산업부 원표로 대조했습니다.');
  h=h.replace('<th>증감률</th></tr></thead><tbody id="month-table">','<th>증감률</th><th>대조 범위</th></tr></thead><tbody id="month-table">');
@@ -26,6 +41,8 @@ function render(){
  h=h.replace(/    document.getElementById\("month-table"\)\.innerHTML=[\s\S]*?;\n/,`    document.getElementById("month-table").innerHTML=months.map((month,i)=>\`<tr><td>\${month}</td><td>\${fmt(sales2025[i])}</td><td>\${fmt(sales2026[i])}</td><td class="\${yoy[i]<0?'down':yoy[i]>0?'up':''}">\${yoy[i]==null?'—':yoy[i].toFixed(1)+'%'}</td><td>\${i===8?'9월 원문 대조':sales2026[i]==null?'미수록':'이전 게시본·미대조'}</td></tr>\`).join("");\n`);
  const a=h.indexOf('    document.getElementById("download-csv").addEventListener');const b=h.indexOf('\n',a);if(a<0)throw Error('CSV handler missing');
  h=h.slice(0,a)+'    document.getElementById("download-csv").addEventListener("click",()=>{const a=document.createElement("a");a.href="data/market-sales.csv";a.download="stargate_korea_new_car_sales_2025_2026.csv";a.click();});'+h.slice(b);
+ const dates='<p id="overview-asof" class="sources">자료 기준 2026년 9월 · KAMA/산업부 공표 10월 19일 · KAIDA 공표 10월 6일 · KAIDA 원문 수집 '+esc(d.overview.kaidaPassenger.collectedAt)+' · 파일 생성 '+esc(d.snapshotUpdatedAt)+'</p>';
+ h=h.replace(/<p id="overview-asof"[\s\S]*?<\/p>/,'');h=h.replace('  </div></main>',dates+'  </div></main>');
  fs.writeFileSync(path.join(dir,'index.html'),h);
  const csv=rows=>'\ufeff'+rows.map(r=>r.map(v=>'"'+String(v??'').replaceAll('"','""')+'"').join(',')).join('\n')+'\n';
  const rows=[['year','month','sales','yoy_pct','verification','scope','published_at','collected_at','source_url']];
