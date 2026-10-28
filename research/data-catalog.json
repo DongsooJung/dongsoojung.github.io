@@ -1353,17 +1353,17 @@
     },
     {
       "source": {
-        "label": "KAMA·KAIDA (전체 시장 대조 중, 수입 승용 9월만 확인)",
-        "url": "https://www.kama.or.kr/NewsController?board_id=968&boardmaster_id=Produce&cmd=V&menunum=0003",
+        "label": "현대차·KAMA 9월 공개본문 대조 / 산업부 잠정표 판본 구분",
+        "url": "https://www.hyundaimotorgroup.com/ko/news/hyundai-motor-company-september-2026-sales",
         "verification": "partially_verified"
       },
       "dataAsOf": null,
-      "dataPeriod": "2026-08",
-      "snapshotUpdatedAt": null,
+      "dataPeriod": "2026-09",
+      "snapshotUpdatedAt": "2026-10-28T00:28:05.797210+00:00",
       "collectedAt": null,
-      "checkedAt": "2026-10-17T01:26:08.333876+00:00",
+      "checkedAt": "2026-10-28T00:30:03.277Z",
       "reviewStatus": "needs_review",
-      "freshness": "unverified",
+      "freshness": "september_points_verified_earlier_series_pending",
       "evidence": [
         {
           "kind": "audit-record",
@@ -1393,18 +1393,68 @@
           "sha256": "2634290499a9d692341ab95f8bdabbe3cdd2395ba00efe8bbb711d82f2a31915",
           "bytes": 65380,
           "scope": "9월 수입 승용차 신규등록 34904대 확인."
+        },
+        {
+          "kind": "official-source",
+          "url": "https://www.kama.or.kr/NewsController?board_id=12393&boardmaster_id=industry&cmd=V&menunum=0004",
+          "checkedAt": "2026-10-28T00:30:03.277Z",
+          "collectedAt": "2026-10-28T00:26:15.476647+00:00",
+          "sha256": "32ff0618a2ce7f74e8317e55c2dbc11ef290ae9ddc51f301b29cd901c9ffeb42",
+          "scope": "KAMA 확정 공개본문 전체내수135370·−14.3%"
+        },
+        {
+          "kind": "official-source",
+          "url": "https://www.hyundaimotorgroup.com/ko/news/hyundai-motor-company-september-2026-sales",
+          "checkedAt": "2026-10-28T00:30:03.277Z",
+          "collectedAt": "2026-10-28T00:27:29.771680+00:00",
+          "sha256": "dade4458c26f3356bdc2670930105e277e4291fe7ca8a3ec3b7fc6a3e4a33993",
+          "scope": "현대차공식회사본문국내판매49022·−25.7%. 감소일수미명시."
+        },
+        {
+          "kind": "official-source",
+          "url": "https://www.korea.kr/common/download.do?fileId=198571991&tblKey=GMN",
+          "checkedAt": "2026-10-28T00:30:03.277Z",
+          "collectedAt": "2026-10-28T00:26:24.807090+00:00",
+          "sha256": "6dc37e23638b75a53cbdc43ef75e65c6c5e173165e03b75f864143f417426bce",
+          "scope": "산업부잠정원표135396과KAMA확정공개본문의차이26대및전년기준157898·현대국내49022를구분대조."
+        },
+        {
+          "kind": "audit-record",
+          "url": "/research/source-reviews/2026-10-28-car-sales.json",
+          "checkedAt": "2026-10-28T00:30:03.277Z",
+          "scope": "현대차회사국내판매9월49022·25.7%와KAMA확정발표본문전체135370·14.3%를서로다른범위로대조. 산업부PDF1/2/4/6쪽잠정값135396/기준157898/현대49022대조. 과거월전수및개인/법인/연령전수검증완료아님."
         }
       ],
       "issues": [
-        "기존 전체시장 시계열과 수입 승용차 신규등록은 범위가 달라 합산·대체하지 않음. 9월 자료 미공표 안내는 정정."
+        "2025-09와2026-09이외의과거시계열은이번원표미대조. 미검증연간/누계KPI는9월범위별KPI로교체.",
+        "KAMA 확정 공개본문135370과산업부잠정표135396은26대차이. 잠정내역·누계를확정전체와혼합하지않음.",
+        "기존8월게시본109920과산업부9월잠정표의8월수정값109915차이5대는판본차이로기록하고과거값을임의교체하지않음.",
+        "현대차조업일수2.5일은원문미확인. 산업부전체평균영업일수3일과구분."
       ],
       "key": "/research/new-car-sales/",
       "url": "/research/new-car-sales/",
       "title": "신차 등록과 중산층 소비 관측",
       "primary": "society",
       "classification": "경제·사회",
-      "sourceHint": "수입 승용 9월 확인 · 전체 시장 원표 대조 중",
-      "nextAction": "기존 권한으로 KAMA 원표를 확보한 뒤 판매·등록·승용·상용 범위를 맞춰 8월 합계 및 9월 전체값 검증. 유료 가입은 실행하지 않음."
+      "sourceHint": "9월 현대차49,022대(−25.7%) · 전체내수별도",
+      "nextAction": "9월확인값은반복재수집하지않고KAMA상세확정표및과거월전체원표를확보해판본·국산/수입·승용/상용·누계를대조. 현대차개별조업일수는원문확보시에만추가. 개인·법인·연령구분미연결값추정금지.",
+      "verifiedScope": "현대차회사국내판매9월49022·25.7%와KAMA확정발표본문전체135370·14.3%를서로다른범위로대조. 산업부PDF1/2/4/6쪽잠정값135396/기준157898/현대49022대조. 과거월전수및개인/법인/연령전수검증완료아님.",
+      "components": {
+        "marketSeptember": {
+          "reviewStatus": "verified",
+          "dataPeriod": "2026-09",
+          "scope": "KAMA 확정 발표 공개본문 전체내수135370·−14.3%만대조",
+          "collectedAt": "2026-10-28T00:26:15.476647+00:00",
+          "checkedAt": "2026-10-28T00:30:03.277Z"
+        },
+        "hyundaiSeptember": {
+          "reviewStatus": "verified",
+          "dataPeriod": "2026-09",
+          "scope": "현대차국내판매49022·−25.7%·회사설명. 조업감소일수미확인.",
+          "collectedAt": "2026-10-28T00:27:29.771680+00:00",
+          "checkedAt": "2026-10-28T00:30:03.277Z"
+        }
+      }
     },
     {
       "source": {

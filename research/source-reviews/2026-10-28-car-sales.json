@@ -1,0 +1,189 @@
+{
+  "schemaVersion": 1,
+  "step": "car-september-20261028",
+  "checkedAt": "2026-10-28T00:30:03.277Z",
+  "keys": [
+    "/research/new-car-sales/"
+  ],
+  "sourceBaseCommit": "97ee415086904ee9cdadd863c9877fdcbe4b163b",
+  "sources": [
+    {
+      "name": "ministry",
+      "url": "https://m.korea.kr/briefing/pressReleaseView.do?newsId=156785643",
+      "collectedAt": "2026-10-28T00:26:13.904355+00:00",
+      "bytes": 223995,
+      "sha256": "867f36db043377fd6d9e3836fc24faf78df8ca03da20c695e51466a1be9b5780"
+    },
+    {
+      "name": "kdi",
+      "url": "https://eiec.kdi.re.kr/policy/materialView.do?num=288242&pg=1&pp=20&topic=P",
+      "collectedAt": "2026-10-28T00:26:15.053651+00:00",
+      "bytes": 182267,
+      "sha256": "ba4fedb62d582b2112be7eac06d0026b9b35733f968b68baf1ff8b0c4ca9c1e9"
+    },
+    {
+      "name": "kama",
+      "url": "https://www.kama.or.kr/NewsController?board_id=12393&boardmaster_id=industry&cmd=V&menunum=0004",
+      "collectedAt": "2026-10-28T00:26:15.476647+00:00",
+      "bytes": 80378,
+      "sha256": "32ff0618a2ce7f74e8317e55c2dbc11ef290ae9ddc51f301b29cd901c9ffeb42"
+    }
+  ],
+  "hyundaiSource": {
+    "url": "https://www.hyundaimotorgroup.com/ko/news/hyundai-motor-company-september-2026-sales",
+    "collectedAt": "2026-10-28T00:27:29.771680+00:00",
+    "bytes": 195657,
+    "sha256": "dade4458c26f3356bdc2670930105e277e4291fe7ca8a3ec3b7fc6a3e4a33993"
+  },
+  "ministryPdf": {
+    "url": "https://www.korea.kr/common/download.do?fileId=198571991&tblKey=GMN",
+    "collectedAt": "2026-10-28T00:26:24.807090+00:00",
+    "bytes": 341720,
+    "sha256": "6dc37e23638b75a53cbdc43ef75e65c6c5e173165e03b75f864143f417426bce"
+  },
+  "dataPeriod": "2026-09",
+  "market": {
+    "period": "2026-09",
+    "sales": 135370,
+    "yoyPct": -14.3,
+    "status": "confirmed",
+    "publishedAt": "2026-10-19",
+    "collectedAt": "2026-10-28T00:26:15.476647+00:00",
+    "sourceUrl": "https://www.kama.or.kr/NewsController?board_id=12393&boardmaster_id=industry&cmd=V&menunum=0004",
+    "sourceSha256": "32ff0618a2ce7f74e8317e55c2dbc11ef290ae9ddc51f301b29cd901c9ffeb42",
+    "scope": "전체 내수 · 국산+수입 · 승용+상용 · KAMA 확정 발표 본문"
+  },
+  "hyundai": {
+    "period": "2026-09",
+    "domesticSales": 49022,
+    "previousYearDomesticSales": 66001,
+    "yoyPct": -25.7,
+    "publishedAt": "2026-10-01",
+    "collectedAt": "2026-10-28T00:27:29.771680+00:00",
+    "sourceUrl": "https://www.hyundaimotorgroup.com/ko/news/hyundai-motor-company-september-2026-sales",
+    "sourceSha256": "dade4458c26f3356bdc2670930105e277e4291fe7ca8a3ec3b7fc6a3e4a33993",
+    "workingDaysDecrease": null,
+    "workingDaysScope": "회사 원문은 추석 연휴에 따른 영업일수 감소와 신차 대기수요를 설명하며 감소 일수를 명시하지 않음. 조업일수2.5일은 원문 미확인."
+  },
+  "ministry": {
+    "period": "2026-09",
+    "sales": 135396,
+    "previousYearSales": 157898,
+    "augustRevisedSales": 109915,
+    "ytdSales": 1232131,
+    "ytdPreviousYearSales": 1261853,
+    "status": "provisional",
+    "averageBusinessDaysDecrease": 3,
+    "businessDaysScope": "시장 전체 평균 영업일수 · 현대차 개별 조업일수와 다름",
+    "publishedAt": "2026-10-19",
+    "collectedAt": "2026-10-28T00:26:24.807090+00:00",
+    "sourceUrl": "https://m.korea.kr/briefing/pressReleaseView.do?newsId=156785643",
+    "downloadUrl": "https://www.korea.kr/common/download.do?fileId=198571991&tblKey=GMN",
+    "sourceSha256": "6dc37e23638b75a53cbdc43ef75e65c6c5e173165e03b75f864143f417426bce",
+    "pages": [
+      1,
+      2,
+      4,
+      6
+    ]
+  },
+  "sourceReview": {
+    "checkedAt": "2026-10-28T00:30:03.277Z",
+    "dataPeriod": "2026-09",
+    "snapshotUpdatedAt": "2026-10-28T00:28:05.797210+00:00",
+    "verifiedSeries": [
+      {
+        "period": "2026-09",
+        "scope": "수입 승용차 신규등록",
+        "cars": 34904,
+        "unit": "대",
+        "publishedAt": "2026-10-06",
+        "source": "한국수입자동차협회(KAIDA)",
+        "sourceUrl": "https://www.kaida.co.kr/ko/kaida/bbsList.do?bbsType=kaida&boardSeq=15",
+        "sourceRetrievedAt": "2026-10-17T01:21:31.980111+00:00"
+      },
+      {
+        "period": "2026-09",
+        "scope": "전체 내수 · 국산+수입 · 승용+상용 · KAMA 확정 발표 본문",
+        "cars": 135370,
+        "yoyPct": -14.3,
+        "publishedAt": "2026-10-19",
+        "sourceUrl": "https://www.kama.or.kr/NewsController?board_id=12393&boardmaster_id=industry&cmd=V&menunum=0004",
+        "collectedAt": "2026-10-28T00:26:15.476647+00:00",
+        "verification": "KAMA 확정 발표 공개 본문 대조; 첨부 상세표 미대조"
+      },
+      {
+        "period": "2026-09",
+        "scope": "현대자동차 국내판매",
+        "cars": 49022,
+        "previousYearCars": 66001,
+        "yoyPct": -25.7,
+        "publishedAt": "2026-10-01",
+        "collectedAt": "2026-10-28T00:27:29.771680+00:00",
+        "sourceUrl": "https://www.hyundaimotorgroup.com/ko/news/hyundai-motor-company-september-2026-sales"
+      }
+    ],
+    "existingMarketSeries": {
+      "through": "2026-09",
+      "verification": "partially_verified",
+      "verifiedPoints": [
+        "2025-09",
+        "2026-09"
+      ],
+      "issues": [
+        "2025-09와2026-09이외의과거시계열은이번원표미대조. 미검증연간/누계KPI는9월범위별KPI로교체.",
+        "KAMA 확정 공개본문135370과산업부잠정표135396은26대차이. 잠정내역·누계를확정전체와혼합하지않음.",
+        "기존8월게시본109920과산업부9월잠정표의8월수정값109915차이5대는판본차이로기록하고과거값을임의교체하지않음."
+      ]
+    },
+    "claimCheck": {
+      "hyundaiDomesticYoyPct": -25.7,
+      "hyundaiWorkingDaysDecrease": null,
+      "companyExplanation": "추석연휴영업일수감소·신차대기수요",
+      "unverified": "현대차개별조업일수2.5일·내수30%감소는확보한회사원문에서확인되지않음.",
+      "separateMarketBusinessDaysDecrease": 3
+    },
+    "previousReview": {
+      "checkedAt": "2026-10-17T01:26:08.333876+00:00",
+      "verifiedSeries": [
+        {
+          "period": "2026-09",
+          "scope": "수입 승용차 신규등록",
+          "cars": 34904,
+          "unit": "대",
+          "publishedAt": "2026-10-06",
+          "source": "한국수입자동차협회(KAIDA)",
+          "sourceUrl": "https://www.kaida.co.kr/ko/kaida/bbsList.do?bbsType=kaida&boardSeq=15",
+          "sourceRetrievedAt": "2026-10-17T01:21:31.980111+00:00"
+        }
+      ],
+      "existingMarketSeries": {
+        "through": "2026-08",
+        "verification": "needs_review",
+        "issues": [
+          "KAMA 9월 잠정 총괄표 공표 확인, 첨부 원표는 유료회원 안내로 차단.",
+          "기존 8월 전체 시장 합계 109920대는 원표 대조를 완료하지 않음."
+        ]
+      }
+    }
+  },
+  "scope": "현대차회사국내판매9월49022·25.7%와KAMA확정발표본문전체135370·14.3%를서로다른범위로대조. 산업부PDF1/2/4/6쪽잠정값135396/기준157898/현대49022대조. 과거월전수및개인/법인/연령전수검증완료아님.",
+  "validation": {
+    "hyundaiYoyRecalculated": -25.7,
+    "marketYoyRecalculated": -14.3,
+    "marketFinalBodyVsProvisionalDifference": 26,
+    "legacyAugustVsRevisedProvisionalDifference": 5,
+    "futureOctoberToDecember2026AreNull": true,
+    "verifiedMarketPoints": 2,
+    "exportedMarketPoints": 21,
+    "companyDaysNotInOriginal": true
+  },
+  "kamaDocumentNote": "공개화면의본문은135370으로확인. 원HTML의숨은편집기주석에는135396이잔존하므로공개본문/주석/산업부잠정표를동일판본으로보지않음. 유료첨부를우회하지않았으며상세확정표는미대조.",
+  "implementation": {
+    "generator": "scripts/render-car-sales.cjs",
+    "rebuild": "node scripts/render-car-sales.cjs",
+    "separateCsv": "research/new-car-sales/data/hyundai-202609.csv"
+  },
+  "projectStatus": "needs_review",
+  "acceptance": "pending"
+}
