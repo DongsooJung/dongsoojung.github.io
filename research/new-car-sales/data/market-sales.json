@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "dataPeriod": "2026-09",
-  "snapshotUpdatedAt": "2026-10-28T00:28:05.797210+00:00",
+  "snapshotUpdatedAt": "2026-10-28T00:37:49.268222+00:00",
   "years": {
     "2025": [
       105928,
@@ -87,5 +87,289 @@
       "source": "market",
       "scope": "KAMA 확정 본문"
     }
+  },
+  "overview": {
+    "period": "2026-09",
+    "kamaConfirmedBody": {
+      "production": 346564,
+      "productionYoyPct": 3.7,
+      "exports": 237403,
+      "exportsYoyPct": 4.0,
+      "domesticSales": 135370,
+      "domesticYoyPct": -14.3,
+      "scope": "KAMA 확정 발표 공개본문; 상세 확정표 미대조",
+      "sourceUrl": "https://www.kama.or.kr/NewsController?board_id=12393&boardmaster_id=industry&cmd=V&menunum=0004",
+      "collectedAt": "2026-10-28T00:26:15.476647+00:00"
+    },
+    "ministryProvisional": {
+      "period": "2026-09",
+      "publishedAt": "2026-10-19",
+      "sourceUrl": "https://m.korea.kr/briefing/pressReleaseView.do?newsId=156785643",
+      "downloadUrl": "https://www.korea.kr/common/download.do?fileId=198571991&tblKey=GMN",
+      "collectedAt": "2026-10-28T00:26:24.807090+00:00",
+      "sha256": "6dc37e23638b75a53cbdc43ef75e65c6c5e173165e03b75f864143f417426bce",
+      "status": "provisional",
+      "macroColumns": [
+        "label",
+        "previousYearMonth",
+        "currentMonth",
+        "yoyPct",
+        "ytd2026",
+        "ytdYoyPct",
+        "unit"
+      ],
+      "macro": [
+        [
+          "생산",
+          334289,
+          346618,
+          3.7,
+          3015531,
+          -2.2,
+          "대"
+        ],
+        [
+          "내수",
+          157898,
+          135396,
+          -14.3,
+          1232131,
+          -2.4,
+          "대"
+        ],
+        [
+          "국산차 내수",
+          123030,
+          99157,
+          -19.4,
+          939021,
+          -8.3,
+          "대"
+        ],
+        [
+          "수입차 내수",
+          34868,
+          36239,
+          3.9,
+          293110,
+          23.0,
+          "대"
+        ],
+        [
+          "수출 대수",
+          228189,
+          237443,
+          4.1,
+          2071035,
+          0.9,
+          "대"
+        ],
+        [
+          "수출 금액",
+          6404,
+          6052,
+          -5.5,
+          52065,
+          -3.7,
+          "백만 달러"
+        ]
+      ],
+      "ecoColumns": [
+        "label",
+        "previousDomestic",
+        "domestic",
+        "domesticYoyPct",
+        "domesticYtd",
+        "domesticYtdYoyPct",
+        "previousExports",
+        "exports",
+        "exportsYoyPct",
+        "exportsYtd",
+        "exportsYtdYoyPct"
+      ],
+      "eco": [
+        [
+          "하이브리드",
+          51973,
+          46229,
+          -11.1,
+          412733,
+          -3.2,
+          57824,
+          66516,
+          15.0,
+          527378,
+          29.7
+        ],
+        [
+          "전기차",
+          28783,
+          31768,
+          10.4,
+          299894,
+          76.7,
+          29288,
+          30994,
+          5.8,
+          234654,
+          17.2
+        ],
+        [
+          "플러그인 하이브리드",
+          1218,
+          1303,
+          7.0,
+          9562,
+          -10.5,
+          3384,
+          1287,
+          -62.0,
+          15922,
+          -63.9
+        ],
+        [
+          "수소차",
+          1321,
+          365,
+          -72.4,
+          5100,
+          3.3,
+          0,
+          6,
+          null,
+          47,
+          23.7
+        ]
+      ],
+      "ecoTotals": {
+        "domestic": 79665,
+        "previousDomestic": 83295,
+        "domesticYoyPct": -4.4,
+        "domesticYtd": 727289,
+        "domesticYtdYoyPct": 18.9,
+        "exports": 98803,
+        "previousExports": 90496,
+        "exportsYoyPct": 9.2,
+        "exportsYtd": 778001,
+        "exportsYtdYoyPct": 19.5,
+        "exportMillionUsd": 2893,
+        "exportValueYoyPct": 5.9
+      },
+      "manufacturerColumns": [
+        "label",
+        "previousYearMonth",
+        "domestic",
+        "yoyPct",
+        "domesticYtd",
+        "domesticYtdYoyPct"
+      ],
+      "manufacturers": [
+        [
+          "현대",
+          66001,
+          49022,
+          -25.7,
+          448103,
+          -16.3
+        ],
+        [
+          "기아",
+          49201,
+          45963,
+          -6.6,
+          437542,
+          5.4
+        ],
+        [
+          "한국지엠",
+          1231,
+          727,
+          -40.9,
+          7495,
+          -36.4
+        ],
+        [
+          "KG모빌리티",
+          4100,
+          2100,
+          -48.8,
+          28816,
+          -6.8
+        ],
+        [
+          "르노코리아",
+          4182,
+          2289,
+          -45.3,
+          27204,
+          -32.2
+        ],
+        [
+          "타타대우",
+          371,
+          409,
+          10.2,
+          3419,
+          -2.8
+        ],
+        [
+          "그 외 수입차",
+          32812,
+          34886,
+          6.3,
+          279552,
+          24.3
+        ]
+      ],
+      "notes": [
+        "국산/수입은생산원산지구분이며업체별내수의제조사구분과다름. 현대·한국지엠·르노내수는OEM수입차포함.",
+        "친환경내수의수입차는MHEV포함. 친환경수출은일부중대형상용차제외.",
+        "누계는동일원표1~9월값이며과거차트월값을더해만들지않음."
+      ]
+    },
+    "kaidaPassenger": {
+      "period": "2026-09",
+      "publishedAt": "2026-10-06",
+      "collectedAt": "2026-10-28T00:36:51.415435+00:00",
+      "sourceUrl": "https://www.kaida.co.kr/ko/kaida/bbsView.do?type=kaida&articleSeq=59485&boardSeq=15&bbsType=kaida&pageIndex=1&articleNo=334",
+      "sha256": "6da45e4b2b76812da775bda84dc14bcad85e283a65906d4d0011affb71dcf7e2",
+      "scope": "KAIDA 수입 승용차 신규등록만; 전체시장 개인/법인 추정에 사용하지 않음",
+      "total": 34904,
+      "previousTotal": 32834,
+      "yoyPct": 6.3,
+      "ytd": 279729,
+      "previousYtd": 225348,
+      "ytdYoyPct": 24.1,
+      "personal": 23303,
+      "personalPct": 66.8,
+      "corporate": 11601,
+      "corporatePct": 33.2,
+      "fuels": [
+        [
+          "전기",
+          18181,
+          52.1
+        ],
+        [
+          "하이브리드",
+          13620,
+          39.0
+        ],
+        [
+          "가솔린",
+          2857,
+          8.2
+        ],
+        [
+          "디젤",
+          246,
+          0.7
+        ]
+      ]
+    },
+    "rentalSeptember": null,
+    "ageSeptember": null,
+    "rentalScope": "9월 렌터카별 신규판매/등록 미확인; 과거 운용대수로 대체하지 않음",
+    "ageScope": "9월 개인명의 연령별 원표 미확보; 전월/연간값/추정치로 대체하지 않음"
   }
 }

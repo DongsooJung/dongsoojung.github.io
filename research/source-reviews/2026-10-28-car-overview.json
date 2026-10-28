@@ -1,0 +1,459 @@
+{
+  "schemaVersion": 1,
+  "step": "car-overview-20261028",
+  "checkedAt": "2026-10-28T00:40:16.076Z",
+  "sourceBaseCommit": "c1e8eada8d01d2a6392eed56d64b262f78cad29a",
+  "keys": [
+    "/research/new-car-sales/"
+  ],
+  "dataPeriod": "2026-09",
+  "sourcePdf": {
+    "url": "https://www.korea.kr/common/download.do?fileId=198571991&tblKey=GMN",
+    "collectedAt": "2026-10-28T00:26:24.807090+00:00",
+    "bytes": 341720,
+    "sha256": "6dc37e23638b75a53cbdc43ef75e65c6c5e173165e03b75f864143f417426bce"
+  },
+  "kaidaSource": {
+    "url": "https://www.kaida.co.kr/ko/kaida/bbsView.do?type=kaida&articleSeq=59485&boardSeq=15&bbsType=kaida&pageIndex=1&articleNo=334",
+    "finalUrl": "https://www.kaida.co.kr/ko/kaida/bbsView.do?type=kaida&articleSeq=59485&boardSeq=15&bbsType=kaida&pageIndex=1&articleNo=334",
+    "collectedAt": "2026-10-28T00:36:51.415435+00:00",
+    "sha256": "6da45e4b2b76812da775bda84dc14bcad85e283a65906d4d0011affb71dcf7e2",
+    "bytes": 60888
+  },
+  "sourceReview": {
+    "checkedAt": "2026-10-28T00:40:16.076Z",
+    "dataPeriod": "2026-09",
+    "snapshotUpdatedAt": "2026-10-28T00:37:49.268222+00:00",
+    "verifiedSeries": [
+      {
+        "period": "2026-09",
+        "scope": "수입 승용차 신규등록",
+        "cars": 34904,
+        "unit": "대",
+        "publishedAt": "2026-10-06",
+        "source": "한국수입자동차협회(KAIDA)",
+        "sourceUrl": "https://www.kaida.co.kr/ko/kaida/bbsList.do?bbsType=kaida&boardSeq=15",
+        "sourceRetrievedAt": "2026-10-17T01:21:31.980111+00:00"
+      },
+      {
+        "period": "2026-09",
+        "scope": "전체 내수 · 국산+수입 · 승용+상용 · KAMA 확정 발표 본문",
+        "cars": 135370,
+        "yoyPct": -14.3,
+        "publishedAt": "2026-10-19",
+        "sourceUrl": "https://www.kama.or.kr/NewsController?board_id=12393&boardmaster_id=industry&cmd=V&menunum=0004",
+        "collectedAt": "2026-10-28T00:26:15.476647+00:00",
+        "verification": "KAMA 확정 발표 공개 본문 대조; 첨부 상세표 미대조"
+      },
+      {
+        "period": "2026-09",
+        "scope": "현대자동차 국내판매",
+        "cars": 49022,
+        "previousYearCars": 66001,
+        "yoyPct": -25.7,
+        "publishedAt": "2026-10-01",
+        "collectedAt": "2026-10-28T00:27:29.771680+00:00",
+        "sourceUrl": "https://www.hyundaimotorgroup.com/ko/news/hyundai-motor-company-september-2026-sales"
+      }
+    ],
+    "existingMarketSeries": {
+      "through": "2026-09",
+      "verification": "partially_verified",
+      "verifiedPoints": [
+        "2025-09",
+        "2026-09"
+      ],
+      "issues": [
+        "2025-09와2026-09이외의과거시계열은이번원표미대조. 미검증연간/누계KPI는9월범위별KPI로교체.",
+        "KAMA 확정 공개본문135370과산업부잠정표135396은26대차이. 잠정내역·누계를확정전체와혼합하지않음.",
+        "기존8월게시본109920과산업부9월잠정표의8월수정값109915차이5대는판본차이로기록하고과거값을임의교체하지않음."
+      ]
+    },
+    "claimCheck": {
+      "hyundaiDomesticYoyPct": -25.7,
+      "hyundaiWorkingDaysDecrease": null,
+      "companyExplanation": "추석연휴영업일수감소·신차대기수요",
+      "unverified": "현대차개별조업일수2.5일·내수30%감소는확보한회사원문에서확인되지않음.",
+      "separateMarketBusinessDaysDecrease": 3
+    },
+    "previousReview": {
+      "checkedAt": "2026-10-28T00:30:03.277Z",
+      "dataPeriod": "2026-09",
+      "snapshotUpdatedAt": "2026-10-28T00:28:05.797210+00:00",
+      "verifiedSeries": [
+        {
+          "period": "2026-09",
+          "scope": "수입 승용차 신규등록",
+          "cars": 34904,
+          "unit": "대",
+          "publishedAt": "2026-10-06",
+          "source": "한국수입자동차협회(KAIDA)",
+          "sourceUrl": "https://www.kaida.co.kr/ko/kaida/bbsList.do?bbsType=kaida&boardSeq=15",
+          "sourceRetrievedAt": "2026-10-17T01:21:31.980111+00:00"
+        },
+        {
+          "period": "2026-09",
+          "scope": "전체 내수 · 국산+수입 · 승용+상용 · KAMA 확정 발표 본문",
+          "cars": 135370,
+          "yoyPct": -14.3,
+          "publishedAt": "2026-10-19",
+          "sourceUrl": "https://www.kama.or.kr/NewsController?board_id=12393&boardmaster_id=industry&cmd=V&menunum=0004",
+          "collectedAt": "2026-10-28T00:26:15.476647+00:00",
+          "verification": "KAMA 확정 발표 공개 본문 대조; 첨부 상세표 미대조"
+        },
+        {
+          "period": "2026-09",
+          "scope": "현대자동차 국내판매",
+          "cars": 49022,
+          "previousYearCars": 66001,
+          "yoyPct": -25.7,
+          "publishedAt": "2026-10-01",
+          "collectedAt": "2026-10-28T00:27:29.771680+00:00",
+          "sourceUrl": "https://www.hyundaimotorgroup.com/ko/news/hyundai-motor-company-september-2026-sales"
+        }
+      ],
+      "existingMarketSeries": {
+        "through": "2026-09",
+        "verification": "partially_verified",
+        "verifiedPoints": [
+          "2025-09",
+          "2026-09"
+        ],
+        "issues": [
+          "2025-09와2026-09이외의과거시계열은이번원표미대조. 미검증연간/누계KPI는9월범위별KPI로교체.",
+          "KAMA 확정 공개본문135370과산업부잠정표135396은26대차이. 잠정내역·누계를확정전체와혼합하지않음.",
+          "기존8월게시본109920과산업부9월잠정표의8월수정값109915차이5대는판본차이로기록하고과거값을임의교체하지않음."
+        ]
+      },
+      "claimCheck": {
+        "hyundaiDomesticYoyPct": -25.7,
+        "hyundaiWorkingDaysDecrease": null,
+        "companyExplanation": "추석연휴영업일수감소·신차대기수요",
+        "unverified": "현대차개별조업일수2.5일·내수30%감소는확보한회사원문에서확인되지않음.",
+        "separateMarketBusinessDaysDecrease": 3
+      },
+      "previousReview": {
+        "checkedAt": "2026-10-17T01:26:08.333876+00:00",
+        "verifiedSeries": [
+          {
+            "period": "2026-09",
+            "scope": "수입 승용차 신규등록",
+            "cars": 34904,
+            "unit": "대",
+            "publishedAt": "2026-10-06",
+            "source": "한국수입자동차협회(KAIDA)",
+            "sourceUrl": "https://www.kaida.co.kr/ko/kaida/bbsList.do?bbsType=kaida&boardSeq=15",
+            "sourceRetrievedAt": "2026-10-17T01:21:31.980111+00:00"
+          }
+        ],
+        "existingMarketSeries": {
+          "through": "2026-08",
+          "verification": "needs_review",
+          "issues": [
+            "KAMA 9월 잠정 총괄표 공표 확인, 첨부 원표는 유료회원 안내로 차단.",
+            "기존 8월 전체 시장 합계 109920대는 원표 대조를 완료하지 않음."
+          ]
+        }
+      }
+    },
+    "overview": {
+      "reviewStatus": "verified_within_named_september_scopes",
+      "kamaConfirmedBody": {
+        "production": 346564,
+        "productionYoyPct": 3.7,
+        "exports": 237403,
+        "exportsYoyPct": 4,
+        "domesticSales": 135370,
+        "domesticYoyPct": -14.3,
+        "scope": "KAMA 확정 발표 공개본문; 상세 확정표 미대조",
+        "sourceUrl": "https://www.kama.or.kr/NewsController?board_id=12393&boardmaster_id=industry&cmd=V&menunum=0004",
+        "collectedAt": "2026-10-28T00:26:15.476647+00:00"
+      },
+      "ministryProvisional": {
+        "period": "2026-09",
+        "publishedAt": "2026-10-19",
+        "sourceUrl": "https://m.korea.kr/briefing/pressReleaseView.do?newsId=156785643",
+        "downloadUrl": "https://www.korea.kr/common/download.do?fileId=198571991&tblKey=GMN",
+        "collectedAt": "2026-10-28T00:26:24.807090+00:00",
+        "sha256": "6dc37e23638b75a53cbdc43ef75e65c6c5e173165e03b75f864143f417426bce",
+        "status": "provisional",
+        "macroColumns": [
+          "label",
+          "previousYearMonth",
+          "currentMonth",
+          "yoyPct",
+          "ytd2026",
+          "ytdYoyPct",
+          "unit"
+        ],
+        "macro": [
+          [
+            "생산",
+            334289,
+            346618,
+            3.7,
+            3015531,
+            -2.2,
+            "대"
+          ],
+          [
+            "내수",
+            157898,
+            135396,
+            -14.3,
+            1232131,
+            -2.4,
+            "대"
+          ],
+          [
+            "국산차 내수",
+            123030,
+            99157,
+            -19.4,
+            939021,
+            -8.3,
+            "대"
+          ],
+          [
+            "수입차 내수",
+            34868,
+            36239,
+            3.9,
+            293110,
+            23,
+            "대"
+          ],
+          [
+            "수출 대수",
+            228189,
+            237443,
+            4.1,
+            2071035,
+            0.9,
+            "대"
+          ],
+          [
+            "수출 금액",
+            6404,
+            6052,
+            -5.5,
+            52065,
+            -3.7,
+            "백만 달러"
+          ]
+        ],
+        "ecoColumns": [
+          "label",
+          "previousDomestic",
+          "domestic",
+          "domesticYoyPct",
+          "domesticYtd",
+          "domesticYtdYoyPct",
+          "previousExports",
+          "exports",
+          "exportsYoyPct",
+          "exportsYtd",
+          "exportsYtdYoyPct"
+        ],
+        "eco": [
+          [
+            "하이브리드",
+            51973,
+            46229,
+            -11.1,
+            412733,
+            -3.2,
+            57824,
+            66516,
+            15,
+            527378,
+            29.7
+          ],
+          [
+            "전기차",
+            28783,
+            31768,
+            10.4,
+            299894,
+            76.7,
+            29288,
+            30994,
+            5.8,
+            234654,
+            17.2
+          ],
+          [
+            "플러그인 하이브리드",
+            1218,
+            1303,
+            7,
+            9562,
+            -10.5,
+            3384,
+            1287,
+            -62,
+            15922,
+            -63.9
+          ],
+          [
+            "수소차",
+            1321,
+            365,
+            -72.4,
+            5100,
+            3.3,
+            0,
+            6,
+            null,
+            47,
+            23.7
+          ]
+        ],
+        "ecoTotals": {
+          "domestic": 79665,
+          "previousDomestic": 83295,
+          "domesticYoyPct": -4.4,
+          "domesticYtd": 727289,
+          "domesticYtdYoyPct": 18.9,
+          "exports": 98803,
+          "previousExports": 90496,
+          "exportsYoyPct": 9.2,
+          "exportsYtd": 778001,
+          "exportsYtdYoyPct": 19.5,
+          "exportMillionUsd": 2893,
+          "exportValueYoyPct": 5.9
+        },
+        "manufacturerColumns": [
+          "label",
+          "previousYearMonth",
+          "domestic",
+          "yoyPct",
+          "domesticYtd",
+          "domesticYtdYoyPct"
+        ],
+        "manufacturers": [
+          [
+            "현대",
+            66001,
+            49022,
+            -25.7,
+            448103,
+            -16.3
+          ],
+          [
+            "기아",
+            49201,
+            45963,
+            -6.6,
+            437542,
+            5.4
+          ],
+          [
+            "한국지엠",
+            1231,
+            727,
+            -40.9,
+            7495,
+            -36.4
+          ],
+          [
+            "KG모빌리티",
+            4100,
+            2100,
+            -48.8,
+            28816,
+            -6.8
+          ],
+          [
+            "르노코리아",
+            4182,
+            2289,
+            -45.3,
+            27204,
+            -32.2
+          ],
+          [
+            "타타대우",
+            371,
+            409,
+            10.2,
+            3419,
+            -2.8
+          ],
+          [
+            "그 외 수입차",
+            32812,
+            34886,
+            6.3,
+            279552,
+            24.3
+          ]
+        ],
+        "notes": [
+          "국산/수입은생산원산지구분이며업체별내수의제조사구분과다름. 현대·한국지엠·르노내수는OEM수입차포함.",
+          "친환경내수의수입차는MHEV포함. 친환경수출은일부중대형상용차제외.",
+          "누계는동일원표1~9월값이며과거차트월값을더해만들지않음."
+        ]
+      },
+      "kaidaPassenger": {
+        "period": "2026-09",
+        "publishedAt": "2026-10-06",
+        "collectedAt": "2026-10-28T00:36:51.415435+00:00",
+        "sourceUrl": "https://www.kaida.co.kr/ko/kaida/bbsView.do?type=kaida&articleSeq=59485&boardSeq=15&bbsType=kaida&pageIndex=1&articleNo=334",
+        "sha256": "6da45e4b2b76812da775bda84dc14bcad85e283a65906d4d0011affb71dcf7e2",
+        "scope": "KAIDA 수입 승용차 신규등록만; 전체시장 개인/법인 추정에 사용하지 않음",
+        "total": 34904,
+        "previousTotal": 32834,
+        "yoyPct": 6.3,
+        "ytd": 279729,
+        "previousYtd": 225348,
+        "ytdYoyPct": 24.1,
+        "personal": 23303,
+        "personalPct": 66.8,
+        "corporate": 11601,
+        "corporatePct": 33.2,
+        "fuels": [
+          [
+            "전기",
+            18181,
+            52.1
+          ],
+          [
+            "하이브리드",
+            13620,
+            39
+          ],
+          [
+            "가솔린",
+            2857,
+            8.2
+          ],
+          [
+            "디젤",
+            246,
+            0.7
+          ]
+        ]
+      },
+      "missing": {
+        "rentalSeptember": null,
+        "ageSeptember": null
+      },
+      "checks": [
+        "국산+수입=잠정내수135396;업체7행합및누계원표합일치",
+        "친환경4종내수79665/수출98803및1~9월각합계일치",
+        "KAIDA개인23303+법인11601=34904;연료4종합계34904;개인법인분모는수입승용차34904만",
+        "확정본문과잠정의내수26/생산54/수출40대차이구분;누계는원표공표값만사용"
+      ],
+      "previousAnnualBuyerFiguresRemovedFromCurrentView": true
+    }
+  },
+  "scope": "9월종합내수/생산/수출·국산/수입·친환경4종내수/수출·7업체내수·원표1~9월누계및KAIDA수입승용개인/법인/연료를대조. KAMA확정공개본문과산업부잠정원표를다른판본으로유지. 전체시장개인/법인/연령/렌터카원수치검증아님.",
+  "output": "동일판본/단위/분모를담은종합CSV34개행과JSON·화면동기화",
+  "remaining": [
+    "과거월시장전수원표미대조",
+    "9월전체시장개인/법인/연령및렌터카별신규등록미확인. 수입승용비율로전체시장추정금지.",
+    "KAMA첨부상세확정원표미대조. 산업부잠정값을확정합계로임의조정하지않음."
+  ],
+  "acceptance": "pending"
+}

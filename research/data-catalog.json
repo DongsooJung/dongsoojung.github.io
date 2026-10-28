@@ -1353,17 +1353,17 @@
     },
     {
       "source": {
-        "label": "현대차·KAMA 9월 공개본문 대조 / 산업부 잠정표 판본 구분",
-        "url": "https://www.hyundaimotorgroup.com/ko/news/hyundai-motor-company-september-2026-sales",
+        "label": "KAMA 확정 본문·산업부 잠정 원표·KAIDA 9월 등록",
+        "url": "https://www.kaida.co.kr/ko/kaida/bbsView.do?type=kaida&articleSeq=59485&boardSeq=15&bbsType=kaida&pageIndex=1&articleNo=334",
         "verification": "partially_verified"
       },
       "dataAsOf": null,
       "dataPeriod": "2026-09",
-      "snapshotUpdatedAt": "2026-10-28T00:28:05.797210+00:00",
+      "snapshotUpdatedAt": "2026-10-28T00:37:49.268222+00:00",
       "collectedAt": null,
-      "checkedAt": "2026-10-28T00:30:03.277Z",
+      "checkedAt": "2026-10-28T00:40:16.076Z",
       "reviewStatus": "needs_review",
-      "freshness": "september_points_verified_earlier_series_pending",
+      "freshness": "september_comprehensive_scopes_checked_remaining_demographics_pending",
       "evidence": [
         {
           "kind": "audit-record",
@@ -1423,22 +1423,43 @@
           "url": "/research/source-reviews/2026-10-28-car-sales.json",
           "checkedAt": "2026-10-28T00:30:03.277Z",
           "scope": "현대차회사국내판매9월49022·25.7%와KAMA확정발표본문전체135370·14.3%를서로다른범위로대조. 산업부PDF1/2/4/6쪽잠정값135396/기준157898/현대49022대조. 과거월전수및개인/법인/연령전수검증완료아님."
+        },
+        {
+          "kind": "official-source",
+          "url": "https://www.kaida.co.kr/ko/kaida/bbsView.do?type=kaida&articleSeq=59485&boardSeq=15&bbsType=kaida&pageIndex=1&articleNo=334",
+          "checkedAt": "2026-10-28T00:40:16.076Z",
+          "collectedAt": "2026-10-28T00:36:51.415435+00:00",
+          "sha256": "6da45e4b2b76812da775bda84dc14bcad85e283a65906d4d0011affb71dcf7e2",
+          "scope": "9월수입승용34904/개인23303/법인11601/연료4종·1~9월279729대대조. 전체시장구매주체비율아님."
+        },
+        {
+          "kind": "official-source",
+          "url": "https://www.korea.kr/common/download.do?fileId=198571991&tblKey=GMN",
+          "checkedAt": "2026-10-28T00:40:16.076Z",
+          "collectedAt": "2026-10-28T00:26:24.807090+00:00",
+          "sha256": "6dc37e23638b75a53cbdc43ef75e65c6c5e173165e03b75f864143f417426bce",
+          "scope": "동일9월잠정PDF2/4/5쪽종합6행/친환경4종/업체7행·9월및1~9월누계대조. 확정본문과혼합없음."
+        },
+        {
+          "kind": "audit-record",
+          "url": "/research/source-reviews/2026-10-28-car-overview.json",
+          "checkedAt": "2026-10-28T00:40:16.076Z",
+          "scope": "9월종합내수/생산/수출·국산/수입·친환경4종내수/수출·7업체내수·원표1~9월누계및KAIDA수입승용개인/법인/연료를대조. KAMA확정공개본문과산업부잠정원표를다른판본으로유지. 전체시장개인/법인/연령/렌터카원수치검증아님."
         }
       ],
       "issues": [
-        "2025-09와2026-09이외의과거시계열은이번원표미대조. 미검증연간/누계KPI는9월범위별KPI로교체.",
-        "KAMA 확정 공개본문135370과산업부잠정표135396은26대차이. 잠정내역·누계를확정전체와혼합하지않음.",
-        "기존8월게시본109920과산업부9월잠정표의8월수정값109915차이5대는판본차이로기록하고과거값을임의교체하지않음.",
-        "현대차조업일수2.5일은원문미확인. 산업부전체평균영업일수3일과구분."
+        "과거월시장전수원표미대조",
+        "9월전체시장개인/법인/연령및렌터카별신규등록미확인. 수입승용비율로전체시장추정금지.",
+        "KAMA첨부상세확정원표미대조. 산업부잠정값을확정합계로임의조정하지않음."
       ],
       "key": "/research/new-car-sales/",
       "url": "/research/new-car-sales/",
       "title": "신차 등록과 중산층 소비 관측",
       "primary": "society",
       "classification": "경제·사회",
-      "sourceHint": "9월 현대차49,022대(−25.7%) · 전체내수별도",
-      "nextAction": "9월확인값은반복재수집하지않고KAMA상세확정표및과거월전체원표를확보해판본·국산/수입·승용/상용·누계를대조. 현대차개별조업일수는원문확보시에만추가. 개인·법인·연령구분미연결값추정금지.",
-      "verifiedScope": "현대차회사국내판매9월49022·25.7%와KAMA확정발표본문전체135370·14.3%를서로다른범위로대조. 산업부PDF1/2/4/6쪽잠정값135396/기준157898/현대49022대조. 과거월전수및개인/법인/연령전수검증완료아님.",
+      "sourceHint": "9월 종합·친환경·업체·수입승용 개인/법인",
+      "nextAction": "완료한9월원표범위는반복대조하지않음. KAMA상세확정원표와과거월원표,9월전체시장구매주체·연령/렌터카원자료가실제확보될때범위를맞춰추가. 연간·운용대수/수입승용비율로9월전체시장을추정하지않음.",
+      "verifiedScope": "9월종합내수/생산/수출·국산/수입·친환경4종내수/수출·7업체내수·원표1~9월누계및KAIDA수입승용개인/법인/연료를대조. KAMA확정공개본문과산업부잠정원표를다른판본으로유지. 전체시장개인/법인/연령/렌터카원수치검증아님.",
       "components": {
         "marketSeptember": {
           "reviewStatus": "verified",
@@ -1453,6 +1474,21 @@
           "scope": "현대차국내판매49022·−25.7%·회사설명. 조업감소일수미확인.",
           "collectedAt": "2026-10-28T00:27:29.771680+00:00",
           "checkedAt": "2026-10-28T00:30:03.277Z"
+        },
+        "septemberOverview": {
+          "reviewStatus": "verified",
+          "dataPeriod": "2026-09",
+          "checkedAt": "2026-10-28T00:40:16.076Z",
+          "scope": "9월종합내수/생산/수출·국산/수입·친환경4종내수/수출·7업체내수·원표1~9월누계및KAIDA수입승용개인/법인/연료를대조. KAMA확정공개본문과산업부잠정원표를다른판본으로유지. 전체시장개인/법인/연령/렌터카원수치검증아님.",
+          "audit": "/research/source-reviews/2026-10-28-car-overview.json"
+        },
+        "kaidaSeptemberBuyers": {
+          "reviewStatus": "verified",
+          "dataPeriod": "2026-09",
+          "collectedAt": "2026-10-28T00:36:51.415435+00:00",
+          "checkedAt": "2026-10-28T00:40:16.076Z",
+          "scope": "수입승용34904대내개인23303/법인11601 및연료4종",
+          "audit": "/research/source-reviews/2026-10-28-car-overview.json"
         }
       }
     },
