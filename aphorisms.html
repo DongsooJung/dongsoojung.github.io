@@ -34,7 +34,7 @@ a{color:inherit}
 .quote-content.is-changing{opacity:0;transform:translateY(16px)}
 blockquote{margin:0;color:var(--accent);font-size:clamp(2.15rem,6.3vw,5.2rem);font-weight:900;line-height:1.28;letter-spacing:-.055em;text-wrap:balance;text-shadow:0 0 7px color-mix(in srgb,var(--accent),transparent 25%),0 0 24px color-mix(in srgb,var(--accent),transparent 70%)}
 blockquote.is-long{font-size:clamp(1.45rem,3.5vw,3.25rem);line-height:1.42;letter-spacing:-.045em;overflow-wrap:anywhere}
-.quote-author{margin:clamp(26px,5vw,46px) 0 0;color:color-mix(in srgb,var(--accent) 65%,white);font-size:clamp(1rem,2.4vw,1.45rem);font-weight:700;letter-spacing:.08em;text-shadow:0 0 10px color-mix(in srgb,var(--accent),transparent 50%)}.quote-source{display:inline-block;margin-top:12px;font-size:clamp(.83rem,1.4vw,1rem);font-weight:700;color:color-mix(in srgb,var(--accent) 68%,white);text-decoration:underline;text-underline-offset:4px;position:relative;z-index:4}.quote-source:hover,.quote-source:focus-visible{color:#fff}.quote-source[hidden]{display:none}
+.quote-original,.quote-context{margin:16px auto 0;max-width:800px;color:rgba(255,255,255,.75);font-size:clamp(.85rem,1.6vw,1.1rem);line-height:1.5;letter-spacing:0}.quote-context{font-size:.8rem}.quote-original[hidden],.quote-context[hidden]{display:none}.filters{display:flex;flex-wrap:wrap;gap:8px;margin-top:20px}.filter{border:1px solid rgba(255,255,255,.25);border-radius:999px;padding:8px 13px;background:transparent;color:rgba(255,255,255,.75);font:inherit;font-size:.85rem;cursor:pointer}.filter.active{background:var(--accent);border-color:var(--accent);color:#08101f}.filter:focus-visible{outline:2px solid var(--accent);outline-offset:3px}.quote-author{margin:clamp(26px,5vw,46px) 0 0;color:color-mix(in srgb,var(--accent) 65%,white);font-size:clamp(1rem,2.4vw,1.45rem);font-weight:700;letter-spacing:.08em;text-shadow:0 0 10px color-mix(in srgb,var(--accent),transparent 50%)}.quote-source{display:inline-block;margin-top:12px;font-size:clamp(.83rem,1.4vw,1rem);font-weight:700;color:color-mix(in srgb,var(--accent) 68%,white);text-decoration:underline;text-underline-offset:4px;position:relative;z-index:4}.quote-source:hover,.quote-source:focus-visible{color:#fff}.quote-source[hidden]{display:none}
 .board-controls{display:flex;align-items:center;gap:8px}
 .board-button{display:inline-grid;place-items:center;width:38px;height:38px;padding:0;border:1px solid color-mix(in srgb,var(--accent),transparent 55%);border-radius:9px;color:color-mix(in srgb,var(--accent) 65%,white);background:color-mix(in srgb,var(--accent),transparent 93%);font:inherit;cursor:pointer}
 .board-button:hover,.board-button:focus-visible{border-color:var(--accent);background:color-mix(in srgb,var(--accent),transparent 82%);outline:none}.board-button:focus-visible{box-shadow:0 0 0 3px color-mix(in srgb,var(--accent),transparent 73%)}
@@ -58,11 +58,11 @@ blockquote.is-long{font-size:clamp(1.45rem,3.5vw,3.25rem);line-height:1.42;lette
     </header>
     <section class="board-frame" aria-label="자동 순환 격언 전광판">
       <div class="board">
-        <div class="board-top"><span>WORDS TO LIVE BY</span><span id="quoteCount">01 / 13</span></div>
+        <div class="board-top"><span>WORDS TO LIVE BY</span><span id="quoteCount">01 / 17</span></div>
         <div class="quote-stage" aria-live="polite" aria-atomic="true">
           <div class="quote-content" id="quoteContent">
             <blockquote id="quoteText">0.001%가 플랫폼을 쥐고, 0.002%가 인기를 누려도,<br>99.997%의 삶을 지탱하는 것은 사람의 존엄과 연대다.</blockquote>
-            <p class="quote-author" id="quoteAuthor">— DS</p><a class="quote-source" id="quoteSource" href="#" target="_blank" rel="noopener noreferrer" hidden>원문 출처 보기 ↗</a>
+            <p class="quote-original" id="quoteOriginal" lang="en" hidden></p><p class="quote-context" id="quoteContext" hidden></p><p class="quote-author" id="quoteAuthor">— DS</p><a class="quote-source" id="quoteSource" href="#" target="_blank" rel="noopener noreferrer" hidden>원문 출처 보기 ↗</a>
           </div>
         </div>
         <div class="board-bottom">
@@ -75,25 +75,31 @@ blockquote.is-long{font-size:clamp(1.45rem,3.5vw,3.25rem);line-height:1.42;lette
         </div>
       </div>
     </section>
+    <div class="filters" aria-label="격언 카테고리"><button class="filter active" type="button" data-filter="전체" aria-pressed="true">전체</button><button class="filter" type="button" data-filter="실행" aria-pressed="false">실행</button><button class="filter" type="button" data-filter="학습" aria-pressed="false">학습</button><button class="filter" type="button" data-filter="리더십" aria-pressed="false">리더십</button><button class="filter" type="button" data-filter="AI" aria-pressed="false">AI</button><button class="filter" type="button" data-filter="독점" aria-pressed="false">독점</button><button class="filter" type="button" data-filter="창업" aria-pressed="false">창업</button><button class="filter" type="button" data-filter="경쟁" aria-pressed="false">경쟁</button><button class="filter" type="button" data-filter="Zero to One" aria-pressed="false">Zero to One</button></div>
     <footer class="quote-foot"><a href="/">← STARGATE.PORTAL 홈</a><p>격언은 서울 날짜에 따라 시작 순서가 바뀌고 3초마다 자동으로 전환됩니다.</p></footer>
   </div>
 </main>
 <script>
 const quotes=[
-  {text:"0.001%가 플랫폼을 쥐고, 0.002%가 인기를 누려도,<br>99.997%의 삶을 지탱하는 것은 사람의 존엄과 연대다.",author:"DS",accent:"#ff9e3d"},
-  {text:"나는 내가 좋아하는 일을<br>24시간 하면서 산다",author:"워런 버핏",accent:"#ffd34d"},
-  {text:"성과의 80%를 만드는<br>핵심 20%를 찾아 집중하라",author:"알토스벤처스 투자 철학에서 착안",accent:"#72e080"},
-  {text:"10분 뒤와 10년 뒤를<br>동시에 생각하라",author:"STARGATE 실행 원칙",accent:"#5fe4e8"},
-  {text:"속도보다는<br>방향이다",author:"STARGATE 실행 원칙",accent:"#80b6ff"},
-  {text:"실력보다<br>안목이다",author:"STARGATE 실행 원칙",accent:"#a99aff"},
-  {text:"Every three or four years<br>I pick a new subject",author:"피터 드러커",accent:"#e695ff"},
-  {text:"과거의 성공에 매이지 말고, 매번 제로에서 다시 생각하라.",author:"스즈키 도시후미 (취지 의역)",accent:"#ff78b9"},
-  {text:"암호화폐는 분산시키지만,<br>AI는 중앙집중화한다.",author:"피터 틸 (2018 · 번역)",accent:"#66d8ff",source:"https://www.bishoprockcap.com/assets/library/peter-thiel/February%202018%20Cardinal%20Conversations%20-%20Reid%20Hoffman%20and%20Peter%20Thiel%20on%20Technology%20and%20Politics%20%5BNEW%5D%20%28transcript%29"},
-  {text:"2023~2024년의 AI는<br>1999년의 인터넷과 같다.",author:"피터 틸 (2024 · 번역)",accent:"#80b6ff",source:"https://lawwu.github.io/transcripts/transcript_SYRunzR9fbk.html"},
-  {text:"AI 자체보다 AI를 막으려는<br>인간들이 더 걱정된다.",author:"피터 틸 (2024 · 번역)",accent:"#d0a6ff",source:"https://www.bishoprockcap.com/assets/library/peter-thiel/September%202024%20Peter%20Thiel%20Political%20Theology%20%28Conversations%20with%20Tyler%2C%202024%29%20%28transcript%29"},
-  {text:"AI라는 말은 때때로<br>끔찍한 유행어가 될 수 있다.",author:"피터 틸 (2025 · 번역)",accent:"#ffa8cf",source:"https://www.spectator.com.au/2025/12/ive-been-allergic-to-ai-for-a-long-time-an-interview-with-peter-thiel/"},
-  {text:"인터넷을 금지했었고 AI까지 금지한다면,<br>경제성장은 사실상 사라질 것이다.",author:"피터 틸 (2026 · 번역)",accent:"#ffca70",long:true,source:"https://omny.fm/shows/the-builders/peter-thiel"}
+  {text:"0.001%가 플랫폼을 쥐고, 0.002%가 인기를 누려도,<br>99.997%의 삶을 지탱하는 것은 사람의 존엄과 연대다.",author:"DS",category:"리더십",accent:"#ff9e3d"},
+  {text:"나는 내가 좋아하는 일을<br>24시간 하면서 산다",author:"워런 버핏",category:"실행",accent:"#ffd34d"},
+  {text:"성과의 80%를 만드는<br>핵심 20%를 찾아 집중하라",author:"알토스벤처스 투자 철학에서 착안",category:"실행",accent:"#72e080"},
+  {text:"10분 뒤와 10년 뒤를<br>동시에 생각하라",author:"STARGATE 실행 원칙",category:"실행",accent:"#5fe4e8"},
+  {text:"속도보다는<br>방향이다",author:"STARGATE 실행 원칙",category:"실행",accent:"#80b6ff"},
+  {text:"실력보다<br>안목이다",author:"STARGATE 실행 원칙",category:"학습",accent:"#a99aff"},
+  {text:"Every three or four years<br>I pick a new subject",author:"피터 드러커",category:"학습",accent:"#e695ff"},
+  {text:"과거의 성공에 매이지 말고, 매번 제로에서 다시 생각하라.",author:"스즈키 도시후미 (취지 의역)",category:"실행",accent:"#ff78b9"},
+  {text:"암호화폐는 분산시키지만,<br>AI는 중앙집중화한다.",author:"피터 틸 (2018 · 번역)",category:"AI",accent:"#66d8ff",source:"https://www.bishoprockcap.com/assets/library/peter-thiel/February%202018%20Cardinal%20Conversations%20-%20Reid%20Hoffman%20and%20Peter%20Thiel%20on%20Technology%20and%20Politics%20%5BNEW%5D%20%28transcript%29"},
+  {text:"2023~2024년의 AI는<br>1999년의 인터넷과 같다.",author:"피터 틸 (2024 · 번역)",category:"AI",accent:"#80b6ff",source:"https://lawwu.github.io/transcripts/transcript_SYRunzR9fbk.html"},
+  {text:"AI 자체보다 AI를 막으려는<br>인간들이 더 걱정된다.",author:"피터 틸 (2024 · 번역)",category:"AI",accent:"#d0a6ff",source:"https://www.bishoprockcap.com/assets/library/peter-thiel/September%202024%20Peter%20Thiel%20Political%20Theology%20%28Conversations%20with%20Tyler%2C%202024%29%20%28transcript%29"},
+  {text:"AI라는 말은 때때로<br>끔찍한 유행어가 될 수 있다.",author:"피터 틸 (2025 · 번역)",category:"AI",accent:"#ffa8cf",source:"https://www.spectator.com.au/2025/12/ive-been-allergic-to-ai-for-a-long-time-an-interview-with-peter-thiel/"},
+  {text:"인터넷을 금지했었고 AI까지 금지한다면,<br>경제성장은 사실상 사라질 것이다.",author:"피터 틸 (2026 · 번역)",category:"AI",accent:"#ffca70",long:true,source:"https://omny.fm/shows/the-builders/peter-thiel"},
+{"text":"다른 누구도 제공하지 않는 것을 세상에 제공해야 한다.","original":"You want to be offering something to the world that no one else is offering","author":"피터 틸 · 번역","context":"2014 · Authors@Wharton · 새로운 가치를 만드는 독점","category":"독점","sourceLabel":"Wharton 공식 대담 · 2014-10-03","source":"https://knowledge.wharton.upenn.edu/article/peter-thiels-notes-on-startups/","accent":"#ffd166","long":true},
+{"text":"아주 작은 시장에서 시작해 그 시장 전체를 장악하라.","original":"You start with a really small market and you take over that whole market.","author":"피터 틸 · 번역","context":"2014 · Stanford CS183B · 작은 시장에서 시작해 점차 확장","category":"창업","sourceLabel":"Y Combinator 공식 강연 · 13:13부터","source":"https://www.youtube.com/watch?v=3Fx5Q8xGU8k&t=793s","accent":"#64f0ba","long":true},
+{"text":"경쟁은 패자들의 것이다.","original":"Competition Is for Losers","author":"피터 틸 · 번역","context":"2014 · Authors@Wharton · 본인이 인용한 발췌 기사 제목 · 경쟁보다 고유한 가치","category":"경쟁","sourceLabel":"Wharton 공식 대담 · 2014-10-03","source":"https://knowledge.wharton.upenn.edu/article/peter-thiels-notes-on-startups/","accent":"#66d8ff","long":true},
+{"text":"새로운 일을 할 때, 당신은 0에서 1로 나아간다.","original":"But when you do something new, you go from 0 to 1.","author":"피터 틸 · 블레이크 매스터스 · 번역","context":"2014 · Zero to One · 복제를 넘어 새로운 가치 창조","category":"Zero to One","sourceLabel":"Zero to One · 출판사 공식 소개","source":"https://www.penguinrandomhouse.com/books/234730/zero-to-one-by-peter-thiel-with-blake-masters/9780804139304/","accent":"#a99aff","long":true}
 ];
+let visibleQuotes=[...quotes];
 const text=document.getElementById("quoteText");
 const author=document.getElementById("quoteAuthor");
 const source=document.getElementById("quoteSource");
@@ -106,18 +112,19 @@ function getDailyStartIndex(){
   const parts=seoulDateFormatter.formatToParts(new Date());
   const value=type=>Number(parts.find(part=>part.type===type).value);
   const today=Date.UTC(value("year"),value("month")-1,value("day"))/86400000;
-  const rotatingCount=quotes.length;
+  const rotatingCount=visibleQuotes.length;
   return ((today-firstQuoteDay)%rotatingCount+rotatingCount)%rotatingCount;
 }
-let dailyStart=getDailyStartIndex(),current=0,playing=true,timer;
-function quoteAt(index){return quotes[(dailyStart+index)%quotes.length]}
-function showQuote(){const quote=quoteAt(current);document.documentElement.style.setProperty("--accent",quote.accent);text.innerHTML=quote.text;text.classList.toggle("is-long",Boolean(quote.long));author.textContent=`— ${quote.author}`;source.hidden=!quote.source;if(quote.source)source.href=quote.source;count.textContent=`${String(current+1).padStart(2,"0")} / ${String(quotes.length).padStart(2,"0")}`}
+let dailyStart=getDailyStartIndex(),current=0,playing=true,timer,transitionTimer;
+function quoteAt(index){return visibleQuotes[(dailyStart+index)%visibleQuotes.length]}
+function showQuote(){const quote=quoteAt(current);document.documentElement.style.setProperty("--accent",quote.accent);text.innerHTML=quote.text;const original=document.getElementById("quoteOriginal"),context=document.getElementById("quoteContext");original.hidden=!quote.original;original.textContent=quote.original||"";context.hidden=!quote.context;context.textContent=quote.context||"";text.classList.toggle("is-long",Boolean(quote.long));author.textContent=`— ${quote.author}`;source.hidden=!quote.source;if(quote.source){source.href=quote.source;source.textContent=quote.sourceLabel?`출처 · ${quote.sourceLabel} ↗`:"원문 출처 보기 ↗"}count.textContent=`${String(current+1).padStart(2,"0")} / ${String(visibleQuotes.length).padStart(2,"0")}`}
 function renderQuote(index){
   const nextDailyStart=getDailyStartIndex();
   if(nextDailyStart!==dailyStart){dailyStart=nextDailyStart;index=0}
-  current=(index+quotes.length)%quotes.length;
+  current=(index+visibleQuotes.length)%visibleQuotes.length;
   content.classList.add("is-changing");
-  window.setTimeout(()=>{showQuote();content.classList.remove("is-changing")},480);
+  window.clearTimeout(transitionTimer);
+  transitionTimer=window.setTimeout(()=>{showQuote();content.classList.remove("is-changing")},480);
 }
 function restartTimer(){
   window.clearInterval(timer);
@@ -129,6 +136,11 @@ function restartTimer(){
 document.getElementById("previousQuote").addEventListener("click",()=>{renderQuote(current-1);restartTimer()});
 document.getElementById("nextQuote").addEventListener("click",()=>{renderQuote(current+1);restartTimer()});
 toggle.addEventListener("click",()=>{playing=!playing;toggle.textContent=playing?"Ⅱ":"▶";toggle.setAttribute("aria-pressed",String(!playing));toggle.setAttribute("aria-label",playing?"자동 재생 일시정지":"자동 재생 시작");restartTimer()});
+document.querySelectorAll(".filter").forEach(btn=>btn.addEventListener("click",()=>{
+  document.querySelectorAll(".filter").forEach(x=>{x.classList.toggle("active",x===btn);x.setAttribute("aria-pressed",String(x===btn))});
+  visibleQuotes=btn.dataset.filter==="전체"?[...quotes]:quotes.filter(quote=>quote.category===btn.dataset.filter);
+  dailyStart=getDailyStartIndex();renderQuote(0);restartTimer();
+}));
 showQuote();
 restartTimer();
 </script>
