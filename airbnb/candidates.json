@@ -1,5 +1,5 @@
 {
-  "checked_at_kst": "2026-10-27T14:20:58+09:00",
+  "checked_at_kst": "2026-10-28T15:00:01+09:00",
   "filters": {
     "max_deposit_manwon": 1000,
     "max_rent_manwon": 100,
@@ -8,7 +8,7 @@
   "source_mode": "public-listings",
   "crawl": {
     "visited_urls": 70,
-    "successful_pages": 61,
+    "successful_pages": 63,
     "max_pages": 70
   },
   "baseline": [
@@ -37,7 +37,7 @@
       "area_m2": 46.2,
       "area_basis": "exclusive",
       "building_type": "단독주택",
-      "freshness_days": 15,
+      "freshness_days": 16,
       "title": "범일동 14평 직거래 빌라(투룸 이상) 월세 500 / 30만원",
       "legal_risk": "상대적으로 낮음",
       "host_claim": false,
@@ -48,6 +48,29 @@
         "주택용도"
       ],
       "is_new": false
+    },
+    {
+      "id": "4713338",
+      "url": "https://realty.daangn.com/articles/4713338",
+      "district": "기장군",
+      "dong": "",
+      "deposit": 500,
+      "rent": 30,
+      "rooms": 2,
+      "area_m2": 44.89,
+      "area_basis": "exclusive",
+      "building_type": "단독주택",
+      "freshness_days": 15,
+      "title": "기장읍 14평 단독/전원주택 월세 500 / 30만원",
+      "legal_risk": "상대적으로 낮음",
+      "host_claim": false,
+      "score": 80,
+      "reasons": [
+        "낮은 월세",
+        "낮은 보증금",
+        "주택용도"
+      ],
+      "is_new": true
     },
     {
       "id": "3207454",
@@ -72,27 +95,6 @@
       "is_new": false
     },
     {
-      "id": "4175649",
-      "url": "https://realty.daangn.com/articles/4175649",
-      "district": "기장군",
-      "dong": "",
-      "deposit": 1000,
-      "rent": 60,
-      "rooms": 2,
-      "area_m2": 72.42,
-      "area_basis": "exclusive",
-      "building_type": "단독주택",
-      "freshness_days": 8,
-      "title": "기장읍 22평 단독/전원주택 월세 1,000 / 60만원",
-      "legal_risk": "상대적으로 낮음",
-      "host_claim": false,
-      "score": 67,
-      "reasons": [
-        "주택용도"
-      ],
-      "is_new": false
-    },
-    {
       "id": "4597925",
       "url": "https://realty.daangn.com/articles/4597925",
       "district": "동구",
@@ -103,7 +105,7 @@
       "area_m2": 47.53,
       "area_basis": "exclusive",
       "building_type": "공동주택",
-      "freshness_days": 27,
+      "freshness_days": 28,
       "title": "초량동 14평 빌라(투룸 이상) 월세 500 / 75만원",
       "legal_risk": "중간",
       "host_claim": false,
