@@ -1,0 +1,57 @@
+name: Refresh IPO filing calendars
+
+on:
+  schedule:
+    # Weekdays 09:55 KST; separate from the 09:35 OpenDART financial refresh.
+    - cron: '55 0 * * 1-5'
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - 'scripts/update-ipo-calendar.py'
+      - 'scripts/update-kind-ipo-feed.py'
+      - '.github/workflows/update-ipo-data.yml'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: update-ipo-calendar-main
+  cancel-in-progress: false
+
+jobs:
+  collect:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Offline source normalization tests
+        run: python -m unittest discover -s tests -p 'test_ipo_calendar.py' -v
+      - name: Collect OpenDART equity subscription dates
+        env:
+          OPENDART_API_KEY: ${{ secrets.OPENDART_API_KEY || secrets.DART_API_KEY }}
+        run: python scripts/update-ipo-calendar.py
+      - name: Collect optional licensed KIND preliminary review feed
+        env:
+          IPO_KIND_FEED_URL: ${{ secrets.IPO_KIND_FEED_URL }}
+          IPO_KIND_FEED_TOKEN: ${{ secrets.IPO_KIND_FEED_TOKEN }}
+          IPO_KIND_ALLOWED_HOST: ${{ vars.IPO_KIND_ALLOWED_HOST }}
+        run: python scripts/update-kind-ipo-feed.py
+      - name: Publish validated public snapshots
+        run: |
+          if git diff --quiet -- unlisted-stocks/data/ipo-calendar.json unlisted-stocks/data/kind-verified.json; then
+            echo "No new validated data; keeping current snapshots."
+            exit 0
+          fi
+          git config user.name "stargate-data-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add unlisted-stocks/data/ipo-calendar.json unlisted-stocks/data/kind-verified.json
+          git commit -m "data(ipo): update official filing calendar and licensed review feed"
+          git pull --rebase origin main
+          git push origin HEAD:main
