@@ -1,6 +1,6 @@
 # iOS 배포 준비 (멤버십 대기)
 
-Apple Developer Program 1년 멤버십이 승인되기 전에는 App Store Connect에 앱을 만들거나 IPA를 올릴 수 없습니다. 승인 당일에 붙여 넣을 문구는 `listing-ko.md`, 개인정보 영양 라벨은 `app-privacy.md`입니다. 둘 다 `../play-console-answers.md`와 `../store-listing-ko.md`를 따릅니다.
+Apple Developer Program 1년 멤버십이 승인되기 전에는 App Store Connect에 앱을 만들거나 IPA를 올릴 수 없습니다. 승인 뒤 공개까지의 순서는 `RELEASE.md`다. 붙여 넣을 값은 `connect-fields.md`, 문구는 `listing-ko.md`, 개인정보 영양 라벨은 `app-privacy.md`다.
 
 ## 지금 되는 설치
 
@@ -30,11 +30,6 @@ Android 앱은 Trusted Web Activity라서 Play가 웹 포털 포장을 허용합
 
 승인 뒤 제출하려면 포털에 없는 iOS 기능이 바이너리에 있어야 합니다. 예시는 오프라인 첫 화면, 홈 화면에서 바로 여는 KOI·상담 바로가기, 공유 시트입니다. Team ID가 생긴 뒤에만 `apple-app-site-association`을 배포합니다. Team ID 없는 파일을 `.well-known`에 올리면 주소 연결이 실패합니다.
 
-## 승인 당일 순서
+## 승인 뒤
 
-1. developer.apple.com에서 멤버십 활성과 Team ID를 확인합니다.
-2. 번들 ID `kr.co.stargateedu.app`를 등록합니다.
-3. App Store Connect에 앱을 만들고 `listing-ko.md`, `app-privacy.md`를 넣습니다.
-4. 6.7인치(1290×2796)와 6.5인치(1284×2778) 스크린샷을 iPhone Safari 또는 시뮬레이터에서 캡처합니다. Play용 1080×1920은 크기가 맞지 않습니다.
-5. 1024×1024 아이콘은 현재 512 원본을 그대로 늘리지 않고, 같은 마크를 1024로 다시 내보냅니다. 알파 채널은 없습니다.
-6. 4.2를 넘기는 네이티브 기능이 들어간 빌드만 심사에 올립니다.
+순서는 `RELEASE.md`에 있다. 아이콘과 6.9인치 스크린샷 4장은 이미 `assets/`와 `screenshots/`에 있다. 웹뷰만 있는 빌드는 올리지 않는다.
