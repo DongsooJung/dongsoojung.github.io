@@ -1,5 +1,7 @@
 {
-  "checkedAt": "2026-10-17T01:26:08.333876+00:00",
+  "checkedAt": "2026-10-28T00:30:03.277Z",
+  "dataPeriod": "2026-09",
+  "snapshotUpdatedAt": "2026-10-28T00:28:05.797210+00:00",
   "verifiedSeries": [
     {
       "period": "2026-09",
@@ -10,14 +12,69 @@
       "source": "한국수입자동차협회(KAIDA)",
       "sourceUrl": "https://www.kaida.co.kr/ko/kaida/bbsList.do?bbsType=kaida&boardSeq=15",
       "sourceRetrievedAt": "2026-10-17T01:21:31.980111+00:00"
+    },
+    {
+      "period": "2026-09",
+      "scope": "전체 내수 · 국산+수입 · 승용+상용 · KAMA 확정 발표 본문",
+      "cars": 135370,
+      "yoyPct": -14.3,
+      "publishedAt": "2026-10-19",
+      "sourceUrl": "https://www.kama.or.kr/NewsController?board_id=12393&boardmaster_id=industry&cmd=V&menunum=0004",
+      "collectedAt": "2026-10-28T00:26:15.476647+00:00",
+      "verification": "KAMA 확정 발표 공개 본문 대조; 첨부 상세표 미대조"
+    },
+    {
+      "period": "2026-09",
+      "scope": "현대자동차 국내판매",
+      "cars": 49022,
+      "previousYearCars": 66001,
+      "yoyPct": -25.7,
+      "publishedAt": "2026-10-01",
+      "collectedAt": "2026-10-28T00:27:29.771680+00:00",
+      "sourceUrl": "https://www.hyundaimotorgroup.com/ko/news/hyundai-motor-company-september-2026-sales"
     }
   ],
   "existingMarketSeries": {
-    "through": "2026-08",
-    "verification": "needs_review",
+    "through": "2026-09",
+    "verification": "partially_verified",
+    "verifiedPoints": [
+      "2025-09",
+      "2026-09"
+    ],
     "issues": [
-      "KAMA 9월 잠정 총괄표 공표 확인, 첨부 원표는 유료회원 안내로 차단.",
-      "기존 8월 전체 시장 합계 109920대는 원표 대조를 완료하지 않음."
+      "2025-09와2026-09이외의과거시계열은이번원표미대조. 미검증연간/누계KPI는9월범위별KPI로교체.",
+      "KAMA 확정 공개본문135370과산업부잠정표135396은26대차이. 잠정내역·누계를확정전체와혼합하지않음.",
+      "기존8월게시본109920과산업부9월잠정표의8월수정값109915차이5대는판본차이로기록하고과거값을임의교체하지않음."
     ]
+  },
+  "claimCheck": {
+    "hyundaiDomesticYoyPct": -25.7,
+    "hyundaiWorkingDaysDecrease": null,
+    "companyExplanation": "추석연휴영업일수감소·신차대기수요",
+    "unverified": "현대차개별조업일수2.5일·내수30%감소는확보한회사원문에서확인되지않음.",
+    "separateMarketBusinessDaysDecrease": 3
+  },
+  "previousReview": {
+    "checkedAt": "2026-10-17T01:26:08.333876+00:00",
+    "verifiedSeries": [
+      {
+        "period": "2026-09",
+        "scope": "수입 승용차 신규등록",
+        "cars": 34904,
+        "unit": "대",
+        "publishedAt": "2026-10-06",
+        "source": "한국수입자동차협회(KAIDA)",
+        "sourceUrl": "https://www.kaida.co.kr/ko/kaida/bbsList.do?bbsType=kaida&boardSeq=15",
+        "sourceRetrievedAt": "2026-10-17T01:21:31.980111+00:00"
+      }
+    ],
+    "existingMarketSeries": {
+      "through": "2026-08",
+      "verification": "needs_review",
+      "issues": [
+        "KAMA 9월 잠정 총괄표 공표 확인, 첨부 원표는 유료회원 안내로 차단.",
+        "기존 8월 전체 시장 합계 109920대는 원표 대조를 완료하지 않음."
+      ]
+    }
   }
 }

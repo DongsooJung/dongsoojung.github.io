@@ -1,0 +1,91 @@
+{
+  "schemaVersion": 1,
+  "dataPeriod": "2026-09",
+  "snapshotUpdatedAt": "2026-10-28T00:28:05.797210+00:00",
+  "years": {
+    "2025": [
+      105928,
+      132854,
+      149517,
+      150622,
+      141865,
+      145842,
+      138563,
+      138788,
+      157898,
+      127138,
+      146241,
+      144882
+    ],
+    "2026": [
+      120787,
+      123275,
+      164813,
+      151693,
+      127308,
+      159684,
+      139256,
+      109920,
+      135370,
+      null,
+      null,
+      null
+    ]
+  },
+  "sourceStatus": "September market and Hyundai domestic points verified; earlier series remains legacy/unverified",
+  "market": {
+    "period": "2026-09",
+    "sales": 135370,
+    "yoyPct": -14.3,
+    "status": "confirmed",
+    "publishedAt": "2026-10-19",
+    "collectedAt": "2026-10-28T00:26:15.476647+00:00",
+    "sourceUrl": "https://www.kama.or.kr/NewsController?board_id=12393&boardmaster_id=industry&cmd=V&menunum=0004",
+    "sourceSha256": "32ff0618a2ce7f74e8317e55c2dbc11ef290ae9ddc51f301b29cd901c9ffeb42",
+    "scope": "전체 내수 · 국산+수입 · 승용+상용 · KAMA 확정 발표 본문"
+  },
+  "hyundai": {
+    "period": "2026-09",
+    "domesticSales": 49022,
+    "previousYearDomesticSales": 66001,
+    "yoyPct": -25.7,
+    "publishedAt": "2026-10-01",
+    "collectedAt": "2026-10-28T00:27:29.771680+00:00",
+    "sourceUrl": "https://www.hyundaimotorgroup.com/ko/news/hyundai-motor-company-september-2026-sales",
+    "sourceSha256": "dade4458c26f3356bdc2670930105e277e4291fe7ca8a3ec3b7fc6a3e4a33993",
+    "workingDaysDecrease": null,
+    "workingDaysScope": "회사 원문은 추석 연휴에 따른 영업일수 감소와 신차 대기수요를 설명하며 감소 일수를 명시하지 않음. 조업일수2.5일은 원문 미확인."
+  },
+  "ministry": {
+    "period": "2026-09",
+    "sales": 135396,
+    "previousYearSales": 157898,
+    "augustRevisedSales": 109915,
+    "ytdSales": 1232131,
+    "ytdPreviousYearSales": 1261853,
+    "status": "provisional",
+    "averageBusinessDaysDecrease": 3,
+    "businessDaysScope": "시장 전체 평균 영업일수 · 현대차 개별 조업일수와 다름",
+    "publishedAt": "2026-10-19",
+    "collectedAt": "2026-10-28T00:26:24.807090+00:00",
+    "sourceUrl": "https://m.korea.kr/briefing/pressReleaseView.do?newsId=156785643",
+    "downloadUrl": "https://www.korea.kr/common/download.do?fileId=198571991&tblKey=GMN",
+    "sourceSha256": "6dc37e23638b75a53cbdc43ef75e65c6c5e173165e03b75f864143f417426bce",
+    "pages": [
+      1,
+      2,
+      4,
+      6
+    ]
+  },
+  "verifiedPoints": {
+    "2025-09": {
+      "source": "ministry",
+      "scope": "9월 원표의 전년 동월 기준값"
+    },
+    "2026-09": {
+      "source": "market",
+      "scope": "KAMA 확정 본문"
+    }
+  }
+}
