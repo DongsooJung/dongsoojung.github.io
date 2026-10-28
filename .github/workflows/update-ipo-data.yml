@@ -9,6 +9,7 @@ on:
     branches: [main]
     paths:
       - 'scripts/update-ipo-calendar.py'
+      - 'scripts/build-ipo-alerts.py'
       - 'scripts/update-kind-ipo-feed.py'
       - '.github/workflows/update-ipo-data.yml'
 
@@ -43,15 +44,29 @@ jobs:
           IPO_KIND_FEED_TOKEN: ${{ secrets.IPO_KIND_FEED_TOKEN }}
           IPO_KIND_ALLOWED_HOST: ${{ vars.IPO_KIND_ALLOWED_HOST }}
         run: python scripts/update-kind-ipo-feed.py
+      - name: Detect new filings and schedule changes
+        run: python scripts/build-ipo-alerts.py
+      - name: Summarize detected changes
+        run: |
+          python - <<'PY'
+          import json, os
+          from pathlib import Path
+          snapshot=json.loads(Path('unlisted-stocks/data/ipo-alerts.json').read_text())
+          total=snapshot.get('last_scan_new_count',0)
+          print(f'IPO watch: {total} new changes; {len(snapshot.get("seen",{}))} receipts tracked')
+          if os.environ.get('GITHUB_STEP_SUMMARY'):
+              with open(os.environ['GITHUB_STEP_SUMMARY'],'a',encoding='utf-8') as out:
+                  out.write(f'### STARGATE IPO alert feed\n\nNew changes: **{total}**\n\n')
+          PY
       - name: Publish validated public snapshots
         run: |
-          if git diff --quiet -- unlisted-stocks/data/ipo-calendar.json unlisted-stocks/data/kind-verified.json; then
+          if git diff --quiet -- unlisted-stocks/data/ipo-calendar.json unlisted-stocks/data/kind-verified.json unlisted-stocks/data/ipo-alerts.json; then
             echo "No new validated data; keeping current snapshots."
             exit 0
           fi
           git config user.name "stargate-data-bot"
           git config user.email "actions@users.noreply.github.com"
-          git add unlisted-stocks/data/ipo-calendar.json unlisted-stocks/data/kind-verified.json
+          git add unlisted-stocks/data/ipo-calendar.json unlisted-stocks/data/kind-verified.json unlisted-stocks/data/ipo-alerts.json
           git commit -m "data(ipo): update official filing calendar and licensed review feed"
           git pull --rebase origin main
           git push origin HEAD:main

@@ -1,4 +1,4 @@
-# STARGATE 비상장주식 인텔리전스 (MVP v0.3)
+# STARGATE 비상장주식 인텔리전스 (MVP v0.4)
 
 - 경로: `/unlisted-stocks/`
 - 앱 연동: Stargate Google Play TWA는 `stargateedu.co.kr`을 표시하므로, 웹 포털 메뉴에서 이 경로로 진입할 수 있습니다. 별도의 AAB 재빌드 없이 웹 기능을 업데이트할 수 있습니다.
@@ -70,3 +70,14 @@ CSV 저장은 브라우저 안에서 처리합니다. 가져온 데이터/관심
 2. OpenDART 기업검색 범위를 확대하고 감사보고서·정정공시까지 활용해 재무지표를 보강.
 3. 비교기업 평가모형: EV/EBITDA·PER·PBR·희석 주식 수·유동성 할인·시나리오 분석; 대상기업/재무 기간 정합성 테스트.
 4. 증권사 연결이나 투자자문 기능 추가 전 인허가·법률 검토.
+
+## IPO 신규 공시 변경 알림 (v0.4)
+
+- `scripts/build-ipo-alerts.py`가 공식 OpenDART 일정 스냅샷을 이전 수집 이력과 비교해 **신규 접수번호 및 청약일·납입일·신고서 가격 조건 변경**을 감지합니다.
+- 최초 실행에서는 기존 자료를 '새 공시'라고 오인하지 않도록 알림 없이 기준선(`baseline_created`)만 생성합니다.
+- 종목이 제한된 검색에서 일시적으로 사라졌다가 다시 나오더라도 동일 접수번호를 중복 알림하지 않습니다. 수집 범위는 전체 IPO 시장이 아닌 앞서 정의한 제한된 표본입니다.
+- `unlisted-stocks/data/ipo-alerts.json`은 GitHub Actions 평일 수집 후 공개되며 `ipo-alerts.js`가 화면에 표시합니다. 사용자가 읽은 알림은 해당 기기의 `localStorage`에만 기록됩니다.
+- 실시간 모바일 푸시·개인 이메일 발송은 아직 구현하지 않았습니다. 페이지 새로고침 또는 갱신 버튼으로 확인합니다.
+- KRX 정식 라이선스 데이터가 연결된 경우에만 예심 관련 변경을 추적합니다. 계약 없이 KIND를 스크래핑하지 않습니다.
+- KRX/코스콤 문의는 담당자 회신과 데이터 재배포 범위를 별도로 확인해야 합니다. 무단 API 호출 또는 라이선스 체결을 뜻하지 않습니다.
+- 테스트: `python -m unittest discover -s tests -p 'test_ipo_alerts.py' -v`, `node --check unlisted-stocks/ipo-alerts.js`.

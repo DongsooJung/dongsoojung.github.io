@@ -1,0 +1,43 @@
+name: Verify IPO change alerts
+
+on:
+  pull_request:
+    paths:
+      - 'scripts/build-ipo-alerts.py'
+      - 'tests/test_ipo_alerts.py'
+      - 'unlisted-stocks/**'
+      - '.github/workflows/verify-ipo-alerts.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Test IPO alert deduplication and first-run behavior
+        run: python -m unittest discover -s tests -p 'test_ipo_alerts.py' -v
+      - name: Validate client-side JavaScript
+        run: node --check unlisted-stocks/ipo-alerts.js
+      - name: Verify public HTML and JSON structure
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          html=Path('unlisted-stocks/index.html').read_text()
+          assert 'ipo-alerts.js' in html
+          for x in ('ipoAlertStatus','ipoAlertItems','ipoAlertFilter','ipoAlertReload','ipoAlertReadAll','ipoUnreadCount'):
+              assert 'id="'+x+'"' in html
+          data=json.loads(Path('unlisted-stocks/data/ipo-alerts.json').read_text())
+          assert data['status'] in ('ok','not_initialized')
+          assert isinstance(data['events'],list)
+          print('IPO alerts contract OK')
+          PY
