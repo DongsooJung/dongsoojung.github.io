@@ -72,7 +72,7 @@ def parse_amount(raw: object) -> int | None:
     return -number if neg else number
 
 
-def parse_metrics(rows: list[dict]) -> dict[str, int | None]:
+def parse_metrics(rows: list[dict], cumulative: bool = False) -> dict[str, int | None]:
     output = {}
     for metric, aliases in ACCOUNTS.items():
         candidates = []
@@ -89,7 +89,14 @@ def parse_metrics(rows: list[dict]) -> dict[str, int | None]:
             )
             if score is None:
                 continue
-            amt = parse_amount(row.get("thstrm_amount"))
+            # Half-year/quarter income statements are year-to-date when
+            # thstrm_add_amount is provided. Never blend quarterly and YTD.
+            source_field = (
+                "thstrm_add_amount"
+                if cumulative and metric in {"revenue", "operating_profit", "net_income"}
+                else "thstrm_amount"
+            )
+            amt = parse_amount(row.get(source_field))
             if amt is None:
                 continue
             candidates.append((score, amt))
@@ -184,7 +191,7 @@ def financials_for_company(key: str, name: str, stock_code: str,
             )
             if payload.get("status") == "013" or not payload.get("list"):
                 continue
-            metrics = parse_metrics(payload["list"])
+            metrics = parse_metrics(payload["list"], cumulative=report["report_code"] != "11011")
             if not any(v is not None for v in metrics.values()):
                 continue
             entry["periods"].append({
