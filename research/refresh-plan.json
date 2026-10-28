@@ -986,7 +986,7 @@
       "status": "pending",
       "keys": [],
       "outcome": "conditional_technical_acceptance",
-      "latestAudit": "/research/source-reviews/2026-10-27-urban-name-reference.json",
+      "latestAudit": "/research/source-reviews/2026-10-28-academy-source.json",
       "lastAttemptAt": "2026-10-20T23:07:26.208Z",
       "itemResults": {
         "/exchange-rate/": {
@@ -1036,10 +1036,10 @@
         "/korea-tourism/": {
           "status": "awaiting_publication",
           "checkedAt": "2026-10-16T10:33:48.637Z",
-          "publicationCheckedAt": "2026-10-27T05:40:54.082Z",
+          "publicationCheckedAt": "2026-10-28T00:06:00.737Z",
           "nextEligibleDate": "2026-10-26",
-          "audit": "/research/source-reviews/2026-10-27-urban-name-reference.json",
-          "scope": "10월27일14:40 KST 정상 공식 메뉴의 해당 시각 공표 목록에서8월이최신이고9월게시물미확인. 이후공표여부는단정하지않음. 수치원표는재수집하지않음."
+          "audit": "/research/source-reviews/2026-10-28-academy-source.json",
+          "scope": "10월28일09:06 KST 정상공식메뉴의조회시점공표목록에서8월최신/9월게시물미확인. 수치원표재수집없음."
         },
         "/research/bukangi/": {
           "status": "needs_review",
@@ -1054,6 +1054,20 @@
           "audit": "/research/source-reviews/2026-10-27-urban-name-reference.json",
           "scope": "공식전국행정동ZIP의최신8월코드표에서서울427행/25구/2562필드와공개명칭JSON·CSV를대조. 9월원본427코드집합과정확일치. 참고동명만별도표시하며9월관측일명칭·경계/구7월과연속성은미확인.",
           "nextAction": "8월참고동명및새9월수치완료값반복재수집금지. 신구정의·경계연속성은근거확보때만판단. 다음미완료서울/수도권학원시설의공통관측일·미래등록일·식별자범위를대조. 관광공표원문우선,WorldBank11월3일이후."
+        },
+        "/seoul-academy-map/": {
+          "status": "needs_review",
+          "checkedAt": "2026-10-28T00:10:10.012Z",
+          "audit": "/research/source-reviews/2026-10-28-academy-source.json",
+          "scope": "공식CSV헤더만/웹표0행으로최신수치대조불가. 기존집계·수집·생성일보존.",
+          "nextAction": "공식CSV실제시설행과전수범위가회복된때기존수집기로지정번호유일성·25구합계·공통기준일·미래등록일을대조. 검증후에만해시·수치·출처·다운로드를갱신하고보존본안내를해제. 외부기관문의는발송하지않음."
+        },
+        "/sudogwon-academy-map/": {
+          "status": "needs_review",
+          "checkedAt": "2026-10-28T00:10:10.012Z",
+          "audit": "/research/source-reviews/2026-10-28-academy-source.json",
+          "scope": "공식CSV헤더만/웹표0행으로최신수치대조불가. 기존집계·수집·생성일보존.",
+          "nextAction": "공식CSV실제시설행과전수범위가회복된때기존수집기로지정번호유일성·25구합계·공통기준일·미래등록일을대조. 검증후에만해시·수치·출처·다운로드를갱신하고보존본안내를해제. 외부기관문의는발송하지않음."
         }
       },
       "checkpoints": {
@@ -1085,7 +1099,7 @@
           "Tourism not re-fetched before October26; original checkedAt retained"
         ]
       },
-      "nextAction": "8월참고동명및새9월수치완료값반복재수집금지. 신구정의·경계연속성은근거확보때만판단. 다음미완료서울/수도권학원시설의공통관측일·미래등록일·식별자범위를대조. 관광공표원문우선,WorldBank11월3일이후. 전체수락pending/일일예약10유지.",
+      "nextAction": "관광실제9월공표원문우선. 서울학원0행원응답은재대조불가로기록했고시설0개로해석금지. 원본회복시범위·식별자·관측일·2106등록일정정대조. 다음미완료선거구현행경계·코드전수대조로진행. 완료생활인구수치/8월참고명칭반복재수집금지. WorldBank11월3일이후. 전체수락pending/일일예약10유지.",
       "sourceFollowups": [
         {
           "id": "source-followup-1-20261021",
@@ -1561,10 +1575,58 @@
           },
           "release": {
             "branch": "codex/tourism-publication-20261027",
-            "status": "awaiting_checks",
+            "status": "verified",
             "liveUrl": "https://www.stargateedu.co.kr/research/data-review/",
             "sourceReviewUrl": "https://www.stargateedu.co.kr/research/source-reviews/2026-10-27-urban-name-reference.json",
-            "pullRequest": "https://github.com/DongsooJung/dongsoojung.github.io/pull/228"
+            "pullRequest": "https://github.com/DongsooJung/dongsoojung.github.io/pull/228",
+            "commit": "ff677260359f7dad64861d02709f51536e9e24b6",
+            "pullRequestHead": "67127196c06323e110f25177019311f389dc61e0",
+            "pullRequestMergeCommit": "ff677260359f7dad64861d02709f51536e9e24b6",
+            "verifiedAt": "2026-10-27T05:52:58.694Z",
+            "pagesRun": "https://github.com/DongsooJung/dongsoojung.github.io/actions/runs/40457693294",
+            "checks": [
+              "Portal PR228 exact head CodeQL aggregate and JavaScript success",
+              "Portal exact merged SHA Pages build/report/deploy success;both domains five public files match and public plan PR228 active/pending",
+              "Independent urban PR9 exact merged SHA Pages build/report/deploy and both domains three changed public files match;34 local Python tests/no GitHub PR checks configured",
+              "Official August reference427 rows/25 districts/2562 fields independently match JSON/CSV and September code universe;September effective names and boundaries remain unverified",
+              "Population JSON/CSV and legacy data.json unchanged;7 suppressed fields retained;no July comparison",
+              "Tourism latest listed August at Oct27 14:40 KST;period/collection/file/last numerical verification date unchanged",
+              "63 unique projects/seven exclusive alphabetical filters/essays7/nine groups/strategy44;11 Node tests;source download/search/hash/keyboard/mobile passed",
+              "Live name labels and four JSON/CSV downloads;390px new panel/no runtime errors;local missing/partial names fall back to source codes"
+            ],
+            "externalChecks": [
+              {
+                "context": "Vercel – stargate-onbid-api",
+                "state": "success",
+                "description": "Deployment has completed",
+                "targetUrl": "https://vercel.com/stargate2/stargate-onbid-api/4gPHR1PS6aspR69Z1WDcCNXAMbez"
+              },
+              {
+                "context": "Vercel – stargate-private-gateway",
+                "state": "success",
+                "description": "Deployment has completed",
+                "targetUrl": "https://vercel.com/stargate2/stargate-private-gateway/4yXntYVcPFxE5hntCz6oKoduLuSH"
+              }
+            ]
+          }
+        },
+        {
+          "id": "academy-followup-20261028",
+          "status": "completed",
+          "checkedAt": "2026-10-28T00:10:10.012Z",
+          "keys": [
+            "/korea-tourism/",
+            "/seoul-academy-map/",
+            "/sudogwon-academy-map/"
+          ],
+          "audit": "/research/source-reviews/2026-10-28-academy-source.json",
+          "outcome": "official_academy_response_unusable_snapshot_preserved_tourism_wait",
+          "release": {
+            "branch": "codex/academy-followup-20261028",
+            "status": "awaiting_checks",
+            "liveUrl": "https://www.stargateedu.co.kr/research/data-review/",
+            "sourceReviewUrl": "https://www.stargateedu.co.kr/research/source-reviews/2026-10-28-academy-source.json",
+            "pullRequest": "https://github.com/DongsooJung/dongsoojung.github.io/pull/232"
           }
         }
       ],
