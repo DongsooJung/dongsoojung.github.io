@@ -1,0 +1,192 @@
+{
+  "schemaVersion": 1,
+  "step": "academy-followup-20261028",
+  "checkedAt": "2026-10-28T00:10:10.012Z",
+  "sourceBaseCommit": "5783e15a3f200de9004bffb6df52e2422675354d",
+  "keys": [
+    "/korea-tourism/",
+    "/seoul-academy-map/",
+    "/sudogwon-academy-map/"
+  ],
+  "tourism": {
+    "reviewStatus": "awaiting_publication",
+    "publicationCheckedAt": "2026-10-28T00:06:00.737Z",
+    "publicationCheckedAtKst": "2026-10-28 09:06",
+    "latestListedDataPeriod": "2026-08",
+    "scope": "10월28일09:06 KST 정상공식메뉴의조회시점공표목록에서8월최신/9월게시물미확인. 수치원표재수집없음.",
+    "list": {
+      "url": "https://datalab.visitkorea.or.kr/site/portal/ex/bbs/List.do?cbIdx=1603&tgtTypeCd=CATE_CONT&searchKey2=spt01",
+      "renderedHtmlSha256": "74bb33523162393efaa805e8ade9289aa8eea2caea106859c987a324117f2ca1",
+      "links": [
+        {
+          "text": "2026년 한국관광통계 공표 예정일",
+          "href": "/site/portal/ex/bbs/View.do?cbIdx=1603&cbIdx2=1127&bcIdx=310073&pageIndex=1&tgtTypeCd=CATE_CONT&searchKey=&searchKey1=&searchKey2=spt01&searchKey3=&tabFlag=N&subFlag=N&cateCont=spt01"
+        },
+        {
+          "text": "한국관광통계 가이드북",
+          "href": "/site/portal/ex/bbs/View.do?cbIdx=1603&cbIdx2=1127&bcIdx=295706&pageIndex=1&tgtTypeCd=CATE_CONT&searchKey=&searchKey1=&searchKey2=spt01&searchKey3=&tabFlag=N&subFlag=N&cateCont=spt01"
+        },
+        {
+          "text": "2026년 8월 한국관광통계 공표",
+          "href": "/site/portal/ex/bbs/View.do?cbIdx=1603&cbIdx2=1127&bcIdx=311301&pageIndex=1&tgtTypeCd=CATE_CONT&searchKey=&searchKey1=&searchKey2=spt01&searchKey3=&tabFlag=N&subFlag=N&cateCont=spt01"
+        },
+        {
+          "text": "2026년 7월 한국관광통계 공표",
+          "href": "/site/portal/ex/bbs/View.do?cbIdx=1603&cbIdx2=1127&bcIdx=311134&pageIndex=1&tgtTypeCd=CATE_CONT&searchKey=&searchKey1=&searchKey2=spt01&searchKey3=&tabFlag=N&subFlag=N&cateCont=spt01"
+        },
+        {
+          "text": "2026년 6월 한국관광통계 공표",
+          "href": "/site/portal/ex/bbs/View.do?cbIdx=1603&cbIdx2=1127&bcIdx=310989&pageIndex=1&tgtTypeCd=CATE_CONT&searchKey=&searchKey1=&searchKey2=spt01&searchKey3=&tabFlag=N&subFlag=N&cateCont=spt01"
+        },
+        {
+          "text": "2026년 5월 한국관광통계 공표",
+          "href": "/site/portal/ex/bbs/View.do?cbIdx=1603&cbIdx2=1127&bcIdx=310862&pageIndex=1&tgtTypeCd=CATE_CONT&searchKey=&searchKey1=&searchKey2=spt01&searchKey3=&tabFlag=N&subFlag=N&cateCont=spt01"
+        },
+        {
+          "text": "2026년 4월 한국관광통계 공표",
+          "href": "/site/portal/ex/bbs/View.do?cbIdx=1603&cbIdx2=1127&bcIdx=310724&pageIndex=1&tgtTypeCd=CATE_CONT&searchKey=&searchKey1=&searchKey2=spt01&searchKey3=&tabFlag=N&subFlag=N&cateCont=spt01"
+        },
+        {
+          "text": "2026년 3월 한국관광통계 공표",
+          "href": "/site/portal/ex/bbs/View.do?cbIdx=1603&cbIdx2=1127&bcIdx=310653&pageIndex=1&tgtTypeCd=CATE_CONT&searchKey=&searchKey1=&searchKey2=spt01&searchKey3=&tabFlag=N&subFlag=N&cateCont=spt01"
+        },
+        {
+          "text": "2026년 2월 한국관광통계 공표",
+          "href": "/site/portal/ex/bbs/View.do?cbIdx=1603&cbIdx2=1127&bcIdx=310518&pageIndex=1&tgtTypeCd=CATE_CONT&searchKey=&searchKey1=&searchKey2=spt01&searchKey3=&tabFlag=N&subFlag=N&cateCont=spt01"
+        }
+      ]
+    },
+    "numericalCheckedAt": "2026-10-16T10:33:48.637Z",
+    "collectedAt": "2026-10-16T10:28:23.996613+00:00",
+    "snapshotUpdatedAt": "2026-10-16",
+    "dataPeriod": "2026-08"
+  },
+  "academy": {
+    "reviewStatus": "needs_review",
+    "result": "official_response_unusable_for_numerical_comparison",
+    "sourceUrl": "https://data.seoul.go.kr/dataList/OA-20528/S/1/datasetView.do",
+    "metadata": {
+      "documentSha256": "ca339dff2dd97ad21cdd4662fc4a0dfb2cdfefbfd00c40cb6a966da222c359d0",
+      "providerDataUpdatedLabel": "2026-10-27",
+      "providerMetadataUpdatedLabel": "2025-03-20",
+      "updateFrequency": "수시",
+      "originalSystem": "한국교육학술정보원 NEIS",
+      "uniformObservationDate": null,
+      "scope": "공식문서의데이터갱신일은전수관측기준일을뜻하지않음."
+    },
+    "attempts": [
+      {
+        "url": "https://datafile.seoul.go.kr/bigfile/iot/sheet/csv/download.do",
+        "method": "POST",
+        "form": {
+          "srvType": "S",
+          "infId": "OA-20528",
+          "serviceKind": "0",
+          "pageNo": "1",
+          "ssUserId": "SAMPLE_VIEW",
+          "strWhere": "",
+          "strOrderby": "PEI_DSGN_NO ASC",
+          "filterCol": "",
+          "txtFilter": ""
+        },
+        "status": 200,
+        "collectedAt": "2026-10-28T00:06:42.490799+00:00",
+        "bytes": 310,
+        "sha256": "990dca7c8818a7892a3f1b8410ba835da00c5f14836536743bd1c5fea26eed19",
+        "dataRows": 0,
+        "scope": "CSV22열헤더만수신,시설행없음. 현재시설0개를뜻하지않음."
+      },
+      {
+        "url": "https://datafile.seoul.go.kr/bigfile/iot/sheet/csv/download.do",
+        "method": "POST",
+        "form": {
+          "srvType": "S",
+          "infId": "OA-20528",
+          "serviceKind": "1",
+          "pageNo": "1",
+          "ssUserId": "SAMPLE_VIEW",
+          "strWhere": "",
+          "strOrderby": "PEI_DSGN_NO ASC",
+          "filterCol": "",
+          "txtFilter": ""
+        },
+        "status": 200,
+        "collectedAt": "2026-10-28T00:07:10.131018+00:00",
+        "bytes": 310,
+        "sha256": "990dca7c8818a7892a3f1b8410ba835da00c5f14836536743bd1c5fea26eed19",
+        "dataRows": 0,
+        "scope": "CSV22열헤더만수신,시설행없음. 현재시설0개를뜻하지않음."
+      }
+    ],
+    "grid": {
+      "url": "https://data.seoul.go.kr/dataList/dataView.do?onepagerow=1&srvType=S&infId=OA-20528&serviceKind=1&pageNo=1&ssUserId=SAMPLE_VIEW&strWhere=&strOrderby=PEI_DSGN_NO+ASC&filterCol=&txtFilter=",
+      "method": "GET",
+      "status": 200,
+      "collectedAt": "2026-10-28T00:07:10.012609+00:00",
+      "bytes": 27,
+      "sha256": "2404cbfb2520263bab0c2179ba485c7fc28d6af9dbcf17f2d0a90a5120874bc9",
+      "response": "{result:\"ok\",list:[]}"
+    },
+    "officialBrowser": {
+      "checkedAt": "2026-10-28T00:07:39.055Z",
+      "url": "https://data.seoul.go.kr/dataList/OA-20528/S/1/datasetView.do",
+      "listRows": 0,
+      "page": {
+        "pageNo": 1,
+        "pageSize": 10,
+        "pageCount": "",
+        "listCount": 0
+      },
+      "gridTotal": "",
+      "serviceKind": "1"
+    },
+    "preservation": {
+      "collectorRejectedUnreviewedHeaderOnlyResponse": true,
+      "returnCode": 1,
+      "reason": "Source hash differs; review the new original first",
+      "retainedFiles": [
+        {
+          "file": "data/academy/seoul.json",
+          "sha256Lf": "447fec5f6812765f1a57ba39cb02a290228ad4d016809680a01aa26c8ae5e1d8"
+        },
+        {
+          "file": "data/academy/seoul.csv",
+          "sha256Lf": "08ff1f42db4f45eb54d855d0f1f832b5a4c5f08c37c8a76e433a24dd71ab139e"
+        },
+        {
+          "file": "data/academy/gyeonggi.json",
+          "sha256Lf": "7c64b6b84f84354f4f49b9cc0025e95253570ef969132d0f9f965995d27871f7"
+        },
+        {
+          "file": "data/academy/gyeonggi.csv",
+          "sha256Lf": "f05a184d324db9ce220f66cea9da685a976bb482d0fe7323c16c8e51f31d32b7"
+        }
+      ],
+      "retainedTotals": {
+        "academyCount": 15289,
+        "teachingRoomCount": 10218,
+        "total": 25507
+      },
+      "retainedCollectedAt": "2026-10-17T09:47:34.174154+00:00",
+      "retainedSnapshotUpdatedAt": "2026-10-17T09:50:02.317774+00:00",
+      "uniformObservationDate": null,
+      "futureRegistrationCorrectionChecked": false
+    },
+    "limitations": [
+      "최신시설수·공통관측일·미래2106등록일정정여부를원자료와대조할수없음.",
+      "0행응답을0시설/폐원전수/수치검증완료로취급하지않음.",
+      "서울지정번호기반시설과경기/인천명칭·주소중복제거의정의차이및기준일혼재는계속유효."
+    ],
+    "nextAction": "공식CSV실제시설행과전수범위가회복된때기존수집기로지정번호유일성·25구합계·공통기준일·미래등록일을대조. 검증후에만해시·수치·출처·다운로드를갱신하고보존본안내를해제. 외부기관문의는발송하지않음."
+  },
+  "counts": {
+    "projects": 63,
+    "filtersIncludingAll": 7,
+    "essays": 7
+  },
+  "acceptance": "pending",
+  "worldBank": {
+    "eligibleOn": "2026-11-03",
+    "fetched": false
+  }
+}
