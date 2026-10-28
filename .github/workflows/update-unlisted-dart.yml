@@ -1,0 +1,46 @@
+name: Refresh unlisted OpenDART intelligence
+
+on:
+  schedule:
+    # Weekdays 09:35 KST
+    - cron: '35 0 * * 1-5'
+  workflow_dispatch:
+  push:
+    paths:
+      - 'scripts/update-unlisted-dart.py'
+      - '.github/workflows/update-unlisted-dart.yml'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: unlisted-opendart-refresh
+  cancel-in-progress: false
+
+jobs:
+  collect:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Unit tests
+        run: python -m unittest discover -s tests -p 'test_unlisted_dart.py'
+      - name: Fetch OpenDART (secret remains server-side)
+        env:
+          OPENDART_API_KEY: ${{ secrets.OPENDART_API_KEY || secrets.DART_API_KEY }}
+        run: python scripts/update-unlisted-dart.py
+      - name: Publish only changed snapshots
+        run: |
+          if git diff --quiet -- unlisted-stocks/data/opendart.json; then
+            echo "No data update; retaining last verified snapshot."
+            exit 0
+          fi
+          git config user.name "stargate-data-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add unlisted-stocks/data/opendart.json
+          git commit -m "data(unlisted): refresh official OpenDART financial and equity filings"
+          git pull --rebase origin main
+          git push origin HEAD:main
