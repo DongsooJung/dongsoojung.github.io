@@ -47,6 +47,20 @@
 .ipo-controls input,.ipo-controls select{padding:9px 11px;background:#0b1627;color:var(--fg);border:1px solid var(--line);border-radius:9px}
 .ipo-controls input{width:min(250px,100%)}
 @media(max-width:680px){.ipo-offer-grid,.ipo-review-grid{grid-template-columns:1fr}.ipo-summary div{padding:9px}.ipo-summary strong{font-size:18px}}
+
+/* v0.4: sourced IPO alert inbox */
+.ipo-alert-layout{display:flex;flex-wrap:wrap;gap:9px;justify-content:space-between;align-items:center;margin:14px 0}
+.ipo-alert-controls{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.ipo-alert-controls select{background:#0b1627;color:var(--fg);border:1px solid var(--line);border-radius:9px;padding:9px}
+.ipo-alert-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.ipo-alert-card{border:1px solid #335b69;background:#102737;border-radius:12px;padding:14px;min-width:0}
+.ipo-alert-card.read{border-color:var(--line);background:#0c192a}
+.ipo-alert-top{display:flex;justify-content:space-between;align-items:flex-start;gap:7px;flex-wrap:wrap}
+.ipo-alert-top strong{font-size:14px}
+.ipo-alert-type{font-size:10px;border-radius:20px;border:1px solid #477b83;color:var(--cyan);padding:3px 7px}
+.ipo-alert-meta{font-size:12px;color:var(--orange);margin:6px 0}
+.ipo-alert-actions{display:flex;gap:7px;margin-top:11px;flex-wrap:wrap}
+@media(max-width:680px){.ipo-alert-grid{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -73,6 +87,15 @@
 <p class="help" id="tableMeta" aria-live="polite"></p>
 </section>
 <section class="panel" aria-labelledby="plotHeading"><div class="panelhead"><div><h2 id="plotHeading">거래 활동 비교</h2><p class="help">단일 기준일의 거래대금 또는 거래량 비교 · 시세 등락률 아님</p></div><div class="inputs"><label class="sr-only" for="metric">비교 지표</label><select id="metric"><option value="value">거래대금</option><option value="volume">거래량</option></select></div></div><div class="plot" id="plot" role="img" aria-label="표시된 비상장 주식 거래 활동 비교"></div></section>
+<section class="panel" id="ipo-alerts" aria-labelledby="ipoAlertsHeading">
+<div class="panelhead"><div><div class="eyebrow">STARGATE IPO Monitor v0.4</div><h2 id="ipoAlertsHeading">새로운 공시 · 일정 변경 알림 <span style="color:var(--cyan)" id="ipoUnreadCount">0</span></h2><p class="help" id="ipoAlertStatus" aria-live="polite">공시 변경 내역 조회 중…</p></div><button class="btn" id="ipoAlertReload" type="button">갱신 확인</button></div>
+<div class="ipo-alert-layout">
+<div class="ipo-alert-controls"><label for="ipoAlertFilter">알림 범위</label><select id="ipoAlertFilter"><option value="week">최근 7일</option><option value="unread">읽지 않음</option><option value="all">전체 기록</option></select></div>
+<button class="btn" id="ipoAlertReadAll" type="button">모두 읽음 처리</button>
+</div>
+<div class="ipo-alert-grid" id="ipoAlertItems" aria-live="polite"><p class="help">알림 내역을 확인하고 있습니다.</p></div>
+<div class="note warning">실시간 푸시가 아닌, 평일 수집한 공시의 변경 내역입니다. 공개 검색 일부에 한정되며 신규 상장예비심사 승인·IPO 확정을 뜻하지 않습니다. 실제 공시 원문과 정정 여부를 확인하세요.</div>
+</section>
 <section class="panel" id="ipo-calendar" aria-labelledby="ipoCalendarHeading">
 <div class="panelhead"><div><div class="eyebrow">STARGATE IPO Tracker v0.3</div><h2 id="ipoCalendarHeading">공모·청약 일정 추적</h2><p class="help" id="ipoCalendarStatus" aria-live="polite">OpenDART 일정 데이터 연결 확인 중…</p></div><button class="btn" id="ipoRefresh" type="button">최신 스냅샷 확인</button></div>
 <div class="ipo-summary">
@@ -119,7 +142,7 @@
 <section class="panel"><h2>데이터 수집 구조</h2><p class="help">OpenDART API는 GitHub Actions에서 비밀키를 사용해 수집하며 공개 JSON 스냅샷만 전송합니다. 실제 수집 여부는 위의 상태 표시로 확인할 수 있습니다. K-OTC 실시간 시세 자동 갱신은 아직 연결하지 않았습니다.</p><div class="note warning">이 화면에서 매수·매도 또는 거래 중개는 제공하지 않습니다. 비상장주식은 유동성 부족, 호가·체결가격 차이, 정보 비대칭 위험이 큽니다.</div></section>
 </aside>
 </main>
-<footer class="foot">출처: <a href="https://www.k-otc.or.kr/public/main" target="_blank" rel="noopener noreferrer">금융투자협회 K-OTC 시장정보</a> (2026-10-28 공개 화면의 거래대금 상위 종목 5개 기준) · <a href="https://opendart.fss.or.kr/" target="_blank" rel="noopener noreferrer">금융감독원 OpenDART</a> · <a href="https://www.k-otc.or.kr/public/item/presentPrice" target="_blank" rel="noopener noreferrer">K-OTC 현재가 확인</a><p>가격과 거래량은 과거 스냅샷이며 투자 권유 또는 실시간 가격 제공이 아닙니다. STARGATE Intelligence MVP v0.3.</p></footer>
+<footer class="foot">출처: <a href="https://www.k-otc.or.kr/public/main" target="_blank" rel="noopener noreferrer">금융투자협회 K-OTC 시장정보</a> (2026-10-28 공개 화면의 거래대금 상위 종목 5개 기준) · <a href="https://opendart.fss.or.kr/" target="_blank" rel="noopener noreferrer">금융감독원 OpenDART</a> · <a href="https://www.k-otc.or.kr/public/item/presentPrice" target="_blank" rel="noopener noreferrer">K-OTC 현재가 확인</a><p>가격과 거래량은 과거 스냅샷이며 투자 권유 또는 실시간 가격 제공이 아닙니다. STARGATE Intelligence MVP v0.4.</p></footer>
 </div>
 <script>
 (function(){
@@ -169,5 +192,6 @@ render();
 </script>
 <script src="./dart-insights.js" defer></script>
 <script src="./ipo-calendar.js" defer></script>
+<script src="./ipo-alerts.js" defer></script>
 </body>
 </html>
