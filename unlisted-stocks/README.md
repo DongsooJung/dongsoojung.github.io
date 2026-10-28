@@ -1,4 +1,4 @@
-# STARGATE 비상장주식 인텔리전스 (MVP v0.2)
+# STARGATE 비상장주식 인텔리전스 (MVP v0.3)
 
 - 경로: `/unlisted-stocks/`
 - 앱 연동: Stargate Google Play TWA는 `stargateedu.co.kr`을 표시하므로, 웹 포털 메뉴에서 이 경로로 진입할 수 있습니다. 별도의 AAB 재빌드 없이 웹 기능을 업데이트할 수 있습니다.
@@ -47,6 +47,23 @@ CSV 저장은 브라우저 안에서 처리합니다. 가져온 데이터/관심
 공식 문서: [OpenDART 고유번호](https://opendart.fss.or.kr/guide/detail.do?apiGrpCd=DS001&apiId=2019018), [재무제표](https://opendart.fss.or.kr/guide/detail.do?apiGrpCd=DS003&apiId=2019020), [공시검색](https://opendart.fss.or.kr/guide/detail.do?apiGrpCd=DS001&apiId=2019001).
 
 **운영 검증:** 워크플로 실행 성공 → JSON의 `status=ok`, `updated_at` 확인 → 기업명/보고기간/공시 원문 대조.
+## IPO 신고서 일정 자동 갱신 (v0.3)
+
+- 신규 일정 수집기: `scripts/update-ipo-calendar.py`. 평일 09:55 KST GitHub Actions `Refresh IPO filing calendars`에서 실행합니다.
+- OpenDART `list.json` 비상장/기타법인 E의 최근 90일 지분증권 신고서를 검색한 뒤, 고유번호에 유일하게 매칭되는 법인에만 `estkRs.json`을 호출합니다.
+- 대시보드 `ipo-calendar.js`는 `data/ipo-calendar.json`에 저장된 **신고서상 청약일·납입기일·신고서상 모집가액**만 표시합니다.
+- `sbd` 청약기일이 명확한 ISO 유사 형식일 때만 날짜를 정규화하며, 복잡한 텍스트는 원문 그대로 표시합니다. **공모주 일반청약 확정, IPO 신청 승인, 상장예정일로 바꾸어 표현하지 않습니다.**
+- 검색 결과는 최대 8페이지, 기업 최대 35곳, 보고서 100건으로 제한합니다. 데이터에는 조회 범위 및 잘림 여부(`coverage.truncated`, `issuer_limit_reached`)를 저장하며 완전한 국내 IPO 목록이 아닙니다.
+- 초기 JSON은 `not_connected`입니다. GitHub Actions secret `OPENDART_API_KEY` 또는 `DART_API_KEY`가 설정되어 수집이 성공하면 `ok`로 바뀝니다.
+- KRX KIND 예비심사(청구/승인/철회/미승인/상장완료)는 **OpenDART에서 얻을 수 없으므로 별도 인증된 데이터 공급원의 발표일과 공식 원문을 검증한 경우에만** `data/kind-verified.json`에 반영됩니다.
+- 데이터 수집기 `scripts/update-kind-ipo-feed.py`는 scraping을 하지 않습니다. **정식 이용 계약에 따라 제공된 JSON 피드**를 사용할 경우에만 GitHub Actions secrets `IPO_KIND_FEED_URL`, `IPO_KIND_FEED_TOKEN`(선택), repository variable `IPO_KIND_ALLOWED_HOST`를 설정합니다.
+- 공급 피드는 HTTPS/호스트 allowlist/공인 IP 검사/리다이렉트 차단/용량 제한 및 KIND·KRX 원문 링크 검증을 통과해야 합니다. 공급 미연결 상태에서는 예비심사 '확정' 표시가 나오지 않습니다.
+- CSV는 클라이언트 내에서 생성하며, 원천 접수번호를 포함합니다. 별도 투자계좌/개인정보를 수집하지 않습니다.
+- 로컬/Actions 검증: `python -m unittest discover -s tests -p 'test_ipo_calendar.py' -v`, `node --check unlisted-stocks/ipo-calendar.js`.
+
+원천 자료: [OpenDART 지분증권 API](https://opendart.fss.or.kr/guide/detail.do?apiGrpCd=DS006&apiId=2020054) · [KRX 상장 절차](https://listing.krx.co.kr/contents/LST/03/03020000/LST03020000.jsp) · [KRX KIND](https://kind.krx.co.kr/external/dst/main/main_contents.htm).
+
+**이용권 주의:** 금융위원회 및 예탁결제원 제공 일부 공공데이터는 상업적 재사용·재배포가 제한됩니다. 계약이 없는 KRX 데이터는 수집·공개하지 않습니다.
 ## 다음 개발 단계
 
 1. 정식 시세 공급 계약 또는 허가된 피드 확보: 종목·체결일·종가·거래량·기준시간 포함, 라이선스 및 재배포 조건 검토.

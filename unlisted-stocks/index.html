@@ -24,6 +24,29 @@
 .dart-ipo-date{font-size:10px;color:var(--orange)}
 .dart-ipo-report{font-size:12px;color:var(--muted);margin:8px 0 12px;line-height:1.45}
 @media(max-width:680px){.dart-ipo-items{grid-template-columns:1fr}}
+
+/* v0.3: verified-subscription calendar */
+.ipo-summary{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px;margin:12px 0 16px}
+.ipo-summary div{background:#0c192a;border:1px solid var(--line);padding:11px;border-radius:11px}
+.ipo-summary small{color:var(--muted);display:block;font-size:11px}
+.ipo-summary strong{font-size:22px;color:var(--cyan);display:block}
+.ipo-offer-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px;margin:13px 0}
+.ipo-offer-card{border:1px solid var(--line);background:#0c192a;padding:12px;border-radius:12px;min-width:0}
+.ipo-offer-head{display:flex;justify-content:space-between;gap:8px;align-items:flex-start;flex-wrap:wrap;margin-bottom:12px}
+.ipo-offer-head strong{font-size:14px;line-height:1.4}
+.ipo-offer-flag{color:var(--orange);font-size:10px;border:1px solid #60462a;border-radius:20px;padding:2px 7px}
+.ipo-meta-row{display:grid;grid-template-columns:1fr;gap:0;margin:7px 0}
+.ipo-meta-row span{font-size:10px;color:var(--muted)}
+.ipo-meta-row strong{font-size:12px;font-weight:600;overflow-wrap:anywhere}
+.ipo-offer-card>.btn{margin-top:10px}
+.ipo-review-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin:11px 0}
+.ipo-review-row{border:1px solid var(--line);background:#0c192a;padding:12px;border-radius:12px}
+.ipo-review-row .help{margin:5px 0 10px}
+.ipo-review-tag{font-size:11px;color:var(--cyan)}
+.ipo-controls{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.ipo-controls input,.ipo-controls select{padding:9px 11px;background:#0b1627;color:var(--fg);border:1px solid var(--line);border-radius:9px}
+.ipo-controls input{width:min(250px,100%)}
+@media(max-width:680px){.ipo-offer-grid,.ipo-review-grid{grid-template-columns:1fr}.ipo-summary div{padding:9px}.ipo-summary strong{font-size:18px}}
 </style>
 </head>
 <body>
@@ -50,6 +73,27 @@
 <p class="help" id="tableMeta" aria-live="polite"></p>
 </section>
 <section class="panel" aria-labelledby="plotHeading"><div class="panelhead"><div><h2 id="plotHeading">거래 활동 비교</h2><p class="help">단일 기준일의 거래대금 또는 거래량 비교 · 시세 등락률 아님</p></div><div class="inputs"><label class="sr-only" for="metric">비교 지표</label><select id="metric"><option value="value">거래대금</option><option value="volume">거래량</option></select></div></div><div class="plot" id="plot" role="img" aria-label="표시된 비상장 주식 거래 활동 비교"></div></section>
+<section class="panel" id="ipo-calendar" aria-labelledby="ipoCalendarHeading">
+<div class="panelhead"><div><div class="eyebrow">STARGATE IPO Tracker v0.3</div><h2 id="ipoCalendarHeading">공모·청약 일정 추적</h2><p class="help" id="ipoCalendarStatus" aria-live="polite">OpenDART 일정 데이터 연결 확인 중…</p></div><button class="btn" id="ipoRefresh" type="button">최신 스냅샷 확인</button></div>
+<div class="ipo-summary">
+<div><small>지분증권 신고서</small><strong id="ipoOfferCount">—</strong></div>
+<div><small>향후 청약일 확인</small><strong id="ipoUpcomingCount">—</strong></div>
+<div><small>검증된 예심 이벤트</small><strong id="ipoReviewCount">—</strong></div>
+</div>
+<div class="ipo-controls">
+<label class="sr-only" for="ipoSearch">기업 검색</label><input id="ipoSearch" type="search" placeholder="기업명 검색">
+<label class="sr-only" for="ipoFilter">일정 유형</label><select id="ipoFilter"><option value="all">전체</option><option value="upcoming">예정 청약일</option><option value="dated">날짜 확인</option><option value="undated">날짜 확인 필요</option></select>
+<button class="btn" id="ipoExport" type="button">공시 일정 CSV</button>
+</div>
+<p class="help" id="ipoVisibleCount" aria-live="polite"></p>
+<div class="ipo-offer-grid" id="ipoOfferItems" aria-live="polite"></div>
+<div class="note warning">이 목록은 공시된 지분증권 발행·청약 일정입니다. IPO 심사 승인, 일반투자자 공모청약 확정 또는 상장예정일을 뜻하지 않습니다. 정정공시를 확인하세요.</div>
+</section>
+<section class="panel" id="kind-reviews" aria-labelledby="kindReviewsHeading">
+<div class="panelhead"><div><h2 id="kindReviewsHeading">상장예비심사 단계 확인</h2><p class="help" id="ipoKindStatus" aria-live="polite">KRX 데이터 공급원 연결 확인 중…</p></div><a class="btn" href="https://kind.krx.co.kr/external/dst/main/main_contents.htm" target="_blank" rel="noopener noreferrer">KIND 공식 예비심사 ↗</a></div>
+<div class="ipo-review-grid" id="ipoReviewItems" aria-live="polite"></div>
+<p class="help">예심 단계는 사용 권한이 확보된 거래소 데이터 공급원에서 원문 링크와 발표일이 검증된 경우에만 표시됩니다. 공급계약이 없다면 '미연결'로 남습니다.</p>
+</section>
 <section class="panel" id="ipo-watch" aria-labelledby="ipoHeading">
 <div class="panelhead"><div><h2 id="ipoHeading">상장 관련 공시 모니터링</h2><p class="help">비상장(기타법인) 지분증권 발행공시 · IPO 확정 기업 목록이 아닙니다.</p></div><a class="btn" href="https://kind.krx.co.kr/external/dst/main/main_contents.htm" target="_blank" rel="noopener noreferrer">KRX KIND IPO 현황 ↗</a></div>
 <p class="help" id="dartIpoMeta" aria-live="polite">OpenDART 공시 스냅샷을 확인하고 있습니다.</p>
@@ -75,7 +119,7 @@
 <section class="panel"><h2>데이터 수집 구조</h2><p class="help">OpenDART API는 GitHub Actions에서 비밀키를 사용해 수집하며 공개 JSON 스냅샷만 전송합니다. 실제 수집 여부는 위의 상태 표시로 확인할 수 있습니다. K-OTC 실시간 시세 자동 갱신은 아직 연결하지 않았습니다.</p><div class="note warning">이 화면에서 매수·매도 또는 거래 중개는 제공하지 않습니다. 비상장주식은 유동성 부족, 호가·체결가격 차이, 정보 비대칭 위험이 큽니다.</div></section>
 </aside>
 </main>
-<footer class="foot">출처: <a href="https://www.k-otc.or.kr/public/main" target="_blank" rel="noopener noreferrer">금융투자협회 K-OTC 시장정보</a> (2026-10-28 공개 화면의 거래대금 상위 종목 5개 기준) · <a href="https://opendart.fss.or.kr/" target="_blank" rel="noopener noreferrer">금융감독원 OpenDART</a> · <a href="https://www.k-otc.or.kr/public/item/presentPrice" target="_blank" rel="noopener noreferrer">K-OTC 현재가 확인</a><p>가격과 거래량은 과거 스냅샷이며 투자 권유 또는 실시간 가격 제공이 아닙니다. STARGATE Intelligence MVP v0.2.</p></footer>
+<footer class="foot">출처: <a href="https://www.k-otc.or.kr/public/main" target="_blank" rel="noopener noreferrer">금융투자협회 K-OTC 시장정보</a> (2026-10-28 공개 화면의 거래대금 상위 종목 5개 기준) · <a href="https://opendart.fss.or.kr/" target="_blank" rel="noopener noreferrer">금융감독원 OpenDART</a> · <a href="https://www.k-otc.or.kr/public/item/presentPrice" target="_blank" rel="noopener noreferrer">K-OTC 현재가 확인</a><p>가격과 거래량은 과거 스냅샷이며 투자 권유 또는 실시간 가격 제공이 아닙니다. STARGATE Intelligence MVP v0.3.</p></footer>
 </div>
 <script>
 (function(){
@@ -124,5 +168,6 @@ render();
 })();
 </script>
 <script src="./dart-insights.js" defer></script>
+<script src="./ipo-calendar.js" defer></script>
 </body>
 </html>
