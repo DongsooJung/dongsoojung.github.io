@@ -1,0 +1,47 @@
+name: Verify IPO tracker
+
+on:
+  pull_request:
+    paths:
+      - 'scripts/update-ipo-calendar.py'
+      - 'scripts/update-kind-ipo-feed.py'
+      - 'tests/test_ipo_calendar.py'
+      - 'unlisted-stocks/**'
+      - '.github/workflows/verify-ipo-tracker.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Test IPO date parser and KRX evidence validation
+        run: python -m unittest discover -s tests -p 'test_ipo_calendar.py' -v
+      - name: Validate JavaScript syntax
+        run: |
+          node --check unlisted-stocks/ipo-calendar.js
+          node --check unlisted-stocks/dart-insights.js
+      - name: Check dashboard schema and UI bindings
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          html=Path('unlisted-stocks/index.html').read_text()
+          for tag in ('ipoOfferItems','ipoKindStatus','ipoReviewItems','ipoSearch','ipoFilter','ipoRefresh','ipoExport','ipoVisibleCount','ipoOfferCount','ipoUpcomingCount','ipoReviewCount'):
+            assert 'id="'+tag+'"' in html, tag
+          assert '<script src="./ipo-calendar.js" defer></script>' in html
+          for file in ('ipo-calendar.json','kind-verified.json'):
+            x=json.loads(Path('unlisted-stocks/data/'+file).read_text())
+            assert x['schema']==1 and x['status'] in ('not_connected','ok')
+            assert isinstance(x['records'],list)
+          print('IPO dashboard contract OK')
+          PY
