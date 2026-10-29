@@ -16,7 +16,7 @@
   // index.html 의 '전략 인사이트' 허브 카드 하위 링크(.hub-sublinks)로 이동했습니다.
 
   if (!summaryLink || !todayElement || !totalElement) return;
-  if (cloudflareAnalytics) summaryLink.href = `${cloudflareOrigin}/admin/visitors/`;
+  if (cloudflareAnalytics) summaryLink.href = window.location.hostname === 'www.stargatekorea.net' ? `${cloudflareOrigin}/admin/visitors/` : 'https://stargateedu.co.kr/visitors/';
 
   const headers = cloudflareAnalytics ? {
     'Content-Type': 'application/json',
@@ -94,3 +94,4 @@
 
   updateSummary();
 })();
+

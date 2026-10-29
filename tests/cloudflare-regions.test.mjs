@@ -19,6 +19,7 @@ test('trusted coarse geography, retries, unknown coverage and click shares',()=>
  store.call('record_site_usage_event',event(4),now);
  store.call('record_site_usage_event',event(5,'page_view'),now,{country:'US',region:'California'});
  const r=store.call('get_site_region_stats',{p_days:30},now);
+ assert.deepEqual(store.call('get_site_region_summary',{p_days:30},now),r);
  assert.equal(r.total_clicks,4);assert.equal(r.located_clicks,3);assert.equal(r.unknown_clicks,1);
  assert.deepEqual(r.regions,[{country:'KR',region:'Seoul',clicks:2,share:50},{country:'US',region:'California',clicks:1,share:25}]);
  assert.ok(!JSON.stringify(r).includes('visitor_id'));assert.ok(!JSON.stringify(r).includes('203.0.113.1'));assert.ok(!JSON.stringify(r).includes('Spoofed'));

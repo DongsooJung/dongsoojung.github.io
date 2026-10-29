@@ -7,9 +7,12 @@ test('regional endpoint is only exposed after existing Access authentication',()
  const publicMethods=routes.split('\n').find(line=>line.startsWith('const publicMethods'));
  const adminMethods=routes.split('\n').find(line=>line.startsWith('const adminMethods'));
  assert.ok(!publicMethods.includes('get_site_region_stats'));
+ assert.ok(publicMethods.includes('get_site_region_summary'));
+ assert.match(read('visitors/index.html'),/data-region-map/);
  assert.ok(adminMethods.includes('get_site_region_stats'));
  assert.ok(routes.indexOf('verifyAccessRequest(request,ownerEnv,accessOptions)')<routes.indexOf('if (!adminMethods.has(method))'));
  const homepage=read('index.html');assert.ok(!homepage.includes('data-visitor-regions'));assert.ok(!homepage.includes('visitor-regions.js'));
  assert.match(read('admin/visitors/index.html'),/data-visitor-regions/);
 });
+
 

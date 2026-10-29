@@ -1,4 +1,4 @@
-export const METHODS = new Set(['get_site_region_stats', 'get_site_visit_stats', 'get_site_usage_stats', 'get_site_visit_summary', 'get_site_usage_summary', 'get_site_button_click_counts', 'record_site_visit', 'record_site_usage_event']);
+export const METHODS = new Set(['get_site_region_summary', 'get_site_region_stats', 'get_site_visit_stats', 'get_site_usage_stats', 'get_site_visit_summary', 'get_site_usage_summary', 'get_site_button_click_counts', 'record_site_visit', 'record_site_usage_event']);
 export const MAX_BODY_BYTES = 8192;
 export const MAX_IMPORT_BYTES = 262144;
 export const HISTORY_SOURCE = 'supabase:inftexpcnfinglwlrvsj';
@@ -54,7 +54,7 @@ function target(value) {
 export function validatePayload(method, payload, now = Date.now()) {
   if (!METHODS.has(method)) throw new RequestError('Unknown analytics method', 404);
   if (!payload || typeof payload !== 'object' || Array.isArray(payload)) throw new RequestError('Expected a JSON object');
-  if (['get_site_region_stats','get_site_visit_stats','get_site_usage_stats','get_site_visit_summary','get_site_usage_summary'].includes(method)) {
+  if (['get_site_region_summary','get_site_region_stats','get_site_visit_stats','get_site_usage_stats','get_site_visit_summary','get_site_usage_summary'].includes(method)) {
     const days = payload.p_days ?? 30;
     if (!Number.isInteger(days) || days < 1 || days > 90) throw new RequestError('p_days must be between 1 and 90');
     if (method === 'get_site_usage_summary' && ![7,14,30].includes(days)) throw new RequestError('Public usage windows are 7, 14 or 30 days');
@@ -379,6 +379,7 @@ export class AnalyticsStore {
     switch (method) {
       case 'record_site_visit': return this.recordVisit(p);
       case 'record_site_usage_event': return this.recordEvent(p, now, coarseRegion(geo));
+      case 'get_site_region_summary': return this.regions(p.p_days, now);
       case 'get_site_region_stats': return this.regions(p.p_days, now);
       case 'get_site_visit_stats': return this.visits(p.p_days, now);
       case 'get_site_usage_stats': return this.usage(p.p_days, now);
@@ -388,5 +389,6 @@ export class AnalyticsStore {
     }
   }
 }
+
 
 

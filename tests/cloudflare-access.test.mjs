@@ -185,3 +185,17 @@ test('analytics rejects a valid session for a different email and fails closed w
  delete env.ANALYTICS_OWNER_EMAIL;
  assert.equal((await handleRequest(request('/api/admin/analytics/get_site_region_stats',{p_days:30},{'Cf-Access-Jwt-Assertion':await token()}),env,{access})).status,401);
 });
+
+
+test('anonymous visitor report and regional summaries work while unrelated admin APIs remain protected',async()=>{
+ const {env}=environment();
+ env.VISITOR_ANALYTICS.get=()=>({analytics:async(method,payload)=>{
+   assert.equal(method,'get_site_region_summary');assert.deepEqual(payload,{p_days:7});
+   return {source:'cloudflare',days:7,total_clicks:2,located_clicks:2,unknown_clicks:0,regions:[{country:'KR',region:'Seoul',clicks:2,share:100}]};
+ }});
+ const response=await handleRequest(request('/api/analytics/get_site_region_summary',{p_days:7},{Origin:'https://stargateedu.co.kr'}),env,{access});
+ assert.equal(response.status,200);assert.equal(response.headers.get('Access-Control-Allow-Origin'),'https://stargateedu.co.kr');
+ assert.equal((await handleRequest(request('/visitors/',{}, {},'GET'),env,{access})).status,200);
+ assert.equal((await handleRequest(request('/api/admin/analytics/get_site_usage_stats'),env,{access})).status,401);
+ assert.equal((await handleRequest(request('/api/analytics/get_site_region_summary',{p_days:7},{Origin:'https://foreign.example'}),env,{access})).status,403);
+});

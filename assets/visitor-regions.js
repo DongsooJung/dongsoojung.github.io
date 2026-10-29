@@ -3,9 +3,12 @@
   const root = document.querySelector('[data-visitor-regions]');
   if (!root) return;
   const origin = 'https://stargate.stargate8225.workers.dev';
-  // The regional view is available only on the authenticated Worker admin page.
-  if (location.origin !== origin || !location.pathname.startsWith('/admin/')) return;
-  const endpoint = '/api/admin/analytics/get_site_region_stats';
+  const isAdmin = location.origin === origin && location.pathname.startsWith('/admin/');
+  const publicOrigins = new Set(['https://stargateedu.co.kr','https://www.stargateedu.co.kr',origin]);
+  const isPublicReport = publicOrigins.has(location.origin) && /^\/visitors(?:\/|\/index\.html)?$/.test(location.pathname);
+  if (!isAdmin && !isPublicReport) return;
+  const endpoint = isAdmin ? '/api/admin/analytics/get_site_region_stats'
+    : (location.origin === origin ? '' : origin) + '/api/analytics/get_site_region_summary';
   const status = root.querySelector('[data-region-status]');
   const list = root.querySelector('[data-region-list]');
   const daysLabel = root.querySelector('[data-region-days]');
@@ -81,14 +84,15 @@
   let generation = 0;
   async function load() {
     const ticket = ++generation;
-    const days = Number(document.getElementById('period-days')?.value) === 90 ? 90 : 30;
+    const selectedDays = Number(document.getElementById('period-days')?.value);
+    const days = [7,30,90].includes(selectedDays) ? selectedDays : 30;
     daysLabel.textContent = days;
     list.replaceChildren();
     resetMap('지역 통계를 확인하고 있습니다.');
     status.textContent = '지역별 클릭 통계를 불러오는 중입니다.';
     try {
-      const response = await fetch(endpoint, {method:'POST',credentials:'same-origin',redirect:'manual',cache:'no-store',headers:{'Content-Type':'application/json'},body:JSON.stringify({p_days:days}),signal:AbortSignal.timeout(10000)});
-      if ([401,403,302,303].includes(response.status) || response.type === 'opaqueredirect' || response.redirected || response.headers?.get('content-type')?.includes('text/html')) throw new Error('ACCESS_LOGIN_REQUIRED');
+      const response = await fetch(endpoint, {method:'POST',credentials:isAdmin?'same-origin':'omit',redirect:isAdmin?'manual':'follow',cache:'no-store',headers:{'Content-Type':'application/json'},body:JSON.stringify({p_days:days}),signal:AbortSignal.timeout(10000)});
+      if (isAdmin && ([401,403,302,303].includes(response.status) || response.type === 'opaqueredirect' || response.redirected || response.headers?.get('content-type')?.includes('text/html'))) throw new Error('ACCESS_LOGIN_REQUIRED');
       if (!response.ok) throw new Error('REGIONS_HTTP');
       const data = await response.json();
       if (data.source !== 'cloudflare' || !Array.isArray(data.regions) || !Number.isFinite(data.total_clicks) || !Number.isFinite(data.located_clicks) || !Number.isFinite(data.unknown_clicks)) throw new Error('REGIONS_INVALID');
@@ -112,7 +116,7 @@
       });
     } catch (error) {
       if (ticket !== generation) return;
-      resetMap('관리자 인증 후 지도를 확인할 수 있습니다.');
+      resetMap(isAdmin ? '관리자 인증 후 지도를 확인할 수 있습니다.' : '지역 통계를 불러오지 못했습니다. 새로고침해 주세요.');
       list.replaceChildren();status.textContent = error.message === 'ACCESS_LOGIN_REQUIRED' ? '대표님 관리자 로그인이 필요합니다. 다시 로그인한 뒤 새로고침해 주세요.' : '지역별 클릭 통계에 연결하지 못했습니다. 잠시 후 다시 확인해 주세요.';
     }
   }
@@ -120,4 +124,5 @@
   document.getElementById('refresh')?.addEventListener('click',load);
   load();
 })();
+
 

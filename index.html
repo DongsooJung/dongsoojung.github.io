@@ -516,7 +516,7 @@ var m=localStorage.getItem(k);if(m==='mobile'||m==='fold')r.classList.add('is-ap
 
   <div class="quick-links">
     <a class="chip mono" style="border-color:#ffb000;color:#ffcb5c;background:rgba(255,176,0,.10)" href="/aphorisms.html">오늘의 격언</a>
-    <a id="visitor-summary-link" class="chip mono" style="border-color:#7aa2ff;color:#dbe6ff;background:rgba(79,127,255,.14);font-weight:600" href="/admin/visitors/" rel="nofollow" aria-label="사이트 사용 분석 대시보드">오늘 <strong id="visitor-today-count" style="color:var(--ink)">-</strong> · 누적 <strong id="visitor-total-count" style="color:var(--ink)">-</strong></a>
+    <a id="visitor-summary-link" class="chip mono" style="border-color:#7aa2ff;color:#dbe6ff;background:rgba(79,127,255,.14);font-weight:600" href="/visitors/" rel="nofollow" aria-label="방문·지역 통계">오늘 <strong id="visitor-today-count" style="color:var(--ink)">-</strong> · 누적 <strong id="visitor-total-count" style="color:var(--ink)">-</strong></a>
   </div>
 
 
@@ -1584,7 +1584,7 @@ if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => navigator.serviceWorker.register('/sw.js'));
 }
 </script>
-<script src="/assets/visitor-counter.js?v=20261026-cloudflare-www-1" defer></script>
+<script src="/assets/visitor-counter.js?v=20261029-public-report" defer></script>
 <script src="/assets/usage-analytics.js?v=20261026-cloudflare-www-1" defer></script>
 <script src="/assets/home-page-views.js?v=20261026-cloudflare-pages-1" defer></script>
 <script>
@@ -1764,4 +1764,5 @@ if ('serviceWorker' in navigator) {
   <script src="/assets/dashboard-data-status.js?v=20261015-1" defer></script>
 </body>
 </html>
+
 

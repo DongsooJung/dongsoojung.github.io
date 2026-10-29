@@ -95,7 +95,7 @@ jobs:
         env:
           WORKER_URL: ${{ steps.deploy.outputs.url }}
         run: |
-          for path in index.html .well-known/assetlinks.json strategy/monetization-opportunities/index.html; do
+          for path in index.html visitors/index.html .well-known/assetlinks.json strategy/monetization-opportunities/index.html; do
             matched=false
             for attempt in 1 2 3 4 5 6; do
               if curl --fail --silent --show-error --location --max-time 10 \
@@ -131,6 +131,9 @@ jobs:
           test "$status" = 404 || { echo '::error::Regional statistics must not be public'; exit 1; }
           status=$(curl --silent --show-error --output /dev/null --write-out '%{http_code}' --header 'Content-Type: application/json' --data '{"p_days":30}' "$WORKER_URL/api/admin/analytics/get_site_region_stats")
           case "$status" in 302|303|401|403) ;; *) echo '::error::Regional statistics require administrator authentication'; exit 1;; esac
+          curl --fail --silent --show-error "$WORKER_URL/api/analytics/get_site_region_summary" --header 'Content-Type: application/json' --data '{"p_days":30}' --output "$RUNNER_TEMP/public-regions.json"
+          jq --exit-status '.source == "cloudflare" and (.regions | type == "array") and (has("visitor_id") | not) and (has("ip") | not)' "$RUNNER_TEMP/public-regions.json" > /dev/null
           curl --fail --silent --show-error "$WORKER_URL/api/dashboards/status" --output "$RUNNER_TEMP/dashboard-status.json"
           jq --exit-status '.datasets | length == 3' "$RUNNER_TEMP/dashboard-status.json" > /dev/null
           echo "Verified static site: $WORKER_URL" >> "$GITHUB_STEP_SUMMARY"
+

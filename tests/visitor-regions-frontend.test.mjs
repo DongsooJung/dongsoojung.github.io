@@ -20,3 +20,11 @@ test('map has all 17 provinces and region selection displays verified click coun
  assert.match(b.get('[data-region-map-summary]').textContent,/지도 표시 5회/);assert.match(b.get('[data-region-map-summary]').textContent,/국내 시도 미확인 1회/);
  const expired=await browser({},false,undefined,401);assert.equal(expired.get('[data-region-map]').children.length,0);
 });
+
+
+test('public visitor report uses only the anonymous aggregate API',async()=>{
+ const b=await browser({source:'cloudflare',total_clicks:0,located_clicks:0,unknown_clicks:0,regions:[]},true,{origin:'https://stargateedu.co.kr',pathname:'/visitors/'});
+ assert.equal(b.requests[0].url,'https://stargate.stargate8225.workers.dev/api/analytics/get_site_region_summary');assert.equal(b.requests[0].options.credentials,'omit');
+ assert.ok(!b.requests.some(r=>r.url.includes('/api/admin/')));
+ b.get('period-days').value='7';await b.get('period-days').listeners.change();assert.equal(JSON.parse(b.requests.at(-1).options.body).p_days,7);
+});
