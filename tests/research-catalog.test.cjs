@@ -4,8 +4,8 @@ const fs=require('node:fs');
 const {inspectSnapshot,snapshotFingerprint,reconcileSnapshot}=require('../scripts/review-research-snapshots.cjs');
 const catalog=JSON.parse(fs.readFileSync(require.resolve('../research/data-catalog.json'),'utf8'));
 test('the catalog covers all projects once and does not call snapshot checks original-source verification',()=>{
- assert.equal(catalog.projects.length,63);
- assert.equal(new Set(catalog.projects.map(p=>p.key)).size,63);
+ assert.equal(catalog.projects.length,64);
+ assert.equal(new Set(catalog.projects.map(p=>p.key)).size,64);
  for(const p of catalog.projects){
   assert.ok(['urban','society','research','essays','education','operations'].includes(p.primary));
   if(p.reviewStatus==='verified')assert.ok(p.evidence.some(e=>e.kind==='official-source'));
@@ -15,8 +15,8 @@ test('the catalog covers all projects once and does not call snapshot checks ori
  const plan=JSON.parse(fs.readFileSync(require.resolve('../research/refresh-plan.json'),'utf8'));
  assert.equal(plan.intervalMinutes,1440);
  const queued=plan.steps.flatMap(s=>s.keys||[]);
- assert.equal(new Set(queued).size,63);
- assert.equal(queued.length,63);
+ assert.equal(new Set(queued).size,64);
+ assert.equal(queued.length,64);
  const essays=catalog.projects.filter(p=>p.primary==='essays');
  assert.equal(essays.length,7);
  assert.ok(essays.every(p=>p.classification==='난제·에세이'));

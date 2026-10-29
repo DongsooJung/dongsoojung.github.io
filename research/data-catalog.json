@@ -5131,6 +5131,42 @@
       "primary": "operations",
       "classification": "운영·제품",
       "sourceHint": "Status API · Web Probe"
+    },
+    {
+      "key": "/research/quantum-cryptography/",
+      "url": "/research/quantum-cryptography/",
+      "title": "양자암호 연구 대시보드",
+      "primary": "research",
+      "classification": "연구·AI",
+      "sourceHint": "NIST · ETSI · QKD × PQC",
+      "source": {
+        "label": "NIST·ETSI 공식 문헌",
+        "url": "https://csrc.nist.gov/Projects/post-quantum-cryptography",
+        "verification": "document_reviewed"
+      },
+      "dataAsOf": null,
+      "dataPeriod": null,
+      "snapshotUpdatedAt": null,
+      "collectedAt": null,
+      "checkedAt": "2026-10-29T05:43:34.328944+00:00",
+      "reviewStatus": "not_applicable",
+      "freshness": "not_applicable",
+      "evidence": [
+        {
+          "kind": "official-source",
+          "url": "https://csrc.nist.gov/News/2024/postquantum-cryptography-fips-approved",
+          "scope": "첫 세 PQC 표준의 승인일과 역할"
+        },
+        {
+          "kind": "official-source",
+          "url": "https://www.etsi.org/deliver/etsi_gs/QKD/001_099/005/01.01.01_60/gs_QKD005v010101p.pdf",
+          "scope": "QKD 자원·프로토콜 단계·보안 가정"
+        }
+      ],
+      "issues": [],
+      "verifiedScope": "공식 문헌 기반 개념 설명. BB84 기대값은 이상적 가로채기·재전송 모형이며 실측 또는 안전 판정이 아님.",
+      "nextAction": "표준 개정·정오표와 구현 상호운용성 확인",
+      "documentVersion": "문헌 검토 2026-10-29"
     }
   ]
 }
