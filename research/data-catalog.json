@@ -3013,16 +3013,16 @@
     {
       "source": {
         "label": "한국관광공사 한국관광 데이터랩 한국관광통계 공식 XLSX",
-        "url": "https://datalab.visitkorea.or.kr/site/portal/ex/bbs/View.do?cbIdx=1603&cbIdx2=1127&bcIdx=311301&pageIndex=1&tgtTypeCd=CATE_CONT&searchKey=&searchKey1=&searchKey2=spt01&searchKey3=&tabFlag=N&subFlag=N&cateCont=spt01",
+        "url": "https://datalab.visitkorea.or.kr/site/portal/ex/bbs/View.do?cbIdx=1603&cbIdx2=1127&bcIdx=311425&pageIndex=1&tgtTypeCd=CATE_CONT&searchKey=&searchKey1=&searchKey2=spt01&searchKey3=&tabFlag=N&subFlag=N&cateCont=spt01",
         "verification": "verified"
       },
       "dataAsOf": null,
-      "dataPeriod": "2026-08",
-      "snapshotUpdatedAt": "2026-10-16",
-      "collectedAt": "2026-10-16T10:28:23.996613+00:00",
-      "checkedAt": "2026-10-16T10:33:48.637Z",
-      "reviewStatus": "awaiting_publication",
-      "freshness": "latest_official_awaiting_publication",
+      "dataPeriod": "2026-09",
+      "snapshotUpdatedAt": "2026-10-29",
+      "collectedAt": "2026-10-29T13:41:35.971176+00:00",
+      "checkedAt": "2026-10-29T13:43:41.750857+00:00",
+      "reviewStatus": "verified",
+      "freshness": "target_period_verified",
       "evidence": [
         {
           "kind": "official-source",
@@ -3120,11 +3120,33 @@
           "url": "/research/source-reviews/2026-10-28-academy-source.json",
           "checkedAt": "2026-10-28T00:10:10.012Z",
           "scope": "10월28일09:06 KST 정상공식메뉴의조회시점공표목록에서8월최신/9월게시물미확인. 수치원표재수집없음."
+        },
+        {
+          "kind": "official-source",
+          "url": "https://datalab.visitkorea.or.kr/site/portal/ex/bbs/View.do?cbIdx=1603&cbIdx2=1127&bcIdx=311425&pageIndex=1&tgtTypeCd=CATE_CONT&searchKey=&searchKey1=&searchKey2=spt01&searchKey3=&tabFlag=N&subFlag=N&cateCont=spt01",
+          "collectedAt": "2026-10-29T13:41:34.586549+00:00",
+          "sha256": "d63e42081862821fb062b0cbbfb00db58ccbc5e60a54eca116c11646d46dde4b",
+          "checkedAt": "2026-10-29T13:43:41.750857+00:00",
+          "scope": "공식 전체국가통계 XLSX 입국 시트의 중국·대만·베트남 2010-01~2026-09 201개월(603개 수치)을 대조. 입국 건수이며 고유 여행자·전체국가 합계가 아님."
+        },
+        {
+          "kind": "official-source",
+          "url": "https://datalab.visitkorea.or.kr/common/board/Download.do?bcIdx=311425&cbIdx=1127&streFileNm=da20f322-a2a3-4c02-846d-89668abdb7fa.xlsx",
+          "collectedAt": "2026-10-29T13:41:35.971176+00:00",
+          "sha256": "f2b383757aacea0645e0220488eaf31d65210d478f6f3f0abe414658dc4ef98d",
+          "checkedAt": "2026-10-29T13:43:41.750857+00:00",
+          "scope": "공식 전체국가통계 XLSX 입국 시트의 중국·대만·베트남 2010-01~2026-09 201개월(603개 수치)을 대조. 입국 건수이며 고유 여행자·전체국가 합계가 아님."
+        },
+        {
+          "kind": "audit-record",
+          "url": "/research/source-reviews/2026-10-29-tourism-september.json",
+          "checkedAt": "2026-10-29T13:43:41.750857+00:00",
+          "scope": "공식 전체국가통계 XLSX 입국 시트의 중국·대만·베트남 2010-01~2026-09 201개월(603개 수치)을 대조. 입국 건수이며 고유 여행자·전체국가 합계가 아님."
         }
       ],
       "issues": [
-        "10월28일09:06 KST 정상공식메뉴의조회시점공표목록에서8월최신/9월게시물미확인. 수치원표재수집없음.",
-        "8월수치・수집/파일갱신/수치검증일유지. 공표예정일경과로추정갱신하지않음."
+        "중국·대만·베트남의 입국 건수이며 전체국가/고유 여행자 수 아님.",
+        "10월 자료는 미수록. 기존 공표 예정11월25일 이후 실제 원문 확인."
       ],
       "key": "/korea-tourism/",
       "url": "/korea-tourism/",
@@ -3132,32 +3154,41 @@
       "primary": "society",
       "classification": "경제·사회",
       "sourceHint": "한국관광공사 · 공공데이터",
-      "verifiedAt": "2026-10-16T10:33:48.637Z",
-      "verifiedDataHash": "d321f199a013a1ef6393da5c8d810add145eccc43c1e31312e664d1ec9a7a1d7",
+      "verifiedAt": "2026-10-29T13:43:41.750857+00:00",
+      "verifiedDataHash": "1ebb7581bae98c61d783ab206bacba272b575b71cbb5eb5ec6db8e40e5be3878",
       "publicationCheck": {
-        "checkedAt": "2026-10-28T00:06:00.737Z",
-        "latestListedDataPeriod": "2026-08",
+        "checkedAt": "2026-10-29T13:43:41.750857+00:00",
+        "latestListedDataPeriod": "2026-09",
+        "publishedAt": "2026-10-28",
+        "status": "published_and_workbook_verified",
+        "scope": "공식 전체국가통계 XLSX 입국 시트의 중국·대만·베트남 2010-01~2026-09 201개월(603개 수치)을 대조. 입국 건수이며 고유 여행자·전체국가 합계가 아님.",
         "scheduledPublications": [
-          {
-            "dataPeriod": "2026-09",
-            "scheduledAt": "2026-10-26"
-          },
           {
             "dataPeriod": "2026-10",
             "scheduledAt": "2026-11-25"
           }
         ],
-        "status": "not_listed_at_morning_check",
-        "scope": "10월28일09:06 KST 정상공식메뉴의조회시점공표목록에서8월최신/9월게시물미확인. 수치원표재수집없음.",
         "sources": [
           {
-            "url": "https://datalab.visitkorea.or.kr/site/portal/ex/bbs/List.do?cbIdx=1603&tgtTypeCd=CATE_CONT&searchKey2=spt01",
-            "checkedAt": "2026-10-28T00:06:00.737Z",
-            "renderedHtmlSha256": "74bb33523162393efaa805e8ade9289aa8eea2caea106859c987a324117f2ca1"
+            "url": "https://datalab.visitkorea.or.kr/site/portal/ex/bbs/View.do?cbIdx=1603&cbIdx2=1127&bcIdx=311425&pageIndex=1&tgtTypeCd=CATE_CONT&searchKey=&searchKey1=&searchKey2=spt01&searchKey3=&tabFlag=N&subFlag=N&cateCont=spt01",
+            "collectedAt": "2026-10-29T13:41:34.586549+00:00",
+            "status": 200,
+            "bytes": 469524,
+            "sha256": "d63e42081862821fb062b0cbbfb00db58ccbc5e60a54eca116c11646d46dde4b",
+            "file": "announcement.html"
+          },
+          {
+            "url": "https://datalab.visitkorea.or.kr/common/board/Download.do?bcIdx=311425&cbIdx=1127&streFileNm=da20f322-a2a3-4c02-846d-89668abdb7fa.xlsx",
+            "collectedAt": "2026-10-29T13:41:35.971176+00:00",
+            "status": 200,
+            "bytes": 1129744,
+            "sha256": "f2b383757aacea0645e0220488eaf31d65210d478f6f3f0abe414658dc4ef98d",
+            "file": "all-countries-202609.xlsx"
           }
         ]
       },
-      "nextAction": "다음회차에9월실제공표원문을우선확인하고새XLSX가있을때만기존변환기로갱신. 10월분예정11월25일. 공표일만으로추정하지않음."
+      "nextAction": "완료한9월 및 과거201개월 대조를 반복하지 않음. 10월은 기존일정11월25일 이후 실제 공표 XLSX 확인 후 갱신.",
+      "verifiedScope": "공식 전체국가통계 XLSX 입국 시트의 중국·대만·베트남 2010-01~2026-09 201개월(603개 수치)을 대조. 입국 건수이며 고유 여행자·전체국가 합계가 아님."
     },
     {
       "source": {

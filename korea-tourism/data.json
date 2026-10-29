@@ -1,10 +1,10 @@
 {
-  "updatedAt": "2026-10-16",
+  "updatedAt": "2026-10-29",
   "sourceMode": "official-xlsx",
   "source": "한국관광공사 한국관광 데이터랩 한국관광통계 공식 XLSX",
-  "sourceUrl": "https://datalab.visitkorea.or.kr/common/board/Download.do?bcIdx=311301&cbIdx=1127&streFileNm=5146fdf7-8c3e-47cd-84c0-83e798c28c15.xlsx",
-  "dataPeriod": "2026-08",
-  "collectedAt": "2026-10-16T10:28:23.996613+00:00",
+  "sourceUrl": "https://datalab.visitkorea.or.kr/common/board/Download.do?bcIdx=311425&cbIdx=1127&streFileNm=da20f322-a2a3-4c02-846d-89668abdb7fa.xlsx",
+  "dataPeriod": "2026-09",
+  "collectedAt": "2026-10-29T13:41:35.971176+00:00",
   "series": [
     {
       "ym": "2010-01",
@@ -1205,20 +1205,29 @@
       "china": 827704,
       "taiwan": 245277,
       "vietnam": 59299
+    },
+    {
+      "ym": "2026-09",
+      "china": 656944,
+      "taiwan": 208113,
+      "vietnam": 51291
     }
   ],
-  "sourcePublishedAt": "2026-09-28",
-  "announcementUrl": "https://datalab.visitkorea.or.kr/site/portal/ex/bbs/View.do?cbIdx=1603&cbIdx2=1127&bcIdx=311301&pageIndex=1&tgtTypeCd=CATE_CONT&searchKey=&searchKey1=&searchKey2=spt01&searchKey3=&tabFlag=N&subFlag=N&cateCont=spt01",
+  "sourcePublishedAt": "2026-10-28",
+  "announcementUrl": "https://datalab.visitkorea.or.kr/site/portal/ex/bbs/View.do?cbIdx=1603&cbIdx2=1127&bcIdx=311425&pageIndex=1&tgtTypeCd=CATE_CONT&searchKey=&searchKey1=&searchKey2=spt01&searchKey3=&tabFlag=N&subFlag=N&cateCont=spt01",
   "nextPublication": {
-    "dataPeriod": "2026-09",
-    "scheduledAt": "2026-10-26",
-    "sourceUrl": "https://datalab.visitkorea.or.kr/common/board/Download.do?bcIdx=310073&cbIdx=1127&streFileNm=46cd12a6-5f28-4c47-b4eb-c9188cb81ac7.pdf"
+    "dataPeriod": "2026-10",
+    "scheduledAt": "2026-11-25",
+    "sourceUrl": "https://datalab.visitkorea.or.kr/common/board/Download.do?bcIdx=310073&cbIdx=1127&streFileNm=46cd12a6-5f28-4c47-b4eb-c9188cb81ac7.pdf",
+    "status": "scheduled",
+    "note": "기존 공식 일정. 실제 공표 원문과 XLSX를 확인한 뒤 갱신."
   },
-  "verifiedAt": "2026-10-16T10:33:48.637Z",
+  "verifiedAt": "2026-10-29T13:43:41.750857+00:00",
   "sourceVerification": {
     "status": "verified",
-    "scope": "공식 전체국가통계 XLSX 입국 시트의 중국·대만·베트남 2010-01~2026-08 200개월 대조",
-    "workbookSha256": "714a9b4785583918d3d020494c94442ace1d072856268c9d48cfd1aab66a94cb",
-    "calendarUrl": "https://datalab.visitkorea.or.kr/common/board/Download.do?bcIdx=310073&cbIdx=1127&streFileNm=46cd12a6-5f28-4c47-b4eb-c9188cb81ac7.pdf"
+    "scope": "공식 전체국가통계 XLSX 입국 시트의 중국·대만·베트남 2010-01~2026-09 201개월(603개 수치)을 대조. 입국 건수이며 고유 여행자·전체국가 합계가 아님.",
+    "workbookSha256": "f2b383757aacea0645e0220488eaf31d65210d478f6f3f0abe414658dc4ef98d",
+    "calendarUrl": "https://datalab.visitkorea.or.kr/common/board/Download.do?bcIdx=310073&cbIdx=1127&streFileNm=46cd12a6-5f28-4c47-b4eb-c9188cb81ac7.pdf",
+    "auditUrl": "/research/source-reviews/2026-10-29-tourism-september.json"
   }
 }

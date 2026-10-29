@@ -58,9 +58,9 @@ class Sources(unittest.TestCase):
         self.assertEqual([latest[k] for k in ('ym', 'exp', 'imp', 'bal')], ['2026-09', 121050, 71078, 49972])
         self.assertEqual(t['countryLatestYm'], t['latestYm'])
         tour = json.loads((ROOT / 'korea-tourism/data.json').read_text(encoding='utf-8'))
-        self.assertEqual(tour['series'][-1], {'ym':'2026-08', 'china':827704, 'taiwan':245277, 'vietnam':59299})
-        self.assertEqual(tour['sourcePublishedAt'], '2026-09-28')
-        self.assertEqual(tour['nextPublication']['scheduledAt'], '2026-10-26')
+        self.assertEqual(tour['series'][-1], {'ym':'2026-09', 'china':656944, 'taiwan':208113, 'vietnam':51291})
+        self.assertEqual(tour['sourcePublishedAt'], '2026-10-28')
+        self.assertEqual(tour['nextPublication']['scheduledAt'], '2026-11-25')
 
 
 if __name__ == '__main__':

@@ -987,7 +987,7 @@
       "status": "pending",
       "keys": [],
       "outcome": "conditional_technical_acceptance",
-      "latestAudit": "/research/source-reviews/2026-10-28-car-overview.json",
+      "latestAudit": "/research/source-reviews/2026-10-29-tourism-september.json",
       "lastAttemptAt": "2026-10-20T23:07:26.208Z",
       "itemResults": {
         "/exchange-rate/": {
@@ -1035,12 +1035,13 @@
           "nextAction": "자동 수집 후 값 지문이 달라지면 과거 검증일·해시를 현재 검증으로 재사용하지 않고 원출처 재대조."
         },
         "/korea-tourism/": {
-          "status": "awaiting_publication",
-          "checkedAt": "2026-10-16T10:33:48.637Z",
-          "publicationCheckedAt": "2026-10-28T00:06:00.737Z",
-          "nextEligibleDate": "2026-10-26",
-          "audit": "/research/source-reviews/2026-10-28-academy-source.json",
-          "scope": "10월28일09:06 KST 정상공식메뉴의조회시점공표목록에서8월최신/9월게시물미확인. 수치원표재수집없음."
+          "status": "verified",
+          "checkedAt": "2026-10-29T13:43:41.750857+00:00",
+          "publicationCheckedAt": "2026-10-29T13:43:41.750857+00:00",
+          "nextEligibleDate": "2026-11-25",
+          "audit": "/research/source-reviews/2026-10-29-tourism-september.json",
+          "scope": "공식 전체국가통계 XLSX 입국 시트의 중국·대만·베트남 2010-01~2026-09 201개월(603개 수치)을 대조. 입국 건수이며 고유 여행자·전체국가 합계가 아님.",
+          "nextAction": "완료한9월 및 과거201개월 대조를 반복하지 않음. 10월은 기존일정11월25일 이후 실제 공표 XLSX 확인 후 갱신."
         },
         "/research/bukangi/": {
           "status": "needs_review",
@@ -1084,8 +1085,10 @@
         "liveBrowser": "local_passed",
         "publicationWait": {
           "key": "/korea-tourism/",
-          "nextEligibleDate": "2026-10-26",
-          "publicationCheckedAt": "2026-10-20T23:45:30.026Z"
+          "dataPeriod": "2026-10",
+          "nextEligibleDate": "2026-11-25",
+          "publicationCheckedAt": "2026-10-29T13:43:41.750857+00:00",
+          "septemberStatus": "verified"
         }
       },
       "release": {
@@ -1107,7 +1110,7 @@
           "Tourism not re-fetched before October26; original checkedAt retained"
         ]
       },
-      "nextAction": "관광실제9월공표원문우선. 서울학원0행원응답은재대조불가로기록했고시설0개로해석금지. 원본회복시범위·식별자·관측일·2106등록일정정대조. 다음미완료선거구현행경계·코드전수대조로진행. 완료생활인구수치/8월참고명칭반복재수집금지. WorldBank11월3일이후. 전체수락pending/일일예약10유지.",
+      "nextAction": "관광9월 실제 공표와201개월 수치 대조 완료. 완료값 반복 재수집 금지,10월은11월25일 이후. 다음 미완료 선거구 현행 경계·코드 전수 대조 진행. 서울학원 정상 시설행 회복시만 재대조,WorldBank11월3일 이후. 최신main64개(별도추가 양자암호)·7필터·난제7개 보존. 전체수락pending/일일예약10유지.",
       "sourceFollowups": [
         {
           "id": "source-followup-1-20261021",
@@ -1723,17 +1726,63 @@
           "outcome": "september_comprehensive_auto_market_and_import_buyer_scopes_checked",
           "release": {
             "branch": "codex/car-overview-20261028",
-            "status": "awaiting_checks",
+            "status": "verified",
             "liveUrl": "https://www.stargateedu.co.kr/research/new-car-sales/",
             "sourceReviewUrl": "https://www.stargateedu.co.kr/research/source-reviews/2026-10-28-car-overview.json",
-            "pullRequest": "https://github.com/DongsooJung/dongsoojung.github.io/pull/234"
+            "pullRequest": "https://github.com/DongsooJung/dongsoojung.github.io/pull/234",
+            "commit": "e771d7322ec4c1cb6819c83ccd129e1ded01105a",
+            "pullRequestHead": "5e6af77fb2d4874309919c5c0d99ec57efe55a1c",
+            "pullRequestMergeCommit": "e771d7322ec4c1cb6819c83ccd129e1ded01105a",
+            "verifiedAt": "2026-10-28T22:36:37.653Z",
+            "pagesRun": "https://github.com/DongsooJung/dongsoojung.github.io/actions/runs/40610632950",
+            "checks": [
+              "PR234 exact head CodeQL aggregate and JavaScript success",
+              "Exact merged SHA Pages build/report/deploy;both domains seven changed public files exact;public plan PR234 active/pending",
+              "Live headline September domestic135370/production346564/exports237403 KAMA body and USD6,052million ministry provisional",
+              "Six macro/five eco/seven manufacturer/four imported fuel table rows and same-vintage YTD totals match source fields;34-row overview CSV exact",
+              "Personal23303/corporate11601 and fuels sum34904;shares use imported-passenger denominator only;old2025 buyer/rental current figures removed",
+              "Final body versus provisional differences26/54/40 shown;monthly/fuel counts and currency not mixed;unavailable rental/age remain null",
+              "17 tests including subtotal,demographic denominator,vintage,future-period and repeated rendering guards pass",
+              "Live63 unique/seven alphabetical exclusive filters/essays7/nine groups/strategy44/controls/mobile/downloads pass;no page errors"
+            ],
+            "externalChecks": [
+              {
+                "context": "Vercel – stargate-onbid-api",
+                "state": "success",
+                "description": "Deployment has completed",
+                "targetUrl": "https://vercel.com/stargate2/stargate-onbid-api/FEUU1fqP9Hns1EgweUE9Fs2hyNDj"
+              },
+              {
+                "context": "Vercel – stargate-private-gateway",
+                "state": "success",
+                "description": "Deployment has completed",
+                "targetUrl": "https://vercel.com/stargate2/stargate-private-gateway/DFwaVEuamL5KpfSNfpdsCpAewL1q"
+              }
+            ]
+          }
+        },
+        {
+          "id": "tourism-september-20261029",
+          "status": "completed",
+          "checkedAt": "2026-10-29T13:43:41.750857+00:00",
+          "keys": [
+            "/korea-tourism/"
+          ],
+          "audit": "/research/source-reviews/2026-10-29-tourism-september.json",
+          "outcome": "september_official_release_verified_201_months_three_nationalities",
+          "release": {
+            "branch": "codex/tourism-september-20261029",
+            "status": "awaiting_checks",
+            "liveUrl": "https://www.stargateedu.co.kr/korea-tourism/",
+            "sourceReviewUrl": "https://www.stargateedu.co.kr/research/source-reviews/2026-10-29-tourism-september.json"
           }
         }
       ],
       "publicationPriority": {
         "key": "/korea-tourism/",
-        "eligibleOn": "2026-10-26",
-        "rule": "공표일도래시실제원문공표부터대조"
+        "dataPeriod": "2026-10",
+        "eligibleOn": "2026-11-25",
+        "rule": "예정일 이후 실제 원문 공표를 확인. 9월 완료값 반복 재수집 금지."
       }
     }
   ],
