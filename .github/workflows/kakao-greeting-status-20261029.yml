@@ -1,0 +1,58 @@
+name: Kakao greeting status check
+on:
+  push:
+    branches: [main]
+    paths: ['.github/workflows/kakao-greeting-status-20261029.yml']
+permissions:
+  contents: read
+concurrency:
+  group: kakao-greeting-status-20261029
+  cancel-in-progress: false
+jobs:
+  send-one:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - name: Send one user-requested greeting through the connected channel
+        env:
+          SOLAPI_API_KEY: ${{ secrets.SOLAPI_API_KEY }}
+          SOLAPI_API_SECRET: ${{ secrets.SOLAPI_API_SECRET }}
+          SMS_ADMIN_TOKEN: ${{ secrets.SMS_ADMIN_TOKEN }}
+        shell: bash
+        run: |
+          node --input-type=module <<'NODE'
+          import {createHmac,randomBytes} from 'node:crypto';
+          import {setDefaultResultOrder} from 'node:dns';
+          import {appendFileSync} from 'node:fs';
+          setDefaultResultOrder('ipv4first');
+          if(process.env.GITHUB_RUN_ATTEMPT!=='1')throw Error('Automatic resend is disabled. Inspect the first attempt result.');
+          const key=process.env.SOLAPI_API_KEY,secret=process.env.SOLAPI_API_SECRET,admin=process.env.SMS_ADMIN_TOKEN;
+          if(!key||!secret||!admin)throw Error('Required connection secrets unavailable');
+          const report=data=>{const line=JSON.stringify(data);console.log(line);appendFileSync(process.env.GITHUB_STEP_SUMMARY,line+'\n');};
+          async function api(path,body){
+            const date=new Date().toISOString(),salt=randomBytes(16).toString('hex');
+            const signature=createHmac('sha256',secret).update(date+salt).digest('hex');
+            const r=await fetch('https://api.solapi.com'+path,{method:body?'POST':'GET',headers:{Connection:'close',Authorization:`HMAC-SHA256 apiKey=${key}, date=${date}, salt=${salt}, signature=${signature}`,'Content-Type':'application/json'},body:body?JSON.stringify(body):undefined,signal:AbortSignal.timeout(30000)});
+            const d=await r.json();if(!r.ok)throw Error('SOLAPI HTTP '+r.status+' '+String(d.errorCode||'')+' '+String(d.errorMessage||'').replace(/01\d{8,9}/g,'[phone]').slice(0,200));return d;
+          }
+          const historyResponse=await fetch('https://stargate.stargate8225.workers.dev/api/sms/history',{headers:{'x-admin-token':admin},signal:AbortSignal.timeout(30000)});
+          const history=await historyResponse.json();if(!historyResponse.ok||!history.ok)throw Error('Cannot read the previous user-requested SMS test');
+          const previous=history.history.find(v=>v.id==='ae75c8bc-530d-4b87-9e29-7b78a638d166');
+          const text='안녕하세요. 대표님, 좋은 하루 보내세요.';
+          if(!previous||previous.delivery!=='sms'||previous.message!==text||previous.recipients?.length!==1||previous.result?.accepted!==1)throw Error('Previous recipient could not be verified');
+          const to=previous.recipients[0].phone;
+          if(!/^010\d{8}$/.test(to))throw Error('Invalid verified recipient');
+          const channels=await api('/kakao/v2/channels?limit=100');
+          const matching=(channels.channelList||[]).filter(v=>String(v.searchId||'').replace(/^@/,'').toLowerCase()==='stargateai');
+          if(matching.length!==1)throw Error('Expected exactly one stargateai channel');
+          const channel=matching[0];report({stage:'channel_verified',channel:channel.channelName||'스타게이트AI',recipient:to.slice(0,3)+'****'+to.slice(-4),message:text,requested:1});
+          for(let n=0;n<3;n++){
+            if(n)await new Promise(resolve=>setTimeout(resolve,5000));
+            const data=await api('/messages/v4/list?limit=100');
+            const list=Array.isArray(data.messageList)?data.messageList:Object.values(data.messageList||{});
+            report({stage:'read_only_status',records:list.filter(v=>v.to===to&&v.text===text&&v.dateCreated>='2026-10-29T00:00:00Z').map(v=>({type:v.type,statusCode:v.statusCode,statusMessage:v.statusMessage,groupId:v.groupId,messageId:v.messageId,dateCreated:v.dateCreated}))});
+          }
+          NODE
