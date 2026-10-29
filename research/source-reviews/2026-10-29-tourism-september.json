@@ -1,0 +1,95 @@
+{
+  "schemaVersion": 1,
+  "step": "tourism-september-20261029",
+  "checkedAt": "2026-10-29T13:43:41.750857+00:00",
+  "sourceBaseCommit": "cb277adec6613244b06b1ced8cfd8d68a06fa2ff",
+  "keys": [
+    "/korea-tourism/"
+  ],
+  "sources": [
+    {
+      "url": "https://datalab.visitkorea.or.kr/site/portal/ex/bbs/View.do?cbIdx=1603&cbIdx2=1127&bcIdx=311425&pageIndex=1&tgtTypeCd=CATE_CONT&searchKey=&searchKey1=&searchKey2=spt01&searchKey3=&tabFlag=N&subFlag=N&cateCont=spt01",
+      "collectedAt": "2026-10-29T13:41:34.586549+00:00",
+      "status": 200,
+      "bytes": 469524,
+      "sha256": "d63e42081862821fb062b0cbbfb00db58ccbc5e60a54eca116c11646d46dde4b",
+      "file": "announcement.html"
+    },
+    {
+      "url": "https://datalab.visitkorea.or.kr/common/board/Download.do?bcIdx=311425&cbIdx=1127&streFileNm=da20f322-a2a3-4c02-846d-89668abdb7fa.xlsx",
+      "collectedAt": "2026-10-29T13:41:35.971176+00:00",
+      "status": 200,
+      "bytes": 1129744,
+      "sha256": "f2b383757aacea0645e0220488eaf31d65210d478f6f3f0abe414658dc4ef98d",
+      "file": "all-countries-202609.xlsx"
+    }
+  ],
+  "publication": {
+    "dataPeriod": "2026-09",
+    "publishedAt": "2026-10-28",
+    "previousScheduledAt": "2026-10-26",
+    "checkedAt": "2026-10-29T13:43:41.750857+00:00",
+    "nextDataPeriod": "2026-10",
+    "nextScheduledAt": "2026-11-25",
+    "scheduleSource": "https://datalab.visitkorea.or.kr/common/board/Download.do?bcIdx=310073&cbIdx=1127&streFileNm=46cd12a6-5f28-4c47-b4eb-c9188cb81ac7.pdf",
+    "scheduleRechecked": false
+  },
+  "scope": "공식 전체국가통계 XLSX 입국 시트의 중국·대만·베트남 2010-01~2026-09 201개월(603개 수치)을 대조. 입국 건수이며 고유 여행자·전체국가 합계가 아님.",
+  "result": {
+    "latest": {
+      "ym": "2026-09",
+      "china": 656944,
+      "taiwan": 208113,
+      "vietnam": 51291
+    },
+    "months": 201,
+    "values": 603,
+    "priorMonthsUnchanged": 200,
+    "historicalRevisions": []
+  },
+  "dates": {
+    "dataPeriod": "2026-09",
+    "collectedAt": "2026-10-29T13:41:35.971176+00:00",
+    "snapshotUpdatedAt": "2026-10-29",
+    "checkedAt": "2026-10-29T13:43:41.750857+00:00"
+  },
+  "independentCheck": {
+    "checkedAt": "2026-10-29T13:45:34.753084+00:00",
+    "method": "Raw ZIP OOXML and Decimal; separate from openpyxl importer",
+    "sourceCells": 603,
+    "months": 201,
+    "latest": {
+      "ym": "2026-09",
+      "china": 656944,
+      "taiwan": 208113,
+      "vietnam": 51291
+    },
+    "latestThreeNationalityTotal": 916348,
+    "ytdMonths": 9,
+    "ytd": {
+      "china": 5473078,
+      "taiwan": 1864368,
+      "vietnam": 458107
+    },
+    "yoy": {
+      "china": 30.55689148744202,
+      "taiwan": 34.273381851966555,
+      "vietnam": 11.499750005434665
+    },
+    "jsonCsvFallbackAgree": true
+  },
+  "limitations": [
+    "3개 국적의 입국 건수만 수록. 전체 방한객 합계·고유 여행자 수로 해석하지 않음.",
+    "10월 월간 수치 미수록. 기존 일정 11월25일은 실제 공표 완료가 아님."
+  ],
+  "structure": {
+    "canonicalProjects": 64,
+    "previousAutomationExpectedProjects": 63,
+    "addedElsewhere": "/research/quantum-cryptography/",
+    "rule": "최신 운영 저장소에서 추가된 프로젝트와 관련 검증을 보존. 관광 회차에서 허브 수량/분류를 변경하지 않음.",
+    "filtersIncludingAll": 7,
+    "essays": 7
+  },
+  "acceptance": "pending",
+  "worldBankFetched": false
+}
