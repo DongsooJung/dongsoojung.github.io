@@ -1,0 +1,49 @@
+name: Activate Kakao visitor notifications
+on:
+  push:
+    branches: [main]
+    paths: ['scripts/provision-site-alerts.mjs', '.github/workflows/site-visit-alerts.yml', 'cloudflare/site-alerts.mjs']
+  workflow_dispatch:
+  schedule:
+    - cron: '17 * * * *'
+permissions:
+  contents: read
+concurrency:
+  group: cloudflare-worker-stargate
+  cancel-in-progress: false
+jobs:
+  configure:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+      CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+      SOLAPI_API_KEY: ${{ secrets.SOLAPI_API_KEY }}
+      SOLAPI_API_SECRET: ${{ secrets.SOLAPI_API_SECRET }}
+      SMS_ADMIN_TOKEN: ${{ secrets.SMS_ADMIN_TOKEN }}
+      WRANGLER_SEND_METRICS: 'false'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - name: Test alert configuration
+        run: node --test tests/site-alerts.test.mjs tests/site-alert-provision.test.mjs
+      - name: Register visit template and request Kakao review
+        id: template
+        run: node scripts/provision-site-alerts.mjs
+      - name: Install approved operator configuration
+        if: steps.template.outputs.approved == 'true' && steps.template.outputs.configure == 'true'
+        run: npx --yes wrangler@4.151.0 secret bulk "$RUNNER_TEMP/site-alert-secrets.json" --config wrangler.jsonc
+      - name: Stage public files
+        if: steps.template.outputs.approved == 'true' && steps.template.outputs.configure == 'true'
+        run: node scripts/build-cloudflare-static.mjs
+      - name: Activate approved visitor notifications
+        if: steps.template.outputs.approved == 'true' && steps.template.outputs.configure == 'true'
+        run: npx --yes wrangler@4.151.0 deploy --config wrangler.jsonc
+      - name: Verify one idempotent operator test
+        if: steps.template.outputs.approved == 'true'
+        run: node scripts/provision-site-alerts.mjs --verify
+      - name: Remove temporary configuration
+        if: always()
+        run: rm -f "$RUNNER_TEMP/site-alert-secrets.json" "$RUNNER_TEMP/site-alert-selection.json"

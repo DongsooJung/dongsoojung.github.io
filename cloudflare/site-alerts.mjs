@@ -15,7 +15,7 @@ export const ALERT_TEMPLATE=`[스타게이트 웹 이용 알림]
 export function alertConfig(env) {
   const missing=REQUIRED.filter(name=>!env[name]);
   if(env.CLICK_ALERT_TO&&!/^010\d{8}$/.test(env.CLICK_ALERT_TO)) missing.push('CLICK_ALERT_TO_FORMAT');
-  return {enabled:env.CLICK_ALERTS_ENABLED==='true',ready:env.CLICK_ALERTS_ENABLED==='true'&&missing.length===0,missing,windowSeconds:60,dailyLimit:DAILY_LIMIT};
+  return {enabled:env.CLICK_ALERTS_ENABLED==='true',ready:env.CLICK_ALERTS_ENABLED==='true'&&missing.length===0,missing,mode:env.SITE_ALERT_MODE==='visits'?'visits':'usage',windowSeconds:60,dailyLimit:DAILY_LIMIT};
 }
 // Never transmit URL queries, fragments, labels, user-entered text or visitor IDs.
 function safeUrl(value,base='https://www.stargateedu.co.kr') {
@@ -32,10 +32,12 @@ export class SiteAlerts {
   }
   async record(payload) {
     if(!alertConfig(this.env).ready||!['page_view','click'].includes(payload.p_event_type)) return false;
+    if(this.env.SITE_ALERT_MODE==='visits'&&payload.p_event_type!=='page_view')return false;
     if(payload.p_event_type==='click'&&payload.p_element_kind!=='link')return false;
     const now=this.now();
     const page=safeUrl(payload.p_page_path),link=payload.p_event_type==='click'?safeUrl(payload.p_target_url):'없음';
-    const digest=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(JSON.stringify([payload.p_visitor_id,payload.p_event_type,page,link])));
+    const identity=this.env.SITE_ALERT_MODE==='visits'?[payload.p_visitor_id,'visit']:[payload.p_visitor_id,payload.p_event_type,page,link];
+    const digest=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(JSON.stringify(identity)));
     const key=Array.from(new Uint8Array(digest),value=>value.toString(16).padStart(2,'0')).join('');
     const added=await this.storage.transaction(async storage=>{
       let state=await storage.get('siteAlerts');if(state?.day!==koreaDay(now))state=initial(now);

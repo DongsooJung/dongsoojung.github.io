@@ -12,7 +12,7 @@ export default {async fetch(request,env) {
   }
   const resource=url.pathname.replace('/api/sms/','');
   const crmRoute=['contacts','templates','history'].includes(resource);
-  if(!['/api/sms','/api/account','/api/sms/reports','/api/sms/session','/api/sms/analytics','/api/sms/kakao-channels','/api/sms/kakao-templates'].includes(url.pathname)&&!crmRoute) return json({ok:false,message:'찾을 수 없습니다.'},404);
+  if(!['/api/sms','/api/account','/api/sms/reports','/api/sms/session','/api/sms/analytics','/api/sms/site-alerts','/api/sms/kakao-channels','/api/sms/kakao-templates'].includes(url.pathname)&&!crmRoute) return json({ok:false,message:'찾을 수 없습니다.'},404);
   const configured=Boolean(env.SOLAPI_API_KEY&&env.SOLAPI_API_SECRET&&env.SMS_ADMIN_TOKEN);
   if(url.pathname==='/api/sms'&&request.method==='GET') return json({ok:true,configured,...(configured?await liveStatus(env):{mode:'live',senderVerified:false,message:'운영 서버 설정이 필요합니다.'})});
   if(url.pathname==='/api/sms/session'&&request.method==='GET') return json({ok:true,signedIn:await authorized(request,env)});
@@ -29,6 +29,11 @@ export default {async fetch(request,env) {
   const publicRoute=(url.pathname==='/api/sms'&&request.method==='POST')||(url.pathname==='/api/account'&&request.method==='GET')||(['/api/sms/kakao-channels','/api/sms/kakao-templates'].includes(url.pathname)&&request.method==='GET');
   if(!signedIn&&!publicRoute) return json({ok:false,message:'관리자 로그인이 필요합니다.'},401);
   try {
+    if(url.pathname==='/api/sms/site-alerts'&&request.method==='GET') {
+      if(!env.VISITOR_ANALYTICS)return json({ok:false,message:'방문 저장소를 연결해 주세요.'},503);
+      const store=env.VISITOR_ANALYTICS.get(env.VISITOR_ANALYTICS.idFromName('stargate-visitors-v1'));
+      return json({ok:true,...await store.siteAlertStatus()});
+    }
     if(url.pathname==='/api/sms/kakao-channels'&&request.method==='GET')return json({ok:true,...await catalog(env)});
     if(url.pathname==='/api/sms/kakao-templates'&&request.method==='GET')return json({ok:true,...await kakaoTemplates(env,url.searchParams.get('channelId'))});
     if(url.pathname==='/api/sms/session'&&request.method==='DELETE')return new Response(JSON.stringify({ok:true}),{headers:{'Content-Type':'application/json','Cache-Control':'no-store','Set-Cookie':clearSession()}});

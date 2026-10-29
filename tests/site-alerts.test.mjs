@@ -61,3 +61,23 @@ test('only the two site origins mark new analytics events eligible for alerts',a
   }
   assert.equal((await handleRequest(new Request('https://stargate.stargate8225.workers.dev/api/admin/site-alerts'),env)).status,401);
 });
+
+test('visit mode alerts once per browser per Korean day across pages and never for link clicks',async()=>{
+ const {alerts,db,calls,advance}=setup({...configured,SITE_ALERT_MODE:'visits'});
+ assert.equal(await alerts.record(event()),true);
+ assert.equal(await alerts.record(event({p_page_path:'/research/'})),false);
+ assert.equal(await alerts.record(event({p_event_type:'click'})),false);
+ assert.equal(await alerts.record(event({p_visitor_id:'another-browser',p_page_path:'/visitors/'})),true);
+ await alerts.flush();const message=JSON.parse(calls[0].options.body).messages[0];
+ assert.equal(message.kakaoOptions.variables['#{접속수}'],'2');assert.equal(message.kakaoOptions.variables['#{클릭수}'],'0');
+ assert.equal((await alerts.status()).mode,'visits');advance(86400000);
+ assert.equal(await alerts.record(event()),true);assert.ok(await db.getAlarm());
+});
+
+test('visitor notification readiness is available only through an authenticated operator status API',async()=>{
+ let queries=0;const env={...configured,SMS_ADMIN_TOKEN:'test-admin-token',VISITOR_ANALYTICS:{idFromName:n=>n,get:()=>({siteAlertStatus:async()=>{queries++;return {ready:false,missing:['CLICK_ALERT_TEMPLATE_ID']};}})}};
+ const url='https://stargate.stargate8225.workers.dev/api/sms/site-alerts';
+ assert.equal((await handleRequest(new Request(url),env)).status,401);assert.equal(queries,0);
+ const response=await handleRequest(new Request(url,{headers:{'x-admin-token':'test-admin-token'}}),env);
+ assert.equal(response.status,200);assert.equal((await response.json()).ready,false);assert.equal(queries,1);
+});
