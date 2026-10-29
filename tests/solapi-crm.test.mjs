@@ -87,3 +87,18 @@ test('analytics uses the shared store, requires authentication and bounds the pe
   const response=await query(7);assert.equal(response.headers.get('cache-control'),'no-store');
   assert.equal((await response.json()).page_views,12);assert.deepEqual(calls,[{method:'get_site_usage_stats',payload:{p_days:7}}]);
 });
+
+test('in-page admin password issues a session cookie without Cloudflare Access',async()=>{
+  const {default:handler}=await import('../server/sms/handler.mjs');
+  const env={SOLAPI_API_KEY:'k',SOLAPI_API_SECRET:'s',SMS_ADMIN_TOKEN:'unit-test-admin-password'};
+  const post=password=>handler.fetch(new Request('https://test.invalid/api/sms/session',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({password})}),env);
+  const bad=await post('wrong');
+  assert.equal(bad.status,401);
+  assert.equal(bad.headers.get('set-cookie'),null);
+  const good=await post('unit-test-admin-password');
+  assert.equal(good.status,200);
+  const cookie=good.headers.get('set-cookie');
+  assert.match(cookie,/^__Host-stargate_sms=.+HttpOnly; Secure; SameSite=Strict/);
+  const status=await handler.fetch(new Request('https://test.invalid/api/sms/session',{headers:{cookie:cookie.split(';')[0]}}),env);
+  assert.equal((await status.json()).signedIn,true);
+});

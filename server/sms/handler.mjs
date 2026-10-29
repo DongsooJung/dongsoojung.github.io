@@ -1,6 +1,6 @@
 import {json,authorized,account,validate,solapi} from './service.mjs';
 import {validatePayload} from '../../cloudflare/analytics.mjs';
-import {clearSession} from './session.mjs';
+import {clearSession,createSession} from './session.mjs';
 import {liveStatus} from './status.mjs';
 import {catalog,templates as kakaoTemplates} from './kakao.mjs';
 export default {async fetch(request,env) {
@@ -18,6 +18,13 @@ export default {async fetch(request,env) {
   if(url.pathname==='/api/sms/session'&&request.method==='GET') return json({ok:true,signedIn:await authorized(request,env)});
   if(request.headers.get('origin')&&request.headers.get('origin')!==url.origin) return json({ok:false,message:'요청 출처가 올바르지 않습니다.'},403);
   if(!configured) return json({ok:false,message:'서버 연결을 준비 중입니다.'},503);
+  if(url.pathname==='/api/sms/session'&&request.method==='POST') {
+    let body;try {body=JSON.parse((await request.text()).slice(0,2000));} catch {body={};}
+    const hash=async value=>new Uint8Array(await crypto.subtle.digest('SHA-256',new TextEncoder().encode(String(value||''))));
+    const [a,b]=await Promise.all([hash(body.password),hash(env.SMS_ADMIN_TOKEN)]);
+    if(a.reduce((diff,value,i)=>diff|(value^b[i]),0)!==0) {await new Promise(r=>setTimeout(r,1200));return json({ok:false,message:'관리자 비밀번호가 올바르지 않습니다.'},401);}
+    return new Response(JSON.stringify({ok:true}),{headers:{'Content-Type':'application/json','Cache-Control':'no-store','Set-Cookie':await createSession(env.SMS_ADMIN_TOKEN)}});
+  }
   if(!await authorized(request,env)) return json({ok:false,message:'관리자 로그인이 필요합니다.'},401);
   try {
     if(url.pathname==='/api/sms/kakao-channels'&&request.method==='GET')return json({ok:true,...await catalog(env)});

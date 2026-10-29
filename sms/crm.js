@@ -4,7 +4,17 @@
   const state={contacts:[],templates:[],history:[],selected:new Set(),unlocked:false};
   const notice=$('crm-status');
   let authEpoch=0;
-  window.smsStartLogin=()=>{try{if(window.smsCaptureDraft)sessionStorage.setItem('stargate-sms-draft',JSON.stringify(window.smsCaptureDraft()));}catch{tell('작성 내용을 잠시 보관할 수 없습니다. 브라우저 저장소 설정을 확인해 주세요.',true);return;}location.assign('/admin/visitors/?sms-login=1'+(location.pathname.includes('/customers')?'&next=customers':''));};
+  window.smsStartLogin=()=>{
+    let dialog=$('sms-login-dialog');
+    if(!dialog){dialog=document.createElement('dialog');dialog.id='sms-login-dialog';dialog.innerHTML='<form method="dialog" class="sms-login-form"><h2>관리자 비밀번호</h2><p>8시간 동안 다시 묻지 않습니다.</p><input type="password" id="sms-login-password" autocomplete="current-password" required aria-label="관리자 비밀번호"><p id="sms-login-error" role="alert"></p><div class="crm-actions"><button type="button" class="mini-btn" id="sms-login-cancel">취소</button><button type="submit" class="mini-btn" id="sms-login-submit">확인</button></div></form>';document.body.append(dialog);
+      dialog.querySelector('#sms-login-cancel').addEventListener('click',()=>dialog.close());
+      dialog.querySelector('form').addEventListener('submit',async event=>{event.preventDefault();const button=$('sms-login-submit'),error=$('sms-login-error');button.disabled=true;error.textContent='';
+        try{const r=await fetch('/api/sms/session',{method:'POST',headers:{'Content-Type':'application/json'},cache:'no-store',body:JSON.stringify({password:$('sms-login-password').value})}),data=await r.json().catch(()=>({}));if(!r.ok||!data.ok)throw Error(data.message||'확인하지 못했습니다.');
+          try{if(window.smsCaptureDraft)sessionStorage.setItem('stargate-sms-draft',JSON.stringify(window.smsCaptureDraft()));}catch{}
+          location.reload();}
+        catch(e){error.textContent=e.message;button.disabled=false;$('sms-login-password').select();}});}
+    $('sms-login-error').textContent='';$('sms-login-password').value='';dialog.showModal();$('sms-login-password').focus();
+  };
   const escape=value=>String(value??'').replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
   function tell(message,error=false){notice.textContent=message;notice.classList.toggle('error',error);}
   async function api(path,options={}) {
