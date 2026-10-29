@@ -1,0 +1,22 @@
+name: Inspect Cloudflare Access login
+on:
+  push:
+    branches: [main]
+    paths: ['.github/workflows/cloudflare-access-login.yml', 'scripts/cloudflare-access-login.py']
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: cloudflare-access-login
+  cancel-in-progress: false
+jobs:
+  inspect:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - name: Inspect targeted Access application without exposing credentials
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: python scripts/cloudflare-access-login.py
