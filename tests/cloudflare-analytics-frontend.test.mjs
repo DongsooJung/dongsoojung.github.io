@@ -343,7 +343,7 @@ test('configured site hosts collect and read public Cloudflare aggregates withou
     const summaries=env.requests.filter(row=>row.url.endsWith('get_site_usage_summary'));
     assert.deepEqual(summaries.map(row=>row.payload.p_days),[30,7,14]);
     assert.notEqual(env.storage.get('stargateCloudflareVisitorV1:visitorId'),'old-supabase-browser');
-    assert.equal(env.nodes.get('visitor-summary-link').href,'https://stargateedu.co.kr/visitors/');
+    assert.equal(env.nodes.get('visitor-summary-link').href,hostname==='www.stargatekorea.net'?'https://stargate.stargate8225.workers.dev/admin/visitors/':'https://stargateedu.co.kr/visitors/');
     assert.equal(env.context.window.StargateUsage.getLoadState().views,'ready');
   }
 });
