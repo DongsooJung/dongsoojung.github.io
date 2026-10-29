@@ -14,7 +14,8 @@ def api(path):
         raise SystemExit(1)
     return data['result']
 apps = api('/access/apps?per_page=100')
-target = [app for app in apps if app.get('aud') == AUD]
+target = [app for app in apps if app.get('aud') == AUD or 'stargate.stargate8225.workers.dev' in json.dumps(app)]
+print(json.dumps({'application_count':len(apps),'hostname_candidate_count':len(target),'candidate_types':[a.get('type') for a in target],'candidate_audience_matches':[a.get('aud')==AUD for a in target]}))
 if len(target) != 1:
     print(json.dumps({'matched_application_count':len(target)}));sys.exit(1)
 app = target[0]
