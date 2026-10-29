@@ -14,8 +14,8 @@ export class VisitorAnalytics extends DurableObject {
     this.dashboardEnv = env;
     this.alerts = new SiteAlerts(ctx.storage,env);
   }
-  async analytics(method, payload, notify=false) {
-    const result = this.store.call(method, payload);
+  async analytics(method, payload, notify=false, geo=null) {
+    const result = this.store.call(method, payload, Date.now(), geo);
     if(notify&&method==='record_site_usage_event'&&result===true) {
       try {await this.alerts.record(payload);} catch {console.error('Site alert enqueue failed');}
     }
@@ -66,3 +66,4 @@ export default {
 };
 
 export {SmsRequest} from '../server/sms/worker.mjs';
+

@@ -1,10 +1,17 @@
-export const METHODS = new Set(['get_site_visit_stats', 'get_site_usage_stats', 'get_site_visit_summary', 'get_site_usage_summary', 'get_site_button_click_counts', 'record_site_visit', 'record_site_usage_event']);
+export const METHODS = new Set(['get_site_region_stats', 'get_site_visit_stats', 'get_site_usage_stats', 'get_site_visit_summary', 'get_site_usage_summary', 'get_site_button_click_counts', 'record_site_visit', 'record_site_usage_event']);
 export const MAX_BODY_BYTES = 8192;
 export const MAX_IMPORT_BYTES = 262144;
 export const HISTORY_SOURCE = 'supabase:inftexpcnfinglwlrvsj';
 export const HISTORY_EXPECTED = { visits: 385, events: 1375 };
 const DAY = 86400000;
 const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+
+// Only Cloudflare-provided coarse geography is accepted; never persist IPs.
+export function coarseRegion(cf) {
+  const country = typeof cf?.country === 'string' && /^[A-Z]{2}$/.test(cf.country) && !['XX','T1'].includes(cf.country) ? cf.country : null;
+  const region = country && typeof cf?.region === 'string' ? cf.region.replace(/[\u0000-\u001f\u007f]/g, '').trim().slice(0, 80) : '';
+  return { country, region: region || null };
+}
 
 export class RequestError extends Error {
   constructor(message, status = 400) { super(message); this.status = status; }
@@ -47,7 +54,7 @@ function target(value) {
 export function validatePayload(method, payload, now = Date.now()) {
   if (!METHODS.has(method)) throw new RequestError('Unknown analytics method', 404);
   if (!payload || typeof payload !== 'object' || Array.isArray(payload)) throw new RequestError('Expected a JSON object');
-  if (['get_site_visit_stats','get_site_usage_stats','get_site_visit_summary','get_site_usage_summary'].includes(method)) {
+  if (['get_site_region_stats','get_site_visit_stats','get_site_usage_stats','get_site_visit_summary','get_site_usage_summary'].includes(method)) {
     const days = payload.p_days ?? 30;
     if (!Number.isInteger(days) || days < 1 || days > 90) throw new RequestError('p_days must be between 1 and 90');
     if (method === 'get_site_usage_summary' && ![7,14,30].includes(days)) throw new RequestError('Public usage windows are 7, 14 or 30 days');
@@ -194,6 +201,8 @@ export class AnalyticsStore {
         event_type TEXT NOT NULL, page_path TEXT NOT NULL, page_title TEXT, element_label TEXT, element_kind TEXT,
         target_url TEXT, device_type TEXT, event_date TEXT NOT NULL);
       CREATE INDEX IF NOT EXISTS events_date ON events(event_date);
+      CREATE TABLE IF NOT EXISTS event_regions (event_id TEXT PRIMARY KEY, country TEXT NOT NULL, region TEXT);
+      CREATE INDEX IF NOT EXISTS event_regions_location ON event_regions(country,region);
       CREATE INDEX IF NOT EXISTS events_page_type_date ON events(page_path, event_type, event_date);
       CREATE TABLE IF NOT EXISTS history_runs (source TEXT PRIMARY KEY, manifest_sha256 TEXT NOT NULL, completed_at TEXT, first_date TEXT, last_date TEXT, visits INTEGER, events INTEGER);
       CREATE TABLE IF NOT EXISTS import_ledger (source TEXT NOT NULL, kind TEXT NOT NULL, original_id TEXT NOT NULL, row_hash TEXT NOT NULL, PRIMARY KEY(source,kind,original_id));
@@ -205,6 +214,8 @@ export class AnalyticsStore {
       CREATE INDEX IF NOT EXISTS history_events_page_date ON history_events(page_path,event_type,event_date);`);
     this.sql.exec('INSERT OR IGNORE INTO metadata(key,value) VALUES (?,?)', 'started_at', new Date(now).toISOString());
     this.startedAt = this.rows("SELECT value FROM metadata WHERE key='started_at'")[0].value;
+    this.sql.exec('INSERT OR IGNORE INTO metadata(key,value) VALUES (?,?)', 'region_started_at', new Date(now).toISOString());
+    this.regionStartedAt = this.rows("SELECT value FROM metadata WHERE key='region_started_at'")[0].value;
     this.lastPrunedDay = null;
   }
 
@@ -239,6 +250,7 @@ export class AnalyticsStore {
     const cutoff = koreaDay(now - 89 * DAY);
     this.storage.transactionSync(() => {
       this.sql.exec('DELETE FROM visits WHERE visit_date < ?', cutoff);
+      this.sql.exec('DELETE FROM event_regions WHERE event_id IN (SELECT event_id FROM events WHERE event_date < ?)', cutoff);
       this.sql.exec('DELETE FROM events WHERE event_date < ?', cutoff);
     });
     this.lastPrunedDay = day;
@@ -251,11 +263,12 @@ export class AnalyticsStore {
   recordVisit(p) {
     return this.storage.transactionSync(() => this.visit(p.p_visitor_id, p.p_visit_date, p.p_path));
   }
-  recordEvent(p, now) {
+  recordEvent(p, now, geo) {
     return this.storage.transactionSync(() => {
       const day = koreaDay(now);
       const inserted = this.rows(`INSERT OR IGNORE INTO events(event_id,visitor_id,session_id,event_type,page_path,page_title,element_label,element_kind,target_url,device_type,event_date)
         VALUES (?,?,?,?,?,?,?,?,?,?,?) RETURNING event_id`, p.p_event_id, p.p_visitor_id, p.p_session_id, p.p_event_type, p.p_page_path, p.p_page_title, p.p_element_label, p.p_element_kind, p.p_target_url, p.p_device_type, day).length > 0;
+      if (inserted && geo?.country) this.sql.exec('INSERT INTO event_regions(event_id,country,region) VALUES (?,?,?)', p.p_event_id, geo.country, geo.region);
       if (inserted && p.p_event_type === 'page_view') this.visit(p.p_visitor_id, day, p.p_page_path);
       if (inserted && p.p_event_type === 'click') this.sql.exec(`INSERT INTO button_counts(key,page_path,element_label,target_url,clicks)
         VALUES (?,?,?,?,1) ON CONFLICT(key) DO UPDATE SET clicks=clicks+1`, JSON.stringify([p.p_page_path,p.p_element_label || '(이름 없는 버튼)',p.p_target_url]), p.p_page_path, p.p_element_label || '(이름 없는 버튼)', p.p_target_url);
@@ -280,6 +293,20 @@ export class AnalyticsStore {
         COUNT(*) AS clicks, COUNT(DISTINCT visitor_id) AS clicking_visitors FROM all_events ${where} AND event_type='click'
         GROUP BY page_path,COALESCE(element_label,'(이름 없는 버튼)'),target_url ORDER BY clicks DESC,page_path,element_label LIMIT 100`, start, end),
     };
+  }
+  regions(days, now) {
+    const start = this.startDay(days,now), end = koreaDay(now);
+    const rows = this.rows(`${allEvents} SELECT g.country,g.region,COUNT(*) AS clicks
+      FROM all_events e LEFT JOIN event_regions g ON e.event_id=g.event_id
+      WHERE e.event_type='click' AND e.event_date>=? AND e.event_date<=?
+      GROUP BY g.country,g.region ORDER BY clicks DESC,g.country,g.region`, start,end);
+    const total = rows.reduce((sum,row)=>sum+row.clicks,0);
+    const known = rows.filter(row=>row.country);
+    return {source:'cloudflare',days,started_at:this.regionStartedAt,total_clicks:total,
+      located_clicks:known.reduce((sum,row)=>sum+row.clicks,0),
+      unknown_clicks:rows.filter(row=>!row.country).reduce((sum,row)=>sum+row.clicks,0),
+      regions:known.slice(0,10).map(row=>({...row,share:total?Math.round(row.clicks/total*1000)/10:0})),
+      scope:'sitewide',precision:'country-region'};
   }
   buttonCounts(path) {
     return this.rows(`SELECT element_label,target_url,clicks FROM button_counts WHERE page_path=?
@@ -346,12 +373,13 @@ export class AnalyticsStore {
       return { completed: true, already_completed: false, historical_import: this.history() };
     });
   }
-  call(method, payload, now = Date.now()) {
+  call(method, payload, now = Date.now(), geo = null) {
     const p = validatePayload(method, payload, now);
     this.prune(now);
     switch (method) {
       case 'record_site_visit': return this.recordVisit(p);
-      case 'record_site_usage_event': return this.recordEvent(p, now);
+      case 'record_site_usage_event': return this.recordEvent(p, now, coarseRegion(geo));
+      case 'get_site_region_stats': return this.regions(p.p_days, now);
       case 'get_site_visit_stats': return this.visits(p.p_days, now);
       case 'get_site_usage_stats': return this.usage(p.p_days, now);
       case 'get_site_visit_summary': return this.visitSummary(now);
@@ -360,3 +388,4 @@ export class AnalyticsStore {
     }
   }
 }
+

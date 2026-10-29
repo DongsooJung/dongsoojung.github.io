@@ -40,7 +40,7 @@ jobs:
             | jq --exit-status '.success == true and .result.status == "active"' > /dev/null
           echo 'Cloudflare account token is active.'
       - name: Verify public staging safeguards
-        run: node --test tests/cloudflare-static.test.mjs tests/vercel-static.test.mjs tests/cloudflare-analytics.test.mjs tests/cloudflare-analytics-history.test.mjs tests/cloudflare-analytics-frontend.test.mjs tests/cloudflare-access.test.mjs tests/cloudflare-dashboard-refresh.test.mjs tests/cloudflare-dashboard-frontend.test.mjs tests/cloudflare-service-worker.test.mjs
+        run: node --test tests/cloudflare-regions.test.mjs tests/visitor-regions-frontend.test.mjs tests/cloudflare-static.test.mjs tests/vercel-static.test.mjs tests/cloudflare-analytics.test.mjs tests/cloudflare-analytics-history.test.mjs tests/cloudflare-analytics-frontend.test.mjs tests/cloudflare-access.test.mjs tests/cloudflare-dashboard-refresh.test.mjs tests/cloudflare-dashboard-frontend.test.mjs tests/cloudflare-service-worker.test.mjs
       - name: Stage tracked public site files
         run: node scripts/build-cloudflare-static.mjs
       - name: Test analytics with a local Durable Object
