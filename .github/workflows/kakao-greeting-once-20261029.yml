@@ -33,9 +33,10 @@ jobs:
           if(!key||!secret||!admin)throw Error('Required connection secrets unavailable');
           const report=data=>{const line=JSON.stringify(data);console.log(line);appendFileSync(process.env.GITHUB_STEP_SUMMARY,line+'\n');};
           async function api(path,body){
+            report({stage:'api_call',method:body?'POST':'GET',route:path.split('?')[0]});
             const date=new Date().toISOString(),salt=randomBytes(16).toString('hex');
             const signature=createHmac('sha256',secret).update(date+salt).digest('hex');
-            const r=await fetch('https://api.solapi.com'+path,{method:body?'POST':'GET',headers:{Authorization:`HMAC-SHA256 apiKey=${key}, date=${date}, salt=${salt}, signature=${signature}`,'Content-Type':'application/json'},body:body?JSON.stringify(body):undefined,signal:AbortSignal.timeout(30000)});
+            const r=await fetch('https://api.solapi.com'+path,{method:body?'POST':'GET',headers:{Connection:'close',Authorization:`HMAC-SHA256 apiKey=${key}, date=${date}, salt=${salt}, signature=${signature}`,'Content-Type':'application/json'},body:body?JSON.stringify(body):undefined,signal:AbortSignal.timeout(30000)});
             const d=await r.json();if(!r.ok)throw Error('SOLAPI HTTP '+r.status+' '+String(d.errorCode||'')+' '+String(d.errorMessage||'').replace(/01\d{8,9}/g,'[phone]').slice(0,200));return d;
           }
           const historyResponse=await fetch('https://stargate.stargate8225.workers.dev/api/sms/history',{headers:{'x-admin-token':admin},signal:AbortSignal.timeout(30000)});
