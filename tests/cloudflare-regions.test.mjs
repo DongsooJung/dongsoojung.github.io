@@ -23,7 +23,7 @@ test('trusted coarse geography, retries, unknown coverage and click shares',()=>
  assert.equal(r.total_clicks,4);assert.equal(r.located_clicks,3);assert.equal(r.unknown_clicks,1);
  assert.deepEqual(r.regions,[{country:'KR',region:'Seoul',clicks:2,share:50},{country:'US',region:'California',clicks:1,share:25}]);
  assert.ok(!JSON.stringify(r).includes('visitor_id'));assert.ok(!JSON.stringify(r).includes('203.0.113.1'));assert.ok(!JSON.stringify(r).includes('Spoofed'));
- const cols=db.prepare('PRAGMA table_info(event_regions)').all().map(r=>r.name);assert.deepEqual(cols,['event_id','country','region']);
+ const cols=db.prepare('PRAGMA table_info(event_regions)').all().map(r=>r.name);assert.deepEqual(cols,['event_id','country','region','district_code']);
  assert.equal(new AnalyticsStore(storage,now+86400000).regionStartedAt,r.started_at);
  store.prune(now+91*86400000);assert.equal(db.prepare('SELECT COUNT(*) AS n FROM event_regions').get().n,0);
  db.close();
@@ -35,3 +35,24 @@ test('missing/bot geography stays unknown; values are bounded and validated',()=
  assert.equal(coarseRegion({country:'KR',region:'x'.repeat(100)}).region.length,80);
  const {db,store}=database();assert.throws(()=>store.call('get_site_region_stats',{p_days:91},now));db.close();
 });
+
+
+test('district codes and hourly counts are aggregated without coordinates, raw IPs, or visitor records',()=>{
+ const {db,store}=database();
+ const geo={country:'KR',region:'Seoul',latitude:'37.5172',longitude:'127.0473',ip:'203.0.113.77'};
+ const resolved=coarseRegion(geo);assert.equal(resolved.district_code,'11680');
+ assert.ok(!('latitude' in resolved));assert.ok(!('longitude' in resolved));assert.ok(!('ip' in resolved));
+ store.call('record_site_usage_event',event(201),now,geo);store.call('record_site_usage_event',event(201),now,geo);
+ store.call('record_site_usage_event',event(202),now,{country:'KR',region:'Seoul'});
+ const summary=store.call('get_site_region_summary',{p_days:30},now);
+ assert.equal(summary.precision,'ip-estimated-sigungu');assert.equal(summary.district_resolved_clicks,1);assert.equal(summary.district_unknown_clicks,1);
+ assert.equal(summary.districts[0].name,'강남구');assert.equal(summary.districts[0].share,50);
+ assert.deepEqual(summary.hourly,[{hour:14,clicks:2}]);
+ for(const key of ['203.0.113.77','latitude','longitude','visitor_id','session_id','event_id'])assert.ok(!JSON.stringify(summary).includes(key));
+ db.exec('ALTER TABLE event_regions DROP COLUMN district_code');db.exec("DELETE FROM metadata WHERE key='district_started_at'");
+ const migrated=new AnalyticsStore(storageFor(db),now+86400000);
+ const after=migrated.call('get_site_region_summary',{p_days:30},now+86400000);assert.equal(after.total_clicks,2);assert.equal(after.district_resolved_clicks,0);assert.equal(after.district_unknown_clicks,2);
+ assert.equal(migrated.districtStartedAt,new Date(now+86400000).toISOString());
+ migrated.prune(now+91*86400000);assert.equal(db.prepare('SELECT COUNT(*) AS n FROM click_hours').get().n,0);db.close();
+});
+function storageFor(db){return {sql:{exec(sql,...args){if(sql.includes('CREATE TABLE')){db.exec(sql);return {toArray:()=>[]}}const rows=db.prepare(sql).all(...args).map(row=>({...row}));return {toArray:()=>rows}}},transactionSync(fn){db.exec('BEGIN');try{const value=fn();db.exec('COMMIT');return value}catch(e){db.exec('ROLLBACK');throw e}}};}

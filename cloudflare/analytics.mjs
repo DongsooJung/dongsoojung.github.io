@@ -1,3 +1,4 @@
+import {resolveDistrict,districtForCode,DISTRICT_BOUNDARY_VERSION} from './district-geo.mjs';
 export const METHODS = new Set(['get_site_region_summary', 'get_site_region_stats', 'get_site_visit_stats', 'get_site_usage_stats', 'get_site_visit_summary', 'get_site_usage_summary', 'get_site_button_click_counts', 'record_site_visit', 'record_site_usage_event']);
 export const MAX_BODY_BYTES = 8192;
 export const MAX_IMPORT_BYTES = 262144;
@@ -10,7 +11,8 @@ const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 export function coarseRegion(cf) {
   const country = typeof cf?.country === 'string' && /^[A-Z]{2}$/.test(cf.country) && !['XX','T1'].includes(cf.country) ? cf.country : null;
   const region = country && typeof cf?.region === 'string' ? cf.region.replace(/[\u0000-\u001f\u007f]/g, '').trim().slice(0, 80) : '';
-  return { country, region: region || null };
+  const district=resolveDistrict(cf);
+  return { country, region: region || null, ...(district?{district_code:district.code}:{}) };
 }
 
 export class RequestError extends Error {
@@ -216,6 +218,11 @@ export class AnalyticsStore {
     this.startedAt = this.rows("SELECT value FROM metadata WHERE key='started_at'")[0].value;
     this.sql.exec('INSERT OR IGNORE INTO metadata(key,value) VALUES (?,?)', 'region_started_at', new Date(now).toISOString());
     this.regionStartedAt = this.rows("SELECT value FROM metadata WHERE key='region_started_at'")[0].value;
+    const geoColumns=new Set(this.rows('PRAGMA table_info(event_regions)').map(column=>column.name));
+    if(!geoColumns.has('district_code'))this.sql.exec('ALTER TABLE event_regions ADD COLUMN district_code TEXT');
+    this.sql.exec('CREATE TABLE IF NOT EXISTS click_hours (date TEXT NOT NULL,hour INTEGER NOT NULL,clicks INTEGER NOT NULL,PRIMARY KEY(date,hour))');
+    this.sql.exec('INSERT OR IGNORE INTO metadata(key,value) VALUES (?,?)','district_started_at',new Date(now).toISOString());
+    this.districtStartedAt=this.rows("SELECT value FROM metadata WHERE key='district_started_at'")[0].value;
     this.lastPrunedDay = null;
   }
 
@@ -252,6 +259,7 @@ export class AnalyticsStore {
       this.sql.exec('DELETE FROM visits WHERE visit_date < ?', cutoff);
       this.sql.exec('DELETE FROM event_regions WHERE event_id IN (SELECT event_id FROM events WHERE event_date < ?)', cutoff);
       this.sql.exec('DELETE FROM events WHERE event_date < ?', cutoff);
+      this.sql.exec('DELETE FROM click_hours WHERE date < ?',cutoff);
     });
     this.lastPrunedDay = day;
   }
@@ -268,10 +276,11 @@ export class AnalyticsStore {
       const day = koreaDay(now);
       const inserted = this.rows(`INSERT OR IGNORE INTO events(event_id,visitor_id,session_id,event_type,page_path,page_title,element_label,element_kind,target_url,device_type,event_date)
         VALUES (?,?,?,?,?,?,?,?,?,?,?) RETURNING event_id`, p.p_event_id, p.p_visitor_id, p.p_session_id, p.p_event_type, p.p_page_path, p.p_page_title, p.p_element_label, p.p_element_kind, p.p_target_url, p.p_device_type, day).length > 0;
-      if (inserted && geo?.country) this.sql.exec('INSERT INTO event_regions(event_id,country,region) VALUES (?,?,?)', p.p_event_id, geo.country, geo.region);
+      if (inserted && geo?.country) this.sql.exec('INSERT INTO event_regions(event_id,country,region,district_code) VALUES (?,?,?,?)', p.p_event_id, geo.country, geo.region, geo.district_code || null);
       if (inserted && p.p_event_type === 'page_view') this.visit(p.p_visitor_id, day, p.p_page_path);
       if (inserted && p.p_event_type === 'click') this.sql.exec(`INSERT INTO button_counts(key,page_path,element_label,target_url,clicks)
         VALUES (?,?,?,?,1) ON CONFLICT(key) DO UPDATE SET clicks=clicks+1`, JSON.stringify([p.p_page_path,p.p_element_label || '(이름 없는 버튼)',p.p_target_url]), p.p_page_path, p.p_element_label || '(이름 없는 버튼)', p.p_target_url);
+      if(inserted && p.p_event_type==='click')this.sql.exec('INSERT INTO click_hours(date,hour,clicks) VALUES (?,?,1) ON CONFLICT(date,hour) DO UPDATE SET clicks=clicks+1',day,new Date(now+9*3600000).getUTCHours());
       return inserted;
     });
   }
@@ -302,11 +311,20 @@ export class AnalyticsStore {
       GROUP BY g.country,g.region ORDER BY clicks DESC,g.country,g.region`, start,end);
     const total = rows.reduce((sum,row)=>sum+row.clicks,0);
     const known = rows.filter(row=>row.country);
+    const districtRows=this.rows(`${allEvents} SELECT g.district_code,COUNT(*) AS clicks
+      FROM all_events e JOIN event_regions g ON e.event_id=g.event_id
+      WHERE e.event_type='click' AND g.country='KR' AND g.district_code IS NOT NULL AND e.event_date>=? AND e.event_date<=?
+      GROUP BY g.district_code ORDER BY clicks DESC,g.district_code`,start,end);
+    const districts=districtRows.flatMap(row=>{const d=districtForCode(row.district_code);return d?[{...d,clicks:row.clicks,share:total?Math.round(row.clicks/total*1000)/10:0}]:[];});
+    const resolved=districts.reduce((sum,row)=>sum+row.clicks,0);
     return {source:'cloudflare',days,started_at:this.regionStartedAt,total_clicks:total,
+      district_started_at:this.districtStartedAt,boundary_version:DISTRICT_BOUNDARY_VERSION,districts,
+      district_resolved_clicks:resolved,district_unknown_clicks:total-resolved,
+      hourly:this.rows('SELECT hour,SUM(clicks) AS clicks FROM click_hours WHERE date>=? AND date<=? GROUP BY hour ORDER BY hour',start,end),
       located_clicks:known.reduce((sum,row)=>sum+row.clicks,0),
       unknown_clicks:rows.filter(row=>!row.country).reduce((sum,row)=>sum+row.clicks,0),
       regions:known.map(row=>({...row,share:total?Math.round(row.clicks/total*1000)/10:0})),
-      scope:'sitewide',precision:'country-region'};
+      scope:'sitewide',precision:'ip-estimated-sigungu'};
   }
   buttonCounts(path) {
     return this.rows(`SELECT element_label,target_url,clicks FROM button_counts WHERE page_path=?
@@ -389,6 +407,7 @@ export class AnalyticsStore {
     }
   }
 }
+
 
 
 

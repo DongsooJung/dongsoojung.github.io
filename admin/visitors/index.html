@@ -14,8 +14,8 @@ a{color:inherit;text-decoration:none}.wrap{max-width:1080px;margin:0 auto;paddin
   <link rel="stylesheet" href="/assets/site-theme.css">
   <script src="/assets/site-theme.js"></script>
 <link rel="stylesheet" href="/assets/stargate-tokens.css?v=20261017">
-<link rel="stylesheet" href="/assets/visitor-regions.css?v=20261029-owner-map">
-<script src="/assets/visitor-regions.js?v=20261029-owner-map" defer></script>
+<link rel="stylesheet" href="/assets/visitor-regions.css?v=20261029-sigungu">
+<script src="/assets/visitor-regions.js?v=20261029-sigungu" defer></script>
 </head>
 <body>
 <div class="wrap">
@@ -26,14 +26,15 @@ a{color:inherit;text-decoration:none}.wrap{max-width:1080px;margin:0 auto;paddin
   <section class="section"><h2 id="visits-title">최근 30일 방문 추이</h2><label id="period-control" hidden style="color:var(--sub);font-size:12px;margin-bottom:12px">조회 기간 <select id="period-days" disabled aria-label="통계 조회 기간" style="margin-left:6px;padding:6px 10px;border:1px solid var(--line);border-radius:8px;background:var(--panel);color:var(--ink)"><option value="30">최근 30일</option><option value="90">최근 90일</option></select></label><div class="chart" id="chart"></div><div class="table" id="table"></div></section>
 
   <section class="visitor-regions" aria-labelledby="visitor-regions-title" data-visitor-regions>
-    <div class="visitor-regions-head"><div><h2 id="visitor-regions-title">지역별 클릭 통계 · 관리자 전용</h2><p>최근 <span data-region-days>30</span>일 · 사이트 전체 버튼·링크 클릭 · IP 기반 추정 지역</p></div><span class="label">관리자 인증 후 열람</span></div>
-    <p class="visitor-regions-status" data-region-status role="status">지역별 클릭 통계를 불러오는 중입니다.</p>
+    <div class="visitor-regions-head"><div><h2 id="visitor-regions-title">시군구별 클릭 통계 · 관리자 전용</h2><p>최근 <span data-region-days>30</span>일 · 사이트 전체 버튼·링크 클릭 · IP 기반 시군구 추정</p></div><span class="label">관리자 인증 후 열람</span></div>
+    <p class="visitor-regions-status" data-region-status role="status">시군구별 클릭 통계를 불러오는 중입니다.</p>
     <div class="visitor-region-map-grid">
-      <div class="visitor-region-map" data-region-map aria-label="대한민국 시도별 클릭 지도"></div>
-      <div class="visitor-region-map-sidebar"><h3>대한민국 지역별 클릭 지도</h3><p data-region-map-summary role="status">지역 통계를 확인하고 있습니다.</p><div class="visitor-region-map-detail" data-region-map-detail aria-live="polite">지역을 누르거나 키보드로 선택하면 클릭 수를 확인할 수 있습니다.</div><div class="visitor-region-map-legend"><span>기록 없음</span><i></i><span>클릭 많음</span></div><p class="visitor-regions-note">색상은 국내 시도 중 최대 클릭 수를 기준으로 표시합니다. 해외·지역 미확인 클릭은 아래 집계에서 확인할 수 있습니다.</p><p class="visitor-regions-note">경계: <a href="https://www.geoboundaries.org/" target="_blank" rel="noopener noreferrer">geoBoundaries</a> · Natural Earth, 2021년 기준 시각화 경계 · Public Domain</p></div>
+      <div class="visitor-region-map" data-region-map aria-label="대한민국 시군구별 클릭 지도"></div>
+      <div class="visitor-region-map-sidebar"><h3>대한민국 시군구별 클릭 지도</h3><label class="visitor-district-control">시도 선택 <select data-province-select aria-label="시도 지도 확대"><option value="all">전국 시군구</option></select></label><label class="visitor-district-control">시군구 선택 <select data-district-select aria-label="시군구 지도 확대"><option value="all">시군구 선택</option></select></label><p data-region-map-summary role="status">지역 통계를 확인하고 있습니다.</p><div class="visitor-region-map-detail" data-region-map-detail aria-live="polite">시도 또는 시군구를 선택하면 지도를 확대하고 클릭 수를 확인할 수 있습니다.</div><div class="visitor-region-map-legend"><span>기록 없음</span><i></i><span>클릭 많음</span></div><p class="visitor-regions-note">색상은 선택한 시도 내 시군구 중 최대 클릭 수를 기준으로 표시합니다. 해외·지역 미확인 클릭은 아래 집계에서 확인할 수 있습니다.</p><p class="visitor-regions-note">시각화 경계: 2026.10.01 · 원자료 <a href="https://sgis.kostat.go.kr" target="_blank" rel="noopener noreferrer">통계청 SGIS</a>(공공누리 1유형) · 가공 <a href="https://github.com/vuski/admdongkor" target="_blank" rel="noopener noreferrer">vuski/admdongkor</a>(CC BY 4.0) · STARGATE 추가 단순화. <a href="/assets/korea-district-boundaries-LICENSE.txt">출처·이용조건</a></p></div>
     </div>
-    <ol class="visitor-regions-list" data-region-list aria-label="지역별 클릭 순위"></ol>
-    <p class="visitor-regions-note">국가·시도 단위의 추정치이며 VPN·이동통신망에 따라 실제 위치와 다를 수 있습니다. IP 원문과 정확한 위치는 저장하거나 표시하지 않습니다.</p>
+    <h3 class="visitor-subtitle">시군구별 클릭 상위 30</h3><ol class="visitor-regions-list" data-region-list aria-label="시군구별 클릭 상위 30"></ol>
+    <h3 class="visitor-subtitle">시간대별 클릭 집계 · 한국시간</h3><div class="visitor-hourly-chart" data-hourly-chart aria-label="시간대별 클릭 집계"></div><p class="visitor-regions-note" data-hourly-status></p>
+    <p class="visitor-regions-note">시군구 단위의 IP 추정치이며 VPN·이동통신망에 따라 실제 위치와 다를 수 있습니다. IP 원문과 정확한 위치는 저장하거나 표시하지 않습니다.</p>
   </section>
   <section class="section" aria-labelledby="usage-title">
     <h2 id="usage-title">버튼 사용 분석 · 최근 30일</h2>
@@ -226,5 +227,6 @@ a{color:inherit;text-decoration:none}.wrap{max-width:1080px;margin:0 auto;paddin
 </script>
 </body>
 </html>
+
 
 
