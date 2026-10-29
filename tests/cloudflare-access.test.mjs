@@ -163,3 +163,15 @@ test('stargatekorea.net visits use a separate visitor store', async () => {
   assert.equal(storeName('https://stargateedu.co.kr'), 'stargate-visitors-v1');
   assert.equal(storeName(null), 'stargate-visitors-v1');
 });
+
+test('regional statistics reject public and unauthenticated access and accept the existing administrator session',async()=>{
+  const {env}=environment();
+  const publicResponse=await handleRequest(request('/api/analytics/get_site_region_stats',{p_days:30},{Origin:'https://stargateedu.co.kr'}),env,{access});
+  assert.equal(publicResponse.status,404);
+  const privateResponse=await handleRequest(request('/api/admin/analytics/get_site_region_stats',{p_days:30}),env,{access});
+  assert.equal(privateResponse.status,401);
+  const authenticated=await handleRequest(request('/api/admin/analytics/get_site_region_stats',{p_days:30},{'Cf-Access-Jwt-Assertion':await token()}),env,{access});
+  assert.equal(authenticated.status,200);
+  const crossOrigin=await handleRequest(request('/api/admin/analytics/get_site_region_stats',{p_days:30},{'Cf-Access-Jwt-Assertion':await token(),Origin:'https://foreign.example'}),env,{access});
+  assert.equal(crossOrigin.status,403);
+});

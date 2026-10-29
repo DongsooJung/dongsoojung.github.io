@@ -40,7 +40,7 @@ jobs:
             | jq --exit-status '.success == true and .result.status == "active"' > /dev/null
           echo 'Cloudflare account token is active.'
       - name: Verify public staging safeguards
-        run: node --test tests/cloudflare-regions.test.mjs tests/visitor-regions-frontend.test.mjs tests/cloudflare-static.test.mjs tests/vercel-static.test.mjs tests/cloudflare-analytics.test.mjs tests/cloudflare-analytics-history.test.mjs tests/cloudflare-analytics-frontend.test.mjs tests/cloudflare-access.test.mjs tests/cloudflare-dashboard-refresh.test.mjs tests/cloudflare-dashboard-frontend.test.mjs tests/cloudflare-service-worker.test.mjs
+        run: node --test tests/visitor-regions-private.test.mjs tests/cloudflare-regions.test.mjs tests/visitor-regions-frontend.test.mjs tests/cloudflare-static.test.mjs tests/vercel-static.test.mjs tests/cloudflare-analytics.test.mjs tests/cloudflare-analytics-history.test.mjs tests/cloudflare-analytics-frontend.test.mjs tests/cloudflare-access.test.mjs tests/cloudflare-dashboard-refresh.test.mjs tests/cloudflare-dashboard-frontend.test.mjs tests/cloudflare-service-worker.test.mjs
       - name: Stage tracked public site files
         run: node scripts/build-cloudflare-static.mjs
       - name: Test analytics with a local Durable Object
@@ -127,6 +127,10 @@ jobs:
           case "$status" in 302|303|401|403) ;; *) echo '::error::Detailed analytics must require authentication'; exit 1;; esac
           status=$(curl --silent --show-error --output /dev/null --write-out '%{http_code}' --header 'Content-Type: application/json' --data '{}' "$WORKER_URL/api/analytics/get_site_usage_stats")
           test "$status" = 404 || { echo '::error::The former public detailed analytics endpoint must be closed'; exit 1; }
+          status=$(curl --silent --show-error --output /dev/null --write-out '%{http_code}' --header 'Content-Type: application/json' --data '{"p_days":30}' "$WORKER_URL/api/analytics/get_site_region_stats")
+          test "$status" = 404 || { echo '::error::Regional statistics must not be public'; exit 1; }
+          status=$(curl --silent --show-error --output /dev/null --write-out '%{http_code}' --header 'Content-Type: application/json' --data '{"p_days":30}' "$WORKER_URL/api/admin/analytics/get_site_region_stats")
+          case "$status" in 302|303|401|403) ;; *) echo '::error::Regional statistics require administrator authentication'; exit 1;; esac
           curl --fail --silent --show-error "$WORKER_URL/api/dashboards/status" --output "$RUNNER_TEMP/dashboard-status.json"
           jq --exit-status '.datasets | length == 3' "$RUNNER_TEMP/dashboard-status.json" > /dev/null
           echo "Verified static site: $WORKER_URL" >> "$GITHUB_STEP_SUMMARY"

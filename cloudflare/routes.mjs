@@ -9,8 +9,8 @@ import { handleBlogVisitors } from './blog-visitors.mjs';
 
 export const PUBLIC_ORIGINS = new Set(['https://stargateedu.co.kr','https://www.stargateedu.co.kr','https://www.stargatekorea.net','https://stargate.stargate8225.workers.dev']);
 const ALERT_ORIGINS = new Set(['https://stargateedu.co.kr','https://www.stargateedu.co.kr','https://www.stargatekorea.net']);
-const publicMethods = new Set(['get_site_region_stats','record_site_visit','record_site_usage_event','get_site_button_click_counts','get_site_visit_stats','get_site_visit_summary','get_site_usage_summary']);
-const adminMethods = new Set(['get_site_visit_stats','get_site_usage_stats']);
+const publicMethods = new Set(['record_site_visit','record_site_usage_event','get_site_button_click_counts','get_site_visit_stats','get_site_visit_summary','get_site_usage_summary']);
+const adminMethods = new Set(['get_site_region_stats','get_site_visit_stats','get_site_usage_stats']);
 const dashboardNames = new Set(['exchange-rate','trade','urban']);
 
 function json(value, status = 200) {

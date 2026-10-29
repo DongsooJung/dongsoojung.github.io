@@ -14,8 +14,8 @@ a{color:inherit;text-decoration:none}.wrap{max-width:1080px;margin:0 auto;paddin
   <link rel="stylesheet" href="/assets/site-theme.css">
   <script src="/assets/site-theme.js"></script>
 <link rel="stylesheet" href="/assets/stargate-tokens.css?v=20261017">
-<link rel="stylesheet" href="/assets/visitor-regions.css?v=20261029">
-<script src="/assets/visitor-regions.js?v=20261029" defer></script>
+<link rel="stylesheet" href="/assets/visitor-regions.css?v=20261029-private">
+<script src="/assets/visitor-regions.js?v=20261029-private" defer></script>
 </head>
 <body>
 <div class="wrap">
@@ -26,7 +26,7 @@ a{color:inherit;text-decoration:none}.wrap{max-width:1080px;margin:0 auto;paddin
   <section class="section"><h2 id="visits-title">최근 30일 방문 추이</h2><label id="period-control" hidden style="color:var(--sub);font-size:12px;margin-bottom:12px">조회 기간 <select id="period-days" disabled aria-label="통계 조회 기간" style="margin-left:6px;padding:6px 10px;border:1px solid var(--line);border-radius:8px;background:var(--panel);color:var(--ink)"><option value="30">최근 30일</option><option value="90">최근 90일</option></select></label><div class="chart" id="chart"></div><div class="table" id="table"></div></section>
 
   <section class="visitor-regions" aria-labelledby="visitor-regions-title" data-visitor-regions>
-    <div class="visitor-regions-head"><div><h2 id="visitor-regions-title">어느 지역에서 주로 클릭했을까요?</h2><p>최근 <span data-region-days>30</span>일 · 사이트 전체 버튼·링크 클릭 · IP 기반 추정 지역</p></div><a href="/admin/visitors/#visitor-regions-title" rel="nofollow">방문 통계 ↗</a></div>
+    <div class="visitor-regions-head"><div><h2 id="visitor-regions-title">지역별 클릭 통계 · 관리자 전용</h2><p>최근 <span data-region-days>30</span>일 · 사이트 전체 버튼·링크 클릭 · IP 기반 추정 지역</p></div><span class="label">관리자 인증 후 열람</span></div>
     <p class="visitor-regions-status" data-region-status role="status">지역별 클릭 통계를 불러오는 중입니다.</p>
     <ol class="visitor-regions-list" data-region-list aria-label="지역별 클릭 순위"></ol>
     <p class="visitor-regions-note">국가·시도 단위의 추정치이며 VPN·이동통신망에 따라 실제 위치와 다를 수 있습니다. IP 원문과 정확한 위치는 저장하거나 표시하지 않습니다.</p>
