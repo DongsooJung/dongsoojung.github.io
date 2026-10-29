@@ -1,6 +1,7 @@
 import {createHmac,randomBytes} from 'node:crypto';
 import {readFileSync,writeFileSync,appendFileSync} from 'node:fs';
 import {pathToFileURL} from 'node:url';
+import {setDefaultResultOrder} from 'node:dns';
 import {ALERT_TEMPLATE} from '../cloudflare/site-alerts.mjs';
 
 const BASE='https://stargate.stargate8225.workers.dev';
@@ -32,12 +33,15 @@ export async function ensureTemplate(api){
 function output(key,value){appendFileSync(process.env.GITHUB_OUTPUT,key+'='+String(value)+'\n');}
 function report(data){console.log(JSON.stringify(data));if(process.env.GITHUB_STEP_SUMMARY)appendFileSync(process.env.GITHUB_STEP_SUMMARY,JSON.stringify(data)+'\n');}
 function solapiClient(){
+ setDefaultResultOrder('ipv4first');
  const key=process.env.SOLAPI_API_KEY,secret=process.env.SOLAPI_API_SECRET;
  if(!key||!secret)throw Error('SOLAPI deployment secrets unavailable');
  return async(path,method='GET',body)=>{
   const date=new Date().toISOString(),salt=randomBytes(16).toString('hex');
   const signature=createHmac('sha256',secret).update(date+salt).digest('hex');
-  const r=await fetch('https://api.solapi.com'+path,{method,headers:{Authorization:`HMAC-SHA256 apiKey=${key}, date=${date}, salt=${salt}, signature=${signature}`,'Content-Type':'application/json'},body:body?JSON.stringify(body):undefined,signal:AbortSignal.timeout(30000)});
+  const route=path.split('?')[0];report({stage:'provider_request',method,route});
+  let r;
+  try{r=await fetch('https://api.solapi.com'+path,{method,headers:{Authorization:`HMAC-SHA256 apiKey=${key}, date=${date}, salt=${salt}, signature=${signature}`,'Content-Type':'application/json'},body:body?JSON.stringify(body):undefined,signal:AbortSignal.timeout(30000)});}catch{throw Error('SOLAPI '+method+' '+route+' timed out or could not connect; no automatic write retry');}
   const data=await r.json();if(!r.ok)throw Error('SOLAPI '+method+' '+path.split('?')[0]+' HTTP '+r.status+' '+String(data.errorCode||''));return data;
  };
 }
