@@ -1,5 +1,13 @@
 # GitHub Repo Update Loop Log
 
+## 2026-10-29 (KST)
+
+- Main repository: DongsooJung/dongsoojung.github.io
+- Last push: 2026-10-29T00:04:00Z (data(ipo): update official filing calendar and licensed review feed)
+- Recent scheduled workflow runs: Predominantly successful (including Remote Service Health Check, Update Naver Cafe popular articles, Update exchange rate data, Update airport congestion data, Update Gimpo airport congestion data, Update expressway rest-area bid radar, Update used-car public indicators, Update Google Trends data, Update used-car market dashboard, Update CLASS101 daily archive, Update Busan Airbnb dashboard, and others). Failures observed: Collect public data CSV (conclusion: failure).
+- Open issues: 5
+- Status: Update loops operating normally overall; scheduled data updates succeeding consistently. Recurring collector failure for public data CSV warrants review. Open issues remain low at 5.
+
 ## 2026-10-27 (KST)
 
 - Main repository: DongsooJung/dongsoojung.github.io
