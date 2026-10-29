@@ -11,11 +11,11 @@ const jwk={...await crypto.subtle.exportKey('jwk',pair.publicKey),kid:'synthetic
 const encode=value=>Buffer.from(typeof value==='string'?value:JSON.stringify(value)).toString('base64url');
 async function token(changes={},headerChanges={}) {
   const header=encode({alg:'RS256',kid:jwk.kid,...headerChanges});
-  const payload=encode({iss:issuer,aud:[audience],type:'app',iat:seconds-60,nbf:seconds-60,exp:seconds+600,...changes});
+  const payload=encode({iss:issuer,aud:[audience],type:'app',email:'ceo@stargateedu.co.kr',iat:seconds-60,nbf:seconds-60,exp:seconds+600,...changes});
   const signature=Buffer.from(await crypto.subtle.sign('RSASSA-PKCS1-v1_5',pair.privateKey,new TextEncoder().encode(`${header}.${payload}`))).toString('base64url');
   return `${header}.${payload}.${signature}`;
 }
-const config={ACCESS_ISSUER:issuer,ACCESS_AUD:audience};
+const config={ACCESS_ISSUER:issuer,ACCESS_AUD:audience,ANALYTICS_OWNER_EMAIL:'ceo@stargateedu.co.kr'};
 const access={now,fetchFn:async url=>{
   assert.equal(url,issuer+'/cdn-cgi/access/certs');
   return Response.json({keys:[jwk]});
@@ -174,4 +174,14 @@ test('regional statistics reject public and unauthenticated access and accept th
   assert.equal(authenticated.status,200);
   const crossOrigin=await handleRequest(request('/api/admin/analytics/get_site_region_stats',{p_days:30},{'Cf-Access-Jwt-Assertion':await token(),Origin:'https://foreign.example'}),env,{access});
   assert.equal(crossOrigin.status,403);
+});
+
+
+test('analytics rejects a valid session for a different email and fails closed without an owner',async()=>{
+ const {env}=environment();
+ const other={'Cf-Access-Jwt-Assertion':await token({email:'other@example.invalid'})};
+ assert.equal((await handleRequest(request('/api/admin/analytics/get_site_region_stats',{p_days:30},other),env,{access})).status,401);
+ assert.equal((await handleRequest(request('/admin/visitors/',{},other,'GET'),env,{access})).status,401);
+ delete env.ANALYTICS_OWNER_EMAIL;
+ assert.equal((await handleRequest(request('/api/admin/analytics/get_site_region_stats',{p_days:30},{'Cf-Access-Jwt-Assertion':await token()}),env,{access})).status,401);
 });

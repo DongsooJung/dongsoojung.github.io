@@ -305,7 +305,7 @@ export class AnalyticsStore {
     return {source:'cloudflare',days,started_at:this.regionStartedAt,total_clicks:total,
       located_clicks:known.reduce((sum,row)=>sum+row.clicks,0),
       unknown_clicks:rows.filter(row=>!row.country).reduce((sum,row)=>sum+row.clicks,0),
-      regions:known.slice(0,10).map(row=>({...row,share:total?Math.round(row.clicks/total*1000)/10:0})),
+      regions:known.map(row=>({...row,share:total?Math.round(row.clicks/total*1000)/10:0})),
       scope:'sitewide',precision:'country-region'};
   }
   buttonCounts(path) {
@@ -388,4 +388,5 @@ export class AnalyticsStore {
     }
   }
 }
+
 

@@ -1,4 +1,4 @@
-name: Inspect Cloudflare Access login
+name: Configure private analytics email login
 on:
   push:
     branches: [main]
@@ -7,15 +7,15 @@ on:
 permissions:
   contents: read
 concurrency:
-  group: cloudflare-access-login
+  group: cloudflare-worker-stargate
   cancel-in-progress: false
 jobs:
-  inspect:
+  configure:
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
       - uses: actions/checkout@v4
-      - name: Inspect targeted Access application without exposing credentials
+      - name: Provision exact-email visitor login without changing account-wide membership restrictions
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}

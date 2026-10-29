@@ -31,7 +31,7 @@ async function signingKey(issuer, kid, fetchFn, now) {
   return cached.imported.get(kid);
 }
 
-export async function verifyAccessRequest(request, env, { fetchFn = fetch, now = Date.now() } = {}) {
+export async function verifyAccessRequest(request, env, { fetchFn = fetch, now = Date.now(), requiredEmail } = {}) {
   try {
     const config = configuration(env), token = request.headers.get('Cf-Access-Jwt-Assertion');
     if (!config || !token || token.length > 16384) return false;
@@ -40,6 +40,7 @@ export async function verifyAccessRequest(request, env, { fetchFn = fetch, now =
     const header = JSON.parse(new TextDecoder().decode(decode(parts[0])));
     const claims = JSON.parse(new TextDecoder().decode(decode(parts[1])));
     if (header.alg !== 'RS256' || typeof header.kid !== 'string' || header.kid.length > 256 || claims.iss !== config.issuer || claims.type !== 'app') return false;
+    if (requiredEmail !== undefined && (typeof requiredEmail !== 'string' || !requiredEmail.includes('@') || typeof claims.email !== 'string' || claims.email.toLowerCase() !== requiredEmail.toLowerCase())) return false;
     const audiences = Array.isArray(claims.aud) ? claims.aud : [claims.aud];
     const seconds = Math.floor(now/1000);
     if (!audiences.includes(config.audience) || !Number.isFinite(claims.exp) || claims.exp <= seconds || (claims.nbf != null && (!Number.isFinite(claims.nbf) || claims.nbf > seconds)) || !Number.isFinite(claims.iat) || claims.iat > seconds + 30) return false;
@@ -47,3 +48,4 @@ export async function verifyAccessRequest(request, env, { fetchFn = fetch, now =
     return await crypto.subtle.verify('RSASSA-PKCS1-v1_5',key,decode(parts[2]),encoder.encode(`${parts[0]}.${parts[1]}`));
   } catch { return false; }
 }
+

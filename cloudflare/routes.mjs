@@ -66,7 +66,10 @@ export async function handleRequest(request,env,options = {}) {
   const adminPage = guardedPath === '/admin' || guardedPath.startsWith('/admin/');
   const adminApi = guardedPath.startsWith('/api/admin/');
   if (adminPage || adminApi) {
-    if (!await verifyAccessRequest(request,env,options.access)) {
+    const ownerOnly = guardedPath === '/admin/visitors' || guardedPath.startsWith('/admin/visitors/') || guardedPath.startsWith('/api/admin/analytics/');
+    const ownerEnv = ownerOnly ? {...env,ACCESS_ISSUER:env.ANALYTICS_ACCESS_ISSUER || env.ACCESS_ISSUER,ACCESS_AUD:env.ANALYTICS_ACCESS_AUD || env.ACCESS_AUD} : env;
+    const accessOptions = {...options.access,...(ownerOnly ? {requiredEmail:env.ANALYTICS_OWNER_EMAIL} : {})};
+    if ((ownerOnly && !env.ANALYTICS_OWNER_EMAIL) || !await verifyAccessRequest(request,ownerEnv,accessOptions)) {
       if (adminPage) return new Response('<!doctype html><html lang="ko"><meta charset="utf-8"><meta name="robots" content="noindex,nofollow"><title>관리자 인증 필요</title><h1>관리자 인증이 필요합니다</h1><p>Cloudflare Access 설정과 관리자 로그인이 완료된 뒤 다시 접속해 주세요.</p></html>',{status:401,headers:{'Content-Type':'text/html; charset=utf-8','Cache-Control':'no-store','X-Content-Type-Options':'nosniff'}});
       return json({error:'Administrator authentication required'},401);
     }
@@ -142,4 +145,5 @@ function failure(error) {
   console.error('Cloudflare data request failed');
   return json({error:'Service temporarily unavailable'},503);
 }
+
 
