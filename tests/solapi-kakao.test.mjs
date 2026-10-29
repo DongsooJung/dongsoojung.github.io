@@ -26,9 +26,12 @@ test('unlinked channels, unapproved templates, missing variables and modified co
     const {calls,fetcher}=upstream(settings);await assert.rejects(()=>send(env,input,fetcher));assert.equal(calls.length,0);
   }
 });
-test('empty provider catalog stays empty and channel APIs require authentication',async()=>{
+test('empty provider catalog stays empty; channel APIs are public but customer data still requires authentication',async()=>{
   assert.deepEqual((await catalog(env,async()=>Response.json({channelList:[]}))).channels,[]);
   for(const path of ['kakao-channels','kakao-templates?channelId=KA-test']){
+    const r=await handler.fetch(new Request('https://test.invalid/api/sms/'+path),env);assert.notEqual(r.status,401);
+  }
+  for(const path of ['contacts','templates','history','reports']){
     const r=await handler.fetch(new Request('https://test.invalid/api/sms/'+path),env);assert.equal(r.status,401);
   }
 });

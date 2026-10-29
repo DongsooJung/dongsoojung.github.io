@@ -25,7 +25,9 @@ export default {async fetch(request,env) {
     if(a.reduce((diff,value,i)=>diff|(value^b[i]),0)!==0) {await new Promise(r=>setTimeout(r,1200));return json({ok:false,message:'관리자 비밀번호가 올바르지 않습니다.'},401);}
     return new Response(JSON.stringify({ok:true}),{headers:{'Content-Type':'application/json','Cache-Control':'no-store','Set-Cookie':await createSession(env.SMS_ADMIN_TOKEN)}});
   }
-  if(!await authorized(request,env)) return json({ok:false,message:'관리자 로그인이 필요합니다.'},401);
+  const signedIn=await authorized(request,env);
+  const publicRoute=(url.pathname==='/api/sms'&&request.method==='POST')||(url.pathname==='/api/account'&&request.method==='GET')||(['/api/sms/kakao-channels','/api/sms/kakao-templates'].includes(url.pathname)&&request.method==='GET');
+  if(!signedIn&&!publicRoute) return json({ok:false,message:'관리자 로그인이 필요합니다.'},401);
   try {
     if(url.pathname==='/api/sms/kakao-channels'&&request.method==='GET')return json({ok:true,...await catalog(env)});
     if(url.pathname==='/api/sms/kakao-templates'&&request.method==='GET')return json({ok:true,...await kakaoTemplates(env,url.searchParams.get('channelId'))});
@@ -57,13 +59,18 @@ export default {async fetch(request,env) {
       const list=Array.isArray(data.messageList)?data.messageList:Object.values(data.messageList||{});
       return json({ok:true,reports:list.map(v=>({id:v.messageId,to:v.to,from:v.from,text:v.text,statusCode:v.statusCode,statusMessage:v.statusMessage,dateCreated:v.dateCreated})),nextKey:data.nextKey||null});
     }
-    if(url.pathname==='/api/account'&&request.method==='GET') return json({ok:true,credentialSuffix:env.SOLAPI_API_KEY.slice(-4),...await account(env)});
+    if(url.pathname==='/api/account'&&request.method==='GET') {const info=await account(env);return json(signedIn?{ok:true,credentialSuffix:env.SOLAPI_API_KEY.slice(-4),...info}:{ok:true,senders:info.senders});}
     if(url.pathname==='/api/sms'&&request.method==='POST') {
       if(!request.headers.get('content-type')?.includes('application/json')) return json({ok:false,message:'JSON 요청이 필요합니다.'},415);
       const text=await request.text();
       if(text.length>20000) return json({ok:false,message:'요청이 너무 큽니다.'},413);
       let body;
       try { body=JSON.parse(text);validate(body); } catch(error) {return json({ok:false,message:error.message},400);}
+      if(!signedIn) {
+        const journal=env.SMS_REQUESTS.get(env.SMS_REQUESTS.idFromName('stargate-sms-crm-v1'));
+        const quota=await journal.crm('quota',{count:body.recipients.length});
+        if(!quota.ok||!quota.allowed) return json({ok:false,message:`시간당 발송 한도(${quota.limit||50}명)를 넘었습니다. 잠시 후 다시 시도하거나 관리자 로그인 후 발송해 주세요.`},429);
+      }
       const object=env.SMS_REQUESTS.get(env.SMS_REQUESTS.idFromName(body.requestId));
       return json(await object.submit(body));
     }

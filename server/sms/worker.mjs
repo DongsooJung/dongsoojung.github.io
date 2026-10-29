@@ -11,6 +11,11 @@ export class SmsRequest extends DurableObject {
       if(action==='contacts') return {ok:true,contacts:await store.list('contacts')};
       if(action==='templates') return {ok:true,templates:await store.templates()};
       if(action==='history') return {ok:true,history:await store.list('history')};
+      if(action==='quota') {
+        const since=new Date(Date.now()-3600000).toISOString();
+        const used=(await store.list('history')).filter(v=>v.createdAt>=since).reduce((n,v)=>n+(v.recipients?.length||0),0);
+        return {ok:true,used,limit:50,allowed:used+(body?.count||0)<=50};
+      }
       if(action==='record') {await store.record(body.request,body.result);return {ok:true};}
       const [operation,kind]=action.split(':');
       if(operation==='save') return {ok:true,item:await store.save(kind,body)};
