@@ -20,6 +20,14 @@
   const districtSelect=root.querySelector('[data-district-select]');
   const hourlyRoot=root.querySelector('[data-hourly-chart]');
   const hourlyStatus=root.querySelector('[data-hourly-status]');
+  const currentRegion=root.querySelector('[data-current-region]');
+  function coverage(data,resolved){
+    const regions=Array.isArray(data.regions)?data.regions:[];
+    const foreign=Number.isFinite(data.foreign_clicks)?data.foreign_clicks:regions.filter(row=>row.country&&row.country!=='KR').reduce((sum,row)=>sum+(Number(row.clicks)||0),0);
+    const unknown=Number.isFinite(data.unknown_clicks)?data.unknown_clicks:Math.max(0,data.total_clicks-(Number(data.located_clicks)||0));
+    const domestic=Number.isFinite(data.domestic_unresolved_clicks)?data.domestic_unresolved_clicks:Math.max(0,data.total_clicks-resolved-foreign-unknown);
+    return `시군구 확인 ${fmt(resolved)}회 · 국내 시군구 미확인 ${fmt(domestic)}회 · 해외 확인 ${fmt(foreign)}회 · 위치 정보 없음 ${fmt(unknown)}회`;
+  }
   let geometryPromise,generation=0,lastData=null;
   const pathCache=new Map();
   function decodeRing(encoded){let cursor=0,x=0,y=0;const points=[];function read(){let value=0,shift=0,chunk;do{if(cursor>=encoded.length||shift>30)throw new Error('MAP_ENCODING');chunk=encoded.charCodeAt(cursor++)-63;value|=(chunk&31)<<shift;shift+=5;}while(chunk>=32);return value&1?~(value>>>1):value>>>1;}while(cursor<encoded.length){x+=read();y+=read();points.push([x/1e5,y/1e5]);}return points;}
@@ -51,22 +59,25 @@
       const chosenDistrict=shapes.find(d=>d.code===districtSelect?.value);
       if(chosenDistrict){svg.setAttribute('viewBox',mapBox([chosenDistrict]));select(paths.get(chosenDistrict.code),chosenDistrict,counts.get(chosenDistrict.code)||0);}
       mapRoot.replaceChildren(svg);
-      const resolved=[...counts.values()].reduce((sum,n)=>sum+n,0);const foreign=(Array.isArray(data.regions)?data.regions:[]).filter(row=>row.country!=='KR').reduce((sum,row)=>sum+(Number(row.clicks)||0),0);
-      mapSummary.textContent=`시군구 확인 ${fmt(resolved)}회 · 미확인·해외 ${fmt(Math.max(0,data.total_clicks-resolved))}회 · 해외 확인 ${fmt(foreign)}회. 시도 선택으로 확대할 수 있습니다.`;
+      const resolved=[...counts.values()].reduce((sum,n)=>sum+n,0);
+      mapSummary.textContent=coverage(data,resolved)+'. 시도 선택으로 확대할 수 있습니다.';
+      if(currentRegion){const geo=data.current_region;const district=geometry.districts.find(d=>d.code===geo?.district_code);
+        currentRegion.textContent=!geo?'현재 접속 위치 진단은 공개 통계 페이지에서 확인할 수 있습니다.':district?`현재 접속 감지: ${district.province_name} ${district.name} (IP 추정). 위치 수집이 정상 작동합니다. 조회만으로 클릭 수를 늘리지 않습니다.`:geo.country==='KR'?`현재 접속 감지: 대한민국${geo.region?' · '+geo.region:''}. `+(geo.status==='coordinates_missing'?'Cloudflare가 이 접속의 추정 좌표를 제공하지 않아 시군구를 확인할 수 없습니다.':'IP 추정 좌표가 시군구 경계에 대응되지 않아 시군구는 미확인으로 표시합니다.'):geo.country?`현재 접속 감지: ${geo.country}${geo.region?' · '+geo.region:''} (IP 추정). VPN·프록시 사용 시 실제 위치와 다를 수 있습니다.`:'현재 접속의 국가·위치 정보를 제공받지 못했습니다.';
+      }
     }catch(_){if(ticket!==generation)return;mapRoot.replaceChildren();mapSummary.textContent='시군구 지도를 불러오지 못했습니다. 아래 집계는 계속 확인할 수 있습니다.';}
   }
   async function load(){
-    const ticket=++generation;lastData=null;const selectedDays=Number(document.getElementById('period-days')?.value),days=[7,30,90].includes(selectedDays)?selectedDays:30;daysLabel.textContent=days;list.replaceChildren();resetMap('시군구별 클릭 통계를 확인하고 있습니다.');status.textContent='시군구별 클릭 통계를 불러오는 중입니다.';
+    const ticket=++generation;lastData=null;if(currentRegion)currentRegion.textContent='현재 접속의 위치 수집 상태를 확인하고 있습니다.';const selectedDays=Number(document.getElementById('period-days')?.value),days=[7,30,90].includes(selectedDays)?selectedDays:30;daysLabel.textContent=days;list.replaceChildren();resetMap('시군구별 클릭 통계를 확인하고 있습니다.');status.textContent='시군구별 클릭 통계를 불러오는 중입니다.';
     try{
       const response=await fetch(endpoint,{method:'POST',credentials:isAdmin?'same-origin':'omit',redirect:isAdmin?'manual':'follow',cache:'no-store',headers:{'Content-Type':'application/json'},body:JSON.stringify({p_days:days}),signal:AbortSignal.timeout(10000)});
       if(isAdmin&&([401,403,302,303].includes(response.status)||response.type==='opaqueredirect'||response.redirected||response.headers?.get('content-type')?.includes('text/html')))throw new Error('ACCESS_LOGIN_REQUIRED');
       if(!response.ok)throw new Error('DISTRICTS_HTTP');const data=await response.json();if(data.source!=='cloudflare'||!Number.isFinite(data.total_clicks))throw new Error('DISTRICTS_INVALID');if(ticket!==generation)return;
       const rows=(Array.isArray(data.districts)?data.districts:[]).filter(row=>/^\d{5}$/.test(row.code)&&Number.isFinite(row.clicks)&&row.clicks>0&&Number.isFinite(row.share)&&row.share>=0&&row.share<=100).sort((a,b)=>b.clicks-a.clicks||a.code.localeCompare(b.code));
       const resolved=rows.reduce((sum,row)=>sum+row.clicks,0);const started=new Date(data.district_started_at);const startedText=Number.isFinite(started.getTime())?new Intl.DateTimeFormat('ko-KR',{dateStyle:'medium',timeStyle:'short',timeZone:'Asia/Seoul'}).format(started)+' 한국시간':'이번 업데이트 이후';
-      status.textContent=`전체 ${fmt(data.total_clicks)}회 중 시군구 확인 ${fmt(resolved)}회 · 미확인·해외 ${fmt(Math.max(0,data.total_clicks-resolved))}회. 시군구 집계 시작: ${startedText}. `+(rows.length?'비중은 전체 클릭 기준입니다.':'확인된 시군구 클릭이 아직 없습니다. 기존 기록의 시군구는 소급 복원되지 않습니다.');
+      status.textContent=`전체 ${fmt(data.total_clicks)}회 · ${coverage(data,resolved)}. 시군구 집계 시작: ${startedText}. `+(rows.length?'비중은 전체 클릭 기준입니다.':'확인된 시군구 클릭이 아직 없습니다. 위치 정보가 없는 기존 기록은 해외 방문을 뜻하지 않으며, 소급 복원할 수 없습니다.');
       lastData=data;await renderMap(data,ticket);if(ticket!==generation)return;renderHours(data);
       rows.slice(0,30).forEach((row,index)=>{const item=document.createElement('li'),line=document.createElement('div');line.className='visitor-region-line';const title=document.createElement('strong');title.textContent=`${index+1}. ${row.province_name} ${row.name}`;const value=document.createElement('span');value.textContent=`${fmt(row.clicks)}회 · ${row.share}%`;const track=document.createElement('div');track.className='visitor-region-track';track.setAttribute('aria-hidden','true');const bar=document.createElement('i');bar.style.width=row.share+'%';track.append(bar);line.append(title,value);item.append(line,track);list.append(item);});
-    }catch(error){if(ticket!==generation)return;lastData=null;resetMap(isAdmin?'관리자 인증 후 지도를 확인할 수 있습니다.':'시군구 통계 연결에 실패했습니다. 새로고침해 주세요.');list.replaceChildren();status.textContent=error.message==='ACCESS_LOGIN_REQUIRED'?'대표님 관리자 로그인이 필요합니다. 다시 로그인한 뒤 새로고침해 주세요.':'시군구별 클릭 통계에 연결하지 못했습니다. 잠시 후 다시 확인해 주세요.';}
+    }catch(error){if(ticket!==generation)return;lastData=null;if(currentRegion)currentRegion.textContent='현재 접속의 위치 수집 상태를 확인하지 못했습니다.';resetMap(isAdmin?'관리자 인증 후 지도를 확인할 수 있습니다.':'시군구 통계 연결에 실패했습니다. 새로고침해 주세요.');list.replaceChildren();status.textContent=error.message==='ACCESS_LOGIN_REQUIRED'?'대표님 관리자 로그인이 필요합니다. 다시 로그인한 뒤 새로고침해 주세요.':'시군구별 클릭 통계에 연결하지 못했습니다. 잠시 후 다시 확인해 주세요.';}
   }
   provinceSelect?.addEventListener('change',()=>{if(!lastData)return;if(districtSelect)districtSelect.value='all';renderMap(lastData,generation);});
   districtSelect?.addEventListener('change',()=>{if(lastData)renderMap(lastData,generation);});

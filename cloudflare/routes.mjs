@@ -136,7 +136,14 @@ export async function handleRequest(request,env,options = {}) {
     const internalMethod = method === 'get_site_visit_stats' ? 'get_site_visit_summary' : method;
     const payload = validatePayload(internalMethod,await readPayload(request));
     const notify=internalMethod==='record_site_usage_event'&&ALERT_ORIGINS.has(origin);
-    return cors(json(await object(env,origin).analytics(internalMethod,payload,notify,coarseRegion(request.cf))),origin);
+    const geo=coarseRegion(request.cf);
+    const result=await object(env,origin).analytics(internalMethod,payload,notify,geo);
+    // Diagnose this request only; a read never creates visitor/click records.
+    if(internalMethod==='get_site_region_summary') {
+      const hasCoordinates=[request.cf?.latitude,request.cf?.longitude].every(value=>value!==undefined&&value!==null&&String(value).trim()!==''&&Number.isFinite(Number(value)));
+      return cors(json({...result,current_region:{...geo,status:geo.district_code?'resolved':!geo.country?'country_missing':geo.country!=='KR'?'foreign':!hasCoordinates?'coordinates_missing':'outside_boundary'}}),origin);
+    }
+    return cors(json(result),origin);
   } catch(error) { return cors(failure(error),origin); }
 }
 
@@ -145,6 +152,7 @@ function failure(error) {
   console.error('Cloudflare data request failed');
   return json({error:'Service temporarily unavailable'},503);
 }
+
 
 
 

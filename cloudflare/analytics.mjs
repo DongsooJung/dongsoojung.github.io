@@ -317,9 +317,12 @@ export class AnalyticsStore {
       GROUP BY g.district_code ORDER BY clicks DESC,g.district_code`,start,end);
     const districts=districtRows.flatMap(row=>{const d=districtForCode(row.district_code);return d?[{...d,clicks:row.clicks,share:total?Math.round(row.clicks/total*1000)/10:0}]:[];});
     const resolved=districts.reduce((sum,row)=>sum+row.clicks,0);
+    const domestic=known.filter(row=>row.country==='KR').reduce((sum,row)=>sum+row.clicks,0);
+    const foreign=known.filter(row=>row.country!=='KR').reduce((sum,row)=>sum+row.clicks,0);
     return {source:'cloudflare',days,started_at:this.regionStartedAt,total_clicks:total,
       district_started_at:this.districtStartedAt,boundary_version:DISTRICT_BOUNDARY_VERSION,districts,
       district_resolved_clicks:resolved,district_unknown_clicks:total-resolved,
+      domestic_unresolved_clicks:Math.max(0,domestic-resolved),foreign_clicks:foreign,
       hourly:this.rows('SELECT hour,SUM(clicks) AS clicks FROM click_hours WHERE date>=? AND date<=? GROUP BY hour ORDER BY hour',start,end),
       located_clicks:known.reduce((sum,row)=>sum+row.clicks,0),
       unknown_clicks:rows.filter(row=>!row.country).reduce((sum,row)=>sum+row.clicks,0),

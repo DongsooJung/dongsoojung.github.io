@@ -56,3 +56,11 @@ test('district codes and hourly counts are aggregated without coordinates, raw I
  migrated.prune(now+91*86400000);assert.equal(db.prepare('SELECT COUNT(*) AS n FROM click_hours').get().n,0);db.close();
 });
 function storageFor(db){return {sql:{exec(sql,...args){if(sql.includes('CREATE TABLE')){db.exec(sql);return {toArray:()=>[]}}const rows=db.prepare(sql).all(...args).map(row=>({...row}));return {toArray:()=>rows}}},transactionSync(fn){db.exec('BEGIN');try{const value=fn();db.exec('COMMIT');return value}catch(e){db.exec('ROLLBACK');throw e}}};}
+
+test('coverage partitions domestic unresolved, foreign, and absent geography without mislabelling old records',()=>{
+ const {db,store}=database();
+ for(const [id,geo] of [[301,{country:'KR',latitude:37.5172,longitude:127.0473}],[302,{country:'KR',region:'Gyeonggi-do'}],[303,{country:'US',region:'California'}],[304,null]])store.call('record_site_usage_event',event(id),now,geo);
+ const r=store.call('get_site_region_summary',{p_days:30},now);
+ assert.equal(r.district_resolved_clicks,1);assert.equal(r.domestic_unresolved_clicks,1);assert.equal(r.foreign_clicks,1);assert.equal(r.unknown_clicks,1);
+ assert.equal(r.total_clicks,r.district_resolved_clicks+r.domestic_unresolved_clicks+r.foreign_clicks+r.unknown_clicks);db.close();
+});

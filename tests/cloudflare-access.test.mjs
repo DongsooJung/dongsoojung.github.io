@@ -199,3 +199,17 @@ test('anonymous visitor report and regional summaries work while unrelated admin
  assert.equal((await handleRequest(request('/api/admin/analytics/get_site_usage_stats'),env,{access})).status,401);
  assert.equal((await handleRequest(request('/api/analytics/get_site_region_summary',{p_days:7},{Origin:'https://foreign.example'}),env,{access})).status,403);
 });
+
+test('current request location diagnosis uses trusted CF geography, never payload or raw IP, and only reads counts',async()=>{
+ const {env,calls}=environment();
+ for(const [cf,status] of [[{country:'KR',latitude:'37.5172',longitude:'127.0473'},'resolved'],[{country:'KR'},'coordinates_missing'],[{country:'KR',latitude:35,longitude:124},'outside_boundary'],[{country:'US'},'foreign'],[undefined,'country_missing']]){
+  const req=request('/api/analytics/get_site_region_summary',{p_days:30,country:'US',district_code:'99999'});
+  Object.defineProperty(req,'cf',{value:cf});
+  const response=await handleRequest(req,env);const result=await response.json();
+  assert.equal(result.current_region.status,status);
+  if(status==='resolved')assert.equal(result.current_region.district_code,'11680');
+  assert.equal(response.headers.get('Cache-Control'),'no-store');
+  assert.ok(!JSON.stringify(result).includes('latitude'));assert.ok(!JSON.stringify(result).includes('longitude'));
+ }
+ assert.ok(calls.every(c=>c.method==='get_site_region_summary'));
+});
