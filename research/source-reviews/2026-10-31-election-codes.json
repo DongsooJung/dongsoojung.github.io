@@ -1,0 +1,357 @@
+{
+  "schemaVersion": 1,
+  "step": "election-boundary-20261031",
+  "checkedAt": "2026-10-30T15:23:57.987021+00:00",
+  "keys": [
+    "/election/",
+    "/pyeongtaek-election/",
+    "/hwaseong-election/",
+    "/suwon-election/",
+    "/seongnam-election/"
+  ],
+  "sourceBaseCommit": "1a676572969161806207a4d8b1a1414139defe74",
+  "documents": [
+    {
+      "name": "vworld-guide",
+      "url": "https://www.vworld.kr/dev/v4dv_2ddataguide2_s002.do?svcIde=ademd",
+      "checkedAt": "2026-10-30T15:17:27.187660+00:00",
+      "status": 200,
+      "finalUrl": "https://www.vworld.kr/dev/v4dv_2ddataguide2_s002.do?svcIde=ademd",
+      "collectedAt": "2026-10-30T15:17:27.939126+00:00",
+      "bytes": 42825,
+      "sha256": "c6d5d7705ffb41e8355b245825da2ca5a6c5a8e760c17272c62ff0b4bb3cb813"
+    },
+    {
+      "name": "data-catalog",
+      "url": "https://www.data.go.kr/catalog/15059008/openapi.json",
+      "checkedAt": "2026-10-30T15:17:27.188660+00:00",
+      "status": 200,
+      "finalUrl": "https://www.data.go.kr/catalog/15059008/openapi.json",
+      "collectedAt": "2026-10-30T15:17:27.930721+00:00",
+      "bytes": 1865,
+      "sha256": "be8102e23212bfb987853906856fe5bec6e5705670442e2e5287bda59e19f908"
+    },
+    {
+      "name": "code-faq",
+      "url": "https://www.code.go.kr/qna/faqL.do",
+      "checkedAt": "2026-10-30T15:17:27.189657+00:00",
+      "status": 200,
+      "finalUrl": "https://www.code.go.kr/qna/faqL.do",
+      "collectedAt": "2026-10-30T15:17:28.487027+00:00",
+      "bytes": 41139,
+      "sha256": "e8d0c37998cd90d7db3801619aa944124395c6b4affcc6adf73d4e92ea7c19d7"
+    },
+    {
+      "name": "mois-list",
+      "url": "https://www.mois.go.kr/frt/bbs/type001/commonSelectBoardList.do?bbsId=BBSMSTR_000000000052",
+      "checkedAt": "2026-10-30T15:17:27.190657+00:00",
+      "status": 200,
+      "finalUrl": "https://www.mois.go.kr/frt/bbs/type001/commonSelectBoardList.do?bbsId=BBSMSTR_000000000052",
+      "collectedAt": "2026-10-30T15:17:28.316767+00:00",
+      "bytes": 173474,
+      "sha256": "e552a411042631f464e274400147182aecd92316d5521a625ada0a48605e1674"
+    },
+    {
+      "name": "sgis-download",
+      "url": "https://link.mods.go.kr/view/pss/downloadList",
+      "checkedAt": "2026-10-30T15:17:27.933119+00:00",
+      "status": 200,
+      "finalUrl": "https://link.mods.go.kr/view/pss/downloadList",
+      "collectedAt": "2026-10-30T15:17:28.384942+00:00",
+      "bytes": 150446,
+      "sha256": "6c7c095465577a6de174735f16b15454b507fdaa6540d1409d089cfd2b9b870d"
+    }
+  ],
+  "officialNotice": {
+    "url": "https://www.mois.go.kr/frt/bbs/type001/commonSelectBoardArticle.do?bbsId=BBSMSTR_000000000052&nttId=130674",
+    "status": 200,
+    "collectedAt": "2026-10-30T15:18:19.905774+00:00",
+    "sha256": "6d923e7e3cdea9f4bc3ef94ab3f4c04ca141a74c1ba3295339e7b556b062d0d0",
+    "bytes": 173538
+  },
+  "officialRegistryFile": {
+    "url": "https://www.mois.go.kr/cmm/fms/FileDown.do?atchFileId=FILE_00150183sQwGjok&fileSn=1",
+    "status": 200,
+    "collectedAt": "2026-10-30T15:18:35.764211+00:00",
+    "sha256": "cce7299a01bfb29edc234884dbd4afa87b4a3a899ae3aefb9d6e4d0fe7b82509",
+    "bytes": 2114284
+  },
+  "registryReference": {
+    "json": "/data/election/administrative-code-review.json",
+    "csv": "/data/election/administrative-code-review.csv",
+    "providerNoticeReferenceDate": "2026-10-30",
+    "fileDateLabel": "20261026",
+    "collectedAt": "2026-10-30T15:18:35.764211+00:00",
+    "validation": {
+      "method": "CP949 fixed-width TXT compared field-by-field with XLSX",
+      "allRegistryRows": 3926,
+      "allFieldsChecked": 23556,
+      "selectedRows": 149,
+      "selectedFieldsChecked": 894
+    },
+    "cities": {
+      "pyeongtaek": {
+        "cityName": "평택시",
+        "registryUnits": 26,
+        "savedUnits": 25,
+        "matchingCodeAndName": 24,
+        "currentUnitsWithoutSavedGeometry": [
+          {
+            "code": "4122067000",
+            "name": "고덕1동",
+            "createdOn": "20261012"
+          },
+          {
+            "code": "4122068000",
+            "name": "고덕2동",
+            "createdOn": "20261012"
+          }
+        ],
+        "savedCodesAbsentFromActiveFile": [
+          {
+            "code": "4122066000",
+            "name": "고덕동"
+          }
+        ],
+        "nameMismatches": [],
+        "geometrySha256": "dcd054194718120530b5aa1b3649869282b3d499a3f28bbadece30e68984e0fe",
+        "coordinateVerification": "not_verified",
+        "sourceBoundaryDate": null
+      },
+      "hwaseong": {
+        "cityName": "화성시",
+        "registryUnits": 29,
+        "savedUnits": 29,
+        "matchingCodeAndName": 29,
+        "currentUnitsWithoutSavedGeometry": [],
+        "savedCodesAbsentFromActiveFile": [],
+        "nameMismatches": [],
+        "geometrySha256": "9c2016eb280f2a593dff1756f1f9615ec2e8756e373578bc642c6ff9ec989faf",
+        "coordinateVerification": "not_verified",
+        "sourceBoundaryDate": null
+      },
+      "suwon": {
+        "cityName": "수원시",
+        "registryUnits": 44,
+        "savedUnits": 44,
+        "matchingCodeAndName": 44,
+        "currentUnitsWithoutSavedGeometry": [],
+        "savedCodesAbsentFromActiveFile": [],
+        "nameMismatches": [],
+        "geometrySha256": "15b782cdb72e5d60a1f3edc346f469058df73f4942f085dc56016b7f66a9319e",
+        "coordinateVerification": "not_verified",
+        "sourceBoundaryDate": null
+      },
+      "seongnam": {
+        "cityName": "성남시",
+        "registryUnits": 50,
+        "savedUnits": 50,
+        "matchingCodeAndName": 50,
+        "currentUnitsWithoutSavedGeometry": [],
+        "savedCodesAbsentFromActiveFile": [],
+        "nameMismatches": [],
+        "geometrySha256": "b5ca2894c7e4810b105c1b128dfac6752302065e8023209c44dc7d21d52761ff",
+        "coordinateVerification": "not_verified",
+        "sourceBoundaryDate": null
+      }
+    },
+    "scope": "행안부 현행파일149개·6필드894개를 TXT/XLSX로 대조. 저장148개 중 코드·동명147개 일치. 평택 기존고덕동은현행파일에없고 신규고덕1·2동은저장도형미제공. 좌표·선거구귀속 검증 아님."
+  },
+  "vworldChecks": [
+    {
+      "city": "pyeongtaek",
+      "prefix": "41220",
+      "url": "https://api.vworld.kr/req/data",
+      "layer": "LT_C_ADEMD_INFO",
+      "checkedAt": "2026-10-30T15:20:16.088377+00:00",
+      "status": 200,
+      "sha256": "aba219dab8f99511947960be81afdbf6e54a324ab251e84d5b126c19ebe5dd42",
+      "bytes": 1156725,
+      "apiStatus": "OK",
+      "errorCode": null,
+      "features": 37
+    },
+    {
+      "city": "hwaseong",
+      "prefix": "41591",
+      "url": "https://api.vworld.kr/req/data",
+      "layer": "LT_C_ADEMD_INFO",
+      "checkedAt": "2026-10-30T15:20:16.089369+00:00",
+      "status": 200,
+      "sha256": "2f102e3ac628a579e95eaa74ce469f84209304a6269dcf5bbe7bf8d734319259",
+      "bytes": 802088,
+      "apiStatus": "OK",
+      "errorCode": null,
+      "features": 10
+    },
+    {
+      "city": "hwaseong",
+      "prefix": "41593",
+      "url": "https://api.vworld.kr/req/data",
+      "layer": "LT_C_ADEMD_INFO",
+      "checkedAt": "2026-10-30T15:20:16.090363+00:00",
+      "status": 200,
+      "sha256": "242aac27db300c24474070aa53fc044d1da0ab3678a024a305382babb84ba4ee",
+      "bytes": 319743,
+      "apiStatus": "OK",
+      "errorCode": null,
+      "features": 6
+    },
+    {
+      "city": "hwaseong",
+      "prefix": "41595",
+      "url": "https://api.vworld.kr/req/data",
+      "layer": "LT_C_ADEMD_INFO",
+      "checkedAt": "2026-10-30T15:20:16.090363+00:00",
+      "status": 200,
+      "sha256": "efb61d575b39d13f85e18ea3e2eb834698676bbf0caa576bd6b8b6a5c3eb1d3f",
+      "bytes": 214760,
+      "apiStatus": "OK",
+      "errorCode": null,
+      "features": 9
+    },
+    {
+      "city": "hwaseong",
+      "prefix": "41597",
+      "url": "https://api.vworld.kr/req/data",
+      "layer": "LT_C_ADEMD_INFO",
+      "checkedAt": "2026-10-30T15:20:16.090363+00:00",
+      "status": 200,
+      "sha256": "247f01140533812bdcd47679e817aec1191e8fc9881f3be76ac6640be543f148",
+      "bytes": 291186,
+      "apiStatus": "OK",
+      "errorCode": null,
+      "features": 14
+    },
+    {
+      "city": "suwon",
+      "prefix": "41111",
+      "url": "https://api.vworld.kr/req/data",
+      "layer": "LT_C_ADEMD_INFO",
+      "checkedAt": "2026-10-30T15:20:16.091867+00:00",
+      "status": 200,
+      "sha256": "8c8c8e00170c853b0e3618c1ac7823c436f62facbb010b2048de231d09378a62",
+      "bytes": 184327,
+      "apiStatus": "OK",
+      "errorCode": null,
+      "features": 11
+    },
+    {
+      "city": "suwon",
+      "prefix": "41113",
+      "url": "https://api.vworld.kr/req/data",
+      "layer": "LT_C_ADEMD_INFO",
+      "checkedAt": "2026-10-30T15:20:17.016828+00:00",
+      "status": 200,
+      "sha256": "99785ad523c1aefc7d575748938ee81de2b24d137a25021fa22d41450f1d57db",
+      "bytes": 333942,
+      "apiStatus": "OK",
+      "errorCode": null,
+      "features": 16
+    },
+    {
+      "city": "suwon",
+      "prefix": "41115",
+      "url": "https://api.vworld.kr/req/data",
+      "layer": "LT_C_ADEMD_INFO",
+      "checkedAt": "2026-10-30T15:20:17.028866+00:00",
+      "status": 200,
+      "sha256": "52938b2f74dd97935644cdef04fa1a3cf6367a25ad6bd9dd8d682abf19028610",
+      "bytes": 173281,
+      "apiStatus": "OK",
+      "errorCode": null,
+      "features": 22
+    },
+    {
+      "city": "suwon",
+      "prefix": "41117",
+      "url": "https://api.vworld.kr/req/data",
+      "layer": "LT_C_ADEMD_INFO",
+      "checkedAt": "2026-10-30T15:20:17.029867+00:00",
+      "status": 200,
+      "sha256": "866b88b68abed1a05df087b911e88cfc2bf4cbd3b0464686f78668cb4967335b",
+      "bytes": 202703,
+      "apiStatus": "OK",
+      "errorCode": null,
+      "features": 7
+    },
+    {
+      "city": "seongnam",
+      "prefix": "41131",
+      "url": "https://api.vworld.kr/req/data",
+      "layer": "LT_C_ADEMD_INFO",
+      "checkedAt": "2026-10-30T15:20:17.070133+00:00",
+      "status": 200,
+      "sha256": "590d8f6c553a9b21891a94e0ee8f2decfd0080645a223d73eb9e46e6deae1b00",
+      "bytes": 213584,
+      "apiStatus": "OK",
+      "errorCode": null,
+      "features": 17
+    },
+    {
+      "city": "seongnam",
+      "prefix": "41133",
+      "url": "https://api.vworld.kr/req/data",
+      "layer": "LT_C_ADEMD_INFO",
+      "checkedAt": "2026-10-30T15:20:17.114713+00:00",
+      "status": 200,
+      "sha256": "9904ca523eb29e9d1fc17b6010844c73590eaff3d207f0f64fd6b47d01edc339",
+      "bytes": 121631,
+      "apiStatus": "OK",
+      "errorCode": null,
+      "features": 9
+    },
+    {
+      "city": "seongnam",
+      "prefix": "41135",
+      "url": "https://api.vworld.kr/req/data",
+      "layer": "LT_C_ADEMD_INFO",
+      "checkedAt": "2026-10-30T15:20:17.170274+00:00",
+      "status": 200,
+      "sha256": "f85d85689d2aaae5bc12db977cbb952b8e06e1f32e39178a80a600bac8046e0e",
+      "bytes": 244648,
+      "apiStatus": "OK",
+      "errorCode": null,
+      "features": 18
+    }
+  ],
+  "vworldInterpretation": {
+    "layer": "LT_C_ADEMD_INFO",
+    "unitType": "legal_eup_myeon_dong",
+    "basis": "공식 가이드의 읍면동(법정동) 코드 조회 및 8자리 emd_cd 예시. 현행 API12응답은8자리법정동으로 저장10자리행정동과다른단위.",
+    "candidateBoundaryAccepted": false,
+    "featureCounts": {
+      "pyeongtaek": 37,
+      "hwaseong": 39,
+      "suwon": 56,
+      "seongnam": 44
+    }
+  },
+  "preservedFileHashes": {
+    "pyeongtaek-election/data/emd.geojson": "dcd054194718120530b5aa1b3649869282b3d499a3f28bbadece30e68984e0fe",
+    "pyeongtaek-election/data/districts.json": "d7a84e090f39cb2f70070721723e19ad12f4262da29fa0a9a4970b6fdbdd6104",
+    "hwaseong-election/data/emd.geojson": "9c2016eb280f2a593dff1756f1f9615ec2e8756e373578bc642c6ff9ec989faf",
+    "hwaseong-election/data/districts.json": "c4b58613085a2f2e710efe56c7f686140d0f35b10ba91b8ef79016c8e95c37e5",
+    "suwon-election/data/emd.geojson": "15b782cdb72e5d60a1f3edc346f469058df73f4942f085dc56016b7f66a9319e",
+    "suwon-election/data/districts.json": "0b11aad50d7fea40197abd54217ff119a8854fbc8a441ff1a0b369d42a3cb53d",
+    "seongnam-election/data/emd.geojson": "b5ca2894c7e4810b105c1b128dfac6752302065e8023209c44dc7d21d52761ff",
+    "seongnam-election/data/districts.json": "cafa08ba2ec0a5fd64f22ee218942bb6b3990aad4fed57af6a4a86439ae06f72"
+  },
+  "unverified": [
+    "4개 저장 경계의 원자료 버전·수집일·좌표 정확성",
+    "구 일원 하위동 전수와 선거구 귀속의 현행/역사적 연속성",
+    "평택 고덕1·2동의 경계·선거구 귀속",
+    "행안부 파일명 날짜와 공표 기준일의 차이를 경계 기준일로 해석하지 않음"
+  ],
+  "nextAction": "동일 코드 목록·VWorld 법정동 재조회는 반복하지 않음. 공식 행정동 경계 원본과 기준일·코드체계 및 평택 고덕1·2동의 선거구 귀속 원근거가 실제 확보될 때만 좌표/목록을 함께 교체. 코드파일로 좌표 기준일을 추정하지 않음.",
+  "counts": {
+    "projects": 64,
+    "filtersIncludingAll": 7,
+    "essays": 7,
+    "savedMapUnits": 148,
+    "officialCurrentCodeUnits": 149
+  },
+  "acceptance": "pending",
+  "worldBankFetched": false,
+  "tourismFetched": false
+}
