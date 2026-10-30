@@ -1,7 +1,7 @@
 {
   "source": "한국은행 ECOS 경제통계시스템 OpenAPI (기준금리 722Y001 · 소비자물가지수 901Y009)",
   "sourceMode": "api",
-  "updatedAt": "2026-10-29",
+  "updatedAt": "2026-10-30",
   "meta": {
     "baseRate": {
       "label": "한국은행 기준금리",
@@ -2990,8 +2990,8 @@
   },
   "observedAt": "2026-09",
   "sourceObservationTime": null,
-  "collectedAt": "2026-10-29T22:47:39.413490+00:00",
-  "snapshotUpdatedAt": "2026-10-29T22:47:39.415064+00:00",
+  "collectedAt": "2026-10-30T22:24:32.455874+00:00",
+  "snapshotUpdatedAt": "2026-10-30T22:24:32.457539+00:00",
   "sourceChecks": [
     {
       "url": "https://ecos.bok.or.kr/api/StatisticSearch/api-key/json/kr/1/10000/722Y001/M/199905/202610/0101000",
@@ -3001,7 +3001,7 @@
       "end": "202610",
       "rows": 329,
       "sha256": "6e7f75cf6299566ad105e8f82a4f4b7e9502e38ef9454f98250ce73e8a85d9d9",
-      "receivedAt": "2026-10-29T22:47:37.734229+00:00"
+      "receivedAt": "2026-10-30T22:24:30.917174+00:00"
     },
     {
       "url": "https://ecos.bok.or.kr/api/StatisticSearch/api-key/json/kr/1/10000/901Y009/M/199805/202610/0",
@@ -3011,7 +3011,7 @@
       "end": "202610",
       "rows": 341,
       "sha256": "291a0eb6b48093ade0f13c266df9a4ee0833110f4772c0de3a4fa8e2618bd167",
-      "receivedAt": "2026-10-29T22:47:39.413490+00:00"
+      "receivedAt": "2026-10-30T22:24:32.455874+00:00"
     }
   ],
   "sourceVerification": {
