@@ -28,8 +28,8 @@ jobs:
           import {setDefaultResultOrder} from 'node:dns';
           import {appendFileSync} from 'node:fs';
           setDefaultResultOrder('ipv4first');
-          const EXECUTION_ID='stargate-kakao-greeting-20261030-once-v1';
-          function checkWindow(){const now=new Date(Date.now()+9*3600000);const day=now.toISOString().slice(0,10),minute=now.getUTCHours()*60+now.getUTCMinutes();if(day!=='2026-10-30'||minute<480||minute>=1250)throw Error('Outside the authorized date or Kakao delivery window');}
+          const EXECUTION_ID='stargate-channel-greeting-20261030-1800-once-v1';
+          function checkWindow(){const now=new Date(Date.now()+9*3600000);const day=now.toISOString().slice(0,10),minute=now.getUTCHours()*60+now.getUTCMinutes();if(day!=='2026-10-30'||minute<1080||minute>=1250)throw Error('Outside the authorized date or Kakao delivery window');}
           checkWindow();
           if(process.env.GITHUB_RUN_ATTEMPT!=='1')throw Error('Automatic resend is disabled. Inspect the first attempt result.');
           const key=process.env.SOLAPI_API_KEY,secret=process.env.SOLAPI_API_SECRET,admin=process.env.SMS_ADMIN_TOKEN;
@@ -50,9 +50,9 @@ jobs:
           const to=previous.recipients[0].phone;
           if(!/^010\d{8}$/.test(to))throw Error('Invalid verified recipient');
           const channels=await api('/kakao/v2/channels?limit=100');
-          const matching=(channels.channelList||[]).filter(v=>String(v.searchId||'').replace(/^@/,'').toLowerCase()==='stargateai');
-          if(matching.length!==1)throw Error('Expected exactly one stargateai channel');
-          const channel=matching[0];if(channel.channelId!=='KA01PF261020100231334ZRvICJuF1sm')throw Error('Unexpected channel profile');report({stage:'channel_verified',channel:channel.channelName||'스타게이트AI',recipient:to.slice(0,3)+'****'+to.slice(-4),message:text,requested:1});
+          const matching=(channels.channelList||[]).filter(v=>String(v.searchId||'').replace(/^@/,'').toLowerCase()==='스타게이트');
+          if(matching.length!==1)throw Error('Expected exactly one 스타게이트 channel');
+          const channel=matching[0];if(channel.channelName!=='스타게이트')throw Error('Unexpected channel name');if(channel.channelId!=='KA01PF261030092503511PscgqeyHFMP')throw Error('Unexpected channel profile');report({stage:'channel_verified',channel:channel.channelName||'스타게이트',recipient:to.slice(0,3)+'****'+to.slice(-4),message:text,requested:1});
           report({stage:'authorized_once',executionId:EXECUTION_ID});
           let list=[],startKey;
           for(let page=0;page<10;page++){
@@ -61,7 +61,7 @@ jobs:
             if(!recent.nextKey){startKey=null;break;}startKey=recent.nextKey;
           }
           if(startKey)throw Error('Message history is incomplete; refusing a potentially duplicate send');
-          const prior=list.find(v=>v.to===to&&v.text===text&&String(v.type||'').startsWith('BMS')&&Date.parse(v.dateCreated)>=Date.parse('2026-10-30T00:00:00+09:00')&&Date.parse(v.dateCreated)<Date.parse('2026-10-31T00:00:00+09:00')&&['2000','3000','4000'].includes(String(v.statusCode)));
+          const prior=list.find(v=>v.to===to&&v.text===text&&String(v.type||'').startsWith('BMS')&&Date.parse(v.dateCreated)>=Date.parse('2026-10-30T18:00:00+09:00')&&Date.parse(v.dateCreated)<Date.parse('2026-10-31T00:00:00+09:00')&&['2000','3000','4000'].includes(String(v.statusCode)));
           if(prior){report({state:'existing_kakao_greeting',executionId:EXECUTION_ID,statusCode:prior.statusCode,messageId:prior.messageId,groupId:prior.groupId});process.exit(0);}
           checkWindow();
           // One external write only. Unknown outcomes are never retried.
