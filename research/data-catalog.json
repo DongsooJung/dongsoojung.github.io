@@ -652,7 +652,7 @@
       "dataPeriod": null,
       "snapshotUpdatedAt": null,
       "collectedAt": null,
-      "checkedAt": "2026-10-17T02:29:06.590856+00:00",
+      "checkedAt": "2026-10-30T15:23:57.987021+00:00",
       "reviewStatus": "not_applicable",
       "freshness": "not_monthly_document",
       "evidence": [
@@ -666,11 +666,40 @@
           "kind": "audit-record",
           "url": "/research/source-reviews/2026-10-17-urban-1.json",
           "checkedAt": "2026-10-17T02:29:06.590856+00:00"
+        },
+        {
+          "kind": "official-source",
+          "url": "https://www.mois.go.kr/cmm/fms/FileDown.do?atchFileId=FILE_00150183sQwGjok&fileSn=1",
+          "checkedAt": "2026-10-30T15:23:57.987021+00:00",
+          "collectedAt": "2026-10-30T15:18:35.764211+00:00",
+          "sha256": "cce7299a01bfb29edc234884dbd4afa87b4a3a899ae3aefb9d6e4d0fe7b82509",
+          "scope": "행안부 현행파일149개·6필드894개를 TXT/XLSX로 대조. 저장148개 중 코드·동명147개 일치. 평택 기존고덕동은현행파일에없고 신규고덕1·2동은저장도형미제공. 좌표·선거구귀속 검증 아님."
+        },
+        {
+          "kind": "official-source",
+          "url": "https://www.mois.go.kr/frt/bbs/type001/commonSelectBoardArticle.do?bbsId=BBSMSTR_000000000052&nttId=130674",
+          "checkedAt": "2026-10-30T15:18:19.905774+00:00",
+          "sha256": "6d923e7e3cdea9f4bc3ef94ab3f4c04ca141a74c1ba3295339e7b556b062d0d0",
+          "scope": "게시물 공표 기준10월30일과첨부파일명10월26일을구분."
+        },
+        {
+          "kind": "official-source",
+          "url": "https://www.vworld.kr/dev/v4dv_2ddataguide2_s002.do?svcIde=ademd",
+          "checkedAt": "2026-10-30T15:17:27.939126+00:00",
+          "sha256": "c6d5d7705ffb41e8355b245825da2ca5a6c5a8e760c17272c62ff0b4bb3cb813",
+          "scope": "법정동 코드 조회·8자리 emd_cd의 실제 단위를 확인. 행정동 좌표 대체 금지."
+        },
+        {
+          "kind": "audit-record",
+          "url": "/research/source-reviews/2026-10-31-election-codes.json",
+          "checkedAt": "2026-10-30T15:23:57.987021+00:00",
+          "scope": "행안부 현행파일149개·6필드894개를 TXT/XLSX로 대조. 저장148개 중 코드·동명147개 일치. 평택 기존고덕동은현행파일에없고 신규고덕1·2동은저장도형미제공. 좌표·선거구귀속 검증 아님."
         }
       ],
       "issues": [
         "2024년 제22대 선거 기준과 2026년 행정구역 개편·경계 갱신일은 서로 다릅니다.",
-        "16개는 지역구 수이며 폴리곤 원표 검증 완료 수가 아닙니다."
+        "16개는 지역구 수이며 폴리곤 원표 검증 완료 수가 아닙니다.",
+        "현행 코드 대조와 경계 좌표는 별도. 평택 저장 고덕동은 현행 파일에 없고 고덕1·2동 도형/선거구 귀속 미검증."
       ],
       "key": "/election/",
       "url": "/election/",
@@ -679,8 +708,23 @@
       "classification": "도시·공간",
       "sourceHint": "4개 시 · 16개 선거구 · VWorld",
       "verifiedScope": "공식 제22대 총람의 문서 종류와 현재 허브의 4개 시·16개 선거구 및 링크 범위를 확인. 월간 통계가 아닌 선거 기준 안내 문서. 개별 읍면동 대응·폴리곤은 도시·공간 2차 대조 대상.",
-      "nextAction": "urban-2의 4개 개별 지도에서 공식 선거구역표·현행 행정코드·경계 버전을 각각 대조.",
-      "periodApplicability": "not_applicable"
+      "nextAction": "동일 코드 목록·VWorld 법정동 재조회는 반복하지 않음. 공식 행정동 경계 원본과 기준일·코드체계 및 평택 고덕1·2동의 선거구 귀속 원근거가 실제 확보될 때만 좌표/목록을 함께 교체. 코드파일로 좌표 기준일을 추정하지 않음.",
+      "periodApplicability": "not_applicable",
+      "currentCodeReview": {
+        "status": "verified_with_scope",
+        "checkedAt": "2026-10-30T15:23:57.987021+00:00",
+        "source": {
+          "url": "https://www.mois.go.kr/cmm/fms/FileDown.do?atchFileId=FILE_00150183sQwGjok&fileSn=1",
+          "announcementUrl": "https://www.mois.go.kr/frt/bbs/type001/commonSelectBoardArticle.do?bbsId=BBSMSTR_000000000052&nttId=130674",
+          "providerNoticeReferenceDate": "2026-10-30",
+          "fileDateLabel": "20261026",
+          "collectedAt": "2026-10-30T15:18:35.764211+00:00",
+          "zipSha256": "cce7299a01bfb29edc234884dbd4afa87b4a3a899ae3aefb9d6e4d0fe7b82509"
+        },
+        "comparison": null,
+        "scope": "행안부 현행파일149개·6필드894개를 TXT/XLSX로 대조. 저장148개 중 코드·동명147개 일치. 평택 기존고덕동은현행파일에없고 신규고덕1·2동은저장도형미제공. 좌표·선거구귀속 검증 아님.",
+        "audit": "/research/source-reviews/2026-10-31-election-codes.json"
+      }
     },
     {
       "source": {
@@ -894,9 +938,9 @@
       "dataPeriod": "2024-04",
       "snapshotUpdatedAt": null,
       "collectedAt": null,
-      "checkedAt": "2026-10-17T09:55:42.298406+00:00",
+      "checkedAt": "2026-10-30T15:23:57.987021+00:00",
       "reviewStatus": "needs_review",
-      "freshness": "historical_election_boundary_version_unknown",
+      "freshness": "current_code_reference_checked_coordinates_unverified",
       "evidence": [
         {
           "kind": "official-source",
@@ -908,11 +952,40 @@
           "kind": "audit-record",
           "url": "/research/source-reviews/2026-10-17-urban-2.json",
           "checkedAt": "2026-10-17T09:55:42.298406+00:00"
+        },
+        {
+          "kind": "official-source",
+          "url": "https://www.mois.go.kr/cmm/fms/FileDown.do?atchFileId=FILE_00150183sQwGjok&fileSn=1",
+          "checkedAt": "2026-10-30T15:23:57.987021+00:00",
+          "collectedAt": "2026-10-30T15:18:35.764211+00:00",
+          "sha256": "cce7299a01bfb29edc234884dbd4afa87b4a3a899ae3aefb9d6e4d0fe7b82509",
+          "scope": "행안부 현행파일149개·6필드894개를 TXT/XLSX로 대조. 저장148개 중 코드·동명147개 일치. 평택 기존고덕동은현행파일에없고 신규고덕1·2동은저장도형미제공. 좌표·선거구귀속 검증 아님."
+        },
+        {
+          "kind": "official-source",
+          "url": "https://www.mois.go.kr/frt/bbs/type001/commonSelectBoardArticle.do?bbsId=BBSMSTR_000000000052&nttId=130674",
+          "checkedAt": "2026-10-30T15:18:19.905774+00:00",
+          "sha256": "6d923e7e3cdea9f4bc3ef94ab3f4c04ca141a74c1ba3295339e7b556b062d0d0",
+          "scope": "게시물 공표 기준10월30일과첨부파일명10월26일을구분."
+        },
+        {
+          "kind": "official-source",
+          "url": "https://www.vworld.kr/dev/v4dv_2ddataguide2_s002.do?svcIde=ademd",
+          "checkedAt": "2026-10-30T15:17:27.939126+00:00",
+          "sha256": "c6d5d7705ffb41e8355b245825da2ca5a6c5a8e760c17272c62ff0b4bb3cb813",
+          "scope": "법정동 코드 조회·8자리 emd_cd의 실제 단위를 확인. 행정동 좌표 대체 금지."
+        },
+        {
+          "kind": "audit-record",
+          "url": "/research/source-reviews/2026-10-31-election-codes.json",
+          "checkedAt": "2026-10-30T15:23:57.987021+00:00",
+          "scope": "행안부 현행파일149개·6필드894개를 TXT/XLSX로 대조. 저장148개 중 코드·동명147개 일치. 평택 기존고덕동은현행파일에없고 신규고덕1·2동은저장도형미제공. 좌표·선거구귀속 검증 아님."
         }
       ],
       "issues": [
         "공식 VWorld API 37개 도형의 [8]자리 코드와 저장 행정동 25개·10자리 코드의 범위가 다름. 일부 도형으로 자동 대체하지 않음.",
-        "선거구는 2024년 제22대 기준. 월간 통계 기준월은 비적용이나 경계 버전이 미확인이라 검증 완료로 처리하지 않음."
+        "선거구는 2024년 제22대 기준. 월간 통계 기준월은 비적용이나 경계 버전이 미확인이라 검증 완료로 처리하지 않음.",
+        "현행 코드 대조와 경계 좌표는 별도. 평택 저장 고덕동은 현행 파일에 없고 고덕1·2동 도형/선거구 귀속 미검증."
       ],
       "key": "/pyeongtaek-election/",
       "url": "https://www.stargateedu.co.kr/pyeongtaek-election/",
@@ -921,7 +994,49 @@
       "classification": "도시·공간",
       "sourceHint": "VWorld · Leaflet",
       "verifiedScope": "확정 선거구역표 PDF [153, 154]쪽의 평택 선거구 동 배정과 기존 목록을 대조. 저장 도형 25개와 목록의 1:1 대응·코드 유일성은 내부 검사. PDF의 구 일원 하위동 전수와 경계 원자료 버전은 미확인.",
-      "nextAction": "VWorld의 현행 행정동에 해당하는 정확한 레이어·코드 체계와 원자료 버전을 확인하고 공식 행정동 원장 및 선거구 일원 규정을 대조한 후 전체 도형을 일괄 교체."
+      "nextAction": "동일 코드 목록·VWorld 법정동 재조회는 반복하지 않음. 공식 행정동 경계 원본과 기준일·코드체계 및 평택 고덕1·2동의 선거구 귀속 원근거가 실제 확보될 때만 좌표/목록을 함께 교체. 코드파일로 좌표 기준일을 추정하지 않음.",
+      "currentCodeReview": {
+        "status": "verified_with_scope",
+        "checkedAt": "2026-10-30T15:23:57.987021+00:00",
+        "source": {
+          "url": "https://www.mois.go.kr/cmm/fms/FileDown.do?atchFileId=FILE_00150183sQwGjok&fileSn=1",
+          "announcementUrl": "https://www.mois.go.kr/frt/bbs/type001/commonSelectBoardArticle.do?bbsId=BBSMSTR_000000000052&nttId=130674",
+          "providerNoticeReferenceDate": "2026-10-30",
+          "fileDateLabel": "20261026",
+          "collectedAt": "2026-10-30T15:18:35.764211+00:00",
+          "zipSha256": "cce7299a01bfb29edc234884dbd4afa87b4a3a899ae3aefb9d6e4d0fe7b82509"
+        },
+        "comparison": {
+          "cityName": "평택시",
+          "registryUnits": 26,
+          "savedUnits": 25,
+          "matchingCodeAndName": 24,
+          "currentUnitsWithoutSavedGeometry": [
+            {
+              "code": "4122067000",
+              "name": "고덕1동",
+              "createdOn": "20261012"
+            },
+            {
+              "code": "4122068000",
+              "name": "고덕2동",
+              "createdOn": "20261012"
+            }
+          ],
+          "savedCodesAbsentFromActiveFile": [
+            {
+              "code": "4122066000",
+              "name": "고덕동"
+            }
+          ],
+          "nameMismatches": [],
+          "geometrySha256": "dcd054194718120530b5aa1b3649869282b3d499a3f28bbadece30e68984e0fe",
+          "coordinateVerification": "not_verified",
+          "sourceBoundaryDate": null
+        },
+        "scope": "행안부 현행파일149개·6필드894개를 TXT/XLSX로 대조. 저장148개 중 코드·동명147개 일치. 평택 기존고덕동은현행파일에없고 신규고덕1·2동은저장도형미제공. 좌표·선거구귀속 검증 아님.",
+        "audit": "/research/source-reviews/2026-10-31-election-codes.json"
+      }
     },
     {
       "source": {
@@ -933,9 +1048,9 @@
       "dataPeriod": "2024-04",
       "snapshotUpdatedAt": null,
       "collectedAt": null,
-      "checkedAt": "2026-10-17T09:55:42.298406+00:00",
+      "checkedAt": "2026-10-30T15:23:57.987021+00:00",
       "reviewStatus": "needs_review",
-      "freshness": "historical_election_boundary_version_unknown",
+      "freshness": "current_code_reference_checked_coordinates_unverified",
       "evidence": [
         {
           "kind": "official-source",
@@ -947,11 +1062,40 @@
           "kind": "audit-record",
           "url": "/research/source-reviews/2026-10-17-urban-2.json",
           "checkedAt": "2026-10-17T09:55:42.298406+00:00"
+        },
+        {
+          "kind": "official-source",
+          "url": "https://www.mois.go.kr/cmm/fms/FileDown.do?atchFileId=FILE_00150183sQwGjok&fileSn=1",
+          "checkedAt": "2026-10-30T15:23:57.987021+00:00",
+          "collectedAt": "2026-10-30T15:18:35.764211+00:00",
+          "sha256": "cce7299a01bfb29edc234884dbd4afa87b4a3a899ae3aefb9d6e4d0fe7b82509",
+          "scope": "행안부 현행파일149개·6필드894개를 TXT/XLSX로 대조. 저장148개 중 코드·동명147개 일치. 평택 기존고덕동은현행파일에없고 신규고덕1·2동은저장도형미제공. 좌표·선거구귀속 검증 아님."
+        },
+        {
+          "kind": "official-source",
+          "url": "https://www.mois.go.kr/frt/bbs/type001/commonSelectBoardArticle.do?bbsId=BBSMSTR_000000000052&nttId=130674",
+          "checkedAt": "2026-10-30T15:18:19.905774+00:00",
+          "sha256": "6d923e7e3cdea9f4bc3ef94ab3f4c04ca141a74c1ba3295339e7b556b062d0d0",
+          "scope": "게시물 공표 기준10월30일과첨부파일명10월26일을구분."
+        },
+        {
+          "kind": "official-source",
+          "url": "https://www.vworld.kr/dev/v4dv_2ddataguide2_s002.do?svcIde=ademd",
+          "checkedAt": "2026-10-30T15:17:27.939126+00:00",
+          "sha256": "c6d5d7705ffb41e8355b245825da2ca5a6c5a8e760c17272c62ff0b4bb3cb813",
+          "scope": "법정동 코드 조회·8자리 emd_cd의 실제 단위를 확인. 행정동 좌표 대체 금지."
+        },
+        {
+          "kind": "audit-record",
+          "url": "/research/source-reviews/2026-10-31-election-codes.json",
+          "checkedAt": "2026-10-30T15:23:57.987021+00:00",
+          "scope": "행안부 현행파일149개·6필드894개를 TXT/XLSX로 대조. 저장148개 중 코드·동명147개 일치. 평택 기존고덕동은현행파일에없고 신규고덕1·2동은저장도형미제공. 좌표·선거구귀속 검증 아님."
         }
       ],
       "issues": [
         "공식 VWorld API 39개 도형의 [8]자리 코드와 저장 행정동 29개·10자리 코드의 범위가 다름. 일부 도형으로 자동 대체하지 않음.",
-        "선거구는 2024년 제22대 기준. 월간 통계 기준월은 비적용이나 경계 버전이 미확인이라 검증 완료로 처리하지 않음."
+        "선거구는 2024년 제22대 기준. 월간 통계 기준월은 비적용이나 경계 버전이 미확인이라 검증 완료로 처리하지 않음.",
+        "현행 코드·동명은 일치하나 저장 좌표 기준일·수집일과 선거구 귀속 전수 검증은 미완료."
       ],
       "key": "/hwaseong-election/",
       "url": "https://www.stargateedu.co.kr/hwaseong-election/",
@@ -960,7 +1104,33 @@
       "classification": "도시·공간",
       "sourceHint": "VWorld · Leaflet",
       "verifiedScope": "확정 선거구역표 PDF [155]쪽의 화성 선거구 동 배정과 기존 목록을 대조. 저장 도형 29개와 목록의 1:1 대응·코드 유일성은 내부 검사. PDF의 구 일원 하위동 전수와 경계 원자료 버전은 미확인.",
-      "nextAction": "VWorld의 현행 행정동에 해당하는 정확한 레이어·코드 체계와 원자료 버전을 확인하고 공식 행정동 원장 및 선거구 일원 규정을 대조한 후 전체 도형을 일괄 교체."
+      "nextAction": "동일 코드 목록·VWorld 법정동 재조회는 반복하지 않음. 공식 행정동 경계 원본과 기준일·코드체계 및 평택 고덕1·2동의 선거구 귀속 원근거가 실제 확보될 때만 좌표/목록을 함께 교체. 코드파일로 좌표 기준일을 추정하지 않음.",
+      "currentCodeReview": {
+        "status": "verified_with_scope",
+        "checkedAt": "2026-10-30T15:23:57.987021+00:00",
+        "source": {
+          "url": "https://www.mois.go.kr/cmm/fms/FileDown.do?atchFileId=FILE_00150183sQwGjok&fileSn=1",
+          "announcementUrl": "https://www.mois.go.kr/frt/bbs/type001/commonSelectBoardArticle.do?bbsId=BBSMSTR_000000000052&nttId=130674",
+          "providerNoticeReferenceDate": "2026-10-30",
+          "fileDateLabel": "20261026",
+          "collectedAt": "2026-10-30T15:18:35.764211+00:00",
+          "zipSha256": "cce7299a01bfb29edc234884dbd4afa87b4a3a899ae3aefb9d6e4d0fe7b82509"
+        },
+        "comparison": {
+          "cityName": "화성시",
+          "registryUnits": 29,
+          "savedUnits": 29,
+          "matchingCodeAndName": 29,
+          "currentUnitsWithoutSavedGeometry": [],
+          "savedCodesAbsentFromActiveFile": [],
+          "nameMismatches": [],
+          "geometrySha256": "9c2016eb280f2a593dff1756f1f9615ec2e8756e373578bc642c6ff9ec989faf",
+          "coordinateVerification": "not_verified",
+          "sourceBoundaryDate": null
+        },
+        "scope": "행안부 현행파일149개·6필드894개를 TXT/XLSX로 대조. 저장148개 중 코드·동명147개 일치. 평택 기존고덕동은현행파일에없고 신규고덕1·2동은저장도형미제공. 좌표·선거구귀속 검증 아님.",
+        "audit": "/research/source-reviews/2026-10-31-election-codes.json"
+      }
     },
     {
       "source": {
@@ -972,9 +1142,9 @@
       "dataPeriod": "2024-04",
       "snapshotUpdatedAt": null,
       "collectedAt": null,
-      "checkedAt": "2026-10-17T09:55:42.298406+00:00",
+      "checkedAt": "2026-10-30T15:23:57.987021+00:00",
       "reviewStatus": "needs_review",
-      "freshness": "historical_election_boundary_version_unknown",
+      "freshness": "current_code_reference_checked_coordinates_unverified",
       "evidence": [
         {
           "kind": "official-source",
@@ -986,11 +1156,40 @@
           "kind": "audit-record",
           "url": "/research/source-reviews/2026-10-17-urban-2.json",
           "checkedAt": "2026-10-17T09:55:42.298406+00:00"
+        },
+        {
+          "kind": "official-source",
+          "url": "https://www.mois.go.kr/cmm/fms/FileDown.do?atchFileId=FILE_00150183sQwGjok&fileSn=1",
+          "checkedAt": "2026-10-30T15:23:57.987021+00:00",
+          "collectedAt": "2026-10-30T15:18:35.764211+00:00",
+          "sha256": "cce7299a01bfb29edc234884dbd4afa87b4a3a899ae3aefb9d6e4d0fe7b82509",
+          "scope": "행안부 현행파일149개·6필드894개를 TXT/XLSX로 대조. 저장148개 중 코드·동명147개 일치. 평택 기존고덕동은현행파일에없고 신규고덕1·2동은저장도형미제공. 좌표·선거구귀속 검증 아님."
+        },
+        {
+          "kind": "official-source",
+          "url": "https://www.mois.go.kr/frt/bbs/type001/commonSelectBoardArticle.do?bbsId=BBSMSTR_000000000052&nttId=130674",
+          "checkedAt": "2026-10-30T15:18:19.905774+00:00",
+          "sha256": "6d923e7e3cdea9f4bc3ef94ab3f4c04ca141a74c1ba3295339e7b556b062d0d0",
+          "scope": "게시물 공표 기준10월30일과첨부파일명10월26일을구분."
+        },
+        {
+          "kind": "official-source",
+          "url": "https://www.vworld.kr/dev/v4dv_2ddataguide2_s002.do?svcIde=ademd",
+          "checkedAt": "2026-10-30T15:17:27.939126+00:00",
+          "sha256": "c6d5d7705ffb41e8355b245825da2ca5a6c5a8e760c17272c62ff0b4bb3cb813",
+          "scope": "법정동 코드 조회·8자리 emd_cd의 실제 단위를 확인. 행정동 좌표 대체 금지."
+        },
+        {
+          "kind": "audit-record",
+          "url": "/research/source-reviews/2026-10-31-election-codes.json",
+          "checkedAt": "2026-10-30T15:23:57.987021+00:00",
+          "scope": "행안부 현행파일149개·6필드894개를 TXT/XLSX로 대조. 저장148개 중 코드·동명147개 일치. 평택 기존고덕동은현행파일에없고 신규고덕1·2동은저장도형미제공. 좌표·선거구귀속 검증 아님."
         }
       ],
       "issues": [
         "공식 VWorld API 56개 도형의 [8]자리 코드와 저장 행정동 44개·10자리 코드의 범위가 다름. 일부 도형으로 자동 대체하지 않음.",
-        "선거구는 2024년 제22대 기준. 월간 통계 기준월은 비적용이나 경계 버전이 미확인이라 검증 완료로 처리하지 않음."
+        "선거구는 2024년 제22대 기준. 월간 통계 기준월은 비적용이나 경계 버전이 미확인이라 검증 완료로 처리하지 않음.",
+        "현행 코드·동명은 일치하나 저장 좌표 기준일·수집일과 선거구 귀속 전수 검증은 미완료."
       ],
       "key": "/suwon-election/",
       "url": "https://www.stargateedu.co.kr/suwon-election/",
@@ -999,7 +1198,33 @@
       "classification": "도시·공간",
       "sourceHint": "VWorld · Leaflet",
       "verifiedScope": "확정 선거구역표 PDF [153]쪽의 수원 선거구 동 배정과 기존 목록을 대조. 저장 도형 44개와 목록의 1:1 대응·코드 유일성은 내부 검사. PDF의 구 일원 하위동 전수와 경계 원자료 버전은 미확인.",
-      "nextAction": "VWorld의 현행 행정동에 해당하는 정확한 레이어·코드 체계와 원자료 버전을 확인하고 공식 행정동 원장 및 선거구 일원 규정을 대조한 후 전체 도형을 일괄 교체."
+      "nextAction": "동일 코드 목록·VWorld 법정동 재조회는 반복하지 않음. 공식 행정동 경계 원본과 기준일·코드체계 및 평택 고덕1·2동의 선거구 귀속 원근거가 실제 확보될 때만 좌표/목록을 함께 교체. 코드파일로 좌표 기준일을 추정하지 않음.",
+      "currentCodeReview": {
+        "status": "verified_with_scope",
+        "checkedAt": "2026-10-30T15:23:57.987021+00:00",
+        "source": {
+          "url": "https://www.mois.go.kr/cmm/fms/FileDown.do?atchFileId=FILE_00150183sQwGjok&fileSn=1",
+          "announcementUrl": "https://www.mois.go.kr/frt/bbs/type001/commonSelectBoardArticle.do?bbsId=BBSMSTR_000000000052&nttId=130674",
+          "providerNoticeReferenceDate": "2026-10-30",
+          "fileDateLabel": "20261026",
+          "collectedAt": "2026-10-30T15:18:35.764211+00:00",
+          "zipSha256": "cce7299a01bfb29edc234884dbd4afa87b4a3a899ae3aefb9d6e4d0fe7b82509"
+        },
+        "comparison": {
+          "cityName": "수원시",
+          "registryUnits": 44,
+          "savedUnits": 44,
+          "matchingCodeAndName": 44,
+          "currentUnitsWithoutSavedGeometry": [],
+          "savedCodesAbsentFromActiveFile": [],
+          "nameMismatches": [],
+          "geometrySha256": "15b782cdb72e5d60a1f3edc346f469058df73f4942f085dc56016b7f66a9319e",
+          "coordinateVerification": "not_verified",
+          "sourceBoundaryDate": null
+        },
+        "scope": "행안부 현행파일149개·6필드894개를 TXT/XLSX로 대조. 저장148개 중 코드·동명147개 일치. 평택 기존고덕동은현행파일에없고 신규고덕1·2동은저장도형미제공. 좌표·선거구귀속 검증 아님.",
+        "audit": "/research/source-reviews/2026-10-31-election-codes.json"
+      }
     },
     {
       "source": {
@@ -1011,9 +1236,9 @@
       "dataPeriod": "2024-04",
       "snapshotUpdatedAt": null,
       "collectedAt": null,
-      "checkedAt": "2026-10-17T09:55:42.298406+00:00",
+      "checkedAt": "2026-10-30T15:23:57.987021+00:00",
       "reviewStatus": "needs_review",
-      "freshness": "historical_election_boundary_version_unknown",
+      "freshness": "current_code_reference_checked_coordinates_unverified",
       "evidence": [
         {
           "kind": "official-source",
@@ -1025,11 +1250,40 @@
           "kind": "audit-record",
           "url": "/research/source-reviews/2026-10-17-urban-2.json",
           "checkedAt": "2026-10-17T09:55:42.298406+00:00"
+        },
+        {
+          "kind": "official-source",
+          "url": "https://www.mois.go.kr/cmm/fms/FileDown.do?atchFileId=FILE_00150183sQwGjok&fileSn=1",
+          "checkedAt": "2026-10-30T15:23:57.987021+00:00",
+          "collectedAt": "2026-10-30T15:18:35.764211+00:00",
+          "sha256": "cce7299a01bfb29edc234884dbd4afa87b4a3a899ae3aefb9d6e4d0fe7b82509",
+          "scope": "행안부 현행파일149개·6필드894개를 TXT/XLSX로 대조. 저장148개 중 코드·동명147개 일치. 평택 기존고덕동은현행파일에없고 신규고덕1·2동은저장도형미제공. 좌표·선거구귀속 검증 아님."
+        },
+        {
+          "kind": "official-source",
+          "url": "https://www.mois.go.kr/frt/bbs/type001/commonSelectBoardArticle.do?bbsId=BBSMSTR_000000000052&nttId=130674",
+          "checkedAt": "2026-10-30T15:18:19.905774+00:00",
+          "sha256": "6d923e7e3cdea9f4bc3ef94ab3f4c04ca141a74c1ba3295339e7b556b062d0d0",
+          "scope": "게시물 공표 기준10월30일과첨부파일명10월26일을구분."
+        },
+        {
+          "kind": "official-source",
+          "url": "https://www.vworld.kr/dev/v4dv_2ddataguide2_s002.do?svcIde=ademd",
+          "checkedAt": "2026-10-30T15:17:27.939126+00:00",
+          "sha256": "c6d5d7705ffb41e8355b245825da2ca5a6c5a8e760c17272c62ff0b4bb3cb813",
+          "scope": "법정동 코드 조회·8자리 emd_cd의 실제 단위를 확인. 행정동 좌표 대체 금지."
+        },
+        {
+          "kind": "audit-record",
+          "url": "/research/source-reviews/2026-10-31-election-codes.json",
+          "checkedAt": "2026-10-30T15:23:57.987021+00:00",
+          "scope": "행안부 현행파일149개·6필드894개를 TXT/XLSX로 대조. 저장148개 중 코드·동명147개 일치. 평택 기존고덕동은현행파일에없고 신규고덕1·2동은저장도형미제공. 좌표·선거구귀속 검증 아님."
         }
       ],
       "issues": [
         "공식 VWorld API 44개 도형의 [8]자리 코드와 저장 행정동 50개·10자리 코드의 범위가 다름. 일부 도형으로 자동 대체하지 않음.",
-        "선거구는 2024년 제22대 기준. 월간 통계 기준월은 비적용이나 경계 버전이 미확인이라 검증 완료로 처리하지 않음."
+        "선거구는 2024년 제22대 기준. 월간 통계 기준월은 비적용이나 경계 버전이 미확인이라 검증 완료로 처리하지 않음.",
+        "현행 코드·동명은 일치하나 저장 좌표 기준일·수집일과 선거구 귀속 전수 검증은 미완료."
       ],
       "key": "/seongnam-election/",
       "url": "https://www.stargateedu.co.kr/seongnam-election/",
@@ -1038,7 +1292,33 @@
       "classification": "도시·공간",
       "sourceHint": "VWorld · Leaflet",
       "verifiedScope": "확정 선거구역표 PDF [153]쪽의 성남 선거구 동 배정과 기존 목록을 대조. 저장 도형 50개와 목록의 1:1 대응·코드 유일성은 내부 검사. PDF의 구 일원 하위동 전수와 경계 원자료 버전은 미확인.",
-      "nextAction": "VWorld의 현행 행정동에 해당하는 정확한 레이어·코드 체계와 원자료 버전을 확인하고 공식 행정동 원장 및 선거구 일원 규정을 대조한 후 전체 도형을 일괄 교체."
+      "nextAction": "동일 코드 목록·VWorld 법정동 재조회는 반복하지 않음. 공식 행정동 경계 원본과 기준일·코드체계 및 평택 고덕1·2동의 선거구 귀속 원근거가 실제 확보될 때만 좌표/목록을 함께 교체. 코드파일로 좌표 기준일을 추정하지 않음.",
+      "currentCodeReview": {
+        "status": "verified_with_scope",
+        "checkedAt": "2026-10-30T15:23:57.987021+00:00",
+        "source": {
+          "url": "https://www.mois.go.kr/cmm/fms/FileDown.do?atchFileId=FILE_00150183sQwGjok&fileSn=1",
+          "announcementUrl": "https://www.mois.go.kr/frt/bbs/type001/commonSelectBoardArticle.do?bbsId=BBSMSTR_000000000052&nttId=130674",
+          "providerNoticeReferenceDate": "2026-10-30",
+          "fileDateLabel": "20261026",
+          "collectedAt": "2026-10-30T15:18:35.764211+00:00",
+          "zipSha256": "cce7299a01bfb29edc234884dbd4afa87b4a3a899ae3aefb9d6e4d0fe7b82509"
+        },
+        "comparison": {
+          "cityName": "성남시",
+          "registryUnits": 50,
+          "savedUnits": 50,
+          "matchingCodeAndName": 50,
+          "currentUnitsWithoutSavedGeometry": [],
+          "savedCodesAbsentFromActiveFile": [],
+          "nameMismatches": [],
+          "geometrySha256": "b5ca2894c7e4810b105c1b128dfac6752302065e8023209c44dc7d21d52761ff",
+          "coordinateVerification": "not_verified",
+          "sourceBoundaryDate": null
+        },
+        "scope": "행안부 현행파일149개·6필드894개를 TXT/XLSX로 대조. 저장148개 중 코드·동명147개 일치. 평택 기존고덕동은현행파일에없고 신규고덕1·2동은저장도형미제공. 좌표·선거구귀속 검증 아님.",
+        "audit": "/research/source-reviews/2026-10-31-election-codes.json"
+      }
     },
     {
       "source": {

@@ -987,7 +987,7 @@
       "status": "pending",
       "keys": [],
       "outcome": "conditional_technical_acceptance",
-      "latestAudit": "/research/source-reviews/2026-10-29-tourism-september.json",
+      "latestAudit": "/research/source-reviews/2026-10-31-election-codes.json",
       "lastAttemptAt": "2026-10-20T23:07:26.208Z",
       "itemResults": {
         "/exchange-rate/": {
@@ -1077,6 +1077,51 @@
           "audit": "/research/source-reviews/2026-10-28-car-overview.json",
           "scope": "9월종합내수/생산/수출·국산/수입·친환경4종내수/수출·7업체내수·원표1~9월누계및KAIDA수입승용개인/법인/연료를대조. KAMA확정공개본문과산업부잠정원표를다른판본으로유지. 전체시장개인/법인/연령/렌터카원수치검증아님.",
           "nextAction": "완료한9월원표범위는반복대조하지않음. KAMA상세확정원표와과거월원표,9월전체시장구매주체·연령/렌터카원자료가실제확보될때범위를맞춰추가. 연간·운용대수/수입승용비율로9월전체시장을추정하지않음."
+        },
+        "/election/": {
+          "status": "not_applicable",
+          "checkedAt": "2026-10-30T15:23:57.987021+00:00",
+          "audit": "/research/source-reviews/2026-10-31-election-codes.json",
+          "scope": "행안부 현행파일149개·6필드894개를 TXT/XLSX로 대조. 저장148개 중 코드·동명147개 일치. 평택 기존고덕동은현행파일에없고 신규고덕1·2동은저장도형미제공. 좌표·선거구귀속 검증 아님.",
+          "nextAction": "동일 코드 목록·VWorld 법정동 재조회는 반복하지 않음. 공식 행정동 경계 원본과 기준일·코드체계 및 평택 고덕1·2동의 선거구 귀속 원근거가 실제 확보될 때만 좌표/목록을 함께 교체. 코드파일로 좌표 기준일을 추정하지 않음.",
+          "currentCodeReference": "verified_with_scope",
+          "geometry": "pending_official_boundary_file"
+        },
+        "/pyeongtaek-election/": {
+          "status": "needs_review",
+          "checkedAt": "2026-10-30T15:23:57.987021+00:00",
+          "audit": "/research/source-reviews/2026-10-31-election-codes.json",
+          "scope": "행안부 현행파일149개·6필드894개를 TXT/XLSX로 대조. 저장148개 중 코드·동명147개 일치. 평택 기존고덕동은현행파일에없고 신규고덕1·2동은저장도형미제공. 좌표·선거구귀속 검증 아님.",
+          "nextAction": "동일 코드 목록·VWorld 법정동 재조회는 반복하지 않음. 공식 행정동 경계 원본과 기준일·코드체계 및 평택 고덕1·2동의 선거구 귀속 원근거가 실제 확보될 때만 좌표/목록을 함께 교체. 코드파일로 좌표 기준일을 추정하지 않음.",
+          "currentCodeReference": "verified_with_scope",
+          "geometry": "pending_official_boundary_file"
+        },
+        "/hwaseong-election/": {
+          "status": "needs_review",
+          "checkedAt": "2026-10-30T15:23:57.987021+00:00",
+          "audit": "/research/source-reviews/2026-10-31-election-codes.json",
+          "scope": "행안부 현행파일149개·6필드894개를 TXT/XLSX로 대조. 저장148개 중 코드·동명147개 일치. 평택 기존고덕동은현행파일에없고 신규고덕1·2동은저장도형미제공. 좌표·선거구귀속 검증 아님.",
+          "nextAction": "동일 코드 목록·VWorld 법정동 재조회는 반복하지 않음. 공식 행정동 경계 원본과 기준일·코드체계 및 평택 고덕1·2동의 선거구 귀속 원근거가 실제 확보될 때만 좌표/목록을 함께 교체. 코드파일로 좌표 기준일을 추정하지 않음.",
+          "currentCodeReference": "verified_with_scope",
+          "geometry": "pending_official_boundary_file"
+        },
+        "/suwon-election/": {
+          "status": "needs_review",
+          "checkedAt": "2026-10-30T15:23:57.987021+00:00",
+          "audit": "/research/source-reviews/2026-10-31-election-codes.json",
+          "scope": "행안부 현행파일149개·6필드894개를 TXT/XLSX로 대조. 저장148개 중 코드·동명147개 일치. 평택 기존고덕동은현행파일에없고 신규고덕1·2동은저장도형미제공. 좌표·선거구귀속 검증 아님.",
+          "nextAction": "동일 코드 목록·VWorld 법정동 재조회는 반복하지 않음. 공식 행정동 경계 원본과 기준일·코드체계 및 평택 고덕1·2동의 선거구 귀속 원근거가 실제 확보될 때만 좌표/목록을 함께 교체. 코드파일로 좌표 기준일을 추정하지 않음.",
+          "currentCodeReference": "verified_with_scope",
+          "geometry": "pending_official_boundary_file"
+        },
+        "/seongnam-election/": {
+          "status": "needs_review",
+          "checkedAt": "2026-10-30T15:23:57.987021+00:00",
+          "audit": "/research/source-reviews/2026-10-31-election-codes.json",
+          "scope": "행안부 현행파일149개·6필드894개를 TXT/XLSX로 대조. 저장148개 중 코드·동명147개 일치. 평택 기존고덕동은현행파일에없고 신규고덕1·2동은저장도형미제공. 좌표·선거구귀속 검증 아님.",
+          "nextAction": "동일 코드 목록·VWorld 법정동 재조회는 반복하지 않음. 공식 행정동 경계 원본과 기준일·코드체계 및 평택 고덕1·2동의 선거구 귀속 원근거가 실제 확보될 때만 좌표/목록을 함께 교체. 코드파일로 좌표 기준일을 추정하지 않음.",
+          "currentCodeReference": "verified_with_scope",
+          "geometry": "pending_official_boundary_file"
         }
       },
       "checkpoints": {
@@ -1110,7 +1155,7 @@
           "Tourism not re-fetched before October26; original checkedAt retained"
         ]
       },
-      "nextAction": "관광9월 실제 공표와201개월 수치 대조 완료. 완료값 반복 재수집 금지,10월은11월25일 이후. 다음 미완료 선거구 현행 경계·코드 전수 대조 진행. 서울학원 정상 시설행 회복시만 재대조,WorldBank11월3일 이후. 최신main64개(별도추가 양자암호)·7필터·난제7개 보존. 전체수락pending/일일예약10유지.",
+      "nextAction": "선거구5개 코드 대조 회차 완료: 공식149개/저장148개 중147코드·동명일치,평택고덕1·2동은현재파일생성일10월12일. 좌표·귀속 전수검증은원본확보대기. 완료코드/법정동 재조회반복금지. 다음미완료 /smart-city-gis/dashboard/ 독립원본 OSM수집기·수집일 대조 진행. 관광10월11월25일이후·WorldBank11월3일이후·서울학원정상행회복시. 전체수락pending·일일예약10유지.",
       "sourceFollowups": [
         {
           "id": "source-followup-1-20261021",
@@ -1771,11 +1816,61 @@
           "audit": "/research/source-reviews/2026-10-29-tourism-september.json",
           "outcome": "september_official_release_verified_201_months_three_nationalities",
           "release": {
+            "status": "verified",
             "branch": "codex/tourism-september-20261029",
-            "status": "awaiting_checks",
+            "pullRequest": "https://github.com/DongsooJung/dongsoojung.github.io/pull/242",
+            "commit": "fb5ae0b5c54aeff738b9fec8dda87e879bee643e",
+            "pullRequestHead": "2df4d1d4cfc27a7b5e2732f3dedd1decaba58fe5",
+            "pullRequestMergeCommit": "fb5ae0b5c54aeff738b9fec8dda87e879bee643e",
+            "verifiedAt": "2026-10-29T13:51:17.963Z",
+            "pagesRun": "https://github.com/DongsooJung/dongsoojung.github.io/actions/runs/40885508881",
             "liveUrl": "https://www.stargateedu.co.kr/korea-tourism/",
             "sourceReviewUrl": "https://www.stargateedu.co.kr/research/source-reviews/2026-10-29-tourism-september.json",
-            "pullRequest": "https://github.com/DongsooJung/dongsoojung.github.io/pull/242"
+            "checks": [
+              "Exact PR head CodeQL aggregate and JavaScript success",
+              "Exact merge SHA Pages build/report/deploy success;both domains eight public files match",
+              "Official September release published October28 and received October29;201 months/603 cells independently matched OOXML/Decimal",
+              "China656944/Taiwan208113/Vietnam51291 and combined916348;previous200 months unchanged",
+              "2026 partial9-month totals China5473078/Taiwan1864368/Vietnam458107;October absent",
+              "JSON/CSV/fallback/crawlable Korean and English/structured data/source review agree",
+              "6 Python and11 Node tests pass;live charts/range controls/downloads/390px no document overflow",
+              "Latest-main64 projects incl. separately added quantum dashboard/7 exclusive alphabetical filters/essays7/9 groups/strategy44 preserved"
+            ],
+            "externalChecks": [
+              {
+                "context": "Vercel – stargate-private-gateway",
+                "state": "failure",
+                "description": "Deployment rate limited — retry in 24 hours.",
+                "targetUrl": "https://vercel.com/stargate2?upgradeToPro=build-rate-limit"
+              },
+              {
+                "context": "Vercel – stargate-onbid-api",
+                "state": "failure",
+                "description": "Deployment rate limited — retry in 24 hours.",
+                "targetUrl": "https://vercel.com/stargate2?upgradeToPro=build-rate-limit"
+              }
+            ],
+            "secondaryDeployment": "Two Vercel backend targets rate-limited;portal GitHub Pages independently verified;no paid settings changed"
+          }
+        },
+        {
+          "id": "election-boundary-20261031",
+          "status": "completed",
+          "checkedAt": "2026-10-30T15:23:57.987021+00:00",
+          "keys": [
+            "/election/",
+            "/pyeongtaek-election/",
+            "/hwaseong-election/",
+            "/suwon-election/",
+            "/seongnam-election/"
+          ],
+          "audit": "/research/source-reviews/2026-10-31-election-codes.json",
+          "outcome": "current_administrative_codes_compared_pyeongtaek_split_gap_found_boundary_versions_pending",
+          "release": {
+            "branch": "codex/election-boundary-20261031",
+            "status": "awaiting_checks",
+            "liveUrl": "https://www.stargateedu.co.kr/election/",
+            "sourceReviewUrl": "https://www.stargateedu.co.kr/research/source-reviews/2026-10-31-election-codes.json"
           }
         }
       ],

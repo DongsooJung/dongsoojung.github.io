@@ -4,7 +4,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>수원시 국회의원 선거구 · 읍면동 지도 — VWorld</title>
-<meta name="description" content="제22대 국회의원선거 기준 수원시 갑·을·병·정·무 5개 선거구를 읍면동 단위로 확인하는 인터랙티브 지도. VWorld 행정구역 경계 기반." />
+<meta name="description" content="제22대 국회의원선거 기준 수원시 갑·을·병·정·무 5개 선거구를 읍면동 단위로 확인하는 인터랙티브 지도. 저장 참고 경계와 현행 행정코드 별도 대조." />
 <meta property="og:title" content="수원시 국회의원 선거구 · 읍면동 지도" />
 <meta property="og:description" content="수원시 갑·을·병·정·무 5개 선거구를 읍면동 경계로 탐색하는 인터랙티브 지도" />
 <meta property="og:url" content="https://www.stargateedu.co.kr/suwon-election/" />
@@ -267,7 +267,7 @@
   <link rel="stylesheet" href="/assets/site-theme.css">
   <script src="/assets/site-theme.js"></script>
 <link rel="stylesheet" href="/assets/stargate-tokens.css?v=20261017">
-</head>
+<style>.election-code-review{box-sizing:border-box;border:1px solid var(--border,#607f99);border-radius:12px;padding:16px;margin:18px 0;overflow-wrap:anywhere;font-size:14px;line-height:1.8}.election-code-review h2{font-size:18px;margin:0 0 8px}.election-code-review p{margin:8px 0}.election-code-review a{color:inherit;text-decoration:underline;text-underline-offset:2px}</style></head>
 <body>
   <nav class="nav">
     <div class="brand"><span class="mark">S</span><span>SUWON <span style="color:var(--accent)">MAP</span></span></div>
@@ -321,6 +321,7 @@
     </section>
   </div>
 
+  <section class="election-code-review" id="election-code-review" aria-labelledby="election-code-review-title"><h2 id="election-code-review-title">현행 행정코드 별도 대조 · 경계 좌표 확인 필요</h2><p>행안부 현행 파일의 수원시 읍면동은 44개이며, 저장 지도 44개 중 코드·동명이 같은 항목은 44개입니다.</p><p>코드·동명의 일치는 경계 좌표의 기준일·정확성이나 선거구 귀속 검증을 뜻하지 않습니다. 저장 도형과 선거구 목록은 유지합니다.</p><p>공표 기준 표기: 2026-10-30 · 첨부파일 표기: 2026-10-26 · 실제 수집·대조: 2026-10-31 KST. 선거 기준은 2024-04-10이며 저장 경계의 기준일·수집일은 미확인입니다. 코드 파일 날짜를 경계 기준일로 사용하지 않습니다.</p><p>VWorld의 LT_C_ADEMD_INFO는 법정동 단위이므로 이 행정동 목록을 대체하지 않습니다.</p><p><a href="/data/election/administrative-code-review.csv" download>149개 현행 코드 대조 CSV</a> · <a href="/data/election/administrative-code-review.json" download>코드·일치 범위 JSON</a> · <a href="/research/source-reviews/2026-10-31-election-codes.json" download>공식 문서·미확인 범위</a></p></section>
   <p class="note">선거구는 제22대 국회의원선거(2024-04-10) 기준입니다. <a href="https://www.nec.go.kr/common/board/Download.do?bcIdx=264048&amp;cbIdx=1486&amp;streFileNm=250a3ff7-d546-40d2-ae1f-0e52ffe40694.pdf#page=153" target="_blank" rel="noopener">선관위 확정 구역표(153~155쪽)</a>와 목록을 대조했습니다. 팔달구 ‘구 일원’은 기존 동 목록으로 표시하며 동 신설·분할을 전수 검증한 것은 아닙니다. 저장 경계의 원자료 버전·수집일은 확인되지 않았습니다. 2026년 9·10월 현행 경계로 해석하지 마세요. 경계는 한 출처 전체를 사용하며 API 일부와 저장본을 혼합하지 않습니다.<br><a href="./data/districts.json" download>선거구 목록 JSON</a> · <a href="./data/emd.geojson" download>저장 경계 GeoJSON</a> · <a href="./data/source-review.json">기준·출처·점검 기록</a></p>
 
 <script src="/assets/election-boundaries.js"></script>

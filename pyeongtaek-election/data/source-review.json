@@ -63,5 +63,48 @@
     "을": 8,
     "병": 6
   },
-  "nextAction": "VWorld의 현행 행정동에 해당하는 정확한 레이어·코드 체계와 원자료 버전을 확인하고 공식 행정동 원장 및 선거구 일원 규정을 대조한 후 전체 도형을 일괄 교체."
+  "nextAction": "동일 코드 목록·VWorld 법정동 재조회는 반복하지 않음. 공식 행정동 경계 원본과 기준일·코드체계 및 평택 고덕1·2동의 선거구 귀속 원근거가 실제 확보될 때만 좌표/목록을 함께 교체. 코드파일로 좌표 기준일을 추정하지 않음.",
+  "latestCodeReview": {
+    "checkedAt": "2026-10-30T15:23:57.987021+00:00",
+    "scope": "행안부 현행파일149개·6필드894개를 TXT/XLSX로 대조. 저장148개 중 코드·동명147개 일치. 평택 기존고덕동은현행파일에없고 신규고덕1·2동은저장도형미제공. 좌표·선거구귀속 검증 아님.",
+    "referenceJson": "/data/election/administrative-code-review.json",
+    "referenceCsv": "/data/election/administrative-code-review.csv",
+    "officialFile": {
+      "url": "https://www.mois.go.kr/cmm/fms/FileDown.do?atchFileId=FILE_00150183sQwGjok&fileSn=1",
+      "announcementUrl": "https://www.mois.go.kr/frt/bbs/type001/commonSelectBoardArticle.do?bbsId=BBSMSTR_000000000052&nttId=130674",
+      "providerNoticeReferenceDate": "2026-10-30",
+      "fileDateLabel": "20261026",
+      "collectedAt": "2026-10-30T15:18:35.764211+00:00",
+      "zipSha256": "cce7299a01bfb29edc234884dbd4afa87b4a3a899ae3aefb9d6e4d0fe7b82509"
+    },
+    "comparison": {
+      "cityName": "평택시",
+      "registryUnits": 26,
+      "savedUnits": 25,
+      "matchingCodeAndName": 24,
+      "currentUnitsWithoutSavedGeometry": [
+        {
+          "code": "4122067000",
+          "name": "고덕1동",
+          "createdOn": "20261012"
+        },
+        {
+          "code": "4122068000",
+          "name": "고덕2동",
+          "createdOn": "20261012"
+        }
+      ],
+      "savedCodesAbsentFromActiveFile": [
+        {
+          "code": "4122066000",
+          "name": "고덕동"
+        }
+      ],
+      "nameMismatches": [],
+      "geometrySha256": "dcd054194718120530b5aa1b3649869282b3d499a3f28bbadece30e68984e0fe",
+      "coordinateVerification": "not_verified",
+      "sourceBoundaryDate": null
+    },
+    "audit": "/research/source-reviews/2026-10-31-election-codes.json"
+  }
 }
