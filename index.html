@@ -318,6 +318,15 @@ body:not(.portal-dashboard-mode) .project-sort-wrap{display:none}
 
 /* Footer */
 footer{margin-top:72px;padding-top:22px;border-top:1px solid var(--line);color:var(--muted);font-size:12px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px}
+
+/* Keep visitor statistics tucked away at the very bottom of the homepage. */
+footer .visitor-footer{flex-basis:100%;margin-top:18px;text-align:right;font-size:10px;line-height:1.5;color:var(--muted)}
+footer .visitor-footer summary{display:inline-block;cursor:pointer;list-style:none;padding:2px 0;font-weight:400}
+footer .visitor-footer summary::-webkit-details-marker{display:none}
+footer .visitor-footer summary:focus-visible{outline:2px solid var(--acc);outline-offset:4px}
+footer .visitor-footer .visitor-footer-link{display:inline-block;margin-top:8px;color:var(--muted);font-size:10px;font-weight:400}
+footer .visitor-footer .visitor-footer-link strong{font-weight:400}
+
 footer .business-info{flex-basis:100%;padding-top:10px;border-top:1px solid var(--line);text-align:center}
 
 @media (max-width: 980px){
@@ -516,7 +525,6 @@ var m=localStorage.getItem(k);if(m==='mobile'||m==='fold')r.classList.add('is-ap
 
   <div class="quick-links">
     <a class="chip mono" style="border-color:#ffb000;color:#ffcb5c;background:rgba(255,176,0,.10)" href="/aphorisms.html">오늘의 격언</a>
-    <a id="visitor-summary-link" class="chip mono" style="border-color:#7aa2ff;color:#dbe6ff;background:rgba(79,127,255,.14);font-weight:600" href="/visitors/" rel="nofollow" aria-label="방문·지역 통계">오늘 <strong id="visitor-today-count" style="color:var(--ink)">-</strong> · 누적 <strong id="visitor-total-count" style="color:var(--ink)">-</strong></a>
   </div>
 
 
@@ -1268,6 +1276,10 @@ var m=localStorage.getItem(k);if(m==='mobile'||m==='fold')r.classList.add('is-ap
       <a href="mailto:support@stargateedu.co.kr">support@stargateedu.co.kr</a>
     </span>
     <span class="business-info">상호 : 주식회사 별의문 · 대표자명 : 정동수 · 사업자번호 : 848-86-03835 · 통신판매업신고번호 : 2025-서울강남-05246호 · 주소 : 서울시 강남구 강남대로 112길 47, 2층 · 전화 : 070-8027-8225 · 개인정보보호책임자 : 별의문 · 이메일 : support@stargateedu.co.kr</span>
+    <details class="visitor-footer" id="visitor-footer">
+      <summary>통계</summary>
+      <a id="visitor-summary-link" class="visitor-footer-link" href="/visitors/" rel="nofollow" aria-label="방문·지역 통계">오늘 <strong id="visitor-today-count">-</strong> · 누적 <strong id="visitor-total-count">-</strong></a>
+    </details>
   </footer>
 
 </div>
