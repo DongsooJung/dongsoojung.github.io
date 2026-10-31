@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "updated_at": "2026-10-31T16:07:33+09:00",
+  "updated_at": "2026-10-31T18:45:12+09:00",
   "note": "Claude 예약 작업이 3시간마다 갱신합니다. 이메일은 마스킹합니다.",
   "accounts": [
     {
@@ -36,24 +36,24 @@
       "account": "j***@gmail.com",
       "plan": "Pro",
       "source": "claude.ai 설정 > 사용량",
-      "observed_at": "2026-10-31T16:07:33+09:00",
+      "observed_at": "2026-10-31T18:45:12+09:00",
       "windows": [
         {
           "key": "5h",
           "label": "5시간",
-          "used": 25,
+          "used": 41,
           "window_minutes": 300,
           "resets_at": "2026-10-31T20:20:00+09:00"
         },
         {
           "key": "week",
           "label": "주간",
-          "used": 11,
+          "used": 14,
           "window_minutes": 10080,
           "resets_at": "2026-11-06T01:00:00+09:00"
         }
       ],
-      "extra": "주간 제품별: 채팅 7% · Cowork 93% · Claude Code 0% · 기타 0%"
+      "extra": "주간 제품별: 채팅 8% · Cowork 92% · Claude Code 0% · 기타 0% · 월간 지출 한도 US$30 중 US$5.14"
     },
     {
       "id": "claude-sg8224",
@@ -114,19 +114,19 @@
       "account": "j***@gmail.com",
       "plan": "Plus",
       "source": "PC Codex 로컬 기록(마지막 사용 시점)",
-      "observed_at": "2026-10-31T15:41:42+09:00",
+      "observed_at": "2026-10-31T18:11:01+09:00",
       "windows": [
         {
           "key": "5h",
           "label": "5시간",
-          "used": 25,
+          "used": 30,
           "window_minutes": 300,
           "resets_at": "2026-10-31T19:58:42+09:00"
         },
         {
           "key": "week",
           "label": "주간",
-          "used": 43,
+          "used": 44,
           "window_minutes": 10080,
           "resets_at": "2026-11-04T20:49:07+09:00"
         }
@@ -140,12 +140,12 @@
       "account": "Cursor Pro",
       "plan": "Pro",
       "source": "cursor.com 대시보드 > Spending",
-      "observed_at": "2026-10-31T16:07:33+09:00",
+      "observed_at": "2026-10-31T18:45:12+09:00",
       "windows": [
         {
           "key": "month",
           "label": "자체모델",
-          "used": 6,
+          "used": 7,
           "window_minutes": 44640,
           "resets_at": "2026-11-27T00:00:00+09:00"
         },
