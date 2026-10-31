@@ -987,7 +987,7 @@
       "status": "pending",
       "keys": [],
       "outcome": "conditional_technical_acceptance",
-      "latestAudit": "/research/source-reviews/2026-10-31-election-codes.json",
+      "latestAudit": "/research/source-reviews/2026-10-31-osm-refresh.json",
       "lastAttemptAt": "2026-10-20T23:07:26.208Z",
       "itemResults": {
         "/exchange-rate/": {
@@ -1122,6 +1122,22 @@
           "nextAction": "동일 코드 목록·VWorld 법정동 재조회는 반복하지 않음. 공식 행정동 경계 원본과 기준일·코드체계 및 평택 고덕1·2동의 선거구 귀속 원근거가 실제 확보될 때만 좌표/목록을 함께 교체. 코드파일로 좌표 기준일을 추정하지 않음.",
           "currentCodeReference": "verified_with_scope",
           "geometry": "pending_official_boundary_file"
+        },
+        "/smart-city-gis/dashboard/": {
+          "status": "verified",
+          "checkedAt": "2026-10-31T06:31:36.706553+00:00",
+          "audit": "/research/source-reviews/2026-10-31-osm-refresh.json",
+          "scope": "2026-10-31 실제 OSM 원응답4개와 수집·DB 시각/해시 대조. POI 노드9601·도로망15574노드/18820고유간선·396격자 전 점수/CSV·4근사권을 독립 재계산. 직선거리 점수와 도달노드 볼록껍질 모델 범위에서 대조 완료. 시설 전수·영업일·실제 보행시간 통계가 아님.",
+          "nextAction": "10월31일 수집본 대조 완료 범위 반복수집 금지. 현장 시설 전수·실제 보행 통행권 검증은 별도 자료가 확보될 때 확장. 월간 통계·이전7207개 대비 증가율로 해석하지 않음.",
+          "monthlyReferenceStatus": "not_applicable"
+        },
+        "/research/accessibility-lab/": {
+          "status": "not_applicable",
+          "checkedAt": "2026-10-31T06:31:36.706553+00:00",
+          "audit": "/research/source-reviews/2026-10-31-osm-refresh.json",
+          "scope": "월간 통계 비적용 방법론 안내 버전 대조. 2026-10-31 실제 OSM 원응답4개와 수집·DB 시각/해시 대조. POI 노드9601·도로망15574노드/18820고유간선·396격자 전 점수/CSV·4근사권을 독립 재계산. 직선거리 점수와 도달노드 볼록껍질 모델 범위에서 대조 완료. 시설 전수·영업일·실제 보행시간 통계가 아님.",
+          "nextAction": "10월31일 수집본 대조 완료 범위 반복수집 금지. 현장 시설 전수·실제 보행 통행권 검증은 별도 자료가 확보될 때 확장. 월간 통계·이전7207개 대비 증가율로 해석하지 않음.",
+          "monthlyReferenceStatus": "not_applicable"
         }
       },
       "checkpoints": {
@@ -1155,7 +1171,7 @@
           "Tourism not re-fetched before October26; original checkedAt retained"
         ]
       },
-      "nextAction": "선거구5개 코드 대조 회차 완료: 공식149개/저장148개 중147코드·동명일치,평택고덕1·2동은현재파일생성일10월12일. 좌표·귀속 전수검증은원본확보대기. 완료코드/법정동 재조회반복금지. 다음미완료 /smart-city-gis/dashboard/ 독립원본 OSM수집기·수집일 대조 진행. 관광10월11월25일이후·WorldBank11월3일이후·서울학원정상행회복시. 전체수락pending·일일예약10유지.",
+      "nextAction": "OSM10월31일 원응답·전 점수/다운로드 대조 완료. 다음 미완료 /lh-sale-info/ 기존 승인 API·수집기 원응답 범위/날짜 대조, 접근 불가면 근거 기록 후 /hwaseong-real-estate/ 진행. 완료 무역·관광9월·자동차9월·선거구코드·OSM 반복수집 금지. 선거구 좌표/귀속은 공식 원본 확보시,서울학원 정상 시설행 회복시,WorldBank11월3일이후,관광10월11월25일이후. 전체수락pending·일일예약10유지.",
       "sourceFollowups": [
         {
           "id": "source-followup-1-20261021",
@@ -1867,11 +1883,75 @@
           "audit": "/research/source-reviews/2026-10-31-election-codes.json",
           "outcome": "current_administrative_codes_compared_pyeongtaek_split_gap_found_boundary_versions_pending",
           "release": {
+            "status": "verified",
             "branch": "codex/election-boundary-20261031",
-            "status": "awaiting_checks",
+            "pullRequest": "https://github.com/DongsooJung/dongsoojung.github.io/pull/245",
+            "commit": "4d003ee31f8174ef135dae4e942dbca95caa313d",
+            "pullRequestHead": "0a5f128730beca8606d96384aa84fd33102bfd69",
+            "pullRequestMergeCommit": "4d003ee31f8174ef135dae4e942dbca95caa313d",
+            "verifiedAt": "2026-10-30T15:35:03.069Z",
+            "pagesRun": "https://github.com/DongsooJung/dongsoojung.github.io/actions/runs/41081467716",
             "liveUrl": "https://www.stargateedu.co.kr/election/",
             "sourceReviewUrl": "https://www.stargateedu.co.kr/research/source-reviews/2026-10-31-election-codes.json",
-            "pullRequest": "https://github.com/DongsooJung/dongsoojung.github.io/pull/245"
+            "checks": [
+              "Exact PR head CodeQL aggregate and JavaScript success",
+              "Exact merge SHA Pages build/report/deploy success;both domains fourteen changed public files match",
+              "MOIS active-code TXT and XLSX independently matched3926rows/23556fields;selected149rows/894fields",
+              "147 code/name matches among148 saved units;Pyeongtaek oldGodeok absent,newGodeok1/2 codes created20261012 remain unassigned",
+              "VWorld official guide plus12 original responses confirm different legal-unit/code scheme;not substituted for administrative boundary",
+              "Four GeoJSON downloads byte-exact and four district-list downloads identical after newline normalization;source geometry version/collection dates remain unknown",
+              "3 Python and16 Node tests;live5routes/range filters/search/select/partial API rejection/actual CSV/JSON/390px pass",
+              "64 unique projects/seven exclusive alphabetical filters/essays7/nine groups/strategy44 retained"
+            ],
+            "externalChecks": [
+              {
+                "context": "Vercel – stargate-onbid-api",
+                "state": "success",
+                "description": "Deployment has completed",
+                "targetUrl": "https://vercel.com/stargate2/stargate-onbid-api/ByU7B15SpFog9W8ppDD54JLNh6MG"
+              },
+              {
+                "context": "Vercel – stargate-private-gateway",
+                "state": "success",
+                "description": "Deployment has completed",
+                "targetUrl": "https://vercel.com/stargate2/stargate-private-gateway/wbpuhLWq5okhPKhWgz91iSo1pthh"
+              }
+            ],
+            "unverified": "Current boundary coordinates and complete electoral assignment remain needs_review;hub monthly statistics not_applicable"
+          }
+        },
+        {
+          "id": "osm-refresh-20261031",
+          "status": "completed",
+          "checkedAt": "2026-10-31T06:31:36.706553+00:00",
+          "keys": [
+            "/smart-city-gis/dashboard/",
+            "/research/accessibility-lab/"
+          ],
+          "audit": "/research/source-reviews/2026-10-31-osm-refresh.json",
+          "outcome": "actual_october_osm_responses_and_all_derived_outputs_verified_with_model_scope",
+          "dependentRelease": {
+            "repository": "DongsooJung/smart-city-gis",
+            "status": "verified",
+            "pullRequest": "https://github.com/DongsooJung/smart-city-gis/pull/7",
+            "commit": "ab5b07fecec87310029ab1ec8bb6ee5c89d77549",
+            "pullRequestHead": "3b9840788f80aecebbce21a8c09b52c3735acc71",
+            "pagesRun": "https://github.com/DongsooJung/smart-city-gis/actions/runs/41177309209",
+            "liveUrl": "https://www.stargateedu.co.kr/smart-city-gis/dashboard/",
+            "verifiedAt": "2026-10-31T06:37:33.992Z",
+            "checks": [
+              "Exact PR head CI tests Python3.11/3.12 passed",
+              "Exact merge SHA Pages build/report/deploy passed",
+              "Both domains HTML and7 download files match committed outputs",
+              "41 passed/1 skipped locally;all source identities,edges,396 cell scores and4 graph hulls independently matched"
+            ]
+          },
+          "release": {
+            "branch": "codex/osm-refresh-20261031",
+            "status": "awaiting_checks",
+            "liveUrl": "https://www.stargateedu.co.kr/research/data-review/",
+            "sourceReviewUrl": "https://www.stargateedu.co.kr/research/source-reviews/2026-10-31-osm-refresh.json",
+            "pullRequest": "https://github.com/DongsooJung/dongsoojung.github.io/pull/246"
           }
         }
       ],

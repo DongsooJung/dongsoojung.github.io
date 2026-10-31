@@ -1,0 +1,234 @@
+{
+  "schemaVersion": 1,
+  "step": "osm-refresh-20261031",
+  "checkedAt": "2026-10-31T06:31:36.706553+00:00",
+  "keys": [
+    "/smart-city-gis/dashboard/",
+    "/research/accessibility-lab/"
+  ],
+  "sourceBaseCommit": "d086031a394cf2ec81a31f51c192eacfa2f97058",
+  "sourceCommit": "ab5b07fecec87310029ab1ec8bb6ee5c89d77549",
+  "sourceRepository": "DongsooJung/smart-city-gis",
+  "sourcePullRequest": "https://github.com/DongsooJung/smart-city-gis/pull/7",
+  "scope": "2026-10-31 실제 OSM 원응답4개와 수집·DB 시각/해시 대조. POI 노드9601·도로망15574노드/18820고유간선·396격자 전 점수/CSV·4근사권을 독립 재계산. 직선거리 점수와 도달노드 볼록껍질 모델 범위에서 대조 완료. 시설 전수·영업일·실제 보행시간 통계가 아님.",
+  "dates": {
+    "monthlyReference": "not_applicable",
+    "dataAsOf": null,
+    "dataPeriod": null,
+    "observationDate": null,
+    "collectedAt": "2026-10-31T06:26:37.224515+00:00",
+    "fileGeneratedAt": "2026-10-31T06:31:31.274344+00:00",
+    "checkedAt": "2026-10-31T06:31:36.706553+00:00",
+    "sourceDatabaseTimes": [
+      "2026-10-31T06:23:15Z",
+      "2026-10-31T06:24:21Z",
+      "2026-10-31T06:25:19Z"
+    ],
+    "note": "Four responses have separate database versions and receive times;not an atomic common observation date."
+  },
+  "sourceResponses": [
+    {
+      "url": "https://overpass-api.de/api/interpreter",
+      "method": "GET",
+      "query": "[out:xml][timeout:60];(node(37.480,127.020,37.500,127.050)[amenity~\"^(cafe|restaurant|fast_food|school|kindergarten|college|university|hospital|clinic|doctors|pharmacy|library)$\"];node(37.480,127.020,37.500,127.050)[leisure~\"^(park|garden|playground)$\"];node(37.480,127.020,37.500,127.050)[railway~\"^(station|subway_entrance)$\"];node(37.480,127.020,37.500,127.050)[highway=bus_stop];node(37.480,127.020,37.500,127.050)[public_transport=platform];node(37.480,127.020,37.500,127.050)[shop];way(37.480,127.020,37.500,127.050)[highway~\"^(primary|secondary|tertiary|residential|unclassified|service|living_street|pedestrian|footway|path|steps)$\"];);(._;>;);out meta;",
+      "bbox": "37.480,127.020,37.500,127.050",
+      "startedAt": "2026-10-31T06:23:53.586820+00:00",
+      "receivedAt": "2026-10-31T06:24:28.190421+00:00",
+      "osmBaseTimestamp": "2026-10-31T06:23:15Z",
+      "bytes": 2800264,
+      "sha256": "c947c875f2f7c58d6be3eff00ce8dec60c8f855b2425447da32834849752522d"
+    },
+    {
+      "url": "https://overpass-api.de/api/interpreter",
+      "method": "GET",
+      "query": "[out:xml][timeout:60];(node(37.480,127.050,37.500,127.080)[amenity~\"^(cafe|restaurant|fast_food|school|kindergarten|college|university|hospital|clinic|doctors|pharmacy|library)$\"];node(37.480,127.050,37.500,127.080)[leisure~\"^(park|garden|playground)$\"];node(37.480,127.050,37.500,127.080)[railway~\"^(station|subway_entrance)$\"];node(37.480,127.050,37.500,127.080)[highway=bus_stop];node(37.480,127.050,37.500,127.080)[public_transport=platform];node(37.480,127.050,37.500,127.080)[shop];way(37.480,127.050,37.500,127.080)[highway~\"^(primary|secondary|tertiary|residential|unclassified|service|living_street|pedestrian|footway|path|steps)$\"];);(._;>;);out meta;",
+      "bbox": "37.480,127.050,37.500,127.080",
+      "startedAt": "2026-10-31T06:24:28.280011+00:00",
+      "receivedAt": "2026-10-31T06:25:10.554381+00:00",
+      "osmBaseTimestamp": "2026-10-31T06:23:15Z",
+      "bytes": 1290122,
+      "sha256": "82c052ddc0d50e0dce970ee1f6e1cea4f16a0d8f3c28327f5f7c0e1c3273dd85"
+    },
+    {
+      "url": "https://overpass-api.de/api/interpreter",
+      "method": "GET",
+      "query": "[out:xml][timeout:60];(node(37.500,127.020,37.520,127.050)[amenity~\"^(cafe|restaurant|fast_food|school|kindergarten|college|university|hospital|clinic|doctors|pharmacy|library)$\"];node(37.500,127.020,37.520,127.050)[leisure~\"^(park|garden|playground)$\"];node(37.500,127.020,37.520,127.050)[railway~\"^(station|subway_entrance)$\"];node(37.500,127.020,37.520,127.050)[highway=bus_stop];node(37.500,127.020,37.520,127.050)[public_transport=platform];node(37.500,127.020,37.520,127.050)[shop];way(37.500,127.020,37.520,127.050)[highway~\"^(primary|secondary|tertiary|residential|unclassified|service|living_street|pedestrian|footway|path|steps)$\"];);(._;>;);out meta;",
+      "bbox": "37.500,127.020,37.520,127.050",
+      "startedAt": "2026-10-31T06:25:10.590428+00:00",
+      "receivedAt": "2026-10-31T06:25:52.966052+00:00",
+      "osmBaseTimestamp": "2026-10-31T06:24:21Z",
+      "bytes": 3677719,
+      "sha256": "9ceca54a4bad8401d27a248c88317b8293d164649fe87f3be55c6a7cba1422c6"
+    },
+    {
+      "url": "https://overpass-api.de/api/interpreter",
+      "method": "GET",
+      "query": "[out:xml][timeout:60];(node(37.500,127.050,37.520,127.080)[amenity~\"^(cafe|restaurant|fast_food|school|kindergarten|college|university|hospital|clinic|doctors|pharmacy|library)$\"];node(37.500,127.050,37.520,127.080)[leisure~\"^(park|garden|playground)$\"];node(37.500,127.050,37.520,127.080)[railway~\"^(station|subway_entrance)$\"];node(37.500,127.050,37.520,127.080)[highway=bus_stop];node(37.500,127.050,37.520,127.080)[public_transport=platform];node(37.500,127.050,37.520,127.080)[shop];way(37.500,127.050,37.520,127.080)[highway~\"^(primary|secondary|tertiary|residential|unclassified|service|living_street|pedestrian|footway|path|steps)$\"];);(._;>;);out meta;",
+      "bbox": "37.500,127.050,37.520,127.080",
+      "startedAt": "2026-10-31T06:25:53.098117+00:00",
+      "receivedAt": "2026-10-31T06:26:37.224515+00:00",
+      "osmBaseTimestamp": "2026-10-31T06:25:19Z",
+      "bytes": 1620729,
+      "sha256": "c78a84c2bdd35838aec9e79829c1a880003027c1ad16f7d02eb693b0346003bd"
+    }
+  ],
+  "method": {
+    "gridMeters": 250,
+    "distanceCrs": "EPSG:5186",
+    "coordinateCrs": "EPSG:4326",
+    "scoreDistance": "Euclidean, not network walking distance",
+    "radiusMeters15MinuteScore": 1125,
+    "assumedSpeedKmh": 4.5,
+    "meanWeighting": "unweighted cells; edge cells intersect study rectangle",
+    "isochrone": "undirected selected-highway graph, reachable-node convex hull"
+  },
+  "methodVersion": "osm-node-ids-rectangle-v2",
+  "comparability": "Previous coordinate/category-deduplicated counts are not a comparable time series.",
+  "limitations": [
+    "강남역 일대 직사각형이며 강남구 행정경계가 아닙니다.",
+    "OSM 태그가 있는 노드만 사용하며 시설 전수·way/relation 시설·현장 영업 여부는 미확인입니다.",
+    "보행성·6개 생활분류 점수는 직선거리 기반입니다. 15분은 4.5km/h로 환산한 반경1125m 가정입니다.",
+    "등시선은 선택 도로망 도달노드의 볼록껍질 근사입니다. 보행 통행권·횡단·출입구 연결을 전수 검증하지 않았습니다.",
+    "분석 경계 밖 POI 누락에 따른 가장자리 효과가 있습니다.",
+    "POI 식별·범위와 도로 중복 제거가 달라 이전 저장본과 증가율·시계열 비교를 하지 않습니다."
+  ],
+  "validation": {
+    "checkedAt": "2026-10-31T06:31:36.706553+00:00",
+    "sourceReceipts": 4,
+    "poiNodes": 9601,
+    "graphNodes": 15574,
+    "uniqueUndirectedEdges": 18820,
+    "gridCells": 396,
+    "allGridScoresMatched": true,
+    "allIsochronesMatched": true,
+    "reachableNodesByMinutes": {
+      "5": 380,
+      "10": 1224,
+      "15": 2698,
+      "20": 4222
+    },
+    "statistics": {
+      "n_cells": 396,
+      "n_pois": 9601,
+      "walk_mean": 51.2,
+      "walk_max": 78.7,
+      "score15_mean": 5.75,
+      "pct_15min_ok": 99.7,
+      "cat_counts": {
+        "shopping": 4661,
+        "restaurant": 3324,
+        "grocery": 551,
+        "bus_stop": 460,
+        "cafe": 255,
+        "subway": 229,
+        "hospital": 62,
+        "park": 26,
+        "school": 19,
+        "library": 14
+      },
+      "hist": [
+        0,
+        6,
+        26,
+        39,
+        79,
+        149,
+        86,
+        11,
+        0,
+        0
+      ]
+    },
+    "method": "independent XML/category/id/coordinate comparison; full pairwise projected distances; heap Dijkstra and geometric hulls; CSV and source/download parity",
+    "observationDate": null,
+    "fetchedAt": "2026-10-31T06:26:37.224515+00:00",
+    "builtAt": "2026-10-31T06:31:31.274344+00:00",
+    "scope": "OSM tagged node POIs within the study rectangle; distinct node IDs, not unique real-world facilities. Selected highway centerlines; ways/relations are not POIs.",
+    "limitations": [
+      "강남역 일대 직사각형이며 강남구 행정경계가 아닙니다.",
+      "OSM 태그가 있는 노드만 사용하며 시설 전수·way/relation 시설·현장 영업 여부는 미확인입니다.",
+      "보행성·6개 생활분류 점수는 직선거리 기반입니다. 15분은 4.5km/h로 환산한 반경1125m 가정입니다.",
+      "등시선은 선택 도로망 도달노드의 볼록껍질 근사입니다. 보행 통행권·횡단·출입구 연결을 전수 검증하지 않았습니다.",
+      "분석 경계 밖 POI 누락에 따른 가장자리 효과가 있습니다.",
+      "POI 식별·범위와 도로 중복 제거가 달라 이전 저장본과 증가율·시계열 비교를 하지 않습니다."
+    ]
+  },
+  "tests": {
+    "pytest": "41 passed,1 skipped",
+    "sourceFailureGuard": "Failed partial collection leaves previous complete inputs untouched",
+    "browser": {
+      "checkedAt": "2026-10-31T06:32:31.687Z",
+      "base": "http://127.0.0.1:7897",
+      "errors": [],
+      "gridCells": 396,
+      "poiNodes": 9601,
+      "downloads": [
+        "metadata.json",
+        "grid.csv",
+        "grid.geojson",
+        "pois.geojson",
+        "walk-graph.json",
+        "isochrones.geojson",
+        "stats.json"
+      ],
+      "checks": [
+        "Source collection/database/build times separate and no invented opening_year",
+        "Live embedded data equals public downloads;396 score bindings/histogram/category totals match",
+        "Mode/isochrone/library POI controls work;4 polygons and14 library nodes",
+        "Seven actual downloads match selected source files",
+        "390px responsive layout/no document overflow;authored source scope/caveats visible",
+        "Raster tile fetching suppressed during headless checks;standard OSM URL and visible attribution configured"
+      ]
+    }
+  },
+  "downloads": [
+    "https://www.stargateedu.co.kr/smart-city-gis/dashboard/data/metadata.json",
+    "https://www.stargateedu.co.kr/smart-city-gis/dashboard/data/stats.json",
+    "https://www.stargateedu.co.kr/smart-city-gis/dashboard/data/grid.geojson",
+    "https://www.stargateedu.co.kr/smart-city-gis/dashboard/data/pois.geojson",
+    "https://www.stargateedu.co.kr/smart-city-gis/dashboard/data/walk-graph.json",
+    "https://www.stargateedu.co.kr/smart-city-gis/dashboard/data/isochrones.geojson",
+    "https://www.stargateedu.co.kr/smart-city-gis/dashboard/data/grid.csv"
+  ],
+  "dependentRelease": {
+    "repository": "DongsooJung/smart-city-gis",
+    "status": "verified",
+    "pullRequest": "https://github.com/DongsooJung/smart-city-gis/pull/7",
+    "commit": "ab5b07fecec87310029ab1ec8bb6ee5c89d77549",
+    "pullRequestHead": "3b9840788f80aecebbce21a8c09b52c3735acc71",
+    "pagesRun": "https://github.com/DongsooJung/smart-city-gis/actions/runs/41177309209",
+    "liveUrl": "https://www.stargateedu.co.kr/smart-city-gis/dashboard/",
+    "verifiedAt": "2026-10-31T06:37:33.992Z",
+    "checks": [
+      "Exact PR head CI tests Python3.11/3.12 passed",
+      "Exact merge SHA Pages build/report/deploy passed",
+      "Both domains HTML and7 download files match committed outputs",
+      "41 passed/1 skipped locally;all source identities,edges,396 cell scores and4 graph hulls independently matched"
+    ]
+  },
+  "nextAction": "10월31일 수집본 대조 완료 범위 반복수집 금지. 현장 시설 전수·실제 보행 통행권 검증은 별도 자료가 확보될 때 확장. 월간 통계·이전7207개 대비 증가율로 해석하지 않음.",
+  "liveBrowserVerification": {
+    "checkedAt": "2026-10-31T06:37:49.185Z",
+    "base": "https://www.stargateedu.co.kr",
+    "errors": [],
+    "gridCells": 396,
+    "poiNodes": 9601,
+    "downloads": [
+      "metadata.json",
+      "grid.csv",
+      "grid.geojson",
+      "pois.geojson",
+      "walk-graph.json",
+      "isochrones.geojson",
+      "stats.json"
+    ],
+    "checks": [
+      "Source collection/database/build times separate and no invented opening_year",
+      "Live embedded data equals public downloads;396 score bindings/histogram/category totals match",
+      "Mode/isochrone/library POI controls work;4 polygons and14 library nodes",
+      "Seven actual downloads match selected source files",
+      "390px responsive layout/no document overflow;authored source scope/caveats visible",
+      "Raster tile fetching suppressed during headless checks;standard OSM URL and visible attribution configured"
+    ]
+  }
+}
