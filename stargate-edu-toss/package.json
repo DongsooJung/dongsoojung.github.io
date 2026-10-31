@@ -1,0 +1,19 @@
+{
+  "name": "stargate-edu-toss",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "engines": { "node": ">=24" },
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build && ait build",
+    "preview": "vite preview",
+    "test": "node --test src/logic.test.mjs && node check.mjs"
+  },
+  "dependencies": {
+    "@apps-in-toss/web-framework": "^3.9.0"
+  },
+  "devDependencies": {
+    "vite": "^6.0.0"
+  }
+}
