@@ -16,6 +16,7 @@ const API_URL = 'https://apis.data.go.kr/B552555/lhLeaseNoticeInfo1/lhLeaseNotic
 const TABLE = 'lh_sale_notices';
 const LOG_TABLE = 'lh_sale_fetch_logs';
 const PAGE_SIZE = 30;
+const COLLECTOR_VERSION = '20261101-read-only-v1';
 const PCT_ENCODED = /%[0-9A-Fa-f]{2}/;
 
 const ALLOWED_ORIGINS = new Set([
@@ -359,15 +360,19 @@ export default async function handler(req, res) {
   setCors(req, res);
   if (req.method === 'OPTIONS') return res.status(204).end();
 
+  let body = {};
+  let saveToSupabase = false;
+  let wantsCollect = false;
   try {
     const config = supabaseConfig();
 
-    const wantsCollect =
-      req.method === 'GET' && String(req.query?.action || '') === 'collect';
+    wantsCollect = req.method === 'POST' ||
+      (req.method === 'GET' && String(req.query?.action || '') === 'collect');
 
     if (req.method === 'GET' && !wantsCollect) {
       return res.status(200).json({
         ok: true,
+        collectorVersion: COLLECTOR_VERSION,
         pageSize: PAGE_SIZE,
         api: 'lhLeaseNoticeInfo1',
         note: '공지사항이 아닌 LH 분양임대공고문(기본: 분양주택 05)을 조회합니다.',
@@ -382,7 +387,7 @@ export default async function handler(req, res) {
       return res.status(405).json({ ok: false, error: 'method_not_allowed' });
     }
 
-    let body = wantsCollect ? req.query || {} : req.body || {};
+    body = req.method === 'GET' ? req.query || {} : req.body || {};
     if (typeof body === 'string') {
       try {
         body = JSON.parse(body);
@@ -393,7 +398,9 @@ export default async function handler(req, res) {
     const pageNo = Math.max(1, Number(body.pageNo) || 1);
     const pageSize = Math.min(100, Math.max(1, Number(body.pageSize) || PAGE_SIZE));
     const typeCode = body.typeCode == null || body.typeCode === '' ? '05' : String(body.typeCode);
-    const saveToSupabase = body.saveToSupabase !== false;
+    // The same explicit read-only option must cover success and every error path.
+    // GET query parameters arrive as strings; POST also accepts the boolean form.
+    saveToSupabase = body.saveToSupabase !== false && body.saveToSupabase !== 'false';
     const apiKey = resolveServiceKey(body.apiKey);
 
     const result = await fetchLhPage({
@@ -425,6 +432,7 @@ export default async function handler(req, res) {
 
     return res.status(200).json({
       ok: true,
+      collectorVersion: COLLECTOR_VERSION,
       pageNo,
       pageSize,
       rowCount: result.items.length,
@@ -438,14 +446,16 @@ export default async function handler(req, res) {
   } catch (error) {
     const message = error instanceof Error ? error.message : 'lh_sale_fetch_failed';
     const config = supabaseConfig();
-    if (config) {
+    if (wantsCollect && saveToSupabase && config) {
       try {
         await insertLog(config, {
           page_no: Number(req.body?.pageNo) || 1,
           page_size: Number(req.body?.pageSize) || PAGE_SIZE,
           row_count: 0,
           total_count: 0,
-          params: req.body || {},
+          params: Object.fromEntries(
+            Object.entries(body).filter(([key]) => !/key|token|authorization/i.test(key)),
+          ),
           status: 'error',
           error_message: message.slice(0, 500),
           fetched_at: new Date().toISOString(),
@@ -464,4 +474,5 @@ export const __test = {
   buildUrl,
   encodeServiceKey,
   PAGE_SIZE,
+  COLLECTOR_VERSION,
 };

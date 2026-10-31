@@ -987,7 +987,7 @@
       "status": "pending",
       "keys": [],
       "outcome": "conditional_technical_acceptance",
-      "latestAudit": "/research/source-reviews/2026-10-31-osm-refresh.json",
+      "latestAudit": "/research/source-reviews/2026-11-01-lh-estate.json",
       "lastAttemptAt": "2026-10-20T23:07:26.208Z",
       "itemResults": {
         "/exchange-rate/": {
@@ -1138,6 +1138,22 @@
           "scope": "월간 통계 비적용 방법론 안내 버전 대조. 2026-10-31 실제 OSM 원응답4개와 수집·DB 시각/해시 대조. POI 노드9601·도로망15574노드/18820고유간선·396격자 전 점수/CSV·4근사권을 독립 재계산. 직선거리 점수와 도달노드 볼록껍질 모델 범위에서 대조 완료. 시설 전수·영업일·실제 보행시간 통계가 아님.",
           "nextAction": "10월31일 수집본 대조 완료 범위 반복수집 금지. 현장 시설 전수·실제 보행 통행권 검증은 별도 자료가 확보될 때 확장. 월간 통계·이전7207개 대비 증가율로 해석하지 않음.",
           "monthlyReferenceStatus": "not_applicable"
+        },
+        "/lh-sale-info/": {
+          "status": "needs_review",
+          "checkedAt": "2026-10-31T22:37:30.561Z",
+          "audit": "/research/source-reviews/2026-11-01-lh-estate.json",
+          "scope": "기존 서버 GET200의 승인키 구성true와 공식 명세만 확인. 로컬 read-only 오류 경로 수정 및14검사 통과. 실제 서버 프로젝트·배포 버전/공고별 원수치는 미검증.",
+          "nextAction": "Vercel stargate2 팀 연결 권한 승인 후 실제 LH 프록시의 프로젝트·저장소·버전을 확인. read-only 수정이 배포된 버전임을 확인한 뒤에만 POST saveToSupabase:false로 공고별 게시일/마감일·전체 페이지를 대조. 기존키 구성 조회나 인증없는401 반복으로 완료 처리하지 않음.",
+          "dataRefreshed": false
+        },
+        "/hwaseong-real-estate/": {
+          "status": "needs_review",
+          "checkedAt": "2026-10-31T22:37:30.561Z",
+          "audit": "/research/source-reviews/2026-11-01-lh-estate.json",
+          "scope": "공식 명세와9월 기존 지역 프록시404를 확인. 31개6월 저장자료 파일과 기존 날짜를 보존하며 원수치 대조 완료로 취급하지 않음.",
+          "nextAction": "기존 지역 해석404가 해결되거나 승인된 직접 원API가 사용 가능한 환경에서4구 법정코드·취소·신고지연·전페이지를 대조. 6월 저장본/파일일 유지;9·10월 값이나 수집시각을 추정하지 않음.",
+          "dataRefreshed": false
         }
       },
       "checkpoints": {
@@ -1171,7 +1187,7 @@
           "Tourism not re-fetched before October26; original checkedAt retained"
         ]
       },
-      "nextAction": "OSM10월31일 원응답·전 점수/다운로드 대조 완료. 다음 미완료 /lh-sale-info/ 기존 승인 API·수집기 원응답 범위/날짜 대조, 접근 불가면 근거 기록 후 /hwaseong-real-estate/ 진행. 완료 무역·관광9월·자동차9월·선거구코드·OSM 반복수집 금지. 선거구 좌표/귀속은 공식 원본 확보시,서울학원 정상 시설행 회복시,WorldBank11월3일이후,관광10월11월25일이후. 전체수락pending·일일예약10유지.",
+      "nextAction": "LH·화성 회차: 명세/접근차단 대조와 읽기전용 수정 로컬검증 완료,수치 갱신없음. LH실서버는Vercel stargate2권한승인·저장소/버전확인 후 재개,화성은지역해석회복/승인원API환경확보시. 같은키구성/401/404 반복금지. 다음독립미완료 /research/crime-statistics/ 공식분기공표·원PDF 확인. WorldBank11월3일이후,서울학원정상행회복시,관광10월11월25일이후. 완료무역·관광9월·자동차9월·선거구코드·OSM 반복수집금지. 전체수락pending·일일예약10유지.",
       "sourceFollowups": [
         {
           "id": "source-followup-1-20261021",
@@ -1947,11 +1963,75 @@
             ]
           },
           "release": {
+            "status": "verified",
             "branch": "codex/osm-refresh-20261031",
-            "status": "awaiting_checks",
+            "pullRequest": "https://github.com/DongsooJung/dongsoojung.github.io/pull/246",
+            "commit": "f3015cd8df96a2094bd0571cbaa0d0402cdd9175",
+            "pullRequestHead": "42ab3c8b2cf080231d5f774282e150695f02d79e",
+            "pullRequestMergeCommit": "f3015cd8df96a2094bd0571cbaa0d0402cdd9175",
+            "verifiedAt": "2026-10-31T06:41:10.985Z",
+            "pagesRun": "https://github.com/DongsooJung/dongsoojung.github.io/actions/runs/41177537675",
             "liveUrl": "https://www.stargateedu.co.kr/research/data-review/",
             "sourceReviewUrl": "https://www.stargateedu.co.kr/research/source-reviews/2026-10-31-osm-refresh.json",
-            "pullRequest": "https://github.com/DongsooJung/dongsoojung.github.io/pull/246"
+            "checks": [
+              "Exact portal PR head CodeQL aggregate/JavaScript and two Vercel statuses succeeded",
+              "Exact portal merge SHA Pages build/report/deploy;both domains five changed public files match",
+              "Independent smart-city PR7 exact head Python3.11/3.12 CI and exact merge Pages;both domains HTML+7downloads match",
+              "Four actual OSM raw response hashes/DB times and all9601 node identities/15574graph nodes/18820edges independently checked",
+              "All396 cell scores/CSV and4 Dijkstra reachable-node hulls independently recomputed;41 passed/1 skipped Python and11 portal Node tests",
+              "Live mode/category/4isochrone controls and7 actual downloads;390px source panel/no page errors;headless raster requests suppressed per tile policy",
+              "Hub/method lab/review audit date/scope agree;monthly reference not_applicable,field observation unknown;not physical accessibility or facility census verification",
+              "64 unique/seven exclusive alphabetical filters/essays7/nine groups/strategy44 preserved;search/hash/keyboard/mobile pass"
+            ],
+            "externalChecks": [
+              {
+                "context": "Vercel – stargate-onbid-api",
+                "state": "success",
+                "description": "Deployment has completed",
+                "targetUrl": "https://vercel.com/stargate2/stargate-onbid-api/EivQiVQwVpnjRnVLoScVVEPjP3bN"
+              },
+              {
+                "context": "Vercel – stargate-private-gateway",
+                "state": "success",
+                "description": "Deployment has completed",
+                "targetUrl": "https://vercel.com/stargate2/stargate-private-gateway/6zmuLZKNtuKjGsd3G6yVTbwAAwP3"
+              }
+            ],
+            "unverified": "Facility census,operating dates,actual walking permissions/crossings/entrance connection and atomic field observation date remain unverified;no growth series comparison"
+          }
+        },
+        {
+          "id": "lh-estate-20261101",
+          "status": "completed_with_blockers",
+          "checkedAt": "2026-10-31T22:37:30.561Z",
+          "keys": [
+            "/lh-sale-info/",
+            "/hwaseong-real-estate/"
+          ],
+          "audit": "/research/source-reviews/2026-11-01-lh-estate.json",
+          "outcome": "existing_server_key_present_but_read_only_release_unverified_and_region_resolution_blocked",
+          "dataRefreshed": false,
+          "backend": {
+            "status": "awaiting_authorization",
+            "domain": "https://stargate-bid-api.vercel.app",
+            "expectedTeam": "stargate2",
+            "projectAndRepository": "not_verified",
+            "connectorAttempt": {
+              "operation": "GET deployment by domain withGitRepoInfo",
+              "status": 403,
+              "reason": "Vercel connection is not authorized for stargate2 team"
+            },
+            "localTests": "14 passed",
+            "collectorVersion": "20261101-read-only-v1",
+            "productionVersionVerified": false,
+            "productionReadOnlyQueryExecuted": false
+          },
+          "release": {
+            "branch": "codex/lh-estate-20261101",
+            "status": "awaiting_checks",
+            "liveUrl": "https://www.stargateedu.co.kr/research/data-review/",
+            "sourceReviewUrl": "https://www.stargateedu.co.kr/research/source-reviews/2026-11-01-lh-estate.json",
+            "pullRequest": "https://github.com/DongsooJung/dongsoojung.github.io/pull/247"
           }
         }
       ],
