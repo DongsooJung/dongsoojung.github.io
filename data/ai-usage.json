@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "updated_at": "2026-10-26T15:04:00+09:00",
+  "updated_at": "2026-10-31T16:07:33+09:00",
   "note": "Claude 예약 작업이 3시간마다 갱신합니다. 이메일은 마스킹합니다.",
   "accounts": [
     {
@@ -36,24 +36,24 @@
       "account": "j***@gmail.com",
       "plan": "Pro",
       "source": "claude.ai 설정 > 사용량",
-      "observed_at": "2026-10-24T16:12:00+09:00",
+      "observed_at": "2026-10-31T16:07:33+09:00",
       "windows": [
         {
           "key": "5h",
           "label": "5시간",
-          "used": 11,
+          "used": 25,
           "window_minutes": 300,
-          "resets_at": "2026-10-24T20:50:00+09:00"
+          "resets_at": "2026-10-31T20:20:00+09:00"
         },
         {
           "key": "week",
           "label": "주간",
-          "used": 31,
+          "used": 11,
           "window_minutes": 10080,
-          "resets_at": "2026-10-30T01:00:00+09:00"
+          "resets_at": "2026-11-06T01:00:00+09:00"
         }
       ],
-      "extra": "주간 제품별: 채팅 27% · Cowork 73% · Claude Code 0% · 월간 지출 한도 US$30 중 US$5.14"
+      "extra": "주간 제품별: 채팅 7% · Cowork 93% · Claude Code 0% · 기타 0%"
     },
     {
       "id": "claude-sg8224",
@@ -114,21 +114,21 @@
       "account": "j***@gmail.com",
       "plan": "Plus",
       "source": "PC Codex 로컬 기록(마지막 사용 시점)",
-      "observed_at": "2026-10-24T12:32:43+09:00",
+      "observed_at": "2026-10-31T15:41:42+09:00",
       "windows": [
         {
           "key": "5h",
           "label": "5시간",
-          "used": 22,
+          "used": 25,
           "window_minutes": 300,
-          "resets_at": "2026-10-24T15:10:07+09:00"
+          "resets_at": "2026-10-31T19:58:42+09:00"
         },
         {
           "key": "week",
           "label": "주간",
-          "used": 27,
+          "used": 43,
           "window_minutes": 10080,
-          "resets_at": "2026-10-25T09:34:49+09:00"
+          "resets_at": "2026-11-04T20:49:07+09:00"
         }
       ],
       "extra": ""
@@ -140,31 +140,31 @@
       "account": "Cursor Pro",
       "plan": "Pro",
       "source": "cursor.com 대시보드 > Spending",
-      "observed_at": "2026-10-26T15:04:00+09:00",
+      "observed_at": "2026-10-31T16:07:33+09:00",
       "windows": [
         {
           "key": "month",
           "label": "자체모델",
-          "used": 50,
-          "window_minutes": 43200,
-          "resets_at": "2026-10-27T00:00:00+09:00"
+          "used": 6,
+          "window_minutes": 44640,
+          "resets_at": "2026-11-27T00:00:00+09:00"
         },
         {
           "key": "month-other",
           "label": "기타모델",
-          "used": 100,
-          "window_minutes": 43200,
-          "resets_at": "2026-10-27T00:00:00+09:00"
+          "used": 47,
+          "window_minutes": 44640,
+          "resets_at": "2026-11-27T00:00:00+09:00"
         },
         {
           "key": "bot-week",
           "label": "봇·주간",
-          "used": 3,
+          "used": 2,
           "window_minutes": 10080,
-          "resets_at": "2026-10-29T00:00:00+09:00"
+          "resets_at": "2026-11-05T00:00:00+09:00"
         }
       ],
-      "extra": "자체모델 = Cursor 모델(Grok·Composer) · 기타모델 소진 시 온디맨드(꺼짐) · 크레딧 US$5/US$25 남음(11/14 만료) · 최근 7일 27.8M 토큰"
+      "extra": "자체모델 = Cursor 모델(Grok·Composer) · 기타모델 소진 시 온디맨드(꺼짐) · 크레딧 US$3/US$25 남음(11/14 만료) · Pro 11/27 해지 예정"
     }
   ]
 }
