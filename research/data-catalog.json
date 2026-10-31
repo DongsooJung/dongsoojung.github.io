@@ -1322,32 +1322,43 @@
     },
     {
       "source": {
-        "label": "Smart City GIS 제공자 코드·OSM 수집 메타데이터",
-        "url": "https://github.com/DongsooJung/smart-city-gis/tree/d086031a394cf2ec81a31f51c192eacfa2f97058",
+        "label": "접근성 방법론·실제 OSM 수집본",
+        "url": "https://github.com/DongsooJung/smart-city-gis/blob/ab5b07fecec87310029ab1ec8bb6ee5c89d77549/docs/dashboard/data/metadata.json",
         "verification": "verified_document"
       },
       "dataAsOf": null,
       "dataPeriod": null,
       "snapshotUpdatedAt": null,
       "collectedAt": null,
-      "checkedAt": "2026-10-18T00:30:46.988856+00:00",
+      "checkedAt": "2026-10-31T06:31:36.706553+00:00",
       "reviewStatus": "not_applicable",
       "freshness": "document_version_verified",
       "evidence": [
         {
           "kind": "official-source",
-          "url": "https://github.com/DongsooJung/smart-city-gis/tree/d086031a394cf2ec81a31f51c192eacfa2f97058",
-          "checkedAt": "2026-10-18T00:30:46.988856+00:00",
-          "scope": "방법론 링크 안내 문서로 월간 통계 기준 비적용. 연결 대상 실제200·제공자 코드 버전·빌더 및 metadata 대조. 강남 핵심부 bbox·250m격자·4.5km/h·도로망 도달점 볼록껍질 근사와 2026-08-27 OSM 단면을 명시."
+          "url": "https://overpass-api.de/api/interpreter",
+          "checkedAt": "2026-10-31T06:31:36.706553+00:00",
+          "scope": "OpenStreetMap 공동체의 1차 원자료. 네 범위 쿼리·원응답 SHA·DB 기준시각을 대조 기록에 보존. 정부 승인통계 아님."
+        },
+        {
+          "kind": "official-source",
+          "url": "https://github.com/DongsooJung/smart-city-gis/blob/ab5b07fecec87310029ab1ec8bb6ee5c89d77549/docs/dashboard/data/metadata.json",
+          "checkedAt": "2026-10-31T06:31:36.706553+00:00",
+          "scope": "2026-10-31 실제 OSM 원응답4개와 수집·DB 시각/해시 대조. POI 노드9601·도로망15574노드/18820고유간선·396격자 전 점수/CSV·4근사권을 독립 재계산. 직선거리 점수와 도달노드 볼록껍질 모델 범위에서 대조 완료. 시설 전수·영업일·실제 보행시간 통계가 아님."
         },
         {
           "kind": "audit-record",
-          "url": "/research/source-reviews/2026-10-18-urban-3.json",
-          "checkedAt": "2026-10-18T00:30:46.988856+00:00"
+          "url": "/research/source-reviews/2026-10-31-osm-refresh.json",
+          "checkedAt": "2026-10-31T06:31:36.706553+00:00"
         }
       ],
       "issues": [
-        "외부 보행성 점수의 9·10월 갱신·원OSM 대조 완료로 취급하지 않음."
+        "강남역 일대 직사각형이며 강남구 행정경계가 아닙니다.",
+        "OSM 태그가 있는 노드만 사용하며 시설 전수·way/relation 시설·현장 영업 여부는 미확인입니다.",
+        "보행성·6개 생활분류 점수는 직선거리 기반입니다. 15분은 4.5km/h로 환산한 반경1125m 가정입니다.",
+        "등시선은 선택 도로망 도달노드의 볼록껍질 근사입니다. 보행 통행권·횡단·출입구 연결을 전수 검증하지 않았습니다.",
+        "분석 경계 밖 POI 누락에 따른 가장자리 효과가 있습니다.",
+        "POI 식별·범위와 도로 중복 제거가 달라 이전 저장본과 증가율·시계열 비교를 하지 않습니다."
       ],
       "key": "/research/accessibility-lab/",
       "url": "/research/accessibility-lab/",
@@ -1355,47 +1366,61 @@
       "primary": "urban",
       "classification": "도시·공간",
       "sourceHint": "Isochrone · Walkability",
-      "verifiedScope": "방법론 링크 안내 문서로 월간 통계 기준 비적용. 연결 대상 실제200·제공자 코드 버전·빌더 및 metadata 대조. 강남 핵심부 bbox·250m격자·4.5km/h·도로망 도달점 볼록껍질 근사와 2026-08-27 OSM 단면을 명시.",
-      "nextAction": "별도 smart-city-gis 원본 저장소에서 신규 OSM 수집·재계산과 수집일 표시를 완료하면 연결 안내를 갱신."
+      "verifiedScope": "방법론 문서 버전 및 연결 대상의 10월31일 실제 OSM 수집본을 대조. 2026-10-31 실제 OSM 원응답4개와 수집·DB 시각/해시 대조. POI 노드9601·도로망15574노드/18820고유간선·396격자 전 점수/CSV·4근사권을 독립 재계산. 직선거리 점수와 도달노드 볼록껍질 모델 범위에서 대조 완료. 시설 전수·영업일·실제 보행시간 통계가 아님.",
+      "nextAction": "10월31일 수집본 대조 완료 범위 반복수집 금지. 현장 시설 전수·실제 보행 통행권 검증은 별도 자료가 확보될 때 확장. 월간 통계·이전7207개 대비 증가율로 해석하지 않음.",
+      "monthlyReferenceStatus": "not_applicable",
+      "referenceDescription": "방법론 안내 · 월간 통계 기준 비적용"
     },
     {
       "source": {
-        "label": "OpenStreetMap 제공자 저장소 스냅샷",
-        "url": "https://github.com/DongsooJung/smart-city-gis/blob/d086031a394cf2ec81a31f51c192eacfa2f97058/data/actual/metadata.json",
-        "verification": "partially_verified"
+        "label": "OpenStreetMap 원응답·재계산 메타데이터",
+        "url": "https://github.com/DongsooJung/smart-city-gis/blob/ab5b07fecec87310029ab1ec8bb6ee5c89d77549/docs/dashboard/data/metadata.json",
+        "verification": "verified_with_scope"
       },
       "dataAsOf": null,
       "dataPeriod": null,
-      "snapshotUpdatedAt": null,
-      "collectedAt": "2026-08-27T21:44:07+00:00",
-      "checkedAt": "2026-10-18T00:30:46.988856+00:00",
-      "reviewStatus": "needs_review",
-      "freshness": "older_snapshot_requires_source_refresh",
+      "snapshotUpdatedAt": "2026-10-31T06:31:31.274344+00:00",
+      "collectedAt": "2026-10-31T06:26:37.224515+00:00",
+      "checkedAt": "2026-10-31T06:31:36.706553+00:00",
+      "reviewStatus": "verified",
+      "freshness": "source_snapshot_recomputed",
       "evidence": [
         {
           "kind": "official-source",
-          "url": "https://github.com/DongsooJung/smart-city-gis/blob/d086031a394cf2ec81a31f51c192eacfa2f97058/data/actual/metadata.json",
-          "checkedAt": "2026-10-18T00:30:46.988856+00:00",
-          "scope": "라이브 HTML이 제공자 저장소 blob과 동일한지 해시로 대조. POI7207·격자수·점수 범위·단일2026연도와 빌더 확인. 8월27일은 제공자 metadata 수집일이며 관측 기준월로 사용하지 않음."
+          "url": "https://overpass-api.de/api/interpreter",
+          "checkedAt": "2026-10-31T06:31:36.706553+00:00",
+          "scope": "OpenStreetMap 공동체의 1차 원자료. 네 범위 쿼리·원응답 SHA·DB 기준시각을 대조 기록에 보존. 정부 승인통계 아님."
+        },
+        {
+          "kind": "official-source",
+          "url": "https://github.com/DongsooJung/smart-city-gis/blob/ab5b07fecec87310029ab1ec8bb6ee5c89d77549/docs/dashboard/data/metadata.json",
+          "checkedAt": "2026-10-31T06:31:36.706553+00:00",
+          "scope": "2026-10-31 실제 OSM 원응답4개와 수집·DB 시각/해시 대조. POI 노드9601·도로망15574노드/18820고유간선·396격자 전 점수/CSV·4근사권을 독립 재계산. 직선거리 점수와 도달노드 볼록껍질 모델 범위에서 대조 완료. 시설 전수·영업일·실제 보행시간 통계가 아님."
         },
         {
           "kind": "audit-record",
-          "url": "/research/source-reviews/2026-10-18-urban-3.json",
-          "checkedAt": "2026-10-18T00:30:46.988856+00:00"
+          "url": "/research/source-reviews/2026-10-31-osm-refresh.json",
+          "checkedAt": "2026-10-31T06:31:36.706553+00:00"
         }
       ],
       "issues": [
-        "포털 내부 폴더가 없는 별도 GitHub Pages 프로젝트. 9·10월 OSM 원자료 재수집·점수 재계산은 미수행.",
-        "실제 관측 시계열이 아닌 단일 단면이며 포털 카드의 시계열 안내를 수정."
+        "강남역 일대 직사각형이며 강남구 행정경계가 아닙니다.",
+        "OSM 태그가 있는 노드만 사용하며 시설 전수·way/relation 시설·현장 영업 여부는 미확인입니다.",
+        "보행성·6개 생활분류 점수는 직선거리 기반입니다. 15분은 4.5km/h로 환산한 반경1125m 가정입니다.",
+        "등시선은 선택 도로망 도달노드의 볼록껍질 근사입니다. 보행 통행권·횡단·출입구 연결을 전수 검증하지 않았습니다.",
+        "분석 경계 밖 POI 누락에 따른 가장자리 효과가 있습니다.",
+        "POI 식별·범위와 도로 중복 제거가 달라 이전 저장본과 증가율·시계열 비교를 하지 않습니다."
       ],
       "key": "/smart-city-gis/dashboard/",
       "url": "https://stargateedu.co.kr/smart-city-gis/dashboard/",
       "title": "강남 보행성 · 15분도시 대시보드",
       "primary": "urban",
       "classification": "도시·공간",
-      "sourceHint": "별도 프로젝트 · OSM8월27일 단면",
-      "verifiedScope": "라이브 HTML이 제공자 저장소 blob과 동일한지 해시로 대조. POI7207·격자수·점수 범위·단일2026연도와 빌더 확인. 8월27일은 제공자 metadata 수집일이며 관측 기준월로 사용하지 않음.",
-      "nextAction": "별도 원본 저장소의 기존 OSM 수집기와 빌더를 사용해 재수집·재계산·정확한 수집일 표시 및 그 저장소의 PR/Pages 검증. 포털에 같은 경로 폴더를 만들지 않음."
+      "sourceHint": "별도 프로젝트 · OSM10월31일 수집",
+      "verifiedScope": "2026-10-31 실제 OSM 원응답4개와 수집·DB 시각/해시 대조. POI 노드9601·도로망15574노드/18820고유간선·396격자 전 점수/CSV·4근사권을 독립 재계산. 직선거리 점수와 도달노드 볼록껍질 모델 범위에서 대조 완료. 시설 전수·영업일·실제 보행시간 통계가 아님.",
+      "nextAction": "10월31일 수집본 대조 완료 범위 반복수집 금지. 현장 시설 전수·실제 보행 통행권 검증은 별도 자료가 확보될 때 확장. 월간 통계·이전7207개 대비 증가율로 해석하지 않음.",
+      "monthlyReferenceStatus": "not_applicable",
+      "referenceDescription": "OSM 2026-10-31 수집 단면 · 현장 관측일 미확인"
     },
     {
       "source": {
