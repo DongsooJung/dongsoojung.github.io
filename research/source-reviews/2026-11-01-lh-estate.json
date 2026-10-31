@@ -1,0 +1,330 @@
+{
+  "schemaVersion": 1,
+  "step": "lh-estate-20261101",
+  "checkedAt": "2026-10-31T22:37:30.561Z",
+  "keys": [
+    "/lh-sale-info/",
+    "/hwaseong-real-estate/"
+  ],
+  "sourceBaseCommit": "59380c3ce33c0e427b057ce8188b006ab24ad891",
+  "dataRefreshed": false,
+  "attempts": [
+    {
+      "name": "lh-spec",
+      "url": "https://www.data.go.kr/catalog/15058530/openapi.json",
+      "startedAt": "2026-10-31T22:37:25.852Z",
+      "receivedAt": "2026-10-31T22:37:26.115Z",
+      "status": 200,
+      "bytes": 1978,
+      "sha256": "e9c9fa130418ce4787b7b3928d21cc2cde4c7cc8141234faf6e193d62402701d",
+      "contentType": "text/html;charset=UTF-8",
+      "result": {
+        "name": "한국토지주택공사_분양임대공고문 조회 서비스",
+        "url": "https://www.data.go.kr/data/15058530/openapi.do",
+        "dateModified": "2026-09-01",
+        "description": "한국토지주택공사에서 관리하는 분양임대 공고 정보를 조회할 수 있는 서비스 입니다. 인증키와 함께 공고명 또는 공고유형코드 지역코드, 공고상태(공고중/접수중/접수마감/상담요청/정정공고중), 공고게시일, 공고마감일을 입력하여 필요한 공고를 조회할 수 있습니다. 공고유형코드로는 01(토지), 05(분양주택), 06(임대주택), 13(주거복지), 22(상가), 39(신혼희망타운)이 있습니다. API 활용을 위해선 공공데이터포털 가입 및 활용신청이 필요합니다. 자세한 활용 방법은 첨부된 OPEN API 활용 가이드 문서에서 확인하실 수 있습니다.",
+        "distribution": [
+          {
+            "encodingFormat": "JSON",
+            "contentUrl": "https://apis.data.go.kr/B552555/lhLeaseNoticeInfo1",
+            "@type": "DataDownload"
+          }
+        ]
+      }
+    },
+    {
+      "name": "trade-spec",
+      "url": "https://www.data.go.kr/catalog/15126469/openapi.json",
+      "startedAt": "2026-10-31T22:37:26.118Z",
+      "receivedAt": "2026-10-31T22:37:26.228Z",
+      "status": 200,
+      "bytes": 2011,
+      "sha256": "7972daa66fdd3c3b1872da10b03b821fdf918ac0df7706529960a3f3c21e0478",
+      "contentType": "text/html;charset=UTF-8",
+      "result": {
+        "name": "국토교통부_아파트 매매 실거래가 자료",
+        "url": "https://www.data.go.kr/data/15126469/openapi.do",
+        "dateModified": "2026-07-22",
+        "description": "「부동산 거래신고 등에 관한 법률」에 따라 신고된 자료로서 행정표준코드관리시스템(www.code.go.kr)의 법정동 코드 중 앞5자리(예시 : 서울 종로구 - 11110), 계약년월 6자리(예시 : 201801)로 해당 지역, 해당 기간의 아파트 매매 신고정보를 조회할 수 있습니다. API 설명 : 지역코드와 기간을 설정하여 해당지역, 해당기간의 아파트 매매 실거래가 자료를 제공하는 아파트 매매 실거래가 정보 조회. 세부사항 참고자료 참고. * 공개내용 중 개인정보보호를 위해 아파트의 층정보만 제공되며, 소유권 이전등기 완료된 건에 한하여 동정보가 추가적으로 공개됩니다.",
+        "distribution": [
+          {
+            "encodingFormat": "XML",
+            "contentUrl": "https://apis.data.go.kr/1613000/RTMSDataSvcAptTrade",
+            "@type": "DataDownload"
+          }
+        ]
+      }
+    },
+    {
+      "name": "lh-proxy-config",
+      "url": "https://stargate-bid-api.vercel.app/api/lh-sale-info?limit=1&logLimit=1",
+      "startedAt": "2026-10-31T22:37:26.229Z",
+      "receivedAt": "2026-10-31T22:37:28.712Z",
+      "status": 200,
+      "bytes": 1845,
+      "sha256": "594ad0083f1c38b467d13360773e7dfef1432e95a779486db0b695d928c45095",
+      "contentType": "application/json; charset=utf-8",
+      "result": {
+        "ok": true,
+        "dataGoKrConfigured": true,
+        "supabaseConfigured": true,
+        "savedRows": 1
+      }
+    },
+    {
+      "name": "region-health",
+      "url": "https://stargate-real-estate-api.vercel.app/api/region",
+      "startedAt": "2026-10-31T22:37:28.712Z",
+      "receivedAt": "2026-10-31T22:37:29.842Z",
+      "status": 200,
+      "bytes": 51,
+      "sha256": "dbb2e41a32e722f71c4891b75220ddc4d8da4142cfd349feecc71a2c288c5049",
+      "contentType": "application/json; charset=utf-8",
+      "result": {
+        "ok": true,
+        "service": "stargate-real-estate-region"
+      }
+    },
+    {
+      "name": "region-september",
+      "url": "https://stargate-real-estate-api.vercel.app/api/region?query=%EA%B2%BD%EA%B8%B0%EB%8F%84%20%ED%99%94%EC%84%B1%EC%8B%9C%20%EB%8F%99%ED%83%84%EA%B5%AC%20%EC%B2%AD%EA%B3%84%EB%8F%99&dealMonth=202609&offset=0&limit=1",
+      "startedAt": "2026-10-31T22:37:29.843Z",
+      "receivedAt": "2026-10-31T22:37:30.358Z",
+      "status": 404,
+      "bytes": 141,
+      "sha256": "acdb02c60c8354f66ea85900ba76f6260a6616fba714463e14ef936ad1404719",
+      "contentType": "application/json; charset=utf-8",
+      "result": {
+        "ok": false,
+        "error": "입력한 읍·면·동을 찾지 못했습니다.",
+        "detail": "시·도와 시·군·구를 함께 입력해 주세요."
+      }
+    },
+    {
+      "name": "lh-direct-no-key",
+      "url": "https://apis.data.go.kr/B552555/lhLeaseNoticeInfo1/lhLeaseNoticeInfo1?UPP_AIS_TP_CD=05&PAGE=1&PG_SZ=1",
+      "startedAt": "2026-10-31T22:37:30.358Z",
+      "receivedAt": "2026-10-31T22:37:30.496Z",
+      "status": 401,
+      "bytes": 186,
+      "sha256": "590786cb9c69b91f8bf8a7ffea2eb86317992d429be2571373783cc5caf80780",
+      "contentType": "application/json",
+      "result": {}
+    },
+    {
+      "name": "trade-direct-no-key",
+      "url": "https://apis.data.go.kr/1613000/RTMSDataSvcAptTrade/getRTMSDataSvcAptTrade?LAWD_CD=41597&DEAL_YMD=202609&pageNo=1&numOfRows=1",
+      "startedAt": "2026-10-31T22:37:30.496Z",
+      "receivedAt": "2026-10-31T22:37:30.561Z",
+      "status": 401,
+      "bytes": 260,
+      "sha256": "12c2382f87dd48f7caa32e41c0f898c2691ea9a7e04449dc8e4c25e57256dca4",
+      "contentType": "application/xml",
+      "result": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<OpenAPI_ServiceResponse>\n<cmmMsgHeader>\n  <errMsg>SERVICE_KEY_IS_NULL</errMsg>\n  <returnAuthMsg>서비스 접근거부</returnAuthMsg>\n  <returnReasonCode>20</returnReasonCode>\n</cmmMsgHeader>\n</OpenAPI_ServiceResponse>\n"
+    }
+  ],
+  "lh": {
+    "sourceDataAsOf": null,
+    "sourceDataPeriod": null,
+    "collectedAt": null,
+    "snapshotUpdatedAt": null,
+    "scope": "notice records,not monthly housing supply",
+    "existingServerKeyConfigured": true,
+    "rawNoticeValuesCompared": false,
+    "reason": "Legacy saveToSupabase:false could still write error logs;read-only fix tested locally but actual server deployment cannot be verified",
+    "backend": {
+      "status": "awaiting_authorization",
+      "domain": "https://stargate-bid-api.vercel.app",
+      "expectedTeam": "stargate2",
+      "projectAndRepository": "not_verified",
+      "connectorAttempt": {
+        "operation": "GET deployment by domain withGitRepoInfo",
+        "status": 403,
+        "reason": "Vercel connection is not authorized for stargate2 team"
+      },
+      "localTests": "14 passed",
+      "collectorVersion": "20261101-read-only-v1",
+      "productionVersionVerified": false,
+      "productionReadOnlyQueryExecuted": false
+    },
+    "nextAction": "Vercel stargate2 팀 연결 권한 승인 후 실제 LH 프록시의 프로젝트·저장소·버전을 확인. read-only 수정이 배포된 버전임을 확인한 뒤에만 POST saveToSupabase:false로 공고별 게시일/마감일·전체 페이지를 대조. 기존키 구성 조회나 인증없는401 반복으로 완료 처리하지 않음."
+  },
+  "hwaseong": {
+    "dataPeriod": "2026-06",
+    "snapshotUpdatedAt": "2026-07-25T04:02:26.972Z",
+    "collectedAt": null,
+    "preservedRows": 2672,
+    "preservedFiles": [
+      {
+        "path": "hwaseong-real-estate/data/batch-0000.json",
+        "sha256": "417ab21bef60cbb9db35c7e2cee7aef4e8c0a5743b6f68836e32aa0b10257db3",
+        "bytes": 60503
+      },
+      {
+        "path": "hwaseong-real-estate/data/batch-0100.json",
+        "sha256": "76935de019823958591f6037a798e6499c167c683a15e89e53dec251b8885fb2",
+        "bytes": 60107
+      },
+      {
+        "path": "hwaseong-real-estate/data/batch-0200.json",
+        "sha256": "910d1a6ebf71e962215a1e83f34ae93d3e42c58e8b61870e9af37667fae72997",
+        "bytes": 60001
+      },
+      {
+        "path": "hwaseong-real-estate/data/batch-0300.json",
+        "sha256": "0e2fcb75b8bdc16a9a2a2ca7a21c2836c079e443408785232aab558e7ba146a9",
+        "bytes": 59255
+      },
+      {
+        "path": "hwaseong-real-estate/data/batch-0400.json",
+        "sha256": "099741cab86ad4b987a6bcef9119b5e342d8266f39da3239c2e43d5969074696",
+        "bytes": 59228
+      },
+      {
+        "path": "hwaseong-real-estate/data/batch-0500.json",
+        "sha256": "10fedd17fab2953b5c11d62f32530765b3e2affad7b0d2ec5619bdfc44a442d6",
+        "bytes": 59385
+      },
+      {
+        "path": "hwaseong-real-estate/data/batch-0600.json",
+        "sha256": "61ba808a1e544bd8cd15fae143bd5054b018b9532af3d6e8dca3f9008cf08429",
+        "bytes": 59174
+      },
+      {
+        "path": "hwaseong-real-estate/data/batch-0700.json",
+        "sha256": "a6fb8be385b9694514ef6fe5b8551353a7fa8bfdf82c42bd80eef485a631fa5b",
+        "bytes": 59048
+      },
+      {
+        "path": "hwaseong-real-estate/data/batch-0800.json",
+        "sha256": "60513a647f0cdf67f8c4ac514f098481ceac09d1b3cdcc2c2888c66b7433e3c7",
+        "bytes": 59401
+      },
+      {
+        "path": "hwaseong-real-estate/data/batch-0900.json",
+        "sha256": "a3119ddee26976ea9598f260d5b216f969e6311db1da9359aa0991f4032a0e10",
+        "bytes": 59525
+      },
+      {
+        "path": "hwaseong-real-estate/data/batch-1000.json",
+        "sha256": "587db3c5cf2651759a1e9c910f3f598960c03fd18b780ab996a9db9892d66117",
+        "bytes": 59777
+      },
+      {
+        "path": "hwaseong-real-estate/data/batch-1100.json",
+        "sha256": "e980851e311be818bf39b3da653fcc6489673d5eac85264c911a9f172c0a5de7",
+        "bytes": 59758
+      },
+      {
+        "path": "hwaseong-real-estate/data/batch-1200.json",
+        "sha256": "d7154df5c7a97a0a7eaf5ec99f63191188e14c54e1968fba487afd582c0eed8c",
+        "bytes": 59817
+      },
+      {
+        "path": "hwaseong-real-estate/data/batch-1300.json",
+        "sha256": "f09a7af2eb6d21a5d676bc7e21a01d924229d92147afbe0016fde27f24aa9497",
+        "bytes": 59650
+      },
+      {
+        "path": "hwaseong-real-estate/data/batch-1400.json",
+        "sha256": "68dac990cdcae3e9ae11f46775de35dea584e5f600f32ffd85f531c5139f7c46",
+        "bytes": 59614
+      },
+      {
+        "path": "hwaseong-real-estate/data/batch-1500.json",
+        "sha256": "a31fba949753c0aa7ed4be45d2f81ccdaa95ad42b4a322baef2e7378c5c0eb16",
+        "bytes": 59636
+      },
+      {
+        "path": "hwaseong-real-estate/data/batch-1600.json",
+        "sha256": "333f972c7b369e6fd09a91c6afac462ffe2bd06d89a43c4d2db3709b47b32c61",
+        "bytes": 59677
+      },
+      {
+        "path": "hwaseong-real-estate/data/batch-1700.json",
+        "sha256": "0618b08895c3d1a9979bf32333c5e48142e59a7ce9eefdc9597eb80450754f11",
+        "bytes": 59734
+      },
+      {
+        "path": "hwaseong-real-estate/data/batch-1800.json",
+        "sha256": "11d9a3be51198515a969efc2a2f8a76d157d45a75a19519c3ae862567025560a",
+        "bytes": 59614
+      },
+      {
+        "path": "hwaseong-real-estate/data/batch-1900.json",
+        "sha256": "e2ac6226d4e436f75ecbbaa0583c442200c4bdbd8bd85daae5dafeb6723a2daf",
+        "bytes": 59881
+      },
+      {
+        "path": "hwaseong-real-estate/data/batch-2000.json",
+        "sha256": "8365eea2170751eecbeddf9f38c8c1185ff1eb36083cb2f6f1a15aa68af86fe9",
+        "bytes": 59626
+      },
+      {
+        "path": "hwaseong-real-estate/data/batch-2100.json",
+        "sha256": "dd1fa74ac4b8f1d3f2e281bebd5a3a3061d633a1c9799cb9a3ca79d0455e1db8",
+        "bytes": 59546
+      },
+      {
+        "path": "hwaseong-real-estate/data/batch-2200.json",
+        "sha256": "4914b3b6eea9cc29c17bae19aad3d3b20e96c5b68e009e039819480317c42676",
+        "bytes": 60069
+      },
+      {
+        "path": "hwaseong-real-estate/data/batch-2300.json",
+        "sha256": "6b4e9bb888d2de26f443c5aa6f47190f90eace732f037a4fb06e24a574bd56f3",
+        "bytes": 59767
+      },
+      {
+        "path": "hwaseong-real-estate/data/batch-2400.json",
+        "sha256": "8b85d166a4d4a7e126d8971fa3d2915f9b40ccae22f1d61e1b4f3f94771cd8fb",
+        "bytes": 59764
+      },
+      {
+        "path": "hwaseong-real-estate/data/batch-2500.json",
+        "sha256": "f1b26734068d8c1d597e8e36ede344029ad723b7c3020e616d54af4faaf7b84d",
+        "bytes": 59800
+      },
+      {
+        "path": "hwaseong-real-estate/data/batch-2600.json",
+        "sha256": "8dab1229effa8ae8cecabb5c2e2ac323e0e8411a10f946f197cb2d299b375577",
+        "bytes": 42969
+      },
+      {
+        "path": "hwaseong-real-estate/data/hwaseong-apt-2026-06-initial-100.csv",
+        "sha256": "4cba86456f05bc375c9ef56dcdb6aedc38432d4e6d65cc0562095496df80aa7d",
+        "bytes": 18625
+      },
+      {
+        "path": "hwaseong-real-estate/data/hwaseong-apt-2026-06-initial-100.xlsx",
+        "sha256": "526e99fd3bd6479fc193dc635483e42f853e24055fbea6596d28a01726dce6a2",
+        "bytes": 15447
+      },
+      {
+        "path": "hwaseong-real-estate/data/hwaseong-legal-dong.geojson",
+        "sha256": "36c6f752eb6b3d1463e6b47db055766aad40de01dc7a836a6fc6be23c8e02ff5",
+        "bytes": 537441
+      },
+      {
+        "path": "hwaseong-real-estate/data/summary.json",
+        "sha256": "a79dded155b8d0eb4a0448dc31f838267b2407a04c093b7345679f890712b0e2",
+        "bytes": 3104
+      }
+    ],
+    "originalTradeValuesCompared": false,
+    "reason": "Existing September region query failed404 before the trade API stage;direct no-key401 is not source verification",
+    "nextAction": "기존 지역 해석404가 해결되거나 승인된 직접 원API가 사용 가능한 환경에서4구 법정코드·취소·신고지연·전페이지를 대조. 6월 저장본/파일일 유지;9·10월 값이나 수집시각을 추정하지 않음."
+  },
+  "datesRule": "Metadata dateModified is the API catalog document version,not a notice/trade reference month. Current attempt time changes no data period,collection date or file date.",
+  "validation": {
+    "localTests": "14 passed",
+    "cases": [
+      "Read-only success/HTTP error/parse error/network failure/no source key never access database",
+      "GET collect false and serialized POST false are read-only",
+      "Status GET failure never writes error logs",
+      "Default successful save still performs notice upsert and log",
+      "Default save error parameters exclude supplied credentials"
+    ]
+  },
+  "acceptance": "pending"
+}

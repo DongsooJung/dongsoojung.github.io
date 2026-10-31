@@ -1511,9 +1511,9 @@
       "dataPeriod": null,
       "snapshotUpdatedAt": null,
       "collectedAt": null,
-      "checkedAt": "2026-10-18T00:30:46.988856+00:00",
-      "reviewStatus": "source_unavailable",
-      "freshness": "source_authentication_required",
+      "checkedAt": "2026-10-31T22:37:30.561Z",
+      "reviewStatus": "needs_review",
+      "freshness": "source_comparison_pending_read_only_release",
       "evidence": [
         {
           "kind": "source-attempt",
@@ -1525,10 +1525,28 @@
           "kind": "audit-record",
           "url": "/research/source-reviews/2026-10-18-urban-3.json",
           "checkedAt": "2026-10-18T00:30:46.988856+00:00"
+        },
+        {
+          "kind": "source-attempt",
+          "url": "https://www.data.go.kr/catalog/15058530/openapi.json",
+          "checkedAt": "2026-10-31T22:37:26.115Z",
+          "scope": "공식 명세와 기존 서버 인증키 구성 여부만 확인. 공고 원응답 수치 대조 미수행."
+        },
+        {
+          "kind": "source-attempt",
+          "url": "https://stargate-bid-api.vercel.app/api/lh-sale-info?limit=1&logLimit=1",
+          "checkedAt": "2026-10-31T22:37:28.712Z",
+          "scope": "공식 명세와 기존 서버 인증키 구성 여부만 확인. 공고 원응답 수치 대조 미수행."
+        },
+        {
+          "kind": "audit-record",
+          "url": "/research/source-reviews/2026-11-01-lh-estate.json",
+          "checkedAt": "2026-10-31T22:37:30.561Z"
         }
       ],
       "issues": [
-        "기존 승인된 인증키가 이번 실행 환경에 없어 공식 공고 데이터 값을 대조하지 못함. 페이지30건을 전체/월간 공급량으로 해석하지 않음."
+        "공고 원표·게시일·마감일·전체 페이지의9·10월 대조는 미완료. 서버 구성true는 원API 승인·정상 수치의 증거가 아님.",
+        "기존 저장중지 옵션은 오류로그 쓰기를 막지 못함. 수정본 로컬검증만 완료;Vercel 팀 접근403으로 실제 서버 배포·쓰기없음 확인은 대기."
       ],
       "key": "/lh-sale-info/",
       "url": "/lh-sale-info/",
@@ -1536,8 +1554,8 @@
       "primary": "urban",
       "classification": "도시·공간",
       "sourceHint": "한국토지주택공사 · data.go.kr",
-      "verifiedScope": "공식 명세의 API주소·분양주택05·페이지 및 게시일/마감일 파라미터 대조. 인증키 없는 실제 원 API401을 기록. DB 쓰기/수집 버튼을 실행하지 않음.",
-      "nextAction": "승인된 비공개 인증키가 연결된 환경에서 원API 조회만 수행하고 공고별 날짜·정규화·전체 페이지를 대조. DB 저장 여부는 명시적으로 제어."
+      "verifiedScope": "기존 서버 GET200의 승인키 구성true와 공식 명세만 확인. 로컬 read-only 오류 경로 수정 및14검사 통과. 실제 서버 프로젝트·배포 버전/공고별 원수치는 미검증.",
+      "nextAction": "Vercel stargate2 팀 연결 권한 승인 후 실제 LH 프록시의 프로젝트·저장소·버전을 확인. read-only 수정이 배포된 버전임을 확인한 뒤에만 POST saveToSupabase:false로 공고별 게시일/마감일·전체 페이지를 대조. 기존키 구성 조회나 인증없는401 반복으로 완료 처리하지 않음."
     },
     {
       "source": {
@@ -1549,9 +1567,9 @@
       "dataPeriod": "2026-06",
       "snapshotUpdatedAt": "2026-07-25T04:02:26.972Z",
       "collectedAt": null,
-      "checkedAt": "2026-10-18T00:30:46.988856+00:00",
+      "checkedAt": "2026-10-31T22:37:30.561Z",
       "reviewStatus": "needs_review",
-      "freshness": "older_than_target",
+      "freshness": "older_snapshot_source_resolution_blocked",
       "evidence": [
         {
           "kind": "official-source",
@@ -1563,11 +1581,28 @@
           "kind": "audit-record",
           "url": "/research/source-reviews/2026-10-18-urban-3.json",
           "checkedAt": "2026-10-18T00:30:46.988856+00:00"
+        },
+        {
+          "kind": "source-attempt",
+          "url": "https://www.data.go.kr/catalog/15126469/openapi.json",
+          "checkedAt": "2026-10-31T22:37:26.228Z",
+          "scope": "공식 명세의 법정동코드앞5자리/계약년월6자리 확인. 기존 지역 프록시의9월 조회404;원수치 대조 미수행."
+        },
+        {
+          "kind": "source-attempt",
+          "url": "https://stargate-real-estate-api.vercel.app/api/region?query=%EA%B2%BD%EA%B8%B0%EB%8F%84%20%ED%99%94%EC%84%B1%EC%8B%9C%20%EB%8F%99%ED%83%84%EA%B5%AC%20%EC%B2%AD%EA%B3%84%EB%8F%99&dealMonth=202609&offset=0&limit=1",
+          "checkedAt": "2026-10-31T22:37:30.358Z",
+          "scope": "공식 명세의 법정동코드앞5자리/계약년월6자리 확인. 기존 지역 프록시의9월 조회404;원수치 대조 미수행."
+        },
+        {
+          "kind": "audit-record",
+          "url": "/research/source-reviews/2026-11-01-lh-estate.json",
+          "checkedAt": "2026-10-31T22:37:30.561Z"
         }
       ],
       "issues": [
-        "기존 수집기와 기본화면은2026-06 고정. 원표 접근/법정동 해석이 해결되지 않아9·10월 값으로 추정 교체하지 않음.",
-        "원출처 거래키 기반 식별이 아닌 순번형 키이므로 키 유일성이 원거래 중복 없음의 증거가 아님."
+        "기존 지역 프록시가9월 요청을 법정동 해석404에서 중단. 원API 거래 응답은 확보하지 못함.",
+        "기본저장본2026-06·파일갱신2026-07-25 유지;순번키 유일성은 원거래 중복없음의 증거가 아님."
       ],
       "key": "/hwaseong-real-estate/",
       "url": "/hwaseong-real-estate/",
@@ -1575,8 +1610,8 @@
       "primary": "urban",
       "classification": "도시·공간",
       "sourceHint": "국토교통부 · 2026-06저장본 · 후속대조 필요",
-      "verifiedScope": "저장6월 자료2672행·27배치·4구 합계·계약월·거래키 유일성 내부 검사와 API명세 대조. 9월 원API 인증미제공401, 기존 지역프록시 법정동 해석404를 기록. 저장본 원수치 검증 완료 아님.",
-      "nextAction": "기존 비공개 키가 연결된 환경에서 현행4구 법정코드·취소·신고지연·원표 페이지 전체를 대조하고 수집기 월 파라미터/화면/다운로드를 함께 갱신."
+      "verifiedScope": "공식 명세와9월 기존 지역 프록시404를 확인. 31개6월 저장자료 파일과 기존 날짜를 보존하며 원수치 대조 완료로 취급하지 않음.",
+      "nextAction": "기존 지역 해석404가 해결되거나 승인된 직접 원API가 사용 가능한 환경에서4구 법정코드·취소·신고지연·전페이지를 대조. 6월 저장본/파일일 유지;9·10월 값이나 수집시각을 추정하지 않음."
     },
     {
       "source": {
