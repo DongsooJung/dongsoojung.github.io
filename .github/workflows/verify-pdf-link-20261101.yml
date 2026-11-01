@@ -1,0 +1,37 @@
+name: Verify PDF link delivery once
+on:
+  push:
+    branches: [main]
+    paths: ['.github/workflows/verify-pdf-link-20261101.yml']
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    steps:
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - name: Read delivery status only
+        env:
+          SOLAPI_API_KEY: ${{ secrets.SOLAPI_API_KEY }}
+          SOLAPI_API_SECRET: ${{ secrets.SOLAPI_API_SECRET }}
+        run: |
+          node --input-type=module <<'NODE'
+          import {createHmac,randomBytes} from 'node:crypto';
+          import {setDefaultResultOrder} from 'node:dns';
+          setDefaultResultOrder('ipv4first');
+          const groupId='G4V20261101161607YUVFKPCUSHJVYMD';
+          for(let n=0;n<6;n++){
+            if(n)await new Promise(r=>setTimeout(r,5000));
+            const date=new Date().toISOString(),salt=randomBytes(16).toString('hex');
+            const signature=createHmac('sha256',process.env.SOLAPI_API_SECRET).update(date+salt).digest('hex');
+            const r=await fetch('https://api.solapi.com/messages/v4/list?limit=100&groupId='+groupId,{headers:{Connection:'close',Authorization:`HMAC-SHA256 apiKey=${process.env.SOLAPI_API_KEY}, date=${date}, salt=${salt}, signature=${signature}`},signal:AbortSignal.timeout(25000)});
+            if(!r.ok)throw Error('Status lookup HTTP '+r.status);
+            const d=await r.json(),list=Array.isArray(d.messageList)?d.messageList:Object.values(d.messageList||{});
+            const entries=list.filter(v=>v.groupId===groupId);
+            for(const v of entries)console.log(JSON.stringify({groupId,messageId:v.messageId,type:v.type,statusCode:v.statusCode,statusMessage:v.statusMessage}));
+            if(entries.length&&entries.every(v=>!['2000','3000'].includes(String(v.statusCode))))break;
+          }
+          NODE
