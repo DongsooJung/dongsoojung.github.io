@@ -1,10 +1,10 @@
 {
-  "updatedAt": "2026-10-30",
+  "updatedAt": "2026-11-01",
   "sourceMode": "binance-vision",
   "observedAt": null,
-  "collectedAt": "2026-10-30T22:24:37.745800+00:00",
-  "snapshotUpdatedAt": "2026-10-30T22:24:37.745800+00:00",
-  "latestClosedPeriod": "2026-09",
+  "collectedAt": "2026-11-01T07:48:47.840460+00:00",
+  "snapshotUpdatedAt": "2026-11-01T07:48:47.840460+00:00",
+  "latestClosedPeriod": "2026-10",
   "priceUnit": "USDT",
   "valueDefinition": "high_low_midrange",
   "legacyPriceFields": "usd* fields retain names for compatibility; values are USDT, without USD conversion",
@@ -1010,12 +1010,21 @@
     },
     {
       "ym": "2026-10",
-      "partial": true,
+      "partial": false,
       "usd": 81772.99,
       "usdOpen": 83623.59,
-      "usdClose": 76830.01,
+      "usdClose": 77582.02,
       "usdMin": 76325.98,
       "usdMax": 87220.0
+    },
+    {
+      "ym": "2026-11",
+      "partial": true,
+      "usd": 77792.6,
+      "usdOpen": 77582.02,
+      "usdClose": 77905.37,
+      "usdMin": 77517.2,
+      "usdMax": 78068.0
     }
   ]
 }
