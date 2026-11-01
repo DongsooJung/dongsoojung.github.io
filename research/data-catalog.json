@@ -1654,17 +1654,17 @@
     },
     {
       "source": {
-        "label": "경찰청 (원문 접근 오류)",
-        "url": "https://www.police.go.kr/user/bbs/BD_selectBbsList.do?estnColumn2=%EB%B6%84%EA%B8%B0&q_bbsCode=1115&q_searchKeyTy=estnColumn1___1001&q_searchVal=2026%EB%85%84+1%EB%B6%84%EA%B8%B0",
-        "verification": "unavailable"
+        "label": "경찰청 전국 분기 잠정통계 원PDF",
+        "url": "https://www.police.go.kr/component/file/ND_fileDownload.do?q_fileSn=160353&q_fileId=f300da48-086b-41c7-acdd-9bf1ef11c071",
+        "verification": "verified"
       },
-      "dataAsOf": null,
-      "dataPeriod": "2026-06",
-      "snapshotUpdatedAt": null,
-      "collectedAt": null,
-      "checkedAt": "2026-10-17T01:26:08.333876+00:00",
-      "reviewStatus": "source_unavailable",
-      "freshness": "unverified",
+      "dataAsOf": "2026-09-30",
+      "dataPeriod": "2026Q3",
+      "snapshotUpdatedAt": "2026-11-01T13:48:21.985788+00:00",
+      "collectedAt": "2026-11-01T13:40:34.399Z",
+      "checkedAt": "2026-11-01T13:48:23.756195+00:00",
+      "reviewStatus": "verified",
+      "freshness": "quarterly_source_verified",
       "evidence": [
         {
           "kind": "audit-record",
@@ -1678,10 +1678,46 @@
           "checkedAt": "2026-10-17T01:22:59.668129+00:00",
           "status": 307,
           "error": "HTTP error"
+        },
+        {
+          "kind": "official-source",
+          "url": "https://www.police.go.kr/component/file/ND_fileDownload.do?q_fileSn=159077&q_fileId=d624f285-d99b-4dec-83fb-b840538651f4",
+          "checkedAt": "2026-11-01T13:48:23.756195+00:00",
+          "scope": "2025Q3 전국43행·215개 수치 원PDF해시와 전수 대조;잠정통계"
+        },
+        {
+          "kind": "official-source",
+          "url": "https://www.police.go.kr/component/file/ND_fileDownload.do?q_fileSn=159393&q_fileId=9c1d266a-a691-457d-b667-efafb9daa6d4",
+          "checkedAt": "2026-11-01T13:48:23.756195+00:00",
+          "scope": "2025Q4 전국43행·215개 수치 원PDF해시와 전수 대조;잠정통계"
+        },
+        {
+          "kind": "official-source",
+          "url": "https://www.police.go.kr/component/file/ND_fileDownload.do?q_fileSn=159713&q_fileId=5bf50446-a2ca-4bcb-9893-cf91c7ac4b35",
+          "checkedAt": "2026-11-01T13:48:23.756195+00:00",
+          "scope": "2026Q1 전국43행·215개 수치 원PDF해시와 전수 대조;잠정통계"
+        },
+        {
+          "kind": "official-source",
+          "url": "https://www.police.go.kr/component/file/ND_fileDownload.do?q_fileSn=160027&q_fileId=fbbfa8b4-44bf-44d2-878b-d123c56cb4c1",
+          "checkedAt": "2026-11-01T13:48:23.756195+00:00",
+          "scope": "2026Q2 전국43행·215개 수치 원PDF해시와 전수 대조;잠정통계"
+        },
+        {
+          "kind": "official-source",
+          "url": "https://www.police.go.kr/component/file/ND_fileDownload.do?q_fileSn=160353&q_fileId=f300da48-086b-41c7-acdd-9bf1ef11c071",
+          "checkedAt": "2026-11-01T13:48:23.756195+00:00",
+          "scope": "2026Q3 전국43행·215개 수치 원PDF해시와 전수 대조;잠정통계"
+        },
+        {
+          "kind": "audit-record",
+          "url": "/research/source-reviews/2026-11-01-crime-source.json",
+          "checkedAt": "2026-11-01T13:48:23.756195+00:00"
         }
       ],
       "issues": [
-        "기존 4분기 172개 행의 내부 합계만 검산. 경찰청 원문은 신규·기존 주소 모두 HTTP 307 리디렉션 오류로 이번에 대조하지 못함. 9월·10월 자료 확보 또는 최신 공표월 확인으로 취급하지 않음."
+        "분기 잠정통계이며9월 단월·10월 자료가 아님. 실제 게시일은 미확인;PDF 생성일과 수집일을 대신 사용하지 않음.",
+        "검거비는 통계원표 건수 비율이며 개별 사건의 추적 검거확률이 아님. 인원/법인체와 건수를 합산하지 않음."
       ],
       "key": "/research/crime-statistics/",
       "url": "/research/crime-statistics/",
@@ -1689,7 +1725,9 @@
       "primary": "society",
       "classification": "경제·사회",
       "sourceHint": "경찰청 공식 통계 · CSV 제공",
-      "nextAction": "경찰청 접근 정상화 후 2026년 3분기 공표 여부와 전국 PDF를 확인하고 기존 분기 원표도 재대조."
+      "nextAction": "2026Q3 전국 잠정통계 대조 완료 범위는 반복 수집하지 않음. 원문 개정이 확인되거나 사용자가 새 기간을 요청할 때 해당 버전·기간을 새로 대조. 실제 게시일 미확인과 잠정/분기 범위를 유지.",
+      "referenceDescription": "2026년3분기(7~9월) 전국 잠정통계",
+      "verifiedScope": "경찰청 전국 원PDF 2025Q3~2026Q3의5분기215행·1075수치를 pypdf와 별도 pdfplumber 표 추출로 전수 대조. 총계/소계/발생대비검거비 및 분기CSV·최근4분기172행CSV·화면JSON이 일치. 기존4분기 수치변경0개."
     },
     {
       "source": {
