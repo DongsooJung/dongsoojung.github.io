@@ -987,7 +987,7 @@
       "status": "pending",
       "keys": [],
       "outcome": "conditional_technical_acceptance",
-      "latestAudit": "/research/source-reviews/2026-11-01-lh-estate.json",
+      "latestAudit": "/research/source-reviews/2026-11-01-crime-source.json",
       "lastAttemptAt": "2026-10-20T23:07:26.208Z",
       "itemResults": {
         "/exchange-rate/": {
@@ -1154,6 +1154,15 @@
           "scope": "공식 명세와9월 기존 지역 프록시404를 확인. 31개6월 저장자료 파일과 기존 날짜를 보존하며 원수치 대조 완료로 취급하지 않음.",
           "nextAction": "기존 지역 해석404가 해결되거나 승인된 직접 원API가 사용 가능한 환경에서4구 법정코드·취소·신고지연·전페이지를 대조. 6월 저장본/파일일 유지;9·10월 값이나 수집시각을 추정하지 않음.",
           "dataRefreshed": false
+        },
+        "/research/crime-statistics/": {
+          "status": "verified",
+          "checkedAt": "2026-11-01T13:48:23.756195+00:00",
+          "audit": "/research/source-reviews/2026-11-01-crime-source.json",
+          "scope": "경찰청 전국 원PDF 2025Q3~2026Q3의5분기215행·1075수치를 pypdf와 별도 pdfplumber 표 추출로 전수 대조. 총계/소계/발생대비검거비 및 분기CSV·최근4분기172행CSV·화면JSON이 일치. 기존4분기 수치변경0개.",
+          "dataPeriod": "2026Q3",
+          "dataAsOf": "2026-09-30",
+          "nextAction": "2026Q3 전국 잠정통계 대조 완료 범위는 반복 수집하지 않음. 원문 개정이 확인되거나 사용자가 새 기간을 요청할 때 해당 버전·기간을 새로 대조. 실제 게시일 미확인과 잠정/분기 범위를 유지."
         }
       },
       "checkpoints": {
@@ -1187,7 +1196,7 @@
           "Tourism not re-fetched before October26; original checkedAt retained"
         ]
       },
-      "nextAction": "LH·화성 회차: 명세/접근차단 대조와 읽기전용 수정 로컬검증 완료,수치 갱신없음. LH실서버는Vercel stargate2권한승인·저장소/버전확인 후 재개,화성은지역해석회복/승인원API환경확보시. 같은키구성/401/404 반복금지. 다음독립미완료 /research/crime-statistics/ 공식분기공표·원PDF 확인. WorldBank11월3일이후,서울학원정상행회복시,관광10월11월25일이후. 완료무역·관광9월·자동차9월·선거구코드·OSM 반복수집금지. 전체수락pending·일일예약10유지.",
+      "nextAction": "범죄전국2026Q3 및기존4분기215행/1075수치 대조 완료. 다음독립미완료 /fsc-financial/ 기존 승인 원API·사업연도·기준일·통화/단위 대조. 외부숙박사이트는접근권한회복시. WorldBank11월3일이후,관광10월11월25일이후,서울학원정상행회복시. LH소유팀접근/실서버수정버전확보전반복요청금지;화성지역해석회복시. 완료무역·관광9월·자동차9월·선거구코드·OSM·범죄3Q 반복대조금지. 전체수락pending·일일예약10유지.",
       "sourceFollowups": [
         {
           "id": "source-followup-1-20261021",
@@ -2024,14 +2033,73 @@
             "localTests": "14 passed",
             "collectorVersion": "20261101-read-only-v1",
             "productionVersionVerified": false,
-            "productionReadOnlyQueryExecuted": false
+            "productionReadOnlyQueryExecuted": false,
+            "authorizationDiscovery": {
+              "accessibleTeam": "dongsoojungs-projects",
+              "stargate2DeploymentLookup": 403,
+              "teamConsentById": 404,
+              "teamConsentBySlug": 404,
+              "deploymentLookupInAccessibleTeam": 404,
+              "consentLinkCreated": false,
+              "requiredAction": "Grant the Vercel connection access to the actual team/account owning the LH proxy;verify project and source repository before releasing the fix."
+            }
           },
           "release": {
+            "status": "verified",
+            "scope": "portal source/method labels/audit only;separate LH backend deployment and numerical refresh remain unverified",
             "branch": "codex/lh-estate-20261101",
-            "status": "awaiting_checks",
+            "pullRequest": "https://github.com/DongsooJung/dongsoojung.github.io/pull/247",
+            "commit": "7f55b784ea59828449d3c6682494b8aba731355d",
+            "pullRequestHead": "0e3315b638d20359a818fd601f290c22ad350c67",
+            "pullRequestMergeCommit": "7f55b784ea59828449d3c6682494b8aba731355d",
+            "verifiedAt": "2026-10-31T22:45:38.213Z",
+            "pagesRun": "https://github.com/DongsooJung/dongsoojung.github.io/actions/runs/41249510638",
             "liveUrl": "https://www.stargateedu.co.kr/research/data-review/",
             "sourceReviewUrl": "https://www.stargateedu.co.kr/research/source-reviews/2026-11-01-lh-estate.json",
-            "pullRequest": "https://github.com/DongsooJung/dongsoojung.github.io/pull/247"
+            "dataRefreshed": false,
+            "backendStatus": "awaiting_authorization",
+            "checks": [
+              "Exact PR head CodeQL aggregate/JavaScript success",
+              "Exact merge SHA Pages build/report/deploy;both domains five changed public files match",
+              "LH14 tests:all read-only success/failure paths make no database calls;default save retained;error parameters omit credentials",
+              "11 portal tests;64 unique/seven exclusive alphabetical filters/essays7/nine groups/strategy44 live regression",
+              "31 original June property files preserved on both domains:byte exact or solelyCRLF/LF normalization;all values unchanged",
+              "Actual100-row CSV download equals prior CSV after newline normalization;June period andJuly25 file date retained",
+              "Live LH/estate/review/audit source limitations and390px panels verified;no page errors/no collect/save requests",
+              "Existing LH proxy version marker still absent;no numerical source query performed and no backend deployment claim"
+            ],
+            "externalChecks": [
+              {
+                "context": "Vercel – stargate-onbid-api",
+                "state": "success",
+                "description": "Deployment has completed",
+                "targetUrl": "https://vercel.com/stargate2/stargate-onbid-api/68oFuUVVYEaHMPBZ2K6eyJ6bFywd"
+              },
+              {
+                "context": "Vercel – stargate-private-gateway",
+                "state": "success",
+                "description": "Deployment has completed",
+                "targetUrl": "https://vercel.com/stargate2/stargate-private-gateway/GMjnwGagSgA2P2XzoVp4K3y6JY99"
+              }
+            ]
+          }
+        },
+        {
+          "id": "crime-source-20261101",
+          "status": "completed",
+          "checkedAt": "2026-11-01T13:48:23.756195+00:00",
+          "keys": [
+            "/research/crime-statistics/"
+          ],
+          "audit": "/research/source-reviews/2026-11-01-crime-source.json",
+          "outcome": "official_national_third_quarter_and_four_prior_quarters_verified_1075_cells",
+          "dataPeriod": "2026Q3",
+          "dataAsOf": "2026-09-30",
+          "release": {
+            "branch": "codex/crime-source-20261101",
+            "status": "awaiting_checks",
+            "liveUrl": "https://www.stargateedu.co.kr/research/crime-statistics/",
+            "sourceReviewUrl": "https://www.stargateedu.co.kr/research/source-reviews/2026-11-01-crime-source.json"
           }
         }
       ],
