@@ -1,33 +1,33 @@
 {
   "source": "FRED (OECD 한국 익일물 금리 · Federal Reserve 미국 실효 연방기금금리)",
   "sourceMode": "api",
-  "updatedAt": "2026-10-30",
+  "updatedAt": "2026-11-03",
   "observedAt": "2026-09",
   "sourceObservationTime": null,
-  "collectedAt": "2026-10-30T22:24:36.951009+00:00",
-  "snapshotUpdatedAt": "2026-10-30T22:24:36.952704+00:00",
+  "collectedAt": "2026-11-03T01:00:57.273926+00:00",
+  "snapshotUpdatedAt": "2026-11-03T01:00:57.275758+00:00",
   "sourceChecks": [
     {
-      "url": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=IRSTCI01KRM156N&cosd=1996-10-01",
+      "url": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=IRSTCI01KRM156N&cosd=1996-11-01",
       "seriesId": "IRSTCI01KRM156N",
-      "sha256": "233997065079956ea5d761f9fbbbbea7fc62db68ba94f2b7fa2e3331f9e422ba",
-      "receivedAt": "2026-10-30T22:24:36.627735+00:00",
-      "rows": 360
+      "sha256": "1ad8138cdda3e7939a9cb1692e3bd4ba05a1edb1346162d0e68e589b61792186",
+      "receivedAt": "2026-11-03T01:00:56.802000+00:00",
+      "rows": 359
     },
     {
-      "url": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=FEDFUNDS&cosd=1996-10-01",
+      "url": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=FEDFUNDS&cosd=1996-11-01",
       "seriesId": "FEDFUNDS",
-      "sha256": "4e1b65c1ee1fcc58ca09e758ee1491d40a92302ef276178dfe7e0abeb25919f7",
-      "receivedAt": "2026-10-30T22:24:36.951009+00:00",
+      "sha256": "8e04f8b819b874113093f1e64e6962c519587be613c4ad492753d99eaaac6742",
+      "receivedAt": "2026-11-03T01:00:57.273926+00:00",
       "rows": 360
     }
   ],
   "unit": "% · 금리차는 %p",
   "definition": "금리차 = 한국 콜머니·은행간 익일물 월평균 − 미국 실효 연방기금금리 월평균",
   "coverage": {
-    "start": "1996-10",
+    "start": "1996-11",
     "end": "2026-09",
-    "months": 360
+    "months": 359
   },
   "meta": {
     "korea": {
@@ -44,13 +44,6 @@
     }
   },
   "series": [
-    {
-      "ym": "1996-10",
-      "partial": false,
-      "koreaRate": 14.42,
-      "usRate": 5.24,
-      "gap": 9.18
-    },
     {
       "ym": "1996-11",
       "partial": false,

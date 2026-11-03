@@ -3,14 +3,14 @@
   "sourceUrl": "https://www.ecb.europa.eu/stats/policy_and_exchange_rates/euro_reference_exchange_rates/",
   "sourceMode": "ecb",
   "sourceDataUrl": "https://www.ecb.europa.eu/stats/eurofxref/eurofxref-hist.xml",
-  "collectedAt": "2026-11-01T07:48:40.243132+00:00",
-  "snapshotUpdatedAt": "2026-11-01T07:48:40.243147+00:00",
-  "updatedAt": "2026-10-30",
-  "observedAt": "2026-10-30",
+  "collectedAt": "2026-11-03T01:00:49.994503+00:00",
+  "snapshotUpdatedAt": "2026-11-03T01:00:49.994521+00:00",
+  "updatedAt": "2026-11-02",
+  "observedAt": "2026-11-02",
   "coverage": {
     "start": "1999-01",
-    "end": "2026-10",
-    "months": 334
+    "end": "2026-11",
+    "months": 335
   },
   "unit": "원 (KRW) · ECB 일일 기준환율의 월평균",
   "currencies": [
@@ -39,14 +39,14 @@
       "color": "#b06de0"
     }
   ],
-  "notes": "ECB가 영업일마다 공표하는 EUR 기준환율에서 KRW 교차환율을 계산했습니다. USD·EUR·CNY는 1단위당 원화, JPY는 100엔당 원화입니다. CNY는 초기 일부 기간에 공표되지 않아 비어 있을 수 있습니다. 시장 체결가가 아닌 일일 공식 기준환율이며 GitHub Actions가 매일 갱신합니다. 커버리지: 1999-01 ~ 2026-10.",
+  "notes": "ECB가 영업일마다 공표하는 EUR 기준환율에서 KRW 교차환율을 계산했습니다. USD·EUR·CNY는 1단위당 원화, JPY는 100엔당 원화입니다. CNY는 초기 일부 기간에 공표되지 않아 비어 있을 수 있습니다. 시장 체결가가 아닌 일일 공식 기준환율이며 GitHub Actions가 매일 갱신합니다. 커버리지: 1999-01 ~ 2026-11.",
   "latest": {
-    "date": "2026-10-30",
+    "date": "2026-11-02",
     "rates": {
-      "USD": 1335.27,
-      "JPY": 849.13,
-      "EUR": 1491.76,
-      "CNY": 200.71
+      "USD": 1342.9,
+      "JPY": 850.48,
+      "EUR": 1506.2,
+      "CNY": 201.99
     }
   },
   "series": [
@@ -9953,6 +9953,37 @@
         }
       },
       "partial": false
+    },
+    {
+      "ym": "2026-11",
+      "days": 1,
+      "rates": {
+        "USD": {
+          "avg": 1342.9,
+          "min": 1342.9,
+          "max": 1342.9,
+          "observations": 1
+        },
+        "JPY": {
+          "avg": 850.48,
+          "min": 850.48,
+          "max": 850.48,
+          "observations": 1
+        },
+        "EUR": {
+          "avg": 1506.2,
+          "min": 1506.2,
+          "max": 1506.2,
+          "observations": 1
+        },
+        "CNY": {
+          "avg": 201.99,
+          "min": 201.99,
+          "max": 201.99,
+          "observations": 1
+        }
+      },
+      "partial": true
     }
   ]
 }
