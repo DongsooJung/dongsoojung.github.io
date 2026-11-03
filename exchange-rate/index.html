@@ -191,6 +191,7 @@ footer{margin-top:56px;padding-top:20px;border-top:1px solid var(--line);color:v
       <span class="refresh-status" id="refreshStatus" role="status" aria-live="polite">환율·금리·물가·비트코인·시장 데이터를 최신 파일에서 다시 확인합니다.</span>
     </div>
   </header>
+<section class="source-followup" aria-labelledby="world-bank-review-title"><h2 id="world-bank-review-title">세계은행 금·구리·미국 천연가스 원표 대조</h2><p>2026년 10월 관측치와 1999년 1월부터 334개월의 자료를 확인했습니다. 2026년 연간 수치는 1~10월 10개 관측치의 부분 평균입니다.</p><p>원표 갱신 2026-11-03 · 자동 수집 및 게시 파일 생성 2026-11-04 KST · 독립 대조 2026-11-04 KST. <a href="https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx">세계은행 월별 원표</a> · <a href="/research/source-reviews/2026-11-04-world-bank-fsc.json" download>원표 해시·단위·검증 기록 내려받기</a></p></section>
 <section class="source-followup" aria-labelledby="source-followup-title"><h2 id="source-followup-title">원출처 대조 · 5개 모듈 저장본 검증 완료 · 2026-10-25</h2><p>환율334개월·BTC111개월·Brent28년을 원문과 대조했습니다. 환율은ECB7,121관측일이며10월은23일까지17관측일 부분집계입니다. 원문에없는초기CNY63개월은빈칸입니다. BTC는USDT의월고저중간값으로10월은진행중인부분월봉이며9월이마지막완결월입니다.</p><p>Brent는FRED/EIA일자료로10월20일까지203관측일의2026년부분평균입니다. 세계은행월자료9개월과단위가다릅니다. DRAM·금·구리·가스의28년값/관측수,한국은행329개월,금리차360개월은기존원문대조완료본과동일해당시검증일을유지합니다. 세계은행월표를새로조회하거나10월값을추정하지않았습니다.</p><p>환율수집 2026-10-24T17:37:55.921438+00:00 · BTC수집 2026-10-24T17:37:24.373692+00:00 · 유가수집 2026-10-24T17:37:24.213280+00:00. 파일생성·개별원문대조시각은다운로드JSON에구분했습니다. BTC현월의실제관측시각은원문미제공입니다. 이후자동갱신본은이검증일의저장본과구분해야합니다. <a href="/research/source-reviews/2026-10-25-exchange-closeout.json" download>모듈별원출처·기간·검증JSON 내려받기</a></p></section>
 
   <div class="controls">
@@ -405,7 +406,7 @@ footer{margin-top:56px;padding-top:20px;border-top:1px solid var(--line);color:v
     <b>금 · 구리 · 천연가스</b> — 세계은행
     <a href="https://www.worldbank.org/en/research/commodity-markets" target="_blank" rel="noopener">Commodity Price Data (Pink Sheet)</a>의
     금(USD/트로이온스), 구리(USD/톤), 미국 천연가스(USD/MMBtu) 월별 가격을 연평균하고
-    <b>1999년=100</b> 지수로 비교합니다. 당해연도는 최근 발표 월까지의 YTD 평균입니다.
+    <b>1999년=100</b> 지수로 비교합니다. 당해연도는 최근 관측월까지의 부분 평균입니다.
     <br><br>
     <b>비트코인</b> — Binance Vision 공개 API의
     <a href="https://data-api.binance.vision/" target="_blank" rel="noopener">BTCUSDT 월봉</a>을 사용합니다.
@@ -1366,8 +1367,8 @@ function renderCommodityKPIs(){
   const source = MARKET && MARKET.sources ? MARKET.sources.commodities : null;
   const tile = document.createElement('div'); tile.className='tile';
   tile.innerHTML = `<div class="lb"><span class="key" style="background:var(--acc)"></span><span>세계은행 데이터 기준</span></div>
-    <div class="val">${source&&source.observedAt?source.observedAt.slice(0,7):'—'}<small>자료 기준월</small></div>
-    <div class="delta"><span>${source&&source.workbookUpdated?`원표 파일 공표 ${source.workbookUpdated}`:'Pink Sheet'}</span></div>`;
+    <div class="val">${source&&source.observedAt?source.observedAt.slice(0,7):'—'}<small>최근 관측월</small></div>
+    <div class="delta"><span>${source&&source.workbookUpdated?`원표 갱신 ${source.workbookUpdated}`:'Pink Sheet'}</span></div>`;
   el.appendChild(tile);
 }
 function commodityBaseYear(){

@@ -2259,15 +2259,15 @@
     },
     {
       "source": {
-        "label": "ECB·Binance·FRED/EIA 원문 대조 + 기존 ECOS/WB/Stanford 완료본 유지",
-        "url": "https://www.ecb.europa.eu/stats/eurofxref/eurofxref-hist.xml",
+        "label": "세계은행 월별 원표 · 금·구리·미국 천연가스",
+        "url": "https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx",
         "verification": "verified"
       },
       "dataAsOf": null,
-      "dataPeriod": "혼재 (FX10월23일·BTC10월부분·Brent10월20일·BOK/금리차/WB9월)",
+      "dataPeriod": "혼재 · 세계은행 금·구리·미국 가스 2026-10 관측, 2026년 1~10월 부분 평균",
       "snapshotUpdatedAt": null,
       "collectedAt": null,
-      "checkedAt": "2026-10-24T17:41:38.747Z",
+      "checkedAt": "2026-11-03T23:37:34.676253+00:00",
       "reviewStatus": "verified",
       "freshness": "verified_scoped_mixed_periods",
       "evidence": [
@@ -2978,6 +2978,19 @@
           "url": "/research/source-reviews/2026-10-25-exchange-closeout.json",
           "checkedAt": "2026-10-24T17:41:38.747Z",
           "scope": "환율334개월·BTC111개월·Brent28년원문대조.기존BOK329개월/금리차360개월/시장나머지4지표는검증본의값·범위동일성을확인해원문검증일유지.5모듈모두기록된저장본범위에서검증완료."
+        },
+        {
+          "kind": "official-source",
+          "url": "https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx",
+          "checkedAt": "2026-11-03T23:37:34.676253+00:00",
+          "sha256": "3c8d9d8dbb48342fdbf24777c39a8ce8964cc2fd0958f72f6779e6e4ad99cde2",
+          "bytes": 587760,
+          "scope": "세계은행 월별 원표의 금·구리·미국 천연가스 1999-01~2026-10, 334개월 및 28개 연도의 84개 연평균과 관측 수를 기존 수집기와 별도 원표 추출로 대조했습니다. 2026년은 1~10월 부분 평균입니다."
+        },
+        {
+          "kind": "audit-record",
+          "url": "/research/source-reviews/2026-11-04-world-bank-fsc.json",
+          "checkedAt": "2026-11-03T23:37:34.676253+00:00"
         }
       ],
       "issues": [
@@ -2992,7 +3005,7 @@
       "primary": "society",
       "classification": "경제·사회",
       "sourceHint": "5모듈검증완료·모듈별자료기간/대조일구분",
-      "nextAction": "이exchange-rate완료저장본은반복하지않고다음미완료 /research/bukangi/ 공식결과원문·과거13개고유출처의19기록을대조. 결과원문미확보시결과/위치확정금지하고 /ds-research-urban-analytics/ 등다음항목진행.관광은10월26일이후,WorldBank는11월3일이후. 최종수락에서변경된게시본만별도조정.",
+      "nextAction": "새 월별 원표 또는 이 원표의 개정본이 확보될 때 해당 범위를 대조합니다.",
       "previousReview": {
         "checkedAt": "2026-10-20T23:06:28.769Z",
         "dataAsOf": "2026-10-20",
@@ -3006,7 +3019,7 @@
           "verification": "declared"
         }
       },
-      "verifiedScope": "환율334개월·BTC111개월·Brent28년원문대조.기존BOK329개월/금리차360개월/시장나머지4지표는검증본의값·범위동일성을확인해원문검증일유지.5모듈모두기록된저장본범위에서검증완료.",
+      "verifiedScope": "세계은행 월별 원표의 금·구리·미국 천연가스 1999-01~2026-10, 334개월 및 28개 연도의 84개 연평균과 관측 수를 기존 수집기와 별도 원표 추출로 대조했습니다. 2026년은 1~10월 부분 평균입니다. 다른 모듈의 과거 검증 범위와 시각은 이전 기록에서 확인할 수 있습니다.",
       "moduleReviews": {
         "fx": {
           "status": "verified",
@@ -3655,7 +3668,7 @@
       "dataPeriod": "2023",
       "snapshotUpdatedAt": null,
       "collectedAt": "2026-07-26T20:33:58Z",
-      "checkedAt": "2026-10-17T02:04:58.790677+00:00",
+      "checkedAt": "2026-11-03T23:35:09.524132+00:00",
       "reviewStatus": "needs_review",
       "freshness": "requires_followup",
       "evidence": [
@@ -3675,12 +3688,27 @@
           "url": "https://apis.data.go.kr/1160100/service/GetFinaStatInfoService_V2/getSummFinaStat_V2?bizYear=2025&numOfRows=100&pageNo=1&resultType=json",
           "checkedAt": "2026-10-17T02:04:58.790677+00:00",
           "status": 401
+        },
+        {
+          "kind": "source-attempt",
+          "url": "https://www.data.go.kr/catalog/15043459/openapi.json",
+          "checkedAt": "2026-11-03T23:35:09.524132+00:00",
+          "status": 200,
+          "scope": "공식 명세 개정일과 수록 기준 확인",
+          "reason": "공식 서비스 메타데이터 개정일 2026-10-28을 확인했습니다. 이 실행 환경에서 해당 서비스에 승인된 키를 확인할 수 없어 실제 원응답과 사업연도·기준일·통화·금액 단위는 미확인입니다.",
+          "nextAction": "기존 서비스 승인 환경에서 원응답을 확보하면 사업연도, basDt, 통화별 금액 단위와 페이지 범위를 대조합니다."
+        },
+        {
+          "kind": "audit-record",
+          "url": "/research/source-reviews/2026-11-04-world-bank-fsc.json",
+          "checkedAt": "2026-11-03T23:35:09.524132+00:00"
         }
       ],
       "issues": [
         "저장본은 2023 사업연도, 수집일은 2026-07-26입니다. 확인일을 자료 기준일로 바꾸지 않았습니다.",
         "공개 소스에 기본 인증키가 없는데 자동 조회한다고 안내하던 문구를 수정했습니다.",
-        "KRW 99건과 CNY 1건을 같은 원화 지표로 집계하던 오류를 수정했습니다. 원화 금액 지표·차트는 KRW만 사용하고 표·CSV는 원문 통화를 보존합니다."
+        "KRW 99건과 CNY 1건을 같은 원화 지표로 집계하던 오류를 수정했습니다. 원화 금액 지표·차트는 KRW만 사용하고 표·CSV는 원문 통화를 보존합니다.",
+        "공식 서비스 메타데이터 개정일 2026-10-28을 확인했습니다. 이 실행 환경에서 해당 서비스에 승인된 키를 확인할 수 없어 실제 원응답과 사업연도·기준일·통화·금액 단위는 미확인입니다."
       ],
       "key": "/fsc-financial/",
       "url": "/fsc-financial/",
@@ -3688,8 +3716,8 @@
       "primary": "society",
       "classification": "경제·사회",
       "sourceHint": "금융위원회 · data.go.kr",
-      "verifiedScope": "공식 메타데이터에서 사업연도 기준·일 1회 갱신을 확인. 수치 원표는 인증키 없는 요청 HTTP 401 SERVICE_KEY_IS_NULL로 대조하지 못함.",
-      "nextAction": "기존에 승인된 사용자 키로 공식 API 수록 사업연도·기준일·통화·단위를 확인한 뒤 원표 수치와 저장본을 교체. 신규 유료 설정이나 키 공개는 하지 않음."
+      "verifiedScope": "공식 서비스 메타데이터 개정일 2026-10-28을 확인했습니다. 이 실행 환경에서 해당 서비스에 승인된 키를 확인할 수 없어 실제 원응답과 사업연도·기준일·통화·금액 단위는 미확인입니다.",
+      "nextAction": "기존 서비스 승인 환경에서 원응답을 확보하면 사업연도, basDt, 통화별 금액 단위와 페이지 범위를 대조합니다."
     },
     {
       "source": {
