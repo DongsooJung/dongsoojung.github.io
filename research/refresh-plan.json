@@ -987,15 +987,23 @@
       "status": "pending",
       "keys": [],
       "outcome": "conditional_technical_acceptance",
-      "latestAudit": "/research/source-reviews/2026-11-01-crime-source.json",
+      "latestAudit": "/research/source-reviews/2026-11-04-world-bank-fsc.json",
       "lastAttemptAt": "2026-10-20T23:07:26.208Z",
       "itemResults": {
         "/exchange-rate/": {
           "status": "verified",
-          "checkedAt": "2026-10-24T17:41:38.747Z",
-          "audit": "/research/source-reviews/2026-10-25-exchange-closeout.json",
-          "scope": "환율334개월·BTC111개월·Brent28년원문대조.기존BOK329개월/금리차360개월/시장나머지4지표는검증본의값·범위동일성을확인해원문검증일유지.5모듈모두기록된저장본범위에서검증완료.",
-          "nextAction": "이exchange-rate완료저장본은반복하지않고다음미완료 /research/bukangi/ 공식결과원문·과거13개고유출처의19기록을대조. 결과원문미확보시결과/위치확정금지하고 /ds-research-urban-analytics/ 등다음항목진행.관광은10월26일이후,WorldBank는11월3일이후. 최종수락에서변경된게시본만별도조정."
+          "checkedAt": "2026-11-03T23:37:34.676253+00:00",
+          "audit": "/research/source-reviews/2026-11-04-world-bank-fsc.json",
+          "scope": "세계은행 월별 원표의 금·구리·미국 천연가스 1999-01~2026-10, 334개월 및 28개 연도의 84개 연평균과 관측 수를 기존 수집기와 별도 원표 추출로 대조했습니다. 2026년은 1~10월 부분 평균입니다.",
+          "nextAction": "새 월별 원표 또는 이 원표의 개정본이 확보될 때 해당 범위를 대조합니다.",
+          "dataPeriod": "2026-10 (세계은행 월별 원표)",
+          "previousResult": {
+            "status": "verified",
+            "checkedAt": "2026-10-24T17:41:38.747Z",
+            "audit": "/research/source-reviews/2026-10-25-exchange-closeout.json",
+            "scope": "환율334개월·BTC111개월·Brent28년원문대조.기존BOK329개월/금리차360개월/시장나머지4지표는검증본의값·범위동일성을확인해원문검증일유지.5모듈모두기록된저장본범위에서검증완료.",
+            "nextAction": "이exchange-rate완료저장본은반복하지않고다음미완료 /research/bukangi/ 공식결과원문·과거13개고유출처의19기록을대조. 결과원문미확보시결과/위치확정금지하고 /ds-research-urban-analytics/ 등다음항목진행.관광은10월26일이후,WorldBank는11월3일이후. 최종수락에서변경된게시본만별도조정."
+          }
         },
         "/trade/": {
           "status": "verified",
@@ -1163,6 +1171,15 @@
           "dataPeriod": "2026Q3",
           "dataAsOf": "2026-09-30",
           "nextAction": "2026Q3 전국 잠정통계 대조 완료 범위는 반복 수집하지 않음. 원문 개정이 확인되거나 사용자가 새 기간을 요청할 때 해당 버전·기간을 새로 대조. 실제 게시일 미확인과 잠정/분기 범위를 유지."
+        },
+        "/fsc-financial/": {
+          "status": "needs_review",
+          "checkedAt": "2026-11-03T23:35:09.524132+00:00",
+          "audit": "/research/source-reviews/2026-11-04-world-bank-fsc.json",
+          "scope": "공식 서비스 메타데이터 개정일 2026-10-28을 확인했습니다. 이 실행 환경에서 해당 서비스에 승인된 키를 확인할 수 없어 실제 원응답과 사업연도·기준일·통화·금액 단위는 미확인입니다.",
+          "dataPeriod": "2023",
+          "dataAsOf": "2023-12-31",
+          "nextAction": "기존 서비스 승인 환경에서 원응답을 확보하면 사업연도, basDt, 통화별 금액 단위와 페이지 범위를 대조합니다."
         }
       },
       "checkpoints": {
@@ -1196,7 +1213,7 @@
           "Tourism not re-fetched before October26; original checkedAt retained"
         ]
       },
-      "nextAction": "범죄전국2026Q3 및기존4분기215행/1075수치 대조 완료. 다음독립미완료 /fsc-financial/ 기존 승인 원API·사업연도·기준일·통화/단위 대조. 외부숙박사이트는접근권한회복시. WorldBank11월3일이후,관광10월11월25일이후,서울학원정상행회복시. LH소유팀접근/실서버수정버전확보전반복요청금지;화성지역해석회복시. 완료무역·관광9월·자동차9월·선거구코드·OSM·범죄3Q 반복대조금지. 전체수락pending·일일예약10유지.",
+      "nextAction": "다음 독립 미완료인 시민참여 허브의 공개 원출처·버전을 확인하고, 접근이 막히면 AI 신선도 연구의 원문·방법 버전을 대조합니다. FSC는 기존 승인 환경이 확인될 때 재개합니다. 관광 10월은 11월 25일 이후 확인합니다.",
       "sourceFollowups": [
         {
           "id": "source-followup-1-20261021",
@@ -2096,11 +2113,60 @@
           "dataPeriod": "2026Q3",
           "dataAsOf": "2026-09-30",
           "release": {
+            "status": "verified",
             "branch": "codex/crime-source-20261101",
-            "status": "awaiting_checks",
+            "pullRequest": "https://github.com/DongsooJung/dongsoojung.github.io/pull/248",
+            "commit": "17f084bd445c8b84ce936a2822dbe259b08d89fd",
+            "pullRequestHead": "3c64a8c7590da3acee008467c664a097dbf691fb",
+            "pullRequestMergeCommit": "17f084bd445c8b84ce936a2822dbe259b08d89fd",
+            "verifiedAt": "2026-11-01T14:04:04.304Z",
+            "pagesRun": "https://github.com/DongsooJung/dongsoojung.github.io/actions/runs/41313940362",
             "liveUrl": "https://www.stargateedu.co.kr/research/crime-statistics/",
             "sourceReviewUrl": "https://www.stargateedu.co.kr/research/source-reviews/2026-11-01-crime-source.json",
-            "pullRequest": "https://github.com/DongsooJung/dongsoojung.github.io/pull/248"
+            "checks": [
+              "Exact PR head CodeQL aggregate/JavaScript success",
+              "Exact merged SHA Pages build/report/deploy;both domains eight changed public files match",
+              "Five official national PDFs215rows/1075numeric cells independently matched pypdf layout and pdfplumber ruled tables",
+              "All totals/subtotals/one-decimal ratios and5 quarter CSVs/rolling172row CSV/HTML/JSON agree;prior4quarter values unchanged",
+              "8 source guard tests incl over100 ratio/invalid totals/duplicates/wrong period/missing rows/CSV BOM/unknown timezone and11 portal tests passed",
+              "Live four-quarter/category/sort/trend controls,43row table,seven actual downloads/390px/no page errors;legacy4CSV files match both domains",
+              "Period7-9month quarter/Sept30 distinct fromNov1 collected/built/checked;actual publicationDate null and provisional caveat retained",
+              "Two PDF companions4/6pages generated,all64 review project names and Q3 key values present;all pages rendered and inspected",
+              "64 unique/seven exclusive alphabetical filters/essays7/nine groups/strategy44 preserved"
+            ],
+            "externalChecks": [
+              {
+                "context": "Vercel – stargate-onbid-api",
+                "state": "success",
+                "description": "Deployment has completed",
+                "targetUrl": "https://vercel.com/stargate2/stargate-onbid-api/FXw9Q2tLvrYec8Hm7H7ewr6JeCe4"
+              },
+              {
+                "context": "Vercel – stargate-private-gateway",
+                "state": "success",
+                "description": "Deployment has completed",
+                "targetUrl": "https://vercel.com/stargate2/stargate-private-gateway/38VhNBFWHn2macT3gS5rfUgjte9c"
+              }
+            ],
+            "limitations": "Quarterly provisional national totals;not September monthly/October data or matched-case resolution probability;actual publication day unknown"
+          }
+        },
+        {
+          "id": "wb-fsc-20261104",
+          "status": "partial",
+          "checkedAt": "2026-11-03T23:37:34.676253+00:00",
+          "keys": [
+            "/exchange-rate/",
+            "/fsc-financial/"
+          ],
+          "audit": "/research/source-reviews/2026-11-04-world-bank-fsc.json",
+          "outcome": "world_bank_october_verified_fsc_api_rows_pending",
+          "release": {
+            "branch": "codex/wb-fsc-20261104",
+            "status": "awaiting_checks",
+            "liveUrl": "https://www.stargateedu.co.kr/exchange-rate/",
+            "sourceReviewUrl": "https://www.stargateedu.co.kr/research/source-reviews/2026-11-04-world-bank-fsc.json",
+            "pullRequest": "https://github.com/DongsooJung/dongsoojung.github.io/pull/249"
           }
         }
       ],

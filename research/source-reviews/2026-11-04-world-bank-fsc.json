@@ -1,0 +1,84 @@
+{
+  "schemaVersion": 1,
+  "step": "wb-fsc-20261104",
+  "checkedAt": "2026-11-03T23:37:34.676253+00:00",
+  "keys": [
+    "/exchange-rate/",
+    "/fsc-financial/"
+  ],
+  "sourceBaseCommit": "ebd8957c681369b9ba79629596b27818885d0a58",
+  "worldBank": {
+    "url": "https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx",
+    "sha256": "3c8d9d8dbb48342fdbf24777c39a8ce8964cc2fd0958f72f6779e6e4ad99cde2",
+    "bytes": 587760,
+    "workbookUpdated": "2026-11-03",
+    "period": "2026-10",
+    "receivedAt": "2026-11-03T23:35:23.551645+00:00",
+    "checkedAt": "2026-11-03T23:37:34.676253+00:00",
+    "months": 334,
+    "years": 28,
+    "annualMeansAndCountsCompared": 84,
+    "collectorMarketSource": {
+      "name": "World Bank Commodity Price Data (Pink Sheet)",
+      "metrics": "Gold · Copper · Natural gas, US · Crude oil, Brent",
+      "url": "https://www.worldbank.org/en/research/commodity-markets",
+      "observedAt": "2026-10",
+      "workbookUpdated": "November 03, 2026",
+      "indexBaseYear": 1999,
+      "frequency": "monthly",
+      "collectedAt": "2026-11-03T23:26:04.771608+00:00",
+      "state": "collected"
+    },
+    "collectorSnapshotUpdatedAt": "2026-11-03T23:26:04.774695+00:00",
+    "scope": "세계은행 월별 원표의 금·구리·미국 천연가스 1999-01~2026-10, 334개월 및 28개 연도의 84개 연평균과 관측 수를 기존 수집기와 별도 원표 추출로 대조했습니다. 2026년은 1~10월 부분 평균입니다.",
+    "october": {
+      "goldUsdPerOz": "4105",
+      "copperUsdPerMt": "14508",
+      "gasUsdPerMmbtu": "2.96"
+    },
+    "units": {
+      "goldUsdPerOz": "($/troy oz)",
+      "copperUsdPerMt": "($/mt)",
+      "gasUsdPerMmbtu": "($/mmbtu)"
+    },
+    "annual2026": {
+      "year": 2026,
+      "partial": true,
+      "goldUsdPerOz": 4507.3,
+      "goldObservations": 10,
+      "copperUsdPerMt": 13538.9,
+      "copperObservations": 10,
+      "gasUsdPerMmbtu": 3.47,
+      "gasObservations": 10
+    },
+    "annualPeriod": "2026-01..2026-10",
+    "rounding": "Excel 수치의 저장 표현을 숫자로 읽고 최단 십진 표현으로 정규화한 뒤 반올림했습니다. 2020년 미국 가스 연평균의 2.015 경계값은 기존 수집기와 동일하게 2.02입니다.",
+    "excluded": "환율·금리·BTC·DRAM·브렌트유는 이번 대조 범위 밖입니다.",
+    "nextAction": "새 월별 원표 또는 이 원표의 개정본이 확보될 때 해당 범위를 대조합니다."
+  },
+  "fsc": {
+    "officialMetadata": {
+      "url": "https://www.data.go.kr/catalog/15043459/openapi.json",
+      "status": 200,
+      "receivedAt": "2026-11-03T23:35:09.524132+00:00",
+      "bytes": 2769,
+      "lastModified": null
+    },
+    "metadataDateModified": "2026-10-28",
+    "endpoint": "https://apis.data.go.kr/1160100/service/GetFinaStatInfoService_V2/getSummFinaStat_V2",
+    "status": "needs_review",
+    "reason": "공식 서비스 메타데이터 개정일 2026-10-28을 확인했습니다. 이 실행 환경에서 해당 서비스에 승인된 키를 확인할 수 없어 실제 원응답과 사업연도·기준일·통화·금액 단위는 미확인입니다.",
+    "publishedSnapshot": {
+      "businessYear": 2023,
+      "asOf": "2023-12-31",
+      "collectedAt": "2026-07-26T20:33:58Z",
+      "snapshotUpdatedAt": null,
+      "rows": 100,
+      "currencies": {
+        "KRW": 99,
+        "CNY": 1
+      }
+    },
+    "nextAction": "기존 서비스 승인 환경에서 원응답을 확보하면 사업연도, basDt, 통화별 금액 단위와 페이지 범위를 대조합니다."
+  }
+}
