@@ -1,7 +1,7 @@
 {
   "updatedAt": "2026-11-03",
   "sourceMode": "public-csv",
-  "snapshotUpdatedAt": "2026-11-03T01:00:56.177983+00:00",
+  "snapshotUpdatedAt": "2026-11-03T23:26:04.774695+00:00",
   "collectionFailures": {},
   "coverage": {
     "start": 1999,
@@ -16,7 +16,7 @@
       "unit": "USD/GB",
       "url": "https://dam.stanford.edu/memory-prices.html",
       "observedAt": "2026-10-01",
-      "collectedAt": "2026-11-03T01:00:55.661630+00:00",
+      "collectedAt": "2026-11-03T23:26:04.217256+00:00",
       "state": "collected",
       "aggregation": "mean_of_available_source_observations"
     },
@@ -24,7 +24,7 @@
       "name": "FRED/EIA DCOILBRENTEU",
       "metric": "Brent 일 관측가격 평균",
       "frequency": "daily",
-      "collectedAt": "2026-11-03T01:00:55.811974+00:00",
+      "collectedAt": "2026-11-03T23:26:04.362548+00:00",
       "state": "collected",
       "unit": "USD/barrel",
       "url": "https://fred.stlouisfed.org/series/DCOILBRENTEU",
@@ -34,11 +34,11 @@
       "name": "World Bank Commodity Price Data (Pink Sheet)",
       "metrics": "Gold · Copper · Natural gas, US · Crude oil, Brent",
       "url": "https://www.worldbank.org/en/research/commodity-markets",
-      "observedAt": "2026-09",
-      "workbookUpdated": "October 02, 2026",
+      "observedAt": "2026-10",
+      "workbookUpdated": "November 03, 2026",
       "indexBaseYear": 1999,
       "frequency": "monthly",
-      "collectedAt": "2026-11-03T01:00:56.175701+00:00",
+      "collectedAt": "2026-11-03T23:26:04.771608+00:00",
       "state": "collected"
     }
   },
@@ -484,12 +484,12 @@
       "brentObservations": 208,
       "brentObservationUnit": "days",
       "brentSource": "fred",
-      "goldUsdPerOz": 4552.0,
-      "goldObservations": 9,
-      "copperUsdPerMt": 13431.22,
-      "copperObservations": 9,
-      "gasUsdPerMmbtu": 3.52,
-      "gasObservations": 9
+      "goldUsdPerOz": 4507.3,
+      "goldObservations": 10,
+      "copperUsdPerMt": 13538.9,
+      "copperObservations": 10,
+      "gasUsdPerMmbtu": 3.47,
+      "gasObservations": 10
     }
   ]
 }

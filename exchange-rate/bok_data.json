@@ -19,7 +19,7 @@
       "color": "#5eb0e0"
     }
   },
-  "notes": "한국은행 ECOS OpenAPI의 기준금리(722Y001)와 소비자물가지수(901Y009, 2020=100)입니다. 물가상승률은 전년동월비(YoY)입니다. 커버리지: 1999-05 ~ 2026-09.",
+  "notes": "한국은행 ECOS OpenAPI의 기준금리(722Y001)와 소비자물가지수(901Y009, 2020=100)입니다. 물가상승률은 전년동월비(YoY)입니다. 커버리지: 1999-05 ~ 2026-10.",
   "series": [
     {
       "ym": "1999-05",
@@ -2981,17 +2981,25 @@
       "cpiRaw": 120.43,
       "cpiPriorYearRaw": 117.06,
       "cpiYoY": 2.9
+    },
+    {
+      "ym": "2026-10",
+      "partial": false,
+      "cpi": 120.73,
+      "cpiRaw": 120.73,
+      "cpiPriorYearRaw": 117.42,
+      "cpiYoY": 2.8
     }
   ],
   "coverage": {
     "start": "1999-05",
-    "end": "2026-09",
-    "months": 329
+    "end": "2026-10",
+    "months": 330
   },
-  "observedAt": "2026-09",
+  "observedAt": "2026-10",
   "sourceObservationTime": null,
-  "collectedAt": "2026-11-03T01:00:53.165047+00:00",
-  "snapshotUpdatedAt": "2026-11-03T01:00:53.166690+00:00",
+  "collectedAt": "2026-11-03T23:26:01.374487+00:00",
+  "snapshotUpdatedAt": "2026-11-03T23:26:01.376465+00:00",
   "sourceChecks": [
     {
       "url": "https://ecos.bok.or.kr/api/StatisticSearch/api-key/json/kr/1/10000/722Y001/M/199905/202611/0101000",
@@ -3001,7 +3009,7 @@
       "end": "202611",
       "rows": 329,
       "sha256": "6e7f75cf6299566ad105e8f82a4f4b7e9502e38ef9454f98250ce73e8a85d9d9",
-      "receivedAt": "2026-11-03T01:00:51.411498+00:00"
+      "receivedAt": "2026-11-03T23:26:00.037042+00:00"
     },
     {
       "url": "https://ecos.bok.or.kr/api/StatisticSearch/api-key/json/kr/1/10000/901Y009/M/199805/202611/0",
@@ -3009,12 +3017,12 @@
       "item": "0",
       "start": "199805",
       "end": "202611",
-      "rows": 341,
-      "sha256": "291a0eb6b48093ade0f13c266df9a4ee0833110f4772c0de3a4fa8e2618bd167",
-      "receivedAt": "2026-11-03T01:00:53.165047+00:00"
+      "rows": 342,
+      "sha256": "a76870fa4c92223ca9ba2a0eb2e526bd607d94fc7738d8240e8b69f329f5a45b",
+      "receivedAt": "2026-11-03T23:26:01.374487+00:00"
     }
   ],
-  "sourceVerification": {
+  "previousSourceVerification": {
     "checkedAt": "2026-10-23T11:41:58.634989+00:00",
     "scope": "1999-05..2026-09 전체329개월 987수치와 CPI전년동월341개 원문 대조. ECOS 원문68응답의코드/단위/범위/중복/연속성 확인.",
     "audit": "/research/source-reviews/2026-10-23-bok-history.json"
