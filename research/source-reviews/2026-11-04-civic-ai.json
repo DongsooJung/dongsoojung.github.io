@@ -1,0 +1,567 @@
+{
+  "schemaVersion": 1,
+  "step": "civic-ai-20261104",
+  "checkedAt": "2026-11-04T14:53:59.587Z",
+  "keys": [
+    "https://civic-participation-hub.stargate8224.chatgpt.site",
+    "/research/ai-freshness/"
+  ],
+  "sourceBaseCommit": "83b699405fc57b48e9a15afb93eca32be801f7b8",
+  "civic": {
+    "schemaVersion": 1,
+    "documentVersion": "2026-11-04",
+    "statisticalReferenceMonth": {
+      "status": "not_applicable",
+      "reason": "민원·참여 창구와 법정 기간을 설명하는 안내 문서"
+    },
+    "checkedAt": "2026-11-04T14:45:26.741Z",
+    "sourceEvent": {
+      "date": "2026-10-24",
+      "claim": "공식 FAQ에서 모두의 광장으로의 개편과 주소 변경을 확인"
+    },
+    "sourceVersions": {
+      "petitionLaw": "법률 제17701호, 시행 2021-12-23",
+      "disclosureLaw": "법률 제19408호, 시행 2023-11-17",
+      "appealLaw": "법률 제19269호, 시행 2023-03-21",
+      "appealGuide": "2024-12-18"
+    },
+    "sources": [
+      {
+        "id": "modu-faq",
+        "url": "https://modu.go.kr/front/faqNew/faqNewList.do",
+        "finalUrl": "https://modu.go.kr/front/faqNew/faqNewList.do",
+        "status": 200,
+        "receivedAt": "2026-11-04T14:43:37.184Z",
+        "sha256": "9d739072d87cdc7258889f1e2323c45ca66af3a89147c2c2ec99bfbeb3ba8c0b",
+        "bytes": 10933
+      },
+      {
+        "id": "petition-law",
+        "url": "https://www.law.go.kr/LSW/lsSideInfoP.do?docCls=jo&joBrNo=00&joNo=0021&lsiSeq=224695&urlMode=lsScJoRltInfoR",
+        "finalUrl": "https://www.law.go.kr/LSW/lsSideInfoP.do?docCls=jo&joBrNo=00&joNo=0021&lsiSeq=224695&urlMode=lsScJoRltInfoR",
+        "status": 200,
+        "receivedAt": "2026-11-04T14:43:37.298Z",
+        "sha256": "f9cd5a8d9a9abaedcd1bf0a42e9827c643bc454e1a1d674ca68fa0506a472981",
+        "bytes": 73083
+      },
+      {
+        "id": "disclosure-law",
+        "url": "https://www.law.go.kr/LSW/lsSideInfoP.do?docCls=jo&joBrNo=00&joNo=0011&lsiSeq=251019&urlMode=lsScJoRltInfoR",
+        "finalUrl": "https://www.law.go.kr/LSW/lsSideInfoP.do?docCls=jo&joBrNo=00&joNo=0011&lsiSeq=251019&urlMode=lsScJoRltInfoR",
+        "status": 200,
+        "receivedAt": "2026-11-04T14:43:37.359Z",
+        "sha256": "bf67fa22c663851e9d7ceaea5dad2df17b5c033b512b53d2ab5239b013add9c0",
+        "bytes": 73321
+      },
+      {
+        "id": "appeal-law",
+        "url": "https://www.law.go.kr/LSW/lsSideInfoP.do?docCls=jo&joBrNo=00&joNo=0045&lsiSeq=249041&urlMode=lsScJoRltInfoR",
+        "finalUrl": "https://www.law.go.kr/LSW/lsSideInfoP.do?docCls=jo&joBrNo=00&joNo=0045&lsiSeq=249041&urlMode=lsScJoRltInfoR",
+        "status": 200,
+        "receivedAt": "2026-11-04T14:43:37.344Z",
+        "sha256": "f96b1ffc14907c023ca90007d7a633c84befc6589c262d29574e79a4af2c45e0",
+        "bytes": 71311
+      },
+      {
+        "id": "petition-guide",
+        "url": "https://petitions.gg.go.kr/faq/",
+        "finalUrl": "https://petitions.gg.go.kr/faq/",
+        "status": 200,
+        "receivedAt": "2026-11-04T14:43:37.520Z",
+        "sha256": "2fe9ed6b1324dcb49216d61695f256f79f227592eb3059ef3eabe14da0f64ead",
+        "bytes": 52205
+      },
+      {
+        "id": "appeal-guide",
+        "url": "https://110.go.kr/data/counselView.do?curPage=233&num=A01_660305&scCate1=&scCate2=&scIntt=&scText=&scType=",
+        "finalUrl": "https://110.go.kr/data/counselView.do?curPage=233&num=A01_660305&scCate1=&scCate2=&scIntt=&scText=&scType=",
+        "status": 200,
+        "receivedAt": "2026-11-04T14:43:37.280Z",
+        "sha256": "94cfab637c6882d4fe72cbadc9e2b849663e603594734b95bc30b83bced7ca1c",
+        "bytes": 33455
+      }
+    ],
+    "linkResponses": [
+      {
+        "url": "https://www.epeople.go.kr/",
+        "finalUrl": "https://www.epeople.go.kr/",
+        "status": 200,
+        "checkedAt": "2026-11-04T14:39:46.753Z",
+        "receivedAt": "2026-11-04T14:39:47.010Z",
+        "bytes": 184,
+        "sha256": "83df65fbbebfe011068c0644dad9d7fdd75587e11efe93828282c0ad8e6dae34",
+        "localFile": "official-0.html"
+      },
+      {
+        "url": "https://www.cheongwon.go.kr/",
+        "finalUrl": "https://www.cheongwon.go.kr/",
+        "status": 200,
+        "checkedAt": "2026-11-04T14:39:46.840Z",
+        "receivedAt": "2026-11-04T14:39:47.004Z",
+        "bytes": 321,
+        "sha256": "37cca0a20f9bfbee0992080b2c47aa6e01a711b0165c34df56e00cf8aaade7b4",
+        "localFile": "official-1.html"
+      },
+      {
+        "url": "https://petitions.assembly.go.kr/",
+        "finalUrl": "https://petitions.assembly.go.kr/",
+        "status": 200,
+        "checkedAt": "2026-11-04T14:39:46.843Z",
+        "receivedAt": "2026-11-04T14:39:47.230Z",
+        "bytes": 8083,
+        "sha256": "77d52486ba1fa72db3c7ae7bc958cfbc34e7d26609fead88b13bee583e3467b4",
+        "localFile": "official-2.html"
+      },
+      {
+        "url": "https://pal.assembly.go.kr/",
+        "finalUrl": "https://pal.assembly.go.kr/napal/main/main.do",
+        "status": 200,
+        "checkedAt": "2026-11-04T14:39:46.844Z",
+        "receivedAt": "2026-11-04T14:39:47.686Z",
+        "bytes": 85386,
+        "sha256": "bdf370940aef5d239246852d687a20365865b0f600a5677b1f6c662e440cbf40",
+        "localFile": "official-3.html"
+      },
+      {
+        "url": "https://opinion.lawmaking.go.kr/",
+        "finalUrl": "https://opinion.lawmaking.go.kr/",
+        "status": 200,
+        "checkedAt": "2026-11-04T14:39:46.846Z",
+        "receivedAt": "2026-11-04T14:39:47.193Z",
+        "bytes": 69659,
+        "sha256": "a465cce01963d1f730cff67e72bc4d87bb712a3f6c9a11a8c78dcfa7495f21ae",
+        "localFile": "official-4.html"
+      },
+      {
+        "url": "https://www.epeople.go.kr/idea/index.npaid",
+        "finalUrl": "https://www.epeople.go.kr/idea/index.npaid",
+        "status": 200,
+        "checkedAt": "2026-11-04T14:39:46.847Z",
+        "receivedAt": "2026-11-04T14:39:48.324Z",
+        "bytes": 85087,
+        "sha256": "f38845233daa46e3897d48ed89f02a078176d32db301d7441f272d40bc05cb3e",
+        "localFile": "official-5.html"
+      },
+      {
+        "url": "https://sotong.go.kr/front/main/sotong_index.do",
+        "finalUrl": "https://modu.go.kr/front/main/sotong_index.do",
+        "status": 200,
+        "checkedAt": "2026-11-04T14:39:46.849Z",
+        "receivedAt": "2026-11-04T14:39:48.039Z",
+        "bytes": 181117,
+        "sha256": "3281ba0c6558d3a1af2105425813780d78c58a0b7f83946d517fc6824d7dae44",
+        "localFile": "official-6.html"
+      },
+      {
+        "url": "https://withpeople.go.kr/",
+        "finalUrl": "https://www.withpeople.go.kr/",
+        "status": 200,
+        "checkedAt": "2026-11-04T14:39:46.850Z",
+        "receivedAt": "2026-11-04T14:39:47.722Z",
+        "bytes": 105101,
+        "sha256": "b231dc2e83e16434bd5e5b243c30621144273be3307bd2532a5b96139cff4c46",
+        "localFile": "official-7.html"
+      },
+      {
+        "url": "https://www.mybudget.go.kr/",
+        "finalUrl": "https://www.mybudget.go.kr/",
+        "status": 200,
+        "checkedAt": "2026-11-04T14:39:46.851Z",
+        "receivedAt": "2026-11-04T14:39:47.727Z",
+        "bytes": 151398,
+        "sha256": "23064e7729841c3509ad4bb2ab6b9674c13cc81d5a2abf6f8ca4ccc385200b31",
+        "localFile": "official-8.html"
+      },
+      {
+        "url": "https://www.open.go.kr/",
+        "finalUrl": "https://www.open.go.kr/",
+        "status": 200,
+        "checkedAt": "2026-11-04T14:39:46.852Z",
+        "receivedAt": "2026-11-04T14:39:47.331Z",
+        "bytes": 480,
+        "sha256": "fe259e8726ec40ebdf2aefa1b357e30fc947e2c5b2ea5ad82df2cc483198cfae",
+        "localFile": "official-9.html"
+      },
+      {
+        "url": "https://www.simpan.go.kr/",
+        "finalUrl": "https://simpan.go.kr//",
+        "status": 200,
+        "checkedAt": "2026-11-04T14:39:46.853Z",
+        "receivedAt": "2026-11-04T14:39:47.718Z",
+        "bytes": 1270,
+        "sha256": "e857252645f203df2ebdbb9fe949fa68747b6ddd04ca5a4b3bfb3b76754ab92b",
+        "localFile": "official-10.html"
+      },
+      {
+        "url": "https://www.humanrights.go.kr/",
+        "finalUrl": "https://www.humanrights.go.kr/",
+        "status": 200,
+        "checkedAt": "2026-11-04T14:39:46.854Z",
+        "receivedAt": "2026-11-04T14:39:47.376Z",
+        "bytes": 8217,
+        "sha256": "d2f6c8b7331aa127319db8f8c4181716a1218e43601036321924f869149600e8",
+        "localFile": "official-11.html"
+      },
+      {
+        "url": "https://www.clean.go.kr/",
+        "checkedAt": "2026-11-04T14:39:46.854Z",
+        "error": "TypeError: fetch failed"
+      },
+      {
+        "url": "https://www.safetyreport.go.kr/",
+        "finalUrl": "https://www.safetyreport.go.kr/",
+        "status": 200,
+        "checkedAt": "2026-11-04T14:39:46.855Z",
+        "receivedAt": "2026-11-04T14:39:47.425Z",
+        "bytes": 34211,
+        "sha256": "5b61e4afc3efc76bfa1fd021c5fa45b89e64ec7ecf776489a4f4f8adbb33e380",
+        "localFile": "official-13.html"
+      },
+      {
+        "url": "https://www.sinmungo.go.kr/",
+        "finalUrl": "https://www.sinmungo.go.kr/",
+        "status": 200,
+        "checkedAt": "2026-11-04T14:39:46.855Z",
+        "receivedAt": "2026-11-04T14:39:47.439Z",
+        "bytes": 277,
+        "sha256": "18d7dc6f177cd97d59ea2f88e34f1b5471e2ab465a9adcfe3741139a8ed0c69e",
+        "localFile": "official-14.html"
+      },
+      {
+        "url": "https://www.gov.kr/",
+        "finalUrl": "https://www.gov.kr/",
+        "status": 200,
+        "checkedAt": "2026-11-04T14:39:46.856Z",
+        "receivedAt": "2026-11-04T14:39:47.482Z",
+        "bytes": 242,
+        "sha256": "21ef1f2305cd29043100d7aec8e08b966b63ab028522c91d962932295ce9c0e4",
+        "localFile": "official-15.html"
+      },
+      {
+        "url": "https://www.bai.go.kr/bai/audit/auditDemand/auditDemandStep/tab01/",
+        "finalUrl": "https://www.bai.go.kr/bai/audit/auditDemand/auditDemandStep/tab01/",
+        "status": 200,
+        "checkedAt": "2026-11-04T14:39:46.857Z",
+        "receivedAt": "2026-11-04T14:39:50.552Z",
+        "bytes": 3767,
+        "sha256": "4174f3b3639abcfc38e6634f67b136fb217340c26535e0063ef2377a6f7d7a81",
+        "localFile": "official-16.html"
+      }
+    ],
+    "reviewStatus": "needs_review",
+    "verifiedScope": [
+      "모두의 광장 개편 FAQ와 실제 리디렉션",
+      "국회 입법예고 유효 진입 경로",
+      "국민참여예산 공식 푸터의 기획예산처 표기",
+      "민원 유형별 기간과 청원·정보공개 결정·행정심판 재결 기간"
+    ],
+    "limitations": [
+      "주소의 HTTP 200은 신청 기능 검증이 아님",
+      "청렴포털 직접 HTTP 조회는 실패했으나 Edge 브라우저에서 공식 메인과 안내 메뉴를 확인했습니다.",
+      "17개 창구의 모든 접수·공개 범위와 현행 운영기관 전수 대조는 미완료",
+      "통계 월별 관측치가 없으며 문서 버전·원문 시행일·확인일을 구분",
+      "정부24는 HTTP 200 응답 본문이 접속 차단 안내여서 정상 기능으로 확인할 수 없습니다.",
+      "국가인권위원회 루트는 언어 선택 진입 화면만 확인했습니다."
+    ],
+    "nextAction": "정부24 정상 접근 후 공식 안내를 확인하고, 나머지 창구의 운영기관·공개 범위·국회청원 동의 요건을 원문과 전수 대조합니다.",
+    "browserResponses": [
+      {
+        "url": "https://www.epeople.go.kr/",
+        "finalUrl": "https://www.epeople.go.kr/index.jsp",
+        "status": 200,
+        "title": "국민신문고",
+        "textLength": 1173,
+        "sample": "반복영역 건너뛰기\n주메뉴 바로가기\n본문 바로가기\n이 누리집은 대한민국 공식 전자정부 누리집입니다\n국민권익위원회가 운영하는 국민신문고\n화면크기 \nFor Foreigners \n입력 검색어 초기화\n검색\n로그인\n회원가입\n민원\n빛의 혁명의 기록\n국민제안\n예산낭비절감\n국민생각함\n정책실현\n고객센터\n국민의 작은 소리도\n크게 듣겠습니다\n이전\n다음\n1/3\n정지\n민원사례검색\n검색\n민원신청\n민원상담·안내\n제안신청\n결과조회\n신고·신청·청구\n부패·공익 신고\n청렴포털 새창 열림\n적극행정신청\n소극행정신고\n갑질피해신고\n예산낭비신고\n행정심판청구\n새창 열림\n국민참여",
+        "checkedAt": "2026-11-04T14:44:01.227Z",
+        "textSha256": "c48ff42698c89f86c4d809c1e1be94a51a26c1451cc8924c6e2b852a774bdd1c"
+      },
+      {
+        "url": "https://www.cheongwon.go.kr/",
+        "finalUrl": "https://www.cheongwon.go.kr/portal",
+        "status": 200,
+        "title": "청원24",
+        "textLength": 7958,
+        "sample": "본문바로가기\n메뉴바로가기\n청원24\n취소\n검색\n청원 안내\n청원 소개\n청원 처리 절차\n그 밖의 사항\n자주 하는 질문\n청원하기\n일반청원\n공동청원\n작성 중인 청원\n나의 청원\n나의 청원 현황\n관심 청원\n나의 의견\n공개청원\n공개청원 보기\n청원 통계 보기\n로그인\n회원가입\n청원검색\n본문바로가기\n메뉴바로가기\n청원24\n챗봇상담\n닫기\n청원이란?\n국민이 피해 구제, 부당행위 시정, 제도 개선 등을 국가기관에 요청하는 헌법상 기본권입니다. (헌법 제 26조)\n청원하기 →\n공개청원이란?\n법령 제ㆍ개정 등 공익적인 내용으로 청원할 경우 청원의 내용을 공개하여",
+        "checkedAt": "2026-11-04T14:44:02.212Z",
+        "textSha256": "293b07491714216e9bae1e4b267901070f3efbdb5f210a77c4b093868ccc939d"
+      },
+      {
+        "url": "https://petitions.assembly.go.kr/",
+        "finalUrl": "https://petitions.assembly.go.kr/",
+        "status": 200,
+        "title": "국회전자청원 > 국회전자청원",
+        "textLength": 731,
+        "sample": "본문내용 바로가기\n제22대 제439회국회(정기회)\n국회정보길라잡이\n국회의원 검색\n대한민국국회\n로그인\n페이스북\n인스타그램\n유튜브\nX\n사이트맵\n국회전자청원\n검색\n\n국민을 지키는 국회 미래를 여는 국회\n\n국민동의청원\n의원소개청원\n청원처리현황\n개인정보 처리방침이용약관저작권 정책\n서울특별시 영등포구 의사당대로 1 (여의도동) 07233대표전화 : 02-6788-0081대표메일 : e-petitions@na.go.kr\nCopyrightⓒ National Assembly. All rights reserved. 대한민국국회 홈페이지의 모든 정보에",
+        "checkedAt": "2026-11-04T14:44:02.594Z",
+        "textSha256": "f91ea005a9ae63fdeb0eceb3ceef4d881cf96946a920f3297b4a5dc77d941891"
+      },
+      {
+        "url": "https://pal.assembly.go.kr/",
+        "finalUrl": "https://pal.assembly.go.kr/napal/main/main.do",
+        "status": 200,
+        "title": "최근 입법예고 | Home",
+        "textLength": 7440,
+        "sample": "본문내용 바로가기\n제22대 제439회국회(정기회) 국회정보나침반 국회의원 검색\nHome 로그인 \n글자크기 화면확대 화면축소\n 사이트맵 국회SNS\n국회입법예고 국민을 지키는 국회 미래로 나아가는 국회\n입법예고 소개\n상세검색\n진행 중 입법예고\n종료된 입법예고\n알려드립니다\n입법예고 통계\n검색\n \n최근 입법예고\n\n국민의 소리,입법 참정권을 국회가 담습니다.\n\n국민과의 소통 플랫폼, 여러분의 의견을 소중히 듣겠습니다.\n\n검색\n\n공증인법 일부개정법률안\n\n2222448\n\n의원발의\n\n김의겸의원 등 11인\n\n제안일\n2026-11-03\n\n제안이유 및",
+        "checkedAt": "2026-11-04T14:44:02.324Z",
+        "textSha256": "3c396a3f2791fe8b7c1587fc9aa9a9e243f32d12bd839d45073ea610f7c43d84"
+      },
+      {
+        "url": "https://opinion.lawmaking.go.kr/",
+        "finalUrl": "https://opinion.lawmaking.go.kr/",
+        "status": 200,
+        "title": "국민참여입법센터",
+        "textLength": 1460,
+        "sample": "본문내용 바로가기\n주메뉴 바로가기\n\n이 누리집은 대한민국 공식 전자정부 누리집입니다.\n\n한국웹접근성인증평가원 웹접근성 사이트 새창열림으로 이동\n\n메뉴열기\n\n통합입법예고\n입법제안\n입법진행현황\n법령해석\n도움말\n(부처)입법예고\n(부처)행정예고\n(지방)입법예고\n검색\n\n과학기술정보통...\n\n공고 제2026-1048호\n\n방송법 시행규칙 폐지령안 입법예고\n\n과학기술정보통...\n\n공고 제2026-1057호\n\n양자과학기술 및 양자산업 육성에 관한 법률 시행령 일부개정령안 입법예고\n\n행정안전부\n\n공고 제2026-1371호\n\n정부청사관리규정 일부개정령",
+        "checkedAt": "2026-11-04T14:44:02.841Z",
+        "textSha256": "8eacd0a296adf372478c2f1d8b95b88028cddf55c7650836384a659f03f52100"
+      },
+      {
+        "url": "https://www.epeople.go.kr/idea/index.npaid",
+        "finalUrl": "https://www.epeople.go.kr/idea/index.npaid",
+        "status": 200,
+        "title": "국민생각함",
+        "textLength": 1400,
+        "sample": "반복영역 건너뛰기\n주메뉴 바로가기\n본문 바로가기\n이 누리집은 대한민국 공식 전자정부 누리집입니다.\n기관홈 바로가기 \n화면크기 \n도움말\n국민신문고\n국민권익위원회가 운영하는 국민생각함\n검색\n로그인\n회원가입\n생각참여\n생각실현\n나의 생각함\n국민패널\n생각함소개\n[D-4 일]\n\n총1536명 참여\n\n참여하기\n1번 슬라이드\n2번 슬라이드\n3번 슬라이드\n4번 슬라이드\n5번 슬라이드\n6번 슬라이드\n슬라이드 멈춤\n1\n[설문] 2026년 국민생각함 정책 아이디어 공모전 선호도 투표\n2\n[설문] 로비, 어떻게 규제하면 좋을까요?\n3\n[설문] 전동킥보드·전",
+        "checkedAt": "2026-11-04T14:44:04.771Z",
+        "textSha256": "ee9788da22c8c70a859760d76d72ddaa829927e3b49fa9d4300ac63412c22bae"
+      },
+      {
+        "url": "https://sotong.go.kr/front/main/sotong_index.do",
+        "finalUrl": "https://modu.go.kr/front/main/sotong_index.do",
+        "status": 200,
+        "title": "모두의 광장",
+        "textLength": 48132,
+        "sample": "본문내용 바로가기\n메뉴 바로가기\n\n이 누리집은 대한민국 공식 전자정부 누리집입니다.\n\n화면크기\n소통24\n혁신24\n통합검색\n회원가입\n로그인\n정책제안\n정책참여\n공모전\n모두의 토론회\n참여정보\n고객센터\n참여가 일상이 되고,\n제안이 정책이 되는 소통정부\n함께 만드는 대한민국, 국민이 제안하고 정부가 혁신합니다.\n정책 제안하기\n제안 둘러보기\n지금 참여해보세요!\n국민심사\n행정안전부\n2026년 중앙우수제안 온라인 국민심사\n\n참여자 3,191명\n\n~ 2026.11.06 까지\n\n참여하기\n지금 참여해보세요!\n설문조사\n한국우편사업진흥원\n우체국쇼핑 SNS",
+        "checkedAt": "2026-11-04T14:44:05.812Z",
+        "textSha256": "253c69c05004d1df666cc9cdb252738ce4ea001a6a7378c30172586a50198ab1"
+      },
+      {
+        "url": "https://withpeople.go.kr/",
+        "finalUrl": "https://www.withpeople.go.kr/",
+        "status": 200,
+        "title": "국민제안 정책화 시스템｜내생각엔(ThinkN)",
+        "textLength": 1184,
+        "sample": "GNB바로가기\n본문내용으로 이동\n로그인 \n소개하기\n제안 구경하기\n설문 참여하기\nBEST 투표하기\n정책 숙성하기\n함께 만든 정책\n자주하는 질문\n정책참여단\n\n국민의 참여로\n잠든 제안 깨우기에 동참해 주세요.\n\n우수제안 구경하기\nNew\n1.\n해외안전여행 누리집 내 국가별 여권 잔여 유효기간 기준 안내\nNew\n2.\n중증치매 환자의 건강보험 산정특례 재등록 절차 개선\nNew\n3.\n모바일 헌혈증 도입\nNew\n4.\nKTX 유아동반실 안내·표시 개선\n우수제안 구경하기\n5.\n위기임신 관련 보도 권고기준 마련\n6.\n청소년 특화 금연 지원 체계 구축 ",
+        "checkedAt": "2026-11-04T14:44:07.044Z",
+        "textSha256": "6110d343b3e359c5744dfe5b9e9322a4199f7b459563922e1a6977adb7f865f9"
+      },
+      {
+        "url": "https://www.mybudget.go.kr/",
+        "finalUrl": "https://www.mybudget.go.kr/",
+        "status": 200,
+        "title": "국민참여예산",
+        "textLength": 10057,
+        "sample": "본문 바로가기\n푸터 바로가기\n\n이 누리집은 대한민국 공식 전자정부 누리집 입니다\n\n국민참여예산\n로그인 회원가입\n검색\n국민참여예산 소개\n국민제안\n사업 진행현황\n자료실\n예산국민참여단\n전체메뉴\nnext\n12\nstop\n\n지출효율화제안\n\n신규사업제안\n\n기타자유제안\n\n27회계연도 운영계획\n\n사업추진현황\n\n사업진행현황\n\n우수제안사례 최근 국민사업제안\n법무부\n\n범죄피해자 회복을 위한 자조모임 지원\n\n범죄피해자의 심신회복을 위해서 심리치료를 많이 실시하고 있으나 심리상담 이상의 효과를 내는 것은 피해자들끼리의 자조모임입니다. 각종 치료프로그램을 통",
+        "checkedAt": "2026-11-04T14:44:05.921Z",
+        "textSha256": "90cee5599bfe6d688bf945d20d3f625721827ca26ba993412645efec5c802e96"
+      },
+      {
+        "url": "https://www.open.go.kr/",
+        "finalUrl": "https://www.open.go.kr/com/main/mainView.do",
+        "status": 200,
+        "title": "정보공개포털",
+        "textLength": 1473,
+        "sample": "본문 바로가기\n로그인\n주제별\n주제별정보\n\n각 기관에서 공개한 행정정보를 12가지의 관심분야로 분류해 제공합니다.\n\n건강\n경제\n교육\n규제개혁\n복지\n안전\n여가\n보육\n일자리\n주택\n행정재정\n환경\n공개정보\n공개정보\n\n기관에서 공개한 정보를 유형별로 구분해 원하시는 정보를 조금 더 빠르게 찾을 수 있도록 제공합니다.\n\n정보목록\n원문정보\n기관장결재문서\n사전정보\n업무추진비\n국외출장 여비\n자치단체복지비\n정책실명제\n주요인사 일정공개\nBEST정보모아보기\n청구/소통\n청구/소통\n\n정보공개 청구, 신청내역 조회, 공지사항 등 정보공개시스템 온라인 서비스를 ",
+        "checkedAt": "2026-11-04T14:44:06.811Z",
+        "textSha256": "d442c6d7e60c8b8f4fcf9ff8bffdc4431d119682d82b4f98fbaee876d0641c31"
+      },
+      {
+        "url": "https://www.simpan.go.kr/",
+        "finalUrl": "https://simpan.go.kr/com/zz/999/main.do?cmnMenuCd=main",
+        "status": 200,
+        "title": "온라인행정심판",
+        "textLength": 3253,
+        "sample": "본문 바로가기\n이 누리집은 대한민국 공식 전자정부 누리집입니다.\n공식 누리집 주소 확인하기\ngo.kr 주소를 사용하는 누리집은 대한민국 정부기관이 관리하는 누리집입니다.\n이밖에 or.kr 또는 .kr등 다른 도메인 주소를 사용하고 있다면 아래 URL에서 도메인 주소를 확인해보세요\n운영중인 공식 누리집보기\nEnglish\n화면크기\n열기\nLanguage\n열기\n검색\n로그인\n사용자등록\n행정심판 안내\n열기\n청구 및 신청\n열기\n법률상담신청\n열기\n나의행정심판\n열기\n송달문서확인\n열기\n지식서비스\n열기\n고객지원센터\n열기\n행정청의 위법·부당한 처분이나 ",
+        "checkedAt": "2026-11-04T14:44:09.280Z",
+        "textSha256": "e9c9dc958a3de91a4a6474552b9523e8b533b23d0d206ffb880ef447a4c3a3eb"
+      },
+      {
+        "url": "https://www.humanrights.go.kr/",
+        "finalUrl": "https://www.humanrights.go.kr/",
+        "status": 200,
+        "title": "국가인권위원회",
+        "textLength": 188,
+        "sample": "한글\n \nEnglish\n04551 서울시 중구 삼일대로 340 (저동 1가) 나라키움 저동빌딩 / 전화 02) 2125-9700 / 팩스 02) 2125-9718 (운영지원과)\nCOPYRIGHT© NATIONAL HUMAN RIGHTS COMMISSION OF THE REPUBLIC OF KOREA ALL RIGHTS RESERVED.",
+        "checkedAt": "2026-11-04T14:44:06.947Z",
+        "textSha256": "c25f93cdf5e6e4fe45c4ce567571ce690f8be0bee8ff0a9a8ced0660bc2b50bf"
+      },
+      {
+        "url": "https://www.clean.go.kr/",
+        "finalUrl": "https://www.clean.go.kr/index.es?sid=a1",
+        "status": 200,
+        "title": "청렴포털_부패공익신고",
+        "textLength": 2389,
+        "sample": "이 누리집은 대한민국 공식 전자정부 누리집입니다.\n\n본문으로 바로가기\n\n국민권익위원회가 운영하는 청렴포털(부패·공익신고) 메인화면으로 이동\n전체\n상담사례\n신고사례\n신고모범사례\n청탁금지법\n청탁금지법 통합검색\n행동강령 자료실\n공익신고자료\n신고자 보호·보상\n정책,시책\n부패평가\n공지사항\n검색\n오늘의 이슈\n더보기\n5. 황씨 측은 재판 ...\n1. 훈련병\n2. 교육감\n3. 뇌물 혐의 피의자...\n4. 육군 12사단 신...\n5. 황씨 측은 재판 ...\n1. 훈련병\n\nEN\n\nMY\n\n알려드립니다\n상담신청\n신고하기\n보호·보상신청\n청렴자료실\n청렴마당",
+        "checkedAt": "2026-11-04T14:44:10.485Z",
+        "textSha256": "20781b50c873f4f9d82e44b5e69d15176681e30bf54e9eb551310ab6362307d9"
+      },
+      {
+        "url": "https://www.safetyreport.go.kr/",
+        "finalUrl": "https://www.safetyreport.go.kr/#main",
+        "status": 200,
+        "title": "안전신문고",
+        "textLength": 1133,
+        "sample": "본문바로가기\n안전신문고\n이벤트 로그인 회원가입 English\n주메뉴\n국민과 함께 만드는\n대한민국 안전신고 생활화\n주메뉴\n신고하기\n국민행동요령\n안전정보\n안전신문고 소개\n고객센터\n하위메뉴\n생활 속 안전 위험요소 안전신문고로 신고해주세요!\n안전신고\n범죄예방\n국민안전제안\n나의신고\n안전신고통계\n2026년\n\n13,345,508\n\n2026년 11월\n\n173,279\n\n11월 04일\n\n48,501\n\n안전신고우수기관\n안전모니터봉사단\n601,328건\n한국도로공사서비스\n469,095건\n한전엠씨에스\n346,788건\n한국도로공사\n297,440건\n한국교통안전",
+        "checkedAt": "2026-11-04T14:44:09.701Z",
+        "textSha256": "a23bd8d0235cd82f6821137ac3d81f97243193c04b4945567c7c0526dc29a74a"
+      },
+      {
+        "url": "https://www.sinmungo.go.kr/",
+        "finalUrl": "https://www.sinmungo.go.kr/sz2.prpsl.main",
+        "status": 200,
+        "title": "규제신문고",
+        "textLength": 766,
+        "sample": "본문 바로가기\n이 누리집은 대한민국 공식 전자정부 누리집입니다.\n규제정보포털\n규제샌드박스 바로가기\n열기\n화면크기\n열기\n나의 신청내역\n규제건의\n열기\n알림마당\n열기\n규제신문고 소개\n열기\n\n국민의 소리가\n\n우리의 방향입니다\n\n규제개선건의\n\n규제 관련 애로사항을 건의해 보세요.\n\n바로가기\n\n나의 신청내역\n\n규제건의 신청내역을 확인할 수 있습니다.\n\n바로가기\n\n알림마당\n보도자료\n선택됨\n홍보자료\n알림마당 보도자료 목록 - 제목, 게재일로 구성\n제목\t게재일\n규제합리화 대국민 공모전 개시(26.07.10)\n\t2026-07-10\n\n민생규제 혁신방안",
+        "checkedAt": "2026-11-04T14:44:09.603Z",
+        "textSha256": "8026a4c01d31d6c76cb791c80253186ac05114630faf524c9d56c79c6598f9ba"
+      },
+      {
+        "url": "https://www.gov.kr/",
+        "finalUrl": "https://plus.gov.kr/mbuster/Mbuster_T",
+        "status": 200,
+        "title": "정부24 | 정부24",
+        "textLength": 43,
+        "sample": "서비스 접속이 차단되었습니다.\n\n현재 접속하신 단말에서는 접속이 불가능합니다.",
+        "checkedAt": "2026-11-04T14:44:12.196Z",
+        "textSha256": "6ec649729dc1c3134c79094d3061bb1d516d8ea6fe630f3578a4ea4440c315b0"
+      },
+      {
+        "url": "https://www.bai.go.kr/bai/audit/auditDemand/auditDemandStep/tab01/",
+        "finalUrl": "https://www.bai.go.kr/bai/audit/auditDemand/auditDemandStep/tab01",
+        "status": 200,
+        "title": "감사원-감사제보 및 감사청구-감사청구-감사청구 개요ㆍ절차-국민감사청구",
+        "textLength": 3175,
+        "sample": "주메뉴 바로가기\n사이드메뉴 바로가기\n본문 바로가기\n\n태극기\n이 누리집은 대한민국 공식 전자정부 누리집입니다.\n\n누리집 안내지도\n기타메뉴\nENGLISH\n통합검색\n알림 \n감사결과 \n자료실 \n감사제보 및 감사청구 \n심사ㆍ재심의 청구 \n사전컨설팅 \n정보공개 \n기관소개 \n감사제보/기업불편부담신고\n감사제보/기업불편부담신고안내\n감사제보/기업불편부담신고하기\n제보/신고 조회하기\n감사청구\n감사청구 개요ㆍ절차\n감사청구 접수 안내\n감사청구 규정ㆍ서식\n주요사례\n청구조회하기\n청탁금지법/이해충돌방지법 신고\n신고안내\n신고자보호ㆍ보상제도운영안내\n신고하기\n신고조회",
+        "checkedAt": "2026-11-04T14:44:12.046Z",
+        "textSha256": "5db21e868fa58780dba0534938cd41ea395156ce6b7fa9e9c1b550e060cd3611"
+      }
+    ],
+    "scope": "17개 창구의 공개 주소와 브라우저 진입 화면을 확인했습니다. 공식 FAQ의 2026-10-24 모두의 광장 개편, 국회 입법예고 경로, 국민참여예산 운영기관, 민원 유형별 기간과 청원·정보공개 결정·행정심판 재결 기간을 원문과 대조해 문서 v2026.11.04와 출처 JSON을 배포했습니다.",
+    "siteRelease": {
+      "version": {
+        "id": "appgprj_6a93af144d4881919b9c012162217dd0~appgver_29c4df4ef9748191a17bb1384fbf0aff",
+        "project_id": "appgprj_6a93af144d4881919b9c012162217dd0",
+        "version_number": 2,
+        "source": {
+          "commit_sha": "4ff85c0ae80c4dbd805ecd5380dce4651d0f2b26"
+        },
+        "archive_storage": {
+          "archive_format": "tar",
+          "sediment_file_id": "file_00000000adcc8209a1f99db472ea798b",
+          "content_hash": "sha256:58aa19cf2ef2c9d82c61cf5f169b63f3a59372693664f882c481e53ef1ee0ff7",
+          "size_bytes": 2396160,
+          "file_count": 30
+        },
+        "screenshot_url": null,
+        "deployment_id": null
+      },
+      "deployment": {
+        "id": "appgdep_6aeb46519a308191aa439d70ba157ffe",
+        "project_id": "appgprj_6a93af144d4881919b9c012162217dd0",
+        "title": "민원·국민참여 플랫폼 대시보드",
+        "version_id": "appgprj_6a93af144d4881919b9c012162217dd0~appgver_29c4df4ef9748191a17bb1384fbf0aff",
+        "type": "publish",
+        "status": "succeeded",
+        "url": "https://civic-participation-hub.stargate8224.chatgpt.site",
+        "has_mcp": false,
+        "screenshot_asset_pointer": null,
+        "provider_deployment_id": "site---6a93af144d4881919b9c012162217dd0",
+        "failure_message": null,
+        "env_set_revision": 0,
+        "updated_at": "2026-11-04T14:51:10.708730+00:00"
+      },
+      "localBrowser": "civic-browser-local.json",
+      "sourceCommit": "4ff85c0ae80c4dbd805ecd5380dce4651d0f2b26"
+    },
+    "liveBrowser": {
+      "base": "https://civic-participation-hub.stargate8224.chatgpt.site",
+      "checkedAt": "2026-11-04T14:51:47.313Z",
+      "platforms": 17,
+      "officialLinkTargetsVerified": true,
+      "documentVersion": "2026-11-04",
+      "searchAndReset": true,
+      "download": true,
+      "mobileOverflow": false,
+      "pageErrors": []
+    }
+  },
+  "ai": {
+    "status": "needs_review",
+    "reason": "2026-11-04에 2026-10-31까지의 Google 원조회는 HTTP 429, Naver 기존 공유 주소는 notfound 안내로 연결됐습니다. 기존 Google 195주·Naver 194주의 2026-09-26 조회 표기와 수치를 유지했습니다. GPT-4o 명세와 정규화 방법 안내를 확인했으나 시계열 원출처 대조는 미완료입니다.",
+    "nextAction": "원조회 제한이 해소되거나 Naver 유효 원조회·기존 승인 환경이 확보되면 동일 조건의 전체 시계열을 재정규화 범위와 함께 대조합니다.",
+    "sourceReceipts": [
+      {
+        "id": "gpt-4o",
+        "url": "https://developers.openai.com/api/docs/models/gpt-4o",
+        "finalUrl": "https://developers.openai.com/api/docs/models/gpt-4o",
+        "status": 200,
+        "contentType": "text/html",
+        "receivedAt": "2026-11-04T14:38:08.747Z",
+        "sha256": "905bc3830c24fa7f5976fd64b69074c598c05bcd79b4302373ee8f9406fb9155",
+        "bytes": 447775
+      },
+      {
+        "id": "openai-search",
+        "url": "https://developers.openai.com/api/docs/guides/tools-web-search",
+        "finalUrl": "https://developers.openai.com/api/docs/guides/tools-web-search",
+        "status": 200,
+        "contentType": "text/html; charset=utf-8",
+        "receivedAt": "2026-11-04T14:38:08.032Z",
+        "sha256": "16abb125e7784772c1d72f82e92cbabb5efff1166721362298a12c5209eaeb1c",
+        "bytes": 871686
+      },
+      {
+        "id": "google-method",
+        "url": "https://support.google.com/trends/answer/4365533?hl=ko",
+        "finalUrl": "https://support.google.com/trends/answer/4365533?hl=ko",
+        "status": 200,
+        "contentType": "text/html; charset=UTF-8",
+        "receivedAt": "2026-11-04T14:38:09.815Z",
+        "sha256": "5dbda99756be9e11ab39c40290b3d606507656b3435f46beb62e7c3c998dd95c",
+        "bytes": 1551836
+      },
+      {
+        "id": "naver-method",
+        "url": "https://developers.naver.com/docs/serviceapi/datalab/search/search.md",
+        "finalUrl": "https://developers.naver.com/docs/serviceapi/datalab/search/search.md",
+        "status": 200,
+        "contentType": "text/html; charset=UTF-8;",
+        "receivedAt": "2026-11-04T14:38:08.100Z",
+        "sha256": "0438433049b7e4826f30c22c971182f1f181b8e1fcceef7aaafa3ecf287813ac",
+        "bytes": 36760
+      },
+      {
+        "id": "google-new",
+        "url": "https://trends.google.com/trends/explore?date=2023-01-01%202026-10-31&geo=KR&q=ChatGPT,Gemini",
+        "finalUrl": "https://trends.google.com/trends/explore?date=2023-01-01%202026-10-31&geo=KR&q=ChatGPT,Gemini",
+        "status": 429,
+        "contentType": "text/html; charset=utf-8",
+        "receivedAt": "2026-11-04T14:38:08.750Z",
+        "sha256": "6d4e3a8e2b5a9363bdeb79eb589e9e36aee39fc34e4cee601e8c575de625073d",
+        "bytes": 1701
+      },
+      {
+        "id": "naver-share",
+        "url": "https://datalab.naver.com/keyword/trendResult.naver?hashKey=N_f9db7ce0d642feb576a579af794870e0",
+        "finalUrl": "http://datalab.naver.com/notfound.html?hashKey=N_f9db7ce0d642feb576a579af794870e0",
+        "status": 200,
+        "contentType": "text/html; charset=UTF-8",
+        "receivedAt": "2026-11-04T14:38:08.161Z",
+        "sha256": "7d0730bc00fb8d3614b3d73d234bb06fd9713cbf1da314ce7f0d9b4bf0b2cf91",
+        "bytes": 6860
+      }
+    ],
+    "preservedData": {
+      "googleRows": 195,
+      "naverRows": 194,
+      "retrievedAt": "2026-09-26",
+      "dataPeriod": "2023-01..2026-09 (9월 부분)"
+    }
+  },
+  "localValidation": {
+    "siteBuild": "passed",
+    "siteFullTypeCheck": "Unchanged db/index.ts and worker/index.ts lack Cloudflare ambient types cloudflare:workers, Fetcher and D1Database;no affected page diagnostics",
+    "siteBrowser": "17 rows, desktop/mobile, search/empty/reset and source JSON download passed;zero page errors",
+    "preview": "Windows Vinext start served SSR but assets 404;built assets served with local static helper. Native public deployment browser passed."
+  }
+}

@@ -3721,15 +3721,15 @@
     },
     {
       "source": {
-        "label": "국회·정부·권익위 공식 참여 창구 안내",
-        "url": "https://www.epeople.go.kr/",
+        "label": "공식 참여 창구·법령·개편 FAQ (일부 항목 대조)",
+        "url": "https://modu.go.kr/front/faqNew/faqNewList.do",
         "verification": "partially_verified"
       },
-      "dataAsOf": "2026-08-29",
+      "dataAsOf": null,
       "dataPeriod": null,
-      "snapshotUpdatedAt": null,
+      "snapshotUpdatedAt": "2026-11-04T14:51:10.708730+00:00",
       "collectedAt": null,
-      "checkedAt": "2026-10-17T02:04:58.790677+00:00",
+      "checkedAt": "2026-11-04T14:53:59.587Z",
       "reviewStatus": "needs_review",
       "freshness": "requires_followup",
       "evidence": [
@@ -3743,12 +3743,65 @@
           "kind": "audit-record",
           "url": "/research/source-reviews/2026-10-17-society-2.json",
           "checkedAt": "2026-10-17T02:04:58.790677+00:00"
+        },
+        {
+          "kind": "official-source",
+          "url": "https://modu.go.kr/front/faqNew/faqNewList.do",
+          "checkedAt": "2026-11-04T14:43:37.184Z",
+          "sha256": "9d739072d87cdc7258889f1e2323c45ca66af3a89147c2c2ec99bfbeb3ba8c0b",
+          "scope": "FAQ의 모두의 광장 개편일·명칭·주소"
+        },
+        {
+          "kind": "official-source",
+          "url": "https://www.law.go.kr/LSW/lsSideInfoP.do?docCls=jo&joBrNo=00&joNo=0021&lsiSeq=224695&urlMode=lsScJoRltInfoR",
+          "checkedAt": "2026-11-04T14:43:37.298Z",
+          "sha256": "f9cd5a8d9a9abaedcd1bf0a42e9827c643bc454e1a1d674ca68fa0506a472981",
+          "scope": "청원 처리 90일·1회 60일 연장과 산입 제외 기간"
+        },
+        {
+          "kind": "official-source",
+          "url": "https://www.law.go.kr/LSW/lsSideInfoP.do?docCls=jo&joBrNo=00&joNo=0011&lsiSeq=251019&urlMode=lsScJoRltInfoR",
+          "checkedAt": "2026-11-04T14:43:37.359Z",
+          "sha256": "bf67fa22c663851e9d7ceaea5dad2df17b5c033b512b53d2ab5239b013add9c0",
+          "scope": "정보공개 여부 결정 10일·10일 범위 연장"
+        },
+        {
+          "kind": "official-source",
+          "url": "https://www.law.go.kr/LSW/lsSideInfoP.do?docCls=jo&joBrNo=00&joNo=0045&lsiSeq=249041&urlMode=lsScJoRltInfoR",
+          "checkedAt": "2026-11-04T14:43:37.344Z",
+          "sha256": "f96b1ffc14907c023ca90007d7a633c84befc6589c262d29574e79a4af2c45e0",
+          "scope": "행정심판 재결 60일·30일 연장"
+        },
+        {
+          "kind": "official-source",
+          "url": "https://petitions.gg.go.kr/faq/",
+          "checkedAt": "2026-11-04T14:43:37.520Z",
+          "sha256": "2fe9ed6b1324dcb49216d61695f256f79f227592eb3059ef3eabe14da0f64ead",
+          "scope": "민원 유형별 7일·14일 등의 안내"
+        },
+        {
+          "kind": "official-source",
+          "url": "https://110.go.kr/data/counselView.do?curPage=233&num=A01_660305&scCate1=&scCate2=&scIntt=&scText=&scType=",
+          "checkedAt": "2026-11-04T14:43:37.280Z",
+          "sha256": "94cfab637c6882d4fe72cbadc9e2b849663e603594734b95bc30b83bced7ca1c",
+          "scope": "재결 법정기간과 실제 완료일의 차이"
+        },
+        {
+          "kind": "official-source",
+          "url": "https://www.mybudget.go.kr/",
+          "checkedAt": "2026-11-04T14:44:05.921Z",
+          "scope": "공식 푸터의 운영기관 기획예산처 표기"
+        },
+        {
+          "kind": "audit-record",
+          "url": "/research/source-reviews/2026-11-04-civic-ai.json",
+          "checkedAt": "2026-11-04T14:53:59.587Z"
         }
       ],
       "issues": [
-        "2026-08-29 버전의 안내 문서이며 9·10월 자료로 날짜를 바꾸지 않았습니다.",
-        "국회 입법예고 루트는 HTTP 404, 청렴포털은 HTTP 307 반복 응답입니다.",
-        "처리기간·접수유형·로그인 후 기능은 원문 세부 안내와 추가 대조가 필요합니다."
+        "월별 통계가 없는 안내 문서로, 문서 버전·원문 시행일·개편일·대조일을 구분했습니다.",
+        "정부24는 HTTP 200 본문이 접속 차단이며 국가인권위원회 루트는 언어 선택 화면입니다.",
+        "청렴포털 브라우저 진입을 확인했습니다. 로그인 후 접수와 창구 안내 전수 검증은 미완료입니다."
       ],
       "key": "https://civic-participation-hub.stargate8224.chatgpt.site",
       "url": "https://civic-participation-hub.stargate8224.chatgpt.site",
@@ -3756,8 +3809,24 @@
       "primary": "society",
       "classification": "경제·사회",
       "sourceHint": "국회 · 정부 · 국민권익위원회",
-      "verifiedScope": "공개 게시본의 문서 버전·17개 공식 주소 및 직접 HTTP 응답을 점검. HTTP 200만으로 신청 기능·기관 안내·법정 처리기간의 정확성을 검증했다고 보지 않음.",
-      "nextAction": "입법예고 유효 진입 경로와 청렴포털 응답을 재확인하고 외부 문서 편집 경로를 확보해 원문 링크를 수정. 처리기간은 해당 기관 안내·현행 근거와 각각 대조 후 갱신."
+      "verifiedScope": "17개 창구의 공개 주소와 브라우저 진입 화면을 확인했습니다. 공식 FAQ의 2026-10-24 모두의 광장 개편, 국회 입법예고 경로, 국민참여예산 운영기관, 민원 유형별 기간과 청원·정보공개 결정·행정심판 재결 기간을 원문과 대조해 문서 v2026.11.04와 출처 JSON을 배포했습니다.",
+      "nextAction": "정부24 정상 접근 후 공식 안내를 확인하고, 나머지 창구의 운영기관·공개 범위·국회청원 동의 요건을 원문과 전수 대조합니다.",
+      "previousReview": {
+        "dataAsOf": "2026-08-29",
+        "checkedAt": "2026-10-17T02:04:58.790677+00:00",
+        "verifiedScope": "공개 게시본의 문서 버전·17개 공식 주소 및 직접 HTTP 응답을 점검. HTTP 200만으로 신청 기능·기관 안내·법정 처리기간의 정확성을 검증했다고 보지 않음.",
+        "issues": [
+          "2026-08-29 버전의 안내 문서이며 9·10월 자료로 날짜를 바꾸지 않았습니다.",
+          "국회 입법예고 루트는 HTTP 404, 청렴포털은 HTTP 307 반복 응답입니다.",
+          "처리기간·접수유형·로그인 후 기능은 원문 세부 안내와 추가 대조가 필요합니다."
+        ]
+      },
+      "documentVersion": "2026-11-04",
+      "referenceDescription": "월별 통계 기준월 비적용 · 안내 문서 v2026.11.04",
+      "statisticalReferenceMonth": {
+        "status": "not_applicable",
+        "reason": "민원·참여 창구와 법정 기간을 설명하는 안내 문서"
+      }
     },
     {
       "source": {
@@ -4040,7 +4109,7 @@
       "dataPeriod": "2023-01~2026-09 (9월 부분)",
       "snapshotUpdatedAt": null,
       "collectedAt": null,
-      "checkedAt": "2026-10-18T15:32:54.320105+00:00",
+      "checkedAt": "2026-11-04T14:53:59.587Z",
       "reviewStatus": "needs_review",
       "freshness": "scope_limited_review",
       "evidence": [
@@ -4096,11 +4165,36 @@
           "checkedAt": "2026-10-18T15:29:05.288600+00:00",
           "sha256": "0438433049b7e4826f30c22c971182f1f181b8e1fcceef7aaafa3ecf287813ac",
           "scope": "GPT-4o 공식 명세의 지식 기준 2023-10-01을 대조했습니다. Google 주간 195행·Naver 주간 194행은 기존 2026-09-26 조회 표기를 유지합니다. 이번 Google 재조회는 HTTP 429, Naver 공유 링크는 접근 오류여서 값의 원출처 재대조와 9월 완결·10월 갱신을 보류합니다. 9월 표시는 부분 자료이며 모델 응답 실험은 아직 수행하지 않았습니다."
+        },
+        {
+          "kind": "source-attempt",
+          "url": "https://trends.google.com/trends/explore?date=2023-01-01%202026-10-31&geo=KR&q=ChatGPT,Gemini",
+          "finalUrl": "https://trends.google.com/trends/explore?date=2023-01-01%202026-10-31&geo=KR&q=ChatGPT,Gemini",
+          "checkedAt": "2026-11-04T14:38:08.750Z",
+          "status": 429,
+          "sha256": "6d4e3a8e2b5a9363bdeb79eb589e9e36aee39fc34e4cee601e8c575de625073d",
+          "reason": "2026-11-04에 2026-10-31까지의 Google 원조회는 HTTP 429, Naver 기존 공유 주소는 notfound 안내로 연결됐습니다. 기존 Google 195주·Naver 194주의 2026-09-26 조회 표기와 수치를 유지했습니다. GPT-4o 명세와 정규화 방법 안내를 확인했으나 시계열 원출처 대조는 미완료입니다.",
+          "nextAction": "원조회 제한이 해소되거나 Naver 유효 원조회·기존 승인 환경이 확보되면 동일 조건의 전체 시계열을 재정규화 범위와 함께 대조합니다."
+        },
+        {
+          "kind": "source-attempt",
+          "url": "https://datalab.naver.com/keyword/trendResult.naver?hashKey=N_f9db7ce0d642feb576a579af794870e0",
+          "finalUrl": "http://datalab.naver.com/notfound.html?hashKey=N_f9db7ce0d642feb576a579af794870e0",
+          "checkedAt": "2026-11-04T14:38:08.161Z",
+          "status": 200,
+          "sha256": "7d0730bc00fb8d3614b3d73d234bb06fd9713cbf1da314ce7f0d9b4bf0b2cf91",
+          "reason": "2026-11-04에 2026-10-31까지의 Google 원조회는 HTTP 429, Naver 기존 공유 주소는 notfound 안내로 연결됐습니다. 기존 Google 195주·Naver 194주의 2026-09-26 조회 표기와 수치를 유지했습니다. GPT-4o 명세와 정규화 방법 안내를 확인했으나 시계열 원출처 대조는 미완료입니다.",
+          "nextAction": "원조회 제한이 해소되거나 Naver 유효 원조회·기존 승인 환경이 확보되면 동일 조건의 전체 시계열을 재정규화 범위와 함께 대조합니다."
+        },
+        {
+          "kind": "audit-record",
+          "url": "/research/source-reviews/2026-11-04-civic-ai.json",
+          "checkedAt": "2026-11-04T14:53:59.587Z"
         }
       ],
       "issues": [
-        "GPT-4o 공식 명세의 지식 기준 2023-10-01을 대조했습니다. Google 주간 195행·Naver 주간 194행은 기존 2026-09-26 조회 표기를 유지합니다. 이번 Google 재조회는 HTTP 429, Naver 공유 링크는 접근 오류여서 값의 원출처 재대조와 9월 완결·10월 갱신을 보류합니다. 9월 표시는 부분 자료이며 모델 응답 실험은 아직 수행하지 않았습니다.",
-        "검토 문서 버전: 저장본 조회 표기 2026-09-26 / GPT-4o 명세 2023-10-01"
+        "2026-11-04에 2026-10-31까지의 Google 원조회는 HTTP 429, Naver 기존 공유 주소는 notfound 안내로 연결됐습니다. 기존 Google 195주·Naver 194주의 2026-09-26 조회 표기와 수치를 유지했습니다. GPT-4o 명세와 정규화 방법 안내를 확인했으나 시계열 원출처 대조는 미완료입니다.",
+        "모델 응답 대조 실험은 미수행입니다."
       ],
       "key": "/research/ai-freshness/",
       "url": "/research/ai-freshness/",
@@ -4108,10 +4202,14 @@
       "primary": "research",
       "classification": "연구·AI",
       "sourceHint": "지식 기준 · 검색 연동 · 시계열",
-      "verifiedScope": "GPT-4o 공식 명세의 지식 기준 2023-10-01을 대조했습니다. Google 주간 195행·Naver 주간 194행은 기존 2026-09-26 조회 표기를 유지합니다. 이번 Google 재조회는 HTTP 429, Naver 공유 링크는 접근 오류여서 값의 원출처 재대조와 9월 완결·10월 갱신을 보류합니다. 9월 표시는 부분 자료이며 모델 응답 실험은 아직 수행하지 않았습니다.",
-      "nextAction": "Google 제한 해소 후 동일 조건 원시 CSV를 재수집. Naver 유효 공유 링크 또는 기존 인증을 사용해 전체 기간을 재조회하고 정규화 창·완결 주를 함께 저장.",
+      "verifiedScope": "2026-11-04에 2026-10-31까지의 Google 원조회는 HTTP 429, Naver 기존 공유 주소는 notfound 안내로 연결됐습니다. 기존 Google 195주·Naver 194주의 2026-09-26 조회 표기와 수치를 유지했습니다. GPT-4o 명세와 정규화 방법 안내를 확인했으나 시계열 원출처 대조는 미완료입니다.",
+      "nextAction": "원조회 제한이 해소되거나 Naver 유효 원조회·기존 승인 환경이 확보되면 동일 조건의 전체 시계열을 재정규화 범위와 함께 대조합니다.",
       "documentVersion": "저장본 조회 표기 2026-09-26 / GPT-4o 명세 2023-10-01",
-      "declaredRetrievedAt": "2026-09-26"
+      "declaredRetrievedAt": "2026-09-26",
+      "previousReview": {
+        "checkedAt": "2026-10-18T15:32:54.320105+00:00",
+        "verifiedScope": "GPT-4o 공식 명세의 지식 기준 2023-10-01을 대조했습니다. Google 주간 195행·Naver 주간 194행은 기존 2026-09-26 조회 표기를 유지합니다. 이번 Google 재조회는 HTTP 429, Naver 공유 링크는 접근 오류여서 값의 원출처 재대조와 9월 완결·10월 갱신을 보류합니다. 9월 표시는 부분 자료이며 모델 응답 실험은 아직 수행하지 않았습니다."
+      }
     },
     {
       "source": {

@@ -987,7 +987,7 @@
       "status": "pending",
       "keys": [],
       "outcome": "conditional_technical_acceptance",
-      "latestAudit": "/research/source-reviews/2026-11-04-world-bank-fsc.json",
+      "latestAudit": "/research/source-reviews/2026-11-04-civic-ai.json",
       "lastAttemptAt": "2026-10-20T23:07:26.208Z",
       "itemResults": {
         "/exchange-rate/": {
@@ -1180,6 +1180,27 @@
           "dataPeriod": "2023",
           "dataAsOf": "2023-12-31",
           "nextAction": "기존 서비스 승인 환경에서 원응답을 확보하면 사업연도, basDt, 통화별 금액 단위와 페이지 범위를 대조합니다."
+        },
+        "https://civic-participation-hub.stargate8224.chatgpt.site": {
+          "status": "needs_review",
+          "checkedAt": "2026-11-04T14:53:59.587Z",
+          "audit": "/research/source-reviews/2026-11-04-civic-ai.json",
+          "scope": "17개 창구의 공개 주소와 브라우저 진입 화면을 확인했습니다. 공식 FAQ의 2026-10-24 모두의 광장 개편, 국회 입법예고 경로, 국민참여예산 운영기관, 민원 유형별 기간과 청원·정보공개 결정·행정심판 재결 기간을 원문과 대조해 문서 v2026.11.04와 출처 JSON을 배포했습니다.",
+          "statisticalReferenceMonth": {
+            "status": "not_applicable",
+            "reason": "민원·참여 창구와 법정 기간을 설명하는 안내 문서"
+          },
+          "documentVersion": "2026-11-04",
+          "siteVersion": 2,
+          "nextAction": "정부24 정상 접근 후 공식 안내를 확인하고, 나머지 창구의 운영기관·공개 범위·국회청원 동의 요건을 원문과 전수 대조합니다."
+        },
+        "/research/ai-freshness/": {
+          "status": "needs_review",
+          "checkedAt": "2026-11-04T14:53:59.587Z",
+          "audit": "/research/source-reviews/2026-11-04-civic-ai.json",
+          "scope": "2026-11-04에 2026-10-31까지의 Google 원조회는 HTTP 429, Naver 기존 공유 주소는 notfound 안내로 연결됐습니다. 기존 Google 195주·Naver 194주의 2026-09-26 조회 표기와 수치를 유지했습니다. GPT-4o 명세와 정규화 방법 안내를 확인했으나 시계열 원출처 대조는 미완료입니다.",
+          "dataPeriod": "2023-01~2026-09 (9월 부분)",
+          "nextAction": "원조회 제한이 해소되거나 Naver 유효 원조회·기존 승인 환경이 확보되면 동일 조건의 전체 시계열을 재정규화 범위와 함께 대조합니다."
         }
       },
       "checkpoints": {
@@ -1213,7 +1234,7 @@
           "Tourism not re-fetched before October26; original checkedAt retained"
         ]
       },
-      "nextAction": "다음 독립 미완료인 시민참여 허브의 공개 원출처·버전을 확인하고, 접근이 막히면 AI 신선도 연구의 원문·방법 버전을 대조합니다. FSC는 기존 승인 환경이 확인될 때 재개합니다. 관광 10월은 11월 25일 이후 확인합니다.",
+      "nextAction": "다음 독립 미완료 /research/immigration-policy/ 원문·정책/연구 버전과 실제 수록 범위를 대조합니다. 시민참여 v2의 완료 범위는 반복하지 않고 나머지 운영기관·공개 범위·국회청원 요건은 후속 대조합니다. AI 신선도는 Google 429·Naver notfound 해소 또는 유효 원자료 확보 시 재개합니다. 관광10월은11월25일 이후, 다른 접근 대기는 환경 변화 시 재개합니다.",
       "sourceFollowups": [
         {
           "id": "source-followup-1-20261021",
@@ -2163,10 +2184,67 @@
           "outcome": "world_bank_october_verified_fsc_api_rows_pending",
           "release": {
             "branch": "codex/wb-fsc-20261104",
-            "status": "awaiting_checks",
+            "status": "verified",
             "liveUrl": "https://www.stargateedu.co.kr/exchange-rate/",
             "sourceReviewUrl": "https://www.stargateedu.co.kr/research/source-reviews/2026-11-04-world-bank-fsc.json",
-            "pullRequest": "https://github.com/DongsooJung/dongsoojung.github.io/pull/249"
+            "pullRequest": "https://github.com/DongsooJung/dongsoojung.github.io/pull/249",
+            "commit": "e6f344fae05400af2dd8fd12678ff3095d060476",
+            "pullRequestHead": "88bf3aabdb6b2ea5d5a20e3747c1495e950f7946",
+            "verifiedAt": "2026-11-03T23:44:13.798Z",
+            "pagesRun": "https://github.com/DongsooJung/dongsoojung.github.io/actions/runs/41741306552",
+            "checks": [
+              "PR CodeQL JavaScript and aggregate success",
+              "Exact Pages merge SHA build/report/deploy success",
+              "Live content on both domains matched five public files",
+              "Browser dashboard and CSV checked 2026-10, partial Y and three observation counts",
+              "Research hub kept 64 projects, seven exclusive alphabetical filters, seven essays"
+            ]
+          }
+        },
+        {
+          "id": "civic-ai-20261104",
+          "status": "partial",
+          "checkedAt": "2026-11-04T14:53:59.587Z",
+          "keys": [
+            "https://civic-participation-hub.stargate8224.chatgpt.site",
+            "/research/ai-freshness/"
+          ],
+          "audit": "/research/source-reviews/2026-11-04-civic-ai.json",
+          "outcome": "civic_doc_v2_deployed_ai_source_access_pending",
+          "siteRelease": {
+            "id": "appgdep_6aeb46519a308191aa439d70ba157ffe",
+            "project_id": "appgprj_6a93af144d4881919b9c012162217dd0",
+            "title": "민원·국민참여 플랫폼 대시보드",
+            "version_id": "appgprj_6a93af144d4881919b9c012162217dd0~appgver_29c4df4ef9748191a17bb1384fbf0aff",
+            "type": "publish",
+            "status": "succeeded",
+            "url": "https://civic-participation-hub.stargate8224.chatgpt.site",
+            "has_mcp": false,
+            "screenshot_asset_pointer": null,
+            "provider_deployment_id": "site---6a93af144d4881919b9c012162217dd0",
+            "failure_message": null,
+            "env_set_revision": 0,
+            "updated_at": "2026-11-04T14:51:10.708730+00:00",
+            "sourceCommit": "4ff85c0ae80c4dbd805ecd5380dce4651d0f2b26",
+            "userVersion": 2,
+            "liveBrowser": {
+              "base": "https://civic-participation-hub.stargate8224.chatgpt.site",
+              "checkedAt": "2026-11-04T14:51:47.313Z",
+              "platforms": 17,
+              "officialLinkTargetsVerified": true,
+              "documentVersion": "2026-11-04",
+              "searchAndReset": true,
+              "download": true,
+              "mobileOverflow": false,
+              "pageErrors": []
+            }
+          },
+          "release": {
+            "branch": "codex/civic-ai-20261104",
+            "status": "awaiting_checks",
+            "liveUrl": "https://www.stargateedu.co.kr/research/data-review/",
+            "sourceReviewUrl": "https://www.stargateedu.co.kr/research/source-reviews/2026-11-04-civic-ai.json",
+            "pullRequest": "https://github.com/DongsooJung/dongsoojung.github.io/pull/250"
           }
         }
       ],
