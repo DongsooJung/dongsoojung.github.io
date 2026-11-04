@@ -1,0 +1,73 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>2026 월간 종합 베스트셀러 — 교보·영풍 | STARGATE</title><meta name="description" content="교보문고·영풍문고 2026년 월간 종합 베스트셀러 Top 20과 분야별 비중 추이. 서점 공식 집계 기반."><link rel="canonical" href="https://stargateedu.co.kr/strategy/bestseller-2026/"><meta name="theme-color" content="#111827"><style>
+:root{--bg:#090f1b;--p:#111b2d;--p2:#17243a;--line:#2b3c58;--ink:#f5f8ff;--sub:#a9b6cc;--blue:#69a9ff;--green:#63dc9b;--gold:#f2c76d;--red:#ff8e88}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(900px 550px at 90% -10%,rgba(105,169,255,.15),transparent 64%),var(--bg);color:var(--ink);font-family:Inter,"Pretendard","Noto Sans KR",system-ui,sans-serif;line-height:1.6}
+.wrap{width:min(1180px,calc(100% - 32px));margin:auto}a{color:inherit}
+.nav{display:flex;justify-content:space-between;align-items:center;min-height:64px;border-bottom:1px solid var(--line)}.nav a{text-decoration:none}.brand{font-weight:900}.brand b{color:var(--blue)}.navlinks{display:flex;gap:16px;color:var(--sub);font-size:13px}
+.hero{padding:60px 0 36px}.eyebrow{font:800 12px/1.2 ui-monospace,monospace;letter-spacing:1.6px;color:var(--blue);text-transform:uppercase}
+h1{font-size:clamp(34px,6vw,62px);line-height:1.06;letter-spacing:-2px;margin:14px 0}h1 span{color:var(--blue)}.lead{max-width:860px;color:#d0d9e8;font-size:17px}
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:8px 0 40px}.kpi{padding:18px;border:1px solid var(--line);border-radius:16px;background:var(--p)}.kpi small{color:var(--sub)}.kpi strong{display:block;font-size:26px;line-height:1.2;margin:6px 0}.kpi em{font-style:normal;font-size:12px;color:var(--green)}
+section{padding:44px 0;border-top:1px solid var(--line)}h2{font-size:26px;margin:0 0 6px}.note{color:var(--sub);font-size:13px;margin:0 0 20px}
+.ctrl{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px}.ctrl button{background:var(--p);border:1px solid var(--line);color:var(--sub);border-radius:999px;padding:7px 14px;font:inherit;font-size:13px;cursor:pointer}.ctrl button.on{background:var(--blue);border-color:var(--blue);color:#06101f;font-weight:800}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}.card{background:var(--p);border:1px solid var(--line);border-radius:16px;padding:16px;overflow:auto}
+table{width:100%;border-collapse:collapse;font-size:13.5px}th,td{padding:7px 8px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}th{color:var(--sub);font-weight:700;font-size:12px}td.r{width:34px;color:var(--gold);font-weight:800}td .au{color:var(--sub);font-size:12px}
+.tag{display:inline-block;font-size:11px;padding:2px 8px;border-radius:999px;border:1px solid var(--line);white-space:nowrap}
+.bars{display:flex;flex-direction:column;gap:6px}.bar{display:grid;grid-template-columns:62px 1fr;gap:8px;align-items:center;font-size:12px;color:var(--sub)}.stack{display:flex;height:20px;border-radius:5px;overflow:hidden;background:var(--p2)}.stack i{display:block;height:100%}
+.legend{display:flex;flex-wrap:wrap;gap:10px;margin:12px 0 0;font-size:12px;color:var(--sub)}.legend span::before{content:"";display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:5px;background:var(--c);vertical-align:-1px}
+.empty{color:var(--sub);padding:30px;text-align:center}footer{padding:30px 0 60px;color:var(--sub);font-size:12px}
+@media(max-width:820px){.kpis{grid-template-columns:1fr 1fr}.grid2{grid-template-columns:1fr}}
+</style></head><body>
+<div class="wrap">
+<nav class="nav"><a class="brand" href="/">STAR<b>GATE</b></a><div class="navlinks"><a href="/strategy/">전략 대시보드</a><a href="/strategy/bookstore-big3/">서점 3사 재무</a></div></nav>
+<header class="hero"><div class="eyebrow">Book Market · Monthly Bestseller</div><h1>2026 월간 종합 베스트셀러<br><span>교보문고 × 영풍문고</span></h1><p class="lead">두 서점의 공식 월간 종합 Top 20을 매월 모아 분야 구성을 비교합니다. 온라인 중심의 교보와 매장 중심의 영풍이 같은 달에 무엇을 다르게 파는지 보입니다.</p></header>
+<div class="kpis" id="kpis"></div>
+
+<section><h2>월별 Top 20</h2><p class="note">분야는 서점 공식 분류를 공통 기준으로 묶은 '통합 분야'입니다. 분야 버튼을 누르면 해당 분야만 걸러집니다.</p>
+<div class="ctrl" id="months"></div><div class="ctrl" id="cats"></div>
+<div class="grid2"><div class="card"><h3 style="margin:0 0 8px">교보문고</h3><div id="tk"></div></div><div class="card"><h3 style="margin:0 0 8px">영풍문고</h3><div id="ty"></div></div></div></section>
+
+<section><h2>분야 구성 추이</h2><p class="note">월별 Top 20에서 각 분야가 차지한 권수입니다.</p>
+<div class="grid2"><div class="card"><h3 style="margin:0 0 10px">교보문고</h3><div class="bars" id="bk"></div></div><div class="card"><h3 style="margin:0 0 10px">영풍문고</h3><div class="bars" id="by"></div></div></div><div class="legend" id="lg"></div></section>
+
+<section><h2>두 서점 공통 장기 베스트</h2><p class="note">두 서점 Top 20에 동시에 진입한 개월 수 기준 상위 도서입니다(제목 앞부분으로 판정).</p><div class="card"><table><thead><tr><th>도서</th><th>교보 진입</th><th>영풍 진입</th><th>교보 최고</th><th>영풍 최고</th><th>분야</th></tr></thead><tbody id="cross"></tbody></table></div></section>
+
+<footer id="ft"></footer>
+</div>
+<script>
+const COL={"소설":"#69a9ff","어린이/유아":"#f2c76d","인문":"#63dc9b","경제/경영":"#ff8e88","자기계발":"#c49bff","시/에세이":"#5fd4e0","만화":"#ffb86b","외국어":"#9aa7bd","과학":"#7ee0b0","정치/사회":"#e88aa8","종교":"#b8a27a","예술/대중문화":"#d6c46a"};
+const col=c=>COL[c]||"#6b778c";let D,month,cat=null;
+const key=t=>t.replace(/\(.*?\)|\s-\s.*$|,|\s/g,'').slice(0,10);
+fetch('data.json').then(r=>r.json()).then(j=>{D=j;init()});
+function init(){
+ const R=D.rows,months=[...new Set(R.map(x=>x.m))].sort();month=months.at(-1);
+ const cnt=(s,c)=>R.filter(x=>x.s==s&&x.c==c).length,tot=s=>R.filter(x=>x.s==s).length;
+ const kids=Math.round(cnt('영풍','어린이/유아')/tot('영풍')*100),kk=Math.round(cnt('교보','어린이/유아')/tot('교보')*100);
+ document.getElementById('kpis').innerHTML=[
+  ['수록 범위',`${R.length}권`,`교보 ~${D.kyobo_last.slice(5)}월 · 영풍 ~${D.yp_last.slice(5)}월`],
+  ['소설 비중',`${Math.round(cnt('교보','소설')/tot('교보')*100)}% / ${Math.round(cnt('영풍','소설')/tot('영풍')*100)}%`,'교보 / 영풍 · 두 곳 모두 1위 분야'],
+  ['어린이/유아',`${kk}% / ${kids}%`,'영풍이 매장 가족 수요로 압도'],
+  ['경제·자기계발',`${Math.round((cnt('교보','경제/경영')+cnt('교보','자기계발'))/tot('교보')*100)}% / ${Math.round((cnt('영풍','경제/경영')+cnt('영풍','자기계발'))/tot('영풍')*100)}%`,'교보 쪽 재테크 수요 강세']
+ ].map(k=>`<div class="kpi"><small>${k[0]}</small><strong>${k[1]}</strong><em>${k[2]}</em></div>`).join('');
+ document.getElementById('months').innerHTML=months.map(m=>`<button data-m="${m}">${+m.slice(5)}월</button>`).join('');
+ document.getElementById('months').onclick=e=>{if(e.target.dataset.m){month=e.target.dataset.m;render()}};
+ const cats=Object.keys(COL).filter(c=>R.some(x=>x.c==c));
+ document.getElementById('cats').innerHTML=`<button data-c="">전체 분야</button>`+cats.map(c=>`<button data-c="${c}">${c}</button>`).join('');
+ document.getElementById('cats').onclick=e=>{if(e.target.dataset.c!==undefined){cat=e.target.dataset.c||null;render()}};
+ document.getElementById('lg').innerHTML=cats.map(c=>`<span style="--c:${col(c)}">${c}</span>`).join('');
+ for(const [s,id] of [['교보','bk'],['영풍','by']]){
+  document.getElementById(id).innerHTML=months.map(m=>{const rs=R.filter(x=>x.s==s&&x.m==m);if(!rs.length)return `<div class="bar"><span>${+m.slice(5)}월</span><div class="stack" style="color:var(--sub);font-size:11px;padding-left:8px;align-items:center">미공개</div></div>`;
+   return `<div class="bar"><span>${+m.slice(5)}월</span><div class="stack">${cats.map(c=>{const n=rs.filter(x=>x.c==c).length;return n?`<i title="${c} ${n}권" style="width:${n*5}%;background:${col(c)}"></i>`:''}).join('')}</div></div>`}).join('')}
+ const g={};R.forEach(x=>{const k=key(x.t);g[k]??={t:x.t,c:x.c,교보:new Set,영풍:new Set,b교보:99,b영풍:99};g[k][x.s].add(x.m);g[k]['b'+x.s]=Math.min(g[k]['b'+x.s],x.r)});
+ document.getElementById('cross').innerHTML=Object.values(g).filter(v=>v.교보.size&&v.영풍.size).sort((a,b)=>(b.교보.size+b.영풍.size)-(a.교보.size+a.영풍.size)).slice(0,15).map(v=>`<tr><td>${v.t}</td><td>${v.교보.size}개월</td><td>${v.영풍.size}개월</td><td>${v.b교보}위</td><td>${v.b영풍}위</td><td><span class="tag" style="border-color:${col(v.c)};color:${col(v.c)}">${v.c}</span></td></tr>`).join('');
+ document.getElementById('ft').innerHTML=`출처: 교보문고 종합 월간 베스트(온라인·매장·eBook 합산), 영풍문고 월간 베스트셀러 종합. 분야는 각 서점 공식 분류를 통합 기준으로 매핑. 마지막 갱신 ${D.updated}.`;
+ render();
+}
+function render(){
+ document.querySelectorAll('#months button').forEach(b=>b.classList.toggle('on',b.dataset.m==month));
+ document.querySelectorAll('#cats button').forEach(b=>b.classList.toggle('on',(b.dataset.c||null)==cat));
+ for(const [s,id] of [['교보','tk'],['영풍','ty']]){
+  const rs=D.rows.filter(x=>x.s==s&&x.m==month&&(!cat||x.c==cat)).sort((a,b)=>a.r-b.r);
+  const any=D.rows.some(x=>x.s==s&&x.m==month);
+  document.getElementById(id).innerHTML=!any?`<div class="empty">${+month.slice(5)}월 집계 미공개</div>`:!rs.length?`<div class="empty">해당 분야 없음</div>`:
+   `<table><tbody>${rs.map(x=>`<tr><td class="r">${x.r}</td><td>${x.t}<br><span class="au">${x.a} · ${x.p}</span></td><td><span class="tag" style="border-color:${col(x.c)};color:${col(x.c)}">${x.c}</span></td></tr>`).join('')}</tbody></table>`}
+}
+</script></body></html>
