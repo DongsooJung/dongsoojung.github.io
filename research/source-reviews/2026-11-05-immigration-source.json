@@ -1,0 +1,202 @@
+{
+  "schemaVersion": 1,
+  "step": "immigration-source-20261105",
+  "checkedAt": "2026-11-05T05:42:53.736453+00:00",
+  "keys": [
+    "/research/immigration-policy/"
+  ],
+  "scope": "2026-09-30 전국 장단기 체류외국인 원표 641행의 213개 국적·7대륙 합계와 성별 합계, 9616개 수치를 별도 OOXML 추출로 대조했습니다. 월보 HWPX의 전체·F-2·F-5·F-6 4행 20개 값·전월/전년동월 비율이 일치합니다.",
+  "statistics": {
+    "dataPeriod": "2026-09",
+    "dataAsOf": "2026-09-30",
+    "publicationDate": "2026-10-21",
+    "collectedAt": "2026-11-05T05:36:55.862Z",
+    "fileGeneratedAt": "2026-11-05T05:42:23.015414+00:00",
+    "checkedAt": "2026-11-05T05:42:23.015414+00:00",
+    "sourceFileUpdatedAt": null,
+    "sources": [
+      {
+        "file": "monthly-page.html",
+        "url": "https://www.immigration.go.kr/bbs/immigration/227/611544/artclView.do",
+        "status": 200,
+        "finalUrl": "https://www.immigration.go.kr/bbs/immigration/227/611544/artclView.do",
+        "receivedAt": "2026-11-05T05:36:56.281Z",
+        "bytes": 29752,
+        "sha256": "c61977da56f24819ed8a4eea867c4fe82758c180652ca8bd17768d5d1c109776",
+        "contentType": "text/html;charset=UTF-8"
+      },
+      {
+        "file": "monthly-list.html",
+        "url": "https://www.immigration.go.kr/immigration/1569/subview.do",
+        "status": 200,
+        "finalUrl": "https://www.immigration.go.kr/immigration/1569/subview.do",
+        "receivedAt": "2026-11-05T05:36:56.996Z",
+        "bytes": 230307,
+        "sha256": "2246863f768ed49ff35629e5ea185ec13f6f7af777f1413998287a5bfdf28eb4",
+        "contentType": "text/html;charset=UTF-8"
+      },
+      {
+        "file": "체류 원표_202609.xlsx",
+        "url": "https://www.immigration.go.kr/bbs/immigration/227/500919/download.do",
+        "status": 200,
+        "finalUrl": "https://www.immigration.go.kr/bbs/immigration/227/500919/download.do",
+        "receivedAt": "2026-11-05T05:36:55.862Z",
+        "bytes": 75583,
+        "sha256": "cc136d6b966508d2edea2c61178775aad8c1ad436ad614dbf36b94406ca758fc",
+        "contentType": "application/x-msdownload;charset=UTF-8"
+      },
+      {
+        "file": "월보 원문_202609.hwpx",
+        "url": "https://www.immigration.go.kr/bbs/immigration/227/500921/download.do",
+        "status": 200,
+        "finalUrl": "https://www.immigration.go.kr/bbs/immigration/227/500921/download.do",
+        "receivedAt": "2026-11-05T05:36:56.659Z",
+        "bytes": 1773999,
+        "sha256": "1f35973afe8aeccfa3132cc4f7b6608653715f2e7556e84691a644741cd184eb",
+        "contentType": "application/x-msdownload;charset=UTF-8"
+      }
+    ],
+    "validation": {
+      "nationalityGroups": 213,
+      "continents": 7,
+      "dataRowsIncludingGrandTotal": 641,
+      "sourceNumericColumns": 36,
+      "independentBulletinRows": 4,
+      "independentBulletinNumericComparisons": 20,
+      "rowSexContinentGrandTotalsMatched": true
+    },
+    "limitations": [
+      "월말 체류 인원이며 입국자 수·허가 건수·조사 추정치와 구분합니다.",
+      "F-5 전체와 외국국적동포 중 F-5 인원은 다른 모집단입니다.",
+      "빈칸은 합계 검산에 한해 0으로 처리했습니다.",
+      "원표의 파일 수정시각은 미확인입니다."
+    ],
+    "data": {
+      "schemaVersion": 1,
+      "dataPeriod": "2026-09",
+      "dataAsOf": "2026-09-30",
+      "unit": "persons",
+      "scope": "전국 국적(지역)별 장단기 체류외국인 전체",
+      "rows": [
+        {
+          "code": "total",
+          "labelKo": "총계",
+          "count": 2931688,
+          "previousMonthCount": 2874763,
+          "previousYearSameMonthCount": 2737832,
+          "monthOnMonthPercent": 2,
+          "yearOnYearPercent": 7.1,
+          "sourceCell": "D4"
+        },
+        {
+          "code": "F-2",
+          "labelKo": "거주",
+          "count": 72343,
+          "previousMonthCount": 71615,
+          "previousYearSameMonthCount": 67052,
+          "monthOnMonthPercent": 1,
+          "yearOnYearPercent": 7.9,
+          "sourceCell": "AE4"
+        },
+        {
+          "code": "F-5",
+          "labelKo": "영주",
+          "count": 233668,
+          "previousMonthCount": 232181,
+          "previousYearSameMonthCount": 217428,
+          "monthOnMonthPercent": 0.6,
+          "yearOnYearPercent": 7.5,
+          "sourceCell": "AH4"
+        },
+        {
+          "code": "F-6",
+          "labelKo": "결혼이민",
+          "count": 158850,
+          "previousMonthCount": 158236,
+          "previousYearSameMonthCount": 153238,
+          "monthOnMonthPercent": 0.4,
+          "yearOnYearPercent": 3.7,
+          "sourceCell": "AI4"
+        }
+      ]
+    },
+    "independentVerification": {
+      "checkedAt": "2026-11-05T05:42:53.736453+00:00",
+      "rawOoxmlNumericCellsMatched": 9616,
+      "sourceRows": 641,
+      "nationalities": 213,
+      "continents": 7
+    }
+  },
+  "legalSources": [
+    {
+      "file": "annex-residence.pdf",
+      "url": "https://www.law.go.kr/LSW/flDownload.do?gubun=&flSeq=169699039&bylClsCd=110201",
+      "status": 200,
+      "finalUrl": "https://www.law.go.kr/LSW/flDownload.do?gubun=&flSeq=169699039&bylClsCd=110201",
+      "receivedAt": "2026-11-05T05:39:38.487Z",
+      "bytes": 261807,
+      "sha256": "c81be9d3cd10e657ddc99b70f5a4a15d0da21694510d7a741f3e704118ea2b5b"
+    },
+    {
+      "file": "annex-permanent.pdf",
+      "url": "https://www.law.go.kr/LSW/flDownload.do?gubun=&flSeq=169699067&bylClsCd=110201",
+      "status": 200,
+      "finalUrl": "https://www.law.go.kr/LSW/flDownload.do?gubun=&flSeq=169699067&bylClsCd=110201",
+      "receivedAt": "2026-11-05T05:39:38.365Z",
+      "bytes": 133813,
+      "sha256": "d48c286295bb10581baa9a905e3fe23c053afee3da428c3d6cf00ba9cac19776"
+    },
+    {
+      "file": "manual-page.html",
+      "url": "https://www.immigration.go.kr/immigration/1550/subview.do",
+      "status": 200,
+      "finalUrl": "https://www.immigration.go.kr/immigration/1550/subview.do",
+      "receivedAt": "2026-11-05T05:39:38.832Z",
+      "bytes": 223016,
+      "sha256": "2f5ac1c4c088ff143068234146665d0ad33de5c867f9ff4d5a01ccb384f4fcd8"
+    },
+    {
+      "file": "decree.html",
+      "url": "https://www.law.go.kr/LSW/lsInfoR.do?lsiSeq=290501&efYd=20261002",
+      "status": 200,
+      "finalUrl": "https://www.law.go.kr/LSW/lsInfoR.do?lsiSeq=290501&efYd=20261002",
+      "receivedAt": "2026-11-05T05:39:38.968Z",
+      "bytes": 811797,
+      "sha256": "4fcec4b744051b7ad4999429d23b30f5d3b7e482521d3d1bccabffd9a50059d7"
+    },
+    {
+      "file": "permanent-law.html",
+      "url": "https://www.law.go.kr/LSW/lsSideInfoP.do?docCls=jo&joBrNo=03&joNo=0010&lsiSeq=290729&urlMode=lsScJoRltInfoR",
+      "status": 200,
+      "finalUrl": "https://www.law.go.kr/LSW/lsSideInfoP.do?docCls=jo&joBrNo=03&joNo=0010&lsiSeq=290729&urlMode=lsScJoRltInfoR",
+      "receivedAt": "2026-11-05T05:39:38.466Z",
+      "bytes": 73323,
+      "sha256": "d722daab6f8fbd414d52c4f7c8d40f2603bb4d12ae26465cc087ff9ecd21c0bb"
+    }
+  ],
+  "legalScope": {
+    "status": "needs_review",
+    "effectiveDate": "2026-10-02",
+    "annexAmendedDates": [
+      "2026-09-15",
+      "2023-12-12"
+    ],
+    "nextAction": "완료한 9월 통계 범위는 반복하지 않습니다. 체류허가 세부 경로별 매뉴얼·소득/서류 조건과 영주증·재입국 조항의 현행 원문을 후속 대조합니다."
+  },
+  "limitations": [
+    "9월 말 장단기 체류 인원이며 입국자 수·허가 건수·고용조사 추정치와 모집단이 다릅니다.",
+    "통계 원문 대조 완료와 경로별 체류허가 요건 검증을 구분합니다. 매뉴얼·세부 소득/서류 조건·영주증/재입국 조항 전수 대조는 미완료입니다.",
+    "2025년 5월 고용조사와 기존 정책자료 버전을 유지했습니다. 원표 파일 수정시각은 미확인입니다."
+  ],
+  "nextAction": "완료한 9월 통계 범위는 반복하지 않습니다. 체류허가 세부 경로별 매뉴얼·소득/서류 조건과 영주증·재입국 조항의 현행 원문을 후속 대조합니다.",
+  "reproduction": "python \"scripts/체류 통계 갱신.py\" --input-dir <official source folder> --output-dir research/immigration-policy/data",
+  "manualReview": {
+    "status": "needs_review",
+    "attemptedUrl": "https://www.hikorea.go.kr/board/BoardApplicationListR.pt?bbsGbCd=BS10&bbsId=1",
+    "responseStatus": 200,
+    "responseTitle": "멀티게시판 민원서식 < 하이코리아",
+    "reason": "공개 목록은 민원서식이며 최신 체류자격별 매뉴얼의 파일·버전을 확보하지 못했습니다.",
+    "nextAction": "공식 최신 매뉴얼의 유효 게시글·첨부파일·버전을 확보해 세부 경로 조건을 대조합니다."
+  }
+}

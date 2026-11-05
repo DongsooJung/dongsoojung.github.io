@@ -987,7 +987,7 @@
       "status": "pending",
       "keys": [],
       "outcome": "conditional_technical_acceptance",
-      "latestAudit": "/research/source-reviews/2026-11-04-civic-ai.json",
+      "latestAudit": "/research/source-reviews/2026-11-05-immigration-source.json",
       "lastAttemptAt": "2026-10-20T23:07:26.208Z",
       "itemResults": {
         "/exchange-rate/": {
@@ -1201,6 +1201,31 @@
           "scope": "2026-11-04에 2026-10-31까지의 Google 원조회는 HTTP 429, Naver 기존 공유 주소는 notfound 안내로 연결됐습니다. 기존 Google 195주·Naver 194주의 2026-09-26 조회 표기와 수치를 유지했습니다. GPT-4o 명세와 정규화 방법 안내를 확인했으나 시계열 원출처 대조는 미완료입니다.",
           "dataPeriod": "2023-01~2026-09 (9월 부분)",
           "nextAction": "원조회 제한이 해소되거나 Naver 유효 원조회·기존 승인 환경이 확보되면 동일 조건의 전체 시계열을 재정규화 범위와 함께 대조합니다."
+        },
+        "/research/immigration-policy/": {
+          "status": "needs_review",
+          "checkedAt": "2026-11-05T05:42:53.736453+00:00",
+          "audit": "/research/source-reviews/2026-11-05-immigration-source.json",
+          "scope": "2026-09-30 전국 장단기 체류외국인 원표 641행의 213개 국적·7대륙 합계와 성별 합계, 9616개 수치를 별도 OOXML 추출로 대조했습니다. 월보 HWPX의 전체·F-2·F-5·F-6 4행 20개 값·전월/전년동월 비율이 일치합니다.",
+          "modules": {
+            "statistics": {
+              "status": "verified",
+              "dataAsOf": "2026-09-30",
+              "audit": "/research/source-reviews/2026-11-05-immigration-source.json",
+              "checkedAt": "2026-11-05T05:42:53.736453+00:00",
+              "scope": "2026-09-30 전국 장단기 체류외국인 원표 641행의 213개 국적·7대륙 합계와 성별 합계, 9616개 수치를 별도 OOXML 추출로 대조했습니다. 월보 HWPX의 전체·F-2·F-5·F-6 4행 20개 값·전월/전년동월 비율이 일치합니다."
+            },
+            "legal": {
+              "status": "needs_review",
+              "effectiveDate": "2026-10-02",
+              "annexAmendedDates": [
+                "2026-09-15",
+                "2023-12-12"
+              ],
+              "nextAction": "완료한 9월 통계 범위는 반복하지 않습니다. 체류허가 세부 경로별 매뉴얼·소득/서류 조건과 영주증·재입국 조항의 현행 원문을 후속 대조합니다."
+            }
+          },
+          "nextAction": "완료한 9월 통계 범위는 반복하지 않습니다. 체류허가 세부 경로별 매뉴얼·소득/서류 조건과 영주증·재입국 조항의 현행 원문을 후속 대조합니다."
         }
       },
       "checkpoints": {
@@ -1234,7 +1259,7 @@
           "Tourism not re-fetched before October26; original checkedAt retained"
         ]
       },
-      "nextAction": "다음 독립 미완료 /research/immigration-policy/ 원문·정책/연구 버전과 실제 수록 범위를 대조합니다. 시민참여 v2의 완료 범위는 반복하지 않고 나머지 운영기관·공개 범위·국회청원 요건은 후속 대조합니다. AI 신선도는 Google 429·Naver notfound 해소 또는 유효 원자료 확보 시 재개합니다. 관광10월은11월25일 이후, 다른 접근 대기는 환경 변화 시 재개합니다.",
+      "nextAction": "다음 독립 미완료 /public-data-collector/의 실제 원문·수집기 버전·지원 범위를 대조합니다. 이민정책 9월 원표 641행과 월보 4행 대조 완료 범위는 반복하지 않습니다. 경로별 체류 매뉴얼·소득/서류·영주증/재입국 현행 근거는 후속 대조합니다. 기존 공표·접근 대기는 해당 조건 변화 시 재개하며 전체 수락은 pending입니다.",
       "sourceFollowups": [
         {
           "id": "source-followup-1-20261021",
@@ -2257,6 +2282,23 @@
               "Native Civic version2 deployment and seventeen rows/search/reset/mobile/download verified",
               "Two PDF companions text-checked and all pages visually inspected"
             ]
+          }
+        },
+        {
+          "id": "immigration-source-20261105",
+          "status": "partial",
+          "checkedAt": "2026-11-05T05:42:53.736453+00:00",
+          "keys": [
+            "/research/immigration-policy/"
+          ],
+          "audit": "/research/source-reviews/2026-11-05-immigration-source.json",
+          "outcome": "september_stay_counts_verified_legal_structure_checked_details_pending",
+          "release": {
+            "branch": "codex/immigration-source-20261105",
+            "status": "awaiting_checks",
+            "liveUrl": "https://www.stargateedu.co.kr/research/immigration-policy/",
+            "sourceReviewUrl": "https://www.stargateedu.co.kr/research/source-reviews/2026-11-05-immigration-source.json",
+            "pullRequest": "https://github.com/DongsooJung/dongsoojung.github.io/pull/252"
           }
         }
       ],
