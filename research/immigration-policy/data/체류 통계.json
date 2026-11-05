@@ -1,0 +1,49 @@
+{
+  "schemaVersion": 1,
+  "dataPeriod": "2026-09",
+  "dataAsOf": "2026-09-30",
+  "unit": "persons",
+  "scope": "전국 국적(지역)별 장단기 체류외국인 전체",
+  "rows": [
+    {
+      "code": "total",
+      "labelKo": "총계",
+      "count": 2931688,
+      "previousMonthCount": 2874763,
+      "previousYearSameMonthCount": 2737832,
+      "monthOnMonthPercent": 2.0,
+      "yearOnYearPercent": 7.1,
+      "sourceCell": "D4"
+    },
+    {
+      "code": "F-2",
+      "labelKo": "거주",
+      "count": 72343,
+      "previousMonthCount": 71615,
+      "previousYearSameMonthCount": 67052,
+      "monthOnMonthPercent": 1.0,
+      "yearOnYearPercent": 7.9,
+      "sourceCell": "AE4"
+    },
+    {
+      "code": "F-5",
+      "labelKo": "영주",
+      "count": 233668,
+      "previousMonthCount": 232181,
+      "previousYearSameMonthCount": 217428,
+      "monthOnMonthPercent": 0.6,
+      "yearOnYearPercent": 7.5,
+      "sourceCell": "AH4"
+    },
+    {
+      "code": "F-6",
+      "labelKo": "결혼이민",
+      "count": 158850,
+      "previousMonthCount": 158236,
+      "previousYearSameMonthCount": 153238,
+      "monthOnMonthPercent": 0.4,
+      "yearOnYearPercent": 3.7,
+      "sourceCell": "AI4"
+    }
+  ]
+}

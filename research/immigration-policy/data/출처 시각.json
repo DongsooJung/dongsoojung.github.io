@@ -1,0 +1,66 @@
+{
+  "dataPeriod": "2026-09",
+  "dataAsOf": "2026-09-30",
+  "publicationDate": "2026-10-21",
+  "collectedAt": "2026-11-05T05:36:55.862Z",
+  "fileGeneratedAt": "2026-11-05T05:42:23.015414+00:00",
+  "checkedAt": "2026-11-05T05:42:23.015414+00:00",
+  "sourceFileUpdatedAt": null,
+  "sources": [
+    {
+      "file": "monthly-page.html",
+      "url": "https://www.immigration.go.kr/bbs/immigration/227/611544/artclView.do",
+      "status": 200,
+      "finalUrl": "https://www.immigration.go.kr/bbs/immigration/227/611544/artclView.do",
+      "receivedAt": "2026-11-05T05:36:56.281Z",
+      "bytes": 29752,
+      "sha256": "c61977da56f24819ed8a4eea867c4fe82758c180652ca8bd17768d5d1c109776",
+      "contentType": "text/html;charset=UTF-8"
+    },
+    {
+      "file": "monthly-list.html",
+      "url": "https://www.immigration.go.kr/immigration/1569/subview.do",
+      "status": 200,
+      "finalUrl": "https://www.immigration.go.kr/immigration/1569/subview.do",
+      "receivedAt": "2026-11-05T05:36:56.996Z",
+      "bytes": 230307,
+      "sha256": "2246863f768ed49ff35629e5ea185ec13f6f7af777f1413998287a5bfdf28eb4",
+      "contentType": "text/html;charset=UTF-8"
+    },
+    {
+      "file": "체류 원표_202609.xlsx",
+      "url": "https://www.immigration.go.kr/bbs/immigration/227/500919/download.do",
+      "status": 200,
+      "finalUrl": "https://www.immigration.go.kr/bbs/immigration/227/500919/download.do",
+      "receivedAt": "2026-11-05T05:36:55.862Z",
+      "bytes": 75583,
+      "sha256": "cc136d6b966508d2edea2c61178775aad8c1ad436ad614dbf36b94406ca758fc",
+      "contentType": "application/x-msdownload;charset=UTF-8"
+    },
+    {
+      "file": "월보 원문_202609.hwpx",
+      "url": "https://www.immigration.go.kr/bbs/immigration/227/500921/download.do",
+      "status": 200,
+      "finalUrl": "https://www.immigration.go.kr/bbs/immigration/227/500921/download.do",
+      "receivedAt": "2026-11-05T05:36:56.659Z",
+      "bytes": 1773999,
+      "sha256": "1f35973afe8aeccfa3132cc4f7b6608653715f2e7556e84691a644741cd184eb",
+      "contentType": "application/x-msdownload;charset=UTF-8"
+    }
+  ],
+  "validation": {
+    "nationalityGroups": 213,
+    "continents": 7,
+    "dataRowsIncludingGrandTotal": 641,
+    "sourceNumericColumns": 36,
+    "independentBulletinRows": 4,
+    "independentBulletinNumericComparisons": 20,
+    "rowSexContinentGrandTotalsMatched": true
+  },
+  "limitations": [
+    "월말 체류 인원이며 입국자 수·허가 건수·조사 추정치와 구분합니다.",
+    "F-5 전체와 외국국적동포 중 F-5 인원은 다른 모집단입니다.",
+    "빈칸은 합계 검산에 한해 0으로 처리했습니다.",
+    "원표의 파일 수정시각은 미확인입니다."
+  ]
+}
