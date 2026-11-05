@@ -2333,10 +2333,23 @@
           "outcome": "collector_scope_and_read_only_paths_checked_authenticated_rows_pending",
           "release": {
             "branch": "codex/collector-source-20261106",
-            "status": "awaiting_checks",
+            "status": "verified",
             "liveUrl": "https://www.stargateedu.co.kr/public-data-collector/",
             "sourceReviewUrl": "https://www.stargateedu.co.kr/research/source-reviews/2026-11-06-collector-source.json",
-            "pullRequest": "https://github.com/DongsooJung/dongsoojung.github.io/pull/254"
+            "pullRequest": "https://github.com/DongsooJung/dongsoojung.github.io/pull/254",
+            "commit": "14e2f144ef8cc96aff7c907fe4f945a55e8d613f",
+            "pullRequestHead": "ce937f2ceae957c57903acecedf1ff61254defb1",
+            "verifiedAt": "2026-11-05T20:47:13.500Z",
+            "pagesRun": "https://github.com/DongsooJung/dongsoojung.github.io/actions/runs/42106379015",
+            "checks": [
+              "Exact PR head CodeQL JavaScript and aggregate passed",
+              "Exact Pages merge SHA build/report/deploy passed",
+              "Nine changed public files match both domains with BOM/line-ending normalization",
+              "64 projects, seven exclusive alphabetical filters, seven essays and strategy45 verified",
+              "Twelve Node tests passed; browser mock partial3000/5000,CSV BOM/scopeJSON,HTML rejection,mobile and zero storage writes passed",
+              "Three official API metadata documents and existing logs checked; authenticated source rows and server deployment remain unverified",
+              "Two PDF companions text checked and all pages visually inspected"
+            ]
           }
         }
       ],
