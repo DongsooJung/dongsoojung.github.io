@@ -13,3 +13,27 @@ updates:
       github-actions:
         patterns:
           - "*"
+  - package-ecosystem: "npm"
+    directory: "/quote-maker-app"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "09:15"
+      timezone: "Asia/Seoul"
+    open-pull-requests-limit: 3
+    groups:
+      quote-maker-dependencies:
+        patterns:
+          - "*"
+  - package-ecosystem: "npm"
+    directory: "/court-auction"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "09:30"
+      timezone: "Asia/Seoul"
+    open-pull-requests-limit: 3
+    groups:
+      court-auction-dependencies:
+        patterns:
+          - "*"
