@@ -1,5 +1,5 @@
 {
-  "checked_at_kst": "2026-11-04T15:48:09+09:00",
+  "checked_at_kst": "2026-11-05T16:08:14+09:00",
   "filters": {
     "max_deposit_manwon": 1000,
     "max_rent_manwon": 100,
@@ -8,7 +8,7 @@
   "source_mode": "public-listings",
   "crawl": {
     "visited_urls": 70,
-    "successful_pages": 59,
+    "successful_pages": 60,
     "max_pages": 70
   },
   "baseline": [
@@ -37,7 +37,7 @@
       "area_m2": 46.2,
       "area_basis": "exclusive",
       "building_type": "단독주택",
-      "freshness_days": 23,
+      "freshness_days": 24,
       "title": "범일동 14평 직거래 빌라(투룸 이상) 월세 500 / 30만원",
       "legal_risk": "상대적으로 낮음",
       "host_claim": false,
@@ -72,27 +72,28 @@
       "is_new": false
     },
     {
-      "id": "4901860",
-      "url": "https://realty.daangn.com/articles/4901860",
+      "id": "4926731",
+      "url": "https://realty.daangn.com/articles/4926731",
       "district": "동구",
       "dong": "",
-      "deposit": 1000,
-      "rent": 70,
+      "deposit": 500,
+      "rent": 48,
       "rooms": 2,
-      "area_m2": 41.33,
+      "area_m2": 20.0,
       "area_basis": "exclusive",
-      "building_type": "단독주택",
-      "freshness_days": 1,
-      "title": "초량동 13평 빌라(투룸 이상) 월세 1,000 / 70만원",
-      "legal_risk": "상대적으로 낮음",
+      "building_type": "공동주택",
+      "freshness_days": 0,
+      "title": "초량동 6평 직거래 빌라(투룸 이상) 월세 500 / 48만원",
+      "legal_risk": "중간",
       "host_claim": false,
-      "score": 75,
+      "score": 77,
       "reasons": [
-        "주택용도",
+        "낮은 월세",
+        "낮은 보증금",
         "관광/교통 키워드",
         "최근 등록"
       ],
-      "is_new": false
+      "is_new": true
     },
     {
       "id": "4597925",
@@ -105,15 +106,15 @@
       "area_m2": 47.53,
       "area_basis": "exclusive",
       "building_type": "공동주택",
-      "freshness_days": 1,
+      "freshness_days": 3,
       "title": "초량동 14평 빌라(투룸 이상) 월세 500 / 75만원",
       "legal_risk": "중간",
       "host_claim": false,
-      "score": 71,
+      "score": 68,
       "reasons": [
         "낮은 보증금",
         "관광/교통 키워드",
-        "최근 등록"
+        "7일 이내"
       ],
       "is_new": false
     }
