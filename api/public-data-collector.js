@@ -9,6 +9,7 @@
  */
 
 const SUPABASE_FALLBACK_URL = 'https://inftexpcnfinglwlrvsj.supabase.co';
+const COLLECTOR_VERSION = '20261106-scope-v1';
 const STORAGE_BUCKET = 'public-data-csv';
 const LOG_TABLE = 'public_data_collection_logs';
 const PCT_ENCODED = /%[0-9A-Fa-f]{2}/;
@@ -71,7 +72,7 @@ const API_CATALOG = [
   {
     id: 'store_dong',
     name: '서울_상권정보',
-    description: '소상공인 상가업소 행정동 목록 (기본: 역삼1동)',
+    description: '상가업소 행정동 조회 (설정 코드 1168010100·동명 미검증)',
     url: 'https://apis.data.go.kr/B553077/api/open/sdsc2/storeListInDong',
     params: { divId: 'adongCd', key: '1168010100', type: 'json' },
     maxPages: 5,
@@ -80,7 +81,7 @@ const API_CATALOG = [
   {
     id: 'store_upjong',
     name: '소상공인_상권분석',
-    description: '업종·행정동 상가업소 (기본: 음식업·대치2동)',
+    description: '상가업소 업종 조회 (Q·1168011800 적용 범위 미검증)',
     url: 'https://apis.data.go.kr/B553077/api/open/sdsc2/storeListInUpjong',
     params: {
       indsLclsCd: 'Q',
@@ -188,7 +189,7 @@ function asInt(value, fallback = 0) {
 
 function parseJsonPayload(data) {
   if (Array.isArray(data)) {
-    return { items: data.filter((row) => row && typeof row === 'object'), totalCount: data.length, pageNo: 1, numOfRows: data.length };
+    return { items: data.filter((row) => row && typeof row === 'object'), totalCount: null, pageNo: 1, numOfRows: data.length };
   }
 
   let body = data;
@@ -202,7 +203,7 @@ function parseJsonPayload(data) {
 
   return {
     items: items.filter((row) => row && typeof row === 'object' && !Array.isArray(row)),
-    totalCount: asInt(body?.totalCount, 0),
+    totalCount: body?.totalCount == null ? null : asInt(body.totalCount, null),
     pageNo: asInt(body?.pageNo, 1),
     numOfRows: asInt(body?.numOfRows, 0),
   };
@@ -222,14 +223,19 @@ function parseXmlPayload(text) {
 
   return {
     items,
-    totalCount: asInt(readTag(text, 'totalCount'), items.length),
+    totalCount: readTag(text, 'totalCount') === '' ? null : asInt(readTag(text, 'totalCount'), null),
     pageNo: asInt(readTag(text, 'pageNo'), 1),
     numOfRows: asInt(readTag(text, 'numOfRows'), items.length),
   };
 }
 
 function parseResponse(text) {
-  const stripped = text.trim();
+  const stripped = (text || '').trim();
+    if (/^<!doctype\s+html|^<html\b/i.test(stripped)) throw new DataGoKrError('99', 'API 자료 대신 HTML 안내문을 받았습니다.');
+    if (stripped.startsWith('<') && !/<(?:response|body)\b/i.test(stripped)) {
+      raiseIfXmlError(stripped);
+      throw new DataGoKrError('99', 'API XML 구조를 확인할 수 없습니다.');
+    }
   if (!stripped) {
     throw new DataGoKrError('99', '빈 응답을 받았습니다.');
   }
@@ -244,6 +250,7 @@ function parseResponse(text) {
     throw new DataGoKrError('99', `응답을 파싱할 수 없습니다: ${error.message}. 원문: ${stripped.slice(0, 200)}`);
   }
   raiseIfJsonError(data);
+    if (!Array.isArray(data) && (!data || typeof data !== 'object' || !('items' in (data?.response?.body || data?.body || data)))) throw new DataGoKrError('99', 'API items 구조를 확인할 수 없습니다.');
   return parseJsonPayload(data);
 }
 
@@ -300,6 +307,7 @@ async function paginate(api, overrideParams, apiKey) {
   delete baseParams.numOfRows;
 
   const collected = [];
+  let reportedTotal = null, pagesFetched = 0, termination = 'page_limit';
   const maxPages = api.maxPages || 5;
   const rowsPerPage = api.rowsPerPage || 1000;
 
@@ -311,13 +319,15 @@ async function paginate(api, overrideParams, apiKey) {
       apiKey,
     );
 
-    if (!result.items.length) break;
+    pagesFetched += 1;
+    if (result.totalCount != null) reportedTotal = result.totalCount;
+    if (!result.items.length) { termination = 'empty_page'; break; }
     collected.push(...result.items);
-    if (result.items.length < rowsPerPage) break;
-    if (result.totalCount && collected.length >= result.totalCount) break;
+    if (reportedTotal != null && collected.length >= reportedTotal) { termination = 'reported_total_reached'; break; }
+    if (result.items.length < rowsPerPage && reportedTotal == null) { termination = 'short_page'; break; }
   }
 
-  return { items: collected, params: baseParams };
+  return { items: collected, params: baseParams, coverage: { pagesFetched, maxPages, rowsPerPage, reportedTotal, returnedRows: collected.length, termination, complete: reportedTotal != null && collected.length === reportedTotal } };
 }
 
 function toCsv(rows) {
@@ -447,7 +457,7 @@ async function collectSelected(body = {}) {
     }
 
     try {
-      const { items, params } = await paginate(api, overrides[id], apiKey);
+      const { items, params, coverage } = await paginate(api, overrides[id], apiKey);
       const csv = toCsv(items);
       // Storage object key는 ASCII만 허용된다.
       const fileName = `${api.id}_${stamp.fileStamp}.csv`;
@@ -476,6 +486,10 @@ async function collectSelected(body = {}) {
         name: api.name,
         ok: true,
         rowCount: items.length,
+        collectorVersion: COLLECTOR_VERSION,
+        collectedAt: new Date().toISOString(),
+        dataReference: api.id === 'apt_trade' ? { kind: 'contract_month', value: params.DEAL_YMD } : api.id === 'village_fcst' ? { kind: 'forecast_issue_time', value: `${params.base_date} ${params.base_time}`, observationMonth: null } : { kind: 'source_snapshot_date_unknown', value: null },
+        coverage,
         params,
         fileName,
         storagePath: saveToSupabase ? storagePath : null,
@@ -535,6 +549,7 @@ export default async function handler(req, res) {
       const config = supabaseConfig();
       return res.status(200).json({
         ok: true,
+        collectorVersion: COLLECTOR_VERSION,
         apis: catalogPayload(),
         supabaseConfigured: Boolean(config),
         dataGoKrConfigured: Boolean((process.env.DATA_GO_KR_API_KEY || '').trim()),
@@ -559,6 +574,8 @@ export default async function handler(req, res) {
 
 export const __test = {
   buildUrl,
+  paginate,
+  COLLECTOR_VERSION,
   toCsv,
   parseResponse,
   encodeServiceKey,

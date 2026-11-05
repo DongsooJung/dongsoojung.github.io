@@ -1,0 +1,147 @@
+{
+  "schemaVersion": 1,
+  "id": "collector-source-20261106",
+  "checkedAt": "2026-11-05T20:39:24.704Z",
+  "keys": [
+    "/public-data-collector/"
+  ],
+  "status": "partial",
+  "collectorVersion": "20261106-scope-v1",
+  "statisticalReferenceMonth": {
+    "status": "not_applicable",
+    "reason": "수집기 코드·지원 범위·명세 문서는 통계 월별 자료가 아님. 실제 출력 데이터는 계약년월·예보 발표시각·원자료 기준일을 별도 검증해야 함."
+  },
+  "sources": [
+    {
+      "kind": "official-source",
+      "url": "https://www.data.go.kr/data/15126469/openapi.do",
+      "metadataUrl": "https://www.data.go.kr/catalog/15126469/openapi.json",
+      "name": "국토교통부_아파트 매매 실거래가 자료",
+      "documentModifiedAt": "2026-07-22",
+      "documentPublishedAt": "2024-01-25",
+      "checkedAt": "2026-11-05T20:39:24.704Z",
+      "scope": "공식 데이터셋 메타데이터의 서비스 URL·자료 설명·명세 개정일 대조. 인증 원응답의 값·코드 전수 대조는 미완료.",
+      "sha256": "7972daa66fdd3c3b1872da10b03b821fdf918ac0df7706529960a3f3c21e0478"
+    },
+    {
+      "kind": "official-source",
+      "url": "https://www.data.go.kr/data/15012005/openapi.do",
+      "metadataUrl": "https://www.data.go.kr/catalog/15012005/openapi.json",
+      "name": "소상공인시장진흥공단_상가(상권)정보_API",
+      "documentModifiedAt": "2026-08-14",
+      "documentPublishedAt": "2015-12-22",
+      "checkedAt": "2026-11-05T20:39:24.704Z",
+      "scope": "공식 데이터셋 메타데이터의 서비스 URL·자료 설명·명세 개정일 대조. 인증 원응답의 값·코드 전수 대조는 미완료.",
+      "sha256": "c7f5dab9bb43e55c23ce2b3d8d235bd51447881a2deda7154ce7d3afbc407a1c"
+    },
+    {
+      "kind": "official-source",
+      "url": "https://www.data.go.kr/data/15084084/openapi.do",
+      "metadataUrl": "https://www.data.go.kr/catalog/15084084/openapi.json",
+      "name": "기상청_단기예보 조회서비스",
+      "documentModifiedAt": "2026-10-19",
+      "documentPublishedAt": "2021-06-28",
+      "checkedAt": "2026-11-05T20:39:24.704Z",
+      "scope": "공식 데이터셋 메타데이터의 서비스 URL·자료 설명·명세 개정일 대조. 인증 원응답의 값·코드 전수 대조는 미완료.",
+      "sha256": "5d458c299010bb8758e39cef47643b216208995a3e589ec184be8d4efdfe2ad4"
+    }
+  ],
+  "codeScope": {
+    "browser": {
+      "apis": 4,
+      "pages": {
+        "apt_trade": 3,
+        "store_dong": 3,
+        "store_upjong": 3,
+        "village_fcst": 1
+      }
+    },
+    "server": {
+      "apis": 4,
+      "pages": {
+        "apt_trade": 5,
+        "store_dong": 5,
+        "store_upjong": 5,
+        "village_fcst": 2
+      }
+    },
+    "cli": {
+      "entry": "scripts/collect-public-data.mjs",
+      "storageDefault": true
+    },
+    "workflow": {
+      "path": ".github/workflows/collect-public-data.yml",
+      "configuredSchedule": "10 15 * * *",
+      "configuredTimezone": "UTC",
+      "latestObservedRun": "https://github.com/DongsooJung/dongsoojung.github.io/actions/runs/41914327783",
+      "latestObservedResult": "failure",
+      "executionSuccessVerified": false
+    },
+    "serverDeployment": "unverified"
+  },
+  "readOnlyCheck": {
+    "method": "GET",
+    "url": "https://inftexpcnfinglwlrvsj.supabase.co/rest/v1/public_data_collection_logs",
+    "status": 200,
+    "checkedAt": "2026-11-05T20:35:32.459Z",
+    "scope": "기존 공개 로그 읽기만 수행. 원API 인증 응답 없음.",
+    "latestLog": {
+      "collectedAt": "2026-08-31T09:39:37.015+00:00",
+      "params": {
+        "LAWD_CD": "11680",
+        "DEAL_YMD": "202607"
+      },
+      "rowCount": 0
+    },
+    "latestNonEmptyLog": {
+      "collectedAt": "2026-08-01T02:37:04.742+00:00",
+      "params": {
+        "LAWD_CD": "11680",
+        "DEAL_YMD": "202607"
+      },
+      "rowCount": 98
+    },
+    "note": "0행 status ok는 9·10월 자료 확보나 거래 0건의 공식 증거가 아님. 로그와 별도 저장 CSV의 원자료 일치는 미검증."
+  },
+  "preservedSnapshot": {
+    "file": "public-data-collector/data/latest-apt_trade.csv",
+    "sha256": "d047a7e66f39dd4e62fb26284d642936061ceb188b8dc5285c48bb54406ea742",
+    "bytes": 27933,
+    "physicalLines": 212,
+    "note": "파일·기존 원자료·수집일을 변경하지 않음. 행 수/시각을 원API 대조 완료로 취급하지 않음."
+  },
+  "fixes": [
+    "HTML 차단 안내와 items 없는 JSON을 정상 0행으로 처리하지 않음",
+    "페이지 상한·반환행·원API 총건수·종료사유 표시. 미확인 총건수와 보고 0건을 구분",
+    "수집시각과 계약년월/예보시각을 분리하고 CSV와 범위 JSON 다운로드 제공",
+    "미검증 상권 코드를 동명·음식업으로 단정하지 않도록 안내 수정"
+  ],
+  "validation": {
+    "nodeTests": 12,
+    "networkWrites": 0,
+    "liveSourceRowsVerified": false
+  },
+  "remaining": [
+    {
+      "reason": "현재 승인된 DATA_GO_KR_API_KEY 실행 환경 미확보; .env/.env.local/.env.production 없음",
+      "nextAction": "기존 승인 실행 환경 확보 후 저장을 끈 원API 조회만 수행. 키 생성·출력 금지.",
+      "url": "https://www.data.go.kr/data/15126469/openapi.do"
+    },
+    {
+      "reason": "상권 행정동 1168010100/1168011800 및 대분류 Q의 현행 코드·명칭 미검증",
+      "nextAction": "공식 코드 조회 응답으로 대조한 뒤에만 기본값 교체",
+      "url": "https://www.data.go.kr/data/15012005/openapi.do"
+    },
+    {
+      "reason": "기상 당일0500 설정은 야간 실행시 아직 공표되지 않았을 수 있음",
+      "nextAction": "공식 발표/제공시각 확인 후 이전 발표시각 선택 규칙을 별도 검증",
+      "url": "https://www.data.go.kr/data/15084084/openapi.do"
+    },
+    {
+      "reason": "Vercel 서버 수정 버전 배포 미확인",
+      "nextAction": "실제 프로젝트·저장소·배포 버전 확인 전 서버 원응답 대조 완료로 취급하지 않음",
+      "url": "https://www.stargateedu.co.kr/public-data-collector/"
+    }
+  ],
+  "nextAction": "다음 독립 미완료 /did/의 과거 raw 응답·수집시각과 일별 범주 합계를 대조합니다. 공공데이터 수집기는 승인된 원API 키·지역/업종 코드 및 서버 배포 버전이 실제 확보된 때만 원응답 대조를 재개합니다. 부분 수집을 전수로 취급하지 않으며 전체 수락은 pending입니다."
+}

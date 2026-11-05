@@ -4395,17 +4395,17 @@
     },
     {
       "source": {
-        "label": "공공데이터포털 API 명세",
-        "url": "https://www.stargateedu.co.kr/public-data-collector/",
-        "verification": "partial"
+        "label": "국토부·소진공·기상청 공식 API 메타데이터",
+        "url": "https://www.data.go.kr/data/15126469/openapi.do",
+        "verification": "partially_verified"
       },
       "dataAsOf": null,
       "dataPeriod": null,
-      "snapshotUpdatedAt": null,
+      "snapshotUpdatedAt": "2026-11-05T20:39:24.704Z",
       "collectedAt": null,
-      "checkedAt": "2026-10-18T15:32:54.320105+00:00",
+      "checkedAt": "2026-11-05T20:39:24.704Z",
       "reviewStatus": "needs_review",
-      "freshness": "scope_limited_review",
+      "freshness": "collector_scope_checked_authenticated_rows_pending",
       "evidence": [
         {
           "kind": "audit-record",
@@ -4445,11 +4445,38 @@
           "checkedAt": "2026-10-18T15:29:05.721325+00:00",
           "sha256": "4383cae001097cb8e0053db7e6afa073fdaddd598387122e706b231243b359c4",
           "scope": "수집기 코드와 국토부·소상공인시장진흥공단·기상청 API 명세 페이지를 대조했습니다. 수집은 브라우저에서 실행하며 자동 반복은 탭이 열려 있을 때만 작동합니다. 기본 조회는 지역·유형·페이지 수가 제한됩니다. 이번 점검에서 새 수집·Storage 저장을 실행하지 않았으므로 9·10월 자료의 확보 또는 전수 수집 완료를 뜻하지 않습니다. 동 코드·업종 코드와 인증된 응답 대조가 남아 있습니다."
+        },
+        {
+          "kind": "official-source",
+          "url": "https://www.data.go.kr/catalog/15126469/openapi.json",
+          "name": "국토교통부_아파트 매매 실거래가 자료",
+          "checkedAt": "2026-11-05T20:39:24.704Z",
+          "scope": "공식 데이터셋 메타데이터의 서비스 URL·자료 설명·명세 개정일 대조. 인증 원응답의 값·코드 전수 대조는 미완료. 명세 개정일 2026-07-22"
+        },
+        {
+          "kind": "official-source",
+          "url": "https://www.data.go.kr/catalog/15012005/openapi.json",
+          "name": "소상공인시장진흥공단_상가(상권)정보_API",
+          "checkedAt": "2026-11-05T20:39:24.704Z",
+          "scope": "공식 데이터셋 메타데이터의 서비스 URL·자료 설명·명세 개정일 대조. 인증 원응답의 값·코드 전수 대조는 미완료. 명세 개정일 2026-08-14"
+        },
+        {
+          "kind": "official-source",
+          "url": "https://www.data.go.kr/catalog/15084084/openapi.json",
+          "name": "기상청_단기예보 조회서비스",
+          "checkedAt": "2026-11-05T20:39:24.704Z",
+          "scope": "공식 데이터셋 메타데이터의 서비스 URL·자료 설명·명세 개정일 대조. 인증 원응답의 값·코드 전수 대조는 미완료. 명세 개정일 2026-10-19"
+        },
+        {
+          "kind": "audit-record",
+          "url": "/research/source-reviews/2026-11-06-collector-source.json",
+          "checkedAt": "2026-11-05T20:39:24.704Z"
         }
       ],
       "issues": [
-        "수집기 코드와 국토부·소상공인시장진흥공단·기상청 API 명세 페이지를 대조했습니다. 수집은 브라우저에서 실행하며 자동 반복은 탭이 열려 있을 때만 작동합니다. 기본 조회는 지역·유형·페이지 수가 제한됩니다. 이번 점검에서 새 수집·Storage 저장을 실행하지 않았으므로 9·10월 자료의 확보 또는 전수 수집 완료를 뜻하지 않습니다. 동 코드·업종 코드와 인증된 응답 대조가 남아 있습니다.",
-        "검토 문서 버전: 현재 브라우저 수집기 · 페이지별 조회상한 있음"
+        "승인 원API 응답 미확보",
+        "상권 지역·업종 코드 미검증",
+        "서버 배포 버전 미확인"
       ],
       "key": "/public-data-collector/",
       "url": "/public-data-collector/",
@@ -4458,8 +4485,19 @@
       "classification": "연구·AI",
       "sourceHint": "data.go.kr · Supabase",
       "verifiedScope": "수집기 코드와 국토부·소상공인시장진흥공단·기상청 API 명세 페이지를 대조했습니다. 수집은 브라우저에서 실행하며 자동 반복은 탭이 열려 있을 때만 작동합니다. 기본 조회는 지역·유형·페이지 수가 제한됩니다. 이번 점검에서 새 수집·Storage 저장을 실행하지 않았으므로 9·10월 자료의 확보 또는 전수 수집 완료를 뜻하지 않습니다. 동 코드·업종 코드와 인증된 응답 대조가 남아 있습니다.",
-      "nextAction": "기존 인증으로 저장을 끈 응답 대조 후 지역·업종 코드·페이지 종료 조건을 검증. CSV의 자료 기준과 수집시각을 구분.",
-      "documentVersion": "현재 브라우저 수집기 · 페이지별 조회상한 있음"
+      "nextAction": "기존 승인 실행 환경 확보 후 저장을 끈 원API 조회만 수행. 키 생성·출력 금지. 공식 코드 조회 응답으로 대조한 뒤에만 기본값 교체 공식 발표/제공시각 확인 후 이전 발표시각 선택 규칙을 별도 검증 실제 프로젝트·저장소·배포 버전 확인 전 서버 원응답 대조 완료로 취급하지 않음",
+      "documentVersion": "20261106-scope-v1 · 4개 유형·부분 수집 표시",
+      "referenceDescription": "수집기 문서 기준월 비적용; 출력 통계·원자료 기준일은 별도 미검증",
+      "sourceAudit": {
+        "audit": "/research/source-reviews/2026-11-06-collector-source.json",
+        "checkedAt": "2026-11-05T20:39:24.704Z",
+        "statisticalReferenceMonth": {
+          "status": "not_applicable",
+          "reason": "수집기 코드·지원 범위·명세 문서는 통계 월별 자료가 아님. 실제 출력 데이터는 계약년월·예보 발표시각·원자료 기준일을 별도 검증해야 함."
+        },
+        "collectorVersion": "20261106-scope-v1",
+        "authenticatedResponseVerified": false
+      }
     },
     {
       "source": {
