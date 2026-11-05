@@ -223,7 +223,7 @@
 <link rel="stylesheet" href="/assets/stargate-tokens.css?v=20261017">
 </head>
 <body>
-<aside id="source-review-note" aria-label="출처와 버전 점검" style="box-sizing:border-box;max-width:1100px;margin:18px auto;padding:14px 20px;border:1px solid #64748b;border-radius:12px;font:14px/1.7 system-ui,sans-serif;overflow-wrap:anywhere"><strong>출처·버전 점검 · 2026-10-19</strong><p style="margin:6px 0">수집기 코드와 국토부·소상공인시장진흥공단·기상청 API 명세 페이지를 대조했습니다. 수집은 브라우저에서 실행하며 자동 반복은 탭이 열려 있을 때만 작동합니다. 기본 조회는 지역·유형·페이지 수가 제한됩니다. 이번 점검에서 새 수집·Storage 저장을 실행하지 않았으므로 9·10월 자료의 확보 또는 전수 수집 완료를 뜻하지 않습니다. 동 코드·업종 코드와 인증된 응답 대조가 남아 있습니다.</p><a href="/research/source-reviews/2026-10-19-research-1.json">대조 범위·원문·후속 조치 (JSON)</a></aside>
+<aside id="source-review-note" aria-label="출처와 버전 점검" style="box-sizing:border-box;max-width:1100px;margin:18px auto;padding:14px 20px;border:1px solid #64748b;border-radius:12px;font:14px/1.7 system-ui,sans-serif;overflow-wrap:anywhere"><strong>출처·버전 점검 · 2026-11-06</strong><p>브라우저 수집기 20261106-scope-v1은 4개 조회 유형을 지원합니다. 아파트·상권은 최대 3페이지, 기상은 1페이지이며, 서버 코드는 각각 5·2페이지입니다. API가 보고한 총건수에 도달하지 않으면 전수 완료로 표시하지 않습니다. 상권의 기존 지역·업종 코드와 실제 동명은 미검증입니다.</p><p>통계 기준월은 수집일과 다릅니다. 아파트는 계약년월, 기상은 예보 발표시각이며 상권 원자료 기준일은 미확인입니다. 이번에는 공식 명세(아파트 7월22일·상권 8월14일·기상 10월19일 개정)와 코드를 대조했습니다. 저장 로그의 최근 7월 조회·0행 기록을 9·10월 자료로 간주하지 않았습니다. 승인된 원API 응답과 서버 배포 버전은 아직 미확인입니다.</p><a href="/research/source-reviews/2026-11-06-collector-source.json">대조 범위·원문·후속 조치 (JSON)</a></aside>
   <div class="wrap">
     <header class="topbar">
       <a class="brand" href="/">
@@ -399,15 +399,15 @@
           <article class="result">
             <div class="result-head">
               <h3>${item.name}</h3>
-              <span class="pill">${item.rowCount.toLocaleString('ko-KR')}행</span>
+              <span class="pill">${item.rowCount.toLocaleString('ko-KR')}행 · ${item.coverage?.complete ? '보고 총건수 일치' : '부분 수집·범위 미확인'}</span>
             </div>
             <p class="meta">
-              파일: ${item.fileName || '-'}
+              수집시각: ${item.collectedAt || '미확인'}<br>자료 기준: ${item.dataReference?.value || '원자료 기준일 미확인'}<br>조회: ${item.coverage?.pagesFetched ?? '?'} / ${item.coverage?.maxPages ?? '?'}페이지 · 원API 총건수 ${item.coverage?.reportedTotal ?? '미공개'}<br>파일: ${item.fileName || '-'}
               ${item.publicUrl ? `<br>Storage: ${item.storagePath}` : '<br>로컬 CSV만 생성되었습니다.'}
               ${item.saveWarning ? `<br>Supabase 저장 경고: ${item.saveWarning}` : ''}
             </p>
             <div class="actions">
-              ${item.csv ? `<button class="link-btn" type="button" data-download="${index}">CSV 다운로드</button>` : ''}
+              ${item.csv ? `<button class="link-btn" type="button" data-download="${index}">CSV 다운로드</button><button class="link-btn" type="button" data-manifest="${index}">수집 범위 JSON</button>` : ''}
               ${item.publicUrl ? `<a class="link-btn" href="${item.publicUrl}" target="_blank" rel="noreferrer">Supabase CSV 열기</a>` : ''}
             </div>
             ${renderPreview(item.preview)}
@@ -415,6 +415,13 @@
         `;
       }).join('');
 
+      els.results.querySelectorAll('[data-manifest]').forEach(btn => btn.addEventListener('click', () => {
+        const item = lastPayload.results[Number(btn.dataset.manifest)];
+        const { csv, preview, ...manifest } = item;
+        const a = document.createElement('a');
+        const url = URL.createObjectURL(new Blob([JSON.stringify(manifest, null, 2)], {type:'application/json'}));
+        a.href=url; a.download=item.id + '_scope.json'; a.click(); setTimeout(()=>URL.revokeObjectURL(url),1000);
+      }));
       els.results.querySelectorAll('[data-download]').forEach((btn) => {
         btn.addEventListener('click', () => {
           const item = lastPayload.results[Number(btn.dataset.download)];
@@ -500,7 +507,7 @@
         renderResults(data);
         if (data.ok) {
           const okCount = data.results.filter((row) => row.ok).length;
-          setStatus(`${okCount}개 API 수집을 마쳤습니다.`, 'ok');
+          setStatus(`${okCount}개 API 응답을 받았습니다. 각 결과의 부분 수집·자료 기준을 확인해 주세요.`, 'ok');
           await loadMeta();
         } else {
           const firstError = data.results?.find((row) => !row.ok)?.error || '수집 실패';

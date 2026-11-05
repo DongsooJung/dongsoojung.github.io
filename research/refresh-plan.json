@@ -987,8 +987,8 @@
       "status": "pending",
       "keys": [],
       "outcome": "conditional_technical_acceptance",
-      "latestAudit": "/research/source-reviews/2026-11-05-immigration-source.json",
-      "lastAttemptAt": "2026-10-20T23:07:26.208Z",
+      "latestAudit": "/research/source-reviews/2026-11-06-collector-source.json",
+      "lastAttemptAt": "2026-11-05T20:39:24.704Z",
       "itemResults": {
         "/exchange-rate/": {
           "status": "verified",
@@ -1226,6 +1226,13 @@
             }
           },
           "nextAction": "완료한 9월 통계 범위는 반복하지 않습니다. 체류허가 세부 경로별 매뉴얼·소득/서류 조건과 영주증·재입국 조항의 현행 원문을 후속 대조합니다."
+        },
+        "/public-data-collector/": {
+          "status": "needs_review",
+          "checkedAt": "2026-11-05T20:39:24.704Z",
+          "audit": "/research/source-reviews/2026-11-06-collector-source.json",
+          "scope": "4개 API 명세·수집기 버전/범위·읽기 전용 경로 대조, 인증 원응답 미확보",
+          "nextAction": "기존 승인 실행 환경 확보 후 저장을 끈 원API 조회만 수행. 키 생성·출력 금지. 공식 코드 조회 응답으로 대조한 뒤에만 기본값 교체 공식 발표/제공시각 확인 후 이전 발표시각 선택 규칙을 별도 검증 실제 프로젝트·저장소·배포 버전 확인 전 서버 원응답 대조 완료로 취급하지 않음"
         }
       },
       "checkpoints": {
@@ -1259,7 +1266,7 @@
           "Tourism not re-fetched before October26; original checkedAt retained"
         ]
       },
-      "nextAction": "다음 독립 미완료 /public-data-collector/의 실제 원문·수집기 버전·지원 범위를 대조합니다. 이민정책 9월 원표 641행과 월보 4행 대조 완료 범위는 반복하지 않습니다. 경로별 체류 매뉴얼·소득/서류·영주증/재입국 현행 근거는 후속 대조합니다. 기존 공표·접근 대기는 해당 조건 변화 시 재개하며 전체 수락은 pending입니다.",
+      "nextAction": "다음 독립 미완료 /did/의 과거 raw 응답·수집시각과 일별 범주 합계를 대조합니다. 공공데이터 수집기는 승인된 원API 키·지역/업종 코드 및 서버 배포 버전이 실제 확보된 때만 원응답 대조를 재개합니다. 부분 수집을 전수로 취급하지 않으며 전체 수락은 pending입니다.",
       "sourceFollowups": [
         {
           "id": "source-followup-1-20261021",
@@ -2313,6 +2320,23 @@
               "Live four data rows,three status tabs,KR/EN,source search/empty state,three downloads and390px layout passed",
               "Two PDF companions text checked and all pages visually inspected"
             ]
+          }
+        },
+        {
+          "id": "collector-source-20261106",
+          "status": "partial",
+          "checkedAt": "2026-11-05T20:39:24.704Z",
+          "keys": [
+            "/public-data-collector/"
+          ],
+          "audit": "/research/source-reviews/2026-11-06-collector-source.json",
+          "outcome": "collector_scope_and_read_only_paths_checked_authenticated_rows_pending",
+          "release": {
+            "branch": "codex/collector-source-20261106",
+            "status": "awaiting_checks",
+            "liveUrl": "https://www.stargateedu.co.kr/public-data-collector/",
+            "sourceReviewUrl": "https://www.stargateedu.co.kr/research/source-reviews/2026-11-06-collector-source.json",
+            "pullRequest": "https://github.com/DongsooJung/dongsoojung.github.io/pull/254"
           }
         }
       ],
