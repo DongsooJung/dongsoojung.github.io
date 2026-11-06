@@ -1,216 +1,46 @@
 {
   "sourceMode": "google-trends-snapshots",
-  "source": "Google Trends 급상승 검색어 일별 저장 스냅샷",
-  "treatedLabel": "비즈니스·산업",
+  "source": "Google Trends 급상승 상위100 변환 저장본",
+  "treatedLabel": "비즈니스 및 금융",
   "controlLabel": "스포츠",
-  "normalization": "각 범주 일별 검색량 합계를 관측기간 범주별 최댓값=100으로 환산",
+  "normalization": "보관 창의 첫 범주 ID별 구간화 표시 검색량 합을 각각 최대=100으로 환산",
+  "dateMeaning": "수집기 완료시각의 KST 날짜; 48시간창은 서로 겹치며 일별 전체 검색량이 아님",
+  "categoryIds": {
+    "treated": 3,
+    "control": 17
+  },
+  "aggregationVersion": "20261106-category-id-v2",
+  "generatedAt": "2026-11-06T11:44:27.868005+00:00",
+  "sourceVerification": "parsed-snapshots-only",
+  "skippedSnapshots": [],
+  "normalizationWindow": {
+    "first": "2026-08-31",
+    "last": "2026-11-06",
+    "observations": 68,
+    "limit": 90
+  },
   "updatedAt": "2026-11-06",
   "rows": [
-    {
-      "date": "2026-08-08",
-      "treatedRaw": 144000,
-      "controlRaw": 96000,
-      "treatedCount": 16,
-      "controlCount": 10,
-      "treated": 31.72,
-      "control": 17.68
-    },
-    {
-      "date": "2026-08-09",
-      "treatedRaw": 70000,
-      "controlRaw": 180000,
-      "treatedCount": 7,
-      "controlCount": 17,
-      "treated": 15.42,
-      "control": 33.15
-    },
-    {
-      "date": "2026-08-10",
-      "treatedRaw": 157000,
-      "controlRaw": 357000,
-      "treatedCount": 6,
-      "controlCount": 21,
-      "treated": 34.58,
-      "control": 65.75
-    },
-    {
-      "date": "2026-08-11",
-      "treatedRaw": 81000,
-      "controlRaw": 140000,
-      "treatedCount": 13,
-      "controlCount": 16,
-      "treated": 17.84,
-      "control": 25.78
-    },
-    {
-      "date": "2026-08-12",
-      "treatedRaw": 60000,
-      "controlRaw": 205000,
-      "treatedCount": 7,
-      "controlCount": 20,
-      "treated": 13.22,
-      "control": 37.75
-    },
-    {
-      "date": "2026-08-13",
-      "treatedRaw": 275000,
-      "controlRaw": 290000,
-      "treatedCount": 16,
-      "controlCount": 15,
-      "treated": 60.57,
-      "control": 53.41
-    },
-    {
-      "date": "2026-08-14",
-      "treatedRaw": 270000,
-      "controlRaw": 305000,
-      "treatedCount": 25,
-      "controlCount": 10,
-      "treated": 59.47,
-      "control": 56.17
-    },
-    {
-      "date": "2026-08-15",
-      "treatedRaw": 225000,
-      "controlRaw": 320000,
-      "treatedCount": 19,
-      "controlCount": 14,
-      "treated": 49.56,
-      "control": 58.93
-    },
-    {
-      "date": "2026-08-16",
-      "treatedRaw": 209000,
-      "controlRaw": 247000,
-      "treatedCount": 15,
-      "controlCount": 18,
-      "treated": 46.04,
-      "control": 45.49
-    },
-    {
-      "date": "2026-08-17",
-      "treatedRaw": 89000,
-      "controlRaw": 449000,
-      "treatedCount": 10,
-      "controlCount": 28,
-      "treated": 19.6,
-      "control": 82.69
-    },
-    {
-      "date": "2026-08-18",
-      "treatedRaw": 121000,
-      "controlRaw": 261000,
-      "treatedCount": 13,
-      "controlCount": 23,
-      "treated": 26.65,
-      "control": 48.07
-    },
-    {
-      "date": "2026-08-19",
-      "treatedRaw": 181000,
-      "controlRaw": 146000,
-      "treatedCount": 14,
-      "controlCount": 17,
-      "treated": 39.87,
-      "control": 26.89
-    },
-    {
-      "date": "2026-08-20",
-      "treatedRaw": 454000,
-      "controlRaw": 314000,
-      "treatedCount": 18,
-      "controlCount": 15,
-      "treated": 100.0,
-      "control": 57.83
-    },
-    {
-      "date": "2026-08-21",
-      "treatedRaw": 260000,
-      "controlRaw": 255000,
-      "treatedCount": 18,
-      "controlCount": 10,
-      "treated": 57.27,
-      "control": 46.96
-    },
-    {
-      "date": "2026-08-22",
-      "treatedRaw": 240000,
-      "controlRaw": 160000,
-      "treatedCount": 13,
-      "controlCount": 13,
-      "treated": 52.86,
-      "control": 29.47
-    },
-    {
-      "date": "2026-08-23",
-      "treatedRaw": 387000,
-      "controlRaw": 417000,
-      "treatedCount": 14,
-      "controlCount": 26,
-      "treated": 85.24,
-      "control": 76.8
-    },
-    {
-      "date": "2026-08-24",
-      "treatedRaw": 272000,
-      "controlRaw": 525000,
-      "treatedCount": 16,
-      "controlCount": 27,
-      "treated": 59.91,
-      "control": 96.69
-    },
-    {
-      "date": "2026-08-25",
-      "treatedRaw": 235000,
-      "controlRaw": 272000,
-      "treatedCount": 18,
-      "controlCount": 19,
-      "treated": 51.76,
-      "control": 50.09
-    },
-    {
-      "date": "2026-08-26",
-      "treatedRaw": 90000,
-      "controlRaw": 285000,
-      "treatedCount": 10,
-      "controlCount": 22,
-      "treated": 19.82,
-      "control": 52.49
-    },
-    {
-      "date": "2026-08-28",
-      "treatedRaw": 155000,
-      "controlRaw": 245000,
-      "treatedCount": 14,
-      "controlCount": 20,
-      "treated": 34.14,
-      "control": 45.12
-    },
-    {
-      "date": "2026-08-29",
-      "treatedRaw": 189000,
-      "controlRaw": 247000,
-      "treatedCount": 15,
-      "controlCount": 21,
-      "treated": 41.63,
-      "control": 45.49
-    },
-    {
-      "date": "2026-08-30",
-      "treatedRaw": 118000,
-      "controlRaw": 406000,
-      "treatedCount": 12,
-      "controlCount": 23,
-      "treated": 25.99,
-      "control": 74.77
-    },
     {
       "date": "2026-08-31",
       "treatedRaw": 108000,
       "controlRaw": 326000,
       "treatedCount": 16,
       "controlCount": 27,
-      "treated": 23.79,
+      "collectorCompletedAt": "2026-08-31T06:47:47+00:00",
+      "committedAt": "2026-09-01T05:29:11Z",
+      "sourceCommit": "fd41252721401ae2a5bb3753752106ec907c21ff",
+      "sourceSha256": "7ea5d3c954b0277bbaf1dd6c16158751685d481f9a893dcf93d347ba02bb903b",
+      "snapshotItemCount": 100,
+      "sourceDocumentSha256": "b960f1cacba652f82035e56f9aa0bd0d20ff5821692edf264d3a09a0346f979b",
+      "hours": 48,
+      "geo": [
+        "KR"
+      ],
+      "limit": 100,
+      "aggregationVersion": "20261106-category-id-v2",
+      "verification": "parsed-snapshot-derived-original-response-unavailable",
+      "treated": 39.27,
       "control": 60.04
     },
     {
@@ -219,7 +49,20 @@
       "controlRaw": 186000,
       "treatedCount": 17,
       "controlCount": 25,
-      "treated": 32.16,
+      "collectorCompletedAt": "2026-09-01T06:06:37+00:00",
+      "committedAt": "2026-09-01T06:06:37Z",
+      "sourceCommit": "68753fbe7e932a81431492cdf9f48aed79015a23",
+      "sourceSha256": "ae614c7470f3dc49e69a258ad253065fbca89f979a420eea63884b55e5755a02",
+      "snapshotItemCount": 100,
+      "sourceDocumentSha256": "eeadf1d51555537e2f911a5ae4e89d530a38dfab2f6e503e256617855eb598ea",
+      "hours": 48,
+      "geo": [
+        "KR"
+      ],
+      "limit": 100,
+      "aggregationVersion": "20261106-category-id-v2",
+      "verification": "parsed-snapshot-derived-original-response-unavailable",
+      "treated": 53.09,
       "control": 34.25
     },
     {
@@ -228,7 +71,20 @@
       "controlRaw": 205000,
       "treatedCount": 13,
       "controlCount": 22,
-      "treated": 15.42,
+      "collectorCompletedAt": "2026-09-02T05:32:01+00:00",
+      "committedAt": "2026-09-02T05:32:02Z",
+      "sourceCommit": "d0f7f3c9c2909f97dc403590044641e9fb6e4bc9",
+      "sourceSha256": "83aafb19656b2e5ef6603f1104471db26de317d195f0ce2d6a9c92268ed2cfe6",
+      "snapshotItemCount": 100,
+      "sourceDocumentSha256": "e9beeb24368d639d454f05370efa81de44f85ae0f0d81dac4418c862d4e61e68",
+      "hours": 48,
+      "geo": [
+        "KR"
+      ],
+      "limit": 100,
+      "aggregationVersion": "20261106-category-id-v2",
+      "verification": "parsed-snapshot-derived-original-response-unavailable",
+      "treated": 25.45,
       "control": 37.75
     },
     {
@@ -237,7 +93,20 @@
       "controlRaw": 194000,
       "treatedCount": 17,
       "controlCount": 14,
-      "treated": 14.54,
+      "collectorCompletedAt": "2026-09-03T05:32:37+00:00",
+      "committedAt": "2026-09-03T05:32:37Z",
+      "sourceCommit": "6e6144d8cd8dd0e789b2e03b1accada7424c5082",
+      "sourceSha256": "399770b0ab6641754cc0721ebf2c7780b7246b469b4f31cd49b8c0a4f2a2808e",
+      "snapshotItemCount": 100,
+      "sourceDocumentSha256": "dfc150a05d33b5c5611edc99560700822505d97458d695a56b4509412c878626",
+      "hours": 48,
+      "geo": [
+        "KR"
+      ],
+      "limit": 100,
+      "aggregationVersion": "20261106-category-id-v2",
+      "verification": "parsed-snapshot-derived-original-response-unavailable",
+      "treated": 24.0,
       "control": 35.73
     },
     {
@@ -246,7 +115,20 @@
       "controlRaw": 61000,
       "treatedCount": 12,
       "controlCount": 9,
-      "treated": 30.4,
+      "collectorCompletedAt": "2026-09-04T05:37:45+00:00",
+      "committedAt": "2026-09-04T05:37:45Z",
+      "sourceCommit": "b7d37e93949c56357db9c76ff63b3bb779eebb0b",
+      "sourceSha256": "4a23116103e235e32d9162f9bf380b857de6b4babc9bb4f4d8157011326a3b71",
+      "snapshotItemCount": 100,
+      "sourceDocumentSha256": "1b5820d3cb92e0c066608ba89bcef969f896a36324ee2bc3c118f037d7d5cfe8",
+      "hours": 48,
+      "geo": [
+        "KR"
+      ],
+      "limit": 100,
+      "aggregationVersion": "20261106-category-id-v2",
+      "verification": "parsed-snapshot-derived-original-response-unavailable",
+      "treated": 50.18,
       "control": 11.23
     },
     {
@@ -255,7 +137,20 @@
       "controlRaw": 141000,
       "treatedCount": 10,
       "controlCount": 16,
-      "treated": 16.08,
+      "collectorCompletedAt": "2026-09-05T05:23:03+00:00",
+      "committedAt": "2026-09-05T05:23:03Z",
+      "sourceCommit": "e7a4963e4d7a14df74ed2b49ed108f3b5c1dca76",
+      "sourceSha256": "79426f6a2f3b10d14c4c3b0381ca406f09c9caa8d3b0d127e80eabcc4e8ed5b4",
+      "snapshotItemCount": 100,
+      "sourceDocumentSha256": "4654646412ecccbd7f0c3f4cb909da2cf00bc1e52fcce613fedfcf93b1851d43",
+      "hours": 48,
+      "geo": [
+        "KR"
+      ],
+      "limit": 100,
+      "aggregationVersion": "20261106-category-id-v2",
+      "verification": "parsed-snapshot-derived-original-response-unavailable",
+      "treated": 26.55,
       "control": 25.97
     },
     {
@@ -264,7 +159,20 @@
       "controlRaw": 467000,
       "treatedCount": 12,
       "controlCount": 29,
-      "treated": 12.78,
+      "collectorCompletedAt": "2026-09-06T05:39:23+00:00",
+      "committedAt": "2026-09-06T05:39:24Z",
+      "sourceCommit": "b8335d813ba3c43d06d127294d7e93634eb1082b",
+      "sourceSha256": "75c1368da4d8f3fe918f88f15897272862427275ac788daf6cad64a23dd01708",
+      "snapshotItemCount": 100,
+      "sourceDocumentSha256": "6682b5e46b5655a51381d1dee5dc6765fd3748ebfafc26c3e0c57f062331a3e8",
+      "hours": 48,
+      "geo": [
+        "KR"
+      ],
+      "limit": 100,
+      "aggregationVersion": "20261106-category-id-v2",
+      "verification": "parsed-snapshot-derived-original-response-unavailable",
+      "treated": 21.09,
       "control": 86.0
     },
     {
@@ -273,7 +181,20 @@
       "controlRaw": 340000,
       "treatedCount": 16,
       "controlCount": 22,
-      "treated": 17.18,
+      "collectorCompletedAt": "2026-09-07T05:49:27+00:00",
+      "committedAt": "2026-09-07T05:49:28Z",
+      "sourceCommit": "a49e46775b29773dba653bf1b3bcd12ae521c07f",
+      "sourceSha256": "841110b12136237bbaa7b55cf3382cc2a70b74b5c7fb6667a1954ad4b58ce3b9",
+      "snapshotItemCount": 100,
+      "sourceDocumentSha256": "611f1eac67d5d860997f8c3b0cce0f5ee3e370d1d79a1b202f171021e55c414c",
+      "hours": 48,
+      "geo": [
+        "KR"
+      ],
+      "limit": 100,
+      "aggregationVersion": "20261106-category-id-v2",
+      "verification": "parsed-snapshot-derived-original-response-unavailable",
+      "treated": 28.36,
       "control": 62.62
     },
     {
@@ -282,7 +203,20 @@
       "controlRaw": 127000,
       "treatedCount": 17,
       "controlCount": 15,
-      "treated": 33.92,
+      "collectorCompletedAt": "2026-09-08T05:42:31+00:00",
+      "committedAt": "2026-09-08T05:42:31Z",
+      "sourceCommit": "c6f1e54abb3746585da860104aa81f9b2ef39029",
+      "sourceSha256": "56e5ac7f8b577ad92ecd3757525b756589ebf16edd6f91990865789ef24117e7",
+      "snapshotItemCount": 100,
+      "sourceDocumentSha256": "ff770135e4503442d6f4cf6ecd6c944f65b05082e4cb6db6545c2a892cf62091",
+      "hours": 48,
+      "geo": [
+        "KR"
+      ],
+      "limit": 100,
+      "aggregationVersion": "20261106-category-id-v2",
+      "verification": "parsed-snapshot-derived-original-response-unavailable",
+      "treated": 56.0,
       "control": 23.39
     },
     {
@@ -291,7 +225,20 @@
       "controlRaw": 162000,
       "treatedCount": 13,
       "controlCount": 18,
-      "treated": 19.82,
+      "collectorCompletedAt": "2026-09-09T05:47:34+00:00",
+      "committedAt": "2026-09-09T05:47:34Z",
+      "sourceCommit": "5b7a6699b65c3f75524136d18285688e0c4966d6",
+      "sourceSha256": "733b20a7cac760d49ce7b4cabbfbf1452ebbd46db7a16895bb65f77a74d06ded",
+      "snapshotItemCount": 100,
+      "sourceDocumentSha256": "72e4731dcca41485d5e22a36be30458272abecec64f3c8c1025c30f8155108f2",
+      "hours": 48,
+      "geo": [
+        "KR"
+      ],
+      "limit": 100,
+      "aggregationVersion": "20261106-category-id-v2",
+      "verification": "parsed-snapshot-derived-original-response-unavailable",
+      "treated": 32.73,
       "control": 29.83
     },
     {
@@ -300,7 +247,20 @@
       "controlRaw": 252000,
       "treatedCount": 12,
       "controlCount": 23,
-      "treated": 24.23,
+      "collectorCompletedAt": "2026-09-10T05:42:14+00:00",
+      "committedAt": "2026-09-10T05:42:15Z",
+      "sourceCommit": "24548b105b601deb4b6d8e82cf47bc77a1916225",
+      "sourceSha256": "f44e826954f1e7bcdb31368e11ae33a99efe3de575a97aa1057021291be3a781",
+      "snapshotItemCount": 100,
+      "sourceDocumentSha256": "c9e4f239f35dcedd319822550dbfeae475a58aadc1fdcc1a65b9dde101f4a1d6",
+      "hours": 48,
+      "geo": [
+        "KR"
+      ],
+      "limit": 100,
+      "aggregationVersion": "20261106-category-id-v2",
+      "verification": "parsed-snapshot-derived-original-response-unavailable",
+      "treated": 40.0,
       "control": 46.41
     },
     {
@@ -309,7 +269,20 @@
       "controlRaw": 209000,
       "treatedCount": 16,
       "controlCount": 18,
-      "treated": 51.76,
+      "collectorCompletedAt": "2026-09-11T05:41:41+00:00",
+      "committedAt": "2026-09-11T05:41:41Z",
+      "sourceCommit": "fa42e2242c3534dfbf793c3596ec6118adcccb8b",
+      "sourceSha256": "efa34f0248d4dd89c3fe0bbb09c52d5faffd95ed2e5cd7d288bd90ee339376b8",
+      "snapshotItemCount": 100,
+      "sourceDocumentSha256": "549b21527019b5d533068eed24f7cbdcd5972366d5865078034ec4acf1da2ca0",
+      "hours": 48,
+      "geo": [
+        "KR"
+      ],
+      "limit": 100,
+      "aggregationVersion": "20261106-category-id-v2",
+      "verification": "parsed-snapshot-derived-original-response-unavailable",
+      "treated": 85.45,
       "control": 38.49
     },
     {
@@ -318,7 +291,20 @@
       "controlRaw": 154000,
       "treatedCount": 15,
       "controlCount": 19,
-      "treated": 37.22,
+      "collectorCompletedAt": "2026-09-12T05:28:26+00:00",
+      "committedAt": "2026-09-12T05:28:27Z",
+      "sourceCommit": "d1b84fcbb45edb5de894b3c6a92dba1d1e72fa20",
+      "sourceSha256": "9c52e7a87695c57fcd9ef328b1a83468819c32780ae766cfc433bd1ef6b9e3af",
+      "snapshotItemCount": 100,
+      "sourceDocumentSha256": "96a1da45b9a32e10d2173520ca3da3432c4ab5687ccc6e091761b4e5ee80c43b",
+      "hours": 48,
+      "geo": [
+        "KR"
+      ],
+      "limit": 100,
+      "aggregationVersion": "20261106-category-id-v2",
+      "verification": "parsed-snapshot-derived-original-response-unavailable",
+      "treated": 61.45,
       "control": 28.36
     },
     {
@@ -327,7 +313,20 @@
       "controlRaw": 365000,
       "treatedCount": 9,
       "controlCount": 25,
-      "treated": 15.42,
+      "collectorCompletedAt": "2026-09-13T05:44:40+00:00",
+      "committedAt": "2026-09-13T05:44:40Z",
+      "sourceCommit": "5ed4ca3bf6fa13b528ce605ba19e7e363cda1e3e",
+      "sourceSha256": "229cc79fb0b8d528ca805c3143c64faacd332346d765fa6b5c905fc52c44e802",
+      "snapshotItemCount": 100,
+      "sourceDocumentSha256": "103f44acfad2ef93722aa05ad1848abf2dbbf459f23dd4c92a5947a7b2def1ec",
+      "hours": 48,
+      "geo": [
+        "KR"
+      ],
+      "limit": 100,
+      "aggregationVersion": "20261106-category-id-v2",
+      "verification": "parsed-snapshot-derived-original-response-unavailable",
+      "treated": 25.45,
       "control": 67.22
     },
     {
@@ -336,7 +335,20 @@
       "controlRaw": 510000,
       "treatedCount": 10,
       "controlCount": 24,
-      "treated": 15.42,
+      "collectorCompletedAt": "2026-09-14T05:55:30+00:00",
+      "committedAt": "2026-09-14T05:55:31Z",
+      "sourceCommit": "0791a13eb90e9ba95b676e6d30a52de25681cd44",
+      "sourceSha256": "26fafffc22db078b68ee0a111c88055134c99611e7cc58643b532a339f1135ad",
+      "snapshotItemCount": 100,
+      "sourceDocumentSha256": "a8072c16b40422c0bb9b51aa00ef2761e3e6a406e206f233019e5865c60fa421",
+      "hours": 48,
+      "geo": [
+        "KR"
+      ],
+      "limit": 100,
+      "aggregationVersion": "20261106-category-id-v2",
+      "verification": "parsed-snapshot-derived-original-response-unavailable",
+      "treated": 25.45,
       "control": 93.92
     },
     {
@@ -345,7 +357,20 @@
       "controlRaw": 328000,
       "treatedCount": 14,
       "controlCount": 24,
-      "treated": 24.01,
+      "collectorCompletedAt": "2026-09-15T05:56:40+00:00",
+      "committedAt": "2026-09-15T05:56:40Z",
+      "sourceCommit": "e6e620b65fd618fcfec924a631ea20658a9a8619",
+      "sourceSha256": "541164d326f0d9a6d2145c6bae26659f75cd296ad1217064b6be0b344074eb4d",
+      "snapshotItemCount": 100,
+      "sourceDocumentSha256": "af664a0247bae6823b47fb7a2a3d4309da4fb90e2befede045efc8b4abbe518c",
+      "hours": 48,
+      "geo": [
+        "KR"
+      ],
+      "limit": 100,
+      "aggregationVersion": "20261106-category-id-v2",
+      "verification": "parsed-snapshot-derived-original-response-unavailable",
+      "treated": 39.64,
       "control": 60.41
     },
     {
@@ -354,7 +379,20 @@
       "controlRaw": 279000,
       "treatedCount": 8,
       "controlCount": 24,
-      "treated": 9.03,
+      "collectorCompletedAt": "2026-09-16T05:44:59+00:00",
+      "committedAt": "2026-09-16T05:45:00Z",
+      "sourceCommit": "a03a3339f59b7858c1abf2f90c484e8331187ac8",
+      "sourceSha256": "d894d4f8c5f8f91ceef06e1e49d013dcb2ac70eec572dea2221765c856f44649",
+      "snapshotItemCount": 100,
+      "sourceDocumentSha256": "e8879e59b364dafbfbe462961ccd0c52373f2dca9cefdf839768bf70d86f52ed",
+      "hours": 48,
+      "geo": [
+        "KR"
+      ],
+      "limit": 100,
+      "aggregationVersion": "20261106-category-id-v2",
+      "verification": "parsed-snapshot-derived-original-response-unavailable",
+      "treated": 14.91,
       "control": 51.38
     },
     {
@@ -363,7 +401,20 @@
       "controlRaw": 297000,
       "treatedCount": 15,
       "controlCount": 23,
-      "treated": 14.98,
+      "collectorCompletedAt": "2026-09-17T05:52:55+00:00",
+      "committedAt": "2026-09-17T05:52:56Z",
+      "sourceCommit": "cd96090075fe5db220db58affcf3829a1bbdefe5",
+      "sourceSha256": "23076bd3ad9cb256216d7105785ef3cc706120460153424643c0dd5e6ad8bdc9",
+      "snapshotItemCount": 100,
+      "sourceDocumentSha256": "3257ff7f46a0612cd8c7be953d727becfb8ed4ffdfcd3ce59f30d5521d4de2ec",
+      "hours": 48,
+      "geo": [
+        "KR"
+      ],
+      "limit": 100,
+      "aggregationVersion": "20261106-category-id-v2",
+      "verification": "parsed-snapshot-derived-original-response-unavailable",
+      "treated": 24.73,
       "control": 54.7
     },
     {
@@ -372,7 +423,20 @@
       "controlRaw": 193000,
       "treatedCount": 15,
       "controlCount": 18,
-      "treated": 20.26,
+      "collectorCompletedAt": "2026-09-18T05:37:47+00:00",
+      "committedAt": "2026-09-18T05:37:47Z",
+      "sourceCommit": "9c13c5dfc5bb88e3d51bdb6bad0d75b9e0b024ff",
+      "sourceSha256": "ab0f17a4212dd2f2ca3d74f194ff1c9ebf3a1b4205a3b3ed26aeedc12f01de3c",
+      "snapshotItemCount": 100,
+      "sourceDocumentSha256": "1fc12f1979dfa9836a0afdfae82fb871ed597433de664276c7d6a83e47d1ee4c",
+      "hours": 48,
+      "geo": [
+        "KR"
+      ],
+      "limit": 100,
+      "aggregationVersion": "20261106-category-id-v2",
+      "verification": "parsed-snapshot-derived-original-response-unavailable",
+      "treated": 33.45,
       "control": 35.54
     },
     {
@@ -381,7 +445,20 @@
       "controlRaw": 132000,
       "treatedCount": 13,
       "controlCount": 11,
-      "treated": 20.7,
+      "collectorCompletedAt": "2026-09-19T05:33:18+00:00",
+      "committedAt": "2026-09-19T05:33:19Z",
+      "sourceCommit": "46e6cc5acdac547c17e004dfd863fa8717109e33",
+      "sourceSha256": "a59ad8f26c2b4e6d6483b625074b1ce17752ab8dda7ba32fb1fd9a526928c4e5",
+      "snapshotItemCount": 100,
+      "sourceDocumentSha256": "ff69d2ce87ca2446a8fd1c4026cf13fcf3b170f9b2474513f275e1a8da3abbdd",
+      "hours": 48,
+      "geo": [
+        "KR"
+      ],
+      "limit": 100,
+      "aggregationVersion": "20261106-category-id-v2",
+      "verification": "parsed-snapshot-derived-original-response-unavailable",
+      "treated": 34.18,
       "control": 24.31
     },
     {
@@ -390,7 +467,20 @@
       "controlRaw": 158000,
       "treatedCount": 11,
       "controlCount": 26,
-      "treated": 8.59,
+      "collectorCompletedAt": "2026-09-20T05:51:37+00:00",
+      "committedAt": "2026-09-20T05:51:37Z",
+      "sourceCommit": "ef92e03725450d45be25f28e559fb75ed63decf2",
+      "sourceSha256": "01b050ba4c2dfa02333d443a46137532d1cb070166facfbf1169f2f160aaf4ab",
+      "snapshotItemCount": 100,
+      "sourceDocumentSha256": "68d2667b120c532a65fa551b68c0674ff05c50144afb992aeeffb6d2832cecbd",
+      "hours": 48,
+      "geo": [
+        "KR"
+      ],
+      "limit": 100,
+      "aggregationVersion": "20261106-category-id-v2",
+      "verification": "parsed-snapshot-derived-original-response-unavailable",
+      "treated": 14.18,
       "control": 29.1
     },
     {
@@ -399,7 +489,20 @@
       "controlRaw": 20000,
       "treatedCount": 6,
       "controlCount": 18,
-      "treated": 0.24,
+      "collectorCompletedAt": "2026-09-21T05:59:26+00:00",
+      "committedAt": "2026-09-21T05:59:27Z",
+      "sourceCommit": "18a14caca27ea1a21bdb92cf8637d815a1aea591",
+      "sourceSha256": "5f9afe9b789363e70e093fe412884acda0e3c84ebc5fcaf66753077f45b35582",
+      "snapshotItemCount": 62,
+      "sourceDocumentSha256": "1f540e5ae747c19d8d0840903208f9cce33d2542581cb65d95a6460fb1075bc2",
+      "hours": 48,
+      "geo": [
+        "KR"
+      ],
+      "limit": 100,
+      "aggregationVersion": "20261106-category-id-v2",
+      "verification": "parsed-snapshot-derived-original-response-unavailable",
+      "treated": 0.4,
       "control": 3.68
     },
     {
@@ -408,7 +511,20 @@
       "controlRaw": 18000,
       "treatedCount": 7,
       "controlCount": 12,
-      "treated": 0.29,
+      "collectorCompletedAt": "2026-09-22T05:55:58+00:00",
+      "committedAt": "2026-09-22T05:55:58Z",
+      "sourceCommit": "c745538643e42affa40defeb69ff23796e2464dd",
+      "sourceSha256": "bd845960bed755c107ae280f4cd420001336c0b0f813fbd40b647040fef40b35",
+      "snapshotItemCount": 43,
+      "sourceDocumentSha256": "d4a560617c735b618701aad250ac577c6589feaad343ff8e5596dbf0636b8f8b",
+      "hours": 48,
+      "geo": [
+        "KR"
+      ],
+      "limit": 100,
+      "aggregationVersion": "20261106-category-id-v2",
+      "verification": "parsed-snapshot-derived-original-response-unavailable",
+      "treated": 0.47,
       "control": 3.31
     },
     {
@@ -417,7 +533,20 @@
       "controlRaw": 75000,
       "treatedCount": 14,
       "controlCount": 17,
-      "treated": 11.23,
+      "collectorCompletedAt": "2026-09-23T05:38:03+00:00",
+      "committedAt": "2026-09-23T05:38:03Z",
+      "sourceCommit": "89ac349f6878d303b7ad02b5dbaa624a73d90fbd",
+      "sourceSha256": "508b664b1173e375a32fc936ce00712d7904495019c08830ca7181f8c5804150",
+      "snapshotItemCount": 100,
+      "sourceDocumentSha256": "3c9a8d1a01128ef5d7046aee6ca361e5db2623dd351dc359ae469da36626c0e8",
+      "hours": 48,
+      "geo": [
+        "KR"
+      ],
+      "limit": 100,
+      "aggregationVersion": "20261106-category-id-v2",
+      "verification": "parsed-snapshot-derived-original-response-unavailable",
+      "treated": 18.55,
       "control": 13.81
     },
     {
@@ -426,7 +555,20 @@
       "controlRaw": 129000,
       "treatedCount": 14,
       "controlCount": 13,
-      "treated": 36.78,
+      "collectorCompletedAt": "2026-09-24T05:56:03+00:00",
+      "committedAt": "2026-09-24T05:56:03Z",
+      "sourceCommit": "ee15bdd866becf966336cab56265831683061850",
+      "sourceSha256": "622aaf96fe719bb1ca3d6806ad82ce5972c4d73a9abe02091822687012aade59",
+      "snapshotItemCount": 100,
+      "sourceDocumentSha256": "d7bbb232c431d4cc32246a285c0a7f73c2e8d98a32338138b083ace7d733b477",
+      "hours": 48,
+      "geo": [
+        "KR"
+      ],
+      "limit": 100,
+      "aggregationVersion": "20261106-category-id-v2",
+      "verification": "parsed-snapshot-derived-original-response-unavailable",
+      "treated": 60.73,
       "control": 23.76
     },
     {
@@ -435,7 +577,20 @@
       "controlRaw": 327000,
       "treatedCount": 15,
       "controlCount": 17,
-      "treated": 27.97,
+      "collectorCompletedAt": "2026-09-25T05:57:22+00:00",
+      "committedAt": "2026-09-25T05:57:23Z",
+      "sourceCommit": "5dec5d69ba54e8732d5e1a2f39cf9ee3416a12b6",
+      "sourceSha256": "16dc60d5be37a8f5f9b5e4bbd5f4361b9cd5382aa163d292c96f88ea37f8ee34",
+      "snapshotItemCount": 100,
+      "sourceDocumentSha256": "b25115b876fb0bc8bd7857e8f00712a6b5c2d98ec3993429b69fd7eb587e744c",
+      "hours": 48,
+      "geo": [
+        "KR"
+      ],
+      "limit": 100,
+      "aggregationVersion": "20261106-category-id-v2",
+      "verification": "parsed-snapshot-derived-original-response-unavailable",
+      "treated": 46.18,
       "control": 60.22
     },
     {
@@ -444,7 +599,20 @@
       "controlRaw": 459000,
       "treatedCount": 13,
       "controlCount": 28,
-      "treated": 18.94,
+      "collectorCompletedAt": "2026-09-26T05:57:12+00:00",
+      "committedAt": "2026-09-26T05:57:12Z",
+      "sourceCommit": "159a29200d5bc3a4f1e67934c4353f9b4adbee16",
+      "sourceSha256": "fb3eea56007aeec28a417288245282c26ba2a51f45f826c4818e14ad09dd7070",
+      "snapshotItemCount": 100,
+      "sourceDocumentSha256": "abebd37a8bc5439905b237c37c59edbf5a347ad8b5d531072d4b86c36631d2a4",
+      "hours": 48,
+      "geo": [
+        "KR"
+      ],
+      "limit": 100,
+      "aggregationVersion": "20261106-category-id-v2",
+      "verification": "parsed-snapshot-derived-original-response-unavailable",
+      "treated": 31.27,
       "control": 84.53
     },
     {
@@ -453,7 +621,20 @@
       "controlRaw": 332000,
       "treatedCount": 13,
       "controlCount": 27,
-      "treated": 28.41,
+      "collectorCompletedAt": "2026-09-27T06:23:49+00:00",
+      "committedAt": "2026-09-27T06:23:49Z",
+      "sourceCommit": "0caff08f5827e0ec303dbd191880a052c427dc0b",
+      "sourceSha256": "5f24609d6df5de8ce94bd34cc3f10d73229db1a7c11f017de7988515194839d7",
+      "snapshotItemCount": 100,
+      "sourceDocumentSha256": "5cc31dea30dac9e308e5b9a068547f8efad7e14769c51bd53ed1db813c8aad5e",
+      "hours": 48,
+      "geo": [
+        "KR"
+      ],
+      "limit": 100,
+      "aggregationVersion": "20261106-category-id-v2",
+      "verification": "parsed-snapshot-derived-original-response-unavailable",
+      "treated": 46.91,
       "control": 61.14
     },
     {
@@ -462,7 +643,20 @@
       "controlRaw": 272000,
       "treatedCount": 17,
       "controlCount": 21,
-      "treated": 38.33,
+      "collectorCompletedAt": "2026-09-28T06:27:08+00:00",
+      "committedAt": "2026-09-28T06:27:09Z",
+      "sourceCommit": "932bc59c8c38c9ac3bd1fcaac877d997f68503ec",
+      "sourceSha256": "883abbac5f63b9cba9a257aed855ea40cdc5889c26e0f27ddc42bf8cc32e44e0",
+      "snapshotItemCount": 100,
+      "sourceDocumentSha256": "187c8b9b3867917d7b5410d1180163b21f78d4ab3209a6ef2a1fb573b7ab3a7a",
+      "hours": 48,
+      "geo": [
+        "KR"
+      ],
+      "limit": 100,
+      "aggregationVersion": "20261106-category-id-v2",
+      "verification": "parsed-snapshot-derived-original-response-unavailable",
+      "treated": 63.27,
       "control": 50.09
     },
     {
@@ -471,7 +665,20 @@
       "controlRaw": 324000,
       "treatedCount": 13,
       "controlCount": 23,
-      "treated": 42.95,
+      "collectorCompletedAt": "2026-09-29T06:39:58+00:00",
+      "committedAt": "2026-09-29T06:39:59Z",
+      "sourceCommit": "3a70ef003a5b962990f6be12aa6f23af1adf938e",
+      "sourceSha256": "f2202362d8a14f003fcf5c7b2d3aa4ddd0b29a87c6a0b7563fcf3d45a29acd35",
+      "snapshotItemCount": 100,
+      "sourceDocumentSha256": "8ab2cf6f399c9a3d48f9d93c066e22a2d65bfc6ae80030bc01c2a6d5d19e9c29",
+      "hours": 48,
+      "geo": [
+        "KR"
+      ],
+      "limit": 100,
+      "aggregationVersion": "20261106-category-id-v2",
+      "verification": "parsed-snapshot-derived-original-response-unavailable",
+      "treated": 70.91,
       "control": 59.67
     },
     {
@@ -480,7 +687,20 @@
       "controlRaw": 337000,
       "treatedCount": 10,
       "controlCount": 20,
-      "treated": 27.97,
+      "collectorCompletedAt": "2026-09-30T06:23:46+00:00",
+      "committedAt": "2026-09-30T06:23:47Z",
+      "sourceCommit": "ec4d66447faf273496f4c17fb1e531bb07b83016",
+      "sourceSha256": "f14747fa5ad5a2cf3f12cf2c5c7120b1091c5b24415bed879d3ee02bbb7d5b75",
+      "snapshotItemCount": 100,
+      "sourceDocumentSha256": "6b8df9f137d06cf8e1b28f8495439c75618fb83b69a7fb45a7dd116bda80c9e6",
+      "hours": 48,
+      "geo": [
+        "KR"
+      ],
+      "limit": 100,
+      "aggregationVersion": "20261106-category-id-v2",
+      "verification": "parsed-snapshot-derived-original-response-unavailable",
+      "treated": 46.18,
       "control": 62.06
     },
     {
@@ -489,7 +709,20 @@
       "controlRaw": 203000,
       "treatedCount": 11,
       "controlCount": 18,
-      "treated": 22.91,
+      "collectorCompletedAt": "2026-10-01T06:59:01+00:00",
+      "committedAt": "2026-10-01T06:59:01Z",
+      "sourceCommit": "e38955f4fb4976989d7ce9b275f407d0bed85e53",
+      "sourceSha256": "5ebfa50ad2a5f9dacf8789b42ec6c68ea0fb53af86ac7d9a60f7ed4a6458e3c7",
+      "snapshotItemCount": 100,
+      "sourceDocumentSha256": "5200abbab3c88aeb55197c98a623323ac445e7e9a472d27b379fa3b9cc0187f3",
+      "hours": 48,
+      "geo": [
+        "KR"
+      ],
+      "limit": 100,
+      "aggregationVersion": "20261106-category-id-v2",
+      "verification": "parsed-snapshot-derived-original-response-unavailable",
+      "treated": 37.82,
       "control": 37.38
     },
     {
@@ -498,7 +731,20 @@
       "controlRaw": 171000,
       "treatedCount": 15,
       "controlCount": 16,
-      "treated": 29.96,
+      "collectorCompletedAt": "2026-10-02T06:48:20+00:00",
+      "committedAt": "2026-10-02T06:48:20Z",
+      "sourceCommit": "2dfbeec55891751562e0d36a84c5a04298a1651e",
+      "sourceSha256": "5d4dd1323ff13f3cb08b1f1b6580dda08444a78ffcc8790bdf19cbfc2288eea2",
+      "snapshotItemCount": 100,
+      "sourceDocumentSha256": "0b519b0cf0dbdae46a10ab42dfb173ee4cbc776c5a0967f4ddce8076ff2fda8a",
+      "hours": 48,
+      "geo": [
+        "KR"
+      ],
+      "limit": 100,
+      "aggregationVersion": "20261106-category-id-v2",
+      "verification": "parsed-snapshot-derived-original-response-unavailable",
+      "treated": 49.45,
       "control": 31.49
     },
     {
@@ -507,7 +753,20 @@
       "controlRaw": 325000,
       "treatedCount": 21,
       "controlCount": 16,
-      "treated": 41.19,
+      "collectorCompletedAt": "2026-10-03T06:10:59+00:00",
+      "committedAt": "2026-10-03T06:11:00Z",
+      "sourceCommit": "7393519758d022a2b60b945d7bad6063c539c5a6",
+      "sourceSha256": "e0c7e8b5af05746867d890b9344c9183b2ac8af025dc024c6c3355c3333d8a52",
+      "snapshotItemCount": 100,
+      "sourceDocumentSha256": "b9db821141ebe6182f433993271b341bc4a4b61df5da8c76d766f24b82f3f811",
+      "hours": 48,
+      "geo": [
+        "KR"
+      ],
+      "limit": 100,
+      "aggregationVersion": "20261106-category-id-v2",
+      "verification": "parsed-snapshot-derived-original-response-unavailable",
+      "treated": 68.0,
       "control": 59.85
     },
     {
@@ -516,7 +775,20 @@
       "controlRaw": 489000,
       "treatedCount": 14,
       "controlCount": 29,
-      "treated": 37.89,
+      "collectorCompletedAt": "2026-10-04T06:40:10+00:00",
+      "committedAt": "2026-10-04T06:40:11Z",
+      "sourceCommit": "0ce1249d76f378a167a97c533251a66394a8a957",
+      "sourceSha256": "69c2faa93fa9a040d1693a54a7ad1fdcb03dfe5c25c4f0e167d7da47e5bb6665",
+      "snapshotItemCount": 100,
+      "sourceDocumentSha256": "1da62de21b46699081b0e46f4c8e4f63fd99d11a7461c5ed18fcf7ec2e039616",
+      "hours": 48,
+      "geo": [
+        "KR"
+      ],
+      "limit": 100,
+      "aggregationVersion": "20261106-category-id-v2",
+      "verification": "parsed-snapshot-derived-original-response-unavailable",
+      "treated": 62.55,
       "control": 90.06
     },
     {
@@ -525,7 +797,20 @@
       "controlRaw": 375000,
       "treatedCount": 9,
       "controlCount": 23,
-      "treated": 8.37,
+      "collectorCompletedAt": "2026-10-05T06:38:40+00:00",
+      "committedAt": "2026-10-05T06:38:40Z",
+      "sourceCommit": "706a8e47c4cb3d423911eecd6dbbb0bbf2a40099",
+      "sourceSha256": "21bfc6c40a50a2de3d0277e78e654818d322d22efd72dd090b8f7b647a48c004",
+      "snapshotItemCount": 100,
+      "sourceDocumentSha256": "65d914baa349944faeb9eab889949252f9e201d6d5b718b27113ac34dd98b566",
+      "hours": 48,
+      "geo": [
+        "KR"
+      ],
+      "limit": 100,
+      "aggregationVersion": "20261106-category-id-v2",
+      "verification": "parsed-snapshot-derived-original-response-unavailable",
+      "treated": 13.82,
       "control": 69.06
     },
     {
@@ -534,7 +819,20 @@
       "controlRaw": 128000,
       "treatedCount": 19,
       "controlCount": 13,
-      "treated": 27.97,
+      "collectorCompletedAt": "2026-10-06T07:19:40+00:00",
+      "committedAt": "2026-10-06T07:19:40Z",
+      "sourceCommit": "4d4dcd4ef9608eff01412dda8f0bd9ec47281e34",
+      "sourceSha256": "92e78704e3024bf8547ac43dddb1df5c8fc383f65e197cc09f073d2c4ea1827f",
+      "snapshotItemCount": 100,
+      "sourceDocumentSha256": "80e6367161831ccb2c82defa4ac1cf782d6530d63141e8f664dd90f8f09d36df",
+      "hours": 48,
+      "geo": [
+        "KR"
+      ],
+      "limit": 100,
+      "aggregationVersion": "20261106-category-id-v2",
+      "verification": "parsed-snapshot-derived-original-response-unavailable",
+      "treated": 46.18,
       "control": 23.57
     },
     {
@@ -543,7 +841,20 @@
       "controlRaw": 322000,
       "treatedCount": 20,
       "controlCount": 14,
-      "treated": 29.96,
+      "collectorCompletedAt": "2026-10-07T06:58:41+00:00",
+      "committedAt": "2026-10-07T06:58:41Z",
+      "sourceCommit": "6c5d81aa1d8701949356abdc45f302c783d5ebc4",
+      "sourceSha256": "8933b24ebe3c4006f3b81c99c6aa6a4e254a15fd44b2676e0d803b49280db9ff",
+      "snapshotItemCount": 100,
+      "sourceDocumentSha256": "c01287d0c3fd9ffd9cabbba32f580e21d00380671dfc024b056564f19e4d2ab2",
+      "hours": 48,
+      "geo": [
+        "KR"
+      ],
+      "limit": 100,
+      "aggregationVersion": "20261106-category-id-v2",
+      "verification": "parsed-snapshot-derived-original-response-unavailable",
+      "treated": 49.45,
       "control": 59.3
     },
     {
@@ -552,7 +863,20 @@
       "controlRaw": 453000,
       "treatedCount": 17,
       "controlCount": 17,
-      "treated": 42.07,
+      "collectorCompletedAt": "2026-10-08T07:06:20+00:00",
+      "committedAt": "2026-10-08T07:06:20Z",
+      "sourceCommit": "a16d0a5a50375816ef7024948d1d0193387270b7",
+      "sourceSha256": "255b5aa86fc4dfbfa7478adef0534ec5befb2b5a8b4d23b18331e64b2cf339f7",
+      "snapshotItemCount": 100,
+      "sourceDocumentSha256": "1a4a194343abc9d3f3207d06faa43a66653fe51b09bdba9c071a58bcdc967460",
+      "hours": 48,
+      "geo": [
+        "KR"
+      ],
+      "limit": 100,
+      "aggregationVersion": "20261106-category-id-v2",
+      "verification": "parsed-snapshot-derived-original-response-unavailable",
+      "treated": 69.45,
       "control": 83.43
     },
     {
@@ -561,7 +885,20 @@
       "controlRaw": 182000,
       "treatedCount": 17,
       "controlCount": 16,
-      "treated": 19.82,
+      "collectorCompletedAt": "2026-10-09T07:12:39+00:00",
+      "committedAt": "2026-10-09T07:12:40Z",
+      "sourceCommit": "58f13bdbee7dfa536e6cf3137b8b948e524b82a3",
+      "sourceSha256": "f5478379a178fc1f1202fd8080442a11ea4af6e6cbc99ca78d592faf9cd56c8b",
+      "snapshotItemCount": 100,
+      "sourceDocumentSha256": "27d4fe29fd4e49e5c5fda91d221feebd023ad9c1c530e17ef179f4cb3acf3b09",
+      "hours": 48,
+      "geo": [
+        "KR"
+      ],
+      "limit": 100,
+      "aggregationVersion": "20261106-category-id-v2",
+      "verification": "parsed-snapshot-derived-original-response-unavailable",
+      "treated": 32.73,
       "control": 33.52
     },
     {
@@ -570,7 +907,20 @@
       "controlRaw": 192000,
       "treatedCount": 19,
       "controlCount": 21,
-      "treated": 29.52,
+      "collectorCompletedAt": "2026-10-10T06:47:28+00:00",
+      "committedAt": "2026-10-10T06:47:29Z",
+      "sourceCommit": "7d4a9ca2e4d29c413e652baa07bcc081decbdadf",
+      "sourceSha256": "c52c15004cbce34ca7c322ec682e9db2a25be95ecbd0e885a5868ec1bb575b58",
+      "snapshotItemCount": 100,
+      "sourceDocumentSha256": "bca7108a8aed19e4ebfba509161be1f68089b609cec2c3482e783716d57f4381",
+      "hours": 48,
+      "geo": [
+        "KR"
+      ],
+      "limit": 100,
+      "aggregationVersion": "20261106-category-id-v2",
+      "verification": "parsed-snapshot-derived-original-response-unavailable",
+      "treated": 48.73,
       "control": 35.36
     },
     {
@@ -579,7 +929,20 @@
       "controlRaw": 345000,
       "treatedCount": 12,
       "controlCount": 35,
-      "treated": 15.42,
+      "collectorCompletedAt": "2026-10-11T06:54:27+00:00",
+      "committedAt": "2026-10-11T06:54:27Z",
+      "sourceCommit": "b67ed539ffa8377a58b74d960266d308d7347982",
+      "sourceSha256": "222f7152d09f8ea4616af2ab81164afa2d3732468e9df8f4a24235d3ccda3e1a",
+      "snapshotItemCount": 100,
+      "sourceDocumentSha256": "83a512069709968bed04cfbe721694e6817457e5162c5702389c11394a077526",
+      "hours": 48,
+      "geo": [
+        "KR"
+      ],
+      "limit": 100,
+      "aggregationVersion": "20261106-category-id-v2",
+      "verification": "parsed-snapshot-derived-original-response-unavailable",
+      "treated": 25.45,
       "control": 63.54
     },
     {
@@ -588,7 +951,20 @@
       "controlRaw": 432000,
       "treatedCount": 14,
       "controlCount": 26,
-      "treated": 24.45,
+      "collectorCompletedAt": "2026-10-12T07:03:45+00:00",
+      "committedAt": "2026-10-12T07:03:45Z",
+      "sourceCommit": "7d3dff340e5775ec91f65e675355f09a62fc34c1",
+      "sourceSha256": "0604ad5246caaae022f0b78b00f3d84b82d84dd1389c29579fd30b5ca45c1f58",
+      "snapshotItemCount": 100,
+      "sourceDocumentSha256": "f8d9b2c65fab25ce6f4cc13a6e35e9bc7f5b958a1c0ddcfe6c974e7e1cc06474",
+      "hours": 48,
+      "geo": [
+        "KR"
+      ],
+      "limit": 100,
+      "aggregationVersion": "20261106-category-id-v2",
+      "verification": "parsed-snapshot-derived-original-response-unavailable",
+      "treated": 40.36,
       "control": 79.56
     },
     {
@@ -597,7 +973,20 @@
       "controlRaw": 223000,
       "treatedCount": 18,
       "controlCount": 16,
-      "treated": 48.24,
+      "collectorCompletedAt": "2026-10-13T07:28:15+00:00",
+      "committedAt": "2026-10-13T07:28:16Z",
+      "sourceCommit": "fcf1219dc8757354be5c478037705feb54636392",
+      "sourceSha256": "00e4aacccb16f03a02ec9ede0c89ece7f463f66525561c590a5c00ee133a2013",
+      "snapshotItemCount": 100,
+      "sourceDocumentSha256": "45c0227c1599133b0e19404a69609552195ff09d706f4ddbd2eda7c93b836a29",
+      "hours": 48,
+      "geo": [
+        "KR"
+      ],
+      "limit": 100,
+      "aggregationVersion": "20261106-category-id-v2",
+      "verification": "parsed-snapshot-derived-original-response-unavailable",
+      "treated": 79.64,
       "control": 41.07
     },
     {
@@ -606,7 +995,20 @@
       "controlRaw": 259000,
       "treatedCount": 17,
       "controlCount": 25,
-      "treated": 45.37,
+      "collectorCompletedAt": "2026-10-14T05:54:54+00:00",
+      "committedAt": "2026-10-14T05:54:54Z",
+      "sourceCommit": "bcf2698725d54c24fa03fdaa122126cc3c39cad1",
+      "sourceSha256": "7205ad62859b4ec30cdb09a787a2b507921cb7a6832bb93bbc42a0080899ec43",
+      "snapshotItemCount": 100,
+      "sourceDocumentSha256": "4ea3c7f9950fb2db7636da3dbf70b30153f4868fa88bdbb1604d9fecbcabf52d",
+      "hours": 48,
+      "geo": [
+        "KR"
+      ],
+      "limit": 100,
+      "aggregationVersion": "20261106-category-id-v2",
+      "verification": "parsed-snapshot-derived-original-response-unavailable",
+      "treated": 74.91,
       "control": 47.7
     },
     {
@@ -615,7 +1017,20 @@
       "controlRaw": 400000,
       "treatedCount": 16,
       "controlCount": 25,
-      "treated": 36.56,
+      "collectorCompletedAt": "2026-10-15T05:39:30+00:00",
+      "committedAt": "2026-10-15T05:39:30Z",
+      "sourceCommit": "5f6530264cbd9635979ec168d51c774f87804161",
+      "sourceSha256": "eb5d0ec2e8d9217c8f28b91075d443c63695ed91a5f7b6f01f21758025f029c6",
+      "snapshotItemCount": 100,
+      "sourceDocumentSha256": "20e0e1a588e699bbc5f71ed24b3317554b981aa3c17a578465a52ea0bee1c9d0",
+      "hours": 48,
+      "geo": [
+        "KR"
+      ],
+      "limit": 100,
+      "aggregationVersion": "20261106-category-id-v2",
+      "verification": "parsed-snapshot-derived-original-response-unavailable",
+      "treated": 60.36,
       "control": 73.66
     },
     {
@@ -624,7 +1039,20 @@
       "controlRaw": 482000,
       "treatedCount": 17,
       "controlCount": 24,
-      "treated": 39.21,
+      "collectorCompletedAt": "2026-10-16T05:35:15+00:00",
+      "committedAt": "2026-10-16T05:35:16Z",
+      "sourceCommit": "dba8edbd193fd34c5c341a322ef35eee22b48235",
+      "sourceSha256": "fca478b107aecea3eedc058d14275bfd9f8f3ff5c960f07b24d8d795ad35ec20",
+      "snapshotItemCount": 100,
+      "sourceDocumentSha256": "5d94093254ddd8cc6471de2139df4e2a82145800a17b81068b674f55bb13e87c",
+      "hours": 48,
+      "geo": [
+        "KR"
+      ],
+      "limit": 100,
+      "aggregationVersion": "20261106-category-id-v2",
+      "verification": "parsed-snapshot-derived-original-response-unavailable",
+      "treated": 64.73,
       "control": 88.77
     },
     {
@@ -633,7 +1061,20 @@
       "controlRaw": 67000,
       "treatedCount": 16,
       "controlCount": 14,
-      "treated": 20.93,
+      "collectorCompletedAt": "2026-10-17T05:23:29+00:00",
+      "committedAt": "2026-10-17T05:23:29Z",
+      "sourceCommit": "019cd702f9b692bd4aba4a148adfd46668812774",
+      "sourceSha256": "cf6458ba72fb6df589645c758ec5f9fad7ad5aaf700ff96203d870e1b45dedfa",
+      "snapshotItemCount": 100,
+      "sourceDocumentSha256": "4e04ba26ae8aa9c27e7fcc8a15ce6ef21dc2240b6789a3082f41d7e220a8241f",
+      "hours": 48,
+      "geo": [
+        "KR"
+      ],
+      "limit": 100,
+      "aggregationVersion": "20261106-category-id-v2",
+      "verification": "parsed-snapshot-derived-original-response-unavailable",
+      "treated": 34.55,
       "control": 12.34
     },
     {
@@ -642,7 +1083,20 @@
       "controlRaw": 273000,
       "treatedCount": 9,
       "controlCount": 22,
-      "treated": 20.93,
+      "collectorCompletedAt": "2026-10-18T05:31:27+00:00",
+      "committedAt": "2026-10-18T05:31:27Z",
+      "sourceCommit": "835ad41cdefe1a5f0d929b357f0d0c5fd1c7bbd5",
+      "sourceSha256": "372d5d636f7914b693512468bb7993ba2011edd0dac632264aac088aec248e8c",
+      "snapshotItemCount": 100,
+      "sourceDocumentSha256": "78cde6a4c917263b25d0134148b893e3a505c24b18803138003a593e95b87ca7",
+      "hours": 48,
+      "geo": [
+        "KR"
+      ],
+      "limit": 100,
+      "aggregationVersion": "20261106-category-id-v2",
+      "verification": "parsed-snapshot-derived-original-response-unavailable",
+      "treated": 34.55,
       "control": 50.28
     },
     {
@@ -651,7 +1105,20 @@
       "controlRaw": 392000,
       "treatedCount": 11,
       "controlCount": 28,
-      "treated": 21.15,
+      "collectorCompletedAt": "2026-10-19T05:52:24+00:00",
+      "committedAt": "2026-10-19T05:52:24Z",
+      "sourceCommit": "48ee82ee44d72cbebcd2873e558c80fdd4be1d66",
+      "sourceSha256": "15a15474b0a641c923104db6d8c935b30b8b6817d8938c3896c5dd648e99808d",
+      "snapshotItemCount": 100,
+      "sourceDocumentSha256": "737b64ce7417473907503bba5d76e802f88fca55c58f4f592c423b80b7318e2e",
+      "hours": 48,
+      "geo": [
+        "KR"
+      ],
+      "limit": 100,
+      "aggregationVersion": "20261106-category-id-v2",
+      "verification": "parsed-snapshot-derived-original-response-unavailable",
+      "treated": 34.91,
       "control": 72.19
     },
     {
@@ -660,160 +1127,394 @@
       "controlRaw": 123000,
       "treatedCount": 18,
       "controlCount": 16,
-      "treated": 39.21,
+      "collectorCompletedAt": "2026-10-20T05:44:33+00:00",
+      "committedAt": "2026-10-20T05:44:33Z",
+      "sourceCommit": "7ba2d1dc1bb61addb9780836c29022581e804d7a",
+      "sourceSha256": "3cd70bcf7989e660d0b91ec617841cc399a5cc87c84fa0b8e852eb0acbc32e67",
+      "snapshotItemCount": 100,
+      "sourceDocumentSha256": "e0da9992b3168bd02c466aac5c24c205558640cc3a11d73df638be78d59b2a8c",
+      "hours": 48,
+      "geo": [
+        "KR"
+      ],
+      "limit": 100,
+      "aggregationVersion": "20261106-category-id-v2",
+      "verification": "parsed-snapshot-derived-original-response-unavailable",
+      "treated": 64.73,
       "control": 22.65
     },
     {
       "date": "2026-10-21",
-      "treatedRaw": 0,
+      "treatedRaw": 131000,
       "controlRaw": 314000,
-      "treatedCount": 0,
+      "treatedCount": 12,
       "controlCount": 18,
-      "treated": 0.0,
+      "collectorCompletedAt": "2026-10-21T05:47:44+00:00",
+      "committedAt": "2026-10-21T05:47:44Z",
+      "sourceCommit": "45ae1f4bb8156ce0f1b95ba6c8dafe8b577cdbde",
+      "sourceSha256": "65ce76001725a0a5fc683105e07b98110f9be1a37037f1ec6d424f6b0e5aefe2",
+      "snapshotItemCount": 100,
+      "sourceDocumentSha256": "a8de9b2740dd62ba85b53ed6476faf3ee725c6163bc5a79a17ea9b1428001fc2",
+      "hours": 48,
+      "geo": [
+        "KR"
+      ],
+      "limit": 100,
+      "aggregationVersion": "20261106-category-id-v2",
+      "verification": "parsed-snapshot-derived-original-response-unavailable",
+      "treated": 47.64,
       "control": 57.83
     },
     {
       "date": "2026-10-22",
-      "treatedRaw": 0,
+      "treatedRaw": 143000,
       "controlRaw": 320000,
-      "treatedCount": 0,
+      "treatedCount": 14,
       "controlCount": 24,
-      "treated": 0.0,
+      "collectorCompletedAt": "2026-10-22T05:50:55+00:00",
+      "committedAt": "2026-10-22T05:50:55Z",
+      "sourceCommit": "a7e73cbac9844e5de3180f5d6e42d5a14758b6d1",
+      "sourceSha256": "d2486a473388026d71419946aa5fd5124588e84f6e8a957caccbca5e6eba9f9d",
+      "snapshotItemCount": 100,
+      "sourceDocumentSha256": "aabb1cf8b371fe1414b810e2542fae86ea7f4ab1f0e4bbb0df99b1529a323d7d",
+      "hours": 48,
+      "geo": [
+        "KR"
+      ],
+      "limit": 100,
+      "aggregationVersion": "20261106-category-id-v2",
+      "verification": "parsed-snapshot-derived-original-response-unavailable",
+      "treated": 52.0,
       "control": 58.93
     },
     {
       "date": "2026-10-23",
-      "treatedRaw": 0,
+      "treatedRaw": 126000,
       "controlRaw": 204000,
-      "treatedCount": 0,
+      "treatedCount": 16,
       "controlCount": 20,
-      "treated": 0.0,
+      "collectorCompletedAt": "2026-10-23T05:49:18+00:00",
+      "committedAt": "2026-10-23T05:49:19Z",
+      "sourceCommit": "6343f1757b398e20da389fe841441efb66461884",
+      "sourceSha256": "479fc5227288c302f120a917d5ce97086bc3860d54755918c04d21d9c44482e7",
+      "snapshotItemCount": 100,
+      "sourceDocumentSha256": "c596595a9939c255ecbb1b9d1458416b949e036cada9581017f121af184b2ec5",
+      "hours": 48,
+      "geo": [
+        "KR"
+      ],
+      "limit": 100,
+      "aggregationVersion": "20261106-category-id-v2",
+      "verification": "parsed-snapshot-derived-original-response-unavailable",
+      "treated": 45.82,
       "control": 37.57
     },
     {
       "date": "2026-10-24",
-      "treatedRaw": 0,
+      "treatedRaw": 187000,
       "controlRaw": 179000,
-      "treatedCount": 0,
+      "treatedCount": 17,
       "controlCount": 18,
-      "treated": 0.0,
+      "collectorCompletedAt": "2026-10-24T05:31:05+00:00",
+      "committedAt": "2026-10-24T05:31:06Z",
+      "sourceCommit": "edc9ba0c6881a6e5637aabb2175fd0526ad54ea5",
+      "sourceSha256": "c5509178072ddaf98e7d11e60cd1a6b88e24690c92a33e9c55645dec3816aecf",
+      "snapshotItemCount": 100,
+      "sourceDocumentSha256": "6743a59c9d3a90e419e6d0525bff254c225cfb5e503b601df768b397a96a6d74",
+      "hours": 48,
+      "geo": [
+        "KR"
+      ],
+      "limit": 100,
+      "aggregationVersion": "20261106-category-id-v2",
+      "verification": "parsed-snapshot-derived-original-response-unavailable",
+      "treated": 68.0,
       "control": 32.97
     },
     {
       "date": "2026-10-25",
-      "treatedRaw": 0,
+      "treatedRaw": 164000,
       "controlRaw": 344000,
-      "treatedCount": 0,
+      "treatedCount": 12,
       "controlCount": 30,
-      "treated": 0.0,
+      "collectorCompletedAt": "2026-10-25T05:48:17+00:00",
+      "committedAt": "2026-10-25T05:48:18Z",
+      "sourceCommit": "83e4ab36749068b2b511f367fedafaf8af34387e",
+      "sourceSha256": "3a451dd50569fb912952f021208b45971704c8dae5338a84f77847c496969bd5",
+      "snapshotItemCount": 100,
+      "sourceDocumentSha256": "0661728bf92510f5f933e91c35aab98f144bca8ec77c8c1d4df7e056d0fb848c",
+      "hours": 48,
+      "geo": [
+        "KR"
+      ],
+      "limit": 100,
+      "aggregationVersion": "20261106-category-id-v2",
+      "verification": "parsed-snapshot-derived-original-response-unavailable",
+      "treated": 59.64,
       "control": 63.35
     },
     {
       "date": "2026-10-26",
-      "treatedRaw": 0,
+      "treatedRaw": 269000,
       "controlRaw": 543000,
-      "treatedCount": 0,
+      "treatedCount": 23,
       "controlCount": 30,
-      "treated": 0.0,
+      "collectorCompletedAt": "2026-10-26T05:51:01+00:00",
+      "committedAt": "2026-10-26T05:51:02Z",
+      "sourceCommit": "8612c9e6003e48e39dfcb0b476fb2451799f9bfa",
+      "sourceSha256": "4fbffdf1c29f9b3478e85e3a46df25862d45c38971890022c71155f5f47b15e8",
+      "snapshotItemCount": 100,
+      "sourceDocumentSha256": "82e07b3131b0e6114b9ec44feaf7da7e759ae629ea346a58e578af4d97b12d8b",
+      "hours": 48,
+      "geo": [
+        "KR"
+      ],
+      "limit": 100,
+      "aggregationVersion": "20261106-category-id-v2",
+      "verification": "parsed-snapshot-derived-original-response-unavailable",
+      "treated": 97.82,
       "control": 100.0
     },
     {
       "date": "2026-10-27",
-      "treatedRaw": 0,
+      "treatedRaw": 170000,
       "controlRaw": 361000,
-      "treatedCount": 0,
+      "treatedCount": 18,
       "controlCount": 24,
-      "treated": 0.0,
+      "collectorCompletedAt": "2026-10-27T06:03:55+00:00",
+      "committedAt": "2026-10-27T06:03:56Z",
+      "sourceCommit": "12fd8000e6652dd6e604288eea4eea4117909858",
+      "sourceSha256": "783e3117eaab4d081ec53ee39b7099096b192bc83735612ff0c11d55bd7d6a18",
+      "snapshotItemCount": 100,
+      "sourceDocumentSha256": "0188bb801b1403dbb47121ef3a96c080fe004151953edb694ab705590b83d12c",
+      "hours": 48,
+      "geo": [
+        "KR"
+      ],
+      "limit": 100,
+      "aggregationVersion": "20261106-category-id-v2",
+      "verification": "parsed-snapshot-derived-original-response-unavailable",
+      "treated": 61.82,
       "control": 66.48
     },
     {
       "date": "2026-10-28",
-      "treatedRaw": 0,
+      "treatedRaw": 275000,
       "controlRaw": 175000,
-      "treatedCount": 0,
+      "treatedCount": 19,
       "controlCount": 22,
-      "treated": 0.0,
+      "collectorCompletedAt": "2026-10-28T06:42:20+00:00",
+      "committedAt": "2026-10-28T06:42:21Z",
+      "sourceCommit": "0020de6679f49cf30da3c1a630f31dcba78182b8",
+      "sourceSha256": "3594b5f96d3449fa22e3c8e0de409ef507ae483edf9e154bf3e700c54e4a98f2",
+      "snapshotItemCount": 100,
+      "sourceDocumentSha256": "34ab1fb40408371961224db51ecfe7936f520a6fbca1d7681d454b7398cf8dd7",
+      "hours": 48,
+      "geo": [
+        "KR"
+      ],
+      "limit": 100,
+      "aggregationVersion": "20261106-category-id-v2",
+      "verification": "parsed-snapshot-derived-original-response-unavailable",
+      "treated": 100.0,
       "control": 32.23
     },
     {
       "date": "2026-10-29",
-      "treatedRaw": 0,
+      "treatedRaw": 165000,
       "controlRaw": 156000,
-      "treatedCount": 0,
+      "treatedCount": 22,
       "controlCount": 25,
-      "treated": 0.0,
+      "collectorCompletedAt": "2026-10-29T06:49:44+00:00",
+      "committedAt": "2026-10-29T06:49:44Z",
+      "sourceCommit": "4dc08c11e7d7e86f37a9da173e4a2f781af0d26d",
+      "sourceSha256": "51bac405f7073b232f26f9d19cad71cbadc32c96d02c6ab11e1f9216eba5cd13",
+      "snapshotItemCount": 100,
+      "sourceDocumentSha256": "e24c60cab8e1ea9619242eaea205e1a72e47bc643e9c2fe799f36121336544eb",
+      "hours": 48,
+      "geo": [
+        "KR"
+      ],
+      "limit": 100,
+      "aggregationVersion": "20261106-category-id-v2",
+      "verification": "parsed-snapshot-derived-original-response-unavailable",
+      "treated": 60.0,
       "control": 28.73
     },
     {
       "date": "2026-10-30",
-      "treatedRaw": 0,
+      "treatedRaw": 154000,
       "controlRaw": 252000,
-      "treatedCount": 0,
+      "treatedCount": 20,
       "controlCount": 22,
-      "treated": 0.0,
+      "collectorCompletedAt": "2026-10-30T06:53:08+00:00",
+      "committedAt": "2026-10-30T06:53:08Z",
+      "sourceCommit": "6fd6743fdc9cb14bec1fa64a4893c33a47345f55",
+      "sourceSha256": "c7f7e15c3440a3a64fd7d1dd35c5b6f23890c8b30f1205db27191494ea4c8bf5",
+      "snapshotItemCount": 100,
+      "sourceDocumentSha256": "27aeb5445b4898bd1890c94aef036d218979f31c2d103b1435cfd89f23444909",
+      "hours": 48,
+      "geo": [
+        "KR"
+      ],
+      "limit": 100,
+      "aggregationVersion": "20261106-category-id-v2",
+      "verification": "parsed-snapshot-derived-original-response-unavailable",
+      "treated": 56.0,
       "control": 46.41
     },
     {
       "date": "2026-10-31",
-      "treatedRaw": 0,
+      "treatedRaw": 137000,
       "controlRaw": 296000,
-      "treatedCount": 0,
+      "treatedCount": 21,
       "controlCount": 19,
-      "treated": 0.0,
+      "collectorCompletedAt": "2026-10-31T06:46:16+00:00",
+      "committedAt": "2026-10-31T06:46:17Z",
+      "sourceCommit": "bf0b8be17596c425493efe48445487739624cfd9",
+      "sourceSha256": "641422d45b772db67ec632986cacec227d9ccb968340aed4dc22e3652a125b19",
+      "snapshotItemCount": 100,
+      "sourceDocumentSha256": "e2bc0f9724ef6b954a08533acd36f99932bdaa683b649c53d263c89cc662927b",
+      "hours": 48,
+      "geo": [
+        "KR"
+      ],
+      "limit": 100,
+      "aggregationVersion": "20261106-category-id-v2",
+      "verification": "parsed-snapshot-derived-original-response-unavailable",
+      "treated": 49.82,
       "control": 54.51
     },
     {
       "date": "2026-11-01",
-      "treatedRaw": 0,
+      "treatedRaw": 240000,
       "controlRaw": 327000,
-      "treatedCount": 0,
+      "treatedCount": 11,
       "controlCount": 31,
-      "treated": 0.0,
+      "collectorCompletedAt": "2026-11-01T07:13:17+00:00",
+      "committedAt": "2026-11-01T07:13:18Z",
+      "sourceCommit": "eeeec554af249cfac36b25ed0fd3815c8f0d8ea4",
+      "sourceSha256": "c91d7e3eed09bfa808d3f7a0ff6807373cbe9d81dc1c6d8c8a33ce102bb7e3d1",
+      "snapshotItemCount": 100,
+      "sourceDocumentSha256": "feb0e01bbd1934d671586ab3d4fcb307b09b5f26675e33f45343dfeb9ca2add7",
+      "hours": 48,
+      "geo": [
+        "KR"
+      ],
+      "limit": 100,
+      "aggregationVersion": "20261106-category-id-v2",
+      "verification": "parsed-snapshot-derived-original-response-unavailable",
+      "treated": 87.27,
       "control": 60.22
     },
     {
       "date": "2026-11-02",
-      "treatedRaw": 0,
+      "treatedRaw": 235000,
       "controlRaw": 519000,
-      "treatedCount": 0,
+      "treatedCount": 16,
       "controlCount": 33,
-      "treated": 0.0,
+      "collectorCompletedAt": "2026-11-02T07:27:18+00:00",
+      "committedAt": "2026-11-02T07:27:18Z",
+      "sourceCommit": "ba2bb8ff79a83b02a49dc86e08b3e94b1f99567e",
+      "sourceSha256": "be850f246733907aa6307c5b8aacb4ba729e39b56c0ebbd4db3141a0536fd052",
+      "snapshotItemCount": 100,
+      "sourceDocumentSha256": "1cce7169bd8c4ff8a1e74357d26d314dcd1f4d521286f5a7979db7964be753d3",
+      "hours": 48,
+      "geo": [
+        "KR"
+      ],
+      "limit": 100,
+      "aggregationVersion": "20261106-category-id-v2",
+      "verification": "parsed-snapshot-derived-original-response-unavailable",
+      "treated": 85.45,
       "control": 95.58
     },
     {
       "date": "2026-11-03",
-      "treatedRaw": 0,
+      "treatedRaw": 149000,
       "controlRaw": 225000,
-      "treatedCount": 0,
+      "treatedCount": 13,
       "controlCount": 20,
-      "treated": 0.0,
+      "collectorCompletedAt": "2026-11-03T07:42:00+00:00",
+      "committedAt": "2026-11-03T07:42:00Z",
+      "sourceCommit": "a9191c9c6e52ecb8981dcc2a660a646f253fc0ad",
+      "sourceSha256": "69449ea42337c9338a8234dbf1a2d449d0a0381d448a9d1142085687291ed43c",
+      "snapshotItemCount": 100,
+      "sourceDocumentSha256": "d1bd47c5385dfca889c6ee52e2c13744c786819e748ab64a7072476e109f00c5",
+      "hours": 48,
+      "geo": [
+        "KR"
+      ],
+      "limit": 100,
+      "aggregationVersion": "20261106-category-id-v2",
+      "verification": "parsed-snapshot-derived-original-response-unavailable",
+      "treated": 54.18,
       "control": 41.44
     },
     {
       "date": "2026-11-04",
-      "treatedRaw": 0,
+      "treatedRaw": 124000,
       "controlRaw": 309000,
-      "treatedCount": 0,
+      "treatedCount": 14,
       "controlCount": 24,
-      "treated": 0.0,
+      "collectorCompletedAt": "2026-11-04T07:19:39+00:00",
+      "committedAt": "2026-11-04T07:19:39Z",
+      "sourceCommit": "80de17d160874aacc3306508793c42ba207529ed",
+      "sourceSha256": "beb526049dd1d104841504f2b8e01dd65d7caab7c92a4379fdbcf99534282473",
+      "snapshotItemCount": 100,
+      "sourceDocumentSha256": "bd6661dfbbc413da79c8f1c35d5ba16a678f73f5587dc80ae47cba6f0629327a",
+      "hours": 48,
+      "geo": [
+        "KR"
+      ],
+      "limit": 100,
+      "aggregationVersion": "20261106-category-id-v2",
+      "verification": "parsed-snapshot-derived-original-response-unavailable",
+      "treated": 45.09,
       "control": 56.91
     },
     {
       "date": "2026-11-05",
-      "treatedRaw": 0,
+      "treatedRaw": 232000,
       "controlRaw": 408000,
-      "treatedCount": 0,
+      "treatedCount": 23,
       "controlCount": 23,
-      "treated": 0.0,
+      "collectorCompletedAt": "2026-11-05T07:46:16+00:00",
+      "committedAt": "2026-11-05T07:46:16Z",
+      "sourceCommit": "8d7d9812ff8fe5a1d11e847f5cc6556de3600af3",
+      "sourceSha256": "011b13daadc63ca00ea14073913bf291951c80793f9f340ea243e8703d147d4e",
+      "snapshotItemCount": 100,
+      "sourceDocumentSha256": "16038d72b4ad7fb1378572e76226f5abea4788f86653cc7d531831bc4eaffb9d",
+      "hours": 48,
+      "geo": [
+        "KR"
+      ],
+      "limit": 100,
+      "aggregationVersion": "20261106-category-id-v2",
+      "verification": "parsed-snapshot-derived-original-response-unavailable",
+      "treated": 84.36,
       "control": 75.14
     },
     {
       "date": "2026-11-06",
-      "treatedRaw": 0,
+      "treatedRaw": 145000,
       "controlRaw": 120000,
-      "treatedCount": 0,
+      "treatedCount": 21,
       "controlCount": 18,
-      "treated": 0.0,
+      "collectorCompletedAt": "2026-11-06T07:45:43+00:00",
+      "committedAt": "2026-11-06T07:45:43Z",
+      "sourceCommit": "1b0805f538c4c1232d348e6d8540e19ba2606047",
+      "sourceSha256": "a732fc89333a4f2d970021f4d28ea02367103c91b31f629cd13d692533b7a537",
+      "snapshotItemCount": 100,
+      "sourceDocumentSha256": "54645d48357e79e6561a828ddd719cc4f12fa00a000cfc5be84bad6707aaab16",
+      "hours": 48,
+      "geo": [
+        "KR"
+      ],
+      "limit": 100,
+      "aggregationVersion": "20261106-category-id-v2",
+      "verification": "parsed-snapshot-derived-original-response-unavailable",
+      "treated": 52.73,
       "control": 22.1
     }
   ]
