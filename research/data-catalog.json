@@ -4501,17 +4501,17 @@
     },
     {
       "source": {
-        "label": "Callaway·Sant’Anna 원문 / 검색 저장본",
-        "url": "https://arxiv.org/abs/1803.09015",
-        "verification": "partial"
+        "label": "Google 공식 Trending 설명·현행 응답 / Git 변환 저장본",
+        "url": "https://support.google.com/trends/answer/3076011?hl=en",
+        "verification": "partially_verified"
       },
       "dataAsOf": null,
-      "dataPeriod": "2026-07-30~2026-10-18 (저장일·전수 미확인)",
-      "snapshotUpdatedAt": "2026-10-18",
-      "collectedAt": null,
-      "checkedAt": "2026-10-18T15:32:54.320105+00:00",
+      "dataPeriod": "2026-08-31~2026-11-06 (68개 수집일별48시간창·11월6개는 일부 기간)",
+      "snapshotUpdatedAt": "2026-11-06T11:44:27.868005+00:00",
+      "collectedAt": "2026-11-06T07:45:43+00:00",
+      "checkedAt": "2026-11-06T11:47:39.375Z",
       "reviewStatus": "needs_review",
-      "freshness": "scope_limited_review",
+      "freshness": "parsed_snapshots_reconciled_historical_official_responses_pending",
       "evidence": [
         {
           "kind": "audit-record",
@@ -4532,16 +4532,41 @@
           "scope": "DID 원문 v4(2020-12-01)와 탐색 차트의 한계를 대조했습니다. 원장의 기존 검색 저장본을 이용하며 외생적 개입·평행추세 검증·표준오차가 없는 관측 격차입니다. 범주별 최대=100 재계산은 확인했으나 과거 모든 날짜의 원 Google 응답을 이번에 복원·대조하지 않았습니다."
         },
         {
-          "kind": "official-source",
+          "kind": "published-snapshot",
           "url": "https://www.stargateedu.co.kr/google-trends/history.json",
           "checkedAt": "2026-10-18T15:30:33.229354+00:00",
           "sha256": "26d74769d440b0cb585f9985dfd3c727c4d6212217b2d820af5b54f582bf6bf4",
-          "scope": "DID 원문 v4(2020-12-01)와 탐색 차트의 한계를 대조했습니다. 원장의 기존 검색 저장본을 이용하며 외생적 개입·평행추세 검증·표준오차가 없는 관측 격차입니다. 범주별 최대=100 재계산은 확인했으나 과거 모든 날짜의 원 Google 응답을 이번에 복원·대조하지 않았습니다."
+          "scope": "이전 포털 변환 저장본 확인 기록. Google 원응답 직접대조 증거가 아니므로 published-snapshot으로 분류 정정."
+        },
+        {
+          "kind": "official-source",
+          "url": "https://support.google.com/trends/answer/3076011?hl=en",
+          "checkedAt": "2026-11-06T11:47:39.375Z",
+          "scope": "기간별 구간화 검색량·겹치는 48시간창·목록 필터와 내보내기 의미 확인. 문서의 별도 개정일은 미공개."
+        },
+        {
+          "kind": "official-source",
+          "url": "https://arxiv.org/abs/1803.09015",
+          "checkedAt": "2026-11-06T11:47:39.375Z",
+          "scope": "방법론 원문의 현행 버전·평행추세·추정 및 추론 전제 확인. 본 차트가 원논문 추정기를 실행한 것은 아님."
+        },
+        {
+          "kind": "official-source",
+          "url": "https://trends.google.com/trending?geo=KR&hl=ko&hours=48",
+          "checkedAt": "2026-11-06T11:47:39.375Z",
+          "scope": "2026-11-06 실제 Google 응답380행과 메뉴 ID3/17의 명칭 확인. 과거 저장본의 원응답 증거로 사용하지 않음."
+        },
+        {
+          "kind": "audit-record",
+          "url": "/research/source-reviews/2026-11-06-did-source.json",
+          "checkedAt": "2026-11-06T11:47:39.375Z"
         }
       ],
       "issues": [
-        "DID 원문 v4(2020-12-01)와 탐색 차트의 한계를 대조했습니다. 원장의 기존 검색 저장본을 이용하며 외생적 개입·평행추세 검증·표준오차가 없는 관측 격차입니다. 범주별 최대=100 재계산은 확인했으나 과거 모든 날짜의 원 Google 응답을 이번에 복원·대조하지 않았습니다.",
-        "검토 문서 버전: 저장본 2026-07-30~2026-10-18 / DID 원문 v4 2020-12-01"
+        "과거 Google 원응답 미확보",
+        "48시간창 중첩·최대100개 가용목록·9/21 62개·9/22 43개",
+        "미검증22개시점 분리 보존·정규화분모 변경",
+        "외생적 정책일·집단·인과추정 미설계"
       ],
       "key": "/did/",
       "url": "/did/",
@@ -4549,9 +4574,20 @@
       "primary": "research",
       "classification": "연구·AI",
       "sourceHint": "Google Trends · Event Study",
-      "verifiedScope": "DID 원문 v4(2020-12-01)와 탐색 차트의 한계를 대조했습니다. 원장의 기존 검색 저장본을 이용하며 외생적 개입·평행추세 검증·표준오차가 없는 관측 격차입니다. 범주별 최대=100 재계산은 확인했으나 과거 모든 날짜의 원 Google 응답을 이번에 복원·대조하지 않았습니다.",
-      "nextAction": "과거 raw 응답·수집시각을 확보해 일별 범주 합계를 대조. 정식 DID는 실제 정책일·집단·추정/불확실성 설계 후 별도 실행.",
-      "documentVersion": "저장본 2026-07-30~2026-10-18 / DID 원문 v4 2020-12-01"
+      "verifiedScope": "Git 변환 저장본68시점6705항목408수치·수집기시각·CSV 대조. 10월21일 이후 잘못된0 17행 수정. 과거 Google 원응답 직접대조·인과추정 미완료.",
+      "nextAction": "과거 원응답이 실제 확보되면 각 수집시각·항목·ID·구간화값을 직접 대조. 같은 변환 저장본 재계산을 원출처 완료로 취급하지 않음. 48시간창·최대100개 가용 목록이라는 범위를 유지. 일별 전체 검색량이나 월간 합계로 해석하지 않음. 이전90행 보존본을 유지. 실제 정책일·집단·평행추세·표준오차와 추론 설계가 정해진 별도 회차에서만 인과효과 추정.",
+      "documentVersion": "집계20261106-category-id-v2 / DID 원문 v4 2020-12-01",
+      "sourceAudit": {
+        "audit": "/research/source-reviews/2026-11-06-did-source.json",
+        "checkedAt": "2026-11-06T11:47:39.375Z",
+        "statisticalReferenceMonth": {
+          "status": "not_applicable",
+          "reason": "방법론 문서와 최대100개 급상승 목록의 48시간창 탐색지수이며 9월/10월 전체 검색량 통계가 아님."
+        },
+        "parsedSnapshotsVerified": 68,
+        "historicalOfficialResponsesVerified": false,
+        "aggregationVersion": "20261106-category-id-v2"
+      }
     },
     {
       "source": {
