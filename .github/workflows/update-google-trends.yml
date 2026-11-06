@@ -37,17 +37,19 @@ jobs:
           LIMIT: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.limit || '100' }}
         run: |
           echo "geo=$GEO hours=$HOURS limit=$LIMIT"
+          python3 "tests/검색 범주 시계열 검증.py"
           python3 google-trends/fetch_data.py
           python3 scripts/build_google_trends_history.py
 
       - name: Commit updated data
         run: |
-          if git diff --quiet google-trends/data.json google-trends/fallback-data.js google-trends/history.json; then
+          if git diff --quiet google-trends/data.json google-trends/fallback-data.js google-trends/history.json 'did/data/검색 범주 시계열.csv'; then
             echo "변경 없음 — 커밋 생략"
             exit 0
           fi
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add google-trends/data.json google-trends/fallback-data.js google-trends/history.json
+          git add google-trends/data.json google-trends/fallback-data.js google-trends/history.json 'did/data/검색 범주 시계열.csv'
           git commit -m "chore(google-trends): 급상승 검색어 상위 100 자동 갱신"
           git push
+
