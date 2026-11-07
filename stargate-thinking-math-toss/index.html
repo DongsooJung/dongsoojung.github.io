@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<!-- 앱인토스 규칙: 핀치 줌 비활성화 -->
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<title>별의문 사고력 수학</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 2.5l2.6 5.9 6.4.6-4.9 4.2 1.5 6.3L12 16.2l-5.6 3.3 1.5-6.3L3 9l6.4-.6z' fill='%23F5C24A'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gaegu:wght@400;700&family=IBM+Plex+Sans+KR:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap">
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div class="brand">
+      <div class="mark" aria-hidden="true">
+        <svg viewBox="0 0 24 24"><path d="M12 2.5l2.6 5.9 6.4.6-4.9 4.2 1.5 6.3L12 16.2l-5.6 3.3 1.5-6.3L3 9l6.4-.6z" fill="#F5C24A"/></svg>
+      </div>
+      <div>
+        <h1>별의문 사고력 수학</h1>
+        <small>아이와 함께 푸는 사고력 수학 · 생각을 쓰고, 힌트로 한 걸음씩</small>
+      </div>
+    </div>
+  </header>
+
+  <section class="strip" aria-label="나의 진도">
+    <div class="kpis">
+      <div class="kpi"><b id="kSolved">0/0</b><span>맞힌 문제</span></div>
+      <div class="kpi star"><b id="kStars">0</b><span>모은 별</span></div>
+      <div class="kpi"><b id="kAcc">–</b><span>첫 시도 정답률</span></div>
+      <div class="kpi"><b id="kHint">0</b><span>사용한 힌트</span></div>
+    </div>
+    <div class="cats" id="catBars"></div>
+  </section>
+
+  <nav class="tabs" role="tablist">
+    <button class="tab" role="tab" id="tab-all" aria-selected="true" data-tab="all">문제 서랍</button>
+    <button class="tab" role="tab" id="tab-wrong" aria-selected="false" data-tab="wrong">오답 노트 <span class="n" id="wrongN">0</span></button>
+  </nav>
+
+  <section id="viewAll">
+    <div class="filters" style="margin-bottom:14px">
+      <div id="catChips" style="display:flex;flex-wrap:wrap;gap:6px"></div>
+      <span class="sp"></span>
+      <select class="sel" id="fLevel" aria-label="난이도">
+        <option value="0">난이도 전체</option><option value="1">★ 기본</option><option value="2">★★ 응용</option><option value="3">★★★ 심화</option>
+      </select>
+      <select class="sel" id="fStatus" aria-label="상태">
+        <option value="all">상태 전체</option><option value="new">안 푼 문제</option><option value="ok">맞힌 문제</option><option value="bad">틀린 문제</option>
+      </select>
+      <select class="sel" id="fSort" aria-label="정렬">
+        <option value="no">번호순</option><option value="lvl">쉬운 순</option><option value="lvlDesc">어려운 순</option>
+      </select>
+      <input class="search" id="fQ" type="search" placeholder="문제 검색 (예: 시계, 배수)">
+    </div>
+    <div class="grid" id="grid"></div>
+  </section>
+
+  <section id="viewWrong" hidden>
+    <div class="wlist" id="wlist"></div>
+  </section>
+
+  <div class="confirm" id="resetBox">
+    <button class="ibtn" id="resetBtn" type="button">진도 초기화</button>
+  </div>
+  <p class="foot-note">풀이 기록은 토스 앱 안에 저장됩니다.</p>
+</div>
+
+<div class="sheet" id="sheet" hidden role="dialog" aria-modal="true" aria-labelledby="pTitle">
+  <article class="paper" id="paper"></article>
+</div>
+
+<script type="module" src="/src/app.js"></script>
+</body>
+</html>

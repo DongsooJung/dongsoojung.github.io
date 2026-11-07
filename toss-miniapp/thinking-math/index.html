@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="color-scheme" content="light">
+<meta name="theme-color" content="#f6f7fb">
+<meta name="robots" content="noindex">
+<title>아이와 함께 푸는 사고력 수학</title>
+<style>
+  :root { color-scheme: light; --bg:#f6f7fb; --card:#fff; --ink:#191f28; --sub:#6b7684; --line:#e5e8eb; --blue:#3182f6; --ok:#0d8a5f; }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; background: var(--bg); color: var(--ink); touch-action: manipulation; }
+  body { font: 16px/1.55 -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Segoe UI", sans-serif; }
+  #app { width: min(680px, 100%); margin: 0 auto; padding: 22px 16px 48px; }
+  .hero h1, .sheet h1 { margin: 6px 0 8px; font-size: 28px; letter-spacing: -0.04em; line-height: 1.25; }
+  .eyebrow { margin: 0; color: var(--blue); font-size: 13px; font-weight: 700; }
+  .lead, .topic, .count, .message, .hint { color: var(--sub); }
+  .count { font-weight: 700; }
+  .filters, .actions, .bar { display: flex; gap: 8px; flex-wrap: wrap; }
+  .filters { margin: 16px 0; }
+  button, input { font: inherit; }
+  button { border: 1px solid var(--line); background: #fff; color: var(--ink); border-radius: 999px; padding: 10px 14px; min-height: 44px; }
+  button.on, button.primary { background: var(--blue); border-color: var(--blue); color: #fff; font-weight: 700; }
+  button:disabled { opacity: 0.55; }
+  .text { border: 0; background: transparent; color: var(--blue); padding-left: 0; }
+  .list { display: grid; gap: 10px; }
+  .card, .sheet { width: 100%; text-align: left; border: 1px solid var(--line); border-radius: 16px; background: var(--card); padding: 16px; }
+  .card { display: grid; gap: 6px; border-radius: 16px; }
+  .card strong { font-size: 17px; }
+  .meta { display: flex; gap: 6px; flex-wrap: wrap; }
+  .tag { font-size: 12px; color: var(--sub); background: #f2f4f6; border-radius: 999px; padding: 3px 8px; }
+  .tag.done { color: var(--ok); background: #e8f7f1; }
+  .statement { font-size: 18px; font-weight: 700; }
+  label { display: block; margin-top: 14px; font-size: 13px; font-weight: 700; }
+  input { width: 100%; margin-top: 6px; border: 1px solid var(--line); border-radius: 12px; padding: 12px; background: #fff; color: var(--ink); }
+  .actions { margin-top: 12px; }
+  .hint, .solution { margin-top: 14px; padding: 12px; border-radius: 12px; background: #f2f4f6; }
+  .solution h2 { margin: 0 0 8px; font-size: 16px; }
+  .answer-line { font-weight: 800; color: var(--ink); }
+  .empty { color: var(--sub); }
+</style>
+</head>
+<body>
+<main id="app">문항을 불러오는 중입니다.</main>
+<script type="module">
+  import { mountApp } from "./app.js";
+  document.addEventListener("gesturestart", (event) => event.preventDefault(), { passive: false });
+  document.addEventListener("wheel", (event) => {
+    if (event.ctrlKey) event.preventDefault();
+  }, { passive: false });
+  const root = document.querySelector("#app");
+  try {
+    const data = await fetch("./problems.json");
+    if (!data.ok) throw new Error("load");
+    const payload = await data.json();
+    mountApp(root, { problems: payload.problems, storage: localStorage });
+  } catch {
+    root.textContent = "문항 파일을 불러오지 못했습니다.";
+  }
+</script>
+</body>
+</html>
