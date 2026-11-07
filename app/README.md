@@ -69,12 +69,13 @@ bubblewrap build   # twa-manifest.json을 읽어 Gradle 프로젝트 생성 + �
    - 개인정보처리방침 URL: `https://stargateedu.co.kr/privacy.html`
    - 데이터 보안·콘텐츠 등급·타겟층·광고 등 항목별 답: [`play-console-answers.md`](play-console-answers.md)
      (사이트의 상담 폼과 방문 통계 때문에 데이터 보안은 "수집 있음"으로 신고해야 합니다)
-4. 스토어 등록정보:
-   - 앱 아이콘 512×512: `assets/icons/icon-512.png` 사용 가능
-   - 피처 그래픽 1024×500, 휴대전화 스크린샷 2장 이상 (실기기 캡처)
-   - 짧은 설명(80자) / 전체 설명(4000자)
-5. `app-release-bundle.aab` 업로드 → (선택) 내부 테스트로 실기기 확인 → 프로덕션 트랙 심사 제출
-   - ⚠️ 첫 업로드 후 3번 항목의 **앱 서명 키 지문**을 `assetlinks.json`에 추가해야 Play 설치본에서 주소창이 사라집니다.
+4. 스토어 등록정보 (`store/`에 답변표와 맞춰 준비됨):
+   - 앱 아이콘 512×512: `assets/icons/icon-512.png`
+   - 피처 그래픽·스크린샷: `store/assets/`
+   - 이름·짧은 설명·전체 설명: `store/listing-ko.md`
+   - 앱 콘텐츠 설문: `store/data-safety.md` (기준 문서는 `play-console-answers.md`)
+   - 카테고리 **교육**, 대상 **18세 이상**, 광고 **없음**
+5. 기존 업로드 키로 서명한 `app-release-bundle.aab`를 프로덕션 트랙에 올립니다. 새 키스토어를 만들면 `assetlinks.json`의 지문과 어긋납니다. 업로드 키와 Play 앱 서명 키 지문은 이미 등록되어 있습니다.
 
 ## 5. 기기 테스트 체크리스트
 
