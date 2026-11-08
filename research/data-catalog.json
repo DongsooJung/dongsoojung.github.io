@@ -1654,6 +1654,38 @@
     },
     {
       "source": {
+        "label": "국가데이터처 인구동향조사",
+        "url": "https://mods.go.kr/board.es?act=view&bid=204&list_no=447664&mid=a10301020100",
+        "verification": "verified"
+      },
+      "dataAsOf": "2026-08",
+      "dataPeriod": "2024.05–2026.08 전국 월별 혼인",
+      "snapshotUpdatedAt": "2026-11-08T06:00:41Z",
+      "collectedAt": "2026-11-08T05:58:37Z",
+      "checkedAt": "2026-11-08T06:00:41Z",
+      "reviewStatus": "verified",
+      "freshness": "official_snapshot",
+      "evidence": [
+        {
+          "kind": "official-source",
+          "url": "https://mods.go.kr/boardDownload.es?bid=204&list_no=447664&seq=1",
+          "checkedAt": "2026-11-08T06:00:41Z",
+          "sha256": "8fa2e260bde89f6e5c9c2108690b44c9f34d0d70dc07fffdcd772018bffed07e",
+          "scope": "본문 22쪽 전국 혼인 건수·전년 동월비 28개월 및 2026년 1~8월 누계 원표 대조"
+        }
+      ],
+      "issues": [
+        "2026년 월별 수치는 잠정치"
+      ],
+      "key": "/research/monthly-marriages/",
+      "url": "/research/monthly-marriages/",
+      "title": "전국 월별 혼인건수 추이",
+      "primary": "society",
+      "classification": "경제·사회",
+      "sourceHint": "국가데이터처 공식 통계 · 2026년 잠정"
+    },
+    {
+      "source": {
         "label": "경찰청 전국 분기 잠정통계 원PDF",
         "url": "https://www.police.go.kr/component/file/ND_fileDownload.do?q_fileSn=160353&q_fileId=f300da48-086b-41c7-acdd-9bf1ef11c071",
         "verification": "verified"

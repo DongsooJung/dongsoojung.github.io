@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>전국 월별 혼인건수 추이 | STARGATE Intelligence</title>
+  <meta name="description" content="2024년 5월부터 2026년 8월까지 전국 월별 혼인건수와 전년 동월 증감률을 확인합니다.">
+  <link rel="canonical" href="https://stargateedu.co.kr/research/monthly-marriages/">
+  <script src="/assets/theme-boot.js"></script>
+  <link rel="stylesheet" href="/assets/intelligence-hub.css?v=20260904-sort-b">
+  <link rel="stylesheet" href="/assets/stargate-tokens.css?v=20261017">
+  <style>
+    .marriages { width: min(900px, calc(100% - 32px)); margin: auto; padding: 28px 0 64px; }
+    .marriages h1 { font-size: clamp(30px, 6vw, 52px); line-height: 1.15; margin: 14px 0 8px; }
+    .marriages h2 { font-size: 21px; margin: 0 0 8px; }
+    .marriages p { margin: 6px 0; color: var(--sub); }
+    .marriages a { color: var(--accent); text-decoration: underline; }
+    .marriages .summary { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(200px, 100%), 1fr)); gap: 12px; margin-top: 22px; }
+    .marriages .panel { background: var(--panel); border: 1px solid var(--line); border-radius: 16px; padding: clamp(12px, 3vw, 24px); margin-top: 16px; }
+    .marriages .summary .panel { margin: 0; }
+    .marriages .summary strong { display: block; font-size: clamp(23px, 4vw, 32px); font-variant-numeric: tabular-nums; }
+    .marriages svg { display: block; width: 100%; height: auto; margin: 12px 0; }
+    .marriages svg text { fill: var(--sub); stroke: none; font-size: 18px; }
+    .marriages svg path { stroke: var(--line); }
+    @media (max-width: 560px) { .marriages svg text { font-size: 26px; } }
+    .marriages .legend { display: flex; gap: 16px; flex-wrap: wrap; font-size: .875rem; }
+    .marriages .legend span::before { content: ""; display: inline-block; width: 24px; margin-right: 6px; vertical-align: middle; border-top: 3px solid var(--accent); }
+    .marriages .legend .provisional::before { border-top-style: dashed; }
+    .marriages details summary { cursor: pointer; font-weight: 700; }
+    .marriages table { width: 100%; border-collapse: collapse; margin-top: 12px; font-size: clamp(12px, 3.4vw, 15px); font-variant-numeric: tabular-nums; }
+    .marriages th, .marriages td { padding: 8px 4px; border-bottom: 1px solid var(--line); text-align: right; }
+    .marriages tr > :first-child { text-align: left; }
+  </style>
+</head>
+<body class="research">
+  <main class="marriages">
+    <nav aria-label="상위 메뉴"><a href="/research/#macro-industry">← 연구 대시보드</a></nav>
+    <header>
+      <h1>전국 월별 혼인건수 추이</h1>
+      <p>대한민국 전국 · 2024년 5월~2026년 8월 · 월별 28개 관측치</p>
+    </header>
+    <section class="summary" aria-label="최근 혼인 지표">
+      <article class="panel"><p>2026년 8월 혼인 · 잠정</p><strong>19,218건</strong><p>전년 동월 대비 −1.2%</p></article>
+      <article class="panel"><p>2026년 1~8월 누계 · 잠정</p><strong>165,874건</strong><p>전년 같은 기간 대비 +5.2%</p></article>
+    </section>
+    <section class="panel" aria-labelledby="trend-title">
+      <h2 id="trend-title">월별 추이</h2>
+      <p>단위는 건입니다.</p>
+      <svg viewBox="0 0 720 255" role="img" aria-labelledby="chart-title chart-description">
+        <title id="chart-title">전국 월별 혼인건수 선 그래프</title>
+        <desc id="chart-description">2024년 5월부터 2026년 8월까지의 월별 추이입니다. 2026년 잠정 구간은 점선이며, 정확한 월별 값과 전년 동월비는 아래 표에서 확인할 수 있습니다.</desc>
+        <path d="M64 216.0H696" /><text x="55" y="221.0" text-anchor="end">0</text>
+        <path d="M64 152.0H696" /><text x="55" y="157.0" text-anchor="end">1만</text>
+        <path d="M64 88.0H696" /><text x="55" y="93.0" text-anchor="end">2만</text>
+        <path d="M64 24.0H696" /><text x="55" y="29.0" text-anchor="end">3만</text>
+        <text x="64.0" y="242" text-anchor="start">2024.05</text>
+        <text x="251.3" y="242" text-anchor="middle">2025.01</text>
+        <text x="532.1" y="242" text-anchor="middle">2026.01</text>
+        <text x="696.0" y="242" text-anchor="end">2026.08</text>
+        <polyline points="64.0,82.1 87.4,107.5 110.8,95.6 134.2,103.8 157.6,117.7 181.0,90.9 204.4,97.1 227.9,71.9 251.3,87.0 274.7,92.0 298.1,93.2 321.5,94.9 344.9,76.7 368.3,97.7 391.7,85.5 415.1,91.6 438.5,97.9 461.9,90.7 485.3,93.9 508.7,52.6" fill="none" stroke="var(--accent)" stroke-width="3" stroke-linejoin="round" vector-effect="non-scaling-stroke" />
+        <polyline points="508.7,52.6 532.1,71.1 555.6,97.2 579.0,80.9 602.4,84.0 625.8,85.6 649.2,81.1 672.6,73.4 696.0,93.0" fill="none" stroke="var(--accent)" stroke-width="3" stroke-linejoin="round" stroke-dasharray="5 4" vector-effect="non-scaling-stroke" />
+        <circle cx="696.0" cy="93.0" r="5" fill="var(--accent)" />
+      </svg>
+      <p class="legend"><span>2024~2025년</span><span class="provisional">2026년 잠정</span></p>
+    </section>
+    <details class="panel">
+      <summary>월별 건수와 전년 동월비 표 보기</summary>
+      <table aria-label="전국 월별 혼인건수, 전년 동월비, 공표 상태">
+        <thead><tr><th scope="col">기준월</th><th scope="col">혼인건수</th><th scope="col">전년 동월비</th><th scope="col">상태</th></tr></thead>
+        <tbody>
+          <tr><th scope="row"><time datetime="2026-08">2026.08</time></th><td>19,218</td><td>-1.2%</td><td>잠정</td></tr>
+          <tr><th scope="row"><time datetime="2026-07">2026.07</time></th><td>22,282</td><td>+9.3%</td><td>잠정</td></tr>
+          <tr><th scope="row"><time datetime="2026-06">2026.06</time></th><td>21,075</td><td>+14.0%</td><td>잠정</td></tr>
+          <tr><th scope="row"><time datetime="2026-05">2026.05</time></th><td>20,368</td><td>-6.4%</td><td>잠정</td></tr>
+          <tr><th scope="row"><time datetime="2026-04">2026.04</time></th><td>20,622</td><td>+9.0%</td><td>잠정</td></tr>
+          <tr><th scope="row"><time datetime="2026-03">2026.03</time></th><td>21,112</td><td>+10.1%</td><td>잠정</td></tr>
+          <tr><th scope="row"><time datetime="2026-02">2026.02</time></th><td>18,557</td><td>-4.2%</td><td>잠정</td></tr>
+          <tr><th scope="row"><time datetime="2026-01">2026.01</time></th><td>22,640</td><td>+12.4%</td><td>잠정</td></tr>
+          <tr><th scope="row"><time datetime="2025-12">2025.12</time></th><td>25,527</td><td>+13.4%</td><td>확정</td></tr>
+          <tr><th scope="row"><time datetime="2025-11">2025.11</time></th><td>19,074</td><td>+2.7%</td><td>확정</td></tr>
+          <tr><th scope="row"><time datetime="2025-10">2025.10</time></th><td>19,575</td><td>+0.1%</td><td>확정</td></tr>
+          <tr><th scope="row"><time datetime="2025-09">2025.09</time></th><td>18,455</td><td>+20.1%</td><td>확정</td></tr>
+          <tr><th scope="row"><time datetime="2025-08">2025.08</time></th><td>19,442</td><td>+10.9%</td><td>확정</td></tr>
+          <tr><th scope="row"><time datetime="2025-07">2025.07</time></th><td>20,392</td><td>+8.4%</td><td>확정</td></tr>
+          <tr><th scope="row"><time datetime="2025-06">2025.06</time></th><td>18,482</td><td>+9.1%</td><td>확정</td></tr>
+          <tr><th scope="row"><time datetime="2025-05">2025.05</time></th><td>21,760</td><td>+4.0%</td><td>확정</td></tr>
+          <tr><th scope="row"><time datetime="2025-04">2025.04</time></th><td>18,919</td><td>+4.9%</td><td>확정</td></tr>
+          <tr><th scope="row"><time datetime="2025-03">2025.03</time></th><td>19,181</td><td>+11.5%</td><td>확정</td></tr>
+          <tr><th scope="row"><time datetime="2025-02">2025.02</time></th><td>19,368</td><td>+14.3%</td><td>확정</td></tr>
+          <tr><th scope="row"><time datetime="2025-01">2025.01</time></th><td>20,151</td><td>+0.7%</td><td>확정</td></tr>
+          <tr><th scope="row"><time datetime="2024-12">2024.12</time></th><td>22,519</td><td>+28.1%</td><td>확정</td></tr>
+          <tr><th scope="row"><time datetime="2024-11">2024.11</time></th><td>18,581</td><td>+11.3%</td><td>확정</td></tr>
+          <tr><th scope="row"><time datetime="2024-10">2024.10</time></th><td>19,551</td><td>+22.3%</td><td>확정</td></tr>
+          <tr><th scope="row"><time datetime="2024-09">2024.09</time></th><td>15,367</td><td>+18.8%</td><td>확정</td></tr>
+          <tr><th scope="row"><time datetime="2024-08">2024.08</time></th><td>17,527</td><td>+20.0%</td><td>확정</td></tr>
+          <tr><th scope="row"><time datetime="2024-07">2024.07</time></th><td>18,811</td><td>+32.9%</td><td>확정</td></tr>
+          <tr><th scope="row"><time datetime="2024-06">2024.06</time></th><td>16,948</td><td>+5.6%</td><td>확정</td></tr>
+          <tr><th scope="row"><time datetime="2024-05">2024.05</time></th><td>20,921</td><td>+21.6%</td><td>확정</td></tr>
+        </tbody>
+      </table>
+    </details>
+    <section class="panel" aria-labelledby="source-title">
+      <h2 id="source-title">자료 출처</h2>
+      <p>국가데이터처 「2026년 8월 인구동향」, 2026년 10월 28일 공표. 건수와 전년 동월비는 전국 혼인 통계표(본문 22쪽)의 공표값입니다. 2026년 월별 수치는 추후 수정될 수 있습니다.</p>
+      <p><a href="https://mods.go.kr/board.es?act=view&amp;bid=204&amp;list_no=447664&amp;mid=a10301020100">공식 발표</a> · <a href="https://mods.go.kr/boardDownload.es?bid=204&amp;list_no=447664&amp;seq=1">원표 PDF</a></p>
+    </section>
+  </main>
+</body>
+</html>
