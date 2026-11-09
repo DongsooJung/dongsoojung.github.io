@@ -987,8 +987,8 @@
       "status": "pending",
       "keys": [],
       "outcome": "conditional_technical_acceptance",
-      "latestAudit": "/research/source-reviews/2026-11-06-collector-source.json",
-      "lastAttemptAt": "2026-11-05T20:39:24.704Z",
+      "latestAudit": "/research/source-reviews/2026-11-06-did-source.json",
+      "lastAttemptAt": "2026-11-09T04:46:31.694Z",
       "itemResults": {
         "/exchange-rate/": {
           "status": "verified",
@@ -1233,6 +1233,13 @@
           "audit": "/research/source-reviews/2026-11-06-collector-source.json",
           "scope": "4개 API 명세·수집기 버전/범위·읽기 전용 경로 대조, 인증 원응답 미확보",
           "nextAction": "기존 승인 실행 환경 확보 후 저장을 끈 원API 조회만 수행. 키 생성·출력 금지. 공식 코드 조회 응답으로 대조한 뒤에만 기본값 교체 공식 발표/제공시각 확인 후 이전 발표시각 선택 규칙을 별도 검증 실제 프로젝트·저장소·배포 버전 확인 전 서버 원응답 대조 완료로 취급하지 않음"
+        },
+        "/did/": {
+          "status": "needs_review",
+          "checkedAt": "2026-11-09T04:46:31.694Z",
+          "audit": "/research/source-reviews/2026-11-06-did-source.json",
+          "scope": "Git 변환 저장본 70시점·6,905항목·420수치와 수집시각·CSV를 대조했습니다. 10월21일 이후의 잘못된 0을 19시점에서 수정했습니다. 과거 Google 원응답 직접 대조와 인과추정은 미완료입니다.",
+          "nextAction": "과거 원응답이 실제 확보되면 각 수집시각·항목·ID·구간화값을 직접 대조. 같은 변환 저장본 재계산을 원출처 완료로 취급하지 않음. 48시간창·최대100개 가용 목록이라는 범위를 유지. 일별 전체 검색량이나 월간 합계로 해석하지 않음. 이전90행 보존본을 유지. 실제 정책일·집단·평행추세·표준오차와 추론 설계가 정해진 별도 회차에서만 인과효과 추정."
         }
       },
       "checkpoints": {
@@ -1266,7 +1273,7 @@
           "Tourism not re-fetched before October26; original checkedAt retained"
         ]
       },
-      "nextAction": "다음 독립 미완료 /did/의 과거 raw 응답·수집시각과 일별 범주 합계를 대조합니다. 공공데이터 수집기는 승인된 원API 키·지역/업종 코드 및 서버 배포 버전이 실제 확보된 때만 원응답 대조를 재개합니다. 부분 수집을 전수로 취급하지 않으며 전체 수락은 pending입니다.",
+      "nextAction": "다음 독립 미완료 /research/contradiction-lab/의 원문·연구 의제 버전과 인용 범위를 대조합니다. DID 변환 저장본 70시점·6,905항목·420수치와 범주 ID 3·17 대조 완료 범위는 반복하지 않습니다. 과거 Google 원응답이나 실제 정책일·집단·추정 설계가 확보되면 해당 범위를 재개합니다.",
       "sourceFollowups": [
         {
           "id": "source-followup-1-20261021",
@@ -2350,6 +2357,23 @@
               "Three official API metadata documents and existing logs checked; authenticated source rows and server deployment remain unverified",
               "Two PDF companions text checked and all pages visually inspected"
             ]
+          }
+        },
+        {
+          "id": "did-source-20261106",
+          "status": "partial",
+          "checkedAt": "2026-11-09T04:46:31.694Z",
+          "keys": [
+            "/did/"
+          ],
+          "audit": "/research/source-reviews/2026-11-06-did-source.json",
+          "outcome": "category_label_zero_bug_fixed_parsed_snapshots_reconciled_original_responses_pending",
+          "release": {
+            "branch": "codex/did-source-20261106",
+            "status": "awaiting_checks",
+            "liveUrl": "https://www.stargateedu.co.kr/did/",
+            "sourceReviewUrl": "https://www.stargateedu.co.kr/research/source-reviews/2026-11-06-did-source.json",
+            "pullRequest": "https://github.com/DongsooJung/dongsoojung.github.io/pull/256"
           }
         }
       ],

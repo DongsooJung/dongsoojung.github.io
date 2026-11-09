@@ -1,0 +1,750 @@
+{
+  "schemaVersion": 1,
+  "id": "did-source-20261106",
+  "checkedAt": "2026-11-09T04:46:31.694Z",
+  "keys": [
+    "/did/"
+  ],
+  "status": "partial",
+  "sourceBaseCommit": "e3ee529d09657ea0c78d699331f0dd4f80da3534",
+  "aggregationVersion": "20261106-category-id-v2",
+  "reviewScope": "변환 저장본·수집시각·집계 산술·문서 버전 대조 완료. 과거 Google 원응답 직접 대조와 인과추정은 미완료.",
+  "statisticalReferenceMonth": {
+    "status": "not_applicable",
+    "reason": "방법론 문서와 최대100개 급상승 목록의 48시간창 탐색지수이며 9월/10월 전체 검색량 통계가 아님."
+  },
+  "officialSources": [
+    {
+      "kind": "official-source",
+      "url": "https://support.google.com/trends/answer/3076011?hl=en",
+      "checkedAt": "2026-11-06T11:47:39.375Z",
+      "scope": "기간별 구간화 검색량·겹치는 48시간창·목록 필터와 내보내기 의미 확인. 문서의 별도 개정일은 미공개."
+    },
+    {
+      "kind": "official-source",
+      "url": "https://arxiv.org/abs/1803.09015",
+      "checkedAt": "2026-11-06T11:47:39.375Z",
+      "documentVersion": "v4 2020-12-01",
+      "scope": "방법론 원문의 현행 버전·평행추세·추정 및 추론 전제 확인. 본 차트가 원논문 추정기를 실행한 것은 아님."
+    },
+    {
+      "kind": "official-source",
+      "url": "https://trends.google.com/trending?geo=KR&hl=ko&hours=48",
+      "receivedAt": "2026-11-06T11:39:05.921854+00:00",
+      "status": 200,
+      "sha256": "31b19f7d864ab6092ed6928c197519e589de3c0e43bb16adff4e14fcb813792f",
+      "rows": 380,
+      "source": "official-response",
+      "scope": "2026-11-06 실제 Google 응답380행과 메뉴 ID3/17의 명칭 확인. 과거 저장본의 원응답 증거로 사용하지 않음.",
+      "categoryMenu": [
+        {
+          "id": 3,
+          "label": "비즈니스 및 금융 -"
+        },
+        {
+          "id": 17,
+          "label": "스포츠 -"
+        }
+      ],
+      "rawRowsArtifact": "/research/source-reviews/2026-11-06-google-current-response.json"
+    }
+  ],
+  "dates": {
+    "dataBasis": "각 row의 수집기 완료시각을 KST 날짜로 변환. 48시간창 시작·끝 원시각은 과거 저장본에 미공개.",
+    "latestCollectorCompletedAt": "2026-11-08T06:59:42+00:00",
+    "fileGeneratedAt": "2026-11-09T04:45:25.789900+00:00",
+    "checkedAt": "2026-11-09T04:46:31.694Z",
+    "commitTime": "각 row.committedAt: 수집시각과 별개"
+  },
+  "independentVerification": {
+    "checkedAt": "2026-11-09T13:45:46.257196+09:00",
+    "sourceBaseCommit": "e3ee529d09657ea0c78d699331f0dd4f80da3534",
+    "rows": 70,
+    "sourceItemsChecked": 6905,
+    "numericFieldsChecked": 420,
+    "monthlySnapshotCounts": {
+      "2026-08": 1,
+      "2026-09": 30,
+      "2026-10": 31,
+      "2026-11": 8
+    },
+    "smallSnapshots": [
+      {
+        "date": "2026-09-21",
+        "snapshotItemCount": 62
+      },
+      {
+        "date": "2026-09-22",
+        "snapshotItemCount": 43
+      }
+    ],
+    "normalizationMax": {
+      "3": 275000,
+      "17": 543000
+    },
+    "correctedBusinessRows": [
+      {
+        "date": "2026-10-21",
+        "oldRaw": 0,
+        "newRaw": 131000,
+        "oldCount": 0,
+        "newCount": 12
+      },
+      {
+        "date": "2026-10-22",
+        "oldRaw": 0,
+        "newRaw": 143000,
+        "oldCount": 0,
+        "newCount": 14
+      },
+      {
+        "date": "2026-10-23",
+        "oldRaw": 0,
+        "newRaw": 126000,
+        "oldCount": 0,
+        "newCount": 16
+      },
+      {
+        "date": "2026-10-24",
+        "oldRaw": 0,
+        "newRaw": 187000,
+        "oldCount": 0,
+        "newCount": 17
+      },
+      {
+        "date": "2026-10-25",
+        "oldRaw": 0,
+        "newRaw": 164000,
+        "oldCount": 0,
+        "newCount": 12
+      },
+      {
+        "date": "2026-10-26",
+        "oldRaw": 0,
+        "newRaw": 269000,
+        "oldCount": 0,
+        "newCount": 23
+      },
+      {
+        "date": "2026-10-27",
+        "oldRaw": 0,
+        "newRaw": 170000,
+        "oldCount": 0,
+        "newCount": 18
+      },
+      {
+        "date": "2026-10-28",
+        "oldRaw": 0,
+        "newRaw": 275000,
+        "oldCount": 0,
+        "newCount": 19
+      },
+      {
+        "date": "2026-10-29",
+        "oldRaw": 0,
+        "newRaw": 165000,
+        "oldCount": 0,
+        "newCount": 22
+      },
+      {
+        "date": "2026-10-30",
+        "oldRaw": 0,
+        "newRaw": 154000,
+        "oldCount": 0,
+        "newCount": 20
+      },
+      {
+        "date": "2026-10-31",
+        "oldRaw": 0,
+        "newRaw": 137000,
+        "oldCount": 0,
+        "newCount": 21
+      },
+      {
+        "date": "2026-11-01",
+        "oldRaw": 0,
+        "newRaw": 240000,
+        "oldCount": 0,
+        "newCount": 11
+      },
+      {
+        "date": "2026-11-02",
+        "oldRaw": 0,
+        "newRaw": 235000,
+        "oldCount": 0,
+        "newCount": 16
+      },
+      {
+        "date": "2026-11-03",
+        "oldRaw": 0,
+        "newRaw": 149000,
+        "oldCount": 0,
+        "newCount": 13
+      },
+      {
+        "date": "2026-11-04",
+        "oldRaw": 0,
+        "newRaw": 124000,
+        "oldCount": 0,
+        "newCount": 14
+      },
+      {
+        "date": "2026-11-05",
+        "oldRaw": 0,
+        "newRaw": 232000,
+        "oldCount": 0,
+        "newCount": 23
+      },
+      {
+        "date": "2026-11-06",
+        "oldRaw": 0,
+        "newRaw": 145000,
+        "oldCount": 0,
+        "newCount": 21
+      },
+      {
+        "date": "2026-11-07",
+        "oldRaw": 0,
+        "newRaw": 235000,
+        "oldCount": 0,
+        "newCount": 24
+      },
+      {
+        "date": "2026-11-08",
+        "oldRaw": 0,
+        "newRaw": 198000,
+        "oldCount": 0,
+        "newCount": 15
+      }
+    ],
+    "legacyOnlyDates": [
+      "2026-08-08",
+      "2026-08-09",
+      "2026-08-10",
+      "2026-08-11",
+      "2026-08-12",
+      "2026-08-13",
+      "2026-08-14",
+      "2026-08-15",
+      "2026-08-16",
+      "2026-08-17",
+      "2026-08-18",
+      "2026-08-19",
+      "2026-08-20",
+      "2026-08-21",
+      "2026-08-22",
+      "2026-08-23",
+      "2026-08-24",
+      "2026-08-25",
+      "2026-08-26",
+      "2026-08-28",
+      "2026-08-29",
+      "2026-08-30"
+    ],
+    "legacyArchive": "/did/data/이전 시계열_20261106.json",
+    "legacySha256": "77564dd18594083816e19b868f87b6c66e159ea9e7d65bb61aa517b3593874fb",
+    "sourceInputs": [
+      {
+        "date": "2026-08-31",
+        "commit": "fd41252721401ae2a5bb3753752106ec907c21ff",
+        "collectorCompletedAt": "2026-08-31T06:47:47+00:00",
+        "sha256": "7ea5d3c954b0277bbaf1dd6c16158751685d481f9a893dcf93d347ba02bb903b"
+      },
+      {
+        "date": "2026-09-01",
+        "commit": "68753fbe7e932a81431492cdf9f48aed79015a23",
+        "collectorCompletedAt": "2026-09-01T06:06:37+00:00",
+        "sha256": "ae614c7470f3dc49e69a258ad253065fbca89f979a420eea63884b55e5755a02"
+      },
+      {
+        "date": "2026-09-02",
+        "commit": "d0f7f3c9c2909f97dc403590044641e9fb6e4bc9",
+        "collectorCompletedAt": "2026-09-02T05:32:01+00:00",
+        "sha256": "83aafb19656b2e5ef6603f1104471db26de317d195f0ce2d6a9c92268ed2cfe6"
+      },
+      {
+        "date": "2026-09-03",
+        "commit": "6e6144d8cd8dd0e789b2e03b1accada7424c5082",
+        "collectorCompletedAt": "2026-09-03T05:32:37+00:00",
+        "sha256": "399770b0ab6641754cc0721ebf2c7780b7246b469b4f31cd49b8c0a4f2a2808e"
+      },
+      {
+        "date": "2026-09-04",
+        "commit": "b7d37e93949c56357db9c76ff63b3bb779eebb0b",
+        "collectorCompletedAt": "2026-09-04T05:37:45+00:00",
+        "sha256": "4a23116103e235e32d9162f9bf380b857de6b4babc9bb4f4d8157011326a3b71"
+      },
+      {
+        "date": "2026-09-05",
+        "commit": "e7a4963e4d7a14df74ed2b49ed108f3b5c1dca76",
+        "collectorCompletedAt": "2026-09-05T05:23:03+00:00",
+        "sha256": "79426f6a2f3b10d14c4c3b0381ca406f09c9caa8d3b0d127e80eabcc4e8ed5b4"
+      },
+      {
+        "date": "2026-09-06",
+        "commit": "b8335d813ba3c43d06d127294d7e93634eb1082b",
+        "collectorCompletedAt": "2026-09-06T05:39:23+00:00",
+        "sha256": "75c1368da4d8f3fe918f88f15897272862427275ac788daf6cad64a23dd01708"
+      },
+      {
+        "date": "2026-09-07",
+        "commit": "a49e46775b29773dba653bf1b3bcd12ae521c07f",
+        "collectorCompletedAt": "2026-09-07T05:49:27+00:00",
+        "sha256": "841110b12136237bbaa7b55cf3382cc2a70b74b5c7fb6667a1954ad4b58ce3b9"
+      },
+      {
+        "date": "2026-09-08",
+        "commit": "c6f1e54abb3746585da860104aa81f9b2ef39029",
+        "collectorCompletedAt": "2026-09-08T05:42:31+00:00",
+        "sha256": "56e5ac7f8b577ad92ecd3757525b756589ebf16edd6f91990865789ef24117e7"
+      },
+      {
+        "date": "2026-09-09",
+        "commit": "5b7a6699b65c3f75524136d18285688e0c4966d6",
+        "collectorCompletedAt": "2026-09-09T05:47:34+00:00",
+        "sha256": "733b20a7cac760d49ce7b4cabbfbf1452ebbd46db7a16895bb65f77a74d06ded"
+      },
+      {
+        "date": "2026-09-10",
+        "commit": "24548b105b601deb4b6d8e82cf47bc77a1916225",
+        "collectorCompletedAt": "2026-09-10T05:42:14+00:00",
+        "sha256": "f44e826954f1e7bcdb31368e11ae33a99efe3de575a97aa1057021291be3a781"
+      },
+      {
+        "date": "2026-09-11",
+        "commit": "fa42e2242c3534dfbf793c3596ec6118adcccb8b",
+        "collectorCompletedAt": "2026-09-11T05:41:41+00:00",
+        "sha256": "efa34f0248d4dd89c3fe0bbb09c52d5faffd95ed2e5cd7d288bd90ee339376b8"
+      },
+      {
+        "date": "2026-09-12",
+        "commit": "d1b84fcbb45edb5de894b3c6a92dba1d1e72fa20",
+        "collectorCompletedAt": "2026-09-12T05:28:26+00:00",
+        "sha256": "9c52e7a87695c57fcd9ef328b1a83468819c32780ae766cfc433bd1ef6b9e3af"
+      },
+      {
+        "date": "2026-09-13",
+        "commit": "5ed4ca3bf6fa13b528ce605ba19e7e363cda1e3e",
+        "collectorCompletedAt": "2026-09-13T05:44:40+00:00",
+        "sha256": "229cc79fb0b8d528ca805c3143c64faacd332346d765fa6b5c905fc52c44e802"
+      },
+      {
+        "date": "2026-09-14",
+        "commit": "0791a13eb90e9ba95b676e6d30a52de25681cd44",
+        "collectorCompletedAt": "2026-09-14T05:55:30+00:00",
+        "sha256": "26fafffc22db078b68ee0a111c88055134c99611e7cc58643b532a339f1135ad"
+      },
+      {
+        "date": "2026-09-15",
+        "commit": "e6e620b65fd618fcfec924a631ea20658a9a8619",
+        "collectorCompletedAt": "2026-09-15T05:56:40+00:00",
+        "sha256": "541164d326f0d9a6d2145c6bae26659f75cd296ad1217064b6be0b344074eb4d"
+      },
+      {
+        "date": "2026-09-16",
+        "commit": "a03a3339f59b7858c1abf2f90c484e8331187ac8",
+        "collectorCompletedAt": "2026-09-16T05:44:59+00:00",
+        "sha256": "d894d4f8c5f8f91ceef06e1e49d013dcb2ac70eec572dea2221765c856f44649"
+      },
+      {
+        "date": "2026-09-17",
+        "commit": "cd96090075fe5db220db58affcf3829a1bbdefe5",
+        "collectorCompletedAt": "2026-09-17T05:52:55+00:00",
+        "sha256": "23076bd3ad9cb256216d7105785ef3cc706120460153424643c0dd5e6ad8bdc9"
+      },
+      {
+        "date": "2026-09-18",
+        "commit": "9c13c5dfc5bb88e3d51bdb6bad0d75b9e0b024ff",
+        "collectorCompletedAt": "2026-09-18T05:37:47+00:00",
+        "sha256": "ab0f17a4212dd2f2ca3d74f194ff1c9ebf3a1b4205a3b3ed26aeedc12f01de3c"
+      },
+      {
+        "date": "2026-09-19",
+        "commit": "46e6cc5acdac547c17e004dfd863fa8717109e33",
+        "collectorCompletedAt": "2026-09-19T05:33:18+00:00",
+        "sha256": "a59ad8f26c2b4e6d6483b625074b1ce17752ab8dda7ba32fb1fd9a526928c4e5"
+      },
+      {
+        "date": "2026-09-20",
+        "commit": "ef92e03725450d45be25f28e559fb75ed63decf2",
+        "collectorCompletedAt": "2026-09-20T05:51:37+00:00",
+        "sha256": "01b050ba4c2dfa02333d443a46137532d1cb070166facfbf1169f2f160aaf4ab"
+      },
+      {
+        "date": "2026-09-21",
+        "commit": "18a14caca27ea1a21bdb92cf8637d815a1aea591",
+        "collectorCompletedAt": "2026-09-21T05:59:26+00:00",
+        "sha256": "5f9afe9b789363e70e093fe412884acda0e3c84ebc5fcaf66753077f45b35582"
+      },
+      {
+        "date": "2026-09-22",
+        "commit": "c745538643e42affa40defeb69ff23796e2464dd",
+        "collectorCompletedAt": "2026-09-22T05:55:58+00:00",
+        "sha256": "bd845960bed755c107ae280f4cd420001336c0b0f813fbd40b647040fef40b35"
+      },
+      {
+        "date": "2026-09-23",
+        "commit": "89ac349f6878d303b7ad02b5dbaa624a73d90fbd",
+        "collectorCompletedAt": "2026-09-23T05:38:03+00:00",
+        "sha256": "508b664b1173e375a32fc936ce00712d7904495019c08830ca7181f8c5804150"
+      },
+      {
+        "date": "2026-09-24",
+        "commit": "ee15bdd866becf966336cab56265831683061850",
+        "collectorCompletedAt": "2026-09-24T05:56:03+00:00",
+        "sha256": "622aaf96fe719bb1ca3d6806ad82ce5972c4d73a9abe02091822687012aade59"
+      },
+      {
+        "date": "2026-09-25",
+        "commit": "5dec5d69ba54e8732d5e1a2f39cf9ee3416a12b6",
+        "collectorCompletedAt": "2026-09-25T05:57:22+00:00",
+        "sha256": "16dc60d5be37a8f5f9b5e4bbd5f4361b9cd5382aa163d292c96f88ea37f8ee34"
+      },
+      {
+        "date": "2026-09-26",
+        "commit": "159a29200d5bc3a4f1e67934c4353f9b4adbee16",
+        "collectorCompletedAt": "2026-09-26T05:57:12+00:00",
+        "sha256": "fb3eea56007aeec28a417288245282c26ba2a51f45f826c4818e14ad09dd7070"
+      },
+      {
+        "date": "2026-09-27",
+        "commit": "0caff08f5827e0ec303dbd191880a052c427dc0b",
+        "collectorCompletedAt": "2026-09-27T06:23:49+00:00",
+        "sha256": "5f24609d6df5de8ce94bd34cc3f10d73229db1a7c11f017de7988515194839d7"
+      },
+      {
+        "date": "2026-09-28",
+        "commit": "932bc59c8c38c9ac3bd1fcaac877d997f68503ec",
+        "collectorCompletedAt": "2026-09-28T06:27:08+00:00",
+        "sha256": "883abbac5f63b9cba9a257aed855ea40cdc5889c26e0f27ddc42bf8cc32e44e0"
+      },
+      {
+        "date": "2026-09-29",
+        "commit": "3a70ef003a5b962990f6be12aa6f23af1adf938e",
+        "collectorCompletedAt": "2026-09-29T06:39:58+00:00",
+        "sha256": "f2202362d8a14f003fcf5c7b2d3aa4ddd0b29a87c6a0b7563fcf3d45a29acd35"
+      },
+      {
+        "date": "2026-09-30",
+        "commit": "ec4d66447faf273496f4c17fb1e531bb07b83016",
+        "collectorCompletedAt": "2026-09-30T06:23:46+00:00",
+        "sha256": "f14747fa5ad5a2cf3f12cf2c5c7120b1091c5b24415bed879d3ee02bbb7d5b75"
+      },
+      {
+        "date": "2026-10-01",
+        "commit": "e38955f4fb4976989d7ce9b275f407d0bed85e53",
+        "collectorCompletedAt": "2026-10-01T06:59:01+00:00",
+        "sha256": "5ebfa50ad2a5f9dacf8789b42ec6c68ea0fb53af86ac7d9a60f7ed4a6458e3c7"
+      },
+      {
+        "date": "2026-10-02",
+        "commit": "2dfbeec55891751562e0d36a84c5a04298a1651e",
+        "collectorCompletedAt": "2026-10-02T06:48:20+00:00",
+        "sha256": "5d4dd1323ff13f3cb08b1f1b6580dda08444a78ffcc8790bdf19cbfc2288eea2"
+      },
+      {
+        "date": "2026-10-03",
+        "commit": "7393519758d022a2b60b945d7bad6063c539c5a6",
+        "collectorCompletedAt": "2026-10-03T06:10:59+00:00",
+        "sha256": "e0c7e8b5af05746867d890b9344c9183b2ac8af025dc024c6c3355c3333d8a52"
+      },
+      {
+        "date": "2026-10-04",
+        "commit": "0ce1249d76f378a167a97c533251a66394a8a957",
+        "collectorCompletedAt": "2026-10-04T06:40:10+00:00",
+        "sha256": "69c2faa93fa9a040d1693a54a7ad1fdcb03dfe5c25c4f0e167d7da47e5bb6665"
+      },
+      {
+        "date": "2026-10-05",
+        "commit": "706a8e47c4cb3d423911eecd6dbbb0bbf2a40099",
+        "collectorCompletedAt": "2026-10-05T06:38:40+00:00",
+        "sha256": "21bfc6c40a50a2de3d0277e78e654818d322d22efd72dd090b8f7b647a48c004"
+      },
+      {
+        "date": "2026-10-06",
+        "commit": "4d4dcd4ef9608eff01412dda8f0bd9ec47281e34",
+        "collectorCompletedAt": "2026-10-06T07:19:40+00:00",
+        "sha256": "92e78704e3024bf8547ac43dddb1df5c8fc383f65e197cc09f073d2c4ea1827f"
+      },
+      {
+        "date": "2026-10-07",
+        "commit": "6c5d81aa1d8701949356abdc45f302c783d5ebc4",
+        "collectorCompletedAt": "2026-10-07T06:58:41+00:00",
+        "sha256": "8933b24ebe3c4006f3b81c99c6aa6a4e254a15fd44b2676e0d803b49280db9ff"
+      },
+      {
+        "date": "2026-10-08",
+        "commit": "a16d0a5a50375816ef7024948d1d0193387270b7",
+        "collectorCompletedAt": "2026-10-08T07:06:20+00:00",
+        "sha256": "255b5aa86fc4dfbfa7478adef0534ec5befb2b5a8b4d23b18331e64b2cf339f7"
+      },
+      {
+        "date": "2026-10-09",
+        "commit": "58f13bdbee7dfa536e6cf3137b8b948e524b82a3",
+        "collectorCompletedAt": "2026-10-09T07:12:39+00:00",
+        "sha256": "f5478379a178fc1f1202fd8080442a11ea4af6e6cbc99ca78d592faf9cd56c8b"
+      },
+      {
+        "date": "2026-10-10",
+        "commit": "7d4a9ca2e4d29c413e652baa07bcc081decbdadf",
+        "collectorCompletedAt": "2026-10-10T06:47:28+00:00",
+        "sha256": "c52c15004cbce34ca7c322ec682e9db2a25be95ecbd0e885a5868ec1bb575b58"
+      },
+      {
+        "date": "2026-10-11",
+        "commit": "b67ed539ffa8377a58b74d960266d308d7347982",
+        "collectorCompletedAt": "2026-10-11T06:54:27+00:00",
+        "sha256": "222f7152d09f8ea4616af2ab81164afa2d3732468e9df8f4a24235d3ccda3e1a"
+      },
+      {
+        "date": "2026-10-12",
+        "commit": "7d3dff340e5775ec91f65e675355f09a62fc34c1",
+        "collectorCompletedAt": "2026-10-12T07:03:45+00:00",
+        "sha256": "0604ad5246caaae022f0b78b00f3d84b82d84dd1389c29579fd30b5ca45c1f58"
+      },
+      {
+        "date": "2026-10-13",
+        "commit": "fcf1219dc8757354be5c478037705feb54636392",
+        "collectorCompletedAt": "2026-10-13T07:28:15+00:00",
+        "sha256": "00e4aacccb16f03a02ec9ede0c89ece7f463f66525561c590a5c00ee133a2013"
+      },
+      {
+        "date": "2026-10-14",
+        "commit": "bcf2698725d54c24fa03fdaa122126cc3c39cad1",
+        "collectorCompletedAt": "2026-10-14T05:54:54+00:00",
+        "sha256": "7205ad62859b4ec30cdb09a787a2b507921cb7a6832bb93bbc42a0080899ec43"
+      },
+      {
+        "date": "2026-10-15",
+        "commit": "5f6530264cbd9635979ec168d51c774f87804161",
+        "collectorCompletedAt": "2026-10-15T05:39:30+00:00",
+        "sha256": "eb5d0ec2e8d9217c8f28b91075d443c63695ed91a5f7b6f01f21758025f029c6"
+      },
+      {
+        "date": "2026-10-16",
+        "commit": "dba8edbd193fd34c5c341a322ef35eee22b48235",
+        "collectorCompletedAt": "2026-10-16T05:35:15+00:00",
+        "sha256": "fca478b107aecea3eedc058d14275bfd9f8f3ff5c960f07b24d8d795ad35ec20"
+      },
+      {
+        "date": "2026-10-17",
+        "commit": "019cd702f9b692bd4aba4a148adfd46668812774",
+        "collectorCompletedAt": "2026-10-17T05:23:29+00:00",
+        "sha256": "cf6458ba72fb6df589645c758ec5f9fad7ad5aaf700ff96203d870e1b45dedfa"
+      },
+      {
+        "date": "2026-10-18",
+        "commit": "835ad41cdefe1a5f0d929b357f0d0c5fd1c7bbd5",
+        "collectorCompletedAt": "2026-10-18T05:31:27+00:00",
+        "sha256": "372d5d636f7914b693512468bb7993ba2011edd0dac632264aac088aec248e8c"
+      },
+      {
+        "date": "2026-10-19",
+        "commit": "48ee82ee44d72cbebcd2873e558c80fdd4be1d66",
+        "collectorCompletedAt": "2026-10-19T05:52:24+00:00",
+        "sha256": "15a15474b0a641c923104db6d8c935b30b8b6817d8938c3896c5dd648e99808d"
+      },
+      {
+        "date": "2026-10-20",
+        "commit": "7ba2d1dc1bb61addb9780836c29022581e804d7a",
+        "collectorCompletedAt": "2026-10-20T05:44:33+00:00",
+        "sha256": "3cd70bcf7989e660d0b91ec617841cc399a5cc87c84fa0b8e852eb0acbc32e67"
+      },
+      {
+        "date": "2026-10-21",
+        "commit": "45ae1f4bb8156ce0f1b95ba6c8dafe8b577cdbde",
+        "collectorCompletedAt": "2026-10-21T05:47:44+00:00",
+        "sha256": "65ce76001725a0a5fc683105e07b98110f9be1a37037f1ec6d424f6b0e5aefe2"
+      },
+      {
+        "date": "2026-10-22",
+        "commit": "a7e73cbac9844e5de3180f5d6e42d5a14758b6d1",
+        "collectorCompletedAt": "2026-10-22T05:50:55+00:00",
+        "sha256": "d2486a473388026d71419946aa5fd5124588e84f6e8a957caccbca5e6eba9f9d"
+      },
+      {
+        "date": "2026-10-23",
+        "commit": "6343f1757b398e20da389fe841441efb66461884",
+        "collectorCompletedAt": "2026-10-23T05:49:18+00:00",
+        "sha256": "479fc5227288c302f120a917d5ce97086bc3860d54755918c04d21d9c44482e7"
+      },
+      {
+        "date": "2026-10-24",
+        "commit": "edc9ba0c6881a6e5637aabb2175fd0526ad54ea5",
+        "collectorCompletedAt": "2026-10-24T05:31:05+00:00",
+        "sha256": "c5509178072ddaf98e7d11e60cd1a6b88e24690c92a33e9c55645dec3816aecf"
+      },
+      {
+        "date": "2026-10-25",
+        "commit": "83e4ab36749068b2b511f367fedafaf8af34387e",
+        "collectorCompletedAt": "2026-10-25T05:48:17+00:00",
+        "sha256": "3a451dd50569fb912952f021208b45971704c8dae5338a84f77847c496969bd5"
+      },
+      {
+        "date": "2026-10-26",
+        "commit": "8612c9e6003e48e39dfcb0b476fb2451799f9bfa",
+        "collectorCompletedAt": "2026-10-26T05:51:01+00:00",
+        "sha256": "4fbffdf1c29f9b3478e85e3a46df25862d45c38971890022c71155f5f47b15e8"
+      },
+      {
+        "date": "2026-10-27",
+        "commit": "12fd8000e6652dd6e604288eea4eea4117909858",
+        "collectorCompletedAt": "2026-10-27T06:03:55+00:00",
+        "sha256": "783e3117eaab4d081ec53ee39b7099096b192bc83735612ff0c11d55bd7d6a18"
+      },
+      {
+        "date": "2026-10-28",
+        "commit": "0020de6679f49cf30da3c1a630f31dcba78182b8",
+        "collectorCompletedAt": "2026-10-28T06:42:20+00:00",
+        "sha256": "3594b5f96d3449fa22e3c8e0de409ef507ae483edf9e154bf3e700c54e4a98f2"
+      },
+      {
+        "date": "2026-10-29",
+        "commit": "4dc08c11e7d7e86f37a9da173e4a2f781af0d26d",
+        "collectorCompletedAt": "2026-10-29T06:49:44+00:00",
+        "sha256": "51bac405f7073b232f26f9d19cad71cbadc32c96d02c6ab11e1f9216eba5cd13"
+      },
+      {
+        "date": "2026-10-30",
+        "commit": "6fd6743fdc9cb14bec1fa64a4893c33a47345f55",
+        "collectorCompletedAt": "2026-10-30T06:53:08+00:00",
+        "sha256": "c7f7e15c3440a3a64fd7d1dd35c5b6f23890c8b30f1205db27191494ea4c8bf5"
+      },
+      {
+        "date": "2026-10-31",
+        "commit": "bf0b8be17596c425493efe48445487739624cfd9",
+        "collectorCompletedAt": "2026-10-31T06:46:16+00:00",
+        "sha256": "641422d45b772db67ec632986cacec227d9ccb968340aed4dc22e3652a125b19"
+      },
+      {
+        "date": "2026-11-01",
+        "commit": "eeeec554af249cfac36b25ed0fd3815c8f0d8ea4",
+        "collectorCompletedAt": "2026-11-01T07:13:17+00:00",
+        "sha256": "c91d7e3eed09bfa808d3f7a0ff6807373cbe9d81dc1c6d8c8a33ce102bb7e3d1"
+      },
+      {
+        "date": "2026-11-02",
+        "commit": "ba2bb8ff79a83b02a49dc86e08b3e94b1f99567e",
+        "collectorCompletedAt": "2026-11-02T07:27:18+00:00",
+        "sha256": "be850f246733907aa6307c5b8aacb4ba729e39b56c0ebbd4db3141a0536fd052"
+      },
+      {
+        "date": "2026-11-03",
+        "commit": "a9191c9c6e52ecb8981dcc2a660a646f253fc0ad",
+        "collectorCompletedAt": "2026-11-03T07:42:00+00:00",
+        "sha256": "69449ea42337c9338a8234dbf1a2d449d0a0381d448a9d1142085687291ed43c"
+      },
+      {
+        "date": "2026-11-04",
+        "commit": "80de17d160874aacc3306508793c42ba207529ed",
+        "collectorCompletedAt": "2026-11-04T07:19:39+00:00",
+        "sha256": "beb526049dd1d104841504f2b8e01dd65d7caab7c92a4379fdbcf99534282473"
+      },
+      {
+        "date": "2026-11-05",
+        "commit": "8d7d9812ff8fe5a1d11e847f5cc6556de3600af3",
+        "collectorCompletedAt": "2026-11-05T07:46:16+00:00",
+        "sha256": "011b13daadc63ca00ea14073913bf291951c80793f9f340ea243e8703d147d4e"
+      },
+      {
+        "date": "2026-11-06",
+        "commit": "1b0805f538c4c1232d348e6d8540e19ba2606047",
+        "collectorCompletedAt": "2026-11-06T07:45:43+00:00",
+        "sha256": "a732fc89333a4f2d970021f4d28ea02367103c91b31f629cd13d692533b7a537"
+      },
+      {
+        "date": "2026-11-07",
+        "commit": "ce4c8e2b7d6e9c92d655e81480b51c19f831999a",
+        "collectorCompletedAt": "2026-11-07T06:53:09+00:00",
+        "sha256": "eefd3a85d0a804b4c7282a7e41a28a003f61c0e9340b3ee9aa96a9cbbf461079"
+      },
+      {
+        "date": "2026-11-08",
+        "commit": "f86218b8cc4478e20f07628f78159f4d62940d71",
+        "collectorCompletedAt": "2026-11-08T06:59:42+00:00",
+        "sha256": "a327ffb3215597e8461b080571a75b5b3b0ed6decb1e5931fdaf3183606c47ae"
+      }
+    ],
+    "displayStats": {
+      "splitIndex": 45,
+      "splitDate": "2026-10-15",
+      "pre": -6.106444444444445,
+      "post": 7.070800000000001,
+      "delta": 13.177244444444446
+    },
+    "historicalOriginalGoogleResponseAvailable": false,
+    "currentOfficialResponse": {
+      "url": "https://trends.google.com/trending?geo=KR&hl=ko&hours=48",
+      "receivedAt": "2026-11-06T11:39:05.921854+00:00",
+      "status": 200,
+      "sha256": "31b19f7d864ab6092ed6928c197519e589de3c0e43bb16adff4e14fcb813792f",
+      "rows": 380,
+      "source": "official-response",
+      "scope": "이번 실제 48시간창 응답; 과거 응답의 복원 증거가 아님",
+      "categoryMenu": [
+        {
+          "id": 3,
+          "label": "비즈니스 및 금융 -"
+        },
+        {
+          "id": 17,
+          "label": "스포츠 -"
+        }
+      ]
+    },
+    "scope": "Git 변환 저장본의 범주ID·합계·수집기시각·정규화 전수 대조. 과거Google원응답 직접대조는 아님.",
+    "comparisonBaseCommit": "e3ee529d09657ea0c78d699331f0dd4f80da3534",
+    "legacyArchivedFrom": "5ac665ff0811f8f60dbfb21a161292f2d1f0656c"
+  },
+  "repairs": {
+    "cause": "2026-10-21 범주 표시명이 비즈니스·산업→비즈니스 및 금융으로 바뀌었으나 변환기는 구 명칭으로 집계해0을 생성함",
+    "categoryRule": "각 검색어의 첫 categories ID만 사용:3/17. 문자열 라벨로 집계하지 않음.",
+    "correctedRows": 19,
+    "correctedOctoberRows": 11,
+    "example": {
+      "date": "2026-10-21",
+      "before": 0,
+      "after": 131000,
+      "queryCount": 12
+    },
+    "oldUntraceableRowsPreserved": 22,
+    "normalization": "검산 가능한 70시점의 범주별 분모는 ID3 275,000 및 ID17 543,000입니다. 이전 지수와의 비교에는 정규화 범위 차이가 있습니다.",
+    "csv": "/did/data/검색 범주 시계열.csv",
+    "legacy": "/did/data/이전 시계열_20261106.json",
+    "dailyPipeline": "동일 집계기에서 JSON과 CSV 동시 생성·커밋. 다른 국가/시간창 수집은 기존 DID 자료를 유지."
+  },
+  "validation": {
+    "regressionTests": 11,
+    "rawSumsAndCountsChecked": 280,
+    "normalizedValuesChecked": 140,
+    "csvRows": 70,
+    "snapshotDatesUnique": true,
+    "latestCurrentResponseIsHistoricalEvidence": false
+  },
+  "remaining": [
+    {
+      "reason": "과거 Google 원 HTML/응답 원본이 저장되지 않았음",
+      "url": "https://trends.google.com/trending?geo=KR&hl=ko&hours=48",
+      "nextAction": "과거 원응답이 실제 확보되면 각 수집시각·항목·ID·구간화값을 직접 대조. 같은 변환 저장본 재계산을 원출처 완료로 취급하지 않음."
+    },
+    {
+      "reason": "9월21일62개·9월22일43개로 저장 범위가 다른 날보다 작음. 원응답 미확보로 당시 원목록 전수/누락 여부 미확인.",
+      "url": "https://github.com/DongsooJung/dongsoojung.github.io/tree/5ac665ff0811f8f60dbfb21a161292f2d1f0656c/google-trends",
+      "nextAction": "48시간창·최대100개 가용 목록이라는 범위를 유지. 일별 전체 검색량이나 월간 합계로 해석하지 않음."
+    },
+    {
+      "reason": "원응답 대조 불가22개 이전시점과 실제 정책효과 추정의 식별 조건 미확보",
+      "url": "/did/data/이전 시계열_20261106.json",
+      "nextAction": "이전90행 보존본을 유지. 실제 정책일·집단·평행추세·표준오차와 추론 설계가 정해진 별도 회차에서만 인과효과 추정."
+    }
+  ],
+  "nextAction": "다음 독립 미완료 /research/contradiction-lab/의 원문·연구 의제 버전과 인용 범위를 대조합니다. DID 변환 저장본 70시점·6,905항목·420수치와 범주 ID 3·17 대조 완료 범위는 반복하지 않습니다. 과거 Google 원응답이나 실제 정책일·집단·추정 설계가 확보되면 해당 범위를 재개합니다.",
+  "resumedVerification": {
+    "checkedAt": "2026-11-09T04:46:31.694Z",
+    "extraSnapshots": [
+      "2026-11-07",
+      "2026-11-08"
+    ],
+    "legacyArchiveReference": "5ac665ff0811f8f60dbfb21a161292f2d1f0656c"
+  }
+}
