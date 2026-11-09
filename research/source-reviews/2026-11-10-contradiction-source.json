@@ -1,0 +1,451 @@
+{
+  "key": "/research/contradiction-lab/",
+  "title": "모순연구소 문헌 판본과 인용 범위",
+  "status": "needs_review",
+  "checkedAt": "2026-11-09T19:53:16.828Z",
+  "pageRevisedOn": "2026-11-10",
+  "timezone": "Asia/Seoul",
+  "collectedAt": null,
+  "statisticalReferenceMonth": {
+    "status": "not_applicable",
+    "reason": "문헌 사례와 연구 제안의 대조입니다. 정기 월간 통계 자료가 없으며 문헌별 관측기간은 사례별 출처 설명에 표시합니다."
+  },
+  "priorVersion": {
+    "pageRevisedOn": "2026-10-20",
+    "gitCommit": "b2cd30a4532fe6fd63b169abf08505b61c5a95d7",
+    "url": "https://github.com/DongsooJung/dongsoojung.github.io/commit/b2cd30a4532fe6fd63b169abf08505b61c5a95d7",
+    "liveSha256": "97e93ea1c19210e2c5a73a98ca79306321378cbabfe51ee6ce7b76144df7480c"
+  },
+  "agenda": {
+    "version": "v2026.11.10",
+    "status": "proposed",
+    "questions": [
+      "착오형 모순의 자동 판별 가능성",
+      "조정형 모순의 최소 개입 설계",
+      "AI 자신이 만드는 모순의 측정"
+    ]
+  },
+  "counts": {
+    "cases": 17,
+    "references": 34,
+    "casesWithOriginalTextOrAuthorAbstract": 16,
+    "access": {
+      "abstract": 8,
+      "text": 14,
+      "metadata": 6,
+      "excerpt": 2,
+      "summary": 2,
+      "catalog-abstract": 1,
+      "unavailable": 1
+    }
+  },
+  "cases": [
+    {
+      "id": "simpson",
+      "title": "심슨의 역설",
+      "scope": "층을 합치면 방향이 바뀔 수 있습니다. 버클리 결과는 1973년 가을 대학원 지원 구성과 학과별 차이를 다룹니다.",
+      "limit": "층화 변수의 인과적 타당성과 한국 입시 적용은 별도 검증 대상입니다.",
+      "claimStatus": "scoped_source_comparison",
+      "references": [
+        {
+          "edition": "Simpson · JRSS B 13(2), 238–241 (1951)",
+          "access": "abstract",
+          "url": "https://rss.onlinelibrary.wiley.com/doi/10.1111/j.2517-6161.1951.tb00088.x",
+          "kind": "official-source",
+          "checkedAt": "2026-11-09T19:53:16.828Z"
+        },
+        {
+          "edition": "Bickel·Hammel·O’Connell · Science 187(4175), 398–404 (1975)",
+          "access": "abstract",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/17835295/",
+          "kind": "official-source",
+          "checkedAt": "2026-11-09T19:53:16.828Z"
+        }
+      ]
+    },
+    {
+      "id": "baserate",
+      "title": "기저율 무시",
+      "scope": "원문은 판단과 예측에서 기저율을 어떻게 활용하는지 실험합니다.",
+      "limit": "검사 공식은 설명용이며 실제 질병 유병률·진단 성능을 추정하지 않습니다.",
+      "claimStatus": "scoped_source_comparison",
+      "references": [
+        {
+          "edition": "Kahneman·Tversky · Psychological Review 80, 237–251 (1973)",
+          "access": "text",
+          "url": "https://cse.buffalo.edu/~rapaport/575/F01/kahneman.tversky.73.pdf",
+          "kind": "official-source",
+          "checkedAt": "2026-11-09T19:53:16.828Z"
+        }
+      ]
+    },
+    {
+      "id": "monty",
+      "title": "정보 갱신 착오(몬티 홀)",
+      "scope": "균등한 상품 배치와 진행자 규칙을 가정하면 선택을 바꿨을 때 세 경우 중 두 경우에 이깁니다.",
+      "limit": "Selvin 서신 본문은 별도 확보가 필요합니다. 진행자가 임의로 교체를 제안하면 확률은 달라질 수 있습니다.",
+      "claimStatus": "scoped_source_comparison",
+      "references": [
+        {
+          "edition": "Selvin이 실린 The American Statistician 서신란 · 1975년 2월",
+          "access": "metadata",
+          "url": "https://api.crossref.org/works/10.1080/00031305.1975.10479121",
+          "kind": "source-metadata",
+          "checkedAt": "2026-11-09T19:53:16.828Z",
+          "detail": "등록 제목은 서신란 전체이며 출판사 본문은 403이었습니다."
+        },
+        {
+          "edition": "vos Savant · Parade 기고자 해설 재게시",
+          "access": "text",
+          "url": "https://parade.com/533284/npond/the-two-goats-three-doors-question-and-solution/",
+          "kind": "official-source",
+          "checkedAt": "2026-11-09T19:53:16.828Z"
+        }
+      ]
+    },
+    {
+      "id": "present",
+      "title": "현재 편향 (의도–행동 격차)",
+      "scope": "현재 편향을 설명하는 할인과 약정 모형, 미래 급여 인상분을 저축에 배정하는 프로그램을 각각 대조했습니다.",
+      "limit": "학습·금연·AI 알림 효과까지 일반화할 수 없습니다.",
+      "claimStatus": "scoped_source_comparison",
+      "references": [
+        {
+          "edition": "Laibson · QJE 112(2), 443–477 (1997)",
+          "access": "text",
+          "url": "https://laibson.scholars.harvard.edu/sites/g/files/omnuum5971/files/laibson/files/golden_eggs_and_hyperbolic_discounting.pdf",
+          "kind": "official-source",
+          "checkedAt": "2026-11-09T19:53:16.828Z"
+        },
+        {
+          "edition": "Thaler·Benartzi · JPE 112(S1) (2004)",
+          "access": "abstract",
+          "url": "https://www.journals.uchicago.edu/doi/abs/10.1086/380085",
+          "kind": "official-source",
+          "checkedAt": "2026-11-09T19:53:16.828Z"
+        }
+      ]
+    },
+    {
+      "id": "privacy",
+      "title": "프라이버시 역설",
+      "scope": "문헌 검토는 개인정보에 대한 태도와 공개·보호 행동의 차이를 다룹니다.",
+      "limit": "같은 단위로 측정한 지불의사 격차나 특정 앱·AI 도구의 효과는 이 근거에서 산출하지 않습니다.",
+      "claimStatus": "scoped_source_comparison",
+      "references": [
+        {
+          "edition": "Barth·de Jong · Telematics and Informatics 34, 1038–1058 (2017)",
+          "access": "text",
+          "url": "https://ris.utwente.nl/ws/portalfiles/portal/25251884/privacy_paradox.pdf",
+          "kind": "official-source",
+          "checkedAt": "2026-11-09T19:53:16.828Z"
+        }
+      ]
+    },
+    {
+      "id": "thrift",
+      "title": "절약의 역설",
+      "scope": "7장의 사후 저축·투자 항등식과 16장의 유효수요 논의를 구분했습니다.",
+      "limit": "고정 투자 등 가정이 있는 설명용 모형이며 월별 경기 추정치가 없습니다.",
+      "claimStatus": "scoped_source_comparison",
+      "references": [
+        {
+          "edition": "Keynes · The General Theory, 제7장 (1936)",
+          "access": "text",
+          "url": "https://www.hetwebsite.net/het/texts/keynes/gt/chap07.htm",
+          "kind": "official-source",
+          "checkedAt": "2026-11-09T19:53:16.828Z"
+        },
+        {
+          "edition": "Keynes · The General Theory, 제16장 (1936)",
+          "access": "text",
+          "url": "https://www.hetwebsite.net/het/texts/keynes/gt/chap16.htm",
+          "kind": "official-source",
+          "checkedAt": "2026-11-09T19:53:16.828Z"
+        }
+      ]
+    },
+    {
+      "id": "commons",
+      "title": "공유지의 비극",
+      "scope": "Hardin이 가정한 개별 편익과 공동 비용 구조와 Ostrom이 제시한 자치 제도를 함께 읽었습니다.",
+      "limit": "고갈과 자치의 성과는 접근·집행 규칙에 달려 있습니다.",
+      "claimStatus": "scoped_source_comparison",
+      "references": [
+        {
+          "edition": "Hardin · Science 162, 1243–1248 (1968)",
+          "access": "text",
+          "url": "https://www.garretthardinsociety.org/articles/art_tragedy_of_the_commons.html",
+          "kind": "official-source",
+          "checkedAt": "2026-11-09T19:53:16.828Z"
+        },
+        {
+          "edition": "Ostrom · Governing the Commons, 제1장 (1990)",
+          "access": "excerpt",
+          "url": "https://assets.cambridge.org/97811075/69782/excerpt/9781107569782_excerpt.pdf",
+          "kind": "official-source",
+          "checkedAt": "2026-11-09T19:53:16.828Z"
+        }
+      ]
+    },
+    {
+      "id": "education",
+      "title": "교육 군비경쟁 (위치재 경쟁)",
+      "scope": "Routledge 소개에서 위치재와 사회적 한계의 논점을 확인했습니다. Frank는 출판 서지까지 확인했습니다.",
+      "limit": "두 책의 해당 본문과 대치동 사례의 인과적 근거를 별도로 확보해야 합니다.",
+      "claimStatus": "publisher_scope_only",
+      "references": [
+        {
+          "edition": "Hirsch · 1976년 초판, 2026년 Routledge 재간행본 소개",
+          "access": "summary",
+          "url": "https://www.routledge.com/Social-Limits-to-Growth/Hirsch/p/book/9781041109273",
+          "kind": "source-metadata",
+          "checkedAt": "2026-11-09T19:53:16.828Z",
+          "detail": "출판사 검색 색인 소개와 목차를 확인했습니다. 직접 페이지는 403이었습니다."
+        },
+        {
+          "edition": "Frank · Choosing the Right Pond (Oxford, 1985)",
+          "access": "metadata",
+          "url": "https://books.google.com/books/about/Choosing_the_Right_Pond.html?id=WE1q6rBUQPQC",
+          "kind": "source-metadata",
+          "checkedAt": "2026-11-09T19:53:16.828Z",
+          "detail": "출판사 본문은 접근 제한으로 확인하지 못했습니다."
+        }
+      ]
+    },
+    {
+      "id": "braess",
+      "title": "브라에스 역설",
+      "scope": "특정 통행 비용·고정 수요의 사용자 균형에서는 링크 추가가 균형 통행비용을 높일 수 있습니다.",
+      "limit": "2005년 영어 번역은 초록 범위입니다. 한국 특정 도로의 결과는 현장 자료로 검증해야 합니다.",
+      "claimStatus": "scoped_source_comparison",
+      "references": [
+        {
+          "edition": "Braess · 1968년 원논문, 2005년 영어 번역",
+          "access": "abstract",
+          "url": "https://pubsonline.informs.org/doi/abs/10.1287/trsc.1050.0127",
+          "kind": "official-source",
+          "checkedAt": "2026-11-09T19:53:16.828Z"
+        },
+        {
+          "edition": "Roughgarden·Tardos · JACM 49(2) (2002)",
+          "access": "text",
+          "url": "https://www.timroughgarden.org/papers/routing.pdf",
+          "kind": "official-source",
+          "checkedAt": "2026-11-09T19:53:16.828Z"
+        }
+      ]
+    },
+    {
+      "id": "induced",
+      "title": "유발수요 (도로 혼잡의 기본 법칙)",
+      "scope": "미국 대도시권 주간고속도로 차로연장과 차량 주행거리의 반응을 대조했습니다.",
+      "limit": "해당 탄력성을 출퇴근 통행속도나 한국 도로에 적용하려면 별도 자료가 필요합니다.",
+      "claimStatus": "scoped_source_comparison",
+      "references": [
+        {
+          "edition": "Downs · Traffic Quarterly 16(3), 393–409 (1962)",
+          "access": "catalog-abstract",
+          "url": "https://trid.trb.org/View/694596",
+          "kind": "source-metadata",
+          "checkedAt": "2026-11-09T19:53:16.828Z",
+          "detail": "TRID 초록을 확인했습니다. 원문 아카이브 조회는 시간 초과였습니다."
+        },
+        {
+          "edition": "Duranton·Turner · AER 101(6), 2616–2652 (2011)",
+          "access": "abstract",
+          "url": "https://www.aeaweb.org/articles?id=10.1257/aer.101.6.2616",
+          "kind": "official-source",
+          "checkedAt": "2026-11-09T19:53:16.828Z"
+        }
+      ]
+    },
+    {
+      "id": "homevoter",
+      "title": "집주인 투표자 가설",
+      "scope": "주택 자산을 보유한 유권자와 지방정부의 선택 사이 관계를 다루는 가설입니다.",
+      "limit": "미리 정해진 공급 효과 부호를 제거했습니다. 재건축과 임대주택 입지는 각각 식별 설계가 필요합니다.",
+      "claimStatus": "scoped_source_comparison",
+      "references": [
+        {
+          "edition": "Fischel · The Homevoter Hypothesis (Harvard, 2001)",
+          "access": "excerpt",
+          "url": "https://www.jstor.org/stable/j.ctv1p6hp64",
+          "kind": "official-source",
+          "checkedAt": "2026-11-09T19:53:16.828Z",
+          "detail": "출판사 제공 미리보기 범위입니다."
+        }
+      ]
+    },
+    {
+      "id": "jevons",
+      "title": "제본스 역설 (반동효과)",
+      "scope": "1866년 제2판 제7장에 효율 개선과 석탄 소비의 관계가 서술돼 있습니다.",
+      "limit": "AI 전체 전력 사용량은 효율과 사용량을 같은 범위에서 측정해야 합니다. Sorrell 본문은 접근 제한입니다.",
+      "claimStatus": "scoped_source_comparison",
+      "references": [
+        {
+          "edition": "Jevons · The Coal Question, 제7장 (1866년 제2판)",
+          "access": "text",
+          "url": "https://www.econlib.org/library/YPDBooks/Jevons/jvnCQ.html?chapter_num=9",
+          "kind": "official-source",
+          "checkedAt": "2026-11-09T19:53:16.828Z"
+        },
+        {
+          "edition": "Sorrell · Energy Policy (2009)",
+          "access": "metadata",
+          "url": "https://api.crossref.org/works/10.1016/j.enpol.2008.12.003",
+          "kind": "source-metadata",
+          "checkedAt": "2026-11-09T19:53:16.828Z",
+          "detail": "출판사 본문은 403이었습니다."
+        }
+      ]
+    },
+    {
+      "id": "goodhart",
+      "title": "굿하트의 법칙",
+      "scope": "통화관리 문헌, 대학 평가 감사의 지표 문제, 대리지표 실패의 유형화를 구분했습니다.",
+      "limit": "최적화 압력이 높아질 때 괴리가 커지는 조건과 실제 AI 평가 결과는 별도로 검증해야 합니다.",
+      "claimStatus": "scoped_source_comparison",
+      "references": [
+        {
+          "edition": "Goodhart · Problems of Monetary Management (1975)",
+          "access": "metadata",
+          "url": "https://www.rba.gov.au/publications/rdp/1988/8805/references.html",
+          "kind": "source-metadata",
+          "checkedAt": "2026-11-09T19:53:16.828Z",
+          "detail": "RBA 인용 서지이며 1975년 원문 본문은 미확인입니다."
+        },
+        {
+          "edition": "Strathern · European Review 5(3), 305–321 (1997), 308쪽",
+          "access": "text",
+          "url": "https://gwern.net/doc/statistics/decision/1997-strathern.pdf",
+          "kind": "official-source",
+          "checkedAt": "2026-11-09T19:53:16.828Z"
+        },
+        {
+          "edition": "Manheim·Garrabrant · arXiv:1803.04585 (2018 최초 등록)",
+          "access": "abstract",
+          "url": "https://arxiv.org/abs/1803.04585",
+          "kind": "official-source",
+          "checkedAt": "2026-11-09T19:53:16.828Z"
+        }
+      ]
+    },
+    {
+      "id": "solow",
+      "title": "생산성 역설",
+      "scope": "J-커브는 보완 무형투자가 측정 생산성에 시차를 만드는 메커니즘을 분석합니다.",
+      "limit": "1987년 칼럼 본문과 1993년 문헌 본문이 미확인입니다. 생성형 AI의 현재 효과는 별도 추정 대상입니다.",
+      "claimStatus": "scoped_source_comparison",
+      "references": [
+        {
+          "edition": "Solow · NYT Book Review (1987-07-12)",
+          "access": "unavailable",
+          "url": "https://www.nytimes.com/1987/07/12/books/we-d-better-watch-out.html",
+          "kind": "access-failure",
+          "checkedAt": "2026-11-09T19:53:16.828Z",
+          "detail": "원문 접근 실패로 직접 인용을 사용하지 않습니다."
+        },
+        {
+          "edition": "Brynjolfsson · CACM 36(12), 66–77 (1993)",
+          "access": "metadata",
+          "url": "https://dl.acm.org/doi/10.1145/163298.163309",
+          "kind": "source-metadata",
+          "checkedAt": "2026-11-09T19:53:16.828Z",
+          "detail": "출판사 본문은 403이었습니다."
+        },
+        {
+          "edition": "Brynjolfsson·Rock·Syverson · AEJ Macroeconomics 13(1) (2021)",
+          "access": "abstract",
+          "url": "https://www.aeaweb.org/articles?id=10.1257/mac.20180386",
+          "kind": "official-source",
+          "checkedAt": "2026-11-09T19:53:16.828Z"
+        }
+      ]
+    },
+    {
+      "id": "easterlin",
+      "title": "이스털린 역설 (논쟁 중)",
+      "scope": "1974년 연구의 설문 범위는 1946–1970년 19개국이며, 단일 국가 시계열은 미국입니다. 2008년 연구는 소득과 삶의 만족 간 양의 관계를 보고했습니다.",
+      "limit": "횡단면과 장기 시계열을 구분하고 문헌의 실증 논쟁을 유지합니다. 1974년 본문은 별도 확보가 필요합니다.",
+      "claimStatus": "scoped_source_comparison",
+      "references": [
+        {
+          "edition": "Easterlin · Nations and Households in Economic Growth, 89–125 (1974)",
+          "access": "abstract",
+          "url": "https://mpra.ub.uni-muenchen.de/111773/",
+          "kind": "official-source",
+          "checkedAt": "2026-11-09T19:53:16.828Z",
+          "detail": "저자 원초록을 확인했습니다. 아카이브 등록일은 출판연도와 다릅니다."
+        },
+        {
+          "edition": "Stevenson·Wolfers · BPEA (2008년 봄)",
+          "access": "text",
+          "url": "https://www.brookings.edu/wp-content/uploads/2008/03/2008a_bpea_stevenson.pdf",
+          "kind": "official-source",
+          "checkedAt": "2026-11-09T19:53:16.828Z"
+        }
+      ]
+    },
+    {
+      "id": "arrow",
+      "title": "콩도르세 역설과 애로 정리",
+      "scope": "다수결 순환 예와 세 대안 이상에서 무제약 선호·파레토·독립성·비독재성을 요구하는 집계 정리를 구분했습니다.",
+      "limit": "Condorcet은 소장본 서지 범위입니다. 정리의 결론은 명시된 사회적 순서와 공리에 적용됩니다.",
+      "claimStatus": "scoped_source_comparison",
+      "references": [
+        {
+          "edition": "Condorcet · Essai, 1785년 소장본",
+          "access": "metadata",
+          "url": "https://www.e-rara.ch/zut/doi/10.3931/e-rara-3791",
+          "kind": "source-metadata",
+          "checkedAt": "2026-11-09T19:53:16.828Z"
+        },
+        {
+          "edition": "Arrow · Social Choice and Individual Values (1951년 초판)",
+          "access": "text",
+          "url": "https://cowles.yale.edu/sites/default/files/2022-09/m12-all.pdf",
+          "kind": "official-source",
+          "checkedAt": "2026-11-09T19:53:16.828Z"
+        },
+        {
+          "edition": "Arrow · Yale University Press 제3판 (2012)",
+          "access": "summary",
+          "url": "https://yalebooks.yale.edu/book/9780300179316/social-choice-and-individual-values/",
+          "kind": "source-metadata",
+          "checkedAt": "2026-11-09T19:53:16.828Z"
+        }
+      ]
+    },
+    {
+      "id": "trolley",
+      "title": "트롤리 딜레마",
+      "scope": "Foot의 철학적 사고실험과 Awad 등의 온라인 자발 참여 조사 설계를 구분했습니다.",
+      "limit": "233개 국가·지역에서 수집한 선택이 각 지역 인구의 대표 선호나 윤리 기준을 확정하지 않습니다.",
+      "claimStatus": "scoped_source_comparison",
+      "references": [
+        {
+          "edition": "Foot · Oxford Review 5, 5–15 (1967)",
+          "access": "text",
+          "url": "https://sites.pitt.edu/~mthompso/readings/foot.pdf",
+          "kind": "official-source",
+          "checkedAt": "2026-11-09T19:53:16.828Z"
+        },
+        {
+          "edition": "Awad 외 · Nature 563, 59–64 (2018-10-24 공개), MIT 저자 원고",
+          "access": "text",
+          "url": "https://dspace.mit.edu/server/api/core/bitstreams/750c4524-46a2-4013-916a-c8131d726b56/content",
+          "kind": "official-source",
+          "checkedAt": "2026-11-09T19:53:16.828Z"
+        }
+      ]
+    }
+  ],
+  "remaining": [
+    {
+      "scope": "열람 제한 문헌과 한국 사례·AI 개입·분류 도구",
+      "nextAction": "열람 제한 판본의 원문이 확보되면 해당 인용만 추가 대조합니다. 한국 사례·AI 개입·분류 도구는 자료와 별도 검증 설계를 마련한 뒤 평가합니다."
+    }
+  ]
+}
