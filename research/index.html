@@ -79,7 +79,7 @@ var m=localStorage.getItem(k);if(m==='mobile'||m==='fold'){r.classList.add('is-a
         </div>
       </div>
         <div class="stats" aria-label="연구 허브 현황">
-        <div class="stat"><strong data-project-total>64</strong><span>고유 프로젝트</span></div>
+        <div class="stat"><strong data-project-total>65</strong><span>고유 프로젝트</span></div>
         <div class="stat"><strong>5</strong><span>관측 · 연구 · 난제 · 교육 · 운영 레인</span></div>
         <div class="stat"><strong>LIVE</strong><span>실시간·월간 갱신</span></div>
       </div>
@@ -108,9 +108,9 @@ var m=localStorage.getItem(k);if(m==='mobile'||m==='fold'){r.classList.add('is-a
         </div>
         <div class="toolbar">
           <div class="filters" role="group" aria-label="연구 대시보드 필터">
-            <button class="filter active" type="button" data-filter="all" data-analytics-ignore aria-pressed="true">전체 <span data-filter-count="">64</span></button>
+            <button class="filter active" type="button" data-filter="all" data-analytics-ignore aria-pressed="true">전체 <span data-filter-count="">65</span></button>
             <button class="filter" type="button" data-filter="urban" data-analytics-ignore aria-pressed="false">도시·공간 <span data-filter-count="">21</span></button>
-            <button class="filter" type="button" data-filter="society" data-analytics-ignore aria-pressed="false">경제·사회 <span data-filter-count="">13</span></button>
+            <button class="filter" type="button" data-filter="society" data-analytics-ignore aria-pressed="false">경제·사회 <span data-filter-count="">14</span></button>
             <button class="filter" type="button" data-filter="research" data-analytics-ignore aria-pressed="false">연구·AI <span data-filter-count="">10</span></button>
             <button class="filter" type="button" data-filter="essays" data-analytics-ignore aria-pressed="false">난제·에세이 <span data-filter-count="">7</span></button>
             <button class="filter" type="button" data-filter="education" data-analytics-ignore aria-pressed="false">교육·수학 <span data-filter-count="">7</span></button>
@@ -328,8 +328,18 @@ var m=localStorage.getItem(k);if(m==='mobile'||m==='fold'){r.classList.add('is-a
             </div>
           </details>
 
-          <details class="card-group" data-card-group="" data-lane="observation" id="macro-industry"><summary class="card-group-summary"><span class="card-group-title"><strong>거시·산업</strong><span>관측 · 경제·조달·관광·숙박·소비와 사회 통계를 관측합니다.</span></span><span class="card-group-meta"><span data-group-count="">11개</span><span class="chevron" aria-hidden="true"></span></span></summary><span id="tourism-stays" aria-hidden="true"></span>
+          <details class="card-group" data-card-group="" data-lane="observation" id="macro-industry"><summary class="card-group-summary"><span class="card-group-title"><strong>거시·산업</strong><span>관측 · 경제·조달·관광·숙박·소비와 사회 통계를 관측합니다.</span></span><span class="card-group-meta"><span data-group-count="">12개</span><span class="chevron" aria-hidden="true"></span></span></summary><span id="tourism-stays" aria-hidden="true"></span>
             <div class="grid">
+              <a class="project" href="/research/monthly-marriages/" data-card="" data-category="demography population marriage 인구 혼인 결혼" data-primary="society">
+                <div class="visual" style="--visual:radial-gradient(circle at 22% 18%,rgba(94,234,212,.38),transparent 52%),linear-gradient(145deg,#102345,#205c72)" aria-hidden="true">📈</div>
+                <div class="project-body">
+                  <div class="meta"><span class="pill accent">2026.08 · 월별</span><span class="pill">인구동향</span></div>
+                  <h3>전국 월별 혼인건수 추이</h3>
+                  <p>전국 혼인건수 28개월 추이와 전년 동월비를 비교합니다. 2026년 8월 19,218건, 전년 동월 대비 1.2% 감소했습니다.</p>
+                  <div class="project-footer"><span>국가데이터처 공식 통계 · 2026년 잠정</span><b>대시보드 열기 →</b></div>
+                </div>
+              </a>
+
               <a class="project" href="/research/crime-statistics/" data-card="" data-category="urban economy" data-primary="society">
                 <div class="visual" style="--visual:radial-gradient(circle at 22% 18%,rgba(255,115,115,.45),transparent 52%),radial-gradient(circle at 82% 78%,rgba(242,196,109,.32),transparent 50%),linear-gradient(145deg,#140f22,#2b1f3d)">🚨</div>
                 <div class="project-body">

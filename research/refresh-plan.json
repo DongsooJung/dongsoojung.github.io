@@ -988,7 +988,7 @@
       "keys": [],
       "outcome": "conditional_technical_acceptance",
       "latestAudit": "/research/source-reviews/2026-11-06-did-source.json",
-      "lastAttemptAt": "2026-11-06T11:47:39.375Z",
+      "lastAttemptAt": "2026-11-09T04:46:31.694Z",
       "itemResults": {
         "/exchange-rate/": {
           "status": "verified",
@@ -1236,9 +1236,9 @@
         },
         "/did/": {
           "status": "needs_review",
-          "checkedAt": "2026-11-06T11:47:39.375Z",
+          "checkedAt": "2026-11-09T04:46:31.694Z",
           "audit": "/research/source-reviews/2026-11-06-did-source.json",
-          "scope": "Git 변환 저장본68시점6705항목408수치·수집기시각·CSV 대조. 10월21일 이후 잘못된0 17행 수정. 과거 Google 원응답 직접대조·인과추정 미완료.",
+          "scope": "Git 변환 저장본 70시점·6,905항목·420수치와 수집시각·CSV를 대조했습니다. 10월21일 이후의 잘못된 0을 19시점에서 수정했습니다. 과거 Google 원응답 직접 대조와 인과추정은 미완료입니다.",
           "nextAction": "과거 원응답이 실제 확보되면 각 수집시각·항목·ID·구간화값을 직접 대조. 같은 변환 저장본 재계산을 원출처 완료로 취급하지 않음. 48시간창·최대100개 가용 목록이라는 범위를 유지. 일별 전체 검색량이나 월간 합계로 해석하지 않음. 이전90행 보존본을 유지. 실제 정책일·집단·평행추세·표준오차와 추론 설계가 정해진 별도 회차에서만 인과효과 추정."
         }
       },
@@ -1273,7 +1273,7 @@
           "Tourism not re-fetched before October26; original checkedAt retained"
         ]
       },
-      "nextAction": "다음 독립 미완료 /research/contradiction-lab/의 원문·연구 의제 버전과 인용 범위를 대조합니다. DID 변환 저장본 68시점·6705항목·408수치와 범주 ID3·17 대조 완료 범위는 반복하지 않습니다. 과거 Google 원응답 또는 실제 정책일·집단·추정 설계가 확보될 때만 해당 미완료 범위를 재개합니다. 전체 수락 pending·일일 예약 유지.",
+      "nextAction": "다음 독립 미완료 /research/contradiction-lab/의 원문·연구 의제 버전과 인용 범위를 대조합니다. DID 변환 저장본 70시점·6,905항목·420수치와 범주 ID 3·17 대조 완료 범위는 반복하지 않습니다. 과거 Google 원응답이나 실제 정책일·집단·추정 설계가 확보되면 해당 범위를 재개합니다.",
       "sourceFollowups": [
         {
           "id": "source-followup-1-20261021",
@@ -2362,7 +2362,7 @@
         {
           "id": "did-source-20261106",
           "status": "partial",
-          "checkedAt": "2026-11-06T11:47:39.375Z",
+          "checkedAt": "2026-11-09T04:46:31.694Z",
           "keys": [
             "/did/"
           ],

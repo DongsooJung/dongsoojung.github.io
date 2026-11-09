@@ -10,16 +10,16 @@
     "control": 17
   },
   "aggregationVersion": "20261106-category-id-v2",
-  "generatedAt": "2026-11-06T11:44:27.868005+00:00",
+  "generatedAt": "2026-11-09T04:45:25.789900+00:00",
   "sourceVerification": "parsed-snapshots-only",
   "skippedSnapshots": [],
   "normalizationWindow": {
     "first": "2026-08-31",
-    "last": "2026-11-06",
-    "observations": 68,
+    "last": "2026-11-08",
+    "observations": 70,
     "limit": 90
   },
-  "updatedAt": "2026-11-06",
+  "updatedAt": "2026-11-08",
   "rows": [
     {
       "date": "2026-08-31",
@@ -1516,6 +1516,50 @@
       "verification": "parsed-snapshot-derived-original-response-unavailable",
       "treated": 52.73,
       "control": 22.1
+    },
+    {
+      "date": "2026-11-07",
+      "treatedRaw": 235000,
+      "controlRaw": 280000,
+      "treatedCount": 24,
+      "controlCount": 13,
+      "collectorCompletedAt": "2026-11-07T06:53:09+00:00",
+      "committedAt": "2026-11-07T06:53:09Z",
+      "sourceCommit": "ce4c8e2b7d6e9c92d655e81480b51c19f831999a",
+      "sourceSha256": "eefd3a85d0a804b4c7282a7e41a28a003f61c0e9340b3ee9aa96a9cbbf461079",
+      "snapshotItemCount": 100,
+      "sourceDocumentSha256": "9dff44568a926415e0b327434b19c06e2f60f571ee983299025bdf58e3ea8a05",
+      "hours": 48,
+      "geo": [
+        "KR"
+      ],
+      "limit": 100,
+      "aggregationVersion": "20261106-category-id-v2",
+      "verification": "parsed-snapshot-derived-original-response-unavailable",
+      "treated": 85.45,
+      "control": 51.57
+    },
+    {
+      "date": "2026-11-08",
+      "treatedRaw": 198000,
+      "controlRaw": 436000,
+      "treatedCount": 15,
+      "controlCount": 24,
+      "collectorCompletedAt": "2026-11-08T06:59:42+00:00",
+      "committedAt": "2026-11-08T06:59:43Z",
+      "sourceCommit": "f86218b8cc4478e20f07628f78159f4d62940d71",
+      "sourceSha256": "a327ffb3215597e8461b080571a75b5b3b0ed6decb1e5931fdaf3183606c47ae",
+      "snapshotItemCount": 100,
+      "sourceDocumentSha256": "260bb5489e7d86176fd195fd0eca99a8774334417f86a3f570a3bd2285518b06",
+      "hours": 48,
+      "geo": [
+        "KR"
+      ],
+      "limit": 100,
+      "aggregationVersion": "20261106-category-id-v2",
+      "verification": "parsed-snapshot-derived-original-response-unavailable",
+      "treated": 72.0,
+      "control": 80.29
     }
   ]
 }
