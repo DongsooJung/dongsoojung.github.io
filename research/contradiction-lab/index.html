@@ -103,7 +103,7 @@ footer{padding:30px 0 60px;border-top:1px solid var(--line);color:var(--muted);f
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image"><link rel="stylesheet" href="/assets/stargate-tokens.css?v=20261017">
-<style>.problem>div,.grid>div,.headline>div{min-width:0}.formula{max-width:100%}.source-review{box-sizing:border-box;margin:0 auto 30px;padding:20px 24px;border:1px solid #607f99;border-radius:14px;background:#102333;color:#eaf3fa;font:400 15px/1.8 system-ui,sans-serif;overflow-wrap:anywhere;word-break:normal}.source-review h2{font-size:1.12rem;margin:0 0 10px;color:#fff;line-height:1.5}.source-review p{margin:8px 0}.source-review a{color:#9fe6ff;text-decoration:underline}.source-review small{font-size:13px;color:#c2d7e7}.source-review strong{color:#fff}@media print{.source-review{background:white!important;color:black!important;border-color:#555}.source-review h2,.source-review strong,.source-review a,.source-review small{color:black!important}}.list>li:has(.case-source-link) .cbtn{height:auto}.case-source-link{display:inline-block;margin:0 16px 14px;color:#9fe6ff;text-decoration:underline}.refs>li{padding:12px 0;scroll-margin-top:80px}.refs ul{margin:6px 0;padding-left:1.3em}.refs p{margin:6px 0}.source-access,.source-limit{color:var(--muted)}</style></head><body>
+<style>.problem>div,.grid>div,.headline>div{min-width:0}.formula{max-width:100%}.source-review{box-sizing:border-box;margin:0 auto 30px;padding:20px 24px;border:1px solid #607f99;border-radius:14px;background:#102333;color:#eaf3fa;font:400 15px/1.8 system-ui,sans-serif;overflow-wrap:anywhere;word-break:normal}.source-review h2{font-size:1.12rem;margin:0 0 10px;color:#fff;line-height:1.5}.source-review p{margin:8px 0}.source-review a{color:#9fe6ff;text-decoration:underline}.source-review small{font-size:13px;color:#c2d7e7}.source-review strong{color:#fff}@media print{.source-review{background:white!important;color:black!important;border-color:#555}.source-review h2,.source-review strong,.source-review a,.source-review small{color:black!important}}.cbtn[aria-expanded="true"]{height:auto}.cbtn[aria-expanded="false"]+.case-source-link{display:none}.case-source-link{display:inline-block;margin:0 16px 14px;color:#9fe6ff;text-decoration:underline}.refs>li{padding:12px 0;scroll-margin-top:80px}.refs ul{margin:6px 0;padding-left:1.3em}.refs p{margin:6px 0}.source-access,.source-limit{color:var(--muted)}</style></head><body>
 <nav class="wrap top"><a class="brand" href="/research/">STARGATE <span>RESEARCH</span></a><a class="back" href="/research/">연구 허브로 →</a></nav>
 
 <header class="wrap"><div class="headline"><div>
@@ -249,7 +249,7 @@ function card(d){
  <h3>${esc(d.name)}</h3><p>${esc(d.one)}</p>
  <dl class="detail"><dt>형식화</dt><dd><span class="formula">${esc(d.fx)}</span></dd>
  <dt>한국 적용 질문·사례 후보</dt><dd>${esc(d.kr)}</dd><dt>AI 개입 방식 (저자 가설)</dt><dd>${esc(d.ai)}</dd>
- <dt>근거 문헌</dt><dd>${esc(d.ref)}</dd><dt>연구소 판정 점수</dt><dd>형식화 ${d.x}/5 · AI 개입 가능성 ${d.y}/5 (추정)</dd></dl></button>${st.open===d.id ? '<a class="case-source-link" href="#cite-'+d.id+'">판본·대조 범위</a>' : ''}</li>`;
+ <dt>근거 문헌</dt><dd>${esc(d.ref)}</dd><dt>연구소 판정 점수</dt><dd>형식화 ${d.x}/5 · AI 개입 가능성 ${d.y}/5 (추정)</dd></dl></button><a class="case-source-link" href="#cite-${d.id}">판본·대조 범위</a></li>`;
 }
 function render(){
  const rows=D.filter(match);
@@ -278,7 +278,7 @@ function drawMatrix(vis){
   const k=d.x+'-'+d.y;const n=seen[k]=(seen[k]||0)+1;
   const ang=(n-1)*2.1, r=n>1?9:0;
   const cx=sx(d.x)+Math.cos(ang)*r, cy=sy(d.y)+Math.sin(ang)*r;
-  s+=`<circle class="dot${vis.has(d.id)?'':' dim'}" data-id="${d.id}" cx="${cx.toFixed(1)}" cy="${cy.toFixed(1)}" r="6" fill="${TYPES[d.t].hex}" stroke="#08152e" stroke-width="1.5" tabindex="0" role="button" aria-label="${esc(d.name)}"><title>${esc(d.name)} · 형식화 ${d.x} · 개입효과 ${d.y}</title></circle>`;
+  s+=`<circle class="dot${vis.has(d.id)?'':' dim'}" data-id="${d.id}" cx="${cx.toFixed(1)}" cy="${cy.toFixed(1)}" r="6" fill="${TYPES[d.t].hex}" stroke="#08152e" stroke-width="1.5" tabindex="0" role="button" aria-label="${esc(d.name)}"><title>${esc(d.name)} · 형식화 ${d.x} · 개입 가능성 ${d.y}</title></circle>`;
  });
  const svg=document.getElementById('matrix');svg.innerHTML=s;
 }
