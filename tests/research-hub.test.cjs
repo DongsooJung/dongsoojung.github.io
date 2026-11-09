@@ -16,7 +16,7 @@ const key = href => {
 test('seven research filters partition every unique project without losing the static math archive', () => {
   const filters = [...html.matchAll(/<button\b[^>]*data-filter="([^"]+)"/g)].map(m => m[1]);
   assert.deepEqual(filters, ['all', 'urban', 'society', 'research', 'essays', 'education', 'operations']);
-  assert.equal(cards.length, 64);
+  assert.equal(cards.length, 65);
   assert.equal(new Set(cards.map(card => key(attr(card, 'href')))).size, cards.length);
   for (const card of cards) assert.ok(filters.slice(1).includes(attr(card, 'data-primary')), attr(card, 'href'));
   const heroTotal = Number(html.match(/data-project-total[^>]*>(\d+)/)[1]);
