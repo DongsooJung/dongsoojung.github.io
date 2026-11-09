@@ -4783,15 +4783,15 @@
     },
     {
       "source": {
-        "label": "공식 발행기관·출판사·저자 원문 (항목별 대조 범위 참조)",
-        "url": "https://www.nobelprize.org/prizes/economic-sciences/1972/press-release/",
+        "label": "저자 원문·출판사 및 소장기관 판본",
+        "url": "https://www.stargateedu.co.kr/research/source-reviews/2026-11-10-contradiction-source.json",
         "verification": "partially_verified"
       },
       "dataAsOf": null,
       "dataPeriod": null,
-      "snapshotUpdatedAt": "2026-10-20",
+      "snapshotUpdatedAt": "2026-11-10",
       "collectedAt": null,
-      "checkedAt": "2026-10-20T00:36:58.677999+00:00",
+      "checkedAt": "2026-11-09T19:53:16.828Z",
       "reviewStatus": "needs_review",
       "freshness": "not_applicable",
       "evidence": [
@@ -4834,11 +4834,168 @@
           "checkedAt": "2026-10-20T00:30:44.039122+00:00",
           "sha256": "fb105c859d2f37c2295ee96b588e6a386b50aa10ec2c79a20ca66dae2e69d868",
           "scope": "문헌 사례 17개·정성 분류, 원 논문들의 일부 개념·미국 교통 연구 범위 대조. AI 효과 실험은 없음."
+        },
+        {
+          "kind": "audit-record",
+          "url": "/research/source-reviews/2026-11-10-contradiction-source.json",
+          "checkedAt": "2026-11-09T19:53:16.828Z",
+          "scope": "17개 사례의 출처 34건과 연구 의제 3개를 판본·열람 범위별로 정리했습니다. 16개 사례에 원문·발췌 또는 저자 초록 근거가 있으며 교육 위치재는 출판사 소개·서지 범위입니다. 한국 적용과 AI 효과는 가설로 구분했습니다."
+        },
+        {
+          "kind": "published-snapshot",
+          "url": "https://www.stargateedu.co.kr/research/contradiction-lab/",
+          "checkedAt": "2026-11-09T19:53:16.828Z",
+          "sha256": "97e93ea1c19210e2c5a73a98ca79306321378cbabfe51ee6ce7b76144df7480c",
+          "scope": "대조 전 게시본 · Git b2cd30a4532fe6fd63b169abf08505b61c5a95d7"
+        },
+        {
+          "kind": "official-source",
+          "url": "https://rss.onlinelibrary.wiley.com/doi/10.1111/j.2517-6161.1951.tb00088.x",
+          "checkedAt": "2026-11-09T19:53:16.828Z",
+          "scope": "심슨의 역설 · Simpson · JRSS B 13(2), 238–241 (1951) · 저자 초록"
+        },
+        {
+          "kind": "official-source",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/17835295/",
+          "checkedAt": "2026-11-09T19:53:16.828Z",
+          "scope": "심슨의 역설 · Bickel·Hammel·O’Connell · Science 187(4175), 398–404 (1975) · 저자 초록"
+        },
+        {
+          "kind": "official-source",
+          "url": "https://cse.buffalo.edu/~rapaport/575/F01/kahneman.tversky.73.pdf",
+          "checkedAt": "2026-11-09T19:53:16.828Z",
+          "scope": "기저율 무시 · Kahneman·Tversky · Psychological Review 80, 237–251 (1973) · 원문"
+        },
+        {
+          "kind": "official-source",
+          "url": "https://www.stat.yale.edu/~jtc5/238/readings/Game%20Show%20Problem_Marilyn%20vos%20Savant.pdf",
+          "checkedAt": "2026-11-09T19:53:16.828Z",
+          "scope": "정보 갱신 착오(몬티 홀) · vos Savant · Parade 연재 (1990–1991), Yale 소장 재수록 · 원문"
+        },
+        {
+          "kind": "official-source",
+          "url": "https://laibson.scholars.harvard.edu/sites/g/files/omnuum5971/files/laibson/files/golden_eggs_and_hyperbolic_discounting.pdf",
+          "checkedAt": "2026-11-09T19:53:16.828Z",
+          "scope": "현재 편향 (의도–행동 격차) · Laibson · QJE 112(2), 443–477 (1997) · 원문"
+        },
+        {
+          "kind": "official-source",
+          "url": "https://www.journals.uchicago.edu/doi/abs/10.1086/380085",
+          "checkedAt": "2026-11-09T19:53:16.828Z",
+          "scope": "현재 편향 (의도–행동 격차) · Thaler·Benartzi · JPE 112(S1) (2004) · 저자 초록"
+        },
+        {
+          "kind": "official-source",
+          "url": "https://ris.utwente.nl/ws/portalfiles/portal/25251884/privacy_paradox.pdf",
+          "checkedAt": "2026-11-09T19:53:16.828Z",
+          "scope": "프라이버시 역설 · Barth·de Jong · Telematics and Informatics 34, 1038–1058 (2017) · 원문"
+        },
+        {
+          "kind": "official-source",
+          "url": "https://www.hetwebsite.net/het/texts/keynes/gt/chap07.htm",
+          "checkedAt": "2026-11-09T19:53:16.828Z",
+          "scope": "절약의 역설 · Keynes · The General Theory, 제7장 (1936) · 원문"
+        },
+        {
+          "kind": "official-source",
+          "url": "https://www.hetwebsite.net/het/texts/keynes/gt/chap16.htm",
+          "checkedAt": "2026-11-09T19:53:16.828Z",
+          "scope": "절약의 역설 · Keynes · The General Theory, 제16장 (1936) · 원문"
+        },
+        {
+          "kind": "official-source",
+          "url": "https://www.garretthardinsociety.org/articles/art_tragedy_of_the_commons.html",
+          "checkedAt": "2026-11-09T19:53:16.828Z",
+          "scope": "공유지의 비극 · Hardin · Science 162, 1243–1248 (1968) · 원문"
+        },
+        {
+          "kind": "official-source",
+          "url": "https://assets.cambridge.org/97811075/69782/excerpt/9781107569782_excerpt.pdf",
+          "checkedAt": "2026-11-09T19:53:16.828Z",
+          "scope": "공유지의 비극 · Ostrom · Governing the Commons, 제1장 (1990) · 원문 발췌"
+        },
+        {
+          "kind": "official-source",
+          "url": "https://pubsonline.informs.org/doi/abs/10.1287/trsc.1050.0127",
+          "checkedAt": "2026-11-09T19:53:16.828Z",
+          "scope": "브라에스 역설 · Braess · 1968년 원논문, 2005년 영어 번역 · 저자 초록"
+        },
+        {
+          "kind": "official-source",
+          "url": "https://www.timroughgarden.org/papers/routing.pdf",
+          "checkedAt": "2026-11-09T19:53:16.828Z",
+          "scope": "브라에스 역설 · Roughgarden·Tardos · JACM 49(2) (2002) · 원문"
+        },
+        {
+          "kind": "official-source",
+          "url": "https://www.aeaweb.org/articles?id=10.1257/aer.101.6.2616",
+          "checkedAt": "2026-11-09T19:53:16.828Z",
+          "scope": "유발수요 (도로 혼잡의 기본 법칙) · Duranton·Turner · AER 101(6), 2616–2652 (2011) · 저자 초록"
+        },
+        {
+          "kind": "official-source",
+          "url": "https://www.jstor.org/stable/j.ctv1p6hp64",
+          "checkedAt": "2026-11-09T19:53:16.828Z",
+          "scope": "집주인 투표자 가설 · Fischel · The Homevoter Hypothesis (Harvard, 2001) · 원문 발췌"
+        },
+        {
+          "kind": "official-source",
+          "url": "https://www.econlib.org/library/YPDBooks/Jevons/jvnCQ.html?chapter_num=9",
+          "checkedAt": "2026-11-09T19:53:16.828Z",
+          "scope": "제본스 역설 (반동효과) · Jevons · The Coal Question, 제7장 (1866년 제2판) · 원문"
+        },
+        {
+          "kind": "official-source",
+          "url": "https://gwern.net/doc/statistics/decision/1997-strathern.pdf",
+          "checkedAt": "2026-11-09T19:53:16.828Z",
+          "scope": "굿하트의 법칙 · Strathern · European Review 5(3), 305–321 (1997), 308쪽 · 원문"
+        },
+        {
+          "kind": "official-source",
+          "url": "https://arxiv.org/abs/1803.04585",
+          "checkedAt": "2026-11-09T19:53:16.828Z",
+          "scope": "굿하트의 법칙 · Manheim·Garrabrant · arXiv:1803.04585 (2018 최초 등록) · 저자 초록"
+        },
+        {
+          "kind": "official-source",
+          "url": "https://www.aeaweb.org/articles?id=10.1257/mac.20180386",
+          "checkedAt": "2026-11-09T19:53:16.828Z",
+          "scope": "생산성 역설 · Brynjolfsson·Rock·Syverson · AEJ Macroeconomics 13(1) (2021) · 저자 초록"
+        },
+        {
+          "kind": "official-source",
+          "url": "https://mpra.ub.uni-muenchen.de/111773/",
+          "checkedAt": "2026-11-09T19:53:16.828Z",
+          "scope": "이스털린 역설 (논쟁 중) · Easterlin · Nations and Households in Economic Growth, 89–125 (1974) · 저자 초록"
+        },
+        {
+          "kind": "official-source",
+          "url": "https://www.brookings.edu/wp-content/uploads/2008/03/2008a_bpea_stevenson.pdf",
+          "checkedAt": "2026-11-09T19:53:16.828Z",
+          "scope": "이스털린 역설 (논쟁 중) · Stevenson·Wolfers · BPEA (2008년 봄) · 원문"
+        },
+        {
+          "kind": "official-source",
+          "url": "https://cowles.yale.edu/sites/default/files/2022-09/m12-all.pdf",
+          "checkedAt": "2026-11-09T19:53:16.828Z",
+          "scope": "콩도르세 역설과 애로 정리 · Arrow · Social Choice and Individual Values (1951년 초판) · 원문"
+        },
+        {
+          "kind": "official-source",
+          "url": "https://sites.pitt.edu/~mthompso/readings/foot.pdf",
+          "checkedAt": "2026-11-09T19:53:16.828Z",
+          "scope": "트롤리 딜레마 · Foot · Oxford Review 5, 5–15 (1967) · 원문"
+        },
+        {
+          "kind": "official-source",
+          "url": "https://dspace.mit.edu/server/api/core/bitstreams/750c4524-46a2-4013-916a-c8131d726b56/content",
+          "checkedAt": "2026-11-09T19:53:16.828Z",
+          "scope": "트롤리 딜레마 · Awad 외 · Nature 563, 59–64 (2018-10-24 공개), MIT 저자 원고 · 원문"
         }
       ],
       "issues": [
-        "전체 참고문헌 본문, 한국 맥락 적용, 개입 효과와 탐색 도구의 오분류·유형 중첩을 별도 검증.",
-        "확인일 2026-10-20과 자료 관측기간·원문 공표/개정일을 구분. 2026-09/10 관측값을 추정하거나 수집하지 않음."
+        "열람 제한 판본의 원문이 확보되면 해당 인용만 추가 대조합니다. 한국 사례·AI 개입·분류 도구는 자료와 별도 검증 설계를 마련한 뒤 평가합니다.",
+        "문헌 검토의 월간 기준월은 비적용입니다. 문헌 관측기간과 페이지 개정일을 구분합니다."
       ],
       "key": "/research/contradiction-lab/",
       "url": "/research/contradiction-lab/",
