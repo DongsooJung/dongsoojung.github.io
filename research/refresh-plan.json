@@ -2410,10 +2410,23 @@
           "outcome": "case_sources_and_agenda_scoped_unavailable_editions_and_empirical_validation_pending",
           "release": {
             "branch": "codex/contradiction-source-20261110",
-            "status": "awaiting_checks",
+            "status": "verified",
             "liveUrl": "https://www.stargateedu.co.kr/research/contradiction-lab/",
             "sourceReviewUrl": "https://www.stargateedu.co.kr/research/source-reviews/2026-11-10-contradiction-source.json",
-            "pullRequest": "https://github.com/DongsooJung/dongsoojung.github.io/pull/258"
+            "pullRequest": "https://github.com/DongsooJung/dongsoojung.github.io/pull/258",
+            "commit": "ec490b4856783f4443d0a68d409cb6a72016a12e",
+            "pullRequestHead": "ab55540061830cc66a3d574e6bd51baac431bad9",
+            "verifiedAt": "2026-11-09T20:03:53.409Z",
+            "pagesRun": "https://github.com/DongsooJung/dongsoojung.github.io/actions/runs/42688897755",
+            "checks": [
+              "CodeQL JavaScript and aggregate plus external checks passed on the exact PR head",
+              "Pages build, report and deploy passed for the merge SHA",
+              "Six changed public files match on www and bare domains",
+              "Fifteen research hub, catalog and version regression tests passed",
+              "65 unique projects, seven alphabetical filters and seven essay cards verified",
+              "17 cards, 34 source links, three proposals, downloads, keyboard and mobile verified in a live browser",
+              "Two local PDF companions passed text checks and visual review"
+            ]
           }
         }
       ],
