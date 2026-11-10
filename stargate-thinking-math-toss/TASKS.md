@@ -15,29 +15,37 @@ Cursor에서 단계별로 아래 프롬프트를 Agent 창에 붙여 넣어 진�
 - [x] `apps-in-toss.config.ts` (토스 내비게이션 바 라이트·뒤로가기, 바운스·당겨서 새로고침 끔)
 - [x] `.cursor/rules`, `.cursor/mcp.json`
 - [x] `npm run build` → `stargate-thinking-math.ait` 생성 확인 (SDK 3.9.0, Vite 6)
+- [x] 콘솔 미니앱 등록. appName `stargate-thinking-math`, 표시 이름 별의문 사고력 수학, 유형 게임, 카테고리 게임 > 퀴즈. `apps-in-toss.config.ts`와 같다.
 
 ---
 
-## 0단계. 준비 (사람이 직접)
+## 0단계. 기존 앱만 배포 (다시 만들지 않음)
 
-1. 앱인토스 콘솔 가입 → 워크스페이스 생성 (사업자: 주식회사 별의문)
-   - https://apps-in-toss.toss.im/
-2. 미니앱 등록: 이름 「별의문 사고력 수학」, 카테고리 교육
-3. 콘솔에 등록한 앱 영문 키를 `apps-in-toss.config.ts`의 `appName`에 입력
-4. Cursor 설정 → Indexing & Docs → Add Doc
-   - `https://developers-apps-in-toss.toss.im/llms.txt`
-   - 이름: `appsintoss` (프롬프트에서 `@appsintoss`로 호출)
-5. Cursor 설정 → MCP → `apps-in-toss-console` 켜고 로그인
-   - 로그인 창이 안 뜨면 이 MCP는 건너뛰고 콘솔 웹에서 직접 진행해도 됩니다.
+저장소는 `DongsooJung/dongsoojung.github.io`, 브랜치 `cursor/toss-thinking-math-b4f2`, 폴더 `stargate-thinking-math-toss`다. `stargate-thinking-math`라는 저장소는 없다.
+
+콘솔 앱은 이미 있다. `miniapp_create`를 호출하지 않는다. 유형·카테고리·appName을 바꾸지 않는다. 비게임 앱이나 교육 앱을 새로 열지 않는다. GRAC는 아직 신청하지 않았다. 사용자가 토스 지원 답변으로 허용했다고 명시하기 전에는 GRAC를 시작하지 않는다. 플랫폼 연령은 만 19세 이상이다.
+
+1. 클로드 코드에서 이 폴더를 열고 `.mcp.json`을 승인한다. 없으면 `CLAUDE.md`의 HTTP 설정(`type: http`, URL `https://mcp.toss.im/adapters/apps-in-toss-console/mcp`, oauth clientId `mcp-gateway`)으로 복구한다. 시크릿은 넣지 않는다.
+2. 빌드는 Node.js 24 이상에서 `npm install` 다음 `npm run build`다. 스크립트는 `vite build && ait build`다. `ait build`를 `vite build`보다 먼저 돌리지 않는다.
+3. 토큰과 배포는 사용자 PC에서만 한다. 키는 터미널 프롬프트에 입력하고 채팅에 붙이지 않는다.
 
 ```bash
-node -v          # v24 이상 필요 (번들 포맷 패키지 요구사항)
-npm install
-npm run dev      # 로컬 미리보기
-npm run build    # dist + stargate-thinking-math.ait
+npx ait token add
+npx ait deploy -m "thinking-math 초기 검수 요청"
 ```
 
-`npx ait init`은 다시 돌리지 않아도 됩니다. 설정 파일이 이미 들어 있습니다.
+만든 `.ait`만 올릴 때는 `npx ait deploy --location ./stargate-thinking-math.ait`를 쓴다.
+
+4. 콘솔에 남은 일은 번들 업로드와 토스앱 테스트다. 검수 요청은 실기기 테스트가 끝난 뒤에만 한다.
+
+```bash
+node -v          # v24 이상
+npm install
+npm run dev      # 로컬 미리보기
+npm run build    # vite build && ait build
+```
+
+`npx ait init`은 다시 돌리지 않는다. 설정 파일이 이미 들어 있다.
 
 ---
 
@@ -93,24 +101,35 @@ npm run build    # dist + stargate-thinking-math.ait
 ## 5단계. 출시 전 점검
 
 ```
-@appsintoss 비게임 출시 가이드(checklist/app-nongame.md) 항목을 하나씩 이 코드와 대조해서
-통과/미통과/해당없음 표로 정리해줘. 미통과 항목은 바로 고쳐줘.
+@appsintoss 콘솔에 등록된 유형은 게임, 카테고리는 게임 > 퀴즈다.
+그 유형의 출시 체크리스트를 이 코드와 대조해서 통과/미통과/해당없음 표로 정리해줘.
+미통과 항목은 바로 고쳐줘.
+유형을 바꾸거나, 비게임·교육 앱을 새로 만들거나, GRAC를 시작하지는 마.
+검수 요청은 토스 앱 실기기 테스트가 끝난 뒤에만 해.
 ```
 
 그다음:
 
 ```bash
-npm run build    # .ait 번들 생성
+npm install
+npm run build    # vite build && ait build. ait build를 먼저 돌리지 않음
 ```
 
-- 콘솔에 번들 업로드 → QR로 토스 앱 실기기 테스트 (워크스페이스 멤버·토스 로그인 상태 필요)
-- 테스트 완료 후 검수 요청 (영업일 2~3일)
-- 승인 후 콘솔에서 '출시하기'
+- 사용자 PC에서 번들 업로드 → 토스앱 테스트 (워크스페이스 멤버·토스 로그인 상태 필요)
+- 실기기 테스트가 끝난 뒤에만 검수 요청
+- 승인 후 콘솔에서 출시
 
 ---
 
-## 열려 있는 결정
+## 열려 있는 질문
 
-- [ ] 이용 연령: 콘솔 등록 단계에서 연령 정책 확인 후 문구·대상 확정
+아래를 확정된 금지로 보고 배포를 멈추거나, 앱을 새로 만들거나, 유형을 바꾸지 않는다.
+
+- [ ] 중복 앱 정책
+- [ ] 교육 카테고리 수익에 국가자격이 필요한지
+- [ ] 광고 사업자 등록 시점 (링크를 먼저 거는지, 5,000원 유예가 있는지)
+- [ ] 광고를 미니앱 안 인앱 광고로만 둘지 (YouTube, AdSense 삽입을 쓰지 않는 방안 포함)
+- [ ] 광고 운영비 약 30%는 면제되지 않는다는 안내
+- [ ] 앱인토스 수수료 15%는 현재 면제라는 안내
 - [ ] 문제 수 확장: 현재 27문제. 출시 전 최소 몇 문제로 갈지
 - [ ] 인앱 결제(문제 팩) 도입 여부: 도입 시 사업자 정보·정산 등록 필요

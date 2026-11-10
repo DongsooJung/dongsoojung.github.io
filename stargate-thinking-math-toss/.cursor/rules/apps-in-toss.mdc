@@ -15,7 +15,9 @@ alwaysApply: true
 - 공식 문서 색인: https://developers-apps-in-toss.toss.im/llms.txt
   - 각 문서 URL 끝에 `.md`를 붙이면 마크다운 원문이 나온다. SDK API를 쓰기 전에 해당 문서를 확인한다.
 
-# 반드시 지킬 출시 규칙 (비게임 출시 가이드)
+# 반드시 지킬 출시 규칙
+
+콘솔 앱은 이미 유형 게임, 카테고리 게임 > 퀴즈, appName `stargate-thinking-math`로 등록되어 있다. 아래는 콘텐츠·기술 규칙이다. 유형을 바꾸거나 교육 앱을 새로 만드는 지시가 아니다.
 
 ## 렌더링·이동
 - 모든 콘텐츠는 번들 안에서 렌더링한다. 자사 도메인(stargateedu.co.kr 등)을 iframe·WebView·`location` 변경으로 불러오지 않는다.

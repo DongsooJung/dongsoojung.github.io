@@ -1,10 +1,9 @@
 import { defineConfig } from "@apps-in-toss/web-framework/config";
 
 /*
- * appName은 앱인토스 콘솔에 등록한 앱 이름(영문 키)과 반드시 같아야 함.
- * 콘솔 등록 후 실제 값으로 바꿀 것. 다르면 번들 업로드가 거부됨.
- * 이 파일은 `npx ait init`이 만드는 파일과 같은 형식이며,
- * init을 다시 돌려 덮어써졌다면 아래 값만 다시 넣으면 됨.
+ * appName은 콘솔에 등록된 영문 키 stargate-thinking-math 이다.
+ * 이 값을 바꾸거나 미니앱을 새로 만들지 않는다. 다르면 번들 업로드가 거부된다.
+ * npx ait init으로 이 파일이 덮이면 아래 appName만 다시 넣는다.
  */
 export default defineConfig({
   appName: "stargate-thinking-math",
