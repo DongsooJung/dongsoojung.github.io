@@ -5065,17 +5065,17 @@
     },
     {
       "source": {
-        "label": "공식 발행기관·출판사·저자 원문 (항목별 대조 범위 참조)",
-        "url": "https://mods.go.kr/board.es?act=view&bid=204&list_no=446625&mid=a10301020300",
+        "label": "국가데이터처 확정·월간 원표와 연구보고서",
+        "url": "https://www.stargateedu.co.kr/research/source-reviews/2026-11-10-korea-challenges.json",
         "verification": "partially_verified"
       },
-      "dataAsOf": "2025",
-      "dataPeriod": "2025년 출생(확정 공표 요약·100명 단위); 가계 자산·부채 2025-03, 소득 2024; 의료 보고서 2023",
-      "snapshotUpdatedAt": "2026-10-20",
-      "collectedAt": null,
-      "checkedAt": "2026-10-20T00:36:58.677999+00:00",
+      "dataAsOf": "2026-09",
+      "dataPeriod": "2025년 연간 확정 출생·사망과 자연증가(차이 계산), 2026-09 국내인구이동, 가계 자산·부채 2025-03말/소득 2024, 의료 2011–2020",
+      "snapshotUpdatedAt": "2026-11-10",
+      "collectedAt": "2026-11-10T10:50:03.854Z",
+      "checkedAt": "2026-11-10T10:51:57.179Z",
       "reviewStatus": "needs_review",
-      "freshness": "historical",
+      "freshness": "verified_scoped_mixed_periods",
       "evidence": [
         {
           "kind": "audit-record",
@@ -5109,11 +5109,65 @@
           "checkedAt": "2026-10-20T00:30:40.834699+00:00",
           "sha256": "7485ab5e0f439d67b9b846b13428bd402650b11376a75e9b2efb3fa0dbcc24e6",
           "scope": "2025년 확정 출생 공표 요약 254,300명 및 인용 자료 판본/기간 확인. 사망 확정·자연증가·정책 인과효과는 검증하지 않음."
+        },
+        {
+          "kind": "audit-record",
+          "url": "/research/source-reviews/2026-11-10-korea-challenges.json",
+          "checkedAt": "2026-11-10T10:51:57.179Z",
+          "scope": "2025년 출생 254,341명·사망 362,968명 확정 원표의 신고 마감과 단위를 대조하고 자연증가 −108,627명을 검산했습니다. 2026년 9월 국내인구이동은 전국 443,766명과 수도권 순이동 +67명을 별도 집계했습니다. 의료·가계 원문과 연구 가설의 범위를 구분했습니다."
+        },
+        {
+          "kind": "published-snapshot",
+          "url": "https://www.stargateedu.co.kr/research/korea-challenges/",
+          "checkedAt": "2026-11-10T10:51:57.179Z",
+          "sha256": "9d4ed461b39503f8a6584e562db0bc57e8e679ba88f37233dc80300ba9b04559",
+          "scope": "변경 전 운영 HTML"
+        },
+        {
+          "kind": "official-source",
+          "url": "https://mods.go.kr/boardDownload.es?bid=204&list_no=446625&seq=1",
+          "checkedAt": "2026-11-10T10:51:57.179Z",
+          "sha256": "338497ce3794ce740a54645a1e740519581713a0f7cc45d90e1b16cd93d39f6c",
+          "scope": "일러두기와 첨부 PDF 31쪽 시군구 표의 전국 행. 전국 254,341명. 요약 25만 4,300명은 100명 단위 반올림."
+        },
+        {
+          "kind": "official-source",
+          "url": "https://mods.go.kr/boardDownload.es?bid=218&list_no=447102&seq=1",
+          "checkedAt": "2026-11-10T10:51:57.179Z",
+          "sha256": "e92e81a51732bee6976ca8463a945565474c5b697db07f7acb6fd8edfcaa0249",
+          "scope": "일러두기와 본문 3쪽 표 1 및 통계표 34쪽. 전국 362,968명은 남 193,547명과 여 169,421명의 합."
+        },
+        {
+          "kind": "official-source",
+          "url": "https://mods.go.kr/boardDownload.es?bid=205&list_no=447667&seq=1",
+          "checkedAt": "2026-11-10T10:51:57.179Z",
+          "sha256": "c47d172c6a91b7fe31b549c2dab31ede580dfb93d536ee9d61a9ac95abbba6ce",
+          "scope": "본문 3쪽 표 2 전국 이동 443,766명. 서울 −2,359명, 인천 +1,956명, 경기 +470명. 수도권 합계는 세 시도 순이동을 합산한 +67명."
+        },
+        {
+          "kind": "official-source",
+          "url": "https://mods.go.kr/boardDownload.es?bid=215&list_no=439535&seq=6",
+          "checkedAt": "2026-11-10T10:51:57.179Z",
+          "sha256": "838f550b785a4336ca2ce48654b8df74c4b6e18bde44f241d9cd2535c49d61b9",
+          "scope": "가구 평균 자산 56,678만원, 부채 9,534만원, 2024년 평균 소득 7,427만원. 전국 가구 요약치로 차주·금융기관 연결과 충격 전파를 식별하지 않음."
+        },
+        {
+          "kind": "official-source",
+          "url": "https://mods.go.kr/boardDownload.es?bid=12305&list_no=428618&seq=2",
+          "checkedAt": "2026-11-10T10:51:57.179Z",
+          "sha256": "4e6a2b35f74259ebcc18e4b50013b2a38366267911c26edad57d88bbde95ec03",
+          "scope": "본문 92쪽 분석 범위. 일반 병·의원과 활동 의료인력의 수도권·비수도권 분포를 다룬 기술 연구."
+        },
+        {
+          "kind": "publication-calendar",
+          "url": "https://mods.go.kr/newsPln.es?mid=a10305000000&oa_mm=11",
+          "checkedAt": "2026-11-10T10:51:57.179Z",
+          "scope": "2026년 9월 인구동향 2026-11-25 12:00 KST, 2026년 가계금융복지조사 2026-12-03 12:00 KST 공표 예정."
         }
       ],
       "issues": [
-        "사망 확정 원표와 출생 원표의 동일 기준·반올림을 맞춰 자연증가를 검증하고 지역별/금융 모형은 별도 적합.",
-        "확인일 2026-10-20과 자료 관측기간·원문 공표/개정일을 구분. 2026-09/10 관측값을 추정하거나 수집하지 않음."
+        "9월 월간 출생·사망은 11월 25일 실제 공표 이후 원표를 대조합니다. 2026년 가계금융복지조사는 12월 3일 공표 예정입니다.",
+        "지역 소멸 경계·금융 전파의 모형 적합 및 인과효과는 미검증입니다."
       ],
       "key": "/research/korea-challenges/",
       "url": "/research/korea-challenges/",
