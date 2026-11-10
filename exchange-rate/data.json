@@ -3,10 +3,10 @@
   "sourceUrl": "https://www.ecb.europa.eu/stats/policy_and_exchange_rates/euro_reference_exchange_rates/",
   "sourceMode": "ecb",
   "sourceDataUrl": "https://www.ecb.europa.eu/stats/eurofxref/eurofxref-hist.xml",
-  "collectedAt": "2026-11-10T01:35:36.575532+00:00",
-  "snapshotUpdatedAt": "2026-11-10T01:35:36.575555+00:00",
-  "updatedAt": "2026-11-09",
-  "observedAt": "2026-11-09",
+  "collectedAt": "2026-11-10T23:25:46.652987+00:00",
+  "snapshotUpdatedAt": "2026-11-10T23:25:46.653008+00:00",
+  "updatedAt": "2026-11-10",
+  "observedAt": "2026-11-10",
   "coverage": {
     "start": "1999-01",
     "end": "2026-11",
@@ -41,12 +41,12 @@
   ],
   "notes": "ECB가 영업일마다 공표하는 EUR 기준환율에서 KRW 교차환율을 계산했습니다. USD·EUR·CNY는 1단위당 원화, JPY는 100엔당 원화입니다. CNY는 초기 일부 기간에 공표되지 않아 비어 있을 수 있습니다. 시장 체결가가 아닌 일일 공식 기준환율이며 GitHub Actions가 매일 갱신합니다. 커버리지: 1999-01 ~ 2026-11.",
   "latest": {
-    "date": "2026-11-09",
+    "date": "2026-11-10",
     "rates": {
-      "USD": 1346.79,
-      "JPY": 852.68,
-      "EUR": 1507.46,
-      "CNY": 201.83
+      "USD": 1339.0,
+      "JPY": 846.52,
+      "EUR": 1501.56,
+      "CNY": 200.74
     }
   },
   "series": [
@@ -9956,31 +9956,31 @@
     },
     {
       "ym": "2026-11",
-      "days": 6,
+      "days": 7,
       "rates": {
         "USD": {
-          "avg": 1346.05,
+          "avg": 1345.04,
           "min": 1338.58,
           "max": 1358.73,
-          "observations": 6
+          "observations": 7
         },
         "JPY": {
-          "avg": 850.88,
+          "avg": 850.26,
           "min": 845.87,
           "max": 858.19,
-          "observations": 6
+          "observations": 7
         },
         "EUR": {
-          "avg": 1508.54,
-          "min": 1503.12,
+          "avg": 1507.55,
+          "min": 1501.56,
           "max": 1517.02,
-          "observations": 6
+          "observations": 7
         },
         "CNY": {
-          "avg": 201.88,
+          "avg": 201.72,
           "min": 200.62,
           "max": 203.67,
-          "observations": 6
+          "observations": 7
         }
       },
       "partial": true
