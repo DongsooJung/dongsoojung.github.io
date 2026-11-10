@@ -1,0 +1,170 @@
+{
+  "key": "/research/korea-challenges/",
+  "status": "needs_review",
+  "checkedAt": "2026-11-10T10:51:57.179Z",
+  "sourceFilesCollectedAt": "2026-11-10T10:50:03.854Z",
+  "pageRevisedOn": "2026-11-10",
+  "timezone": "Asia/Seoul",
+  "previous": {
+    "pageRevisedOn": "2026-10-20",
+    "gitCommit": "b2cd30a4532fe6fd63b169abf08505b61c5a95d7",
+    "liveSha256": "9d4ed461b39503f8a6584e562db0bc57e8e679ba88f37233dc80300ba9b04559"
+  },
+  "versions": {
+    "annual": {
+      "period": "2025",
+      "status": "verified",
+      "unit": "명",
+      "births": 254341,
+      "deaths": 362968,
+      "naturalIncrease": -108627,
+      "deathBySex": {
+        "male": 193547,
+        "female": 169421
+      },
+      "occurrencePeriod": "2025-01-01/2025-12-31",
+      "registrationThrough": "2026-04",
+      "rounding": {
+        "birthSummaryUnit": 100,
+        "birthSummary": 254300,
+        "naturalIncreaseRoundedTo100": -108600
+      }
+    },
+    "migration": {
+      "period": "2026-09",
+      "status": "verified",
+      "unit": "명",
+      "nationalMoves": 443766,
+      "capitalNet": 67,
+      "capital": [
+        {
+          "region": "서울",
+          "in": 99548,
+          "out": 101907,
+          "net": -2359
+        },
+        {
+          "region": "인천",
+          "in": 28265,
+          "out": 26309,
+          "net": 1956
+        },
+        {
+          "region": "경기",
+          "in": 124612,
+          "out": 124142,
+          "net": 470
+        }
+      ],
+      "scope": "읍면동 경계를 넘는 국내 거주지 이동의 9월 한 달 집계. 세 시도 내부 상호이동은 순이동 합에서 상쇄됨."
+    },
+    "finance": {
+      "version": "2025",
+      "assetsDebtsAsOf": "2025-03-31",
+      "incomePeriod": "2024",
+      "unit": "만원/가구",
+      "meanAssets": 56678,
+      "meanDebts": 9534,
+      "meanIncome": 7427
+    },
+    "health": {
+      "version": "2023",
+      "dataPeriod": "2011–2020"
+    },
+    "researchAgenda": {
+      "version": "v2026.11.10",
+      "status": "proposed",
+      "statisticalReferenceMonth": "not_applicable",
+      "scope": "동역학 임계점·접근성 목적함수·금융 네트워크는 연구 제안입니다. 적합도·인과·정책효과는 미검증입니다."
+    }
+  },
+  "sources": [
+    {
+      "label": "2025년 출생 통계 확정 PDF",
+      "kind": "official-source",
+      "url": "https://mods.go.kr/boardDownload.es?bid=204&list_no=446625&seq=1",
+      "reportUrl": "https://mods.go.kr/board.es?act=view&bid=204&list_no=446625&mid=a10301020300",
+      "period": "2025",
+      "publishedOn": "2026-08-26",
+      "checkedAt": "2026-11-10T10:51:57.179Z",
+      "collectedAt": "2026-11-10T10:47:36.201Z",
+      "sha256": "338497ce3794ce740a54645a1e740519581713a0f7cc45d90e1b16cd93d39f6c",
+      "scope": "일러두기와 첨부 PDF 31쪽 시군구 표의 전국 행. 전국 254,341명. 요약 25만 4,300명은 100명 단위 반올림."
+    },
+    {
+      "label": "2025년 사망원인통계 확정 PDF",
+      "kind": "official-source",
+      "url": "https://mods.go.kr/boardDownload.es?bid=218&list_no=447102&seq=1",
+      "reportUrl": "https://mods.go.kr/board.es?act=view&bid=218&list_no=447102&mid=a10301060200",
+      "period": "2025",
+      "publishedOn": "2026-09-22",
+      "checkedAt": "2026-11-10T10:51:57.179Z",
+      "collectedAt": "2026-11-10T10:47:34.730Z",
+      "sha256": "e92e81a51732bee6976ca8463a945565474c5b697db07f7acb6fd8edfcaa0249",
+      "scope": "일러두기와 본문 3쪽 표 1 및 통계표 34쪽. 전국 362,968명은 남 193,547명과 여 169,421명의 합."
+    },
+    {
+      "label": "2026년 9월 국내인구이동통계 PDF",
+      "kind": "official-source",
+      "url": "https://mods.go.kr/boardDownload.es?bid=205&list_no=447667&seq=1",
+      "reportUrl": "https://mods.go.kr/board.es?act=view&bid=205&list_no=447667&mid=a10301020400",
+      "period": "2026-09",
+      "publishedOn": "2026-10-28",
+      "checkedAt": "2026-11-10T10:51:57.179Z",
+      "collectedAt": "2026-11-10T10:48:20.966Z",
+      "sha256": "c47d172c6a91b7fe31b549c2dab31ede580dfb93d536ee9d61a9ac95abbba6ce",
+      "scope": "본문 3쪽 표 2 전국 이동 443,766명. 서울 −2,359명, 인천 +1,956명, 경기 +470명. 수도권 합계는 세 시도 순이동을 합산한 +67명."
+    },
+    {
+      "label": "2025년 가계금융복지조사 결과 HWPX",
+      "kind": "official-source",
+      "url": "https://mods.go.kr/boardDownload.es?bid=215&list_no=439535&seq=6",
+      "reportUrl": "https://mods.go.kr/board.es?act=view&bid=215&list_no=439535&mid=a10301040300",
+      "period": "자산·부채 2025-03-31, 소득 2024",
+      "publishedOn": "2025-12-04",
+      "checkedAt": "2026-11-10T10:51:57.179Z",
+      "collectedAt": "2026-11-10T10:50:03.854Z",
+      "sha256": "838f550b785a4336ca2ce48654b8df74c4b6e18bde44f241d9cd2535c49d61b9",
+      "scope": "가구 평균 자산 56,678만원, 부채 9,534만원, 2024년 평균 소득 7,427만원. 전국 가구 요약치로 차주·금융기관 연결과 충격 전파를 식별하지 않음."
+    },
+    {
+      "label": "한국의 사회동향 2023 수도권과 지방 간 의료시설·의료인력 불균형 PDF",
+      "kind": "official-source",
+      "url": "https://mods.go.kr/boardDownload.es?bid=12305&list_no=428618&seq=2",
+      "reportUrl": "https://mods.go.kr/board.es?act=view&bid=12305&list_no=428618&mid=a90104010304",
+      "period": "2011–2020",
+      "publishedOn": "2023-12-20",
+      "checkedAt": "2026-11-10T10:51:57.179Z",
+      "collectedAt": "2026-11-10T10:48:23.073Z",
+      "sha256": "4e6a2b35f74259ebcc18e4b50013b2a38366267911c26edad57d88bbde95ec03",
+      "scope": "본문 92쪽 분석 범위. 일반 병·의원과 활동 의료인력의 수도권·비수도권 분포를 다룬 기술 연구."
+    }
+  ],
+  "pendingMonthlyVitalStatistics": {
+    "status": "awaiting_publication",
+    "targetPeriod": "2026-09",
+    "expectedPublication": "2026-11-25T12:00:00+09:00",
+    "latestPublishedPeriod": "2026-08",
+    "latestPublishedOn": "2026-10-28",
+    "latestPublication": "https://mods.go.kr/board.es?act=view&bid=204&list_no=447664&mid=a10301020300",
+    "calendarUrl": "https://mods.go.kr/newsPln.es?mid=a10305000000&oa_mm=11",
+    "scope": "별도 월간 인구동향의 출생·사망·혼인·이혼. 예정일 이후 실제 게시와 원표를 확인합니다."
+  },
+  "limits": [
+    {
+      "kind": "range",
+      "scope": "2025년 자연증가는 전국 출생과 사망의 차이입니다. 순이동을 포함한 총인구 증감과 분리합니다."
+    },
+    {
+      "kind": "access-failure",
+      "url": "https://kosis.kr/statHtml/statHtml.do?orgId=101&tblId=DT_1B8000F",
+      "scope": "별도 KOSIS 표 세션 리다이렉트로 본문 미확보. 출생·사망 공식 첨부 원표에서 동일 발생연도와 단위로 직접 계산했습니다.",
+      "nextAction": "KOSIS 표 세션이 정상일 때 2025년 전국 자연증가 행을 추가 대조합니다."
+    },
+    {
+      "kind": "model",
+      "scope": "지역 소멸 경계, 교통·주택 최적 배치, 차주·금융기관 전염은 미검증.",
+      "nextAction": "지역별 다기간 패널과 비교군, 금융 차주-기관 연결 및 충격·노출·상환 시계열을 확보한 뒤 식별과 외부 검증을 진행합니다."
+    }
+  ]
+}
