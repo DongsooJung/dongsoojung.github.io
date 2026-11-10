@@ -2464,7 +2464,7 @@
           "outcome": "annual_vital_counts_and_september_migration_verified_model_and_new_monthly_release_pending",
           "release": {
             "branch": "codex/korea-source-20261110",
-            "status": "awaiting_checks",
+            "status": "verified",
             "liveUrl": "https://www.stargateedu.co.kr/research/korea-challenges/",
             "sourceReviewUrl": "https://www.stargateedu.co.kr/research/source-reviews/2026-11-10-korea-challenges.json",
             "pullRequest": "https://github.com/DongsooJung/dongsoojung.github.io/pull/260",
@@ -2474,7 +2474,20 @@
               "attempts": 2,
               "scope": "첫 배포 파일 동기화 시간 초과. 실패 작업 재실행은 동일 Pages 배포 ID 취소로 종료."
             },
-            "recoveryPullRequest": "https://github.com/DongsooJung/dongsoojung.github.io/pull/261"
+            "recoveryPullRequest": "https://github.com/DongsooJung/dongsoojung.github.io/pull/261",
+            "commit": "4f71e50896ceac98819650816403a8567db94f71",
+            "pullRequestHead": "a4a0dd4048bf4763435c3cee112b8bed711de74e",
+            "verifiedAt": "2026-11-10T11:15:17.385Z",
+            "pagesRun": "https://github.com/DongsooJung/dongsoojung.github.io/actions/runs/42805441760",
+            "checks": [
+              "Exact PR head CodeQL JavaScript and external checks passed",
+              "Pages build, report and deploy passed for the merged SHA",
+              "Five changed public files match www and bare domains",
+              "65 unique cards and seven alphabetical filters, including seven separate essays",
+              "Fifteen regression tests and live mobile, anchors and download passed",
+              "Two independent PDF extraction engines and rendered source tables checked the annual counts and migration",
+              "Two PDF companions passed text and visual checks"
+            ]
           }
         }
       ],
