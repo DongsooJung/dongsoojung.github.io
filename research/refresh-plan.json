@@ -1265,6 +1265,13 @@
             "latestPublication": "https://mods.go.kr/board.es?act=view&bid=204&list_no=447664&mid=a10301020300",
             "calendarUrl": "https://mods.go.kr/newsPln.es?mid=a10305000000&oa_mm=11",
             "scope": "별도 월간 인구동향의 출생·사망·혼인·이혼. 예정일 이후 실제 게시와 원표를 확인합니다."
+          },
+          "pendingFinancialSurvey": {
+            "status": "awaiting_publication",
+            "version": "2026",
+            "expectedPublication": "2026-12-03T12:00:00+09:00",
+            "calendarUrl": "https://mods.go.kr/newsPln.es?mid=a10305000000&oa_mm=ALL",
+            "nextAction": "실제 보도자료와 조사 기준일을 대조합니다."
           }
         }
       },
@@ -2460,7 +2467,13 @@
             "status": "awaiting_checks",
             "liveUrl": "https://www.stargateedu.co.kr/research/korea-challenges/",
             "sourceReviewUrl": "https://www.stargateedu.co.kr/research/source-reviews/2026-11-10-korea-challenges.json",
-            "pullRequest": "https://github.com/DongsooJung/dongsoojung.github.io/pull/260"
+            "pullRequest": "https://github.com/DongsooJung/dongsoojung.github.io/pull/260",
+            "initialPagesFailure": {
+              "run": "https://github.com/DongsooJung/dongsoojung.github.io/actions/runs/42803207222",
+              "commit": "6f4dea57f468f1e552936e5e387443fc0392dd29",
+              "attempts": 2,
+              "scope": "첫 배포 파일 동기화 시간 초과. 실패 작업 재실행은 동일 Pages 배포 ID 취소로 종료."
+            }
           }
         }
       ],
