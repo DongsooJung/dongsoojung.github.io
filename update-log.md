@@ -1,5 +1,13 @@
 # GitHub Repo Update Loop Log
 
+## 2026-11-11 (KST)
+
+- Main repository: DongsooJung/dongsoojung.github.io
+- Last push: 2026-11-10T23:28:25Z (chore(exchange-rate): 환율·금리·물가·비트코인·DRAM·유가 데이터 자동 갱신)
+- Recent scheduled workflow runs: Predominantly successful (including Update exchange rate data, Activate Kakao visitor notifications, Update Gimpo airport congestion data, Remote Service Health Check, Update airport congestion data, Update Naver Cafe popular articles, Update expressway rest-area bid radar, Update used-car public indicators, Update Google Trends data, Refresh IPO filing calendars, Refresh unlisted OpenDART intelligence, Update used-car market dashboard, and others). Failures observed: Collect public data CSV (conclusion: failure, recurring).
+- Open issues: 5
+- Status: Update loops operating normally overall; scheduled data updates succeeding consistently. Recurring collector failure for public data CSV warrants review. Open issues remain low at 5.
+
 ## 2026-11-10 (KST)
 
 - Main repository: DongsooJung/dongsoojung.github.io
