@@ -1,4 +1,4 @@
-const { app, BrowserWindow, Menu, dialog, screen, session, shell } = require('electron');
+const { app, BrowserWindow, Menu, dialog, ipcMain, screen, session, shell } = require('electron');
 const fs = require('node:fs');
 const path = require('node:path');
 const { navigationDecision } = require('./navigation-policy');
@@ -125,16 +125,10 @@ function attachGuards(contents) {
   contents.on('did-create-window', (child) => attachGuards(child.webContents));
 }
 
-function showLoadError(contents, target, reason) {
+function showLoadError(contents) {
   if (showingError) return;
   showingError = true;
-  contents.loadFile(path.join(__dirname, 'load-error.html'), {
-    query: {
-      home: homeUrl,
-      target: target || '',
-      reason: reason || '네트워크 연결을 확인한 뒤 다시 시도해 주세요.',
-    },
-  }).finally(() => {
+  contents.loadFile(path.join(__dirname, 'load-error.html')).finally(() => {
     showingError = false;
   });
 }
@@ -154,6 +148,7 @@ function createWindow() {
     icon: appIcon(),
     autoHideMenuBar: false,
     webPreferences: {
+      preload: path.join(__dirname, 'preload.js'),
       nodeIntegration: false,
       contextIsolation: true,
       sandbox: true,
@@ -172,10 +167,10 @@ function createWindow() {
   mainWindow.on('move', remember);
   mainWindow.on('close', saveBounds);
 
-  mainWindow.webContents.on('did-fail-load', (_event, errorCode, errorDescription, validatedURL, isMainFrame) => {
+  mainWindow.webContents.on('did-fail-load', (_event, errorCode, _errorDescription, validatedURL, isMainFrame) => {
     if (!isMainFrame || errorCode === -3 || showingError) return;
     console.error(`[stargate-desktop] 불러오기 실패 ${errorCode} ${hostOf(validatedURL)}`);
-    showLoadError(mainWindow.webContents, validatedURL, errorDescription);
+    showLoadError(mainWindow.webContents);
   });
 
   if (process.env.STARGATE_SMOKE === '1') armSmoke(mainWindow);
@@ -307,6 +302,11 @@ async function start() {
   Menu.setApplicationMenu(buildMenu());
   createWindow();
 }
+
+ipcMain.on('stargate-retry', (event) => {
+  if (!mainWindow || event.sender !== mainWindow.webContents) return;
+  mainWindow.loadURL(homeUrl);
+});
 
 const gotLock = app.requestSingleInstanceLock();
 if (!gotLock) {

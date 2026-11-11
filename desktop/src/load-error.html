@@ -18,38 +18,30 @@
   main { width: min(440px, calc(100% - 40px)); }
   h1 { margin: 0 0 8px; font-size: 22px; font-weight: 650; }
   p { margin: 0 0 8px; color: #9aa7b8; }
-  button {
+  a {
+    display: inline-block;
     margin-top: 16px;
     padding: 10px 16px;
-    border: 0;
     border-radius: 10px;
     background: #7aa2ff;
     color: #0b1020;
-    font: inherit;
     font-weight: 700;
-    cursor: pointer;
+    text-decoration: none;
   }
 </style>
 </head>
 <body>
 <main>
   <h1>포털을 열지 못했습니다</h1>
-  <p id="reason">네트워크 연결을 확인한 뒤 다시 시도해 주세요.</p>
-  <p id="target"></p>
-  <button id="retry" type="button">다시 시도</button>
+  <p>네트워크 연결을 확인한 뒤 다시 시도해 주세요.</p>
+  <a id="retry" href="https://stargateedu.co.kr/">다시 시도</a>
 </main>
 <script>
-  const params = new URLSearchParams(location.search);
-  const reason = params.get('reason') || '';
-  const target = params.get('target') || '';
-  const home = params.get('home') || 'https://stargateedu.co.kr/';
-  const allowed = /^https:\/\/(www\.)?stargateedu\.co\.kr\/$/.test(home)
-    || /^http:\/\/127\.0\.0\.1:\d+\/$/.test(home);
-  const next = allowed ? home : 'https://stargateedu.co.kr/';
-  if (reason) document.getElementById('reason').textContent = reason;
-  if (target) document.getElementById('target').textContent = target;
-  document.getElementById('retry').addEventListener('click', () => {
-    location.href = next;
+  document.getElementById('retry').addEventListener('click', (event) => {
+    const api = window.stargateDesktop;
+    if (!api || typeof api.retry !== 'function') return;
+    event.preventDefault();
+    api.retry();
   });
 </script>
 </body>

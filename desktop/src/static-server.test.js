@@ -8,6 +8,8 @@ const { resolveRequestPath, startStaticServer } = require('./static-server');
 
 function makeFixture() {
   const root = fs.mkdtempSync(path.join(os.tmpdir(), 'stargate-desktop-'));
+  const outsideDir = fs.mkdtempSync(path.join(os.tmpdir(), 'stargate-outside-'));
+  const outside = path.join(outsideDir, 'secret.txt');
   fs.writeFileSync(path.join(root, 'index.html'), '<!doctype html><title>fixture</title>');
   fs.writeFileSync(path.join(root, 'secret.env'), 'TOKEN=1');
   fs.writeFileSync(path.join(root, '.env'), 'SECRET=1');
@@ -16,22 +18,28 @@ function makeFixture() {
   fs.mkdirSync(path.join(root, 'node_modules', 'pkg'), { recursive: true });
   fs.writeFileSync(path.join(root, 'node_modules', 'pkg', 'package.json'), '{}');
   fs.writeFileSync(path.join(root, 'outside.txt'), 'nope');
-  const outside = path.join(os.tmpdir(), `stargate-outside-${process.pid}.txt`);
   fs.writeFileSync(outside, 'secret-outside');
   fs.symlinkSync(outside, path.join(root, 'leak.txt'));
-  return { root, outside };
+  return { root, outsideDir, outside };
+}
+
+function removeFixture(fixture) {
+  if (!fixture) return;
+  fs.rmSync(fixture.root, { recursive: true, force: true });
+  fs.rmSync(fixture.outsideDir, { recursive: true, force: true });
 }
 
 test('디렉터리 인덱스와 비밀 파일, 심볼릭 링크를 가른다', () => {
-  const { root, outside } = makeFixture();
+  const fixture = makeFixture();
+  const { root, outside } = fixture;
   try {
     const index = resolveRequestPath(root, '/');
     assert.equal(index.ok, true);
     assert.match(index.filePath, /index\.html$/);
 
     const research = resolveRequestPath(root, '/research');
-    assert.equal(research.status, 302);
-    assert.equal(research.location, '/research/');
+    assert.equal(research.ok, true);
+    assert.equal(fs.readFileSync(research.filePath, 'utf8'), 'research');
 
     const page = resolveRequestPath(root, '/research/');
     assert.equal(page.ok, true);
@@ -44,14 +52,13 @@ test('디렉터리 인덱스와 비밀 파일, 심볼릭 링크를 가른다', (
     assert.equal(resolveRequestPath(root, '/leak.txt').status, 403);
     assert.equal(fs.existsSync(outside), true);
   } finally {
-    fs.rmSync(root, { recursive: true, force: true });
-    fs.rmSync(outside, { force: true });
+    removeFixture(fixture);
   }
 });
 
 test('HEAD는 본문 없이 Last-Modified를 준다', async () => {
-  const { root } = makeFixture();
-  const started = await startStaticServer(root);
+  const fixture = makeFixture();
+  const started = await startStaticServer(fixture.root);
   try {
     const response = await new Promise((resolve, reject) => {
       const req = http.request(`${started.origin}/`, { method: 'HEAD' }, resolve);
@@ -70,7 +77,7 @@ test('HEAD는 본문 없이 Last-Modified를 준다', async () => {
     assert.equal(response.headers['cache-control'], 'no-store');
   } finally {
     await new Promise((resolve) => started.server.close(resolve));
-    fs.rmSync(root, { recursive: true, force: true });
+    removeFixture(fixture);
   }
 });
 

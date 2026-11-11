@@ -99,9 +99,6 @@ function resolveRequestPath(root, rawPathname) {
   }
 
   if (stat.isDirectory()) {
-    if (!pathname.endsWith('/') && parts.length) {
-      return { ok: false, status: 302, location: `/${parts.join('/')}/` };
-    }
     return fileResult(rootReal, path.join(candidate, 'index.html'));
   }
   return fileResult(rootReal, candidate);
@@ -120,11 +117,7 @@ function createStaticServer(root) {
 
     const resolved = resolveRequestPath(root, pathname);
     if (!resolved.ok) {
-      if (resolved.status === 302) {
-        res.writeHead(302, { Location: resolved.location });
-      } else {
-        res.writeHead(resolved.status);
-      }
+      res.writeHead(resolved.status);
       res.end();
       return;
     }
