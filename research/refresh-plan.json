@@ -989,8 +989,8 @@
         "/research/monthly-marriages/"
       ],
       "outcome": "conditional_technical_acceptance",
-      "latestAudit": "/research/source-reviews/2026-11-10-korea-challenges.json",
-      "lastAttemptAt": "2026-11-10T10:51:57.179Z",
+      "latestAudit": "/research/source-reviews/2026-11-11-korean-unification.json",
+      "lastAttemptAt": "2026-11-11T01:50:24.845Z",
       "itemResults": {
         "/exchange-rate/": {
           "status": "verified",
@@ -1273,6 +1273,20 @@
             "calendarUrl": "https://mods.go.kr/newsPln.es?mid=a10305000000&oa_mm=ALL",
             "nextAction": "실제 보도자료와 조사 기준일을 대조합니다."
           }
+        },
+        "/research/korean-unification-challenges/": {
+          "status": "needs_review",
+          "checkedAt": "2026-11-11T01:50:24.845Z",
+          "audit": "/research/source-reviews/2026-11-11-korean-unification.json",
+          "scope": "2024년 남북 인구·출산율과 2025년 실질 GDP 증가율·1인당 GNI 원표를 대조했습니다. 출산율 차이란과 판본별 인구·GNI 차이를 기록하고 IAEA 및 유엔 인권 원문 4건의 범위를 확인했습니다.",
+          "pendingPublication": {
+            "status": "awaiting_publication",
+            "title": "2026 북한의 주요통계지표",
+            "expectedPublication": "2026-12-22T12:00:00+09:00",
+            "calendarUrl": "https://mods.go.kr/newsPln.es?mid=a10305000000&oa_mm=12",
+            "nextAction": "예정일 이후 실제 공표본과 기준연도, 부록 차이란의 정정 여부를 대조합니다."
+          },
+          "nextAction": "국가데이터처 정정본 및 후속 연간 원표를 확인하고, 전환 모형은 필요한 관측자료와 검증 설계 확보 후 검토합니다."
         }
       },
       "checkpoints": {
@@ -1306,7 +1320,7 @@
           "Tourism not re-fetched before October26; original checkedAt retained"
         ]
       },
-      "nextAction": "다음 독립 미완료 /research/korean-unification-challenges/의 남북 비교 원표, OHCHR 본문과 IAEA 최신 판본의 인용 범위를 대조합니다. 대한민국 난제의 완료 범위는 반복하지 않습니다. 9월 월보는 11월 25일, 2026년 가계금융복지조사는 12월 3일 이후 실제 공표 여부를 확인합니다.",
+      "nextAction": "다음 독립 미완료 /research/quantum-physics-challenges/의 측정·탈동조화 리뷰 원문, 해석별 실험 예측과 인용 범위를 대조합니다.",
       "sourceFollowups": [
         {
           "id": "source-followup-1-20261021",
@@ -2487,7 +2501,32 @@
               "Fifteen regression tests and live mobile, anchors and download passed",
               "Two independent PDF extraction engines and rendered source tables checked the annual counts and migration",
               "Two PDF companions passed text and visual checks"
-            ]
+            ],
+            "publicLedgerVerification": {
+              "checkedAt": "2026-11-11T01:50:24.845Z",
+              "domains": [
+                "https://www.stargateedu.co.kr",
+                "https://stargateedu.co.kr"
+              ],
+              "status": "verified",
+              "pagesRun": "https://github.com/DongsooJung/dongsoojung.github.io/actions/runs/42937932142"
+            }
+          }
+        },
+        {
+          "id": "unification-source-20261111",
+          "status": "partial",
+          "checkedAt": "2026-11-11T01:50:24.845Z",
+          "keys": [
+            "/research/korean-unification-challenges/"
+          ],
+          "audit": "/research/source-reviews/2026-11-11-korean-unification.json",
+          "outcome": "annual_comparisons_and_four_international_report_versions_checked_appendix_discrepancy_and_model_pending",
+          "release": {
+            "branch": "codex/unification-source-20261111",
+            "status": "awaiting_checks",
+            "liveUrl": "https://www.stargateedu.co.kr/research/korean-unification-challenges/",
+            "sourceReviewUrl": "https://www.stargateedu.co.kr/research/source-reviews/2026-11-11-korean-unification.json"
           }
         }
       ],
