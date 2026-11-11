@@ -6145,6 +6145,40 @@
       "verifiedScope": "공식 문헌 기반 개념 설명. BB84 기대값은 이상적 가로채기·재전송 모형이며 실측 또는 안전 판정이 아님.",
       "nextAction": "표준 개정·정오표와 구현 상호운용성 확인",
       "documentVersion": "문헌 검토 2026-10-29"
+    },
+    {
+      "key": "/research/startup-industries/",
+      "url": "/research/startup-industries/",
+      "title": "신규 창업 업종 관측 · 법인·개인사업자",
+      "primary": "society",
+      "classification": "경제·사회",
+      "source": {
+        "label": "중소벤처기업부 상반기 실적 + STARGATE 모형추정",
+        "url": "https://www.mss.go.kr/site/smba/ex/bbs/View.do?bcIdx=1070757&cbIdx=86&parentSeq=1070757",
+        "verification": "partially_verified"
+      },
+      "dataAsOf": null,
+      "dataPeriod": "2026년 1~6월 누계·5~6월 실적 / 1~4월 배분·7~9월 모형추정",
+      "snapshotUpdatedAt": "2026-11-11T11:36:19Z",
+      "collectedAt": "2026-11-11T11:30:14Z",
+      "checkedAt": "2026-11-11T11:36:19Z",
+      "reviewStatus": "needs_review",
+      "freshness": "historical_actuals_and_estimates",
+      "sourceHint": "중기부 붙임3-1·3-2, 2026 상반기",
+      "issues": [
+        "1~4월 월별 업종 수치는 전체 창업 비중으로 배분한 추정",
+        "7~9월 실적 원표 미확보, 월 배분비 18%·15%·17%는 분석자 가정",
+        "법인등기 기준 신규법인 및 업태·종목 문자열의 실측 순위가 아님"
+      ],
+      "verifiedScope": "개인·법인 업종별 2025 연간·상반기와 2026 상반기·5월·6월 입력값 및 합계를 공식 PDF와 대조. 추정 결과는 실측 아님.",
+      "evidence": [
+        {
+          "kind": "official-source",
+          "url": "https://www.mss.go.kr/common/board/Download.do?bcIdx=1070757&cbIdx=86&streFileNm=0dd3ae36-a0e5-4509-b4ca-06c0aef05d12.pdf",
+          "scope": "붙임3-1(인쇄쪽13), 붙임3-2(인쇄쪽14)"
+        }
+      ],
+      "nextAction": "공식 월별 개인·법인 업종 실적 확보 후 추정 대체"
     }
   ]
 }
