@@ -990,7 +990,7 @@
         "/research/startup-industries/"
       ],
       "outcome": "conditional_technical_acceptance",
-      "latestAudit": "/research/source-reviews/2026-11-11-korean-unification.json",
+      "latestAudit": "/research/source-reviews/2026-11-12-quantum-physics.json",
       "lastAttemptAt": "2026-11-11T16:55:04.493Z",
       "itemResults": {
         "/exchange-rate/": {
@@ -2562,10 +2562,23 @@
           "outcome": "measurement_review_and_experimental_scope_checked_monthly_period_not_applicable",
           "release": {
             "branch": "codex/quantum-source-20261112",
-            "status": "awaiting_checks",
+            "status": "verified",
             "liveUrl": "https://www.stargateedu.co.kr/research/quantum-physics-challenges/",
             "sourceReviewUrl": "https://www.stargateedu.co.kr/research/source-reviews/2026-11-12-quantum-physics.json",
-            "pullRequest": "https://github.com/DongsooJung/dongsoojung.github.io/pull/268"
+            "pullRequest": "https://github.com/DongsooJung/dongsoojung.github.io/pull/268",
+            "commit": "67d0a81eb062436090c6c43c8bd7752321258b87",
+            "pullRequestHead": "b7054bf0bba71c3424bccb965c8f767a7513d6bf",
+            "verifiedAt": "2026-11-11T16:59:01.009Z",
+            "pagesRun": "https://github.com/DongsooJung/dongsoojung.github.io/actions/runs/43063455451",
+            "checks": [
+              "CodeQL JavaScript and preview checks passed for the pull request commit",
+              "Pages build, report and deploy passed for the merged SHA",
+              "Five changed public files match www and bare domains",
+              "66 unique cards and seven alphabetical filters, including seven separate essays",
+              "Fifteen regression tests and live mobile, anchors and download passed",
+              "Two PDF extraction engines checked eight PDF sources",
+              "Two PDF companions passed text and visual checks"
+            ]
           }
         }
       ],
