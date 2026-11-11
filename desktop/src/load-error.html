@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>연결할 수 없음 — Stargate</title>
+<style>
+  :root { color-scheme: dark; }
+  body {
+    margin: 0;
+    min-height: 100vh;
+    display: grid;
+    place-items: center;
+    background: #0b1020;
+    color: #e6edf3;
+    font: 16px/1.6 "Segoe UI", "Apple SD Gothic Neo", sans-serif;
+  }
+  main { width: min(440px, calc(100% - 40px)); }
+  h1 { margin: 0 0 8px; font-size: 22px; font-weight: 650; }
+  p { margin: 0 0 8px; color: #9aa7b8; }
+  button {
+    margin-top: 16px;
+    padding: 10px 16px;
+    border: 0;
+    border-radius: 10px;
+    background: #7aa2ff;
+    color: #0b1020;
+    font: inherit;
+    font-weight: 700;
+    cursor: pointer;
+  }
+</style>
+</head>
+<body>
+<main>
+  <h1>포털을 열지 못했습니다</h1>
+  <p id="reason">네트워크 연결을 확인한 뒤 다시 시도해 주세요.</p>
+  <p id="target"></p>
+  <button id="retry" type="button">다시 시도</button>
+</main>
+<script>
+  const params = new URLSearchParams(location.search);
+  const reason = params.get('reason') || '';
+  const target = params.get('target') || '';
+  const home = params.get('home') || 'https://stargateedu.co.kr/';
+  const allowed = /^https:\/\/(www\.)?stargateedu\.co\.kr\/$/.test(home)
+    || /^http:\/\/127\.0\.0\.1:\d+\/$/.test(home);
+  const next = allowed ? home : 'https://stargateedu.co.kr/';
+  if (reason) document.getElementById('reason').textContent = reason;
+  if (target) document.getElementById('target').textContent = target;
+  document.getElementById('retry').addEventListener('click', () => {
+    location.href = next;
+  });
+</script>
+</body>
+</html>

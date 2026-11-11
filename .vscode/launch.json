@@ -1,0 +1,37 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "로컬 포털을 창으로 열기",
+      "type": "node",
+      "request": "launch",
+      "cwd": "${workspaceFolder}/desktop",
+      "runtimeExecutable": "${workspaceFolder}/desktop/node_modules/.bin/electron",
+      "windows": {
+        "runtimeExecutable": "${workspaceFolder}/desktop/node_modules/.bin/electron.cmd"
+      },
+      "args": [".", "--dev"],
+      "console": "integratedTerminal",
+      "preLaunchTask": "desktop: 의존성 확인",
+      "env": {
+        "ELECTRON_RUN_AS_NODE": null
+      }
+    },
+    {
+      "name": "운영 사이트를 창으로 열기",
+      "type": "node",
+      "request": "launch",
+      "cwd": "${workspaceFolder}/desktop",
+      "runtimeExecutable": "${workspaceFolder}/desktop/node_modules/.bin/electron",
+      "windows": {
+        "runtimeExecutable": "${workspaceFolder}/desktop/node_modules/.bin/electron.cmd"
+      },
+      "args": ["."],
+      "console": "integratedTerminal",
+      "preLaunchTask": "desktop: 의존성 확인",
+      "env": {
+        "ELECTRON_RUN_AS_NODE": null
+      }
+    }
+  ]
+}
