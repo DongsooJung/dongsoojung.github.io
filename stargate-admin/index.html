@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#4562e9">
+  <meta name="description" content="스타게이트의 연구와 전략, 콘텐츠와 실행을 한곳에서 관리합니다.">
+  <title>STARGATE · 관리자</title>
+  <link rel="icon" href="./icon.svg" type="image/svg+xml">
+  <link rel="canonical" href="https://stargateedu.co.kr/stargate-admin/">
+  <link rel="apple-touch-icon" href="./icon-192.png">
+  <link rel="manifest" href="./manifest.webmanifest">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Noto+Sans+KR:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./styles.css?v=1.2.1">
+  <script src="./app.js?v=1.3.0" type="module"></script>
+</head>
+<body>
+  <a class="skip" href="#main">본문 바로가기</a>
+  <aside class="sidebar" aria-label="주 메뉴">
+    <a href="#today" class="brand"><span class="brand-mark">✳</span><span>STARGATE<small>ADMIN WORKSPACE</small></span></a>
+    <div class="workspace"><span class="workspace-symbol">별</span><div><strong>주식회사 별의문</strong><small>개인 관리자 워크스페이스</small></div><span class="workspace-lock" data-icon="lock"></span></div>
+    <div class="nav-caption">WORKSPACE</div>
+    <nav id="nav"></nav>
+    <div class="sidebar-bottom">
+      <div class="sidebar-note"><span class="online-dot"></span><strong>작게 보고, 크게 연결하기</strong><p>연구에서 발견하고<br>전략으로 실행합니다.</p></div>
+      <button class="nav-link" data-page="settings"><span data-icon="settings"></span><span>설정 및 데이터</span></button>
+      <button class="profile" data-page="settings"><span class="avatar">동</span><span><strong>내 관리 기록</strong><small>이 브라우저에 저장</small></span><span data-icon="chevron"></span></button>
+    </div>
+  </aside>
+  <div class="app-shell">
+    <header class="topbar">
+      <a class="mobile-brand" href="#today">✳ STARGATE</a>
+      <div class="breadcrumb">워크스페이스<span>/</span><strong id="crumb">오늘의 현황</strong></div>
+      <button class="global-search" id="global-search" aria-label="전체 프로젝트 검색"><span data-icon="search"></span><span>프로젝트 빠르게 찾기</span><kbd>Ctrl K</kbd></button>
+      <div class="topbar-actions"><span class="private-badge">브라우저 저장</span><button class="icon-button" data-install-app aria-label="앱 설치 안내" title="앱 설치"><span data-icon="download"></span></button><button class="icon-button mobile-only" data-page="settings" aria-label="설정 열기" title="설정"><span data-icon="settings"></span></button><button class="icon-button" id="theme-toggle" aria-label="다크 모드로 전환" title="다크 모드"><span data-icon="moon"></span></button><span class="avatar small">동</span></div>
+    </header>
+    <main id="main" tabindex="-1"><div class="loading"><span class="brand-mark">✳</span><p>워크스페이스를 준비하고 있습니다.</p></div></main>
+    <footer class="page-footer"><span>STARGATE ADMIN <b>1.3.0</b></span><span id="footer-state">이 브라우저에 저장</span><span>연구의 깊이, 실행의 명료함.</span></footer>
+  </div>
+  <nav class="mobile-nav" aria-label="모바일 메뉴" id="mobile-nav"></nav>
+  <dialog id="project-dialog" class="drawer" aria-labelledby="project-title"></dialog>
+  <dialog id="task-dialog" class="modal" aria-labelledby="task-title"></dialog>
+  <dialog id="search-dialog" class="search-modal" aria-label="전체 프로젝트 검색"></dialog>
+  <div id="toast" role="status" aria-live="polite"></div>
+  <input type="file" id="import-file" accept="application/json,.json" hidden>
+  <noscript>관리자 앱을 사용하려면 JavaScript를 활성화해 주세요.</noscript>
+</body>
+</html>

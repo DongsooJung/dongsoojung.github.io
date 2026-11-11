@@ -1,0 +1,1960 @@
+{
+  "schemaVersion": 1,
+  "capturedAt": "2026-10-30T02:54:04.557Z",
+  "sourceDate": "2026-10-30",
+  "sources": {
+    "research": "https://stargateedu.co.kr/research/",
+    "strategy": "https://stargateedu.co.kr/strategy/",
+    "blog": "https://blog.stargateedu.co.kr/"
+  },
+  "blogCollectedAt": "2026-10-30 07:29 KST",
+  "groups": {
+    "research": [
+      "실시간 도시",
+      "행정경계",
+      "접근·부동산",
+      "거시·산업",
+      "커뮤니티 신호",
+      "연구 방법·AI",
+      "난제·에세이",
+      "교육·수학",
+      "운영·제품"
+    ],
+    "strategy": [
+      "기업 재무",
+      "산업 신호",
+      "실행·사업개발",
+      "관측 트래커"
+    ]
+  },
+  "projects": [
+    {
+      "id": "p-f41d6650d692",
+      "title": "부캉이 상황실",
+      "url": "https://stargateedu.co.kr/research/bukangi/",
+      "description": "북항 친수공원 수로의 무태상어. 보도 19건은 9월 23일 스냅샷으로 보존하고 부산시의 10월 공식 공지 2건을 별도로 확인합니다.",
+      "axes": [
+        "research"
+      ],
+      "groups": {
+        "research": "실시간 도시"
+      },
+      "source": "부산시 10월 공지 · 보도 19건",
+      "tags": [
+        "New · Busan",
+        "Situation"
+      ]
+    },
+    {
+      "id": "p-f47c72137fa4",
+      "title": "실시간 도시 관측",
+      "url": "https://stargateedu.co.kr/ds-research-urban-analytics/",
+      "description": "서울 도시 45개 지점과 새 250m 기반 9월 30일 23시·427코드 스냅샷을 봅니다. 동명은 공식 8월 코드표의 참고 명칭입니다. 생산 종료된 구 7월 자료와 체계를 분리하며 증감·연결 시계열로 해석하지 않습니다.",
+      "axes": [
+        "research"
+      ],
+      "groups": {
+        "research": "실시간 도시"
+      },
+      "source": "서울 열린데이터광장 · 새9월/구7월 분리",
+      "tags": [
+        "실시간 도시",
+        "Real-time"
+      ]
+    },
+    {
+      "id": "p-fad15a0ba698",
+      "title": "인천공항 혼잡도 연구 대시보드",
+      "url": "https://stargateedu.co.kr/research/airport-congestion/",
+      "description": "제1·2여객터미널의 시간대별 예상 승객 수와 실시간 출국장 대기시간·대기인원을 10분 주기로 비교합니다.",
+      "axes": [
+        "research"
+      ],
+      "groups": {
+        "research": "실시간 도시"
+      },
+      "source": "인천국제공항공사 공식 실데이터",
+      "tags": [
+        "Live · 10 min",
+        "Airport Operations"
+      ]
+    },
+    {
+      "id": "p-5a753286bb48",
+      "title": "김포공항 국내선 혼잡도",
+      "url": "https://stargateedu.co.kr/research/gimpo-airport-congestion/",
+      "description": "체크인·신분확인·보안검색·탑승으로 이어지는 3개 구간의 공식 혼잡도 등급을 10분 주기로 확인합니다.",
+      "axes": [
+        "research"
+      ],
+      "groups": {
+        "research": "실시간 도시"
+      },
+      "source": "한국공항공사 공식 API · 연결 상태 표시",
+      "tags": [
+        "KAC · 10 min",
+        "Domestic Airport"
+      ]
+    },
+    {
+      "id": "p-de7b8446fa14",
+      "title": "월간 날씨 캘린더",
+      "url": "https://stargateedu.co.kr/strategy/weather-calendar/",
+      "description": "오늘과 향후 7일 예보를 강조하고 기상 위험 알림, 실시간 강수 레이더와 월간 캘린더를 함께 제공합니다.",
+      "axes": [
+        "research"
+      ],
+      "groups": {
+        "research": "실시간 도시"
+      },
+      "source": "Open‑Meteo · RainViewer · 기상청 특보",
+      "tags": [
+        "Weather API",
+        "Live · Monthly"
+      ]
+    },
+    {
+      "id": "p-a5a161bfcea0",
+      "title": "행정경계 지표 아틀라스",
+      "url": "https://stargateedu.co.kr/research/urban-atlas/",
+      "description": "선거·교육·주택 지표를 같은 행정경계 단위에서 비교합니다. 각 기존 지도 URL은 그대로 유지합니다.",
+      "axes": [
+        "research"
+      ],
+      "groups": {
+        "research": "행정경계"
+      },
+      "source": "선거 · 학원 · 주택",
+      "tags": [
+        "3-1",
+        "Boundary metrics"
+      ]
+    },
+    {
+      "id": "p-37c0bd024300",
+      "title": "수도권 국회의원 선거구 지도 허브",
+      "url": "https://stargateedu.co.kr/election/",
+      "description": "제22대 국회의원선거 기준 수원·성남·화성·평택 16개 선거구를 읍면동 경계 위에서 한 번에 탐색합니다.",
+      "axes": [
+        "research"
+      ],
+      "groups": {
+        "research": "행정경계"
+      },
+      "source": "4개 시 · 16개 선거구 · VWorld",
+      "tags": [
+        "New Hub",
+        "Spatial · Election"
+      ]
+    },
+    {
+      "id": "p-4dab35fad875",
+      "title": "수도권 학원·교습소 비교 지도",
+      "url": "https://stargateedu.co.kr/sudogwon-academy-map/",
+      "description": "서울·경기·인천 시설 수를 지역별 정의·기준과 함께 비교합니다. 시도별 합계는 같은 시점의 수도권 합계로 합산하지 않습니다.",
+      "axes": [
+        "research"
+      ],
+      "groups": {
+        "research": "행정경계"
+      },
+      "source": "서울 CSV · 경기 9월 명부 · 인천 8월 명부",
+      "tags": [
+        "New",
+        "Urban · API"
+      ]
+    },
+    {
+      "id": "p-68bc9683ecee",
+      "title": "경기도 학원·교습소 시설 수 지도",
+      "url": "https://stargateedu.co.kr/gyeonggi-academy-map/",
+      "description": "교육청 2026-09-30 명부를 유형·명칭·주소로 중복 제거한 31시군 시설 수입니다. 2013 참고 경계이며 면적당 밀도가 아닙니다.",
+      "axes": [
+        "research"
+      ],
+      "groups": {
+        "research": "행정경계"
+      },
+      "source": "경기도교육청 · 2026-09-30 명부",
+      "tags": [
+        "New",
+        "Urban · API"
+      ]
+    },
+    {
+      "id": "p-7628a7616243",
+      "title": "서울 학원·교습소 시설 수 지도",
+      "url": "https://stargateedu.co.kr/seoul-academy-map/",
+      "description": "공식 전체 CSV의 개원 시설 25,507개입니다. 전수 통계 기준일은 미제공이며 미검증 수요모델은 보존본으로 분리했습니다.",
+      "axes": [
+        "research"
+      ],
+      "groups": {
+        "research": "행정경계"
+      },
+      "source": "서울 열린데이터 OA-20528 · 부분 적재 포함",
+      "tags": [
+        "New",
+        "Urban · API"
+      ]
+    },
+    {
+      "id": "p-4c1fed8b2f6a",
+      "title": "평택시 선거구 읍면동 지도",
+      "url": "https://www.stargateedu.co.kr/pyeongtaek-election/",
+      "description": "제22대 국회의원선거 갑·을·병 구역을 읍면동 경계로 탐색. VWorld 행정구역 API + Leaflet 인터랙티브 지도.",
+      "axes": [
+        "research"
+      ],
+      "groups": {
+        "research": "행정경계"
+      },
+      "source": "VWorld · Leaflet",
+      "tags": [
+        "New",
+        "Spatial · Election"
+      ]
+    },
+    {
+      "id": "p-8fac0dbee409",
+      "title": "화성시 선거구 읍면동 지도",
+      "url": "https://www.stargateedu.co.kr/hwaseong-election/",
+      "description": "제22대 국회의원선거 갑·을·병·정 구역을 읍면동 경계로 탐색. VWorld 행정구역 API + Leaflet 인터랙티브 지도.",
+      "axes": [
+        "research"
+      ],
+      "groups": {
+        "research": "행정경계"
+      },
+      "source": "VWorld · Leaflet",
+      "tags": [
+        "New",
+        "Spatial · Election"
+      ]
+    },
+    {
+      "id": "p-8971b22bcb59",
+      "title": "수원시 선거구 읍면동 지도",
+      "url": "https://www.stargateedu.co.kr/suwon-election/",
+      "description": "제22대 국회의원선거 갑·을·병·정·무 구역을 읍면동 경계로 탐색. VWorld 행정구역 API + Leaflet 인터랙티브 지도.",
+      "axes": [
+        "research"
+      ],
+      "groups": {
+        "research": "행정경계"
+      },
+      "source": "VWorld · Leaflet",
+      "tags": [
+        "New",
+        "Spatial · Election"
+      ]
+    },
+    {
+      "id": "p-806ea40c3915",
+      "title": "성남시 선거구 읍면동 지도",
+      "url": "https://www.stargateedu.co.kr/seongnam-election/",
+      "description": "제22대 국회의원선거 수정구·중원구·분당구갑·분당구을 구역을 읍면동 경계로 탐색. VWorld 행정구역 API + Leaflet 인터랙티브 지도.",
+      "axes": [
+        "research"
+      ],
+      "groups": {
+        "research": "행정경계"
+      },
+      "source": "VWorld · Leaflet",
+      "tags": [
+        "New",
+        "Spatial · Election"
+      ]
+    },
+    {
+      "id": "p-5436038f06bf",
+      "title": "접근성·보행성 랩",
+      "url": "https://stargateedu.co.kr/research/accessibility-lab/",
+      "description": "강남 15분도시 대시보드와 공간계량 연구 방법·코드를 한 연구 맥락에서 안내합니다.",
+      "axes": [
+        "research"
+      ],
+      "groups": {
+        "research": "접근·부동산"
+      },
+      "source": "Isochrone · Walkability",
+      "tags": [
+        "3-2",
+        "Accessibility"
+      ]
+    },
+    {
+      "id": "p-8d61ca7bf80f",
+      "title": "강남 보행성 · 15분도시 대시보드",
+      "url": "https://stargateedu.co.kr/smart-city-gis/dashboard/",
+      "description": "강남 핵심부의 OSM 단면·보행성·등시선을 탐색합니다. 제공자 수집일2026-08-27이며 관측 시계열이 아닙니다.",
+      "axes": [
+        "research"
+      ],
+      "groups": {
+        "research": "접근·부동산"
+      },
+      "source": "별도 프로젝트 · OSM8월27일 단면",
+      "tags": [
+        "Live",
+        "Walkability"
+      ]
+    },
+    {
+      "id": "p-ee704c368d1e",
+      "title": "Choropleth 지도",
+      "url": "https://stargateedu.co.kr/choropleth/",
+      "description": "공식 취소 제외 아파트 가격·거래량을 25구별로 비교합니다. 전년 같은 월일 창과2013참고경계·기술통계를 구분합니다.",
+      "axes": [
+        "research"
+      ],
+      "groups": {
+        "research": "접근·부동산"
+      },
+      "source": "서울 공식 CSV · 동기간중앙값 · 2013참고경계",
+      "tags": [
+        "Live",
+        "Spatial"
+      ]
+    },
+    {
+      "id": "p-cf546a51c701",
+      "title": "서울 부동산 월별 거래량",
+      "url": "https://stargateedu.co.kr/volume/",
+      "description": "공식 2025·2026 접수 CSV의 취소 제외 계약월 집계입니다. 9월과 10월16일까지 부분 자료·신고 지연을 구분합니다.",
+      "axes": [
+        "research"
+      ],
+      "groups": {
+        "research": "접근·부동산"
+      },
+      "source": "서울 공식 CSV · 계약일2026-10-16까지",
+      "tags": [
+        "Live",
+        "Real Estate"
+      ]
+    },
+    {
+      "id": "p-1b965142f85f",
+      "title": "LH 분양정보 관측소",
+      "url": "https://stargateedu.co.kr/lh-sale-info/",
+      "description": "공지사항이 아닌 LH 분양임대공고문을 30건씩 조회하고 Supabase에 upsert합니다.",
+      "axes": [
+        "research"
+      ],
+      "groups": {
+        "research": "접근·부동산"
+      },
+      "source": "한국토지주택공사 · data.go.kr",
+      "tags": [
+        "API",
+        "LH · Supabase"
+      ]
+    },
+    {
+      "id": "p-dff0a477d10b",
+      "title": "화성 실거래 데이터 허브",
+      "url": "https://stargateedu.co.kr/hwaseong-real-estate/",
+      "description": "6월 계약분2672행 저장본과 지역조회 기능입니다. 최신 원표 인증·법정동 해석 대조가 필요합니다.",
+      "axes": [
+        "research"
+      ],
+      "groups": {
+        "research": "접근·부동산"
+      },
+      "source": "국토교통부 · 2026-06저장본 · 후속대조 필요",
+      "tags": [
+        "API",
+        "국토부 · Real Estate"
+      ]
+    },
+    {
+      "id": "p-998287557e0e",
+      "title": "법원경매 × 실거래 비교",
+      "url": "https://stargateedu.co.kr/court-auction/",
+      "description": "반환된 서울중앙지법3개공고의 철회제외 주택116·상업79개입니다. 전국전수와 별도 실거래 비교 범위를 구분합니다.",
+      "axes": [
+        "research",
+        "strategy"
+      ],
+      "groups": {
+        "research": "접근·부동산",
+        "strategy": "관측 트래커"
+      },
+      "source": "법원 원문 · 10월부분공고 · 철회제외",
+      "tags": [
+        "LIVE PARSER",
+        "법원 × 국토부"
+      ]
+    },
+    {
+      "id": "p-97eeab25f39d",
+      "title": "범죄 발생·검거 현황 4개 분기 추이",
+      "url": "https://stargateedu.co.kr/research/crime-statistics/",
+      "description": "경찰청 외 18개 시·도청의 15개 대분류·42개 죄종을 4개 분기로 비교합니다. 2026년 2분기 발생 400,822건, 검거율 78.9%로 4개 분기 중 최고.",
+      "axes": [
+        "research"
+      ],
+      "groups": {
+        "research": "거시·산업"
+      },
+      "source": "경찰청 공식 통계 · CSV 제공",
+      "tags": [
+        "2025 Q3–2026 Q2 · Quarterly",
+        "Public Safety"
+      ]
+    },
+    {
+      "id": "p-3b8e04dfb828",
+      "title": "신차 등록과 중산층 소비 관측",
+      "url": "https://stargateedu.co.kr/research/new-car-sales/",
+      "description": "2025~2026년 월별 국내 신차 판매를 비교하고 개인·법인·렌터카를 분리해 가계의 고가 내구재 소비 흐름을 관측합니다.",
+      "axes": [
+        "research"
+      ],
+      "groups": {
+        "research": "거시·산업"
+      },
+      "source": "수입 승용 9월 확인 · 전체 시장 원표 대조 중",
+      "tags": [
+        "2026.08 · Monthly",
+        "Consumption Proxy"
+      ]
+    },
+    {
+      "id": "p-a6de11d9427e",
+      "title": "부산 공유숙박 매물 검토",
+      "url": "https://stargateedu.co.kr/airbnb/",
+      "description": "부산 공개 월세 매물의 보증금·월세·방수·전용면적을 비교합니다. 인허가와 수익은 별도 확인이 필요합니다.",
+      "axes": [
+        "research"
+      ],
+      "groups": {
+        "research": "거시·산업"
+      },
+      "source": "당근부동산 공개 원문 · 조건 비교",
+      "tags": [
+        "공개 매물",
+        "부산 · 공유숙박 검토"
+      ]
+    },
+    {
+      "id": "p-7deb53578b53",
+      "title": "수도권 숙박시설 데이터",
+      "url": "https://metro-lodging-data.stargate8224.chatgpt.site/",
+      "description": "서울·경기·인천 67개 시·군·구의 영업 중 숙박시설 8,896개와 객실 290,406실을 비교하고 CSV로 내려받습니다.",
+      "axes": [
+        "research"
+      ],
+      "groups": {
+        "research": "거시·산업"
+      },
+      "source": "행정안전부 · 관광데이터랩",
+      "tags": [
+        "2026.07 · LIVE",
+        "Supabase · Lodging"
+      ]
+    },
+    {
+      "id": "p-ad7f1262ff28",
+      "title": "환율·금리·물가 대시보드",
+      "url": "https://stargateedu.co.kr/exchange-rate/",
+      "description": "주요 통화 환율과 기준금리·소비자물가, 비트코인 월별 시세를 한 화면에서 비교합니다.",
+      "axes": [
+        "research"
+      ],
+      "groups": {
+        "research": "거시·산업"
+      },
+      "source": "ECB · 한국은행 · Binance",
+      "tags": [
+        "Monthly",
+        "Macro · BTC"
+      ]
+    },
+    {
+      "id": "p-5f7690ef7b26",
+      "title": "국가별 수출입 대시보드",
+      "url": "https://stargateedu.co.kr/trade/",
+      "description": "월별 수출·수입·무역수지와 국가별 TOP 10, 국가 상세 추이를 탐색합니다.",
+      "axes": [
+        "research"
+      ],
+      "groups": {
+        "research": "거시·산업"
+      },
+      "source": "관세청 API · 월간",
+      "tags": [
+        "Monthly",
+        "Trade"
+      ]
+    },
+    {
+      "id": "p-a080b4896f34",
+      "title": "Google Trends 상위 100",
+      "url": "https://stargateedu.co.kr/google-trends/",
+      "description": "급상승 검색어 상위 100개의 검색량·카테고리·연관어를 인터랙티브로 분석합니다.",
+      "axes": [
+        "research",
+        "strategy"
+      ],
+      "groups": {
+        "research": "거시·산업",
+        "strategy": "산업 신호"
+      },
+      "source": "Google Trends · Chart.js",
+      "tags": [
+        "Daily",
+        "Trends"
+      ]
+    },
+    {
+      "id": "p-99218a5a5bc2",
+      "title": "방한 관광객 대시보드",
+      "url": "https://stargateedu.co.kr/korea-tourism/",
+      "description": "중국·대만·베트남 등 국적별 월간 방한 외래관광객 추이를 비교합니다.",
+      "axes": [
+        "research"
+      ],
+      "groups": {
+        "research": "거시·산업"
+      },
+      "source": "한국관광공사 · 공공데이터",
+      "tags": [
+        "Monthly",
+        "Tourism"
+      ]
+    },
+    {
+      "id": "p-18698f8d0951",
+      "title": "나라장터 공사 입찰공고",
+      "url": "https://stargateedu.co.kr/bid-pblanc-cnstwk/",
+      "description": "공사 입찰공고목록을 100건씩 조회·저장하고 발주기관·계약방법·추정가격을 인터랙티브 차트로 탐색합니다.",
+      "axes": [
+        "research"
+      ],
+      "groups": {
+        "research": "거시·산업"
+      },
+      "source": "조달청 · BidPublicInfoService",
+      "tags": [
+        "API",
+        "조달 · 공사"
+      ]
+    },
+    {
+      "id": "p-ec605c32741d",
+      "title": "나라장터 용역 입찰공고",
+      "url": "https://stargateedu.co.kr/bid-pblanc-servc/",
+      "description": "용역 입찰공고목록을 100건씩 조회·저장합니다. 서버 저장 키로 인증하며 키 입력이 필요 없습니다.",
+      "axes": [
+        "research"
+      ],
+      "groups": {
+        "research": "거시·산업"
+      },
+      "source": "조달청 · getBidPblancListInfoServc",
+      "tags": [
+        "API",
+        "조달 · 용역"
+      ]
+    },
+    {
+      "id": "p-72d8acc5fc52",
+      "title": "금융위원회 기업재무 대시보드",
+      "url": "https://stargateedu.co.kr/fsc-financial/",
+      "description": "사업연도별 요약재무제표를 조회합니다. 인증키가 없으면 2023년 저장본을 표시하며 원화와 외화는 구분합니다.",
+      "axes": [
+        "research"
+      ],
+      "groups": {
+        "research": "거시·산업"
+      },
+      "source": "금융위원회 · data.go.kr",
+      "tags": [
+        "API",
+        "Finance"
+      ]
+    },
+    {
+      "id": "p-e8e08844ad4e",
+      "title": "민원·국민참여 플랫폼 대시보드",
+      "url": "https://civic-participation-hub.stargate8224.chatgpt.site/",
+      "description": "국회와 정부 기관의 국민참여 창구 17곳을 비교하는 8월 29일 기준 안내입니다. 연결 오류 2곳과 처리기간은 추가 확인이 필요합니다.",
+      "axes": [
+        "research"
+      ],
+      "groups": {
+        "research": "커뮤니티 신호"
+      },
+      "source": "국회 · 정부 · 국민권익위원회",
+      "tags": [
+        "2026.08 · 안내 문서",
+        "Civic Participation"
+      ]
+    },
+    {
+      "id": "p-a2a8f3c33938",
+      "title": "부동산 스터디 인기글 관측소",
+      "url": "https://stargateedu.co.kr/naver-cafe-research/",
+      "description": "버튼 한 번으로 네이버 카페 공개 인기글 20건을 새로 가져와 조회·댓글·주제 흐름을 분석합니다.",
+      "axes": [
+        "research"
+      ],
+      "groups": {
+        "research": "커뮤니티 신호"
+      },
+      "source": "네이버 카페 · 실시간/매시간",
+      "tags": [
+        "Live Refresh",
+        "Community"
+      ]
+    },
+    {
+      "id": "p-1cb7b7e89f32",
+      "title": "양자암호 연구 대시보드",
+      "url": "https://stargateedu.co.kr/research/quantum-cryptography/",
+      "description": "양자키분배와 양자내성암호를 구분하고 NIST 표준, BB84 학습 모형, 기업·스마트도시의 암호 전환 과제를 살펴봅니다.",
+      "axes": [
+        "research"
+      ],
+      "groups": {
+        "research": "연구 방법·AI"
+      },
+      "source": "NIST · ETSI · 문헌 기반 연구",
+      "tags": [
+        "New · Quantum Security",
+        "QKD × PQC"
+      ]
+    },
+    {
+      "id": "p-4aaa53f5d829",
+      "title": "정보경제학의 3대 연구문제",
+      "url": "https://stargateedu.co.kr/research/information-economics/",
+      "description": "역선택·도덕적 해이·신호와 스크리닝을 플랫폼·교육·조달·보험 데이터의 가설, 종속변수, DID·RD·패널 식별전략으로 전환합니다.",
+      "axes": [
+        "research"
+      ],
+      "groups": {
+        "research": "연구 방법·AI"
+      },
+      "source": "Adverse Selection · Moral Hazard · Signaling",
+      "tags": [
+        "New · Info Econ",
+        "Asymmetric Information"
+      ]
+    },
+    {
+      "id": "p-1eeb7f0109c6",
+      "title": "보이는 통계 너머의 현실을 읽는 연구자",
+      "url": "https://stargateedu.co.kr/research/researcher-vision/",
+      "description": "북한의 가려진 경제를 간접지표로 읽어 온 경험을 한국의 청년고용·자산·주거격차 연구로 확장하는 연구 비전입니다.",
+      "axes": [
+        "research"
+      ],
+      "groups": {
+        "research": "연구 방법·AI"
+      },
+      "source": "북한 경제 · 공간계량 · 정책효과",
+      "tags": [
+        "New · Vision",
+        "GIS × Economy"
+      ]
+    },
+    {
+      "id": "p-36f93e421465",
+      "title": "Random Forest 연구 대시보드",
+      "url": "https://stargateedu.co.kr/research/random-forest/",
+      "description": "기업 부도 예측에서 공간 변수의 증분 예측력을 브라우저 내 Random Forest로 학습하고 OOB·ROC·변수중요도로 검증합니다.",
+      "axes": [
+        "research"
+      ],
+      "groups": {
+        "research": "연구 방법·AI"
+      },
+      "source": "앙상블 · 신용위험 · 공간변수",
+      "tags": [
+        "New · AI Lab",
+        "Random Forest"
+      ]
+    },
+    {
+      "id": "p-c329acbfdf64",
+      "title": "AI 모델과 실시간 검색 데이터",
+      "url": "https://stargateedu.co.kr/research/ai-freshness/",
+      "description": "GPT-4o의 지식 기준 시점과 2023~2026년 Google·Naver 검색 동향을 사례로, 사전학습과 실시간 조회의 차이를 검증합니다.",
+      "axes": [
+        "research"
+      ],
+      "groups": {
+        "research": "연구 방법·AI"
+      },
+      "source": "지식 기준 · 검색 연동 · 시계열",
+      "tags": [
+        "AI Lab",
+        "최신성 검증"
+      ]
+    },
+    {
+      "id": "p-f778af52696e",
+      "title": "한국 F‑2·F‑5·F‑6 비자·외국인정책 연구",
+      "url": "https://stargateedu.co.kr/research/immigration-policy/",
+      "description": "거주·영주·결혼이민 체류자격의 법적 구조, 전환 경로, 정책 변화와 공식 정보원을 한·영으로 비교합니다.",
+      "axes": [
+        "research"
+      ],
+      "groups": {
+        "research": "연구 방법·AI"
+      },
+      "source": "KR · EN · 법무부·법제처·통계청",
+      "tags": [
+        "New Research",
+        "Immigration Policy"
+      ]
+    },
+    {
+      "id": "p-4251dbc599bf",
+      "title": "공공데이터 수집 기록소",
+      "url": "https://stargateedu.co.kr/public-data-collector/",
+      "description": "부동산·상권·기상 공공데이터 API를 선택해 수집하고 CSV로 변환해 Supabase Storage에 저장합니다.",
+      "axes": [
+        "research"
+      ],
+      "groups": {
+        "research": "연구 방법·AI"
+      },
+      "source": "data.go.kr · Supabase",
+      "tags": [
+        "API",
+        "Collector"
+      ]
+    },
+    {
+      "id": "p-0a79b6f4783f",
+      "title": "DID 정책효과",
+      "url": "https://stargateedu.co.kr/did/",
+      "description": "Google Trends 시계열을 활용한 이중차분(Difference-in-Differences) 평행추세·처치효과와 이벤트 스터디 계수(95% CI) 플롯입니다.",
+      "axes": [
+        "research"
+      ],
+      "groups": {
+        "research": "연구 방법·AI"
+      },
+      "source": "Google Trends · Event Study",
+      "tags": [
+        "Research",
+        "Econometrics"
+      ]
+    },
+    {
+      "id": "p-9a30faaeee08",
+      "title": "3자 정치토론 AI 분석기",
+      "url": "https://stargateedu.co.kr/research/debate-analyzer/",
+      "description": "발언량 편향·분석 신뢰도·주장 유형·발언 타임라인을 함께 공개하는 재현 가능한 3자 토론 연구 도구입니다.",
+      "axes": [
+        "research"
+      ],
+      "groups": {
+        "research": "연구 방법·AI"
+      },
+      "source": "Research QA · Claim Matrix",
+      "tags": [
+        "V0.3 · Research",
+        "Political Debate"
+      ]
+    },
+    {
+      "id": "p-5a63b8343413",
+      "title": "RAG × GraphRAG 실무 의사결정 보고서",
+      "url": "https://stargateedu.co.kr/rag-graphrag/",
+      "description": "검색 파이프라인, 그래프 질의 모드, 비용 구조와 도입 로드맵을 인터랙티브하게 비교합니다.",
+      "axes": [
+        "research"
+      ],
+      "groups": {
+        "research": "연구 방법·AI"
+      },
+      "source": "STARGATE Research · 개정 2026.10",
+      "tags": [
+        "New Report",
+        "AI Architecture"
+      ]
+    },
+    {
+      "id": "p-a07020857f80",
+      "title": "모순연구소 — AI는 인간의 모순을 풀 수 있는가",
+      "url": "https://stargateedu.co.kr/research/contradiction-lab/",
+      "description": "심슨·브라에스·제본스·굿하트 등 16개 모순을 5유형으로 분류하고 AI의 해소·완화·명시화 범위를 판정하는 대시보드입니다.",
+      "axes": [
+        "research"
+      ],
+      "groups": {
+        "research": "난제·에세이"
+      },
+      "source": "행동경제 · 게임이론 · 사회선택",
+      "tags": [
+        "New · Lab",
+        "Contradiction × AI"
+      ]
+    },
+    {
+      "id": "p-ba0d57144fa3",
+      "title": "기후변화 난제 3가지",
+      "url": "https://stargateedu.co.kr/research/climate-algebraic-geometry/",
+      "description": "티핑포인트 판별다양체, 복합재난 열대 위험다양체, 탄소 플럭스 식별가능성을 연구문제로 정의합니다.",
+      "axes": [
+        "research"
+      ],
+      "groups": {
+        "research": "난제·에세이"
+      },
+      "source": "기후 · 열대기하 · 탄소순환",
+      "tags": [
+        "New · Climate",
+        "Algebraic Geometry"
+      ]
+    },
+    {
+      "id": "p-747d2e2d7363",
+      "title": "대한민국의 난제 3가지",
+      "url": "https://stargateedu.co.kr/research/korea-challenges/",
+      "description": "저출생·지역소멸, 수도권 집중·공간 불균형, 가계부채·부동산 금융위험을 비선형 시스템으로 정식화합니다.",
+      "axes": [
+        "research"
+      ],
+      "groups": {
+        "research": "난제·에세이"
+      },
+      "source": "인구 · 국토 · 금융",
+      "tags": [
+        "New · Korea",
+        "Systems Research"
+      ]
+    },
+    {
+      "id": "p-c6fa96a01b7a",
+      "title": "한반도 통일의 난제 3가지",
+      "url": "https://stargateedu.co.kr/research/korean-unification-challenges/",
+      "description": "비핵화·안보전환, 경제·화폐·재정 통합, 법제·재산권·공간 통합을 실행가능 경로와 식별성 문제로 정식화합니다.",
+      "axes": [
+        "research"
+      ],
+      "groups": {
+        "research": "난제·에세이"
+      },
+      "source": "안보 · 경제 · 제도공간",
+      "tags": [
+        "New · Unification",
+        "Transition Systems"
+      ]
+    },
+    {
+      "id": "p-95302b255340",
+      "title": "현대 양자물리학의 3대 난제",
+      "url": "https://stargateedu.co.kr/research/quantum-physics-challenges/",
+      "description": "양자측정, 양자중력, 강상관 양자다체계를 이론·실험·검증 기준이 연결된 연구문제로 정리합니다.",
+      "axes": [
+        "research"
+      ],
+      "groups": {
+        "research": "난제·에세이"
+      },
+      "source": "측정 · 시공간 · 양자물질",
+      "tags": [
+        "New · Quantum",
+        "Foundations × Emergence"
+      ]
+    },
+    {
+      "id": "p-e10fba7051e8",
+      "title": "심해·지구 내부의 난제",
+      "url": "https://stargateedu.co.kr/research/deep-earth-ocean-challenges/",
+      "description": "심해저 관측 공백, 열수분출공, 암흑 산소, 내핵, 자기장 역전, 맨틀 바닥 이상체를 역문제 관점의 연구 질문으로 정리합니다.",
+      "axes": [
+        "research"
+      ],
+      "groups": {
+        "research": "난제·에세이"
+      },
+      "source": "심해 · 내핵 · 자기장 · 맨틀",
+      "tags": [
+        "New · Deep Earth",
+        "Ocean × Geophysics"
+      ]
+    },
+    {
+      "id": "p-529aba39acaa",
+      "title": "질병의 3대 난제",
+      "url": "https://stargateedu.co.kr/research/disease-challenges/",
+      "description": "암, 신경퇴행성 질환, 감염병·항생제 내성을 진화·비가역성·치료저항성의 연구문제로 정리합니다.",
+      "axes": [
+        "research"
+      ],
+      "groups": {
+        "research": "난제·에세이"
+      },
+      "source": "암 · 뇌 · 감염·내성",
+      "tags": [
+        "New · Disease",
+        "Evolution × Complex Systems"
+      ]
+    },
+    {
+      "id": "p-198fc7f5086e",
+      "title": "STARGATE MATH 서술형 풀이 AI",
+      "url": "https://stargateedu.co.kr/math-grader/",
+      "description": "답안 사진 미리보기와 채점 UI 예시를 확인합니다. 현재 공개 데모는 이미지 내용을 읽거나 실제 채점을 수행하지 않습니다.",
+      "axes": [
+        "research"
+      ],
+      "groups": {
+        "research": "교육·수학"
+      },
+      "source": "이미지 미인식 · 예시 결과 · 차감 없음",
+      "tags": [
+        "New",
+        "채점 UI 데모 · Education"
+      ]
+    },
+    {
+      "id": "p-0804b5759bb1",
+      "title": "KMO 조합 연계 훈련 10선",
+      "url": "https://stargateedu.co.kr/research/kmo-combinatorics/",
+      "description": "나머지 분류, 부분집합, 색칠, 격자 도형, 경로 점화식부터 시작해 쉬운 문제 → 중간 문제 순서로 훈련합니다.",
+      "axes": [
+        "research"
+      ],
+      "groups": {
+        "research": "교육·수학"
+      },
+      "source": "자체 연습 · 공식 기출 별도 연결",
+      "tags": [
+        "자체 연습 10개",
+        "KMO · 조합"
+      ]
+    },
+    {
+      "id": "p-0555013f55ea",
+      "title": "서울과고 3단계 전형 연구",
+      "url": "https://stargateedu.co.kr/research/seoul-science-high-admission/",
+      "description": "2024~2026 보관 비교에 2027학년도 요강·9월 후속 공지를 추가 대조하고, 공개 원문과 미확인 과거 자료를 구분합니다.",
+      "axes": [
+        "research"
+      ],
+      "groups": {
+        "research": "교육·수학"
+      },
+      "source": "공식 요강 · 기출 범위 · 실전 루브릭",
+      "tags": [
+        "New Research",
+        "Admissions · Evidence"
+      ]
+    },
+    {
+      "id": "p-054ed1095904",
+      "title": "중등 수학 문제 14문제 아카이브",
+      "url": "https://stargateedu.co.kr/research/math/archive/",
+      "description": "성대경시형 중1·중2·중3 각 3문제와 생각하는황소형 5문제를 데이터셋으로 관리합니다. 문제·답·핵심아이디어·풀이·블로그 발행상태를 한 화면에서 탐색합니다.",
+      "axes": [
+        "research"
+      ],
+      "groups": {
+        "research": "교육·수학"
+      },
+      "source": "성대경시형 9 · 황소형 5 · 자동발행 소스",
+      "tags": [
+        "14 Problems",
+        "Math Archive"
+      ]
+    },
+    {
+      "id": "p-e39216904563",
+      "title": "2027학년도 6월 평가원 수학 15번",
+      "url": "https://stargateedu.co.kr/research/math/2027-june-mock-15/",
+      "description": "절댓값 정적분을 함수의 부호 변화로 번역해 중근·단순근과 삼차함수를 역추론합니다. p·q 슬라이더로 조건을 직접 검증합니다.",
+      "axes": [
+        "research"
+      ],
+      "groups": {
+        "research": "교육·수학"
+      },
+      "source": "정적분 · 부호 변화 · 인터랙티브",
+      "tags": [
+        "2027 · 6월 평가원",
+        "Math II · Q15"
+      ]
+    },
+    {
+      "id": "p-13380367f539",
+      "title": "성대경시 중등부 팩토리얼 유형",
+      "url": "https://stargateedu.co.kr/research/math/skku-middle-factorial/",
+      "description": "자체 연습문항으로 1000의 소인수 구조와 팩토리얼 나머지를 분석합니다. 특정 대회 문항번호·난도와의 대응은 미검증입니다.",
+      "axes": [
+        "research"
+      ],
+      "groups": {
+        "research": "교육·수학"
+      },
+      "source": "팩토리얼 · 나머지 · 모듈러",
+      "tags": [
+        "성대경시 · 중2",
+        "Factorial"
+      ]
+    },
+    {
+      "id": "p-28f3c6dc6c05",
+      "title": "황소형 배수·나머지 사고력 문제",
+      "url": "https://stargateedu.co.kr/research/math/thinking-bull-remainder/",
+      "description": "여러 나머지 조건을 최소공배수 하나로 압축한 뒤 7의 배수 조건과 결합합니다. 후보 k를 움직여 답 119를 검증합니다.",
+      "axes": [
+        "research"
+      ],
+      "groups": {
+        "research": "교육·수학"
+      },
+      "source": "배수 · 나머지 · 최소공배수",
+      "tags": [
+        "생각하는황소형",
+        "Remainder"
+      ]
+    },
+    {
+      "id": "p-7a7acfa6407d",
+      "title": "3AI Cybersecurity Suite",
+      "url": "https://stargateedu.co.kr/cybersecurity/",
+      "description": "LLM 기반 보안 분석·IR 자동화의 개념 설계와 정적 목업입니다. 성능 수치·실제 방어 구현은 미검증입니다.",
+      "axes": [
+        "research"
+      ],
+      "groups": {
+        "research": "운영·제품"
+      },
+      "source": "LLM · RAG · SOC",
+      "tags": [
+        "New Product",
+        "AI Security"
+      ]
+    },
+    {
+      "id": "p-41c610ab6f3e",
+      "title": "스타게이트 에듀 개인정보처리방침",
+      "url": "https://stargateedu.co.kr/research/app-privacy/",
+      "description": "앱 출시 전 개인정보 처리 항목·보유기간·이용자 권리와 확정이 필요한 운영 정보를 정리한 검토안입니다.",
+      "axes": [
+        "research"
+      ],
+      "groups": {
+        "research": "운영·제품"
+      },
+      "source": "2026.09.01 · 시행 전",
+      "tags": [
+        "검토안",
+        "App Privacy"
+      ]
+    },
+    {
+      "id": "p-7a0bf0866258",
+      "title": "고객 문자 발송 콘솔",
+      "url": "https://stargateedu.co.kr/sms/",
+      "description": "최대 10명의 고객에게 이름을 반영한 문자를 미리 확인하고 안전하게 일괄 발송합니다.",
+      "axes": [
+        "research"
+      ],
+      "groups": {
+        "research": "운영·제품"
+      },
+      "source": "SMS · LMS · 개인화",
+      "tags": [
+        "Operations",
+        "SOLAPI"
+      ]
+    },
+    {
+      "id": "p-b3477099708e",
+      "title": "하루 견적서 · Quote Maker",
+      "url": "https://stargateedu.co.kr/quote-maker/",
+      "description": "항목 입력부터 합계·부가세 자동 계산과 A4 PDF 출력까지 한 번에 처리하는 견적서 도구입니다.",
+      "axes": [
+        "research"
+      ],
+      "groups": {
+        "research": "운영·제품"
+      },
+      "source": "HTML · PDF · Freemium",
+      "tags": [
+        "Research Tool",
+        "PDF"
+      ]
+    },
+    {
+      "id": "p-767c3110000f",
+      "title": "2026 구독 관리 대시보드",
+      "url": "https://2026-plan.vercel.app/dashboard",
+      "description": "외부 구독 관리 도구입니다. 2026-10-20 공개 접근은 HTTP 401로 내용·연결 계정·내보내기 기능을 확인하지 못했습니다.",
+      "axes": [
+        "research"
+      ],
+      "groups": {
+        "research": "운영·제품"
+      },
+      "source": "Subscription · Analytics · PWA",
+      "tags": [
+        "New",
+        "Next.js · Supabase"
+      ]
+    },
+    {
+      "id": "p-cbf42357d990",
+      "title": "OneNote · Notion 상태판",
+      "url": "https://stargateedu.co.kr/onenote-notion-status/",
+      "description": "공개 상태·도달성을 조회하는 도구입니다. 프록시·브라우저 접근 실패는 확인 불가로 표시하며 계정 내부 상태와 구분합니다.",
+      "axes": [
+        "research"
+      ],
+      "groups": {
+        "research": "운영·제품"
+      },
+      "source": "Status API · Web Probe",
+      "tags": [
+        "Ops",
+        "Live · Status"
+      ]
+    },
+    {
+      "id": "p-a70bf0b951c0",
+      "title": "플랫폼 재무 분석 안내",
+      "url": "https://stargateedu.co.kr/strategy/platform-financial-analysis/",
+      "description": "AI 운영사와 플랫폼 기업의 공개 공시·IR·보도를 구분하고, 분기 실적과 연환산·연결 실적의 범위를 나눕니다.",
+      "axes": [
+        "strategy"
+      ],
+      "groups": {
+        "strategy": "기업 재무"
+      },
+      "source": "공시 · IR · 범위 구분",
+      "tags": [
+        "Reading Guide",
+        "공시 · IR"
+      ]
+    },
+    {
+      "id": "p-bc4c1d76c0f0",
+      "title": "당근 최근 3개년 재무분석",
+      "url": "https://stargateedu.co.kr/daangn-dashboard/?v=20260720-finance",
+      "description": "2023~2025 연결·별도 매출과 영업이익, 흑자전환과 그룹 투자 부담을 분석합니다.",
+      "axes": [
+        "strategy"
+      ],
+      "groups": {
+        "strategy": "기업 재무"
+      },
+      "source": "공식 IR · 2023–2025",
+      "tags": [
+        "Strategy",
+        "Finance"
+      ]
+    },
+    {
+      "id": "p-c63a0ef81e7e",
+      "title": "숨고 매출·재무 리서치",
+      "url": "https://stargateedu.co.kr/soomgo-research/",
+      "description": "브레이브모바일의 매출과 영업이익을 통해 전문가 매칭 플랫폼의 성장과 손익을 분석합니다.",
+      "axes": [
+        "strategy"
+      ],
+      "groups": {
+        "strategy": "기업 재무"
+      },
+      "source": "OpenDART · 2022–2025",
+      "tags": [
+        "Strategy",
+        "Platform"
+      ]
+    },
+    {
+      "id": "p-fd2e2e47176e",
+      "title": "크몽 거래액·재무 리서치",
+      "url": "https://stargateedu.co.kr/kmong-research/",
+      "description": "거래액·매출·영업이익을 중심으로 프리랜서 서비스 시장과 B2B 확장성을 살펴봅니다.",
+      "axes": [
+        "strategy"
+      ],
+      "groups": {
+        "strategy": "기업 재무"
+      },
+      "source": "Market Research · 2022–2025",
+      "tags": [
+        "Strategy",
+        "Marketplace"
+      ]
+    },
+    {
+      "id": "p-0b7c5a3321b5",
+      "title": "청소연구소 × 미소 홈서비스 전략 비교",
+      "url": "https://stargateedu.co.kr/strategy/home-service-platforms/",
+      "description": "청연의 3개년 매출·순이익과 미소의 누적 거래액·주문·서비스 확장을 분리해 비교하고, 홈서비스 플랫폼의 성장·수익구조를 분석합니다.",
+      "axes": [
+        "strategy"
+      ],
+      "groups": {
+        "strategy": "기업 재무"
+      },
+      "source": "Revenue · GMV · Unit Economics",
+      "tags": [
+        "Home Services",
+        "2023–2026"
+      ]
+    },
+    {
+      "id": "p-25a596136dfa",
+      "title": "오늘의집 3개년 재무·전략 분석",
+      "url": "https://stargateedu.co.kr/strategy/ohouse-financial/",
+      "description": "버킷플레이스의 3개년 매출·영업손익과 시공·오프라인·AI·글로벌 확장을 분석하고, 2025년 재투자 국면의 단위경제성을 추적합니다.",
+      "axes": [
+        "strategy"
+      ],
+      "groups": {
+        "strategy": "기업 재무"
+      },
+      "source": "Revenue · Construction · AI · MAU",
+      "tags": [
+        "Lifestyle Platform",
+        "2023–2025"
+      ]
+    },
+    {
+      "id": "p-637a3df7da6a",
+      "title": "알라딘 3개년 재무·중고서점 전략",
+      "url": "https://stargateedu.co.kr/strategy/aladin-usedbook-financial/",
+      "description": "알라딘커뮤니케이션의 2023~2025 매출·영업이익·순이익과 중고도서 재고회전, 옴니채널, 점포 생산성을 분석합니다.",
+      "axes": [
+        "strategy"
+      ],
+      "groups": {
+        "strategy": "기업 재무"
+      },
+      "source": "공시 · 중고서점 · 2023–2025",
+      "tags": [
+        "Used Books",
+        "2023–2025"
+      ]
+    },
+    {
+      "id": "p-805018612783",
+      "title": "교보문고·YES24·알라딘 3개년 비교",
+      "url": "https://stargateedu.co.kr/strategy/bookstore-big3/",
+      "description": "세 서점의 2023~2025 매출·영업이익과 오프라인, 중고도서, 물류·디지털 경쟁력을 비교합니다.",
+      "axes": [
+        "strategy"
+      ],
+      "groups": {
+        "strategy": "기업 재무"
+      },
+      "source": "교보 · YES24 · 알라딘",
+      "tags": [
+        "Book Retail",
+        "2023–2025"
+      ]
+    },
+    {
+      "id": "p-b516a93202ee",
+      "title": "네이버 스마트스토어 커머스 매출 리서치",
+      "url": "https://stargateedu.co.kr/strategy/naver-smartstore-commerce/",
+      "description": "스마트스토어를 포함한 네이버 커머스 외부매출의 2022~2025 성장률, 매출 비중과 공시 범위를 공식 IR로 분석합니다.",
+      "axes": [
+        "strategy"
+      ],
+      "groups": {
+        "strategy": "기업 재무"
+      },
+      "source": "NAVER IR · 2022–2025",
+      "tags": [
+        "Strategy",
+        "Commerce"
+      ]
+    },
+    {
+      "id": "p-78d6313d47b3",
+      "title": "쿠팡 커머스 2022–2025 매출 리서치",
+      "url": "https://stargateedu.co.kr/strategy/coupang-commerce/",
+      "description": "연결 순매출, Product Commerce와 신사업 구성을 공식 IR·SEC 공시로 분석하고 Farfetch 편입 효과를 분리해 읽습니다.",
+      "axes": [
+        "strategy"
+      ],
+      "groups": {
+        "strategy": "기업 재무"
+      },
+      "source": "Coupang IR · SEC · 2022–2025",
+      "tags": [
+        "Strategy",
+        "Commerce"
+      ]
+    },
+    {
+      "id": "p-3c17e49aba26",
+      "title": "아마존 2023–2025 3개년 전략 보고서",
+      "url": "https://stargateedu.co.kr/strategy/amazon-commerce/",
+      "description": "3개년 매출·이익, 북미·국제·AWS 수익구조와 2026년 상반기 AI 투자 신호를 공식 IR·SEC 자료로 분석합니다.",
+      "axes": [
+        "strategy"
+      ],
+      "groups": {
+        "strategy": "기업 재무"
+      },
+      "source": "Amazon IR · SEC · 2023–2025 · 2026 H1",
+      "tags": [
+        "Strategy",
+        "Global Commerce"
+      ]
+    },
+    {
+      "id": "p-cbb86df0e57c",
+      "title": "아성다이소 최근 3개년 전략 보고서",
+      "url": "https://stargateedu.co.kr/strategy/daiso-financial/",
+      "description": "매출·영업이익·순이익과 매장 생산성, 뷰티·패션 확장, 온라인·물류 투자 리스크를 공시 기반으로 분석합니다.",
+      "axes": [
+        "strategy"
+      ],
+      "groups": {
+        "strategy": "기업 재무"
+      },
+      "source": "DART · 2023–2025 · 별도 기준",
+      "tags": [
+        "Value Retail",
+        "2023–2025"
+      ]
+    },
+    {
+      "id": "p-87f9869c9a06",
+      "title": "CJ올리브영 최근 3개년 재무분석",
+      "url": "https://stargateedu.co.kr/strategy/oliveyoung-financial/",
+      "description": "연결 매출·영업이익·순이익·EBITDA, 차입금과 2026년 1분기 마진 압력을 분석합니다.",
+      "axes": [
+        "strategy"
+      ],
+      "groups": {
+        "strategy": "기업 재무"
+      },
+      "source": "KIS · DART · CJ · 연결 기준",
+      "tags": [
+        "K-Beauty Retail",
+        "2023–2025"
+      ]
+    },
+    {
+      "id": "p-01ea91955a08",
+      "title": "무신사 최근 3개년 재무분석",
+      "url": "https://stargateedu.co.kr/strategy/musinsa-financial/",
+      "description": "연결 매출·영업이익·EBITDA, 흑자전환, 매출 믹스와 오프라인·글로벌 확장 리스크를 분석합니다.",
+      "axes": [
+        "strategy"
+      ],
+      "groups": {
+        "strategy": "기업 재무"
+      },
+      "source": "DART · 무신사 · 삼성증권 · 연결 기준",
+      "tags": [
+        "Fashion Platform",
+        "2023–2025"
+      ]
+    },
+    {
+      "id": "p-b01d182975e1",
+      "title": "AI 운영사 10곳 · 분기 재무제표",
+      "url": "https://stargateedu.co.kr/strategy/ai-financials/",
+      "description": "ChatGPT·Claude·Gemini·Copilot 등 대표 AI 서비스 운영사의 분기 손익·재무상태·현금흐름을 공식 출처와 함께 확인합니다. 비공개와 운영사 연결 실적을 구분합니다.",
+      "axes": [
+        "strategy"
+      ],
+      "groups": {
+        "strategy": "기업 재무"
+      },
+      "source": "공식 공시 · IR · 공개 범위",
+      "tags": [
+        "AI Financials",
+        "2024–2026 · Quarterly"
+      ]
+    },
+    {
+      "id": "p-9e039a1f5748",
+      "title": "OpenAI와 Anthropic · 실제 분기 매출",
+      "url": "https://stargateedu.co.kr/strategy/ai-revenue-comparison/",
+      "description": "ChatGPT와 Claude 운영사의 보도된 분기 매출을 비교합니다. ARR·연환산 규모와 실제 매출을 구분하고, 미확보 분기는 비워둡니다.",
+      "axes": [
+        "strategy"
+      ],
+      "groups": {
+        "strategy": "기업 재무"
+      },
+      "source": "보도 출처 · 잠정치 · 회계 범위",
+      "tags": [
+        "분기 매출 비교",
+        "2023–2026"
+      ]
+    },
+    {
+      "id": "p-3d25dbe1fdd5",
+      "title": "한국신용데이터(KCD) 기업 분석",
+      "url": "https://stargateedu.co.kr/strategy/kcd-company-analysis/",
+      "description": "별도 매출 성장, 캐시노트 사업모델, 인력 현황과 전환사채·자본 리스크를 정리했습니다. PDF 원본은 확인 후 연결합니다.",
+      "axes": [
+        "strategy"
+      ],
+      "groups": {
+        "strategy": "기업 재무"
+      },
+      "source": "Cashnote · 재무 · 리스크",
+      "tags": [
+        "기업 분석",
+        "2023–2025"
+      ]
+    },
+    {
+      "id": "p-b1d6e356f094",
+      "title": "OpenDART 상위 100 기업 실적",
+      "url": "https://stargateedu.co.kr/dart-top100/",
+      "description": "금융감독원 전자공시 기반 상위 100개 기업의 분기별 매출액과 영업이익을 비교합니다.",
+      "axes": [
+        "strategy"
+      ],
+      "groups": {
+        "strategy": "기업 재무"
+      },
+      "source": "Revenue · Operating Profit",
+      "tags": [
+        "OpenDART",
+        "Interactive"
+      ]
+    },
+    {
+      "id": "p-82e30f22f2ea",
+      "title": "2025 한국 출판시장 분석",
+      "url": "https://stargateedu.co.kr/publishing-market-2025/",
+      "description": "주요 출판기업의 매출과 영업이익률, 부문별 실적을 공시와 산업통계로 비교합니다.",
+      "axes": [
+        "strategy"
+      ],
+      "groups": {
+        "strategy": "기업 재무"
+      },
+      "source": "DART · 대한출판문화협회",
+      "tags": [
+        "Industry",
+        "Dashboard"
+      ]
+    },
+    {
+      "id": "p-bded1eaf6dc9",
+      "title": "2026 상반기 글로벌 VC 투자동향",
+      "url": "https://stargateedu.co.kr/strategy/global-vc-2026-h1/",
+      "description": "글로벌 투자 규모, AI 편중, 지역별 자금 흐름, 한국 업종별 투자와 세계 주요 VC 15개사를 한 화면에서 비교합니다.",
+      "axes": [
+        "strategy"
+      ],
+      "groups": {
+        "strategy": "산업 신호"
+      },
+      "source": "KPMG · Preqin · Crunchbase · MSS",
+      "tags": [
+        "Global Capital",
+        "H1 2026"
+      ]
+    },
+    {
+      "id": "p-be8936f6b56f",
+      "title": "K-뷰티 수출 2026 3분기 전략 대시보드",
+      "url": "https://stargateedu.co.kr/strategy/k-beauty-export-2026q3/",
+      "description": "3분기 누계 111억 달러(+31.1%). 미국 21.1%·중국 14.2%, 유럽·캐나다 급성장, 미국 12.5% 관세와 2026년 연간 148~153억 달러 추정을 분석합니다.",
+      "axes": [
+        "strategy"
+      ],
+      "groups": {
+        "strategy": "산업 신호"
+      },
+      "source": "식약처 · 국가·유형·관세 · SWOT",
+      "tags": [
+        "K-Beauty Export",
+        "2026 Q3"
+      ]
+    },
+    {
+      "id": "p-08e43dad3847",
+      "title": "헬스케어 스타트업 100",
+      "url": "https://stargateedu.co.kr/strategy/healthcare-startups/",
+      "description": "의료 AI·진단·원격진료·건강관리 기업 100곳의 제품과 공개 매출을 기준연도·출처와 함께 비교합니다.",
+      "axes": [
+        "strategy"
+      ],
+      "groups": {
+        "strategy": "산업 신호"
+      },
+      "source": "혁신의숲 · THE VC · 공시·기업 발표",
+      "tags": [
+        "Healthcare",
+        "100 companies"
+      ]
+    },
+    {
+      "id": "p-d40cae9dd6ff",
+      "title": "국민 소비 동향 브리핑",
+      "url": "https://stargateedu.co.kr/consumer-spending/",
+      "description": "국가데이터처의 소매판매·가계 소비지출·소비자물가를 출처와 기준 기간별로 정리합니다.",
+      "axes": [
+        "strategy"
+      ],
+      "groups": {
+        "strategy": "산업 신호"
+      },
+      "source": "2026-10-05 확인 · 국가데이터처",
+      "tags": [
+        "Consumer",
+        "공식 통계"
+      ]
+    },
+    {
+      "id": "p-6b43f02c1e8e",
+      "title": "혁신의 숲 자료 확인 안내",
+      "url": "https://stargateedu.co.kr/strategy/innoforest/",
+      "description": "2026년 10월 5일 기준 최신 기업 자료는 혁신의 숲 원본 데이터룸에서 확인합니다. 이전 수집본은 제공하지 않습니다.",
+      "axes": [
+        "strategy"
+      ],
+      "groups": {
+        "strategy": "산업 신호"
+      },
+      "source": "2026-10-05 확인 · 원출처 연결",
+      "tags": [
+        "Startup Data",
+        "원출처 안내"
+      ]
+    },
+    {
+      "id": "p-bf86c2167bda",
+      "title": "3D 모델링·그래프 사업 검토",
+      "url": "https://stargateedu.co.kr/strategy/3d-business/",
+      "description": "기업 분석·부동산·공간 사업·교육·인테리어·물류 6개 분야의 3D 활용, 고객·수익모델과 실행 우선순위를 검토합니다.",
+      "axes": [
+        "strategy"
+      ],
+      "groups": {
+        "strategy": "실행·사업개발"
+      },
+      "source": "정성 검토 · 실데이터 연동 전",
+      "tags": [
+        "3D Business",
+        "사업 검토"
+      ]
+    },
+    {
+      "id": "p-2f08421cdf3f",
+      "title": "2026 Q4 실행계획",
+      "url": "https://stargateedu.co.kr/strategy/q4-45day/",
+      "description": "Q4 실행 항목과 확인이 필요한 작업을 살펴봅니다. 지난 Q3 기록은 별도 실행판에서 확인할 수 있습니다.",
+      "axes": [
+        "strategy"
+      ],
+      "groups": {
+        "strategy": "실행·사업개발"
+      },
+      "source": "Q4 · 상태 저장",
+      "tags": [
+        "Execution Control",
+        "10.01–11.14"
+      ]
+    },
+    {
+      "id": "p-23c146a49373",
+      "title": "BidPilot · AI 소프트웨어 수주 전략",
+      "url": "https://stargateedu.co.kr/bidpilot/",
+      "description": "주식회사 별의문의 대표성과, 위시켓 프로젝트 적합도, 제안 우선순위와 계약 파이프라인을 한 화면에서 관리합니다.",
+      "axes": [
+        "strategy"
+      ],
+      "groups": {
+        "strategy": "실행·사업개발"
+      },
+      "source": "Portfolio · Matching · Proposal",
+      "tags": [
+        "AI Business",
+        "NEW · Pipeline"
+      ]
+    },
+    {
+      "id": "p-4e73c5e7e3fa",
+      "title": "BidScout · 입찰 적합도",
+      "url": "https://stargateedu.co.kr/strategy/bidscout/",
+      "description": "나라장터·위시켓 공고를 STARGATE 수행 역량 기준으로 판정합니다.",
+      "axes": [
+        "strategy"
+      ],
+      "groups": {
+        "strategy": "실행·사업개발"
+      },
+      "source": "나라장터 · 위시켓 · 적합도",
+      "tags": [
+        "Bid Fit",
+        "데모"
+      ]
+    },
+    {
+      "id": "p-6812cb07062c",
+      "title": "고속도로 휴게소 입찰 레이더",
+      "url": "https://stargateedu.co.kr/strategy/expressway-restarea-bid/",
+      "description": "한국도로공사 휴게소의 운영권, 임대, 시설·용역·물품 공고를 모아 수주 적합도와 대응을 점수화합니다.",
+      "axes": [
+        "strategy"
+      ],
+      "groups": {
+        "strategy": "실행·사업개발"
+      },
+      "source": "한국도로공사 · 나라장터",
+      "tags": [
+        "Bid Radar",
+        "휴게소"
+      ]
+    },
+    {
+      "id": "p-54f72f419422",
+      "title": "아마존 수익화 전략 대시보드",
+      "url": "https://stargateedu.co.kr/strategy/amazon-monetization/",
+      "description": "셀러 계정 인증 이후의 리스팅 확대, 위탁·디지털 투트랙 상품 전략, 10주 실행 타임라인과 수익 시뮬레이션·리스크를 한 화면에서 확인합니다.",
+      "axes": [
+        "strategy"
+      ],
+      "groups": {
+        "strategy": "실행·사업개발"
+      },
+      "source": "계획·목표치 · Seller Central 연동 전",
+      "tags": [
+        "Monetization",
+        "계획 · 실적 연동 전"
+      ]
+    },
+    {
+      "id": "p-1dfab6c98f43",
+      "title": "Instagram Ads 30일 상담 전환 전략",
+      "url": "https://stargateedu.co.kr/strategy/instagram-ads/",
+      "description": "KOI·수학·AI 교육 상담 리드를 위한 캠페인 구조, 예산 배분, 소재 3종, KPI 경보선과 30일 최적화 계획입니다.",
+      "axes": [
+        "strategy"
+      ],
+      "groups": {
+        "strategy": "실행·사업개발"
+      },
+      "source": "Meta Ads · Lead · 30-Day Plan",
+      "tags": [
+        "Growth Strategy",
+        "Instagram Ads"
+      ]
+    },
+    {
+      "id": "p-cb17c3832417",
+      "title": "AI 토큰 한도 사용률",
+      "url": "https://stargateedu.co.kr/strategy/ai-token-usage/",
+      "description": "Claude·Codex의 5시간·주간 실측 사용률을 3시간마다 자동 수집해 적정선·리셋 시각과 함께 보여 줍니다. 서비스 10곳의 월 한도(합계 241,065원)는 결제 주기 기준으로 표시하며, 막대·반원 보기를 고를 수 있습니다.",
+      "axes": [
+        "strategy"
+      ],
+      "groups": {
+        "strategy": "실행·사업개발"
+      },
+      "source": "터미널 모니터 · 막대/반원",
+      "tags": [
+        "AI Ops",
+        "3시간 자동 수집"
+      ]
+    },
+    {
+      "id": "p-954758f46e53",
+      "title": "다모아 AI · AI 툴 대시보드",
+      "url": "https://damooaai-6vqmrysf.manus.space/",
+      "description": "흩어진 AI 도구의 활용 현황, 월 구독 비용, 절감 후보와 결제 일정을 한 화면에서 관리합니다.",
+      "axes": [
+        "strategy"
+      ],
+      "groups": {
+        "strategy": "실행·사업개발"
+      },
+      "source": "Manus · AI Tool Operations",
+      "tags": [
+        "AI Ops",
+        "Dashboard"
+      ]
+    },
+    {
+      "id": "p-a6e6f0fd31e4",
+      "title": "김과외 과외학생 수요 전략 데이터",
+      "url": "https://stargateedu.co.kr/strategy/kimstudy-math/",
+      "description": "기능 확인용 익명 샘플 학생 200건을 과목·학년·지역·학습목표·월 예산·수업방식 기준으로 비교합니다.",
+      "axes": [
+        "strategy"
+      ],
+      "groups": {
+        "strategy": "실행·사업개발"
+      },
+      "source": "익명 샘플 200건 · 승인 데이터 연결 대기",
+      "tags": [
+        "Student Demand",
+        "데모 · 실데이터 아님"
+      ]
+    },
+    {
+      "id": "p-659569828acc",
+      "title": "CLASS101 공개 추천 라인업 아카이브",
+      "url": "https://stargateedu.co.kr/class101/",
+      "description": "클래스101 한국어 공개 추천 페이지의 클래스·크리에이터·카테고리·섹션 노출을 매일 기록하고, 중복 클래스는 고유 ID 기준으로 합쳐 비교합니다.",
+      "axes": [
+        "strategy"
+      ],
+      "groups": {
+        "strategy": "관측 트래커"
+      },
+      "source": "class101.net · 매일 09:30 자동 수집",
+      "tags": [
+        "Education",
+        "Live · Daily"
+      ]
+    },
+    {
+      "id": "p-0ee4afc24fd6",
+      "title": "월부 강의 라인업 일일 트래커",
+      "url": "https://stargateedu.co.kr/strategy/weolbu/",
+      "description": "월급쟁이부자들 메인에 노출되는 강의의 제목·강사·신청일시·개강일·가격·평점을 매일 자동 수집해 신규 개설과 가격 변화를 시계열로 추적합니다.",
+      "axes": [
+        "strategy"
+      ],
+      "groups": {
+        "strategy": "관측 트래커"
+      },
+      "source": "weolbu.com · 매일 09:00 자동 수집",
+      "tags": [
+        "Strategy",
+        "Live · Daily"
+      ]
+    },
+    {
+      "id": "p-2e452ce6f2ae",
+      "title": "인프런 인기 강의 데일리 아카이브",
+      "url": "https://stargateedu.co.kr/inflearn/",
+      "description": "인프런 메인 인기 강의 상위 100개의 제목·강사·가격·평점·수강생·게시일을 매일 수집해 검색하고 날짜별 엑셀로 내려받습니다.",
+      "axes": [
+        "strategy"
+      ],
+      "groups": {
+        "strategy": "관측 트래커"
+      },
+      "source": "inflearn.com · 매일 09:15 자동 수집",
+      "tags": [
+        "Education",
+        "Live · Daily"
+      ]
+    },
+    {
+      "id": "p-4db6be3131e8",
+      "title": "K-Startup 지원사업 레이더",
+      "url": "https://stargateedu.co.kr/strategy/kstartup/",
+      "description": "창업진흥원 공식 공공데이터로 모집 중 지원사업을 검색하고 지역·지원분야·창업기간과 마감 임박 순으로 검토합니다.",
+      "axes": [
+        "strategy"
+      ],
+      "groups": {
+        "strategy": "관측 트래커"
+      },
+      "source": "사업공고 · 모집여부 · 지역 · 창업기간",
+      "tags": [
+        "K-Startup",
+        "Official API · Daily"
+      ]
+    },
+    {
+      "id": "p-fb21b4bbcc36",
+      "title": "법원경매 최근 1년 심화 동향",
+      "url": "https://stargateedu.co.kr/strategy/court-auction-trends-1y/",
+      "description": "전국 확정 낙찰 76,273건을 유형별 12개월 추세, 거래량×낙찰가율 국면, 유찰 위험곡선과 감정가 시차 사례로 심층 분석합니다.",
+      "axes": [
+        "strategy"
+      ],
+      "groups": {
+        "strategy": "관측 트래커"
+      },
+      "source": "유형 추세 · 시장 국면 · 위험곡선 · CSV",
+      "tags": [
+        "Auction Deep Dive",
+        "2025.08–2026.07"
+      ]
+    },
+    {
+      "id": "p-356bd9069ab5",
+      "title": "온비드 부동산 공매 100",
+      "url": "https://stargateedu.co.kr/strategy/onbid-real-estate/",
+      "description": "한국자산관리공사 공식 API로 현재 입찰 중·예정 부동산을 100건씩 조회하고, 선택한 물건의 가격·면적·감정평가·사진·유의사항을 상세 확인합니다.",
+      "axes": [
+        "strategy"
+      ],
+      "groups": {
+        "strategy": "관측 트래커"
+      },
+      "source": "공매 · 부동산 · 상세조회 · CSV",
+      "tags": [
+        "KAMCO Onbid",
+        "Live · 100 / Page"
+      ]
+    },
+    {
+      "id": "p-d096672dd1e0",
+      "title": "중고차 시장활동 참고지표",
+      "url": "https://stargateedu.co.kr/strategy/used-car/",
+      "description": "국토교통부 월별 자동차 이전등록 통계로 매매 관련 이전등록의 흐름과 지역별 규모를 살펴봅니다. 개별 매물과 가격 자료는 포함하지 않습니다.",
+      "axes": [
+        "strategy"
+      ],
+      "groups": {
+        "strategy": "관측 트래커"
+      },
+      "source": "공식 월별 엑셀 · 가공 CSV · 지역별 추이",
+      "tags": [
+        "Mobility Market",
+        "Official Monthly Data"
+      ]
+    },
+    {
+      "id": "p-91931565d7c0",
+      "title": "채용·일경험 동향 보고서",
+      "url": "https://blog.stargateedu.co.kr/career-trends/",
+      "description": "고용행정 통계와 정책 발표를 읽고 AI·데이터·도시·교육 분야의 채용 및 일경험 흐름을 해석합니다. 출처와 발표일을 함께 확인할 수 있습니다.",
+      "axes": [
+        "strategy"
+      ],
+      "groups": {
+        "strategy": "관측 트래커"
+      },
+      "source": "Stargate Blog · 2026년 10월 5일 기준",
+      "tags": [
+        "Career Intelligence",
+        "공식 통계 · 보도자료"
+      ]
+    }
+  ],
+  "posts": [
+    {
+      "title": "AI 수학 튜터의 효과, 정답보다 ‘오답 뒤’에서 나타났습니다",
+      "url": "https://blog.naver.com/stargate8225/224454294621",
+      "channel": "수학·AI",
+      "date": "2026-10-26T16:19:06+09:00"
+    },
+    {
+      "title": "AI가 수학을 증명했다면, 무엇을 믿어야 할까?",
+      "url": "https://blog.naver.com/stargate8225/224453124197",
+      "channel": "수학·AI",
+      "date": "2026-10-25T15:41:43+09:00"
+    },
+    {
+      "title": "대학 수업에 AI 튜터를 도입했더니, 성적과 참여가 낮아졌다?",
+      "url": "https://blog.naver.com/stargate8225/224452800734",
+      "channel": "수학·AI",
+      "date": "2026-10-25T07:31:58+09:00"
+    },
+    {
+      "title": "서울 아파트값 89주 연속 상승, 그런데 강남·서초는 11주째 하락입니다",
+      "url": "https://blog.naver.com/stargate8224/224452295343",
+      "channel": "부동산·경제",
+      "date": "2026-10-24T16:01:43+09:00"
+    },
+    {
+      "title": "제미나이4 아르곤의 버그가 보이십니까?",
+      "url": "https://blog.naver.com/stargate8225/224452050768",
+      "channel": "수학·AI",
+      "date": "2026-10-24T10:29:43+09:00"
+    },
+    {
+      "title": "AI로 숙제하는 학생들, 왜 스스로도 걱정할까요?",
+      "url": "https://blog.naver.com/stargate8225/224451986500",
+      "channel": "수학·AI",
+      "date": "2026-10-24T08:49:08+09:00"
+    },
+    {
+      "title": "학생 프로젝트에서 AI 사용 기록을 남기는 간단한 양식",
+      "url": "https://jds0688.blogspot.com/2026/10/ai_0763633603.html",
+      "channel": "Google Blog",
+      "date": "2026-10-17T13:52:00+09:00"
+    },
+    {
+      "title": "AI가 요약한 자료의 원출처를 찾는 세 단계",
+      "url": "https://jds0688.blogspot.com/2026/10/ai_0305244269.html",
+      "channel": "Google Blog",
+      "date": "2026-10-17T12:05:00+09:00"
+    },
+    {
+      "title": "알고리즘 공부에서 반례 노트를 만드는 방법",
+      "url": "https://jds0688.blogspot.com/2026/10/blog-post_117.html",
+      "channel": "Google Blog",
+      "date": "2026-10-17T10:43:00+09:00"
+    },
+    {
+      "title": "지역별 공공데이터를 비교할 때 분모부터 확인하기",
+      "url": "https://jds0688.blogspot.com/2026/10/blog-post_16.html",
+      "channel": "Google Blog",
+      "date": "2026-10-17T09:10:00+09:00"
+    },
+    {
+      "title": "AI에게 수학 풀이의 오류를 찾아 달라고 묻는 법",
+      "url": "https://jds0688.blogspot.com/2026/10/ai_01207783668.html",
+      "channel": "Google Blog",
+      "date": "2026-10-17T08:00:00+09:00"
+    },
+    {
+      "title": "10·15 대책 1년 — 서울 아파트값 10.4%, 전셋값 9.9% 올랐고 거래는 10.7% 줄었습니다",
+      "url": "https://blog.naver.com/stargate8224/224442763354",
+      "channel": "부동산·경제",
+      "date": "2026-10-15T16:57:34+09:00"
+    },
+    {
+      "title": "서울 집합건물 가압류등기 5.5% 증가…도봉구 532건, 숫자를 어떻게 읽어야 할까요",
+      "url": "https://blog.naver.com/stargate8224/224436016173",
+      "channel": "부동산·경제",
+      "date": "2026-10-09T09:36:19+09:00"
+    },
+    {
+      "title": "서울 전월세 대란 등 영향...경기도, 전·월세 매물 41·50% 감소",
+      "url": "https://blog.naver.com/stargate8224/224434038374",
+      "channel": "부동산·경제",
+      "date": "2026-10-07T13:20:50+09:00"
+    },
+    {
+      "title": "수도권 공공주택, 3분기까지 1.7만호 — 남은 4분기에 4.5만호를 몰아넣는다는 것",
+      "url": "https://blog.naver.com/stargate8224/224430472708",
+      "channel": "부동산·경제",
+      "date": "2026-10-03T18:51:51+09:00"
+    },
+    {
+      "title": "맑은 하늘 아래 인파 100만, 돈은 강남을 떠난다 — 오늘 서울의 두 갈래 흐름",
+      "url": "https://dongsoo.tistory.com/26",
+      "channel": "정치·데이터",
+      "date": "2026-09-05T10:59:06+09:00"
+    },
+    {
+      "title": "위치로 사람을 증명할 수 있는가 -2026년 주민등록 사실조사 유감",
+      "url": "https://dongsoo.tistory.com/25",
+      "channel": "정치·데이터",
+      "date": "2026-08-30T20:22:41+09:00"
+    },
+    {
+      "title": "2030을 위한 정치는 없다",
+      "url": "https://dongsoo.tistory.com/24",
+      "channel": "정치·데이터",
+      "date": "2026-08-28T10:15:57+09:00"
+    },
+    {
+      "title": "물류 현장 체험기",
+      "url": "https://dongsoo.tistory.com/23",
+      "channel": "정치·데이터",
+      "date": "2026-08-28T09:30:41+09:00"
+    },
+    {
+      "title": "조희대를 흔들지 마라 — 법관의 소신이 자유민주주의의 마지막 방파제다",
+      "url": "https://dongsoo.tistory.com/22",
+      "channel": "정치·데이터",
+      "date": "2026-08-26T19:50:53+09:00"
+    }
+  ]
+}
