@@ -18,6 +18,10 @@ function makeFixture() {
   fs.mkdirSync(path.join(root, 'node_modules', 'pkg'), { recursive: true });
   fs.writeFileSync(path.join(root, 'node_modules', 'pkg', 'package.json'), '{}');
   fs.writeFileSync(path.join(root, 'outside.txt'), 'nope');
+  fs.writeFileSync(path.join(root, 'signing.pfx'), 'cert');
+  fs.writeFileSync(path.join(root, 'keystore.properties'), 'storePassword=1');
+  fs.mkdirSync(path.join(root, '한글'));
+  fs.writeFileSync(path.join(root, '한글', 'index.html'), 'ko');
   fs.writeFileSync(outside, 'secret-outside');
   fs.symlinkSync(outside, path.join(root, 'leak.txt'));
   return { root, outsideDir, outside };
@@ -48,7 +52,13 @@ test('디렉터리 인덱스와 비밀 파일, 심볼릭 링크를 가른다', (
     assert.equal(resolveRequestPath(root, '/../outside.txt').status, 403);
     assert.equal(resolveRequestPath(root, '/%2e%2e/outside.txt').status, 403);
     assert.equal(resolveRequestPath(root, '/.env').status, 403);
+    assert.equal(resolveRequestPath(root, '/signing.pfx').status, 403);
+    assert.equal(resolveRequestPath(root, '/Signing.PFX').status, 403);
+    assert.equal(resolveRequestPath(root, '/keystore.properties').status, 403);
     assert.equal(resolveRequestPath(root, '/node_modules/pkg/package.json').status, 403);
+    const korean = resolveRequestPath(root, '/%ED%95%9C%EA%B8%80');
+    assert.equal(korean.ok, true);
+    assert.equal(fs.readFileSync(korean.filePath, 'utf8'), 'ko');
     assert.equal(resolveRequestPath(root, '/leak.txt').status, 403);
     assert.equal(fs.existsSync(outside), true);
   } finally {

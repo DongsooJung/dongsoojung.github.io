@@ -4,7 +4,7 @@
 
 ## VS Code에서 열기
 
-1. [Node.js 20 이상](https://nodejs.org/)을 설치합니다.
+1. [Node.js 22.12 이상](https://nodejs.org/)을 설치합니다. Electron 45가 이 버전을 요구합니다.
 2. 이 저장소를 그대로 둔 채 VS Code에서 루트의 `Stargate-Desktop.code-workspace` 를 엽니다.
    폴더로 열어도 같은 실행 구성이 `.vscode/launch.json` 에 있습니다.
 3. 실행 및 디버그에서 **로컬 포털을 창으로 열기** 를 고르고 F5 를 누릅니다.

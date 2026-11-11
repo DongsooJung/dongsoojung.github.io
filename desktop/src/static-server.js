@@ -27,7 +27,18 @@ const MIME = {
   '.webm': 'video/webm',
 };
 
-const BLOCKED_EXTENSIONS = new Set(['.keystore', '.jks', '.pem', '.p12', '.key']);
+const BLOCKED_EXTENSIONS = new Set([
+  '.keystore', '.jks', '.pem', '.p12', '.pfx', '.key', '.p8', '.cer', '.crt', '.der', '.mobileprovision',
+]);
+const BLOCKED_NAMES = new Set([
+  'keystore.properties',
+  'credentials.json',
+  'secrets.json',
+  'id_rsa',
+  'id_dsa',
+  'id_ecdsa',
+  'id_ed25519',
+]);
 
 function isInside(rootReal, target) {
   const rootPrefix = rootReal.endsWith(path.sep) ? rootReal : rootReal + path.sep;
@@ -43,7 +54,7 @@ function isBlockedRelative(relativePosix) {
   for (const part of parts) {
     const lower = part.toLowerCase();
     if (lower === '.git' || lower === 'node_modules' || lower.startsWith('.env')) return true;
-    if (BLOCKED_EXTENSIONS.has(path.posix.extname(lower))) return true;
+    if (BLOCKED_NAMES.has(lower) || BLOCKED_EXTENSIONS.has(path.posix.extname(lower))) return true;
   }
   return false;
 }
