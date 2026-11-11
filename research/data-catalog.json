@@ -5178,17 +5178,17 @@
     },
     {
       "source": {
-        "label": "공식 발행기관·출판사·저자 원문 (항목별 대조 범위 참조)",
-        "url": "https://www.bok.or.kr/portal/bbs/B0000501/view.do?nttId=11063399&menuNo=201264",
+        "label": "국가데이터처·한국은행 원표, IAEA·유엔 인권 판본",
+        "url": "https://www.stargateedu.co.kr/research/source-reviews/2026-11-11-korean-unification.json",
         "verification": "partially_verified"
       },
       "dataAsOf": "2025",
-      "dataPeriod": "한국은행 2025년 북한 실질 GDP 전년 대비 추정; IAEA 2025 보고서",
-      "snapshotUpdatedAt": "2026-10-20",
-      "collectedAt": null,
-      "checkedAt": "2026-10-20T00:36:58.677999+00:00",
+      "dataPeriod": "2024년 인구·합계출산율, 2025년 실질 GDP 증가율·1인당 GNI, IAEA 2026-08-28 및 유엔 인권보고서 2025–2026",
+      "snapshotUpdatedAt": "2026-11-11",
+      "collectedAt": "2026-11-11T01:45:22.603Z",
+      "checkedAt": "2026-11-11T01:50:24.845Z",
       "reviewStatus": "needs_review",
-      "freshness": "historical",
+      "freshness": "verified_scoped_mixed_periods",
       "evidence": [
         {
           "kind": "audit-record",
@@ -5215,11 +5215,65 @@
           "checkedAt": "2026-10-20T00:30:40.867006+00:00",
           "sha256": "bd1c47402e65852a4c145da45df8b66ef7da44b0faac250d7f27f6b5f8a6106c",
           "scope": "한국은행 2025년 GDP 추정 3.5%, 2026-07-31 공표와 IAEA 2025 PDF 판본 확인. 비교통계 개별 원표·OHCHR 본문·2026 IAEA 후속판 미확인."
+        },
+        {
+          "kind": "audit-record",
+          "url": "/research/source-reviews/2026-11-11-korean-unification.json",
+          "checkedAt": "2026-11-11T01:50:24.845Z",
+          "scope": "2024년 남북 인구·출산율과 2025년 실질 GDP 증가율·1인당 GNI 원표를 대조했습니다. 출산율 차이란과 판본별 인구·GNI 차이를 기록하고 IAEA 및 유엔 인권 원문 4건의 범위를 확인했습니다."
+        },
+        {
+          "kind": "official-source",
+          "url": "https://mods.go.kr/boardDownload.es?bid=11825&list_no=442558&seq=2",
+          "checkedAt": "2026-11-11T01:50:24.845Z",
+          "sha256": "41ffab008b705f2226799b467d771b4da544096747393604dfba2b90a549ca2c",
+          "scope": "인구 및 합계출산율 표와 출처·각주, 국민총소득 표를 대조했습니다."
+        },
+        {
+          "kind": "official-source",
+          "url": "https://www.bok.or.kr/portal/bbs/B0000501/view.do?nttId=11063399&menuNo=201264",
+          "checkedAt": "2026-11-11T01:50:24.845Z",
+          "sha256": "bbfe03a408ce894120e92f9974f44acea98b6c5e15a4bbbfbf352053b398d128",
+          "scope": "첨부의 이용상 주의사항, 2025년 실질 GDP 증감률, 2024~2025년 1인당 명목 GNI 비교행을 대조했습니다."
+        },
+        {
+          "kind": "official-source",
+          "url": "https://www.iaea.org/sites/default/files/gc/gc70-15.pdf",
+          "checkedAt": "2026-11-11T01:50:24.845Z",
+          "sha256": "2c5d90b610972d600cf40ea5b8585d307feb299e4a79dc104ca812046ca31312",
+          "scope": "§3, §7, §43의 보고 범위와 현장 검증 제약을 대조했습니다. 2009년 4월 이후 현지 검증 활동의 제약을 명시합니다."
+        },
+        {
+          "kind": "official-source",
+          "url": "https://seoul.ohchr.org/sites/default/files/2025-09/Report_Eng_0.pdf",
+          "checkedAt": "2026-11-11T01:50:24.845Z",
+          "sha256": "c4d20c898767910ecead20c194e182bdbcf19714aa72091385ec0835d161c79d",
+          "scope": "§1~2의 관찰기간, 피해자·목격자 314명 면담과 다원 자료 대조를 확인했습니다. 전국 유병률이나 발생률을 추정하는 표본설계는 제시하지 않습니다."
+        },
+        {
+          "kind": "official-source",
+          "url": "https://seoul.ohchr.org/sites/default/files/2026-03/G2601278.PDF",
+          "checkedAt": "2026-11-11T01:50:24.845Z",
+          "sha256": "61b8a77782ab09465c2cbe267e801f076497c263df36d7d23112d04465a1ed44",
+          "scope": "유엔 인권이사회 특별보고관 보고서 표지와 요약에서 보편적 정례검토(UPR) 권고의 이행과 활용을 확인했습니다."
+        },
+        {
+          "kind": "official-source",
+          "url": "https://seoul.ohchr.org/sites/default/files/2026-10/n2622699_0.pdf",
+          "checkedAt": "2026-11-11T01:50:24.845Z",
+          "sha256": "098d6211bd8f671ef0c1cebec1fb8d4106336ef4910b0795508391482358c2d1",
+          "scope": "유엔총회 송부 문서 표지와 요약 및 접근 제약을 확인했습니다. 생명권을 중심으로 자료를 검토한 특별보고관 보고서입니다."
+        },
+        {
+          "kind": "publication-calendar",
+          "url": "https://mods.go.kr/newsPln.es?mid=a10305000000&oa_mm=12",
+          "checkedAt": "2026-11-11T01:50:24.845Z",
+          "scope": "2026 북한의 주요통계지표 2026-12-22 12:00 KST 공표 예정."
         }
       ],
       "issues": [
-        "OHCHR 403 접근 정상화 후 본문과 판본 대조, IAEA 후속 2026 판본 및 개별 남북 비교통계 원표 확인.",
-        "확인일 2026-10-20과 자료 관측기간·원문 공표/개정일을 구분. 2026-09/10 관측값을 추정하거나 수집하지 않음."
+        "2025년판 통계 부록의 2024년 남한−북한 합계출산율 차이란은 −0.92, 본문과 공통 원표의 산술값은 −0.85입니다. 실제 정정본 및 12월 22일 이후 2026년판을 확인합니다.",
+        "안보전환 경로, 정책효과, 권리배분 모형은 검증 과제입니다."
       ],
       "key": "/research/korean-unification-challenges/",
       "url": "/research/korean-unification-challenges/",
