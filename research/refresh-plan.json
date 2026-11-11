@@ -986,11 +986,12 @@
       "label": "전 항목 검증·최종 배포·예약 종료",
       "status": "pending",
       "keys": [
-        "/research/monthly-marriages/"
+        "/research/monthly-marriages/",
+        "/research/startup-industries/"
       ],
       "outcome": "conditional_technical_acceptance",
       "latestAudit": "/research/source-reviews/2026-11-11-korean-unification.json",
-      "lastAttemptAt": "2026-11-11T01:50:24.845Z",
+      "lastAttemptAt": "2026-11-11T16:55:04.493Z",
       "itemResults": {
         "/exchange-rate/": {
           "status": "verified",
@@ -1287,6 +1288,13 @@
             "nextAction": "예정일 이후 실제 공표본과 기준연도, 부록 차이란의 정정 여부를 대조합니다."
           },
           "nextAction": "국가데이터처 정정본 및 후속 연간 원표를 확인하고, 전환 모형은 필요한 관측자료와 검증 설계 확보 후 검토합니다."
+        },
+        "/research/quantum-physics-challenges/": {
+          "status": "not_applicable",
+          "checkedAt": "2026-11-11T16:55:04.493Z",
+          "audit": "/research/source-reviews/2026-11-12-quantum-physics.json",
+          "scope": "측정 리뷰 출판본 해당 절과 8개 공개 원문 PDF로 탈동조화, 해석별 관측 통계, Bell·붕괴·터널링 실험 및 반론을 대조했습니다. 문헌 기반 연구 의제의 월간 기준월은 비적용입니다.",
+          "nextAction": "출판본 파일 접근이 가능해지면 해당 절의 판본·해시를 추가 확인합니다. 터널링 해석은 새 원문이나 식별 가능한 독립 실험이 공개될 때 대조합니다."
         }
       },
       "checkpoints": {
@@ -1320,7 +1328,7 @@
           "Tourism not re-fetched before October26; original checkedAt retained"
         ]
       },
-      "nextAction": "다음 독립 미완료 /research/quantum-physics-challenges/의 측정·탈동조화 리뷰 원문, 해석별 실험 예측과 인용 범위를 대조합니다.",
+      "nextAction": "다음 독립 미완료 /research/deep-earth-ocean-challenges/의 암흑 산소 후속 원문과 지질 근거를 대조합니다.",
       "sourceFollowups": [
         {
           "id": "source-followup-1-20261021",
@@ -2541,6 +2549,22 @@
               "Two PDF extraction engines checked six sources and four comparative rows",
               "Two PDF companions passed text and visual checks"
             ]
+          }
+        },
+        {
+          "id": "quantum-source-20261112",
+          "status": "completed",
+          "checkedAt": "2026-11-11T16:55:04.493Z",
+          "keys": [
+            "/research/quantum-physics-challenges/"
+          ],
+          "audit": "/research/source-reviews/2026-11-12-quantum-physics.json",
+          "outcome": "measurement_review_and_experimental_scope_checked_monthly_period_not_applicable",
+          "release": {
+            "branch": "codex/quantum-source-20261112",
+            "status": "awaiting_checks",
+            "liveUrl": "https://www.stargateedu.co.kr/research/quantum-physics-challenges/",
+            "sourceReviewUrl": "https://www.stargateedu.co.kr/research/source-reviews/2026-11-12-quantum-physics.json"
           }
         }
       ],
