@@ -1,0 +1,198 @@
+{
+  "schemaVersion": 1,
+  "project": "/research/deep-earth-ocean-challenges/",
+  "reviewStatus": "not_applicable",
+  "dataPeriod": null,
+  "dataAsOf": null,
+  "collectedAt": "2026-11-12T07:54:26.338Z",
+  "checkedAt": "2026-11-12T07:57:42.241Z",
+  "snapshotUpdatedAt": "2026-11-12",
+  "scope": "암흑 산소 원논문·편집 이력, 2026-09-18 v2 공개 재분석과 독립 현장 관측 범위, 내핵·맨틀·시추 근거를 대조했습니다. 표 1의 14개·11개 챔버 순위상관과 양측 p값을 검산했습니다. 문헌 기반 연구 의제의 월간 기준월은 비적용입니다.",
+  "priorSnapshot": {
+    "url": "https://www.stargateedu.co.kr/research/deep-earth-ocean-challenges/",
+    "sha256": "31d75ca19faf811ef488401ad901f6f5f5ab788368e23c94fe896634361b3ca4"
+  },
+  "sources": [
+    {
+      "id": "sweetman",
+      "title": "Sweetman et al. 2024 원논문과 편집자 주의문",
+      "url": "https://www.nature.com/articles/s41561-024-01480-8",
+      "versionDate": "2024-07-22",
+      "scope": "출판사 본문·변경 이력. 일부 챔버에서 용존산소 증가 보고. 단괴 기원·전기분해는 제안된 설명. 2026-04-08 주의문 유지, 변경 이력에서 후속 편집 결정 미확인.",
+      "checkedAt": "2026-11-12T07:57:42.241Z"
+    },
+    {
+      "id": "webber",
+      "title": "Webber et al. 2026 v2 재분석",
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC13560710/",
+      "versionDate": "2026-09-18",
+      "scope": "PMC 공개 본문·표 1·그림 6·공개 심사. 기존 자료와 추가 챔버 영상 재분석. 14개 챔버의 평균 단괴 면적과 총 산소 증가량 간 순위상관을 표 1로 검산.",
+      "checkedAt": "2026-11-12T07:57:42.241Z",
+      "sha256": "cee881e07e20491f3d2497fbdce69dd0e80a05d2aa0c9289d884bc7f572000b4"
+    },
+    {
+      "id": "an",
+      "title": "An et al. 2024 독립 현장 관측",
+      "url": "https://sciwatch.kiost.ac.kr/handle/2020.kiost/45510",
+      "versionDate": "2024-05",
+      "scope": "저자 소속 기관의 초록. 동태평양 CCZ PILOT과 서태평양 두 해산에서 현장 챔버로 퇴적물 산소 흡수량을 추정. 별도 지점·설계의 관측. 출판사 전문과 행별 원자료 미확인.",
+      "checkedAt": "2026-11-12T07:57:42.241Z"
+    },
+    {
+      "id": "dori",
+      "title": "DORI 1차 항해 준비 공지",
+      "url": "https://dark-oxygen.net/landers-get-shipped-to-sea-for-first-dori-cruise/",
+      "versionDate": null,
+      "scope": "공식 프로젝트 공지. 원 연구진이 참여한 첫 항해 장비 운송 준비. 검토한 공지에서 분석 결과·데이터 미확인.",
+      "checkedAt": "2026-11-12T07:57:42.241Z"
+    },
+    {
+      "id": "gebco",
+      "title": "GEBCO_2026 격자 공식 발표",
+      "url": "https://www.gebco.net/news/release-gebco2026-grid",
+      "versionDate": "2026-04-27",
+      "scope": "현대 기준으로 측량한 전 세계 해저 면적 비중 28.7%. 15각초 격자 판본.",
+      "checkedAt": "2026-11-12T07:57:42.241Z"
+    },
+    {
+      "id": "vent",
+      "title": "Denny et al. Lost City 현장 지질 연구",
+      "url": "https://repository.library.noaa.gov/view/noaa/59651/noaa_59651_DS1.pdf",
+      "versionDate": "2016",
+      "scope": "NOAA 공개 전문. 해저 지형·시료 및 알칼리성 열수 환경 관측. 생명의 기원은 이 관측이 제기하는 연구 가설.",
+      "checkedAt": "2026-11-12T07:57:42.241Z"
+    },
+    {
+      "id": "yang",
+      "title": "Yang·Song 내핵 차등 회전 원문",
+      "url": "https://ir.pku.edu.cn/handle/20.500.11897/670161",
+      "versionDate": "2023-01-23",
+      "scope": "저자 기관 기록과 출판 PDF의 약 70년 진동 제안. 맨틀에 대한 상대 회전 모형.",
+      "checkedAt": "2026-11-12T07:57:42.241Z"
+    },
+    {
+      "id": "yang-correction",
+      "title": "Yang·Song 저자 정정",
+      "url": "https://doi.org/10.1038/s41561-023-01136-z",
+      "versionDate": "2023-01-31",
+      "scope": "정정 PDF에서 내핵·맨틀의 회전 차이를 명시하도록 문구를 고친 범위 확인.",
+      "checkedAt": "2026-11-12T07:57:42.241Z"
+    },
+    {
+      "id": "wang",
+      "title": "Wang et al. 반복지진 파형",
+      "url": "https://www.nature.com/articles/s41586-024-07536-4.pdf",
+      "versionDate": "2024-06",
+      "scope": "출판 PDF의 2003–2008년 상대 전진, 2008–2023년 상대 후퇴 해석. 시기별 파형 자료의 모형 해석.",
+      "checkedAt": "2026-11-12T07:57:42.241Z"
+    },
+    {
+      "id": "pham",
+      "title": "Phạm·Tkalčić 최내핵 지진파",
+      "url": "https://www.nature.com/articles/s41467-023-36074-2.pdf",
+      "versionDate": "2023-02-21",
+      "scope": "출판 PDF 그림 1 및 결과. 약 650km는 가정한 잠정 최내핵 경계 반경이며 경계 깊이를 직접 식별할 민감도는 낮음.",
+      "checkedAt": "2026-11-12T07:57:42.241Z"
+    },
+    {
+      "id": "dynamo",
+      "title": "Glatzmaier et al. 지오다이나모 수치실험",
+      "url": "https://www.nature.com/articles/44776",
+      "versionDate": "1999",
+      "scope": "출판사 초록. 열류 조건에 따라 수치실험에서 극성 역전과 일시 이탈이 발생. 실제 다음 역전의 시점 예측은 연구 과제.",
+      "checkedAt": "2026-11-12T07:57:42.241Z"
+    },
+    {
+      "id": "yuan",
+      "title": "Yuan et al. 테이아 기원 수치모형",
+      "url": "https://par.nsf.gov/servlets/purl/10516188",
+      "versionDate": "2023-11",
+      "scope": "NSF 공개 출판 PDF 초록·그림 2. 테이아 맨틀이 비교 원시 지구 맨틀보다 2.0–3.5% 조밀하다는 계산은 모형 결과.",
+      "checkedAt": "2026-11-12T07:57:42.241Z",
+      "sha256": "adfc4b6b043431a668072c0d932bffb4ee761812844b922ed7c23dec8a8dc3b2"
+    },
+    {
+      "id": "pearson",
+      "title": "Pearson et al. 링우다이트 포유물",
+      "url": "https://www.trigon-gs.com/Pearson_et_14.pdf",
+      "versionDate": "2014-03",
+      "scope": "출판 PDF 그림 2와 본문. JUc29 포유물의 함수량 약 1.4 wt%라는 보수적 추정. 전이대 전체가 아닌 표본과 해당 지역 범위.",
+      "checkedAt": "2026-11-12T07:57:42.241Z"
+    },
+    {
+      "id": "kola",
+      "title": "Popov et al. 콜라 SG-3 지열 연구",
+      "url": "https://www.sciencedirect.com/science/article/pii/S0040195199000657",
+      "versionDate": "1999",
+      "scope": "출판사 노출 본문 발췌와 러시아 과학원 저자 기관 논문에 12,262m. 심부 물질의 직접 시료 범위는 지각.",
+      "checkedAt": "2026-11-12T07:57:42.241Z"
+    },
+    {
+      "id": "kola-alt",
+      "title": "독일 ICDP 콜라 시추공 기록",
+      "url": "https://dfg-spp-icdp.de/en/icdp/icdp-projects/53",
+      "versionDate": null,
+      "scope": "기관 설명의 12,261m는 1m 차이. 정의 차이를 설명하는 원시 시추기록은 미확인.",
+      "checkedAt": "2026-11-12T07:57:42.241Z"
+    },
+    {
+      "id": "usgs",
+      "title": "USGS 지구 단면 및 반지름",
+      "url": "https://pubs.usgs.gov/gip/dynamic/inside.html",
+      "versionDate": null,
+      "scope": "약 2,900km는 핵–맨틀 경계의 표면 기준 깊이. 지각 두께는 지역에 따라 다르며 외핵 하단은 약 5,150km 깊이.",
+      "checkedAt": "2026-11-12T07:57:42.241Z"
+    }
+  ],
+  "findings": [
+    {
+      "topic": "해저 측량",
+      "finding": "GEBCO_2026의 28.7%는 현대 측량 기준을 충족한 전 세계 해저 면적 비중입니다. 2026년 4월 공표된 격자 판본의 값입니다."
+    },
+    {
+      "topic": "암흑 산소",
+      "finding": "2024년 논문은 일부 해저 챔버에서 용존산소 증가를 보고했습니다. 2026년 4월 8일 편집자 주의문이 남아 있고, 9월 18일 Webber 등의 v2 재분석은 14개 챔버에서 평균 단괴 면적과 총 산소 증가량의 뚜렷한 상관을 확인하지 못했습니다(ρ=0.433, p=0.122). 세 챔버를 제외하면 11개에서 ρ=0.609, p=0.047로, 표본 선택에 민감합니다."
+    },
+    {
+      "topic": "현장 관측과 재현",
+      "finding": "An 등의 현장 챔버 연구는 다른 지점의 퇴적물 산소 흡수량을 추정했습니다. Webber의 수치는 기존 실험 자료의 재분석입니다. 원 연구진이 참여한 DORI의 확인한 공지는 항해 준비 범위입니다. 동일 조건에서 단괴가 산소를 생성한다는 독립 현장 재현은 미확인입니다."
+    },
+    {
+      "topic": "내핵과 맨틀",
+      "finding": "내핵 운동의 기준은 맨틀입니다. 약 70년 진동은 Yang·Song의 해석이고, 최내핵 약 650km 반경은 Phạm·Tkalčić 모형의 잠정 경계입니다. 테이아 기원은 충돌·대류 모형의 가설이며, 링우다이트 약 1.4 wt%는 JUc29 포유물의 값입니다."
+    },
+    {
+      "topic": "시추와 단면",
+      "finding": "콜라 SG-3 깊이는 Popov 등의 연구 기준 12,262m입니다. 지구 반지름 약 6,371km 대비 0.192%입니다. 독일 ICDP 소개에는 12,261m로 실려 있어 1m 차이의 근거는 미확인입니다."
+    }
+  ],
+  "verification": {
+    "rankCorrelation": {
+      "table": "Webber et al. v2 Table 1, mean nodule area (cm²) and reported total apparent oxygen production (µmol)",
+      "excludedIncomplete": "AKS331_Ch2",
+      "additionalChambers": [
+        "AKS279_Ch3",
+        "AKS316_Ch1",
+        "AKS316_Ch3"
+      ],
+      "withAdditional": {
+        "n": 14,
+        "rho": 0.432967032967033,
+        "p": 0.12201000596848022
+      },
+      "withoutAdditional": {
+        "n": 11,
+        "rho": 0.6090909090909091,
+        "p": 0.046695709354098724
+      },
+      "method": "Pearson correlation of rank-transformed paired values; two-sided Student-t approximation."
+    },
+    "kola": {
+      "depthM": 12262,
+      "earthRadiusKm": 6371,
+      "depthAsPercentOfRadius": 0.1924658609323497,
+      "alternateInstitutionDepthM": 12261
+    }
+  },
+  "nextAction": "편집자 후속 결정 또는 동일 조건의 독립 현장 원자료가 공개될 때 암흑 산소의 인과 근거를 재대조합니다. SG-3 시추 원기록 확보 시 1m 차이를 확인합니다."
+}
