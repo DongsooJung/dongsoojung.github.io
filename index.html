@@ -452,6 +452,64 @@ body.portal-dashboard-mode #personal-projects{margin-top:14px}
 .app-hero-banner{display:flex;align-items:center;gap:12px;margin-top:16px;max-width:520px;padding:12px 16px;border:1px solid var(--acc);border-radius:12px;background:rgba(79,127,255,.08);color:var(--ink);text-decoration:none}.app-hero-banner:hover{background:rgba(79,127,255,.15);text-decoration:none}.app-hero-banner:focus-visible{outline:3px solid var(--acc);outline-offset:3px}.app-hero-new{flex-shrink:0;padding:3px 8px;border-radius:6px;background:var(--acc);color:#0b1020;font-size:11px;font-weight:800;letter-spacing:.04em}.app-hero-text{display:flex;flex-direction:column;min-width:0;flex:1}.app-hero-text b{font-size:15px}.app-hero-text span{font-size:12.5px;color:var(--muted)}.app-hero-go{flex-shrink:0;font-weight:700;color:var(--acc)}.app-install-actions{display:flex;align-items:center;gap:16px}.app-install-qr{display:flex;flex-direction:column;align-items:center;gap:4px;font-size:11px;color:var(--muted)}.app-install-qr img{width:96px;height:96px;border-radius:8px;background:#fff;padding:4px}@media(max-width:760px){.app-install-qr{display:none}}
 .app-install-card{display:flex;align-items:center;justify-content:space-between;gap:18px;flex-wrap:wrap;padding:20px 22px;border:1px solid var(--line2);border-radius:16px;background:var(--panel)}.app-install-copy h3{margin:4px 0 6px}.app-install-copy p{margin:0;color:var(--muted);font-size:14px}.play-install-btn{display:inline-flex;align-items:center;gap:10px;min-height:52px;padding:10px 20px;border-radius:12px;background:#000;color:#fff;border:1px solid #3c3c3c;text-decoration:none;white-space:nowrap}.play-install-btn:hover{background:#1f1f1f;text-decoration:none}.play-install-btn:focus-visible{outline:3px solid var(--acc);outline-offset:4px}.play-install-btn svg{width:26px;height:26px;flex-shrink:0}.play-install-btn small{display:block;font-size:11px;line-height:1.1;opacity:.85}.play-install-btn b{display:block;font-size:17px;line-height:1.2}@media(max-width:560px){.app-install-card{flex-direction:column;align-items:stretch;text-align:center}.play-install-btn{justify-content:center}}
 @media(max-width:700px){.customer-care-card{flex-direction:column;align-items:stretch;padding:22px}.customer-care-actions{align-items:stretch}.customer-care-actions .customer-admin-link{text-align:center}}
+
+/* Five-page project book. 27-inch desktop reference: 1920x1080 / 2560x1440. */
+.project-book-nav{display:none}
+body.portal-dashboard-mode{zoom:1}
+body.portal-dashboard-mode .wrap{max-width:1680px;padding:16px 28px 28px}
+body.portal-dashboard-mode .nav{padding-top:0}
+body.portal-dashboard-mode .portal-view-switcher{margin:12px 0}
+body.portal-dashboard-mode #projects{margin-top:18px;padding-top:0}
+body.portal-dashboard-mode #projects h2{font-size:24px}
+body.portal-dashboard-mode #projects .desc{margin:5px 0 12px;font-size:12px}
+body.portal-dashboard-mode .portal-dashboard-summary,
+body.portal-dashboard-mode .home-page-views,
+body.portal-dashboard-mode #zoom-class,
+body.portal-dashboard-mode #app-install,
+body.portal-dashboard-mode #customer-care,
+body.portal-dashboard-mode footer{display:none}
+body.portal-dashboard-mode.portal-list-mode .portal-dashboard-summary{display:grid}
+body.portal-dashboard-mode.portal-list-mode .home-page-views{display:grid}
+body.portal-dashboard-mode .project-toggle-row{margin-bottom:10px}
+body.portal-dashboard-mode .project-sort-wrap{gap:6px}
+body.portal-dashboard-mode:not(.portal-list-mode) #projects-grid{grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;align-items:stretch}
+body.portal-dashboard-mode:not(.portal-list-mode) #projects-grid .proj .thumb{height:64px;aspect-ratio:auto;flex-shrink:0}
+body.portal-dashboard-mode:not(.portal-list-mode) #projects-grid .proj .thumb .emo{font-size:28px}
+body.portal-dashboard-mode:not(.portal-list-mode) #projects-grid .proj > .badge{display:none}
+body.portal-dashboard-mode:not(.portal-list-mode) #projects-grid .proj .body{padding:10px 13px;gap:5px}
+body.portal-dashboard-mode:not(.portal-list-mode) #projects-grid .proj .ttl{font-size:15px;line-height:1.35}
+body.portal-dashboard-mode:not(.portal-list-mode) #projects-grid .proj .sub{font-size:12.5px;line-height:1.5}
+body.portal-dashboard-mode:not(.portal-list-mode) #projects-grid .proj .row{margin-top:auto;padding-top:6px;gap:8px}
+body.portal-dashboard-mode:not(.portal-list-mode) #projects-grid .proj .tag{font-size:9px}
+body.portal-dashboard-mode:not(.portal-list-mode) #projects-grid .proj .go{font-size:11px;white-space:nowrap}
+body.portal-dashboard-mode #projects-grid > .proj.is-page-hidden{display:none!important}
+body.portal-dashboard-mode .project-book-nav:not([hidden]){display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin:12px 0;padding:10px 14px;border:1px solid var(--line2);border-radius:14px;background:var(--panel)}
+.project-book-pages{display:flex;gap:7px;align-items:center}
+.project-book-nav button{min-width:42px;min-height:40px;border:1px solid var(--line2);border-radius:10px;padding:8px 12px;background:var(--panel);color:var(--ink);font:600 13px var(--font-sans);cursor:pointer}
+.project-book-nav button:hover:not(:disabled),.project-book-nav button:focus-visible{border-color:var(--acc);outline:2px solid var(--acc);outline-offset:2px}
+.project-book-nav button[aria-current="page"]{background:var(--acc);border-color:var(--acc);color:white}
+.project-book-nav button:disabled{opacity:.4;cursor:default}
+.project-book-status{font-size:12px;color:var(--sub);font-variant-numeric:tabular-nums}
+.project-book-empty{display:none;color:var(--sub);padding:32px;text-align:center}
+body.portal-dashboard-mode .project-book-empty:not([hidden]){display:block}
+@keyframes project-page-turn{from{opacity:.35;transform:perspective(1400px) rotateY(-3deg) translateX(8px)}to{opacity:1;transform:none}}
+#projects-grid.is-turning{animation:project-page-turn .25s ease-out;transform-origin:left center}
+@media(prefers-reduced-motion:reduce){#projects-grid.is-turning{animation:none}}
+@media(max-width:1100px){
+ body.portal-dashboard-mode:not(.portal-list-mode) #projects-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
+}
+@media(max-width:760px){
+ body.portal-dashboard-mode .wrap{padding:12px}
+ body.portal-dashboard-mode:not(.portal-list-mode) #projects-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+ body.portal-dashboard-mode .project-book-nav:not([hidden]){gap:8px;padding:8px}
+ .project-book-status{width:100%;text-align:center;order:4}
+ .project-book-nav button{min-width:36px;padding:7px}
+ .project-book-pages{gap:4px}
+}
+@media(max-width:480px){
+ body.portal-dashboard-mode:not(.portal-list-mode) #projects-grid{grid-template-columns:1fr}
+}
+
 </style>
 <link rel="stylesheet" href="/assets/personal-projects.css?v=20261021-v003">
 <style>
@@ -665,6 +723,13 @@ var m=localStorage.getItem(k);if(m==='mobile'||m==='fold')r.classList.add('is-ap
         <span aria-hidden="true">▾</span><span class="project-toggle-text">전체 프로젝트 보기</span>
       </button>
     </div>
+    <nav class="project-book-nav" id="project-book-nav" aria-label="프로젝트 페이지" hidden>
+      <button type="button" id="project-page-prev" aria-label="이전 페이지" data-analytics-ignore>← 이전</button>
+      <div class="project-book-pages" id="project-book-pages"></div>
+      <span class="project-book-status" id="project-book-status" role="status" aria-live="polite"></span>
+      <button type="button" id="project-page-next" aria-label="다음 페이지" data-analytics-ignore>다음 →</button>
+    </nav>
+    <p class="project-book-empty" id="project-book-empty" role="status" hidden>조건에 맞는 프로젝트가 없습니다. 검색어나 분류를 바꿔 주세요.</p>
     <div class="grid" id="projects-grid">
 
       <a class="proj" href="/global/" data-project-category="사업" data-global-stargate-card="true">
@@ -1525,6 +1590,70 @@ var m=localStorage.getItem(k);if(m==='mobile'||m==='fold')r.classList.add('is-ap
       .map(({ card }) => card);
   }
 
+  const pageSize = 11;
+  let currentPage = 1;
+  const bookNav = document.getElementById('project-book-nav');
+  const bookPages = document.getElementById('project-book-pages');
+  const bookStatus = document.getElementById('project-book-status');
+  const bookEmpty = document.getElementById('project-book-empty');
+  const pagePrev = document.getElementById('project-page-prev');
+  const pageNext = document.getElementById('project-page-next');
+
+  function applyPagination(orderedCards, active) {
+    cards.forEach(card => card.classList.remove('is-page-hidden'));
+    bookNav.hidden = !active;
+    bookEmpty.hidden = true;
+    if (!active) return;
+    const matching = orderedCards.filter(card => !card.hidden
+      && !card.classList.contains('is-search-hidden')
+      && !card.classList.contains('is-project-hidden'));
+    const pageCount = Math.max(1, Math.ceil(matching.length / pageSize));
+    currentPage = Math.min(Math.max(1, currentPage), pageCount);
+    const start = (currentPage - 1) * pageSize;
+    matching.forEach((card, index) => card.classList.toggle('is-page-hidden', index < start || index >= start + pageSize));
+    const focusedPage = bookPages.contains(document.activeElement);
+    bookPages.replaceChildren(...Array.from({length:pageCount}, (_, index) => {
+      const button = document.createElement('button');
+      const page = index + 1;
+      button.type = 'button';
+      button.textContent = '(' + page + ')';
+      button.dataset.page = String(page);
+      button.dataset.analyticsIgnore = '';
+      button.setAttribute('aria-label', page + '페이지');
+      button.setAttribute('aria-controls', 'projects-grid');
+      if (page === currentPage) button.setAttribute('aria-current', 'page');
+      return button;
+    }));
+    if (focusedPage) bookPages.querySelector('[aria-current="page"]')?.focus({preventScroll:true});
+    pagePrev.disabled = currentPage === 1;
+    pageNext.disabled = currentPage === pageCount;
+    bookStatus.textContent = matching.length
+      ? currentPage + ' / ' + pageCount + '쪽 · ' + (start + 1) + '–' + Math.min(start + pageSize, matching.length) + ' / ' + matching.length + '개'
+      : '검색 결과 0개';
+    bookEmpty.hidden = matching.length > 0;
+  }
+  function turnPage(page) {
+    currentPage = page;
+    applyLayout();
+    grid.classList.remove('is-turning');
+    void grid.offsetWidth;
+    grid.classList.add('is-turning');
+    const top = bookNav.getBoundingClientRect().top;
+    if (top < 0 || top > innerHeight / 2) bookNav.scrollIntoView({block:'start',behavior:'instant'});
+  }
+  pagePrev?.addEventListener('click', () => turnPage(currentPage - 1));
+  pageNext?.addEventListener('click', () => turnPage(currentPage + 1));
+  bookPages?.addEventListener('click', event => {
+    const button = event.target.closest('button[data-page]');
+    if (button) turnPage(Number(button.dataset.page));
+  });
+  document.addEventListener('keydown', event => {
+    if (bookNav.hidden || event.altKey || event.ctrlKey || event.metaKey || event.shiftKey
+      || event.target.closest('input,textarea,select,[contenteditable="true"],a')) return;
+    if (event.key === 'ArrowRight' && !pageNext.disabled) { event.preventDefault(); turnPage(currentPage + 1); }
+    if (event.key === 'ArrowLeft' && !pagePrev.disabled) { event.preventDefault(); turnPage(currentPage - 1); }
+  });
+
   function applyLayout() {
     const dashboard = document.body.classList.contains('portal-dashboard-mode');
     const needs = dashboard && sortMode === 'needs';
@@ -1545,9 +1674,11 @@ var m=localStorage.getItem(k);if(m==='mobile'||m==='fold')r.classList.add('is-ap
       + Number(Boolean(kakaoCard && !kakaoCard.hidden && !selectedSet.has(kakaoCard)));
     if (desc) desc.textContent = dashboard ? copy[sortMode] : `스타게이트의 교육·도시데이터·연구·전략을 보여주는 대표 프로젝트 ${featuredCount}개입니다.`;
     applySearch();
+    applyPagination(orderedCards, dashboard && !needs);
   }
 
   function setSort(mode, persist = true) {
+    currentPage = 1;
     sortMode = ['usage', 'alpha', 'needs', 'updated'].includes(mode) ? mode : 'usage';
     if (persist) {
       try { localStorage.setItem(sortKey, sortMode); } catch (_) {}
@@ -1557,12 +1688,14 @@ var m=localStorage.getItem(k);if(m==='mobile'||m==='fold')r.classList.add('is-ap
 
   window.StargateProjectGrid = {
     refresh(dashboard) {
+      currentPage = 1;
       if (dashboard && sortMode === 'needs') setSort('usage');
       else applyLayout();
     },
     showAll() {
       setProjectLayout(false);
-      searchQuery = '';
+      currentPage = 1;
+    searchQuery = '';
       activeCategory = 'all';
       if (search) search.value = '';
       categoryButtons.forEach((button) => button.setAttribute('aria-pressed', String(button.dataset.projectCategory === 'all')));
@@ -1590,6 +1723,7 @@ var m=localStorage.getItem(k);if(m==='mobile'||m==='fold')r.classList.add('is-ap
   sortNeeds?.addEventListener('click', () => setSort('needs'));
   sortUpdated?.addEventListener('click', () => setSort('updated'));
   search?.addEventListener('input', () => {
+    currentPage = 1;
     searchQuery = search.value;
     saveFilters();
     applyLayout();
@@ -1614,6 +1748,7 @@ var m=localStorage.getItem(k);if(m==='mobile'||m==='fold')r.classList.add('is-ap
   categoryGroup?.addEventListener('click', (event) => {
     const button = event.target.closest('[data-project-category]');
     if (!button) return;
+    currentPage = 1;
     activeCategory = button.dataset.projectCategory || 'all';
     categoryButtons.forEach((item) => item.setAttribute('aria-pressed', String(item === button)));
     saveFilters();
