@@ -2599,10 +2599,23 @@
           "outcome": "editorial_status_chamber_statistics_geology_sources_checked_monthly_period_not_applicable",
           "release": {
             "branch": "codex/deep-earth-source-20261112",
-            "status": "awaiting_checks",
+            "status": "verified",
             "liveUrl": "https://www.stargateedu.co.kr/research/deep-earth-ocean-challenges/",
             "sourceReviewUrl": "https://www.stargateedu.co.kr/research/source-reviews/2026-11-12-deep-earth-ocean.json",
-            "pullRequest": "https://github.com/DongsooJung/dongsoojung.github.io/pull/270"
+            "pullRequest": "https://github.com/DongsooJung/dongsoojung.github.io/pull/270",
+            "commit": "3ee50bc7e04faabf9461365f8ab93db0b29c3e3a",
+            "pullRequestHead": "b5003e5da90a570b42d3a2809bcaf02844d94107",
+            "verifiedAt": "2026-11-12T08:01:58.745Z",
+            "pagesRun": "https://github.com/DongsooJung/dongsoojung.github.io/actions/runs/43179494116",
+            "checks": [
+              "CodeQL JavaScript and preview checks passed for the pull request commit",
+              "Pages build, report and deploy passed for the merged SHA",
+              "Five changed public files match www and bare domains",
+              "66 unique cards and seven alphabetical filters, including seven separate essays",
+              "Fifteen regression tests and live mobile, anchors and download passed",
+              "Recomputed 14- and 11-chamber Table 1 correlations",
+              "Two PDF companions passed text and visual checks"
+            ]
           }
         }
       ],
