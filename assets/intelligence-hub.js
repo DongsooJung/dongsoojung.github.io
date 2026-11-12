@@ -169,10 +169,65 @@
       .map((item) => item.trim())
       .filter(Boolean);
 
+  const enableBook = document.body.hasAttribute('data-project-book');
+  let bookMode = enableBook;
+  let bookPage = 1;
+  const bookPageSize = 6;
+  let bookGrid, bookNav, bookNumbers, bookStatus, bookPrev, bookNext, bookToggle;
+  if (enableBook && cardGroups) {
+    document.body.classList.add('hub-book-mode');
+    const controls = document.createElement('div');
+    controls.className = 'hub-book-controls';
+    controls.innerHTML = '<button type="button" class="hub-book-toggle" data-analytics-ignore>분류별 펼쳐보기</button><span>한 쪽에 6개씩 · ← → 키로 넘기기</span>';
+    bookToggle = controls.querySelector('button');
+    toolbar.prepend(controls);
+    bookNav = document.createElement('nav');
+    bookNav.className = 'hub-book-nav';
+    bookNav.setAttribute('aria-label', '프로젝트 페이지');
+    bookNav.innerHTML = '<button type="button" data-book-prev aria-label="이전 페이지" data-analytics-ignore>← 이전</button><div class="hub-book-numbers"></div><span class="hub-book-status" role="status" aria-live="polite"></span><button type="button" data-book-next aria-label="다음 페이지" data-analytics-ignore>다음 →</button>';
+    cardGroups.before(bookNav);
+    bookNumbers = bookNav.querySelector('.hub-book-numbers');
+    bookStatus = bookNav.querySelector('.hub-book-status');
+    bookPrev = bookNav.querySelector('[data-book-prev]');
+    bookNext = bookNav.querySelector('[data-book-next]');
+    bookGrid = document.createElement('div');
+    bookGrid.className = 'grid hub-book-grid';
+    bookGrid.id = 'hub-book-grid';
+    cardGroups.before(bookGrid);
+    const turn = page => {
+      bookPage = page; apply();
+      bookGrid.classList.remove('is-turning'); void bookGrid.offsetWidth; bookGrid.classList.add('is-turning');
+      if (bookNav.getBoundingClientRect().top < 0) bookNav.scrollIntoView({block:'start',behavior:'instant'});
+    };
+    bookPrev.addEventListener('click', () => turn(bookPage - 1));
+    bookNext.addEventListener('click', () => turn(bookPage + 1));
+    bookNumbers.addEventListener('click', event => {
+      const button = event.target.closest('[data-book-page]'); if (button) turn(Number(button.dataset.bookPage));
+    });
+    bookToggle.addEventListener('click', () => {bookMode = !bookMode;showResearchGroups = !bookMode;bookPage = 1;apply();});
+    document.addEventListener('keydown', event => {
+      if (!bookMode || event.altKey || event.ctrlKey || event.metaKey || event.shiftKey || event.target.closest('input,textarea,select,a,[contenteditable="true"]')) return;
+      if (event.key === 'ArrowRight' && !bookNext.disabled) {event.preventDefault();turn(bookPage + 1);}
+      if (event.key === 'ArrowLeft' && !bookPrev.disabled) {event.preventDefault();turn(bookPage - 1);}
+    });
+    const revealShelf = () => {
+      let id; try { id = decodeURIComponent(location.hash.slice(1)); } catch (_) { return; }
+      const target = document.getElementById(id); const group = target?.closest('[data-card-group]');
+      if (!group) return;
+      bookMode = false;showResearchGroups = true;if (input) input.value = '';active = 'all';
+      buttons.forEach(button => {const selected = button.dataset.filter === active;button.classList.toggle('active',selected);button.setAttribute('aria-pressed',String(selected));});
+      apply();group.open = true;group.scrollIntoView({block:'start'});
+    };
+    window.addEventListener('hashchange', revealShelf);
+    document.addEventListener('click', event => {
+      const link = event.target.closest('a[href^="#"]');if (link && link.getAttribute('href') === location.hash) revealShelf();
+    });
+  }
+
   const apply = () => {
     const query = (input?.value || '').trim().toLowerCase();
     const filtering = active !== 'all' || !!query;
-    const flatAlpha = !!researchAlphaGrid && sortMode === 'alpha' && !showResearchGroups;
+    const flatAlpha = !!researchAlphaGrid && sortMode === 'alpha' && !showResearchGroups && !(enableBook && !bookMode);
     let visible = 0;
     if (onResearchHub && filtering && !wasFiltering) {
       groups.forEach((group) => openBeforeFiltering.set(group, group.open));
@@ -233,10 +288,36 @@
         : `총 ${visible}개 콘텐츠 · 가나다순`;
     }
     if (empty) empty.classList.toggle('show', visible === 0);
+    if (enableBook && bookGrid) {
+      document.body.classList.toggle('hub-book-mode', bookMode);
+      bookToggle.textContent = bookMode ? '분류별 펼쳐보기' : '페이지로 나눠보기';
+      bookNav.hidden = !bookMode;bookGrid.hidden = !bookMode;
+      cards.forEach(card => card.classList.remove('hub-book-page-hidden'));
+      if (bookMode) {
+        cardGroups.hidden = true;if (researchAlphaGrid) researchAlphaGrid.hidden = true;
+        const ordered = cards.map(titledCard).sort((a,b) => sortMode === 'usage' ? usageScore(b.card)-usageScore(a.card)||compareAlpha(a,b) : compareAlpha(a,b)).map(item=>item.card);
+        ordered.forEach(card=>bookGrid.append(card));
+        const matches = ordered.filter(card=>!card.hidden);
+        const totalPages = Math.max(1,Math.ceil(matches.length/bookPageSize));
+        bookPage = Math.max(1,Math.min(bookPage,totalPages));
+        const start = (bookPage-1)*bookPageSize;
+        matches.forEach((card,index)=>card.classList.toggle('hub-book-page-hidden',index<start||index>=start+bookPageSize));
+        const focused = bookNumbers.contains(document.activeElement);
+        bookNumbers.replaceChildren(...Array.from({length:totalPages},(_,index)=>{
+          const button=document.createElement('button');button.type='button';button.dataset.bookPage=String(index+1);button.dataset.analyticsIgnore='';
+          button.textContent='('+(index+1)+')';button.setAttribute('aria-label',(index+1)+'페이지');button.setAttribute('aria-controls','hub-book-grid');
+          if(index+1===bookPage)button.setAttribute('aria-current','page');return button;
+        }));
+        if(focused)bookNumbers.querySelector('[aria-current="page"]')?.focus({preventScroll:true});
+        bookPrev.disabled=bookPage===1;bookNext.disabled=bookPage===totalPages;
+        bookStatus.textContent=matches.length?bookPage+' / '+totalPages+'쪽 · '+(start+1)+'–'+Math.min(start+bookPageSize,matches.length)+' / '+matches.length+'개':'검색 결과 0개';
+      } else cardGroups.hidden = false;
+    }
     wasFiltering = filtering;
   };
 
   const setSort = (mode) => {
+    bookPage = 1;
     showResearchGroups = false;
     sortMode = mode === 'usage' ? 'usage' : 'alpha';
     try { localStorage.setItem(sortKey, sortMode); } catch (_) {}
@@ -258,6 +339,7 @@
   else document.addEventListener('stargate-usage-updated', bindUsage);
 
   const selectFilter = (filter) => {
+    bookPage = 1;
     active = filter;
     buttons.forEach((item) => {
       const selected = item.dataset.filter === active;
@@ -274,10 +356,12 @@
     });
   });
   input?.addEventListener('input', () => {
+    bookPage = 1;
     showResearchGroups = false;
     apply();
   });
   apply();
+  if (enableBook && location.hash) window.dispatchEvent(new Event('hashchange'));
 
   if (onResearchHub) {
     const revealHash = () => {
@@ -288,6 +372,7 @@
       const group = target?.closest('[data-card-group]');
       if (!group) return;
       showResearchGroups = true;
+      bookMode = false;
       if (group.hidden || target.closest('[data-card]')?.hidden) {
         if (input) input.value = '';
         selectFilter('all');

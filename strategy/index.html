@@ -45,8 +45,9 @@ var m=localStorage.getItem(k);if(m==='mobile'||m==='fold'){r.classList.add('is-a
 <link rel="stylesheet" href="/assets/app-shell.css?v=20261021-sub">
 <link rel="stylesheet" href="/assets/app-subpage.css?v=20261021-sub">
 <script src="/assets/app-subpage.js?v=20261021-sub" defer></script>
+<link rel="stylesheet" href="/assets/hub-book.css?v=20261112-laptop-1">
 </head>
-<body class="strategy">
+<body class="strategy" data-project-book>
   <div class="wrap">
     <nav class="nav" aria-label="주요 메뉴">
       <a class="brand" href="/"><span class="logo">S</span><span>STARGATE.<span style="color:var(--accent)">PORTAL</span><small>INTELLIGENCE</small></span></a>
@@ -116,7 +117,7 @@ var m=localStorage.getItem(k);if(m==='mobile'||m==='fold'){r.classList.add('is-a
             <button class="filter" type="button" data-filter="industry" aria-pressed="false">산업·시장</button>
             <button class="filter" type="button" data-filter="tools" aria-pressed="false">AI 도구</button>
           </div>
-          <label class="search"><span hidden>보고서 검색</span><input type="search" placeholder="기업·시장 검색" data-search></label>
+          <label class="search"><span hidden>보고서 검색</span><input type="search" aria-label="전략 보고서 검색" placeholder="기업·시장 검색" data-search></label>
         </div>
         <div class="result-count" data-result-count aria-live="polite"></div>
         <div class="card-groups" data-preserve-group-order="true">
@@ -626,7 +627,7 @@ var m=localStorage.getItem(k);if(m==='mobile'||m==='fold'){r.classList.add('is-a
     <footer><span>© 2026 Dongsoo Jung · Stargate Corporation</span><span><a href="/">Portal</a> · <a href="https://github.com/DongsooJung">GitHub</a></span></footer>
   </div>
   <script src="/assets/theme.js?v=20260729f" defer></script>
-  <script src="/assets/intelligence-hub.js?v=20261016-strategy-shelves" defer></script>
+  <script src="/assets/intelligence-hub.js?v=20261112-laptop-1" defer></script>
   <script src="/assets/dashboard-card-status.js?v=20261016" defer></script>
   <script src="/assets/usage-analytics.js?v=20260904-usage-path" defer></script>
   <audio id="homepage-music" src="/assets/lindy-conant-take-courage.mp3" loop preload="none" hidden></audio>

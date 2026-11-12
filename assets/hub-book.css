@@ -1,0 +1,62 @@
+
+/* Paged reading scoped to the strategy and research catalogs. */
+.hub-book-controls{display:flex;align-items:center;gap:12px;margin-bottom:12px}
+.hub-book-controls>span{font-size:12px;color:var(--sub)}
+.hub-book-toggle,.hub-book-nav button{font:600 13px inherit;color:var(--ink);background:var(--panel);border:1px solid var(--line2);border-radius:10px;min-height:38px;padding:8px 12px;cursor:pointer}
+.hub-book-toggle:focus-visible,.hub-book-nav button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.hub-book-nav{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:8px 0 12px;padding:8px 12px;border:1px solid var(--line);border-radius:12px;background:var(--panel)}
+.hub-book-numbers{display:flex;gap:5px;overflow-x:auto;min-width:0;padding:3px}
+.hub-book-numbers button{flex-shrink:0;min-width:36px;padding:7px 9px}
+.hub-book-nav>button{flex-shrink:0}
+.hub-book-status{font-size:12px;color:var(--sub);white-space:nowrap}
+.hub-book-nav button[aria-current="page"]{background:var(--accent);color:var(--btn-ink);border-color:var(--accent)}
+.hub-book-nav button:disabled{opacity:.4;cursor:default}
+.hub-book-grid[hidden],.hub-book-nav[hidden],.card-groups[hidden],.project.hub-book-page-hidden{display:none!important}
+body.hub-book-mode .wrap{width:min(1320px,calc(100% - 40px))}
+body.hub-book-mode .nav{height:52px}
+body.hub-book-mode header.hero,body.hub-book-mode main>section:not(#reports):not(#dashboards),body.hub-book-mode footer{display:none}
+body.hub-book-mode #reports,body.hub-book-mode #dashboards{padding:14px 0 20px}
+body.hub-book-mode .section-head{margin-bottom:10px;gap:12px}
+body.hub-book-mode .section-head h2{font-size:22px}
+body.hub-book-mode .section-head p{font-size:12px;margin:4px 0 0}
+body.hub-book-mode .toolbar{flex-wrap:wrap;gap:8px;margin-bottom:10px}
+body.hub-book-mode .filters{gap:5px}
+body.hub-book-mode .filter{padding:6px 9px}
+body.hub-book-mode .search{min-width:200px}
+body.hub-book-mode .result-count{margin:0 0 6px}
+.hub-book-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.hub-book-grid .project{grid-template-columns:44px minmax(0,1fr);min-height:190px}
+.hub-book-grid .visual{font-size:25px}
+.hub-book-grid .project-body{padding:12px;min-width:0}
+.hub-book-grid .meta{margin-bottom:6px;gap:4px}
+.hub-book-grid .pill{font-size:9px;padding:2px 5px}
+.hub-book-grid h3{font-size:15px;line-height:1.35;margin-bottom:6px}
+.hub-book-grid p{font-size:13px;line-height:1.5}
+.hub-book-grid .project-footer{padding-top:9px;gap:6px;align-items:end}
+.hub-book-grid .project-footer b{flex-shrink:0}
+.hub-book-grid .project-data-meta{font-size:10px;line-height:1.4}
+.hub-book-grid .project.featured-learning-ai::after{display:none}
+@keyframes hub-book-turn{from{opacity:.4;transform:perspective(1200px) rotateY(-2deg) translateX(6px)}to{opacity:1;transform:none}}
+.hub-book-grid.is-turning{animation:hub-book-turn .22s ease-out;transform-origin:left center}
+@media(max-width:1000px){.hub-book-grid{grid-template-columns:repeat(2,minmax(0,1fr))}body.hub-book-mode .toolbar{flex-direction:row}body.hub-book-mode .nav-links a:nth-last-child(-n+2){display:none}}
+@media(max-width:620px){
+ body.hub-book-mode .wrap{width:calc(100% - 24px)}
+ .hub-book-grid{grid-template-columns:1fr}
+ .hub-book-grid .visual{height:auto;border-right:1px solid var(--line);border-bottom:0}
+ .hub-book-nav{flex-wrap:wrap;gap:6px;padding:8px}
+ .hub-book-numbers{order:4;flex-basis:100%}
+ .hub-book-status{font-size:11px}
+ .hub-book-controls{align-items:flex-start;flex-direction:column;gap:5px}
+}
+@media(prefers-reduced-motion:reduce){.hub-book-grid.is-turning{animation:none}}
+
+body.hub-book-mode .hub-book-controls{margin:0;gap:6px}
+body.hub-book-mode .hub-book-controls>span{display:none}
+body.hub-book-mode .section-head h2{line-height:1.2}
+body.hub-book-mode .section-head p{line-height:1.4}
+body.hub-book-mode .dashboard-data-summary{font-size:10px;line-height:1.4;margin:4px 0 6px}
+body.hub-book-mode .hub-book-nav{padding:4px 10px;margin:6px 0 10px}
+.hub-book-grid .dashboard-data-status{margin-top:6px;padding-top:5px;font-size:10px;line-height:1.4}
+
+body.hub-book-mode .research-data-review{margin:4px 0 6px;font-size:11px;line-height:1.4}
+.hub-book-grid .meta{display:none}

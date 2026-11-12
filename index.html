@@ -510,6 +510,20 @@ body.portal-dashboard-mode .project-book-empty:not([hidden]){display:block}
  body.portal-dashboard-mode:not(.portal-list-mode) #projects-grid{grid-template-columns:1fr}
 }
 
+
+/* Six cards per page for 15-inch laptop reading. */
+body.portal-dashboard-mode .wrap{max-width:1360px;padding:12px 22px 22px}
+body.portal-dashboard-mode .nav .links{display:none}
+body.portal-dashboard-mode #projects h2{font-size:22px}
+body.portal-dashboard-mode:not(.portal-list-mode) #projects-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+body.portal-dashboard-mode:not(.portal-list-mode) #projects-grid .proj .thumb{height:46px}
+body.portal-dashboard-mode:not(.portal-list-mode) #projects-grid .proj .sub{font-size:13px;line-height:1.5}
+body.portal-dashboard-mode:not(.portal-list-mode) #projects-grid .proj .tag{font-size:10px}
+body.portal-dashboard-mode .project-book-pages{max-width:100%;overflow-x:auto;padding:3px}
+body.portal-dashboard-mode .project-book-pages button{flex-shrink:0}
+@media(max-width:900px){body.portal-dashboard-mode:not(.portal-list-mode) #projects-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:560px){body.portal-dashboard-mode:not(.portal-list-mode) #projects-grid{grid-template-columns:1fr}}
+
 </style>
 <link rel="stylesheet" href="/assets/personal-projects.css?v=20261021-v003">
 <style>
@@ -736,9 +750,9 @@ var m=localStorage.getItem(k);if(m==='mobile'||m==='fold')r.classList.add('is-ap
         <div class="badge">NEW · GLOBAL STARGATE</div>
         <div class="thumb" style="background:linear-gradient(135deg,#071126,#d9a441)"><span class="emo">🌐</span></div>
         <div class="body">
-          <h3>GLOBAL STARGATE</h3>
-          <p>AI · 데이터 · 연구 · 교육을 묶어 한국 정보를 세계가 쓰는 Korea Intelligence로 확장합니다.</p>
-          <div class="tags"><span>GLOBAL</span><span>KOREA INTELLIGENCE</span><span>AI · DATA</span></div>
+          <div class="ttl">GLOBAL STARGATE</div>
+          <div class="sub">AI · 데이터 · 연구 · 교육을 묶어 한국 정보를 세계가 쓰는 Korea Intelligence로 확장합니다.</div>
+          <div class="row"><span class="tag">Korea Intelligence · AI · Data</span><span class="go">열기 →</span></div>
         </div>
       </a>
 
@@ -1590,7 +1604,7 @@ var m=localStorage.getItem(k);if(m==='mobile'||m==='fold')r.classList.add('is-ap
       .map(({ card }) => card);
   }
 
-  const pageSize = 11;
+  const pageSize = 6;
   let currentPage = 1;
   const bookNav = document.getElementById('project-book-nav');
   const bookPages = document.getElementById('project-book-pages');
