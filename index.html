@@ -274,7 +274,9 @@ a{color:var(--acc); text-decoration:none} a:hover{text-decoration:underline}
 
 /* Project visibility / sort toggles */
 .project-toggle-row{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;margin:-4px 0 16px}
-.project-sort-wrap{display:inline-flex;align-items:center;gap:8px}
+.project-sort-wrap{display:inline-flex;align-items:center;gap:8px;flex-wrap:wrap;max-width:100%}
+.project-sort-wrap .project-sort-group,.project-sort-wrap .project-category-group{max-width:100%;overflow-x:auto}
+.project-sort-group .project-toggle,.project-category-group .project-toggle{flex-shrink:0;white-space:nowrap}
 .project-sort-label{font:700 11px inherit;color:var(--muted);letter-spacing:.04em}
 .project-sort-group{display:inline-flex;align-items:stretch;border:1px solid var(--line2);border-radius:999px;overflow:hidden;background:var(--panel)}
 .project-sort-group .project-toggle{border:0;border-radius:0}
@@ -369,7 +371,7 @@ footer .business-info{flex-basis:100%;padding-top:10px;border-top:1px solid var(
   .brand .name{font-size:14px}
 }
 
-/* MAIN ↔ LIST DASHBOARD VIEW */
+/* MAIN ↔ DASHBOARD VIEW: cards by default, optional operations list */
 .portal-view-switcher{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:18px 0 4px;padding:9px 10px;border:1px solid var(--line);border-radius:14px;background:color-mix(in srgb,var(--card) 88%,transparent)}
 .portal-view-switcher .label{padding-left:5px;color:var(--muted);font-size:11px;font-weight:800;letter-spacing:.08em;text-transform:uppercase}
 .portal-view-buttons{display:flex;gap:7px}
@@ -381,24 +383,28 @@ body.portal-dashboard-mode .hero,
 body.portal-dashboard-mode #intelligence,
 body.portal-dashboard-mode #travel-spots{display:none!important}
 body.portal-dashboard-mode #projects{padding-top:26px}
-body.portal-dashboard-mode #projects h2::before{content:"LIST DASHBOARD · ";color:var(--acc);font-size:.42em;letter-spacing:.12em;vertical-align:middle;margin-right:8px}
-body.portal-dashboard-mode #projects-grid{display:flex!important;flex-direction:column;gap:8px}
+body.portal-dashboard-mode #projects h2::before{content:"DASHBOARD · ";color:var(--acc);font-size:.42em;letter-spacing:.12em;vertical-align:middle;margin-right:8px}
+body.portal-dashboard-mode.portal-list-mode #projects-grid{display:flex!important;flex-direction:column;gap:8px}
 body.portal-dashboard-mode #projects-grid[hidden]{display:none!important}
-body.portal-dashboard-mode #projects-grid .proj{display:grid!important;grid-template-columns:minmax(128px,170px) minmax(0,1fr);align-items:center;gap:18px;min-height:0!important;padding:13px 16px;border-radius:12px;transform:none}
+body.portal-dashboard-mode.portal-list-mode #projects-grid .proj{display:grid!important;grid-template-columns:minmax(128px,170px) minmax(0,1fr);align-items:center;gap:18px;min-height:0!important;padding:13px 16px;border-radius:12px;transform:none}
 body.portal-dashboard-mode #projects-grid .proj.is-search-hidden{display:none!important}
 #kakao-send-cta[hidden],#kakao-send-card[hidden],body.portal-dashboard-mode #projects-grid > #kakao-send-card[hidden]{display:none!important}
 body.portal-dashboard-mode #project-visibility-toggle{display:none}
-body.portal-dashboard-mode #projects-grid .proj:hover{transform:translateY(-1px)}
-body.portal-dashboard-mode #projects-grid .proj .thumb{display:none!important}
-body.portal-dashboard-mode #projects-grid .proj .badge{position:static!important;inset:auto!important;display:inline-flex;justify-self:start;align-items:center;width:auto;max-width:100%;margin:0;padding:6px 9px;border-radius:999px;white-space:normal;line-height:1.25}
-body.portal-dashboard-mode #projects-grid .proj .body{padding:0!important;display:grid;grid-template-columns:minmax(170px,.8fr) minmax(220px,1.35fr) minmax(205px,.9fr) minmax(170px,.72fr);align-items:center;gap:14px}
-body.portal-dashboard-mode #projects-grid .proj .ttl{margin:0!important;font-size:14px;line-height:1.35}
-body.portal-dashboard-mode #projects-grid .proj .sub{margin:0!important;font-size:12px;line-height:1.45;color:var(--muted)}
-body.portal-dashboard-mode #projects-grid .proj .row{margin:0!important;gap:8px;justify-content:space-between;align-items:center}
-body.portal-dashboard-mode #projects-grid .proj .tag{font-size:10px;line-height:1.35}
-body.portal-dashboard-mode #projects-grid .proj .go{flex:0 0 auto;font-size:11px;white-space:nowrap}
+body.portal-dashboard-mode.portal-list-mode #projects-grid .proj:hover{transform:translateY(-1px)}
+body.portal-dashboard-mode.portal-list-mode #projects-grid .proj .thumb{display:none!important}
+body.portal-dashboard-mode.portal-list-mode #projects-grid .proj .badge{position:static!important;inset:auto!important;display:inline-flex;justify-self:start;align-items:center;width:auto;max-width:100%;margin:0;padding:6px 9px;border-radius:999px;white-space:normal;line-height:1.25}
+body.portal-dashboard-mode.portal-list-mode #projects-grid .proj .body{padding:0!important;display:grid;grid-template-columns:minmax(170px,.8fr) minmax(220px,1.35fr) minmax(205px,.9fr) minmax(170px,.72fr);align-items:center;gap:14px}
+body.portal-dashboard-mode.portal-list-mode #projects-grid .proj .ttl{margin:0!important;font-size:14px;line-height:1.35}
+body.portal-dashboard-mode.portal-list-mode #projects-grid .proj .sub{margin:0!important;font-size:12px;line-height:1.45;color:var(--muted)}
+body.portal-dashboard-mode.portal-list-mode #projects-grid .proj .row{margin:0!important;gap:8px;justify-content:space-between;align-items:center}
+body.portal-dashboard-mode.portal-list-mode #projects-grid .proj .tag{font-size:10px;line-height:1.35}
+body.portal-dashboard-mode.portal-list-mode #projects-grid .proj .go{flex:0 0 auto;font-size:11px;white-space:nowrap}
+.project-layout-group{display:none;align-items:center;border:1px solid var(--line2);border-radius:999px;overflow:hidden;background:var(--panel)}
+body.portal-dashboard-mode .project-layout-group{display:inline-flex}
+.project-layout-group .project-toggle{border:0;border-radius:0}
+.project-layout-group .project-toggle + .project-toggle{border-left:1px solid var(--line2)}
 .portal-dashboard-meta{display:none}
-body.portal-dashboard-mode .portal-dashboard-meta{display:grid;grid-template-columns:1fr;gap:5px;padding:8px 10px;border:1px solid var(--line);border-radius:10px;background:color-mix(in srgb,var(--card) 82%,transparent);font-size:10px;line-height:1.3;color:var(--muted)}
+body.portal-dashboard-mode.portal-list-mode .portal-dashboard-meta{display:grid;grid-template-columns:1fr;gap:5px;padding:8px 10px;border:1px solid var(--line);border-radius:10px;background:color-mix(in srgb,var(--card) 82%,transparent);font-size:10px;line-height:1.3;color:var(--muted)}
 .portal-dashboard-meta .meta-line{display:flex;align-items:center;justify-content:space-between;gap:8px}
 .portal-dashboard-meta strong{color:var(--text);font-size:10px;font-weight:850;font-variant-numeric:tabular-nums}
 .portal-dashboard-status{display:inline-flex;align-items:center;gap:6px;font-weight:850}
@@ -430,11 +436,11 @@ body.portal-dashboard-mode #personal-projects{margin-top:14px}
 @media(max-width:820px){
   .portal-view-switcher{align-items:stretch;flex-direction:column}.portal-view-switcher .label{display:none}.portal-view-buttons{width:100%}.portal-view-btn{flex:1;padding:10px 12px}
   body.portal-dashboard-mode #projects{padding-top:18px}
-  body.portal-dashboard-mode #projects-grid .proj{grid-template-columns:1fr;gap:8px;padding:13px}
-  body.portal-dashboard-mode #projects-grid .proj .body{grid-template-columns:1fr;gap:7px}
+  body.portal-dashboard-mode.portal-list-mode #projects-grid .proj{grid-template-columns:1fr;gap:8px;padding:13px}
+  body.portal-dashboard-mode.portal-list-mode #projects-grid .proj .body{grid-template-columns:1fr;gap:7px}
   body.portal-dashboard-mode .portal-dashboard-summary{grid-template-columns:repeat(2,1fr)}
   .home-page-views{grid-template-columns:1fr;gap:12px;padding:15px}.home-page-view-list{grid-template-columns:1fr}
-  body.portal-dashboard-mode #projects-grid .proj .row{justify-content:flex-start;flex-wrap:wrap}
+  body.portal-dashboard-mode.portal-list-mode #projects-grid .proj .row{justify-content:flex-start;flex-wrap:wrap}
 }
 
 
@@ -522,7 +528,7 @@ var m=localStorage.getItem(k);if(m==='mobile'||m==='fold')r.classList.add('is-ap
     <span class="label">STARGATE VIEW</span>
     <div class="portal-view-buttons" role="group" aria-label="화면 전환">
       <button class="portal-view-btn is-active" id="portal-view-main" type="button" aria-pressed="true" data-analytics-ignore>메인 보기</button>
-      <button class="portal-view-btn" id="portal-view-dashboard" type="button" aria-pressed="false" data-analytics-ignore>목록 대시보드</button>
+      <button class="portal-view-btn" id="portal-view-dashboard" type="button" aria-pressed="false" data-analytics-ignore>전체 대시보드</button>
     </div>
   </div>
 
@@ -627,6 +633,10 @@ var m=localStorage.getItem(k);if(m==='mobile'||m==='fold')r.classList.add('is-ap
       <ol class="home-page-view-list" id="home-page-view-list" aria-live="polite"></ol>
     </section>
     <div class="project-toggle-row">
+      <div class="project-layout-group" role="group" aria-label="프로젝트 보기 방식">
+        <button class="project-toggle" id="project-layout-cards" type="button" aria-pressed="true" aria-controls="projects-grid" data-analytics-ignore>카드 보기</button>
+        <button class="project-toggle" id="project-layout-list" type="button" aria-pressed="false" aria-controls="projects-grid" data-analytics-ignore>목록 보기</button>
+      </div>
       <button class="project-toggle kakao-send-toggle" id="kakao-send-toggle" type="button" aria-expanded="false" aria-controls="kakao-send-cta kakao-send-card" data-analytics-ignore>카카오톡 보내기 펼치기</button>
       <div class="project-sort-wrap">
         <span class="project-sort-label">정렬</span>
@@ -1361,6 +1371,16 @@ var m=localStorage.getItem(k);if(m==='mobile'||m==='fold')r.classList.add('is-ap
   const kakaoCard = document.getElementById('kakao-send-card');
   if (!toggle || !grid) return;
 
+  const layoutCards = document.getElementById('project-layout-cards');
+  const layoutList = document.getElementById('project-layout-list');
+  function setProjectLayout(list) {
+    document.body.classList.toggle('portal-list-mode', list);
+    layoutCards?.setAttribute('aria-pressed', String(!list));
+    layoutList?.setAttribute('aria-pressed', String(list));
+  }
+  layoutCards?.addEventListener('click', () => setProjectLayout(false));
+  layoutList?.addEventListener('click', () => setProjectLayout(true));
+
   const sortKey = 'stargate-project-sort-v2';
   const filterKey = 'stargate-project-filter-v1';
   const cards = [...grid.querySelectorAll(':scope > .proj')];
@@ -1541,6 +1561,7 @@ var m=localStorage.getItem(k);if(m==='mobile'||m==='fold')r.classList.add('is-ap
       else applyLayout();
     },
     showAll() {
+      setProjectLayout(false);
       searchQuery = '';
       activeCategory = 'all';
       if (search) search.value = '';
