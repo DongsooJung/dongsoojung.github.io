@@ -5416,17 +5416,17 @@
     },
     {
       "source": {
-        "label": "공식 발행기관·출판사·저자 원문 (항목별 대조 범위 참조)",
-        "url": "https://www.gebco.net/news/release-gebco2026-grid",
-        "verification": "partially_verified"
+        "label": "공식 발표·출판 원문·저자 기관 연구",
+        "url": "https://www.nature.com/articles/s41561-024-01480-8",
+        "verification": "verified"
       },
-      "dataAsOf": "2026",
-      "dataPeriod": "GEBCO_2026 현대 측량 기준 충족 면적 비율 28.7%; 2026-04-27 격자 공표",
-      "snapshotUpdatedAt": "2026-10-20",
-      "collectedAt": null,
-      "checkedAt": "2026-10-20T00:36:58.677999+00:00",
-      "reviewStatus": "needs_review",
-      "freshness": "historical",
+      "dataAsOf": null,
+      "dataPeriod": null,
+      "snapshotUpdatedAt": "2026-11-12",
+      "collectedAt": "2026-11-12T07:54:26.338Z",
+      "checkedAt": "2026-11-12T07:57:42.241Z",
+      "reviewStatus": "not_applicable",
+      "freshness": "not_applicable",
       "evidence": [
         {
           "kind": "audit-record",
@@ -5460,11 +5460,113 @@
           "checkedAt": "2026-10-20T00:32:00.478749+00:00",
           "sha256": "6619871028d21375fb4b0d28fdab278dd831ecc6849512a9a5c6af4311830691",
           "scope": "GEBCO_2026 28.7%와 2024 암흑 산소 논문의 2026-04-08 편집자 주의문 확인. 9·10월 관측률 또는 나머지 지구과학 문헌의 전수 대조가 아님."
+        },
+        {
+          "kind": "audit-record",
+          "url": "/research/source-reviews/2026-11-12-deep-earth-ocean.json",
+          "checkedAt": "2026-11-12T07:57:42.241Z"
+        },
+        {
+          "kind": "official-source",
+          "url": "https://www.nature.com/articles/s41561-024-01480-8",
+          "scope": "출판사 본문·변경 이력. 일부 챔버에서 용존산소 증가 보고. 단괴 기원·전기분해는 제안된 설명. 2026-04-08 주의문 유지, 변경 이력에서 후속 편집 결정 미확인.",
+          "checkedAt": "2026-11-12T07:57:42.241Z"
+        },
+        {
+          "kind": "official-source",
+          "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC13560710/",
+          "scope": "PMC 공개 본문·표 1·그림 6·공개 심사. 기존 자료와 추가 챔버 영상 재분석. 14개 챔버의 평균 단괴 면적과 총 산소 증가량 간 순위상관을 표 1로 검산.",
+          "checkedAt": "2026-11-12T07:57:42.241Z",
+          "sha256": "cee881e07e20491f3d2497fbdce69dd0e80a05d2aa0c9289d884bc7f572000b4"
+        },
+        {
+          "kind": "official-source",
+          "url": "https://sciwatch.kiost.ac.kr/handle/2020.kiost/45510",
+          "scope": "저자 소속 기관의 초록. 동태평양 CCZ PILOT과 서태평양 두 해산에서 현장 챔버로 퇴적물 산소 흡수량을 추정. 별도 지점·설계의 관측. 출판사 전문과 행별 원자료 미확인.",
+          "checkedAt": "2026-11-12T07:57:42.241Z"
+        },
+        {
+          "kind": "official-source",
+          "url": "https://dark-oxygen.net/landers-get-shipped-to-sea-for-first-dori-cruise/",
+          "scope": "공식 프로젝트 공지. 원 연구진이 참여한 첫 항해 장비 운송 준비. 검토한 공지에서 분석 결과·데이터 미확인.",
+          "checkedAt": "2026-11-12T07:57:42.241Z"
+        },
+        {
+          "kind": "official-source",
+          "url": "https://www.gebco.net/news/release-gebco2026-grid",
+          "scope": "현대 기준으로 측량한 전 세계 해저 면적 비중 28.7%. 15각초 격자 판본.",
+          "checkedAt": "2026-11-12T07:57:42.241Z"
+        },
+        {
+          "kind": "official-source",
+          "url": "https://repository.library.noaa.gov/view/noaa/59651/noaa_59651_DS1.pdf",
+          "scope": "NOAA 공개 전문. 해저 지형·시료 및 알칼리성 열수 환경 관측. 생명의 기원은 이 관측이 제기하는 연구 가설.",
+          "checkedAt": "2026-11-12T07:57:42.241Z"
+        },
+        {
+          "kind": "official-source",
+          "url": "https://ir.pku.edu.cn/handle/20.500.11897/670161",
+          "scope": "저자 기관 기록과 출판 PDF의 약 70년 진동 제안. 맨틀에 대한 상대 회전 모형.",
+          "checkedAt": "2026-11-12T07:57:42.241Z"
+        },
+        {
+          "kind": "official-source",
+          "url": "https://doi.org/10.1038/s41561-023-01136-z",
+          "scope": "정정 PDF에서 내핵·맨틀의 회전 차이를 명시하도록 문구를 고친 범위 확인.",
+          "checkedAt": "2026-11-12T07:57:42.241Z"
+        },
+        {
+          "kind": "official-source",
+          "url": "https://www.nature.com/articles/s41586-024-07536-4.pdf",
+          "scope": "출판 PDF의 2003–2008년 상대 전진, 2008–2023년 상대 후퇴 해석. 시기별 파형 자료의 모형 해석.",
+          "checkedAt": "2026-11-12T07:57:42.241Z"
+        },
+        {
+          "kind": "official-source",
+          "url": "https://www.nature.com/articles/s41467-023-36074-2.pdf",
+          "scope": "출판 PDF 그림 1 및 결과. 약 650km는 가정한 잠정 최내핵 경계 반경이며 경계 깊이를 직접 식별할 민감도는 낮음.",
+          "checkedAt": "2026-11-12T07:57:42.241Z"
+        },
+        {
+          "kind": "official-source",
+          "url": "https://www.nature.com/articles/44776",
+          "scope": "출판사 초록. 열류 조건에 따라 수치실험에서 극성 역전과 일시 이탈이 발생. 실제 다음 역전의 시점 예측은 연구 과제.",
+          "checkedAt": "2026-11-12T07:57:42.241Z"
+        },
+        {
+          "kind": "official-source",
+          "url": "https://par.nsf.gov/servlets/purl/10516188",
+          "scope": "NSF 공개 출판 PDF 초록·그림 2. 테이아 맨틀이 비교 원시 지구 맨틀보다 2.0–3.5% 조밀하다는 계산은 모형 결과.",
+          "checkedAt": "2026-11-12T07:57:42.241Z",
+          "sha256": "adfc4b6b043431a668072c0d932bffb4ee761812844b922ed7c23dec8a8dc3b2"
+        },
+        {
+          "kind": "official-source",
+          "url": "https://www.trigon-gs.com/Pearson_et_14.pdf",
+          "scope": "출판 PDF 그림 2와 본문. JUc29 포유물의 함수량 약 1.4 wt%라는 보수적 추정. 전이대 전체가 아닌 표본과 해당 지역 범위.",
+          "checkedAt": "2026-11-12T07:57:42.241Z"
+        },
+        {
+          "kind": "official-source",
+          "url": "https://www.sciencedirect.com/science/article/pii/S0040195199000657",
+          "scope": "출판사 노출 본문 발췌와 러시아 과학원 저자 기관 논문에 12,262m. 심부 물질의 직접 시료 범위는 지각.",
+          "checkedAt": "2026-11-12T07:57:42.241Z"
+        },
+        {
+          "kind": "official-source",
+          "url": "https://dfg-spp-icdp.de/en/icdp/icdp-projects/53",
+          "scope": "기관 설명의 12,261m는 1m 차이. 정의 차이를 설명하는 원시 시추기록은 미확인.",
+          "checkedAt": "2026-11-12T07:57:42.241Z"
+        },
+        {
+          "kind": "official-source",
+          "url": "https://pubs.usgs.gov/gip/dynamic/inside.html",
+          "scope": "약 2,900km는 핵–맨틀 경계의 표면 기준 깊이. 지각 두께는 지역에 따라 다르며 외핵 하단은 약 5,150km 깊이.",
+          "checkedAt": "2026-11-12T07:57:42.241Z"
         }
       ],
       "issues": [
-        "암흑 산소의 후속 편집 조치·독립 재현 결과 확인; 내핵·LLSVP·시추 깊이와 남은 참고문헌의 실제 원문·수치 범위 대조.",
-        "확인일 2026-10-20과 자료 관측기간·원문 공표/개정일을 구분. 2026-09/10 관측값을 추정하거나 수집하지 않음."
+        "편집자 후속 결정 또는 동일 조건의 독립 현장 원자료가 공개될 때 암흑 산소의 인과 근거를 재대조합니다. SG-3 시추 원기록 확보 시 1m 차이를 확인합니다."
       ],
       "key": "/research/deep-earth-ocean-challenges/",
       "url": "/research/deep-earth-ocean-challenges/",

@@ -990,8 +990,8 @@
         "/research/startup-industries/"
       ],
       "outcome": "conditional_technical_acceptance",
-      "latestAudit": "/research/source-reviews/2026-11-12-quantum-physics.json",
-      "lastAttemptAt": "2026-11-11T16:55:04.493Z",
+      "latestAudit": "/research/source-reviews/2026-11-12-deep-earth-ocean.json",
+      "lastAttemptAt": "2026-11-12T07:57:42.241Z",
       "itemResults": {
         "/exchange-rate/": {
           "status": "verified",
@@ -1295,6 +1295,13 @@
           "audit": "/research/source-reviews/2026-11-12-quantum-physics.json",
           "scope": "측정 리뷰 출판본 해당 절과 8개 공개 원문 PDF로 탈동조화, 해석별 관측 통계, Bell·붕괴·터널링 실험 및 반론을 대조했습니다. 문헌 기반 연구 의제의 월간 기준월은 비적용입니다.",
           "nextAction": "출판본 파일 접근이 가능해지면 해당 절의 판본·해시를 추가 확인합니다. 터널링 해석은 새 원문이나 식별 가능한 독립 실험이 공개될 때 대조합니다."
+        },
+        "/research/deep-earth-ocean-challenges/": {
+          "status": "not_applicable",
+          "checkedAt": "2026-11-12T07:57:42.241Z",
+          "audit": "/research/source-reviews/2026-11-12-deep-earth-ocean.json",
+          "scope": "암흑 산소 원논문·편집 이력, 2026-09-18 v2 공개 재분석과 독립 현장 관측 범위, 내핵·맨틀·시추 근거를 대조했습니다. 표 1의 14개·11개 챔버 순위상관과 양측 p값을 검산했습니다. 문헌 기반 연구 의제의 월간 기준월은 비적용입니다.",
+          "nextAction": "편집자 후속 결정 또는 동일 조건의 독립 현장 원자료가 공개될 때 암흑 산소의 인과 근거를 재대조합니다. SG-3 시추 원기록 확보 시 1m 차이를 확인합니다."
         }
       },
       "checkpoints": {
@@ -1328,7 +1335,7 @@
           "Tourism not re-fetched before October26; original checkedAt retained"
         ]
       },
-      "nextAction": "다음 독립 미완료 /research/deep-earth-ocean-challenges/의 암흑 산소 후속 원문과 지질 근거를 대조합니다.",
+      "nextAction": "다음 독립 미완료 /research/disease-challenges/의 기관 원문 버전과 인용 범위를 대조합니다.",
       "sourceFollowups": [
         {
           "id": "source-followup-1-20261021",
@@ -2579,6 +2586,22 @@
               "Two PDF extraction engines checked eight PDF sources",
               "Two PDF companions passed text and visual checks"
             ]
+          }
+        },
+        {
+          "id": "deep-earth-source-20261112",
+          "status": "completed",
+          "checkedAt": "2026-11-12T07:57:42.241Z",
+          "keys": [
+            "/research/deep-earth-ocean-challenges/"
+          ],
+          "audit": "/research/source-reviews/2026-11-12-deep-earth-ocean.json",
+          "outcome": "editorial_status_chamber_statistics_geology_sources_checked_monthly_period_not_applicable",
+          "release": {
+            "branch": "codex/deep-earth-source-20261112",
+            "status": "awaiting_checks",
+            "liveUrl": "https://www.stargateedu.co.kr/research/deep-earth-ocean-challenges/",
+            "sourceReviewUrl": "https://www.stargateedu.co.kr/research/source-reviews/2026-11-12-deep-earth-ocean.json"
           }
         }
       ],
