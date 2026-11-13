@@ -2,12 +2,12 @@
   "schema": 1,
   "source": "OpenDART estkRs/list",
   "status": "ok",
-  "updated_at": "2026-11-12T16:48:35+09:00",
+  "updated_at": "2026-11-13T16:24:46+09:00",
   "coverage": {
-    "start": "2026-08-14",
-    "end": "2026-11-12",
+    "start": "2026-08-15",
+    "end": "2026-11-13",
     "pages_checked": 8,
-    "total_pages": 35,
+    "total_pages": 34,
     "truncated": true
   },
   "issuer_queries": 18,
@@ -15,7 +15,21 @@
   "issuer_limit_reached": false,
   "records": [
     {
-      "rcept_no": "20261112000478",
+      "rcept_no": "20261112000748",
+      "corp_code": "01912128",
+      "name": "태석광학",
+      "subscription_raw": "2026년 12월 14일 ~ 2026년 12월 15일",
+      "subscription_start": "2026-12-14",
+      "subscription_end": "2026-12-15",
+      "payment_date": "2026-12-17",
+      "offering_price_raw": "17,500",
+      "source": "OpenDART estkRs",
+      "ipo_status": "unconfirmed",
+      "krx_review_status": "unverified",
+      "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20261112000748"
+    },
+    {
+      "rcept_no": "20261112000690",
       "corp_code": "00208709",
       "name": "KTE",
       "subscription_raw": "2026년 12월 14일 ~ 2026년 12월 15일",
@@ -26,7 +40,7 @@
       "source": "OpenDART estkRs",
       "ipo_status": "unconfirmed",
       "krx_review_status": "unverified",
-      "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20261112000478"
+      "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20261112000690"
     },
     {
       "rcept_no": "20261111000426",
@@ -223,20 +237,6 @@
       "ipo_status": "unconfirmed",
       "krx_review_status": "unverified",
       "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20261028000434"
-    },
-    {
-      "rcept_no": "20261026000001",
-      "corp_code": "01950720",
-      "name": "제논",
-      "subscription_raw": "2026년 11월 24일 ~ 2026년 11월 25일",
-      "subscription_start": "2026-11-24",
-      "subscription_end": "2026-11-25",
-      "payment_date": "2026-11-27",
-      "offering_price_raw": "9,700",
-      "source": "OpenDART estkRs",
-      "ipo_status": "unconfirmed",
-      "krx_review_status": "unverified",
-      "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20261026000001"
     }
   ],
   "disclaimer": "지분증권 발행·청약일 정보이며 한국거래소 상장예비심사 청구/승인 또는 IPO 확정 정보가 아닙니다."
