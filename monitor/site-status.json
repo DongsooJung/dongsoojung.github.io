@@ -1,0 +1,16 @@
+{
+  "generated_at": "2026-11-13T07:30:00Z",
+  "sites": [
+    {"name": "에듀 메인", "url": "https://stargateedu.co.kr", "http": 200, "latency_ms": 5236, "state": "up", "note": "www → apex 301 정상, 응답 5.2s로 느림"},
+    {"name": "블로그 허브", "url": "https://blog.stargateedu.co.kr", "http": 200, "latency_ms": 980, "state": "up"},
+    {"name": "GitHub Pages 허브", "url": "https://dongsoojung.github.io", "http": 301, "latency_ms": 677, "state": "up", "note": "→ stargateedu.co.kr 리다이렉트 정상"},
+    {"name": "쇼핑몰(영문)", "url": "https://www.stargatekorea.net", "http": 200, "latency_ms": null, "state": "up", "note": "외부 경로 확인(콘텐츠 정상 렌더)"},
+    {"name": "에듀 모바일", "url": "https://mobile.stargateedu.co.kr", "http": null, "latency_ms": null, "state": "down", "note": "DNS 미해석"},
+    {"name": "KOI 랜딩", "url": "https://lp.stargateedu.co.kr", "http": null, "latency_ms": null, "state": "down", "note": "DNS 미해석"},
+    {"name": "본사", "url": "https://www.stargate11.com", "http": null, "latency_ms": null, "state": "down", "note": "DNS 미해석"},
+    {"name": "블로그(11)", "url": "https://blog.stargate11.com", "http": null, "latency_ms": null, "state": "down", "note": "DNS 미해석"},
+    {"name": "쇼핑 리다이렉트", "url": "https://shop.stargate11.com", "http": null, "latency_ms": null, "state": "down", "note": "DNS 미해석"},
+    {"name": "쇼핑몰(국문)", "url": "https://stargateshop.co.kr", "http": null, "latency_ms": null, "state": "down", "note": "DNS 미해석"}
+  ],
+  "summary": {"up": 4, "down": 6}
+}

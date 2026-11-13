@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>STARGATE MONITOR — 통합 모니터링 허브</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#050810;
+  --panel:#0c1220;
+  --panel-2:#111a2b;
+  --border:#1a2540;
+  --accent:#22d3ee;
+  --mint:#34d399;
+  --amber:#fbbf24;
+  --red:#f87171;
+  --text:#e6ecf5;
+  --text-2:#8b98b8;
+  --text-3:#5a6785;
+  --mono:'JetBrains Mono','Noto Sans KR','Pretendard',monospace;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{min-height:100dvh}
+body{
+  background:var(--bg);
+  color:var(--text);
+  font-family:var(--mono);
+  font-size:15px;
+  line-height:1.6;
+  min-height:100dvh;
+  position:relative;
+}
+body::after{
+  content:"";position:fixed;inset:0;pointer-events:none;z-index:50;
+  background:repeating-linear-gradient(0deg,rgba(255,255,255,.014) 0 1px,transparent 1px 3px);
+}
+a{color:inherit}
+.wrap{max-width:1120px;margin:0 auto;padding:0 20px 64px}
+header{
+  position:sticky;top:0;z-index:10;
+  background:rgba(5,8,16,.92);backdrop-filter:blur(8px);
+  border-bottom:1px solid var(--border);
+}
+.hd{max-width:1120px;margin:0 auto;padding:14px 20px;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.hd h1{font-size:15px;font-weight:600;letter-spacing:.18em;text-transform:uppercase}
+.hd h1 .corp{color:var(--accent)}
+.hd .sep{color:var(--text-3)}
+.hd .sub{font-size:12px;color:var(--text-2);letter-spacing:.08em}
+.live{
+  margin-left:auto;display:flex;align-items:center;gap:8px;
+  font-size:11px;letter-spacing:.22em;color:var(--mint);text-transform:uppercase;
+  border:1px solid var(--border);background:var(--panel);padding:5px 12px;border-radius:999px;
+}
+.dot{width:7px;height:7px;border-radius:50%;background:var(--mint);box-shadow:0 0 8px var(--mint);animation:pulse 1.5s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.25}}
+.hd time{font-size:11px;color:var(--text-3);letter-spacing:.06em}
+.alerts{display:grid;gap:10px;margin:24px 0 8px}
+.alert{
+  display:flex;gap:12px;align-items:baseline;
+  background:var(--panel);border:1px solid var(--border);border-left:3px solid var(--amber);
+  padding:12px 16px;font-size:13px;
+}
+.alerts .sev{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--amber);flex-shrink:0}
+.alerts .warn{border-left-color:var(--amber)} .alerts .warn .sev{color:var(--amber)}
+.alerts .crit{border-left-color:var(--red)} .alerts .crit .sev{color:var(--red)}
+.alerts .info{border-left-color:var(--accent)} .alerts .info .sev{color:var(--accent)}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);border:1px solid var(--border);margin:20px 0 28px}
+.stat{padding:16px 18px;border-right:1px solid var(--border);background:var(--panel)}
+.stat:last-child{border-right:0}
+.stat .k{font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--text-3);margin-bottom:6px}
+.stat .v{font-size:28px;font-weight:600;font-variant-numeric:tabular-nums;line-height:1.1}
+.stat .v.cy{color:var(--accent)} .stat .v.am{color:var(--amber)} .stat .v.mi{color:var(--mint)}
+.controls{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:14px}
+.tabs{display:flex;border:1px solid var(--border);background:var(--panel)}
+.tab{
+  appearance:none;border:0;background:transparent;color:var(--text-2);cursor:pointer;
+  font-family:var(--mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;
+  padding:9px 16px;transition:background-color .15s ease,color .15s ease;
+}
+.tab:hover{color:var(--text)}
+.tab[aria-pressed="true"]{color:var(--accent);background:var(--panel-2);box-shadow:inset 0 -2px 0 var(--accent)}
+.tab:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}
+.search{
+  margin-left:auto;background:var(--panel);border:1px solid var(--border);color:var(--text);
+  font-family:var(--mono);font-size:13px;padding:9px 14px;min-width:200px;
+}
+.search::placeholder{color:var(--text-3)}
+.search:focus-visible{outline:2px solid var(--accent);outline-offset:-1px}
+.list{border:1px solid var(--border)}
+.row{
+  display:grid;grid-template-columns:14px 1.1fr 1.6fr .9fr .6fr .5fr;gap:14px;align-items:center;
+  padding:13px 18px;border-bottom:1px solid var(--border);background:var(--panel);
+  text-decoration:none;transition:background-color .15s ease;
+}
+.row:last-child{border-bottom:0}
+.row:hover{background:var(--panel-2)}
+.row:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}
+.led{width:8px;height:8px;border-radius:50%;justify-self:center}
+.led.on{background:var(--mint);box-shadow:0 0 8px var(--mint);animation:pulse 1.6s ease-in-out infinite}
+.led.idle{background:var(--amber);box-shadow:0 0 6px rgba(251,191,36,.5)}
+.led.stale{background:var(--red);box-shadow:0 0 6px rgba(248,113,113,.5)}
+.repo{font-weight:600;font-size:14px;color:var(--text);word-break:break-all}
+.repo .badge-pvt{font-size:9px;letter-spacing:.16em;color:var(--amber);border:1px solid var(--amber);padding:1px 6px;margin-left:8px;vertical-align:2px}
+.role{display:block;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:12px;color:var(--text-2)}
+.msg{font-size:12px;color:var(--text-2);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.msg b{color:var(--text);font-weight:500}
+.meta{font-size:11px;color:var(--text-3)}
+.meta .who{color:var(--text-2)}
+.issues{font-size:12px;font-variant-numeric:tabular-nums;text-align:right}
+.issues .n{color:var(--text)}
+.issues .lab{color:var(--text-3);font-size:10px;letter-spacing:.14em;text-transform:uppercase}
+.issues.hot .n{color:var(--amber)}
+.time{font-size:11px;color:var(--text-3);text-align:right;font-variant-numeric:tabular-nums}
+.sec-h{font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--text-3);margin:30px 0 10px}
+.sec-h b{color:var(--accent);font-weight:600}
+.sitelist{border:1px solid var(--border);margin-bottom:8px}
+.site{
+  display:grid;grid-template-columns:14px 1fr 1.2fr .4fr .4fr 1fr;gap:14px;align-items:center;
+  padding:12px 18px;border-bottom:1px solid var(--border);background:var(--panel);
+  text-decoration:none;transition:background-color .15s ease;
+}
+.site:last-child{border-bottom:0}
+.site:hover{background:var(--panel-2)}
+.site:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}
+.site .nm{font-weight:600;font-size:14px}
+.site .url{font-size:11px;color:var(--text-3);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.site .code{font-size:13px;font-variant-numeric:tabular-nums;color:var(--mint)}
+.site .code.bad{color:var(--red)}
+.site .lat{font-size:12px;color:var(--text-2);text-align:right;font-variant-numeric:tabular-nums}
+.site .note{font-size:11px;color:var(--text-3);text-align:right;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.head-row{display:grid;grid-template-columns:14px 1.1fr 1.6fr .9fr .6fr .5fr;gap:14px;padding:9px 18px;
+  font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--text-3);
+  border-bottom:1px solid var(--border);background:var(--bg)}
+.head-row .r{text-align:right}
+.empty{padding:32px;text-align:center;color:var(--text-3);font-size:13px;border:1px dashed var(--border);display:none}
+footer{margin-top:28px;font-size:11px;color:var(--text-3);letter-spacing:.06em;display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px}
+@media (max-width:860px){
+  .stats{grid-template-columns:repeat(2,1fr)}
+  .stat:nth-child(2){border-right:0}
+  .stat:nth-child(-n+2){border-bottom:1px solid var(--border)}
+  .head-row{display:none}
+  .site{grid-template-columns:12px 1fr auto;grid-template-areas:"led nm code" "led url code" "led note lat";row-gap:2px}
+  .site .led{align-self:start;margin-top:8px}
+  .site .nm{grid-area:nm} .site .url{grid-area:url} .site .code{grid-area:code;text-align:right}
+  .site .lat{grid-area:lat} .site .note{grid-area:note;text-align:left;white-space:normal}
+  .row{grid-template-columns:12px 1fr auto;grid-template-areas:"led repo issues" "led role issues" "led msg msg" "led meta time";row-gap:2px}
+  .led{grid-area:led;align-self:start;margin-top:8px}
+  .repo{grid-area:repo} .role{grid-area:role} .msg{grid-area:msg;white-space:normal}
+  .meta{grid-area:meta} .issues{grid-area:issues} .time{grid-area:time}
+  .search{margin-left:0;width:100%}
+}
+@media (prefers-reduced-motion:reduce){
+  .dot,.led.on{animation:none}
+  *{transition:none!important}
+}
+</style>
+</head>
+<body>
+<header>
+  <div class="hd">
+    <h1><span class="corp">STARGATE</span> <span class="sep">/</span> MONITOR</h1>
+    <span class="sub">통합 모니터링 허브</span>
+    <span class="live"><span class="dot"></span>LIVE</span>
+    <time id="gen"></time>
+  </div>
+</header>
+
+<div class="wrap">
+  <section class="alerts" id="alerts" aria-label="주의 항목"></section>
+
+  <h2 class="sec-h"><b>01</b> · 사이트 상태</h2>
+  <section class="sitelist" id="sites" aria-label="사이트 상태 목록"></section>
+
+  <section class="stats" aria-label="요약">
+    <div class="stat"><div class="k">추적 레포</div><div class="v cy" id="s-repos">–</div></div>
+    <div class="stat"><div class="k">미해결 이슈</div><div class="v am" id="s-issues">–</div></div>
+    <div class="stat"><div class="k">봇 자동 갱신</div><div class="v mi" id="s-bots">–</div></div>
+    <div class="stat"><div class="k">24h 내 커밋</div><div class="v" id="s-recent">–</div></div>
+  </section>
+
+  <h2 class="sec-h"><b>02</b> · GitHub 활동</h2>
+  <div class="controls">
+    <div class="tabs" role="group" aria-label="필터">
+      <button class="tab" data-f="all" aria-pressed="true">전체</button>
+      <button class="tab" data-f="bot" aria-pressed="false">봇 활동</button>
+      <button class="tab" data-f="stale" aria-pressed="false">정체</button>
+      <button class="tab" data-f="issues" aria-pressed="false">이슈 있음</button>
+    </div>
+    <input class="search" id="q" type="search" placeholder="레포·커밋 검색" aria-label="레포 검색">
+  </div>
+
+  <section aria-label="레포 활동 목록">
+    <div class="head-row" aria-hidden="true">
+      <span></span><span>REPO</span><span>LAST COMMIT</span><span>AUTHOR</span><span class="r">ISSUES</span><span class="r">AGE</span>
+    </div>
+    <div class="list" id="list"></div>
+    <div class="empty" id="empty">조건에 맞는 레포가 없습니다.</div>
+  </section>
+
+  <footer>
+    <span>DATA: github-activity.json · GitHub Actions 주기 갱신 구조</span>
+    <span>STARGATE CORP · /monitor/</span>
+  </footer>
+</div>
+
+<script>
+const FALLBACK = null;
+const BOT = /bot|actions/i;
+const DAY = 864e5;
+function age(dateStr){
+  const d = Date.now() - new Date(dateStr).getTime();
+  const h = Math.floor(d/36e5), dd = Math.floor(d/DAY);
+  if (h < 1) return '방금';
+  if (h < 24) return h + 'h';
+  return dd + 'd';
+}
+function cls(dateStr){
+  const d = Date.now() - new Date(dateStr).getTime();
+  if (d < DAY) return 'on';
+  if (d < 7*DAY) return 'idle';
+  return 'stale';
+}
+function esc(s){return String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]))}
+let DATA=null, SITES=null, FILTER='all', Q='';
+function renderSites(){
+  if(!SITES) return;
+  document.getElementById('sites').innerHTML = SITES.sites.map(s=>{
+    const up = s.state==='up';
+    return `<a class="site" href="${esc(s.url)}" target="_blank" rel="noopener">
+      <span class="led ${up?'on':'stale'}"></span>
+      <span class="nm">${esc(s.name)}</span>
+      <span class="url">${esc(s.url.replace('https://',''))}</span>
+      <span class="code ${up?'':'bad'}">${s.http??'—'}</span>
+      <span class="lat">${s.latency_ms!=null?(s.latency_ms/1000).toFixed(1)+'s':'—'}</span>
+      <span class="note">${esc(s.note||(up?'정상':''))}</span>
+    </a>`;
+  }).join('');
+}
+function render(){
+  const repos = DATA.panels.services.map(r=>({
+    ...r,
+    lastDate: (r.last_commit && r.last_commit.date) || r.updated_at,
+    msg: (r.last_commit && r.last_commit.message) || '(커밋 정보 없음)',
+    who: (r.last_commit && r.last_commit.author) || '—'
+  })).sort((a,b)=> new Date(b.lastDate) - new Date(a.lastDate));
+  document.getElementById('s-repos').textContent = repos.length;
+  document.getElementById('s-issues').textContent = repos.reduce((s,r)=>s+(r.open_issues||0),0);
+  document.getElementById('s-bots').textContent = DATA.summary.bot_active_repos.length;
+  document.getElementById('s-recent').textContent = repos.filter(r=>Date.now()-new Date(r.lastDate)<DAY).length;
+  document.getElementById('gen').textContent = '갱신 ' + new Date(DATA.generated_at).toLocaleString('ko-KR',{hour12:false});
+  const al = document.getElementById('alerts');
+  const downAlerts = SITES ? SITES.sites.filter(s=>s.state==='down').map(s=>
+    `<div class="alert crit"><span class="sev">DOWN</span><span>${esc(s.name)} (${esc(s.url.replace('https://',''))}) — ${esc(s.note||'응답 없음')}</span></div>`) : [];
+  al.innerHTML = downAlerts.join('') + DATA.summary.attention_needed.map((t)=>{
+    const sev = t.includes('38개') ? 'crit' : 'warn';
+    return `<div class="alert ${sev}"><span class="sev">${sev==='crit'?'CRIT':'WARN'}</span><span>${esc(t)}</span></div>`;
+  }).join('');
+  let rows = repos.filter(r=>{
+    if (FILTER==='bot' && !BOT.test(r.who)) return false;
+    if (FILTER==='stale' && cls(r.lastDate)!=='stale') return false;
+    if (FILTER==='issues' && !(r.open_issues>0)) return false;
+    if (Q && !(r.repo+' '+r.msg+' '+r.who).toLowerCase().includes(Q)) return false;
+    return true;
+  });
+  document.getElementById('list').innerHTML = rows.map(r=>`
+    <a class="row" href="${esc(r.url)}" target="_blank" rel="noopener">
+      <span class="led ${cls(r.lastDate)}" title="${cls(r.lastDate)==='on'?'24시간 내 활동':cls(r.lastDate)==='idle'?'7일 내 활동':'7일 이상 정체'}"></span>
+      <span class="repo">${esc(r.repo)}${r.private?'<span class="badge-pvt">PVT</span>':''}<br><span class="role">${esc(r.role||'')}</span></span>
+      <span class="msg"><b>${esc(r.msg.split('\n')[0])}</b></span>
+      <span class="meta"><span class="who">${esc(r.who)}</span></span>
+      <span class="issues ${r.open_issues>=10?'hot':''}"><span class="n">${r.open_issues??'—'}</span> <span class="lab">open</span></span>
+      <span class="time">${age(r.lastDate)}</span>
+    </a>`).join('');
+  document.getElementById('empty').style.display = rows.length ? 'none' : 'block';
+}
+document.querySelectorAll('.tab').forEach(b=>b.addEventListener('click',()=>{
+  document.querySelectorAll('.tab').forEach(x=>x.setAttribute('aria-pressed','false'));
+  b.setAttribute('aria-pressed','true');
+  FILTER=b.dataset.f; render();
+}));
+document.getElementById('q').addEventListener('input',e=>{Q=e.target.value.trim().toLowerCase();render();});
+function renderAll(){ if(DATA) render(); }
+fetch('site-status.json').then(r=>r.ok?r.json():Promise.reject()).then(d=>{SITES=d;renderSites();renderAll();}).catch(()=>{});
+fetch('github-activity.json').then(r=>r.ok?r.json():Promise.reject()).then(d=>{DATA=d;renderAll();})
+  .catch(()=>{ if(FALLBACK){DATA=FALLBACK;renderAll();} });
+</script>
+</body>
+</html>
