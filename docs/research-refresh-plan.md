@@ -312,3 +312,5 @@ VWorld공식가이드법정동조회/8자리코드와12원응답을대조했다.
 - 2026-11-12 KST · [심해·지구 내부 난제 출처 대조](/research/source-reviews/2026-11-12-deep-earth-ocean.json) · 암흑 산소 편집 이력, 2026년 9월 v2의 챔버 14개·11개 순위상관, 독립 현장 관측의 적용 범위 및 내핵·맨틀·시추 근거를 대조했습니다. 문헌의 월간 기준월은 비적용입니다. 다음 독립 미완료 /research/disease-challenges/의 기관 원문 버전과 인용 범위를 대조합니다.
 
 - 2026-11-13 KST · [질병 난제 기관 원문 대조](/research/source-reviews/2026-11-13-disease.json) · IARC 세계 원표의 2024년 추정치와 성별 합계를 검산했습니다. NIH 2026년 보고서는 공식 색인 일부 범위이며, WHO GLASS 2023년 감시 범위와 2026–2036년 One Health 정책 채택문을 대조했습니다. 다음 독립 미완료 /research/kmo-combinatorics/의 자체 연습과 공식 기출의 판본·인용 범위를 대조합니다.
+
+- 2026-11-14 KST · [KMO 조합론 출처·계산 검산](/research/source-reviews/2026-11-14-kmo.json) · 자체 연습 10문항을 검산하고 공식 제40회 회차·공지 판본과 시행 또는 예정일을 대조했습니다. 기출 파일과 문항 대응은 자료실 접근 제한으로 미확인입니다. 다음 독립 미완료 /research/seoul-science-high-admission/의 공식 모집요강 판본과 공표 일정을 대조합니다.

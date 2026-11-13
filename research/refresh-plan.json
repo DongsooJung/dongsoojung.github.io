@@ -990,8 +990,8 @@
         "/research/startup-industries/"
       ],
       "outcome": "conditional_technical_acceptance",
-      "latestAudit": "/research/source-reviews/2026-11-13-disease.json",
-      "lastAttemptAt": "2026-11-13T00:18:20.934Z",
+      "latestAudit": "/research/source-reviews/2026-11-14-kmo.json",
+      "lastAttemptAt": "2026-11-13T15:15:24.402Z",
       "itemResults": {
         "/exchange-rate/": {
           "status": "verified",
@@ -1309,6 +1309,13 @@
           "audit": "/research/source-reviews/2026-11-13-disease.json",
           "scope": "IARC 세계·전체 암 원표에서 2024년 발생·사망과 성별 합계를 대조했습니다. NIH 2026년 보고서는 공식 색인 일부 및 인용 연구 초록 범위이며, WHO GLASS의 2023년 감시 분모와 One Health 계획 채택문을 확인했습니다. 문헌 기반 연구 의제의 월간 기준월은 비적용입니다.",
           "nextAction": "NIA 2026년 보고서 직접 접근 또는 인쇄판 확보 시 본문 전수와 판본을 대조합니다. WHO 인간 보건 연구 의제 PDF는 다운로드가 회복되면 확인합니다. 국가별 One Health 운영 성과는 별도 원자료가 필요합니다."
+        },
+        "/research/kmo-combinatorics/": {
+          "status": "not_applicable",
+          "checkedAt": "2026-11-13T15:15:24.402Z",
+          "audit": "/research/source-reviews/2026-11-14-kmo.json",
+          "scope": "자체 연습 10문항의 계산과 경계조건을 검산하고 공식 제40회 회차·시행/예정일·게시일을 대조했습니다. 개별 기출 파일 판본과 문항별 대응은 미확인입니다. 월간 기준월은 비적용입니다.",
+          "nextAction": "공식 자료실에서 특정 회차의 원문 파일에 접근할 수 있으면 시험 구분·판본을 대조합니다. 이번 공지와 계산 검산을 기출 본문 대조로 취급하지 않습니다."
         }
       },
       "checkpoints": {
@@ -1342,7 +1349,7 @@
           "Tourism not re-fetched before October26; original checkedAt retained"
         ]
       },
-      "nextAction": "다음 독립 미완료 /research/kmo-combinatorics/의 자체 연습과 공식 기출의 판본·인용 범위를 대조합니다.",
+      "nextAction": "다음 독립 미완료 /research/seoul-science-high-admission/의 공식 모집요강 판본과 공표 일정을 대조합니다.",
       "sourceFollowups": [
         {
           "id": "source-followup-1-20261021",
@@ -2653,6 +2660,22 @@
               "Verified GLOBOCAN totals and subgroup sums with two PDF extractors",
               "Two PDF companions passed text and visual checks"
             ]
+          }
+        },
+        {
+          "id": "kmo-source-20261114",
+          "status": "partial",
+          "checkedAt": "2026-11-13T15:15:24.402Z",
+          "keys": [
+            "/research/kmo-combinatorics/"
+          ],
+          "audit": "/research/source-reviews/2026-11-14-kmo.json",
+          "outcome": "ten_exercises_recomputed_official_notices_checked_exam_files_unavailable_monthly_not_applicable",
+          "release": {
+            "branch": "codex/kmo-source-20261114",
+            "status": "awaiting_checks",
+            "liveUrl": "https://www.stargateedu.co.kr/research/kmo-combinatorics/",
+            "sourceReviewUrl": "https://www.stargateedu.co.kr/research/source-reviews/2026-11-14-kmo.json"
           }
         }
       ],

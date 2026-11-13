@@ -5744,16 +5744,16 @@
     },
     {
       "source": {
-        "label": "공식 원문·저자 원고·직접 계산 (대조 범위 참조)",
-        "url": "https://www.kmo.or.kr/board/list.html?code=kmo_notice01&num=26255",
+        "label": "대한수학회 공식 공지 및 자체 연습 검산",
+        "url": "https://www.kmo.or.kr/board/list.html?code=kmo_notice01&num=26025",
         "verification": "partially_verified"
       },
       "dataAsOf": null,
       "dataPeriod": null,
-      "snapshotUpdatedAt": "2026-10-20",
+      "snapshotUpdatedAt": "2026-11-14",
       "collectedAt": null,
-      "checkedAt": "2026-10-20T01:16:40.879603+00:00",
-      "reviewStatus": "needs_review",
+      "checkedAt": "2026-11-13T15:15:24.402Z",
+      "reviewStatus": "not_applicable",
       "freshness": "not_applicable",
       "evidence": [
         {
@@ -5787,10 +5787,39 @@
           "checkedAt": "2026-10-20T01:12:34.743735+00:00",
           "sha256": "747272fd8939c2b39643d4d4951310f3b5f282716e9b71470e79e5404bd88229",
           "scope": "2026-09-29 공식 이용 안내와 자료실 확인, 자체 연습 10개 계산/경계조건 검산. 공식 기출 본문·문항 대응은 미확인으로 분리."
+        },
+        {
+          "kind": "audit-record",
+          "url": "/research/source-reviews/2026-11-14-kmo.json",
+          "checkedAt": "2026-11-13T15:15:24.402Z"
+        },
+        {
+          "kind": "official-source",
+          "url": "https://www.kmo.or.kr/board/list.html?code=kmo_notice01&num=26025",
+          "scope": "중등부·고등부 1차 실시일과 결과 공지 본문 확인. 첨부 기출 없음.",
+          "checkedAt": "2026-11-13T15:15:24.402Z"
+        },
+        {
+          "kind": "official-source",
+          "url": "https://www.kmo.or.kr/board/list.html?code=kmo_notice01&num=26236",
+          "scope": "공식 개최 공지 본문 확인. 개최 예정일과 공지 게시일을 구분.",
+          "checkedAt": "2026-11-13T15:15:24.402Z"
+        },
+        {
+          "kind": "official-source",
+          "url": "https://www.kmo.or.kr/board/list.html?code=kmo_notice01&num=26344",
+          "scope": "공식 응시자 안내 본문에서 예정일 재확인. 첨부 기출 없음.",
+          "checkedAt": "2026-11-13T15:15:24.402Z"
+        },
+        {
+          "kind": "official-source",
+          "url": "https://www.kmo.or.kr/main.html",
+          "scope": "제40회 일정 및 2026-09-29 기출 이용 공지의 제목·게시일 확인.",
+          "checkedAt": "2026-11-13T15:15:24.402Z"
         }
       ],
       "issues": [
-        "공식 기출과의 문항별 대응을 주장하려면 실제 원문과 사용 범위를 확인. 현재 자체 연습을 공식 기출 목록으로 취급하지 않음."
+        "공식 자료실에서 특정 회차의 원문 파일에 접근할 수 있으면 시험 구분·판본을 대조합니다. 이번 공지와 계산 검산을 기출 본문 대조로 취급하지 않습니다."
       ],
       "key": "/research/kmo-combinatorics/",
       "url": "/research/kmo-combinatorics/",
