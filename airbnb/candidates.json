@@ -1,5 +1,5 @@
 {
-  "checked_at_kst": "2026-11-12T16:29:16+09:00",
+  "checked_at_kst": "2026-11-13T16:00:21+09:00",
   "filters": {
     "max_deposit_manwon": 1000,
     "max_rent_manwon": 100,
@@ -8,7 +8,7 @@
   "source_mode": "public-listings",
   "crawl": {
     "visited_urls": 70,
-    "successful_pages": 57,
+    "successful_pages": 58,
     "max_pages": 70
   },
   "baseline": [
@@ -37,7 +37,7 @@
       "area_m2": 39.7,
       "area_basis": "exclusive",
       "building_type": "단독주택",
-      "freshness_days": 0,
+      "freshness_days": 1,
       "title": "좌천동 12평 직거래 빌라(투룸 이상) 월세 1,000 / 20만원",
       "legal_risk": "상대적으로 낮음",
       "host_claim": false,
@@ -48,7 +48,7 @@
         "관광/교통 키워드",
         "최근 등록"
       ],
-      "is_new": true
+      "is_new": false
     },
     {
       "id": "4697552",
@@ -72,30 +72,6 @@
         "주택용도"
       ],
       "is_new": false
-    },
-    {
-      "id": "5005567",
-      "url": "https://realty.daangn.com/articles/5005567",
-      "district": "부산진구",
-      "dong": "",
-      "deposit": 1000,
-      "rent": 63,
-      "rooms": 3,
-      "area_m2": null,
-      "area_basis": null,
-      "building_type": "단독주택",
-      "freshness_days": 0,
-      "title": "전포동 직거래 상가 월세 1,000 / 63만원",
-      "legal_risk": "상대적으로 낮음",
-      "host_claim": false,
-      "score": 79,
-      "reasons": [
-        "3룸+",
-        "주택용도",
-        "관광/교통 키워드",
-        "최근 등록"
-      ],
-      "is_new": true
     },
     {
       "id": "3207454",
@@ -130,7 +106,7 @@
       "area_m2": 47.53,
       "area_basis": "exclusive",
       "building_type": "공동주택",
-      "freshness_days": 10,
+      "freshness_days": 11,
       "title": "초량동 14평 빌라(투룸 이상) 월세 500 / 75만원",
       "legal_risk": "중간",
       "host_claim": false,
