@@ -5577,16 +5577,16 @@
     },
     {
       "source": {
-        "label": "공식 발행기관·출판사·저자 원문 (항목별 대조 범위 참조)",
-        "url": "https://www.who.int/news-room/fact-sheets/detail/cancer",
+        "label": "IARC·WHO 원표와 NIH 기관 문서",
+        "url": "https://gco.iarc.who.int/media/globocan/factsheets/populations/900-world-fact-sheet.pdf",
         "verification": "partially_verified"
       },
       "dataAsOf": null,
       "dataPeriod": null,
-      "snapshotUpdatedAt": "2026-10-20",
-      "collectedAt": null,
-      "checkedAt": "2026-10-20T00:36:58.677999+00:00",
-      "reviewStatus": "needs_review",
+      "snapshotUpdatedAt": "2026-11-13",
+      "collectedAt": "2026-11-13T00:15:34.171Z",
+      "checkedAt": "2026-11-13T00:18:20.934Z",
+      "reviewStatus": "not_applicable",
       "freshness": "not_applicable",
       "evidence": [
         {
@@ -5614,11 +5614,83 @@
           "checkedAt": "2026-10-20T00:30:42.351247+00:00",
           "sha256": "370930aeee2c0474624e18d912dc9ee5bba2dcc6b3fe595631ef96829ef3f46e",
           "scope": "WHO 암 설명문 2026-07-03 판본과 WHO AMR 2025-02-06 인간 보건 연구 의제 대조. IARC 개별 원표·NIA 본문·치료효과는 미검증."
+        },
+        {
+          "kind": "audit-record",
+          "url": "/research/source-reviews/2026-11-13-disease.json",
+          "checkedAt": "2026-11-13T00:18:20.934Z"
+        },
+        {
+          "kind": "official-source",
+          "url": "https://gco.iarc.who.int/media/globocan/factsheets/populations/900-world-fact-sheet.pdf",
+          "scope": "공식 PDF 2쪽. 양성·전 연령 세계 발생·사망·5년 유병 추정, 성별 합계와 비흑색종 피부암 제외 행을 대조.",
+          "checkedAt": "2026-11-13T00:18:20.934Z",
+          "sha256": "bfc7e88b1128bf5f1e4134669d3dd96175a5de3e20156cb842a8f9aff45901b3"
+        },
+        {
+          "kind": "official-source",
+          "url": "https://gco.iarc.who.int/media/globocan/factsheets/cancers/39-all-cancers-fact-sheet.pdf",
+          "scope": "공식 PDF 1쪽의 전체 발생·사망을 세계 원표와 대조.",
+          "checkedAt": "2026-11-13T00:18:20.934Z",
+          "sha256": "3209acbd8d64ee7865adf08fd79125048effccf5994f53cd2c6305140bc748e7"
+        },
+        {
+          "kind": "official-source",
+          "url": "https://www.iarc.who.int/news-events/global-cancer-statistics-2024-globocan-estimates-of-incidence-and-mortality-worldwide-for-34-cancers-in-186-countries",
+          "scope": "186개국·34종 암 추정 범위와 20.6·9.8백만 명 반올림 수치.",
+          "checkedAt": "2026-11-13T00:18:20.934Z"
+        },
+        {
+          "kind": "official-source",
+          "url": "https://www.who.int/en/news-room/fact-sheets/detail/cancer",
+          "scope": "전 세계 암 사망 약 1천만 명이라는 설명문 수치. 원표와 수치 정밀도가 다름.",
+          "checkedAt": "2026-11-13T00:18:20.934Z"
+        },
+        {
+          "kind": "official-source",
+          "url": "https://www.nia.nih.gov/sites/default/files/2025-09/2025-alzheimers-progress-report.pdf",
+          "scope": "NIA 공개 PDF의 표제와 기존 판본 연도 확인.",
+          "checkedAt": "2026-11-13T00:18:20.934Z"
+        },
+        {
+          "kind": "official-source",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/40164726/",
+          "scope": "저자 초록에서 세 코호트의 병리 지표·인지 수행 관련성을 대조. 진단·추적 연구의 근거 범위.",
+          "checkedAt": "2026-11-13T00:18:20.934Z"
+        },
+        {
+          "kind": "official-source",
+          "url": "https://www.who.int/publications/i/item/9789240102309",
+          "scope": "발행기관 개요에서 인간 보건 연구 우선순위와 2030년 목표 범위 대조. 원문 다운로드 링크는 확인 시 시간 초과.",
+          "checkedAt": "2026-11-13T00:18:20.934Z"
+        },
+        {
+          "kind": "official-source",
+          "url": "https://www.who.int/publications/i/item/9789240116337",
+          "scope": "WHO 발행 페이지와 공개 보고서 요약 본문에서 2023년 조정 추정과 감시 분모 대조.",
+          "checkedAt": "2026-11-13T00:18:20.934Z"
+        },
+        {
+          "kind": "official-source",
+          "url": "https://www.who.int/news/item/13-10-2025-who-warns-of-widespread-resistance-to-common-antibiotics-worldwide/",
+          "scope": "2023년 감시 범위에서 검사실 확인 세균 감염 약 6건 중 1건의 내성 추정.",
+          "checkedAt": "2026-11-13T00:18:20.934Z"
+        },
+        {
+          "kind": "official-source",
+          "url": "https://apps.who.int/gb/ebwha/pdf_files/WHA79/A79_%2819%29-en.pdf",
+          "scope": "총회 결정 원문. 2026–2036년 행동계획 채택과 이행 보고 요청.",
+          "checkedAt": "2026-11-13T00:18:20.934Z"
+        },
+        {
+          "kind": "official-source",
+          "url": "https://www.who.int/news/item/25-05-2026-the-world-health-assembly-adopts-updated-global-action-plan-on-antimicrobial-resistance-%282026-2036%29",
+          "scope": "One Health에 따른 인간·동물·식물·환경을 아우르는 정책 틀. 국가별 성과는 별도 근거 필요.",
+          "checkedAt": "2026-11-13T00:18:20.934Z"
         }
       ],
       "issues": [
-        "NIA 2025/2026 본문 접근 정상화 또는 공식 PDF 확보 후 판본 대조, IARC 통계 사용 시 질의·대상·연도별 원표 확보.",
-        "확인일 2026-10-20과 자료 관측기간·원문 공표/개정일을 구분. 2026-09/10 관측값을 추정하거나 수집하지 않음."
+        "NIA 2026년 보고서 직접 접근 또는 인쇄판 확보 시 본문 전수와 판본을 대조합니다. WHO 인간 보건 연구 의제 PDF는 다운로드가 회복되면 확인합니다. 국가별 One Health 운영 성과는 별도 원자료가 필요합니다."
       ],
       "key": "/research/disease-challenges/",
       "url": "/research/disease-challenges/",

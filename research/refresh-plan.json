@@ -990,8 +990,8 @@
         "/research/startup-industries/"
       ],
       "outcome": "conditional_technical_acceptance",
-      "latestAudit": "/research/source-reviews/2026-11-12-deep-earth-ocean.json",
-      "lastAttemptAt": "2026-11-12T07:57:42.241Z",
+      "latestAudit": "/research/source-reviews/2026-11-13-disease.json",
+      "lastAttemptAt": "2026-11-13T00:18:20.934Z",
       "itemResults": {
         "/exchange-rate/": {
           "status": "verified",
@@ -1302,6 +1302,13 @@
           "audit": "/research/source-reviews/2026-11-12-deep-earth-ocean.json",
           "scope": "암흑 산소 원논문·편집 이력, 2026-09-18 v2 공개 재분석과 독립 현장 관측 범위, 내핵·맨틀·시추 근거를 대조했습니다. 표 1의 14개·11개 챔버 순위상관과 양측 p값을 검산했습니다. 문헌 기반 연구 의제의 월간 기준월은 비적용입니다.",
           "nextAction": "편집자 후속 결정 또는 동일 조건의 독립 현장 원자료가 공개될 때 암흑 산소의 인과 근거를 재대조합니다. SG-3 시추 원기록 확보 시 1m 차이를 확인합니다."
+        },
+        "/research/disease-challenges/": {
+          "status": "not_applicable",
+          "checkedAt": "2026-11-13T00:18:20.934Z",
+          "audit": "/research/source-reviews/2026-11-13-disease.json",
+          "scope": "IARC 세계·전체 암 원표에서 2024년 발생·사망과 성별 합계를 대조했습니다. NIH 2026년 보고서는 공식 색인 일부 및 인용 연구 초록 범위이며, WHO GLASS의 2023년 감시 분모와 One Health 계획 채택문을 확인했습니다. 문헌 기반 연구 의제의 월간 기준월은 비적용입니다.",
+          "nextAction": "NIA 2026년 보고서 직접 접근 또는 인쇄판 확보 시 본문 전수와 판본을 대조합니다. WHO 인간 보건 연구 의제 PDF는 다운로드가 회복되면 확인합니다. 국가별 One Health 운영 성과는 별도 원자료가 필요합니다."
         }
       },
       "checkpoints": {
@@ -1335,7 +1342,7 @@
           "Tourism not re-fetched before October26; original checkedAt retained"
         ]
       },
-      "nextAction": "다음 독립 미완료 /research/disease-challenges/의 기관 원문 버전과 인용 범위를 대조합니다.",
+      "nextAction": "다음 독립 미완료 /research/kmo-combinatorics/의 자체 연습과 공식 기출의 판본·인용 범위를 대조합니다.",
       "sourceFollowups": [
         {
           "id": "source-followup-1-20261021",
@@ -2616,6 +2623,22 @@
               "Recomputed 14- and 11-chamber Table 1 correlations",
               "Two PDF companions passed text and visual checks"
             ]
+          }
+        },
+        {
+          "id": "disease-source-20261113",
+          "status": "partial",
+          "checkedAt": "2026-11-13T00:18:20.934Z",
+          "keys": [
+            "/research/disease-challenges/"
+          ],
+          "audit": "/research/source-reviews/2026-11-13-disease.json",
+          "outcome": "official_annual_cancer_estimates_and_glass_compared_nia_index_scope_monthly_period_not_applicable",
+          "release": {
+            "branch": "codex/disease-source-20261113",
+            "status": "awaiting_checks",
+            "liveUrl": "https://www.stargateedu.co.kr/research/disease-challenges/",
+            "sourceReviewUrl": "https://www.stargateedu.co.kr/research/source-reviews/2026-11-13-disease.json"
           }
         }
       ],

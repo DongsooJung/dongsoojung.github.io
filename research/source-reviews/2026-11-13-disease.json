@@ -1,0 +1,199 @@
+{
+  "schemaVersion": 1,
+  "project": "/research/disease-challenges/",
+  "reviewStatus": "not_applicable",
+  "dataPeriod": null,
+  "dataAsOf": null,
+  "snapshotUpdatedAt": "2026-11-13",
+  "collectedAt": "2026-11-13T00:15:34.171Z",
+  "checkedAt": "2026-11-13T00:18:20.934Z",
+  "scope": "IARC 세계·전체 암 원표에서 2024년 발생·사망과 성별 합계를 대조했습니다. NIH 2026년 보고서는 공식 색인 일부 및 인용 연구 초록 범위이며, WHO GLASS의 2023년 감시 분모와 One Health 계획 채택문을 확인했습니다. 문헌 기반 연구 의제의 월간 기준월은 비적용입니다.",
+  "sources": [
+    {
+      "id": "iarc-world",
+      "title": "IARC GLOBOCAN 2024 World fact sheet",
+      "url": "https://gco.iarc.who.int/media/globocan/factsheets/populations/900-world-fact-sheet.pdf",
+      "edition": "2026-09",
+      "referenceYear": "2024",
+      "scope": "공식 PDF 2쪽. 양성·전 연령 세계 발생·사망·5년 유병 추정, 성별 합계와 비흑색종 피부암 제외 행을 대조.",
+      "access": "source",
+      "checkedAt": "2026-11-13T00:18:20.934Z",
+      "sha256": "bfc7e88b1128bf5f1e4134669d3dd96175a5de3e20156cb842a8f9aff45901b3"
+    },
+    {
+      "id": "iarc-all",
+      "title": "IARC GLOBOCAN 2024 All cancers fact sheet",
+      "url": "https://gco.iarc.who.int/media/globocan/factsheets/cancers/39-all-cancers-fact-sheet.pdf",
+      "edition": "2026-07-08",
+      "referenceYear": "2024",
+      "scope": "공식 PDF 1쪽의 전체 발생·사망을 세계 원표와 대조.",
+      "access": "source",
+      "checkedAt": "2026-11-13T00:18:20.934Z",
+      "sha256": "3209acbd8d64ee7865adf08fd79125048effccf5994f53cd2c6305140bc748e7"
+    },
+    {
+      "id": "iarc-release",
+      "title": "IARC GLOBOCAN 2024 발표",
+      "url": "https://www.iarc.who.int/news-events/global-cancer-statistics-2024-globocan-estimates-of-incidence-and-mortality-worldwide-for-34-cancers-in-186-countries",
+      "edition": "2026-07-08",
+      "referenceYear": "2024",
+      "scope": "186개국·34종 암 추정 범위와 20.6·9.8백만 명 반올림 수치.",
+      "access": "source",
+      "checkedAt": "2026-11-13T00:18:20.934Z"
+    },
+    {
+      "id": "who-cancer",
+      "title": "WHO 암 설명문",
+      "url": "https://www.who.int/en/news-room/fact-sheets/detail/cancer",
+      "edition": "2026-07-03",
+      "referenceYear": "2024",
+      "scope": "전 세계 암 사망 약 1천만 명이라는 설명문 수치. 원표와 수치 정밀도가 다름.",
+      "access": "source",
+      "checkedAt": "2026-11-13T00:18:20.934Z"
+    },
+    {
+      "id": "nia-release",
+      "title": "NIH 2026년 치매 연구보고서 발행 안내",
+      "url": "https://www.nia.nih.gov/research/blog/2026/09/nih-dementia-research-read-fy28-professional-judgment-budget-and-annual",
+      "edition": "2026-09-25",
+      "referenceYear": null,
+      "scope": "NIA 공식 검색 색인에 노출된 발행 안내. FY2028 예산과 2026년 연간 진행보고서는 별도 문서.",
+      "access": "indexed",
+      "checkedAt": "2026-11-13T00:18:20.934Z"
+    },
+    {
+      "id": "nia-2026",
+      "title": "NIH 2026년 알츠하이머병 및 관련 치매 연구 진행보고서",
+      "url": "https://www.nia.nih.gov/about/2026-nih-alzheimers-disease-and-related-dementias-research-progress-report-advances-and",
+      "edition": "2026-09-25",
+      "referenceYear": null,
+      "scope": "NIA 공식 검색 색인에서 치료 연구와 진단·인지평가 장의 일부, 혈액 바이오마커 사례 대조. 직접 GET은 HTTP 405, 인쇄 PDF 미확보.",
+      "access": "indexed",
+      "checkedAt": "2026-11-13T00:18:20.934Z"
+    },
+    {
+      "id": "nia-2025",
+      "title": "NIH 2025년 치매 연구 진행보고서",
+      "url": "https://www.nia.nih.gov/sites/default/files/2025-09/2025-alzheimers-progress-report.pdf",
+      "edition": "2025-09",
+      "referenceYear": null,
+      "scope": "NIA 공개 PDF의 표제와 기존 판본 연도 확인.",
+      "access": "source",
+      "checkedAt": "2026-11-13T00:18:20.934Z"
+    },
+    {
+      "id": "horie",
+      "title": "Horie et al. 혈장 eMTBR-tau243 연구",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/40164726/",
+      "edition": "2025-03-31",
+      "referenceYear": null,
+      "scope": "저자 초록에서 세 코호트의 병리 지표·인지 수행 관련성을 대조. 진단·추적 연구의 근거 범위.",
+      "access": "source",
+      "checkedAt": "2026-11-13T00:18:20.934Z"
+    },
+    {
+      "id": "amr-agenda",
+      "title": "WHO 인간 보건 AMR 연구 의제",
+      "url": "https://www.who.int/publications/i/item/9789240102309",
+      "edition": "2025-02-06",
+      "referenceYear": null,
+      "scope": "발행기관 개요에서 인간 보건 연구 우선순위와 2030년 목표 범위 대조. 원문 다운로드 링크는 확인 시 시간 초과.",
+      "access": "source",
+      "checkedAt": "2026-11-13T00:18:20.934Z"
+    },
+    {
+      "id": "glass",
+      "title": "WHO 세계 항생제 내성 감시보고서 2025",
+      "url": "https://www.who.int/publications/i/item/9789240116337",
+      "edition": "2025-10-13",
+      "referenceYear": "2023",
+      "scope": "WHO 발행 페이지와 공개 보고서 요약 본문에서 2023년 조정 추정과 감시 분모 대조.",
+      "access": "source",
+      "checkedAt": "2026-11-13T00:18:20.934Z"
+    },
+    {
+      "id": "glass-release",
+      "title": "WHO GLASS 보고서 발표",
+      "url": "https://www.who.int/news/item/13-10-2025-who-warns-of-widespread-resistance-to-common-antibiotics-worldwide/",
+      "edition": "2025-10-13",
+      "referenceYear": "2023",
+      "scope": "2023년 감시 범위에서 검사실 확인 세균 감염 약 6건 중 1건의 내성 추정.",
+      "access": "source",
+      "checkedAt": "2026-11-13T00:18:20.934Z"
+    },
+    {
+      "id": "one-health",
+      "title": "제79차 세계보건총회 결정 WHA79(19)",
+      "url": "https://apps.who.int/gb/ebwha/pdf_files/WHA79/A79_%2819%29-en.pdf",
+      "edition": "2026-05-23",
+      "referenceYear": null,
+      "scope": "총회 결정 원문. 2026–2036년 행동계획 채택과 이행 보고 요청.",
+      "access": "source",
+      "checkedAt": "2026-11-13T00:18:20.934Z"
+    },
+    {
+      "id": "one-health-framework",
+      "title": "WHO 행동계획 채택 설명",
+      "url": "https://www.who.int/news/item/25-05-2026-the-world-health-assembly-adopts-updated-global-action-plan-on-antimicrobial-resistance-%282026-2036%29",
+      "edition": "2026-05-25",
+      "referenceYear": null,
+      "scope": "One Health에 따른 인간·동물·식물·환경을 아우르는 정책 틀. 국가별 성과는 별도 근거 필요.",
+      "access": "source",
+      "checkedAt": "2026-11-13T00:18:20.934Z"
+    }
+  ],
+  "findings": [
+    {
+      "topic": "암 부담",
+      "finding": "IARC의 2026년 9월 세계 원표에 수록된 2024년 추정치는 신규 암 20,636,441건, 사망 9,762,507명, 5년 유병 54,244,091명입니다. 발생과 사망은 7월 전체 암 판본과 같고, 비흑색종 피부암을 제외한 행은 별도로 집계됩니다."
+    },
+    {
+      "topic": "치매 연구",
+      "finding": "NIH는 2026년 9월 25일 연간 연구 진행보고서를 발표했습니다. NIA 공개 색인에서 예방·치료와 진단 도구를 다룬 본문의 일부를 확인했습니다. 혈장 eMTBR-tau243은 타우 병리와 인지 수행의 관련성을 분석한 연구입니다. 기능 회복은 이 페이지의 별도 연구 질문입니다. NIA 직접 열람은 HTTP 405이며 인쇄판은 미확보입니다."
+    },
+    {
+      "topic": "항생제 내성",
+      "finding": "WHO의 2025년 GLASS 보고서는 2023년 감시 범위에서 검사실로 확인된 주요 세균 감염의 약 6건 중 1건이 항생제 내성을 보인 것으로 추정합니다. 2025년 연구 의제의 범위는 인간 보건입니다. One Health 정책의 근거는 세계보건총회가 2026년 5월 23일 채택한 2026–2036 행동계획입니다."
+    }
+  ],
+  "priorSnapshot": {
+    "url": "https://www.stargateedu.co.kr/research/disease-challenges/",
+    "sha256": "6725a2a5ffaa88a93e51a913974a727e0372efaec50e18972c106f5a72b988d1"
+  },
+  "verification": {
+    "worldCancer": {
+      "referenceYear": 2024,
+      "geography": "world",
+      "ages": "all",
+      "coverage": "both sexes; 186 countries; 34 cancer types",
+      "columns": [
+        "males",
+        "females",
+        "both sexes"
+      ],
+      "unit": "count",
+      "incidence": [
+        10613344,
+        10023097,
+        20636441
+      ],
+      "mortality": [
+        5482442,
+        4280065,
+        9762507
+      ],
+      "prevalence5yr": [
+        26105772,
+        28138319,
+        54244091
+      ],
+      "excludedNonMelanomaSkinCancer": {
+        "incidence": 19498127,
+        "mortality": 9703786,
+        "prevalence5yr": 50476110
+      },
+      "extraction": "Two independent PDF text engines, sex sums, and comparison against the July all-cancers edition."
+    }
+  },
+  "nextAction": "NIA 2026년 보고서 직접 접근 또는 인쇄판 확보 시 본문 전수와 판본을 대조합니다. WHO 인간 보건 연구 의제 PDF는 다운로드가 회복되면 확인합니다. 국가별 One Health 운영 성과는 별도 원자료가 필요합니다."
+}
