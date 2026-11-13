@@ -419,7 +419,7 @@ body.portal-dashboard-mode.portal-list-mode .portal-dashboard-meta{display:grid;
 .portal-dashboard-trend.is-new{color:var(--acc)}
 
 .portal-dashboard-summary{display:none}
-body.portal-dashboard-mode .portal-dashboard-summary{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin:14px 0 16px}
+body.portal-dashboard-mode .portal-dashboard-summary{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin:14px 0 16px}
 .portal-dashboard-summary .ops-stat{padding:12px 14px;border:1px solid var(--line);border-radius:12px;background:color-mix(in srgb,var(--card) 86%,transparent)}
 .portal-dashboard-summary .ops-stat span{display:block;color:var(--muted);font-size:10px;font-weight:800}
 .portal-dashboard-summary .ops-stat strong{display:block;margin-top:3px;color:var(--text);font-size:18px;font-weight:900;font-variant-numeric:tabular-nums}
@@ -693,17 +693,8 @@ var m=localStorage.getItem(k);if(m==='mobile'||m==='fold')r.classList.add('is-ap
     <div class="portal-dashboard-summary" id="portal-dashboard-summary" aria-label="프로젝트 운영 요약">
       <div class="ops-stat"><span>게시됨</span><strong id="ops-live-count">-</strong></div>
       <div class="ops-stat"><span>신규·실험</span><strong id="ops-new-count">-</strong></div>
-      <div class="ops-stat"><span>최근 30일 조회</span><strong id="ops-view-count">-</strong></div>
       <div class="ops-stat"><span>홈 클릭</span><strong id="ops-click-count">-</strong></div>
     </div>
-    <section class="home-page-views" id="home-page-view-panel" aria-labelledby="home-page-view-heading">
-      <div>
-        <p class="home-page-view-kicker">Cloudflare Analytics</p>
-        <h3 id="home-page-view-heading">최근 30일 페이지별 조회</h3>
-        <p class="home-page-view-status" id="home-page-view-status" role="status">최근 30일 · 연결된 사이트 도메인 합산 · 집계 정보를 불러오는 중입니다.</p>
-      </div>
-      <ol class="home-page-view-list" id="home-page-view-list" aria-live="polite"></ol>
-    </section>
     <div class="project-toggle-row">
       <div class="project-layout-group" role="group" aria-label="프로젝트 보기 방식">
         <button class="project-toggle" id="project-layout-cards" type="button" aria-pressed="true" aria-controls="projects-grid" data-analytics-ignore>카드 보기</button>
@@ -1790,7 +1781,6 @@ if ('serviceWorker' in navigator) {
 </script>
 <script src="/assets/visitor-counter.js?v=20261029-public-report" defer></script>
 <script src="/assets/usage-analytics.js?v=20261026-cloudflare-www-1" defer></script>
-<script src="/assets/home-page-views.js?v=20261026-cloudflare-pages-1" defer></script>
 <script>
 (()=>{
   const mainBtn=document.getElementById("portal-view-main");
