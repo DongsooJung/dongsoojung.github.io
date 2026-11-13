@@ -397,7 +397,7 @@ body.portal-dashboard-mode .portal-dashboard-meta{display:grid;grid-template-col
 .portal-dashboard-trend.is-new{color:var(--acc)}
 
 .portal-dashboard-summary{display:none}
-body.portal-dashboard-mode .portal-dashboard-summary{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin:14px 0 16px}
+body.portal-dashboard-mode .portal-dashboard-summary{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin:14px 0 16px}
 .portal-dashboard-summary .ops-stat{padding:12px 14px;border:1px solid var(--line);border-radius:12px;background:color-mix(in srgb,var(--card) 86%,transparent)}
 .portal-dashboard-summary .ops-stat span{display:block;color:var(--muted);font-size:10px;font-weight:800}
 .portal-dashboard-summary .ops-stat strong{display:block;margin-top:3px;color:var(--text);font-size:18px;font-weight:900;font-variant-numeric:tabular-nums}
@@ -550,7 +550,6 @@ body.portal-dashboard-mode #personal-projects{margin-top:14px}
     <div class="portal-dashboard-summary" id="portal-dashboard-summary" aria-label="Project activity summary">
       <div class="ops-stat"><span>Published</span><strong id="ops-live-count">-</strong></div>
       <div class="ops-stat"><span>New / experimental</span><strong id="ops-new-count">-</strong></div>
-      <div class="ops-stat"><span>Views in 30 days</span><strong id="ops-view-count">-</strong></div>
       <div class="ops-stat"><span>Home clicks</span><strong id="ops-click-count">-</strong></div>
     </div>
     <div class="project-toggle-row">
