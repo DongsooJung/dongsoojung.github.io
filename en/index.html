@@ -1242,7 +1242,7 @@ body.portal-dashboard-mode #personal-projects{margin-top:14px}
   const label = toggle.querySelector('.project-toggle-text');
   const copy = {
     alpha: 'Browse all projects in A–Z order. Choose Most used to see projects ranked by recent activity.',
-    usage: 'Rank projects by page views and home clicks over the last 30 days. Ties are sorted A–Z.',
+    usage: 'Projects with the most visits and clicks are shown first. Ties are sorted A–Z.',
     needs: 'Show pinned items and recently used projects first. Search by title, description, tags or aliases.',
     updated: 'Show the most recently updated project pages first.',
   };
@@ -1509,7 +1509,6 @@ if ('serviceWorker' in navigator) {
     meta.innerHTML=
       '<div class="meta-line"><span>Status</span><strong class="portal-dashboard-status '+status.cls+'">'+status.label+'</strong></div>'+
       '<div class="meta-line"><span>Page updated</span><strong data-ops-updated>Checking</strong></div>'+
-      '<div class="meta-line"><span>30-day views</span><strong data-ops-views>-</strong></div>'+
       '<div class="meta-line"><span>7-day trend</span><strong class="portal-dashboard-trend is-flat" data-ops-trend>—</strong></div>'+
       '<div class="meta-line"><span>Home clicks</span><strong data-ops-clicks>-</strong></div>';
     const row=card.querySelector(".body .row");
@@ -1549,7 +1548,6 @@ if ('serviceWorker' in navigator) {
         views+=usage.views;clicks+=usage.clicks;
         if(status.label==="Published")live+=1;else if(status.label==="New"||status.label==="Experimental")newish+=1;
       }
-      meta.querySelector("[data-ops-views]").textContent=usageState.views==="ready"?fmt(usage.views):usageState.views==="error"?"Unavailable":"—";
       meta.querySelector("[data-ops-clicks]").textContent=usageState.clicks==="ready"?fmt(usage.clicks):usageState.clicks==="error"?"Unavailable":"—";
       if(usageState.views==="ready")renderTrend(meta.querySelector("[data-ops-trend]"),usage.trend);
       else meta.querySelector("[data-ops-trend]").textContent=usageState.views==="error"?"Unavailable":"—";
@@ -1557,7 +1555,7 @@ if ('serviceWorker' in navigator) {
     const set=(id,value)=>{const el=document.getElementById(id);if(el)el.textContent=fmt(value)};
     set("ops-live-count",live);set("ops-new-count",newish);
     const setUsage=(id,value,state)=>{const el=document.getElementById(id);if(el){el.textContent=state==="ready"?fmt(value):state==="error"?"Unavailable":"—";el.title=state==="error"?"Visitor statistics could not be loaded. Please try again later.":""}};
-    setUsage("ops-view-count",views,usageState.views);setUsage("ops-click-count",clicks,usageState.clicks);
+    setUsage("ops-click-count",clicks,usageState.clicks);
   };
 
   const updateCacheKey="stargate-project-lastmod-v1";
