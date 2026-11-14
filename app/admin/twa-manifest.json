@@ -1,0 +1,42 @@
+{
+  "packageId": "kr.co.stargateedu.admin",
+  "host": "stargateedu.co.kr",
+  "name": "STARGATE 관리자",
+  "launcherName": "스타게이트 관리자",
+  "display": "standalone",
+  "themeColor": "#4562e9",
+  "themeColorDark": "#141820",
+  "navigationColor": "#f7f8fc",
+  "navigationColorDark": "#141820",
+  "navigationDividerColor": "#f7f8fc",
+  "navigationDividerColorDark": "#141820",
+  "backgroundColor": "#f7f8fc",
+  "enableNotifications": false,
+  "startUrl": "/stargate-admin/#today",
+  "iconUrl": "https://stargateedu.co.kr/stargate-admin/icon-512.png",
+  "splashScreenFadeOutDuration": 300,
+  "signingKey": {
+    "path": "./stargate-admin-upload.keystore",
+    "alias": "stargate-admin"
+  },
+  "appVersionName": "1.4.0",
+  "appVersion": "1.4.0",
+  "appVersionCode": 1,
+  "shortcuts": [],
+  "generatorApp": "bubblewrap-cli",
+  "webManifestUrl": "https://stargateedu.co.kr/stargate-admin/manifest.webmanifest",
+  "fallbackType": "customtabs",
+  "features": {},
+  "alphaDependencies": {
+    "enabled": false
+  },
+  "enableSiteSettingsShortcut": true,
+  "isChromeOSOnly": false,
+  "isMetaQuest": false,
+  "fullScopeUrl": "https://stargateedu.co.kr/stargate-admin/",
+  "minSdkVersion": 24,
+  "orientation": "default",
+  "fingerprints": [],
+  "additionalTrustedOrigins": [],
+  "retainedBundles": []
+}
