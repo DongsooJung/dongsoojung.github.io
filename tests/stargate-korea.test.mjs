@@ -64,12 +64,29 @@ test("상품 CTA는 라이브 영문 사이트 경로만 가리킨다", () => {
   ]);
 });
 
+function hrefs(html) {
+  return [...String(html).matchAll(/\bhref="([^"]+)"/g)].map((match) => match[1]);
+}
+
+function isSkHref(href, pathname, hash = "") {
+  try {
+    const url = new URL(href, SITE.origin);
+    return url.protocol === "https:"
+      && url.hostname === "www.stargatekorea.net"
+      && url.pathname === pathname
+      && url.hash === hash;
+  } catch {
+    return false;
+  }
+}
+
 test("허브 페이지는 영문 사이트와 고객 파이프라인을 노출한다", async () => {
   const html = await readFile(path.join(root, "stargate-korea/index.html"), "utf8");
-  assert.ok(html.includes("https://www.stargatekorea.net/#plan"));
-  assert.ok(html.includes("https://www.stargatekorea.net/books/"));
-  assert.ok(html.includes("https://www.stargatekorea.net/custom-guide/"));
-  assert.ok(html.includes("https://www.stargatekorea.net/feed"));
+  const links = hrefs(html);
+  assert.ok(links.some((href) => isSkHref(href, "/", "#plan")));
+  assert.ok(links.some((href) => isSkHref(href, "/books/")));
+  assert.ok(links.some((href) => isSkHref(href, "/custom-guide/")));
+  assert.ok(links.some((href) => isSkHref(href, "/feed")));
   assert.ok(html.includes("401k"));
 });
 
@@ -80,11 +97,11 @@ test("포털 홈·여행·영문 홈이 라이브 사이트와 연동 허브를 
     readFile(path.join(root, "travel/index.html"), "utf8"),
     readFile(path.join(root, "global/korea/index.html"), "utf8"),
   ]);
-  assert.ok(home.includes('href="/stargate-korea/"'));
-  assert.ok(en.includes('href="https://www.stargatekorea.net/"'));
+  assert.ok(hrefs(home).includes("/stargate-korea/"));
+  assert.ok(hrefs(en).some((href) => isSkHref(href, "/")));
   assert.ok(travel.includes('id="stargate-korea"'));
-  assert.ok(travel.includes('href="/stargate-korea/"'));
-  assert.ok(korea.includes("https://www.stargatekorea.net/"));
+  assert.ok(hrefs(travel).includes("/stargate-korea/"));
+  assert.ok(hrefs(korea).some((href) => isSkHref(href, "/")));
 });
 
 test("피드 내용이 같으면 스냅샷 fingerprint도 같다", () => {

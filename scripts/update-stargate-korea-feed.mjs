@@ -78,8 +78,9 @@ if (previous && contentKey(previous) === contentKey(snapshot) && previous.fetche
 }
 
 await mkdir(dirname(output), { recursive: true });
-// Public RSS is allowlisted to www.stargatekorea.net/feed and rewritten as bounded JSON fields.
-await writeFile(output, `${JSON.stringify(snapshot, null, 2)}\n`, "utf8");
+const payload = `${JSON.stringify(snapshot, null, 2)}\n`;
+// codeql[js/http-to-file-access]: Allowlisted public RSS is rewritten as bounded JSON for the portal snapshot.
+await writeFile(output, payload, "utf8");
 console.log(
   `Stargate Korea: ${snapshot.postCount} posts, ${snapshot.coverage.coveredCustomers}/${snapshot.coverage.totalCustomers} customers covered, ${snapshot.drafts.length} draft gaps.`,
 );
