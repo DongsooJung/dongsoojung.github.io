@@ -37,6 +37,7 @@
     @media(max-width:560px){.metrics{grid-template-columns:1fr 1fr}.advanced-filters{grid-template-columns:1fr}.toolbar{grid-template-columns:1fr 1fr}.toolbar input,.toolbar .seg{grid-column:1/-1}.toolbar .filter-toggle,.toolbar .view-switch{width:100%}.view-switch button{flex:1}.source-box{padding:14px}.hero{gap:16px}.hero p{font-size:15px}.card-wrap{padding:9px}}
   </style>
 <link rel="stylesheet" href="/assets/stargate-tokens.css?v=20261017">
+  <link rel="stylesheet" href="/assets/research-charts.css?v=1">
 </head>
 <body><div class="wrap">
   <nav><a class="brand" href="/">STARGATE · DATA</a><a class="nav-link" href="/strategy/court-auction-trends-1y/">최근 1년 동향 →</a><a class="nav-link" style="margin-left:0" href="/research/">연구 대시보드 →</a></nav>
@@ -91,6 +92,12 @@
     <div class="strategy-disclaimer">본 계산과 체크리스트는 탐색·내부 검토 보조도구입니다. 입찰 전 최신 매각물건명세서·등기·점유 및 세무·대출 조건을 직접 확인하고, 필요하면 법률·세무·감정 전문가의 검토를 받으세요.</div>
   </section>
 
+  <figure class="panel research-chart" id="auction-rate-chart" aria-labelledby="auction-rate-title">
+    <h2 id="auction-rate-title">감정가 대비 최저매각가 분포</h2>
+    <ul class="chart-bars" id="auction-rate-bars" hidden></ul>
+    <p id="auction-rate-empty">경매 자료를 불러오는 중입니다.</p>
+    <figcaption id="auction-rate-scope" role="status"></figcaption>
+  </figure>
   <div class="layout"><section class="panel"><div class="panel-head"><h2>법원 매각 물건</h2><div class="panel-actions"><span class="favorite-summary" id="favorite-summary">관심 0건</span><span id="table-caption">불러오는 중</span></div></div><div class="card-wrap" id="card-wrap"><div class="cards" id="cards"></div><button class="load-more" id="load-more" type="button" hidden>더 보기</button><div class="empty" id="card-empty" hidden>조건에 맞는 물건이 없습니다.</div></div><div class="table-wrap" id="table-wrap" hidden><table><thead><tr><th>관심</th><th>매각기일</th><th>사건번호</th><th>법원</th><th>용도</th><th>소재지</th><th class="money">감정가</th><th class="money">최저가</th><th>검토</th></tr></thead><tbody id="rows"></tbody></table><div class="empty" id="empty" hidden>조건에 맞는 물건이 없습니다.</div></div></section>
   <aside class="panel compare"><div class="detail-block"><div class="detail-kicker">Selected Auction</div><h2>물건 검토 패널</h2><p class="help">목록에서 물건을 선택하면 핵심 조건과 실거래 비교를 이어서 확인할 수 있습니다.</p><div id="detail-content"><div class="detail-empty">검토할 물건을 선택하세요.</div></div></div><div class="deal-block"><h3>국토부 실거래 비교</h3><p class="help">경매 목록과 별도로 기본 비교 지역은 평택시 고덕동입니다.</p><div class="selected" id="selected"><b>경기도 평택시 고덕동</b><span>법정동 코드 41220128 · 거래월을 선택해 조회하세요.</span></div><div class="compare-controls"><input id="deal-region" type="text" value="경기도 평택시 고덕동" aria-label="실거래 조회 지역"><input id="deal-month" type="month"><button id="deal-load" type="button">조회</button></div><div class="compare-result" id="compare-result"><div class="message">평택시 고덕동의 거래월을 확인하고 조회를 누르세요.</div></div></div></aside></div>
   <footer id="footer">출처: 대한민국법원 법원경매정보 · 국토교통부 아파트 매매 실거래가. 본 화면은 참고용이며 권리분석과 입찰 판단을 대신하지 않습니다.</footer>
@@ -130,4 +137,4 @@ function useMarketEstimate(){if(!(state.dealMarket&&state.dealMarket.amount>0))r
 function initStrategy(){["strategy-exit","strategy-margin","strategy-acquisition","strategy-operation","strategy-buffer"].forEach(id=>$(id).addEventListener("input",renderStrategy));$("strategy-use-market").addEventListener("click",useMarketEstimate);document.querySelectorAll("[data-gate]").forEach(item=>item.addEventListener("change",renderStrategy));renderStrategy()}
 
 function avg(rs,k){return rs.reduce((s,r)=>s+(Number(r[k])||0),0)/rs.length}function previousMonth(){const d=new Date();d.setDate(1);d.setMonth(d.getMonth()-1);return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}`}function formatDateTime(v){if(!v)return"—";const d=new Date(v);return Number.isNaN(d.getTime())?v:new Intl.DateTimeFormat("ko-KR",{dateStyle:"medium",timeStyle:"short"}).format(d)}initStrategy();loadData();
-</script><script src="app.js"></script><section class="source-review" aria-label="출처·자료 기준" style="margin:20px auto;padding:16px;max-width:1200px;border:1px solid currentColor;border-radius:12px;font:13px/1.7 system-ui;overflow-wrap:anywhere"><strong>법원 원문 대조 · 10월 진행월 부분 수집</strong><p>2026-10-18 원 API 매각공고 목록·상세 4개 응답을 기존 수집기로 변환했습니다. 반환 공고는 서울중앙지법 10월 20·22·28일 3건이며 철회 공고에 포함된 7개 물건을 제외해 주택 116·상업용 79개입니다. 정정 공고는 철회와 구분합니다. 10월 전체 법원·모든 공고·매각 완료 실적을 뜻하지 않습니다. 공고 원문·정정·취하와 별도 국토부 실거래 비교 범위를 구분합니다.</p><a href="/research/source-reviews/2026-10-18-urban-3.json">원출처 대조 기록</a> · <a href="./data.json" download>주택 JSON</a> · <a href="./data_commercial.json" download>상업용 JSON</a></section></body></html>
+</script><script src="app.js?v=20261115-charts"></script><section class="source-review" aria-label="출처·자료 기준" style="margin:20px auto;padding:16px;max-width:1200px;border:1px solid currentColor;border-radius:12px;font:13px/1.7 system-ui;overflow-wrap:anywhere"><strong>법원 원문 대조 · 10월 진행월 부분 수집</strong><p>2026-10-18 원 API 매각공고 목록·상세 4개 응답을 기존 수집기로 변환했습니다. 반환 공고는 서울중앙지법 10월 20·22·28일 3건이며 철회 공고에 포함된 7개 물건을 제외해 주택 116·상업용 79개입니다. 정정 공고는 철회와 구분합니다. 10월 전체 법원·모든 공고·매각 완료 실적을 뜻하지 않습니다. 공고 원문·정정·취하와 별도 국토부 실거래 비교 범위를 구분합니다.</p><a href="/research/source-reviews/2026-10-18-urban-3.json">원출처 대조 기록</a> · <a href="./data.json" download>주택 JSON</a> · <a href="./data_commercial.json" download>상업용 JSON</a></section></body></html>

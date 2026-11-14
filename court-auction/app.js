@@ -174,12 +174,65 @@ function render() {
   const records = filtered();
   renderMetrics(records);
   renderScope(records);
+  renderRateDistribution(records);
   renderCards(records);
   renderTable(records);
   bindResultActions();
   renderView();
   $("table-caption").textContent = `${state.category} ${won.format(records.length)}건`;
   $("favorite-summary").textContent = `관심 ${won.format(state.favorites.size)}건`;
+}
+
+function rateDistribution(records) {
+  const bins = [
+    { upper: 50, label: "50% 미만", count: 0 },
+    { upper: 65, label: "50% 이상 · 65% 미만", count: 0 },
+    { upper: 80, label: "65% 이상 · 80% 미만", count: 0 },
+    { upper: 100, label: "80% 이상 · 100% 미만", count: 0 },
+    { upper: Infinity, label: "100% 이상", count: 0 },
+  ];
+  let missing = 0;
+  for (const record of records) {
+    const appraisal = Number(record.감정가);
+    const minimum = Number(record.최저매각가);
+    if (!Number.isFinite(appraisal) || appraisal <= 0 || !Number.isFinite(minimum) || minimum <= 0) {
+      missing += 1;
+      continue;
+    }
+    const rate = 100 * (minimum / appraisal);
+    if (!Number.isFinite(rate)) {
+      missing += 1;
+      continue;
+    }
+    bins.find((bin) => rate < bin.upper).count += 1;
+  }
+  return { bins, missing };
+}
+
+function renderRateDistribution(records) {
+  const { bins, missing } = rateDistribution(records);
+  const total = records.length - missing;
+  const bars = $("auction-rate-bars");
+  bars.hidden = !total;
+  $("auction-rate-empty").hidden = Boolean(total);
+  $("auction-rate-empty").textContent = records.length
+    ? "감정가와 최저매각가가 모두 있는 물건이 없습니다."
+    : "현재 필터에서 표시할 물건이 없습니다.";
+  bars.replaceChildren();
+  if (total) {
+    const max = Math.max(...bins.map((bin) => bin.count));
+    bars.innerHTML = bins.map((bin) =>
+      `<li class="chart-row"><span>${bin.label}</span><span class="chart-track" aria-hidden="true"><span class="chart-bar" style="width:${100 * bin.count / max}%"></span></span><strong>${won.format(bin.count)}건</strong></li>`
+    ).join("");
+  }
+  const month = state.meta?.requested_month;
+  $("auction-rate-scope").textContent = [
+    `${state.category} · 현재 필터 ${won.format(records.length)}건 중 유효 ${won.format(total)}건`,
+    missing ? `가격 누락·오류 ${won.format(missing)}건 제외` : "",
+    month ? `매각기일 기준 ${month}` : "",
+    state.meta?.generated_at ? `수집 ${formatDateTime(state.meta.generated_at)}` : "",
+    "출처 대한민국법원 매각공고 · 공고 반환 범위",
+  ].filter(Boolean).join(" · ");
 }
 
 function renderMetrics(records) {
