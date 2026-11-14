@@ -8,6 +8,7 @@ import mathgrader from '../server/api/mathgrader.js';
 import portfolioNotion from '../server/api/portfolio-notion.js';
 import usedCarRegistration from '../server/api/used-car-registration.js';
 import ghSaleInfo from '../server/api/gh-sale-info.js';
+import leads from '../server/api/leads.js';
 
 // One deployed function preserves these public API URLs. Keep imports static
 // so Vercel includes each implementation without exposing it as a function.
@@ -22,6 +23,7 @@ const handlers = new Map([
   ['portfolio-notion', portfolioNotion],
   ['used-car-registration', usedCarRegistration],
   ['gh-sale-info', ghSaleInfo],
+  ['leads', leads],
 ]);
 
 export default function handler(req, res) {

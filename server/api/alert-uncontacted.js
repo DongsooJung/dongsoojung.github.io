@@ -1,15 +1,17 @@
 /**
- * Vercel Cron: /api/cron/alert-uncontacted
- * Schedule: every hour (vercel.json: "0 * * * *")
+ * Uncontacted-lead alert, run once a day from api/cron/daily-collect.js.
+ *
+ * Vercel Hobby rejects cron expressions that run more than once per day and
+ * the project is capped at 12 functions, so this is not a route of its own:
+ * it is not registered in api/[resource].js and the daily cron, which checks
+ * CRON_SECRET, is its only caller.
  *
  * Finds leads with status='new' that have not been followed up
  * within 24 hours and sends an SMS alert to the admin.
  * Logs every run to lead_events for 7-day continuous monitoring.
  */
 
-import crypto from 'crypto';
-
-export const maxDuration = 30;
+import crypto from 'node:crypto';
 
 const SUPABASE_URL = process.env.SUPABASE_URL;
 const SERVICE_KEY = process.env.SUPABASE_SERVICE_KEY;
@@ -77,13 +79,6 @@ async function logCronHeartbeat(detail = {}) {
 export default async function handler(req, res) {
   res.setHeader('Cache-Control', 'no-store, max-age=0');
   res.setHeader('Content-Type', 'application/json; charset=utf-8');
-
-  // Vercel Cron sends Authorization: Bearer <CRON_SECRET>
-  const authHeader = req.headers?.authorization || '';
-  const cronSecret = process.env.CRON_SECRET;
-  if (cronSecret && authHeader !== `Bearer ${cronSecret}`) {
-    return res.status(401).json({ ok: false, message: 'Unauthorized' });
-  }
 
   if (!SUPABASE_URL || !SERVICE_KEY) {
     return res.status(503).json({ ok: false, message: 'Supabase 환경 설정 누락' });

@@ -1,12 +1,14 @@
 /**
- * PATCH /api/leads/:id/contact
+ * PATCH /api/leads?id=<uuid>&action=contact
  *
  * Marks a lead as contacted and records the follow-up time.
  * Requires x-admin-token header matching SMS_ADMIN_TOKEN env var.
+ * Served through api/[resource].js so it does not count as its own function.
  *
- * Request: PATCH /api/leads/[uuid]/contact
  * Response: { ok: true, leadId, updatedAt } | { ok: false, message }
  */
+
+import crypto from 'node:crypto';
 
 const ALLOWED_ORIGINS = new Set([
   'https://stargateedu.co.kr',
@@ -32,7 +34,23 @@ function isValidUUID(value) {
   return /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(value);
 }
 
-async function handler(req, res) {
+/** Read id/action from the raw URL so repeated or injected keys are rejected. */
+function parseTarget(req) {
+  const search = typeof req.url === 'string' ? req.url.split('?')[1] || '' : '';
+  const params = new URLSearchParams(search);
+  if (params.getAll('id').length !== 1 || params.getAll('action').length !== 1) return null;
+  const leadId = params.get('id');
+  if (!isValidUUID(leadId) || params.get('action') !== 'contact') return null;
+  return leadId;
+}
+
+function tokenMatches(provided, expected) {
+  const a = crypto.createHash('sha256').update(provided).digest();
+  const b = crypto.createHash('sha256').update(expected).digest();
+  return crypto.timingSafeEqual(a, b);
+}
+
+export default async function handler(req, res) {
   setCorsHeaders(req, res);
 
   if (req.method === 'OPTIONS') {
@@ -53,18 +71,13 @@ async function handler(req, res) {
     return res.status(503).json({ ok: false, message: '관리자 인증 환경 설정이 완료되지 않았습니다.' });
   }
   const provided = String(req.headers?.['x-admin-token'] || '').trim();
-  if (!provided || provided !== adminToken) {
+  if (!provided || !tokenMatches(provided, adminToken)) {
     return res.status(401).json({ ok: false, message: '관리자 인증에 실패했습니다.' });
   }
 
-  // Extract lead ID from URL: /api/leads/[uuid]/contact
-  const urlParts = (req.url || '').split('?')[0].split('/').filter(Boolean);
-  // urlParts: ['api', 'leads', '<uuid>', 'contact']
-  const leadId = urlParts[2] || '';
-  const action = urlParts[3] || '';
-
-  if (!isValidUUID(leadId) || action !== 'contact') {
-    return res.status(400).json({ ok: false, message: 'URL 형식이 올바르지 않습니다. /api/leads/{uuid}/contact' });
+  const leadId = parseTarget(req);
+  if (!leadId) {
+    return res.status(400).json({ ok: false, message: 'URL 형식이 올바르지 않습니다. /api/leads?id={uuid}&action=contact' });
   }
 
   const supabaseUrl = process.env.SUPABASE_URL;
@@ -114,4 +127,4 @@ async function handler(req, res) {
   }
 }
 
-module.exports = handler;
+export const __test = { parseTarget, tokenMatches };
