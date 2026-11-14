@@ -2710,10 +2710,23 @@
           "outcome": "school_admission_editions_and_notices_checked_final_result_and_older_originals_pending_monthly_not_applicable",
           "release": {
             "branch": "codex/admission-source-20261114",
-            "status": "awaiting_checks",
+            "status": "verified",
             "liveUrl": "https://www.stargateedu.co.kr/research/seoul-science-high-admission/",
             "sourceReviewUrl": "https://www.stargateedu.co.kr/research/source-reviews/2026-11-14-seoul-science-high.json",
-            "pullRequest": "https://github.com/DongsooJung/dongsoojung.github.io/pull/282"
+            "pullRequest": "https://github.com/DongsooJung/dongsoojung.github.io/pull/282",
+            "commit": "0d16436c63958ac897bca2acf5d39cba7dc6dfc5",
+            "pullRequestHead": "19fd786984308e79fe0aef40f3c4c02f4fc961a0",
+            "verifiedAt": "2026-11-14T06:21:41.638Z",
+            "pagesRun": "https://github.com/DongsooJung/dongsoojung.github.io/actions/runs/43565801781",
+            "checks": [
+              "CodeQL JavaScript and preview checks passed for the pull request commit",
+              "Pages build, report and deploy passed for the merged SHA",
+              "Five changed public files match www and bare domains",
+              "66 unique cards and seven alphabetical filters, including seven separate essays",
+              "Fifteen regression tests and live mobile, anchors and download passed",
+              "Checked official admissions editions, application arithmetic and school publication notices",
+              "Two PDF companions passed text and visual checks"
+            ]
           }
         }
       ],
