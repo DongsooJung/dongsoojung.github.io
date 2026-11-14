@@ -990,8 +990,8 @@
         "/research/startup-industries/"
       ],
       "outcome": "conditional_technical_acceptance",
-      "latestAudit": "/research/source-reviews/2026-11-14-kmo.json",
-      "lastAttemptAt": "2026-11-13T15:15:24.402Z",
+      "latestAudit": "/research/source-reviews/2026-11-14-seoul-science-high.json",
+      "lastAttemptAt": "2026-11-14T06:17:25.679Z",
       "itemResults": {
         "/exchange-rate/": {
           "status": "verified",
@@ -1316,6 +1316,13 @@
           "audit": "/research/source-reviews/2026-11-14-kmo.json",
           "scope": "자체 연습 10문항의 계산과 경계조건을 검산하고 공식 제40회 회차·시행/예정일·게시일을 대조했습니다. 개별 기출 파일 판본과 문항별 대응은 미확인입니다. 월간 기준월은 비적용입니다.",
           "nextAction": "공식 자료실에서 특정 회차의 원문 파일에 접근할 수 있으면 시험 구분·판본을 대조합니다. 이번 공지와 계산 검산을 기출 본문 대조로 취급하지 않습니다."
+        },
+        "/research/seoul-science-high-admission/": {
+          "status": "not_applicable",
+          "checkedAt": "2026-11-14T06:17:25.679Z",
+          "audit": "/research/source-reviews/2026-11-14-seoul-science-high.json",
+          "scope": "2026·2027학년도 모집요강 해당 쪽과 2027학년도 지원·단계별 발표·11월 서류 제출 공지, 공식 FAQ와 공개 기출 목록을 대조했습니다. 월간 기준월은 비적용입니다.",
+          "nextAction": "2026년 12월 초 이후 최종 발표 공지와 학교가 공개한 선발 인원을 확인합니다. 2024·2025학년도 요강과 3단계 문항·채점표는 유효한 공식 원문을 확보할 때 대조합니다."
         }
       },
       "checkpoints": {
@@ -1349,7 +1356,7 @@
           "Tourism not re-fetched before October26; original checkedAt retained"
         ]
       },
-      "nextAction": "다음 독립 미완료 /research/seoul-science-high-admission/의 공식 모집요강 판본과 공표 일정을 대조합니다.",
+      "nextAction": "다음 독립 미완료 /research/math/2027-june-mock-15/의 평가원 공식 수학 문제지·정답표와 15번 조건·선택지를 대조합니다.",
       "sourceFollowups": [
         {
           "id": "source-followup-1-20261021",
@@ -2690,6 +2697,23 @@
               "Recomputed all ten practice exercises and checked official notices",
               "Two PDF companions passed text and visual checks"
             ]
+          }
+        },
+        {
+          "id": "admission-source-20261114",
+          "status": "partial",
+          "checkedAt": "2026-11-14T06:17:25.679Z",
+          "keys": [
+            "/research/seoul-science-high-admission/"
+          ],
+          "audit": "/research/source-reviews/2026-11-14-seoul-science-high.json",
+          "outcome": "school_admission_editions_and_notices_checked_final_result_and_older_originals_pending_monthly_not_applicable",
+          "release": {
+            "branch": "codex/admission-source-20261114",
+            "status": "awaiting_checks",
+            "liveUrl": "https://www.stargateedu.co.kr/research/seoul-science-high-admission/",
+            "sourceReviewUrl": "https://www.stargateedu.co.kr/research/source-reviews/2026-11-14-seoul-science-high.json",
+            "pullRequest": "https://github.com/DongsooJung/dongsoojung.github.io/pull/282"
           }
         }
       ],
