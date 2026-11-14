@@ -1,0 +1,374 @@
+<!doctype html>
+<html lang="ko" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,follow">
+<title>공장 관제 · STARGATE FACTORY</title>
+<meta name="description" content="스타게이트에듀 사이트를 갱신하는 데이터 파이프라인의 실행 주기와 신선도를 한 화면에서 확인합니다.">
+<link rel="canonical" href="https://stargateedu.co.kr/factory/">
+<script>
+(() => {
+  const themes = ['dark', 'light', 'ocean', 'mono'];
+  try {
+    const saved = localStorage.getItem('stargate-theme');
+    document.documentElement.dataset.theme = themes.includes(saved) ? saved : 'light';
+  } catch (_) { document.documentElement.dataset.theme = 'light'; }
+})();
+</script>
+<style>
+:root{
+  --bg:#f4f6f9; --panel:#ffffff; --panel2:#f0f3f7; --line:#dfe5ec; --line2:#cbd4de;
+  --ink:#121a24; --sub:#475569; --muted:#6b7a8c;
+  --acc:#2f5fd0; --ok:#12805c; --warn:#a15c07; --bad:#c2352b; --demo:#7a4fb3;
+  --l1:#2f5fd0; --l2:#12805c; --l3:#b5561c; --l4:#7a4fb3; --data:#55697d;
+  --mono:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,monospace;
+  --sans:"Pretendard","Apple SD Gothic Neo","Malgun Gothic",-apple-system,system-ui,sans-serif;
+  --r:10px;
+}
+:root[data-theme="dark"],:root[data-theme="ocean"]{
+  --bg:#0a0d14; --panel:#0f172a; --panel2:#111c33; --line:#1f2a44; --line2:#263452;
+  --ink:#e6edf3; --sub:#9aa7b8; --muted:#7c8aa0;
+  --acc:#7aa2ff; --ok:#63d6a0; --warn:#ffb86b; --bad:#ff7b72; --demo:#c4a5ff;
+  --l1:#7aa2ff; --l2:#63d6a0; --l3:#ffb86b; --l4:#c4a5ff; --data:#8fa0b8;
+}
+:root[data-theme="ocean"]{ --bg:#06141c; --panel:#0b1f2a; --panel2:#0f2836; --line:#173646; --line2:#1e4659; --acc:#5cc8e8 }
+:root[data-theme="mono"]{ --acc:#111; --l1:#333; --l2:#333; --l3:#333; --l4:#333; --data:#333 }
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--bg); color:var(--ink); font-family:var(--sans); font-size:14px; line-height:1.6; -webkit-font-smoothing:antialiased}
+a{color:inherit}
+.mono{font-family:var(--mono); font-variant-numeric:tabular-nums}
+.wrap{max-width:1180px; margin:0 auto; padding:0 18px 64px}
+
+.nav{display:flex; align-items:center; justify-content:space-between; gap:12px 20px; padding:14px 0; border-bottom:1px solid var(--line); flex-wrap:wrap}
+.brand{display:flex; align-items:center; gap:9px; font-weight:700; letter-spacing:.02em; text-decoration:none}
+.logo{width:26px; height:26px; border-radius:7px; background:linear-gradient(135deg,#4f7fff,#7aa2ff 55%,#b388ff); display:grid; place-items:center; font-size:13px; color:#0a0d14; font-weight:800}
+.brand .tag{font-family:var(--mono); font-size:10px; color:var(--muted); border:1px solid var(--line2); border-radius:20px; padding:1px 8px; font-weight:400}
+.links{display:flex; gap:16px; font-size:13px; color:var(--sub); flex-wrap:wrap}
+.links a{text-decoration:none} .links a:hover{color:var(--acc)}
+.links a[aria-current="page"]{color:var(--acc); font-weight:600}
+
+header.head{padding:24px 0 6px; display:flex; flex-wrap:wrap; gap:16px 28px; align-items:flex-end; justify-content:space-between}
+.eyebrow{font-family:var(--mono); font-size:10.5px; letter-spacing:.16em; text-transform:uppercase; color:var(--acc)}
+h1{margin:6px 0 0; font-size:26px; line-height:1.25; letter-spacing:-.02em; text-wrap:balance}
+header.head p{margin:8px 0 0; color:var(--sub); font-size:13.5px; max-width:62ch}
+.live{display:flex; border:1px solid var(--line2); border-radius:var(--r); overflow:hidden; background:var(--panel)}
+.live>div{padding:8px 14px; border-left:1px solid var(--line); display:flex; flex-direction:column}
+.live>div:first-child{border-left:0}
+.live .k{font-family:var(--mono); font-size:9.5px; letter-spacing:.12em; text-transform:uppercase; color:var(--muted)}
+.live .v{font-family:var(--mono); font-size:15px}
+
+section.card{background:var(--panel); border:1px solid var(--line); border-radius:var(--r); margin-top:18px; overflow:hidden}
+.chead{display:flex; flex-wrap:wrap; gap:10px 16px; align-items:center; justify-content:space-between; padding:13px 16px; border-bottom:1px solid var(--line)}
+.chead h2{margin:0; font-size:15px; letter-spacing:-.01em}
+.chead .sub{color:var(--muted); font-size:12px; margin-top:1px}
+
+.stats{display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr))}
+.stat{padding:14px 16px; border-left:1px solid var(--line); text-align:left; background:none; border-top:0; border-right:0; border-bottom:0; font:inherit; color:inherit; cursor:pointer}
+.stat:first-child{border-left:0}
+.stat:hover{background:var(--panel2)}
+.stat[aria-pressed="true"]{background:var(--panel2); box-shadow:inset 0 -2px 0 var(--acc)}
+.stat .k{font-size:11.5px; color:var(--muted)}
+.stat .v{font-family:var(--mono); font-size:26px; line-height:1.2; margin-top:2px}
+.stat .n{font-size:11px; color:var(--muted)}
+.v.ok{color:var(--ok)} .v.stale{color:var(--warn)} .v.fail{color:var(--bad)} .v.demo{color:var(--demo)}
+
+.alerts{display:flex; flex-direction:column}
+.alert{display:grid; grid-template-columns:86px 1fr auto; gap:12px; align-items:baseline; padding:10px 16px; border-top:1px solid var(--line); font-size:13px}
+.alert:first-child{border-top:0}
+.alert .sev{font-family:var(--mono); font-size:10px; letter-spacing:.12em; text-transform:uppercase; font-weight:600}
+.alert .why{color:var(--sub)}
+.alert a{color:var(--acc); text-decoration:none; font-size:12px; white-space:nowrap}
+.alert.none{display:block; color:var(--muted)}
+
+.toolbar{display:flex; flex-wrap:wrap; gap:8px; align-items:center; padding:10px 16px; border-bottom:1px solid var(--line); background:var(--panel2)}
+.chip{font-family:var(--mono); font-size:11px; padding:4px 10px; border-radius:100px; border:1px solid var(--line2); background:var(--panel); color:var(--sub); cursor:pointer}
+.chip[aria-pressed="true"]{background:var(--ink); border-color:var(--ink); color:var(--panel)}
+.search{margin-left:auto; min-width:190px; padding:6px 10px; border:1px solid var(--line2); border-radius:7px; background:var(--panel); color:var(--ink); font:inherit; font-size:12.5px}
+
+.tw{overflow-x:auto}
+table{width:100%; border-collapse:collapse; font-size:12.5px; min-width:860px}
+th{text-align:left; font-family:var(--mono); font-size:9.5px; letter-spacing:.1em; text-transform:uppercase; color:var(--muted); font-weight:500; padding:9px 12px; border-bottom:1px solid var(--line2); white-space:nowrap; cursor:pointer; user-select:none}
+th[aria-sort="ascending"]::after{content:" ↑"} th[aria-sort="descending"]::after{content:" ↓"}
+td{padding:9px 12px; border-bottom:1px solid var(--line); vertical-align:middle}
+tbody tr:hover{background:var(--panel2)}
+td.c{font-family:var(--mono); font-size:11.5px; color:var(--sub); white-space:nowrap}
+td a.pg{text-decoration:none; font-weight:600} td a.pg:hover{color:var(--acc)}
+td a.wf{font-family:var(--mono); font-size:11px; color:var(--muted); text-decoration:none} td a.wf:hover{color:var(--acc)}
+.ltag{font-family:var(--mono); font-size:10px; padding:1px 7px; border-radius:5px; border:1px solid currentColor; white-space:nowrap}
+.st{display:inline-flex; align-items:center; gap:6px; font-size:12px; white-space:nowrap}
+.st i{width:8px; height:8px; border-radius:50%; background:currentColor}
+.st.ok{color:var(--ok)} .st.stale{color:var(--warn)} .st.fail{color:var(--bad)} .st.unmeasured,.st.unscheduled{color:var(--muted)}
+.flag{font-family:var(--mono); font-size:9.5px; letter-spacing:.06em; padding:1px 6px; border-radius:4px; margin-left:6px; border:1px solid var(--demo); color:var(--demo)}
+.flag.h{border-color:var(--line2); color:var(--muted)}
+
+.tlwrap{overflow-x:auto}
+.tl{display:grid; grid-template-columns:repeat(24,minmax(92px,1fr)); min-width:2210px}
+.hr{border-left:1px solid var(--line); padding:0 4px 10px; position:relative}
+.hr:first-child{border-left:0}
+.hr.now{background:linear-gradient(to bottom,color-mix(in srgb,var(--acc) 14%,transparent),transparent 75%)}
+.hr.now::before{content:""; position:absolute; left:-1px; top:0; bottom:0; width:2px; background:var(--acc)}
+.hlab{font-family:var(--mono); font-size:10.5px; color:var(--muted); padding:8px 4px 7px; border-bottom:1px solid var(--line); margin-bottom:7px}
+.hr.now .hlab{color:var(--acc); font-weight:600}
+.stack{display:flex; flex-direction:column; gap:4px}
+.jc{display:block; font-family:var(--mono); font-size:10.5px; line-height:1.35; padding:4px 6px; border-radius:5px; background:var(--panel2); color:var(--sub); border:1px solid var(--line); border-left:3px solid var(--data); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; text-decoration:none}
+.jc.stale{outline:1px dashed var(--warn)}
+.band{padding:9px 16px; border-top:1px solid var(--line); font-size:12px; color:var(--sub)}
+.band b{font-family:var(--mono); font-weight:500; color:var(--ink)}
+
+details.plan summary{cursor:pointer; padding:13px 16px; list-style:none; display:flex; justify-content:space-between; gap:12px; align-items:center}
+details.plan summary::-webkit-details-marker{display:none}
+details.plan summary h2{margin:0; font-size:15px}
+details.plan summary .sub{color:var(--muted); font-size:12px}
+details.plan[open] summary{border-bottom:1px solid var(--line)}
+.plangrid{display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr))}
+.planline{padding:14px 16px; border-left:1px solid var(--line)}
+.planline:first-child{border-left:0}
+.planline h3{margin:0 0 6px; font-size:13px}
+.planline ul{margin:0; padding:0; list-style:none; display:flex; flex-direction:column; gap:4px}
+.planline li{font-size:12px; color:var(--sub); display:flex; gap:8px}
+.planline li .mono{color:var(--muted); font-size:11px; width:42px; flex:none}
+.planline li .g{color:var(--warn); font-size:11px; margin-left:auto; white-space:nowrap}
+
+footer{margin-top:24px; padding-top:14px; border-top:1px solid var(--line); color:var(--muted); font-size:11.5px; display:flex; flex-wrap:wrap; gap:6px 20px; justify-content:space-between}
+:focus-visible{outline:2px solid var(--acc); outline-offset:2px}
+@media (max-width:720px){ .alert{grid-template-columns:70px 1fr} .alert a{grid-column:2} .search{margin-left:0; width:100%} }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<nav class="nav">
+  <a class="brand" href="/">
+    <span class="logo">S</span>
+    <span>STARGATE.<span style="color:var(--acc)">PORTAL</span></span>
+    <span class="tag">factory</span>
+  </a>
+  <div class="links">
+    <a href="/">포털</a>
+    <a href="/strategy/">전략</a>
+    <a href="/research/">연구</a>
+    <a href="/monitor/">모니터</a>
+    <a href="/factory/" aria-current="page">공장</a>
+  </div>
+</nav>
+
+<header class="head">
+  <div>
+    <div class="eyebrow">STARGATE · Factory Control</div>
+    <h1>데이터 파이프라인 관제</h1>
+    <p>사이트의 대시보드를 갱신하는 GitHub Actions 파이프라인이 제때 돌고 있는지 봅니다. 주기는 각 워크플로의 cron과 최근 커밋 간격으로 계산하고, 판정 기준을 넘긴 것만 위로 올립니다.</p>
+  </div>
+  <div class="live">
+    <div><span class="k">KST</span><span class="v" id="clock">--:--</span></div>
+    <div><span class="k">점검 시각</span><span class="v" id="gen" style="font-size:12.5px">—</span></div>
+  </div>
+</header>
+
+<section class="card" aria-labelledby="sum-h">
+  <div class="chead"><div><h2 id="sum-h">가동 현황</h2><div class="sub">숫자를 누르면 아래 표가 그 상태로 걸러집니다.</div></div></div>
+  <div class="stats" id="stats"></div>
+</section>
+
+<section class="card" aria-labelledby="al-h">
+  <div class="chead"><div><h2 id="al-h">손볼 것</h2><div class="sub">주기 초과 · 실행 실패 · 샘플 데이터 노출</div></div></div>
+  <div class="alerts" id="alerts"></div>
+</section>
+
+<section class="card" aria-labelledby="tb-h">
+  <div class="chead"><div><h2 id="tb-h">실가동 파이프라인</h2><div class="sub" id="tb-sub">—</div></div></div>
+  <div class="toolbar">
+    <div id="linechips" style="display:flex;gap:6px;flex-wrap:wrap"></div>
+    <input class="search" id="q" type="search" placeholder="이름·경로·워크플로 검색" aria-label="파이프라인 검색">
+  </div>
+  <div class="tw"><table>
+    <thead><tr>
+      <th data-k="name">파이프라인</th><th data-k="line">라인</th><th data-k="workflow">워크플로</th>
+      <th data-k="cadence_hours">주기</th><th data-k="ref">최근 갱신</th><th data-k="age">경과</th><th data-k="rank">상태</th>
+    </tr></thead>
+    <tbody id="rows"></tbody>
+  </table></div>
+</section>
+
+<section class="card" aria-labelledby="tl-h">
+  <div class="chead"><div><h2 id="tl-h">24시간 실행 큐시트</h2><div class="sub">워크플로 cron을 KST로 옮긴 실제 예약 시각입니다. 점선은 현재 주기 초과 파이프라인입니다.</div></div></div>
+  <div class="tlwrap" id="tlwrap"><div class="tl" id="tl"></div></div>
+  <div class="band" id="band"></div>
+</section>
+
+<section class="card">
+  <details class="plan">
+    <summary><div><h2>설계 단계 잡 · 아직 가동 전</h2><div class="sub">2026-09 공장 설계에서 정의한 수익 라인 잡입니다. 실행 기록이 없으므로 위 현황에 섞지 않습니다.</div></div><span class="mono" style="font-size:11px;color:var(--muted)">펼치기</span></summary>
+    <div class="plangrid" id="plan"></div>
+  </details>
+</section>
+
+<footer>
+  <span id="rule">판정 규칙 —</span>
+  <span class="mono">/factory/ · data: factory/data/freshness.json</span>
+</footer>
+</div>
+
+<script>
+const LINE_COLOR = {L1:'--l1', L2:'--l2', L3:'--l3', L4:'--l4', DATA:'--data'};
+const STATE_LABEL = {ok:'정상', stale:'주기 초과', fail:'실행 실패', unmeasured:'미계측', unscheduled:'예약 없음'};
+const RANK = {fail:0, stale:1, unmeasured:2, unscheduled:3, ok:4};
+const PLAN = {
+  L1:[['01:00','bid.collect 공고 수집',''],['01:30','bid.score 적합도',''],['02:00','bid.brief RFP 진단',''],['02:30','wishket.collect',''],['16:00','proposal.followup','발송'],['수동','proposal.draft 제안서','발송']],
+  L2:[['03:00','sourcing.collect',''],['03:30','sourcing.score','가격'],['10:00','listing.sync 1차','가격'],['14:00','order.pull',''],['14:30','cs.draft','발송'],['18:00','listing.sync 2차','가격']],
+  L3:[['04:00','topic.collect',''],['04:30','topic.dedupe',''],['05:00','draft.generate',''],['06:30','draft.queue','발행'],['08:00','publish.run',''],['22:00','traffic.pull','']],
+  L4:[['09:00','edu.demand',''],['09:00','lead.nudge 오전','발송'],['20:00','lead.nudge 저녁','발송'],['매시','lead.route SLA',''],['웹훅','pay.link 결제','결제']]
+};
+let D = null, LINES = {}, fLine = 'ALL', fState = null, Q = '', sortK = 'rank', sortDir = 1;
+const $ = s => document.querySelector(s);
+const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const kst = d => new Date(d.getTime() + (d.getTimezoneOffset() + 540) * 60000);
+const fmt = iso => { if(!iso) return '—'; const k = kst(new Date(iso)); return `${String(k.getMonth()+1).padStart(2,'0')}-${String(k.getDate()).padStart(2,'0')} ${String(k.getHours()).padStart(2,'0')}:${String(k.getMinutes()).padStart(2,'0')}`; };
+const ageTxt = h => h == null ? '—' : h < 1 ? `${Math.round(h*60)}분` : h < 48 ? `${h.toFixed(1)}시간` : `${Math.round(h/24)}일`;
+const cadTxt = h => h == null ? '—' : h >= 24*28 ? '월 1회' : h >= 48 ? `${Math.round(h)}h` : `${h}h`;
+const lineName = l => LINES[l] || l;
+
+function recompute(p){
+  const ref = p.data_updated_at || p.last_commit_at;
+  const age = ref ? (Date.now() - new Date(ref).getTime()) / 36e5 : null;
+  let state = p.state;
+  if (state === 'ok' || state === 'stale') state = (age != null && p.cadence_hours && age > p.cadence_hours * 1.5) ? 'stale' : 'ok';
+  return {...p, ref, age, state, rank: RANK[state] ?? 9, demo: (p.flags||[]).includes('demo')};
+}
+
+function rows(){ return D.pipelines.map(recompute); }
+
+function renderStats(all){
+  const c = s => all.filter(p => p.state === s).length;
+  const tiles = [
+    {k:'실가동', v:all.length, n:'등록 파이프라인', f:null, cls:''},
+    {k:'정상', v:c('ok'), n:'주기 안에 갱신', f:'ok', cls:'ok'},
+    {k:'주기 초과', v:c('stale'), n:'주기 × 1.5 초과', f:'stale', cls:'stale'},
+    {k:'실행 실패', v:c('fail'), n: D.run_status_source === 'github_api' ? '최근 실행 failure' : '실행 결과 미수집', f:'fail', cls:'fail'},
+    {k:'샘플 데이터', v:all.filter(p=>p.demo).length, n:'mode=demo 노출 중', f:'demo', cls:'demo'},
+    {k:'미계측', v:c('unmeasured'), n:'저장소 밖 저장', f:'unmeasured', cls:''}
+  ];
+  $('#stats').innerHTML = tiles.map(t => `<button class="stat" data-f="${t.f??''}" aria-pressed="${fState===t.f}">
+    <div class="k">${t.k}</div><div class="v ${t.cls}">${t.v}</div><div class="n">${t.n}</div></button>`).join('');
+  $('#stats').querySelectorAll('.stat').forEach(b => b.onclick = () => { const f = b.dataset.f || null; fState = (fState === f) ? null : f; renderAll(); });
+}
+
+function renderAlerts(all){
+  const items = [];
+  all.filter(p => p.state === 'fail').forEach(p => items.push(['fail','실행 실패', p, `최근 실행이 실패했습니다.`]));
+  all.filter(p => p.state === 'stale').sort((a,b)=>b.age-a.age).forEach(p => {
+    const human = (p.flags||[]).includes('last_write_by_human');
+    items.push(['stale','주기 초과', p, `${ageTxt(p.age)} 전 마지막 갱신 · 주기 ${cadTxt(p.cadence_hours)}${human ? ' · 마지막 커밋이 봇이 아니라 사람' : ''}`]);
+  });
+  all.filter(p => p.demo).forEach(p => items.push(['demo','샘플 데이터', p, `데이터 파일이 mode=demo 입니다. 공개 화면에서 샘플 표기가 되는지 확인이 필요합니다.`]));
+  const color = {fail:'var(--bad)', stale:'var(--warn)', demo:'var(--demo)'};
+  $('#alerts').innerHTML = items.length ? items.map(([k,lab,p,why]) => `
+    <div class="alert"><span class="sev" style="color:${color[k]}">${lab}</span>
+      <span><b>${esc(p.name)}</b> <span class="why">— ${esc(why)}</span></span>
+      ${p.page ? `<a href="${esc(p.page)}">${esc(p.page)} →</a>` : '<span></span>'}</div>`).join('')
+    : '<div class="alert none">주기를 넘긴 파이프라인이 없습니다.</div>';
+}
+
+function renderTable(all){
+  let list = all.filter(p => (fLine === 'ALL' || p.line === fLine)
+    && (!fState || (fState === 'demo' ? p.demo : p.state === fState))
+    && (!Q || `${p.name} ${p.page} ${p.workflow}`.toLowerCase().includes(Q)));
+  list.sort((a,b) => {
+    const va = a[sortK], vb = b[sortK];
+    if (va == null) return 1; if (vb == null) return -1;
+    return (va > vb ? 1 : va < vb ? -1 : 0) * sortDir || (b.age||0) - (a.age||0);
+  });
+  $('#tb-sub').textContent = `${list.length}개 표시 · 기준 ${D.rule}`;
+  $('#rows').innerHTML = list.map(p => {
+    const col = `var(${LINE_COLOR[p.line]||'--data'})`;
+    const flags = (p.demo ? '<span class="flag">DEMO</span>' : '') + ((p.flags||[]).includes('last_write_by_human') ? '<span class="flag h">수동 커밋</span>' : '');
+    return `<tr>
+      <td>${p.page ? `<a class="pg" href="${esc(p.page)}">${esc(p.name)}</a>` : `<b>${esc(p.name)}</b>`}${flags}${p.note ? `<div style="font-size:11px;color:var(--muted)">${esc(p.note)}</div>` : ''}</td>
+      <td><span class="ltag" style="color:${col}">${esc(lineName(p.line))}</span></td>
+      <td><a class="wf" href="https://github.com/DongsooJung/dongsoojung.github.io/actions/workflows/${esc(p.workflow)}" target="_blank" rel="noopener">${esc(p.workflow.replace(/\.yml$/,''))}</a></td>
+      <td class="c" title="${p.cadence_source === 'observed' ? `cron ${p.cron_cadence_hours}h보다 실제 커밋 간격이 길어 관측값 사용` : 'cron 기준'}">${cadTxt(p.cadence_hours)}${p.cadence_source === 'observed' ? '*' : ''}</td>
+      <td class="c">${fmt(p.ref)}</td>
+      <td class="c">${ageTxt(p.age)}</td>
+      <td><span class="st ${p.state}"><i></i>${STATE_LABEL[p.state]||p.state}</span></td></tr>`;
+  }).join('') || `<tr><td colspan="7" style="color:var(--muted)">조건에 맞는 파이프라인이 없습니다.</td></tr>`;
+}
+
+function renderChips(){
+  const opts = [['ALL','전체'], ...Object.entries(LINES)];
+  $('#linechips').innerHTML = opts.map(([v,l]) => `<button class="chip" data-l="${v}" aria-pressed="${fLine===v}">${esc(l)}</button>`).join('');
+  $('#linechips').querySelectorAll('.chip').forEach(b => b.onclick = () => { fLine = b.dataset.l; renderAll(); });
+}
+
+// cron → KST 시각 목록. 간이 파서: 별표, 별표/n, a-b, a,b 를 지원합니다.
+function expand(f, lo, hi){
+  if (f === '*') return null;
+  const out = new Set();
+  for (const part of f.split(',')){
+    const [rng, step] = part.split('/');
+    let [a, b] = rng === '*' ? [lo, hi] : rng.split('-').map(Number);
+    if (b === undefined) b = step ? hi : a;
+    for (let i = a; i <= b; i += (+step || 1)) out.add(i);
+  }
+  return [...out];
+}
+function cronInfo(c){
+  const [m, h, dom, , dow] = c.trim().split(/\s+/);
+  const hours = expand(h, 0, 23);
+  const mins = expand(m, 0, 59) || [0];
+  let when = '';
+  if (dom !== '*') when = `매월 ${dom}일`; else if (dow === '1-5') when = '평일';
+  return {hoursUtc: hours, min: mins[0], when};
+}
+
+function renderTimeline(all){
+  const nowH = kst(new Date()).getHours();
+  const buckets = Array.from({length:24}, () => []);
+  const hourly = [];
+  all.forEach(p => (p.crons||[]).forEach(c => {
+    const ci = cronInfo(c);
+    if (!ci.hoursUtc) { hourly.push(p); return; }
+    if (ci.hoursUtc.length > 6) { hourly.push(p); return; }
+    ci.hoursUtc.forEach(hu => buckets[(hu + 9) % 24].push({p, min: ci.min, when: ci.when}));
+  }));
+  $('#tl').innerHTML = buckets.map((b,h) => `<div class="hr${h===nowH?' now':''}"><div class="hlab">${String(h).padStart(2,'0')}</div><div class="stack">${
+    b.sort((x,y)=>x.min-y.min).map(({p,min,when}) => `<a class="jc${p.state==='stale'?' stale':''}" style="border-left-color:var(${LINE_COLOR[p.line]||'--data'})" href="${esc(p.page||'#')}" title="${esc(p.name)} · ${String(h).padStart(2,'0')}:${String(min).padStart(2,'0')} KST${when?' · '+when:''}">:${String(min).padStart(2,'0')} ${esc(p.name)}</a>`).join('')
+  }</div></div>`).join('');
+  const uniq = [...new Map(hourly.map(p => [p.id, p])).values()];
+  $('#band').innerHTML = uniq.length ? `상시 반복 · ${uniq.map(p => `<b>${esc(p.name)}</b> (${esc(p.crons.join(', '))} UTC)`).join(' · ')}` : '';
+  const w = $('#tlwrap'); if (w.scrollWidth > w.clientWidth) w.scrollLeft = Math.max(0, (w.scrollWidth/24) * (nowH - 2));
+}
+
+function renderPlan(){
+  $('#plan').innerHTML = Object.entries(PLAN).map(([l, jobs]) => `<div class="planline">
+    <h3 style="color:var(${LINE_COLOR[l]})">${esc(lineName(l))}</h3>
+    <ul>${jobs.map(([t,n,g]) => `<li><span class="mono">${t}</span><span>${esc(n)}</span>${g?`<span class="g">${g} 승인</span>`:''}</li>`).join('')}</ul></div>`).join('');
+}
+
+function renderAll(){
+  const all = rows();
+  renderStats(all); renderAlerts(all); renderChips(); renderTable(all); renderTimeline(all);
+}
+
+document.querySelectorAll('th[data-k]').forEach(th => th.onclick = () => {
+  const k = th.dataset.k; sortDir = (sortK === k) ? -sortDir : 1; sortK = k;
+  document.querySelectorAll('th').forEach(x => x.removeAttribute('aria-sort'));
+  th.setAttribute('aria-sort', sortDir > 0 ? 'ascending' : 'descending'); renderAll();
+});
+$('#q').oninput = e => { Q = e.target.value.trim().toLowerCase(); renderAll(); };
+setInterval(() => { $('#clock').textContent = kst(new Date()).toTimeString().slice(0,5); }, 1000);
+$('#clock').textContent = kst(new Date()).toTimeString().slice(0,5);
+
+fetch('data/freshness.json', {cache:'no-store'}).then(r => r.ok ? r.json() : Promise.reject(r.status)).then(d => {
+  D = d; LINES = d.lines || {};
+  $('#gen').textContent = fmt(d.generated_at);
+  $('#rule').textContent = '판정 규칙 — ' + d.rule;
+  renderPlan(); renderAll();
+}).catch(() => {
+  $('#stats').innerHTML = '';
+  $('#alerts').innerHTML = '<div class="alert none">freshness.json 을 읽지 못했습니다. update-factory-freshness 워크플로가 한 번 이상 돌았는지 확인해 주세요.</div>';
+  renderPlan();
+});
+</script>
+</body>
+</html>
