@@ -1,0 +1,55 @@
+{
+  "status": "draft_not_submitted",
+  "solapiPfId": "KA01PF261020100231334ZRvICJuF1sm",
+  "templates": [
+    {
+      "name": "스타게이트AI 상담 접수 안내",
+      "templateId": null,
+      "content": "[스타게이트AI 상담 접수]\n#{이름}님, 요청하신 상담이 접수되었습니다.\n접수번호: #{접수번호}\n문의 내용: #{문의내용}\n접수 내용을 확인한 후 안내드리겠습니다.",
+      "variables": [
+        "이름",
+        "접수번호",
+        "문의내용"
+      ],
+      "trigger": "고객이 요청한 상담이 시스템에 실제 접수된 경우"
+    },
+    {
+      "name": "스타게이트AI 상담 예약 확정",
+      "templateId": null,
+      "content": "[스타게이트AI 상담 예약 확정]\n#{이름}님, 요청하신 상담 예약이 확정되었습니다.\n예약번호: #{예약번호}\n상담일시: #{상담일시}\n상담방법: #{상담방법}",
+      "variables": [
+        "이름",
+        "예약번호",
+        "상담일시",
+        "상담방법"
+      ],
+      "trigger": "실제 예약 확정 후"
+    },
+    {
+      "name": "스타게이트AI 상담 예약 변경",
+      "templateId": null,
+      "content": "[스타게이트AI 상담 예약 변경]\n#{이름}님, 상담 예약 변경 내용을 안내드립니다.\n예약번호: #{예약번호}\n변경 전: #{변경전일시}\n변경 후: #{변경후일시}\n변경 사유: #{변경사유}",
+      "variables": [
+        "이름",
+        "예약번호",
+        "변경전일시",
+        "변경후일시",
+        "변경사유"
+      ],
+      "trigger": "실제 예약 변경 완료 후"
+    }
+  ],
+  "channelName": "스타게이트AI",
+  "channelSearchId": "stargateai",
+  "channelPublicId": "_vNJVX",
+  "channelConnectionStatus": "verified_connected",
+  "approvedTemplateCount": 1,
+  "verifiedOn": "2026-10-21",
+  "approvedTemplates": [
+    {
+      "id": "KA01TP261020100401758IYdVDkGdfPE",
+      "name": "회원가입 환영 안내"
+    }
+  ],
+  "kakaoStoreApproval": "user_confirmed"
+}
