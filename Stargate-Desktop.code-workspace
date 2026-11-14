@@ -1,0 +1,80 @@
+{
+  "folders": [
+    {
+      "name": "stargateedu.co.kr",
+      "path": "."
+    }
+  ],
+  "settings": {
+    "files.exclude": {
+      "desktop/dist": true
+    },
+    "search.exclude": {
+      "desktop/dist": true,
+      "desktop/node_modules": true
+    }
+  },
+  "launch": {
+    "version": "0.2.0",
+    "configurations": [
+      {
+        "name": "로컬 포털을 창으로 열기",
+        "type": "node",
+        "request": "launch",
+        "cwd": "${workspaceFolder}/desktop",
+        "runtimeExecutable": "${workspaceFolder}/desktop/node_modules/.bin/electron",
+        "windows": {
+          "runtimeExecutable": "${workspaceFolder}/desktop/node_modules/.bin/electron.cmd"
+        },
+        "args": [".", "--dev"],
+        "console": "integratedTerminal",
+        "preLaunchTask": "desktop: 의존성 확인",
+        "env": {
+          "ELECTRON_RUN_AS_NODE": null
+        }
+      },
+      {
+        "name": "운영 사이트를 창으로 열기",
+        "type": "node",
+        "request": "launch",
+        "cwd": "${workspaceFolder}/desktop",
+        "runtimeExecutable": "${workspaceFolder}/desktop/node_modules/.bin/electron",
+        "windows": {
+          "runtimeExecutable": "${workspaceFolder}/desktop/node_modules/.bin/electron.cmd"
+        },
+        "args": ["."],
+        "console": "integratedTerminal",
+        "preLaunchTask": "desktop: 의존성 확인",
+        "env": {
+          "ELECTRON_RUN_AS_NODE": null
+        }
+      }
+    ]
+  },
+  "tasks": {
+    "version": "2.0.0",
+    "tasks": [
+      {
+        "label": "desktop: 의존성 확인",
+        "type": "shell",
+        "command": "node",
+        "args": ["scripts/ensure-deps.js"],
+        "options": {
+          "cwd": "${workspaceFolder}/desktop"
+        },
+        "problemMatcher": []
+      },
+      {
+        "label": "desktop: Windows 설치 파일",
+        "type": "shell",
+        "command": "npm",
+        "args": ["run", "dist:win"],
+        "options": {
+          "cwd": "${workspaceFolder}/desktop"
+        },
+        "dependsOn": ["desktop: 의존성 확인"],
+        "problemMatcher": []
+      }
+    ]
+  }
+}

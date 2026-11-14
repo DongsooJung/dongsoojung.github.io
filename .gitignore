@@ -1,7 +1,10 @@
 .DS_Store
 Thumbs.db
 *.log
-.vscode/
+# 개인 VS Code 설정은 두고, 데스크탑 앱 실행 설정만 저장소에 둔다.
+.vscode/*
+!.vscode/launch.json
+!.vscode/tasks.json
 .idea/
 node_modules/
 .site-public/
@@ -15,9 +18,17 @@ hwaseong-real-estate-app/
 .env.*
 !.env.example
 
-# Android 서명키 — 공개 저장소이므로 절대 커밋 금지
+# 서명키와 인증서 — 공개 저장소이므로 절대 커밋 금지
 *.keystore
 *.jks
+*.pfx
+*.p12
+*.pem
+*.key
+*.p8
+*.cer
+*.crt
+*.mobileprovision
 keystore.properties
 app/*.keystore
 
@@ -37,6 +48,9 @@ app/manifest-checksum.txt
 !.env.example
 
 server/sms/public/
+
+# Windows 데스크탑 앱 산출물. 서명키와 설치 파일은 커밋하지 않는다.
+desktop/dist/
 
 .wrangler/
 server/sms/.wrangler/
