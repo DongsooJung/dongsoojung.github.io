@@ -1,0 +1,40 @@
+name: Update Stargate Korea feed
+
+on:
+  schedule:
+    - cron: "41 3,15 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: stargate-korea-feed-update
+  cancel-in-progress: true
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Snapshot the public Stargate Korea RSS feed
+        run: node scripts/update-stargate-korea-feed.mjs
+
+      - name: Commit changed snapshot
+        run: |
+          if git diff --quiet -- stargate-korea/data/feed.json; then
+            echo "No data changes"
+            exit 0
+          fi
+          git config user.name "stargate-data-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add stargate-korea/data/feed.json
+          git commit -m "data: update Stargate Korea English feed"
+          git pull --rebase origin main
+          git push
