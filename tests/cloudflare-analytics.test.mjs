@@ -96,3 +96,19 @@ test('bad identifiers, event types, dates, paths and oversized JSON are rejected
   await assert.rejects(readPayload(new Request('https://example.com', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ x: '가'.repeat(4000) }) })), error => error.status === 413);
   await assert.rejects(readPayload(new Request('https://example.com', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: '{' })), /Invalid JSON/);
 });
+
+test('public daily visit trend returns only aggregate day counts in 7/14/30-day windows', () => {
+  const { db, store } = database();
+  try {
+    store.call('record_site_visit', { p_visitor_id: uid(1), p_visit_date: '2026-10-15', p_path: '/secret/' }, beforeMidnight);
+    store.call('record_site_visit', { p_visitor_id: uid(2), p_visit_date: '2026-10-16', p_path: '/' }, afterMidnight);
+    const result = store.call('get_site_visit_daily', { p_days: 7 }, afterMidnight);
+    assert.deepEqual(Object.keys(result).sort(), ['daily', 'period', 'source', 'today', 'total']);
+    assert.deepEqual(result.daily, [{ date: '2026-10-15', visits: 1 }, { date: '2026-10-16', visits: 1 }]);
+    assert.equal(result.today, 1); assert.equal(result.total, 2); assert.equal(result.period, 2);
+    assert.ok(!JSON.stringify(result).includes('secret'));
+    assert.equal(store.call('get_site_visit_daily', {}, afterMidnight).daily.length, 2);
+    assert.throws(() => validatePayload('get_site_visit_daily', { p_days: 90 }));
+    assert.throws(() => validatePayload('get_site_visit_daily', { p_days: 1 }));
+  } finally { db.close(); }
+});
