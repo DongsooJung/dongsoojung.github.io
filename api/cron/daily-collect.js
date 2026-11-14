@@ -1,7 +1,8 @@
-/** Daily Vercel Cron: G2B bids + LH + GH housing notices -> Supabase. */
+/** Daily Vercel Cron: G2B bids + LH + GH housing notices -> Supabase, then the uncontacted-lead alert. */
 import bidHandler from '../bid-pblanc/[kind].js';
 import lhHandler from '../lh-sale-info.js';
 import ghHandler from '../../server/api/gh-sale-info.js';
+import leadAlertHandler from '../../server/api/alert-uncontacted.js';
 
 export const maxDuration = 300;
 
@@ -22,7 +23,7 @@ function invoke(handler, body, query = {}) {
       setHeader(name, value) { this.headers[name] = value; },
       status(code) { this.statusCode = code; return this; },
       json(payload) {
-        if (this.statusCode >= 400 || payload?.ok === false) reject(new Error(payload?.error || `handler_${this.statusCode}`));
+        if (this.statusCode >= 400 || payload?.ok === false) reject(new Error(payload?.error || payload?.message || `handler_${this.statusCode}`));
         else resolve(payload);
       },
       end() { resolve({ ok: true }); },
@@ -65,6 +66,10 @@ export default async function handler(req, res) {
     ['gh', async () => {
       const raw = await invoke(ghHandler, {});
       return { kind: 'gh', pages: 1, rowCount: raw.rowCount || 0, saved: raw.saved || 0, sources: raw.sourceStatus || [] };
+    }],
+    ['lead-alert', async () => {
+      const raw = await invoke(leadAlertHandler, {});
+      return { kind: 'lead-alert', alerted: raw.alerted || 0, smsSent: raw.smsSent === true };
     }],
   ];
   const results = await runCollectors(tasks);

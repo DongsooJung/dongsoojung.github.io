@@ -7,7 +7,7 @@ const RATE_WINDOW_MS = 10 * 60 * 1000;
 const RATE_LIMIT = 5;
 const IDEMPOTENCY_TTL_MS = 24 * 60 * 60 * 1000;
 const ALLOWED_ORIGINS = new Set(['https://stargateedu.co.kr', 'https://www.stargateedu.co.kr']);
-const ALLOWED_CATEGORIES = new Set(['일반문의', '결제·환불', '서비스 장애', '수업·교육', '배송', '개인정보', '기타 불편사항']);
+const ALLOWED_CATEGORIES = new Set(['상담·수강신청', '일반문의', '결제·환불', '서비스 장애', '수업·교육', '배송', '개인정보', '기타 불편사항']);
 const ALLOWED_URGENCY = new Set(['일반', '빠른 확인 요청', '긴급']);
 
 const rateBuckets = globalThis.__STARGATE_SUPPORT_RATE__ || new Map();
