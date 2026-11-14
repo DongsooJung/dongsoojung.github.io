@@ -156,6 +156,21 @@ footer{margin-top:28px;font-size:11px;color:var(--text-3);letter-spacing:.06em;d
   .dot,.led.on{animation:none}
   *{transition:none!important}
 }
+
+/* 03 · 데이터 파이프라인 (factory/data/freshness.json) */
+.pl-list{border:1px solid var(--border)}
+.pl-row{display:grid;grid-template-columns:14px 1.4fr .9fr .7fr .6fr;gap:14px;align-items:center;padding:12px 18px;border-bottom:1px solid var(--border);background:var(--panel);text-decoration:none;color:var(--text)}
+.pl-row:last-child{border-bottom:0}
+.pl-row:hover{background:var(--panel-2)}
+.pl-row .nm{font-size:13px;font-weight:600}
+.pl-row .wf{font-size:11px;color:var(--text-3);word-break:break-all}
+.pl-row .why{font-size:12px;color:var(--text-2)}
+.pl-row .r{text-align:right;font-size:12px;color:var(--text-2);font-variant-numeric:tabular-nums}
+.pl-tag{font-size:9px;letter-spacing:.16em;border:1px solid var(--accent);color:var(--accent);padding:1px 6px;margin-left:8px;vertical-align:2px}
+.pl-more{display:block;padding:11px 18px;font-size:12px;letter-spacing:.08em;color:var(--accent);text-decoration:none;border:1px solid var(--border);border-top:0;background:var(--panel)}
+.pl-more:hover{background:var(--panel-2)}
+.pl-ok{padding:14px 18px;font-size:12px;color:var(--mint);border:1px solid var(--border);background:var(--panel)}
+@media (max-width:720px){.pl-row{grid-template-columns:14px 1fr .6fr}.pl-row .wf,.pl-row .why{display:none}}
 </style>
 </head>
 <body>
@@ -170,6 +185,7 @@ footer{margin-top:28px;font-size:11px;color:var(--text-3);letter-spacing:.06em;d
 
 <div class="wrap">
   <section class="alerts" id="alerts" aria-label="주의 항목"></section>
+  <section class="alerts" id="pipe-alerts" aria-label="파이프라인 주의 항목"></section>
 
   <h2 class="sec-h"><b>01</b> · 사이트 상태</h2>
   <section class="sitelist" id="sites" aria-label="사이트 상태 목록"></section>
@@ -200,8 +216,19 @@ footer{margin-top:28px;font-size:11px;color:var(--text-3);letter-spacing:.06em;d
     <div class="empty" id="empty">조건에 맞는 레포가 없습니다.</div>
   </section>
 
+  <h2 class="sec-h"><b>03</b> · 데이터 파이프라인</h2>
+  <section class="stats" aria-label="파이프라인 요약">
+    <div class="stat"><div class="k">실가동</div><div class="v cy" id="p-total">–</div></div>
+    <div class="stat"><div class="k">정상</div><div class="v mi" id="p-ok">–</div></div>
+    <div class="stat"><div class="k">주기 초과</div><div class="v am" id="p-stale">–</div></div>
+    <div class="stat"><div class="k">샘플 데이터</div><div class="v" id="p-demo">–</div></div>
+  </section>
+  <section aria-label="손볼 파이프라인">
+    <div class="pl-list" id="pl-list"><div class="pl-ok">파이프라인 상태를 불러오는 중입니다.</div></div>
+    <a class="pl-more" href="/factory/">전체 파이프라인 · 24시간 큐시트 보기 → /factory/</a>
+  </section>
   <footer>
-    <span>DATA: github-activity.json · GitHub Actions 주기 갱신 구조</span>
+    <span>DATA: site-status.json · github-activity.json · factory/data/freshness.json</span>
     <span>STARGATE CORP · /monitor/</span>
   </footer>
 </div>
@@ -286,6 +313,37 @@ function renderAll(){ if(DATA) render(); }
 fetch('site-status.json').then(r=>r.ok?r.json():Promise.reject()).then(d=>{SITES=d;renderSites();renderAll();}).catch(()=>{});
 fetch('github-activity.json').then(r=>r.ok?r.json():Promise.reject()).then(d=>{DATA=d;renderAll();})
   .catch(()=>{ if(FALLBACK){DATA=FALLBACK;renderAll();} });
+// 03 · 데이터 파이프라인 — /factory/ 와 같은 판정 규칙(경과 > 주기 × 1.5)을 브라우저에서 다시 계산합니다.
+function pipeState(p){
+  const ref = p.data_updated_at || p.last_commit_at;
+  const ageH = ref ? (Date.now() - new Date(ref).getTime()) / 36e5 : null;
+  let st = p.state;
+  if (st === 'ok' || st === 'stale') st = (ageH != null && p.cadence_hours && ageH > p.cadence_hours * 1.5) ? 'stale' : 'ok';
+  return {...p, st, ageH, demo: (p.flags||[]).includes('demo')};
+}
+function pAge(h){ if(h==null) return '—'; return h < 48 ? Math.round(h)+'h' : Math.round(h/24)+'d'; }
+fetch('/factory/data/freshness.json',{cache:'no-store'}).then(r=>r.ok?r.json():Promise.reject()).then(d=>{
+  const all = d.pipelines.map(pipeState);
+  const bad = all.filter(p => p.st === 'fail' || p.st === 'stale').sort((a,b)=>(b.ageH||0)-(a.ageH||0));
+  const demo = all.filter(p => p.demo && p.st === 'ok');
+  document.getElementById('p-total').textContent = all.length;
+  document.getElementById('p-ok').textContent = all.filter(p=>p.st==='ok').length;
+  document.getElementById('p-stale').textContent = bad.length;
+  document.getElementById('p-demo').textContent = all.filter(p=>p.demo).length;
+  document.getElementById('pipe-alerts').innerHTML = bad.map(p => {
+    const sev = p.st === 'fail' || (p.ageH && p.cadence_hours && p.ageH > p.cadence_hours * 7) ? 'crit' : 'warn';
+    return `<div class="alert ${sev}"><span class="sev">${p.st==='fail'?'FAIL':'STALE'}</span><span>${esc(p.name)} — ${pAge(p.ageH)} 전 마지막 갱신 · 주기 ${Math.round(p.cadence_hours)}h · ${esc(p.workflow)}</span></div>`;
+  }).join('');
+  const list = [...bad, ...demo];
+  document.getElementById('pl-list').innerHTML = list.length ? list.map(p => `
+    <a class="pl-row" href="${esc(p.page || '/factory/')}">
+      <span class="led ${p.st==='ok'?'idle':'stale'}"></span>
+      <span class="nm">${esc(p.name)}${p.demo?'<span class="pl-tag">DEMO</span>':''}</span>
+      <span class="wf">${esc(p.workflow)}</span>
+      <span class="why">${p.st==='ok'?'샘플 데이터 노출':p.st==='fail'?'실행 실패':'주기 초과'}</span>
+      <span class="r">${pAge(p.ageH)}</span>
+    </a>`).join('') : '<div class="pl-ok">모든 파이프라인이 주기 안에 갱신되고 있습니다.</div>';
+}).catch(()=>{ document.getElementById('pl-list').innerHTML = '<div class="pl-ok" style="color:var(--text-3)">factory/data/freshness.json 을 아직 읽을 수 없습니다.</div>'; });
 </script>
 </body>
 </html>

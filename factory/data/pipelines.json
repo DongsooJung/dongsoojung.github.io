@@ -1,0 +1,42 @@
+{
+  "_comment": "실가동 데이터 파이프라인 등록부. 손으로 관리합니다. cron 은 workflow 파일에서 자동으로 읽으므로 여기 적지 않습니다. data 가 null 이면 저장소 파일이 아니라 외부(Supabase 등)에 쓰는 파이프라인이라 파일 신선도 대신 실행 결과만 봅니다.",
+  "lines": {
+    "L1": "용역·수주",
+    "L2": "커머스",
+    "L3": "콘텐츠·트래픽",
+    "L4": "교육",
+    "DATA": "연구·데이터 자산"
+  },
+  "pipelines": [
+    {"id": "bid-public",        "name": "나라장터 입찰·낙찰 공고",      "workflow": "update-scsbid-data.yml",            "line": "L1",   "page": "/bid-pblanc-servc/",                  "data": "data/bidpublic/servc.json"},
+    {"id": "restarea-bids",     "name": "고속도로 휴게소 입찰 기회",    "workflow": "update-expressway-restarea-bids.yml", "line": "L1", "page": "/strategy/expressway-restarea-bid/",  "data": "strategy/expressway-restarea-bid/data/opportunities.json"},
+    {"id": "kstartup",          "name": "K-Startup 지원사업",           "workflow": "update-kstartup-data.yml",          "line": "L1",   "page": "/strategy/kstartup/",                 "data": "data/kstartup/latest.json"},
+    {"id": "job-opportunities", "name": "채용·체험공고 TOP 20",         "workflow": "update-job-opportunities.yml",      "line": "L1",   "page": "/strategy/job-opportunities/",        "data": "strategy/job-opportunities/data/latest.json"},
+    {"id": "court-auction",     "name": "법원경매 트래커",              "workflow": "update-court-auction.yml",          "line": "L1",   "page": "/court-auction/",                     "data": "court-auction/data.json"},
+
+    {"id": "used-car",          "name": "중고차 시세",                  "workflow": "update-used-car-market.yml",        "line": "L2",   "page": "/strategy/used-car/",                 "data": "strategy/used-car/data/latest.json"},
+    {"id": "used-car-ind",      "name": "중고차 시장 지표",             "workflow": "update-used-car-indicators.yml",    "line": "L2",   "page": "/strategy/used-car/",                 "data": "strategy/used-car/data/market-indicators.json"},
+
+    {"id": "google-trends",     "name": "Google Trends 급상승",         "workflow": "update-google-trends.yml",          "line": "L3",   "page": "/google-trends/",                     "data": "google-trends/data.json"},
+    {"id": "naver-cafe",        "name": "네이버 카페 인기글",           "workflow": "update-naver-cafe-popular.yml",     "line": "L3",   "page": "/naver-cafe-research/",               "data": "naver-cafe-research/data/latest.json"},
+    {"id": "portfolio-blog",    "name": "포트폴리오 블로그(Notion)",    "workflow": "update-portfolio-blog-from-notion.yml", "line": "L3", "page": "/portfolio/blog/",                  "data": "portfolio/data/notion-posts.json"},
+    {"id": "reading",           "name": "독서 라이브러리(Notion)",      "workflow": "update-reading-from-notion.yml",    "line": "L3",   "page": "/reading/",                           "data": "reading/data/notion-reading.json"},
+    {"id": "developer-log",     "name": "개발자 로그",                  "workflow": "update-developer-log-snapshot.yml", "line": "L3",   "page": "/work-log/",                          "data": "assets/developer-log-snapshot.json"},
+    {"id": "tourism",           "name": "한국 관광 통계",               "workflow": "update-tourism-data.yml",           "line": "L3",   "page": "/korea-tourism/",                     "data": "korea-tourism/data.json"},
+
+    {"id": "class101",          "name": "CLASS101 추천 라인업",         "workflow": "update-class101-daily.yml",         "line": "L4",   "page": "/class101/",                          "data": "class101/data/latest.json"},
+    {"id": "inflearn",          "name": "인프런 강의 라인업",           "workflow": "update-inflearn-daily.yml",         "line": "L4",   "page": "/inflearn/",                          "data": "inflearn/data/latest.json"},
+    {"id": "weolbu",            "name": "월부 강의 라인업",             "workflow": "update-weolbu-daily.yml",           "line": "L4",   "page": "/strategy/weolbu/",                   "data": null, "note": "Supabase에 저장 — 실행 결과로만 판정"},
+    {"id": "kimstudy",          "name": "김과외 수학 수요",             "workflow": "update-kimstudy-strategy.yml",      "line": "L4",   "page": "/strategy/kimstudy-math/",            "data": "strategy/kimstudy-math/data/latest.json"},
+
+    {"id": "airport",           "name": "인천공항 혼잡도",              "workflow": "update-airport-congestion.yml",     "line": "DATA", "page": "/research/airport-congestion/",       "data": "research/airport-congestion/data/latest.json"},
+    {"id": "gimpo",             "name": "김포공항 혼잡도",              "workflow": "update-gimpo-airport-congestion.yml", "line": "DATA", "page": "/research/gimpo-airport-congestion/", "data": "research/gimpo-airport-congestion/data/latest.json"},
+    {"id": "exchange-rate",     "name": "환율·금리·비트코인",           "workflow": "update-exchange-rate.yml",          "line": "DATA", "page": "/exchange-rate/",                     "data": "exchange-rate/data.json"},
+    {"id": "trade",             "name": "수출입 무역",                  "workflow": "update-trade-data.yml",             "line": "DATA", "page": "/trade/",                             "data": "trade/data.json"},
+    {"id": "dart-top100",       "name": "DART 상위 100 재무",           "workflow": "update-dart-top100.yml",            "line": "DATA", "page": "/dart-top100/",                       "data": "dart-top100/data/2026.json"},
+    {"id": "ipo",               "name": "공모주 캘린더",                "workflow": "update-ipo-data.yml",               "line": "DATA", "page": "/unlisted-stocks/",                   "data": "unlisted-stocks/data/ipo-calendar.json"},
+    {"id": "unlisted-dart",     "name": "비상장 공시(OpenDART)",        "workflow": "update-unlisted-dart.yml",          "line": "DATA", "page": "/unlisted-stocks/",                   "data": "unlisted-stocks/data/opendart.json"},
+    {"id": "airbnb",            "name": "공유숙박 매물 점검",           "workflow": "update-airbnb-dashboard.yml",       "line": "DATA", "page": "/airbnb/",                            "data": "airbnb/candidates.json"},
+    {"id": "public-data",       "name": "공공데이터 CSV 수집",          "workflow": "collect-public-data.yml",           "line": "DATA", "page": null,                                  "data": null, "note": "Supabase에 저장 — 실행 결과로만 판정"}
+  ]
+}
