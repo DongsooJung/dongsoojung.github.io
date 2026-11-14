@@ -213,8 +213,14 @@
   });
   $('copy').addEventListener('click', function () {
     var url = 'https://' + $('o-link').textContent;
-    var done = function () { $('copy').textContent = '복사됨'; setTimeout(function () { $('copy').textContent = '복사'; }, 1500); };
-    try { navigator.clipboard.writeText(url).then(done, done); } catch (e) { done(); }
+    var flash = function (msg) { $('copy').textContent = msg; setTimeout(function () { $('copy').textContent = '복사'; }, 2000); };
+    var fail = function () {
+      try { var range = document.createRange(); range.selectNodeContents($('o-link')); var sel = window.getSelection(); sel.removeAllRanges(); sel.addRange(range); } catch (e) {}
+      flash('선택됨 · 직접 복사');
+    };
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(url).then(function () { flash('복사됨'); }, fail);
+    } else fail();
   });
 
   var q = new URLSearchParams(location.search);
