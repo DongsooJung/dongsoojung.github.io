@@ -7,7 +7,7 @@ import { execFile } from "node:child_process";
 import { promisify } from "node:util";
 import { fileURLToPath, pathToFileURL } from "node:url";
 import { CUSTOMERS, PRODUCTS, SITE } from "../stargate-korea/lib/customers.mjs";
-import { buildSnapshot, parseRss, requireCustomerMatch, nextDrafts } from "../stargate-korea/lib/feed.mjs";
+import { buildSnapshot, contentKey, parseRss, requireCustomerMatch, nextDrafts } from "../stargate-korea/lib/feed.mjs";
 
 const execFileAsync = promisify(execFile);
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
@@ -66,11 +66,11 @@ test("상품 CTA는 라이브 영문 사이트 경로만 가리킨다", () => {
 
 test("허브 페이지는 영문 사이트와 고객 파이프라인을 노출한다", async () => {
   const html = await readFile(path.join(root, "stargate-korea/index.html"), "utf8");
-  assert.match(html, /https:\/\/www\.stargatekorea\.net\/#plan/);
-  assert.match(html, /https:\/\/www\.stargatekorea\.net\/books\//);
-  assert.match(html, /https:\/\/www\.stargatekorea\.net\/custom-guide\//);
-  assert.match(html, /https:\/\/www\.stargatekorea\.net\/feed/);
-  assert.match(html, /401k/);
+  assert.ok(html.includes("https://www.stargatekorea.net/#plan"));
+  assert.ok(html.includes("https://www.stargatekorea.net/books/"));
+  assert.ok(html.includes("https://www.stargatekorea.net/custom-guide/"));
+  assert.ok(html.includes("https://www.stargatekorea.net/feed"));
+  assert.ok(html.includes("401k"));
 });
 
 test("포털 홈·여행·영문 홈이 라이브 사이트와 연동 허브를 가리킨다", async () => {
@@ -80,11 +80,17 @@ test("포털 홈·여행·영문 홈이 라이브 사이트와 연동 허브를 
     readFile(path.join(root, "travel/index.html"), "utf8"),
     readFile(path.join(root, "global/korea/index.html"), "utf8"),
   ]);
-  assert.match(home, /href="\/stargate-korea\/"/);
-  assert.match(en, /href="https:\/\/www\.stargatekorea\.net\/"/);
-  assert.match(travel, /id="stargate-korea"/);
-  assert.match(travel, /href="\/stargate-korea\/"/);
-  assert.match(korea, /https:\/\/www\.stargatekorea\.net\//);
+  assert.ok(home.includes('href="/stargate-korea/"'));
+  assert.ok(en.includes('href="https://www.stargatekorea.net/"'));
+  assert.ok(travel.includes('id="stargate-korea"'));
+  assert.ok(travel.includes('href="/stargate-korea/"'));
+  assert.ok(korea.includes("https://www.stargatekorea.net/"));
+});
+
+test("피드 내용이 같으면 스냅샷 fingerprint도 같다", () => {
+  const later = buildSnapshot({ xml, fetchedAt: "2026-11-14T06:00:00.000Z", sourceUrl: SITE.feed });
+  assert.equal(contentKey(snapshot), contentKey(later));
+  assert.notEqual(snapshot.fetchedAt, later.fetchedAt);
 });
 
 test("피드 스냅샷 스크립트는 로컬 RSS 파일로 재현 가능하다", async () => {
@@ -101,10 +107,21 @@ test("피드 스냅샷 스크립트는 로컬 RSS 파일로 재현 가능하다"
       },
     });
     const written = JSON.parse(await readFile(output, "utf8"));
-    assert.match(stdout, /7 posts/);
+    assert.ok(stdout.includes("7 posts"));
     assert.equal(written.postCount, 7);
     assert.equal(written.drafts.length, 3);
     assert.equal(written.site.origin, "https://www.stargatekorea.net");
+    const firstFetchedAt = written.fetchedAt;
+    await execFileAsync(process.execPath, [path.join(root, "scripts/update-stargate-korea-feed.mjs")], {
+      cwd: root,
+      env: {
+        ...process.env,
+        STARGATE_KOREA_FEED_URL: feedUrl,
+        STARGATE_KOREA_OUTPUT: output,
+      },
+    });
+    const second = JSON.parse(await readFile(output, "utf8"));
+    assert.equal(second.fetchedAt, firstFetchedAt);
   } finally {
     await rm(dir, { recursive: true, force: true });
   }
