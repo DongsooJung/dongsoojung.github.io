@@ -7,7 +7,7 @@ const { _private } = require('./api/send');
 
 const html = fs.readFileSync(path.join(__dirname, 'index.html'), 'utf8');
 
-function openPage(hostname, search = '') {
+function openPage(hostname, search = '', protocol = 'https:') {
   const script = html.match(/<script>([\s\S]*?)<\/script>/)?.[1];
   assert.ok(script, 'page script exists');
   const nodes = Object.fromEntries([
@@ -22,7 +22,7 @@ function openPage(hostname, search = '') {
   const calls = [];
   vm.runInNewContext(script, {
     document: { querySelector: (selector) => nodes[selector.slice(1)] },
-    location: { hostname, search, pathname: '/kakao-send/' },
+    location: { hostname, search, protocol, pathname: '/kakao-send/' },
     history: { replaceState() {} },
     URLSearchParams,
     fetch: async (url) => {
@@ -64,6 +64,13 @@ test('static site shows the Vercel app link without calling local APIs', () => {
   assert.doesNotMatch(html, /kakao_js_sdk|Kakao\.Auth|Kakao\.API|LEGACY_JS_KEY/);
 });
 
+test('local file preview shows the Vercel handoff and channel contact', () => {
+  const { nodes, calls } = openPage('', '', 'file:');
+  assert.equal(nodes['static-handoff'].hidden, false);
+  assert.deepEqual(calls, []);
+  assert.match(html, /href="https:\/\/pf\.kakao\.com\/_wJpen\/chat"/);
+});
+
 test('Vercel app keeps its server login and session paths', async () => {
   assert.match(html, /id="login-button" href="\/api\/auth\/login"/);
   const { nodes, calls } = openPage('stargate-kakao-send.vercel.app');
@@ -82,4 +89,9 @@ test('OAuth callback errors stay on the server login path', () => {
   assert.match(nodes['status-detail'].textContent, /서버 설정 문제로 로그인을 완료할 수 없습니다/);
   assert.doesNotMatch(nodes['status-detail'].textContent, /다시 시도/);
   assert.deepEqual(calls, []);
+});
+
+test('representative contact links directly to the verified channel chat', () => {
+  assert.match(html, /id="contact-link" href="https:\/\/pf\.kakao\.com\/_wJpen\/chat"/);
+  assert.match(html, /채팅방에서 문의 내용을 직접 보내 주세요/);
 });

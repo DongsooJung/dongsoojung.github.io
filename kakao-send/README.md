@@ -37,6 +37,13 @@ Vercel Production 환경 변수에 반드시 추가해야 합니다. 시크릿 �
 정적 경로는 안내 화면과 `https://stargate-kakao-send.vercel.app/` 링크만 표시합니다.
 카카오 로그인, 토큰 교환, 메시지 전송은 Vercel 앱에서만 처리합니다.
 
+## 대표에게 문의하기
+
+GitHub Pages와 Vercel 앱 양쪽에서 스타게이트 카카오톡 채널
+`https://pf.kakao.com/_wJpen/chat`으로 연결합니다. 버튼은 채팅방을 열며,
+방문자가 직접 문의 내용을 전송해야 합니다. 카카오 로그인 여부와 무관하게
+사용할 수 있습니다.
+
 Vercel 앱의 로그인 버튼은 같은 출처의 `/api/auth/login`으로 연결됩니다. 카카오 개발자 콘솔의
 카카오 로그인 Redirect URI는 위 `KAKAO_REDIRECT_URI`인
 `https://stargate-kakao-send.vercel.app/api/auth/callback`을 사용합니다. 정적 경로인
