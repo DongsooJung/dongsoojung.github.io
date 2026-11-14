@@ -136,33 +136,40 @@ export default async function handler(req, res) {
     `[STARGATE 미후속 경보]\n24시간 미후속 문의 ${count}건\n최초: ${oldest.name} ${oldestTime}\n/consult/ 원장을 확인하세요.`;
 
   // Send SMS alert to admin
-  let smsSent = false;
-  if (SOLAPI_API_KEY && SOLAPI_API_SECRET && isKoreanMobile(SOLAPI_SENDER) && isKoreanMobile(ADMIN_PHONE)) {
-    try {
-      const smsRes = await fetch(SOLAPI_ENDPOINT, {
-        method: 'POST',
-        headers: {
-          Authorization: createSolapiAuth(),
-          'Content-Type': 'application/json; charset=utf-8',
-        },
-        body: JSON.stringify({
-          messages: [{ to: ADMIN_PHONE, from: SOLAPI_SENDER, text: alertText, country: '82', autoTypeDetect: true }],
-          strict: true,
-          allowDuplicates: false,
-          showMessageList: false,
-        }),
-      });
-      const smsData = await smsRes.json().catch(() => ({}));
-      const failed = Array.isArray(smsData?.failedMessageList) ? smsData.failedMessageList.length : 0;
-      smsSent = smsRes.ok && failed === 0;
-      if (!smsSent) {
-        console.error('[alert-uncontacted] SMS failed', smsData);
-      }
-    } catch (error) {
-      console.error('[alert-uncontacted] SMS error', error?.message);
-    }
-  } else {
+  if (!(SOLAPI_API_KEY && SOLAPI_API_SECRET && isKoreanMobile(SOLAPI_SENDER) && isKoreanMobile(ADMIN_PHONE))) {
     console.warn('[alert-uncontacted] SMS skipped — SOLAPI or ADMIN_PHONE not configured');
+    return res.status(503).json({ ok: false, alerted: 0, pending: count, smsSent: false, message: '경보 문자 환경 설정 누락' });
+  }
+
+  let smsSent = false;
+  try {
+    const smsRes = await fetch(SOLAPI_ENDPOINT, {
+      method: 'POST',
+      headers: {
+        Authorization: createSolapiAuth(),
+        'Content-Type': 'application/json; charset=utf-8',
+      },
+      body: JSON.stringify({
+        messages: [{ to: ADMIN_PHONE, from: SOLAPI_SENDER, text: alertText, country: '82', autoTypeDetect: true }],
+        strict: true,
+        allowDuplicates: false,
+        showMessageList: false,
+      }),
+    });
+    const smsData = await smsRes.json().catch(() => ({}));
+    const failed = Array.isArray(smsData?.failedMessageList) ? smsData.failedMessageList.length : 0;
+    smsSent = smsRes.ok && failed === 0;
+    if (!smsSent) {
+      console.error('[alert-uncontacted] SMS failed', { status: smsRes.status, failed });
+    }
+  } catch (error) {
+    console.error('[alert-uncontacted] SMS error', error?.message);
+  }
+
+  // Leave alerted_at empty when the alert did not go out, so the next run
+  // picks the same leads up again instead of silently dropping them.
+  if (!smsSent) {
+    return res.status(502).json({ ok: false, alerted: 0, pending: count, smsSent: false, message: '경보 문자 발송 실패' });
   }
 
   // Mark alerted_at on all uncontacted leads + log alerted_24h events

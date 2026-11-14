@@ -121,3 +121,75 @@ test('lead alert reports missing Supabase settings instead of sending', async ()
     assert.equal(res.body.ok, false);
   });
 });
+
+async function runAlert(tag, solapi) {
+  const calls = [];
+  const env = {
+    SUPABASE_URL: 'https://db.example', SUPABASE_SERVICE_KEY: 'service',
+    SOLAPI_API_KEY: 'key', SOLAPI_API_SECRET: 'secret',
+    SOLAPI_SENDER_NUMBER: '01011112222', SUPPORT_ADMIN_PHONE: '01033334444',
+  };
+  return withEnv(env, async () => {
+    globalThis.fetch = async (url, options = {}) => {
+      calls.push([options.method || 'GET', String(url)]);
+      if (String(url).startsWith('https://api.solapi.com/')) return solapi();
+      if ((options.method || 'GET') === 'GET') {
+        return { ok: true, status: 200, json: async () => [{ id: LEAD_ID, name: '홍길동', submitted_at: '2026-11-12T00:00:00.000Z' }] };
+      }
+      return { ok: true, status: 201, json: async () => null, text: async () => '' };
+    };
+    const { default: alert } = await import(`../server/api/alert-uncontacted.js?${tag}`);
+    const res = mockRes();
+    await alert({ method: 'POST', headers: {} }, res);
+    return { res, calls };
+  });
+}
+
+test('lead alert leaves leads unalerted when the SMS does not go out', async () => {
+  for (const [tag, solapi] of [
+    ['rejected', async () => ({ ok: false, status: 400, json: async () => ({}) })],
+    ['partial', async () => ({ ok: true, status: 200, json: async () => ({ failedMessageList: [{}] }) })],
+    ['network', async () => { throw new Error('offline'); }],
+  ]) {
+    const { res, calls } = await runAlert(tag, solapi);
+    assert.equal(res.statusCode, 502, tag);
+    assert.equal(res.body.pending, 1, tag);
+    assert.equal(calls.some(([method]) => method === 'PATCH'), false, tag);
+  }
+});
+
+test('lead alert marks leads alerted once the SMS is accepted', async () => {
+  const { res, calls } = await runAlert('sent', async () => ({ ok: true, status: 200, json: async () => ({ failedMessageList: [] }) }));
+  assert.equal(res.statusCode, 200);
+  assert.equal(res.body.alerted, 1);
+  assert.equal(calls.filter(([method, url]) => method === 'PATCH' && url.includes('/rest/v1/leads?id=in.')).length, 1);
+});
+
+test('consult form posts a category the support SMS endpoint accepts and never probes phone numbers', async () => {
+  const { default: supportSms } = await import('../api/support-sms.js');
+  const page = readFileSync(new URL('../consult/index.html', import.meta.url), 'utf8');
+  const category = /category:"([^"]+)"/.exec(page)?.[1];
+  assert.ok(supportSms._private.ALLOWED_CATEGORIES.has(category), category);
+  const input = supportSms._private.validate({
+    ticketId: 'SG-261114-AB12C', name: '홍길동', phone: '010-1234-5678', category, urgency: '일반',
+    message: '상담 신청이 접수되었습니다.', submittedAt: new Date().toISOString(),
+  });
+  assert.equal(input.error, undefined);
+  assert.doesNotMatch(page, /check_duplicate_lead|\/rest\/v1\/rpc\//);
+});
+
+test('leads SQL grants anon only a column-scoped insert and exposes no anon RPC', () => {
+  const sql = readFileSync(new URL('../supabase/leads.sql', import.meta.url), 'utf8');
+  const page = readFileSync(new URL('../consult/index.html', import.meta.url), 'utf8');
+  const grant = /grant insert \(([^)]+)\)\s+on table public\.leads to anon;/.exec(sql);
+  assert.ok(grant, 'anon insert grant exists');
+  assert.ok(sql.indexOf(grant[0]) > sql.indexOf('revoke all on table public.leads'), 'grant follows the revoke');
+  const columns = grant[1].split(',').map(column => column.trim());
+  const payload = /const payload=\{([\s\S]*?)\};/.exec(page)[1];
+  const sent = [...payload.matchAll(/(?:^|[,\s])([a-z_]+)(?=[:,]|\s*$)/gm)].map(match => match[1]);
+  assert.ok(sent.length >= 6, sent.join());
+  for (const column of sent) assert.ok(columns.includes(column), `form sends ${column}`);
+  assert.doesNotMatch(sql, /grant execute[^;]*\bto[^;]*\banon\b/);
+  assert.doesNotMatch(sql, /grant (select|update|delete|all)[^;]*\bto[^;]*\banon\b/);
+  assert.match(sql, /create trigger leads_skip_duplicate_open\s+before insert on public\.leads/);
+});

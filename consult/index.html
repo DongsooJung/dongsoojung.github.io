@@ -142,26 +142,10 @@
         errorEl.hidden=false;return;
       }
 
-      button.disabled=true;button.textContent="확인 중…";
-
-      // Step 1: Duplicate phone check via Supabase RPC
-      try{
-        const dupRes=await sbFetch("/rest/v1/rpc/check_duplicate_lead",{
-          method:"POST",
-          body:JSON.stringify({p_phone:phone})
-        });
-        if(dupRes.ok){
-          const isDup=await dupRes.json();
-          if(isDup===true){
-            errorEl.textContent="이미 접수된 번호입니다. 처리 후 재신청 가능합니다.";
-            errorEl.hidden=false;button.disabled=false;button.textContent="상담 신청하기";
-            return;
-          }
-        }
-        // If RPC fails (network/table not ready), proceed — don't block submission
-      }catch(_){/* non-blocking */}
-
-      button.textContent="전송 중…";
+      // A repeat submission for a phone with an open lead is skipped by the
+      // database itself (see supabase/leads.sql); the page never asks whether
+      // a phone number is already on file.
+      button.disabled=true;button.textContent="전송 중…";
       const submittedAt=new Date().toISOString();
       const ticketId=makeTicketId();
       const payload={

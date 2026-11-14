@@ -100,9 +100,14 @@ create index if not exists lead_events_event_created_idx
 alter table public.leads       enable row level security;
 alter table public.lead_events enable row level security;
 
--- Revoke default grants
+-- Revoke default grants, then give anon back only what the consult form needs.
+-- RLS policies filter rows; they do not grant SQL privileges, so without the
+-- explicit column-scoped INSERT below every form submission is rejected.
 revoke all on table public.leads       from anon, authenticated;
 revoke all on table public.lead_events from anon, authenticated;
+
+grant insert (name, phone, consent, provider, social_id, source, submitted_at, status)
+  on table public.leads to anon;
 
 -- anon: INSERT only on leads (consult form)
 -- phone and personal data are not selectable via anon key
@@ -116,11 +121,9 @@ create policy "anon_insert_leads" on public.leads
     and status = 'new'
   );
 
--- anon: INSERT only on lead_events (received / sms_sent / sms_failed)
+-- lead_events is written only by the server (service_role). The browser has
+-- no privilege on it, so an earlier anon insert policy is removed.
 drop policy if exists "anon_insert_lead_events" on public.lead_events;
-create policy "anon_insert_lead_events" on public.lead_events
-  for insert to anon
-  with check (event in ('received', 'sms_sent', 'sms_failed'));
 
 -- service_role: full access (used by server-side cron and admin API)
 drop policy if exists "service_role_all_leads" on public.leads;
@@ -136,24 +139,40 @@ create policy "service_role_all_lead_events" on public.lead_events
   with check (true);
 
 -- ============================================================
--- 4. RPC: duplicate phone check (callable by anon)
+-- 4. Duplicate open leads are skipped at insert time
 -- ============================================================
-create or replace function public.check_duplicate_lead(p_phone text)
-returns boolean
-language sql
-stable
+-- An anon-callable "is this phone already registered?" RPC would let anyone
+-- holding the public anon key probe arbitrary phone numbers. Instead, a
+-- repeat submission for a phone that already has an open ('new') lead is
+-- dropped silently: the insert succeeds with zero rows, so the response is the
+-- same whether or not the phone was already on file. Phones are compared by
+-- digits only so "010-1234-5678" and "01012345678" match.
+drop function if exists public.check_duplicate_lead(text);
+
+create or replace function public.skip_duplicate_open_lead()
+returns trigger
+language plpgsql
 security definer
 set search_path = public
-as $$
-  select exists (
+as $
+begin
+  if exists (
     select 1 from public.leads
-    where phone = p_phone
-      and status = 'new'
-  );
-$$;
+    where status = 'new'
+      and regexp_replace(phone, '[^0-9]', '', 'g') = regexp_replace(new.phone, '[^0-9]', '', 'g')
+  ) then
+    return null;
+  end if;
+  return new;
+end;
+$;
 
-revoke all on function public.check_duplicate_lead(text) from public;
-grant execute on function public.check_duplicate_lead(text) to anon, authenticated;
+revoke all on function public.skip_duplicate_open_lead() from public, anon, authenticated;
+
+drop trigger if exists leads_skip_duplicate_open on public.leads;
+create trigger leads_skip_duplicate_open
+  before insert on public.leads
+  for each row execute function public.skip_duplicate_open_lead();
 
 -- ============================================================
 -- 5. RPC: mark lead as contacted (called by server-side admin API)
