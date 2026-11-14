@@ -102,17 +102,126 @@
     });
 
     phoneInput.addEventListener("input",event=>{const v=event.target.value.replace(/\D/g,"").slice(0,11);event.target.value=v.length<4?v:v.length<8?`${v.slice(0,3)}-${v.slice(3)}`:`${v.slice(0,3)}-${v.slice(3,7)}-${v.slice(7)}`});
+
+    // Generate ticket ID: SG-YYMMDD-XXXXX
+    function makeTicketId(){
+      const d=new Date();
+      const yy=String(d.getFullYear()).slice(2);
+      const mm=String(d.getMonth()+1).padStart(2,"0");
+      const dd=String(d.getDate()).padStart(2,"0");
+      const rand=Math.random().toString(36).toUpperCase().slice(2,7).padEnd(5,"0");
+      return `SG-${yy}${mm}${dd}-${rand}`;
+    }
+
+    // Supabase fetch helper
+    function sbFetch(path,options={}){
+      return fetch(`${CONFIG.SUPABASE_URL}${path}`,{
+        ...options,
+        headers:{
+          "Content-Type":"application/json",
+          apikey:CONFIG.SUPABASE_ANON_KEY,
+          Authorization:`Bearer ${CONFIG.SUPABASE_ANON_KEY}`,
+          ...(options.headers||{})
+        }
+      });
+    }
+
     $("leadForm").addEventListener("submit",async event=>{
-      event.preventDefault();const error=$("formError"),button=$("submitBtn");error.hidden=true;
+      event.preventDefault();
+      const errorEl=$("formError"),button=$("submitBtn");
+      errorEl.hidden=true;
+
+      // Honeypot check
       if($("website").value)return;
-      if(!nameInput.value.trim()||!/^01[016789]-?\d{3,4}-?\d{4}$/.test(phoneInput.value)||!$("consent").checked){error.textContent="이름, 올바른 휴대전화번호, 개인정보 동의를 확인해 주세요.";error.hidden=false;return}
-      button.disabled=true;button.textContent="전송 중…";
-      const payload={name:nameInput.value.trim(),phone:phoneInput.value.trim(),consent:"Y",provider:social.provider,social_id:social.id,source:"stargateedu.co.kr/consult",submitted_at:new Date().toISOString()};
+
+      // Client-side validation
+      const name=nameInput.value.trim();
+      const phone=phoneInput.value.trim();
+      if(!name||!/^01[016789]-?\d{3,4}-?\d{4}$/.test(phone)||!$("consent").checked){
+        errorEl.textContent="이름, 올바른 휴대전화번호, 개인정보 동의를 확인해 주세요.";
+        errorEl.hidden=false;return;
+      }
+
+      button.disabled=true;button.textContent="확인 중…";
+
+      // Step 1: Duplicate phone check via Supabase RPC
       try{
-        const response=await fetch(`${CONFIG.SUPABASE_URL}/rest/v1/leads`,{method:"POST",headers:{"Content-Type":"application/json",apikey:CONFIG.SUPABASE_ANON_KEY,Authorization:`Bearer ${CONFIG.SUPABASE_ANON_KEY}`,Prefer:"return=minimal"},body:JSON.stringify(payload)});
-        if(!response.ok)throw new Error(String(response.status));
-        $("successName").textContent=payload.name;$("formView").hidden=true;$("successView").classList.add("show");
-      }catch(err){error.textContent="전송 중 문제가 발생했습니다. 잠시 후 다시 시도해 주세요.";error.hidden=false;button.disabled=false;button.textContent="상담 신청하기"}
+        const dupRes=await sbFetch("/rest/v1/rpc/check_duplicate_lead",{
+          method:"POST",
+          body:JSON.stringify({p_phone:phone})
+        });
+        if(dupRes.ok){
+          const isDup=await dupRes.json();
+          if(isDup===true){
+            errorEl.textContent="이미 접수된 번호입니다. 처리 후 재신청 가능합니다.";
+            errorEl.hidden=false;button.disabled=false;button.textContent="상담 신청하기";
+            return;
+          }
+        }
+        // If RPC fails (network/table not ready), proceed — don't block submission
+      }catch(_){/* non-blocking */}
+
+      button.textContent="전송 중…";
+      const submittedAt=new Date().toISOString();
+      const ticketId=makeTicketId();
+      const payload={
+        name,phone,consent:"Y",
+        provider:social.provider,social_id:social.id,
+        source:"stargateedu.co.kr/consult",
+        submitted_at:submittedAt,
+        status:"new"
+      };
+
+      // Step 2: Insert into Supabase leads (anon INSERT)
+      let leadInserted=false;
+      try{
+        const insRes=await sbFetch("/rest/v1/leads",{
+          method:"POST",
+          headers:{Prefer:"return=minimal"},
+          body:JSON.stringify(payload)
+        });
+        if(!insRes.ok){
+          const body=await insRes.text().catch(()=>"");
+          throw new Error(`leads INSERT ${insRes.status}: ${body}`);
+        }
+        leadInserted=true;
+      }catch(err){
+        console.error("[consult] leads INSERT failed",err);
+        errorEl.textContent="전송 중 문제가 발생했습니다. 잠시 후 다시 시도해 주세요.";
+        errorEl.hidden=false;button.disabled=false;button.textContent="상담 신청하기";
+        return;
+      }
+
+      // Step 3: Log 'received' event (best-effort, anon INSERT on lead_events requires lead_id
+      //         which we don't have from return=minimal; skip here, server-side cron covers logging)
+
+      // Step 4: Notify via /api/support-sms (best-effort — does not block success screen)
+      let smsEvent="sms_sent";
+      try{
+        const smsRes=await fetch("/api/support-sms",{
+          method:"POST",
+          headers:{"Content-Type":"application/json"},
+          body:JSON.stringify({
+            ticketId,
+            name,
+            phone,
+            category:"상담·수강신청",
+            urgency:"일반",
+            message:`상담 신청이 접수되었습니다. 출처: ${payload.source}`,
+            submittedAt
+          })
+        });
+        if(!smsRes.ok)smsEvent="sms_failed";
+      }catch(_){smsEvent="sms_failed";}
+
+      if(smsEvent==="sms_failed"){
+        console.warn("[consult] SMS notification failed — lead is saved in Supabase");
+      }
+
+      // Show success regardless of SMS result (lead is already saved)
+      $("successName").textContent=name;
+      $("formView").hidden=true;
+      $("successView").classList.add("show");
     });
 
     addEventListener("beforeinstallprompt",event=>{event.preventDefault();deferredInstall=event;$("installBtn").classList.add("show")});
