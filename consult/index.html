@@ -126,6 +126,25 @@
       });
     }
 
+    // 유입 경로(UTM)를 기존 source 문자열 뒤에 붙인다. leads 테이블 컬럼은 바꾸지 않는다.
+    // 카카오·네이버 로그인으로 페이지를 떠났다 돌아와도 유지되도록 sessionStorage에 보관한다.
+    const leadSource=(()=>{
+      const base="stargateedu.co.kr/consult";
+      try{
+        const q=new URLSearchParams(location.search);
+        const found=["utm_source","utm_medium","utm_campaign"]
+          .filter(k=>q.get(k))
+          .map(k=>`${k}=${q.get(k).replace(/[^\w.\-]/g,"").slice(0,80)}`);
+        if(found.length){
+          try{sessionStorage.setItem("leadUtm",found.join("&"))}catch(e){}
+          return `${base}?${found.join("&")}`;
+        }
+        let saved=null;
+        try{saved=sessionStorage.getItem("leadUtm")}catch(e){}
+        return saved?`${base}?${saved}`:base;
+      }catch(e){return base}
+    })();
+
     $("leadForm").addEventListener("submit",async event=>{
       event.preventDefault();
       const errorEl=$("formError"),button=$("submitBtn");
@@ -151,7 +170,7 @@
       const payload={
         name,phone,consent:"Y",
         provider:social.provider,social_id:social.id,
-        source:"stargateedu.co.kr/consult",
+        source:leadSource,
         submitted_at:submittedAt,
         status:"new"
       };

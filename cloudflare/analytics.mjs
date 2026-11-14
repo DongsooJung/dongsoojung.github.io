@@ -1,5 +1,5 @@
 import {resolveDistrict,districtForCode,DISTRICT_BOUNDARY_VERSION} from './district-geo.mjs';
-export const METHODS = new Set(['get_site_region_summary', 'get_site_region_stats', 'get_site_visit_stats', 'get_site_usage_stats', 'get_site_visit_summary', 'get_site_usage_summary', 'get_site_button_click_counts', 'record_site_visit', 'record_site_usage_event']);
+export const METHODS = new Set(['get_site_region_summary', 'get_site_region_stats', 'get_site_visit_stats', 'get_site_usage_stats', 'get_site_visit_summary', 'get_site_visit_daily', 'get_site_usage_summary', 'get_site_button_click_counts', 'record_site_visit', 'record_site_usage_event']);
 export const MAX_BODY_BYTES = 8192;
 export const MAX_IMPORT_BYTES = 262144;
 export const HISTORY_SOURCE = 'supabase:inftexpcnfinglwlrvsj';
@@ -56,10 +56,11 @@ function target(value) {
 export function validatePayload(method, payload, now = Date.now()) {
   if (!METHODS.has(method)) throw new RequestError('Unknown analytics method', 404);
   if (!payload || typeof payload !== 'object' || Array.isArray(payload)) throw new RequestError('Expected a JSON object');
-  if (['get_site_region_summary','get_site_region_stats','get_site_visit_stats','get_site_usage_stats','get_site_visit_summary','get_site_usage_summary'].includes(method)) {
+  if (['get_site_region_summary','get_site_region_stats','get_site_visit_stats','get_site_usage_stats','get_site_visit_summary','get_site_visit_daily','get_site_usage_summary'].includes(method)) {
     const days = payload.p_days ?? 30;
     if (!Number.isInteger(days) || days < 1 || days > 90) throw new RequestError('p_days must be between 1 and 90');
     if (method === 'get_site_usage_summary' && ![7,14,30].includes(days)) throw new RequestError('Public usage windows are 7, 14 or 30 days');
+    if (method === 'get_site_visit_daily' && ![7,14,30].includes(days)) throw new RequestError('Public daily visit windows are 7, 14 or 30 days');
     return { p_days: days };
   }
   if (method === 'get_site_button_click_counts') return { p_page_path: relativePath(payload.p_page_path, 'p_page_path') };
@@ -337,6 +338,11 @@ export class AnalyticsStore {
     const full = this.visits(1,now);
     return {source:'cloudflare',today:full.today,total:full.total,historical_included:!!full.historical_import};
   }
+  // Public daily trend: aggregate visitor-day counts only, no paths, ids or metadata.
+  visitDaily(days,now) {
+    const full = this.visits(days,now);
+    return {source:'cloudflare',today:full.today,total:full.total,period:full.period,daily:full.daily};
+  }
   usageSummary(days,now) {
     const start = this.startDay(days,now),end = koreaDay(now);
     return {
@@ -405,6 +411,7 @@ export class AnalyticsStore {
       case 'get_site_visit_stats': return this.visits(p.p_days, now);
       case 'get_site_usage_stats': return this.usage(p.p_days, now);
       case 'get_site_visit_summary': return this.visitSummary(now);
+      case 'get_site_visit_daily': return this.visitDaily(p.p_days, now);
       case 'get_site_usage_summary': return this.usageSummary(p.p_days,now);
       case 'get_site_button_click_counts': return this.buttonCounts(p.p_page_path);
     }
