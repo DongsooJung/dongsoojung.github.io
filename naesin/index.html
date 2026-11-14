@@ -1,0 +1,242 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#1B2A6B">
+  <title>내신 5등급 계산기 (동석차·중간석차 반영) · 스타게이트에듀</title>
+  <meta name="description" content="석차, 동석차 수, 수강자 수를 넣으면 2025 고1부터 적용되는 내신 5등급 상대평가 석차등급을 계산합니다. 동점자가 등급 경계에 걸리면 중간석차로 다시 판정해 '1등급인데 왜 2등급?'에 답합니다.">
+  <meta name="robots" content="index,follow,max-image-preview:large">
+  <link rel="canonical" href="https://stargateedu.co.kr/naesin/">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="ko_KR">
+  <meta property="og:site_name" content="스타게이트에듀">
+  <meta property="og:title" content="내신 5등급 계산기 (동석차·중간석차 반영)">
+  <meta property="og:description" content="석차·동석차 수·수강자 수로 5등급제 석차등급을 계산합니다. 동점자 때문에 등급이 내려가는 경우까지 알려 드립니다.">
+  <meta property="og:url" content="https://stargateedu.co.kr/naesin/">
+  <link rel="manifest" href="/manifest.webmanifest">
+  <link rel="icon" href="/assets/icons/favicon.ico" sizes="48x48">
+  <link rel="stylesheet" href="/naesin/naesin.css?v=20261114">
+  <link rel="stylesheet" href="/assets/stargate-tokens.css?v=20261017">
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@graph":[
+    {"@type":"WebApplication","name":"내신 5등급 계산기 (동석차 반영)","url":"https://stargateedu.co.kr/naesin/","applicationCategory":"EducationalApplication","operatingSystem":"Web","inLanguage":"ko","isAccessibleForFree":true,"offers":{"@type":"Offer","price":"0","priceCurrency":"KRW"},"publisher":{"@type":"Organization","name":"주식회사 별의문 (스타게이트에듀)","url":"https://stargateedu.co.kr/"}},
+    {"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"스타게이트에듀","item":"https://stargateedu.co.kr/"},{"@type":"ListItem","position":2,"name":"내신 5등급 계산기","item":"https://stargateedu.co.kr/naesin/"}]},
+    {"@type":"FAQPage","mainEntity":[
+      {"@type":"Question","name":"석차로는 1등급 안인데 왜 2등급이 나오나요?","acceptedAnswer":{"@type":"Answer","text":"동점자 묶음이 1등급 경계에 걸리면 묶음 전체에 중간석차(석차 + (동석차 수 − 1) ÷ 2)를 적용합니다. 중간석차 백분율이 10%를 넘으면 묶음 전원이 2등급이 됩니다. 예를 들어 200명 중 공동 15등이 12명이면 중간석차는 20.5, 백분율은 10.25%라 2등급입니다."}},
+      {"@type":"Question","name":"동점자가 없으면 몇 등까지 1등급인가요?","acceptedAnswer":{"@type":"Answer","text":"수강자 수에 누적비율 10%를 곱해 반올림한 등수까지 1등급입니다. 96명이면 9.6을 반올림한 10등까지, 200명이면 20등까지입니다."}},
+      {"@type":"Question","name":"수강자가 아주 적으면 어떻게 되나요?","acceptedAnswer":{"@type":"Answer","text":"수강자가 4명 이하이면 1등급 누적 인원이 0명이라 1등급이 나오지 않습니다. 수강자 5명 이하 과목은 석차등급 자리에 '·'로 기재할 수 있습니다."}}
+    ]}
+  ]}
+  </script>
+</head>
+<body>
+<a class="skip" href="#main">본문 바로가기</a>
+<div class="wrap">
+  <header class="top"><a class="brand" href="/">✦ STARGATE</a><a class="home" href="/">홈으로 →</a></header>
+  <nav class="tabs" aria-label="내신 계산기 메뉴">
+    <a href="/naesin/" aria-current="page">5등급 계산기</a>
+    <a href="/naesin/tie/">동점자 시뮬레이터</a>
+    <a href="/naesin/average/">평균 등급</a>
+    <a href="/naesin/guide/">5등급제 총정리</a>
+  </nav>
+
+  <main id="main">
+    <section class="hero">
+      <span class="kicker">2025 고1부터 · 5등급 상대평가</span>
+      <h1>내신 5등급 계산기<br>동점자(동석차)까지 반영</h1>
+      <p class="lead">석차, 동석차 수, 수강자 수를 넣으면 석차등급을 계산합니다. 동점자 묶음이 등급 경계에 걸리면 중간석차로 다시 판정해서, "석차로는 1등급인데 왜 2등급이지?"에 바로 답합니다.</p>
+    </section>
+
+    <section class="card" aria-labelledby="calc-title">
+      <h2 id="calc-title">석차등급 계산</h2>
+      <form class="calc" id="calc" novalidate>
+        <div class="field">
+          <label for="r">석차</label>
+          <input id="r" name="r" type="number" inputmode="numeric" min="1" step="1" placeholder="예: 15" required>
+          <span class="hint">성적표의 「15(12)」에서 15</span>
+        </div>
+        <div class="field">
+          <label for="d">동석차 수</label>
+          <input id="d" name="d" type="number" inputmode="numeric" min="1" step="1" placeholder="예: 12" value="1">
+          <span class="hint">괄호 안 숫자. 동점자 없으면 1</span>
+        </div>
+        <div class="field">
+          <label for="t">수강자 수</label>
+          <input id="t" name="t" type="number" inputmode="numeric" min="1" step="1" placeholder="예: 200" required>
+          <span class="hint">그 과목을 들은 학생 수</span>
+        </div>
+      </form>
+      <details style="margin-top:12px">
+        <summary class="small" style="cursor:pointer;font-weight:700">원점수(성취율)로 성취도도 보기</summary>
+        <div class="field" style="margin-top:10px;max-width:260px">
+          <label for="s">원점수 또는 성취율(%)</label>
+          <input id="s" name="s" type="number" inputmode="decimal" min="0" max="100" step="0.1" placeholder="예: 92">
+          <span class="hint">공통 과목 기준(A 90 이상 · B 80 · C 70 · D 60 · E 40 이상)</span>
+        </div>
+      </details>
+      <div class="actions">
+        <button class="btn primary" type="submit" form="calc">계산하기</button>
+        <button class="btn ghost" type="button" data-example="15,12,200">예시: 200명 중 공동 15등 12명</button>
+        <button class="btn ghost" type="button" data-example="10,1,96">예시: 96명 중 10등</button>
+      </div>
+      <div class="error" id="err" role="alert" hidden></div>
+      <div class="result" id="out" aria-live="polite" hidden>
+        <div class="big"><span class="grade" id="o-grade">–</span><span id="o-badge"></span></div>
+        <p class="why" id="o-why"></p>
+        <div class="stats">
+          <div class="stat"><b id="o-mid">–</b><span>계산에 쓴 석차</span></div>
+          <div class="stat"><b id="o-pct">–</b><span>상위 백분율</span></div>
+          <div class="stat"><b id="o-c1">–</b><span>1등급 마지막 등수</span></div>
+        </div>
+        <p class="why" id="o-ach" hidden></p>
+        <div class="share">이 결과 링크 <code id="o-link"></code><button class="btn ghost" type="button" id="copy" style="min-height:34px;padding:0 12px;font-size:13px">복사</button></div>
+      </div>
+    </section>
+
+    <section class="card" aria-labelledby="ranges-title">
+      <h2 id="ranges-title">이 과목 등급별 석차 범위 <span class="muted small" id="ranges-n">(수강자 200명 기준)</span></h2>
+      <p class="muted small">동점자가 없을 때입니다. 수강자 수 × 누적비율을 반올림한 등수가 각 등급의 마지막 등수입니다.</p>
+      <div class="tbl">
+        <table>
+          <thead><tr><th>등급</th><th class="num">누적비율</th><th>석차 범위</th><th class="num">인원</th></tr></thead>
+          <tbody id="ranges">
+            <tr><td>1등급</td><td class="num">10%</td><td>1~20등</td><td class="num">20명</td></tr>
+            <tr><td>2등급</td><td class="num">34%</td><td>21~68등</td><td class="num">48명</td></tr>
+            <tr><td>3등급</td><td class="num">66%</td><td>69~132등</td><td class="num">64명</td></tr>
+            <tr><td>4등급</td><td class="num">90%</td><td>133~180등</td><td class="num">48명</td></tr>
+            <tr><td>5등급</td><td class="num">100%</td><td>181~200등</td><td class="num">20명</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="card" aria-labelledby="how-title">
+      <h2 id="how-title">계산 방법</h2>
+      <ol class="points">
+        <li><b>등급별 마지막 등수를 구합니다.</b> 수강자 수에 누적비율(10·34·66·90·100%)을 곱해 반올림합니다. 96명이면 1등급은 9.6 → 10등까지입니다.</li>
+        <li><b>동점자가 없으면</b> 내 석차가 어느 등급의 마지막 등수 안에 드는지로 정합니다.</li>
+        <li><b>동점자 묶음이 등급 경계에 걸리면</b> 중간석차를 씁니다.
+          <div class="formula">중간석차 = 석차 + (동석차 수 − 1) ÷ 2<br>중간석차 백분율 = 중간석차 ÷ 수강자 수 × 100</div>
+          중간석차 백분율이 10% 이하면 1등급, 34% 이하면 2등급, 66% 이하면 3등급, 90% 이하면 4등급, 그보다 크면 5등급입니다. 묶음 전원이 같은 등급을 받습니다.</li>
+      </ol>
+      <p class="src">근거: 경기도교육청 「2026학년도 고등학교 학업성적관리 시행지침」의 누적 인원 반올림·중간석차 계산식(<a href="https://www.yugacrew.com/crewletter/naesin-grade-calculation" rel="noopener">해설 자료</a>), 중간석차는 동점자가 등급 경계에 있을 때 적용(<a href="https://www.imaeil.com/page/view/2019030518321677091" rel="noopener">매일신문</a>), 수강자 4명 이하 1등급 미발생(<a href="https://www.newsis.com/view/NISX20260728_0003726122" rel="noopener">뉴시스 2026-07-28</a>). 학교별 학업성적관리규정에 따라 처리가 다를 수 있으니 최종 등급은 학교 성적표로 확인하세요.</p>
+    </section>
+
+    <section class="card" aria-labelledby="faq-title">
+      <h2 id="faq-title">자주 묻는 질문</h2>
+      <details class="faq" open><summary>석차로는 1등급 안인데 왜 2등급이 나오나요?</summary><p>동점자 묶음이 1등급 경계에 걸렸기 때문입니다. 이때는 묶음 전원에게 중간석차를 적용합니다. 200명 중 공동 15등이 12명이면 15~26등이 한 묶음이고, 1등급 마지막 등수(20등)에 걸칩니다. 중간석차는 15 + (12 − 1) ÷ 2 = 20.5, 백분율은 10.25%라 12명 모두 2등급입니다. 동점자가 없었다면 15등은 1등급입니다.</p></details>
+      <details class="faq"><summary>만점을 받아도 2등급이 될 수 있나요?</summary><p>네. 만점자가 많으면 만점자 묶음 자체가 1등급 경계를 넘습니다. 200명 과목이면 만점자 39명까지는 전원 1등급, 40명이 되면 전원 2등급이고 그 과목에는 1등급이 없습니다. 인원별 기준은 <a href="/naesin/tie/">동점자 시뮬레이터</a>에서 바로 볼 수 있습니다.</p></details>
+      <details class="faq"><summary>수강자가 적은 과목은요?</summary><p>수강자 4명 이하이면 1등급 누적 인원이 0명이라 1등급이 나오지 않습니다. 수강자 5명 이하 과목은 석차등급 대신 '·'로 기재할 수 있습니다.</p></details>
+      <details class="faq"><summary>성취도(A~E)와 석차등급은 어떻게 다른가요?</summary><p>성취도는 성취율(점수)로 정하는 절대평가이고, 석차등급은 수강자 안에서의 순위로 정하는 상대평가입니다. 5등급제에서는 두 가지를 함께 기재합니다. 사회·과학 융합선택 9과목처럼 성취도만 적는 과목도 있습니다. 자세한 내용은 <a href="/naesin/guide/">5등급제 총정리</a>에 정리했습니다.</p></details>
+    </section>
+
+    <div class="next">
+      <a href="/naesin/tie/"><b>동점자 시뮬레이터 →</b><span>만점자 몇 명부터 1등급이 사라질까</span></a>
+      <a href="/naesin/average/"><b>평균 등급 계산기 →</b><span>학점 가중 평균, 목표 평균 역산</span></a>
+      <a href="/naesin/guide/"><b>5등급제 총정리 →</b><span>비율·기재 항목·과목 유형 출처 정리</span></a>
+    </div>
+
+    <section class="cta-box">
+      <h2>대치동 1:1 내신 관리 상담</h2>
+      <p>학교별 출제 경향과 등급 경계 위치를 함께 보고, 다음 시험에서 올려야 할 점수를 계산해 드립니다.</p>
+      <div class="actions">
+        <a class="btn gold" href="https://open.kakao.com/o/suuKwjTi" target="_blank" rel="noopener noreferrer" data-analytics-label="내신 계산기 카카오 상담">카카오톡 상담 ↗</a>
+        <a class="btn ghost" href="mailto:support@stargateedu.co.kr?subject=%5B%EB%82%B4%EC%8B%A0%20%EC%83%81%EB%8B%B4%5D">이메일 문의</a>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>이 계산기는 참고용입니다. 실제 석차등급은 학교 학업성적관리규정과 나이스(NEIS) 산출 결과를 따릅니다. 기준일 2026-11-14.</p>
+    <p>상호 : 주식회사 별의문 · 대표자명 : 정동수 · 사업자번호 : 848-86-03835 · 통신판매업신고번호 : 2025-서울강남-05246호 · 전화 : 070-8027-8225 · 이메일 : support@stargateedu.co.kr</p>
+  </footer>
+</div>
+<script src="/naesin/naesin-core.js?v=20261114"></script>
+<script>
+(function () {
+  var N = window.Naesin;
+  var $ = function (id) { return document.getElementById(id); };
+  var form = $('calc');
+
+  var touched = false;
+  function setParams(r, d, t) {
+    var q = '?r=' + r + '&d=' + d + '&t=' + t;
+    if (touched) { try { history.replaceState(null, '', location.pathname + q); } catch (e) {} }
+    $('o-link').textContent = 'stargateedu.co.kr/naesin/' + q;
+  }
+
+  function renderRanges(t) {
+    var rows = N.gradeRanges(t);
+    if (!rows.length) return;
+    $('ranges-n').textContent = '(수강자 ' + t + '명 기준)';
+    $('ranges').innerHTML = rows.map(function (x) {
+      var range = x.people ? (x.from === x.to ? x.from + '등' : x.from + '~' + x.to + '등') : '해당 없음';
+      return '<tr><td>' + x.grade + '등급</td><td class="num">' + N.BOUNDS[x.grade - 1] + '%</td><td>' + range + '</td><td class="num">' + x.people + '명</td></tr>';
+    }).join('');
+  }
+
+  function run() {
+    var r = $('r').value, d = $('d').value || '1', t = $('t').value;
+    var err = $('err'), out = $('out');
+    var res = N.calc(r, d, t);
+    if (!res.ok) { err.textContent = res.error; err.hidden = false; out.hidden = true; return; }
+    err.hidden = true; out.hidden = false;
+    $('o-grade').innerHTML = res.grade + '<small>등급</small>';
+    var badge = '';
+    if (res.gradeIfAlone !== res.grade) badge = '<span class="pill warn">동점자 때문에 ' + res.gradeIfAlone + '등급 → ' + res.grade + '등급</span>';
+    else if (res.ties > 1) badge = '<span class="pill ok">동점자 묶음 전원 ' + res.grade + '등급</span>';
+    $('o-badge').innerHTML = badge;
+
+    var why;
+    if (res.method === 'mid') {
+      why = '공동 ' + res.rank + '등 ' + res.ties + '명(' + res.rank + '~' + res.lastRank + '등)이 등급 경계에 걸려 중간석차를 적용했습니다. 중간석차 ' +
+        res.rank + ' + (' + res.ties + ' − 1) ÷ 2 = ' + N.formatNum(res.mid) + ', 백분율 ' + N.formatPct(res.midPct) + '%라 묶음 전원이 ' + res.grade + '등급입니다.';
+      if (res.gradeIfAlone !== res.grade) why += ' 동점자가 없었다면 ' + res.rank + '등은 ' + res.gradeIfAlone + '등급입니다.';
+    } else {
+      var c = res.counts[res.grade - 1];
+      why = (res.ties > 1 ? '공동 ' + res.rank + '등 ' + res.ties + '명이 모두 ' : res.rank + '등이 ') + res.grade + '등급 범위(' +
+        (res.grade === 1 ? 1 : res.counts[res.grade - 2] + 1) + '~' + c + '등) 안에 있습니다. 수강자 ' + res.total + '명 × 누적비율 ' + N.BOUNDS[res.grade - 1] + '%를 반올림하면 ' + c + '등까지입니다.';
+    }
+    if (res.smallClass) why += ' 수강자 5명 이하 과목은 석차등급 대신 ·로 기재될 수 있습니다.';
+    $('o-why').textContent = why;
+    $('o-mid').textContent = N.formatNum(res.mid) + '등';
+    $('o-pct').textContent = N.formatPct(res.method === 'mid' ? res.midPct : res.rankPct) + '%';
+    $('o-c1').textContent = res.counts[0] ? res.counts[0] + '등' : '없음';
+
+    var s = $('s').value, ach = N.achievement(s), achEl = $('o-ach');
+    if (s !== '' && ach) {
+      achEl.hidden = false;
+      achEl.textContent = ach === 'I'
+        ? '성취율 ' + s + '%는 40% 미만이라 공통 과목 이수 기준에 미달합니다(최소 성취수준 보장지도 대상).'
+        : '성취율 ' + s + '% → 성취도 ' + ach + ' (공통 과목 기준). 성취도는 석차등급과 별도로 함께 기재됩니다.';
+    } else achEl.hidden = true;
+
+    renderRanges(res.total);
+    setParams(res.rank, res.ties, res.total);
+  }
+
+  form.addEventListener('submit', function (e) { e.preventDefault(); touched = true; run(); });
+  ['r', 'd', 't', 's'].forEach(function (id) {
+    $(id).addEventListener('input', function () { touched = true; if ($('r').value && $('t').value) run(); });
+  });
+  Array.prototype.forEach.call(document.querySelectorAll('[data-example]'), function (b) {
+    b.addEventListener('click', function () {
+      var v = b.getAttribute('data-example').split(',');
+      $('r').value = v[0]; $('d').value = v[1]; $('t').value = v[2]; touched = true; run();
+    });
+  });
+  $('copy').addEventListener('click', function () {
+    var url = 'https://' + $('o-link').textContent;
+    var done = function () { $('copy').textContent = '복사됨'; setTimeout(function () { $('copy').textContent = '복사'; }, 1500); };
+    try { navigator.clipboard.writeText(url).then(done, done); } catch (e) { done(); }
+  });
+
+  var q = new URLSearchParams(location.search);
+  if (q.get('r') && q.get('t')) { $('r').value = q.get('r'); $('d').value = q.get('d') || '1'; $('t').value = q.get('t'); }
+  else { $('r').value = '15'; $('d').value = '12'; $('t').value = '200'; }
+  run();
+})();
+</script>
+</body>
+</html>
