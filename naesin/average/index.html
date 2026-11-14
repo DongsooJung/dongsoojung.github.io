@@ -1,0 +1,250 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#1B2A6B">
+  <title>내신 평균 등급 계산기 (학점 가중·목표 평균 역산) · 스타게이트에듀</title>
+  <meta name="description" content="과목별 학점과 석차등급을 넣으면 5등급제 내신 평균 등급을 학점 가중 평균으로 계산합니다. 목표 평균을 넣으면 남은 학기에 받아야 할 평균 등급도 역산합니다. 성취도만 있는 과목은 자동으로 제외합니다.">
+  <meta name="robots" content="index,follow,max-image-preview:large">
+  <link rel="canonical" href="https://stargateedu.co.kr/naesin/average/">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="ko_KR">
+  <meta property="og:site_name" content="스타게이트에듀">
+  <meta property="og:title" content="내신 평균 등급 계산기 (학점 가중·목표 역산)">
+  <meta property="og:description" content="학점 × 등급의 가중 평균과, 목표 평균까지 남은 학기에 필요한 평균 등급을 계산합니다.">
+  <meta property="og:url" content="https://stargateedu.co.kr/naesin/average/">
+  <link rel="manifest" href="/manifest.webmanifest">
+  <link rel="icon" href="/assets/icons/favicon.ico" sizes="48x48">
+  <link rel="stylesheet" href="/naesin/naesin.css?v=20261114">
+  <link rel="stylesheet" href="/assets/stargate-tokens.css?v=20261017">
+  <style>
+    .rows{display:grid;gap:8px}
+    .row{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,.8fr) minmax(0,1.1fr) 40px;gap:8px;align-items:center}
+    .row.head{font-size:12.5px;font-weight:800;color:var(--n-text3)}
+    .row input[type=text]{width:100%;min-height:46px;padding:10px 12px;border:1px solid #CBD2DC;border-radius:10px;font:inherit;font-size:15px;background:#fff}
+    .row input[type=number],.row select{min-height:46px;font-size:16px}
+    .row .del{width:40px;height:40px;border:1px solid #CBD2DC;border-radius:10px;background:#fff;color:var(--n-text3);font-size:18px;cursor:pointer}
+    @media (max-width:640px){.row{grid-template-columns:minmax(0,1.3fr) minmax(0,.8fr) minmax(0,1.1fr) 36px;gap:6px}.row .del{width:36px}.row input[type=text]{font-size:14px;padding:10px 8px}}
+  </style>
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@graph":[
+    {"@type":"WebApplication","name":"내신 평균 등급 계산기","url":"https://stargateedu.co.kr/naesin/average/","applicationCategory":"EducationalApplication","operatingSystem":"Web","inLanguage":"ko","isAccessibleForFree":true,"offers":{"@type":"Offer","price":"0","priceCurrency":"KRW"},"publisher":{"@type":"Organization","name":"주식회사 별의문 (스타게이트에듀)","url":"https://stargateedu.co.kr/"}},
+    {"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"스타게이트에듀","item":"https://stargateedu.co.kr/"},{"@type":"ListItem","position":2,"name":"내신 5등급 계산기","item":"https://stargateedu.co.kr/naesin/"},{"@type":"ListItem","position":3,"name":"평균 등급 계산기","item":"https://stargateedu.co.kr/naesin/average/"}]},
+    {"@type":"FAQPage","mainEntity":[
+      {"@type":"Question","name":"내신 평균 등급은 어떻게 계산하나요?","acceptedAnswer":{"@type":"Answer","text":"과목별 석차등급에 학점을 곱해 모두 더한 뒤, 학점 합계로 나눕니다. 학점이 큰 과목일수록 평균에 더 크게 반영됩니다."}},
+      {"@type":"Question","name":"성취도만 있는 과목도 평균에 넣나요?","acceptedAnswer":{"@type":"Answer","text":"석차등급 평균에는 넣지 않습니다. 사회·과학 융합선택 9과목, 체육·예술, 과학탐구실험, 교양처럼 석차등급이 없는 과목은 제외합니다. 대학에 따라 성취도를 별도 점수로 반영하기도 합니다."}}
+    ]}
+  ]}
+  </script>
+</head>
+<body>
+<a class="skip" href="#main">본문 바로가기</a>
+<div class="wrap">
+  <header class="top"><a class="brand" href="/">✦ STARGATE</a><a class="home" href="/">홈으로 →</a></header>
+  <nav class="tabs" aria-label="내신 계산기 메뉴">
+    <a href="/naesin/">5등급 계산기</a>
+    <a href="/naesin/tie/">동점자 시뮬레이터</a>
+    <a href="/naesin/average/" aria-current="page">평균 등급</a>
+    <a href="/naesin/guide/">5등급제 총정리</a>
+  </nav>
+
+  <main id="main">
+    <section class="hero">
+      <span class="kicker">학점 가중 평균 · 목표 역산</span>
+      <h1>내신 평균 등급 계산기</h1>
+      <p class="lead">과목별 학점과 석차등급을 넣으면 학점 가중 평균 등급을 계산합니다. 목표 평균을 정하면 남은 학기에 받아야 할 평균 등급도 바로 나옵니다.</p>
+    </section>
+
+    <section class="card" aria-labelledby="avg-title">
+      <h2 id="avg-title">과목별 성적 입력</h2>
+      <div class="rows" id="rows">
+        <div class="row head" aria-hidden="true"><span>과목(선택)</span><span>학점</span><span>석차등급</span><span></span></div>
+      </div>
+      <div class="actions">
+        <button class="btn ghost" type="button" id="add">+ 과목 추가</button>
+        <button class="btn ghost" type="button" id="sample">예시 채우기</button>
+        <button class="btn ghost" type="button" id="clear">모두 지우기</button>
+      </div>
+      <div class="result" id="out" aria-live="polite" hidden>
+        <div class="big"><span class="grade" id="o-avg">–</span><span class="pill info" id="o-badge">평균 등급</span></div>
+        <p class="why" id="o-why"></p>
+        <div class="stats">
+          <div class="stat"><b id="o-n">–</b><span>반영 과목</span></div>
+          <div class="stat"><b id="o-c">–</b><span>반영 학점</span></div>
+          <div class="stat"><b id="o-s">–</b><span>등급 × 학점 합계</span></div>
+        </div>
+      </div>
+      <p class="muted small" id="empty">학점과 등급을 한 과목 이상 넣으면 평균이 나옵니다. 입력한 내용은 이 기기에만 저장됩니다.</p>
+    </section>
+
+    <section class="card" aria-labelledby="goal-title">
+      <h2 id="goal-title">목표 평균 역산</h2>
+      <form class="calc two" id="goal" novalidate>
+        <div class="field">
+          <label for="target">목표 평균 등급</label>
+          <input id="target" type="number" inputmode="decimal" min="1" max="5" step="0.01" placeholder="예: 1.50">
+        </div>
+        <div class="field">
+          <label for="remain">남은 학점(등급 산출 과목)</label>
+          <input id="remain" type="number" inputmode="numeric" min="1" step="1" placeholder="예: 60">
+          <span class="hint">앞으로 석차등급이 나올 과목의 학점 합계</span>
+        </div>
+      </form>
+      <div class="result" id="g-out" aria-live="polite" hidden>
+        <div class="big"><span class="grade" id="g-need">–</span><span id="g-badge"></span></div>
+        <p class="why" id="g-why"></p>
+      </div>
+      <p class="muted small" id="g-empty">위에서 지금까지의 성적을 입력한 뒤 목표와 남은 학점을 넣으세요.</p>
+    </section>
+
+    <section class="card" aria-labelledby="how-title">
+      <h2 id="how-title">계산 방법과 주의할 점</h2>
+      <div class="formula">평균 등급 = Σ(석차등급 × 학점) ÷ Σ학점</div>
+      <ul class="points">
+        <li>학점이 큰 과목이 평균에 더 크게 반영됩니다. 4학점 과목 1등급과 2학점 과목 3등급의 평균은 (4×1 + 2×3) ÷ 6 = 1.67입니다.</li>
+        <li>석차등급이 없는 과목(사회·과학 융합선택 9과목, 체육·예술, 과학탐구실험, 교양)은 '등급 없음'을 고르면 평균에서 빠집니다.</li>
+        <li>목표 역산은 (목표 평균 × 전체 학점 − 지금까지의 등급 × 학점 합계) ÷ 남은 학점으로 계산합니다. 등급은 숫자가 작을수록 좋으므로 결과 이하로 받으면 목표를 지킵니다.</li>
+        <li>대학마다 반영 교과·과목 수, 학년별 비율, 소수점 처리(예: 셋째 자리 반올림), 성취도 반영 방식이 다릅니다. 지원 대학의 모집요강 산출식을 꼭 함께 확인하세요.</li>
+      </ul>
+      <p class="src">근거: 평균 석차등급 = Σ(석차등급 × 이수단위) ÷ 이수단위 합계 — 대학 모집요강 산출식 예시(<a href="https://www.sangji.ac.kr/thumbnail/editor/files/000003/20220906200209823_R7RO5V6M.pdf" rel="noopener">상지대 PDF</a>, 2022 개정 교육과정에서는 이수단위 대신 학점). 석차등급 미산출 과목(<a href="https://files-scs.pstatic.net/2024/07/02/Ic4S8r8egU/%5B%EA%B5%90%EC%9C%A1%EB%B6%80+12-27(%EC%88%98)+%EB%B8%8C%EB%A6%AC%ED%95%91%EC%8B%9C(11%EC%8B%9C)+%EB%B3%B4%EB%8F%84%EC%9E%90%EB%A3%8C%5D+(%EB%B3%84%EC%B2%A8)+%EB%AF%B8%EB%9E%98+%EC%82%AC%ED%9A%8C%EB%A5%BC+%EB%8C%80%EB%B9%84%ED%95%98%EB%8A%94+2028+%EB%8C%80%ED%95%99%EC%9E%85%EC%8B%9C%EC%A0%9C%EB%8F%84+%EA%B0%9C%ED%8E%B8+%ED%99%95%EC%A0%95%EC%95%88.pdf" rel="noopener">교육부 2028 대입 개편 확정안</a>).</p>
+    </section>
+
+    <div class="next">
+      <a href="/naesin/"><b>5등급 계산기 →</b><span>석차·동석차로 과목 등급 계산</span></a>
+      <a href="/naesin/tie/"><b>동점자 시뮬레이터 →</b><span>만점자 몇 명부터 1등급이 사라질까</span></a>
+      <a href="/naesin/guide/"><b>5등급제 총정리 →</b><span>비율·기재 항목·과목 유형 정리</span></a>
+    </div>
+
+    <section class="cta-box">
+      <h2>목표 평균까지 과목별 계획이 필요하다면</h2>
+      <p>남은 학기 과목 편성과 학교별 출제 경향을 보고, 어느 과목에서 등급을 지켜야 하는지 함께 정리해 드립니다.</p>
+      <div class="actions">
+        <a class="btn gold" href="https://open.kakao.com/o/suuKwjTi" target="_blank" rel="noopener noreferrer" data-analytics-label="평균 등급 계산기 카카오 상담">카카오톡 상담 ↗</a>
+        <a class="btn ghost" href="mailto:support@stargateedu.co.kr?subject=%5B%EB%82%B4%EC%8B%A0%20%EC%83%81%EB%8B%B4%5D">이메일 문의</a>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>이 계산기는 참고용입니다. 대학별 교과 성적 산출 방식은 모집요강을 따릅니다. 기준일 2026-11-14.</p>
+    <p>상호 : 주식회사 별의문 · 대표자명 : 정동수 · 사업자번호 : 848-86-03835 · 통신판매업신고번호 : 2025-서울강남-05246호 · 전화 : 070-8027-8225 · 이메일 : support@stargateedu.co.kr</p>
+  </footer>
+</div>
+<script src="/naesin/naesin-core.js?v=20261114"></script>
+<script>
+(function () {
+  var N = window.Naesin;
+  var $ = function (id) { return document.getElementById(id); };
+  var KEY = 'stargate-naesin-average-v1';
+  var rowsEl = $('rows');
+  var GRADE_OPTS = '<option value="">선택</option><option value="1">1등급</option><option value="2">2등급</option><option value="3">3등급</option><option value="4">4등급</option><option value="5">5등급</option><option value="none">등급 없음(성취도·P)</option>';
+  var n = 0;
+
+  function addRow(v) {
+    v = v || {};
+    n++;
+    var d = document.createElement('div');
+    d.className = 'row';
+    d.innerHTML = '<input type="text" aria-label="과목 ' + n + ' 이름" placeholder="예: 공통수학1" maxlength="30">' +
+      '<input type="number" aria-label="과목 ' + n + ' 학점" inputmode="numeric" min="1" max="10" step="1" placeholder="학점">' +
+      '<select aria-label="과목 ' + n + ' 석차등급">' + GRADE_OPTS + '</select>' +
+      '<button type="button" class="del" aria-label="과목 ' + n + ' 삭제">×</button>';
+    var f = d.querySelectorAll('input,select');
+    f[0].value = v.name || ''; f[1].value = v.credit || ''; f[2].value = v.grade || '';
+    d.querySelector('.del').addEventListener('click', function () { d.remove(); if (!rowsEl.querySelector('.row:not(.head)')) addRow(); update(); });
+    Array.prototype.forEach.call(f, function (el) { el.addEventListener('input', update); el.addEventListener('change', update); });
+    rowsEl.appendChild(d);
+  }
+
+  function readRows() {
+    return Array.prototype.map.call(rowsEl.querySelectorAll('.row:not(.head)'), function (d) {
+      var f = d.querySelectorAll('input,select');
+      return { name: f[0].value.trim(), credit: f[1].value, grade: f[2].value };
+    });
+  }
+
+  function save(rows) {
+    try { localStorage.setItem(KEY, JSON.stringify({ rows: rows, target: $('target').value, remain: $('remain').value })); } catch (e) {}
+  }
+
+  var last = null;
+  function update() {
+    var rows = readRows();
+    var r = N.weightedAverage(rows);
+    last = r;
+    var out = $('out');
+    if (r.average === null) {
+      out.hidden = true; $('empty').hidden = false;
+    } else {
+      out.hidden = false; $('empty').hidden = true;
+      $('o-avg').innerHTML = r.average.toFixed(2) + '<small>등급</small>';
+      $('o-n').textContent = r.used + '과목';
+      $('o-c').textContent = r.credits + '학점';
+      $('o-s').textContent = String(Math.round(r.weightedSum * 100) / 100);
+      var why = '소수 셋째 자리까지는 ' + r.average.toFixed(3) + '입니다.';
+      if (r.skipped > 0) why += ' 등급 없는 ' + r.skipped + '과목은 평균에서 뺐습니다.';
+      $('o-why').textContent = why;
+    }
+    goal();
+    save(rows);
+  }
+
+  function goal() {
+    var t = $('target').value, rem = $('remain').value;
+    var out = $('g-out');
+    if (!last || last.average === null || t === '' || rem === '') { out.hidden = true; $('g-empty').hidden = false; return; }
+    var g = N.requiredAverage(last.weightedSum, last.credits, Number(rem), Number(t));
+    if (!g.ok) {
+      out.hidden = false; $('g-empty').hidden = true;
+      $('g-need').textContent = '–'; $('g-badge').innerHTML = '<span class="pill warn">입력 확인</span>';
+      $('g-why').textContent = '목표 평균은 1~5 사이, 남은 학점은 1 이상으로 넣어 주세요.';
+      return;
+    }
+    out.hidden = false; $('g-empty').hidden = true;
+    if (g.status === 'impossible') {
+      $('g-need').textContent = '불가';
+      $('g-badge').innerHTML = '<span class="pill warn">남은 과목 모두 1등급이어도 부족</span>';
+      $('g-why').textContent = '남은 ' + rem + '학점을 모두 1등급으로 받아도 최종 평균은 ' + g.bestFinal.toFixed(2) + '등급입니다. 목표를 ' + (Math.ceil(g.bestFinal * 100) / 100).toFixed(2) + ' 이상으로 다시 잡거나 남은 학점을 확인해 보세요.';
+    } else if (g.status === 'secured') {
+      $('g-need').textContent = '확보';
+      $('g-badge').innerHTML = '<span class="pill ok">목표 이미 확보</span>';
+      $('g-why').textContent = '남은 과목을 모두 5등급으로 받아도 최종 평균이 ' + Number(t).toFixed(2) + ' 이하입니다.';
+    } else {
+      var need = Math.floor(g.need * 100) / 100;
+      $('g-need').innerHTML = need.toFixed(2) + '<small>등급 이하</small>';
+      $('g-badge').innerHTML = '<span class="pill info">남은 학기 평균</span>';
+      $('g-why').textContent = '남은 ' + rem + '학점의 평균을 ' + need.toFixed(2) + '등급 이하로 받으면 최종 평균 ' + Number(t).toFixed(2) + '등급을 지킵니다. 남은 과목을 모두 1등급으로 받으면 최종 ' + g.bestFinal.toFixed(2) + '등급까지 올릴 수 있습니다.';
+    }
+  }
+
+  $('add').addEventListener('click', function () { addRow(); });
+  $('clear').addEventListener('click', function () {
+    Array.prototype.forEach.call(rowsEl.querySelectorAll('.row:not(.head)'), function (d) { d.remove(); });
+    for (var i = 0; i < 4; i++) addRow();
+    $('target').value = ''; $('remain').value = '';
+    update();
+  });
+  $('sample').addEventListener('click', function () {
+    Array.prototype.forEach.call(rowsEl.querySelectorAll('.row:not(.head)'), function (d) { d.remove(); });
+    [{ name: '공통국어1', credit: 4, grade: 2 }, { name: '공통수학1', credit: 4, grade: 1 }, { name: '공통영어1', credit: 4, grade: 2 },
+     { name: '통합사회1', credit: 4, grade: 3 }, { name: '통합과학1', credit: 4, grade: 2 }, { name: '정보', credit: 4, grade: 1 },
+     { name: '과학탐구실험1', credit: 1, grade: 'none' }, { name: '체육', credit: 2, grade: 'none' }].forEach(addRow);
+    $('target').value = '1.50'; $('remain').value = '100';
+    update();
+  });
+  ['target', 'remain'].forEach(function (id) { $(id).addEventListener('input', function () { goal(); save(readRows()); }); });
+
+  var saved = null;
+  try { saved = JSON.parse(localStorage.getItem(KEY) || 'null'); } catch (e) {}
+  if (saved && saved.rows && saved.rows.length) {
+    saved.rows.forEach(addRow);
+    $('target').value = saved.target || ''; $('remain').value = saved.remain || '';
+  } else {
+    for (var i = 0; i < 4; i++) addRow();
+  }
+  update();
+})();
+</script>
+</body>
+</html>
