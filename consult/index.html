@@ -102,12 +102,31 @@
     });
 
     phoneInput.addEventListener("input",event=>{const v=event.target.value.replace(/\D/g,"").slice(0,11);event.target.value=v.length<4?v:v.length<8?`${v.slice(0,3)}-${v.slice(3)}`:`${v.slice(0,3)}-${v.slice(3,7)}-${v.slice(7)}`});
+    // 유입 경로(UTM)를 기존 source 문자열 뒤에 붙인다. leads 테이블 컬럼은 바꾸지 않는다.
+    // 카카오·네이버 로그인으로 페이지를 떠났다 돌아와도 유지되도록 sessionStorage에 보관한다.
+    const leadSource=(()=>{
+      const base="stargateedu.co.kr/consult";
+      try{
+        const q=new URLSearchParams(location.search);
+        const found=["utm_source","utm_medium","utm_campaign"]
+          .filter(k=>q.get(k))
+          .map(k=>`${k}=${q.get(k).replace(/[^\w.\-]/g,"").slice(0,80)}`);
+        if(found.length){
+          try{sessionStorage.setItem("leadUtm",found.join("&"))}catch(e){}
+          return `${base}?${found.join("&")}`;
+        }
+        let saved=null;
+        try{saved=sessionStorage.getItem("leadUtm")}catch(e){}
+        return saved?`${base}?${saved}`:base;
+      }catch(e){return base}
+    })();
+
     $("leadForm").addEventListener("submit",async event=>{
       event.preventDefault();const error=$("formError"),button=$("submitBtn");error.hidden=true;
       if($("website").value)return;
       if(!nameInput.value.trim()||!/^01[016789]-?\d{3,4}-?\d{4}$/.test(phoneInput.value)||!$("consent").checked){error.textContent="이름, 올바른 휴대전화번호, 개인정보 동의를 확인해 주세요.";error.hidden=false;return}
       button.disabled=true;button.textContent="전송 중…";
-      const payload={name:nameInput.value.trim(),phone:phoneInput.value.trim(),consent:"Y",provider:social.provider,social_id:social.id,source:"stargateedu.co.kr/consult",submitted_at:new Date().toISOString()};
+      const payload={name:nameInput.value.trim(),phone:phoneInput.value.trim(),consent:"Y",provider:social.provider,social_id:social.id,source:leadSource,submitted_at:new Date().toISOString()};
       try{
         const response=await fetch(`${CONFIG.SUPABASE_URL}/rest/v1/leads`,{method:"POST",headers:{"Content-Type":"application/json",apikey:CONFIG.SUPABASE_ANON_KEY,Authorization:`Bearer ${CONFIG.SUPABASE_ANON_KEY}`,Prefer:"return=minimal"},body:JSON.stringify(payload)});
         if(!response.ok)throw new Error(String(response.status));
