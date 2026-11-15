@@ -103,3 +103,15 @@ test('the global blog alerts on its daily visit record; the main portal does not
  }
  assert.equal(calls[0][0],'stargatekorea-visitors-v1');
 });
+
+test('stargatelearn.com alerts on its daily visit record in its own store',async()=>{
+ const calls=[];const env={VISITOR_ANALYTICS:{idFromName:n=>n,get:name=>({analytics:async(...args)=>{calls.push([name,...args]);return true;}})}};
+ const body={p_visitor_id:'12345678-1234-4234-8234-123456789abd',p_visit_date:new Intl.DateTimeFormat('en-CA',{timeZone:'Asia/Seoul'}).format(new Date()),p_path:'/2026/11/olympiad-geometry/'};
+ for(const origin of ['https://stargatelearn.com','https://www.stargatelearn.com']) {
+  const response=await handleRequest(new Request('https://stargate.stargate8225.workers.dev/api/analytics/record_site_visit',{method:'POST',headers:{Origin:origin,'Content-Type':'application/json'},body:JSON.stringify(body)}),env);
+  assert.equal(response.status,200);assert.equal(response.headers.get('access-control-allow-origin'),origin);
+  const last=calls.at(-1);assert.deepEqual([last[0],last[1],last[3],last[5]],['stargatelearn-visitors-v1','record_site_visit',true,origin]);
+ }
+ const rejected=await handleRequest(new Request('https://stargate.stargate8225.workers.dev/api/analytics/record_site_visit',{method:'POST',headers:{Origin:'https://stargatelearn.com.evil.test','Content-Type':'application/json'},body:JSON.stringify(body)}),env);
+ assert.notEqual(rejected.status,200);assert.equal(calls.length,2);
+});
