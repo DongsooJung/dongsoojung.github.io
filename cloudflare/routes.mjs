@@ -9,6 +9,9 @@ import { handleBlogVisitors } from './blog-visitors.mjs';
 
 export const PUBLIC_ORIGINS = new Set(['https://stargateedu.co.kr','https://www.stargateedu.co.kr','https://www.stargatekorea.net','https://stargate.stargate8225.workers.dev']);
 const ALERT_ORIGINS = new Set(['https://stargateedu.co.kr','https://www.stargateedu.co.kr','https://www.stargatekorea.net']);
+// Sites that send only the daily visit record (no page_view usage events). Listing a site
+// that also sends page_view events would count one browser twice.
+export const VISIT_ALERT_ORIGINS = new Set(['https://www.stargatekorea.net']);
 const publicMethods = new Set(['get_site_region_summary','record_site_visit','record_site_usage_event','get_site_button_click_counts','get_site_visit_stats','get_site_visit_summary','get_site_visit_daily','get_site_usage_summary']);
 const adminMethods = new Set(['get_site_region_stats','get_site_visit_stats','get_site_usage_stats']);
 const dashboardNames = new Set(['exchange-rate','trade','urban']);
@@ -135,9 +138,9 @@ export async function handleRequest(request,env,options = {}) {
     // Legacy public visit requests intentionally receive only the summary.
     const internalMethod = method === 'get_site_visit_stats' ? 'get_site_visit_summary' : method;
     const payload = validatePayload(internalMethod,await readPayload(request));
-    const notify=internalMethod==='record_site_usage_event'&&ALERT_ORIGINS.has(origin);
+    const notify=(internalMethod==='record_site_usage_event'&&ALERT_ORIGINS.has(origin))||(internalMethod==='record_site_visit'&&VISIT_ALERT_ORIGINS.has(origin));
     const geo=coarseRegion(request.cf);
-    const result=await object(env,origin).analytics(internalMethod,payload,notify,geo);
+    const result=await object(env,origin).analytics(internalMethod,payload,notify,geo,notify?origin:undefined);
     // Diagnose this request only; a read never creates visitor/click records.
     if(internalMethod==='get_site_region_summary') {
       const hasCoordinates=[request.cf?.latitude,request.cf?.longitude].every(value=>value!==undefined&&value!==null&&String(value).trim()!==''&&Number.isFinite(Number(value)));
