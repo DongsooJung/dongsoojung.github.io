@@ -1,7 +1,17 @@
 import { firebaseAccessToken } from './board.mjs';
-import { readPayload, RequestError } from './analytics.mjs';
+import { readPayload, RequestError, relativePath } from './analytics.mjs';
 
 const BLOG_ORIGIN = 'https://blog.stargateedu.co.kr';
+// Owner Kakao alerts for the blog live in their own store so each alert names only the blog.
+export const BLOG_ALERT_STORE = 'stargate-blog-visitors-v1';
+function blogPath(value) {
+  try { return value == null ? '/' : relativePath(value, 'path'); } catch { return '/'; }
+}
+async function enqueueBlogAlert(env, visitorId, path) {
+  if (!env.VISITOR_ANALYTICS) return;
+  try { await env.VISITOR_ANALYTICS.get(env.VISITOR_ANALYTICS.idFromName(BLOG_ALERT_STORE)).siteVisitAlert({p_visitor_id:visitorId.toLowerCase(),p_page_path:path},BLOG_ORIGIN); }
+  catch { console.error('Blog visit alert enqueue failed'); }
+}
 const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 
 export function blogVisitDay(now = new Date()) {
@@ -57,6 +67,8 @@ export async function handleBlogVisitors(request, env, { fetchFn = fetch, now = 
         // permission failures must never be reported as a recorded visit.
         if (response.status !== 409 || error.error?.status !== 'ALREADY_EXISTS') throw Error('Firestore commit failed');
       } else counted = true;
+      // Only the first counted visit of the Korean day reaches the alert queue.
+      if (counted) await enqueueBlogAlert(env, value.visitorId, blogPath(value.path));
     }
     const [total, today] = await Promise.all([db(site),db(daily)]);
     return respond({site:'blog',source:'firebase',date,today:Number(today.fields?.count?.integerValue || 0),total:Number(total.fields?.total?.integerValue || 0),counted});

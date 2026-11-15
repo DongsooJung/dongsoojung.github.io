@@ -14,10 +14,12 @@ export class VisitorAnalytics extends DurableObject {
     this.dashboardEnv = env;
     this.alerts = new SiteAlerts(ctx.storage,env);
   }
-  async analytics(method, payload, notify=false, geo=null) {
+  async analytics(method, payload, notify=false, geo=null, origin=undefined) {
     const result = this.store.call(method, payload, Date.now(), geo);
-    if(notify&&method==='record_site_usage_event'&&result===true) {
-      try {await this.alerts.record(payload);} catch {console.error('Site alert enqueue failed');}
+    if(notify&&result===true&&['record_site_usage_event','record_site_visit'].includes(method)) {
+      // A new daily visit record (sites without page_view events) counts as one page visit.
+      const event=method==='record_site_visit'?{p_visitor_id:payload.p_visitor_id,p_event_type:'page_view',p_page_path:payload.p_path}:payload;
+      try {await this.alerts.record(event,origin);} catch {console.error('Site alert enqueue failed');}
     }
     if (await this.ctx.storage.getAlarm() === null) await this.ctx.storage.setAlarm(Date.now() + 86400000);
     return result;
@@ -42,6 +44,11 @@ export class VisitorAnalytics extends DurableObject {
   getDashboard(name) { return this.dashboards.get(name); }
   dashboardStatus() { return this.dashboards.status(); }
   siteAlertStatus() { return this.alerts.status(); }
+  // Sites whose visits are counted elsewhere (the blog's Firebase counter) only enqueue the alert here.
+  async siteVisitAlert(payload, origin) {
+    try { return await this.alerts.record({p_visitor_id:payload.p_visitor_id,p_event_type:'page_view',p_page_path:payload.p_page_path},origin); }
+    catch { console.error('Site alert enqueue failed'); return false; }
+  }
   async alarm() {
     if(await this.ctx.storage.get('boardLastPost')) { await this.ctx.storage.deleteAll(); return; }
     await this.alerts.flush();
