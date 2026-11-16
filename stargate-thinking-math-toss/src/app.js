@@ -1,6 +1,7 @@
 import "./style.css";
 import { CATS, P } from "./problems.js";
 import { load, save as persist } from "./storage.js";
+import { graniteEvent } from "@apps-in-toss/web-framework";
 
 /* ---------- storage (앱인토스 Storage API, 로컬 개발 시 localStorage) ---------- */
 let S = { rec: {} };
@@ -74,8 +75,30 @@ function fig(name){
 
 /* ---------- solve sheet ---------- */
 let cur=null,pick=null,resetArmed=false;
-function openP(id){cur=P.find(p=>p.id===+id);pick=null;drawSheet();$("#sheet").hidden=false;document.body.style.overflow="hidden";setTimeout(()=>{const i=$("#ansIn");if(i)i.focus();},30);}
-function closeP(){$("#sheet").hidden=true;document.body.style.overflow="";cur=null;renderAll();}
+
+/* 뒤로가기: 시트가 열려 있는 동안만 backEvent를 구독해 시트만 닫는다.
+ * 구독 중에는 기본 뒤로가기가 막히므로, 시트를 닫으면 바로 해제해
+ * 첫 화면에서는 기본 동작(미니앱 종료)이 그대로 일어나게 한다.
+ * 토스 앱 밖(npm run dev)에서는 브릿지가 없어 구독이 실패할 수 있으니 무시한다. */
+let unsubBack=null;
+function holdBack(){
+  if(unsubBack)return;
+  try{
+    unsubBack=graniteEvent.addEventListener("backEvent",{
+      onEvent:()=>closeP(),
+      onError:err=>console.error("backEvent 오류:",err)
+    });
+  }catch{unsubBack=null;}
+}
+function releaseBack(){
+  if(!unsubBack)return;
+  try{unsubBack();}catch{/* ignore */}
+  unsubBack=null;
+}
+window.addEventListener("pagehide",releaseBack);
+
+function openP(id){cur=P.find(p=>p.id===+id);pick=null;drawSheet();$("#sheet").hidden=false;document.body.style.overflow="hidden";holdBack();setTimeout(()=>{const i=$("#ansIn");if(i)i.focus();},30);}
+function closeP(){if($("#sheet").hidden)return;releaseBack();$("#sheet").hidden=true;document.body.style.overflow="";cur=null;renderAll();}
 function drawSheet(fbHTML=""){
   const p=cur,r=rec(p.id),done=r.status==="ok",showSol=done||r.tries>=2;
   const idx=P.indexOf(p);
