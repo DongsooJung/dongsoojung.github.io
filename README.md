@@ -1,9 +1,19 @@
 # DongsooJung.github.io
 
 정동수(Dongsoo Jung) 개인 포털 · GitHub user site.
-
 - Live: https://dongsoojung.github.io/
 - Featured sub-project: https://dongsoojung.github.io/stargate-ai-gallery/
+
+> 이 저장소는 포털, 공개 데이터 대시보드, 정적 산출물, Vercel API와 갱신 자동화를 함께 관리하는 운영 모노레포입니다. API 키·비밀값은 절대 커밋하지 않고 배포 환경의 시크릿으로만 관리합니다.
+
+## 운영 경계
+
+| 영역 | 역할 |
+| --- | --- |
+| GitHub Pages | `main` 루트의 공개 정적 포털과 PWA 자산을 서빙합니다. |
+| Vercel | `/api/**` 프록시·서버 함수, 동적 rewrite와 정적 파일 스테이징을 담당합니다. |
+| GitHub Actions | 공개 데이터 스냅샷을 갱신하며, 변경된 스냅샷만 커밋합니다. |
+| Supabase·외부 API | 비밀값이 필요한 데이터 조회 및 서버 측 기능을 지원합니다. |
 
 ## 구성
 
@@ -30,9 +40,16 @@
 - `.nojekyll` — GitHub Pages가 `.well-known/`을 서빙하도록 Jekyll 비활성화
 
 ## 로컬 확인
-
 ```powershell
 Start-Process "index.html"
+```
+
+Node.js가 설치된 환경에서는 배포 전 다음 검증을 실행합니다.
+
+```bash
+node --test tests/*.test.js tests/*.test.mjs tests/*.test.cjs
+python3 tests/incheon_aggregate_test.py
+node scripts/build-vercel-static.mjs
 ```
 
 ## SOLAPI 고객 문자 발송
