@@ -143,15 +143,38 @@ const ALLOWED_TAGS = new Set([
   'details', 'summary', 'table', 'thead', 'tbody', 'tr', 'th', 'td', 'br',
 ]);
 
+const ALLOWED_TAG_RE = new RegExp(`<(?!/?(?:${[...ALLOWED_TAGS].join('|')})>)`, 'g');
+
 export function sanitizeHtml(html) {
-  return html
-    .replace(/<(script|style|iframe|object|embed|template|noscript|svg|math)\b[^>]*>[\s\S]*?<\/\1\s*>/gi, '')
-    .replace(/<!--[\s\S]*?-->/g, '')
-    .replace(/<\/?([a-zA-Z][a-zA-Z0-9]*)\b[^>]*>/g, (tag, name) => {
-      const n = name.toLowerCase();
-      if (!ALLOWED_TAGS.has(n)) return '';
-      return tag.startsWith('</') ? `</${n}>` : `<${n}>`;
-    });
+  let prev;
+  let out = String(html);
+  // Repeat until stable so nested constructs like <scr<script>ipt> can't re-form a tag.
+  do {
+    prev = out;
+    out = out
+      .replace(/<(script|style|iframe|object|embed|template|noscript|svg|math)\b[^>]*>[\s\S]*?<\/\1\s*>/gi, '')
+      .replace(/<!--[\s\S]*?-->/g, '')
+      .replace(/<\/?([a-zA-Z][a-zA-Z0-9]*)\b[^>]*>/g, (tag, name) => {
+        const n = name.toLowerCase();
+        if (!ALLOWED_TAGS.has(n)) return '';
+        return tag.startsWith('</') ? `</${n}>` : `<${n}>`;
+      });
+  } while (out !== prev);
+  // Anything left that is not an exact allowed tag is text, not markup.
+  return out.replace(ALLOWED_TAG_RE, '&lt;');
+}
+
+export function safeSlug(slug, fallback) {
+  const s = String(slug ?? '')
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '')
+    .slice(0, 80);
+  return s || fallback;
+}
+
+export function escapeText(s) {
+  return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 }
 
 export function normalizeAnswer(s) {
@@ -247,8 +270,9 @@ async function main() {
     try {
       const post = await writeOne(client, { topic: opts.topic, avoid });
       avoid.push(post.title);
+      post.slug = safeSlug(post.slug, `draft-${Date.now()}-${i + 1}`);
       post.file = path.join(opts.out, `${post.slug}.html`);
-      await fs.writeFile(post.file, `<h1>${post.title}</h1>\n${post.content_html}\n`, 'utf8');
+      await fs.writeFile(post.file, `<h1>${escapeText(post.title)}</h1>\n${post.content_html}\n`, 'utf8');
       if (wpReady) post.wp = await createWpDraft(post);
       results.push(post);
       console.log(`초안 완료: ${post.title}${post.wp ? ` (WordPress 초안 ${post.wp.id})` : ''}`);

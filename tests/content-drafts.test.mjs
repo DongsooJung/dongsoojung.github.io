@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import {
   parseArgs, sanitizeHtml, normalizeAnswer, compareAnswers, reportMarkdown, decodeEntities,
+  safeSlug, escapeText,
 } from '../scripts/content-drafts/generate-drafts.mjs';
 
 test('parseArgs defaults and bounds', () => {
@@ -18,6 +19,21 @@ test('sanitizeHtml strips executable content', () => {
   const clean = sanitizeHtml(dirty);
   assert.doesNotMatch(clean, /script|onclick|javascript:|iframe/i);
   assert.match(clean, /<details><summary>s<\/summary>ok<\/details>/);
+});
+
+test('sanitizeHtml defeats nested and leftover markup', () => {
+  for (const dirty of ['<scr<script>ipt>alert(1)</script>', '<!<!--- comment --->>', '<<script>script>x', '<img src=x onerror=a()>', 'a < b and <p>ok</p>']) {
+    const clean = sanitizeHtml(dirty);
+    assert.doesNotMatch(clean, /<(?!\/?p>)/, `${dirty} -> ${clean}`);
+  }
+  assert.equal(sanitizeHtml('a < b and <p>ok</p>'), 'a &lt; b and <p>ok</p>');
+});
+
+test('safeSlug blocks path traversal', () => {
+  assert.equal(safeSlug('../../etc/passwd', 'x'), 'etc-passwd');
+  assert.equal(safeSlug('Telescoping Sums!', 'x'), 'telescoping-sums');
+  assert.equal(safeSlug('../', 'fallback'), 'fallback');
+  assert.equal(escapeText('<b>&'), '&lt;b&gt;&amp;');
 });
 
 test('normalizeAnswer ignores spacing, dollars, trailing dot', () => {
