@@ -10,16 +10,16 @@
     "control": 17
   },
   "aggregationVersion": "20261106-category-id-v2",
-  "generatedAt": "2026-11-16T07:44:46.083511+00:00",
+  "generatedAt": "2026-11-17T08:54:06.937760+00:00",
   "sourceVerification": "parsed-snapshots-only",
   "skippedSnapshots": [],
   "normalizationWindow": {
     "first": "2026-08-31",
-    "last": "2026-11-16",
-    "observations": 78,
+    "last": "2026-11-17",
+    "observations": 79,
     "limit": 90
   },
-  "updatedAt": "2026-11-16",
+  "updatedAt": "2026-11-17",
   "rows": [
     {
       "date": "2026-08-31",
@@ -1736,6 +1736,28 @@
       "verification": "parsed-snapshot-derived-original-response-unavailable",
       "treated": 97.07,
       "control": 20.07
+    },
+    {
+      "date": "2026-11-17",
+      "treatedRaw": 230000,
+      "controlRaw": 92000,
+      "treatedCount": 27,
+      "controlCount": 16,
+      "collectorCompletedAt": "2026-11-17T08:54:06+00:00",
+      "committedAt": null,
+      "sourceCommit": null,
+      "sourceSha256": "a6babbdc4859f1d6d569c645c68386d9661a48d615e38f46939b69f8b55e71e0",
+      "snapshotItemCount": 100,
+      "sourceDocumentSha256": "4bc1d050c84a7695bad0314315896feaf0f856894bb55558183f830d1e812759",
+      "hours": 48,
+      "geo": [
+        "KR"
+      ],
+      "limit": 100,
+      "aggregationVersion": "20261106-category-id-v2",
+      "verification": "parsed-snapshot-derived-original-response-unavailable",
+      "treated": 74.92,
+      "control": 16.94
     }
   ]
 }
