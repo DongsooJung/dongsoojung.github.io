@@ -162,6 +162,9 @@ test('stargatekorea.net visits use a separate visitor store', async () => {
   assert.equal(storeName('https://www.stargateedu.co.kr'), 'stargate-visitors-v1');
   assert.equal(storeName('https://stargateedu.co.kr'), 'stargate-visitors-v1');
   assert.equal(storeName(null), 'stargate-visitors-v1');
+  assert.equal(storeName('https://stargatelearn.com'), 'stargatelearn-visitors-v1');
+  assert.equal(storeName('https://www.stargatelearn.com'), 'stargatelearn-visitors-v1');
+  assert.equal(storeName('https://stargatelearn.com.evil.test'), 'stargate-visitors-v1');
 });
 
 test('regional statistics reject public and unauthenticated access and accept the existing administrator session',async()=>{

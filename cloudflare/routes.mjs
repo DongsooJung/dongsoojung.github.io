@@ -7,11 +7,11 @@ import { handleBoard } from './board.mjs';
 import { handleFirebaseAuth } from './firebase-auth.mjs';
 import { handleBlogVisitors } from './blog-visitors.mjs';
 
-export const PUBLIC_ORIGINS = new Set(['https://stargateedu.co.kr','https://www.stargateedu.co.kr','https://www.stargatekorea.net','https://stargate.stargate8225.workers.dev']);
+export const PUBLIC_ORIGINS = new Set(['https://stargateedu.co.kr','https://www.stargateedu.co.kr','https://www.stargatekorea.net','https://stargatelearn.com','https://www.stargatelearn.com','https://stargate.stargate8225.workers.dev']);
 const ALERT_ORIGINS = new Set(['https://stargateedu.co.kr','https://www.stargateedu.co.kr','https://www.stargatekorea.net']);
 // Sites that send only the daily visit record (no page_view usage events). Listing a site
 // that also sends page_view events would count one browser twice.
-export const VISIT_ALERT_ORIGINS = new Set(['https://www.stargatekorea.net']);
+export const VISIT_ALERT_ORIGINS = new Set(['https://www.stargatekorea.net','https://stargatelearn.com','https://www.stargatelearn.com']);
 const publicMethods = new Set(['get_site_region_summary','record_site_visit','record_site_usage_event','get_site_button_click_counts','get_site_visit_stats','get_site_visit_summary','get_site_visit_daily','get_site_usage_summary']);
 const adminMethods = new Set(['get_site_region_stats','get_site_visit_stats','get_site_usage_stats']);
 const dashboardNames = new Set(['exchange-rate','trade','urban']);
@@ -20,7 +20,8 @@ function json(value, status = 200) {
   return Response.json(value,{status,headers:{'Cache-Control':'no-store','X-Content-Type-Options':'nosniff'}});
 }
 // Each public site keeps its own visitor store; stargatekorea.net must not show stargateedu.co.kr totals.
-export const SITE_STORES = new Map([['https://www.stargatekorea.net','stargatekorea-visitors-v1']]);
+// stargatelearn.com (WordPress.com) redirects www to the apex; both names share one store.
+export const SITE_STORES = new Map([['https://www.stargatekorea.net','stargatekorea-visitors-v1'],['https://stargatelearn.com','stargatelearn-visitors-v1'],['https://www.stargatelearn.com','stargatelearn-visitors-v1']]);
 export function storeName(origin) { return SITE_STORES.get(origin) || 'stargate-visitors-v1'; }
 function object(env, origin) { return env.VISITOR_ANALYTICS.get(env.VISITOR_ANALYTICS.idFromName(storeName(origin))); }
 function protectedPath(path) {
