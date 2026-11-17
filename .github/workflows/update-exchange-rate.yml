@@ -64,5 +64,4 @@ jobs:
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add $FILES
           git commit -m "chore(exchange-rate): 환율·금리·물가·비트코인·DRAM·유가 데이터 자동 갱신"
-          git pull --rebase origin main
-          git push
+          for i in 1 2 3 4 5; do git pull --rebase origin "$GITHUB_REF_NAME" && git push origin "HEAD:$GITHUB_REF_NAME" && break; [ "$i" = 5 ] && exit 1; sleep $((i * 7)); done
