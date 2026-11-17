@@ -9,22 +9,24 @@
 | 시작 주소 | `/stargate-admin/#today` |
 | 범위 | `https://stargateedu.co.kr/stargate-admin/` |
 | 버전 | 이름 `1.4.0`, 코드 `1` |
-| 업로드 키 | `app/admin/stargate-admin-upload.keystore`, 별칭 `stargate-admin` |
+| 업로드 키 | 저장소 밖 `C:UsersAdministratorstargate-admin-twastargate-admin-upload.keystore`, 별칭 `stargate-admin` |
+| 업로드 키 SHA-256 | `74:F4:60:E4:22:93:3E:AB:F7:AE:D9:EC:47:43:0A:1B:65:C8:49:27:C7:3B:8A:AE:B9:38:73:26:9D:DB:12:DB` |
 
 이 폴더에는 설정(`twa-manifest.json`)과 문서만 버전 관리합니다. Gradle 프로젝트, APK/AAB, 키스토어는 `.gitignore` 처리되어 있습니다.
 
-## 진행 상태 (2026-11-14)
+## 진행 상태 (2026-11-17)
 
 - [x] TWA 설정 파일, 스토어 문구, 콘솔 답변표 작성
 - [x] 지문 스크립트가 패키지를 지정해 받도록 수정
-- [ ] JDK 17, Bubblewrap 설치 (이 PC에 없음)
-- [ ] 업로드 키 생성
-- [ ] AAB 빌드
-- [ ] `assetlinks.json`에 지문 등록
+- [x] JDK 17, Bubblewrap 1.27.0, Android SDK(build-tools 36.1.0) 설치, `bubblewrap doctor` 통과
+- [x] 업로드 키 생성 (2026-11-17, PKCS12, RSA 2048, 유효 10000일)
+- [x] AAB 빌드 (`app-release-bundle.aab`, 서명 지문이 업로드 키와 일치)
+- [x] `assetlinks.json`에 업로드 키 지문 등록 (main 병합 후 효력)
+- [ ] Play 앱 서명 키 지문 추가 (첫 AAB 업로드 후)
 - [ ] Play Console 앱 생성, 설문, 등록정보, 제출
 - [ ] 피처 그래픽 1024×500, 휴대전화 스크린샷 2장 이상
 
-빌드와 제출은 아직 한 번도 실행하지 않았습니다.
+빌드 산출물과 키는 저장소 밖 작업 폴더에 있습니다. Play Console 제출은 아직 하지 않았습니다.
 
 ## 1. 도구 설치
 
@@ -34,8 +36,10 @@
 
 ## 2. 업로드 키 생성 — 최초 1회
 
+저장소 루트가 공개 서빙되므로 키스토어와 Gradle 프로젝트는 저장소 밖 작업 폴더에 둡니다. 이 폴더의 `twa-manifest.json`을 그 폴더로 복사한 뒤 진행합니다.
+
 ```bash
-cd app/admin
+cd C:/Users/Administrator/stargate-admin-twa
 keytool -genkeypair -v -keystore stargate-admin-upload.keystore -alias stargate-admin -keyalg RSA -keysize 2048 -validity 10000
 ```
 
@@ -46,9 +50,18 @@ keytool -genkeypair -v -keystore stargate-admin-upload.keystore -alias stargate-
 ## 3. 빌드
 
 ```bash
-cd app/admin
-bubblewrap build
+cd C:/Users/Administrator/stargate-admin-twa
+bubblewrap update --skipVersionUpgrade
+bubblewrap build --skipPwaValidation
 ```
+
+Windows에서 확인된 주의점:
+
+- `~/.bubblewrap/config.json`의 `jdkPath`는 공백 없는 경로여야 합니다. `C:jdk17` 연결(junction)을 씁니다. 공백이 있으면 apksigner 호출이 실패합니다.
+- `jarsigner`가 PATH에 있어야 합니다(`C:jdk17in`).
+- 환경변수 `NoDefaultCurrentDirectoryInExePath`가 설정돼 있으면 `gradlew.bat`을 찾지 못하므로 해제합니다.
+- Bubblewrap은 SDK 루트에 `bin` 폴더가 있는지만 검사하므로 빈 `Sdkin` 폴더를 둡니다.
+- 비밀번호는 `BUBBLEWRAP_KEYSTORE_PASSWORD`, `BUBBLEWRAP_KEY_PASSWORD`로 넘깁니다. 빌드가 실패하면 오류 메시지에 비밀번호가 평문으로 찍히므로 로그를 공유하지 않습니다.
 
 산출물은 `app-release-bundle.aab`(Play 업로드용)와 `app-release-signed.apk`(실기기 확인용)입니다.
 
