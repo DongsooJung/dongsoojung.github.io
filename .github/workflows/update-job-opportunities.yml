@@ -43,4 +43,13 @@ jobs:
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add strategy/job-opportunities/data
           git commit -m "data: curate daily job opportunities"
-          git push
+          for attempt in 1 2 3 4 5; do
+            if git pull --rebase origin "" && git push origin "HEAD:"; then
+              exit 0
+            fi
+            git rebase --abort 2>/dev/null || true
+            if [ "" = 5 ]; then
+              exit 1
+            fi
+            sleep 0
+          done

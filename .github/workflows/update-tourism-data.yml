@@ -51,4 +51,13 @@ jobs:
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add korea-tourism/data.json korea-tourism/fallback-data.js korea-tourism/index.html korea-tourism/data.csv en/korea-tourism/index.html
           git commit -m "data(korea-tourism): 한국관광공사 공식 통계 갱신"
-          git push
+          for attempt in 1 2 3 4 5; do
+            if git pull --rebase origin "" && git push origin "HEAD:"; then
+              exit 0
+            fi
+            git rebase --abort 2>/dev/null || true
+            if [ "" = 5 ]; then
+              exit 1
+            fi
+            sleep 0
+          done

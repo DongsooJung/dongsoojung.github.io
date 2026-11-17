@@ -51,4 +51,13 @@ jobs:
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add google-trends/data.json google-trends/fallback-data.js google-trends/history.json 'did/data/검색 범주 시계열.csv'
           git commit -m "chore(google-trends): 급상승 검색어 상위 100 자동 갱신"
-          git push
+          for attempt in 1 2 3 4 5; do
+            if git pull --rebase origin "" && git push origin "HEAD:"; then
+              exit 0
+            fi
+            git rebase --abort 2>/dev/null || true
+            if [ "" = 5 ]; then
+              exit 1
+            fi
+            sleep 0
+          done
