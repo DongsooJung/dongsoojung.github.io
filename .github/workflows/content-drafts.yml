@@ -15,7 +15,7 @@ on:
         required: false
         default: '2'
       topic:
-        description: '(선택) 주제 지정. 비우면 Claude가 기존 글과 겹치지 않게 고릅니다'
+        description: '(선택) 주제 지정. 비우면 기존 글·초안·생성 이력을 피하며 주간 목록에서 고릅니다'
         required: false
         default: ''
       dry_run:
@@ -48,6 +48,14 @@ jobs:
       - name: Install
         run: npm ci --no-audit --no-fund
 
+      - name: Restore topic history
+        uses: actions/cache/restore@v4
+        with:
+          path: scripts/content-drafts/out/topic-history.json
+          key: content-draft-topics-v1-${{ github.ref_name }}-${{ github.run_id }}-${{ github.run_attempt }}
+          restore-keys: |
+            content-draft-topics-v1-${{ github.ref_name }}-
+
       - name: Generate drafts
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
@@ -58,6 +66,13 @@ jobs:
           TOPIC: ${{ inputs.topic }}
           DRY_RUN: ${{ inputs.dry_run && '--dry-run' || '' }}
         run: node generate-drafts.mjs --count "$COUNT" --topic "$TOPIC" --out out $DRY_RUN
+
+      - name: Save topic history
+        if: always()
+        uses: actions/cache/save@v4
+        with:
+          path: scripts/content-drafts/out/topic-history.json
+          key: content-draft-topics-v1-${{ github.ref_name }}-${{ github.run_id }}-${{ github.run_attempt }}
 
       - name: Upload drafts
         if: always()
