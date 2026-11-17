@@ -9,7 +9,6 @@
 // Env: ANTHROPIC_API_KEY (required)
 //      WP_SITE, WP_USER, WP_APP_PASSWORD (optional; without them drafts are
 //      written to --out only)
-import Anthropic from '@anthropic-ai/sdk';
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -18,6 +17,7 @@ const HERE = path.dirname(fileURLToPath(import.meta.url));
 const MODEL = 'claude-opus-5-5';
 const SITE_DEFAULT = 'stargatelearn.com';
 const WP_STATUS = 'draft'; // never 'publish' - human approval is the point
+let Anthropic; // Pure helpers also run in CI jobs that do not install this SDK.
 
 export const TOPICS = [
   { title: 'Parity: odd and even arguments', aliases: ['parity', 'odd and even'] },
@@ -338,6 +338,7 @@ export function reportMarkdown(results) {
 async function main() {
   const opts = parseArgs(process.argv.slice(2));
   requireKey();
+  Anthropic = (await import('@anthropic-ai/sdk')).default;
   const client = new Anthropic();
   const wpReady = !opts.dryRun && process.env.WP_SITE && process.env.WP_USER && process.env.WP_APP_PASSWORD;
   await fs.mkdir(opts.out, { recursive: true });
@@ -374,8 +375,8 @@ async function main() {
 
 if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
   main().catch((e) => {
-    if (e instanceof Anthropic.AuthenticationError) console.error('Anthropic API 키가 유효하지 않습니다');
-    else if (e instanceof Anthropic.RateLimitError) console.error('요청 한도 초과 - 잠시 후 다시 실행하세요');
+    if (Anthropic && e instanceof Anthropic.AuthenticationError) console.error('Anthropic API 키가 유효하지 않습니다');
+    else if (Anthropic && e instanceof Anthropic.RateLimitError) console.error('요청 한도 초과 - 잠시 후 다시 실행하세요');
     else console.error(e instanceof Error ? e.message : e);
     process.exit(1);
   });

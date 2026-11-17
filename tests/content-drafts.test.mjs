@@ -4,6 +4,7 @@ import { readFileSync } from 'node:fs';
 import fs from 'node:fs/promises';
 import os from 'node:os';
 import path from 'node:path';
+import { pathToFileURL } from 'node:url';
 import {
   parseArgs, sanitizeHtml, normalizeAnswer, compareAnswers, reportMarkdown, decodeEntities,
   safeSlug, escapeText, fetchExistingTitles, selectTopic, TOPICS, loadHistory,
@@ -171,6 +172,16 @@ test('saved generation history survives another run and invalid history is not i
     await fs.writeFile(path.join(out, 'topic-history.json'), content);
     await assert.rejects(loadHistory(out), /주제 이력/);
   }
+});
+
+test('pure helpers load in a clean CI directory without the optional generation SDK', async (t) => {
+  const out = await fs.mkdtemp(path.join(os.tmpdir(), 'stargate-draft-import-'));
+  t.after(() => fs.rm(out, { recursive: true, force: true }));
+  const modulePath = path.join(out, 'generate-drafts.mjs');
+  await fs.copyFile(new URL('../scripts/content-drafts/generate-drafts.mjs', import.meta.url), modulePath);
+  const helpers = await import(pathToFileURL(modulePath).href);
+  assert.equal(helpers.parseArgs(['--dry-run']).dryRun, true);
+  assert.equal(helpers.selectTopic([], { topics: [{ title: 'Parity', aliases: [] }] }), 'Parity');
 });
 
 test('script only ever creates WordPress drafts', () => {
