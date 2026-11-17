@@ -3,7 +3,7 @@ name: Update PPS procurement data
 on:
   workflow_dispatch:
   schedule:
-    - cron: '20 21 * * *'
+    - cron: '42 21 * * *'
 
 permissions:
   contents: write

@@ -51,4 +51,4 @@ jobs:
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add korea-tourism/data.json korea-tourism/fallback-data.js korea-tourism/index.html korea-tourism/data.csv en/korea-tourism/index.html
           git commit -m "data(korea-tourism): 한국관광공사 공식 통계 갱신"
-          git push
+          for i in 1 2 3 4 5; do git pull --rebase origin "$GITHUB_REF_NAME" && git push origin "HEAD:$GITHUB_REF_NAME" && break; [ "$i" = 5 ] && exit 1; sleep $((i * 7)); done

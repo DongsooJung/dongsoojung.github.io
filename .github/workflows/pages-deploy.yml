@@ -1,0 +1,34 @@
+name: Deploy Pages
+
+# 데이터 봇 커밋이 몰려도 배포는 한 번으로 합칩니다.
+# 새 커밋이 들어오면 대기 중인 이전 배포는 취소되고 최신 커밋만 배포됩니다.
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages-deploy
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Debounce burst commits
+        run: sleep 90
+      - uses: actions/checkout@v5
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v4
+        with:
+          path: .
+      - id: deployment
+        uses: actions/deploy-pages@v4
