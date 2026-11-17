@@ -143,25 +143,20 @@ const ALLOWED_TAGS = new Set([
   'details', 'summary', 'table', 'thead', 'tbody', 'tr', 'th', 'td', 'br',
 ]);
 
-const ALLOWED_TAG_RE = new RegExp(`<(?!/?(?:${[...ALLOWED_TAGS].join('|')})>)`, 'g');
+const TAG_ALT = [...ALLOWED_TAGS].join('|');
+const ALLOWED_OPEN_RE = new RegExp(`<(\\/?)(${TAG_ALT})\\b[^<>]*>`, 'gi');
+const ALLOWED_ESCAPED_RE = new RegExp(`&lt;(\\/?)(${TAG_ALT})&gt;`, 'g');
 
+// Escape first, then restore only exact allowed tags. Nothing that reaches
+// the output can open a tag unless it is one of ALLOWED_TAGS without attributes.
 export function sanitizeHtml(html) {
-  let prev;
-  let out = String(html);
-  // Repeat until stable so nested constructs like <scr<script>ipt> can't re-form a tag.
-  do {
-    prev = out;
-    out = out
-      .replace(/<(script|style|iframe|object|embed|template|noscript|svg|math)\b[^>]*>[\s\S]*?<\/\1\s*>/gi, '')
-      .replace(/<!--[\s\S]*?-->/g, '')
-      .replace(/<\/?([a-zA-Z][a-zA-Z0-9]*)\b[^>]*>/g, (tag, name) => {
-        const n = name.toLowerCase();
-        if (!ALLOWED_TAGS.has(n)) return '';
-        return tag.startsWith('</') ? `</${n}>` : `<${n}>`;
-      });
-  } while (out !== prev);
-  // Anything left that is not an exact allowed tag is text, not markup.
-  return out.replace(ALLOWED_TAG_RE, '&lt;');
+  const normalized = String(html).replace(ALLOWED_OPEN_RE, (_, close, name) => `<${close}${name.toLowerCase()}>`);
+  const escaped = normalized.replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  return escaped
+    .replace(/&lt;(script|style|iframe|object|embed|template|noscript|svg|math)\b[\s\S]*?&lt;\/\1\s*&gt;/gi, '')
+    .replace(/&lt;!--[\s\S]*?--&gt;/g, '')
+    .replace(ALLOWED_ESCAPED_RE, '<$1$2>')
+    .replace(/&lt;\/?[a-zA-Z][a-zA-Z0-9]*(?:(?!&gt;)[\s\S])*&gt;/g, '');
 }
 
 export function safeSlug(slug, fallback) {
