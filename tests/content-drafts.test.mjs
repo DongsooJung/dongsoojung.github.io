@@ -1,9 +1,12 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
+import fs from 'node:fs/promises';
+import os from 'node:os';
+import path from 'node:path';
 import {
   parseArgs, sanitizeHtml, normalizeAnswer, compareAnswers, reportMarkdown, decodeEntities,
-  safeSlug, escapeText,
+  safeSlug, escapeText, fetchExistingTitles, selectTopic, TOPICS, loadHistory,
 } from '../scripts/content-drafts/generate-drafts.mjs';
 
 test('parseArgs defaults and bounds', () => {
@@ -52,6 +55,122 @@ test('compareAnswers flags mismatches and missing answers', () => {
 
 test('decodeEntities handles WordPress smart quotes', () => {
   assert.equal(decodeEntities('Don&#8217;t &amp; do'), 'Don’t & do');
+});
+
+function titleResponse(titles, pages = 1) {
+  return Response.json(titles.map((title) => ({ title: { rendered: title } })), {
+    headers: { 'X-WP-TotalPages': String(pages) },
+  });
+}
+
+test('existing titles include every public page without sending credentials', async () => {
+  const calls = [];
+  const titles = await fetchExistingTitles('example.test', {
+    user: '', appPassword: '',
+    fetchImpl: async (url, options) => {
+      calls.push({ url, options });
+      return url.searchParams.get('page') === '1'
+        ? titleResponse(['First &amp; title'], 2)
+        : titleResponse(['Older title', 'First &amp; title'], 2);
+    },
+  });
+  assert.deepEqual(titles, ['First & title', 'Older title']);
+  assert.equal(calls.length, 2);
+  assert.ok(calls.every(({ url, options }) => url.searchParams.get('status') === 'publish' && !options.headers.Authorization));
+  assert.equal(calls[0].url.searchParams.get('per_page'), '100');
+});
+
+test('authenticated title lookup includes draft, pending and scheduled posts', async () => {
+  const calls = [];
+  const titles = await fetchExistingTitles('example.test', {
+    user: 'editor', appPassword: 'test-password',
+    fetchImpl: async (url, options) => {
+      calls.push({ url, options });
+      const status = url.searchParams.get('status');
+      return titleResponse([`${status} title`]);
+    },
+  });
+  assert.deepEqual(titles, ['publish title', 'draft title', 'pending title', 'future title']);
+  assert.ok(calls.every(({ options }) => options.headers.Authorization === `Basic ${Buffer.from('editor:test-password').toString('base64')}`));
+  assert.ok(calls.every(({ options }) => options.redirect === 'error'));
+});
+
+test('partial credentials never query unpublished posts', async () => {
+  let calls = 0;
+  await fetchExistingTitles('example.test', {
+    user: 'editor', appPassword: '',
+    fetchImpl: async (url, options) => {
+      calls++;
+      assert.equal(url.searchParams.get('status'), 'publish');
+      assert.equal(options.headers.Authorization, undefined);
+      return titleResponse([]);
+    },
+  });
+  assert.equal(calls, 1);
+});
+
+test('title lookup fails rather than treating HTTP errors or malformed pages as no history', async () => {
+  for (const response of [new Response('', { status: 403 }), Response.json({ error: 'bad' }), Response.json([])]) {
+    await assert.rejects(fetchExistingTitles('example.test', {
+      user: '', appPassword: '', fetchImpl: async () => response,
+    }), /WordPress/);
+  }
+  await assert.rejects(fetchExistingTitles('example.test', {
+    user: 'editor', appPassword: 'test-password',
+    fetchImpl: async (url) => url.searchParams.get('status') === 'publish'
+      ? titleResponse(['Published title']) : new Response('', { status: 401 }),
+  }), /draft.*HTTP 401/);
+});
+
+test('topic rotation changes at Monday midnight KST and stays fixed within a week', () => {
+  const topics = [
+    { title: 'One', aliases: [] }, { title: 'Two', aliases: [] }, { title: 'Three', aliases: [] },
+  ];
+  const before = selectTopic([], { topics, now: new Date('2026-11-15T14:59:59Z') });
+  const after = selectTopic([], { topics, now: new Date('2026-11-15T15:00:00Z') });
+  assert.equal((topics.findIndex((t) => t.title === before) + 1) % topics.length, topics.findIndex((t) => t.title === after));
+  assert.equal(after, selectTopic([], { topics, now: new Date('2026-11-21T12:00:00Z') }));
+});
+
+test('topic selection skips aliases, punctuation variants and earlier selections', () => {
+  for (const title of ['Invariants: What Never Changes?', 'Counting Handshakes', 'Remainders', 'Area Ratios', 'Divisors', 'Rectangles', 'Digit Sums']) {
+    assert.throws(() => selectTopic([title], {
+      topics: [TOPICS.find((t) => t.aliases.some((a) => title.toLowerCase().includes(a)))],
+    }), /모두 사용/);
+  }
+  assert.throws(() => selectTopic(['DOUBLE-COUNTING: A second view'], {
+    topics: [{ title: 'Double counting', aliases: ['double counting'] }],
+  }), /모두 사용/);
+  const avoid = ['Telescoping Sums: Let the Middle Cancel'];
+  const now = new Date('2026-11-17T12:00:00Z');
+  for (let i = 0; i < 5; i++) {
+    const selected = selectTopic(avoid, { now });
+    assert.ok(!avoid.includes(selected));
+    assert.doesNotMatch(selected, /telescoping/i);
+    avoid.push(selected);
+  }
+});
+
+test('exhausted topics require explicit selection instead of silently repeating', () => {
+  assert.throws(() => selectTopic(TOPICS.map((t) => t.title)), /--topic/);
+  assert.throws(() => selectTopic([], { now: new Date('bad') }), /날짜/);
+});
+
+test('saved generation history survives another run and invalid history is not ignored', async (t) => {
+  const out = await fs.mkdtemp(path.join(os.tmpdir(), 'stargate-draft-topics-'));
+  t.after(() => fs.rm(out, { recursive: true, force: true }));
+  assert.deepEqual(await loadHistory(out), []);
+  const history = [{ title: 'Let the Middle Cancel', topic: 'Telescoping sums' }];
+  await fs.writeFile(path.join(out, 'topic-history.json'), JSON.stringify(history));
+  const restored = await loadHistory(out);
+  assert.deepEqual(restored, history);
+  assert.throws(() => selectTopic(restored.flatMap((entry) => [entry.title, entry.topic]), {
+    topics: [{ title: 'Telescoping sums', aliases: ['telescoping'] }],
+  }), /모두 사용/);
+  for (const content of ['bad json', '{}', '[{}]']) {
+    await fs.writeFile(path.join(out, 'topic-history.json'), content);
+    await assert.rejects(loadHistory(out), /주제 이력/);
+  }
 });
 
 test('script only ever creates WordPress drafts', () => {

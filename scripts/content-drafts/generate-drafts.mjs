@@ -19,6 +19,49 @@ const MODEL = 'claude-opus-5-5';
 const SITE_DEFAULT = 'stargatelearn.com';
 const WP_STATUS = 'draft'; // never 'publish' - human approval is the point
 
+export const TOPICS = [
+  { title: 'Parity: odd and even arguments', aliases: ['parity', 'odd and even'] },
+  { title: 'The pigeonhole principle', aliases: ['pigeonhole'] },
+  { title: 'Telescoping sums', aliases: ['telescoping'] },
+  { title: 'Invariants in games and puzzles', aliases: ['invariant', 'invariants'] },
+  { title: 'Double counting', aliases: ['double counting', 'handshake', 'handshakes'] },
+  { title: 'Modular arithmetic and remainders', aliases: ['modular arithmetic', 'remainder', 'remainders', 'last digit'] },
+  { title: 'Extremal principle', aliases: ['extremal'] },
+  { title: 'Angle chasing', aliases: ['angle chasing'] },
+  { title: 'Arithmetic and geometric sequences', aliases: ['arithmetic sequence', 'geometric sequence', 'arithmetic progression', 'geometric progression'] },
+  { title: 'Complementary counting', aliases: ['complementary counting', 'complement counting'] },
+  { title: 'Prime factorization and valuations', aliases: ['prime factor', 'prime factors', 'valuation', 'valuations'] },
+  { title: 'Area ratios', aliases: ['area ratio', 'area ratios'] },
+  { title: 'Working backwards', aliases: ['working backward', 'work backward'] },
+  { title: 'Counting grid paths', aliases: ['grid path', 'counting grid paths'] },
+  { title: 'Triangle inequality', aliases: ['triangle inequality'] },
+  { title: 'Divisors and multiples', aliases: ['divisor', 'divisors', 'multiples'] },
+  { title: 'Symmetry in counting', aliases: ['symmetry'] },
+  { title: 'Digit sums and divisibility', aliases: ['digit sum', 'digit sums', 'divisibility'] },
+  { title: 'Constructive proofs', aliases: ['constructive proof', 'constructive proofs', 'construction proof'] },
+  { title: 'Counting rectangles in a grid', aliases: ['rectangle', 'rectangles'] },
+];
+
+function topicText(value) {
+  return decodeEntities(String(value)).toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim();
+}
+
+// Monday 00:00 in Seoul is the beginning of a weekly rotation slot.
+export function selectTopic(avoid, { now = new Date(), topics = TOPICS } = {}) {
+  const seoulTime = now.getTime() + 9 * 60 * 60 * 1000;
+  if (!Number.isFinite(seoulTime)) throw new Error('유효하지 않은 주제 선택 날짜입니다');
+  const week = Math.floor((seoulTime - Date.UTC(1970, 0, 5)) / (7 * 24 * 60 * 60 * 1000));
+  const existing = avoid.map(topicText);
+  for (let i = 0; i < topics.length; i++) {
+    const candidate = topics[((week + i) % topics.length + topics.length) % topics.length];
+    const aliases = [candidate.title, ...candidate.aliases].map(topicText);
+    if (!existing.some((title) => aliases.some((alias) => ` ${title} `.includes(` ${alias} `)))) {
+      return candidate.title;
+    }
+  }
+  throw new Error('주제 순환 목록을 모두 사용했습니다. 목록을 보완하거나 --topic으로 지정하세요');
+}
+
 export function parseArgs(argv) {
   const opts = { count: 1, topic: '', out: path.join(HERE, 'out'), dryRun: false };
   for (let i = 0; i < argv.length; i++) {
@@ -118,12 +161,50 @@ async function callJson(client, { system, user, schema, effort }) {
   return { data: JSON.parse(text), usage: msg.usage, model: msg.model };
 }
 
-export async function fetchExistingTitles(site = SITE_DEFAULT) {
-  const url = `https://${site}/wp-json/wp/v2/posts?per_page=50&status=publish&_fields=title`;
-  const res = await fetch(url);
-  if (!res.ok) return [];
-  const posts = await res.json();
-  return posts.map((p) => decodeEntities(p.title?.rendered ?? '')).filter(Boolean);
+export async function fetchExistingTitles(site = SITE_DEFAULT, {
+  user = process.env.WP_USER, appPassword = process.env.WP_APP_PASSWORD, fetchImpl = fetch,
+} = {}) {
+  const headers = {};
+  const statuses = ['publish'];
+  if (user && appPassword) {
+    headers.Authorization = `Basic ${Buffer.from(`${user}:${appPassword}`).toString('base64')}`;
+    statuses.push('draft', 'pending', 'future');
+  }
+  const titles = new Set();
+  for (const status of statuses) {
+    let pages = 1;
+    for (let page = 1; page <= pages; page++) {
+      const url = new URL(`https://${site}/wp-json/wp/v2/posts`);
+      url.search = new URLSearchParams({ per_page: '100', status, _fields: 'title', page: String(page) }).toString();
+      const res = await fetchImpl(url, { headers, redirect: 'error', signal: AbortSignal.timeout(30000) });
+      if (!res.ok) throw new Error(`WordPress 제목 조회 실패 (${status}, page ${page}): HTTP ${res.status}`);
+      const posts = await res.json();
+      const totalPages = Number(res.headers.get('x-wp-totalpages'));
+      if (!Array.isArray(posts) || !Number.isInteger(totalPages) || totalPages < 0) {
+        throw new Error(`WordPress 제목 조회 응답이 올바르지 않습니다 (${status})`);
+      }
+      if (!res.headers.has('x-wp-totalpages')) throw new Error('WordPress 전체 페이지 수를 확인할 수 없습니다');
+      pages = totalPages;
+      for (const post of posts) {
+        const title = decodeEntities(post.title?.rendered ?? '');
+        if (title) titles.add(title);
+      }
+    }
+  }
+  return [...titles];
+}
+
+export async function loadHistory(out) {
+  try {
+    const history = JSON.parse(await fs.readFile(path.join(out, 'topic-history.json'), 'utf8'));
+    if (!Array.isArray(history) || history.some((entry) => !entry || typeof entry.title !== 'string' || typeof entry.topic !== 'string')) {
+      throw new Error('제목과 주제 배열이 필요합니다');
+    }
+    return history;
+  } catch (e) {
+    if (e.code === 'ENOENT') return [];
+    throw new Error(`주제 이력을 읽을 수 없습니다: ${e.message}`);
+  }
 }
 
 export function decodeEntities(s) {
@@ -239,6 +320,7 @@ export function reportMarkdown(results) {
     }
     const allOk = r.checks.every((c) => c.ok);
     lines.push(`## ${r.title}`, '');
+    if (r.topic) lines.push(`- 선택 주제: ${r.topic}`);
     lines.push(`- 검증: ${allOk ? '모든 정답이 독립 풀이와 일치' : '불일치 있음 - 게시 전 반드시 확인'}`);
     lines.push(`- 저장: ${r.wp ? `WordPress 초안 [편집 열기](${r.wp.editUrl})` : `파일 \`${r.file}\``}`);
     lines.push(`- 처리 모델: ${[...new Set(r.servedBy)].join(', ')}`);
@@ -259,15 +341,22 @@ async function main() {
   const client = new Anthropic();
   const wpReady = !opts.dryRun && process.env.WP_SITE && process.env.WP_USER && process.env.WP_APP_PASSWORD;
   await fs.mkdir(opts.out, { recursive: true });
+  const history = await loadHistory(opts.out);
   const avoid = await fetchExistingTitles(process.env.WP_SITE || SITE_DEFAULT);
+  avoid.push(...history.flatMap((entry) => [entry.title, entry.topic]));
   const results = [];
   for (let i = 0; i < opts.count; i++) {
     try {
-      const post = await writeOne(client, { topic: opts.topic, avoid });
-      avoid.push(post.title);
+      const topic = opts.topic || selectTopic(avoid);
+      console.log(`선택 주제: ${topic}`);
+      const post = await writeOne(client, { topic, avoid });
+      post.topic = topic;
       post.slug = safeSlug(post.slug, `draft-${Date.now()}-${i + 1}`);
       post.file = path.join(opts.out, `${post.slug}.html`);
       await fs.writeFile(post.file, `<h1>${escapeText(post.title)}</h1>\n${post.content_html}\n`, 'utf8');
+      avoid.push(post.title, topic);
+      history.push({ title: post.title, topic });
+      await fs.writeFile(path.join(opts.out, 'topic-history.json'), JSON.stringify(history, null, 2) + '\n', 'utf8');
       if (wpReady) post.wp = await createWpDraft(post);
       results.push(post);
       console.log(`초안 완료: ${post.title}${post.wp ? ` (WordPress 초안 ${post.wp.id})` : ''}`);
@@ -279,7 +368,7 @@ async function main() {
   const report = reportMarkdown(results);
   await fs.writeFile(path.join(opts.out, 'report.md'), report, 'utf8');
   if (process.env.GITHUB_STEP_SUMMARY) await fs.appendFile(process.env.GITHUB_STEP_SUMMARY, report + '\n');
-  if (!wpReady) console.log('WordPress 자격증명이 없어 파일로만 저장했습니다.');
+  if (!wpReady) console.log(opts.dryRun ? 'dry run으로 파일에만 저장했습니다.' : 'WordPress 자격증명이 없어 파일로만 저장했습니다.');
   if (results.every((r) => r.error)) process.exitCode = 1;
 }
 
