@@ -27,7 +27,7 @@ function normalize(raw) {
 }
 
 async function load({ create = false } = {}) {
-  if (!/^[a-z][a-z0-9_]*(.[a-z][a-z0-9_]*)+$/.test(PACKAGE)) {
+  if (!/^[a-z][a-z0-9_]*(?:\.[a-z][a-z0-9_]*)+$/.test(PACKAGE)) {
     throw new Error(`패키지 이름 형식이 아닙니다: ${PACKAGE}`);
   }
   const statements = JSON.parse(await fs.readFile(FILE, 'utf8'));
