@@ -38,5 +38,13 @@ jobs:
           git add class101/data
           archive_date=$(python -c "import json; print(json.load(open('class101/data/latest.json', encoding='utf-8'))['archiveDate'])")
           git commit -m "data: archive CLASS101 recommendations ${archive_date}"
-          git pull --rebase origin main
-          git push
+          for attempt in 1 2 3 4 5; do
+            if git pull --rebase origin "" && git push origin "HEAD:"; then
+              exit 0
+            fi
+            git rebase --abort 2>/dev/null || true
+            if [ "" = 5 ]; then
+              exit 1
+            fi
+            sleep 0
+          done
