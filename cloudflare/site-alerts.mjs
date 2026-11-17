@@ -18,8 +18,13 @@ export function alertConfig(env) {
   return {enabled:env.CLICK_ALERTS_ENABLED==='true',ready:env.CLICK_ALERTS_ENABLED==='true'&&missing.length===0,missing,mode:env.SITE_ALERT_MODE==='visits'?'visits':'usage',windowSeconds:60,dailyLimit:DAILY_LIMIT};
 }
 // Never transmit URL queries, fragments, labels, user-entered text or visitor IDs.
-function safeUrl(value,base='https://www.stargateedu.co.kr') {
+export const DEFAULT_ALERT_ORIGIN='https://www.stargateedu.co.kr';
+function safeUrl(value,base=DEFAULT_ALERT_ORIGIN) {
   try {const url=new URL(value,base);if(!['http:','https:'].includes(url.protocol))return '없음';return (url.origin+url.pathname).slice(0,240);}catch{return '없음';}
+}
+// The page variable names the site, so each blog's alert shows its own domain.
+function siteBase(origin) {
+  try {const url=new URL(origin);return url.protocol==='https:'&&!url.port&&url.pathname==='/'&&!url.search&&!url.hash?url.origin:DEFAULT_ALERT_ORIGIN;}catch{return DEFAULT_ALERT_ORIGIN;}
 }
 function initial(now) {return {day:koreaDay(now),keys:[],views:0,clicks:0,attempts:0,last:null};}
 
@@ -30,12 +35,12 @@ export class SiteAlerts {
     const state=stored?.day===koreaDay(this.now())?stored:initial(this.now());
     return {...alertConfig(this.env),pending:{pageViews:state.views,clicks:state.clicks},attemptsToday:state.attempts,last:state.last};
   }
-  async record(payload) {
+  async record(payload,origin=DEFAULT_ALERT_ORIGIN) {
     if(!alertConfig(this.env).ready||!['page_view','click'].includes(payload.p_event_type)) return false;
     if(this.env.SITE_ALERT_MODE==='visits'&&payload.p_event_type!=='page_view')return false;
     if(payload.p_event_type==='click'&&payload.p_element_kind!=='link')return false;
-    const now=this.now();
-    const page=safeUrl(payload.p_page_path),link=payload.p_event_type==='click'?safeUrl(payload.p_target_url):'없음';
+    const now=this.now(),base=siteBase(origin);
+    const page=safeUrl(payload.p_page_path,base),link=payload.p_event_type==='click'?safeUrl(payload.p_target_url,base):'없음';
     const identity=this.env.SITE_ALERT_MODE==='visits'?[payload.p_visitor_id,'visit']:[payload.p_visitor_id,payload.p_event_type,page,link];
     const digest=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(JSON.stringify(identity)));
     const key=Array.from(new Uint8Array(digest),value=>value.toString(16).padStart(2,'0')).join('');

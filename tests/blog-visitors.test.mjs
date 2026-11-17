@@ -89,3 +89,22 @@ test('storage failures remain failures and never set a successful counted flag',
   assert.equal(response.status,503);assert.equal(db.documents.size,0);
   assert.equal((await response.json()).counted,undefined);
 });
+
+test('the first counted blog visit of the day enqueues one owner alert with the page path',async()=>{
+  const db=storage(),alerts=[],options={...db,now:()=>new Date('2026-10-16T10:00:00Z')};
+  const alertEnv={...env,VISITOR_ANALYTICS:{idFromName:n=>n,get:name=>({siteVisitAlert:async(payload,origin)=>{alerts.push({name,payload,origin});return true;}})}};
+  assert.equal((await (await handleBlogVisitors(request('POST',{visitorId,path:'/math/problems/bull-01/'}),alertEnv,options)).json()).counted,true);
+  assert.equal((await (await handleBlogVisitors(request('POST',{visitorId,path:'/posts/'}),alertEnv,options)).json()).counted,false);
+  await handleBlogVisitors(request('POST',{visitorId:'00000000-0000-4000-8000-000000000003',path:'/x?token=secret'}),alertEnv,options);
+  await handleBlogVisitors(request('GET'),alertEnv,options);
+  assert.equal(alerts.length,2);
+  assert.deepEqual(alerts[0],{name:'stargate-blog-visitors-v1',payload:{p_visitor_id:visitorId,p_page_path:'/math/problems/bull-01/'},origin:blog});
+  assert.equal(alerts[1].payload.p_page_path,'/');
+});
+
+test('an alert queue failure never breaks the visitor counter',async()=>{
+  const db=storage(),options={...db,now:()=>new Date('2026-10-16T10:00:00Z')};
+  const brokenEnv={...env,VISITOR_ANALYTICS:{idFromName:n=>n,get:()=>({siteVisitAlert:async()=>{throw Error('down');}})}};
+  const response=await handleBlogVisitors(request(),brokenEnv,options);
+  assert.equal(response.status,200);assert.equal((await response.json()).counted,true);
+});

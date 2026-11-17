@@ -10,16 +10,16 @@
     "control": 17
   },
   "aggregationVersion": "20261106-category-id-v2",
-  "generatedAt": "2026-11-13T07:40:25.065113+00:00",
+  "generatedAt": "2026-11-16T07:44:46.083511+00:00",
   "sourceVerification": "parsed-snapshots-only",
   "skippedSnapshots": [],
   "normalizationWindow": {
     "first": "2026-08-31",
-    "last": "2026-11-13",
-    "observations": 75,
+    "last": "2026-11-16",
+    "observations": 78,
     "limit": 90
   },
-  "updatedAt": "2026-11-13",
+  "updatedAt": "2026-11-16",
   "rows": [
     {
       "date": "2026-08-31",
@@ -1670,6 +1670,72 @@
       "verification": "parsed-snapshot-derived-original-response-unavailable",
       "treated": 47.23,
       "control": 30.02
+    },
+    {
+      "date": "2026-11-14",
+      "treatedRaw": 115000,
+      "controlRaw": 253000,
+      "treatedCount": 20,
+      "controlCount": 17,
+      "collectorCompletedAt": "2026-11-14T07:27:14+00:00",
+      "committedAt": null,
+      "sourceCommit": null,
+      "sourceSha256": "69762fc9d5a60814d7a30ab05126a60a03f8036c8bf4d52c4e49be1d9241f41c",
+      "snapshotItemCount": 100,
+      "sourceDocumentSha256": "d18d8923e6383dcd4c81768c704e23d212f54895d37cadf1d993123bd5d9af5a",
+      "hours": 48,
+      "geo": [
+        "KR"
+      ],
+      "limit": 100,
+      "aggregationVersion": "20261106-category-id-v2",
+      "verification": "parsed-snapshot-derived-original-response-unavailable",
+      "treated": 37.46,
+      "control": 46.59
+    },
+    {
+      "date": "2026-11-15",
+      "treatedRaw": 164000,
+      "controlRaw": 239000,
+      "treatedCount": 18,
+      "controlCount": 18,
+      "collectorCompletedAt": "2026-11-15T07:39:16+00:00",
+      "committedAt": null,
+      "sourceCommit": null,
+      "sourceSha256": "8fbd325a6996dbaaae83ec18c1cafa1fdfbcdeb51d62c6b871dfc75fb991a067",
+      "snapshotItemCount": 100,
+      "sourceDocumentSha256": "85f4a91495c310bd69f371496add8cd6fff5a0ff44bdf90e3d2198d0d4390ea8",
+      "hours": 48,
+      "geo": [
+        "KR"
+      ],
+      "limit": 100,
+      "aggregationVersion": "20261106-category-id-v2",
+      "verification": "parsed-snapshot-derived-original-response-unavailable",
+      "treated": 53.42,
+      "control": 44.01
+    },
+    {
+      "date": "2026-11-16",
+      "treatedRaw": 298000,
+      "controlRaw": 109000,
+      "treatedCount": 22,
+      "controlCount": 18,
+      "collectorCompletedAt": "2026-11-16T07:44:46+00:00",
+      "committedAt": null,
+      "sourceCommit": null,
+      "sourceSha256": "bcf66de546452d5dab3d74f583eca34897fdd869b3ed48979acc0b9a25ca15c8",
+      "snapshotItemCount": 100,
+      "sourceDocumentSha256": "a284f71e2cb6f948d41d1832466bda5e657777a615b527cb795b695bdb3b488b",
+      "hours": 48,
+      "geo": [
+        "KR"
+      ],
+      "limit": 100,
+      "aggregationVersion": "20261106-category-id-v2",
+      "verification": "parsed-snapshot-derived-original-response-unavailable",
+      "treated": 97.07,
+      "control": 20.07
     }
   ]
 }

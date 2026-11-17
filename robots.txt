@@ -8,6 +8,12 @@ Disallow: /strategy/job-opportunities/data/
 Sitemap: https://stargateedu.co.kr/sitemap.xml
 Sitemap: https://stargateedu.co.kr/reading/sitemap.xml
 
+# AdSense 광고 매칭 크롤러. 광고를 게재하는 페이지는 전부 읽을 수 있어야 한다.
+# noindex 로 색인에서 뺀 페이지(예: /strategy/used-car/)는 크롤링은 허용해야
+# 크롤러가 noindex 를 읽을 수 있으므로 여기서 Disallow 하지 않는다.
+User-agent: Mediapartners-Google
+Allow: /
+
 # ChatGPT search access; preserve the same restricted paths.
 User-agent: OAI-SearchBot
 Disallow: /api/

@@ -81,3 +81,25 @@ test('visitor notification readiness is available only through an authenticated 
  const response=await handleRequest(new Request(url,{headers:{'x-admin-token':'test-admin-token'}}),env);
  assert.equal(response.status,200);assert.equal((await response.json()).ready,false);assert.equal(queries,1);
 });
+
+test('each site alert names its own domain in the page variable',async()=>{
+ const {alerts,calls}=setup({...configured,SITE_ALERT_MODE:'visits'});
+ assert.equal(await alerts.record(event({p_page_path:'/math/problems/bull-01/'}),'https://blog.stargateedu.co.kr'),true);
+ await alerts.flush();
+ assert.equal(JSON.parse(calls[0].options.body).messages[0].kakaoOptions.variables['#{페이지}'],'https://blog.stargateedu.co.kr/math/problems/bull-01/');
+ const other=setup({...configured,SITE_ALERT_MODE:'visits'});
+ for(const origin of ['http://blog.stargateedu.co.kr','https://evil.invalid:8443','not a url',undefined]) await other.alerts.record(event({p_visitor_id:String(origin)}),origin);
+ await other.alerts.flush();
+ assert.equal(JSON.parse(other.calls[0].options.body).messages[0].kakaoOptions.variables['#{페이지}'],'https://www.stargateedu.co.kr/');
+});
+
+test('the global blog alerts on its daily visit record; the main portal does not double count',async()=>{
+ const calls=[];const env={VISITOR_ANALYTICS:{idFromName:n=>n,get:name=>({analytics:async(...args)=>{calls.push([name,...args]);return true;}})}};
+ const body={p_visitor_id:'12345678-1234-4234-8234-123456789abc',p_visit_date:new Intl.DateTimeFormat('en-CA',{timeZone:'Asia/Seoul'}).format(new Date()),p_path:'/journal/seoul-first-week/'};
+ for(const [origin,expected] of [['https://www.stargatekorea.net',true],['https://www.stargateedu.co.kr',false],['https://stargate.stargate8225.workers.dev',false]]) {
+  const response=await handleRequest(new Request('https://stargate.stargate8225.workers.dev/api/analytics/record_site_visit',{method:'POST',headers:{Origin:origin,'Content-Type':'application/json'},body:JSON.stringify(body)}),env);
+  assert.equal(response.status,200);const last=calls.at(-1);
+  assert.equal(last[1],'record_site_visit');assert.equal(last[3],expected);assert.equal(last[5],expected?origin:undefined);
+ }
+ assert.equal(calls[0][0],'stargatekorea-visitors-v1');
+});
