@@ -2,6 +2,8 @@ name: Update expressway rest-area bid radar
 
 on:
   push:
+    branches:
+      - main
     paths:
       - 'scripts/update-expressway-restarea-bids.py'
       - '.github/workflows/update-expressway-restarea-bids.yml'
