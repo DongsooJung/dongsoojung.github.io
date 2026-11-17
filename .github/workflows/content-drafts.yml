@@ -1,0 +1,69 @@
+name: Content drafts (Claude, WordPress draft only)
+
+# 반자동화: Claude가 stargatelearn.com 글 초안을 쓰고 정답을 독립 풀이로 검증한 뒤
+# WordPress에 "초안"으로만 올립니다. 게시는 wp-admin에서 사람이 직접 합니다.
+# WP_* 시크릿이 없으면 초안을 아티팩트와 실행 요약으로만 남깁니다.
+
+on:
+  schedule:
+    # 매주 월요일 00:00 UTC (09:00 KST)
+    - cron: '0 0 * * 1'
+  workflow_dispatch:
+    inputs:
+      count:
+        description: '생성할 초안 수 (1~5)'
+        required: false
+        default: '2'
+      topic:
+        description: '(선택) 주제 지정. 비우면 Claude가 기존 글과 겹치지 않게 고릅니다'
+        required: false
+        default: ''
+      dry_run:
+        description: 'WordPress에 올리지 않고 아티팩트로만 저장'
+        type: boolean
+        required: false
+        default: false
+
+permissions:
+  contents: read
+
+concurrency:
+  group: content-drafts
+  cancel-in-progress: false
+
+jobs:
+  draft:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    defaults:
+      run:
+        working-directory: scripts/content-drafts
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install
+        run: npm ci --no-audit --no-fund
+
+      - name: Generate drafts
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          WP_SITE: ${{ secrets.WP_SITE }}
+          WP_USER: ${{ secrets.WP_USER }}
+          WP_APP_PASSWORD: ${{ secrets.WP_APP_PASSWORD }}
+          COUNT: ${{ inputs.count || '2' }}
+          TOPIC: ${{ inputs.topic }}
+          DRY_RUN: ${{ inputs.dry_run && '--dry-run' || '' }}
+        run: node generate-drafts.mjs --count "$COUNT" --topic "$TOPIC" --out out $DRY_RUN
+
+      - name: Upload drafts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: content-drafts-${{ github.run_id }}
+          path: scripts/content-drafts/out/
+          retention-days: 14
+          if-no-files-found: ignore
