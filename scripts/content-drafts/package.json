@@ -1,0 +1,11 @@
+{
+  "name": "stargate-content-drafts",
+  "private": true,
+  "description": "Claude drafts for stargatelearn.com (WordPress draft only)",
+  "scripts": {
+    "draft": "node generate-drafts.mjs"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^1.9.0"
+  }
+}
