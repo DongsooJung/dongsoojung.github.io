@@ -5,7 +5,7 @@ import { runInNewContext } from 'node:vm';
 
 const source = readFileSync(new URL('../assets/inquiry-source.js', import.meta.url), 'utf8');
 
-function browser({ hostname = 'stargateedu.co.kr', pathname = '/naesin/', title = '내신' } = {}) {
+function browser({ hostname = 'stargateedu.co.kr', pathname = '/naesin/', title = '내신', cryptoImpl } = {}) {
   class Element {
     constructor() {
       this.dataset = {};
@@ -66,13 +66,15 @@ function browser({ hostname = 'stargateedu.co.kr', pathname = '/naesin/', title 
     document,
     location,
     URL,
+    Uint8Array,
+    Array,
     Element,
     HTMLAnchorElement: Anchor,
     MutationObserver: class { observe() {} },
     localStorage: asStorage(storage),
     sessionStorage: asStorage(new Map()),
     matchMedia: () => ({ matches: false }),
-    crypto: { randomUUID: () => '11111111-1111-4111-8111-111111111111' },
+    crypto: cryptoImpl === undefined ? { randomUUID: () => '11111111-1111-4111-8111-111111111111' } : cryptoImpl,
     fetch: async (url, options) => {
       requests.push({ url, payload: JSON.parse(options.body), options });
       return { ok: true };
@@ -195,6 +197,28 @@ test('pages that already record usage do not send a second click', async () => {
   assert.equal(env.requests.length, 0);
   assert.equal(env.gtagEvents[0].params.link_type, 'kakao');
   assert.equal(env.gtagEvents[0].params.page_path, '/');
+});
+
+test('click ids use web crypto and are skipped when it is missing', async () => {
+  assert.doesNotMatch(source, /Math\.random/);
+  const secure = browser({
+    hostname: 'www.stargateedu.co.kr',
+    pathname: '/refund/',
+    cryptoImpl: { getRandomValues(bytes) { bytes.fill(7); return bytes; } },
+  });
+  const secureLink = secure.add('mailto:support@stargateedu.co.kr', '환불 문의');
+  secure.context.window.StargateInquiry.decorate();
+  secure.listeners.get('click')[0]({ isTrusted: true, target: secureLink });
+  await new Promise(resolve => setImmediate(resolve));
+  assert.equal(secure.requests[0].payload.p_event_id, '07070707-0707-4707-8707-070707070707');
+
+  const insecure = browser({ hostname: 'www.stargateedu.co.kr', pathname: '/refund/', cryptoImpl: {} });
+  const link = insecure.add('mailto:support@stargateedu.co.kr', '환불 문의');
+  insecure.context.window.StargateInquiry.decorate();
+  insecure.listeners.get('click')[0]({ isTrusted: true, target: link });
+  await new Promise(resolve => setImmediate(resolve));
+  assert.equal(insecure.requests.length, 0);
+  assert.equal(new URL(link.getAttribute('href')).searchParams.get('subject'), '문의 | src:/refund/');
 });
 
 test('dynamic mailto helper used by the stay form includes the page', () => {

@@ -95,19 +95,22 @@
 
   function uuid() {
     if (globalThis.crypto?.randomUUID) return globalThis.crypto.randomUUID();
-    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (char) => {
-      const value = Math.floor(Math.random() * 16);
-      return (char === 'x' ? value : (value & 3) | 8).toString(16);
-    });
+    if (typeof globalThis.crypto?.getRandomValues !== 'function') return null;
+    const bytes = new Uint8Array(16);
+    crypto.getRandomValues(bytes);
+    bytes[6] = (bytes[6] & 0x0f) | 0x40;
+    bytes[8] = (bytes[8] & 0x3f) | 0x80;
+    const hex = Array.from(bytes, (value) => value.toString(16).padStart(2, '0')).join('');
+    return `${hex.slice(0, 8)}-${hex.slice(8, 12)}-${hex.slice(12, 16)}-${hex.slice(16, 20)}-${hex.slice(20)}`;
   }
 
   function storedId(storage, key) {
     try {
-      let value = storage.getItem(key);
-      if (!value) {
-        value = uuid();
-        storage.setItem(key, value);
-      }
+      const existing = storage.getItem(key);
+      if (existing) return existing;
+      const value = uuid();
+      if (!value) return null;
+      storage.setItem(key, value);
       return value;
     } catch (_) {
       return uuid();
@@ -142,10 +145,14 @@
       : { 'Content-Type': 'application/json', Accept: 'application/json', apikey: SUPABASE_KEY, Authorization: `Bearer ${SUPABASE_KEY}` };
     const visitorKey = cloudflare ? 'stargateCloudflareVisitorV1:visitorId' : 'stargateVisitorV3:visitorId';
     const sessionKey = cloudflare ? 'stargateCloudflareUsageV1:sessionId' : 'stargateUsageV1:sessionId';
+    const eventId = uuid();
+    const visitorId = storedId(localStorage, visitorKey);
+    const sessionId = storedId(sessionStorage, sessionKey);
+    if (!eventId || !visitorId || !sessionId) return;
     const payload = {
-      p_event_id: uuid(),
-      p_visitor_id: storedId(localStorage, visitorKey),
-      p_session_id: storedId(sessionStorage, sessionKey),
+      p_event_id: eventId,
+      p_visitor_id: visitorId,
+      p_session_id: sessionId,
       p_event_type: 'click',
       p_page_path: page,
       p_page_title: bareText(document.title, 240) || null,
