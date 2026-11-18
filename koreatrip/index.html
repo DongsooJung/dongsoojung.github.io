@@ -227,20 +227,31 @@ html[lang="en"] [data-en]{display:revert}
 <script>
 (function(){
   var root=document.documentElement, btn=document.getElementById('langBtn');
+  function remember(l){
+    try{localStorage.setItem('koreatripLang',l)}catch(e){}
+    var params=new URLSearchParams(location.search);
+    if(params.get('lang')!==l){
+      params.set('lang',l);
+      try{history.replaceState(null,'',location.pathname+'?'+params.toString()+location.hash)}catch(e){}
+    }
+    var brand=document.querySelector('a.brand');
+    if(brand) brand.setAttribute('href','/koreatrip/?lang='+l);
+  }
   function apply(l){
     root.lang=l; btn.textContent=l==='en'?'한국어':'EN';
     document.querySelectorAll('[data-href-en]').forEach(function(a){
       if(!a.dataset.hrefKo) a.dataset.hrefKo=a.getAttribute('href');
       a.setAttribute('href', l==='en'?a.dataset.hrefEn:a.dataset.hrefKo);
     });
+    remember(l);
   }
   var q=new URLSearchParams(location.search).get('lang'), saved=null;
   try{saved=localStorage.getItem('koreatripLang')}catch(e){}
+  if(saved!=='en'&&saved!=='ko') saved=null;
   var nav=(navigator.language||'').toLowerCase();
   apply(q==='en'||q==='ko'?q:(saved||(nav.indexOf('ko')===0?'ko':'en')));
   btn.addEventListener('click',function(){
-    var l=root.lang==='en'?'ko':'en'; apply(l);
-    try{localStorage.setItem('koreatripLang',l)}catch(e){}
+    apply(root.lang==='en'?'ko':'en');
   });
 })();
 </script>
