@@ -8,6 +8,7 @@ import { pathToFileURL } from 'node:url';
 import {
   parseArgs, sanitizeHtml, normalizeAnswer, compareAnswers, reportMarkdown, decodeEntities,
   safeSlug, escapeText, fetchExistingTitles, selectTopic, TOPICS, loadHistory,
+  wordpressDraftPayload, createWpDraft,
 } from '../scripts/content-drafts/generate-drafts.mjs';
 
 test('parseArgs defaults and bounds', () => {
@@ -16,6 +17,63 @@ test('parseArgs defaults and bounds', () => {
   assert.equal(parseArgs(['--dry-run']).dryRun, true);
   assert.throws(() => parseArgs(['--count', '9']));
   assert.throws(() => parseArgs(['--publish']));
+  assert.equal(parseArgs(['--require-wordpress']).requireWordPress, true);
+  assert.throws(() => parseArgs(['--require-wordpress', '--dry-run']));
+});
+
+const samplePost = {
+  title: 'Parity in a puzzle', slug: 'parity-in-a-puzzle', excerpt: 'A checked lesson.',
+  content_html: '<p>A lesson.</p><details><summary>Solution</summary><p>2</p></details>',
+  checks: [{ ok: true }],
+};
+
+test('WordPress payload stays a draft and preserves supported editable HTML', () => {
+  const payload = wordpressDraftPayload(samplePost);
+  assert.equal(payload.status, 'draft');
+  assert.equal(payload.content, `<!-- wp:html -->\n${samplePost.content_html}\n<!-- /wp:html -->`);
+  assert.match(wordpressDraftPayload({ ...samplePost, checks: [{ ok: false }] }).title, /^\[검토 필요\]/);
+});
+
+test('WordPress delivery requires an independent read of all saved raw fields', async () => {
+  const calls = [];
+  const payload = wordpressDraftPayload(samplePost);
+  const result = await createWpDraft(samplePost, {
+    site: 'example.test', user: 'editor', appPassword: 'test-password',
+    fetchImpl: async (url, options) => {
+      calls.push({ url, options });
+      if (options.method === 'POST') return Response.json({ id: 42, status: 'draft' });
+      return Response.json({ id: 42, status: 'draft', title: { raw: payload.title }, content: { raw: payload.content }, excerpt: { raw: payload.excerpt } });
+    },
+  });
+  assert.equal(result.contentVerified, true);
+  assert.equal(result.id, 42);
+  assert.equal(calls.length, 2);
+  assert.equal(JSON.parse(calls[0].options.body).status, 'draft');
+  assert.match(calls[1].url, /posts\/42\?context=edit/);
+  assert.ok(calls.every(({ options }) => options.redirect === 'error' && options.signal));
+});
+
+test('WordPress delivery rejects changed status, missing or altered saved content without retrying', async () => {
+  const payload = wordpressDraftPayload(samplePost);
+  for (const change of [{ status: 'pending' }, { content: { raw: '<p>Truncated</p>' } }, { title: { raw: 'Changed' } }, { excerpt: {} }]) {
+    let writes = 0;
+    await assert.rejects(createWpDraft(samplePost, {
+      site: 'example.test', user: 'editor', appPassword: 'test-password',
+      fetchImpl: async (_, options) => {
+        if (options.method === 'POST') { writes++; return Response.json({ id: 42, status: 'draft' }); }
+        return Response.json({ id: 42, status: 'draft', title: { raw: payload.title }, content: { raw: payload.content }, excerpt: { raw: payload.excerpt }, ...change });
+      },
+    }), /글 42 생성 후 검증 실패.*중복 생성하지/);
+    assert.equal(writes, 1);
+  }
+});
+
+test('WordPress delivery refuses incomplete credentials and does not expose response bodies', async () => {
+  await assert.rejects(createWpDraft(samplePost, { site: 'example.test', user: '', appPassword: '', fetchImpl: () => { throw new Error('must not fetch'); } }), /인증정보/);
+  await assert.rejects(createWpDraft(samplePost, {
+    site: 'example.test', user: 'editor', appPassword: 'test-password',
+    fetchImpl: async () => new Response('sensitive upstream diagnostics', { status: 401 }),
+  }), (error) => /HTTP 401/.test(error.message) && !error.message.includes('sensitive upstream'));
 });
 
 test('sanitizeHtml strips executable content', () => {

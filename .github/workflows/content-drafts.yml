@@ -23,6 +23,11 @@ on:
         type: boolean
         required: false
         default: false
+      require_wordpress:
+        description: 'WordPress 직접 등록 필수: 인증정보가 없으면 AI 생성 전에 실패 처리'
+        type: boolean
+        required: false
+        default: false
 
 permissions:
   contents: read
@@ -65,7 +70,8 @@ jobs:
           COUNT: ${{ inputs.count || '2' }}
           TOPIC: ${{ inputs.topic }}
           DRY_RUN: ${{ inputs.dry_run && '--dry-run' || '' }}
-        run: node generate-drafts.mjs --count "$COUNT" --topic "$TOPIC" --out out $DRY_RUN
+          REQUIRE_WORDPRESS: ${{ inputs.require_wordpress && '--require-wordpress' || '' }}
+        run: node generate-drafts.mjs --count "$COUNT" --topic "$TOPIC" --out out $DRY_RUN $REQUIRE_WORDPRESS
 
       - name: Save topic history
         if: always()

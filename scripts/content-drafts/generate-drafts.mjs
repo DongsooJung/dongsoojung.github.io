@@ -63,18 +63,20 @@ export function selectTopic(avoid, { now = new Date(), topics = TOPICS } = {}) {
 }
 
 export function parseArgs(argv) {
-  const opts = { count: 1, topic: '', out: path.join(HERE, 'out'), dryRun: false };
+  const opts = { count: 1, topic: '', out: path.join(HERE, 'out'), dryRun: false, requireWordPress: false };
   for (let i = 0; i < argv.length; i++) {
     const a = argv[i];
     if (a === '--count') opts.count = Number(argv[++i]);
     else if (a === '--topic') opts.topic = String(argv[++i] ?? '').trim();
     else if (a === '--out') opts.out = path.resolve(argv[++i]);
     else if (a === '--dry-run') opts.dryRun = true;
+    else if (a === '--require-wordpress') opts.requireWordPress = true;
     else throw new Error(`알 수 없는 옵션: ${a}`);
   }
   if (!Number.isInteger(opts.count) || opts.count < 1 || opts.count > 5) {
     throw new Error('--count 는 1~5 사이 정수여야 합니다');
   }
+  if (opts.dryRun && opts.requireWordPress) throw new Error('--dry-run과 --require-wordpress는 함께 사용할 수 없습니다');
   return opts;
 }
 
@@ -289,26 +291,51 @@ async function writeOne(client, { topic, avoid }) {
   };
 }
 
-async function createWpDraft(post) {
-  const { WP_SITE, WP_USER, WP_APP_PASSWORD } = process.env;
-  const auth = Buffer.from(`${WP_USER}:${WP_APP_PASSWORD}`).toString('base64');
+export function wordpressDraftPayload(post) {
   const allOk = post.checks.every((c) => c.ok);
-  const body = {
+  return {
     status: WP_STATUS,
     title: allOk ? post.title : `[검토 필요] ${post.title}`,
     slug: post.slug,
     excerpt: post.excerpt,
-    content: post.content_html,
+    content: `<!-- wp:html -->\n${sanitizeHtml(post.content_html)}\n<!-- /wp:html -->`,
   };
-  if (body.status !== 'draft') throw new Error('초안 상태가 아닌 게시는 허용하지 않습니다');
-  const res = await fetch(`https://${WP_SITE}/wp-json/wp/v2/posts`, {
+}
+
+export async function createWpDraft(post, {
+  site = process.env.WP_SITE, user = process.env.WP_USER,
+  appPassword = process.env.WP_APP_PASSWORD, fetchImpl = fetch,
+} = {}) {
+  if (!site || !user || !appPassword) throw new Error('WordPress 인증정보 WP_SITE·WP_USER·WP_APP_PASSWORD가 필요합니다');
+  if (!/^[a-z0-9]+(?:[.-][a-z0-9]+)*$/i.test(site)) throw new Error('WP_SITE에는 HTTPS 도메인만 입력하세요');
+  const auth = Buffer.from(`${user}:${appPassword}`).toString('base64');
+  const headers = { Authorization: `Basic ${auth}`, 'Content-Type': 'application/json' };
+  const body = wordpressDraftPayload(post);
+  const res = await fetchImpl(`https://${site}/wp-json/wp/v2/posts`, {
     method: 'POST',
-    headers: { Authorization: `Basic ${auth}`, 'Content-Type': 'application/json' },
+    headers, redirect: 'error', signal: AbortSignal.timeout(30000),
     body: JSON.stringify(body),
   });
-  if (!res.ok) throw new Error(`WordPress 초안 생성 실패: HTTP ${res.status} ${(await res.text()).slice(0, 200)}`);
+  if (!res.ok) throw new Error(`WordPress 초안 생성 실패: HTTP ${res.status}. 재실행 전 기존 초안을 확인하세요`);
   const j = await res.json();
-  return { id: j.id, editUrl: `https://${WP_SITE}/wp-admin/post.php?post=${j.id}&action=edit` };
+  if (!Number.isSafeInteger(j.id) || j.id <= 0) throw new Error('WordPress 응답에 유효한 글 ID가 없습니다. 재실행 전 기존 초안을 확인하세요');
+  const editUrl = `https://${site}/wp-admin/post.php?post=${j.id}&action=edit`;
+  try {
+    if (j.status !== 'draft') throw new Error('생성 응답이 draft 상태가 아닙니다');
+    const verify = await fetchImpl(`https://${site}/wp-json/wp/v2/posts/${j.id}?context=edit&_fields=id,status,title,content,excerpt`, {
+      headers, redirect: 'error', signal: AbortSignal.timeout(30000),
+    });
+    if (!verify.ok) throw new Error(`재조회 HTTP ${verify.status}`);
+    const saved = await verify.json();
+    const normalize = (value) => typeof value === 'string' ? value.replace(/\r\n/g, '\n').trim() : null;
+    if (saved.id !== j.id || saved.status !== 'draft') throw new Error('재조회 글 ID 또는 draft 상태가 일치하지 않습니다');
+    for (const field of ['title', 'content', 'excerpt']) {
+      if (normalize(saved[field]?.raw) !== normalize(body[field])) throw new Error(`재조회 ${field} 원문이 일치하지 않습니다`);
+    }
+  } catch (error) {
+    throw new Error(`WordPress 글 ${j.id} 생성 후 검증 실패: ${error.message}. 중복 생성하지 말고 확인하세요: ${editUrl}`);
+  }
+  return { id: j.id, status: 'draft', contentVerified: true, editUrl };
 }
 
 export function reportMarkdown(results) {
@@ -323,6 +350,8 @@ export function reportMarkdown(results) {
     if (r.topic) lines.push(`- 선택 주제: ${r.topic}`);
     lines.push(`- 검증: ${allOk ? '모든 정답이 독립 풀이와 일치' : '불일치 있음 - 게시 전 반드시 확인'}`);
     lines.push(`- 저장: ${r.wp ? `WordPress 초안 [편집 열기](${r.wp.editUrl})` : `파일 \`${r.file}\``}`);
+    if (r.payloadFile) lines.push(`- 커넥터 등록용 초안: \`${r.payloadFile}\` (status=draft, 공개 발행 없음)`);
+    if (r.wp?.contentVerified) lines.push('- 저장 검증: 별도 재조회에서 제목·본문·요약·draft 상태 일치');
     lines.push(`- 처리 모델: ${[...new Set(r.servedBy)].join(', ')}`);
     if (r.usage) {
       const sum = (k) => r.usage.reduce((a, u) => a + (u?.[k] ?? 0), 0);
@@ -337,10 +366,11 @@ export function reportMarkdown(results) {
 
 async function main() {
   const opts = parseArgs(process.argv.slice(2));
+  const wpReady = !opts.dryRun && process.env.WP_SITE && process.env.WP_USER && process.env.WP_APP_PASSWORD;
+  if (opts.requireWordPress && !wpReady) throw new Error('WordPress 직접 등록이 요청됐지만 WP_SITE·WP_USER·WP_APP_PASSWORD가 없습니다. AI 생성 전에 중단합니다');
   requireKey();
   Anthropic = (await import('@anthropic-ai/sdk')).default;
   const client = new Anthropic();
-  const wpReady = !opts.dryRun && process.env.WP_SITE && process.env.WP_USER && process.env.WP_APP_PASSWORD;
   await fs.mkdir(opts.out, { recursive: true });
   const history = await loadHistory(opts.out);
   const avoid = await fetchExistingTitles(process.env.WP_SITE || SITE_DEFAULT);
@@ -355,6 +385,8 @@ async function main() {
       post.slug = safeSlug(post.slug, `draft-${Date.now()}-${i + 1}`);
       post.file = path.join(opts.out, `${post.slug}.html`);
       await fs.writeFile(post.file, `<h1>${escapeText(post.title)}</h1>\n${post.content_html}\n`, 'utf8');
+      post.payloadFile = path.join(opts.out, `${post.slug}.wordpress.json`);
+      await fs.writeFile(post.payloadFile, JSON.stringify(wordpressDraftPayload(post), null, 2) + '\n', 'utf8');
       avoid.push(post.title, topic);
       history.push({ title: post.title, topic });
       await fs.writeFile(path.join(opts.out, 'topic-history.json'), JSON.stringify(history, null, 2) + '\n', 'utf8');
