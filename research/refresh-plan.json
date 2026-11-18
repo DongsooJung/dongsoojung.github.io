@@ -990,8 +990,8 @@
         "/research/startup-industries/"
       ],
       "outcome": "conditional_technical_acceptance",
-      "latestAudit": "/research/source-reviews/2026-11-14-seoul-science-high.json",
-      "lastAttemptAt": "2026-11-14T06:17:25.679Z",
+      "latestAudit": "/research/source-reviews/2026-11-18-june-mock-15.json",
+      "lastAttemptAt": "2026-11-18T00:43:07.958Z",
       "itemResults": {
         "/exchange-rate/": {
           "status": "verified",
@@ -1323,6 +1323,13 @@
           "audit": "/research/source-reviews/2026-11-14-seoul-science-high.json",
           "scope": "2026·2027학년도 모집요강 해당 쪽과 2027학년도 지원·단계별 발표·11월 서류 제출 공지, 공식 FAQ와 공개 기출 목록을 대조했습니다. 월간 기준월은 비적용입니다.",
           "nextAction": "2026년 12월 초 이후 최종 발표 공지와 학교가 공개한 선발 인원을 확인합니다. 2024·2025학년도 요강과 3단계 문항·채점표는 유효한 공식 원문을 확보할 때 대조합니다."
+        },
+        "/research/math/2027-june-mock-15/": {
+          "status": "not_applicable",
+          "checkedAt": "2026-11-18T00:43:07.958Z",
+          "audit": "/research/source-reviews/2026-11-18-june-mock-15.json",
+          "scope": "EBSi 제공 평가원 문제지의 공통 15번 조건·선택지, EBSi 정답표와 EBS 해설 판본 및 자체 계산·슬라이더 경계조건을 대조했습니다. 월간 통계 기준월은 비적용입니다.",
+          "nextAction": "공식 개정이 있을 때 해당 문항 재대조"
         }
       },
       "checkpoints": {
@@ -1356,7 +1363,7 @@
           "Tourism not re-fetched before October26; original checkedAt retained"
         ]
       },
-      "nextAction": "다음 독립 미완료 /research/math/2027-june-mock-15/의 평가원 공식 수학 문제지·정답표와 15번 조건·선택지를 대조합니다.",
+      "nextAction": "다음 독립 미완료 /cybersecurity/의 공개 원문·도서 판본·구현 범위와 성능 주장 근거를 대조합니다.",
       "sourceFollowups": [
         {
           "id": "source-followup-1-20261021",
@@ -2727,6 +2734,22 @@
               "Checked official admissions editions, application arithmetic and school publication notices",
               "Two PDF companions passed text and visual checks"
             ]
+          }
+        },
+        {
+          "id": "mock-source-20261118",
+          "status": "completed",
+          "checkedAt": "2026-11-18T00:43:07.958Z",
+          "keys": [
+            "/research/math/2027-june-mock-15/"
+          ],
+          "audit": "/research/source-reviews/2026-11-18-june-mock-15.json",
+          "outcome": "officially_distributed_problem_choices_and_ebs_answer_compared_monthly_not_applicable",
+          "release": {
+            "branch": "codex/mock-source-20261118",
+            "status": "awaiting_checks",
+            "liveUrl": "https://www.stargateedu.co.kr/research/math/2027-june-mock-15/",
+            "sourceReviewUrl": "https://www.stargateedu.co.kr/research/source-reviews/2026-11-18-june-mock-15.json"
           }
         }
       ],
