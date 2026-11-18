@@ -1,0 +1,203 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#0b1026">
+  <title>전화 상담 예약 · STARGATE</title>
+  <meta name="description" content="전화번호와 통화 가능한 시간을 남기면 STARGATE가 직접 전화드립니다. 수업·KOI·영재학교·AI 개발 상담.">
+  <link rel="canonical" href="https://stargateedu.co.kr/callback/">
+  <link rel="manifest" href="/manifest.webmanifest">
+  <meta property="og:title" content="전화 상담 예약 · STARGATE">
+  <meta property="og:description" content="번호와 통화 가능한 시간만 남겨 주세요. 원하시는 시간에 전화드립니다.">
+  <meta property="og:url" content="https://stargateedu.co.kr/callback/">
+  <style>
+    :root{--navy:#0b1026;--panel:#151c3a;--gold:#e5c378;--gold2:#f3d98e;--text:#eef1fb;--muted:#aab2cf;--line:rgba(255,255,255,.12);--danger:#ff9b9b;--ok:#7fd6a4;--font:Pretendard,"Noto Sans KR",system-ui,sans-serif}
+    *{box-sizing:border-box}html{background:var(--navy)}body{min-height:100svh;margin:0;padding:22px 16px calc(22px + env(safe-area-inset-bottom));display:grid;place-items:center;background:radial-gradient(900px 520px at 50% -15%,rgba(143,164,246,.2),transparent 62%),linear-gradient(#0b1026,#080b1b);color:var(--text);font-family:var(--font)}
+    a{color:inherit}.card{width:min(100%,520px);padding:30px 26px;border:1px solid var(--line);border-radius:24px;background:rgba(21,28,58,.84);box-shadow:0 32px 80px -28px #000}
+    .top{display:flex;justify-content:space-between;align-items:center;gap:12px}.brand{font-size:13px;font-weight:800;letter-spacing:.18em}.home{color:var(--muted);font-size:12px;text-decoration:none}
+    .eyebrow{margin:28px 0 8px;color:var(--gold);font-size:11px;font-weight:800;letter-spacing:.28em}h1{margin:0;font-size:clamp(26px,7.5vw,36px);line-height:1.22}h1 span{color:var(--gold2)}.lead{margin:12px 0 22px;color:var(--muted);font-size:14px;line-height:1.7}
+    .field{margin:0 0 16px}.field>label,.legend{display:block;margin:0 0 7px;font-size:13px;font-weight:700}.req{color:var(--gold)}.opt{color:#7f88aa;font-weight:500}
+    input[type=text],input[type=tel],select,textarea{width:100%;padding:0 14px;border:1px solid var(--line);border-radius:12px;background:rgba(8,11,27,.58);color:var(--text);font:15px var(--font)}
+    input[type=text],input[type=tel],select{height:50px}textarea{min-height:84px;padding:12px 14px;resize:vertical;line-height:1.5}
+    select{appearance:none;background-image:linear-gradient(45deg,transparent 50%,var(--muted) 50%),linear-gradient(135deg,var(--muted) 50%,transparent 50%);background-position:calc(100% - 20px) 22px,calc(100% - 15px) 22px;background-size:5px 5px;background-repeat:no-repeat}
+    select option{background:#151c3a;color:var(--text)}
+    input:focus,select:focus,textarea:focus{outline:none;border-color:var(--gold);box-shadow:0 0 0 3px rgba(229,195,120,.13)}
+    fieldset{margin:0 0 16px;padding:0;border:0}
+    .chips{display:grid;grid-template-columns:repeat(auto-fill,minmax(96px,1fr));gap:8px}.chips.days{grid-template-columns:repeat(auto-fill,minmax(78px,1fr))}
+    .chip{position:relative}.chip input{position:absolute;opacity:0;inset:0;margin:0;cursor:pointer}
+    .chip span{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:46px;padding:7px 6px;border:1px solid var(--line);border-radius:11px;background:rgba(8,11,27,.45);color:var(--text);font-size:13px;font-weight:700;line-height:1.25;text-align:center;transition:border-color .15s,background .15s}
+    .chip small{color:var(--muted);font-size:11px;font-weight:500}
+    .chip input:checked+span{border-color:var(--gold);background:rgba(229,195,120,.16);color:var(--gold2)}
+    .chip input:checked+span small{color:var(--gold2)}
+    .chip input:focus-visible+span{outline:3px solid var(--gold);outline-offset:2px}
+    .chip input:disabled+span{opacity:.35;text-decoration:line-through}
+    .hint{margin:7px 2px 0;color:#7f88aa;font-size:12px;line-height:1.5}
+    .consent{display:flex;gap:9px;align-items:flex-start;margin:18px 0;color:var(--muted);font-size:13px;line-height:1.5}.consent input{width:19px;height:19px;margin:1px 0 0;flex-shrink:0}
+    .submit{min-height:54px;width:100%;border:0;border-radius:13px;font:800 15px var(--font);cursor:pointer;background:linear-gradient(135deg,var(--gold2),var(--gold));color:#181320}.submit:disabled{opacity:.6;cursor:wait}
+    .alt{display:flex;flex-wrap:wrap;justify-content:center;gap:6px 14px;margin:16px 0 0;color:#7f88aa;font-size:12px}.alt a{color:var(--muted)}
+    .error{margin:0 0 10px;color:var(--danger);font-size:13px}.hp{position:absolute;left:-9999px}
+    .success{display:none;padding:30px 4px;text-align:center}.success.show{display:block}.success h2{margin:10px 0}.success p{color:var(--muted);line-height:1.7}.success strong{color:var(--gold2)}
+    .summary{margin:18px auto;padding:14px 16px;max-width:340px;border:1px solid var(--line);border-radius:14px;background:rgba(8,11,27,.45);text-align:left;font-size:14px;line-height:1.8}.summary b{display:inline-block;min-width:68px;color:var(--muted);font-weight:600}
+    .success a.btn{display:inline-block;margin-top:6px;padding:12px 20px;border:1px solid var(--line);border-radius:11px;text-decoration:none}
+    @media(max-width:420px){.card{padding:25px 18px;border-radius:20px}}
+  </style>
+  <link rel="stylesheet" href="/assets/stargate-tokens.css?v=20261017">
+</head>
+<body>
+  <main class="card">
+    <section id="formView">
+      <div class="top"><div class="brand">✦ STARGATE</div><a class="home" href="/">홈으로 →</a></div>
+      <p class="eyebrow">CALLBACK · 전화 상담 예약</p>
+      <h1>번호만 남겨 주시면<br><span>원하시는 시간에 전화드립니다</span></h1>
+      <p class="lead">카카오톡 대화 없이 전화로 바로 상담받으실 수 있습니다. 통화 가능한 날짜와 시간대를 골라 주세요.</p>
+
+      <form id="cbForm" novalidate>
+        <div class="field"><label for="name">이름 <span class="req">*</span></label><input id="name" type="text" autocomplete="name" maxlength="40" placeholder="홍길동 (학부모님은 보호자 성함)" required></div>
+        <div class="field"><label for="phone">휴대전화번호 <span class="req">*</span></label><input id="phone" type="tel" inputmode="numeric" autocomplete="tel" maxlength="13" placeholder="010-0000-0000" required></div>
+
+        <fieldset>
+          <legend class="legend">통화 희망 날짜 <span class="req">*</span></legend>
+          <div class="chips days" id="dayChips" role="radiogroup"></div>
+        </fieldset>
+
+        <fieldset>
+          <legend class="legend">통화 희망 시간대 <span class="req">*</span></legend>
+          <div class="chips" id="slotChips" role="radiogroup"></div>
+          <p class="hint" id="slotHint">오늘 이미 지난 시간대는 선택할 수 없습니다.</p>
+        </fieldset>
+
+        <div class="field"><label for="topic">상담 주제</label>
+          <select id="topic">
+            <option>수업·수강 상담</option><option>KOI·정보올림피아드</option><option>영재학교·수학</option><option>AI·개발 용역</option><option>교재·도서</option><option>기타</option>
+          </select>
+        </div>
+        <div class="field"><label for="memo">미리 알려주실 내용 <span class="opt">(선택)</span></label><textarea id="memo" maxlength="300" placeholder="예: 중2, KOI 1차 준비 중 / 저녁 7시 이후만 통화 가능"></textarea></div>
+
+        <div class="hp"><label for="website">웹사이트</label><input id="website" type="text" tabindex="-1" autocomplete="off"></div>
+        <label class="consent"><input id="consent" type="checkbox" required><span>전화 상담 연결을 위한 이름·휴대전화번호·통화 희망 시간 수집과 상담 종료 후 1년 보관에 동의합니다. <span class="req">(필수)</span></span></label>
+        <p class="error" id="formError" role="alert" hidden></p>
+        <button class="submit" id="submitBtn" type="submit">전화 상담 예약하기</button>
+      </form>
+      <p class="alt"><span>대표전화 070-8027-8025</span><a href="/consult/">카카오·네이버로 상담 신청</a></p>
+    </section>
+
+    <section class="success" id="successView" aria-live="polite">
+      <div style="font-size:44px;color:var(--ok)">✓</div>
+      <h2>전화 상담이 예약되었습니다</h2>
+      <p><strong id="sName"></strong>님, 아래 시간에 전화드리겠습니다.</p>
+      <div class="summary"><div><b>날짜</b><span id="sDate"></span></div><div><b>시간대</b><span id="sSlot"></span></div><div><b>연락처</b><span id="sPhone"></span></div></div>
+      <p style="font-size:13px">070 또는 010 번호로 연락드립니다. 일정이 바뀌면 다시 예약해 주세요.</p>
+      <a class="btn" href="/">홈으로 돌아가기</a>
+    </section>
+  </main>
+
+  <script>
+    const CONFIG={
+      SUPABASE_URL:"https://inftexpcnfinglwlrvsj.supabase.co",
+      SUPABASE_ANON_KEY:"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImluZnRleHBjbmZpbmdsd2xydnNqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzI5MTMyMzgsImV4cCI6MjA4ODQ4OTIzOH0.HONuULp0L3B5T0gTiwJMnowjJonJzzNHhUV_LtpDQoI"
+    };
+    const SLOTS=[
+      {v:"10:00-12:00",l:"오전",s:"10~12시",end:12},
+      {v:"12:00-14:00",l:"점심",s:"12~14시",end:14},
+      {v:"14:00-16:00",l:"오후",s:"14~16시",end:16},
+      {v:"16:00-18:00",l:"늦은 오후",s:"16~18시",end:18},
+      {v:"18:00-20:00",l:"저녁",s:"18~20시",end:20},
+      {v:"아무 때나",l:"아무 때나",s:"10~20시",end:20}
+    ];
+    const DAYS_AHEAD=7,WD="일월화수목금토";
+    const $=id=>document.getElementById(id);
+
+    // Dates and slot cut-offs follow Korean time regardless of the visitor's device clock zone.
+    function kstNow(){const d=new Date();return new Date(d.getTime()+(d.getTimezoneOffset()+540)*60000)}
+    function ymd(d){return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`}
+    function label(d,i){return i===0?"오늘":i===1?"내일":`${d.getMonth()+1}/${d.getDate()}`}
+
+    const now=kstNow(),today=ymd(now),dayLabels={};
+    for(let i=0;i<DAYS_AHEAD;i++){
+      const d=new Date(now.getFullYear(),now.getMonth(),now.getDate()+i),v=ymd(d);
+      dayLabels[v]=`${d.getMonth()+1}월 ${d.getDate()}일(${WD[d.getDay()]})`;
+      $("dayChips").insertAdjacentHTML("beforeend",
+        `<label class="chip"><input type="radio" name="day" value="${v}"><span>${label(d,i)}<small>${WD[d.getDay()]}요일</small></span></label>`);
+    }
+    SLOTS.forEach(s=>$("slotChips").insertAdjacentHTML("beforeend",
+      `<label class="chip"><input type="radio" name="slot" value="${s.v}" data-end="${s.end}"><span>${s.l}<small>${s.s}</small></span></label>`));
+
+    function refreshSlots(){
+      const day=document.querySelector('input[name=day]:checked')?.value,isToday=day===today,h=kstNow().getHours()+kstNow().getMinutes()/60;
+      let open=0;
+      document.querySelectorAll('input[name=slot]').forEach(r=>{
+        const past=isToday&&h>=Number(r.dataset.end)-0.5;
+        r.disabled=past;if(past&&r.checked)r.checked=false;if(!past)open++;
+      });
+      $("slotHint").textContent=isToday&&open===0?"오늘 상담 가능한 시간이 지났습니다. 내일 이후 날짜를 선택해 주세요.":"오늘 이미 지난 시간대는 선택할 수 없습니다.";
+    }
+    $("dayChips").addEventListener("change",refreshSlots);
+    // Default to today if a slot is still open, otherwise tomorrow.
+    (function(){
+      const radios=document.querySelectorAll('input[name=day]');
+      radios[0].checked=true;refreshSlots();
+      if(![...document.querySelectorAll('input[name=slot]')].some(r=>!r.disabled)){radios[1].checked=true;refreshSlots()}
+    })();
+
+    $("phone").addEventListener("input",e=>{const v=e.target.value.replace(/\D/g,"").slice(0,11);e.target.value=v.length<4?v:v.length<8?`${v.slice(0,3)}-${v.slice(3)}`:`${v.slice(0,3)}-${v.slice(3,7)}-${v.slice(7)}`});
+
+    // Keep UTM through the page so the operator can see which ad or post brought the request.
+    const source=(()=>{
+      const base="stargateedu.co.kr/callback";
+      try{
+        const q=new URLSearchParams(location.search);
+        const found=["utm_source","utm_medium","utm_campaign","from"].filter(k=>q.get(k)).map(k=>`${k}=${q.get(k).replace(/[^\w.\-]/g,"").slice(0,60)}`);
+        return found.length?`${base}?${found.join("&")}`:base;
+      }catch(e){return base}
+    })();
+
+    function ticket(){const d=kstNow();return `CB-${String(d.getFullYear()).slice(2)}${String(d.getMonth()+1).padStart(2,"0")}${String(d.getDate()).padStart(2,"0")}-${Math.random().toString(36).toUpperCase().slice(2,7).padEnd(5,"0")}`}
+
+    $("cbForm").addEventListener("submit",async e=>{
+      e.preventDefault();
+      const err=$("formError"),btn=$("submitBtn");err.hidden=true;
+      if($("website").value)return;
+      const name=$("name").value.trim(),phone=$("phone").value.trim();
+      const day=document.querySelector('input[name=day]:checked')?.value;
+      const slot=document.querySelector('input[name=slot]:checked')?.value;
+      const topic=$("topic").value,memo=$("memo").value.trim().slice(0,300);
+      const problems=[];
+      if(name.length<2)problems.push("이름");
+      if(!/^01[016789]-?\d{3,4}-?\d{4}$/.test(phone))problems.push("휴대전화번호");
+      if(!day)problems.push("통화 날짜");
+      if(!slot)problems.push("통화 시간대");
+      if(!$("consent").checked)problems.push("개인정보 동의");
+      if(problems.length){err.textContent=`${problems.join(", ")}을(를) 확인해 주세요.`;err.hidden=false;return}
+
+      btn.disabled=true;btn.textContent="예약 중…";
+      try{
+        const res=await fetch(`${CONFIG.SUPABASE_URL}/rest/v1/callback_requests`,{
+          method:"POST",
+          headers:{"Content-Type":"application/json",apikey:CONFIG.SUPABASE_ANON_KEY,Authorization:`Bearer ${CONFIG.SUPABASE_ANON_KEY}`,Prefer:"return=minimal"},
+          body:JSON.stringify({name,phone,preferred_date:day,time_slot:slot,topic,memo,consent:"Y",source})
+        });
+        if(!res.ok)throw new Error(`callback INSERT ${res.status}: ${await res.text().catch(()=>"")}`);
+      }catch(ex){
+        console.error("[callback]",ex);
+        err.textContent="예약 중 문제가 발생했습니다. 잠시 후 다시 시도하시거나 070-8027-8025로 전화해 주세요.";
+        err.hidden=false;btn.disabled=false;btn.textContent="전화 상담 예약하기";return;
+      }
+
+      // Operator alert via SOLAPI (best-effort; the request is already saved).
+      try{
+        await fetch("/api/support-sms",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({
+          ticketId:ticket(),name,phone,category:"상담·수강신청",urgency:"빠른 확인 요청",
+          message:`[전화 상담 예약] ${dayLabels[day]} ${slot} / ${topic}${memo?` / ${memo}`:""}`,
+          submittedAt:new Date().toISOString()
+        })});
+      }catch(_){}
+
+      try{window.gtag&&gtag("event","generate_lead",{method:"callback",topic})}catch(_){}
+      $("sName").textContent=name;$("sDate").textContent=dayLabels[day];$("sSlot").textContent=slot==="아무 때나"?"아무 때나 (10~20시)":slot.replace("-"," ~ ");$("sPhone").textContent=phone;
+      $("formView").hidden=true;$("successView").classList.add("show");
+      scrollTo({top:0,behavior:"smooth"});
+    });
+  </script>
+</body>
+</html>
