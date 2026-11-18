@@ -1,0 +1,137 @@
+{
+  "schemaVersion": 1,
+  "project": "/research/math/2027-june-mock-15/",
+  "reviewStatus": "not_applicable",
+  "dataPeriod": null,
+  "dataAsOf": null,
+  "snapshotUpdatedAt": "2026-11-18",
+  "collectedAt": "2026-11-18T00:41:33.168Z",
+  "checkedAt": "2026-11-18T00:43:07.958Z",
+  "scope": "EBSi 제공 평가원 문제지의 공통 15번 조건·선택지, EBSi 정답표와 EBS 해설 판본 및 자체 계산·슬라이더 경계조건을 대조했습니다. 월간 통계 기준월은 비적용입니다.",
+  "sources": [
+    {
+      "title": "EBSi 2027학년도 6월 모의평가 공개 파일 목록",
+      "url": "https://www.ebsi.co.kr/ebs/xip/xipa/retrieveSCVMainInfo.ebs?irecord=202606043&targetCd=D300&cookieGradeVal=high3",
+      "artifact": "top.html",
+      "scope": "공개 페이지의 RetrieveSCVMainTop.ajax에서 수학 문제·정답·해설 파일 링크를 확인",
+      "kind": "official-source",
+      "sha256": "51132ed324f8e19bfd7c2be6754c8ab0cfbf03ef3e853a96cd0ee65cff089193",
+      "collectedAt": "2026-11-18T00:41:08.500Z",
+      "checkedAt": "2026-11-18T00:43:07.958Z"
+    },
+    {
+      "title": "평가원 수학 문제지 EBSi 제공본",
+      "url": "https://wdown.ebsi.co.kr/W61001/01exam/20260604/go3/math_main_mun_KKD67VZI.pdf",
+      "artifact": "problem.pdf",
+      "pages": 20,
+      "reviewedPages": [
+        1,
+        6
+      ],
+      "createdAt": "D:20260604104316+09'00'",
+      "modifiedAt": "D:20260604104327+09'00'",
+      "scope": "표제의 2027학년도 6월 모의평가·평가원 저작권 및 6쪽 공통 15번 조건과 선택지",
+      "kind": "official-source",
+      "sha256": "6812412952c426b2cd43b8a9a0eef92cb707811bd9264b525f583c7fc27d160a",
+      "collectedAt": "2026-11-18T00:40:24.407Z",
+      "checkedAt": "2026-11-18T00:43:07.958Z"
+    },
+    {
+      "title": "EBSi 수학 정답표",
+      "url": "https://wdown.ebsi.co.kr/W61001/01exam/20260604/go3/math_main_ans_72L55CJ3.png",
+      "artifact": "answer.png",
+      "scope": "공통 15번 정답 ④",
+      "kind": "official-source",
+      "sha256": "44c6ab0f5c765240dcc641217f1d9432424716383b5d6804c06a8118c671d788",
+      "collectedAt": "2026-11-18T00:41:32.837Z",
+      "checkedAt": "2026-11-18T00:43:07.958Z"
+    },
+    {
+      "title": "EBS 수학 정답 및 풀이",
+      "url": "https://wdown.ebsi.co.kr/W61001/01exam/20260604/go3/math_main_hsj_2968RL64.pdf",
+      "artifact": "solution.pdf",
+      "pages": 25,
+      "reviewedPages": [
+        1,
+        5,
+        6
+      ],
+      "createdAt": "D:20260604231050+09'00'",
+      "modifiedAt": "D:20260604231050+09'00'",
+      "scope": "1쪽 공통 정답표 15번 ④, 5~6쪽 15번 풀이와 계수·함숫값",
+      "kind": "official-source",
+      "sha256": "7a7e3aac175586c6901ee18002938038974b138758e53ce474da1fb484b0cb48",
+      "collectedAt": "2026-11-18T00:41:33.168Z",
+      "checkedAt": "2026-11-18T00:43:07.958Z"
+    }
+  ],
+  "findings": [
+    {
+      "topic": "문항 조건과 선택지",
+      "finding": "EBSi에서 제공하는 평가원 문제지 6쪽의 상수항 0, 두 정적분 조건, p의 열린 구간 (0,3), q의 열린 구간 (0,1), 구할 값 f(6)를 대조했습니다. 선택지는 18·21·24·27·30이며 ④가 27입니다."
+    },
+    {
+      "topic": "정답과 풀이",
+      "finding": "EBSi 정답 이미지와 EBS 정답·풀이 1쪽의 공통 15번은 모두 ④입니다. 해설 5~6쪽의 f(x)=x²(x−3)/4, 최솟값 −1, f(6)=27이 게시 풀이와 일치합니다."
+    },
+    {
+      "topic": "자료 판본과 적용 시점",
+      "finding": "자료는 2026년 6월 4일 시행한 2027학년도 6월 모의평가입니다. PDF 생성·수정 표기는 6월 4일이며 실제 게시일은 미확인입니다. 학년도별 교육 자료의 월간 통계 기준월은 비적용입니다."
+    }
+  ],
+  "verification": {
+    "question": 15,
+    "admissionYear": 2027,
+    "examDate": "2026-06-04",
+    "choices": [
+      18,
+      21,
+      24,
+      27,
+      30
+    ],
+    "answerIndex": 4,
+    "answer": 27,
+    "function": "x^2*(x-3)/4",
+    "pRange": {
+      "lower": 0,
+      "upper": 3,
+      "open": true
+    },
+    "qRange": {
+      "lower": 0,
+      "upper": 1,
+      "open": true
+    },
+    "minimum": {
+      "x": 2,
+      "value": -1
+    },
+    "extractionEngines": [
+      "pypdf",
+      "pypdfium2"
+    ],
+    "visualReview": [
+      "problem page 6",
+      "answer image",
+      "solution pages 1,5,6"
+    ],
+    "sourcePublisher": "한국교육과정평가원 문제지 / EBSi 제공",
+    "answerPublisher": "EBSi / EBS",
+    "monthlyReference": "not_applicable"
+  },
+  "limitations": [
+    {
+      "url": "https://cdn2.kice.re.kr/suneung27mo06/index.html",
+      "reason": "기존 평가원 CDN은 HTTP 404. EBSi 공식 제공 파일로 대조함."
+    },
+    {
+      "url": "https://www.moe.go.kr/boardCnts/viewRenew.do?boardID=294&boardSeq=106462&lev=0&m=020402&opType=N&page=1&s=moe&searchType=null&statusYN=W",
+      "reason": "현재 요청은 유효하지 않은 페이지 안내. 과거 대조 기록 보존, 이번 대조 근거에 포함하지 않음."
+    },
+    {
+      "reason": "PDF 생성·수정일은 파일 메타데이터이며 실제 게시일은 미확인. 평가원 별도 최종 정답 파일의 직접 다운로드는 미확인."
+    }
+  ],
+  "nextAction": "공식 문제지 개정 또는 EBSi 정답 수정이 있을 때 해당 15번을 재대조합니다."
+}

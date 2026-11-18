@@ -6026,16 +6026,16 @@
     },
     {
       "source": {
-        "label": "공식 원문·저자 원고·직접 계산 (대조 범위 참조)",
-        "url": "https://www.moe.go.kr/boardCnts/viewRenew.do?boardID=294&boardSeq=106462&lev=0&m=020402&opType=N&page=1&s=moe&searchType=null&statusYN=W",
-        "verification": "partially_verified"
+        "label": "평가원 문제지 EBSi 제공본 · EBSi 정답·EBS 풀이",
+        "url": "https://wdown.ebsi.co.kr/W61001/01exam/20260604/go3/math_main_mun_KKD67VZI.pdf",
+        "verification": "verified"
       },
       "dataAsOf": null,
       "dataPeriod": null,
-      "snapshotUpdatedAt": "2026-10-20",
-      "collectedAt": null,
-      "checkedAt": "2026-10-20T01:16:40.879603+00:00",
-      "reviewStatus": "needs_review",
+      "snapshotUpdatedAt": "2026-11-18",
+      "collectedAt": "2026-11-18T00:41:33.168Z",
+      "checkedAt": "2026-11-18T00:43:07.958Z",
+      "reviewStatus": "not_applicable",
       "freshness": "not_applicable",
       "evidence": [
         {
@@ -6062,11 +6062,42 @@
           "checkedAt": "2026-10-20T01:12:34.743735+00:00",
           "sha256": "2ebf61a2cf5052a9129210c785aa9e821088303400f5d8b87cad561df51179f3",
           "scope": "교육부 2026-06-16 이의심사 발표는 확인. 6월4일 회차의 기존 재구성 조건만 자체 계산으로 검산(27). 원 CDN 404로 공식 문제·정답표의 재대조는 대기."
+        },
+        {
+          "kind": "audit-record",
+          "url": "/research/source-reviews/2026-11-18-june-mock-15.json",
+          "checkedAt": "2026-11-18T00:43:07.958Z"
+        },
+        {
+          "kind": "official-source",
+          "url": "https://www.ebsi.co.kr/ebs/xip/xipa/retrieveSCVMainInfo.ebs?irecord=202606043&targetCd=D300&cookieGradeVal=high3",
+          "scope": "공개 페이지의 RetrieveSCVMainTop.ajax에서 수학 문제·정답·해설 파일 링크를 확인",
+          "sha256": "51132ed324f8e19bfd7c2be6754c8ab0cfbf03ef3e853a96cd0ee65cff089193",
+          "checkedAt": "2026-11-18T00:43:07.958Z"
+        },
+        {
+          "kind": "official-source",
+          "url": "https://wdown.ebsi.co.kr/W61001/01exam/20260604/go3/math_main_mun_KKD67VZI.pdf",
+          "scope": "표제의 2027학년도 6월 모의평가·평가원 저작권 및 6쪽 공통 15번 조건과 선택지",
+          "sha256": "6812412952c426b2cd43b8a9a0eef92cb707811bd9264b525f583c7fc27d160a",
+          "checkedAt": "2026-11-18T00:43:07.958Z"
+        },
+        {
+          "kind": "official-source",
+          "url": "https://wdown.ebsi.co.kr/W61001/01exam/20260604/go3/math_main_ans_72L55CJ3.png",
+          "scope": "공통 15번 정답 ④",
+          "sha256": "44c6ab0f5c765240dcc641217f1d9432424716383b5d6804c06a8118c671d788",
+          "checkedAt": "2026-11-18T00:43:07.958Z"
+        },
+        {
+          "kind": "official-source",
+          "url": "https://wdown.ebsi.co.kr/W61001/01exam/20260604/go3/math_main_hsj_2968RL64.pdf",
+          "scope": "1쪽 공통 정답표 15번 ④, 5~6쪽 15번 풀이와 계수·함숫값",
+          "sha256": "7a7e3aac175586c6901ee18002938038974b138758e53ce474da1fb484b0cb48",
+          "checkedAt": "2026-11-18T00:43:07.958Z"
         }
       ],
-      "issues": [
-        "평가원 현행 자료실의 실제 수학 문제·정답표를 확보한 뒤 15번 조건·선택지와 대조. 자체 계산의 일치로 원문 검증을 대체하지 않음."
-      ],
+      "issues": [],
       "key": "/research/math/2027-june-mock-15/",
       "url": "/research/math/2027-june-mock-15/",
       "title": "2027학년도 6월 평가원 수학 15번",
