@@ -2747,10 +2747,23 @@
           "outcome": "officially_distributed_problem_choices_and_ebs_answer_compared_monthly_not_applicable",
           "release": {
             "branch": "codex/mock-source-20261118",
-            "status": "awaiting_checks",
+            "status": "verified",
             "liveUrl": "https://www.stargateedu.co.kr/research/math/2027-june-mock-15/",
             "sourceReviewUrl": "https://www.stargateedu.co.kr/research/source-reviews/2026-11-18-june-mock-15.json",
-            "pullRequest": "https://github.com/DongsooJung/dongsoojung.github.io/pull/303"
+            "pullRequest": "https://github.com/DongsooJung/dongsoojung.github.io/pull/303",
+            "commit": "5c0287202bd1a04f88e68b6295186f59955c6c7b",
+            "pagesRun": "https://github.com/DongsooJung/dongsoojung.github.io/actions/runs/44210740561",
+            "verifiedAt": "2026-11-18T00:49:45.559Z",
+            "pullRequestHead": "fc357830c176566ee97bb82a7e042b1d8ab5707e",
+            "checks": [
+              "Exact pull request commit passed CodeQL and preview checks",
+              "Merged commit passed Pages build, report and deploy",
+              "Five public files match source on both live domains",
+              "66 unique projects, seven alphabetical filters and seven separate essays",
+              "15 regression tests and 14 slider boundary cases passed",
+              "EBSi problem page 6, answer image, EBS solution pages 1,5,6 reviewed",
+              "Two PDF companions passed text and visual review"
+            ]
           }
         }
       ],
