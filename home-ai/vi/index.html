@@ -56,4 +56,5 @@
 <script>
 (function(){var n=new Intl.NumberFormat("vi-VN",{style:"currency",currency:"KRW",maximumFractionDigits:0});function update(){var v=["deposit","rent","fee"].map(function(id){return Number(document.getElementById(id).value)});var ok=v.every(function(x){return Number.isFinite(x)&&x>=0&&x<=1e11});document.getElementById("first-output").textContent=ok?n.format(v[0]+v[1]+v[2]):"—";document.getElementById("year-output").textContent=ok?n.format(12*(v[1]+v[2])):"—"}document.getElementById("rent-form").addEventListener("input",update);update()})();
 </script>
+<script src="/assets/inquiry-source.js?v=20261118-inquiry-1" defer></script>
 </body></html>

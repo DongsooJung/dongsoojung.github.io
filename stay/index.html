@@ -622,11 +622,12 @@
             if (!win) location.href = payUrl;
             return;
           }
-          const subject = encodeURIComponent(`Guide purchase · ${name} · $${price}`);
-          const body = encodeURIComponent(
-            `Hi Daechi Stay,\n\nI'd like to buy: ${name} ($${price} USD).\nPreferred delivery email: \nPromo code (if any): STAYGUEST\n\nThanks!`
-          );
-          location.href = `mailto:${GUIDE_MAIL}?subject=${subject}&body=${body}`;
+          const subject = `Guide purchase · ${name} · $${price}`;
+          const body = `Hi Daechi Stay,\n\nI'd like to buy: ${name} ($${price} USD).\nPreferred delivery email: \nPromo code (if any): STAYGUEST\n\nThanks!`;
+          window.StargateInquiry?.track('email', '', 'Daechi Stay guide purchase');
+          location.href = window.StargateInquiry
+            ? window.StargateInquiry.mailto(GUIDE_MAIL, subject, body)
+            : `mailto:${GUIDE_MAIL}?subject=${encodeURIComponent(`${subject} | src:${location.pathname || '/stay/'}`)}&body=${encodeURIComponent(`${body}\n\n문의 경로: https://www.stargateedu.co.kr${location.pathname || '/stay/'}`)}`;
         });
       });
 
@@ -637,13 +638,15 @@
           guests: data.get("guests"),
           guide: data.get("guide")
         });
-        const subject = encodeURIComponent("Daechi Stay availability request");
-        const body = encodeURIComponent(
-          `Arrival: ${data.get("arrival")}\nDeparture: ${data.get("departure")}\nGuests: ${data.get("guests")}\nGuide preference: ${data.get("guide")}\n\n${data.get("message") || ""}`
-        );
-        location.href = `mailto:${GUIDE_MAIL}?subject=${subject}&body=${body}`;
+        const subject = "Daechi Stay availability request";
+        const body = `Arrival: ${data.get("arrival")}\nDeparture: ${data.get("departure")}\nGuests: ${data.get("guests")}\nGuide preference: ${data.get("guide")}\n\n${data.get("message") || ""}`;
+        window.StargateInquiry?.track('email', '', 'Daechi Stay availability');
+        location.href = window.StargateInquiry
+          ? window.StargateInquiry.mailto(GUIDE_MAIL, subject, body)
+          : `mailto:${GUIDE_MAIL}?subject=${encodeURIComponent(`${subject} | src:${location.pathname || '/stay/'}`)}&body=${encodeURIComponent(`${body}\n\n문의 경로: https://www.stargateedu.co.kr${location.pathname || '/stay/'}`)}`;
       });
     })();
   </script>
+<script src="/assets/inquiry-source.js?v=20261118-inquiry-1" defer></script>
 </body>
 </html>
