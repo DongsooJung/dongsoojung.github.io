@@ -54,10 +54,22 @@
     const subject = url.searchParams.get('subject') || '';
     const body = url.searchParams.get('body') || '';
     const line = sourceLine(page);
-    if (subject.includes(marker) && body.includes(line)) return href;
     if (!subject.includes(marker)) url.searchParams.set('subject', subject ? `${subject} | ${marker}` : `문의 | ${marker}`);
     if (!body.includes(line)) url.searchParams.set('body', body ? `${body}\n\n${line}` : line);
-    return url.toString();
+    // mailto 쿼리는 RFC 6068에 따라 공백을 %20으로 둡니다. URLSearchParams의 +는 일부 메일 앱에 글자로 보입니다.
+    const next = encodeMailto(url);
+    return next === href ? href : next;
+  }
+
+  function encodeMailto(url) {
+    const seen = new Set();
+    const parts = [];
+    for (const key of url.searchParams.keys()) {
+      if (seen.has(key)) continue;
+      seen.add(key);
+      for (const value of url.searchParams.getAll(key)) parts.push(`${encodeURIComponent(key)}=${encodeURIComponent(value)}`);
+    }
+    return parts.length ? `mailto:${url.pathname}?${parts.join('&')}` : `mailto:${url.pathname}`;
   }
 
   function mailto(address, subject, body, page = pagePath()) {

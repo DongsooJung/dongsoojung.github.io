@@ -134,6 +134,8 @@ test('plain mailto and unencoded subjects stay readable', () => {
   env.context.window.StargateInquiry.decorate();
   const plainUrl = new URL(plain.getAttribute('href'));
   assert.equal(plainUrl.searchParams.get('subject'), '문의 | src:/koi-coach/');
+  assert.match(plain.getAttribute('href'), /subject=%EB%AC%B8%EC%9D%98%20%7C%20src%3A%2Fkoi-coach%2F/);
+  assert.doesNotMatch(plain.getAttribute('href'), /\+/);
   const rawUrl = new URL(raw.getAttribute('href'));
   assert.equal(rawUrl.searchParams.get('subject'), 'KOI Coach 사전신청 | src:/koi-coach/');
   assert.match(rawUrl.searchParams.get('body'), /^안녕하세요\n\n문의 경로: https:\/\/www\.stargateedu\.co\.kr\/koi-coach\/$/);
@@ -231,5 +233,7 @@ test('dynamic mailto helper used by the stay form includes the page', () => {
   const url = new URL(href);
   assert.equal(url.pathname, 'support@stargateedu.co.kr');
   assert.equal(url.searchParams.get('subject'), 'Daechi Stay availability request | src:/stay/');
+  assert.match(href, /Daechi%20Stay%20availability%20request%20%7C%20src%3A%2Fstay%2F/);
+  assert.doesNotMatch(href, /\+/);
   assert.match(url.searchParams.get('body'), /Arrival: Friday\n\n문의 경로: https:\/\/www\.stargateedu\.co\.kr\/stay\//);
 });
