@@ -1,0 +1,54 @@
+name: Update factory pipeline freshness
+
+# /factory/ 와 /monitor/ 03 섹션이 읽는 factory/data/freshness.json 을 갱신합니다.
+# 3시간마다 :45 에 돕니다. 페이지는 받은 시각 기준으로 경과시간을 다시 계산합니다.
+on:
+  schedule:
+    - cron: '45 */3 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  actions: read
+
+concurrency:
+  group: update-factory-freshness
+  cancel-in-progress: true
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Fetch 45 days of history for commit-cadence
+        run: git fetch --shallow-since="$(date -u -d '50 days ago' +%F)" origin main
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - run: pip install croniter==7.0.0
+
+      - name: Check freshness
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python scripts/factory/pipeline_freshness.py
+
+      - name: Commit
+        run: |
+          git config user.name "stargate-data-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add factory/data/freshness.json
+          if git diff --cached --quiet; then
+            echo "no change"; exit 0
+          fi
+          git commit -m "data: update factory pipeline freshness"
+          for i in 1 2 3; do
+            git pull --rebase origin main && git push && exit 0
+            sleep $((i * 5))
+          done
+          exit 1
