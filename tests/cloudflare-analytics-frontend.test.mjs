@@ -110,6 +110,26 @@ test('other hosts keep existing Supabase analytics transport and visitor key', a
   assert.ok(!env.storage.has('stargateCloudflareVisitorV1:visitorId'));
 });
 
+test('inquiry clicks keep badge labels and record the channel beside the page', async () => {
+  const env = browser(cloudflareHost, {}, false, { get_site_button_click_counts: [
+    { element_label: '메일 문의', target_url: null, clicks: 2 },
+    { element_label: '메일 문의 · inquiry:email', target_url: null, clicks: 3 },
+  ]});
+  runInNewContext(read('assets/inquiry-source.js'), env.context);
+  runInNewContext(read('assets/usage-analytics.js'), env.context);
+  await env.context.window.StargateUsage.whenReady();
+  const anchor = new env.Anchor('mailto:hello@example.com');
+  anchor.dataset.analyticsLabel = '메일 문의';
+  assert.equal(env.context.window.StargateUsage.clickCountFor(anchor), 5);
+  env.listeners.get('click')({ isTrusted: true, target: anchor });
+  await settle();
+  const click = env.requests.findLast(row => row.url.endsWith('record_site_usage_event') && row.payload.p_event_type === 'click');
+  assert.equal(click.payload.p_element_label, '메일 문의 · inquiry:email');
+  assert.equal(click.payload.p_element_kind, 'link');
+  assert.equal(click.payload.p_page_path, '/');
+  assert.equal(click.payload.p_target_url, null);
+});
+
 test('Cloudflare usage loads and records locally, sharing the native visitor ID', async () => {
   const env = browser(cloudflareHost);
   runInNewContext(read('assets/visitor-counter.js'), env.context);

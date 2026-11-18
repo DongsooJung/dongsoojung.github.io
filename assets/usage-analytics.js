@@ -127,8 +127,27 @@
     return 'desktop';
   }
 
+  function bareLabel(label) {
+    return compact(String(label || '').replace(/ · inquiry:(kakao|email)$/u, ''), 160);
+  }
+
   function countKey(label, target) {
-    return `${label || ''}|${normalizeTarget(target) || ''}`;
+    return `${bareLabel(label) || ''}|${normalizeTarget(target) || ''}`;
+  }
+
+  function inquiryKind(element) {
+    try {
+      const href = element?.getAttribute?.('href') || element?.href || '';
+      return window.StargateInquiry?.kind(href) || null;
+    } catch (_) {
+      return null;
+    }
+  }
+
+  function recordedLabel(label, inquiry) {
+    if (!inquiry) return label;
+    const base = compact(label, 140) || inquiry;
+    return compact(`${base} · inquiry:${inquiry}`, 160);
   }
 
   function injectCountStyle() {
@@ -399,15 +418,16 @@
     if (!element || element.matches('[data-analytics-ignore]')) return;
 
     const label = elementLabel(element);
+    const inquiry = inquiryKind(element);
     const target = targetUrl(element);
     const kind = element.tagName.toLowerCase() === 'a' ? 'link' : 'button';
-    const key = `${pagePath()}|${kind}|${label || ''}|${target || ''}`;
+    const key = `${pagePath()}|${kind}|${label || ''}|${target || ''}|${inquiry || ''}`;
     const now = Date.now();
     if (lastClick.key === key && now - lastClick.at < 500) return;
     lastClick = { key, at: now };
 
     incrementVisibleCount(element);
-    record('click', { label, kind, target });
+    record('click', { label: recordedLabel(label, inquiry), kind, target });
   }, true);
 
   window.StargateUsage = {
