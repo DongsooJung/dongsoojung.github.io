@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "source": "OpenDART",
-  "updated_at": "2026-11-17T17:23:45+09:00",
+  "updated_at": "2026-11-18T16:52:32+09:00",
   "status": "ok",
   "financials": [
     {
@@ -10,6 +10,21 @@
       "corp_code": "01028322",
       "match": "unique_exact_name",
       "periods": [
+        {
+          "year": 2026,
+          "report_code": "11014",
+          "period": "2026 Q3",
+          "fs_div": "OFS",
+          "metrics": {
+            "revenue": 7502122818,
+            "operating_profit": -12461366495,
+            "net_income": -63113590300,
+            "assets": 310914989472,
+            "liabilities": 200920571151,
+            "equity": 109994418321
+          },
+          "source": "OpenDART fnlttSinglAcntAll"
+        },
         {
           "year": 2026,
           "report_code": "11012",
@@ -72,6 +87,21 @@
       "periods": [
         {
           "year": 2026,
+          "report_code": "11014",
+          "period": "2026 Q3",
+          "fs_div": "CFS",
+          "metrics": {
+            "revenue": 7187338000000,
+            "operating_profit": 368662000000,
+            "net_income": 105606000000,
+            "assets": 10707698000000,
+            "liabilities": 8545759000000,
+            "equity": 2161939000000
+          },
+          "source": "OpenDART fnlttSinglAcntAll"
+        },
+        {
+          "year": 2026,
           "report_code": "11012",
           "period": "2026 H1",
           "fs_div": "CFS",
@@ -123,6 +153,21 @@
       "corp_code": "00148665",
       "match": "unique_exact_name",
       "periods": [
+        {
+          "year": 2026,
+          "report_code": "11014",
+          "period": "2026 Q3",
+          "fs_div": "CFS",
+          "metrics": {
+            "revenue": 5301672309851,
+            "operating_profit": 84309074575,
+            "net_income": 64433926176,
+            "assets": 11567602429132,
+            "liabilities": 10191548565654,
+            "equity": 1376053863478
+          },
+          "source": "OpenDART fnlttSinglAcntAll"
+        },
         {
           "year": 2026,
           "report_code": "11012",
@@ -178,6 +223,21 @@
       "periods": [
         {
           "year": 2026,
+          "report_code": "11014",
+          "period": "2026 Q3",
+          "fs_div": "CFS",
+          "metrics": {
+            "revenue": 584966396651,
+            "operating_profit": 90441328321,
+            "net_income": 62375469324,
+            "assets": 904797267305,
+            "liabilities": 224448171197,
+            "equity": 680349096108
+          },
+          "source": "OpenDART fnlttSinglAcntAll"
+        },
+        {
+          "year": 2026,
           "report_code": "11012",
           "period": "2026 H1",
           "fs_div": "CFS",
@@ -225,6 +285,38 @@
     }
   ],
   "equity_filings": [
+    {
+      "name": "우리투자증권",
+      "report": "증권신고서(채무증권)",
+      "received": "20261118",
+      "rcept_no": "20261118000270",
+      "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20261118000270",
+      "stage": "equity_filing_not_ipo_confirmation"
+    },
+    {
+      "name": "한국증권금융",
+      "report": "[기재정정]일괄신고서",
+      "received": "20261118",
+      "rcept_no": "20261118000251",
+      "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20261118000251",
+      "stage": "equity_filing_not_ipo_confirmation"
+    },
+    {
+      "name": "인터엑스",
+      "report": "[기재정정]증권신고서(지분증권)",
+      "received": "20261118",
+      "rcept_no": "20261118000136",
+      "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20261118000136",
+      "stage": "equity_filing_not_ipo_confirmation"
+    },
+    {
+      "name": "아델",
+      "report": "투자설명서",
+      "received": "20261118",
+      "rcept_no": "20261118000024",
+      "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20261118000024",
+      "stage": "equity_filing_not_ipo_confirmation"
+    },
     {
       "name": "엠디에스코리아",
       "report": "증권신고서(지분증권)",
@@ -992,43 +1084,11 @@
       "rcept_no": "20261113001454",
       "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20261113001454",
       "stage": "equity_filing_not_ipo_confirmation"
-    },
-    {
-      "name": "한국스탠다드차타드은행",
-      "report": "[기재정정]일괄신고서",
-      "received": "20261113",
-      "rcept_no": "20261113001562",
-      "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20261113001562",
-      "stage": "equity_filing_not_ipo_confirmation"
-    },
-    {
-      "name": "한국투자증권",
-      "report": "[기재정정]일괄신고서(파생결합사채-주가연계파생결합사채)",
-      "received": "20261113",
-      "rcept_no": "20261113001449",
-      "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20261113001449",
-      "stage": "equity_filing_not_ipo_confirmation"
-    },
-    {
-      "name": "하나증권",
-      "report": "[기재정정]일괄신고서(파생결합증권-상장지수증권)",
-      "received": "20261113",
-      "rcept_no": "20261113001556",
-      "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20261113001556",
-      "stage": "equity_filing_not_ipo_confirmation"
-    },
-    {
-      "name": "한국투자증권",
-      "report": "[기재정정]일괄신고서(파생결합증권-주가연계증권)",
-      "received": "20261113",
-      "rcept_no": "20261113001466",
-      "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20261113001466",
-      "stage": "equity_filing_not_ipo_confirmation"
     }
   ],
   "equity_window": {
-    "start": "2026-09-18",
-    "end": "2026-11-17"
+    "start": "2026-09-19",
+    "end": "2026-11-18"
   },
   "notes": [
     "Only unique exact corporate-name matches are linked; stock codes alone cannot identify DART corp_code.",
