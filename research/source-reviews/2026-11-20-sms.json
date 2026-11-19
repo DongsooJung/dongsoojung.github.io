@@ -1,0 +1,349 @@
+{
+  "schemaVersion": 1,
+  "project": "/sms/",
+  "checkedAt": "2026-11-19T15:06:57.806Z",
+  "collectedAt": "2026-11-19T15:05:00.176854+00:00",
+  "reportUpdatedAt": "2026-11-20",
+  "snapshotUpdatedAt": null,
+  "dataPeriod": null,
+  "dataAsOf": null,
+  "reviewStatus": "needs_review",
+  "monthlyReference": {
+    "status": "not_applicable",
+    "reason": "운영 도구의 공개 연결·문서 및 구현 범위를 검토하며 월별 통계가 아닙니다."
+  },
+  "scope": "SOLAPI 공식 API 문서 4건, 포털→Workers 실제 연결, 공개 health·세션 상태, 포털 조회 구현의 페이지 범위를 대조했습니다. 발송·고객 조회·설정 변경은 수행하지 않았습니다.",
+  "reportUrl": "/sms/operations-review/",
+  "sources": [
+    {
+      "id": "active-doc",
+      "title": "활성화된 발신번호 목록 조회",
+      "version": "Version 1",
+      "modifiedAt": "2026-03-25",
+      "scope": "GET /senderid/v1/numbers/active는 ACTIVE 발신번호 객체 배열을 반환",
+      "kind": "official-source",
+      "url": "https://solapi.com/developers/api/managementSenderid-getActiveSenderids",
+      "sha256": "5c0941982470108bac32602cde5ab93e223feaf8233df95a350010fb4d36b4d0",
+      "collectedAt": "2026-11-19T15:04:57.756162+00:00",
+      "checkedAt": "2026-11-19T15:06:57.806Z"
+    },
+    {
+      "id": "list-doc",
+      "title": "메시지 목록 조회",
+      "version": "Version 4",
+      "modifiedAt": "2026-03-25",
+      "scope": "GET /messages/v4/list의 상태코드·생성/갱신일 필터, limit 1~500 및 nextKey/startKey 페이지네이션",
+      "kind": "official-source",
+      "url": "https://solapi.com/developers/api/msg-getList",
+      "sha256": "6f0db089e7cb90811c02789fba664c8444eeb32e92fe2dce23805be95322dfae",
+      "collectedAt": "2026-11-19T15:04:58.189700+00:00",
+      "checkedAt": "2026-11-19T15:06:57.806Z"
+    },
+    {
+      "id": "codes-doc",
+      "title": "메시지 목록 페이지 안내",
+      "modifiedAt": null,
+      "scope": "접수·대기·전송 중과 최종 발송완료 4000의 구분",
+      "kind": "official-source",
+      "url": "https://solapi.com/message-status-codes",
+      "sha256": "18b02858293bb7354e2b7cbcb61ef00305d0bf54346a722b7c2f0f8828340c40",
+      "collectedAt": "2026-11-19T15:04:58.375090+00:00",
+      "checkedAt": "2026-11-19T15:06:57.806Z"
+    },
+    {
+      "id": "send-doc",
+      "title": "메시지 발송",
+      "version": "Version 4",
+      "modifiedAt": "2026-09-17",
+      "scope": "POST /messages/v4/send-many/detail과 등록 발신번호 요건. 메시지 보관기간은 2026-08-20 생성 기준 전후 6/12개월로 구분",
+      "kind": "official-source",
+      "url": "https://solapi.com/developers/api/messages",
+      "sha256": "9bcbb6762fb586c14514e6654576017c37869de09291f2df6ff6c7606c96f941",
+      "collectedAt": "2026-11-19T15:04:58.922575+00:00",
+      "checkedAt": "2026-11-19T15:06:57.806Z"
+    }
+  ],
+  "findings": [
+    {
+      "topic": "실제 연결 주소",
+      "finding": "두 포털 도메인의 /sms/는 브라우저에서 Workers 문자 콘솔로 이동했습니다. 문자 화면·crm.js·business.js는 브라우저에서 HTTP 200이며 페이지 오류는 0개였습니다. 콘솔의 기존 대조 영역 숨김은 유지합니다."
+    },
+    {
+      "topic": "현재 공개 상태",
+      "finding": "2026-11-20 KST 공개 GET /api/sms는 HTTP 200, configured:true, mode:live이지만 senderVerified:false이며 활성 발신번호 등록 필요를 반환했습니다. 원인이나 등록 해제 여부는 미확인입니다. 운영자가 SOLAPI의 실제 활성 발신번호 상태를 확인해야 합니다."
+    },
+    {
+      "topic": "인증·카카오 연결",
+      "finding": "인증정보 없이 GET /api/sms/session은 signedIn:false입니다. 카카오 health의 skillConfigured와 aiBinding은 true, channelDeployment는 not_verified입니다. 이 값은 승인 템플릿·채널 배포·실제 수신을 증명하지 않습니다."
+    },
+    {
+      "topic": "조회 범위",
+      "finding": "포털 구현의 /api/sms/reports는 SOLAPI 목록 최대 50건과 nextKey만 반환하며 다음 페이지를 자동 조회하지 않습니다. 화면의 자체 발송 요청 기록은 최근 200개입니다. 두 기록은 범위와 의미가 다르며 전체 발송 수·전달률·과금 합계로 사용할 수 없습니다."
+    },
+    {
+      "topic": "접수와 전달·보관 기간",
+      "finding": "SOLAPI 공식 안내의 최종 발송완료 코드는 4000입니다. HTTP 200 또는 접수 성공을 수신 완료로 집계하지 않습니다. 공급자 발송 내역 보관은 생성일 2026-08-20 전 6개월, 이후 12개월이며 이 도구의 자체 기록 200개와 구분합니다."
+    },
+    {
+      "topic": "직접 HTTP 접근과 브라우저",
+      "finding": "직접 HTTP 요청의 고객·문구·기록·결과 및 JS 경로는 403이었지만 브라우저의 JS 요청은 200이었습니다. 이 차이를 인증 정책 전체의 성공·실패로 단정하지 않습니다. 고객 데이터·잔액·발송 결과 원문은 이번 범위에서 조회하지 않았습니다."
+    }
+  ],
+  "observations": [
+    {
+      "id": "worker-page",
+      "url": "https://stargate.stargate8225.workers.dev/sms/",
+      "finalUrl": "https://stargate.stargate8225.workers.dev/sms/",
+      "status": 200,
+      "checkedAt": "2026-11-19T15:03:44.913228+00:00",
+      "sha256": "543462947c64fb6dfb25c8e1c5f461715ae7b21544323e4afda19a5a720234cb",
+      "bytes": 37393,
+      "lastModified": null,
+      "contentType": "text/html"
+    },
+    {
+      "id": "worker-health",
+      "url": "https://stargate.stargate8225.workers.dev/api/sms",
+      "finalUrl": "https://stargate.stargate8225.workers.dev/api/sms",
+      "status": 200,
+      "checkedAt": "2026-11-19T15:03:45.783061+00:00",
+      "sha256": "4d6268630cff89b2931140d703d90c4f35a4d5d9a924c6515405899176062a45",
+      "bytes": 168,
+      "lastModified": null,
+      "contentType": "application/json",
+      "fields": [
+        "ok",
+        "configured",
+        "mode",
+        "senderVerified",
+        "checkedAt",
+        "message"
+      ],
+      "publicStatus": {
+        "ok": true,
+        "configured": true,
+        "mode": "live",
+        "senderVerified": false,
+        "checkedAt": "2026-11-19T15:03:44.000Z"
+      }
+    },
+    {
+      "id": "worker-session",
+      "url": "https://stargate.stargate8225.workers.dev/api/sms/session",
+      "finalUrl": "https://stargate.stargate8225.workers.dev/api/sms/session",
+      "status": 200,
+      "checkedAt": "2026-11-19T15:03:46.063697+00:00",
+      "sha256": "ef2565f3414c99f6fb818e098a6275c43a6889ec41d4601dc1dedb44623127e5",
+      "bytes": 28,
+      "lastModified": null,
+      "contentType": "application/json",
+      "fields": [
+        "ok",
+        "signedIn"
+      ],
+      "publicStatus": {
+        "ok": true,
+        "signedIn": false
+      }
+    },
+    {
+      "id": "www-entry",
+      "url": "https://www.stargateedu.co.kr/sms/",
+      "finalUrl": "https://stargateedu.co.kr/sms/",
+      "status": 200,
+      "checkedAt": "2026-11-19T15:03:46.789290+00:00",
+      "sha256": "2ec5926d17f5fcd2440eed5a329e2f9aa01115d1746058543dfcafb86be2a044",
+      "bytes": 37263,
+      "lastModified": "Thu, 19 Nov 2026 08:07:34 GMT",
+      "contentType": "text/html; charset=utf-8"
+    },
+    {
+      "id": "bare-entry",
+      "url": "https://stargateedu.co.kr/sms/",
+      "finalUrl": "https://stargateedu.co.kr/sms/",
+      "status": 200,
+      "checkedAt": "2026-11-19T15:03:46.872390+00:00",
+      "sha256": "2ec5926d17f5fcd2440eed5a329e2f9aa01115d1746058543dfcafb86be2a044",
+      "bytes": 37263,
+      "lastModified": "Thu, 19 Nov 2026 08:07:34 GMT",
+      "contentType": "text/html; charset=utf-8"
+    },
+    {
+      "id": "worker-chat-health",
+      "url": "https://stargate.stargate8225.workers.dev/api/kakao/health",
+      "finalUrl": "https://stargate.stargate8225.workers.dev/api/kakao/health",
+      "status": 200,
+      "checkedAt": "2026-11-19T15:03:47.455891+00:00",
+      "sha256": "408d7738bf19dbfcf7134696de3f0f661f7ef479d2f3dc5fbbd9ba101c7a310f",
+      "bytes": 248,
+      "lastModified": null,
+      "contentType": "application/json",
+      "fields": [
+        "ok",
+        "channel",
+        "skillConfigured",
+        "aiBinding",
+        "channelDeployment"
+      ],
+      "publicStatus": {
+        "ok": true
+      }
+    }
+  ],
+  "browser": {
+    "finalUrl": "https://stargate.stargate8225.workers.dev/sms/",
+    "writes": [
+      {
+        "path": "/api/analytics/record_site_usage_event",
+        "method": "POST"
+      }
+    ],
+    "res": [
+      {
+        "path": "/sms/crm.js",
+        "status": 200
+      },
+      {
+        "path": "/sms/business.js",
+        "status": 200
+      },
+      {
+        "path": "/sms/crm.js",
+        "status": 200
+      },
+      {
+        "path": "/sms/business.js",
+        "status": 200
+      },
+      {
+        "path": "/api/sms",
+        "status": 200
+      }
+    ],
+    "errors": [],
+    "checkedAt": "2026-11-19T15:06:57.806Z",
+    "blockedWrites": [
+      {
+        "path": "/api/analytics/record_site_usage_event",
+        "method": "POST"
+      }
+    ],
+    "executedWrites": 0
+  },
+  "directHttpObservations": [
+    {
+      "id": "contacts",
+      "url": "https://stargate.stargate8225.workers.dev/api/sms/contacts",
+      "status": 403,
+      "checkedAt": "2026-11-19T15:04:59.084328+00:00",
+      "sha256": "2938e9f1284180959e33ab1718d0793a72ff6e4cdb8108c34dcd14e69446de5c",
+      "bytes": 17,
+      "lastModified": null
+    },
+    {
+      "id": "templates",
+      "url": "https://stargate.stargate8225.workers.dev/api/sms/templates",
+      "status": 403,
+      "checkedAt": "2026-11-19T15:04:59.326624+00:00",
+      "sha256": "2938e9f1284180959e33ab1718d0793a72ff6e4cdb8108c34dcd14e69446de5c",
+      "bytes": 17,
+      "lastModified": null
+    },
+    {
+      "id": "history",
+      "url": "https://stargate.stargate8225.workers.dev/api/sms/history",
+      "status": 403,
+      "checkedAt": "2026-11-19T15:04:59.514078+00:00",
+      "sha256": "2938e9f1284180959e33ab1718d0793a72ff6e4cdb8108c34dcd14e69446de5c",
+      "bytes": 17,
+      "lastModified": null
+    },
+    {
+      "id": "reports",
+      "url": "https://stargate.stargate8225.workers.dev/api/sms/reports",
+      "status": 403,
+      "checkedAt": "2026-11-19T15:04:59.775491+00:00",
+      "sha256": "2938e9f1284180959e33ab1718d0793a72ff6e4cdb8108c34dcd14e69446de5c",
+      "bytes": 17,
+      "lastModified": null
+    },
+    {
+      "id": "crm",
+      "url": "https://stargate.stargate8225.workers.dev/sms/crm.js",
+      "status": 403,
+      "checkedAt": "2026-11-19T15:04:59.966990+00:00",
+      "sha256": "2938e9f1284180959e33ab1718d0793a72ff6e4cdb8108c34dcd14e69446de5c",
+      "bytes": 17,
+      "lastModified": null,
+      "matchesPortalImplementation": null
+    },
+    {
+      "id": "business",
+      "url": "https://stargate.stargate8225.workers.dev/sms/business.js",
+      "status": 403,
+      "checkedAt": "2026-11-19T15:05:00.176854+00:00",
+      "sha256": "2938e9f1284180959e33ab1718d0793a72ff6e4cdb8108c34dcd14e69446de5c",
+      "bytes": 17,
+      "lastModified": null,
+      "matchesPortalImplementation": null
+    }
+  ],
+  "implementation": {
+    "baseCommit": "d5a3ce0e6b537a1f52fc7468fa3b5652d29adcf8",
+    "reviewedFiles": [
+      {
+        "file": "sms/index.html",
+        "sha256": "6cfd88545a76900be061d49a60c0c743c22a8a1510270753823b3facf5209338"
+      },
+      {
+        "file": "sms/crm.js",
+        "sha256": "6194745569c2a9bd382c475d4c54191f5179c5f92cb5f2285d0342a28d44d34a"
+      },
+      {
+        "file": "sms/business.js",
+        "sha256": "613ec32638c5484fdae67937e6e6624752b5de9963dd0c61545a2aa26694e6d6"
+      },
+      {
+        "file": "server/sms/handler.mjs",
+        "sha256": "67d0e302e44237dda81566ea89da716c751b05b535e2072c20029e215bb09d37"
+      },
+      {
+        "file": "server/sms/status.mjs",
+        "sha256": "8ea48bf70e23f3d7d5a766f2bd370999e547333261383981265d4262d0c02584"
+      },
+      {
+        "file": "server/sms/service.mjs",
+        "sha256": "b9f2fb69e058d6b05b9f4a24b0e9864efb084c84b395a4a32c420ec9baf43909"
+      },
+      {
+        "file": "server/sms/chatbot.mjs",
+        "sha256": "a79ebb6994da9fceff4418b69f027fb749b93b48cedd9c52d5b583fe556ef0c5"
+      },
+      {
+        "file": "server/sms/crm.mjs",
+        "sha256": "d2859c33a81804f10617bc43a38348e06c515eb473342ef8689aa8eb16501f53"
+      },
+      {
+        "file": "cloudflare/worker.mjs",
+        "sha256": "b1ac2a583f7f19d52d90e53a9250ca42f722be44b40069040e44bd51d51c5d56"
+      },
+      {
+        "file": "cloudflare/routes.mjs",
+        "sha256": "955830abe2c60d80ec51bf3f8482c30846df19fb957193fa1f4ab4a038a7469e"
+      }
+    ],
+    "deploymentVersion": "unconfirmed",
+    "reportLimit": 50,
+    "reportPagination": "nextKey returned; no startKey request forwarding in reviewed implementation",
+    "localRequestHistoryLimit": 200,
+    "healthCacheSeconds": 60,
+    "scope": "최신 포털 저장 소스의 구현 범위입니다. 실제 Worker 서버 배포 버전과의 동일성은 미확인입니다."
+  },
+  "limitations": [
+    "senderVerified:false의 원인은 미확인입니다. 등록 해제·공급자 장애로 단정하지 않습니다.",
+    "운영 서버 배포 버전·인증된 기록 페이지 전수·고객 데이터·잔액·과금·최종 수신 결과는 미확인입니다.",
+    "카카오 채널·템플릿의 과거 확인 기록은 이번 실시간 승인 상태의 증거로 재사용하지 않습니다.",
+    "브라우저 방문 기록 POST는 차단했고 실제 발송·설정·고객 데이터 쓰기는 0건입니다."
+  ],
+  "nextAction": "운영자가 SOLAPI 활성 발신번호 상태를 확인한 뒤 기존 승인 환경에서 서버 배포 버전·인증과 조회 페이지 범위를 대조합니다. 실제 발송·비용·수신은 대상·내용·범위가 승인되고 근거가 확보된 경우 별도 검증합니다."
+}
