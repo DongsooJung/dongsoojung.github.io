@@ -1,6 +1,16 @@
 # GitHub Repo Update Loop Log
 
 
+
+## 2026-11-19 (KST)
+
+- Main repository: DongsooJung/dongsoojung.github.io
+- Last push: 2026-11-19T00:15:28Z (docs: record verified cybersecurity source review release (#312) by Dongsoo Jung)
+- Recent scheduled workflow runs: Predominantly successful (including Update exchange rate data, Remote Service Health Check, Activate Kakao visitor notifications, Update Gimpo airport congestion data, Update airport congestion data, Update Naver Cafe popular articles, Update expressway rest-area bid radar, and others). Failures observed: Collect public data CSV (conclusion: failure, recurring).
+- Open issues: 5
+- Status: Update loops operating normally overall; scheduled data updates succeeding consistently. Recurring collector failure for public data CSV warrants review. Open issues remain low at 5.
+
+
 ## 2026-11-15 (KST)
 
 - Main repository: DongsooJung/dongsoojung.github.io
@@ -183,35 +193,7 @@
 ## 2026-10-23 (KST)
 
 - Main repository: DongsooJung/dongsoojung.github.io
-- Last push: 2026-10-23T00:05:40Z (data: refresh PPS procurement snapshots)
-- Recent scheduled workflow runs: Predominantly successful (including Vercel production request, Collect and verify GH sale-info, Update portfolio blog from Notion, Update PPS procurement data, Update reading dashboard from Notion, Update Gimpo airport congestion data, Remote Service Health Check, Update airport congestion data, Update Naver Cafe popular articles, Update exchange rate data, and others). Failures observed: Update K-Startup data (conclusion: failure) and Collect public data CSV (conclusion: failure).
+- Last push: 2026-10-23T00:12:34Z (data: update airport congestion snapshot)
+- Recent scheduled workflow runs: Predominantly successful (including Update airport congestion data, Update Gimpo airport congestion data, Activate Kakao visitor notifications, Update Naver Cafe popular articles, Remote Service Health Check, Update expressway rest-area bid radar, Update used-car public indicators, Update Google Trends data, and others). Failures observed: Collect public data CSV (conclusion: failure).
 - Open issues: 4
-- Status: Update loops operating normally overall; scheduled data updates succeeding consistently. Recurring collector failures for K-Startup and public data CSV warrant review. Open issues remain low at 4.
-
-## 2026-10-22 (KST)
-
-- Main repository: DongsooJung/dongsoojung.github.io
-- Last push: 2026-10-22T07:48:37Z (docs: update repository health log for 2026-10-22)
-- Recent workflow runs: Latest push triggered Vercel production request (failure), Cloudflare Worker stargate (success), pages build and deployment (in progress), CodeQL (in progress). Prior scheduled runs predominantly successful (Remote Service Health Check, Update airport congestion data, Update used-car public indicators, and others). Earlier failures: Vercel production request and Collect public data CSV.
-- Open issues: 3
-- Status: Update loops operating normally overall; scheduled data updates succeeding consistently. Note the recurring Vercel production request failure on recent pushes, which warrants review. Open issues remain low at 3.
-
-## 2026-10-21 (KST)
-
-- Main repository: DongsooJung/dongsoojung.github.io
-- Last push: 2026-10-20T23:58:13Z (data: refresh K-Startup notices)
-- Recent scheduled workflow runs: Predominantly successful (including Vercel production request, Update K-Startup data, Update PPS procurement data, Update Gimpo airport congestion data, Remote Service Health Check, Update airport congestion data, Update Naver Cafe popular articles, Update exchange rate data, Update portfolio blog from Notion, Collect and verify GH sale-info, and others). One failure observed: Collect public data CSV (run #87, conclusion: failure at approximately 2026-10-20T19:10Z).
-- Open issues: 3
-- Status: Update loops operating normally overall; the failed public data collection workflow warrants review.
-
-## 2026-10-20 (KST)
-
-- Main repository: DongsooJung/dongsoojung.github.io
-- Last push: 2026-10-20T06:03:00Z (data: update Gimpo airport congestion snapshot)
-- Recent workflow runs: Multiple scheduled updates succeeded (Remote Service Health Check, used-car indicators, Gimpo airport, Google Trends, Naver Cafe, CLASS101, Inflearn, Airbnb, tutoring strategy, etc.)
-- No recent failures noted in latest scheduled runs.
-- Open issues: 28
-- Status: Update loops operating normally via GitHub Actions schedules.
-
-This log is maintained by the daily automation for repository health check.
-
+- Status: Update loops operating normally overall; scheduled data updates succeeding consistently. Recurring collector failure for public data CSV warrants review. Open issues remain low at 4.
