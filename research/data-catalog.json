@@ -6200,17 +6200,17 @@
     },
     {
       "source": {
-        "label": "공식 정책·공개 상태·저자 문서/구현 (대조 범위 참조)",
-        "url": "https://attack.mitre.org/techniques/T1003/",
+        "label": "MITRE ATT&CK v20.1 · Microsoft Sentinel 문서 · 개념 설계 백서",
+        "url": "https://attack.mitre.org/resources/versions/",
         "verification": "partially_verified"
       },
       "dataAsOf": null,
       "dataPeriod": null,
-      "snapshotUpdatedAt": "2026-10-20",
-      "collectedAt": null,
-      "checkedAt": "2026-10-20T01:35:39.268134+00:00",
+      "snapshotUpdatedAt": "2026-11-19",
+      "collectedAt": "2026-11-19T00:02:43.970Z",
+      "checkedAt": "2026-11-19T00:04:53.350Z",
       "reviewStatus": "needs_review",
-      "freshness": "unverified",
+      "freshness": "not_applicable",
       "evidence": [
         {
           "kind": "audit-record",
@@ -6244,10 +6244,57 @@
           "checkedAt": "2026-10-20T01:31:05.726042+00:00",
           "sha256": "de12f77f4cdd8c3c068ec040cf8f1748b7d409fb749280fc86fbc23adf12751f",
           "scope": "정적 제품/기존 HTML·1쪽 PDF와 ATT&CK 분류 명칭 대조. 근거 없는 성능·KDP 도서 구현 단정 제거. 운영 보안 엔진·탐지·완화 실험은 미수행."
+        },
+        {
+          "kind": "audit-record",
+          "url": "/research/source-reviews/2026-11-19-cybersecurity.json",
+          "checkedAt": "2026-11-19T00:04:53.350Z"
+        },
+        {
+          "kind": "official-source",
+          "url": "https://attack.mitre.org/resources/versions/",
+          "sha256": "7263664378b2e7bf08604d99f0c8c32c3b64dfe33d3af68ea40c14433b99889e",
+          "scope": "Current Version v20.1와 적용 시작일",
+          "checkedAt": "2026-11-19T00:04:53.350Z"
+        },
+        {
+          "kind": "official-source",
+          "url": "https://attack.mitre.org/techniques/T1003/",
+          "sha256": "73a185d86e6bd1784282b6b5ac9ddb1965be022dd82c3b58eae84bf7bfc83512",
+          "scope": "기법명, 전술, 정의, 버전·개정일과 하위기법 수",
+          "checkedAt": "2026-11-19T00:04:53.350Z"
+        },
+        {
+          "kind": "official-source",
+          "url": "https://attack.mitre.org/techniques/T1021/",
+          "sha256": "aa9ca07671f8665542f4a259901c8c4a4995aeffaccc873c3786bd78593efce0",
+          "scope": "원격접속 기법명·전술·정의와 버전·개정일 및 하위기법 수",
+          "checkedAt": "2026-11-19T00:04:53.350Z"
+        },
+        {
+          "kind": "official-source",
+          "url": "https://attack.mitre.org/techniques/T1048/",
+          "sha256": "867cc9560bedf878f879c6361bb0426ead592edd25c23fbd7d11839a49a4df61",
+          "scope": "기존 C2 채널과 다른 프로토콜을 사용하는 유출 기법의 정의, 버전·개정일·하위기법 수",
+          "checkedAt": "2026-11-19T00:04:53.350Z"
+        },
+        {
+          "kind": "official-source",
+          "url": "https://learn.microsoft.com/en-us/azure/sentinel/fusion",
+          "sha256": "2218f726583c9752ae3a53775f2b66d9d78c07255082dcbbd5d798e9d5696b30",
+          "scope": "다제품 신호 상관분석과 Azure 포털 Fusion 및 Defender 포털 XDR 엔진의 적용 범위",
+          "checkedAt": "2026-11-19T00:04:53.350Z"
+        },
+        {
+          "kind": "official-source",
+          "url": "https://csrc.nist.gov/pubs/sp/800/61/r3/final",
+          "sha256": "128aacd8020cfee08cf37e8a42ce7469620de7299df0e76a76c1701cecb8b3e6",
+          "scope": "공식 서지·초록의 CSF 2.0 기반 사고대응 권고 및 Rev.2 대체. PDF 본문 전수 대조는 미수행",
+          "checkedAt": "2026-11-19T00:04:53.350Z"
         }
       ],
       "issues": [
-        "같은 라벨 로그·하드웨어·기간·분모로 탐지율/오탐/지연/처리량을 측정하고 특정 도서 판본·코드 대응 및 대응 승인 절차를 검증."
+        "같은 정답 라벨·기간·분모·하드웨어로 탐지·오탐·지연·처리량을 측정하고, 도서의 서명·저자·ISBN·장과 실행 코드의 대응을 확보한 뒤 재대조합니다. 실제 대응은 승인·권한·기록·복구를 검증합니다."
       ],
       "key": "/cybersecurity/",
       "url": "/cybersecurity/",

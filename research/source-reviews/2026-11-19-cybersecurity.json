@@ -1,0 +1,170 @@
+{
+  "schemaVersion": 1,
+  "project": "/cybersecurity/",
+  "checkedAt": "2026-11-19T00:04:53.350Z",
+  "collectedAt": "2026-11-19T00:02:43.970Z",
+  "snapshotUpdatedAt": "2026-11-19",
+  "dataPeriod": null,
+  "dataAsOf": null,
+  "reviewStatus": "needs_review",
+  "monthlyReference": {
+    "status": "not_applicable",
+    "reason": "위협 분류·제품 개념 설계·문헌 판본을 검토하는 문서"
+  },
+  "scope": "ATT&CK 카탈로그·기법 3개의 정의와 버전, Microsoft Sentinel 다단계 상관분석 문서, NIST SP 800-61r3 서지·초록과 공개 페이지·백서의 구현 범위를 대조했습니다.",
+  "sources": [
+    {
+      "file": "versions",
+      "title": "MITRE ATT&CK Version History",
+      "url": "https://attack.mitre.org/resources/versions/",
+      "catalogVersion": "20.1",
+      "catalogStartDate": "2026-10-13",
+      "scope": "Current Version v20.1와 적용 시작일",
+      "kind": "official-source",
+      "checkedAt": "2026-11-19T00:04:53.350Z",
+      "collectedAt": "2026-11-19T00:02:40.974Z",
+      "sha256": "7263664378b2e7bf08604d99f0c8c32c3b64dfe33d3af68ea40c14433b99889e"
+    },
+    {
+      "file": "t1003",
+      "title": "OS Credential Dumping",
+      "url": "https://attack.mitre.org/techniques/T1003/",
+      "techniqueId": "T1003",
+      "version": "2.2",
+      "modifiedAt": "2026-06-13",
+      "tactic": "Credential Access",
+      "subtechniques": 8,
+      "scope": "기법명, 전술, 정의, 버전·개정일과 하위기법 수",
+      "kind": "official-source",
+      "checkedAt": "2026-11-19T00:04:53.350Z",
+      "collectedAt": "2026-11-19T00:02:39.236Z",
+      "sha256": "73a185d86e6bd1784282b6b5ac9ddb1965be022dd82c3b58eae84bf7bfc83512"
+    },
+    {
+      "file": "t1021",
+      "title": "Remote Services",
+      "url": "https://attack.mitre.org/techniques/T1021/",
+      "techniqueId": "T1021",
+      "version": "1.6",
+      "modifiedAt": "2026-11-03",
+      "tactic": "Lateral Movement",
+      "subtechniques": 8,
+      "scope": "원격접속 기법명·전술·정의와 버전·개정일 및 하위기법 수",
+      "kind": "official-source",
+      "checkedAt": "2026-11-19T00:04:53.350Z",
+      "collectedAt": "2026-11-19T00:02:39.704Z",
+      "sha256": "aa9ca07671f8665542f4a259901c8c4a4995aeffaccc873c3786bd78593efce0"
+    },
+    {
+      "file": "t1048",
+      "title": "Exfiltration Over Alternative Protocol",
+      "url": "https://attack.mitre.org/techniques/T1048/",
+      "techniqueId": "T1048",
+      "version": "1.6",
+      "modifiedAt": "2026-09-03",
+      "tactic": "Exfiltration",
+      "subtechniques": 3,
+      "scope": "기존 C2 채널과 다른 프로토콜을 사용하는 유출 기법의 정의, 버전·개정일·하위기법 수",
+      "kind": "official-source",
+      "checkedAt": "2026-11-19T00:04:53.350Z",
+      "collectedAt": "2026-11-19T00:02:40.354Z",
+      "sha256": "867cc9560bedf878f879c6361bb0426ead592edd25c23fbd7d11839a49a4df61"
+    },
+    {
+      "file": "fusion",
+      "title": "Advanced multistage attack detection in Microsoft Sentinel",
+      "url": "https://learn.microsoft.com/en-us/azure/sentinel/fusion",
+      "modifiedAt": "2026-05-14",
+      "scope": "다제품 신호 상관분석과 Azure 포털 Fusion 및 Defender 포털 XDR 엔진의 적용 범위",
+      "kind": "official-source",
+      "checkedAt": "2026-11-19T00:04:53.350Z",
+      "collectedAt": "2026-11-19T00:02:42.319Z",
+      "sha256": "2218f726583c9752ae3a53775f2b66d9d78c07255082dcbbd5d798e9d5696b30"
+    },
+    {
+      "file": "nist",
+      "title": "NIST SP 800-61 Revision 3",
+      "url": "https://csrc.nist.gov/pubs/sp/800/61/r3/final",
+      "version": "Revision 3 Final",
+      "publishedAt": "2025-04-03",
+      "scope": "공식 서지·초록의 CSF 2.0 기반 사고대응 권고 및 Rev.2 대체. PDF 본문 전수 대조는 미수행",
+      "kind": "official-source",
+      "checkedAt": "2026-11-19T00:04:53.350Z",
+      "collectedAt": "2026-11-19T00:02:43.970Z",
+      "sha256": "128aacd8020cfee08cf37e8a42ce7469620de7299df0e76a76c1701cecb8b3e6"
+    }
+  ],
+  "findings": [
+    {
+      "topic": "공개 구현과 기능 상태",
+      "finding": "공개 구현은 관제 화면 목업, 테마 전환·스크롤 표시와 문의 출처 처리입니다. 보안 로그 수집·탐지·완화 엔진의 연동은 미확인입니다. 분석 결과·실시간 알림·완화 기능은 설계 목표로 표시했습니다."
+    },
+    {
+      "topic": "ATT&CK 판본과 분류",
+      "finding": "공식 버전 기록의 카탈로그는 v20.1입니다. T1003은 v2.2·2026-06-13, T1021은 v1.6·2026-11-03, T1048은 v1.6·2026-09-03 개정 표기입니다. 각 기법은 Credential Access·Lateral Movement·Exfiltration 전술에 속합니다."
+    },
+    {
+      "topic": "SIEM 비교와 도서 근거",
+      "finding": "Microsoft Sentinel 공식 문서에는 다제품 신호를 연결하는 다단계 상관분석이 설명돼 있습니다. SIEM의 분석 방식은 제품·연동 환경별로 확인해야 합니다. 이 제품의 탐지율·오탐률·지연·처리량 측정 자료와 연결된 도서의 서명·저자·ISBN·장별 코드 대응은 미확인입니다."
+    }
+  ],
+  "implementation": {
+    "baseCommit": "b7b5c2d8e1d38a51163de9fcf3e278ab9f0aa1e9",
+    "reviewedFiles": [
+      "cybersecurity/index.html",
+      "cybersecurity/whitepaper.html",
+      "cybersecurity/whitepaper.pdf",
+      "assets/site-theme.js",
+      "assets/inquiry-source.js",
+      "scripts/render-security-whitepaper.cjs"
+    ],
+    "originalArtifacts": {
+      "cybersecurity/index.html": {
+        "sha256": "0c956194617a8517a4ebfae6a891733f7d3ab62efee1e1141b9e916a27813ecd",
+        "bytes": 29291
+      },
+      "cybersecurity/whitepaper.html": {
+        "sha256": "c6c391d8bdd3f45a63f750aca2958820a50a99981d8d1c425a7009b925b41632",
+        "bytes": 4520
+      },
+      "cybersecurity/whitepaper.pdf": {
+        "sha256": "f446f0bb48d08047bfe154920d28b0c986a06358242bf8b0c749f43a8a63448e",
+        "bytes": 79341
+      }
+    },
+    "observed": "관제 화면은 정적 예시이며 테마·스크롤 표시·문의 출처 코드가 연결됨",
+    "productMeasurements": {
+      "detectionRate": null,
+      "falsePositiveRate": null,
+      "latency": null,
+      "throughputEPS": null
+    },
+    "book": {
+      "title": null,
+      "author": null,
+      "isbn": null,
+      "edition": null,
+      "chapterCodeMapping": null
+    },
+    "publishedArtifacts": {
+      "cybersecurity/index.html": {
+        "sha256": "fbe70cbf82a9d69e6af79bc5dd2d3fedac0c5422bf1c351d676227e82b3cbb0e",
+        "bytes": 30105
+      },
+      "cybersecurity/whitepaper.html": {
+        "sha256": "116219ccffb103c7b612623278cec8bcf1b08a851e3cc3ed83dcfb2fdb008827",
+        "bytes": 6068
+      },
+      "cybersecurity/whitepaper.pdf": {
+        "sha256": "59123b6479e3a230dc4fcceb5588aae925fca730777b53f34d56f0274f0e052f",
+        "bytes": 88125
+      }
+    }
+  },
+  "limitations": [
+    "제품 실측 자료·검증 백엔드와 연결된 도서의 특정 판본은 미확인",
+    "ATT&CK 분류·공급자 문서 대조는 제품 탐지·자동 대응 실증의 근거로 사용할 수 없음",
+    "NIST는 공식 서지·초록 범위이며 본문 전수·통제 적합성은 미검증"
+  ],
+  "nextAction": "같은 정답 라벨·기간·분모·하드웨어로 탐지·오탐·지연·처리량을 측정하고, 도서의 서명·저자·ISBN·장과 실행 코드의 대응을 확보한 뒤 재대조합니다. 실제 대응은 승인·권한·기록·복구를 검증합니다."
+}

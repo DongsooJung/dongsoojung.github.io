@@ -990,8 +990,8 @@
         "/research/startup-industries/"
       ],
       "outcome": "conditional_technical_acceptance",
-      "latestAudit": "/research/source-reviews/2026-11-18-june-mock-15.json",
-      "lastAttemptAt": "2026-11-18T00:43:07.958Z",
+      "latestAudit": "/research/source-reviews/2026-11-19-cybersecurity.json",
+      "lastAttemptAt": "2026-11-19T00:04:53.350Z",
       "itemResults": {
         "/exchange-rate/": {
           "status": "verified",
@@ -1330,6 +1330,13 @@
           "audit": "/research/source-reviews/2026-11-18-june-mock-15.json",
           "scope": "EBSi 제공 평가원 문제지의 공통 15번 조건·선택지, EBSi 정답표와 EBS 해설 판본 및 자체 계산·슬라이더 경계조건을 대조했습니다. 월간 통계 기준월은 비적용입니다.",
           "nextAction": "공식 개정이 있을 때 해당 문항 재대조"
+        },
+        "/cybersecurity/": {
+          "status": "needs_review",
+          "checkedAt": "2026-11-19T00:04:53.350Z",
+          "audit": "/research/source-reviews/2026-11-19-cybersecurity.json",
+          "scope": "ATT&CK 카탈로그·기법 3개의 정의와 버전, Microsoft Sentinel 다단계 상관분석 문서, NIST SP 800-61r3 서지·초록과 공개 페이지·백서의 구현 범위를 대조했습니다.",
+          "nextAction": "같은 정답 라벨·기간·분모·하드웨어로 탐지·오탐·지연·처리량을 측정하고, 도서의 서명·저자·ISBN·장과 실행 코드의 대응을 확보한 뒤 재대조합니다. 실제 대응은 승인·권한·기록·복구를 검증합니다."
         }
       },
       "checkpoints": {
@@ -1363,7 +1370,7 @@
           "Tourism not re-fetched before October26; original checkedAt retained"
         ]
       },
-      "nextAction": "다음 독립 미완료 /cybersecurity/의 공개 원문·도서 판본·구현 범위와 성능 주장 근거를 대조합니다.",
+      "nextAction": "다음 독립 미완료 /sms/의 공개 운영 문서·실제 연결 주소와 상태 조회 범위를 대조합니다. 발송·비용·실제 수신 검증은 승인된 범위와 증거가 확보될 때 진행합니다.",
       "sourceFollowups": [
         {
           "id": "source-followup-1-20261021",
@@ -2764,6 +2771,22 @@
               "EBSi problem page 6, answer image, EBS solution pages 1,5,6 reviewed",
               "Two PDF companions passed text and visual review"
             ]
+          }
+        },
+        {
+          "id": "cyber-source-20261119",
+          "status": "partial",
+          "checkedAt": "2026-11-19T00:04:53.350Z",
+          "keys": [
+            "/cybersecurity/"
+          ],
+          "audit": "/research/source-reviews/2026-11-19-cybersecurity.json",
+          "outcome": "official_taxonomy_versions_and_document_scope_reviewed_product_measurements_and_book_edition_pending",
+          "release": {
+            "branch": "codex/cyber-source-20261119",
+            "status": "awaiting_checks",
+            "liveUrl": "https://www.stargateedu.co.kr/cybersecurity/",
+            "sourceReviewUrl": "https://www.stargateedu.co.kr/research/source-reviews/2026-11-19-cybersecurity.json"
           }
         }
       ],

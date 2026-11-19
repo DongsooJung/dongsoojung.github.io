@@ -341,7 +341,7 @@
         <p class="hero-lead">로그 문맥 분석, 위협 가설 탐색과 대응 문서화를 연결하는 설계안입니다. 공개 페이지는 UI 목업이며 운영 엔진·처리량·탐지 성능을 검증한 결과가 아닙니다.</p>
         <div class="hero-actions">
           <a class="btn primary" href="mailto:support@stargateedu.co.kr?subject=3AI%20Cybersecurity%20Suite%20무료%20데모%20신청&body=%EC%95%88%EB%85%95%ED%95%98%EC%84%B8%EC%9A%94.%0A3AI%20Cybersecurity%20Suite%20%EB%AC%B4%EB%A3%8C%20%EB%8D%B0%EB%AA%A8%EB%A5%BC%20%EC%8B%A0%EC%B2%AD%ED%95%A9%EB%8B%88%EB%8B%A4.">무료 데모 신청하기</a>
-          <a class="btn" href="/cybersecurity/whitepaper.pdf" download>개념 설계 백서 다운로드 (2026-10-20 PDF)</a>
+          <a class="btn" href="/cybersecurity/whitepaper.pdf" download>개념 설계 백서 다운로드 (2026-11-19 PDF)</a>
         </div>
       </div>
       <div class="hero-visual" aria-hidden="true">
@@ -354,9 +354,9 @@
             <div class="panel-block">
               <h3>Kill Chain Inference</h3>
               <div class="chain">
-                <div class="chain-item"><b>Credential Dump</b><span>T1003</span></div>
-                <div class="chain-item"><b>Lateral Movement</b><span>T1021</span></div>
-                <div class="chain-item hot"><b>Exfil Candidate</b><span>T1048</span></div>
+                <div class="chain-item"><b>OS Credential Dumping</b><span>T1003</span></div>
+                <div class="chain-item"><b>Remote Services</b><span>T1021</span></div>
+                <div class="chain-item hot"><b>Alternative Protocol</b><span>T1048</span></div>
               </div>
             </div>
             <div class="panel-block">
@@ -371,7 +371,14 @@
           <div class="scanline"></div>
         </div>
       </div>
-    </header><section class="operations-review" aria-labelledby="operations-review-title"><h2 id="operations-review-title">운영 자료·구현 대조 · 2026-10-20</h2><p><strong>공개 화면은 보안 관제 목업과 개념 설계안</strong>입니다. 탐지 3분·오탐15%·100K EPS·탐지율40% 향상 등 기존 수치는 실험 자료·분모·환경을 확인할 수 없어 화면과 개정 백서에서 제외했습니다. 실제 로그나 보안 장비에 연결해 탐지·완화 기능을 실행하지 않았습니다.</p><p>MITRE ATT&amp;CK의 <a href="https://attack.mitre.org/techniques/T1003/">T1003</a>·<a href="https://attack.mitre.org/techniques/T1021/">T1021</a>·<a href="https://attack.mitre.org/techniques/T1048/">T1048</a>의 분류명만 대조했습니다. 이 분류의 사용은 탐지 성능·공격 귀속·자동 대응의 검증이 아닙니다. 도서 검색 링크도 특정 도서의 확인 근거로 사용하지 않습니다.</p><p><small>확인일과 문서 작성·시행일 및 제공자 갱신 시각을 구분합니다. 월간 통계 기준월은 비적용입니다. <a href="/research/source-reviews/2026-10-20-operations-1.json" download>출처·검증 범위·후속 조치 JSON 내려받기</a></small></p></section>
+    </header><section class="operations-review" aria-labelledby="operations-review-title">
+<h2 id="operations-review-title">출처·설계 범위 대조 · 2026-11-19</h2>
+<p><strong>공개 구현과 기능 상태</strong> · 공개 구현은 관제 화면 목업, 테마 전환·스크롤 표시와 문의 출처 처리입니다. 보안 로그 수집·탐지·완화 엔진의 연동은 미확인입니다. 분석 결과·실시간 알림·완화 기능은 설계 목표로 표시했습니다.</p>
+<p><strong>ATT&CK 판본과 분류</strong> · 공식 버전 기록의 카탈로그는 v20.1입니다. T1003은 v2.2·2026-06-13, T1021은 v1.6·2026-11-03, T1048은 v1.6·2026-09-03 개정 표기입니다. 각 기법은 Credential Access·Lateral Movement·Exfiltration 전술에 속합니다.</p>
+<p><strong>SIEM 비교와 도서 근거</strong> · Microsoft Sentinel 공식 문서에는 다제품 신호를 연결하는 다단계 상관분석이 설명돼 있습니다. SIEM의 분석 방식은 제품·연동 환경별로 확인해야 합니다. 이 제품의 탐지율·오탐률·지연·처리량 측정 자료와 연결된 도서의 서명·저자·ISBN·장별 코드 대응은 미확인입니다.</p>
+<p><small><a href="https://attack.mitre.org/resources/versions/">ATT&amp;CK 버전 기록</a> · <a href="https://attack.mitre.org/techniques/T1003/">ATT&amp;CK T1003</a> · <a href="https://attack.mitre.org/techniques/T1021/">ATT&amp;CK T1021</a> · <a href="https://attack.mitre.org/techniques/T1048/">ATT&amp;CK T1048</a> · <a href="https://learn.microsoft.com/en-us/azure/sentinel/fusion">Microsoft Sentinel</a> · <a href="/research/source-reviews/2026-11-19-cybersecurity.json" download>출처·판본·검증 범위 JSON 내려받기</a></small></p>
+<p><small>월간 통계 기준월은 비적용입니다. 기법별 개정일·공급자 문서 갱신일·이번 수집·확인일을 기록했습니다. 제품 성능과 도서 구현 대조는 검증 대기입니다.</small></p>
+</section>
 
     <section class="section" id="why">
       <div class="section-head reveal">
@@ -401,8 +408,8 @@
             </tr>
             <tr>
               <td>로그 연관성 분석</td>
-              <td>단일 이벤트 중심 (정규표현식)</td>
-              <td class="hi">다차원 문맥 분석 (RAG 및 Vector DB)</td>
+              <td>제품·연동별 상관분석 범위 확인</td>
+              <td class="hi">RAG·Vector DB 문맥 분석 설계</td>
             </tr>
             <tr>
               <td>대응 리포트 생성</td>
@@ -418,7 +425,7 @@
       <div class="section-head reveal">
         <div class="section-label">Core Features</div>
         <h2>3대 핵심 엔진</h2>
-        <p class="section-lead">시맨틱 분석, 자율 헌팅, IR 문서화까지 — SOC의 병목을 엔진 단위로 자동화합니다.</p>
+        <p class="section-lead">시맨틱 분석, 위협 헌팅과 IR 문서화의 세 모듈을 설계합니다.</p>
       </div>
       <div class="engines">
         <article class="engine reveal">
@@ -432,7 +439,7 @@
           <div class="engine-no" aria-hidden="true">02</div>
           <div>
             <h3>자율형 위협 헌팅</h3>
-            <p>자연어 기반 위협 헌팅 인터페이스를 제안합니다. “최근 24시간 내 내부망 자격 증명 탈취 시도를 요약해 줘” 같은 자연어 프롬프트 한 줄로 심층 분석 결과를 제공합니다.</p>
+            <p>자연어 질의를 로그 검색·근거 인용·가설 검토로 연결하는 인터페이스를 설계합니다. 프롬프트 실행과 실제 로그 분석 결과는 검증 대기입니다.</p>
           </div>
         </article>
         <article class="engine reveal">
@@ -449,7 +456,7 @@
       <div class="section-head reveal">
         <div class="section-label">Workflow</div>
         <h2>작동 프로세스</h2>
-        <p class="section-lead">데이터 수집부터 위협 식별·대응까지 4단계로 자동화합니다.</p>
+        <p class="section-lead">로그 수집, 문맥 검색, 위협 가설과 대응 문서화를 잇는 4단계 설계입니다.</p>
       </div>
       <div class="workflow reveal">
         <article class="step">
@@ -460,17 +467,17 @@
         <article class="step">
           <div class="step-num">STEP 02</div>
           <h3>RAG 기반 컨텍스트 매핑</h3>
-          <p>설계 제안 구간. 로그를 벡터화해 Vector DB에 저장하고, 최신 CTI 및 도서 수록 보안워크 룰셋과 교차 검증합니다.</p>
+          <p>로그 검색 근거와 CTI·문헌 판본을 연결하는 RAG 구조를 설계합니다. 도서별 규칙과 실행 코드의 대응은 검증 대기입니다.</p>
         </article>
         <article class="step">
           <div class="step-num">STEP 03</div>
           <h3>LLM 위협 추론</h3>
-          <p>분산된 저위험 경고들을 연결해 하나의 Kill Chain으로 구성되는지 LLM이 논리적으로 추론합니다.</p>
+          <p>분산된 경고에서 공격 단계 가설을 생성하고 관측 근거를 함께 제시하는 기능을 설계합니다. 가설의 정확도와 재현성은 측정 자료가 필요합니다.</p>
         </article>
         <article class="step">
           <div class="step-num">STEP 04</div>
           <h3>자동 대응 및 알림</h3>
-          <p>고위험 위협은 대시보드에 즉시 표출되며, Slack·이메일·Webhook으로 실시간 알림과 완화 스크립트를 제공합니다.</p>
+          <p>고위험 후보의 화면 표시·외부 알림·완화를 설계 대상으로 둡니다. 실행 전 승인, 권한 범위, 결과 기록과 복구 절차를 검증해야 합니다.</p>
         </article>
       </div>
     </section>
