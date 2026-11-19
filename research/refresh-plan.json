@@ -2821,10 +2821,23 @@
           "outcome": "official_sms_docs_public_health_and_read_scope_checked_sender_not_verified_delivery_pending",
           "release": {
             "branch": "codex/sms-source-20261120",
-            "status": "awaiting_checks",
+            "status": "verified",
             "liveUrl": "https://www.stargateedu.co.kr/sms/operations-review/",
             "sourceReviewUrl": "https://www.stargateedu.co.kr/research/source-reviews/2026-11-20-sms.json",
-            "pullRequest": "https://github.com/DongsooJung/dongsoojung.github.io/pull/313"
+            "pullRequest": "https://github.com/DongsooJung/dongsoojung.github.io/pull/313",
+            "commit": "14bae0e5ca8f3e238b0c1fd12310b04c0868ce17",
+            "pagesRun": "https://github.com/DongsooJung/dongsoojung.github.io/actions/runs/44551859893",
+            "verifiedAt": "2026-11-19T15:12:06.298Z",
+            "pullRequestHead": "5286242c835714ffe9a2258a669a550e4df63373",
+            "checks": [
+              "Exact pull request commit passed CodeQL and preview checks",
+              "Merged commit passed Pages build, report and deploy",
+              "Six public files match source on both live domains",
+              "66 unique projects, seven alphabetical filters and seven separate essays",
+              "15 regression tests, source downloads, mobile layout and anchor navigation passed",
+              "Four official SOLAPI documents and public GET states checked; delivery and cost remain unverified",
+              "Two PDFs passed text and visual review"
+            ]
           }
         }
       ],
