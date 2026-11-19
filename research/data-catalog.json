@@ -6356,17 +6356,17 @@
     },
     {
       "source": {
-        "label": "공식 정책·공개 상태·저자 문서/구현 (대조 범위 참조)",
-        "url": "https://www.stargateedu.co.kr/sms/",
+        "label": "SOLAPI 공식 문서 · Workers 공개 상태 · 포털 조회 구현",
+        "url": "https://solapi.com/developers/api/managementSenderid-getActiveSenderids",
         "verification": "partially_verified"
       },
       "dataAsOf": null,
       "dataPeriod": null,
       "snapshotUpdatedAt": "2026-10-20",
-      "collectedAt": null,
-      "checkedAt": "2026-10-20T01:35:39.268134+00:00",
+      "collectedAt": "2026-11-19T15:05:00.176854+00:00",
+      "checkedAt": "2026-11-19T15:06:57.806Z",
       "reviewStatus": "needs_review",
-      "freshness": "unverified",
+      "freshness": "not_applicable",
       "evidence": [
         {
           "kind": "audit-record",
@@ -6393,10 +6393,78 @@
           "checkedAt": "2026-10-20T01:51:54.318Z",
           "sha256": "237171e91cd9f03a4a033f180feccf59ff470c476175f528f8c38ac0a9bc4a46",
           "scope": "포털 /sms/가 canonical Workers 문자 콘솔로 JavaScript 이동하는 구현과 실제 Workers 공개 GET /sms/·/api/sms HTTP200을 대조. 최대10명 입력/미리보기와 공개 health의 configured·senderVerified 응답 범위만 확인. 포털 정적 /api/sms404는 Workers 상태가 아님. 실제 발송·인증·잔액·고객 데이터 조회 미실행."
+        },
+        {
+          "kind": "audit-record",
+          "url": "/research/source-reviews/2026-11-20-sms.json",
+          "checkedAt": "2026-11-19T15:06:57.806Z",
+          "scope": "SOLAPI 공식 API 문서 4건, 포털→Workers 실제 연결, 공개 health·세션 상태, 포털 조회 구현의 페이지 범위를 대조했습니다. 발송·고객 조회·설정 변경은 수행하지 않았습니다."
+        },
+        {
+          "kind": "implementation-check",
+          "url": "/sms/operations-review/",
+          "checkedAt": "2026-11-19T15:06:57.806Z",
+          "scope": "공개 운영 점검 문서. 콘솔·고객 화면은 변경하지 않음"
+        },
+        {
+          "kind": "official-source",
+          "url": "https://solapi.com/developers/api/managementSenderid-getActiveSenderids",
+          "sha256": "5c0941982470108bac32602cde5ab93e223feaf8233df95a350010fb4d36b4d0",
+          "scope": "GET /senderid/v1/numbers/active는 ACTIVE 발신번호 객체 배열을 반환",
+          "checkedAt": "2026-11-19T15:06:57.806Z"
+        },
+        {
+          "kind": "official-source",
+          "url": "https://solapi.com/developers/api/msg-getList",
+          "sha256": "6f0db089e7cb90811c02789fba664c8444eeb32e92fe2dce23805be95322dfae",
+          "scope": "GET /messages/v4/list의 상태코드·생성/갱신일 필터, limit 1~500 및 nextKey/startKey 페이지네이션",
+          "checkedAt": "2026-11-19T15:06:57.806Z"
+        },
+        {
+          "kind": "official-source",
+          "url": "https://solapi.com/message-status-codes",
+          "sha256": "18b02858293bb7354e2b7cbcb61ef00305d0bf54346a722b7c2f0f8828340c40",
+          "scope": "접수·대기·전송 중과 최종 발송완료 4000의 구분",
+          "checkedAt": "2026-11-19T15:06:57.806Z"
+        },
+        {
+          "kind": "official-source",
+          "url": "https://solapi.com/developers/api/messages",
+          "sha256": "9bcbb6762fb586c14514e6654576017c37869de09291f2df6ff6c7606c96f941",
+          "scope": "POST /messages/v4/send-many/detail과 등록 발신번호 요건. 메시지 보관기간은 2026-08-20 생성 기준 전후 6/12개월로 구분",
+          "checkedAt": "2026-11-19T15:06:57.806Z"
+        },
+        {
+          "kind": "implementation-check",
+          "url": "https://stargate.stargate8225.workers.dev/sms/",
+          "sha256": "543462947c64fb6dfb25c8e1c5f461715ae7b21544323e4afda19a5a720234cb",
+          "checkedAt": "2026-11-19T15:03:44.913228+00:00",
+          "scope": "브라우저 정상 진입; 원배포 버전 동일성 미확인"
+        },
+        {
+          "kind": "implementation-check",
+          "url": "https://stargate.stargate8225.workers.dev/api/sms",
+          "sha256": "4d6268630cff89b2931140d703d90c4f35a4d5d9a924c6515405899176062a45",
+          "checkedAt": "2026-11-19T15:03:45.783061+00:00",
+          "scope": "HTTP200, configured:true, senderVerified:false. 활성 발신번호 등록 필요 응답; 원인 미확인"
+        },
+        {
+          "kind": "implementation-check",
+          "url": "https://stargate.stargate8225.workers.dev/api/sms/session",
+          "sha256": "ef2565f3414c99f6fb818e098a6275c43a6889ec41d4601dc1dedb44623127e5",
+          "checkedAt": "2026-11-19T15:03:46.063697+00:00",
+          "scope": "인증정보 없는 세션 signedIn:false"
+        },
+        {
+          "kind": "implementation-check",
+          "url": "https://stargate.stargate8225.workers.dev/api/kakao/health",
+          "sha256": "408d7738bf19dbfcf7134696de3f0f661f7ef479d2f3dc5fbbd9ba101c7a310f",
+          "checkedAt": "2026-11-19T15:03:47.455891+00:00",
+          "scope": "skillConfigured:true, aiBinding:true, channelDeployment:not_verified"
         }
       ],
       "issues": [
-        "Workers 공개 health는200이지만 실제 발송·인증·잔액·전달·비용·기록 검증은 별도 승인 회차로 남김. 정적 포털 /api/sms의404를 실제 Workers 장애로 간주하지 않음."
+        "운영자가 SOLAPI 활성 발신번호 상태를 확인한 뒤 기존 승인 환경에서 서버 배포 버전·인증과 조회 페이지 범위를 대조합니다. 실제 발송·비용·수신은 대상·내용·범위가 승인되고 근거가 확보된 경우 별도 검증합니다."
       ],
       "key": "/sms/",
       "url": "/sms/",
