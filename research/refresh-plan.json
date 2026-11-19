@@ -2784,10 +2784,23 @@
           "outcome": "official_taxonomy_versions_and_document_scope_reviewed_product_measurements_and_book_edition_pending",
           "release": {
             "branch": "codex/cyber-source-20261119",
-            "status": "awaiting_checks",
+            "status": "verified",
             "liveUrl": "https://www.stargateedu.co.kr/cybersecurity/",
             "sourceReviewUrl": "https://www.stargateedu.co.kr/research/source-reviews/2026-11-19-cybersecurity.json",
-            "pullRequest": "https://github.com/DongsooJung/dongsoojung.github.io/pull/311"
+            "pullRequest": "https://github.com/DongsooJung/dongsoojung.github.io/pull/311",
+            "commit": "bea3dcc5cc3998113b8f0053c0754d97d3828cbe",
+            "pagesRun": "https://github.com/DongsooJung/dongsoojung.github.io/actions/runs/44427009742",
+            "verifiedAt": "2026-11-19T00:13:32.948Z",
+            "pullRequestHead": "666e5392ae99447f6145538c2279bc3bf574548a",
+            "checks": [
+              "Exact pull request commit passed CodeQL and preview checks",
+              "Merged commit passed Pages build, report and deploy",
+              "Seven public files match source on both live domains",
+              "66 unique projects, seven alphabetical filters and seven separate essays",
+              "15 regression tests, source downloads, mobile layout and anchor navigation passed",
+              "Six official sources checked for taxonomy, document versions and scoped product claims",
+              "Three PDF companions passed text and visual review"
+            ]
           }
         }
       ],
