@@ -6549,17 +6549,17 @@
     },
     {
       "source": {
-        "label": "공식 정책·공개 상태·저자 문서/구현 (대조 범위 참조)",
+        "label": "Notion 공식 Status API v2 · Microsoft Graph 공개 문서",
         "url": "https://www.notion-status.com/api/v2/summary.json",
         "verification": "partially_verified"
       },
       "dataAsOf": null,
       "dataPeriod": null,
-      "snapshotUpdatedAt": "2026-10-20",
-      "collectedAt": null,
-      "checkedAt": "2026-10-20T01:35:39.268134+00:00",
+      "snapshotUpdatedAt": "2026-11-20",
+      "collectedAt": "2026-11-20T10:23:48.433673+00:00",
+      "checkedAt": "2026-11-20T10:29:02.174Z",
       "reviewStatus": "needs_review",
-      "freshness": "unverified",
+      "freshness": "not_applicable",
       "evidence": [
         {
           "kind": "audit-record",
@@ -6579,10 +6579,44 @@
           "checkedAt": "2026-10-20T01:31:06.148344+00:00",
           "sha256": "abd5409a71e5f07581e431d986c4f608fbf5d10266cf88b22d8681b89839a614",
           "scope": "Notion 공식 공개 JSON과 갱신 시각, 상태 API404 및 Microsoft 상태 사이트 응답 확인. 개인 OneNote/Notion 계정·문서 상태 미확인."
+        },
+        {
+          "kind": "audit-record",
+          "url": "/research/source-reviews/2026-11-20-onenote-notion.json",
+          "checkedAt": "2026-11-20T10:29:02.174Z",
+          "scope": "Notion 공식 요약 19개 구성 요소·상태코드 문서, Microsoft 공개 상태·Graph 권한 문서와 실제 브라우저 폴백 및 저장 구현을 대조했습니다."
+        },
+        {
+          "kind": "official-source",
+          "url": "https://www.notion-status.com/api/v2/summary.json",
+          "sha256": "f2d4ad19bd40ad9d2acd01efba8d42416bbaa746815b26ae6481d4a7ddb4ac19",
+          "scope": "공식 indicator none, 비그룹 구성 요소 19개와 제공자 page.updated_at. 개인 워크스페이스 상태를 조회한 결과가 아님",
+          "checkedAt": "2026-11-20T10:29:02.174Z"
+        },
+        {
+          "kind": "official-source",
+          "url": "https://developers.notion.com/reference/status-codes",
+          "sha256": "7345d2986b9cf63959b87a49c17764fbeab940abd33780a3cc3462cd5d0d0243",
+          "scope": "401 unauthorized는 토큰 인증 오류이며 정상 기능·가용률의 근거가 아님",
+          "checkedAt": "2026-11-20T10:29:02.174Z"
+        },
+        {
+          "kind": "official-source",
+          "url": "https://learn.microsoft.com/en-us/graph/api/serviceannouncement-list-healthoverviews?view=graph-rest-1.0",
+          "sha256": "57e3ad1b6c439c04113f132f375e25e311657ec3fecfbcdfe0284840705fe900",
+          "scope": "구독한 테넌트 서비스 상태, 조직용 ServiceHealth.Read.All 및 Bearer 인증 요건. 개인 Microsoft 계정 미지원",
+          "checkedAt": "2026-11-20T10:29:02.174Z"
+        },
+        {
+          "kind": "official-source",
+          "url": "https://status.cloud.microsoft/",
+          "sha256": "3d9518964c961a85aaf6f4f1212a639eaee2fc5f459ce60c326ae8c695b0659e",
+          "scope": "공개 제품군 Operational 표기와 관리센터 연결 범위. 개인 OneNote 계정·노트북·동기화 검증은 아님",
+          "checkedAt": "2026-11-20T10:29:02.174Z"
         }
       ],
       "issues": [
-        "프록시 연결·브라우저CORS와 Microsoft 공개 상태의 실제 범위를 검증. 상태 누락을 정상/장애로 단정하지 않고 공식 업데이트 시각과 조회시각을 구분."
+        "승인된 기존 프록시의 실제 프로젝트·배포 판본·연결 주소가 확보될 때 CORS·오류·시간 제한을 대조합니다. 개인 계정과 실제 동기화는 별도 승인 범위에서만 확인합니다."
       ],
       "key": "/onenote-notion-status/",
       "url": "/onenote-notion-status/",

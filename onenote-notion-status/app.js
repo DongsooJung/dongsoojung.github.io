@@ -1,7 +1,7 @@
 (() => {
   const API_URL = '/api/service-status';
   const NOTION_SUMMARY = 'https://www.notion-status.com/api/v2/summary.json';
-  const HISTORY_KEY = 'onenote-notion-status-history-v1';
+  const HISTORY_KEY = 'onenote-notion-status-history-v2'; // v1 mixed probe reachability with service status
   const MAX_HISTORY = 12;
 
   const el = {
@@ -87,20 +87,25 @@
   }
 
   async function probeClient(url, accept) {
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 10000);
     const started = Date.now();
     try {
       const response = await fetch(url, {
         method: 'GET',
+        signal: controller.signal,
         mode: 'cors',
         cache: 'no-store',
       });
       const latencyMs = Date.now() - started;
-      const ok = accept.includes(response.status);
+      const authRequired = [401, 403].includes(response.status);
+      const ok = accept.includes(response.status) && !authRequired;
       return {
         ok,
         httpStatus: response.status,
         latencyMs,
-        state: ok ? (latencyMs > 2500 ? 'degraded' : 'operational') : 'down',
+        state: ok ? (latencyMs > 2500 ? 'degraded' : 'operational') : 'unknown',
+        reachability: authRequired ? 'auth_required' : ok ? 'reachable' : 'http_error',
         error: null,
         finalUrl: response.url || url,
       };
@@ -112,8 +117,9 @@
         state: 'unknown',
         error: String(error.message || error),
         finalUrl: url,
+        reachability: 'unavailable',
       };
-    }
+    } finally { clearTimeout(timeout); }
   }
 
   async function fallbackPayload() {
@@ -130,40 +136,28 @@
       latencyMs: null,
     };
 
-    const notionOfficialProbe = await probeClient(NOTION_SUMMARY, [200]);
-    if (notionOfficialProbe.ok) {
-      try {
-        const response = await fetch(NOTION_SUMMARY, { cache: 'no-store' });
-        const data = await response.json();
-        official = {
-          ok: true,
-          latencyMs: notionOfficialProbe.latencyMs,
-          description: data.status?.description || 'Unknown',
-          indicator: data.status?.indicator || 'unknown',
-          state: mapNotionIndicator(data.status?.indicator),
-          pageUrl: data.page?.url || 'https://www.notion-status.com/',
-          updatedAt: data.page?.updated_at || null,
-          components: Array.isArray(data.components)
-            ? data.components
-                .filter((c) => c && !c.group && c.name)
-                .map((c) => ({
-                  id: c.id,
-                  name: c.name,
-                  status: c.status,
-                  description: c.description || '',
-                  updatedAt: c.updated_at || null,
-                }))
-            : [],
-          incidents: Array.isArray(data.incidents) ? data.incidents.slice(0, 8) : [],
-          error: null,
-        };
-      } catch (error) {
-        official.error = String(error.message || error);
-      }
-    } else {
-      official.error = notionOfficialProbe.error || 'unreachable';
-      official.latencyMs = notionOfficialProbe.latencyMs;
-    }
+    const started = Date.now();
+    let notionOfficialProbe;
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 10000);
+    try {
+      const response = await fetch(NOTION_SUMMARY, { cache: 'no-store', signal: controller.signal });
+      if (!response.ok) throw new Error('HTTP ' + response.status);
+      const data = await response.json();
+      if (!data.status || !Array.isArray(data.components)) throw new Error('공식 상태 JSON 형식 확인 필요');
+      const latencyMs = Date.now() - started;
+      official = {
+        ok: true, latencyMs, description: data.status.description || 'Unknown',
+        indicator: data.status.indicator || 'unknown', state: mapNotionIndicator(data.status.indicator),
+        pageUrl: data.page?.url || 'https://www.notion-status.com/', updatedAt: data.page?.updated_at || null,
+        components: data.components.filter(c => c && !c.group && c.name).map(c => ({id:c.id,name:c.name,status:c.status,description:c.description || '',updatedAt:c.updated_at || null})),
+        incidents: Array.isArray(data.incidents) ? data.incidents : [], error: null,
+      };
+      notionOfficialProbe = {ok:true,httpStatus:response.status,latencyMs,state:latencyMs > 2500 ? 'degraded' : 'operational',reachability:'reachable',finalUrl:response.url || NOTION_SUMMARY};
+    } catch(error) {
+      official.error = error.name === 'AbortError' ? '공식 상태 조회 시간 초과' : String(error.message || error);
+      notionOfficialProbe = {ok:false,httpStatus:null,latencyMs:Date.now()-started,state:'unknown',reachability:'unavailable',error:official.error,finalUrl:NOTION_SUMMARY};
+    } finally { clearTimeout(timeout); }
 
     const notionApi = await probeClient('https://api.notion.com/v1/users/me', [401, 403]);
     const notionProbes = [
@@ -194,7 +188,7 @@
           webUrl: 'https://www.onenote.com/',
           statusPageUrl: 'https://status.cloud.microsoft/',
           official: {
-            note: 'GitHub Pages/정적 환경에서는 OneNote 프로브 프록시(/api/service-status)가 필요합니다. 아래 링크로 웹앱을 직접 열어 확인하세요.',
+            note: '이번 공개 조회로 OneNote 개인 계정·노트북·동기화 상태를 확인할 수 없습니다. Microsoft Graph의 테넌트 서비스 상태는 조직 권한이 필요하며 개인 Microsoft 계정은 지원하지 않습니다.',
             state: 'unknown',
           },
           probes: [],
@@ -208,25 +202,31 @@
           official,
           probes: notionProbes,
           summary: notionProbeSummary,
-          overall: rollup(official.state, notionProbeSummary.state),
+          overall: official.state // Public reachability never changes the provider incident status,
         },
       },
     };
   }
 
   async function loadStatus() {
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 10000);
     try {
       const response = await fetch(`${API_URL}?t=${Date.now()}`, {
         cache: 'no-store',
         headers: { Accept: 'application/json' },
+        signal: controller.signal,
       });
       if (!response.ok) throw new Error(`API HTTP ${response.status}`);
       const data = await response.json();
+      if (!data.services?.onenote || !data.services?.notion) throw new Error('상태 응답 형식 확인 필요');
+      data.services.onenote.overall = 'unknown';
+      data.services.notion.overall = data.services.notion.official?.ok ? data.services.notion.official.state : 'unknown';
       data.source = 'api';
       return data;
     } catch {
       return fallbackPayload();
-    }
+    } finally { clearTimeout(timeout); }
   }
 
   function badge(state) {
@@ -250,7 +250,7 @@
         <div class="name">${escapeHtml(p.label)}
           <span class="url">${escapeHtml(p.finalUrl || p.url)}</span>
         </div>
-        ${mini(p.state)}
+        <span class="mini ${p.ok ? p.state : 'unknown'}">${escapeHtml(p.reachability === 'auth_required' || [401,403].includes(p.httpStatus) ? '인증·접근 제한' : p.ok ? (p.state === 'degraded' ? '공개 응답 지연' : '공개 응답 도달') : '응답 확인불가')}</span>
         <div class="latency">${p.latencyMs != null ? `${p.latencyMs} ms` : '—'} · ${
           p.httpStatus != null ? `HTTP ${p.httpStatus}` : escapeHtml(p.error || 'n/a')
         }</div>
@@ -262,7 +262,7 @@
   function componentState(status) {
     const s = String(status || '').toLowerCase();
     if (s === 'operational') return 'operational';
-    if (s.includes('degrad') || s.includes('partial') || s === 'maintenance') return 'degraded';
+    if (s.includes('degrad') || s.includes('partial') || s.includes('maintenance')) return 'degraded';
     if (s.includes('major') || s.includes('outage') || s === 'down') return 'down';
     return 'unknown';
   }
@@ -270,7 +270,6 @@
   function renderComponents(components) {
     if (!components?.length) return '<div class="empty">구성 요소 정보가 없습니다.</div>';
     return components
-      .slice(0, 12)
       .map(
         (c) => `
       <div class="component">
@@ -292,14 +291,14 @@
         ? `<div class="section-label">공식 상태</div>
            <div class="probe">
              <div class="name">${escapeHtml(service.official.description)}
-               <span class="url">indicator: ${escapeHtml(service.official.indicator)}</span>
+               <span class="url">indicator: ${escapeHtml(service.official.indicator)}</span><span class="url">제공자 갱신 · ${escapeHtml(formatTime(service.official.updatedAt))}</span>
              </div>
              ${mini(service.official.state)}
              <div class="latency">${
                service.official.latencyMs != null ? `${service.official.latencyMs} ms` : '—'
              }</div>
            </div>
-           <div class="section-label">구성 요소</div>
+           <div class="section-label">구성 요소 · ${service.official.components.length}개</div>
            ${renderComponents(service.official.components)}`
         : key === 'notion'
           ? `<div class="section-label">공식 상태</div>
@@ -317,7 +316,7 @@
         </div>
         <div class="service-body">
           ${officialBlock}
-          <div class="section-label">웹 도달성 프로브</div>
+          <div class="section-label">공개 응답 도달성 · 서비스 정상 판정과 별도</div>
           ${renderProbes(service.probes)}
           <div class="links">
             <a class="chip" href="${escapeHtml(service.webUrl)}" target="_blank" rel="noopener">웹앱 열기 ↗</a>
@@ -380,11 +379,11 @@
     el.overallSub.textContent =
       data.source === 'fallback'
         ? 'API 프록시 없이 브라우저 폴백으로 조회했습니다. OneNote는 이번 조회 범위에서 확인할 수 없습니다. 프록시 연결도 계정 내부 정상 여부를 보장하지 않습니다.'
-        : `리전 ${data.region || '—'} · 공개 상태·웹 엔드포인트 기반`;
+        : `리전 ${data.region || '—'} · Notion은 제공자 공식 상태, OneNote 계정 상태는 확인불가입니다. 공개 응답 도달성은 서비스 정상 여부와 구분합니다.`;
     el.statOnenote.textContent = STATE_LABEL[data.services.onenote.overall] || '—';
     el.statNotion.textContent = STATE_LABEL[data.services.notion.overall] || '—';
     el.statLatency.textContent = latency != null ? `${latency}ms` : '—';
-    el.checkedAt.textContent = `마지막 점검 · ${formatTime(data.checkedAt)}`;
+    el.checkedAt.textContent = `이번 조회 시작 · ${formatTime(data.checkedAt)}`;
     el.services.innerHTML =
       renderService('onenote', data.services.onenote) +
       renderService('notion', data.services.notion);

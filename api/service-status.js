@@ -47,7 +47,7 @@ const PROBES = [
     service: 'notion',
     label: 'Notion API',
     url: 'https://api.notion.com/v1/users/me',
-    accept: [401, 403], // 토큰 없이도 응답하면 API 게이트웨이 정상
+    accept: [401, 403], // 인증 거절 응답 수신만 확인; 정상 서비스 증거가 아님
   },
 ];
 
@@ -74,7 +74,8 @@ async function probe(target) {
       },
     });
     const latencyMs = Date.now() - started;
-    const ok = target.accept.includes(response.status);
+    const authRequired = [401, 403].includes(response.status);
+    const ok = target.accept.includes(response.status) && !authRequired;
     return {
       id: target.id,
       service: target.service,
@@ -84,7 +85,8 @@ async function probe(target) {
       httpStatus: response.status,
       latencyMs,
       ok,
-      state: ok ? (latencyMs > 2500 ? 'degraded' : 'operational') : 'down',
+      state: ok ? (latencyMs > 2500 ? 'degraded' : 'operational') : 'unknown',
+      reachability: authRequired ? 'auth_required' : ok ? 'reachable' : 'http_error',
       error: null,
     };
   } catch (error) {
@@ -97,7 +99,8 @@ async function probe(target) {
       httpStatus: null,
       latencyMs: Date.now() - started,
       ok: false,
-      state: 'down',
+      state: 'unknown',
+      reachability: 'unavailable',
       error: error.name === 'AbortError' ? 'timeout' : String(error.message || error),
     };
   } finally {
@@ -110,7 +113,7 @@ function summarizeProbes(probes) {
   const okCount = probes.filter((p) => p.ok).length;
   const downCount = probes.filter((p) => p.state === 'down').length;
   const degradedCount = probes.filter((p) => p.state === 'degraded').length;
-  const latencies = probes.filter((p) => p.ok).map((p) => p.latencyMs);
+  const latencies = probes.filter((p) => p.ok && Number.isFinite(p.latencyMs) && p.latencyMs >= 0).map((p) => p.latencyMs);
   const avgLatencyMs = latencies.length
     ? Math.round(latencies.reduce((a, b) => a + b, 0) / latencies.length)
     : null;
@@ -118,6 +121,7 @@ function summarizeProbes(probes) {
   let state = 'operational';
   if (downCount === probes.length) state = 'down';
   else if (downCount > 0 || degradedCount > 0) state = 'degraded';
+  else if (probes.some((p) => p.state !== 'operational')) state = 'unknown';
 
   return { state, okCount, total: probes.length, avgLatencyMs };
 }
@@ -142,6 +146,7 @@ async function fetchNotionOfficial() {
   try {
     const response = await fetch(NOTION_SUMMARY, {
       headers: { Accept: 'application/json', 'User-Agent': UA },
+      signal: AbortSignal.timeout(10000),
     });
     const latencyMs = Date.now() - started;
     if (!response.ok) {
@@ -155,6 +160,7 @@ async function fetchNotionOfficial() {
       };
     }
     const data = await response.json();
+    if (!data.status || !Array.isArray(data.components)) throw new Error('공식 상태 JSON 형식 확인 필요');
     const components = Array.isArray(data.components)
       ? data.components
           .filter((c) => c && !c.group && c.name)
@@ -194,15 +200,6 @@ async function fetchNotionOfficial() {
   }
 }
 
-function rollupService(officialState, probeSummary) {
-  const ranks = { operational: 0, degraded: 1, down: 2, unknown: 1 };
-  const a = ranks[officialState] ?? 1;
-  const b = ranks[probeSummary.state] ?? 1;
-  if (Math.max(a, b) >= 2) return 'down';
-  if (Math.max(a, b) === 1) return 'degraded';
-  return 'operational';
-}
-
 export default async function handler(req, res) {
   setCors(res);
 
@@ -230,6 +227,7 @@ export default async function handler(req, res) {
   const notionOfficialState = notionOfficial.ok ? notionOfficial.state : 'unknown';
 
   const payload = {
+    implementationVersion: '20261120-scope-v2',
     checkedAt,
     region: process.env.VERCEL_REGION || 'local',
     services: {
@@ -239,12 +237,12 @@ export default async function handler(req, res) {
         statusPageUrl: 'https://status.cloud.microsoft/',
         official: {
           note:
-            'Microsoft Graph Service Health는 테넌트 인증이 필요합니다. 공개 웹 엔드포인트 도달성으로 상태를 추정합니다.',
-          state: onenoteSummary.state,
+            'Microsoft Graph 테넌트 상태는 조직의 ServiceHealth.Read.All 권한이 필요하고 개인 Microsoft 계정은 지원하지 않습니다. 공개 응답 도달성은 OneNote 계정·동기화 상태를 증명하지 않습니다.',
+          state: 'unknown',
         },
         probes: onenoteProbes,
         summary: onenoteSummary,
-        overall: onenoteSummary.state,
+        overall: 'unknown',
       },
       notion: {
         name: 'Notion',
@@ -253,7 +251,7 @@ export default async function handler(req, res) {
         official: notionOfficial,
         probes: notionProbes,
         summary: notionProbeSummary,
-        overall: rollupService(notionOfficialState, notionProbeSummary),
+        overall: notionOfficialState,
       },
     },
   };
