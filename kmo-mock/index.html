@@ -218,11 +218,20 @@ footer{padding:34px 0;color:#77859c;font-size:12px}
     $("exam").scrollIntoView({ behavior: "smooth" });
   }
 
+  var grading = false;
   async function grade(timeUp){
+    if (grading || state.result) return;
+    grading = true;
     stopTimer();
+    // Freeze the form and snapshot answers before any await, so input events
+    // during the async digests cannot change what gets graded.
+    document.querySelectorAll("#qlist input").forEach(function(el){ el.disabled = true; });
+    $("submitBtn").disabled = true;
+    var snapshot = {};
+    round.questions.forEach(function(q){ snapshot[q.no] = normalize(state.answers[q.no]); });
     var results = {};
     for (var i = 0; i < round.questions.length; i++) {
-      var q = round.questions[i], v = normalize(state.answers[q.no]);
+      var q = round.questions[i], v = snapshot[q.no];
       results[q.no] = v !== null && (await sha256(round.id + ":" + q.no + ":" + v)) === q.hash;
     }
     state.result = { correct: results, gradedAt: Date.now(), timeUp: !!timeUp };
