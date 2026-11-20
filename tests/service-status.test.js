@@ -45,7 +45,7 @@ test('GET returns OneNote and Notion status payload without live network probes'
     if (String(url).endsWith('/api/v2/summary.json')) {
       return { ok: true, json: async () => ({ status: { indicator: 'none' }, components: [], incidents: [] }) };
     }
-    return { status: String(url).includes('api.notion.com') ? 401 : 200, url: String(url) };
+    return { status: new URL(String(url)).hostname === 'api.notion.com' ? 401 : 200, url: String(url) };
   });
   const res = mockRes();
   await handler({ method: 'GET', query: {} }, res);
@@ -67,7 +67,7 @@ test('GET returns OneNote and Notion status payload without live network probes'
 test('authentication and failed probes do not become provider incidents', async (t) => {
   t.mock.method(globalThis, 'fetch', async (url) => String(url).endsWith('/summary.json')
     ? { ok: true, json: async () => ({ status: { indicator: 'none' }, components: [] }) }
-    : { status: String(url).includes('api.notion.com') ? 401 : 503, url: String(url) });
+    : { status: new URL(String(url)).hostname === 'api.notion.com' ? 401 : 503, url: String(url) });
   const res = mockRes(); await handler({ method: 'GET' }, res);
   assert.equal(res.body.services.notion.overall, 'operational');
   assert.equal(res.body.services.onenote.overall, 'unknown');
