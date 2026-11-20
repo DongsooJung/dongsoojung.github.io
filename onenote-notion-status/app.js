@@ -250,9 +250,9 @@
         <div class="name">${escapeHtml(p.label)}
           <span class="url">${escapeHtml(p.finalUrl || p.url)}</span>
         </div>
-        <span class="mini ${p.ok ? p.state : 'unknown'}">${escapeHtml(p.reachability === 'auth_required' || [401,403].includes(p.httpStatus) ? '인증·접근 제한' : p.ok ? (p.state === 'degraded' ? '공개 응답 지연' : '공개 응답 도달') : '응답 확인불가')}</span>
+        <span class="mini ${escapeHtml(p.ok ? p.state : 'unknown')}">${escapeHtml(p.reachability === 'auth_required' || [401,403].includes(p.httpStatus) ? '인증·접근 제한' : p.ok ? (p.state === 'degraded' ? '공개 응답 지연' : '공개 응답 도달') : '응답 확인불가')}</span>
         <div class="latency">${p.latencyMs != null ? `${p.latencyMs} ms` : '—'} · ${
-          p.httpStatus != null ? `HTTP ${p.httpStatus}` : escapeHtml(p.error || 'n/a')
+          p.httpStatus != null ? `HTTP ${escapeHtml(p.httpStatus)}` : escapeHtml(p.error || 'n/a')
         }</div>
       </div>`
       )
