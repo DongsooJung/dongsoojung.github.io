@@ -257,7 +257,7 @@ footer{margin-top:36px;padding-top:16px;border-top:1px solid var(--line);color:v
   <link rel="stylesheet" href="/assets/site-theme.css">
   <script src="/assets/site-theme.js"></script>
 <link rel="stylesheet" href="/assets/stargate-tokens.css?v=20261017">
-<style>.operations-review{box-sizing:border-box;width:min(1120px,calc(100% - 40px));margin:24px auto;padding:18px 22px;border:1px solid #607f99;border-radius:14px;background:#102333;color:#eaf3fa;font:400 15px/1.8 system-ui,sans-serif;overflow-wrap:anywhere;word-break:normal}.operations-review h2{font-size:1.12rem;line-height:1.5;color:#fff;margin:0 0 10px}.operations-review p{color:#eaf3fa;margin:8px 0;font-size:15px}.operations-review a{color:#9fe6ff;text-decoration:underline}.operations-review strong{color:#fff}.operations-review small{color:#c2d7e7}@media print{.operations-review{background:white!important;color:black!important}.operations-review h2,.operations-review p,.operations-review a,.operations-review strong,.operations-review small{color:black!important}}</style></head>
+<style>.operations-review{box-sizing:border-box;width:min(1120px,calc(100% - 40px));margin:24px auto;padding:18px 22px;border:1px solid #607f99;border-radius:14px;background:#102333;color:#eaf3fa;font:400 15px/1.8 system-ui,sans-serif;overflow-wrap:anywhere;word-break:normal}.operations-review h2{font-size:1.12rem;line-height:1.5;color:#fff;margin:0 0 10px}.operations-review p{color:#eaf3fa;margin:8px 0;font-size:15px}.operations-review a{color:#9fe6ff;text-decoration:underline}.operations-review strong{color:#fff}.operations-review small{color:#c2d7e7}@media print{.operations-review{background:white!important;color:black!important}.operations-review h2,.operations-review p,.operations-review a,.operations-review strong,.operations-review small{color:black!important}}</style><style>@media print{.services{display:block!important}.service{margin:12px 0!important;box-shadow:none!important;background:#fff!important}.service:first-child{break-inside:avoid!important}.service-head,.probe,.component{break-inside:avoid}.hero{background:none!important}.service-body,.overall,.stat,.history{box-shadow:none!important;background:#fff!important}button,.sg-theme-toggle,.site-theme-toggle{display:none!important}.service-head{break-after:avoid}.latency,.sub,.section-label,.note,.meta{color:#405767!important}.component{grid-template-columns:1fr 90px 80px!important}.component .latency{font-size:8pt}.history{break-inside:avoid}}</style></head>
 <body>
 <div class="wrap">
   <nav class="nav">
@@ -271,7 +271,7 @@ footer{margin-top:36px;padding-top:16px;border-top:1px solid var(--line);color:v
   <header class="hero">
     <div class="eyebrow"><span class="pulse-dot" aria-hidden="true"></span> Live Web Status</div>
     <h1>OneNote · Notion<br>상태판</h1>
-    <p>브라우저로 쓰는 OneNote와 Notion의 공식 상태, 웹 도달성, 응답 지연을 한곳에서 확인합니다.</p>
+    <p>Notion의 공식 상태와 공개 응답 도달성을 확인합니다. OneNote 개인 계정·동기화 상태는 포함하지 않습니다.</p>
     <div class="toolbar">
       <button class="btn primary" id="refresh-btn" type="button">지금 다시 점검</button>
       <label class="meta" style="display:inline-flex;align-items:center;gap:8px">
@@ -281,7 +281,7 @@ footer{margin-top:36px;padding-top:16px;border-top:1px solid var(--line);color:v
       <a class="btn" href="/strategy/">전략 대시보드</a>
       <span class="meta" id="checked-at">점검 대기 중…</span>
     </div>
-  </header><section class="operations-review" aria-labelledby="operations-review-title"><h2 id="operations-review-title">운영 자료·구현 대조 · 2026-10-20</h2><p><strong>공개 상태·도달성 점검의 범위</strong>입니다. 이번에는 상태 프록시가 HTTP 404여서 브라우저 대체 조회를 확인합니다. Notion 공식 상태 JSON의 응답과 제공자 갱신 시각을 구분하며, OneNote나 개인 워크스페이스 내부의 동작을 검증한 결과가 아닙니다.</p><p>조회 실패를 정상이나 실제 장애로 단정하지 않도록 요약을 수정했습니다. 확인 불가를 그대로 표시하며 평균 지연은 응답이 있는 유효한 측정값만 집계합니다. 과거 월간 가용률을 계산한 통계가 아닙니다.</p><p><small>확인일과 문서 작성·시행일 및 제공자 갱신 시각을 구분합니다. 월간 통계 기준월은 비적용입니다. <a href="/research/source-reviews/2026-10-20-operations-1.json" download>출처·검증 범위·후속 조치 JSON 내려받기</a></small></p></section>
+  </header><section class="operations-review" aria-labelledby="operations-review-title"><h2 id="operations-review-title">공개 상태·표시 범위 대조 · 2026-11-20</h2><p>Notion의 공식 상태와 공개 응답 도달성을 구분합니다. OneNote 개인 계정·동기화는 이번 공개 조회로 확인할 수 없습니다.</p><details id="source-details"><summary>출처·검증 범위와 변경 내역 열기</summary><p><strong>공식 상태·전체 표시</strong> · Notion 공식 요약의 indicator는 none, 비그룹 구성 요소는 19개입니다. 기존 화면의 12개 제한을 제거해 모두 표시하며, Notion 전체 상태는 공식 indicator만 반영합니다. 공개 응답 도달성은 별도로 표시합니다.</p><p><strong>시각·판본 구분</strong> · 공식 JSON의 page.updated_at은 2026-10-26T17:50:43Z입니다. 이번 수집·조회 시각으로 덮어쓰지 않고 제공자 갱신 시각을 화면에 표시합니다. 문헌·운영 도구의 월간 통계 기준월은 비적용입니다.</p><p><strong>인증·조회 실패 해석</strong> · 인증 없는 Notion API 401/403은 인증·접근 제한으로 표시합니다. CORS·시간 초과·HTTP 오류를 서비스 정상이나 제공자 장애로 집계하지 않습니다. 2,500ms는 공개 응답의 화면 표시 기준이며 SLA가 아닙니다.</p><p><strong>프록시와 OneNote의 범위</strong> · 현재 포털의 /api/service-status는 404이며 실제 브라우저는 Notion 공개 JSON 폴백을 사용합니다. OneNote 개인 계정·동기화 상태는 확인불가입니다. Graph 테넌트 상태는 조직 권한이 필요하고 개인 Microsoft 계정은 지원하지 않습니다.</p><p><strong>요청·기록 범위</strong> · 브라우저 폴백의 공식 JSON 조회를 두 번에서 한 번으로 줄이고 요청별 10초 시간 제한을 적용했습니다. 60초 갱신·최근 12회 로컬 기록을 유지하되 이전 해석의 v1 기록은 그대로 보존하고 v2와 합치지 않습니다.</p><p><strong>배포·검증의 한계</strong> · 브라우저 표시와 프록시 저장 소스를 함께 보완했습니다. 프록시 소스의 implementationVersion은 20261120-scope-v2이지만 실제 백엔드 연결·배포를 완료한 것은 아닙니다. 개인 계정 조회·외부 동기화·계정 쓰기는 실행하지 않았습니다.</p><p><small><a href="https://www.notion-status.com/">Notion 공식 상태</a> · <a href="https://developers.notion.com/reference/status-codes">Notion 상태코드</a> · <a href="https://learn.microsoft.com/en-us/graph/api/serviceannouncement-list-healthoverviews?view=graph-rest-1.0">Graph 권한·범위</a> · <a href="/research/source-reviews/2026-11-20-onenote-notion.json" download>출처·검증 범위 JSON 내려받기</a> · <a href="노트 서비스 상태 점검_20261120.pdf" download>2026-11-20 점검 화면 PDF (고정본)</a></small></p></details></section>
 
   <section class="overview" aria-label="전체 요약">
     <article class="overall">
@@ -292,7 +292,7 @@ footer{margin-top:36px;padding-top:16px;border-top:1px solid var(--line);color:v
     <div class="stats">
       <div class="stat"><div class="k">OneNote</div><div class="v" id="stat-onenote">—</div></div>
       <div class="stat"><div class="k">Notion</div><div class="v" id="stat-notion">—</div></div>
-      <div class="stat"><div class="k">평균 지연</div><div class="v" id="stat-latency">—</div></div>
+      <div class="stat"><div class="k">유효 공개 응답 평균 지연</div><div class="v" id="stat-latency">—</div></div>
     </div>
   </section>
 
@@ -307,6 +307,6 @@ footer{margin-top:36px;padding-top:16px;border-top:1px solid var(--line);color:v
 
   <footer>© 2026 Dongsoo Jung · 공개 상태 페이지·웹 엔드포인트 기반 추정 · 계정/워크스페이스 내부 상태는 포함하지 않습니다.</footer>
 </div>
-<script src="./app.js" defer></script>
+<script src="./app.js?v=20261120-scope-v2" defer></script>
 </body>
 </html>

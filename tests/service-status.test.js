@@ -45,7 +45,7 @@ test('GET returns OneNote and Notion status payload without live network probes'
     if (String(url).endsWith('/api/v2/summary.json')) {
       return { ok: true, json: async () => ({ status: { indicator: 'none' }, components: [], incidents: [] }) };
     }
-    return { status: String(url).includes('api.notion.com') ? 401 : 200, url: String(url) };
+    return { status: new URL(String(url)).hostname === 'api.notion.com' ? 401 : 200, url: String(url) };
   });
   const res = mockRes();
   await handler({ method: 'GET', query: {} }, res);
@@ -62,4 +62,42 @@ test('GET returns OneNote and Notion status payload without live network probes'
   assert.equal(res.body.services.notion.probes.length, 2);
   assert.equal(calls.length, 6);
   assert.equal(res.body.services.notion.overall, 'operational');
+});
+
+test('authentication and failed probes do not become provider incidents', async (t) => {
+  t.mock.method(globalThis, 'fetch', async (url) => String(url).endsWith('/summary.json')
+    ? { ok: true, json: async () => ({ status: { indicator: 'none' }, components: [] }) }
+    : { status: new URL(String(url)).hostname === 'api.notion.com' ? 401 : 503, url: String(url) });
+  const res = mockRes(); await handler({ method: 'GET' }, res);
+  assert.equal(res.body.services.notion.overall, 'operational');
+  assert.equal(res.body.services.onenote.overall, 'unknown');
+  const auth = res.body.services.notion.probes.find(p => p.id === 'notion-api');
+  assert.equal(auth.ok, false); assert.equal(auth.state, 'unknown');
+  assert.equal(auth.reachability, 'auth_required');
+  assert.equal(res.body.services.notion.summary.avgLatencyMs, null);
+});
+
+test('provider incident and original update time survive reachable endpoints', async (t) => {
+  t.mock.method(globalThis, 'fetch', async (url) => String(url).endsWith('/summary.json')
+    ? { ok: true, json: async () => ({ page: { updated_at: '2026-10-26T17:50:43Z' }, status: { indicator: 'major' }, components: Array.from({ length: 19 }, (_, i) => ({ id: String(i), name: 'Component ' + i, status: 'operational' })) }) }
+    : { status: 200, url: String(url) });
+  const res = mockRes(); await handler({ method: 'GET' }, res);
+  assert.equal(res.body.services.notion.overall, 'down');
+  assert.equal(res.body.services.notion.official.updatedAt, '2026-10-26T17:50:43Z');
+  assert.equal(res.body.services.notion.official.components.length, 19);
+});
+
+test('network and malformed provider responses remain unknown', async (t) => {
+  let malformed = false;
+  t.mock.method(globalThis, 'fetch', async (url) => {
+    if (!malformed) throw new TypeError('network unavailable');
+    return String(url).endsWith('/summary.json') ? { ok: true, json: async () => ({}) } : { status: 200, url: String(url) };
+  });
+  let res = mockRes(); await handler({ method: 'GET' }, res);
+  assert.equal(res.body.services.onenote.overall, 'unknown');
+  assert.equal(res.body.services.notion.overall, 'unknown');
+  assert.equal(res.body.services.onenote.summary.avgLatencyMs, null);
+  malformed = true; res = mockRes(); await handler({ method: 'GET' }, res);
+  assert.equal(res.body.services.notion.overall, 'unknown');
+  assert.equal(res.body.services.notion.official.ok, false);
 });
