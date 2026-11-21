@@ -1,0 +1,26 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "desktop: 의존성 확인",
+      "type": "shell",
+      "command": "node",
+      "args": ["scripts/ensure-deps.js"],
+      "options": {
+        "cwd": "${workspaceFolder}/desktop"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "desktop: Windows 설치 파일",
+      "type": "shell",
+      "command": "npm",
+      "args": ["run", "dist:win"],
+      "options": {
+        "cwd": "${workspaceFolder}/desktop"
+      },
+      "dependsOn": ["desktop: 의존성 확인"],
+      "problemMatcher": []
+    }
+  ]
+}

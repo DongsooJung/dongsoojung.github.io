@@ -1,0 +1,62 @@
+{
+  "name": "stargate-desktop",
+  "version": "0.1.0",
+  "private": true,
+  "description": "스타게이트에듀 포털을 Windows 창으로 여는 데스크탑 앱",
+  "author": "주식회사 별의문 <support@stargateedu.co.kr>",
+  "homepage": "https://stargateedu.co.kr/",
+  "license": "UNLICENSED",
+  "main": "src/main.js",
+  "engines": {
+    "node": ">=22.12.0"
+  },
+  "scripts": {
+    "start": "electron .",
+    "dev": "electron . --dev",
+    "test": "node --test src/navigation-policy.test.js src/static-server.test.js",
+    "dist:win": "electron-builder --win nsis --x64"
+  },
+  "build": {
+    "appId": "kr.co.stargateedu.desktop",
+    "productName": "Stargate",
+    "copyright": "Copyright © 주식회사 별의문",
+    "directories": {
+      "output": "dist",
+      "buildResources": "build"
+    },
+    "files": [
+      "src/**/*",
+      "!src/**/*.test.js",
+      "build/icon.png",
+      "build/icon.ico",
+      "package.json"
+    ],
+    "asar": true,
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
+      "icon": "build/icon.ico",
+      "executableName": "Stargate",
+      "signExecutable": false
+    },
+    "nsis": {
+      "oneClick": false,
+      "perMachine": false,
+      "allowToChangeInstallationDirectory": true,
+      "shortcutName": "Stargate",
+      "uninstallDisplayName": "Stargate",
+      "language": "1042",
+      "artifactName": "Stargate-Setup-${version}.${ext}"
+    }
+  },
+  "devDependencies": {
+    "electron": "^45.3.0",
+    "electron-builder": "^26.18.0"
+  }
+}
