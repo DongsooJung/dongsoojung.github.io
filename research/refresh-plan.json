@@ -2858,10 +2858,29 @@
           "outcome": "official_status_components_and_document_scope_checked_frontend_corrected_proxy_and_account_pending",
           "release": {
             "branch": "codex/onenote-source-20261120",
-            "status": "awaiting_checks",
+            "status": "verified",
             "liveUrl": "https://www.stargateedu.co.kr/onenote-notion-status/",
             "sourceReviewUrl": "https://www.stargateedu.co.kr/research/source-reviews/2026-11-20-onenote-notion.json",
-            "pullRequest": "https://github.com/DongsooJung/dongsoojung.github.io/pull/316"
+            "pullRequest": "https://github.com/DongsooJung/dongsoojung.github.io/pull/316",
+            "commit": "325f567f1eeb3339bd59c6d249191256625c5580",
+            "pagesRun": "https://github.com/DongsooJung/dongsoojung.github.io/actions/runs/44887731461",
+            "verifiedAt": "2026-11-21T09:05:36.323Z",
+            "pullRequestHead": "fc23ba2680ffce289745363c2fa6b7b6f98f009f",
+            "providerAtDeployment": {
+              "updatedAt": "2026-11-20T21:28:00Z",
+              "indicator": "none",
+              "checkedAt": "2026-11-21T09:04:58.894Z"
+            },
+            "checks": [
+              "Exact pull request commit passed CodeQL and preview checks",
+              "Merged commit passed Pages build, report and deploy",
+              "Seven public files match source on both live domains",
+              "66 unique projects, seven alphabetical filters and seven separate essays",
+              "23 regression tests, source downloads, mobile layout and anchor navigation passed",
+              "Notion 19 components, provider update time and Microsoft permission scope checked; proxy and account unverified",
+              "Four browser fault scenarios passed; prior local history preserved",
+              "Two PDFs passed text and visual review"
+            ]
           }
         }
       ],
