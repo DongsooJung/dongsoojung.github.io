@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "updated_at": "2026-11-21T05:15:48+09:00",
+  "updated_at": "2026-11-21T15:44:48+09:00",
   "note": "Claude 예약 작업이 3시간마다 갱신합니다. 이메일은 마스킹합니다.",
   "accounts": [
     {
@@ -36,19 +36,19 @@
       "account": "j***@gmail.com",
       "plan": "Pro",
       "source": "claude.ai 설정 > 사용량",
-      "observed_at": "2026-11-21T05:15:48+09:00",
+      "observed_at": "2026-11-21T15:44:48+09:00",
       "windows": [
         {
           "key": "5h",
           "label": "5시간",
-          "used": 9,
+          "used": 4,
           "window_minutes": 300,
-          "resets_at": "2026-11-21T10:00:00+09:00"
+          "resets_at": "2026-11-21T20:10:00+09:00"
         },
         {
           "key": "week",
           "label": "주간",
-          "used": 25,
+          "used": 48,
           "window_minutes": 10080,
           "resets_at": "2026-11-27T01:00:00+09:00"
         }
