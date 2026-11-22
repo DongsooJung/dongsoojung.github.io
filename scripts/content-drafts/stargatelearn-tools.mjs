@@ -362,6 +362,61 @@ async function health() {
   console.log(JSON.stringify(out, null, 2));
 }
 
+async function blocks() {
+  // 광고만 모델의 다음 질문: 이 사이트에 광고 블록을 심을 수 있는가.
+  // 1) 등록된 블록 타입 중 광고 블록이 있는가
+  // 2) 워드프레스.com 쪽 사이트 설정에 광고 관련 항목이 있는가
+  const out = { site: SITE, steps: [] };
+
+  const types = await get('/wp/v2/block-types?per_page=100&context=edit');
+  out.steps.push({ step: 'block-types', status: types.status });
+  if (types.status === 200 && Array.isArray(types.body)) {
+    const ads = types.body
+      .filter((row) => /ad|advert|wordads/i.test(`${row.name} ${row.title?.rendered ?? row.title?.raw ?? ''}`))
+      .map((row) => ({
+        name: row.name,
+        title: row.title?.rendered ?? row.title?.raw ?? '',
+        category: row.category,
+        isAllowed: row.is_allowed,
+        isDynamic: row.is_dynamic,
+      }));
+    out.adBlocks = ads;
+    out.blockTypeCount = types.body.length;
+  } else {
+    out.adBlocks = { error: types.status, detail: String(types.body).slice(0, 200) };
+  }
+
+  // 워드프레스.com v2 사이트 설정(광고 배치 옵션이 여기 있을 수 있다)
+  const site = (await get('/wp/v2/settings')).body ?? {};
+  out.wpSettingsKeys = Object.keys(site).filter((key) => /ad|advert|wordads|monetiz/i.test(key));
+  out.wpSettingsAdValues = Object.fromEntries(
+    Object.entries(site).filter(([key]) => /ad|advert|wordads|monetiz/i.test(key)),
+  );
+
+  const com = await fetch(`https://public-api.wordpress.com/wpcom/v2/sites/${SITE.replace(/\./g, '-')}/settings`, {
+    headers: { Authorization: AUTH, Accept: 'application/json' },
+  });
+  const comText = await com.text();
+  out.comSettingsStatus = com.status;
+  try {
+    const parsed = JSON.parse(comText);
+    const rows = parsed.settings ?? parsed;
+    out.comAdSettings = Object.fromEntries(
+      Object.entries(rows).filter(([key]) => /ad|advert|wordads|monetiz/i.test(key)),
+    );
+  } catch {
+    out.comAdSettings = { preview: comText.slice(0, 300) };
+  }
+
+  // 템플릿 파트는 광고 블록을 심을 수 있는가(허용 컨텍스트)
+  const templates = await get('/wp/v2/template-parts?per_page=100&context=edit');
+  out.templateParts = Array.isArray(templates.body)
+    ? templates.body.map((row) => ({ id: row.id, slug: row.slug, source: row.source, length: row.content?.raw?.length ?? 0 }))
+    : { status: templates.status };
+
+  console.log(JSON.stringify(out, null, 2));
+}
+
 if (MODE === 'probe') {
   await probe();
 } else if (MODE === 'channels') {

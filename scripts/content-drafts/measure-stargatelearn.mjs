@@ -87,7 +87,7 @@ export async function measure(days = 30) {
       labels[label] = (labels[label] ?? 0) + (Number(click.clicks) || 0);
       count += Number(click.clicks) || 0;
     }
-    const stageClicks = stageCounts(clickRows ?? [], config.targets ?? []);
+    const stageClicks = stageCounts(clickRows ?? [], config.targets ?? [], config);
     const row = {
       path: item.path,
       kind: item.kind,
@@ -95,25 +95,32 @@ export async function measure(days = 30) {
       clicks: count,
       labels,
       stageClicks,
-      revenueScore: revenueScore(clickRows ?? [], config.targets ?? []),
+      revenueScore: revenueScore(clickRows ?? [], config.targets ?? [], config),
     };
     rows.push(row);
   }
 
   // 수익 단계 기준 판정. 조회 0 은 결함이 아니라 데이터 미수집이다.
+  const adsOnly = config.monetization === 'ads_only';
   for (const row of rows) {
     row.verdict = pathVerdict(row);
     row.action =
-      row.verdict === 'read-not-acting' || row.verdict === 'activated'
-        ? 'strengthen-offer'
-        : row.verdict === 'clicked-unknown'
-          ? 'map-target'
-          : row.verdict === 'no-data'
-            ? 'collect-data'
-            : 'keep-separate';
+      row.verdict === 'read-not-acting'
+        ? adsOnly
+          ? 'add-internal-link'
+          : 'strengthen-offer'
+        : row.verdict === 'activated'
+          ? adsOnly
+            ? 'deepen-session'
+            : 'strengthen-offer'
+          : row.verdict === 'clicked-unknown'
+            ? 'map-target'
+            : row.verdict === 'no-data'
+              ? 'collect-data'
+              : 'keep-separate';
   }
 
-  const funnel = buildFunnel(rows);
+  const funnel = buildFunnel(rows, config);
   let visitors = null;
   try {
     visitors = await call('get_site_visit_summary', { p_days: days });
@@ -137,14 +144,17 @@ export async function measure(days = 30) {
     origin: ORIGIN,
     windowDays: days,
     source: 'cloudflare',
-    rule: 'Every page a visitor can land on must offer a next step inside the content, and that step must be measurable. Views of 0 mean no data collected yet, not a defect. Ranking follows the money path, not traffic.',
+    monetization: config.monetization ?? 'product',
+    rule: adsOnly
+      ? 'This site earns from ads only. Every page view is an ad impression, so the ranking follows impressions and session depth, not purchase intent. Views of 0 mean no data collected yet, not a defect.'
+      : 'Every page a visitor can land on must offer a next step inside the content, and that step must be measurable. Views of 0 mean no data collected yet, not a defect. Ranking follows the money path, not traffic.',
     offerStages: (config.offers ?? []).map((offer) => ({ name: offer.name, stage: offer.stage, href: offer.href || null })),
     visitors,
     pages: rows,
     funnel,
     totals,
   };
-  report.sufficiency = sufficiency(report);
+  report.sufficiency = sufficiency(report, config);
   return report;
 }
 

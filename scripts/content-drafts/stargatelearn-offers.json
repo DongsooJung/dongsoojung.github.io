@@ -1,54 +1,60 @@
 {
   "_note": "stargatelearn.com 수익 퍼널 정의. 감사·측정·자기개선 루프는 이 파일만 본다. 여기서 규칙을 바꾸면 반복 작업 전체가 따라간다.",
   "_stage_model": "scripts/content-drafts/stargatelearn-revenue.mjs (자매 사이트 scripts/revenue.mjs 와 같은 단계·가중치)",
-  "_status": "수익 상품 최종 확인 대기. storeProductUrl 과 productPage 는 사용자가 정하면 채운다(확인 필요). 비어 있으면 해당 오퍼·단계는 감사에서 제외된다.",
+  "_status": "2026-11-22 사용자 확정 — 수익 상품은 '광고만'(WordAds). 유료 문제집·리드마그넷·상담은 만들지 않는다. 그래서 consideration 은 '내부 이동(추가 노출)', intent 는 '광고 클릭'이다. 광고 수익 자체는 WordPress.com 쪽에서 생기므로 이 사이트에서는 external 로만 표시한다.",
+  "monetization": "ads_only",
+  "siteOrigin": "https://stargatelearn.com",
   "storeProductUrl": "",
   "productPage": "",
+  "stageLabels": {
+    "attention": "읽음(광고 노출)",
+    "activation": "재방문 구독",
+    "consideration": "내부 이동(추가 노출)",
+    "intent": "광고 클릭",
+    "revenue": "광고 수익(외부)"
+  },
   "offers": [
     {
-      "name": "free_challenge",
-      "label": "무료 챌린지",
-      "href": "/challenges/",
+      "name": "email_return",
+      "label": "이메일 재방문",
+      "href": "https://wordpress.com/email-subscriptions",
       "stage": "activation"
     },
     {
-      "name": "paid_problem_set",
-      "label": "유료 문제집",
+      "name": "ad_impressions",
+      "label": "WordAds 광고 노출",
       "href": "",
-      "stage": "consideration"
-    },
-    {
-      "name": "custom_help",
-      "label": "맞춤 해설 상담",
-      "href": "/contact/",
-      "stage": "intent"
+      "stage": "revenue",
+      "external": true
     }
   ],
   "targets": [
-    { "match": "/challenges/", "stage": "activation", "priority": 10 },
-    { "match": "/email-subscriptions", "stage": "activation", "priority": 20 },
-    { "match": "/problem-set/", "stage": "consideration", "priority": 10 },
-    { "match": "/sample", "stage": "consideration", "priority": 20 },
-    { "match": "/shop_view", "stage": "intent", "priority": 30 },
-    { "match": "/contact/", "stage": "intent", "priority": 10 }
+    { "kind": "match", "match": "wordpress.com/email-subscriptions", "stage": "activation", "priority": 20 },
+    { "kind": "internal", "stage": "consideration", "priority": 5 },
+    { "kind": "match", "match": "doubleclick.net", "stage": "intent", "priority": 30 },
+    { "kind": "match", "match": "googlesyndication.com", "stage": "intent", "priority": 30 },
+    { "kind": "match", "match": "googletagservices.com", "stage": "intent", "priority": 30 },
+    { "kind": "match", "match": "amazon-adsystem.com", "stage": "intent", "priority": 30 },
+    { "kind": "match", "match": "adnxs.com", "stage": "intent", "priority": 30 },
+    { "kind": "match", "match": "criteo.com", "stage": "intent", "priority": 30 },
+    { "kind": "match", "match": "pubmatic.com", "stage": "intent", "priority": 30 },
+    { "kind": "match", "match": "switchadhub.com", "stage": "intent", "priority": 30 },
+    { "kind": "match", "match": "pubmine.com", "stage": "intent", "priority": 30 },
+    { "kind": "match", "match": "bidswitch.net", "stage": "intent", "priority": 30 }
   ],
-  "moneyEndpoints": [
-    { "path": "/challenges/", "stage": "activation" },
-    { "path": "/problem-set/", "stage": "consideration" },
-    { "path": "/contact/", "stage": "intent" }
-  ],
+  "contentRules": {
+    "requireAdSlot": true,
+    "adSlotMarkers": ["w-ads", "adsbygoogle", "data-ad-client", "data-ad-slot", "wpcom-ads", "id=\"w-a-"],
+    "requireReturnPath": true,
+    "returnPathMarkers": ["id=\"subscribe-blog\"", "email-subscriptions", "jetpack_subscriptions"],
+    "minContentLinks": 1,
+    "minTextLength": 1200
+  },
   "excluded": [
-    "/privacy-policy/",
-    "/contact/",
-    "/about/"
+    "/privacy-policy/"
   ],
   "measurable": {
     "attribute": "data-conversion",
-    "hrefs": [
-      "/challenges/",
-      "/problem-set/",
-      "/contact/",
-      "/store/"
-    ]
+    "hrefs": []
   }
 }

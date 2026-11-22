@@ -163,6 +163,18 @@
     if (target.length > MAX_PATH) target = '/';
     return target;
   }
+  // 광고 클릭은 목적지로 알 수 없다. 광고 클릭의 목적지는 광고주 페이지라
+  // 아무 도메인이나 가능하다. 그래서 링크가 광고 슬롯 안에 있는지로 판정한다.
+  // [확인 필요] WordAds 실제 마크업이 이 선택자에 걸리는지는 광고 슬롯을 하나
+  // 넣은 뒤 라이브 HTML 로 확인한다.
+  var AD_SELECTOR = '.w-ads, ins.adsbygoogle, [data-ad-client], [data-ad-slot], .wp-block-wpcom-ad, [id^="w-a-"], .ads-ad';
+  function isAdLink(link) {
+    if (!link) return false;
+    var rel = String(link.getAttribute('rel') || '').toLowerCase().split(/\s+/);
+    if (rel.indexOf('sponsored') >= 0) return true;
+    if (link.closest) return !!link.closest(AD_SELECTOR);
+    return false;
+  }
   function trackClick(event) {
     if (!measurable()) return;
     var node = event.target;
@@ -173,8 +185,9 @@
     if (!target) return;
     var payload = basePayload('click');
     if (!payload) return;
-    payload.p_element_label = 'link_click';
-    payload.p_element_kind = 'link';
+    var isAd = isAdLink(link);
+    payload.p_element_label = isAd ? 'ad_click' : 'link_click';
+    payload.p_element_kind = isAd ? 'ad' : 'link';
     payload.p_target_url = target;
     sendEvent(payload);
   }

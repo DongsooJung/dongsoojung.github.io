@@ -115,3 +115,81 @@ test('퍼널은 주문 단계를 외부로 표시하고 단계 전이를 함께 
   assert.equal(funnel.steps.find((step) => step.id === 'revenue').external, true);
   assert.equal(funnel.conversion.length, 4);
 });
+
+// ── 광고만 모델 (2026-11-22 사용자 확정) ────────────────────────────────────
+// 유료 상품이 없으므로 단계의 뜻이 바뀐다. 조회 = 광고 노출, 내부 이동 = 추가 노출,
+// 광고 클릭 = 클릭 수익, 이메일 구독 = 재방문 노출.
+const ADS_RULES = [
+  { kind: 'match', match: 'wordpress.com/email-subscriptions', stage: 'activation', priority: 20 },
+  { kind: 'internal', stage: 'consideration', priority: 5 },
+  { kind: 'match', match: 'doubleclick.net', stage: 'intent', priority: 30 },
+];
+const ADS_OPTIONS = { siteOrigin: 'https://stargatelearn.com', monetization: 'ads_only' };
+
+test('광고만 모델에서 내부 이동은 추가 노출(consideration) 이다', () => {
+  assert.equal(stageForTarget('/2026/11/17/digit-sums/', ADS_RULES, ADS_OPTIONS), 'consideration');
+  // 같은 사이트의 절대 URL 도 내부로 본다(www 유무에 상관없이).
+  assert.equal(
+    stageForTarget('https://www.stargatelearn.com/challenges/', ADS_RULES, ADS_OPTIONS),
+    'consideration',
+  );
+  assert.equal(
+    stageForTarget('https://stargatelearn.com/challenges/', ADS_RULES, ADS_OPTIONS),
+    'consideration',
+  );
+});
+
+test('광고만 모델에서 이메일 구독은 재방문(activation) 이다', () => {
+  const counts = stageCounts(
+    [{ element_label: 'form_submit', target_url: 'https://wordpress.com/email-subscriptions', clicks: 1 }],
+    ADS_RULES,
+    ADS_OPTIONS,
+  );
+  assert.equal(counts.activation, 1);
+  assert.equal(counts.consideration, 0);
+});
+
+test('광고 클릭은 목적지가 아니라 라벨로 intent 가 된다', () => {
+  // 광고 클릭의 목적지는 광고주 페이지라 아무 도메인이나 가능하다.
+  const counts = stageCounts(
+    [{ element_label: 'ad_click', target_url: 'https://some-advertiser.example/landing', clicks: 2 }],
+    ADS_RULES,
+    ADS_OPTIONS,
+  );
+  assert.equal(counts.intent, 2);
+  assert.equal(counts.unknownTarget, 0);
+});
+
+test('광고만 모델에서 순위의 기준은 노출이므로 조회가 모자라면 확정하지 않는다', () => {
+  const thin = { totals: { views: 3, pathsWithReads: 0 } };
+  const thinResult = sufficiency(thin, ADS_OPTIONS);
+  assert.equal(thinResult.sufficient, false);
+  assert.match(thinResult.reason, /노출/);
+  const enough = { totals: { views: 120, pathsWithReads: 4 } };
+  assert.equal(sufficiency(enough, ADS_OPTIONS).sufficient, true);
+});
+
+test('광고만 모델에서 구독만 하고 더 안 내려간 경로는 session_stalled_after_subscribe 다', () => {
+  const path = { path: '/challenges/', kind: 'page', views: 5, clicks: 1, stageClicks: { activation: 1 } };
+  const finding = pathFinding(path, undefined, ADS_OPTIONS);
+  assert.ok(finding);
+  assert.equal(finding.code, 'session_stalled_after_subscribe');
+  // 영향도는 조회 수(잃고 있는 노출)다.
+  assert.equal(finding.revenueImpact, 5);
+});
+
+test('광고만 모델에서 조회만 있고 내부 이동이 없으면 session_not_deepened 다', () => {
+  const path = { path: '/x/', kind: 'post', views: 9, clicks: 0, stageClicks: {} };
+  const finding = pathFinding(path, undefined, ADS_OPTIONS);
+  assert.ok(finding);
+  assert.equal(finding.code, 'session_not_deepened');
+  assert.equal(finding.revenueImpact, 9);
+});
+
+test('퍼널 단계 이름은 사이트 설정에서 온다', () => {
+  const funnel = buildFunnel(
+    [{ path: '/a/', views: 4, clicks: 1, revenueScore: 1, stageClicks: { consideration: 1 } }],
+    { stageLabels: { consideration: '내부 이동(추가 노출)' } },
+  );
+  assert.equal(funnel.steps.find((step) => step.id === 'consideration').label, '내부 이동(추가 노출)');
+});

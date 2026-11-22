@@ -2,11 +2,20 @@
 //
 // 트래픽이 기준이 아니다. 이 사이트의 돈 경로는 고정되어 있다.
 //
-//   read -> free challenge -> paid offer considered -> checkout or enquiry -> order
+//   read -> deeper session -> ad click -> ad revenue
 //
-// 주문은 스토어·이메일에서 일어나므로 마지막 단계는 external 로만 표시하고 이 사이트의
-// 결과로 세지 않는다. stargatekorea.net 의 scripts/revenue.mjs 와 같은 단계·가중치·판정 규칙을
-// 쓰되, 이 사이트는 클릭 라벨이 하나뿐('link_click')이라 목적지(target_url)로 단계를 정한다.
+// 2026-11-22 사용자 확정: 수익 상품은 "광고만"(WordAds)이다. 유료 문제집·리드마그넷·상담이
+// 없으므로 단계의 뜻이 바뀐다.
+//
+//   read(page_view)         광고 노출이 일어난다(= 노출 기회)
+//   activation              이메일 재방문 → 다시 오는 세션 = 다시 생기는 노출
+//   consideration           내부 이동 → 다음 페이지 = 추가 노출
+//   intent                  광고 클릭 → 클릭 수익(광고주 페이지)
+//   revenue                 광고 수익. WordPress.com 에서 생기므로 external 로만 표시한다.
+//
+// 단계 id 와 가중치는 자매 사이트 scripts/revenue.mjs 와 같게 둔다(사이트 간 비교 가능).
+// 이 사이트는 클릭 라벨이 하나뿐('link_click')이라 목적지(target_url)로 단계를 정하고,
+// 광고 클릭은 라벨('ad_click')로 구분한다.
 //
 // 모델은 순수하다. 수치를 읽어 수치를 돌려주므로 측정·감사·테스트가 같은 규칙을 쓴다.
 
@@ -38,24 +47,46 @@ export function stageOrder(id) {
 // Reads are attention. They are not part of the money chain.
 export const ATTENTION_LABEL = 'page_view';
 export const CLICK_LABEL = 'link_click';
+// An ad click is recognised by where the link sits (inside an ad slot), not by the
+// destination: the destination is the advertiser's own page, which can be anything.
+// WordAds clicks are the one step of the ads-only money path that this site can
+// observe directly, so they carry their own label.
+export const AD_CLICK_LABEL = 'ad_click';
 
 export function classifyLabel(label) {
   if (label === ATTENTION_LABEL) return 'attention';
+  if (label === AD_CLICK_LABEL) return 'intent';
   if (label === CLICK_LABEL) return null; // 목적지로 정한다
   return null;
 }
 
 // 목적지 → 단계. 규칙은 stargatelearn-offers.json 의 targets 에 있다.
 // 같은 사이트 안의 링크는 상대 경로, 다른 사이트는 origin+path 로 온다.
-export function stageForTarget(target, rules = []) {
+//
+// rule.kind 로 세 종류를 쓴다.
+//   match    needle 이 들어가는가
+//   internal 이 사이트 안인가(상대 경로 또는 siteOrigin)
+//   external 이 사이트 밖인가
+export function stageForTarget(target, rules = [], options = {}) {
   if (!target) return null;
   const value = String(target).toLowerCase();
+  const siteOrigin = String(options.siteOrigin ?? '').replace(/\/+$/, '').toLowerCase();
+  // 사이트는 www 와 무www 를 둘 다 쓴다. 비교할 때 www 여부를 없애야 한다.
+  const bare = (text) => text.replace(/^(https?:\/\/)www\./, '$1');
+  const internal = value.startsWith('/') || (siteOrigin && bare(value).startsWith(bare(siteOrigin)));
   let best = null;
   for (const rule of rules) {
-    const needle = String(rule.match ?? '').toLowerCase();
-    if (!needle) continue;
-    if (!value.includes(needle)) continue;
-    if (!best || rule.priority > best.priority) best = rule;
+    const kind = rule.kind ?? 'match';
+    if (kind === 'internal') {
+      if (!internal) continue;
+    } else if (kind === 'external') {
+      if (internal) continue;
+    } else {
+      const needle = String(rule.match ?? '').toLowerCase();
+      if (!needle) continue;
+      if (!value.includes(needle)) continue;
+    }
+    if (!best || (rule.priority ?? 0) > (best.priority ?? 0)) best = rule;
   }
   return best?.stage ?? null;
 }
@@ -69,7 +100,7 @@ export function stageForTarget(target, rules = []) {
 //
 // 참고: mailto: 링크는 워커가 400 으로 거절하므로 아예 이벤트를 보내지 않는다.
 // 문의 단계는 http(s) 링크(연락 페이지 등)로만 측정된다.
-export function stageCounts(clicks = [], rules = []) {
+export function stageCounts(clicks = [], rules = [], options = {}) {
   const counts = Object.fromEntries(STAGE_IDS.map((id) => [id, 0]));
   counts.unknownTarget = 0;
   counts.unclassified = 0;
@@ -80,7 +111,7 @@ export function stageCounts(clicks = [], rules = []) {
     const label = row.element_label || row.label || '(unlabeled)';
     const target = row.target_url ?? row.target ?? '';
     const byLabel = classifyLabel(label);
-    const byTarget = stageForTarget(target, rules);
+    const byTarget = stageForTarget(target, rules, options);
     const id = byTarget ?? byLabel;
     if (!id) {
       counts.unknownTarget += count;
@@ -99,12 +130,12 @@ export function stageCounts(clicks = [], rules = []) {
 // The money distance of a path. Purchase intent is weighted highest, so a single
 // checkout click outweighs several reads. The result is an intent score, not a
 // turnover figure: the completed order happens outside this site.
-export function revenueScore(clicks = [], rules = []) {
+export function revenueScore(clicks = [], rules = [], options = {}) {
   let score = 0;
   for (const row of clicks) {
     const count = Number(row.clicks) || 0;
     if (!count) continue;
-    const id = stageForTarget(row.target_url ?? row.target ?? '', rules) ?? classifyLabel(row.element_label ?? row.label ?? '');
+    const id = stageForTarget(row.target_url ?? row.target ?? '', rules, options) ?? classifyLabel(row.element_label ?? row.label ?? '');
     if (!id) continue;
     score += count * stageWeight(id);
   }
@@ -165,47 +196,67 @@ export const MIN_VIEWS = 3;
 //
 // A page with too few reads is not a defect. It is listed as a watch item so it is
 // visible without sending the loop into work on a single visit.
-export function pathFinding(path, minViews = MIN_VIEWS) {
+export function pathFinding(path, minViews = MIN_VIEWS, options = {}) {
   const verdict = path.verdict ?? pathVerdict(path);
   const views = Number(path.views) || 0;
   const counts = path.stageClicks ?? {};
+  const adsOnly = options.monetization === 'ads_only';
+  // 광고만 모델에서는 돈이 걸린 것은 노출이다. 이 페이지의 조회 수가 곧 잃고 있는 노출이다.
+  const impact = adsOnly
+    ? Math.round(views * 1000) / 1000
+    : revenuePriority({ views, stage: 'consideration' });
   const base = {
     target: path.path,
     kind: path.kind,
     views,
     stage: 'consideration',
-    revenueImpact: revenuePriority({ views, stage: 'consideration' }),
+    revenueImpact: impact,
   };
   if (verdict === 'intent' || verdict === 'consideration') return null;
   if (verdict === 'no-data') return null;
   // 단계 미상 클릭은 콘텐츠 문제가 아니라 목적지 규칙 문제다. 순위에 섞지 않고 대기 항목으로 둔다.
   if (verdict === 'clicked-unknown') return null;
   if (verdict === 'activated') {
-    return { code: 'revenue_stalled_after_free', ...base, stage: 'consideration', activationClicks: counts.activation ?? 0 };
+    return {
+      code: adsOnly ? 'session_stalled_after_subscribe' : 'revenue_stalled_after_free',
+      ...base,
+      stage: 'consideration',
+      activationClicks: counts.activation ?? 0,
+    };
   }
   if (views >= minViews) {
-    return { code: path.kind === 'funnel' ? 'revenue_no_intent' : 'guide_read_not_acting', ...base };
+    return {
+      code: adsOnly ? 'session_not_deepened' : path.kind === 'funnel' ? 'revenue_no_intent' : 'guide_read_not_acting',
+      ...base,
+    };
   }
   return null;
 }
 
 // The paths that were read but not judged yet. They are reported, not acted on.
-export function pathWatch(path, minViews = MIN_VIEWS) {
+export function pathWatch(path, minViews = MIN_VIEWS, options = {}) {
   const verdict = path.verdict ?? pathVerdict(path);
   const views = Number(path.views) || 0;
   const counts = path.stageClicks ?? {};
+  const adsOnly = options.monetization === 'ads_only';
   if (verdict === 'no-data' || verdict === 'intent' || verdict === 'consideration') return null;
   if (verdict === 'activated') return null;
   if (verdict === 'clicked-unknown') {
     return { target: path.path, kind: path.kind, views, stage: 'attention', reason: `클릭 ${counts.unknownTarget ?? 0}건의 목적지가 규칙에 없어 단계 미상 — 목적지 규칙 보완 필요` };
   }
   if (views >= minViews) return null;
-  return { target: path.path, kind: path.kind, views, stage: 'consideration', reason: `fewer than ${minViews} reads` };
+  return {
+    target: path.path,
+    kind: path.kind,
+    views,
+    stage: 'consideration',
+    reason: adsOnly ? `조회 ${views}회 — 노출 데이터가 아직 부족하다` : `fewer than ${minViews} reads`,
+  };
 }
 
 // The whole site seen as one funnel. The order step is external, so it stays empty
 // and is reported as such instead of being filled with a guess.
-export function buildFunnel(paths = []) {
+export function buildFunnel(paths = [], options = {}) {
   const stageClicks = Object.fromEntries(STAGE_IDS.map((id) => [id, 0]));
   let views = 0;
   let clicks = 0;
@@ -219,9 +270,11 @@ export function buildFunnel(paths = []) {
     for (const id of STAGE_IDS) stageClicks[id] += Number(counts[id]) || 0;
     unknownTarget += Number(counts.unknownTarget) || 0;
   }
+  // 단계 이름은 사이트마다 뜻이 다르다(광고만 모델). 라벨은 설정 파일에서 온다.
+  const labels = options.stageLabels ?? {};
   const steps = STAGES.map((item) => ({
     id: item.id,
-    label: item.label,
+    label: labels[item.id] ?? item.label,
     clicks: stageClicks[item.id],
     weight: item.weight,
     external: item.external,
@@ -243,8 +296,33 @@ export function buildFunnel(paths = []) {
 
 // Whether the collected data can rank anything at all. When it cannot, the reason
 // is written down instead of an empty ranking being presented as a result.
-export function sufficiency(report) {
+//
+// 광고만 모델에서는 순위의 기준이 구매 의도가 아니라 노출(조회)이다.
+// 노출 데이터가 모자라면 순위를 확정하지 않는다.
+export const MIN_RANK_VIEWS = 30;
+
+export function sufficiency(report, options = {}) {
   const totals = report?.totals ?? {};
+  if (options.monetization === 'ads_only') {
+    const minRankViews = options.minRankViews ?? MIN_RANK_VIEWS;
+    const views = Number(totals.views) || 0;
+    if (views < minRankViews) {
+      return {
+        sufficient: false,
+        reason: `노출(조회) 데이터가 ${views}건으로 기준 ${minRankViews}건에 미치지 못한다. 광고만 모델의 순위는 노출 수로 정하지만 지금은 데이터가 없다.`,
+      };
+    }
+    if (!totals.pathsWithReads) {
+      return {
+        sufficient: false,
+        reason: `아직 ${MIN_VIEWS}회 이상 읽힌 경로가 없다. 노출 순위를 확정할 수 없다.`,
+      };
+    }
+    return {
+      sufficient: true,
+      reason: `노출(조회) ${views}건이 쌓였고 ${totals.pathsWithReads}개 경로가 ${MIN_VIEWS}회 이상 읽혔다. 순위는 노출 수와 세션 깊이로 정한다.`,
+    };
+  }
   if (!totals.pathsWithReads) {
     return {
       sufficient: false,
