@@ -80,7 +80,7 @@ var m=localStorage.getItem(k);if(m==='mobile'||m==='fold'){r.classList.add('is-a
         </div>
       </div>
         <div class="stats" aria-label="연구 허브 현황">
-        <div class="stat"><strong data-project-total>66</strong><span>고유 프로젝트</span></div>
+        <div class="stat"><strong data-project-total>68</strong><span>고유 프로젝트</span></div>
         <div class="stat"><strong>5</strong><span>관측 · 연구 · 난제 · 교육 · 운영 레인</span></div>
         <div class="stat"><strong>LIVE</strong><span>실시간·월간 갱신</span></div>
       </div>
@@ -109,11 +109,11 @@ var m=localStorage.getItem(k);if(m==='mobile'||m==='fold'){r.classList.add('is-a
         </div>
         <div class="toolbar">
           <div class="filters" role="group" aria-label="연구 대시보드 필터">
-            <button class="filter active" type="button" data-filter="all" data-analytics-ignore aria-pressed="true">전체 <span data-filter-count="">66</span></button>
+            <button class="filter active" type="button" data-filter="all" data-analytics-ignore aria-pressed="true">전체 <span data-filter-count="">68</span></button>
             <button class="filter" type="button" data-filter="urban" data-analytics-ignore aria-pressed="false">도시·공간 <span data-filter-count="">21</span></button>
             <button class="filter" type="button" data-filter="society" data-analytics-ignore aria-pressed="false">경제·사회 <span data-filter-count="">15</span></button>
             <button class="filter" type="button" data-filter="research" data-analytics-ignore aria-pressed="false">연구·AI <span data-filter-count="">10</span></button>
-            <button class="filter" type="button" data-filter="essays" data-analytics-ignore aria-pressed="false">난제·에세이 <span data-filter-count="">7</span></button>
+            <button class="filter" type="button" data-filter="essays" data-analytics-ignore aria-pressed="false">난제·에세이 <span data-filter-count="">9</span></button>
             <button class="filter" type="button" data-filter="education" data-analytics-ignore aria-pressed="false">교육·수학 <span data-filter-count="">7</span></button>
             <button class="filter" type="button" data-filter="operations" data-analytics-ignore aria-pressed="false">운영·제품 <span data-filter-count="">6</span></button>
           </div>
@@ -566,8 +566,16 @@ var m=localStorage.getItem(k);if(m==='mobile'||m==='fold'){r.classList.add('is-a
             </div>
           </details>
 
-          <details class="card-group" data-card-group="" data-lane="essays" id="grand-challenges"><summary class="card-group-summary"><span class="card-group-title"><strong>난제·에세이</strong><span>난제 · 과학·국가·인류의 난제를 수학과 AI의 관점에서 탐구합니다.</span></span><span class="card-group-meta"><span data-group-count="">7개</span><span class="chevron" aria-hidden="true"></span></span></summary>
+          <details class="card-group" data-card-group="" data-lane="essays" id="grand-challenges" open=""><summary class="card-group-summary"><span class="card-group-title"><strong>난제·에세이</strong><span>난제 · 과학·국가·인류의 난제를 수학과 AI의 관점에서 탐구합니다.</span></span><span class="card-group-meta"><span data-group-count="">9개</span><span class="chevron" aria-hidden="true"></span></span></summary>
             <div class="grid">
+              <a class="project" href="/research/riemann-hypothesis/" data-card="" data-category="riemann hypothesis zeta lean mathlib claude number theory 리만 가설 제타함수 소수 형식증명" data-primary="essays">
+                <div class="visual" style="--visual:radial-gradient(circle at 20% 25%,rgba(107,222,255,.52),transparent 52%),linear-gradient(145deg,#08152e,#1d4b69)">ζ</div>
+                <div class="project-body"><div class="meta"><span class="pill accent">2026.11 · Lean 검증 발표</span><span class="pill">Millennium Problem</span></div><h3>리만 가설 — AI 형식 증명과 검증</h3><p>Levent Alpöge·Claude의 2026년 증명 발표, Lean·Mathlib 검증 및 Clay 공식 미해결 상태를 구분해 분석합니다.</p><div class="project-footer"><span>수론 · 증명 검증 · 공식 출처</span><b>연구 콘텐츠 →</b></div></div>
+              </a>
+              <a class="project" href="/research/p-vs-np/" data-card="" data-category="p vs np p=np complexity SAT NP complete 계산복잡도 NP완전 조합최적화 증명 난제" data-primary="essays">
+                <div class="visual" style="--visual:radial-gradient(circle at 20% 25%,rgba(181,153,255,.5),transparent 52%),linear-gradient(145deg,#10112f,#363171)">P≠NP?</div>
+                <div class="project-body"><div class="meta"><span class="pill accent">Unsolved · 2026.11</span><span class="pill">3-SAT 실험</span></div><h3>P vs NP — 검증과 해결의 차이</h3><p>P·NP의 정식 정의, NP-완전성, 증명 장벽과 3-SAT 실험을 통해 왜 여전히 미해결인지 설명합니다.</p><div class="project-footer"><span>계산복잡도 · 알고리즘 · 교육 실험</span><b>연구 콘텐츠 →</b></div></div>
+              </a>
               <a class="project" href="/research/contradiction-lab/" data-card="" data-category="ai tools" data-primary="essays">
                 <div class="visual" style="--visual:radial-gradient(circle at 22% 18%,rgba(255,107,113,.48),transparent 52%),radial-gradient(circle at 80% 78%,rgba(105,183,255,.34),transparent 50%),linear-gradient(145deg,#0b1030,#2a2c62)">⇄</div>
                 <div class="project-body"><div class="meta"><span class="pill accent">New · Lab</span><span class="pill">Contradiction × AI</span></div><h3>모순연구소 — AI는 인간의 모순을 풀 수 있는가</h3><p>심슨·브라에스·제본스·굿하트 등 16개 모순을 5유형으로 분류하고 AI의 해소·완화·명시화 범위를 판정하는 대시보드입니다.</p><div class="project-footer"><span>행동경제 · 게임이론 · 사회선택</span><b>연구소 열기 →</b></div></div>
