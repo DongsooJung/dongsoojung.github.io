@@ -200,12 +200,6 @@ a{color:var(--acc); text-decoration:none} a:hover{text-decoration:underline}
 .btn.ghost{background:var(--panel);color:var(--ink);border-color:var(--line2)}
 .btn.ghost:hover{border-color:var(--acc);text-decoration:none}
 
-/* Riemann Hypothesis research quote — sourced, status-aware */
-.riemann-spotlight{margin:18px 0 20px;padding:16px 18px;border:1px solid var(--line2);border-left:3px solid var(--acc);border-radius:12px;background:var(--panel)}
-.riemann-kicker{display:block;margin-bottom:8px;color:var(--acc);font-size:10px;font-weight:700;letter-spacing:.11em}
-.riemann-spotlight blockquote{margin:0;color:var(--ink);font-size:clamp(14px,1.4vw,18px);font-weight:700;line-height:1.6;letter-spacing:-.02em}
-.riemann-spotlight .riemann-status{margin:10px 0 0;color:var(--sub);font-size:11px;line-height:1.6}
-.riemann-status a{color:var(--acc);text-underline-offset:2px}
 
 /* ID card */
 .card{border:1px solid var(--line);background:linear-gradient(180deg,var(--panel2),var(--panel));
@@ -607,11 +601,6 @@ var m=localStorage.getItem(k);if(m==='mobile'||m==='fold')r.classList.add('is-ap
   <section class="hero">
     <div>
       <h1>영재는 타고나는 것이 아니라<br><span class="accent">만들어진다.</span></h1>
-      <aside class="riemann-spotlight" aria-label="리만 가설 증명 발표와 AI에 관한 격언">
-        <span class="riemann-kicker">STARGATE EDU · MATHEMATICS × AI · 2026.11</span>
-        <blockquote>“167년간 풀리지 않았던 리만 가설. 인간의 통찰과 AI의 지능이 만나, 불가능이라 여겼던 수학의 경계를 넘어서다.”</blockquote>
-        <p class="riemann-status">2026.11.20 증명 발표 · 11.21 Lean·Mathlib 공동 검증 발표 · Clay 공식 인정 전 (<a href="https://leanprover-community.github.io/blog/posts/riemann-hypothesis/" target="_blank" rel="noopener noreferrer">검증 근거</a> · <a href="https://www.claymath.org/millennium/Riemann-Hypothesis/" target="_blank" rel="noopener noreferrer">공식 현황</a>)</p>
-      </aside>
       <p class="lead">
         AI와 공간데이터로 도시·산업 문제를 해결합니다.
         공간계량·GIS·DID 연구, 공공데이터 기반 AI 제품, KOI 알고리즘 교육을
@@ -619,7 +608,7 @@ var m=localStorage.getItem(k);if(m==='mobile'||m==='fold')r.classList.add('is-ap
       </p>
       <div class="chips">
         <a class="chip" href="/koi-coach/">KOI · 알고리즘</a>
-        <a class="chip" href="/research/riemann-hypothesis/">리만 가설 · AI 증명 해설 ↗</a>
+        <a class="chip" href="/research/riemann-hypothesis/">AI 수학 증명 동향 해설 ↗</a>
         <a class="chip" href="/research/p-vs-np/">P vs NP 난제 · 3-SAT 실험 ↗</a>
       </div>
       <div class="cta">
@@ -1355,9 +1344,7 @@ var m=localStorage.getItem(k);if(m==='mobile'||m==='fold')r.classList.add('is-ap
         <a class="callback-btn" href="/callback/?from=home" data-analytics-label="전화 상담 예약" aria-label="전화번호와 통화 희망 시간을 남겨 전화 상담 예약하기">📞 전화 상담 예약</a>
         <a class="kakao-consult-btn" href="/consult/" data-analytics-label="카카오 로그인 상담 신청" aria-label="카카오 로그인으로 상담 신청하기">카카오 로그인으로 상담 신청</a>
         <a class="customer-group-link" href="https://open.kakao.com/o/suuKwjTi" target="_blank" rel="noopener noreferrer" data-analytics-label="대표 1:1 오픈카톡 상담" aria-label="스타게이트 대표 1:1 오픈카톡 상담 열기, 새 창">대표와 1:1 오픈카톡 ↗</a>
-        <a class="customer-group-link" href="https://open.kakao.com/o/gp59rISi" target="_blank" rel="noopener noreferrer" data-analytics-label="스타게이트 그룹 오픈채팅">그룹 오픈채팅 참여 ↗</a>
-        <a class="customer-admin-link" href="https://stargate.stargate8225.workers.dev/sms/" target="_blank" rel="noopener nofollow">운영자 고객관리 ↗</a>
-      </div>
+        <a class="customer-group-link" href="https://open.kakao.com/o/gp59rISi" target="_blank" rel="noopener noreferrer" data-analytics-label="스타게이트 그룹 오픈채팅">그룹 오픈채팅 참여 ↗</a>      </div>
     </div>
   </section>
 
@@ -1373,7 +1360,7 @@ var m=localStorage.getItem(k);if(m==='mobile'||m==='fold')r.classList.add('is-ap
       <a href="/callback/">전화 상담 예약</a>
       <a href="/consult/">상담 문의</a>
     </span>
-    <span class="business-info">상호 : 주식회사 별의문 · 사업자번호 : 848-86-03835 · 통신판매업신고번호 : 2025-서울강남-05246호 · 주소 : 서울시 강남구 강남대로 112길 47, 2층 · 전화 : 070-8027-8225 · 개인정보보호책임자 : 별의문 · 이메일 : support@stargateedu.co.kr</span>
+    <span class="business-info">상호 : 주식회사 별의문 · 대표자명 : 정동수 · 사업자번호 : 848-86-03835 · 통신판매업신고번호 : 2025-서울강남-05246호 · 주소 : 서울시 강남구 강남대로 112길 47, 2층 · 전화 : 070-8027-8225 · 개인정보보호책임자 : 정동수(대표이사) · 이메일 : support@stargateedu.co.kr</span>
     <details class="visitor-footer" id="visitor-footer">
       <summary>통계</summary>
       <a id="visitor-summary-link" class="visitor-footer-link" href="/visitors/" rel="nofollow" aria-label="방문·지역 통계">오늘 <strong id="visitor-today-count">-</strong> · 누적 <strong id="visitor-total-count">-</strong></a>
@@ -1786,7 +1773,7 @@ if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => navigator.serviceWorker.register('/sw.js'));
 }
 </script>
-<script src="/assets/visitor-counter.js?v=20261029-public-report" defer></script>
+<script src="/assets/visitor-counter.js?v=20261122-hide-on-error" defer></script>
 <script src="/assets/usage-analytics.js?v=20261118-inquiry-1" defer></script>
 <script>
 (()=>{

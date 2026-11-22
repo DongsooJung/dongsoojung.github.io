@@ -89,6 +89,9 @@
       totalElement.textContent = '—';
       summaryLink.title = '방문자 통계를 불러오지 못했습니다. 클릭하면 연결 상태를 확인할 수 있습니다.';
       summaryLink.dataset.state = 'error';
+      // 통계를 불러오지 못하면 빈 값('—')을 노출하지 않도록 푸터 통계 영역을 숨깁니다.
+      const visitorFooter = document.getElementById('visitor-footer');
+      if (visitorFooter) visitorFooter.hidden = true;
     }
   }
 
