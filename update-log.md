@@ -1,3 +1,27 @@
+## 2026-11-22
+
+**Repository status summary**
+
+- Last push: 2026-11-21 09:08 UTC (2026-11-21 18:08 KST) — `docs: record verified OneNote Notion source review release (#318)`
+- Open issues: 5 (including long-standing collector-failure tickets #195, #217, #227 and repository cleanup #293)
+
+**Recent scheduled workflow runs (most recent first)**
+
+| Workflow | Conclusion | Time (UTC) |
+|----------|------------|------------|
+| Remote Service Health Check | success | 2026-11-21 23:24 |
+| Activate Kakao visitor notifications | success | 2026-11-21 23:22 |
+| Update Gimpo airport congestion data | success | 2026-11-21 23:19 |
+| Update airport congestion data | success | 2026-11-21 22:03 |
+| Collect public data CSV | **failure** | 2026-11-21 20:52 |
+| Update Naver Cafe popular articles | success | 2026-11-21 19:45 |
+| Update expressway rest-area bid radar | success | 2026-11-21 19:11 |
+| Remote Service Health Check | success | 2026-11-21 18:03 |
+
+**Health of update loops**: Overall healthy. The large majority of scheduled data-refresh and health-check workflows completed successfully. One isolated failure occurred in the Collect public data CSV workflow (consistent with open collector-failure issue #195); related issues remain open. No widespread outages observed in the latest batch of runs.
+
+---
+
 ## 2026-11-21
 
 **Repository status summary**
@@ -21,5 +45,3 @@
 **Health of update loops**: Overall healthy. The large majority of scheduled data-refresh and health-check workflows completed successfully. One isolated failure occurred in the Collect public data CSV workflow; related collector-failure issues remain open and may require attention. No widespread outages observed in the latest batch of runs.
 
 ---
-
-PLACEHOLDER_FULL_CONTENT
