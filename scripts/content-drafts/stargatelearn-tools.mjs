@@ -337,6 +337,31 @@ async function restore() {
   console.log(JSON.stringify(out, null, 2));
 }
 
+async function health() {
+  // 읽기 전용 점검. 측정 코드가 아직 살아 있는지 확인한다.
+  // 테마가 갱신되어 assembler//footer 가 초기화되면 여기서 false 가 된다.
+  const out = { target: FOOTER_ID, steps: [] };
+  const id = encodeURIComponent(FOOTER_ID);
+
+  const read = await get(`/wp/v2/template-parts/${id}?context=edit`);
+  out.steps.push({ step: 'read-template-part', status: read.status });
+  const raw = read.body?.content?.raw ?? '';
+  out.length = raw.length;
+  out.hasMarker = raw.includes(MEASURE_MARKER);
+  out.hasSnippet = raw.includes('record_site_usage_event');
+  out.ok = out.hasMarker && out.hasSnippet;
+
+  const page = await fetch(`https://${SITE}/`, { headers: { Accept: 'text/html' } });
+  const html = await page.text();
+  out.liveStatus = page.status;
+  out.liveHasMarker = html.includes(MEASURE_MARKER);
+  out.liveHasSnippet = html.includes('record_site_usage_event');
+  out.liveHasVisitScript = html.includes('record_site_visit');
+  out.liveOk = out.liveHasMarker && out.liveHasSnippet;
+  out.hint = out.ok && out.liveOk ? '측정 코드가 살아 있다.' : 'sync 를 다시 실행해 복구한다.';
+  console.log(JSON.stringify(out, null, 2));
+}
+
 if (MODE === 'probe') {
   await probe();
 } else if (MODE === 'channels') {
@@ -345,7 +370,9 @@ if (MODE === 'probe') {
   await sync();
 } else if (MODE === 'restore') {
   await restore();
+} else if (MODE === 'health') {
+  await health();
 } else {
-  console.error(`알 수 없는 모드: ${MODE} (probe|channels|sync|restore 중 하나)`);
+  console.error(`알 수 없는 모드: ${MODE} (probe|channels|sync|restore|health 중 하나)`);
   process.exit(2);
 }
