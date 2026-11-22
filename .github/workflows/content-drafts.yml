@@ -28,6 +28,11 @@ on:
         type: boolean
         required: false
         default: false
+      site_probe:
+        description: '대신 사이트 런타임만 읽기 전용으로 조사(플러그인·테마·포스트타입·위젯·마커 위치)'
+        type: boolean
+        required: false
+        default: false
 
 permissions:
   contents: read
@@ -61,7 +66,16 @@ jobs:
           restore-keys: |
             content-draft-topics-v1-${{ github.ref_name }}-
 
+      - name: Probe site runtime
+        if: inputs.site_probe == 'true'
+        env:
+          WP_SITE: ${{ secrets.WP_SITE }}
+          WP_USER: ${{ secrets.WP_USER }}
+          WP_APP_PASSWORD: ${{ secrets.WP_APP_PASSWORD }}
+        run: node stargatelearn-tools.mjs probe
+
       - name: Generate drafts
+        if: inputs.site_probe != 'true'
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           WP_SITE: ${{ secrets.WP_SITE }}
