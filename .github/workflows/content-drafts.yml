@@ -67,7 +67,7 @@ jobs:
             content-draft-topics-v1-${{ github.ref_name }}-
 
       - name: Probe site runtime
-        if: inputs.site_probe == 'true'
+        if: ${{ inputs.site_probe == true }}
         env:
           WP_SITE: ${{ secrets.WP_SITE }}
           WP_USER: ${{ secrets.WP_USER }}
@@ -75,7 +75,7 @@ jobs:
         run: node stargatelearn-tools.mjs probe
 
       - name: Generate drafts
-        if: inputs.site_probe != 'true'
+        if: ${{ inputs.site_probe != true }}
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           WP_SITE: ${{ secrets.WP_SITE }}
