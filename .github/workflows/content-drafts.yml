@@ -74,6 +74,14 @@ jobs:
           WP_APP_PASSWORD: ${{ secrets.WP_APP_PASSWORD }}
         run: node stargatelearn-tools.mjs probe
 
+      - name: Check write channels
+        if: ${{ inputs.site_probe == true }}
+        env:
+          WP_SITE: ${{ secrets.WP_SITE }}
+          WP_USER: ${{ secrets.WP_USER }}
+          WP_APP_PASSWORD: ${{ secrets.WP_APP_PASSWORD }}
+        run: node stargatelearn-tools.mjs channels
+
       - name: Generate drafts
         if: ${{ inputs.site_probe != true }}
         env:

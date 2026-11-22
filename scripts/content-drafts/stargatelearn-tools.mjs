@@ -182,9 +182,42 @@ async function probe() {
   console.log(JSON.stringify(out, null, 2));
 }
 
+async function channels() {
+  // 블록 테마 템플릿 파트가 REST 로 쓰기 가능한지 확인한다.
+  // 내용을 그대로 되써(무변경) 권한과 경로만 확인한다. 사이트 표시는 바뀌지 않는다.
+  const out = { target: 'assembler//footer', steps: [] };
+  const id = encodeURIComponent('assembler//footer');
+  const read = await get(`/wp/v2/template-parts/${id}?context=edit`);
+  out.steps.push({ step: 'read', status: read.status });
+  if (read.status !== 200) {
+    console.log(JSON.stringify(out, null, 2));
+    return;
+  }
+  const original = read.body.content?.raw ?? '';
+  out.originalLength = original.length;
+  out.originalHasMarker = original.includes('Stargate visit alert');
+  out.originalHasScript = /<script/i.test(original);
+
+  const res = await fetch(`https://${SITE}/wp-json/wp/v2/template-parts/${id}`, {
+    method: 'POST',
+    headers: { Authorization: AUTH, 'Content-Type': 'application/json' },
+    body: JSON.stringify({ content: original, title: read.body.title?.raw ?? read.body.title?.rendered }),
+  });
+  const body = await res.text();
+  out.steps.push({ step: 'write-same-content', status: res.status, preview: body.slice(0, 300) });
+
+  const verify = await get(`/wp/v2/template-parts/${id}?context=edit`);
+  out.steps.push({ step: 're-read', status: verify.status });
+  out.contentUnchanged = verify.status === 200 && (verify.body.content?.raw ?? '') === original;
+  out.lengthAfter = verify.body?.content?.raw?.length ?? null;
+  console.log(JSON.stringify(out, null, 2));
+}
+
 if (MODE === 'probe') {
   await probe();
+} else if (MODE === 'channels') {
+  await channels();
 } else {
-  console.error(`알 수 없는 모드: ${MODE} (probe|sync 중 하나)`);
+  console.error(`알 수 없는 모드: ${MODE} (probe|channels|sync 중 하나)`);
   process.exit(2);
 }
