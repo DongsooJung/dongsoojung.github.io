@@ -393,19 +393,44 @@ async function blocks() {
     Object.entries(site).filter(([key]) => /ad|advert|wordads|monetiz/i.test(key)),
   );
 
-  const com = await fetch(`https://public-api.wordpress.com/wpcom/v2/sites/${SITE.replace(/\./g, '-')}/settings`, {
-    headers: { Authorization: AUTH, Accept: 'application/json' },
-  });
-  const comText = await com.text();
-  out.comSettingsStatus = com.status;
-  try {
-    const parsed = JSON.parse(comText);
-    const rows = parsed.settings ?? parsed;
-    out.comAdSettings = Object.fromEntries(
-      Object.entries(rows).filter(([key]) => /ad|advert|wordads|monetiz/i.test(key)),
-    );
-  } catch {
-    out.comAdSettings = { preview: comText.slice(0, 300) };
+  // jetpack/wordads 블록의 정의를 통째로 뽑는다(속성 이름·기본값이 필요).
+  if (types.status === 200 && Array.isArray(types.body)) {
+    const wordads = types.body.find((row) => row.name === 'jetpack/wordads');
+    out.wordadsBlock = wordads
+      ? {
+          name: wordads.name,
+          title: wordads.title?.rendered ?? '',
+          description: wordads.description?.rendered ?? '',
+          category: wordads.category,
+          attributes: Object.fromEntries(
+            Object.entries(wordads.attributes ?? {}).map(([key, attr]) => [
+              key,
+              { type: attr.type, default: attr.default, enum: attr.enum },
+            ]),
+          ),
+          supports: wordads.supports,
+        }
+      : null;
+  }
+
+  // 워드프레스.com 사이트 설정. 사이트 번호로도, 도메인으로도 시도한다.
+  const home = await fetch(`https://${SITE}/`, { headers: { Accept: 'text/html' } });
+  const homeHtml = await home.text();
+  const blogId = (homeHtml.match(/data-blog="(\d+)"/) || [])[1] || '';
+  const siteIds = [...new Set([blogId, SITE].filter(Boolean))];
+  out.comSettings = [];
+  for (const id of siteIds) {
+    const com = await fetch(`https://public-api.wordpress.com/wpcom/v2/sites/${id}/settings`, {
+      headers: { Authorization: AUTH, Accept: 'application/json' },
+    });
+    const comText = await com.text();
+    let parsed = null;
+    try { parsed = JSON.parse(comText); } catch { parsed = null; }
+    const rows = parsed?.settings ?? parsed;
+    const adRows = rows && typeof rows === 'object' && !Array.isArray(rows)
+      ? Object.fromEntries(Object.entries(rows).filter(([key]) => /ad|advert|wordads|monetiz/i.test(key)))
+      : {};
+    out.comSettings.push({ id, status: com.status, adKeys: Object.keys(adRows), adValues: adRows, preview: parsed ? undefined : comText.slice(0, 200) });
   }
 
   // 템플릿 파트는 광고 블록을 심을 수 있는가(허용 컨텍스트)
