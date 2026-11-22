@@ -43,6 +43,11 @@ on:
         type: boolean
         required: false
         default: false
+      site_blocks:
+        description: '대신 광고 블록 등록 여부와 광고 관련 사이트 설정을 읽기 전용으로 확인'
+        type: boolean
+        required: false
+        default: false
 
 permissions:
   contents: read
@@ -108,8 +113,16 @@ jobs:
           WP_APP_PASSWORD: ${{ secrets.WP_APP_PASSWORD }}
         run: node stargatelearn-tools.mjs health
 
+      - name: Inspect ad blocks and ad settings
+        if: ${{ inputs.site_blocks == true }}
+        env:
+          WP_SITE: ${{ secrets.WP_SITE }}
+          WP_USER: ${{ secrets.WP_USER }}
+          WP_APP_PASSWORD: ${{ secrets.WP_APP_PASSWORD }}
+        run: node stargatelearn-tools.mjs blocks
+
       - name: Generate drafts
-        if: ${{ inputs.site_probe != true && inputs.site_sync != true && inputs.site_health != true }}
+        if: ${{ inputs.site_probe != true && inputs.site_sync != true && inputs.site_health != true && inputs.site_blocks != true }}
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           WP_SITE: ${{ secrets.WP_SITE }}
