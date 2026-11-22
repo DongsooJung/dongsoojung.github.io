@@ -10,7 +10,8 @@
 import { Buffer } from 'node:buffer';
 
 const MODE = (process.argv[2] || 'probe').toLowerCase();
-const SITE = (process.env.WP_SITE || 'https://stargatelearn.com').replace(/\/+$/, '');
+// WP_SITE 는 스킴 없는 도메인이다(generate-drafts.mjs 와 같은 규약).
+const SITE = (process.env.WP_SITE || 'stargatelearn.com').replace(/^https?:\/\//, '').replace(/\/+$/, '');
 const USER = process.env.WP_USER || '';
 const APP_PASSWORD = (process.env.WP_APP_PASSWORD || '').replace(/\s+/g, '');
 const MARKER = 'Stargate visit alert';
@@ -19,11 +20,15 @@ if (!USER || !APP_PASSWORD) {
   console.error('WP_USER / WP_APP_PASSWORD 가 없습니다.');
   process.exit(2);
 }
+if (!/^[a-z0-9]+(?:[.-][a-z0-9]+)*$/i.test(SITE)) {
+  console.error('WP_SITE 는 도메인만 입력하세요(예: stargatelearn.com)');
+  process.exit(2);
+}
 
 const AUTH = 'Basic ' + Buffer.from(`${USER}:${APP_PASSWORD}`).toString('base64');
 
 async function get(path) {
-  const res = await fetch(`${SITE}/wp-json${path}`, {
+  const res = await fetch(`https://${SITE}/wp-json${path}`, {
     headers: { Authorization: AUTH, Accept: 'application/json' },
   });
   const text = await res.text();
@@ -103,7 +108,7 @@ async function probe() {
   }
 
   for (const dir of ['mu-plugins', 'plugins', 'themes']) {
-    const res = await fetch(`${SITE}/wp-content/${dir}/`, { headers: { Authorization: AUTH } });
+    const res = await fetch(`https://${SITE}/wp-content/${dir}/`, { headers: { Authorization: AUTH } });
     out[`wp-content_${dir}`] = res.status;
   }
 
