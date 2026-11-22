@@ -1,0 +1,164 @@
+{
+  "schemaVersion": 1,
+  "project": "/research/startup-industries/",
+  "checkedAt": "2026-11-22T11:29:29.277Z",
+  "collectedAt": "2026-11-22T11:23:49.527767+00:00",
+  "snapshotUpdatedAt": "2026-11-11",
+  "dataPeriod": "2026년 1~6월 누계·5~6월 실적 / 1~4월 배분·7~9월 모형추정",
+  "dataAsOf": null,
+  "actualsAsOf": "2026-06-30",
+  "reviewStatus": "needs_review",
+  "scope": "상반기 조직형태별·업종별 원표 250개 입력값, 350개 추정 월별 계산·합계, 25개 비중복 범주와 기존 엑셀 저장값을 대조했습니다.",
+  "sources": [
+    {
+      "id": "h1-pdf",
+      "url": "https://www.mss.go.kr/common/board/Download.do?bcIdx=1070757&cbIdx=86&streFileNm=0dd3ae36-a0e5-4509-b4ca-06c0aef05d12.pdf",
+      "status": 200,
+      "collectedAt": "2026-11-22T11:21:55.635230+00:00",
+      "sha256": "41eef6ee1ba9d55686b8c881d350d83892afd0e0aa6f615b6c3fab2227358e58",
+      "bytes": 1361868,
+      "lastModified": null,
+      "kind": "official-source",
+      "checkedAt": "2026-11-22T11:29:29.277Z",
+      "scope": "2026 상반기 붙임3-1·3-2, PDF 실제 8쪽(인쇄13·14쪽), KSIC 설명 실제1·10·11쪽"
+    },
+    {
+      "id": "h1-page",
+      "url": "https://www.mss.go.kr/site/smba/ex/bbs/View.do?bcIdx=1070757&cbIdx=86&parentSeq=1070757",
+      "status": 200,
+      "collectedAt": "2026-11-22T11:21:55.936825+00:00",
+      "sha256": "8f7f0e62ad357d4bae85630f48f0c163273f9701d259b63177e0209ef1fc0216",
+      "bytes": 137688,
+      "lastModified": null,
+      "kind": "official-source",
+      "checkedAt": "2026-11-22T11:29:29.277Z",
+      "scope": "2026-08-27 상반기 발표와 전체 월별 창업 합계"
+    },
+    {
+      "id": "report-index",
+      "url": "https://mss.go.kr/site/smba/foffice/ex/statDB/stReportRoList.do?gb=1&nodeId=&roCode=",
+      "status": 200,
+      "collectedAt": "2026-11-22T11:21:54.953690+00:00",
+      "sha256": "a42018895308ca70ba724e93e04df33651603ff5937a1933fc3d6a573fba30d8",
+      "bytes": 193722,
+      "lastModified": null,
+      "kind": "official-source",
+      "checkedAt": "2026-11-22T11:29:29.277Z",
+      "scope": "공식 조사보고서 목록과 검색 조건"
+    },
+    {
+      "id": "report-search",
+      "url": "https://mss.go.kr/site/smba/foffice/ex/statDB/stReportRoList.do?gb=1&nodeId=&roCode=&searchKeyword=search1&searchKey=%EC%B0%BD%EC%97%85%EA%B8%B0%EC%97%85%EB%8F%99%ED%96%A5&pageIndex=1",
+      "status": 200,
+      "collectedAt": "2026-11-22T11:23:49.527767+00:00",
+      "sha256": "ad45f8e65d6ef4b3522b51c9d18fa1c6e6c407487b22624dc27319120f9aefcb",
+      "scope": "공식 보고서 제목 검색 범위에서 상반기 1건. 검색 결과만으로 모든 미공표를 단정하지 않음",
+      "kind": "official-source",
+      "checkedAt": "2026-11-22T11:29:29.277Z"
+    }
+  ],
+  "findings": [
+    {
+      "topic": "공식 원표 대조",
+      "finding": "붙임3-1·3-2의 개인·법인 각 25개 범주, 2025 연간·상반기와 2026 상반기·5월·6월 입력값 250개를 두 PDF 추출 엔진 및 원표 화면과 대조했습니다. 상반기 합계는 법인 50,351개·개인사업자 515,289개이며 합계 565,640개입니다."
+    },
+    {
+      "topic": "관측과 추정의 경계",
+      "finding": "업종별 1~6월 누계·5월·6월은 공식 실적입니다. 1~4월은 전체 월별 비중에 따른 배분 추정, 7~9월은 분석자 가정 18%·15%·17%를 적용한 모형 추정입니다. 추정 월별 350개와 누계 계산을 검산했고 수치 변경은 없습니다."
+    },
+    {
+      "topic": "9월·10월 공표 범위",
+      "finding": "2026-11-22 확인한 공식 보고서 제목 검색에는 상반기 자료 1건이 있었습니다. 이번 확인 범위에서 7~9월 업종별 실적 원표는 확보하지 못했습니다. 미공표 확정이나 공식 공표 예정일로 단정하지 않고 기존 추정치를 보존합니다. 10월 실적으로 확장하지 않았습니다."
+    },
+    {
+      "topic": "분류와 다운로드",
+      "finding": "제조업 합계 대신 세부 9개 분야를 사용한 중복 없는 25개 범주입니다. 분류 수준은 서로 다르며 법인등기 또는 업태·종목 문자열 순위가 아닙니다. 같은 보고서의 제11차 KSIC 기준 2025 비교값을 사용합니다. 기존 엑셀 두 파일의 저장값을 대조했으며 새 Excel 실행에 의한 재계산 검증은 미수행입니다."
+    }
+  ],
+  "sourceDocument": {
+    "publishedAt": "2026-08-27",
+    "statisticalIndexRegisteredAt": "2026-08-31",
+    "pdfCreatedAt": "2026-08-27T14:57:24+09:00",
+    "pdfModifiedAt": "2026-08-27T14:57:24+09:00",
+    "physicalPage": 8,
+    "printedPages": [
+      13,
+      14
+    ],
+    "statisticalClassification": "KSIC 11th; 2025 comparison restated in the same report"
+  },
+  "validation": {
+    "uniqueSourceInputs": 250,
+    "categoriesPerForm": 25,
+    "forms": 2,
+    "sourcePhysicalPage": 8,
+    "sourcePrintedPages": [
+      13,
+      14
+    ],
+    "twoExtractorsAgree": true,
+    "modelCells": 350,
+    "sumChecks": 100,
+    "actualsH1": {
+      "corporation": 50351,
+      "personal": 515289
+    },
+    "observedMonths": [
+      "2026-05",
+      "2026-06"
+    ],
+    "estimatedMonths": [
+      "2026-01",
+      "2026-02",
+      "2026-03",
+      "2026-04",
+      "2026-07",
+      "2026-08",
+      "2026-09"
+    ]
+  },
+  "workbooks": [
+    {
+      "file": "research/startup-industries/downloads/corporations-2026-jan-sep.xlsx",
+      "sha256": "5f68a1acf933b7fee4b1a115b08f0b6cb64ec78ce361a2c26e8555896b09f56b",
+      "rows": 25,
+      "scope": "저장된 원자료 5열과 월별·누계 캐시값 12열을 JSON과 대조. 새 Excel 실행에 의한 재계산 검증은 미수행. 파일 수정 없음"
+    },
+    {
+      "file": "research/startup-industries/downloads/sole-proprietors-2026-jan-sep.xlsx",
+      "sha256": "38df76d0d7d82fbf1c3b2a0627fc633dc38dfdddac573af7d0bdd2437a74292c",
+      "rows": 25,
+      "scope": "저장된 원자료 5열과 월별·누계 캐시값 12열을 JSON과 대조. 새 Excel 실행에 의한 재계산 검증은 미수행. 파일 수정 없음"
+    }
+  ],
+  "publication": {
+    "status": "not_located_in_checked_sources",
+    "actualsJulySeptember": null,
+    "officialReleaseDate": null,
+    "nextAction": "공식 7~9월 업종별 개인·법인 원표와 실제 공표일을 확보할 때 추정만 교체합니다. 공개 목록 재확인은 새로운 원문 또는 공표 일정 근거가 있을 때 진행합니다."
+  },
+  "implementation": {
+    "baseCommit": "39c9872f1259d5fdc568cbe51af7def98467eceb",
+    "originalDataSha256": "895a94019e2b9a1eee627d3c5ed159a6546e4a986135c43621f9ebc797f2f13c",
+    "modelCreatedAt": "2026-11-11",
+    "numericChanges": 0,
+    "defaultPeriod": "h1"
+  },
+  "limitations": [
+    "9월 실적 원표 미확보; 추정을 확정 통계로 취급하지 않음",
+    "상·하한 ±20%는 가정 변화이며 통계적 신뢰구간이 아님",
+    "현재 검색 결과를 전체 기관 미공표 증거로 확대하지 않음"
+  ],
+  "nextAction": "공식 7~9월 업종별 개인·법인 원표와 실제 공표일을 확보할 때 추정만 교체합니다. 공개 목록 재확인은 새로운 원문 또는 공표 일정 근거가 있을 때 진행합니다.",
+  "hubReconciliation": {
+    "projectCount": 68,
+    "essayCount": 9,
+    "existingEssaysPreserved": 7,
+    "addedKeys": [
+      "/research/riemann-hypothesis/",
+      "/research/p-vs-np/"
+    ],
+    "addedReviewStatus": "pending",
+    "checkedAt": "2026-11-22T11:35:49.332Z"
+  }
+}

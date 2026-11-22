@@ -3,6 +3,7 @@ const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const path = require('node:path');
 const root = path.resolve(__dirname, '..');
+const catalog = JSON.parse(fs.readFileSync(path.join(root, 'research/data-catalog.json'), 'utf8'));
 const html = fs.readFileSync(path.join(root, 'research/index.html'), 'utf8');
 const home = fs.readFileSync(path.join(root, 'index.html'), 'utf8');
 const cards = [...html.matchAll(/<a\b[^>]*\bdata-card(?:\s|=|>)[\s\S]*?<\/a>/g)].map(m => m[0]);
@@ -16,7 +17,7 @@ const key = href => {
 test('seven research filters partition every unique project without losing the static math archive', () => {
   const filters = [...html.matchAll(/<button\b[^>]*data-filter="([^"]+)"/g)].map(m => m[1]);
   assert.deepEqual(filters, ['all', 'urban', 'society', 'research', 'essays', 'education', 'operations']);
-  assert.equal(cards.length, 66);
+  assert.equal(cards.length, catalog.projects.length);
   assert.equal(new Set(cards.map(card => key(attr(card, 'href')))).size, cards.length);
   for (const card of cards) assert.ok(filters.slice(1).includes(attr(card, 'data-primary')), attr(card, 'href'));
   const heroTotal = Number(html.match(/data-project-total[^>]*>(\d+)/)[1]);
@@ -26,12 +27,12 @@ test('seven research filters partition every unique project without losing the s
 
 test('education and research are selected by purpose rather than incidental topic tags', () => {
   const education = cards.filter(card => attr(card, 'data-primary') === 'education');
-  assert.equal(education.length, 7);
+  assert.equal(education.length, catalog.projects.filter(p => p.primary === 'education').length);
   assert.equal(education.filter(card => attr(card, 'href').startsWith('/research/math/')).length, 4);
   assert.ok(education.some(card => attr(card, 'href') === '/math-grader/'));
   const essays=['contradiction-lab', 'climate-algebraic-geometry', 'korea-challenges', 'korean-unification-challenges', 'quantum-physics-challenges', 'deep-earth-ocean-challenges', 'disease-challenges'];
   assert.equal(cards.filter(card => attr(card, 'data-primary') === 'research').length, 10);
-  assert.equal(cards.filter(card => attr(card, 'data-primary') === 'essays').length, 7);
+  assert.equal(cards.filter(card => attr(card, 'data-primary') === 'essays').length, catalog.projects.filter(p => p.primary === 'essays').length);
   for (const route of essays) {
     assert.equal(attr(cards.find(card => attr(card, 'href') === `/research/${route}/`), 'data-primary'), 'essays');
   }
