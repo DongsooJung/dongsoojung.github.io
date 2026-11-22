@@ -1,0 +1,53 @@
+name: Stargatelearn site tools
+
+# stargatelearn.com 운영 도구. main 푸시 트리거는 두지 않는다(다른 워크플로 부수효과 방지).
+# - probe: 읽기 전용으로 런타임 구성 확인(플러그인/테마/포스트타입/위젯/마커 위치)
+# - sync : 확정한 주입 지점에 측정 스크립트 반영
+
+on:
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: 'probe(읽기 전용 조사) / sync(측정 스크립트 반영)'
+        required: true
+        default: 'probe'
+        type: choice
+        options: [probe, sync]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: stargatelearn-site-tools
+  cancel-in-progress: false
+
+jobs:
+  tools:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    defaults:
+      run:
+        working-directory: scripts/content-drafts
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Run site tool
+        env:
+          WP_SITE: ${{ secrets.WP_SITE }}
+          WP_USER: ${{ secrets.WP_USER }}
+          WP_APP_PASSWORD: ${{ secrets.WP_APP_PASSWORD }}
+          MODE: ${{ inputs.mode }}
+        run: node stargatelearn-tools.mjs "$MODE"
+
+      - name: Upload result
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: stargatelearn-site-tools-${{ github.run_id }}
+          path: scripts/content-drafts/out/
+          retention-days: 14
+          if-no-file-found: ignore

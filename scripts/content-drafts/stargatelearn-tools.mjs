@@ -1,0 +1,118 @@
+#!/usr/bin/env node
+// stargatelearn.com 운영 도구.
+//
+//   node stargatelearn-tools.mjs probe   읽기 전용 런타임 조사(플러그인/테마/포스트타입/위젯/마커 위치)
+//   node stargatelearn-tools.mjs sync    확정한 주입 지점에 측정 스크립트 반영
+//
+// 자격 증명은 환경변수로만 받는다(WP_SITE / WP_USER / WP_APP_PASSWORD).
+// 비밀값을 파일·인자·로그에 남기지 않는다.
+
+import { Buffer } from 'node:buffer';
+
+const MODE = (process.argv[2] || 'probe').toLowerCase();
+const SITE = (process.env.WP_SITE || 'https://stargatelearn.com').replace(/\/+$/, '');
+const USER = process.env.WP_USER || '';
+const APP_PASSWORD = (process.env.WP_APP_PASSWORD || '').replace(/\s+/g, '');
+const MARKER = 'Stargate visit alert';
+
+if (!USER || !APP_PASSWORD) {
+  console.error('WP_USER / WP_APP_PASSWORD 가 없습니다.');
+  process.exit(2);
+}
+
+const AUTH = 'Basic ' + Buffer.from(`${USER}:${APP_PASSWORD}`).toString('base64');
+
+async function get(path) {
+  const res = await fetch(`${SITE}/wp-json${path}`, {
+    headers: { Authorization: AUTH, Accept: 'application/json' },
+  });
+  const text = await res.text();
+  let body = null;
+  try {
+    body = JSON.parse(text);
+  } catch {
+    body = text.slice(0, 300);
+  }
+  return { status: res.status, body };
+}
+
+async function probe() {
+  const out = { site: SITE, user: null, plugins: null, themes: null, types: null, widgets: null, sidebars: null, markerInContent: [] };
+
+  const me = await get('/wp/v2/users/me');
+  if (me.status === 200) {
+    const c = me.body.capabilities || {};
+    out.user = {
+      id: me.body.id,
+      name: me.body.name,
+      roles: me.body.roles,
+      hasAdminCaps: !!c.administrator,
+      manageOptions: !!c.manage_options,
+      managePlugins: !!c.manage_plugins,
+      installPlugins: !!c.install_plugins,
+      editThemes: !!c.edit_themes,
+      switchThemes: !!c.switch_themes,
+      activatePlugins: !!c.activate_plugins,
+      editDashboard: !!c.edit_dashboard,
+      unfilteredHtml: !!c.unfiltered_html,
+    };
+  } else {
+    out.user = { error: me.status, detail: me.body };
+  }
+
+  const plugins = await get('/wp/v2/plugins?per_page=100&context=edit');
+  out.plugins =
+    plugins.status === 200
+      ? { status: 200, count: plugins.body.length, items: plugins.body.map((p) => ({ plugin: p.plugin, name: p.name, status: p.status, version: p.version })) }
+      : { status: plugins.status, detail: plugins.body };
+
+  const themes = await get('/wp/v2/themes?per_page=100&context=edit');
+  out.themes =
+    themes.status === 200
+      ? { status: 200, count: themes.body.length, items: themes.body.map((t) => ({ stylesheet: t.stylesheet, name: t.name, status: t.status, version: t.version })) }
+      : { status: themes.status, detail: themes.body };
+
+  const types = await get('/wp/v2/types');
+  out.types =
+    types.status === 200
+      ? { status: 200, items: Object.values(types.body).map((t) => ({ name: t.name, slug: t.slug, restBase: t.rest_base, showInRest: t.show_in_rest })) }
+      : { status: types.status, detail: types.body };
+
+  const widgets = await get('/wp/v2/widgets?per_page=100&context=edit');
+  out.widgets =
+    widgets.status === 200
+      ? { status: 200, count: widgets.body.length, items: widgets.body.map((w) => ({ id: w.id, idBase: w.id_base, sidebar: w.sidebar, hasMarker: String(w.rendered || '').includes(MARKER), rendered: String(w.rendered || '').slice(0, 160) })) }
+      : { status: widgets.status, detail: widgets.body };
+
+  const sidebars = await get('/wp/v2/sidebars');
+  out.sidebars =
+    sidebars.status === 200
+      ? { status: 200, items: sidebars.body.map((s) => ({ id: s.id, name: s.name, widgets: (s.widgets || []).length })) }
+      : { status: sidebars.status, detail: sidebars.body };
+
+  for (const kind of ['pages', 'posts']) {
+    const res = await get(`/wp/v2/${kind}?per_page=100&context=edit&status=any`);
+    if (res.status !== 200 || !Array.isArray(res.body)) {
+      out.markerInContent.push({ kind, status: res.status, note: '목록 조회 실패' });
+      continue;
+    }
+    const hits = res.body
+      .filter((p) => JSON.stringify(p.content || '').includes(MARKER))
+      .map((p) => ({ id: p.id, slug: p.slug, status: p.status, link: p.link }));
+    out.markerInContent.push({ kind, checked: res.body.length, markerHits: hits });
+  }
+
+  for (const dir of ['mu-plugins', 'plugins', 'themes']) {
+    const res = await fetch(`${SITE}/wp-content/${dir}/`, { headers: { Authorization: AUTH } });
+    out[`wp-content_${dir}`] = res.status;
+  }
+
+  console.log(JSON.stringify(out, null, 2));
+}
+
+if (MODE === 'probe') {
+  await probe();
+} else {
+  console.error(`알 수 없는 모드: ${MODE} (probe|sync 중 하나)`);
+  process.exit(2);
+}
