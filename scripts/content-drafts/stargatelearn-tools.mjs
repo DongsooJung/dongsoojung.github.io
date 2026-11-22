@@ -112,6 +112,53 @@ async function probe() {
     out[`wp-content_${dir}`] = res.status;
   }
 
+  // WPCode Lite (insert-headers-and-footers/ihaf) 가 주입처로 의심된다.
+  // 라우트 인덱스는 인증 붙은 요청으로 다시 읽는다(익명 요청에는 관리용 라우트가 안 잡힐 수 있다).
+  const index = await fetch(`https://${SITE}/wp-json/`, { headers: { Authorization: AUTH } });
+  const indexBody = await index.json();
+  const allRoutes = Object.keys(indexBody.routes ?? {});
+  out.routeNamespaces = indexBody.namespaces ?? [];
+  out.codeRoutes = allRoutes.filter((route) => /wpcode|ihaf|insert|snippet|header|footer|code/i.test(route));
+
+  // WPCode 스니펫 후보 경로를 직접 시도한다.
+  const snippetCandidates = [
+    '/wpcode/v1/snippets',
+    '/wpcode/v1/snippet',
+    '/wpcode/v2/snippets',
+    '/wpcode/v1/code',
+    '/wpcode/v1/insert-headers-and-footers',
+    '/wpcode/v1/settings',
+    '/ihaf/v1/snippets',
+    '/insert-headers-and-footers/v1/snippets',
+  ];
+  out.snippetCandidates = [];
+  for (const candidate of snippetCandidates) {
+    const res = await get(candidate);
+    out.snippetCandidates.push({ path: candidate, status: res.status, preview: typeof res.body === 'string' ? res.body.slice(0, 200) : JSON.stringify(res.body).slice(0, 300) });
+  }
+
+  // wp-content 디렉터리/파일은 인증 붙은 요청에서 읽히는지 확인한다.
+  out.wpContentFiles = [];
+  for (const file of [
+    'mu-plugins/',
+    'plugins/insert-headers-and-footers/',
+    'plugins/insert-headers-and-footers/readme.txt',
+    'themes/assembler/functions.php',
+  ]) {
+    const res = await fetch(`https://${SITE}/wp-content/${file}`, { headers: { Authorization: AUTH } });
+    const text = await res.text();
+    out.wpContentFiles.push({ file, status: res.status, preview: text.replace(/\s+/g, ' ').slice(0, 300) });
+  }
+
+  // 수익화 표면: 워드프레스 코메르스 제품·폼·내비게이션
+  out.commerce = {};
+  for (const kind of ['jp_pay_product', 'jetpack-forms', 'feedback', 'navigation', 'menu-items']) {
+    const res = await get(`/wp/v2/${kind}?per_page=20&context=edit`);
+    out.commerce[kind] = Array.isArray(res.body)
+      ? { status: 200, count: res.body.length, items: res.body.map((row) => ({ id: row.id, slug: row.slug, title: row.title?.raw ?? row.title?.rendered, status: row.status })) }
+      : { status: res.status, detail: res.body };
+  }
+
   console.log(JSON.stringify(out, null, 2));
 }
 
