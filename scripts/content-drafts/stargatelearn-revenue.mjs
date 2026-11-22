@@ -60,27 +60,39 @@ export function stageForTarget(target, rules = []) {
   return best?.stage ?? null;
 }
 
-// A label nobody classified is not dropped: it is counted as unclassified, so a new
+// A click nobody classified is not dropped: it is counted as unknown, so a new
 // label or a new destination cannot quietly disappear from the report.
+//
+// target_url 은 null 일 수 있다(mailto:, #, 링크가 아닌 버튼). 목적지 모델에서는
+// 목적지가 없어도 클릭 자체는 있었던 사실이 남아야 한다. 그래서 분류되지 않은 클릭은
+// unknownTarget 버킷으로 센다. 클릭은 있었는데 stage 만 0 으로 보이면 "클릭 0"으로 오판하기 때문이다.
+//
+// 참고: mailto: 링크는 워커가 400 으로 거절하므로 아예 이벤트를 보내지 않는다.
+// 문의 단계는 http(s) 링크(연락 페이지 등)로만 측정된다.
 export function stageCounts(clicks = [], rules = []) {
   const counts = Object.fromEntries(STAGE_IDS.map((id) => [id, 0]));
+  counts.unknownTarget = 0;
   counts.unclassified = 0;
-  const unclassified = {};
+  const unknown = {};
   for (const row of clicks) {
     const count = Number(row.clicks) || 0;
     if (!count) continue;
     const label = row.element_label || row.label || '(unlabeled)';
+    const target = row.target_url ?? row.target ?? '';
     const byLabel = classifyLabel(label);
-    const byTarget = stageForTarget(row.target_url ?? row.target ?? '', rules);
+    const byTarget = stageForTarget(target, rules);
     const id = byTarget ?? byLabel;
     if (!id) {
+      counts.unknownTarget += count;
       counts.unclassified += count;
-      unclassified[label + (row.target_url ? ` → ${row.target_url}` : '')] = (unclassified[label + (row.target_url ? ` → ${row.target_url}` : '')] ?? 0) + count;
+      const key = label + (target ? ` → ${target}` : ' (목적지 없음)');
+      unknown[key] = (unknown[key] ?? 0) + count;
       continue;
     }
     counts[id] += count;
   }
-  counts.unclassifiedLabels = unclassified;
+  counts.unknownTargetLabels = unknown;
+  counts.unclassifiedLabels = unknown;
   return counts;
 }
 
@@ -127,6 +139,8 @@ export function pathVerdict(path) {
   if (counts.intent > 0) return 'intent';
   if (counts.consideration > 0) return 'consideration';
   if (counts.activation > 0) return 'activated';
+  // 클릭은 있었지만 목적지 규칙에 걸리지 않아 단계를 모른다. "행동 없음"이 아니다.
+  if (clicks > 0 && (counts.unknownTarget ?? 0) > 0) return 'clicked-unknown';
   if (clicks > 0) return 'reading';
   return 'read-not-acting';
 }
@@ -164,6 +178,8 @@ export function pathFinding(path, minViews = MIN_VIEWS) {
   };
   if (verdict === 'intent' || verdict === 'consideration') return null;
   if (verdict === 'no-data') return null;
+  // 단계 미상 클릭은 콘텐츠 문제가 아니라 목적지 규칙 문제다. 순위에 섞지 않고 대기 항목으로 둔다.
+  if (verdict === 'clicked-unknown') return null;
   if (verdict === 'activated') {
     return { code: 'revenue_stalled_after_free', ...base, stage: 'consideration', activationClicks: counts.activation ?? 0 };
   }
@@ -177,8 +193,12 @@ export function pathFinding(path, minViews = MIN_VIEWS) {
 export function pathWatch(path, minViews = MIN_VIEWS) {
   const verdict = path.verdict ?? pathVerdict(path);
   const views = Number(path.views) || 0;
+  const counts = path.stageClicks ?? {};
   if (verdict === 'no-data' || verdict === 'intent' || verdict === 'consideration') return null;
   if (verdict === 'activated') return null;
+  if (verdict === 'clicked-unknown') {
+    return { target: path.path, kind: path.kind, views, stage: 'attention', reason: `클릭 ${counts.unknownTarget ?? 0}건의 목적지가 규칙에 없어 단계 미상 — 목적지 규칙 보완 필요` };
+  }
   if (views >= minViews) return null;
   return { target: path.path, kind: path.kind, views, stage: 'consideration', reason: `fewer than ${minViews} reads` };
 }
@@ -190,12 +210,14 @@ export function buildFunnel(paths = []) {
   let views = 0;
   let clicks = 0;
   let score = 0;
+  let unknownTarget = 0;
   for (const path of paths) {
     views += Number(path.views) || 0;
     clicks += Number(path.clicks) || 0;
     score += Number(path.revenueScore) || 0;
     const counts = path.stageClicks ?? {};
     for (const id of STAGE_IDS) stageClicks[id] += Number(counts[id]) || 0;
+    unknownTarget += Number(counts.unknownTarget) || 0;
   }
   const steps = STAGES.map((item) => ({
     id: item.id,
@@ -214,7 +236,9 @@ export function buildFunnel(paths = []) {
       ratio: from.clicks > 0 ? Math.round((to.clicks / from.clicks) * 1000) / 1000 : null,
     });
   }
-  return { views, clicks, revenueScore: Math.round(score * 100) / 100, stageClicks, steps, conversion };
+  // unknownTarget 은 돈 경로의 한 단계가 아니다. 클릭은 있었지만 단계를 모르는 건을 따로 세어
+  // "stage 가 0"과 "클릭이 0"을 구분할 수 있게 한다.
+  return { views, clicks, revenueScore: Math.round(score * 100) / 100, stageClicks, unknownTarget, steps, conversion };
 }
 
 // Whether the collected data can rank anything at all. When it cannot, the reason

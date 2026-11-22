@@ -10,7 +10,7 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { buildFunnel, revenueScore, stageCounts, sufficiency, MIN_VIEWS } from './stargatelearn-revenue.mjs';
+import { buildFunnel, pathVerdict, revenueScore, stageCounts, sufficiency, MIN_VIEWS } from './stargatelearn-revenue.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)));
 const CONFIG_FILE = path.join(ROOT, 'stargatelearn-offers.json');
@@ -102,19 +102,15 @@ export async function measure(days = 30) {
 
   // 수익 단계 기준 판정. 조회 0 은 결함이 아니라 데이터 미수집이다.
   for (const row of rows) {
-    const counts = row.stageClicks;
-    if (!row.views && !row.clicks) row.verdict = 'no-data';
-    else if (counts.intent > 0) row.verdict = 'intent';
-    else if (counts.consideration > 0) row.verdict = 'consideration';
-    else if (counts.activation > 0) row.verdict = 'activated';
-    else if (row.clicks > 0) row.verdict = 'reading';
-    else row.verdict = 'read-not-acting';
+    row.verdict = pathVerdict(row);
     row.action =
       row.verdict === 'read-not-acting' || row.verdict === 'activated'
         ? 'strengthen-offer'
-        : row.verdict === 'no-data'
-          ? 'collect-data'
-          : 'keep-separate';
+        : row.verdict === 'clicked-unknown'
+          ? 'map-target'
+          : row.verdict === 'no-data'
+            ? 'collect-data'
+            : 'keep-separate';
   }
 
   const funnel = buildFunnel(rows);
@@ -132,6 +128,7 @@ export async function measure(days = 30) {
     revenueIntentClicks: funnel.stageClicks.intent,
     revenueConsiderationClicks: funnel.stageClicks.consideration,
     revenueActivationClicks: funnel.stageClicks.activation,
+    unknownTargetClicks: funnel.unknownTarget,
     revenueScore: funnel.revenueScore,
   };
 
@@ -160,6 +157,7 @@ async function main() {
   await fs.writeFile(file, `${JSON.stringify(report, null, 2)}\n`, 'utf8');
   console.log(`[measure] ${report.totals.pages} paths over ${days} days · ${report.totals.views} views · ${report.totals.clicks} clicks · ${report.totals.pathsWithReads} paths read ${MIN_VIEWS}+ times`);
   console.log(`[measure] money path: activation=${report.funnel.stageClicks.activation} consideration=${report.funnel.stageClicks.consideration} intent=${report.funnel.stageClicks.intent} revenue=${report.funnel.stageClicks.revenue}(external) · intent score ${report.totals.revenueScore}`);
+  console.log(`[measure] clicks with an unknown destination: ${report.totals.unknownTargetClicks} (단계 미상 — 규칙 보완 대상, 클릭 0 으로 오판하지 않도록 따로 센다)`);
   console.log(`[measure] visitors: ${report.visitors ? JSON.stringify(report.visitors) : 'unavailable'}`);
   for (const row of report.pages) {
     console.log(`[measure] ${row.path.padEnd(58)} views=${String(row.views).padEnd(4)} clicks=${String(row.clicks).padEnd(4)} ${row.verdict.padEnd(15)} → ${row.action}`);
