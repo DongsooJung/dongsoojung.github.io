@@ -1,16 +1,19 @@
 #!/usr/bin/env node
-// stargatelearn.com 경로별 측정.
+// stargatelearn.com 경로별 측정 + 수익 단계 집계.
 //
 // 워커는 Origin 헤더로 사이트별 저장소를 나눈다. Origin 없이 호출하면 다른 Stargate
 // 사이트의 데이터가 응답하므로, 이 스크립트의 모든 호출은 Origin 을 붙인다.
+// 판정 기준은 트래픽이 아니라 수익 단계다(stargatelearn-revenue.mjs).
 // 출력: out/stargatelearn-metrics.json (경로·횟수만. 방문자 정보 없음)
 //
 //   node measure-stargatelearn.mjs [--days 30] [--out ./out]
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { buildFunnel, revenueScore, stageCounts, sufficiency, MIN_VIEWS } from './stargatelearn-revenue.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)));
+const CONFIG_FILE = path.join(ROOT, 'stargatelearn-offers.json');
 const ENDPOINT = 'https://stargate.stargate8225.workers.dev/api/analytics';
 export const ORIGIN = 'https://www.stargatelearn.com';
 export const SITE = 'https://stargatelearn.com';
@@ -19,6 +22,19 @@ function arg(name, fallback) {
   const index = process.argv.indexOf(`--${name}`);
   if (index < 0) return fallback;
   return process.argv[index + 1] ?? fallback;
+}
+
+export async function loadConfig() {
+  try {
+    const raw = JSON.parse(await fs.readFile(CONFIG_FILE, 'utf8'));
+    const targets = [...(raw.targets ?? [])];
+    if (raw.productPage && !targets.some((rule) => rule.match === raw.productPage)) {
+      targets.push({ match: raw.productPage, stage: 'consideration', priority: 10 });
+    }
+    return { ...raw, targets };
+  } catch {
+    return { offers: [], targets: [], excluded: [], measurable: { attribute: 'data-conversion', hrefs: [] } };
+  }
 }
 
 export async function call(method, payload) {
@@ -54,21 +70,8 @@ export async function livePaths() {
   return paths.filter((item) => (seen.has(item.path) ? false : (seen.add(item.path), true)));
 }
 
-export function verdict(views, clicks) {
-  if (!views && !clicks) return 'no-data';
-  if (views && !clicks) return 'read-not-acting';
-  if (!views && clicks) return 'acting';
-  return 'working';
-}
-
-// 조회 0 은 결함이 아니라 데이터 미수집이다. 클릭 0 은 "읽지만 행동하지 않음"이다.
-export function actionFor(row) {
-  if (row.verdict === 'read-not-acting') return 'strengthen-offer';
-  if (row.verdict === 'no-data') return 'collect-data';
-  return 'keep-separate';
-}
-
 export async function measure(days = 30) {
+  const config = await loadConfig();
   const summary = await call('get_site_usage_summary', { p_days: days });
   const views = new Map();
   for (const row of summary.pages ?? []) views.set(row.page_path, Number(row.page_views) || 0);
@@ -76,42 +79,76 @@ export async function measure(days = 30) {
   const paths = await livePaths();
   const rows = [];
   for (const item of paths) {
-    const clicks = await call('get_site_button_click_counts', { p_page_path: item.path });
+    const clickRows = await call('get_site_button_click_counts', { p_page_path: item.path });
     const labels = {};
     let count = 0;
-    for (const click of clicks ?? []) {
+    for (const click of clickRows ?? []) {
       const label = click.element_label || '(unlabeled)';
       labels[label] = (labels[label] ?? 0) + (Number(click.clicks) || 0);
       count += Number(click.clicks) || 0;
     }
-    const row = { path: item.path, kind: item.kind, views: views.get(item.path) ?? 0, clicks: count, labels };
-    row.verdict = verdict(row.views, row.clicks);
-    row.action = actionFor(row);
+    const stageClicks = stageCounts(clickRows ?? [], config.targets ?? []);
+    const row = {
+      path: item.path,
+      kind: item.kind,
+      views: views.get(item.path) ?? 0,
+      clicks: count,
+      labels,
+      stageClicks,
+      revenueScore: revenueScore(clickRows ?? [], config.targets ?? []),
+    };
     rows.push(row);
   }
 
+  // 수익 단계 기준 판정. 조회 0 은 결함이 아니라 데이터 미수집이다.
+  for (const row of rows) {
+    const counts = row.stageClicks;
+    if (!row.views && !row.clicks) row.verdict = 'no-data';
+    else if (counts.intent > 0) row.verdict = 'intent';
+    else if (counts.consideration > 0) row.verdict = 'consideration';
+    else if (counts.activation > 0) row.verdict = 'activated';
+    else if (row.clicks > 0) row.verdict = 'reading';
+    else row.verdict = 'read-not-acting';
+    row.action =
+      row.verdict === 'read-not-acting' || row.verdict === 'activated'
+        ? 'strengthen-offer'
+        : row.verdict === 'no-data'
+          ? 'collect-data'
+          : 'keep-separate';
+  }
+
+  const funnel = buildFunnel(rows);
   let visitors = null;
   try {
     visitors = await call('get_site_visit_summary', { p_days: days });
   } catch { /* 방문자 합계가 없어도 경로별 지표는 그대로 쓴다. */ }
 
-  return {
+  const totals = {
+    pages: rows.length,
+    views: rows.reduce((sum, row) => sum + row.views, 0),
+    clicks: rows.reduce((sum, row) => sum + row.clicks, 0),
+    pathsWithReads: rows.filter((row) => row.views >= MIN_VIEWS).length,
+    pathsWithClicks: rows.filter((row) => row.clicks > 0).length,
+    revenueIntentClicks: funnel.stageClicks.intent,
+    revenueConsiderationClicks: funnel.stageClicks.consideration,
+    revenueActivationClicks: funnel.stageClicks.activation,
+    revenueScore: funnel.revenueScore,
+  };
+
+  const report = {
     updatedAt: new Date().toISOString(),
     origin: ORIGIN,
     windowDays: days,
     source: 'cloudflare',
-    rule: 'Every page a visitor can land on must offer a next step inside the content, and that step must be measurable. Views of 0 mean no data collected yet, not a defect.',
+    rule: 'Every page a visitor can land on must offer a next step inside the content, and that step must be measurable. Views of 0 mean no data collected yet, not a defect. Ranking follows the money path, not traffic.',
+    offerStages: (config.offers ?? []).map((offer) => ({ name: offer.name, stage: offer.stage, href: offer.href || null })),
     visitors,
     pages: rows,
-    totals: {
-      pages: rows.length,
-      views: rows.reduce((sum, row) => sum + row.views, 0),
-      clicks: rows.reduce((sum, row) => sum + row.clicks, 0),
-      pagesWithViews: rows.filter((row) => row.views > 0).length,
-      pagesWithClicks: rows.filter((row) => row.clicks > 0).length,
-      readNotActing: rows.filter((row) => row.verdict === 'read-not-acting').map((row) => row.path),
-    },
+    funnel,
+    totals,
   };
+  report.sufficiency = sufficiency(report);
+  return report;
 }
 
 async function main() {
@@ -121,11 +158,13 @@ async function main() {
   await fs.mkdir(outDir, { recursive: true });
   const file = path.join(outDir, 'stargatelearn-metrics.json');
   await fs.writeFile(file, `${JSON.stringify(report, null, 2)}\n`, 'utf8');
-  console.log(`[measure] ${report.totals.pages} paths over ${days} days · ${report.totals.views} views · ${report.totals.clicks} clicks · ${report.totals.pagesWithViews} paths with views`);
+  console.log(`[measure] ${report.totals.pages} paths over ${days} days · ${report.totals.views} views · ${report.totals.clicks} clicks · ${report.totals.pathsWithReads} paths read ${MIN_VIEWS}+ times`);
+  console.log(`[measure] money path: activation=${report.funnel.stageClicks.activation} consideration=${report.funnel.stageClicks.consideration} intent=${report.funnel.stageClicks.intent} revenue=${report.funnel.stageClicks.revenue}(external) · intent score ${report.totals.revenueScore}`);
   console.log(`[measure] visitors: ${report.visitors ? JSON.stringify(report.visitors) : 'unavailable'}`);
   for (const row of report.pages) {
-    console.log(`[measure] ${row.path.padEnd(58)} views=${String(row.views).padEnd(4)} clicks=${String(row.clicks).padEnd(4)} ${row.verdict} → ${row.action}`);
+    console.log(`[measure] ${row.path.padEnd(58)} views=${String(row.views).padEnd(4)} clicks=${String(row.clicks).padEnd(4)} ${row.verdict.padEnd(15)} → ${row.action}`);
   }
+  console.log(`[measure] sufficiency: ${report.sufficiency.sufficient} — ${report.sufficiency.reason}`);
   console.log(`[measure] written ${file}`);
 }
 

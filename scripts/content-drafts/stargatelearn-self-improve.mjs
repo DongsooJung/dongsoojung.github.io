@@ -17,19 +17,30 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { pathFinding, pathWatch, revenuePriority } from './stargatelearn-revenue.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)));
 const CONFIG_FILE = path.join(ROOT, 'stargatelearn-offers.json');
 const LOG_FILE = path.join(ROOT, 'out', 'stargatelearn-self-improvement.json');
+const METRICS_FILE = path.join(ROOT, 'out', 'stargatelearn-metrics.json');
 const SITE = 'https://stargatelearn.com';
 
 export async function loadConfig() {
   const raw = JSON.parse(await fs.readFile(CONFIG_FILE, 'utf8'));
+  // 수익 상품이 아직 정해지지 않았으면 해당 오퍼는 검사하지 않는다.
   const offers = (raw.offers ?? [])
-    .map((offer) => ({ ...offer, href: offer.href || (offer.name === 'paid_problem_set' ? raw.storeProductUrl : '') }))
+    .map((offer) => ({ ...offer, href: offer.href || (offer.name === 'paid_problem_set' ? raw.productPage : '') }))
     .filter((offer) => offer.href);
+  const targets = [...(raw.targets ?? [])];
+  if (raw.productPage && !targets.some((rule) => rule.match === raw.productPage)) {
+    targets.push({ match: raw.productPage, stage: 'consideration', priority: 10 });
+  }
+  if (raw.storeProductUrl && !targets.some((rule) => rule.match.includes('shop_view'))) {
+    targets.push({ match: '/shop_view', stage: 'intent', priority: 30 });
+  }
   return {
     offers,
+    targets,
     excluded: raw.excluded ?? [],
     measurable: raw.measurable ?? { attribute: 'data-conversion', hrefs: [] },
   };
@@ -108,7 +119,32 @@ export function mergeFindings(previous = [], current = []) {
   for (const [key, item] of before) {
     if (!now.has(key)) closed.push({ ...item, closedAt: new Date().toISOString() });
   }
+  // 돈이 걸린 단계가 뒤에 갈수록 먼저 고친다. 같은 단계면 읽힌 사람이 많은 쪽이 먼저다.
+  open.sort((a, b) => (b.revenueImpact ?? 0) - (a.revenueImpact ?? 0) || a.target.localeCompare(b.target));
   return { open, closed };
+}
+
+// 측정 결과(있으면)를 읽는다. 없으면 돈 경로 판정은 하지 않는다.
+export async function loadMetrics() {
+  try {
+    return JSON.parse(await fs.readFile(METRICS_FILE, 'utf8'));
+  } catch {
+    return null;
+  }
+}
+
+// 이미 읽혔지만 돈으로 가는 단계에 도달하지 못한 경로. 조회 3회 미만은 누수가 아니라 대기 항목이다.
+export function revenueFindings(metrics) {
+  if (!metrics?.pages?.length) return { findings: [], watch: [] };
+  const findings = [];
+  const watch = [];
+  for (const page of metrics.pages) {
+    const finding = pathFinding(page);
+    if (finding) findings.push(finding);
+    const waiting = pathWatch(page);
+    if (waiting) watch.push(waiting);
+  }
+  return { findings, watch };
 }
 
 export async function runSelfImprovement({ today = new Date().toISOString().slice(0, 10), dryRun = false } = {}) {
@@ -121,9 +157,12 @@ export async function runSelfImprovement({ today = new Date().toISOString().slic
   }
 
   const report = audit(config, await liveContent());
+  const metrics = await loadMetrics();
+  const revenue = revenueFindings(metrics);
   const findings = [
-    ...report.missingOffer.map((url) => ({ code: 'missing_offer', target: url })),
-    ...report.unmeasured.map((url) => ({ code: 'unmeasured_offer', target: url })),
+    ...report.missingOffer.map((url) => ({ code: 'missing_offer', target: url, stage: 'consideration', revenueImpact: revenuePriority({ views: 0, stage: 'consideration' }) })),
+    ...report.unmeasured.map((url) => ({ code: 'unmeasured_offer', target: url, stage: 'consideration', revenueImpact: revenuePriority({ views: 0, stage: 'consideration' }) })),
+    ...revenue.findings,
   ];
   const { open, closed } = mergeFindings(previous.openFindings ?? [], findings);
 
@@ -144,6 +183,9 @@ export async function runSelfImprovement({ today = new Date().toISOString().slic
     updatedAt: new Date().toISOString(),
     rule: 'Every page a visitor can land on must offer a next step inside the content, and that step must be measurable.',
     dataQuality: 'Every analytics read sends the Origin of this site. The service keeps one store per site, so a request without Origin answers with another Stargate site\'s data. Views of 0 mean no data collected yet, not a defect.',
+    moneyPath: metrics?.funnel?.steps ?? null,
+    sufficiency: metrics?.sufficiency ?? null,
+    watch: revenue.watch,
     today,
     openFindings: open,
     iterations: [...iterations.slice(-29), iteration],
@@ -154,14 +196,19 @@ export async function runSelfImprovement({ today = new Date().toISOString().slic
     await fs.writeFile(LOG_FILE, `${JSON.stringify(payload, null, 2)}\n`, 'utf8');
   }
 
-  return { report, open, closed, iteration, dryRun, logFile: LOG_FILE };
+  return { report, open, closed, iteration, watch: revenue.watch, moneyPath: payload.moneyPath, sufficiency: payload.sufficiency, dryRun, logFile: LOG_FILE };
 }
 
 if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
   const dryRun = process.argv.includes('--dry-run');
   const result = await runSelfImprovement({ dryRun });
   console.log(`[self-improve] ${result.report.totals.inScope} pages in scope · ${result.report.totals.withOffer} with an offer · ${result.report.totals.missingOffer} missing · ${result.report.totals.unmeasured} unmeasured`);
-  console.log(`[self-improve] streak ${result.iteration.streak} · open findings ${result.open.length}${dryRun ? ' · dry-run (로그 미기록)' : ''}`);
-  for (const item of result.open) console.log(`[self-improve] open: ${item.code} ${item.target} (seen ${item.count}x)`);
+  console.log(`[self-improve] streak ${result.iteration.streak} · open findings ${result.open.length} · watch ${result.watch.length}${dryRun ? ' · dry-run (로그 미기록)' : ''}`);
+  if (result.moneyPath) {
+    console.log(`[self-improve] money path: ${result.moneyPath.map((step) => `${step.id}=${step.clicks}`).join(' ')}`);
+  }
+  if (result.sufficiency) console.log(`[self-improve] sufficiency: ${result.sufficiency.sufficient} — ${result.sufficiency.reason}`);
+  for (const item of result.open) console.log(`[self-improve] open: ${item.code} ${item.target} (stage ${item.stage ?? '-'}, impact ${item.revenueImpact ?? 0}, seen ${item.count}x)`);
+  for (const item of result.watch) console.log(`[self-improve] watch: ${item.target} (${item.reason})`);
   for (const item of result.closed) console.log(`[self-improve] closed: ${item.code} ${item.target}`);
 }
