@@ -112,6 +112,16 @@ export function countContentLinks(html, siteOrigin = 'https://stargatelearn.com'
   }).length;
 }
 
+// 광고 슬롯 검사는 측정 코드 영역을 뺀 페이지에서 한다.
+// 측정 스니펫 안에도 광고 선택자 문자열이 들어 있어 그대로 보면
+// "광고 슬롯 있음"으로 자기검출(false positive)하기 때문이다.
+export function stripMeasurementBlock(html) {
+  return String(html ?? '').replace(
+    /<!--\s*stargatelearn:measure:start[\s\S]*?<!--\s*stargatelearn:measure:end\s*-->/gi,
+    ' ',
+  );
+}
+
 // 광고만 모델의 페이지 검사.
 export function auditAdsOnly(items, config) {
   const rules = config.contentRules ?? {};
@@ -119,7 +129,7 @@ export function auditAdsOnly(items, config) {
   const returnMarkers = rules.returnPathMarkers ?? [];
   const excludedPaths = config.excluded ?? [];
   const pages = items.map((item) => {
-    const page = item.pageHtml ?? '';
+    const page = stripMeasurementBlock(item.pageHtml ?? '');
     const excluded = excludedPaths.some((pattern) => item.path.startsWith(pattern));
     const text = stripText(item.html);
     return {
