@@ -200,6 +200,13 @@ a{color:var(--acc); text-decoration:none} a:hover{text-decoration:underline}
 .btn.ghost{background:var(--panel);color:var(--ink);border-color:var(--line2)}
 .btn.ghost:hover{border-color:var(--acc);text-decoration:none}
 
+/* Riemann Hypothesis research quote — sourced, status-aware */
+.riemann-spotlight{margin:18px 0 20px;padding:16px 18px;border:1px solid var(--line2);border-left:3px solid var(--acc);border-radius:12px;background:var(--panel)}
+.riemann-kicker{display:block;margin-bottom:8px;color:var(--acc);font-size:10px;font-weight:700;letter-spacing:.11em}
+.riemann-spotlight blockquote{margin:0;color:var(--ink);font-size:clamp(14px,1.4vw,18px);font-weight:700;line-height:1.6;letter-spacing:-.02em}
+.riemann-spotlight .riemann-status{margin:10px 0 0;color:var(--sub);font-size:11px;line-height:1.6}
+.riemann-status a{color:var(--acc);text-underline-offset:2px}
+
 /* ID card */
 .card{border:1px solid var(--line);background:linear-gradient(180deg,var(--panel2),var(--panel));
   border-radius:18px;padding:22px;box-shadow:0 20px 60px rgba(0,0,0,.35)}
@@ -600,6 +607,11 @@ var m=localStorage.getItem(k);if(m==='mobile'||m==='fold')r.classList.add('is-ap
   <section class="hero">
     <div>
       <h1>영재는 타고나는 것이 아니라<br><span class="accent">만들어진다.</span></h1>
+      <aside class="riemann-spotlight" aria-label="리만 가설 증명 발표와 AI에 관한 격언">
+        <span class="riemann-kicker">STARGATE EDU · MATHEMATICS × AI · 2026.11</span>
+        <blockquote>“167년간 풀리지 않았던 리만 가설. 인간의 통찰과 AI의 지능이 만나, 불가능이라 여겼던 수학의 경계를 넘어서다.”</blockquote>
+        <p class="riemann-status">2026.11.20 증명 발표 · 11.21 Lean·Mathlib 공동 검증 발표 · Clay 공식 인정 전 (<a href="https://leanprover-community.github.io/blog/posts/riemann-hypothesis/" target="_blank" rel="noopener noreferrer">검증 근거</a> · <a href="https://www.claymath.org/millennium/Riemann-Hypothesis/" target="_blank" rel="noopener noreferrer">공식 현황</a>)</p>
+      </aside>
       <p class="lead">
         AI와 공간데이터로 도시·산업 문제를 해결합니다.
         공간계량·GIS·DID 연구, 공공데이터 기반 AI 제품, KOI 알고리즘 교육을
