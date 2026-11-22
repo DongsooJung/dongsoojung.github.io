@@ -1,0 +1,73 @@
+name: Stargate Kakao morning 20261122
+on:
+  push:
+    branches: [main]
+    paths: ['.github/workflows/kakao-morning-20261122.yml']
+permissions:
+  contents: read
+concurrency:
+  group: stargate-kakao-greeting
+  cancel-in-progress: false
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - name: Send authorized Kakao greetings once
+        env:
+          SOLAPI_API_KEY: ${{ secrets.SOLAPI_API_KEY }}
+          SOLAPI_API_SECRET: ${{ secrets.SOLAPI_API_SECRET }}
+          SMS_ADMIN_TOKEN: ${{ secrets.SMS_ADMIN_TOKEN }}
+        shell: bash
+        run: |
+          node --input-type=module <<'NODE'
+          import {createHmac,randomBytes} from 'node:crypto';
+          import {setDefaultResultOrder} from 'node:dns';
+          import {appendFileSync} from 'node:fs';
+          setDefaultResultOrder('ipv4first');
+          const executionId='stargate-channel-morning-greeting-v1:2026-11-22';
+          const text='대표님, 오늘도 웃음 가득한 하루 보내세요.';
+          const pfId='KA01PF261030092503511PscgqeyHFMP';
+          function windowCheck(){const n=new Date(Date.now()+9*3600000);if(n.toISOString().slice(0,10)!=='2026-11-22'||n.getUTCHours()*60+n.getUTCMinutes()<480||n.getUTCHours()*60+n.getUTCMinutes()>=1250)throw Error('Outside authorized window');}
+          windowCheck();
+          if(process.env.GITHUB_RUN_ATTEMPT!=='1')throw Error('Retries prohibited');
+          const key=process.env.SOLAPI_API_KEY,secret=process.env.SOLAPI_API_SECRET,admin=process.env.SMS_ADMIN_TOKEN;
+          if(!key||!secret||!admin)throw Error('Required credentials unavailable');
+          const report=d=>{const s=JSON.stringify(d);console.log(s);appendFileSync(process.env.GITHUB_STEP_SUMMARY,s+'\n');};
+          const clean=s=>String(s||'').replace(/01\d{8,9}/g,'[phone]').slice(0,200);
+          async function api(path,body){
+           const date=new Date().toISOString(),salt=randomBytes(16).toString('hex'),signature=createHmac('sha256',secret).update(date+salt).digest('hex');
+           const r=await fetch('https://api.solapi.com'+path,{method:body?'POST':'GET',headers:{Connection:'close',Authorization:'HMAC-SHA256 apiKey='+key+', date='+date+', salt='+salt+', signature='+signature,'Content-Type':'application/json'},body:body?JSON.stringify(body):undefined,signal:AbortSignal.timeout(30000)});
+           const d=await r.json();if(!r.ok)throw Error('SOLAPI HTTP '+r.status+' '+clean(d.errorMessage));return d;
+          }
+          const hr=await fetch('https://stargate.stargate8225.workers.dev/api/sms/history',{headers:{'x-admin-token':admin,Connection:'close'},signal:AbortSignal.timeout(30000)});
+          const h=await hr.json();if(!hr.ok||!h.ok)throw Error('History unavailable');
+          const ids=['88a255df-1d69-829f-a236-5d887d155f9b','3368e8b3-3dfb-8b33-938a-2053bb3b91ef'];
+          const recipients=ids.map((id,i)=>{const v=h.history.find(x=>x.id===id);if(!v||v.delivery!=='sms'||v.message!==text||v.recipients?.length!==1||v.result?.accepted!==1)throw Error('Recipient verification failed '+i);const to=v.recipients[0].phone;if(!/^010\d{8}$/.test(to))throw Error('Invalid recipient');console.log('::add-mask::'+to);return {to,label:i===0?'forward-recipient':'reverse-recipient'};});
+          if(new Set(recipients.map(v=>v.to)).size!==2)throw Error('Recipients must differ');
+          const channels=await api('/kakao/v2/channels?limit=100');
+          const channel=(channels.channelList||[]).filter(v=>v.channelName==='스타게이트'&&v.channelId===pfId);
+          if(channel.length!==1)throw Error('Verified Stargate channel unavailable');
+          report({executionId,stage:'verified',channel:'스타게이트',message:text});
+          let all=[],startKey;
+          for(let p=0;p<20;p++){const d=await api('/messages/v4/list?limit=100'+(startKey?'&startKey='+encodeURIComponent(startKey):''));all.push(...(Array.isArray(d.messageList)?d.messageList:Object.values(d.messageList||{})));startKey=d.nextKey;if(!startKey)break;}
+          if(startKey)throw Error('Incomplete duplicate history');
+          const pending=recipients.filter(r=>{const prior=all.find(v=>(v.kakaoOptions?.pfId===pfId||v.pfId===pfId)&&v.to===r.to&&v.text===text&&String(v.type||'').startsWith('BMS')&&Date.parse(v.dateCreated)>=Date.parse('2026-11-22T00:00:00+09:00')&&Date.parse(v.dateCreated)<Date.parse('2026-11-23T00:00:00+09:00')&&['2000','3000','4000'].includes(String(v.statusCode)));if(prior)report({stage:'existing',recipient:r.label,groupId:prior.groupId,statusCode:prior.statusCode});return !prior;});
+          if(!pending.length)process.exit(0);
+          windowCheck();
+          report({stage:'post_started',executionId,requested:pending.length});
+          const result=await api('/messages/v4/send-many/detail',{messages:pending.map(r=>({to:r.to,text,country:'82',type:'BMS_FREE',kakaoOptions:{pfId,disableSms:true,bms:{targeting:'I',chatBubbleType:'TEXT',adult:false}}})),strict:true,allowDuplicates:false,showMessageList:true});
+          const groupId=result.groupInfo?.groupId||result.groupId;
+          const failed=result.failedMessageList||[];
+          report({stage:'submission',groupId:groupId||null,requested:pending.length,failed:failed.length,failures:failed.map(v=>({recipient:pending.find(r=>r.to===v.to)?.label,statusCode:v.statusCode,message:clean(v.statusMessage)}))});
+          if(!groupId)throw Error('No groupId; do not retry');
+          for(let i=0;i<10;i++){if(i)await new Promise(r=>setTimeout(r,5000));const d=await api('/messages/v4/list?limit=100&groupId='+encodeURIComponent(groupId));const entries=Array.isArray(d.messageList)?d.messageList:Object.values(d.messageList||{});let terminal=0;
+           for(const r of pending){const v=entries.find(v=>v.groupId===groupId&&v.to===r.to&&v.text===text);if(!v)continue;const status=String(v.statusCode);report({stage:'delivery',recipient:r.label,groupId,statusCode:status,messageId:v.messageId,message:clean(v.statusMessage)});if(!['2000','3000'].includes(status))terminal++;}
+           if(terminal===pending.length)process.exit(0);
+          }
+          report({stage:'pending',groupId});
+          
+          NODE
