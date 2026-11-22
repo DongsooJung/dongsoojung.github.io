@@ -44,7 +44,7 @@
   ],
   "contentRules": {
     "requireAdSlot": true,
-    "adSlotMarkers": ["id=\"w-a-", "data-ad-client=\"", "data-ad-slot=\"", "wpcom-ads"],
+    "adSlotMarkers": ["id=\"w-a-", "data-ad-client=\"", "data-ad-slot=\"", "wpcom-ads", "adsbygoogle", "w-ads"],
     "requireReturnPath": true,
     "returnPathMarkers": ["id=\"subscribe-blog\"", "email-subscriptions", "jetpack_subscriptions"],
     "minContentLinks": 1,

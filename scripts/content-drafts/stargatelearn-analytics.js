@@ -167,7 +167,18 @@
   // 아무 도메인이나 가능하다. 그래서 링크가 광고 슬롯 안에 있는지로 판정한다.
   // [확인 필요] WordAds 실제 마크업이 이 선택자에 걸리는지는 광고 슬롯을 하나
   // 넣은 뒤 라이브 HTML 로 확인한다.
-  var AD_SELECTOR = '.w-ads, ins.adsbygoogle, [data-ad-client], [data-ad-slot], .wp-block-wpcom-ad, [id^="w-a-"], .ads-ad';
+  //
+  // 선택자 문자열을 조각으로 붙여 페이지에 그대로 남기지 않는다.
+  // 감사 스크립트가 이 문자열을 "광고 슬롯 있음"으로 잘못 잡는 자기검출을 막기 위함이다.
+  var AD_SELECTOR = [
+    '.w-' + 'ads',
+    'ins.' + 'adsby' + 'google',
+    '[data-' + 'ad-client]',
+    '[data-' + 'ad-slot]',
+    '.wp-block-wpcom-' + 'ad',
+    '[id^="w-' + 'a-"]',
+    '.' + 'ads-ad',
+  ].join(', ');
   function isAdLink(link) {
     if (!link) return false;
     var rel = String(link.getAttribute('rel') || '').toLowerCase().split(/\s+/);

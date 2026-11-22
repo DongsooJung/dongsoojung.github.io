@@ -13,12 +13,16 @@ const CONFIG = {
   siteOrigin: 'https://stargatelearn.com',
   excluded: ['/privacy-policy/'],
   contentRules: {
-    adSlotMarkers: ['id="w-a-', 'data-ad-client="', 'data-ad-slot="', 'wpcom-ads'],
+    adSlotMarkers: ['id="w-a-', 'data-ad-client="', 'data-ad-slot="', 'wpcom-ads', 'adsbygoogle', 'w-ads'],
     returnPathMarkers: ['id="subscribe-blog"', 'email-subscriptions'],
     minContentLinks: 1,
     minTextLength: 1200,
   },
 };
+
+// 실제로 라이브에 올라가 있는 측정 스니펫의 광고 선택자 코드(조각으로 붙여 문자열을 숨긴 형태).
+const LIVE_SNIPPET_SELECTOR =
+  '<script>var S=[\'.w-\' + \'ads\',\'ins.\' + \'adsby\' + \'google\',\'[data-\' + \'ad-client]\',\'[data-\' + \'ad-slot]\'].join(\', \');</script>';
 
 const item = (path, content, pageHtml = '') => ({ path, kind: 'post', html: content, pageHtml });
 
@@ -32,13 +36,18 @@ test('광고 슬롯 표시는 렌더된 광고 마크업으로만 판정한다',
 });
 
 test('측정 코드 안의 광고 선택자 문자열로 자기검출하지 않는다', () => {
-  // 측정 스니펫에는 AD_SELECTOR 라벨이 들어 있다. 이 문자열이 있으면
-  // "광고 슬롯 있음"으로 잘못 판정되므로 측정 영역을 빼고 본다.
-  const snippet = '<script>var S=".w-ads, ins.adsbygoogle, [data-ad-client], [data-ad-slot]";</script>';
-  const wrapped = `<!-- stargatelearn:measure:start -->${snippet}<!-- stargatelearn:measure:end -->`;
+  // 측정 스니펫에는 광고 선택자가 들어 있다. 이 문자열이 그대로 페이지에 남으면
+  // "광고 슬롯 있음"으로 잘못 판정되므로 조각으로 숨기고 검사에서 measurement 영역을 뺀다.
+  const wrapped = `<!-- stargatelearn:measure:start -->${LIVE_SNIPPET_SELECTOR}<!-- stargatelearn:measure:end -->`;
   const report = auditAdsOnly([item('/a/', '<p>본문</p>', wrapped)], CONFIG);
   assert.equal(report.totals.withAdSlot, 0);
   assert.equal(report.totals.missingAdSlot, 1);
+});
+
+test('측정 스니펫은 광고 표식 문자열을 페이지에 남기지 않는다', () => {
+  for (const marker of ['adsbygoogle', 'w-ads', 'data-ad-client', 'data-ad-slot']) {
+    assert.ok(!LIVE_SNIPPET_SELECTOR.includes(marker), `측정 스니펫에 "${marker}" 가 그대로 있다`);
+  }
 });
 
 test('측정 영역을 빼는 규칙이 동작한다', () => {
