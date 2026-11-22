@@ -2,12 +2,25 @@
 // stargatelearn.com 운영 도구.
 //
 //   node stargatelearn-tools.mjs probe   읽기 전용 런타임 조사(플러그인/테마/포스트타입/위젯/마커 위치)
-//   node stargatelearn-tools.mjs sync    확정한 주입 지점에 측정 스크립트 반영
+//   node stargatelearn-tools.mjs channels 블록 테마 템플릿 파트의 읽기·쓰기 권한 확인
+//   node stargatelearn-tools.mjs sync     확정한 주입 지점에 측정 스크립트 반영(멱등·백업)
+//   node stargatelearn-tools.mjs restore  sync 의 백업으로 원본 복구
 //
 // 자격 증명은 환경변수로만 받는다(WP_SITE / WP_USER / WP_APP_PASSWORD).
 // 비밀값을 파일·인자·로그에 남기지 않는다.
 
 import { Buffer } from 'node:buffer';
+import { mkdirSync, writeFileSync, readFileSync, existsSync } from 'node:fs';
+import { fileURLToPath } from 'node:url';
+import path from 'node:path';
+
+const HERE = path.dirname(fileURLToPath(import.meta.url));
+const OUT_DIR = path.join(HERE, 'out');
+const BACKUP_FILE = path.join(OUT_DIR, 'footer-backup.json');
+const SNIPPET_FILE = path.join(HERE, 'stargatelearn-analytics.js');
+const FOOTER_ID = 'assembler//footer';
+const START = '<!-- stargatelearn:measure:start -->';
+const END = '<!-- stargatelearn:measure:end -->';
 
 const MODE = (process.argv[2] || 'probe').toLowerCase();
 // WP_SITE 는 스킴 없는 도메인이다(generate-drafts.mjs 와 같은 규약).
@@ -15,6 +28,7 @@ const SITE = (process.env.WP_SITE || 'stargatelearn.com').replace(/^https?:\/\//
 const USER = process.env.WP_USER || '';
 const APP_PASSWORD = (process.env.WP_APP_PASSWORD || '').replace(/\s+/g, '');
 const MARKER = 'Stargate visit alert';
+const MEASURE_MARKER = 'stargatelearn:measure:start';
 
 if (!USER || !APP_PASSWORD) {
   console.error('WP_USER / WP_APP_PASSWORD 가 없습니다.');
@@ -213,11 +227,125 @@ async function channels() {
   console.log(JSON.stringify(out, null, 2));
 }
 
+async function writeTemplatePart(id, raw, title) {
+  const res = await fetch(`https://${SITE}/wp-json/wp/v2/template-parts/${id}`, {
+    method: 'POST',
+    headers: { Authorization: AUTH, 'Content-Type': 'application/json' },
+    body: JSON.stringify({ content: raw, title }),
+  });
+  const body = await res.text();
+  return { status: res.status, preview: body.slice(0, 300) };
+}
+
+// measurement-only 블록. 방문 기록은 기존 WPCode 스크립트가 그대로 하므로
+// 여기서는 페이지뷰·클릭·폼 제출 이벤트만 보낸다(이중 기록 방지).
+function measurementBlock() {
+  const snippet = readFileSync(SNIPPET_FILE, 'utf8');
+  return [
+    START,
+    '<!-- stargatelearn.com 측정 스크립트 v2 — 방문 기록은 WPCode 스니펫이 담당한다. -->',
+    '<script>window.__stargateLearnMeasureOnly = true;</script>',
+    snippet.trim(),
+    END,
+  ].join('\n');
+}
+
+async function sync() {
+  const out = { target: FOOTER_ID, steps: [] };
+  const id = encodeURIComponent(FOOTER_ID);
+
+  const read = await get(`/wp/v2/template-parts/${id}?context=edit`);
+  out.steps.push({ step: 'read', status: read.status });
+  if (read.status !== 200) {
+    out.error = '템플릿 파트를 읽지 못했습니다.';
+    console.log(JSON.stringify(out, null, 2));
+    return;
+  }
+  const original = read.body.content?.raw ?? '';
+  const title = read.body.title?.raw ?? read.body.title?.rendered;
+  out.originalLength = original.length;
+  out.originalHasMarker = original.includes(MARKER);
+  out.alreadySynced = original.includes(MEASURE_MARKER);
+
+  // 되돌리려면 백업이 먼저다.
+  mkdirSync(OUT_DIR, { recursive: true });
+  if (!existsSync(BACKUP_FILE) || !out.alreadySynced) {
+    writeFileSync(
+      BACKUP_FILE,
+      JSON.stringify({ savedAt: new Date().toISOString(), target: FOOTER_ID, content: original }, null, 2),
+      'utf8',
+    );
+    out.backupWritten = BACKUP_FILE;
+  } else {
+    out.backupKept = BACKUP_FILE;
+  }
+
+  const block = measurementBlock();
+  let next;
+  if (out.alreadySynced) {
+    const s = original.indexOf(START);
+    const e = original.indexOf(END) + END.length;
+    next = original.slice(0, s) + block + original.slice(e);
+    out.action = 'replaced';
+  } else {
+    next = original.replace(/\s+$/, '') + '\n\n' + block + '\n';
+    out.action = 'appended';
+  }
+  out.nextLength = next.length;
+  out.headPreserved = next.startsWith(original.slice(0, 120));
+
+  const write = await writeTemplatePart(id, next, title);
+  out.steps.push({ step: 'write', status: write.status, preview: write.preview });
+
+  const verify = await get(`/wp/v2/template-parts/${id}?context=edit`);
+  const after = verify.body?.content?.raw ?? '';
+  out.steps.push({ step: 're-read', status: verify.status });
+  out.lengthAfter = after.length;
+  out.verifierHasMarker = after.includes(MEASURE_MARKER);
+  out.verifierHasSnippet = after.includes('record_site_usage_event');
+  out.verifierKeptOriginal = after.includes(original.slice(0, 120));
+  // 블록이 한 글자도 안 바뀌고 그대로 들어갔는지 본다.
+  // kses 가 <script> 를 걷어내면 여기서 false 가 된다.
+  out.verifierExactBlock = after.includes(block);
+  out.verifierScriptTags = (after.match(/<script/gi) || []).length;
+  out.ok =
+    verify.status === 200 &&
+    out.verifierHasMarker &&
+    out.verifierHasSnippet &&
+    out.verifierKeptOriginal &&
+    out.verifierExactBlock;
+  console.log(JSON.stringify(out, null, 2));
+}
+
+async function restore() {
+  const out = { target: FOOTER_ID, steps: [] };
+  if (!existsSync(BACKUP_FILE)) {
+    out.error = `백업이 없습니다: ${BACKUP_FILE}`;
+    console.log(JSON.stringify(out, null, 2));
+    return;
+  }
+  const backup = JSON.parse(readFileSync(BACKUP_FILE, 'utf8'));
+  const id = encodeURIComponent(FOOTER_ID);
+  const write = await writeTemplatePart(id, backup.content, FOOTER_ID);
+  out.steps.push({ step: 'restore-write', status: write.status, preview: write.preview });
+  const verify = await get(`/wp/v2/template-parts/${id}?context=edit`);
+  const after = verify.body?.content?.raw ?? '';
+  out.steps.push({ step: 're-read', status: verify.status });
+  out.lengthAfter = after.length;
+  out.markerGone = !after.includes(MEASURE_MARKER);
+  out.ok = verify.status === 200 && out.markerGone;
+  console.log(JSON.stringify(out, null, 2));
+}
+
 if (MODE === 'probe') {
   await probe();
 } else if (MODE === 'channels') {
   await channels();
+} else if (MODE === 'sync') {
+  await sync();
+} else if (MODE === 'restore') {
+  await restore();
 } else {
-  console.error(`알 수 없는 모드: ${MODE} (probe|channels|sync 중 하나)`);
+  console.error(`알 수 없는 모드: ${MODE} (probe|channels|sync|restore 중 하나)`);
   process.exit(2);
 }

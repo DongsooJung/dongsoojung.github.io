@@ -1,7 +1,12 @@
 <!-- Stargate visit alert (owner Kakao notification) -->
 <!--
   stargatelearn.com 측정 스크립트 (v2 — 2026-11-22).
-  주입 위치: WPCode 스니펫(플러그인 insert-headers-and-footers/ihaf, 활성).
+  주입 위치(둘 중 하나만. 동시에 쓰면 페이지뷰·클릭이 중복 기록된다):
+    ① WPCode 스니펫(플러그인 insert-headers-and-footers/ihaf, 활성)
+       → 이 블록을 통째로 넣으면 된다. 방문 기록 + 새 이벤트를 한 곳에서 처리한다.
+    ② 테마 템플릿 파트 assembler//footer (REST 쓰기 가능)
+       → 아래에 window.__stargateLearnMeasureOnly = true; 를 먼저 켜고 이 블록을 넣는다.
+         방문 기록은 기존 WPCode 스크립트가 그대로 하므로, 이쪽은 이벤트만 보낸다.
   규칙:
   - 방문자 id 는 기존 방문 기록과 같은 stargateLearnVisitV1:id 를 재사용한다.
   - 워커의 visits PK 가 (visitor_id, visit_date) 이므로 페이지뷰가 늘어도 방문자 집계는 1일 1회다.
@@ -21,6 +26,9 @@
   var UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
   var MAX_PATH = 512;
   var pending = false, timer, pageViewSent = false;
+  // true 면 방문 기록은 건너뛴다(테마 푸터 주입용). 기존 방문 기록 스크립트와
+  // 같은 visitor id 를 쓰므로 페이지뷰가 늘어도 방문자 집계는 1일 1회로 같다.
+  var MEASURE_ONLY = !!window.__stargateLearnMeasureOnly;
 
   function koreaDay() {
     return new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Seoul', year: 'numeric', month: '2-digit', day: '2-digit' }).format(new Date());
@@ -89,6 +97,7 @@
       .then(function () { pending = false; schedule(); });
   }
   document.addEventListener('visibilitychange', function () {
+    if (MEASURE_ONLY) return;
     if (document.visibilityState === 'visible') record();
   });
 
@@ -186,6 +195,6 @@
   document.addEventListener('click', trackClick, true);
   document.addEventListener('submit', trackSubmit, true);
   trackPageView();
-  record();
+  if (!MEASURE_ONLY) record();
 })();
 </script>

@@ -33,6 +33,11 @@ on:
         type: boolean
         required: false
         default: false
+      site_sync:
+        description: '대신 측정 스크립트를 확정한 주입 지점(assembler//footer)에 반영. 백업·멱등 교체'
+        type: boolean
+        required: false
+        default: false
 
 permissions:
   contents: read
@@ -82,8 +87,16 @@ jobs:
           WP_APP_PASSWORD: ${{ secrets.WP_APP_PASSWORD }}
         run: node stargatelearn-tools.mjs channels
 
+      - name: Sync measurement script
+        if: ${{ inputs.site_sync == true }}
+        env:
+          WP_SITE: ${{ secrets.WP_SITE }}
+          WP_USER: ${{ secrets.WP_USER }}
+          WP_APP_PASSWORD: ${{ secrets.WP_APP_PASSWORD }}
+        run: node stargatelearn-tools.mjs sync
+
       - name: Generate drafts
-        if: ${{ inputs.site_probe != true }}
+        if: ${{ inputs.site_probe != true && inputs.site_sync != true }}
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           WP_SITE: ${{ secrets.WP_SITE }}
