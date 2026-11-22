@@ -150,9 +150,29 @@ async function probe() {
     out.wpContentFiles.push({ file, status: res.status, preview: text.replace(/\s+/g, ' ').slice(0, 300) });
   }
 
+  // 블록 테마의 템플릿·템플릿 파트가 REST 로 열려 있는지 본다.
+  // 열려 있으면 코드를 직접 넣는 경로가 되고, 닫혀 있으면 wp-admin 화면이 유일한 경로다.
+  out.themeTemplates = {};
+  for (const kind of ['templates', 'template-parts']) {
+    const res = await get(`/wp/v2/${kind}?per_page=100&context=edit`);
+    out.themeTemplates[kind] = Array.isArray(res.body)
+      ? {
+          status: 200,
+          count: res.body.length,
+          items: res.body.map((row) => ({
+            id: row.id,
+            slug: row.slug,
+            title: row.title?.raw ?? row.title?.rendered,
+            source: row.source,
+            hasContent: typeof row.content?.raw === 'string' && row.content.raw.length > 0,
+            contentLength: row.content?.raw?.length ?? 0,
+          })),
+        }
+      : { status: res.status, detail: res.body };
+  }
+
   // 수익화 표면: 워드프레스 코메르스 제품·폼·내비게이션
-  out.commerce = {};
-  for (const kind of ['jp_pay_product', 'jetpack-forms', 'feedback', 'navigation', 'menu-items']) {
+  out.commerce = {};  for (const kind of ['jp_pay_product', 'jetpack-forms', 'feedback', 'navigation', 'menu-items']) {
     const res = await get(`/wp/v2/${kind}?per_page=20&context=edit`);
     out.commerce[kind] = Array.isArray(res.body)
       ? { status: 200, count: res.body.length, items: res.body.map((row) => ({ id: row.id, slug: row.slug, title: row.title?.raw ?? row.title?.rendered, status: row.status })) }
