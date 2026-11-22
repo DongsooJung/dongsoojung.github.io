@@ -6675,25 +6675,93 @@
       "dataAsOf": null,
       "dataPeriod": "2026년 1~6월 누계·5~6월 실적 / 1~4월 배분·7~9월 모형추정",
       "snapshotUpdatedAt": "2026-11-11T11:36:19Z",
-      "collectedAt": "2026-11-11T11:30:14Z",
-      "checkedAt": "2026-11-11T11:36:19Z",
+      "collectedAt": "2026-11-22T11:23:49.527767+00:00",
+      "checkedAt": "2026-11-22T11:29:29.277Z",
       "reviewStatus": "needs_review",
       "freshness": "historical_actuals_and_estimates",
       "sourceHint": "중기부 붙임3-1·3-2, 2026 상반기",
       "issues": [
-        "1~4월 월별 업종 수치는 전체 창업 비중으로 배분한 추정",
-        "7~9월 실적 원표 미확보, 월 배분비 18%·15%·17%는 분석자 가정",
-        "법인등기 기준 신규법인 및 업태·종목 문자열의 실측 순위가 아님"
+        "1~4월 배분·7~9월 모형추정을 실적으로 해석할 수 없음",
+        "공식 7~9월 원표와 실제 공표일은 이번 범위에서 미확보",
+        "법인등기·업태/종목 문자열 순위가 아님; 새 Excel 실행 재계산은 미검증"
       ],
-      "verifiedScope": "개인·법인 업종별 2025 연간·상반기와 2026 상반기·5월·6월 입력값 및 합계를 공식 PDF와 대조. 추정 결과는 실측 아님.",
+      "verifiedScope": "상반기 조직형태별·업종별 원표 250개 입력값, 350개 추정 월별 계산·합계, 25개 비중복 범주와 기존 엑셀 저장값을 대조했습니다.",
       "evidence": [
         {
           "kind": "official-source",
           "url": "https://www.mss.go.kr/common/board/Download.do?bcIdx=1070757&cbIdx=86&streFileNm=0dd3ae36-a0e5-4509-b4ca-06c0aef05d12.pdf",
           "scope": "붙임3-1(인쇄쪽13), 붙임3-2(인쇄쪽14)"
+        },
+        {
+          "kind": "audit-record",
+          "url": "/research/source-reviews/2026-11-22-startup-industries.json",
+          "checkedAt": "2026-11-22T11:29:29.277Z",
+          "scope": "상반기 조직형태별·업종별 원표 250개 입력값, 350개 추정 월별 계산·합계, 25개 비중복 범주와 기존 엑셀 저장값을 대조했습니다."
+        },
+        {
+          "kind": "official-source",
+          "url": "https://www.mss.go.kr/common/board/Download.do?bcIdx=1070757&cbIdx=86&streFileNm=0dd3ae36-a0e5-4509-b4ca-06c0aef05d12.pdf",
+          "sha256": "41eef6ee1ba9d55686b8c881d350d83892afd0e0aa6f615b6c3fab2227358e58",
+          "scope": "2026 상반기 붙임3-1·3-2, PDF 실제 8쪽(인쇄13·14쪽), KSIC 설명 실제1·10·11쪽",
+          "checkedAt": "2026-11-22T11:29:29.277Z"
+        },
+        {
+          "kind": "official-source",
+          "url": "https://mss.go.kr/site/smba/foffice/ex/statDB/stReportRoList.do?gb=1&nodeId=&roCode=&searchKeyword=search1&searchKey=%EC%B0%BD%EC%97%85%EA%B8%B0%EC%97%85%EB%8F%99%ED%96%A5&pageIndex=1",
+          "sha256": "ad45f8e65d6ef4b3522b51c9d18fa1c6e6c407487b22624dc27319120f9aefcb",
+          "scope": "공식 보고서 제목 검색 범위에서 상반기 1건. 검색 결과만으로 모든 미공표를 단정하지 않음",
+          "checkedAt": "2026-11-22T11:29:29.277Z"
         }
       ],
-      "nextAction": "공식 월별 개인·법인 업종 실적 확보 후 추정 대체"
+      "nextAction": "공식 7~9월 업종별 개인·법인 원표와 실제 공표일을 확보할 때 추정만 교체합니다. 공개 목록 재확인은 새로운 원문 또는 공표 일정 근거가 있을 때 진행합니다."
+    },
+    {
+      "source": {
+        "label": "작성자 공개 문서 · 원출처 대조 대기",
+        "url": "https://www.stargateedu.co.kr/research/riemann-hypothesis/",
+        "verification": "pending"
+      },
+      "dataAsOf": null,
+      "dataPeriod": null,
+      "snapshotUpdatedAt": null,
+      "collectedAt": null,
+      "checkedAt": null,
+      "reviewStatus": "pending",
+      "freshness": "unverified",
+      "evidence": [],
+      "issues": [
+        "새로 추가된 문서의 원문·판본·인용 범위 대조 대기"
+      ],
+      "key": "/research/riemann-hypothesis/",
+      "url": "/research/riemann-hypothesis/",
+      "title": "리만 가설 — AI 형식 증명과 검증",
+      "primary": "essays",
+      "classification": "난제·에세이",
+      "sourceHint": "수론 · 증명 검증 · 공식 출처"
+    },
+    {
+      "source": {
+        "label": "작성자 공개 문서 · 원출처 대조 대기",
+        "url": "https://www.stargateedu.co.kr/research/p-vs-np/",
+        "verification": "pending"
+      },
+      "dataAsOf": null,
+      "dataPeriod": null,
+      "snapshotUpdatedAt": null,
+      "collectedAt": null,
+      "checkedAt": null,
+      "reviewStatus": "pending",
+      "freshness": "unverified",
+      "evidence": [],
+      "issues": [
+        "새로 추가된 문서의 원문·판본·인용 범위 대조 대기"
+      ],
+      "key": "/research/p-vs-np/",
+      "url": "/research/p-vs-np/",
+      "title": "P vs NP — 검증과 해결의 차이",
+      "primary": "essays",
+      "classification": "난제·에세이",
+      "sourceHint": "계산복잡도 · 알고리즘 · 교육 실험"
     }
   ]
 }

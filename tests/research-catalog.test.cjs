@@ -4,8 +4,9 @@ const fs=require('node:fs');
 const {inspectSnapshot,snapshotFingerprint,reconcileSnapshot}=require('../scripts/review-research-snapshots.cjs');
 const catalog=JSON.parse(fs.readFileSync(require.resolve('../research/data-catalog.json'),'utf8'));
 test('the catalog covers all projects once and does not call snapshot checks original-source verification',()=>{
- assert.equal(catalog.projects.length,66);
- assert.equal(new Set(catalog.projects.map(p=>p.key)).size,66);
+ const cards=[...fs.readFileSync(require.resolve('../research/index.html'),'utf8').matchAll(/\bdata-card(?:\s|=|>)/g)];
+ assert.equal(catalog.projects.length,cards.length);
+ assert.equal(new Set(catalog.projects.map(p=>p.key)).size,catalog.projects.length);
  for(const p of catalog.projects){
   assert.ok(['urban','society','research','essays','education','operations'].includes(p.primary));
   if(p.reviewStatus==='verified')assert.ok(p.evidence.some(e=>e.kind==='official-source'));
@@ -15,13 +16,13 @@ test('the catalog covers all projects once and does not call snapshot checks ori
  const plan=JSON.parse(fs.readFileSync(require.resolve('../research/refresh-plan.json'),'utf8'));
  assert.equal(plan.intervalMinutes,1440);
  const queued=plan.steps.flatMap(s=>s.keys||[]);
- assert.equal(new Set(queued).size,66);
- assert.equal(queued.length,66);
+ assert.equal(new Set(queued).size,catalog.projects.length);
+ assert.equal(queued.length,catalog.projects.length);
  assert.deepEqual(new Set(queued),new Set(catalog.projects.map(p=>p.key)));
  const essays=catalog.projects.filter(p=>p.primary==='essays');
- assert.equal(essays.length,7);
+ assert.ok(essays.length>=7);
  assert.ok(essays.every(p=>p.classification==='난제·에세이'));
- assert.deepEqual(new Set(plan.steps.find(s=>s.id==='essays-1').keys),new Set(essays.map(p=>p.key)));
+ assert.deepEqual(new Set(plan.steps.filter(s=>s.id.startsWith('essays-')).flatMap(s=>s.keys||[])),new Set(essays.map(p=>p.key)));
 });
 test('a collection or file-update date never becomes a data period',()=>{
  const result=inspectSnapshot('/exchange-rate/',{updatedAt:'2026-10-16',observedAt:'2026-08-31',series:[{ym:'2026-08'}]},'2026-10-16T10:00:00Z');
