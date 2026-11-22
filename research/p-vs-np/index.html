@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>P vs NP: 빨리 검증할 수 있다면 빨리 풀 수도 있는가? | STARGATE EDU 난제 연구</title>
+<meta name="description" content="밀레니엄 미해결 문제 P vs NP의 정확한 계산복잡도 정의, NP-완전성과 3-SAT, 증명 기준 및 실험실을 STARGATE EDU 연구 콘텐츠로 제공합니다.">
+<meta name="robots" content="index,follow,max-image-preview:large">
+<link rel="canonical" href="https://stargateedu.co.kr/research/p-vs-np/">
+<meta property="og:type" content="article"><meta property="og:title" content="P vs NP: 빨리 검증할 수 있다면 빨리 풀 수도 있는가? | STARGATE EDU"><meta property="og:description" content="밀레니엄 미해결 문제 P vs NP의 정확한 계산복잡도 정의, NP-완전성과 3-SAT, 증명 기준 및 실험실을 STARGATE EDU 연구 콘텐츠로 제공합니다."><meta property="og:url" content="https://stargateedu.co.kr/research/p-vs-np/"><meta property="og:image" content="https://stargateedu.co.kr/assets/og/research.png">
+<script src="/assets/theme-boot.js"></script>
+<style>
+:root{--bg:#080f1c;--panel:#111d30;--panel2:#172742;--ink:#edf5ff;--sub:#b5c8de;--line:#32435d;--accent:#8cdaff;--accent2:#9be5c8}
+html[data-theme=light],html[data-theme=mono]{--bg:#f4f7fb;--panel:#fff;--panel2:#eef3fa;--ink:#13243a;--sub:#4c5e72;--line:#c7d4e4;--accent:#086c98;--accent2:#047c69}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.8 system-ui,"Noto Sans KR",sans-serif;word-break:keep-all}
+a{color:var(--accent);text-underline-offset:3px}.wrap{width:min(1080px,calc(100% - 32px));margin:0 auto}
+nav{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;padding:20px 0;border-bottom:1px solid var(--line);font-size:13px}
+.logo{font-weight:800;color:var(--ink);letter-spacing:.08em;text-decoration:none}.logo span{color:var(--accent)}
+header{padding:52px 0 36px}.kicker,.tag{color:var(--accent);font-size:12px;font-weight:800;letter-spacing:.1em}
+h1{margin:12px 0;font-size:clamp(2rem,5.4vw,3.65rem);line-height:1.16;letter-spacing:-.04em}h2{margin:0 0 17px;font-size:clamp(1.42rem,3vw,2rem);letter-spacing:-.03em}h3{margin:6px 0 10px;font-size:1.12rem;letter-spacing:-.015em}
+p{margin:8px 0 12px}.lead{max-width:850px;font-size:clamp(1.06rem,2vw,1.25rem);color:var(--sub);line-height:1.85}
+.status{display:inline-block;margin-top:10px;padding:8px 13px;border:1px solid var(--line);border-radius:999px;background:var(--panel);color:var(--sub);font-size:12px}
+.navlinks{display:flex;gap:8px;flex-wrap:wrap;margin-top:26px}.navlinks a{display:inline-block;padding:8px 12px;border:1px solid var(--line);border-radius:9px;background:var(--panel);text-decoration:none;color:var(--ink);font-size:13px}
+section{padding:32px 0;border-top:1px solid var(--line)}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}.triple{grid-template-columns:repeat(3,minmax(0,1fr))}
+.card{min-width:0;padding:22px;border-radius:16px;border:1px solid var(--line);background:var(--panel)}.card p{color:var(--sub)}.card strong{color:var(--ink)}
+.math{padding:20px 16px;margin:20px 0;background:var(--panel2);border:1px solid var(--line);border-radius:12px;font:600 clamp(16px,2.2vw,24px)/1.6 ui-monospace,SFMono-Regular,monospace;overflow-wrap:anywhere;text-align:center}
+blockquote{margin:18px 0;padding:20px 23px;border-left:3px solid var(--accent);background:var(--panel);font-size:clamp(17px,2.1vw,22px);font-weight:750;line-height:1.55}
+ul,ol{padding-left:1.45em}li{padding:5px 0}li::marker{color:var(--accent)}small,.note{color:var(--sub);font-size:13px}.sources{padding:0;list-style:none}.sources li{padding:10px 0;border-bottom:1px solid var(--line)}.sources a{font-size:14px}
+button{border:1px solid var(--accent);background:var(--panel2);color:var(--ink);padding:9px 14px;border-radius:9px;font:inherit;cursor:pointer}button:hover{background:var(--panel)}
+fieldset{padding:16px;border:1px solid var(--line);border-radius:12px}label{display:inline-flex;align-items:center;gap:8px;margin-right:18px;cursor:pointer}input[type=checkbox]{width:18px;height:18px;accent-color:var(--accent)}output{display:block;margin-top:12px;font-weight:700}
+.diagram{display:flex;align-items:center;justify-content:center;gap:10px;flex-wrap:wrap;padding:28px 16px;border:1px solid var(--line);border-radius:12px;background:var(--panel2)}
+.diagram span{display:grid;place-items:center;min-height:90px;padding:16px 25px;border:2px solid var(--accent2);border-radius:100px;font-weight:800}.diagram span+span{border-color:var(--accent)}.diagram small{max-width:200px;text-align:center}
+footer{display:flex;justify-content:space-between;flex-wrap:wrap;gap:16px;padding:28px 0 42px;border-top:1px solid var(--line);font-size:13px;color:var(--sub)}
+a:focus-visible,button:focus-visible,input:focus-visible{outline:3px solid var(--accent);outline-offset:3px}
+@media(max-width:720px){.grid,.triple{grid-template-columns:1fr}header{padding-top:34px}.card{padding:18px}.diagram span{min-height:72px}nav{align-items:flex-start}}
+</style>
+</head>
+<body>
+<nav class="wrap" aria-label="연구 이동"><a class="logo" href="/">STARGATE<span>.EDU</span> / RESEARCH</a><a href="/research/#grand-challenges">← 난제 연구 대시보드</a></nav>
+<header class="wrap"><span class="kicker">RESEARCH NOTE 02 · MATHEMATICS &amp; AI</span><h1>P vs NP: 빨리 검증할 수 있다면 빨리 풀 수도 있는가?</h1><p class="lead">밀레니엄 미해결 문제 P vs NP의 정확한 계산복잡도 정의, NP-완전성과 3-SAT, 증명 기준 및 실험실을 STARGATE EDU 연구 콘텐츠로 제공합니다.</p><div class="status">자료 검토 · 2026년 11월 22일 (KST) · 공식 출처 기반</div><div class="navlinks"><a href="#definition">수학적 정의</a><a href="#analysis">핵심 해설</a><a href="#research">연구 과제</a><a href="#sources">근거 자료</a></div></header>
+<main class="wrap">
+<section id="definition"><h2>1. P와 NP의 엄밀한 뜻</h2><div class="grid"><article class="card"><span class="tag">P · POLYNOMIAL TIME</span><h3>다항시간에 결정할 수 있는 문제</h3><p>결정문제에 대해 결정론적 계산으로 입력 길이 n의 다항식 시간 O(n<sup>k</sup>) 이내에 예/아니오를 판정할 수 있는 언어들의 집합입니다. 여기서 k는 해당 알고리즘에 고정된 상수입니다.</p></article><article class="card"><span class="tag">NP · VERIFY IN POLYNOMIAL TIME</span><h3>증명서를 다항시간에 검증할 수 있는 문제</h3><p>예 답에 대한 다항 길이 증명서(해 후보)를 받아 결정론적으로 다항시간에 확인할 수 있는 결정문제들의 집합입니다. NP는 'not polynomial'의 약자가 아닙니다.</p></article></div><div class="math">P ⊆ NP &nbsp; / &nbsp; 미해결 질문: P = NP ?</div><p>핵심은 <strong>최악 사례에 대한 모든 입력</strong>에 적용되는 다항시간 알고리즘이 존재하는지입니다. 실제 입력 몇 개를 빠르게 푸는 것만으로는 결론을 낼 수 없습니다. [1]</p></section>
+<section id="analysis"><h2>2. 3-SAT와 NP-완전성</h2><p>3-SAT는 각 절(clause)에 리터럴이 최대 3개 들어가는 논리식의 만족 가능 여부를 묻는 문제로, 대표적인 NP-완전 문제입니다. NP-완전 문제는 NP에 속하면서 NP의 모든 문제가 다항시간 환원되는 문제입니다.</p>
+<div class="diagram" role="img" aria-label="P는 NP 안에 포함되며, NP-완전 문제는 모든 NP 문제가 다항시간에 환원되는 핵심 문제군입니다."><span>P</span><small>⊆</small><span>NP</span><small>NP-완전 문제는 NP의 모든 문제를 다항시간 환원으로 포괄</small></div>
+<div class="grid"><article class="card"><h3>P = NP를 증명하려면</h3><p>3-SAT처럼 하나의 NP-완전 문제에 대해 모든 입력에 작동하는 <strong>다항시간 결정 알고리즘과 정확성 증명</strong>을 제시하면 충분합니다. 해당 환원으로 모든 NP 문제가 P에 속하게 됩니다.</p></article><article class="card"><h3>P ≠ NP를 증명하려면</h3><p>하나의 NP-완전 결정문제(예: 3-SAT)가 어떠한 결정론적 다항시간 알고리즘으로도 해결되지 않음을 <strong>일반적으로</strong> 증명하면 충분합니다. 특정 탐색 알고리즘이 느리다는 분석은 부족합니다.</p></article></div>
+<h3>상태: 공식 미해결</h3><p>Clay Mathematics Institute는 2026년 11월 22일 현재 P vs NP를 <strong>Unsolved</strong>로 분류하고 있습니다. 아래 데모는 계산복잡도의 차이를 배우는 실험이며 난제에 대한 증명이 아닙니다. [1]</p></section>
+<section id="experiment"><h2>3. 작은 SAT 문제 실험</h2><p>다음 논리식에서 x, y, z의 참·거짓 값을 설정하고 '검증'을 누르세요. 조건을 만족하는지 판정은 빠르지만, 해를 찾을 때는 후보를 탐색해야 할 수 있다는 점을 보여 줍니다. 다만 <strong>완전탐색이 유일한 방법이라는 증거는 아닙니다.</strong></p><div class="math">(x ∨ y) ∧ (¬x ∨ z) ∧ (¬y ∨ ¬z)</div>
+<div class="card"><fieldset><legend>후보 해 (증명서)</legend><label><input id="v-x" type="checkbox" checked> x = 참</label><label><input id="v-y" type="checkbox"> y = 참</label><label><input id="v-z" type="checkbox"> z = 참</label></fieldset><p><button id="verify" type="button">이 해 검증</button> <button id="enumerate" type="button">전체 8개 후보 열거</button></p><output id="sat-output" aria-live="polite">검증 또는 후보 열거를 선택하세요.</output><p class="note">3개 변수이므로 후보는 2³ = 8개입니다. n개 변수의 단순 완전탐색은 2ⁿ개 후보를 검사하지만, 이 사실만으로 P ≠ NP를 증명할 수 없습니다.</p></div></section>
+<section id="research"><h2>4. STARGATE 연구 과제</h2><ol><li><strong>문제·환원 정확성:</strong> 3-SAT→그래프 문제 등 다항시간 환원에서 입력 크기와 계산 비용을 명시적으로 증명합니다.</li><li><strong>알고리즘 기준선:</strong> 3-SAT에 완전탐색, DPLL, CDCL(SAT 솔버)을 적용해 최악 사례·경험적 성능을 구분합니다.</li><li><strong>증명 장벽 검토:</strong> 상대화(relativization), 자연스러운 증명(natural proofs), 대수화(algebrization) 같은 대표적 장벽을 검토해 단순 대각선 논증 등의 한계를 확인합니다.</li><li><strong>Lean 형식화:</strong> 작은 환원 정리나 솔버의 부분 정합성을 정리증명기에 옮겨 검증합니다. 계산 실험과 전역적 하한 증명은 명확히 구별합니다.</li><li><strong>산업 적용 분석:</strong> 조합최적화·일정 계획·회로 검증 및 암호 분야에서 최악 복잡도와 현실적인 근사·휴리스틱 성능을 분리해 평가합니다.</li></ol><blockquote>“해답을 발견하는 속도와, 그 해답이 옳음을 확인하는 속도는 같을까?”<div class="note">— STARGATE EDU · P vs NP 연구 질문</div></blockquote><p class="note">P = NP가 증명되더라도 다항식 차수가 매우 크면 실제로 쓸 만한 알고리즘이 즉시 생긴다는 뜻은 아닙니다.</p></section>
+<section id="sources"><h2>5. 공식 출처</h2><ul class="sources"><li>[1] <a href="https://www.claymath.org/millennium/p-vs-np/" target="_blank" rel="noopener noreferrer">Clay Mathematics Institute — P vs NP (공식 정의 및 미해결 현황)</a></li><li>[2] <a href="https://www.claymath.org/pvsnp/" target="_blank" rel="noopener noreferrer">Clay Mathematics Institute — Stephen Cook, P vs NP 공식 문제 설명</a></li><li>[3] <a href="https://www.claymath.org/millennium-problems/rules/" target="_blank" rel="noopener noreferrer">Clay — Millennium Prize Rules</a></li></ul></section>
+</main>
+<footer class="wrap"><span>© 2026 STARGATE EDU · 독립 연구·교육 콘텐츠</span><span><a href="/research/p-vs-np/">P vs NP</a> · <a href="/research/riemann-hypothesis/">리만 가설</a> · <a href="/research/">연구 대시보드</a></span></footer>
+<script>
+(function(){
+const x=document.getElementById("v-x"),y=document.getElementById("v-y"),z=document.getElementById("v-z"),out=document.getElementById("sat-output");
+function passes(a,b,c){return (a||b)&&(!a||c)&&(!b||!c)}
+document.getElementById("verify").addEventListener("click",function(){let p=passes(x.checked,y.checked,z.checked);out.textContent=p?"만족합니다. 현재 대입은 유효한 증명서입니다.":"만족하지 않습니다. 현재 대입은 해가 아닙니다."});
+document.getElementById("enumerate").addEventListener("click",function(){let matches=[];for(let i=0;i<8;i++){let a=!!(i&4),b=!!(i&2),c=!!(i&1);if(passes(a,b,c))matches.push("("+[a,b,c].map(v=>v?"T":"F").join(", ")+")")}out.textContent="8개 후보 검증 완료. 만족하는 (x,y,z): "+(matches.join(", ")||"없음")});
+})();
+</script>
+</body></html>
