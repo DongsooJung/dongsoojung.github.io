@@ -1,0 +1,37 @@
+{
+  "_note": "stargatelearn.com 수익 퍼널 정의. 감사·자기개선 루프는 이 파일만 본다. 여기서 규칙을 바꾸면 반복 작업 전체가 따라간다.",
+  "_status": "storeProductUrl 는 사용자가 스토어 상품을 등록하면 채운다(확인 필요). 비어 있으면 해당 오퍼는 검사하지 않는다.",
+  "storeProductUrl": "",
+  "offers": [
+    {
+      "name": "free_challenge",
+      "label": "무료 챌린지",
+      "href": "/challenges/"
+    },
+    {
+      "name": "paid_problem_set",
+      "label": "유료 문제집",
+      "href": ""
+    },
+    {
+      "name": "custom_help",
+      "label": "맞춤 해설 상담",
+      "href": "/contact/"
+    }
+  ],
+  "excluded": [
+    "/privacy-policy/",
+    "/contact/",
+    "/about/"
+  ],
+  "measurable": {
+    "attribute": "data-conversion",
+    "hrefs": [
+      "/challenges/",
+      "/books/",
+      "/custom-guide/",
+      "/store/",
+      "/contact/"
+    ]
+  }
+}
