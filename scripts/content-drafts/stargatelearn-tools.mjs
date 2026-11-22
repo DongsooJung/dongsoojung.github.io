@@ -427,7 +427,9 @@ if (MODE === 'probe') {
   await restore();
 } else if (MODE === 'health') {
   await health();
+} else if (MODE === 'blocks') {
+  await blocks();
 } else {
-  console.error(`알 수 없는 모드: ${MODE} (probe|channels|sync|restore|health 중 하나)`);
+  console.error(`알 수 없는 모드: ${MODE} (probe|channels|sync|restore|health|blocks 중 하나)`);
   process.exit(2);
 }
