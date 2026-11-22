@@ -139,6 +139,21 @@
     if (target.length > MAX_PATH) target = '/';
     return target;
   }
+  // 폼 제출도 다음 단계다. 이메일 구독(무료 등록) 버튼은 <a> 가 아니라
+  // <button type="submit"> 이므로 링크 클릭 리스너로는 절대 잡히지 않는다.
+  // 폼의 action 주소만 읽는다. 입력값(이메일 등)은 절대 보내지 않는다.
+  function formTarget(form) {
+    if (!form) return null;
+    var action = (form.getAttribute && form.getAttribute('action')) || '';
+    if (!action) return null;
+    var url;
+    try { url = new URL(action, location.href); } catch (e) { return null; }
+    if (url.protocol !== 'http:' && url.protocol !== 'https:') return null;
+    var target = url.origin === location.origin ? url.pathname : url.origin + url.pathname;
+    if (!target) return null;
+    if (target.length > MAX_PATH) target = '/';
+    return target;
+  }
   function trackClick(event) {
     if (!measurable()) return;
     var node = event.target;
@@ -154,8 +169,22 @@
     payload.p_target_url = target;
     sendEvent(payload);
   }
+  function trackSubmit(event) {
+    if (!measurable()) return;
+    var form = event.target;
+    if (!form || String(form.tagName || '').toLowerCase() !== 'form') return;
+    var target = formTarget(form);
+    if (!target) return;
+    var payload = basePayload('click');
+    if (!payload) return;
+    payload.p_element_label = 'form_submit';
+    payload.p_element_kind = 'form';
+    payload.p_target_url = target;
+    sendEvent(payload);
+  }
 
   document.addEventListener('click', trackClick, true);
+  document.addEventListener('submit', trackSubmit, true);
   trackPageView();
   record();
 })();

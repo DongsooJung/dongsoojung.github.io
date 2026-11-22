@@ -15,6 +15,7 @@ import {
 
 const RULES = [
   { match: '/challenges/', stage: 'activation', priority: 10 },
+  { match: '/email-subscriptions', stage: 'activation', priority: 20 },
   { match: '/problem-set/', stage: 'consideration', priority: 10 },
   { match: '/sample', stage: 'consideration', priority: 20 },
   { match: '/shop_view', stage: 'intent', priority: 30 },
@@ -37,6 +38,17 @@ test('우선순위가 높으면 같은 목적지에서 그 단계가 이긴다',
     { match: '/x/sample', stage: 'intent', priority: 20 },
   ];
   assert.equal(stageForTarget('/x/sample', rules), 'intent');
+});
+
+test('이메일 구독 폼 제출이 activation 으로 잡힌다', () => {
+  // 구독 버튼은 <a> 가 아니라 <button type="submit"> 이고 action 이 워드프레스.com 이다.
+  assert.equal(stageForTarget('https://wordpress.com/email-subscriptions', RULES), 'activation');
+  const counts = stageCounts(
+    [{ element_label: 'form_submit', target_url: 'https://wordpress.com/email-subscriptions', clicks: 2 }],
+    RULES,
+  );
+  assert.equal(counts.activation, 2);
+  assert.equal(counts.unknownTarget, 0);
 });
 
 test('목적지가 없는 클릭은 버리지 않고 unknownTarget 으로 센다', () => {

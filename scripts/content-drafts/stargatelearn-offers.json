@@ -26,6 +26,7 @@
   ],
   "targets": [
     { "match": "/challenges/", "stage": "activation", "priority": 10 },
+    { "match": "/email-subscriptions", "stage": "activation", "priority": 20 },
     { "match": "/problem-set/", "stage": "consideration", "priority": 10 },
     { "match": "/sample", "stage": "consideration", "priority": 20 },
     { "match": "/shop_view", "stage": "intent", "priority": 30 },
