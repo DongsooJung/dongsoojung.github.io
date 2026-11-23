@@ -77,37 +77,26 @@
     try { return new URL(href, location.origin).pathname; }
     catch (_) { return ''; }
   };
-  const groupMode = (card) => {
-    const group = card.closest('[data-card-group]');
-    const lane = group?.dataset.lane || '';
-    if (lane === 'education') return '교육 콘텐츠';
-    if (lane === 'operations') return '운영 도구';
-    if (lane === 'research') return '연구·분석';
-    if (group?.id === 'company-finance') return '재무 분석';
-    if (group?.id === 'execution') return '실행 계획·도구';
-    return '데이터 방식 미확인';
-  };
   const statusNodes = new Map();
   cards.forEach((card) => {
     const body = card.querySelector('.project-body');
     if (!body) return;
-    const source = card.querySelector('.project-footer span')?.textContent?.trim() || '출처 미표기';
     const config = monitored[normalizePath(card.getAttribute('href'))];
+    if (!config) return;
     const node = document.createElement('div');
     node.className = 'dashboard-data-status';
-    node.dataset.state = config ? 'checking' : 'unknown';
+    node.dataset.state = 'checking';
     const details = document.createElement('span');
     details.className = 'dashboard-data-details';
     const state = document.createElement('span');
     state.className = 'dashboard-data-state';
-    details.textContent = config
-      ? '출처: ' + config.source + ' · 방식: ' + config.mode + ' · 갱신: 확인 중'
-      : '출처: 미확인 · 카드 표기: ' + source + ' · 분류: ' + groupMode(card) + ' · 갱신: 시각 미공개';
-    state.textContent = config ? '스냅샷 확인 중' : '자동 검증 미연결';
+    details.textContent = '출처: ' + config.source + ' · 방식: ' + config.mode + ' · 갱신: 확인 중';
+    state.textContent = '스냅샷 확인 중';
     node.append(details, state);
     body.appendChild(node);
-    statusNodes.set(card, { details, state, node, source, config });
+    statusNodes.set(card, { details, state, node, config });
   });
+  if (!statusNodes.size) return;
 
   const summary = document.createElement('p');
   summary.className = 'dashboard-data-summary';
@@ -115,12 +104,12 @@
   const toolbar = section?.querySelector('.toolbar') || document.querySelector('.toolbar');
   if (toolbar) toolbar.insertAdjacentElement('afterend', summary);
   function refreshSummary() {
-    const counts = { ok: 0, stale: 0, error: 0, checking: 0, unknown: 0 };
+    const counts = { ok: 0, stale: 0, error: 0, checking: 0 };
     statusNodes.forEach(({ node }) => { counts[node.dataset.state] += 1; });
-    summary.textContent = '데이터 상태 · 스냅샷 확인 ' + counts.ok +
+    summary.textContent = '자동 상태 확인 ' + statusNodes.size + '개 카드 · 스냅샷 확인 ' + counts.ok +
       ' · 갱신 지연 ' + counts.stale + ' · 확인 실패 ' + counts.error +
-      ' · 확인 중 ' + counts.checking + ' · 자동 검증 미연결 ' + counts.unknown +
-      ' | 상태는 데이터 파일의 수집 시각을 기준으로 합니다.';
+      ' · 확인 중 ' + counts.checking +
+      ' | 나머지 보고서는 각 카드의 출처·자료 기준일을 확인하세요.';
   }
   refreshSummary();
 
