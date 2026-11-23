@@ -172,13 +172,21 @@
 
   function decorateCounts(root = document) {
     countableElements(root).forEach((element) => {
-      if (element.matches('[data-analytics-ignore]')) return;
+      if (element.matches('[data-analytics-ignore],[data-analytics-count-ignore]')) {
+        element.querySelector(':scope > .stargate-click-count')?.remove();
+        return;
+      }
       const label = elementLabel(element);
       if (!label) return;
       element.dataset.analyticsLabel = label;
       const target = targetUrl(element);
       const count = usageFor(element);
       let badge = element.querySelector(':scope > .stargate-click-count');
+      if (!count) {
+        badge?.remove();
+        element.classList.remove('stargate-analytics-counted');
+        return;
+      }
       if (!badge) {
         badge = document.createElement('span');
         badge.className = 'stargate-click-count';
