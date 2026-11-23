@@ -48,6 +48,11 @@ on:
         type: boolean
         required: false
         default: false
+      site_adsettings:
+        description: '대신 광고 표시 설정을 켤 수 있는 API 경로가 있는지 읽기 전용으로 탐색'
+        type: boolean
+        required: false
+        default: false
 
 permissions:
   contents: read
@@ -121,8 +126,16 @@ jobs:
           WP_APP_PASSWORD: ${{ secrets.WP_APP_PASSWORD }}
         run: node stargatelearn-tools.mjs blocks
 
+      - name: Probe ad-setting API paths
+        if: ${{ inputs.site_adsettings == true }}
+        env:
+          WP_SITE: ${{ secrets.WP_SITE }}
+          WP_USER: ${{ secrets.WP_USER }}
+          WP_APP_PASSWORD: ${{ secrets.WP_APP_PASSWORD }}
+        run: node stargatelearn-tools.mjs adsettings
+
       - name: Generate drafts
-        if: ${{ inputs.site_probe != true && inputs.site_sync != true && inputs.site_health != true && inputs.site_blocks != true }}
+        if: ${{ inputs.site_probe != true && inputs.site_sync != true && inputs.site_health != true && inputs.site_blocks != true && inputs.site_adsettings != true }}
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           WP_SITE: ${{ secrets.WP_SITE }}

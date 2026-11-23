@@ -442,6 +442,63 @@ async function blocks() {
   console.log(JSON.stringify(out, null, 2));
 }
 
+async function adsettings() {
+  // "광고는 어떻게 켜는가" 를 코드 경로로 가능한지 확인한다(읽기 전용).
+  // 사이트 REST 설정 전체 키 · 네임스페이스 · 워드프레스.com 광고 후보 엔드포인트.
+  const out = { site: SITE, steps: [] };
+
+  const settings = await get('/wp/v2/settings');
+  out.steps.push({ step: 'wp-v2-settings', status: settings.status });
+  if (settings.status === 200 && settings.body && typeof settings.body === 'object') {
+    out.settingsKeys = Object.keys(settings.body);
+    out.settingsAdish = Object.fromEntries(
+      Object.entries(settings.body).filter(([key]) => /ad|wordads|monetiz|adsense|banner/i.test(key)),
+    );
+  }
+
+  const index = await fetch(`https://${SITE}/wp-json/`, { headers: { Authorization: AUTH } });
+  const indexBody = await index.json();
+  out.namespaces = indexBody.namespaces ?? [];
+  out.jetpackRoutes = Object.keys(indexBody.routes ?? {}).filter((route) => /jetpack|wordads|ads/i.test(route)).slice(0, 60);
+
+  // 워드프레스.com 측 후보 경로들
+  const home = await fetch(`https://${SITE}/`, { headers: { Accept: 'text/html' } });
+  const homeHtml = await home.text();
+  const blogId = (homeHtml.match(/data-blog="(\d+)"/) || [])[1] || '';
+  const ids = [...new Set([blogId, SITE].filter(Boolean))];
+  out.candidates = [];
+  const paths = [
+    '/wpcom/v2/sites/{id}/ads',
+    '/wpcom/v2/sites/{id}/ads/display',
+    '/wpcom/v2/sites/{id}/ad-settings',
+    '/wpcom/v2/sites/{id}/monetization',
+    '/wpcom/v2/sites/{id}/settings',
+    '/wp/v2/sites/{id}/settings',
+    '/rest/v1.1/sites/{id}/ads',
+    '/rest/v1.1/sites/{id}/settings',
+    '/wpcom/v2/sites/{id}/adflow/settings',
+  ];
+  for (const id of ids) {
+    for (const template of paths) {
+      const url = `https://public-api.wordpress.com${template.replace('{id}', id)}`;
+      try {
+        const res = await fetch(url, { headers: { Authorization: AUTH, Accept: 'application/json' } });
+        const text = await res.text();
+        out.candidates.push({
+          url: template.replace('{id}', id === blogId ? 'ID' : 'DOMAIN'),
+          status: res.status,
+          preview: res.ok ? text.slice(0, 400) : text.slice(0, 120),
+        });
+      } catch (error) {
+        out.candidates.push({ url: template.replace('{id}', id === blogId ? 'ID' : 'DOMAIN'), status: 'ERR', preview: String(error.message).slice(0, 120) });
+      }
+    }
+  }
+  out.okCandidates = out.candidates.filter((row) => row.status === 200);
+
+  console.log(JSON.stringify(out, null, 2));
+}
+
 if (MODE === 'probe') {
   await probe();
 } else if (MODE === 'channels') {
@@ -454,6 +511,8 @@ if (MODE === 'probe') {
   await health();
 } else if (MODE === 'blocks') {
   await blocks();
+} else if (MODE === 'adsettings') {
+  await adsettings();
 } else {
   console.error(`알 수 없는 모드: ${MODE} (probe|channels|sync|restore|health|blocks 중 하나)`);
   process.exit(2);
