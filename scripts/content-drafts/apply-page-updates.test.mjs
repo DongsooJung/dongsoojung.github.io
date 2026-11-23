@@ -121,10 +121,9 @@ test('매니페스트의 모든 대상이 고유한 표식을 갖는다', () => 
 
 // 실제 raw 를 흉내 내는 픽스처. 삽입 대상(match) 텍스트는 반드시 포함시킨다.
 function syntheticRaw(update) {
-  if (update.kind === 'posts') return '<!-- wp:paragraph -->\n<p>Enjoyed this one?</p>\n<!-- /wp:paragraph -->';
   const anchors = (update.operations ?? [])
     .filter((op) => op.op !== 'append' && op.match)
-    .map((op) => `<h2>${op.match}</h2>`)
+    .map((op) => (update.kind === 'posts' ? `<p>${op.match} ok</p>` : `<h2>${op.match}</h2>`))
     .join('');
   return `<p>본문</p>${anchors}`;
 }
@@ -157,10 +156,9 @@ test('글 4개는 Related practice 구간을 넣는다', () => {
   const posts = manifest.updates.filter((u) => u.kind === 'posts');
   assert.equal(posts.length, 4);
   for (const update of posts) {
-    const raw = '<!-- wp:paragraph -->\n<p>Enjoyed this one? ok</p>\n<!-- /wp:paragraph -->';
-    const { content } = applyOperations(raw, update.operations, SUBSCRIBE);
+    const { content } = applyOperations(syntheticRaw(update), update.operations, SUBSCRIBE, { markerBase: update.idempotencyMarker });
     assert.ok(content.includes('<h2 class="wp-block-heading">Related practice</h2>'));
-    assert.ok(content.includes('Enjoyed this one? ok'), '원본 마무리 문단을 지우면 안 된다');
+    assert.ok(content.includes('ok</p>'), '원본 마무리 문단을 지우면 안 된다');
     assert.ok(internalLinks(content).length >= 3);
   }
 });

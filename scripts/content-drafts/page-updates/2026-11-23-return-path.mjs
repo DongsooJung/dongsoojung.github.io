@@ -191,7 +191,7 @@ export default {
       id: 32,
       label: 'multiples of 12 (11/17)',
       idempotencyMarker: '2026-11-23:post:32',
-      operations: [{ op: 'insertBefore', match: 'Enjoyed this one?', blocks: relatedPrimeFactors }],
+      operations: [{ op: 'insertBefore', match: 'Enjoyed this?', blocks: relatedPrimeFactors }],
     },
     {
       kind: 'posts',
