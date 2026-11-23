@@ -1,0 +1,304 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>KMO 1차 대비 모의고사 | 스타게이트에듀</title>
+<meta name="description" content="KMO 1차 단답형 형식에 맞춘 스타게이트 자체 문항 모의고사. 120분 응시, 20문항 자동 채점, 영역별 정답률을 바로 확인합니다.">
+<link rel="canonical" href="https://stargateedu.co.kr/kmo-mock/">
+<meta property="og:title" content="KMO 1차 대비 모의고사 | 스타게이트에듀">
+<meta property="og:description" content="20문항 단답형 · 120분 · 자동 채점 · 영역별 정답률">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://stargateedu.co.kr/kmo-mock/">
+<style>
+:root{--bg:#090d16;--panel:#101827;--panel2:#121f35;--line:#263653;--ink:#edf3ff;--sub:#9caac0;--acc:#78a2ff;--warm:#f4c77b;--good:#6ee7b7;--bad:#fb7185;--field:#0b1220;--chip:#1b2a46;--navbg:rgba(9,13,22,.9);--notice-ink:#d8c8aa}
+:root[data-theme="light"]{--field:#f4f7fc;--chip:#e4ebf5;--navbg:rgba(255,255,255,.92);--acc:#3b63d6;--warm:#a86412;--good:#0f8a5f;--bad:#d1334f;--notice-ink:#6b4a14}
+*{box-sizing:border-box}html{scroll-behavior:smooth}
+body{margin:0;font-family:Pretendard,"Noto Sans KR","Malgun Gothic",sans-serif;background:radial-gradient(circle at 12% 0,rgba(79,127,255,.18),transparent 30%),var(--bg);color:var(--ink);line-height:1.68}
+a{color:var(--acc);text-decoration:none}
+.w{width:min(880px,calc(100% - 32px));margin:auto}
+.nav{border-bottom:1px solid var(--line);background:var(--navbg);position:sticky;top:0;z-index:5;backdrop-filter:blur(12px)}
+.nav .w{min-height:56px;padding-right:64px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.nav a{color:var(--ink)}
+.timer{font-variant-numeric:tabular-nums;font-weight:900;color:var(--warm);display:none}
+.timer.on{display:block}.timer.low{color:var(--bad)}
+header{padding:56px 0 30px}
+.badge{display:flex;gap:8px;flex-wrap:wrap}
+.pill{font-size:12px;padding:5px 10px;border-radius:999px;border:1px solid var(--line);color:var(--sub)}
+.pill.a{color:var(--warm);border-color:rgba(244,199,123,.45);background:rgba(244,199,123,.08)}
+h1{font-size:clamp(30px,6vw,48px);line-height:1.16;margin:16px 0 12px;letter-spacing:-.03em}
+.lead{color:var(--sub);font-size:17px;margin:0}
+.notice{margin-top:20px;padding:14px 16px;border-left:4px solid var(--warm);background:rgba(244,199,123,.07);border-radius:10px;color:var(--notice-ink);font-size:14px}
+.notice ul{margin:6px 0 0;padding-left:18px}
+.box{border:1px solid var(--line);background:linear-gradient(180deg,var(--panel2),var(--panel));border-radius:16px;padding:22px;margin-bottom:16px}
+.box h2{margin:0 0 10px;font-size:20px}
+.meta{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:14px 0}
+.meta div{background:var(--field);border:1px solid var(--line);border-radius:12px;padding:12px;text-align:center}
+.meta b{display:block;font-size:20px}.meta span{font-size:12px;color:var(--sub)}
+.btn{display:inline-block;padding:11px 18px;border-radius:10px;border:1px solid var(--line);font-weight:800;font-size:15px;color:var(--ink);background:var(--field);cursor:pointer;font-family:inherit}
+.btn.primary{background:linear-gradient(135deg,#4f7fff,#8b7cff);color:#08101f;border:0}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.q{display:grid;grid-template-columns:44px 1fr;gap:12px;padding:18px 0;border-bottom:1px solid var(--line)}
+.q:last-child{border-bottom:0}
+.qn{width:38px;height:38px;border-radius:10px;background:var(--chip);color:var(--warm);display:grid;place-items:center;font-weight:900}
+.qt{margin:0 0 10px;font-size:16px}
+.qtag{font-size:12px;color:var(--sub);margin-left:6px}
+.ans{display:flex;gap:8px;align-items:center}
+.ans input{width:120px;padding:9px 12px;border-radius:10px;border:1px solid var(--line);background:var(--field);color:var(--ink);font-size:17px;font-weight:800;font-family:inherit;font-variant-numeric:tabular-nums}
+.ans input:focus{outline:2px solid var(--acc);border-color:transparent}
+.mark{font-weight:900;font-size:14px}.mark.ok{color:var(--good)}.mark.ng{color:var(--bad)}
+.q.ok .qn{background:rgba(110,231,183,.15);color:var(--good)}.q.ng .qn{background:rgba(251,113,133,.15);color:var(--bad)}
+.score{font-size:46px;font-weight:900;letter-spacing:-.03em}
+.bars{display:grid;gap:10px;margin-top:12px}
+.bar{display:grid;grid-template-columns:52px 1fr 96px;gap:10px;align-items:center;font-size:14px}
+.track{height:10px;border-radius:99px;background:var(--field);border:1px solid var(--line);overflow:hidden}
+.fill{height:100%;background:linear-gradient(90deg,#4f7fff,#8b7cff)}
+.hidden{display:none}
+.err{color:var(--bad)}
+.progress{font-size:13px;color:var(--sub)}
+footer{padding:34px 0;color:#77859c;font-size:12px}
+@media(max-width:640px){.meta{grid-template-columns:repeat(2,1fr)}.q{grid-template-columns:1fr}.qn{width:34px;height:34px}}
+</style>
+<link rel="stylesheet" href="/assets/site-theme.css">
+<script src="/assets/site-theme.js"></script>
+<link rel="stylesheet" href="/assets/stargate-tokens.css?v=20261017">
+</head>
+<body>
+<nav class="nav"><div class="w"><a href="/"><b>STARGATE MATH</b></a><span class="timer" id="timer" aria-live="off"></span><a href="/consult/">해설 상담</a></div></nav>
+<header><div class="w">
+  <div class="badge"><span class="pill a" id="division">중등부</span><span class="pill">KMO 1차 대비</span><span class="pill">단답형 자동 채점</span></div>
+  <h1 id="title">KMO 1차 대비 모의고사</h1>
+  <p class="lead">KMO 1차 단답형 형식(정답이 0 이상 999 이하의 정수)에 맞춘 스타게이트 자체 문항입니다. 제출하면 정오표와 영역별 정답률이 바로 나옵니다.</p>
+  <div class="notice"><b>안내</b>
+    <ul>
+      <li>모든 문항은 스타게이트가 직접 만든 연습 문항이며, KMO 기출 원문이나 공식 출제 경향 자료가 아닙니다.</li>
+      <li>응시 시간과 배점(문항당 5점)은 이 모의고사의 자체 설정입니다.</li>
+      <li>채점은 브라우저 안에서 이루어지고, 답안은 이 기기에만 저장됩니다. 순위는 집계하지 않습니다.</li>
+    </ul>
+  </div>
+</div></header>
+
+<main class="w">
+  <section class="box" id="intro">
+    <h2>응시 정보</h2>
+    <div class="meta">
+      <div><b id="mCount">-</b><span>문항</span></div>
+      <div><b id="mMin">-</b><span>제한 시간(분)</span></div>
+      <div><b id="mTotal">-</b><span>만점</span></div>
+      <div><b id="mPeriod" style="font-size:15px">-</b><span>권장 응시 기간</span></div>
+    </div>
+    <div class="row">
+      <button class="btn primary" id="startBtn" disabled>응시 시작</button>
+      <button class="btn hidden" id="resetBtn">처음부터 다시</button>
+      <span class="progress" id="introMsg">문항을 불러오는 중입니다.</span>
+    </div>
+  </section>
+
+  <section class="box hidden" id="exam">
+    <h2>문제</h2>
+    <p class="progress">답은 0 이상 999 이하의 정수로 입력합니다. 입력한 답은 자동 저장됩니다. <span id="answered"></span></p>
+    <div id="qlist"></div>
+    <div class="row" style="margin-top:16px"><button class="btn primary" id="submitBtn">제출하고 채점하기</button></div>
+  </section>
+
+  <section class="box hidden" id="result">
+    <h2>채점 결과</h2>
+    <div class="score" id="score"></div>
+    <p class="progress" id="scoreSub"></p>
+    <div class="bars" id="bars"></div>
+    <div class="row" style="margin-top:20px">
+      <a class="btn primary" href="/consult/">틀린 문항 해설 상담 신청</a>
+      <a class="btn" href="/koi-coach/">KOI 코칭 보기</a>
+    </div>
+  </section>
+</main>
+<footer><div class="w">© 스타게이트에듀 · 문항 저작권은 주식회사 별의문에 있습니다. 무단 전재와 재배포를 금지합니다.</div></footer>
+
+<script>
+(function(){
+  "use strict";
+  var DATA_URL = "/kmo-mock/data/rounds.json";
+  var $ = function(id){ return document.getElementById(id); };
+  var round = null, state = null, tick = null;
+
+  function storeKey(){ return "kmo-mock:" + round.id; }
+  function load(){
+    try { var raw = localStorage.getItem(storeKey()); return raw ? JSON.parse(raw) : null; } catch (e) { return null; }
+  }
+  function save(){
+    try { localStorage.setItem(storeKey(), JSON.stringify(state)); } catch (e) { /* storage unavailable: keep in memory */ }
+  }
+  function clearSaved(){
+    try { localStorage.removeItem(storeKey()); } catch (e) {}
+  }
+
+  async function sha256(text){
+    var buf = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(text));
+    return Array.prototype.map.call(new Uint8Array(buf), function(b){ return b.toString(16).padStart(2, "0"); }).join("");
+  }
+
+  function normalize(v){
+    var s = String(v == null ? "" : v).trim();
+    if (!/^\d{1,3}$/.test(s)) return null;
+    return String(parseInt(s, 10));
+  }
+
+  function fmtDate(iso){ var p = iso.split("-"); return Number(p[1]) + "/" + Number(p[2]); }
+
+  function renderIntro(){
+    var total = round.questions.reduce(function(s, q){ return s + q.points; }, 0);
+    $("title").textContent = round.title;
+    $("division").textContent = round.division;
+    $("mCount").textContent = round.questions.length;
+    $("mMin").textContent = round.minutes;
+    $("mTotal").textContent = total;
+    $("mPeriod").textContent = fmtDate(round.opens) + " ~ " + fmtDate(round.closes);
+    $("startBtn").disabled = false;
+    $("introMsg").textContent = "";
+  }
+
+  function renderQuestions(){
+    var list = $("qlist");
+    list.textContent = "";
+    round.questions.forEach(function(q){
+      var wrap = document.createElement("div");
+      wrap.className = "q"; wrap.id = "q" + q.no;
+      var n = document.createElement("div"); n.className = "qn"; n.textContent = q.no;
+      var body = document.createElement("div");
+      var t = document.createElement("p"); t.className = "qt"; t.textContent = q.text;
+      var tag = document.createElement("span"); tag.className = "qtag"; tag.textContent = "[" + q.topic + " · " + q.points + "점]";
+      t.appendChild(tag);
+      var a = document.createElement("div"); a.className = "ans";
+      var input = document.createElement("input");
+      input.type = "text"; input.inputMode = "numeric"; input.maxLength = 3; input.autocomplete = "off";
+      input.setAttribute("aria-label", q.no + "번 답");
+      input.value = state.answers[q.no] || "";
+      input.addEventListener("input", function(){
+        input.value = input.value.replace(/\D/g, "").slice(0, 3);
+        state.answers[q.no] = input.value; save(); updateAnswered();
+      });
+      var mark = document.createElement("span"); mark.className = "mark";
+      a.appendChild(input); a.appendChild(mark);
+      body.appendChild(t); body.appendChild(a);
+      wrap.appendChild(n); wrap.appendChild(body);
+      list.appendChild(wrap);
+    });
+    updateAnswered();
+  }
+
+  function updateAnswered(){
+    var c = round.questions.filter(function(q){ return normalize(state.answers[q.no]) !== null; }).length;
+    $("answered").textContent = "(" + c + "/" + round.questions.length + " 입력)";
+  }
+
+  function remainingMs(){ return state.startedAt + round.minutes * 60000 - Date.now(); }
+
+  function startTimer(){
+    var el = $("timer"); el.classList.add("on");
+    function step(){
+      var ms = remainingMs();
+      if (ms <= 0) { el.textContent = "00:00"; stopTimer(); grade(true); return; }
+      var s = Math.floor(ms / 1000), m = Math.floor(s / 60);
+      el.textContent = String(m).padStart(2, "0") + ":" + String(s % 60).padStart(2, "0");
+      el.classList.toggle("low", ms < 5 * 60000);
+    }
+    step(); tick = setInterval(step, 1000);
+  }
+  function stopTimer(){ if (tick) { clearInterval(tick); tick = null; } }
+
+  function startExam(){
+    if (!state.startedAt) { state.startedAt = Date.now(); save(); }
+    $("startBtn").classList.add("hidden");
+    $("resetBtn").classList.remove("hidden");
+    $("exam").classList.remove("hidden");
+    renderQuestions();
+    if (state.result) { showResult(); return; }
+    startTimer();
+    $("exam").scrollIntoView({ behavior: "smooth" });
+  }
+
+  var grading = false;
+  async function grade(timeUp){
+    if (grading || state.result) return;
+    grading = true;
+    stopTimer();
+    // Freeze the form and snapshot answers before any await, so input events
+    // during the async digests cannot change what gets graded.
+    document.querySelectorAll("#qlist input").forEach(function(el){ el.disabled = true; });
+    $("submitBtn").disabled = true;
+    var snapshot = {};
+    round.questions.forEach(function(q){ snapshot[q.no] = normalize(state.answers[q.no]); });
+    var results = {};
+    for (var i = 0; i < round.questions.length; i++) {
+      var q = round.questions[i], v = snapshot[q.no];
+      results[q.no] = v !== null && (await sha256(round.id + ":" + q.no + ":" + v)) === q.hash;
+    }
+    state.result = { correct: results, gradedAt: Date.now(), timeUp: !!timeUp };
+    save(); showResult();
+  }
+
+  function showResult(){
+    var res = state.result.correct, score = 0, total = 0, byTopic = {};
+    round.questions.forEach(function(q){
+      var ok = !!res[q.no];
+      total += q.points; if (ok) score += q.points;
+      byTopic[q.topic] = byTopic[q.topic] || { ok: 0, n: 0 };
+      byTopic[q.topic].n++; if (ok) byTopic[q.topic].ok++;
+      var row = $("q" + q.no);
+      if (row) {
+        row.classList.remove("ok", "ng"); row.classList.add(ok ? "ok" : "ng");
+        var input = row.querySelector("input"); input.disabled = true;
+        var mark = row.querySelector(".mark"); mark.className = "mark " + (ok ? "ok" : "ng"); mark.textContent = ok ? "정답" : "오답";
+      }
+    });
+    $("timer").classList.remove("on");
+    $("submitBtn").classList.add("hidden");
+    $("score").textContent = score + " / " + total + "점";
+    var nOk = round.questions.filter(function(q){ return res[q.no]; }).length;
+    var used = Math.min(round.minutes, Math.max(1, Math.round((state.result.gradedAt - state.startedAt) / 60000)));
+    $("scoreSub").textContent = nOk + "문항 정답 · 사용 시간 약 " + used + "분" + (state.result.timeUp ? " (시간 종료로 자동 제출)" : "");
+    var bars = $("bars"); bars.textContent = "";
+    Object.keys(byTopic).forEach(function(k){
+      var t = byTopic[k], pct = Math.round(t.ok / t.n * 100);
+      var row = document.createElement("div"); row.className = "bar";
+      var l = document.createElement("span"); l.textContent = k;
+      var tr = document.createElement("div"); tr.className = "track";
+      var f = document.createElement("div"); f.className = "fill"; f.style.width = pct + "%"; tr.appendChild(f);
+      var r = document.createElement("span"); r.textContent = t.ok + "/" + t.n + " (" + pct + "%)";
+      row.appendChild(l); row.appendChild(tr); row.appendChild(r); bars.appendChild(row);
+    });
+    $("result").classList.remove("hidden");
+    $("result").scrollIntoView({ behavior: "smooth" });
+  }
+
+  $("startBtn").addEventListener("click", startExam);
+  $("submitBtn").addEventListener("click", function(){
+    var blank = round.questions.filter(function(q){ return normalize(state.answers[q.no]) === null; }).length;
+    var msg = blank ? "입력하지 않은 문항이 " + blank + "개 있습니다. 제출하면 다시 수정할 수 없습니다. 제출할까요?" : "제출하면 다시 수정할 수 없습니다. 제출할까요?";
+    if (confirm(msg)) grade(false);
+  });
+  $("resetBtn").addEventListener("click", function(){
+    if (!confirm("입력한 답과 채점 결과를 모두 지우고 처음부터 다시 응시할까요?")) return;
+    stopTimer(); clearSaved(); location.reload();
+  });
+
+  fetch(DATA_URL, { cache: "no-cache" })
+    .then(function(r){ if (!r.ok) throw new Error(r.status); return r.json(); })
+    .then(function(d){
+      round = d.rounds[d.rounds.length - 1];
+      state = load() || { answers: {}, startedAt: null, result: null };
+      if (!state.answers) state.answers = {};
+      renderIntro();
+      if (state.startedAt) {
+        $("startBtn").textContent = state.result ? "결과 다시 보기" : "이어서 응시";
+      }
+    })
+    .catch(function(){
+      $("introMsg").textContent = "문항을 불러오지 못했습니다. 잠시 후 새로고침해 주세요.";
+      $("introMsg").classList.add("err");
+    });
+})();
+</script>
+</body>
+</html>
