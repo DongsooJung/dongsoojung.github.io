@@ -1,0 +1,439 @@
+{
+  "schemaVersion": 1,
+  "id": "math-source-20261123",
+  "checkedAt": "2026-11-23T02:26:44.542Z",
+  "projectKeys": [
+    "/research/riemann-hypothesis/",
+    "/research/p-vs-np/"
+  ],
+  "monthlyReference": {
+    "status": "not_applicable",
+    "reason": "수학 문헌·형식 증명 검증 기록·자체 SAT 교육 데모이며 월간 관측 통계가 아님."
+  },
+  "documentHistory": {
+    "portalOriginalSnapshot": "2026-11-22",
+    "portalRevision": "2026-11-23T02:26:44.542Z",
+    "leanCommunityPublishedAt": "2026-11-21T13:55:00Z",
+    "mitPageUpdatedAt": "2026-11-22T16:20:00Z",
+    "note": "발표일·원문 자체 갱신일·HTTP Last-Modified·파일 메타데이터·이번 수집 및 확인시각을 분리. PDF 생성일을 실제 게시일로 취급하지 않음."
+  },
+  "sources": [
+    {
+      "id": "lean-statement",
+      "url": "https://leanprover-community.github.io/blog/posts/riemann-hypothesis/",
+      "finalUrl": "https://leanprover-community.github.io/blog/posts/riemann-hypothesis/",
+      "status": 200,
+      "contentType": "text/html; charset=utf-8",
+      "collectedAt": "2026-11-23T02:24:07.455Z",
+      "lastModifiedHeader": "Mon, 23 Nov 2026 02:20:28 GMT",
+      "bytes": 8101,
+      "sha256": "404384e4dfeb6b238a91fe5caef9cdb6445f4796b0c911d3f86f8a0db60c011a",
+      "file": "lean-statement.html",
+      "scope": "공동 성명의 발표일·정의 일치·컴파일·독립 검사에 관한 외부 발표. 이번 회차의 자체 검사기 재실행이 아님.",
+      "pdfMetadata": null
+    },
+    {
+      "id": "clay-rh",
+      "url": "https://www.claymath.org/millennium/riemann-hypothesis/",
+      "finalUrl": "https://www.claymath.org/millennium/riemann-hypothesis/",
+      "status": 200,
+      "contentType": "text/html; charset=UTF-8",
+      "collectedAt": "2026-11-23T02:24:07.575Z",
+      "lastModifiedHeader": null,
+      "bytes": 107201,
+      "sha256": "ff6b1ad583e99626f58ac4bedb1f9084b7725f625554ef3d1561a6ea3b872ead",
+      "file": "clay-rh.html",
+      "scope": "리만 가설의 비자명 영점 정의와 조회 당시 Unsolved 표시. 표시를 증명에 대한 거절이나 상금 판정으로 해석하지 않음.",
+      "pdfMetadata": null
+    },
+    {
+      "id": "clay-pnp",
+      "url": "https://www.claymath.org/millennium/p-vs-np/",
+      "finalUrl": "https://www.claymath.org/millennium/p-vs-np/",
+      "status": 200,
+      "contentType": "text/html; charset=UTF-8",
+      "collectedAt": "2026-11-23T02:24:07.577Z",
+      "lastModifiedHeader": null,
+      "bytes": 107574,
+      "sha256": "21e542cc70ef32577dfd34f0e14421ea354fc4b1c02fc5eede030d692463eda3",
+      "file": "clay-pnp.html",
+      "scope": "P vs NP 공식 문제 소개와 조회 당시 Unsolved 표시.",
+      "pdfMetadata": null
+    },
+    {
+      "id": "clay-rules",
+      "url": "https://www.claymath.org/millennium-problems/rules/",
+      "finalUrl": "https://www.claymath.org/millennium-problems/rules/",
+      "status": 200,
+      "contentType": "text/html; charset=UTF-8",
+      "collectedAt": "2026-11-23T02:24:07.579Z",
+      "lastModifiedHeader": null,
+      "bytes": 79946,
+      "sha256": "853a3aa4cd66023e4c9b0ac375c267291cc789f68c37885d375d17f558f5e881",
+      "file": "clay-rules.html",
+      "scope": "2018-09-26 채택 규칙 안내의 적격 출판·출판 후 최소2년·수학계 일반 수용 요건. 발표일을 적격 출판일로 간주하지 않음.",
+      "pdfMetadata": null
+    },
+    {
+      "id": "cook-description",
+      "url": "https://www.claymath.org/wp-content/uploads/2022/06/pvsnp.pdf",
+      "finalUrl": "https://www.claymath.org/wp-content/uploads/2022/06/pvsnp.pdf",
+      "status": 200,
+      "contentType": "application/pdf",
+      "collectedAt": "2026-11-23T02:24:07.580Z",
+      "lastModifiedHeader": "Thu, 18 May 2023 09:38:39 GMT",
+      "bytes": 176204,
+      "sha256": "018f3d473d16c35e807e8cdfbd0bed3ccf7a56452e3e10c6b1d84b56eaf2cf59",
+      "file": "cook-description.pdf",
+      "scope": "Cook 공식 문제 설명 PDF 1~2쪽 P·NP·증명서 정의, 4~5쪽 환원·NP-완전성·3-SAT, 6~8쪽 증명 장벽의 적용 범위. 오래된 원문의 당시 사례는 최신 현황으로 옮기지 않음.",
+      "pdfMetadata": {
+        "file": "cook-description.pdf",
+        "pages": 12,
+        "metadata": {
+          "/Producer": "MiKTeX pdfTeX-1.21a",
+          "/Creator": "TeX",
+          "/CreationDate": "D:20060804164747-04'00'",
+          "/PTEX.Fullbanner": "This is pdfTeX, Version 3.141592-1.20b (MiKTeX 2.4.1986)"
+        }
+      }
+    },
+    {
+      "id": "author-remark",
+      "url": "https://alpo.ge/remark.pdf",
+      "finalUrl": "https://alpo.ge/remark.pdf",
+      "status": 200,
+      "contentType": "application/pdf",
+      "collectedAt": "2026-11-23T02:24:07.581Z",
+      "lastModifiedHeader": null,
+      "bytes": 245114,
+      "sha256": "3fc97784b71ddd44ff8aa0a177e99622a1c61b13cfa843a0989ee4a7a0cfeb8d",
+      "file": "author-remark.pdf",
+      "scope": "저자 발표 PDF 1쪽 Claude 협업과 RH/GRH 주장, 2쪽 해설 집필 의도 및 3~4쪽 저자 타임라인. 독립 검증 근거와 구분.",
+      "pdfMetadata": {
+        "file": "author-remark.pdf",
+        "pages": 4,
+        "metadata": {
+          "/Author": "",
+          "/CreationDate": "D:20261120125248Z",
+          "/Creator": "LaTeX with hyperref",
+          "/Keywords": "",
+          "/ModDate": "D:20261120125248Z",
+          "/PTEX.Fullbanner": "This is pdfTeX, Version 3.141592653-2.6-1.40.29 (TeX Live 2026) kpathsea version 6.4.2",
+          "/Producer": "pdfTeX-1.40.29",
+          "/Subject": "",
+          "/Title": "",
+          "/Trapped": "/False"
+        }
+      }
+    },
+    {
+      "id": "mit-overview",
+      "url": "https://math.mit.edu/~drew/grh/",
+      "finalUrl": "https://math.mit.edu/~drew/grh/",
+      "status": 200,
+      "contentType": "text/html; charset=UTF-8",
+      "collectedAt": "2026-11-23T02:24:07.583Z",
+      "lastModifiedHeader": null,
+      "bytes": 27863,
+      "sha256": "020ef13ef25ccabe796b4ec7da9bb4242c3e71fb5a5e5d5019526ca3feb4dc78",
+      "file": "mit-overview.html",
+      "scope": "Andrew Sutherland의 2026-11-22 16:20 UTC 갱신 공개 기록. Lean·Mathlib v4.33.1, 독립 검사 통과·실행 중·구버전 미지원 범위와 Dirichlet L 함수 한정 GRH.",
+      "pdfMetadata": null
+    },
+    {
+      "id": "mit-axioms",
+      "url": "https://math.mit.edu/~drew/grh/audit.log",
+      "finalUrl": "https://math.mit.edu/~drew/grh/audit.log",
+      "status": 200,
+      "contentType": "text/plain",
+      "collectedAt": "2026-11-23T02:24:07.584Z",
+      "lastModifiedHeader": "Fri, 20 Nov 2026 19:39:50 GMT",
+      "bytes": 2062,
+      "sha256": "0a1473fce6eed840011f4a76b1c51558fc6f03edd1e6bd1ee542e6c738d87a62",
+      "file": "mit-axioms.txt",
+      "scope": "외부 공개 audit.log: 대상 정리5개가 propext·Classical.choice·Quot.sound에 의존. 환경에 sorryAx가 있다는 사실과 대상 정리 의존성을 구분.",
+      "pdfMetadata": null
+    },
+    {
+      "id": "mit-con-leche",
+      "url": "https://math.mit.edu/~drew/grh/con-leche-master.log",
+      "finalUrl": "https://math.mit.edu/~drew/grh/con-leche-master.log",
+      "status": 200,
+      "contentType": "text/plain",
+      "collectedAt": "2026-11-23T02:24:07.586Z",
+      "lastModifiedHeader": "Fri, 20 Nov 2026 21:19:44 GMT",
+      "bytes": 3918,
+      "sha256": "23e27eacb9e8378569474cc185c0e98f6b995b4db0f8df88fd48a921084fed02",
+      "file": "mit-con-leche.txt",
+      "scope": "외부 공개 로그의 verified 선언 검사와 종료코드0. 이번 회차 재실행하지 않음.",
+      "pdfMetadata": null
+    },
+    {
+      "id": "mit-compare",
+      "url": "https://math.mit.edu/~drew/grh/con-leche-compare.log",
+      "finalUrl": "https://math.mit.edu/~drew/grh/con-leche-compare.log",
+      "status": 200,
+      "contentType": "text/plain",
+      "collectedAt": "2026-11-23T02:24:07.588Z",
+      "lastModifiedHeader": "Fri, 20 Nov 2026 21:19:44 GMT",
+      "bytes": 5875,
+      "sha256": "5a068bf55f24904eea9f05eda947c63d43bdee3c6ab0490e43943a3bd9af1f6e",
+      "file": "mit-compare.txt",
+      "scope": "외부 공개 con-leche 로그의 대상 정리5개 비교와 종료코드0. 자체 재현은 미완료.",
+      "pdfMetadata": null
+    },
+    {
+      "id": "mit-con-ron",
+      "url": "https://math.mit.edu/~drew/grh/con-ron-compare.log",
+      "finalUrl": "https://math.mit.edu/~drew/grh/con-ron-compare.log",
+      "status": 200,
+      "contentType": "text/plain",
+      "collectedAt": "2026-11-23T02:24:07.589Z",
+      "lastModifiedHeader": "Sat, 21 Nov 2026 23:02:52 GMT",
+      "bytes": 2969,
+      "sha256": "dcf2fbbde0e27ef8828b7d788ea7b9f9f65ba7a8246798ffd47298f89a3ee2ff",
+      "file": "mit-con-ron.txt",
+      "scope": "외부 공개 con-ron 로그의 대상 정리5개 비교와 종료코드0. 자체 재현은 미완료.",
+      "pdfMetadata": null
+    },
+    {
+      "id": "mit-nanoda",
+      "url": "https://math.mit.edu/~drew/grh/nanoda.log",
+      "finalUrl": "https://math.mit.edu/~drew/grh/nanoda.log",
+      "status": 200,
+      "contentType": "text/plain",
+      "collectedAt": "2026-11-23T02:24:07.590Z",
+      "lastModifiedHeader": "Fri, 20 Nov 2026 19:39:50 GMT",
+      "bytes": 852,
+      "sha256": "d4c5360b02d8dd885150c1cc28b616cb6fb5bf5b20d142558d79a7b15ae9d9df",
+      "file": "mit-nanoda.txt",
+      "scope": "외부 공개 독립 Rust 검사기 로그의 종료코드0. 자체 재현은 미완료.",
+      "pdfMetadata": null
+    },
+    {
+      "id": "mathlib-pinned",
+      "url": "https://raw.githubusercontent.com/leanprover-community/mathlib4/v4.33.1/Mathlib/NumberTheory/LSeries/RiemannZeta.lean",
+      "finalUrl": "https://raw.githubusercontent.com/leanprover-community/mathlib4/v4.33.1/Mathlib/NumberTheory/LSeries/RiemannZeta.lean",
+      "status": 200,
+      "contentType": "text/plain; charset=utf-8",
+      "collectedAt": "2026-11-23T02:24:07.591Z",
+      "lastModifiedHeader": null,
+      "bytes": 12306,
+      "sha256": "db9f37f08bcce379c502549f604c0e98bf4a39b3a3440606861bbac847f2a1a9",
+      "file": "mathlib-pinned.txt",
+      "scope": "Mathlib tag v4.33.1의 RiemannHypothesis 정의: 음의 짝수 영점 제외, s≠1, 실수부1/2. 최신 문서와 고정 판본을 구분.",
+      "pdfMetadata": null
+    },
+    {
+      "id": "algebrization",
+      "url": "https://www.scottaaronson.com/papers/alg.pdf",
+      "finalUrl": "https://www.scottaaronson.com/papers/alg.pdf",
+      "status": 200,
+      "contentType": "application/pdf",
+      "collectedAt": "2026-11-23T02:24:07.592Z",
+      "lastModifiedHeader": "Fri, 23 May 2008 14:23:23 GMT",
+      "bytes": 491873,
+      "sha256": "2684e39962163da6bcfb9d17f2f49986b031f29d81a7fa5ac063d95454c3a856",
+      "file": "algebrization.pdf",
+      "scope": "Aaronson·Wigderson 저자 제공 논문 PDF 1~2쪽의 대수화 장벽과 적용 범위. 모든 증명 방법의 불가능성을 주장하지 않음.",
+      "pdfMetadata": {
+        "file": "algebrization.pdf",
+        "pages": 50,
+        "metadata": {
+          "/Producer": "AFPL Ghostscript 8.53",
+          "/CreationDate": "D:20080523102203",
+          "/ModDate": "D:20080523102203",
+          "/Creator": "dvips(k) 5.96 Copyright 2007 Radical Eye Software",
+          "/Title": "alg.dvi"
+        }
+      }
+    },
+    {
+      "id": "bombieri-description",
+      "url": "https://www.claymath.org/wp-content/uploads/2022/05/riemann.pdf",
+      "finalUrl": "https://www.claymath.org/wp-content/uploads/2022/05/riemann.pdf",
+      "status": 200,
+      "collectedAt": "2026-11-23T02:24:50.551Z",
+      "lastModifiedHeader": "Thu, 18 May 2023 09:38:40 GMT",
+      "contentType": "application/pdf",
+      "bytes": 159267,
+      "sha256": "1454b2909f99271726ffb68b056aef45b7d3e6893a66282cad596339d69bafa9",
+      "file": "bombieri-description.pdf",
+      "scope": "Clay 제공 Bombieri 공식 설명 PDF 1쪽 제타함수·영점 정의와 4쪽 소수계수 오차항 동치. 문서의 당시 미해결 서술은 최근 검증 현황과 구분.",
+      "pdfMetadata": {
+        "file": "bombieri-description.pdf",
+        "pages": 11,
+        "metadata": {
+          "/CreationDate": "D:20000830114901",
+          "/Producer": "Acrobat Distiller 4.05 for Windows",
+          "/Creator": "dvips(k) 5.86 Copyright 1999 Radical Eye Software",
+          "/Title": "Riemann-new.dvi",
+          "/ModDate": "D:20000830114902-04'00'"
+        }
+      }
+    }
+  ],
+  "riemann": {
+    "reviewStatus": "needs_review",
+    "verifiedScope": "저자 발표·공동 성명·고정 Mathlib 정의·외부 검증 로그·Clay 상태와 규칙의 실제 본문을 대조.",
+    "reportedVerification": {
+      "reportUpdatedAt": "2026-11-22T16:20:00Z",
+      "leanVersion": "v4.33.1",
+      "mathlibVersion": "v4.33.1",
+      "mathlibCommitReported": "0df444a3",
+      "standardAxioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "theoremNames": [
+        "riemannHypothesis",
+        "riemannZeta_eq_zero_re",
+        "LFunction_ne_zero_of_half_lt_re",
+        "LFunction_eq_zero_re",
+        "LFunction_eq_zero_re_of_isPrimitive"
+      ],
+      "checkedPublicLogs": [
+        "mit-axioms",
+        "mit-con-leche",
+        "mit-compare",
+        "mit-con-ron",
+        "mit-nanoda"
+      ],
+      "stillRunningInReport": [
+        "Lean default/paranoid kernel on raw export",
+        "lake comparator end-to-end kernel stages"
+      ],
+      "unsupportedOldBinaries": "Lean v4.36.0 bundled con-leche/con-ron exit2 is unsupported type, not proof rejection",
+      "grhScope": "Dirichlet L-functions only; general Dedekind/Hecke/automorphic L-function statements not checked",
+      "reportedExport": {
+        "bytes": 61570595788,
+        "sha256": "5ea74b912147c5c93cc2b6d70cc727cf908df2f62ac6a20480a3fa02f6be244e",
+        "digestIndependentlyRecomputed": false
+      }
+    },
+    "ownReplay": {
+      "performed": false,
+      "reason": "이번 범위는 공개 원문·고정 정의·검증 로그 대조. 61.6GB 원시 증명·전체 Lean 빌드·독립 검사기는 내려받거나 실행하지 않았음."
+    },
+    "clayListingObserved": "Unsolved",
+    "prizeDecision": "not_verified",
+    "nextAction": "실행 중 검사 결과 또는 새 해설·공식 판정이 실제 갱신될 때 해당 범위만 재대조. 자체 재현은 버전·증명 해시·자원과 격리 환경을 확보한 별도 범위로 수행."
+  },
+  "pVsNp": {
+    "reviewStatus": "not_applicable",
+    "verifiedScope": "Cook의 P·NP 정의와 환원·NP-완전성, Clay 상태, 증명 장벽 문헌 범위 및 자체 SAT 데모8대입.",
+    "clayListingObserved": "Unsolved",
+    "demo": {
+      "formula": "(x OR y) AND (NOT x OR z) AND (NOT y OR NOT z)",
+      "kind": "2-CNF; 2-SAT educational subset, not an NP-complete difficulty benchmark",
+      "rows": [
+        {
+          "x": false,
+          "y": false,
+          "z": false,
+          "clause1": false,
+          "clause2": true,
+          "clause3": true,
+          "satisfied": false
+        },
+        {
+          "x": false,
+          "y": false,
+          "z": true,
+          "clause1": false,
+          "clause2": true,
+          "clause3": true,
+          "satisfied": false
+        },
+        {
+          "x": false,
+          "y": true,
+          "z": false,
+          "clause1": true,
+          "clause2": true,
+          "clause3": true,
+          "satisfied": true
+        },
+        {
+          "x": false,
+          "y": true,
+          "z": true,
+          "clause1": true,
+          "clause2": true,
+          "clause3": false,
+          "satisfied": false
+        },
+        {
+          "x": true,
+          "y": false,
+          "z": false,
+          "clause1": true,
+          "clause2": false,
+          "clause3": true,
+          "satisfied": false
+        },
+        {
+          "x": true,
+          "y": false,
+          "z": true,
+          "clause1": true,
+          "clause2": true,
+          "clause3": true,
+          "satisfied": true
+        },
+        {
+          "x": true,
+          "y": true,
+          "z": false,
+          "clause1": true,
+          "clause2": false,
+          "clause3": true,
+          "satisfied": false
+        },
+        {
+          "x": true,
+          "y": true,
+          "z": true,
+          "clause1": true,
+          "clause2": true,
+          "clause3": false,
+          "satisfied": false
+        }
+      ],
+      "satisfyingAssignments": 2,
+      "csv": "/research/p-vs-np/SAT 진리표_20261123.csv",
+      "csvEncoding": "UTF-8 with BOM",
+      "generalProof": false
+    },
+    "plannedResearchOnly": [
+      "3-SAT reductions",
+      "DPLL/CDCL benchmarks",
+      "Lean solver/reduction formalization",
+      "industrial runtime measurements"
+    ],
+    "nextAction": "공식 상태·인용 판본이 바뀌거나 연구 계획의 실제 코드·실행 결과가 확보될 때 해당 범위만 대조."
+  },
+  "validation": {
+    "sourceResponses": 15,
+    "sourceResponsesOk": 15,
+    "publicAxiomLogTheorems": 5,
+    "publicStatementComparisonLogs": 2,
+    "publicCheckerExitLogs": 4,
+    "satAssignments": 8,
+    "satSatisfying": 2,
+    "ownLeanCompilation": false,
+    "largeExportDownload": false,
+    "pdfSourceTextAndVisualChecked": true
+  },
+  "changes": [
+    "공동체의 긍정 인증은 유지하되 외부 기록·자체 재실행·상금 절차를 분리",
+    "표준공리3개와 실행중/미지원 검사 상태를 명시",
+    "2-CNF 데모 범위 및 진리표8행·PDF·출처 JSON 제공"
+  ],
+  "remaining": [
+    "리만 가설의 자체 대형 증명 재실행과 새 검사 완료 상태",
+    "Clay 적격 출판·심사 상태는 별도 공식 근거 확보 때 확인",
+    "DPLL/CDCL·Lean 환원 연구는 계획 단계"
+  ]
+}
