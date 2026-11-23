@@ -152,9 +152,9 @@ test('/about/ 와 /contact/ 는 보강 후 1,200자 이상이 된다', () => {
   }
 });
 
-test('글 4개는 Related practice 구간을 넣는다', () => {
+test('글 5개는 Related practice 구간을 넣는다', () => {
   const posts = manifest.updates.filter((u) => u.kind === 'posts');
-  assert.equal(posts.length, 4);
+  assert.equal(posts.length, 5);
   for (const update of posts) {
     const { content } = applyOperations(syntheticRaw(update), update.operations, SUBSCRIBE, { markerBase: update.idempotencyMarker });
     assert.ok(content.includes('<h2 class="wp-block-heading">Related practice</h2>'));
