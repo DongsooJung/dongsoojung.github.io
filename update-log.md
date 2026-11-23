@@ -1,3 +1,27 @@
+## 2026-11-23
+
+**Repository status summary**
+
+- Last push: 2026-11-22 11:48 UTC (2026-11-22 20:48 KST) — `docs: record verified Startup source source review release (#320)`
+- Open issues: 2 (including long-standing collector-failure ticket #195 and repository cleanup #293)
+
+**Recent scheduled workflow runs (most recent first)**
+
+| Workflow | Conclusion | Time (UTC) |
+|----------|------------|------------|
+| Update airport congestion data | success | 2026-11-22 23:59 |
+| Remote Service Health Check | success | 2026-11-22 21:51 |
+| Activate Kakao visitor notifications | success | 2026-11-22 21:50 |
+| Update Gimpo airport congestion data | success | 2026-11-22 21:46 |
+| Collect public data CSV | **failure** | 2026-11-22 21:00 |
+| Update Naver Cafe popular articles | success | 2026-11-22 19:56 |
+| Update expressway rest-area bid radar | success | 2026-11-22 19:33 |
+| Update airport congestion data | success | 2026-11-22 18:14 |
+
+**Health of update loops**: Overall healthy. The large majority of scheduled data-refresh and health-check workflows completed successfully. One isolated failure occurred in the Collect public data CSV workflow (consistent with open collector-failure issue #195); related issues remain open. No widespread outages observed in the latest batch of runs.
+
+---
+
 ## 2026-11-22
 
 **Repository status summary**
