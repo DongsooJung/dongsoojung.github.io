@@ -6717,51 +6717,261 @@
     },
     {
       "source": {
-        "label": "작성자 공개 문서 · 원출처 대조 대기",
-        "url": "https://www.stargateedu.co.kr/research/riemann-hypothesis/",
-        "verification": "pending"
+        "label": "Clay·Lean/Mathlib 공동 성명·MIT 공개 검증 기록",
+        "url": "https://leanprover-community.github.io/blog/posts/riemann-hypothesis/",
+        "verification": "partially_verified"
       },
       "dataAsOf": null,
-      "dataPeriod": null,
-      "snapshotUpdatedAt": null,
-      "collectedAt": null,
-      "checkedAt": null,
-      "reviewStatus": "pending",
-      "freshness": "unverified",
-      "evidence": [],
+      "dataPeriod": "월간 기준월 비적용 · 수학 문헌·검증 기록",
+      "snapshotUpdatedAt": "2026-11-23T02:26:44.542Z",
+      "collectedAt": "2026-11-23T02:24:07.455Z",
+      "checkedAt": "2026-11-23T02:26:44.542Z",
+      "reviewStatus": "needs_review",
+      "freshness": "external_claim_and_logs_reviewed_own_replay_pending",
+      "evidence": [
+        {
+          "kind": "official-source",
+          "url": "https://leanprover-community.github.io/blog/posts/riemann-hypothesis/",
+          "checkedAt": "2026-11-23T02:26:44.542Z",
+          "collectedAt": "2026-11-23T02:24:07.455Z",
+          "sha256": "404384e4dfeb6b238a91fe5caef9cdb6445f4796b0c911d3f86f8a0db60c011a",
+          "scope": "공동 성명의 발표일·정의 일치·컴파일·독립 검사에 관한 외부 발표. 이번 회차의 자체 검사기 재실행이 아님."
+        },
+        {
+          "kind": "official-source",
+          "url": "https://www.claymath.org/millennium/riemann-hypothesis/",
+          "checkedAt": "2026-11-23T02:26:44.542Z",
+          "collectedAt": "2026-11-23T02:24:07.575Z",
+          "sha256": "ff6b1ad583e99626f58ac4bedb1f9084b7725f625554ef3d1561a6ea3b872ead",
+          "scope": "리만 가설의 비자명 영점 정의와 조회 당시 Unsolved 표시. 표시를 증명에 대한 거절이나 상금 판정으로 해석하지 않음."
+        },
+        {
+          "kind": "official-source",
+          "url": "https://www.claymath.org/millennium-problems/rules/",
+          "checkedAt": "2026-11-23T02:26:44.542Z",
+          "collectedAt": "2026-11-23T02:24:07.579Z",
+          "sha256": "853a3aa4cd66023e4c9b0ac375c267291cc789f68c37885d375d17f558f5e881",
+          "scope": "2018-09-26 채택 규칙 안내의 적격 출판·출판 후 최소2년·수학계 일반 수용 요건. 발표일을 적격 출판일로 간주하지 않음."
+        },
+        {
+          "kind": "official-source",
+          "url": "https://alpo.ge/remark.pdf",
+          "checkedAt": "2026-11-23T02:26:44.542Z",
+          "collectedAt": "2026-11-23T02:24:07.581Z",
+          "sha256": "3fc97784b71ddd44ff8aa0a177e99622a1c61b13cfa843a0989ee4a7a0cfeb8d",
+          "scope": "저자 발표 PDF 1쪽 Claude 협업과 RH/GRH 주장, 2쪽 해설 집필 의도 및 3~4쪽 저자 타임라인. 독립 검증 근거와 구분."
+        },
+        {
+          "kind": "official-source",
+          "url": "https://math.mit.edu/~drew/grh/",
+          "checkedAt": "2026-11-23T02:26:44.542Z",
+          "collectedAt": "2026-11-23T02:24:07.583Z",
+          "sha256": "020ef13ef25ccabe796b4ec7da9bb4242c3e71fb5a5e5d5019526ca3feb4dc78",
+          "scope": "Andrew Sutherland의 2026-11-22 16:20 UTC 갱신 공개 기록. Lean·Mathlib v4.33.1, 독립 검사 통과·실행 중·구버전 미지원 범위와 Dirichlet L 함수 한정 GRH."
+        },
+        {
+          "kind": "official-source",
+          "url": "https://math.mit.edu/~drew/grh/audit.log",
+          "checkedAt": "2026-11-23T02:26:44.542Z",
+          "collectedAt": "2026-11-23T02:24:07.584Z",
+          "sha256": "0a1473fce6eed840011f4a76b1c51558fc6f03edd1e6bd1ee542e6c738d87a62",
+          "scope": "외부 공개 audit.log: 대상 정리5개가 propext·Classical.choice·Quot.sound에 의존. 환경에 sorryAx가 있다는 사실과 대상 정리 의존성을 구분."
+        },
+        {
+          "kind": "official-source",
+          "url": "https://math.mit.edu/~drew/grh/con-leche-master.log",
+          "checkedAt": "2026-11-23T02:26:44.542Z",
+          "collectedAt": "2026-11-23T02:24:07.586Z",
+          "sha256": "23e27eacb9e8378569474cc185c0e98f6b995b4db0f8df88fd48a921084fed02",
+          "scope": "외부 공개 로그의 verified 선언 검사와 종료코드0. 이번 회차 재실행하지 않음."
+        },
+        {
+          "kind": "official-source",
+          "url": "https://math.mit.edu/~drew/grh/con-leche-compare.log",
+          "checkedAt": "2026-11-23T02:26:44.542Z",
+          "collectedAt": "2026-11-23T02:24:07.588Z",
+          "sha256": "5a068bf55f24904eea9f05eda947c63d43bdee3c6ab0490e43943a3bd9af1f6e",
+          "scope": "외부 공개 con-leche 로그의 대상 정리5개 비교와 종료코드0. 자체 재현은 미완료."
+        },
+        {
+          "kind": "official-source",
+          "url": "https://math.mit.edu/~drew/grh/con-ron-compare.log",
+          "checkedAt": "2026-11-23T02:26:44.542Z",
+          "collectedAt": "2026-11-23T02:24:07.589Z",
+          "sha256": "dcf2fbbde0e27ef8828b7d788ea7b9f9f65ba7a8246798ffd47298f89a3ee2ff",
+          "scope": "외부 공개 con-ron 로그의 대상 정리5개 비교와 종료코드0. 자체 재현은 미완료."
+        },
+        {
+          "kind": "official-source",
+          "url": "https://math.mit.edu/~drew/grh/nanoda.log",
+          "checkedAt": "2026-11-23T02:26:44.542Z",
+          "collectedAt": "2026-11-23T02:24:07.590Z",
+          "sha256": "d4c5360b02d8dd885150c1cc28b616cb6fb5bf5b20d142558d79a7b15ae9d9df",
+          "scope": "외부 공개 독립 Rust 검사기 로그의 종료코드0. 자체 재현은 미완료."
+        },
+        {
+          "kind": "official-source",
+          "url": "https://raw.githubusercontent.com/leanprover-community/mathlib4/v4.33.1/Mathlib/NumberTheory/LSeries/RiemannZeta.lean",
+          "checkedAt": "2026-11-23T02:26:44.542Z",
+          "collectedAt": "2026-11-23T02:24:07.591Z",
+          "sha256": "db9f37f08bcce379c502549f604c0e98bf4a39b3a3440606861bbac847f2a1a9",
+          "scope": "Mathlib tag v4.33.1의 RiemannHypothesis 정의: 음의 짝수 영점 제외, s≠1, 실수부1/2. 최신 문서와 고정 판본을 구분."
+        },
+        {
+          "kind": "official-source",
+          "url": "https://www.claymath.org/wp-content/uploads/2022/05/riemann.pdf",
+          "checkedAt": "2026-11-23T02:26:44.542Z",
+          "collectedAt": "2026-11-23T02:24:50.551Z",
+          "sha256": "1454b2909f99271726ffb68b056aef45b7d3e6893a66282cad596339d69bafa9",
+          "scope": "Clay 제공 Bombieri 공식 설명 PDF 1쪽 제타함수·영점 정의와 4쪽 소수계수 오차항 동치. 문서의 당시 미해결 서술은 최근 검증 현황과 구분."
+        },
+        {
+          "kind": "audit-record",
+          "url": "/research/source-reviews/2026-11-23-mathematics.json",
+          "checkedAt": "2026-11-23T02:26:44.542Z",
+          "scope": "저자 발표·공동 성명·고정 Mathlib 정의·외부 검증 로그·Clay 상태와 규칙의 실제 본문을 대조."
+        }
+      ],
       "issues": [
-        "새로 추가된 문서의 원문·판본·인용 범위 대조 대기"
+        "공개 검증의 긍정적 결과와 자체 대형 증명 재실행 미완료를 구분합니다.",
+        "MIT 11월22일16:20UTC 판본의 원시 export Lean 커널·comparator 단계는 실행 중입니다.",
+        "Clay 목록 Unsolved와 적격 출판·심사 절차는 별도이며 일반 L-함수 전체로 범위를 확대하지 않습니다."
       ],
       "key": "/research/riemann-hypothesis/",
       "url": "/research/riemann-hypothesis/",
       "title": "리만 가설 — AI 형식 증명과 검증",
       "primary": "essays",
       "classification": "난제·에세이",
-      "sourceHint": "수론 · 증명 검증 · 공식 출처"
+      "sourceHint": "수론 · 증명 검증 · 공식 출처",
+      "previousReview": {
+        "source": {
+          "label": "작성자 공개 문서 · 원출처 대조 대기",
+          "url": "https://www.stargateedu.co.kr/research/riemann-hypothesis/",
+          "verification": "pending"
+        },
+        "dataAsOf": null,
+        "dataPeriod": null,
+        "snapshotUpdatedAt": null,
+        "collectedAt": null,
+        "checkedAt": null,
+        "reviewStatus": "pending",
+        "freshness": "unverified",
+        "evidence": [],
+        "issues": [
+          "새로 추가된 문서의 원문·판본·인용 범위 대조 대기"
+        ],
+        "key": "/research/riemann-hypothesis/",
+        "url": "/research/riemann-hypothesis/",
+        "title": "리만 가설 — AI 형식 증명과 검증",
+        "primary": "essays",
+        "classification": "난제·에세이",
+        "sourceHint": "수론 · 증명 검증 · 공식 출처"
+      },
+      "referenceDescription": "수학 문헌·형식 증명 검증 기록·자체 SAT 교육 데모이며 월간 관측 통계가 아님.",
+      "monthlyReference": {
+        "status": "not_applicable",
+        "reason": "수학 문헌·형식 증명 검증 기록·자체 SAT 교육 데모이며 월간 관측 통계가 아님."
+      },
+      "originalDocumentDate": "2026-11-22",
+      "verifiedScope": "저자 발표·공동 성명·고정 Mathlib 정의·외부 검증 로그·Clay 상태와 규칙의 실제 본문을 대조.",
+      "nextAction": "실행 중 검사 결과 또는 새 해설·공식 판정이 실제 갱신될 때 해당 범위만 재대조. 자체 재현은 버전·증명 해시·자원과 격리 환경을 확보한 별도 범위로 수행."
     },
     {
       "source": {
-        "label": "작성자 공개 문서 · 원출처 대조 대기",
-        "url": "https://www.stargateedu.co.kr/research/p-vs-np/",
-        "verification": "pending"
+        "label": "Clay·Cook 공식 설명·저자 장벽 논문",
+        "url": "https://www.claymath.org/wp-content/uploads/2022/06/pvsnp.pdf",
+        "verification": "verified"
       },
       "dataAsOf": null,
-      "dataPeriod": null,
-      "snapshotUpdatedAt": null,
-      "collectedAt": null,
-      "checkedAt": null,
-      "reviewStatus": "pending",
-      "freshness": "unverified",
-      "evidence": [],
+      "dataPeriod": "월간 기준월 비적용 · 수학 문헌·검증 기록",
+      "snapshotUpdatedAt": "2026-11-23T02:26:44.542Z",
+      "collectedAt": "2026-11-23T02:24:07.455Z",
+      "checkedAt": "2026-11-23T02:26:44.542Z",
+      "reviewStatus": "not_applicable",
+      "freshness": "literature_scope_and_demo_checked_monthly_not_applicable",
+      "evidence": [
+        {
+          "kind": "official-source",
+          "url": "https://www.claymath.org/millennium/p-vs-np/",
+          "checkedAt": "2026-11-23T02:26:44.542Z",
+          "collectedAt": "2026-11-23T02:24:07.577Z",
+          "sha256": "21e542cc70ef32577dfd34f0e14421ea354fc4b1c02fc5eede030d692463eda3",
+          "scope": "P vs NP 공식 문제 소개와 조회 당시 Unsolved 표시."
+        },
+        {
+          "kind": "official-source",
+          "url": "https://www.claymath.org/millennium-problems/rules/",
+          "checkedAt": "2026-11-23T02:26:44.542Z",
+          "collectedAt": "2026-11-23T02:24:07.579Z",
+          "sha256": "853a3aa4cd66023e4c9b0ac375c267291cc789f68c37885d375d17f558f5e881",
+          "scope": "2018-09-26 채택 규칙 안내의 적격 출판·출판 후 최소2년·수학계 일반 수용 요건. 발표일을 적격 출판일로 간주하지 않음."
+        },
+        {
+          "kind": "official-source",
+          "url": "https://www.claymath.org/wp-content/uploads/2022/06/pvsnp.pdf",
+          "checkedAt": "2026-11-23T02:26:44.542Z",
+          "collectedAt": "2026-11-23T02:24:07.580Z",
+          "sha256": "018f3d473d16c35e807e8cdfbd0bed3ccf7a56452e3e10c6b1d84b56eaf2cf59",
+          "scope": "Cook 공식 문제 설명 PDF 1~2쪽 P·NP·증명서 정의, 4~5쪽 환원·NP-완전성·3-SAT, 6~8쪽 증명 장벽의 적용 범위. 오래된 원문의 당시 사례는 최신 현황으로 옮기지 않음."
+        },
+        {
+          "kind": "official-source",
+          "url": "https://www.scottaaronson.com/papers/alg.pdf",
+          "checkedAt": "2026-11-23T02:26:44.542Z",
+          "collectedAt": "2026-11-23T02:24:07.592Z",
+          "sha256": "2684e39962163da6bcfb9d17f2f49986b031f29d81a7fa5ac063d95454c3a856",
+          "scope": "Aaronson·Wigderson 저자 제공 논문 PDF 1~2쪽의 대수화 장벽과 적용 범위. 모든 증명 방법의 불가능성을 주장하지 않음."
+        },
+        {
+          "kind": "audit-record",
+          "url": "/research/source-reviews/2026-11-23-mathematics.json",
+          "checkedAt": "2026-11-23T02:26:44.542Z",
+          "scope": "Cook의 P·NP 정의와 환원·NP-완전성, Clay 상태, 증명 장벽 문헌 범위 및 자체 SAT 데모8대입."
+        }
+      ],
       "issues": [
-        "새로 추가된 문서의 원문·판본·인용 범위 대조 대기"
+        "월간 통계 기준월 비적용. Cook 공식 설명의 당시 사례를 최신 기술 현황으로 취급하지 않습니다.",
+        "데모는 2-CNF이며 8개 대입 중2개 만족. NP-완전성 벤치마크·P vs NP 증명이 아닙니다.",
+        "DPLL/CDCL·Lean 환원 형식화·산업 실측은 연구 계획입니다."
       ],
       "key": "/research/p-vs-np/",
       "url": "/research/p-vs-np/",
       "title": "P vs NP — 검증과 해결의 차이",
       "primary": "essays",
       "classification": "난제·에세이",
-      "sourceHint": "계산복잡도 · 알고리즘 · 교육 실험"
+      "sourceHint": "계산복잡도 · 알고리즘 · 교육 실험",
+      "previousReview": {
+        "source": {
+          "label": "작성자 공개 문서 · 원출처 대조 대기",
+          "url": "https://www.stargateedu.co.kr/research/p-vs-np/",
+          "verification": "pending"
+        },
+        "dataAsOf": null,
+        "dataPeriod": null,
+        "snapshotUpdatedAt": null,
+        "collectedAt": null,
+        "checkedAt": null,
+        "reviewStatus": "pending",
+        "freshness": "unverified",
+        "evidence": [],
+        "issues": [
+          "새로 추가된 문서의 원문·판본·인용 범위 대조 대기"
+        ],
+        "key": "/research/p-vs-np/",
+        "url": "/research/p-vs-np/",
+        "title": "P vs NP — 검증과 해결의 차이",
+        "primary": "essays",
+        "classification": "난제·에세이",
+        "sourceHint": "계산복잡도 · 알고리즘 · 교육 실험"
+      },
+      "referenceDescription": "수학 문헌·형식 증명 검증 기록·자체 SAT 교육 데모이며 월간 관측 통계가 아님.",
+      "monthlyReference": {
+        "status": "not_applicable",
+        "reason": "수학 문헌·형식 증명 검증 기록·자체 SAT 교육 데모이며 월간 관측 통계가 아님."
+      },
+      "originalDocumentDate": "2026-11-22",
+      "verifiedScope": "Cook의 P·NP 정의와 환원·NP-완전성, Clay 상태, 증명 장벽 문헌 범위 및 자체 SAT 데모8대입.",
+      "nextAction": "공식 상태·인용 판본이 바뀌거나 연구 계획의 실제 코드·실행 결과가 확보될 때 해당 범위만 대조."
     }
   ]
 }
