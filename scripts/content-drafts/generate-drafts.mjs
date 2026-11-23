@@ -366,6 +366,20 @@ export function reportMarkdown(results) {
 
 async function main() {
   const opts = parseArgs(process.argv.slice(2));
+  // 라이브 콘텐츠 보강 모드. 주제가 __apply_page_updates__:<매니페스트> 면 초안 생성 대신
+  // 이미 게시된 페이지·글의 본문에 구간을 추가한다(구독 폼 · 내부 링크 · 본문 보강).
+  // 워드프레스 인증정보만 있으면 되고 AI 키는 필요 없다. 원본은 out/ 에 백업한다.
+  if (opts.topic.startsWith('__apply_page_updates__')) {
+    const name = opts.topic.slice('__apply_page_updates__'.length).replace(/^:/, '') || '2026-11-23-return-path';
+    const { runPageUpdates } = await import('./apply-page-updates.mjs');
+    const result = await runPageUpdates({
+      manifestPath: path.join(HERE, 'page-updates', `${name}.mjs`),
+      out: opts.out,
+      dryRun: opts.dryRun,
+    });
+    console.log(JSON.stringify(result, null, 2));
+    return;
+  }
   const wpReady = !opts.dryRun && process.env.WP_SITE && process.env.WP_USER && process.env.WP_APP_PASSWORD;
   if (opts.requireWordPress && !wpReady) throw new Error('WordPress 직접 등록이 요청됐지만 WP_SITE·WP_USER·WP_APP_PASSWORD가 없습니다. AI 생성 전에 중단합니다');
   requireKey();
