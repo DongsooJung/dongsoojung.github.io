@@ -83,14 +83,15 @@
   const empty = document.querySelector('[data-empty]');
   const projectTotal = document.querySelector('[data-project-total]');
   if (projectTotal) projectTotal.textContent = String(cards.length);
-  if (onResearchHub) {
-    buttons.forEach((button) => {
-      const badge = button.querySelector('[data-filter-count]');
-      if (badge) badge.textContent = String(button.dataset.filter === 'all'
-        ? cards.length
-        : cards.filter((card) => card.dataset.primary === button.dataset.filter).length);
-    });
-  }
+  buttons.forEach((button) => {
+    const badge = button.querySelector('[data-filter-count]');
+    if (!badge) return;
+    const filter = button.dataset.filter;
+    const matches = filter === 'all' ? cards : cards.filter((card) => onResearchHub
+      ? card.dataset.primary === filter
+      : (card.dataset.category || '').split(/\s+/).includes(filter));
+    badge.textContent = String(matches.length);
+  });
   const sortKey = onResearchHub ? 'stargate-research-sort-v3' : 'stargate-project-sort-v2';
   const englishOrder = new Intl.Collator('en', { sensitivity: 'base', numeric: true });
   const koreanOrder = new Intl.Collator('ko', { sensitivity: 'base', numeric: true });
@@ -169,16 +170,17 @@
       .map((item) => item.trim())
       .filter(Boolean);
 
-  const enableBook = document.body.hasAttribute('data-project-book');
-  let bookMode = enableBook;
+  const enableBook = document.body.hasAttribute('data-project-book')
+    || document.body.hasAttribute('data-project-book-optional');
+  let bookMode = document.body.hasAttribute('data-project-book');
   let bookPage = 1;
   const bookPageSize = 6;
   let bookGrid, bookNav, bookNumbers, bookStatus, bookPrev, bookNext, bookToggle;
   if (enableBook && cardGroups) {
-    document.body.classList.add('hub-book-mode');
+    document.body.classList.toggle('hub-book-mode', bookMode);
     const controls = document.createElement('div');
     controls.className = 'hub-book-controls';
-    controls.innerHTML = '<button type="button" class="hub-book-toggle" data-analytics-ignore>분류별 펼쳐보기</button><span>한 쪽에 6개씩 · ← → 키로 넘기기</span>';
+    controls.innerHTML = `<button type="button" class="hub-book-toggle" data-analytics-ignore>${bookMode ? '분류별 펼쳐보기' : '페이지로 나눠보기'}</button><span>한 쪽에 6개씩 · ← → 키로 넘기기</span>`;
     bookToggle = controls.querySelector('button');
     toolbar.prepend(controls);
     bookNav = document.createElement('nav');
