@@ -56,12 +56,13 @@ export function findBlockSpan(raw, needle) {
     return { start: openIdx, end: closeIdx + 3, textIndex: idx, form: 'block', length: closeIdx + 3 - openIdx };
   }
   const tagStart = text.lastIndexOf('<', idx);
-  const tagEnd = text.indexOf('>', idx);
-  if (tagStart >= 0 && tagEnd >= 0) {
+  // 여는 태그의 '>' 를 먼저 찾는다(needle 뒤의 첫 '>' 는 닫는 태그일 수 있다).
+  const openEnd = tagStart >= 0 ? text.indexOf('>', tagStart) : -1;
+  if (tagStart >= 0 && openEnd >= 0 && openEnd < idx) {
     const nameMatch = text.slice(tagStart + 1).match(/^([a-z0-9]+)/i);
     const name = nameMatch ? nameMatch[1].toLowerCase() : 'p';
     const closeTag = `</${name}>`;
-    const close = text.indexOf(closeTag, tagEnd);
+    const close = text.indexOf(closeTag, openEnd);
     if (close >= 0) {
       const end = close + closeTag.length;
       return { start: tagStart, end, textIndex: idx, form: 'tag', length: end - tagStart };
