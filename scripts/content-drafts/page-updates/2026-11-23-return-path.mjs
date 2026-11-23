@@ -146,6 +146,20 @@ const relatedPegboard = `<!-- wp:heading -->
 </ul>
 <!-- /wp:list -->`;
 
+const relatedGridRoutes = `<!-- wp:heading -->
+<h2 class="wp-block-heading">Related practice</h2>
+<!-- /wp:heading -->
+
+<!-- wp:list -->
+<ul class="wp-block-list">
+<li><a href="https://stargatelearn.com/2026/11/14/counting-paths/"><strong>Counting Grid Paths Without Double-Counting</strong></a> — Combinatorics, Level 2. Binomial coefficients, forbidden points and inclusion–exclusion.</li>
+
+<li><a href="https://stargatelearn.com/2026/11/17/rectangles-in-a-grid/"><strong>How Many Rectangles Are in a Grid?</strong></a> — Combinatorics, Level 1. Choose two vertical and two horizontal lines and the count becomes one multiplication.</li>
+
+<li><a href="https://stargatelearn.com/2026/11/17/counting-handshakes/"><strong>Counting Handshakes</strong></a> — Combinatorics, Level 2. n(n − 1)/2 from small cases, tournaments, and a pigeonhole proof about handshakes.</li>
+</ul>
+<!-- /wp:list -->`;
+
 export default {
   updatedAt: '2026-11-23',
   note: '광고만 모델 감사 결함 보강 — 재방문 경로 3곳 · 내부 링크 0인 5곳 · 얇은 본문 2곳',
@@ -206,6 +220,13 @@ export default {
       label: 'convex quadrilaterals pegboard (11/22)',
       idempotencyMarker: '2026-11-23:post:93',
       operations: [{ op: 'insertBefore', match: 'Enjoyed this one? Explore more olympiad-style problems', blocks: relatedPegboard }],
+    },
+    {
+      kind: 'posts',
+      id: 98,
+      label: 'grid routes diagonal moves (11/23)',
+      idempotencyMarker: '2026-11-23:post:98',
+      operations: [{ op: 'insertBefore', match: 'Enjoyed this one? Explore more olympiad-style problems', blocks: relatedGridRoutes }],
     },
   ],
 };
