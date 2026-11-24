@@ -1,3 +1,27 @@
+## 2026-11-24
+
+**Repository status summary**
+
+- Last push: 2026-11-23 17:33 UTC (2026-11-24 02:33 KST) — `docs: record mathematics deployment and reconcile current scope (#324)`
+- Open issues: 2 (including long-standing collector-failure ticket #195 and repository cleanup #293)
+
+**Recent scheduled workflow runs (most recent first)**
+
+| Workflow | Conclusion | Time (UTC) |
+|----------|------------|------------|
+| Update Naver Cafe popular articles | success | 2026-11-24 00:19 |
+| Update expressway rest-area bid radar | success | 2026-11-23 23:50 |
+| Update airport congestion data | success | 2026-11-23 18:59 |
+| Activate Kakao visitor notifications | success | 2026-11-23 12:56 |
+| Update Gimpo airport congestion data | success | 2026-11-23 12:48 |
+| Update used-car public indicators | success | 2026-11-23 09:08 |
+| Update Google Trends data | success | 2026-11-23 08:41 |
+| Refresh IPO filing calendars | success | 2026-11-23 08:20 |
+
+**Health of update loops**: Overall healthy. The large majority of scheduled data-refresh and health-check workflows completed successfully. No failures observed in the latest batch of runs. The prior isolated failure in the Collect public data CSV workflow (consistent with open collector-failure issue #195) remains noted; related issues stay open. No widespread outages observed.
+
+---
+
 ## 2026-11-23
 
 **Repository status summary**
