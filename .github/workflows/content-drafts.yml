@@ -44,9 +44,9 @@ jobs:
       run:
         working-directory: scripts/content-drafts
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v7
         with:
           node-version: 22
 
@@ -54,7 +54,7 @@ jobs:
         run: npm ci --no-audit --no-fund
 
       - name: Restore topic history
-        uses: actions/cache/restore@v4
+        uses: actions/cache/restore@v6
         with:
           path: scripts/content-drafts/out/topic-history.json
           key: content-draft-topics-v1-${{ github.ref_name }}-${{ github.run_id }}-${{ github.run_attempt }}
@@ -75,14 +75,14 @@ jobs:
 
       - name: Save topic history
         if: always()
-        uses: actions/cache/save@v4
+        uses: actions/cache/save@v6
         with:
           path: scripts/content-drafts/out/topic-history.json
           key: content-draft-topics-v1-${{ github.ref_name }}-${{ github.run_id }}-${{ github.run_attempt }}
 
       - name: Upload drafts
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: content-drafts-${{ github.run_id }}
           path: scripts/content-drafts/out/
