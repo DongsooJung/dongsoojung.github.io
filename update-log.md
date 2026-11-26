@@ -1,3 +1,27 @@
+## 2026-11-26
+
+**Repository status summary**
+
+- Last push: 2026-11-25 09:18 UTC (2026-11-25 18:18 KST) — `data(ipo): update official filing calendar and licensed review feed`
+- Open issues: 2 (including long-standing collector-failure ticket #195 and repository cleanup #293)
+
+**Recent scheduled workflow runs (most recent first)**
+
+| Workflow | Conclusion | Time (UTC) |
+|----------|------------|------------|
+| Update Gimpo airport congestion data | success | 2026-11-25 23:38 |
+| Collect public data CSV | **failure** | 2026-11-25 23:34 |
+| Update Naver Cafe popular articles | success | 2026-11-25 21:57 |
+| Update expressway rest-area bid radar | success | 2026-11-25 21:38 |
+| Update airport congestion data | success | 2026-11-25 19:47 |
+| Remote Service Health Check | success | 2026-11-25 15:41 |
+| Activate Kakao visitor notifications | success | 2026-11-25 15:40 |
+| Update Gimpo airport congestion data | success | 2026-11-25 14:30 |
+
+**Health of update loops**: Overall healthy. The large majority of scheduled data-refresh and health-check workflows completed successfully. One isolated failure occurred in the Collect public data CSV workflow (consistent with open collector-failure issue #195); related issues remain open. No widespread outages observed in the latest batch of runs.
+
+---
+
 ## 2026-11-25
 
 **Repository status summary**
