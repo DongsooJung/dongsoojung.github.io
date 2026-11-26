@@ -42,7 +42,11 @@ jobs:
 
       - name: Check snapshot ages
         id: check
-        run: node scripts/check-data-freshness.mjs | tee freshness-report.md
+        shell: bash
+        run: |
+          # Without pipefail the step takes tee's exit code and a stale result passes.
+          set -o pipefail
+          node scripts/check-data-freshness.mjs | tee freshness-report.md
 
       - name: Report stale snapshots
         if: failure() && steps.check.conclusion == 'failure'
