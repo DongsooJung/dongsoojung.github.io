@@ -44,3 +44,21 @@ test('data-push retry loops fail the step when every attempt fails', () => {
     }
   }
 });
+
+// The default `run:` shell is `bash -e {0}` without pipefail, so `cmd | tee file`
+// reports tee's exit code. The first run of verify-data-freshness.yml passed with
+// a stale snapshot for exactly that reason.
+test('steps that pipe a command into tee keep the command exit code', () => {
+  const problems = [];
+  for (const { name, lines } of workflows) {
+    lines.forEach((line, index) => {
+      if (!/\|\s*tee\b/.test(line) || /^\s*(echo|printf)\b/.test(line)) return;
+      let start = index;
+      while (start > 0 && !/^\s*-\s+(name|uses|run|id):/.test(lines[start])) start -= 1;
+      const step = lines.slice(start, index + 1).join('\n');
+      const safe = /set\s+-[a-z]*o\s+pipefail/.test(step) || /^\s*shell:\s*bash\s*$/m.test(step);
+      if (!safe) problems.push(`${name}:${index + 1} pipes into tee without pipefail: ${line.trim()}`);
+    });
+  }
+  assert.deepEqual(problems, []);
+});
