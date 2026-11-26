@@ -60,7 +60,7 @@ jobs:
           import { reportFailure } from './.github/lib/collector-utils.mjs';
           const report = readFileSync('freshness-report.md', 'utf8');
           const stale = report.split('\n')
-            .filter((line) => /^\| (STALE|MISSING) /.test(line))
+            .filter((line) => /^\| (STALE|MISSING|UNKNOWN) /.test(line))
             .map((line) => line.split('|').map((cell) => cell.trim()))
             .map(([, status, path, age, limit, workflow]) => `${status} ${path} ${age}/${limit} ${workflow}`)
             .join('\n');
