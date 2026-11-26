@@ -9,3 +9,11 @@ This repository is the canonical source for the public portal at `stargateedu.co
 - Vercel projects and `api/` functions serve separate backend capabilities. Confirm a project's linked repository and domains before changing its deployment settings.
 - Keep the existing `CNAME` and `.nojekyll` files. Preserve static routes and public URLs when editing dashboards.
 - If the public domain differs from the GitHub Pages result, investigate DNS and serving origin before changing DNS or deploying another repository.
+
+## Update-loop health reporting
+
+`update-log.md` and any other health summary must judge the data-refresh loops by outcome, not by workflow conclusions.
+
+- Before writing a health line, run `node scripts/check-data-freshness.mjs` or read the latest `Verify published data freshness` run. A local checkout needs about three weeks of history first: `git fetch --shallow-since="21 days ago" origin main`.
+- If any row is `STALE` or `MISSING`, list those paths and do not describe the loops as healthy, even when every workflow run ended in `success`. From 2026-11-17 to 2026-11-26, 18 data workflows reported success while publishing nothing.
+- When a published snapshot is added, retired, or changes cadence, update `ops/data-freshness.json` in the same change.

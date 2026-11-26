@@ -1,0 +1,70 @@
+name: Verify published data freshness
+
+# Outcome check for the data-refresh loops: a run that ends in "success" is not
+# proof that a snapshot was published. This workflow fails when a published
+# snapshot listed in ops/data-freshness.json has stopped changing on main.
+
+on:
+  schedule:
+    # 10:47 and 22:47 KST
+    - cron: '47 1,13 * * *'
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/verify-data-freshness.yml'
+      - 'scripts/check-data-freshness.mjs'
+      - 'ops/data-freshness.json'
+
+permissions:
+  contents: read
+  issues: write
+
+concurrency:
+  group: verify-data-freshness
+  cancel-in-progress: true
+
+jobs:
+  freshness:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          ref: main
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: '22'
+
+      - name: Fetch enough history to date each snapshot
+        run: git fetch --shallow-since="21 days ago" origin main
+
+      - name: Check snapshot ages
+        id: check
+        run: node scripts/check-data-freshness.mjs | tee freshness-report.md
+
+      - name: Report stale snapshots
+        if: failure() && steps.check.conclusion == 'failure'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          RUN_ID: ${{ github.run_id }}
+          REPO: ${{ github.repository }}
+        run: |
+          node --input-type=module <<'NODE'
+          import { readFileSync } from 'node:fs';
+          import { reportFailure } from './.github/lib/collector-utils.mjs';
+          const report = readFileSync('freshness-report.md', 'utf8');
+          const stale = report.split('\n')
+            .filter((line) => /^\| (STALE|MISSING) /.test(line))
+            .map((line) => line.split('|').map((cell) => cell.trim()))
+            .map(([, status, path, age, limit, workflow]) => `${status} ${path} ${age}/${limit} ${workflow}`)
+            .join('\n');
+          await reportFailure({
+            workflowName: '게시 데이터 신선도 점검',
+            runId: process.env.RUN_ID,
+            error: stale || report,
+            repo: process.env.REPO,
+            token: process.env.GITHUB_TOKEN,
+          });
+          NODE

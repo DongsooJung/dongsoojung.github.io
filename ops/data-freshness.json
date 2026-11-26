@@ -1,0 +1,19 @@
+{
+  "description": "Published data snapshots that must keep changing. A workflow run that ends in success is not evidence of a published snapshot; this manifest checks the outcome (the age of the last commit touching each path on main). Limits start at roughly twice the largest gap observed between 2026-10-31 and 2026-11-17.",
+  "items": [
+    {"path": "research/airport-congestion/data/latest.json", "maxAgeHours": 24, "workflow": "update-airport-congestion.yml", "cadence": "hourly"},
+    {"path": "research/gimpo-airport-congestion/data/latest.json", "maxAgeHours": 24, "workflow": "update-gimpo-airport-congestion.yml", "cadence": "hourly"},
+    {"path": "naver-cafe-research/data/latest.json", "maxAgeHours": 36, "workflow": "update-naver-cafe-popular.yml", "cadence": "4 times a day"},
+    {"path": "strategy/expressway-restarea-bid/data/opportunities.json", "maxAgeHours": 72, "workflow": "update-expressway-restarea-bids.yml", "cadence": "3 times a day"},
+    {"path": "google-trends/data.json", "maxAgeHours": 60, "workflow": "update-google-trends.yml", "cadence": "daily"},
+    {"path": "strategy/kimstudy-math/data/latest.json", "maxAgeHours": 60, "workflow": "update-kimstudy-strategy.yml", "cadence": "daily"},
+    {"path": "inflearn/data/latest.json", "maxAgeHours": 60, "workflow": "update-inflearn-daily.yml", "cadence": "daily"},
+    {"path": "class101/data/latest.json", "maxAgeHours": 60, "workflow": "update-class101-daily.yml", "cadence": "daily"},
+    {"path": "exchange-rate/data.json", "maxAgeHours": 168, "workflow": "update-exchange-rate.yml", "cadence": "weekdays"},
+    {"path": "court-auction/data.json", "maxAgeHours": 168, "workflow": "update-court-auction.yml", "cadence": "weekdays"},
+    {"path": "portfolio/data/notion-posts.json", "maxAgeHours": 168, "workflow": "update-portfolio-blog-from-notion.yml", "cadence": "daily, on change"},
+    {"path": "assets/developer-log-snapshot.json", "maxAgeHours": 60, "workflow": "update-developer-log-snapshot.yml", "cadence": "daily"},
+    {"path": "airbnb/candidates.json", "maxAgeHours": 60, "workflow": "update-airbnb-dashboard.yml", "cadence": "daily"},
+    {"path": "unlisted-stocks/data/opendart.json", "maxAgeHours": 168, "workflow": "update-unlisted-dart.yml", "cadence": "weekdays"}
+  ]
+}
