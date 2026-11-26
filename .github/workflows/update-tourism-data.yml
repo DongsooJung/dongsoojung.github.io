@@ -51,13 +51,15 @@ jobs:
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add korea-tourism/data.json korea-tourism/fallback-data.js korea-tourism/index.html korea-tourism/data.csv en/korea-tourism/index.html
           git commit -m "data(korea-tourism): 한국관광공사 공식 통계 갱신"
+          branch="${GITHUB_REF_NAME:-main}"
           for attempt in 1 2 3 4 5; do
-            if git pull --rebase origin "" && git push origin "HEAD:"; then
+            if git pull --rebase --autostash origin "$branch" && git push origin "HEAD:$branch"; then
               exit 0
             fi
             git rebase --abort 2>/dev/null || true
-            if [ "" = 5 ]; then
+            if [ "$attempt" = 5 ]; then
+              echo "::error::data push failed after 5 attempts"
               exit 1
             fi
-            sleep 0
+            sleep $((attempt * 5))
           done
