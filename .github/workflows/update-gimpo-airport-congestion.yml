@@ -41,13 +41,15 @@ jobs:
           git config user.email "actions@users.noreply.github.com"
           git add research/gimpo-airport-congestion/data/latest.json
           git commit -m "data: update Gimpo airport congestion snapshot"
+          branch="${GITHUB_REF_NAME:-main}"
           for attempt in 1 2 3 4 5; do
-            if git pull --rebase origin "" && git push origin "HEAD:"; then
+            if git pull --rebase --autostash origin "$branch" && git push origin "HEAD:$branch"; then
               exit 0
             fi
             git rebase --abort 2>/dev/null || true
-            if [ "" = 5 ]; then
+            if [ "$attempt" = 5 ]; then
+              echo "::error::data push failed after 5 attempts"
               exit 1
             fi
-            sleep 0
+            sleep $((attempt * 5))
           done
