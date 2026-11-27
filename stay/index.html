@@ -627,7 +627,7 @@
           window.StargateInquiry?.track('email', '', 'Daechi Stay guide purchase');
           location.href = window.StargateInquiry
             ? window.StargateInquiry.mailto(GUIDE_MAIL, subject, body)
-            : `mailto:${GUIDE_MAIL}?subject=${encodeURIComponent(`${subject} | src:${location.pathname || '/stay/'}`)}&body=${encodeURIComponent(`${body}\n\n문의 경로: https://www.stargateedu.co.kr${location.pathname || '/stay/'}`)}`;
+            : `mailto:${GUIDE_MAIL}?subject=${encodeURIComponent(`${subject} | src:${location.pathname || '/stay/'}`)}&body=${encodeURIComponent(`${body}\n\n문의 경로: https://stargateedu.co.kr${location.pathname || '/stay/'}`)}`;
         });
       });
 
@@ -643,7 +643,7 @@
         window.StargateInquiry?.track('email', '', 'Daechi Stay availability');
         location.href = window.StargateInquiry
           ? window.StargateInquiry.mailto(GUIDE_MAIL, subject, body)
-          : `mailto:${GUIDE_MAIL}?subject=${encodeURIComponent(`${subject} | src:${location.pathname || '/stay/'}`)}&body=${encodeURIComponent(`${body}\n\n문의 경로: https://www.stargateedu.co.kr${location.pathname || '/stay/'}`)}`;
+          : `mailto:${GUIDE_MAIL}?subject=${encodeURIComponent(`${subject} | src:${location.pathname || '/stay/'}`)}&body=${encodeURIComponent(`${body}\n\n문의 경로: https://stargateedu.co.kr${location.pathname || '/stay/'}`)}`;
       });
     })();
   </script>
