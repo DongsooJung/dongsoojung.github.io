@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-26T11:28:57+00:00",
+  "updatedAt": "2026-11-27T09:30:10+00:00",
   "sourceMode": "api",
   "source": "Google Trends (trends.google.com/trending)",
   "geo": [
@@ -7,24 +7,28 @@
   ],
   "hours": 48,
   "limit": 100,
-  "fetchedCount": 395,
+  "fetchedCount": 389,
   "uniqueCount": 100,
   "errors": [],
   "summary": {
     "count": 100,
-    "totalVolume": 1640000,
-    "avgVolume": 16400,
-    "maxVolume": 500000,
+    "totalVolume": 1040000,
+    "avgVolume": 10400,
+    "maxVolume": 100000,
     "minVolume": 2000,
-    "topTitle": "반도체",
+    "topTitle": "세무사",
     "categories": [
       {
         "category": "비즈니스 및 금융",
-        "count": 24
+        "count": 21
       },
       {
         "category": "스포츠",
-        "count": 24
+        "count": 21
+      },
+      {
+        "category": "기타",
+        "count": 16
       },
       {
         "category": "법률 및 정부",
@@ -35,23 +39,27 @@
         "count": 15
       },
       {
-        "category": "기타",
-        "count": 12
+        "category": "취업 및 교육",
+        "count": 3
       },
       {
-        "category": "취업 및 교육",
-        "count": 4
+        "category": "자동차",
+        "count": 2
       },
       {
         "category": "건강",
         "count": 1
       },
       {
-        "category": "기술",
+        "category": "게임",
         "count": 1
       },
       {
-        "category": "쇼핑",
+        "category": "기후",
+        "count": 1
+      },
+      {
+        "category": "미용 및 패션",
         "count": 1
       },
       {
@@ -59,70 +67,16 @@
         "count": 1
       },
       {
-        "category": "정치",
+        "category": "여행 및 교통",
         "count": 1
       },
       {
-        "category": "취미 및 레저",
+        "category": "정치",
         "count": 1
       }
     ]
   },
   "items": [
-    {
-      "title": "반도체",
-      "volume": 500000,
-      "geo": "KR",
-      "startedAt": 1795573800,
-      "related": [
-        "반도체",
-        "금리",
-        "기준금리",
-        "한국은행 기준금리",
-        "금리인상",
-        "금통위",
-        "신현송",
-        "한국은행",
-        "금융통화위원회"
-      ],
-      "categories": [
-        3
-      ],
-      "category": "비즈니스 및 금융",
-      "exploreUrl": "https://trends.google.com/trends/explore?q=%EB%B0%98%EB%8F%84%EC%B2%B4&date=now+1-d&geo=KR&hl=ko",
-      "rank": 1
-    },
-    {
-      "title": "고소영",
-      "volume": 100000,
-      "geo": "KR",
-      "startedAt": 1795566600,
-      "related": [
-        "고소영"
-      ],
-      "categories": [
-        4,
-        2
-      ],
-      "category": "엔터테인먼트",
-      "exploreUrl": "https://trends.google.com/trends/explore?q=%EA%B3%A0%EC%86%8C%EC%98%81&date=now+1-d&geo=KR&hl=ko",
-      "rank": 2
-    },
-    {
-      "title": "빅테크",
-      "volume": 100000,
-      "geo": "KR",
-      "startedAt": 1795563000,
-      "related": [
-        "빅테크"
-      ],
-      "categories": [
-        3
-      ],
-      "category": "비즈니스 및 금융",
-      "exploreUrl": "https://trends.google.com/trends/explore?q=%EB%B9%85%ED%85%8C%ED%81%AC&date=now+1-d&geo=KR&hl=ko",
-      "rank": 3
-    },
     {
       "title": "세무사",
       "volume": 100000,
@@ -130,30 +84,14 @@
       "startedAt": 1795637400,
       "related": [
         "세무사",
-        "경찰"
+        "육아 휴직 세무사"
       ],
       "categories": [
         9
       ],
       "category": "취업 및 교육",
       "exploreUrl": "https://trends.google.com/trends/explore?q=%EC%84%B8%EB%AC%B4%EC%82%AC&date=now+1-d&geo=KR&hl=ko",
-      "rank": 4
-    },
-    {
-      "title": "연금 개혁",
-      "volume": 100000,
-      "geo": "KR",
-      "startedAt": 1795571400,
-      "related": [
-        "연금 개혁"
-      ],
-      "categories": [
-        3,
-        10
-      ],
-      "category": "비즈니스 및 금융",
-      "exploreUrl": "https://trends.google.com/trends/explore?q=%EC%97%B0%EA%B8%88+%EA%B0%9C%ED%98%81&date=now+1-d&geo=KR&hl=ko",
-      "rank": 5
+      "rank": 1
     },
     {
       "title": "하사",
@@ -169,39 +107,116 @@
       ],
       "category": "법률 및 정부",
       "exploreUrl": "https://trends.google.com/trends/explore?q=%ED%95%98%EC%82%AC&date=now+1-d&geo=KR&hl=ko",
-      "rank": 6
+      "rank": 2
     },
     {
-      "title": "가수",
-      "volume": 20000,
+      "title": "며느리",
+      "volume": 50000,
       "geo": "KR",
-      "startedAt": 1795654800,
+      "startedAt": 1795725000,
       "related": [
-        "가수",
-        "강남"
-      ],
-      "categories": [
-        4
-      ],
-      "category": "엔터테인먼트",
-      "exploreUrl": "https://trends.google.com/trends/explore?q=%EA%B0%80%EC%88%98&date=now+1-d&geo=KR&hl=ko",
-      "rank": 7
-    },
-    {
-      "title": "노소영",
-      "volume": 20000,
-      "geo": "KR",
-      "startedAt": 1795551600,
-      "related": [
-        "노소영",
-        "소송"
+        "며느리"
       ],
       "categories": [
         11
       ],
       "category": "기타",
-      "exploreUrl": "https://trends.google.com/trends/explore?q=%EB%85%B8%EC%86%8C%EC%98%81&date=now+1-d&geo=KR&hl=ko",
+      "exploreUrl": "https://trends.google.com/trends/explore?q=%EB%A9%B0%EB%8A%90%EB%A6%AC&date=now+1-d&geo=KR&hl=ko",
+      "rank": 3
+    },
+    {
+      "title": "에스컬레이터",
+      "volume": 50000,
+      "geo": "KR",
+      "startedAt": 1795633200,
+      "related": [
+        "에스컬레이터"
+      ],
+      "categories": [
+        11
+      ],
+      "category": "기타",
+      "exploreUrl": "https://trends.google.com/trends/explore?q=%EC%97%90%EC%8A%A4%EC%BB%AC%EB%A0%88%EC%9D%B4%ED%84%B0&date=now+1-d&geo=KR&hl=ko",
+      "rank": 4
+    },
+    {
+      "title": "강남",
+      "volume": 20000,
+      "geo": "KR",
+      "startedAt": 1795605600,
+      "related": [
+        "강남",
+        "1기 신도시"
+      ],
+      "categories": [
+        11
+      ],
+      "category": "기타",
+      "exploreUrl": "https://trends.google.com/trends/explore?q=%EA%B0%95%EB%82%A8&date=now+1-d&geo=KR&hl=ko",
+      "rank": 5
+    },
+    {
+      "title": "강시 후",
+      "volume": 20000,
+      "geo": "KR",
+      "startedAt": 1795750200,
+      "related": [
+        "강시 후",
+        "강시후"
+      ],
+      "categories": [
+        17
+      ],
+      "category": "스포츠",
+      "exploreUrl": "https://trends.google.com/trends/explore?q=%EA%B0%95%EC%8B%9C+%ED%9B%84&date=now+1-d&geo=KR&hl=ko",
+      "rank": 6
+    },
+    {
+      "title": "김사윤",
+      "volume": 20000,
+      "geo": "KR",
+      "startedAt": 1795734000,
+      "related": [
+        "김사윤"
+      ],
+      "categories": [
+        17
+      ],
+      "category": "스포츠",
+      "exploreUrl": "https://trends.google.com/trends/explore?q=%EA%B9%80%EC%82%AC%EC%9C%A4&date=now+1-d&geo=KR&hl=ko",
+      "rank": 7
+    },
+    {
+      "title": "남경필",
+      "volume": 20000,
+      "geo": "KR",
+      "startedAt": 1795747800,
+      "related": [
+        "남경필",
+        "남경필 아들",
+        "전과"
+      ],
+      "categories": [
+        10
+      ],
+      "category": "법률 및 정부",
+      "exploreUrl": "https://trends.google.com/trends/explore?q=%EB%82%A8%EA%B2%BD%ED%95%84&date=now+1-d&geo=KR&hl=ko",
       "rank": 8
+    },
+    {
+      "title": "다나와",
+      "volume": 20000,
+      "geo": "KR",
+      "startedAt": 1795627800,
+      "related": [
+        "다나와"
+      ],
+      "categories": [
+        11
+      ],
+      "category": "기타",
+      "exploreUrl": "https://trends.google.com/trends/explore?q=%EB%8B%A4%EB%82%98%EC%99%80&date=now+1-d&geo=KR&hl=ko",
+      "rank": 9
     },
     {
       "title": "당구",
@@ -211,15 +226,29 @@
       "related": [
         "당구",
         "휴온스 lpba 챔피언십",
-        "김가영",
-        "조재호"
+        "김가영"
       ],
       "categories": [
         17
       ],
       "category": "스포츠",
       "exploreUrl": "https://trends.google.com/trends/explore?q=%EB%8B%B9%EA%B5%AC&date=now+1-d&geo=KR&hl=ko",
-      "rank": 9
+      "rank": 10
+    },
+    {
+      "title": "맥도날드",
+      "volume": 20000,
+      "geo": "KR",
+      "startedAt": 1795672200,
+      "related": [
+        "맥도날드"
+      ],
+      "categories": [
+        5
+      ],
+      "category": "식음료",
+      "exploreUrl": "https://trends.google.com/trends/explore?q=%EB%A7%A5%EB%8F%84%EB%82%A0%EB%93%9C&date=now+1-d&geo=KR&hl=ko",
+      "rank": 11
     },
     {
       "title": "사과",
@@ -234,22 +263,61 @@
       ],
       "category": "비즈니스 및 금융",
       "exploreUrl": "https://trends.google.com/trends/explore?q=%EC%82%AC%EA%B3%BC&date=now+1-d&geo=KR&hl=ko",
-      "rank": 10
+      "rank": 12
     },
     {
-      "title": "에릭 페디",
+      "title": "삼성전자 배당금",
       "volume": 20000,
       "geo": "KR",
-      "startedAt": 1795538400,
+      "startedAt": 1795731000,
       "related": [
-        "에릭 페디"
+        "삼성전자 배당금",
+        "삼성전자 배당",
+        "삼성",
+        "배당",
+        "삼전 배당금",
+        "주주",
+        "삼성전자 배당금 지급일"
       ],
       "categories": [
-        17
+        3
       ],
-      "category": "스포츠",
-      "exploreUrl": "https://trends.google.com/trends/explore?q=%EC%97%90%EB%A6%AD+%ED%8E%98%EB%94%94&date=now+1-d&geo=KR&hl=ko",
-      "rank": 11
+      "category": "비즈니스 및 금융",
+      "exploreUrl": "https://trends.google.com/trends/explore?q=%EC%82%BC%EC%84%B1%EC%A0%84%EC%9E%90+%EB%B0%B0%EB%8B%B9%EA%B8%88&date=now+1-d&geo=KR&hl=ko",
+      "rank": 13
+    },
+    {
+      "title": "성유리",
+      "volume": 20000,
+      "geo": "KR",
+      "startedAt": 1795617600,
+      "related": [
+        "성유리"
+      ],
+      "categories": [
+        4
+      ],
+      "category": "엔터테인먼트",
+      "exploreUrl": "https://trends.google.com/trends/explore?q=%EC%84%B1%EC%9C%A0%EB%A6%AC&date=now+1-d&geo=KR&hl=ko",
+      "rank": 14
+    },
+    {
+      "title": "손연재",
+      "volume": 20000,
+      "geo": "KR",
+      "startedAt": 1795753800,
+      "related": [
+        "손연재",
+        "부부",
+        "이준효",
+        "기부"
+      ],
+      "categories": [
+        7
+      ],
+      "category": "건강",
+      "exploreUrl": "https://trends.google.com/trends/explore?q=%EC%86%90%EC%97%B0%EC%9E%AC&date=now+1-d&geo=KR&hl=ko",
+      "rank": 15
     },
     {
       "title": "연금",
@@ -257,30 +325,29 @@
       "geo": "KR",
       "startedAt": 1795664400,
       "related": [
-        "연금",
-        "국민연금공단"
+        "연금"
       ],
       "categories": [
         3
       ],
       "category": "비즈니스 및 금융",
       "exploreUrl": "https://trends.google.com/trends/explore?q=%EC%97%B0%EA%B8%88&date=now+1-d&geo=KR&hl=ko",
-      "rank": 12
+      "rank": 16
     },
     {
-      "title": "정치",
+      "title": "제임스 네일",
       "volume": 20000,
       "geo": "KR",
-      "startedAt": 1795546200,
+      "startedAt": 1795630200,
       "related": [
-        "정치"
+        "제임스 네일"
       ],
       "categories": [
-        10
+        17
       ],
-      "category": "법률 및 정부",
-      "exploreUrl": "https://trends.google.com/trends/explore?q=%EC%A0%95%EC%B9%98&date=now+1-d&geo=KR&hl=ko",
-      "rank": 13
+      "category": "스포츠",
+      "exploreUrl": "https://trends.google.com/trends/explore?q=%EC%A0%9C%EC%9E%84%EC%8A%A4+%EB%84%A4%EC%9D%BC&date=now+1-d&geo=KR&hl=ko",
+      "rank": 17
     },
     {
       "title": "조별리그",
@@ -289,29 +356,96 @@
       "startedAt": 1795650000,
       "related": [
         "조별리그",
-        "에콰도르 u-17 대 대한민국 u-17"
+        "에콰도르 u-17 대 대한민국 u-17",
+        "월드컵",
+        "u-17 월드컵"
       ],
       "categories": [
         17
       ],
       "category": "스포츠",
       "exploreUrl": "https://trends.google.com/trends/explore?q=%EC%A1%B0%EB%B3%84%EB%A6%AC%EA%B7%B8&date=now+1-d&geo=KR&hl=ko",
-      "rank": 14
+      "rank": 18
     },
     {
-      "title": "김장",
-      "volume": 10000,
+      "title": "현대자동차",
+      "volume": 20000,
       "geo": "KR",
-      "startedAt": 1795546800,
+      "startedAt": 1795725000,
       "related": [
-        "김장"
+        "현대자동차"
       ],
       "categories": [
-        11
+        1
       ],
-      "category": "기타",
-      "exploreUrl": "https://trends.google.com/trends/explore?q=%EA%B9%80%EC%9E%A5&date=now+1-d&geo=KR&hl=ko",
-      "rank": 15
+      "category": "자동차",
+      "exploreUrl": "https://trends.google.com/trends/explore?q=%ED%98%84%EB%8C%80%EC%9E%90%EB%8F%99%EC%B0%A8&date=now+1-d&geo=KR&hl=ko",
+      "rank": 19
+    },
+    {
+      "title": "2027 학년도 대학 수학 능력 시험",
+      "volume": 10000,
+      "geo": "KR",
+      "startedAt": 1795678200,
+      "related": [
+        "2027 학년도 대학 수학 능력 시험",
+        "2027학년도 대학수학능력시험"
+      ],
+      "categories": [
+        9
+      ],
+      "category": "취업 및 교육",
+      "exploreUrl": "https://trends.google.com/trends/explore?q=2027+%ED%95%99%EB%85%84%EB%8F%84+%EB%8C%80%ED%95%99+%EC%88%98%ED%95%99+%EB%8A%A5%EB%A0%A5+%EC%8B%9C%ED%97%98&date=now+1-d&geo=KR&hl=ko",
+      "rank": 20
+    },
+    {
+      "title": "강소휘",
+      "volume": 10000,
+      "geo": "KR",
+      "startedAt": 1795701600,
+      "related": [
+        "강소휘"
+      ],
+      "categories": [
+        17
+      ],
+      "category": "스포츠",
+      "exploreUrl": "https://trends.google.com/trends/explore?q=%EA%B0%95%EC%86%8C%ED%9C%98&date=now+1-d&geo=KR&hl=ko",
+      "rank": 21
+    },
+    {
+      "title": "김계리",
+      "volume": 10000,
+      "geo": "KR",
+      "startedAt": 1795701600,
+      "related": [
+        "김계리",
+        "윤석열 무죄",
+        "위증",
+        "계엄"
+      ],
+      "categories": [
+        10,
+        14
+      ],
+      "category": "법률 및 정부",
+      "exploreUrl": "https://trends.google.com/trends/explore?q=%EA%B9%80%EA%B3%84%EB%A6%AC&date=now+1-d&geo=KR&hl=ko",
+      "rank": 22
+    },
+    {
+      "title": "김준표",
+      "volume": 10000,
+      "geo": "KR",
+      "startedAt": 1795649400,
+      "related": [
+        "김준표"
+      ],
+      "categories": [
+        4
+      ],
+      "category": "엔터테인먼트",
+      "exploreUrl": "https://trends.google.com/trends/explore?q=%EA%B9%80%EC%A4%80%ED%91%9C&date=now+1-d&geo=KR&hl=ko",
+      "rank": 23
     },
     {
       "title": "난방",
@@ -326,76 +460,55 @@
       ],
       "category": "비즈니스 및 금융",
       "exploreUrl": "https://trends.google.com/trends/explore?q=%EB%82%9C%EB%B0%A9&date=now+1-d&geo=KR&hl=ko",
-      "rank": 16
+      "rank": 24
     },
     {
-      "title": "레알 마드리드 대 에인트호번",
+      "title": "문근영",
       "volume": 10000,
       "geo": "KR",
-      "startedAt": 1795547400,
+      "startedAt": 1795723800,
       "related": [
-        "레알 마드리드 대 에인트호번",
-        "레알마드리드",
-        "레알",
-        "킬리안 음바페"
+        "문근영",
+        "시청률",
+        "나인투식스"
       ],
       "categories": [
-        17
+        4
       ],
-      "category": "스포츠",
-      "exploreUrl": "https://trends.google.com/trends/explore?q=%EB%A0%88%EC%95%8C+%EB%A7%88%EB%93%9C%EB%A6%AC%EB%93%9C+%EB%8C%80+%EC%97%90%EC%9D%B8%ED%8A%B8%ED%98%B8%EB%B2%88&date=now+1-d&geo=KR&hl=ko",
-      "rank": 17
+      "category": "엔터테인먼트",
+      "exploreUrl": "https://trends.google.com/trends/explore?q=%EB%AC%B8%EA%B7%BC%EC%98%81&date=now+1-d&geo=KR&hl=ko",
+      "rank": 25
     },
     {
-      "title": "루카 윌리엄스 바넷",
+      "title": "반도체 메모리",
       "volume": 10000,
       "geo": "KR",
-      "startedAt": 1795593000,
+      "startedAt": 1795700400,
       "related": [
-        "루카 윌리엄스 바넷"
+        "반도체 메모리",
+        "삼성그룹"
       ],
       "categories": [
-        17
+        3
       ],
-      "category": "스포츠",
-      "exploreUrl": "https://trends.google.com/trends/explore?q=%EB%A3%A8%EC%B9%B4+%EC%9C%8C%EB%A6%AC%EC%97%84%EC%8A%A4+%EB%B0%94%EB%84%B7&date=now+1-d&geo=KR&hl=ko",
-      "rank": 18
+      "category": "비즈니스 및 금융",
+      "exploreUrl": "https://trends.google.com/trends/explore?q=%EB%B0%98%EB%8F%84%EC%B2%B4+%EB%A9%94%EB%AA%A8%EB%A6%AC&date=now+1-d&geo=KR&hl=ko",
+      "rank": 26
     },
     {
-      "title": "리그 오브 레전드 챔피언스 코리아",
+      "title": "백화점",
       "volume": 10000,
       "geo": "KR",
-      "startedAt": 1795644600,
+      "startedAt": 1795606200,
       "related": [
-        "리그 오브 레전드 챔피언스 코리아",
-        "제우스",
-        "최우제",
-        "티원",
-        "t1 제우스",
-        "제우스 오피셜",
-        "로치"
+        "백화점"
       ],
       "categories": [
-        11
+        3
       ],
-      "category": "기타",
-      "exploreUrl": "https://trends.google.com/trends/explore?q=%EB%A6%AC%EA%B7%B8+%EC%98%A4%EB%B8%8C+%EB%A0%88%EC%A0%84%EB%93%9C+%EC%B1%94%ED%94%BC%EC%96%B8%EC%8A%A4+%EC%BD%94%EB%A6%AC%EC%95%84&date=now+1-d&geo=KR&hl=ko",
-      "rank": 19
-    },
-    {
-      "title": "병무청",
-      "volume": 10000,
-      "geo": "KR",
-      "startedAt": 1795653600,
-      "related": [
-        "병무청"
-      ],
-      "categories": [
-        10
-      ],
-      "category": "법률 및 정부",
-      "exploreUrl": "https://trends.google.com/trends/explore?q=%EB%B3%91%EB%AC%B4%EC%B2%AD&date=now+1-d&geo=KR&hl=ko",
-      "rank": 20
+      "category": "비즈니스 및 금융",
+      "exploreUrl": "https://trends.google.com/trends/explore?q=%EB%B0%B1%ED%99%94%EC%A0%90&date=now+1-d&geo=KR&hl=ko",
+      "rank": 27
     },
     {
       "title": "빅터 레이예스",
@@ -404,46 +517,15 @@
       "startedAt": 1795650000,
       "related": [
         "빅터 레이예스",
-        "레이예스",
-        "롯데 자이언츠"
+        "롯데 자이언츠",
+        "레이예스"
       ],
       "categories": [
         17
       ],
       "category": "스포츠",
       "exploreUrl": "https://trends.google.com/trends/explore?q=%EB%B9%85%ED%84%B0+%EB%A0%88%EC%9D%B4%EC%98%88%EC%8A%A4&date=now+1-d&geo=KR&hl=ko",
-      "rank": 21
-    },
-    {
-      "title": "산업단지",
-      "volume": 10000,
-      "geo": "KR",
-      "startedAt": 1795522800,
-      "related": [
-        "산업단지"
-      ],
-      "categories": [
-        3
-      ],
-      "category": "비즈니스 및 금융",
-      "exploreUrl": "https://trends.google.com/trends/explore?q=%EC%82%B0%EC%97%85%EB%8B%A8%EC%A7%80&date=now+1-d&geo=KR&hl=ko",
-      "rank": 22
-    },
-    {
-      "title": "삼성",
-      "volume": 10000,
-      "geo": "KR",
-      "startedAt": 1795656600,
-      "related": [
-        "삼성",
-        "삼성그룹"
-      ],
-      "categories": [
-        3
-      ],
-      "category": "비즈니스 및 금융",
-      "exploreUrl": "https://trends.google.com/trends/explore?q=%EC%82%BC%EC%84%B1&date=now+1-d&geo=KR&hl=ko",
-      "rank": 23
+      "rank": 28
     },
     {
       "title": "생계",
@@ -451,46 +533,14 @@
       "geo": "KR",
       "startedAt": 1795638000,
       "related": [
-        "생계",
-        "급여 지원"
+        "생계"
       ],
       "categories": [
         10
       ],
       "category": "법률 및 정부",
       "exploreUrl": "https://trends.google.com/trends/explore?q=%EC%83%9D%EA%B3%84&date=now+1-d&geo=KR&hl=ko",
-      "rank": 24
-    },
-    {
-      "title": "서훈",
-      "volume": 10000,
-      "geo": "KR",
-      "startedAt": 1795572000,
-      "related": [
-        "서훈",
-        "삼청교육대"
-      ],
-      "categories": [
-        10
-      ],
-      "category": "법률 및 정부",
-      "exploreUrl": "https://trends.google.com/trends/explore?q=%EC%84%9C%ED%9B%88&date=now+1-d&geo=KR&hl=ko",
-      "rank": 25
-    },
-    {
-      "title": "성유리",
-      "volume": 10000,
-      "geo": "KR",
-      "startedAt": 1795617600,
-      "related": [
-        "성유리"
-      ],
-      "categories": [
-        4
-      ],
-      "category": "엔터테인먼트",
-      "exploreUrl": "https://trends.google.com/trends/explore?q=%EC%84%B1%EC%9C%A0%EB%A6%AC&date=now+1-d&geo=KR&hl=ko",
-      "rank": 26
+      "rank": 29
     },
     {
       "title": "수험",
@@ -501,12 +551,11 @@
         "수험"
       ],
       "categories": [
-        9,
-        4
+        9
       ],
       "category": "취업 및 교육",
       "exploreUrl": "https://trends.google.com/trends/explore?q=%EC%88%98%ED%97%98&date=now+1-d&geo=KR&hl=ko",
-      "rank": 27
+      "rank": 30
     },
     {
       "title": "스포르팅 대 맨유",
@@ -525,7 +574,7 @@
       ],
       "category": "스포츠",
       "exploreUrl": "https://trends.google.com/trends/explore?q=%EC%8A%A4%ED%8F%AC%EB%A5%B4%ED%8C%85+%EB%8C%80+%EB%A7%A8%EC%9C%A0&date=now+1-d&geo=KR&hl=ko",
-      "rank": 28
+      "rank": 31
     },
     {
       "title": "시그널",
@@ -533,175 +582,157 @@
       "geo": "KR",
       "startedAt": 1795618200,
       "related": [
-        "시그널",
-        "시그널2",
-        "두 번째 시그널",
-        "조진웅"
+        "시그널"
       ],
       "categories": [
         4
       ],
       "category": "엔터테인먼트",
       "exploreUrl": "https://trends.google.com/trends/explore?q=%EC%8B%9C%EA%B7%B8%EB%84%90&date=now+1-d&geo=KR&hl=ko",
-      "rank": 29
+      "rank": 32
     },
     {
-      "title": "이승우",
+      "title": "연비",
       "volume": 10000,
       "geo": "KR",
-      "startedAt": 1795677000,
+      "startedAt": 1795738200,
       "related": [
-        "이승우",
-        "가시마 앤틀러스 대 전북",
-        "가시마 앤틀러스"
+        "연비"
       ],
       "categories": [
-        17
+        1
       ],
-      "category": "스포츠",
-      "exploreUrl": "https://trends.google.com/trends/explore?q=%EC%9D%B4%EC%8A%B9%EC%9A%B0&date=now+1-d&geo=KR&hl=ko",
-      "rank": 30
+      "category": "자동차",
+      "exploreUrl": "https://trends.google.com/trends/explore?q=%EC%97%B0%EB%B9%84&date=now+1-d&geo=KR&hl=ko",
+      "rank": 33
     },
     {
-      "title": "이한범",
+      "title": "우크라이나",
       "volume": 10000,
       "geo": "KR",
-      "startedAt": 1795566600,
+      "startedAt": 1795713600,
       "related": [
-        "이한범",
-        "클뤼프 브뤼허 대 리버풀"
-      ],
-      "categories": [
-        17
-      ],
-      "category": "스포츠",
-      "exploreUrl": "https://trends.google.com/trends/explore?q=%EC%9D%B4%ED%95%9C%EB%B2%94&date=now+1-d&geo=KR&hl=ko",
-      "rank": 31
-    },
-    {
-      "title": "임차인",
-      "volume": 10000,
-      "geo": "KR",
-      "startedAt": 1795591800,
-      "related": [
-        "임차인"
+        "우크라이나"
       ],
       "categories": [
         10
       ],
       "category": "법률 및 정부",
-      "exploreUrl": "https://trends.google.com/trends/explore?q=%EC%9E%84%EC%B0%A8%EC%9D%B8&date=now+1-d&geo=KR&hl=ko",
-      "rank": 32
+      "exploreUrl": "https://trends.google.com/trends/explore?q=%EC%9A%B0%ED%81%AC%EB%9D%BC%EC%9D%B4%EB%82%98&date=now+1-d&geo=KR&hl=ko",
+      "rank": 34
     },
     {
-      "title": "재산세",
+      "title": "육아휴직",
       "volume": 10000,
       "geo": "KR",
-      "startedAt": 1795581000,
+      "startedAt": 1795657800,
       "related": [
-        "재산세"
+        "육아휴직"
+      ],
+      "categories": [
+        10
+      ],
+      "category": "법률 및 정부",
+      "exploreUrl": "https://trends.google.com/trends/explore?q=%EC%9C%A1%EC%95%84%ED%9C%B4%EC%A7%81&date=now+1-d&geo=KR&hl=ko",
+      "rank": 35
+    },
+    {
+      "title": "의심",
+      "volume": 10000,
+      "geo": "KR",
+      "startedAt": 1795659000,
+      "related": [
+        "의심"
       ],
       "categories": [
         11
       ],
       "category": "기타",
-      "exploreUrl": "https://trends.google.com/trends/explore?q=%EC%9E%AC%EC%82%B0%EC%84%B8&date=now+1-d&geo=KR&hl=ko",
-      "rank": 33
+      "exploreUrl": "https://trends.google.com/trends/explore?q=%EC%9D%98%EC%8B%AC&date=now+1-d&geo=KR&hl=ko",
+      "rank": 36
     },
     {
-      "title": "제임스 네일",
+      "title": "이동연",
       "volume": 10000,
       "geo": "KR",
-      "startedAt": 1795630200,
+      "startedAt": 1795707000,
       "related": [
-        "제임스 네일"
+        "이동연",
+        "이동연 배우",
+        "뮤지컬배우 이동연"
       ],
       "categories": [
-        17
+        4
       ],
-      "category": "스포츠",
-      "exploreUrl": "https://trends.google.com/trends/explore?q=%EC%A0%9C%EC%9E%84%EC%8A%A4+%EB%84%A4%EC%9D%BC&date=now+1-d&geo=KR&hl=ko",
-      "rank": 34
+      "category": "엔터테인먼트",
+      "exploreUrl": "https://trends.google.com/trends/explore?q=%EC%9D%B4%EB%8F%99%EC%97%B0&date=now+1-d&geo=KR&hl=ko",
+      "rank": 37
     },
     {
-      "title": "종합 부동산 세",
+      "title": "종부세",
       "volume": 10000,
       "geo": "KR",
-      "startedAt": 1795670400,
+      "startedAt": 1795684200,
       "related": [
+        "종부세",
         "종합 부동산 세",
         "부동산",
-        "종부세",
         "종합부동산세"
       ],
       "categories": [
         3
       ],
       "category": "비즈니스 및 금융",
-      "exploreUrl": "https://trends.google.com/trends/explore?q=%EC%A2%85%ED%95%A9+%EB%B6%80%EB%8F%99%EC%82%B0+%EC%84%B8&date=now+1-d&geo=KR&hl=ko",
-      "rank": 35
-    },
-    {
-      "title": "중앙일보",
-      "volume": 10000,
-      "geo": "KR",
-      "startedAt": 1795546200,
-      "related": [
-        "중앙일보"
-      ],
-      "categories": [
-        9
-      ],
-      "category": "취업 및 교육",
-      "exploreUrl": "https://trends.google.com/trends/explore?q=%EC%A4%91%EC%95%99%EC%9D%BC%EB%B3%B4&date=now+1-d&geo=KR&hl=ko",
-      "rank": 36
-    },
-    {
-      "title": "챔피언스리그",
-      "volume": 10000,
-      "geo": "KR",
-      "startedAt": 1795532400,
-      "related": [
-        "챔피언스리그",
-        "losc 릴 대 바이에른",
-        "김민재"
-      ],
-      "categories": [
-        17
-      ],
-      "category": "스포츠",
-      "exploreUrl": "https://trends.google.com/trends/explore?q=%EC%B1%94%ED%94%BC%EC%96%B8%EC%8A%A4%EB%A6%AC%EA%B7%B8&date=now+1-d&geo=KR&hl=ko",
-      "rank": 37
-    },
-    {
-      "title": "최재훈",
-      "volume": 10000,
-      "geo": "KR",
-      "startedAt": 1795521000,
-      "related": [
-        "최재훈"
-      ],
-      "categories": [
-        17
-      ],
-      "category": "스포츠",
-      "exploreUrl": "https://trends.google.com/trends/explore?q=%EC%B5%9C%EC%9E%AC%ED%9B%88&date=now+1-d&geo=KR&hl=ko",
+      "exploreUrl": "https://trends.google.com/trends/explore?q=%EC%A2%85%EB%B6%80%EC%84%B8&date=now+1-d&geo=KR&hl=ko",
       "rank": 38
     },
     {
-      "title": "트레킹",
+      "title": "투자",
       "volume": 10000,
       "geo": "KR",
-      "startedAt": 1795579200,
+      "startedAt": 1795753200,
       "related": [
-        "트레킹"
+        "투자",
+        "삼성자산운용"
       ],
       "categories": [
-        11
+        3
       ],
-      "category": "기타",
-      "exploreUrl": "https://trends.google.com/trends/explore?q=%ED%8A%B8%EB%A0%88%ED%82%B9&date=now+1-d&geo=KR&hl=ko",
+      "category": "비즈니스 및 금융",
+      "exploreUrl": "https://trends.google.com/trends/explore?q=%ED%88%AC%EC%9E%90&date=now+1-d&geo=KR&hl=ko",
       "rank": 39
+    },
+    {
+      "title": "포수",
+      "volume": 10000,
+      "geo": "KR",
+      "startedAt": 1795737600,
+      "related": [
+        "포수",
+        "골든글러브",
+        "허인서"
+      ],
+      "categories": [
+        17
+      ],
+      "category": "스포츠",
+      "exploreUrl": "https://trends.google.com/trends/explore?q=%ED%8F%AC%EC%88%98&date=now+1-d&geo=KR&hl=ko",
+      "rank": 40
+    },
+    {
+      "title": "홍창기",
+      "volume": 10000,
+      "geo": "KR",
+      "startedAt": 1795732200,
+      "related": [
+        "홍창기"
+      ],
+      "categories": [
+        17
+      ],
+      "category": "스포츠",
+      "exploreUrl": "https://trends.google.com/trends/explore?q=%ED%99%8D%EC%B0%BD%EA%B8%B0&date=now+1-d&geo=KR&hl=ko",
+      "rank": 41
     },
     {
       "title": "kf-21 보라매",
@@ -716,7 +747,23 @@
       ],
       "category": "비즈니스 및 금융",
       "exploreUrl": "https://trends.google.com/trends/explore?q=kf-21+%EB%B3%B4%EB%9D%BC%EB%A7%A4&date=now+1-d&geo=KR&hl=ko",
-      "rank": 40
+      "rank": 42
+    },
+    {
+      "title": "losc 릴 대 바이에른",
+      "volume": 5000,
+      "geo": "KR",
+      "startedAt": 1795633800,
+      "related": [
+        "losc 릴 대 바이에른",
+        "김민재"
+      ],
+      "categories": [
+        17
+      ],
+      "category": "스포츠",
+      "exploreUrl": "https://trends.google.com/trends/explore?q=losc+%EB%A6%B4+%EB%8C%80+%EB%B0%94%EC%9D%B4%EC%97%90%EB%A5%B8&date=now+1-d&geo=KR&hl=ko",
+      "rank": 43
     },
     {
       "title": "sabah 대 바르셀로나",
@@ -726,17 +773,44 @@
       "related": [
         "sabah 대 바르셀로나",
         "sabah fk vs fc barcelona standings",
-        "champions league",
-        "uefa champions league",
-        "sabah fk vs barcelona",
-        "ucl"
+        "sabah fk vs barcelona"
       ],
       "categories": [
         17
       ],
       "category": "스포츠",
       "exploreUrl": "https://trends.google.com/trends/explore?q=sabah+%EB%8C%80+%EB%B0%94%EB%A5%B4%EC%85%80%EB%A1%9C%EB%82%98&date=now+1-d&geo=KR&hl=ko",
-      "rank": 41
+      "rank": 44
+    },
+    {
+      "title": "weather tomorrow",
+      "volume": 5000,
+      "geo": "KR",
+      "startedAt": 1795693800,
+      "related": [
+        "weather tomorrow"
+      ],
+      "categories": [
+        20
+      ],
+      "category": "기후",
+      "exploreUrl": "https://trends.google.com/trends/explore?q=weather+tomorrow&date=now+1-d&geo=KR&hl=ko",
+      "rank": 45
+    },
+    {
+      "title": "가수",
+      "volume": 5000,
+      "geo": "KR",
+      "startedAt": 1795654800,
+      "related": [
+        "가수"
+      ],
+      "categories": [
+        4
+      ],
+      "category": "엔터테인먼트",
+      "exploreUrl": "https://trends.google.com/trends/explore?q=%EA%B0%80%EC%88%98&date=now+1-d&geo=KR&hl=ko",
+      "rank": 46
     },
     {
       "title": "검사",
@@ -752,22 +826,23 @@
       ],
       "category": "정치",
       "exploreUrl": "https://trends.google.com/trends/explore?q=%EA%B2%80%EC%82%AC&date=now+1-d&geo=KR&hl=ko",
-      "rank": 42
+      "rank": 47
     },
     {
-      "title": "검찰청",
+      "title": "검찰",
       "volume": 5000,
       "geo": "KR",
-      "startedAt": 1795594800,
+      "startedAt": 1795686000,
       "related": [
-        "검찰청"
+        "검찰"
       ],
       "categories": [
-        10
+        10,
+        14
       ],
       "category": "법률 및 정부",
-      "exploreUrl": "https://trends.google.com/trends/explore?q=%EA%B2%80%EC%B0%B0%EC%B2%AD&date=now+1-d&geo=KR&hl=ko",
-      "rank": 43
+      "exploreUrl": "https://trends.google.com/trends/explore?q=%EA%B2%80%EC%B0%B0&date=now+1-d&geo=KR&hl=ko",
+      "rank": 48
     },
     {
       "title": "고경표 음주 운전",
@@ -782,184 +857,107 @@
       ],
       "category": "기타",
       "exploreUrl": "https://trends.google.com/trends/explore?q=%EA%B3%A0%EA%B2%BD%ED%91%9C+%EC%9D%8C%EC%A3%BC+%EC%9A%B4%EC%A0%84&date=now+1-d&geo=KR&hl=ko",
-      "rank": 44
-    },
-    {
-      "title": "공휴일",
-      "volume": 5000,
-      "geo": "KR",
-      "startedAt": 1795576800,
-      "related": [
-        "공휴일"
-      ],
-      "categories": [
-        10
-      ],
-      "category": "법률 및 정부",
-      "exploreUrl": "https://trends.google.com/trends/explore?q=%EA%B3%B5%ED%9C%B4%EC%9D%BC&date=now+1-d&geo=KR&hl=ko",
-      "rank": 45
-    },
-    {
-      "title": "곽빈 결혼",
-      "volume": 5000,
-      "geo": "KR",
-      "startedAt": 1795672200,
-      "related": [
-        "곽빈 결혼",
-        "kbo 시상식",
-        "선수"
-      ],
-      "categories": [
-        17
-      ],
-      "category": "스포츠",
-      "exploreUrl": "https://trends.google.com/trends/explore?q=%EA%B3%BD%EB%B9%88+%EA%B2%B0%ED%98%BC&date=now+1-d&geo=KR&hl=ko",
-      "rank": 46
-    },
-    {
-      "title": "김준표",
-      "volume": 5000,
-      "geo": "KR",
-      "startedAt": 1795649400,
-      "related": [
-        "김준표"
-      ],
-      "categories": [
-        4
-      ],
-      "category": "엔터테인먼트",
-      "exploreUrl": "https://trends.google.com/trends/explore?q=%EA%B9%80%EC%A4%80%ED%91%9C&date=now+1-d&geo=KR&hl=ko",
-      "rank": 47
-    },
-    {
-      "title": "김지민",
-      "volume": 5000,
-      "geo": "KR",
-      "startedAt": 1795582800,
-      "related": [
-        "김지민"
-      ],
-      "categories": [
-        4
-      ],
-      "category": "엔터테인먼트",
-      "exploreUrl": "https://trends.google.com/trends/explore?q=%EA%B9%80%EC%A7%80%EB%AF%BC&date=now+1-d&geo=KR&hl=ko",
-      "rank": 48
-    },
-    {
-      "title": "김혜성",
-      "volume": 5000,
-      "geo": "KR",
-      "startedAt": 1795561200,
-      "related": [
-        "김혜성"
-      ],
-      "categories": [
-        17
-      ],
-      "category": "스포츠",
-      "exploreUrl": "https://trends.google.com/trends/explore?q=%EA%B9%80%ED%98%9C%EC%84%B1&date=now+1-d&geo=KR&hl=ko",
       "rank": 49
     },
     {
-      "title": "나인 투 식스",
+      "title": "금리",
       "volume": 5000,
       "geo": "KR",
-      "startedAt": 1795567200,
+      "startedAt": 1795651200,
       "related": [
-        "나인 투 식스",
-        "나인투식스"
-      ],
-      "categories": [
-        4
-      ],
-      "category": "엔터테인먼트",
-      "exploreUrl": "https://trends.google.com/trends/explore?q=%EB%82%98%EC%9D%B8+%ED%88%AC+%EC%8B%9D%EC%8A%A4&date=now+1-d&geo=KR&hl=ko",
-      "rank": 50
-    },
-    {
-      "title": "농지",
-      "volume": 5000,
-      "geo": "KR",
-      "startedAt": 1795549800,
-      "related": [
-        "농지"
+        "금리",
+        "기준금리",
+        "한국은행 기준금리",
+        "금리인상",
+        "금통위",
+        "한국은행",
+        "신현송",
+        "채권"
       ],
       "categories": [
         3
       ],
       "category": "비즈니스 및 금융",
-      "exploreUrl": "https://trends.google.com/trends/explore?q=%EB%86%8D%EC%A7%80&date=now+1-d&geo=KR&hl=ko",
-      "rank": 51
+      "exploreUrl": "https://trends.google.com/trends/explore?q=%EA%B8%88%EB%A6%AC&date=now+1-d&geo=KR&hl=ko",
+      "rank": 50
     },
     {
-      "title": "다나와",
+      "title": "김장",
       "volume": 5000,
       "geo": "KR",
-      "startedAt": 1795627800,
+      "startedAt": 1795721400,
       "related": [
-        "다나와"
+        "김장"
       ],
       "categories": [
         11
       ],
       "category": "기타",
-      "exploreUrl": "https://trends.google.com/trends/explore?q=%EB%8B%A4%EB%82%98%EC%99%80&date=now+1-d&geo=KR&hl=ko",
+      "exploreUrl": "https://trends.google.com/trends/explore?q=%EA%B9%80%EC%9E%A5&date=now+1-d&geo=KR&hl=ko",
+      "rank": 51
+    },
+    {
+      "title": "마이클 버리",
+      "volume": 5000,
+      "geo": "KR",
+      "startedAt": 1795675200,
+      "related": [
+        "마이클 버리",
+        "빅쇼트",
+        "나스닥 100",
+        "마이클버리"
+      ],
+      "categories": [
+        3
+      ],
+      "category": "비즈니스 및 금융",
+      "exploreUrl": "https://trends.google.com/trends/explore?q=%EB%A7%88%EC%9D%B4%ED%81%B4+%EB%B2%84%EB%A6%AC&date=now+1-d&geo=KR&hl=ko",
       "rank": 52
     },
     {
-      "title": "무궁화호",
+      "title": "버스",
       "volume": 5000,
       "geo": "KR",
-      "startedAt": 1795520400,
+      "startedAt": 1795724400,
       "related": [
-        "무궁화호",
-        "코레일",
-        "코레일 파업",
-        "철도 파업",
-        "준법투쟁",
-        "파업",
-        "지하철파업",
-        "지하철",
-        "서울 지하철 파업",
-        "서울교통공사 파업",
-        "서울교통공사"
+        "버스"
       ],
       "categories": [
-        3
+        19
       ],
-      "category": "비즈니스 및 금융",
-      "exploreUrl": "https://trends.google.com/trends/explore?q=%EB%AC%B4%EA%B6%81%ED%99%94%ED%98%B8&date=now+1-d&geo=KR&hl=ko",
+      "category": "여행 및 교통",
+      "exploreUrl": "https://trends.google.com/trends/explore?q=%EB%B2%84%EC%8A%A4&date=now+1-d&geo=KR&hl=ko",
       "rank": 53
     },
     {
-      "title": "배당",
+      "title": "베루슈카 본 렌도르프",
       "volume": 5000,
       "geo": "KR",
-      "startedAt": 1795551600,
+      "startedAt": 1795715400,
       "related": [
-        "배당"
+        "베루슈카 본 렌도르프"
       ],
       "categories": [
-        3
+        2
       ],
-      "category": "비즈니스 및 금융",
-      "exploreUrl": "https://trends.google.com/trends/explore?q=%EB%B0%B0%EB%8B%B9&date=now+1-d&geo=KR&hl=ko",
+      "category": "미용 및 패션",
+      "exploreUrl": "https://trends.google.com/trends/explore?q=%EB%B2%A0%EB%A3%A8%EC%8A%88%EC%B9%B4+%EB%B3%B8+%EB%A0%8C%EB%8F%84%EB%A5%B4%ED%94%84&date=now+1-d&geo=KR&hl=ko",
       "rank": 54
     },
     {
-      "title": "백화점",
+      "title": "병무청",
       "volume": 5000,
       "geo": "KR",
-      "startedAt": 1795606200,
+      "startedAt": 1795740600,
       "related": [
-        "백화점"
+        "병무청"
       ],
       "categories": [
-        3
+        10,
+        7
       ],
-      "category": "비즈니스 및 금융",
-      "exploreUrl": "https://trends.google.com/trends/explore?q=%EB%B0%B1%ED%99%94%EC%A0%90&date=now+1-d&geo=KR&hl=ko",
+      "category": "법률 및 정부",
+      "exploreUrl": "https://trends.google.com/trends/explore?q=%EB%B3%91%EB%AC%B4%EC%B2%AD&date=now+1-d&geo=KR&hl=ko",
       "rank": 55
     },
     {
@@ -968,8 +966,7 @@
       "geo": "KR",
       "startedAt": 1795631400,
       "related": [
-        "삼성전기",
-        "주주"
+        "삼성전기"
       ],
       "categories": [
         3
@@ -979,34 +976,67 @@
       "rank": 56
     },
     {
-      "title": "상속세",
+      "title": "선수",
       "volume": 5000,
       "geo": "KR",
-      "startedAt": 1795545000,
+      "startedAt": 1795622400,
       "related": [
-        "상속세"
+        "선수"
       ],
       "categories": [
-        3
+        17
       ],
-      "category": "비즈니스 및 금융",
-      "exploreUrl": "https://trends.google.com/trends/explore?q=%EC%83%81%EC%86%8D%EC%84%B8&date=now+1-d&geo=KR&hl=ko",
+      "category": "스포츠",
+      "exploreUrl": "https://trends.google.com/trends/explore?q=%EC%84%A0%EC%88%98&date=now+1-d&geo=KR&hl=ko",
       "rank": 57
     },
     {
-      "title": "술",
+      "title": "세무 냥이",
       "volume": 5000,
       "geo": "KR",
-      "startedAt": 1795578600,
+      "startedAt": 1795728600,
       "related": [
-        "술"
+        "세무 냥이",
+        "경찰",
+        "구속영장"
+      ],
+      "categories": [
+        11
+      ],
+      "category": "기타",
+      "exploreUrl": "https://trends.google.com/trends/explore?q=%EC%84%B8%EB%AC%B4+%EB%83%A5%EC%9D%B4&date=now+1-d&geo=KR&hl=ko",
+      "rank": 58
+    },
+    {
+      "title": "손원일 급 잠수함",
+      "volume": 5000,
+      "geo": "KR",
+      "startedAt": 1795756200,
+      "related": [
+        "손원일 급 잠수함",
+        "손원일급 잠수함"
       ],
       "categories": [
         10
       ],
       "category": "법률 및 정부",
-      "exploreUrl": "https://trends.google.com/trends/explore?q=%EC%88%A0&date=now+1-d&geo=KR&hl=ko",
-      "rank": 58
+      "exploreUrl": "https://trends.google.com/trends/explore?q=%EC%86%90%EC%9B%90%EC%9D%BC+%EA%B8%89+%EC%9E%A0%EC%88%98%ED%95%A8&date=now+1-d&geo=KR&hl=ko",
+      "rank": 59
+    },
+    {
+      "title": "수디르만컵",
+      "volume": 5000,
+      "geo": "KR",
+      "startedAt": 1795698000,
+      "related": [
+        "수디르만컵"
+      ],
+      "categories": [
+        17
+      ],
+      "category": "스포츠",
+      "exploreUrl": "https://trends.google.com/trends/explore?q=%EC%88%98%EB%94%94%EB%A5%B4%EB%A7%8C%EC%BB%B5&date=now+1-d&geo=KR&hl=ko",
+      "rank": 60
     },
     {
       "title": "숲",
@@ -1021,103 +1051,52 @@
       ],
       "category": "비즈니스 및 금융",
       "exploreUrl": "https://trends.google.com/trends/explore?q=%EC%88%B2&date=now+1-d&geo=KR&hl=ko",
-      "rank": 59
-    },
-    {
-      "title": "시청률",
-      "volume": 5000,
-      "geo": "KR",
-      "startedAt": 1795651200,
-      "related": [
-        "시청률"
-      ],
-      "categories": [
-        4
-      ],
-      "category": "엔터테인먼트",
-      "exploreUrl": "https://trends.google.com/trends/explore?q=%EC%8B%9C%EC%B2%AD%EB%A5%A0&date=now+1-d&geo=KR&hl=ko",
-      "rank": 60
-    },
-    {
-      "title": "아스널 대 도르트문트",
-      "volume": 5000,
-      "geo": "KR",
-      "startedAt": 1795547400,
-      "related": [
-        "아스널 대 도르트문트",
-        "아스날"
-      ],
-      "categories": [
-        17
-      ],
-      "category": "스포츠",
-      "exploreUrl": "https://trends.google.com/trends/explore?q=%EC%95%84%EC%8A%A4%EB%84%90+%EB%8C%80+%EB%8F%84%EB%A5%B4%ED%8A%B8%EB%AC%B8%ED%8A%B8&date=now+1-d&geo=KR&hl=ko",
       "rank": 61
     },
     {
-      "title": "안세영",
+      "title": "아버지",
       "volume": 5000,
       "geo": "KR",
-      "startedAt": 1795640400,
+      "startedAt": 1795725000,
       "related": [
-        "안세영"
+        "아버지"
       ],
       "categories": [
-        17
+        10
       ],
-      "category": "스포츠",
-      "exploreUrl": "https://trends.google.com/trends/explore?q=%EC%95%88%EC%84%B8%EC%98%81&date=now+1-d&geo=KR&hl=ko",
+      "category": "법률 및 정부",
+      "exploreUrl": "https://trends.google.com/trends/explore?q=%EC%95%84%EB%B2%84%EC%A7%80&date=now+1-d&geo=KR&hl=ko",
       "rank": 62
     },
     {
-      "title": "에디 차",
+      "title": "양준혁",
       "volume": 5000,
       "geo": "KR",
-      "startedAt": 1795581000,
+      "startedAt": 1795617600,
       "related": [
-        "에디 차",
-        "에디차",
-        "정찬성"
+        "양준혁"
       ],
       "categories": [
         17
       ],
       "category": "스포츠",
-      "exploreUrl": "https://trends.google.com/trends/explore?q=%EC%97%90%EB%94%94+%EC%B0%A8&date=now+1-d&geo=KR&hl=ko",
+      "exploreUrl": "https://trends.google.com/trends/explore?q=%EC%96%91%EC%A4%80%ED%98%81&date=now+1-d&geo=KR&hl=ko",
       "rank": 63
     },
     {
-      "title": "윤석열 무죄",
+      "title": "연합뉴스",
       "volume": 5000,
       "geo": "KR",
-      "startedAt": 1795662600,
+      "startedAt": 1795717800,
       "related": [
-        "윤석열 무죄",
-        "위증",
-        "계엄"
+        "연합뉴스"
       ],
       "categories": [
-        10,
-        14
+        10
       ],
       "category": "법률 및 정부",
-      "exploreUrl": "https://trends.google.com/trends/explore?q=%EC%9C%A4%EC%84%9D%EC%97%B4+%EB%AC%B4%EC%A3%84&date=now+1-d&geo=KR&hl=ko",
+      "exploreUrl": "https://trends.google.com/trends/explore?q=%EC%97%B0%ED%95%A9%EB%89%B4%EC%8A%A4&date=now+1-d&geo=KR&hl=ko",
       "rank": 64
-    },
-    {
-      "title": "의심",
-      "volume": 5000,
-      "geo": "KR",
-      "startedAt": 1795659000,
-      "related": [
-        "의심"
-      ],
-      "categories": [
-        11
-      ],
-      "category": "기타",
-      "exploreUrl": "https://trends.google.com/trends/explore?q=%EC%9D%98%EC%8B%AC&date=now+1-d&geo=KR&hl=ko",
-      "rank": 65
     },
     {
       "title": "이강인",
@@ -1133,23 +1112,7 @@
       ],
       "category": "스포츠",
       "exploreUrl": "https://trends.google.com/trends/explore?q=%EC%9D%B4%EA%B0%95%EC%9D%B8&date=now+1-d&geo=KR&hl=ko",
-      "rank": 66
-    },
-    {
-      "title": "이마트",
-      "volume": 5000,
-      "geo": "KR",
-      "startedAt": 1795551000,
-      "related": [
-        "이마트"
-      ],
-      "categories": [
-        16,
-        8
-      ],
-      "category": "쇼핑",
-      "exploreUrl": "https://trends.google.com/trends/explore?q=%EC%9D%B4%EB%A7%88%ED%8A%B8&date=now+1-d&geo=KR&hl=ko",
-      "rank": 67
+      "rank": 65
     },
     {
       "title": "이정재",
@@ -1164,7 +1127,7 @@
       ],
       "category": "엔터테인먼트",
       "exploreUrl": "https://trends.google.com/trends/explore?q=%EC%9D%B4%EC%A0%95%EC%9E%AC&date=now+1-d&geo=KR&hl=ko",
-      "rank": 68
+      "rank": 66
     },
     {
       "title": "정부",
@@ -1175,41 +1138,27 @@
         "정부"
       ],
       "categories": [
-        10
+        11
       ],
-      "category": "법률 및 정부",
+      "category": "기타",
       "exploreUrl": "https://trends.google.com/trends/explore?q=%EC%A0%95%EB%B6%80&date=now+1-d&geo=KR&hl=ko",
-      "rank": 69
+      "rank": 67
     },
     {
-      "title": "주우재",
+      "title": "주거",
       "volume": 5000,
       "geo": "KR",
-      "startedAt": 1795525200,
+      "startedAt": 1795714800,
       "related": [
-        "주우재"
+        "주거",
+        "gs건설"
       ],
       "categories": [
-        4
+        11
       ],
-      "category": "엔터테인먼트",
-      "exploreUrl": "https://trends.google.com/trends/explore?q=%EC%A3%BC%EC%9A%B0%EC%9E%AC&date=now+1-d&geo=KR&hl=ko",
-      "rank": 70
-    },
-    {
-      "title": "채무",
-      "volume": 5000,
-      "geo": "KR",
-      "startedAt": 1795559400,
-      "related": [
-        "채무"
-      ],
-      "categories": [
-        10
-      ],
-      "category": "법률 및 정부",
-      "exploreUrl": "https://trends.google.com/trends/explore?q=%EC%B1%84%EB%AC%B4&date=now+1-d&geo=KR&hl=ko",
-      "rank": 71
+      "category": "기타",
+      "exploreUrl": "https://trends.google.com/trends/explore?q=%EC%A3%BC%EA%B1%B0&date=now+1-d&geo=KR&hl=ko",
+      "rank": 68
     },
     {
       "title": "청룡영화상",
@@ -1217,49 +1166,74 @@
       "geo": "KR",
       "startedAt": 1795603200,
       "related": [
-        "청룡영화상",
-        "설경구",
-        "청룡영화제",
-        "가능한 사랑",
-        "조여정",
-        "호프"
+        "청룡영화상"
       ],
       "categories": [
         4
       ],
       "category": "엔터테인먼트",
       "exploreUrl": "https://trends.google.com/trends/explore?q=%EC%B2%AD%EB%A3%A1%EC%98%81%ED%99%94%EC%83%81&date=now+1-d&geo=KR&hl=ko",
+      "rank": 69
+    },
+    {
+      "title": "최정민",
+      "volume": 5000,
+      "geo": "KR",
+      "startedAt": 1795734000,
+      "related": [
+        "최정민"
+      ],
+      "categories": [
+        17
+      ],
+      "category": "스포츠",
+      "exploreUrl": "https://trends.google.com/trends/explore?q=%EC%B5%9C%EC%A0%95%EB%AF%BC&date=now+1-d&geo=KR&hl=ko",
+      "rank": 70
+    },
+    {
+      "title": "클뤼프 브뤼허 대 리버풀",
+      "volume": 5000,
+      "geo": "KR",
+      "startedAt": 1795634400,
+      "related": [
+        "클뤼프 브뤼허 대 리버풀"
+      ],
+      "categories": [
+        17
+      ],
+      "category": "스포츠",
+      "exploreUrl": "https://trends.google.com/trends/explore?q=%ED%81%B4%EB%A4%BC%ED%94%84+%EB%B8%8C%EB%A4%BC%ED%97%88+%EB%8C%80+%EB%A6%AC%EB%B2%84%ED%92%80&date=now+1-d&geo=KR&hl=ko",
+      "rank": 71
+    },
+    {
+      "title": "프라이팬",
+      "volume": 5000,
+      "geo": "KR",
+      "startedAt": 1795636800,
+      "related": [
+        "프라이팬"
+      ],
+      "categories": [
+        10
+      ],
+      "category": "법률 및 정부",
+      "exploreUrl": "https://trends.google.com/trends/explore?q=%ED%94%84%EB%9D%BC%EC%9D%B4%ED%8C%AC&date=now+1-d&geo=KR&hl=ko",
       "rank": 72
     },
     {
-      "title": "컨테이너선",
+      "title": "한동훈",
       "volume": 5000,
       "geo": "KR",
-      "startedAt": 1795554600,
+      "startedAt": 1795743000,
       "related": [
-        "컨테이너선"
+        "한동훈"
       ],
       "categories": [
-        3
+        10
       ],
-      "category": "비즈니스 및 금융",
-      "exploreUrl": "https://trends.google.com/trends/explore?q=%EC%BB%A8%ED%85%8C%EC%9D%B4%EB%84%88%EC%84%A0&date=now+1-d&geo=KR&hl=ko",
+      "category": "법률 및 정부",
+      "exploreUrl": "https://trends.google.com/trends/explore?q=%ED%95%9C%EB%8F%99%ED%9B%88&date=now+1-d&geo=KR&hl=ko",
       "rank": 73
-    },
-    {
-      "title": "한국농어민신문",
-      "volume": 5000,
-      "geo": "KR",
-      "startedAt": 1795548600,
-      "related": [
-        "한국농어민신문"
-      ],
-      "categories": [
-        3
-      ],
-      "category": "비즈니스 및 금융",
-      "exploreUrl": "https://trends.google.com/trends/explore?q=%ED%95%9C%EA%B5%AD%EB%86%8D%EC%96%B4%EB%AF%BC%EC%8B%A0%EB%AC%B8&date=now+1-d&geo=KR&hl=ko",
-      "rank": 74
     },
     {
       "title": "황윤성",
@@ -1267,45 +1241,98 @@
       "geo": "KR",
       "startedAt": 1795633800,
       "related": [
-        "황윤성"
+        "황윤성",
+        "신상출시 편스토랑"
       ],
       "categories": [
         4
       ],
       "category": "엔터테인먼트",
       "exploreUrl": "https://trends.google.com/trends/explore?q=%ED%99%A9%EC%9C%A4%EC%84%B1&date=now+1-d&geo=KR&hl=ko",
-      "rank": 75
+      "rank": 74
     },
     {
-      "title": "3기 신도시 부천대장지구",
-      "volume": 2000,
+      "title": "회계사",
+      "volume": 5000,
       "geo": "KR",
-      "startedAt": 1795638600,
+      "startedAt": 1795702800,
       "related": [
-        "3기 신도시 부천대장지구",
-        "3기 신도시"
+        "회계사"
       ],
       "categories": [
         11
       ],
       "category": "기타",
-      "exploreUrl": "https://trends.google.com/trends/explore?q=3%EA%B8%B0+%EC%8B%A0%EB%8F%84%EC%8B%9C+%EB%B6%80%EC%B2%9C%EB%8C%80%EC%9E%A5%EC%A7%80%EA%B5%AC&date=now+1-d&geo=KR&hl=ko",
+      "exploreUrl": "https://trends.google.com/trends/explore?q=%ED%9A%8C%EA%B3%84%EC%82%AC&date=now+1-d&geo=KR&hl=ko",
+      "rank": 75
+    },
+    {
+      "title": "1호선 지연",
+      "volume": 2000,
+      "geo": "KR",
+      "startedAt": 1795735800,
+      "related": [
+        "1호선 지연",
+        "철도 파업",
+        "1호선",
+        "코레일",
+        "준법투쟁",
+        "철도노조",
+        "철도파업",
+        "열차",
+        "지하철"
+      ],
+      "categories": [
+        3
+      ],
+      "category": "비즈니스 및 금융",
+      "exploreUrl": "https://trends.google.com/trends/explore?q=1%ED%98%B8%EC%84%A0+%EC%A7%80%EC%97%B0&date=now+1-d&geo=KR&hl=ko",
       "rank": 76
     },
     {
-      "title": "afc u-23 아시안컵",
+      "title": "ah-64 아파치",
       "volume": 2000,
       "geo": "KR",
-      "startedAt": 1795564200,
+      "startedAt": 1795696800,
       "related": [
-        "afc u-23 아시안컵"
+        "ah-64 아파치"
       ],
       "categories": [
-        17
+        10
       ],
-      "category": "스포츠",
-      "exploreUrl": "https://trends.google.com/trends/explore?q=afc+u-23+%EC%95%84%EC%8B%9C%EC%95%88%EC%BB%B5&date=now+1-d&geo=KR&hl=ko",
+      "category": "법률 및 정부",
+      "exploreUrl": "https://trends.google.com/trends/explore?q=ah-64+%EC%95%84%ED%8C%8C%EC%B9%98&date=now+1-d&geo=KR&hl=ko",
       "rank": 77
+    },
+    {
+      "title": "ai 에이전트",
+      "volume": 2000,
+      "geo": "KR",
+      "startedAt": 1795741200,
+      "related": [
+        "ai 에이전트"
+      ],
+      "categories": [
+        11
+      ],
+      "category": "기타",
+      "exploreUrl": "https://trends.google.com/trends/explore?q=ai+%EC%97%90%EC%9D%B4%EC%A0%84%ED%8A%B8&date=now+1-d&geo=KR&hl=ko",
+      "rank": 78
+    },
+    {
+      "title": "jyp 엔터테인먼트",
+      "volume": 2000,
+      "geo": "KR",
+      "startedAt": 1795748400,
+      "related": [
+        "jyp 엔터테인먼트"
+      ],
+      "categories": [
+        4
+      ],
+      "category": "엔터테인먼트",
+      "exploreUrl": "https://trends.google.com/trends/explore?q=jyp+%EC%97%94%ED%84%B0%ED%85%8C%EC%9D%B8%EB%A8%BC%ED%8A%B8&date=now+1-d&geo=KR&hl=ko",
+      "rank": 79
     },
     {
       "title": "k-라면",
@@ -1320,7 +1347,7 @@
       ],
       "category": "비즈니스 및 금융",
       "exploreUrl": "https://trends.google.com/trends/explore?q=k-%EB%9D%BC%EB%A9%B4&date=now+1-d&geo=KR&hl=ko",
-      "rank": 78
+      "rank": 80
     },
     {
       "title": "psg 대 로마",
@@ -1336,71 +1363,68 @@
       ],
       "category": "스포츠",
       "exploreUrl": "https://trends.google.com/trends/explore?q=psg+%EB%8C%80+%EB%A1%9C%EB%A7%88&date=now+1-d&geo=KR&hl=ko",
-      "rank": 79
-    },
-    {
-      "title": "real madrid vs psv eindhoven standings",
-      "volume": 2000,
-      "geo": "KR",
-      "startedAt": 1795558800,
-      "related": [
-        "real madrid vs psv eindhoven standings",
-        "real madrid vs psv",
-        "madrid vs psv",
-        "ucl"
-      ],
-      "categories": [
-        17
-      ],
-      "category": "스포츠",
-      "exploreUrl": "https://trends.google.com/trends/explore?q=real+madrid+vs+psv+eindhoven+standings&date=now+1-d&geo=KR&hl=ko",
-      "rank": 80
-    },
-    {
-      "title": "thanksgiving 2026",
-      "volume": 2000,
-      "geo": "KR",
-      "startedAt": 1795590000,
-      "related": [
-        "thanksgiving 2026"
-      ],
-      "categories": [
-        8
-      ],
-      "category": "취미 및 레저",
-      "exploreUrl": "https://trends.google.com/trends/explore?q=thanksgiving+2026&date=now+1-d&geo=KR&hl=ko",
       "rank": 81
     },
     {
-      "title": "강사",
+      "title": "경기남부",
       "volume": 2000,
       "geo": "KR",
-      "startedAt": 1795557000,
+      "startedAt": 1795753800,
       "related": [
-        "강사"
+        "경기남부"
       ],
       "categories": [
-        9
+        11
       ],
-      "category": "취업 및 교육",
-      "exploreUrl": "https://trends.google.com/trends/explore?q=%EA%B0%95%EC%82%AC&date=now+1-d&geo=KR&hl=ko",
+      "category": "기타",
+      "exploreUrl": "https://trends.google.com/trends/explore?q=%EA%B2%BD%EA%B8%B0%EB%82%A8%EB%B6%80&date=now+1-d&geo=KR&hl=ko",
       "rank": 82
     },
     {
-      "title": "검찰",
+      "title": "계약금",
       "volume": 2000,
       "geo": "KR",
-      "startedAt": 1795686000,
+      "startedAt": 1795692000,
       "related": [
-        "검찰",
-        "대한민국 법무부"
+        "계약금"
       ],
       "categories": [
+        3
+      ],
+      "category": "비즈니스 및 금융",
+      "exploreUrl": "https://trends.google.com/trends/explore?q=%EA%B3%84%EC%95%BD%EA%B8%88&date=now+1-d&geo=KR&hl=ko",
+      "rank": 83
+    },
+    {
+      "title": "과학기술인공제회",
+      "volume": 2000,
+      "geo": "KR",
+      "startedAt": 1795737600,
+      "related": [
+        "과학기술인공제회"
+      ],
+      "categories": [
+        11
+      ],
+      "category": "기타",
+      "exploreUrl": "https://trends.google.com/trends/explore?q=%EA%B3%BC%ED%95%99%EA%B8%B0%EC%88%A0%EC%9D%B8%EA%B3%B5%EC%A0%9C%ED%9A%8C&date=now+1-d&geo=KR&hl=ko",
+      "rank": 84
+    },
+    {
+      "title": "광명시",
+      "volume": 2000,
+      "geo": "KR",
+      "startedAt": 1795726800,
+      "related": [
+        "광명시"
+      ],
+      "categories": [
+        3,
         10
       ],
-      "category": "법률 및 정부",
-      "exploreUrl": "https://trends.google.com/trends/explore?q=%EA%B2%80%EC%B0%B0&date=now+1-d&geo=KR&hl=ko",
-      "rank": 83
+      "category": "비즈니스 및 금융",
+      "exploreUrl": "https://trends.google.com/trends/explore?q=%EA%B4%91%EB%AA%85%EC%8B%9C&date=now+1-d&geo=KR&hl=ko",
+      "rank": 85
     },
     {
       "title": "구급차",
@@ -1415,23 +1439,7 @@
       ],
       "category": "기타",
       "exploreUrl": "https://trends.google.com/trends/explore?q=%EA%B5%AC%EA%B8%89%EC%B0%A8&date=now+1-d&geo=KR&hl=ko",
-      "rank": 84
-    },
-    {
-      "title": "국민연금연구원",
-      "volume": 2000,
-      "geo": "KR",
-      "startedAt": 1795554000,
-      "related": [
-        "국민연금연구원"
-      ],
-      "categories": [
-        10,
-        3
-      ],
-      "category": "법률 및 정부",
-      "exploreUrl": "https://trends.google.com/trends/explore?q=%EA%B5%AD%EB%AF%BC%EC%97%B0%EA%B8%88%EC%97%B0%EA%B5%AC%EC%9B%90&date=now+1-d&geo=KR&hl=ko",
-      "rank": 85
+      "rank": 86
     },
     {
       "title": "기초노령연금",
@@ -1447,7 +1455,38 @@
       ],
       "category": "비즈니스 및 금융",
       "exploreUrl": "https://trends.google.com/trends/explore?q=%EA%B8%B0%EC%B4%88%EB%85%B8%EB%A0%B9%EC%97%B0%EA%B8%88&date=now+1-d&geo=KR&hl=ko",
-      "rank": 86
+      "rank": 87
+    },
+    {
+      "title": "김민식",
+      "volume": 2000,
+      "geo": "KR",
+      "startedAt": 1795676400,
+      "related": [
+        "김민식"
+      ],
+      "categories": [
+        17
+      ],
+      "category": "스포츠",
+      "exploreUrl": "https://trends.google.com/trends/explore?q=%EA%B9%80%EB%AF%BC%EC%8B%9D&date=now+1-d&geo=KR&hl=ko",
+      "rank": 88
+    },
+    {
+      "title": "김아현 주식 눈물",
+      "volume": 2000,
+      "geo": "KR",
+      "startedAt": 1795695600,
+      "related": [
+        "김아현 주식 눈물",
+        "김아현의 금빛 스탁"
+      ],
+      "categories": [
+        3
+      ],
+      "category": "비즈니스 및 금융",
+      "exploreUrl": "https://trends.google.com/trends/explore?q=%EA%B9%80%EC%95%84%ED%98%84+%EC%A3%BC%EC%8B%9D+%EB%88%88%EB%AC%BC&date=now+1-d&geo=KR&hl=ko",
+      "rank": 89
     },
     {
       "title": "김용빈",
@@ -1455,15 +1494,14 @@
       "geo": "KR",
       "startedAt": 1795664400,
       "related": [
-        "김용빈",
-        "미스터트롯"
+        "김용빈"
       ],
       "categories": [
         4
       ],
       "category": "엔터테인먼트",
       "exploreUrl": "https://trends.google.com/trends/explore?q=%EA%B9%80%EC%9A%A9%EB%B9%88&date=now+1-d&geo=KR&hl=ko",
-      "rank": 87
+      "rank": 90
     },
     {
       "title": "김은희",
@@ -1478,84 +1516,68 @@
       ],
       "category": "엔터테인먼트",
       "exploreUrl": "https://trends.google.com/trends/explore?q=%EA%B9%80%EC%9D%80%ED%9D%AC&date=now+1-d&geo=KR&hl=ko",
-      "rank": 88
-    },
-    {
-      "title": "농업",
-      "volume": 2000,
-      "geo": "KR",
-      "startedAt": 1795572600,
-      "related": [
-        "농업"
-      ],
-      "categories": [
-        3
-      ],
-      "category": "비즈니스 및 금융",
-      "exploreUrl": "https://trends.google.com/trends/explore?q=%EB%86%8D%EC%97%85&date=now+1-d&geo=KR&hl=ko",
-      "rank": 89
-    },
-    {
-      "title": "대만",
-      "volume": 2000,
-      "geo": "KR",
-      "startedAt": 1795581000,
-      "related": [
-        "대만"
-      ],
-      "categories": [
-        3
-      ],
-      "category": "비즈니스 및 금융",
-      "exploreUrl": "https://trends.google.com/trends/explore?q=%EB%8C%80%EB%A7%8C&date=now+1-d&geo=KR&hl=ko",
-      "rank": 90
-    },
-    {
-      "title": "대야",
-      "volume": 2000,
-      "geo": "KR",
-      "startedAt": 1795576800,
-      "related": [
-        "대야"
-      ],
-      "categories": [
-        7,
-        10,
-        3
-      ],
-      "category": "건강",
-      "exploreUrl": "https://trends.google.com/trends/explore?q=%EB%8C%80%EC%95%BC&date=now+1-d&geo=KR&hl=ko",
       "rank": 91
     },
     {
-      "title": "대전 하나 시티즌 대 베이징 궈안 순위",
+      "title": "김희애",
       "volume": 2000,
       "geo": "KR",
-      "startedAt": 1795522200,
+      "startedAt": 1795680600,
       "related": [
-        "대전 하나 시티즌 대 베이징 궈안 순위"
+        "김희애"
       ],
       "categories": [
-        17
+        4
       ],
-      "category": "스포츠",
-      "exploreUrl": "https://trends.google.com/trends/explore?q=%EB%8C%80%EC%A0%84+%ED%95%98%EB%82%98+%EC%8B%9C%ED%8B%B0%EC%A6%8C+%EB%8C%80+%EB%B2%A0%EC%9D%B4%EC%A7%95+%EA%B6%88%EC%95%88+%EC%88%9C%EC%9C%84&date=now+1-d&geo=KR&hl=ko",
+      "category": "엔터테인먼트",
+      "exploreUrl": "https://trends.google.com/trends/explore?q=%EA%B9%80%ED%9D%AC%EC%95%A0&date=now+1-d&geo=KR&hl=ko",
       "rank": 92
     },
     {
-      "title": "대전광역시",
+      "title": "남경주",
       "volume": 2000,
       "geo": "KR",
-      "startedAt": 1795576200,
+      "startedAt": 1795737000,
       "related": [
-        "대전광역시"
+        "남경주"
       ],
       "categories": [
-        11
+        10
       ],
-      "category": "기타",
-      "exploreUrl": "https://trends.google.com/trends/explore?q=%EB%8C%80%EC%A0%84%EA%B4%91%EC%97%AD%EC%8B%9C&date=now+1-d&geo=KR&hl=ko",
+      "category": "법률 및 정부",
+      "exploreUrl": "https://trends.google.com/trends/explore?q=%EB%82%A8%EA%B2%BD%EC%A3%BC&date=now+1-d&geo=KR&hl=ko",
       "rank": 93
+    },
+    {
+      "title": "남편",
+      "volume": 2000,
+      "geo": "KR",
+      "startedAt": 1795747800,
+      "related": [
+        "남편",
+        "서장훈"
+      ],
+      "categories": [
+        4
+      ],
+      "category": "엔터테인먼트",
+      "exploreUrl": "https://trends.google.com/trends/explore?q=%EB%82%A8%ED%8E%B8&date=now+1-d&geo=KR&hl=ko",
+      "rank": 94
+    },
+    {
+      "title": "뉴스",
+      "volume": 2000,
+      "geo": "KR",
+      "startedAt": 1795747800,
+      "related": [
+        "뉴스"
+      ],
+      "categories": [
+        3
+      ],
+      "category": "비즈니스 및 금융",
+      "exploreUrl": "https://trends.google.com/trends/explore?q=%EB%89%B4%EC%8A%A4&date=now+1-d&geo=KR&hl=ko",
+      "rank": 95
     },
     {
       "title": "대한광통신",
@@ -1570,96 +1592,66 @@
       ],
       "category": "비즈니스 및 금융",
       "exploreUrl": "https://trends.google.com/trends/explore?q=%EB%8C%80%ED%95%9C%EA%B4%91%ED%86%B5%EC%8B%A0&date=now+1-d&geo=KR&hl=ko",
-      "rank": 94
-    },
-    {
-      "title": "동양생명",
-      "volume": 2000,
-      "geo": "KR",
-      "startedAt": 1795570800,
-      "related": [
-        "동양생명"
-      ],
-      "categories": [
-        11
-      ],
-      "category": "기타",
-      "exploreUrl": "https://trends.google.com/trends/explore?q=%EB%8F%99%EC%96%91%EC%83%9D%EB%AA%85&date=now+1-d&geo=KR&hl=ko",
-      "rank": 95
-    },
-    {
-      "title": "디에고 시메오네",
-      "volume": 2000,
-      "geo": "KR",
-      "startedAt": 1795569600,
-      "related": [
-        "디에고 시메오네"
-      ],
-      "categories": [
-        17
-      ],
-      "category": "스포츠",
-      "exploreUrl": "https://trends.google.com/trends/explore?q=%EB%94%94%EC%97%90%EA%B3%A0+%EC%8B%9C%EB%A9%94%EC%98%A4%EB%84%A4&date=now+1-d&geo=KR&hl=ko",
       "rank": 96
     },
     {
-      "title": "마녀",
+      "title": "디워",
       "volume": 2000,
       "geo": "KR",
-      "startedAt": 1795555200,
+      "startedAt": 1795681800,
       "related": [
-        "마녀"
+        "디워"
       ],
       "categories": [
         4
       ],
       "category": "엔터테인먼트",
-      "exploreUrl": "https://trends.google.com/trends/explore?q=%EB%A7%88%EB%85%80&date=now+1-d&geo=KR&hl=ko",
+      "exploreUrl": "https://trends.google.com/trends/explore?q=%EB%94%94%EC%9B%8C&date=now+1-d&geo=KR&hl=ko",
       "rank": 97
     },
     {
-      "title": "맥도날드",
+      "title": "리그 오브 레전드 챔피언스 코리아",
+      "volume": 2000,
+      "geo": "KR",
+      "startedAt": 1795644600,
+      "related": [
+        "리그 오브 레전드 챔피언스 코리아"
+      ],
+      "categories": [
+        6
+      ],
+      "category": "게임",
+      "exploreUrl": "https://trends.google.com/trends/explore?q=%EB%A6%AC%EA%B7%B8+%EC%98%A4%EB%B8%8C+%EB%A0%88%EC%A0%84%EB%93%9C+%EC%B1%94%ED%94%BC%EC%96%B8%EC%8A%A4+%EC%BD%94%EB%A6%AC%EC%95%84&date=now+1-d&geo=KR&hl=ko",
+      "rank": 98
+    },
+    {
+      "title": "리트 냥이",
       "volume": 2000,
       "geo": "KR",
       "startedAt": 1795672200,
       "related": [
-        "맥도날드"
+        "리트 냥이"
       ],
       "categories": [
-        5
+        11
       ],
-      "category": "식음료",
-      "exploreUrl": "https://trends.google.com/trends/explore?q=%EB%A7%A5%EB%8F%84%EB%82%A0%EB%93%9C&date=now+1-d&geo=KR&hl=ko",
-      "rank": 98
-    },
-    {
-      "title": "사직",
-      "volume": 2000,
-      "geo": "KR",
-      "startedAt": 1795638000,
-      "related": [
-        "사직"
-      ],
-      "categories": [
-        10
-      ],
-      "category": "법률 및 정부",
-      "exploreUrl": "https://trends.google.com/trends/explore?q=%EC%82%AC%EC%A7%81&date=now+1-d&geo=KR&hl=ko",
+      "category": "기타",
+      "exploreUrl": "https://trends.google.com/trends/explore?q=%EB%A6%AC%ED%8A%B8+%EB%83%A5%EC%9D%B4&date=now+1-d&geo=KR&hl=ko",
       "rank": 99
     },
     {
-      "title": "삼성 갤럭시",
+      "title": "모리야스 하지메",
       "volume": 2000,
       "geo": "KR",
-      "startedAt": 1795572000,
+      "startedAt": 1795746000,
       "related": [
-        "삼성 갤럭시"
+        "모리야스 하지메"
       ],
       "categories": [
-        18
+        17
       ],
-      "category": "기술",
-      "exploreUrl": "https://trends.google.com/trends/explore?q=%EC%82%BC%EC%84%B1+%EA%B0%A4%EB%9F%AD%EC%8B%9C&date=now+1-d&geo=KR&hl=ko",
+      "category": "스포츠",
+      "exploreUrl": "https://trends.google.com/trends/explore?q=%EB%AA%A8%EB%A6%AC%EC%95%BC%EC%8A%A4+%ED%95%98%EC%A7%80%EB%A9%94&date=now+1-d&geo=KR&hl=ko",
       "rank": 100
     }
   ],
