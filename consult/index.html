@@ -202,7 +202,7 @@
       // Step 4: Notify via /api/support-sms (best-effort — does not block success screen)
       let smsEvent="sms_sent";
       try{
-        const smsRes=await fetch("/api/support-sms",{
+        const smsRes=await fetch("https://portfolio-stargate2.vercel.app/api/support-sms",{
           method:"POST",
           headers:{"Content-Type":"application/json"},
           body:JSON.stringify({
