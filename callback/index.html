@@ -79,7 +79,7 @@
         <p class="error" id="formError" role="alert" hidden></p>
         <button class="submit" id="submitBtn" type="submit">전화 상담 예약하기</button>
       </form>
-      <p class="alt"><span>대표전화 070-8027-8225</span><a href="/consult/">카카오·네이버로 상담 신청</a></p>
+      <p class="alt"><span>대표전화 070-8027-8025</span><a href="/consult/">카카오·네이버로 상담 신청</a></p>
     </section>
 
     <section class="success" id="successView" aria-live="polite">
@@ -180,7 +180,7 @@
         if(!res.ok)throw new Error(`callback INSERT ${res.status}: ${await res.text().catch(()=>"")}`);
       }catch(ex){
         console.error("[callback]",ex);
-        err.textContent="예약 중 문제가 발생했습니다. 잠시 후 다시 시도하시거나 070-8027-8225로 전화해 주세요.";
+        err.textContent="예약 중 문제가 발생했습니다. 잠시 후 다시 시도하시거나 070-8027-8025로 전화해 주세요.";
         err.hidden=false;btn.disabled=false;btn.textContent="전화 상담 예약하기";return;
       }
 
