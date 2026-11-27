@@ -1,3 +1,27 @@
+## 2026-11-27
+
+**Repository status summary**
+
+- Last push: 2026-11-26 21:53 UTC (2026-11-27 06:53 KST) — `data: update Naver Cafe popular articles`
+- Open issues: 3 (including long-standing collector-failure ticket #195, new data-freshness failure #330, and repository cleanup #293)
+
+**Recent scheduled workflow runs (most recent first)**
+
+| Workflow | Conclusion | Time (UTC) |
+|----------|------------|------------|
+| Collect public data CSV | **failure** | 2026-11-26 23:46 |
+| Verify published data freshness | **failure** | 2026-11-26 22:36 |
+| Update Naver Cafe popular articles | success | 2026-11-26 21:53 |
+| Update expressway rest-area bid radar | success | 2026-11-26 21:27 |
+| Update airport congestion data | success | 2026-11-26 20:58 |
+| Remote Service Health Check | success | 2026-11-26 19:40 |
+| Activate Kakao visitor notifications | success | 2026-11-26 19:39 |
+| Update Gimpo airport congestion data | success | 2026-11-26 19:01 |
+
+**Health of update loops**: Mostly healthy. The large majority of scheduled data-refresh and health-check workflows completed successfully. Two isolated failures occurred: Collect public data CSV (consistent with open collector-failure issue #195) and Verify published data freshness (new issue #330 reporting STALE portfolio data). Related issues remain open. No widespread outages observed in the latest batch of runs.
+
+---
+
 ## 2026-11-26
 
 **Repository status summary**
