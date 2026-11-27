@@ -53,3 +53,8 @@
 /* '전체 대시보드' 보기에서는 히어로·바로가기처럼 숨깁니다 */
 body.portal-dashboard-mode #programs,
 body.portal-dashboard-mode #city-data{display:none!important}
+
+/* 릴 일시정지/재생 버튼 (WCAG 2.2.2) */
+.hm-reel-toggle{position:absolute;left:8px;top:8px;min-height:32px;padding:4px 10px;border:1px solid rgba(255,255,255,.5);border-radius:999px;background:rgba(0,0,0,.6);color:#fff;font:600 12px/1.4 var(--font-sans);cursor:pointer}
+.hm-reel-toggle:hover{background:rgba(0,0,0,.8)}
+.hm-reel-toggle:focus-visible{outline:3px solid var(--acc);outline-offset:2px}

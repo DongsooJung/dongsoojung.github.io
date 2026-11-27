@@ -530,7 +530,7 @@ if(v==='mobile'||v==='fold'||v==='web')localStorage.setItem(k,v);
 var m=localStorage.getItem(k);if(m==='mobile'||m==='fold')r.classList.add('is-app');if(m==='fold')r.classList.add('is-fold')}catch(e){}})();
 </script>
 <link rel="stylesheet" href="/assets/app-shell.css?v=20261021-v003">
-<link rel="stylesheet" href="/assets/home-media.css?v=20261127-1">
+<link rel="stylesheet" href="/assets/home-media.css?v=20261127-2">
 <script src="/assets/app-shell.js?v=20261021-v003" defer></script>
 </head>
 <body>
@@ -753,6 +753,7 @@ var m=localStorage.getItem(k);if(m==='mobile'||m==='fold')r.classList.add('is-ap
                poster="/assets/media/video/10_city_data_reel-poster.jpg"
                data-src="/assets/media/video/10_city_data_reel.mp4"
                aria-label="서울 도시데이터 지도 시각화 영상"></video>
+        <button class="hm-reel-toggle" type="button" aria-pressed="false" data-analytics-ignore hidden>일시정지</button>
         <span class="hm-ai-badge">AI 생성 영상</span>
       </figure>
       <div class="hm-split-copy">
@@ -1416,6 +1417,7 @@ var m=localStorage.getItem(k);if(m==='mobile'||m==='fold')r.classList.add('is-ap
                poster="/assets/media/video/09_mobile_learning_reel-poster.jpg"
                data-src="/assets/media/video/09_mobile_learning_reel.mp4"
                aria-label="스마트폰으로 수학 학습 앱을 보는 장면"></video>
+        <button class="hm-reel-toggle" type="button" aria-pressed="false" data-analytics-ignore hidden>일시정지</button>
         <span class="hm-ai-badge">AI 생성 영상</span>
       </figure>
       <div class="app-install-copy">
@@ -2051,7 +2053,7 @@ if ('serviceWorker' in navigator) {
   <script src="/assets/homepage-music.js?v=20261012-1" defer></script>
   <script src="/assets/dashboard-data-status.js?v=20261015-1" defer></script>
 <script src="/assets/inquiry-source.js?v=20261118-inquiry-1" defer></script>
-<script src="/assets/home-media.js?v=20261127-1" defer></script>
+<script src="/assets/home-media.js?v=20261127-2" defer></script>
 </body>
 </html>
 
