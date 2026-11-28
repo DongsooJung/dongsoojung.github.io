@@ -98,6 +98,7 @@
   'use strict';
   const PER_DAY = 3;
   const STORE_KEY = 'stargate.quiz.v1';
+  const BANK = '20261128-2'; // 문제 은행이 바뀌면 그날 진행 중이던 답만 초기화합니다(연속 기록은 유지).
   const DAY_MS = 86400000;
   const KST_OFFSET = 9 * 3600000;
   const card = document.getElementById('quizCard');
@@ -151,7 +152,7 @@
   }
 
   const state = load();
-  const today = (state.day === dayIndex && Array.isArray(state.picks)) ? state : { day: dayIndex, picks: [] };
+  const today = (state.day === dayIndex && state.bank === BANK && Array.isArray(state.picks)) ? state : { day: dayIndex, picks: [] };
   let questions = [];
 
   function showStats() {
@@ -170,7 +171,7 @@
       s.totalDays = (s.totalDays || 0) + 1;
       s.lastDone = dayIndex;
     }
-    s.day = dayIndex; s.picks = today.picks;
+    s.day = dayIndex; s.bank = BANK; s.picks = today.picks;
     save(s);
   }
 
@@ -213,7 +214,7 @@
       btn.addEventListener('click', () => {
         if (today.picks[n] != null) return;
         today.picks[n] = i;
-        const s = load(); s.day = dayIndex; s.picks = today.picks; save(s);
+        const s = load(); s.day = dayIndex; s.bank = BANK; s.picks = today.picks; save(s);
         reveal(i);
         if (today.picks.filter(v => v != null).length >= PER_DAY) { finish(); showStats(); }
         nextBtn.focus();
@@ -259,7 +260,7 @@
   }
 
   showStats();
-  fetch('/quiz/questions.json?v=20261128-1')
+  fetch(`/quiz/questions.json?v=${BANK}`)
     .then(r => { if (!r.ok) throw new Error(String(r.status)); return r.json(); })
     .then(data => {
       questions = pickToday(data.questions);
