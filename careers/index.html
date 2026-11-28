@@ -1,0 +1,221 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#0b1026">
+  <!-- 공고 내용(직무·근무 조건) 대표 확정 전까지 검색 노출을 막습니다. 확정 후 이 줄을 지우고 sitemap에 등록합니다. -->
+  <meta name="robots" content="noindex">
+  <title>스타게이트 채용 · 팀 소개와 모집 분야</title>
+  <meta name="description" content="주식회사 별의문(스타게이트 에듀)의 팀 구성과 모집 분야를 안내합니다. 교육, 제품·개발, 연구·데이터, 운영·고객 팀에서 함께할 분을 찾습니다.">
+  <link rel="canonical" href="https://stargateedu.co.kr/careers/">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="스타게이트 채용">
+  <meta property="og:description" content="교육, 제품·개발, 연구·데이터, 운영·고객 팀 소개와 모집 분야.">
+  <meta property="og:url" content="https://stargateedu.co.kr/careers/">
+  <link rel="manifest" href="/manifest.webmanifest">
+  <style>
+    :root{--navy:#0b1026;--panel:#151c3a;--gold:#e5c378;--gold2:#f3d98e;--blue:#7aa2ff;--text:#eef1fb;--muted:#aab2cf;--line:rgba(255,255,255,.14);--ok:#5fd39a;--font:Pretendard,"Noto Sans KR",system-ui,sans-serif}
+    *{box-sizing:border-box}html{background:var(--navy);scroll-behavior:smooth}
+    body{margin:0;background:radial-gradient(1100px 600px at 50% -12%,rgba(122,162,255,.20),transparent 62%),linear-gradient(#0b1026,#080b1b);color:var(--text);font-family:var(--font);line-height:1.7}
+    a{color:inherit}.wrap{width:min(100% - 32px,1000px);margin:0 auto}
+    header.top{position:sticky;top:0;z-index:5;background:rgba(11,16,38,.88);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+    .topin{display:flex;justify-content:space-between;align-items:center;gap:16px;min-height:60px}
+    .brand{font-size:13px;font-weight:800;letter-spacing:.18em;text-decoration:none}.brand span{color:var(--gold2)}
+    nav{display:flex;gap:4px;overflow-x:auto}nav a{padding:8px 10px;border-radius:8px;color:var(--muted);font-size:14px;text-decoration:none;white-space:nowrap}nav a:hover{color:var(--text);background:rgba(255,255,255,.06)}
+    .hero{padding:64px 0 44px}
+    .kicker{color:var(--gold);font-size:11px;font-weight:800;letter-spacing:.26em}
+    h1{margin:14px 0 0;font-size:clamp(32px,7vw,54px);line-height:1.2;text-wrap:balance}h1 span{color:var(--gold2)}
+    .lead{max-width:660px;margin:18px 0 0;color:var(--muted);font-size:17px}
+    .cta{display:flex;flex-wrap:wrap;gap:10px;margin-top:26px}
+    .btn{display:inline-flex;align-items:center;justify-content:center;min-height:50px;padding:0 20px;border:0;border-radius:12px;font:inherit;font-weight:800;font-size:15px;text-decoration:none;cursor:pointer}
+    .btn.gold{background:linear-gradient(135deg,var(--gold2),var(--gold));color:#181320}.btn.ghost{border:1px solid var(--line);background:transparent;color:var(--text)}
+    .btn:focus-visible,.chip:focus-visible,summary:focus-visible,nav a:focus-visible{outline:3px solid var(--blue);outline-offset:3px}
+    section.sec{padding:44px 0;border-top:1px solid var(--line)}
+    h2{margin:6px 0 8px;font-size:clamp(22px,4vw,28px)}.sub{margin:0 0 22px;color:var(--muted);max-width:680px}
+    .grid2{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+    .card{padding:22px;border:1px solid var(--line);border-radius:16px;background:rgba(21,28,58,.74)}
+    .card h3{margin:0 0 6px;font-size:18px}.card p{margin:0;color:var(--muted);font-size:14.5px}
+    .card ul{margin:12px 0 0;padding-left:18px;color:#d0d6ee;font-size:14px}
+    .count{display:inline-block;margin-top:14px;font-size:12.5px;color:var(--gold2);font-weight:800}
+    .lead-card{display:grid;grid-template-columns:1fr;gap:6px}.lead-card .role{color:var(--gold2);font-size:13px;font-weight:800}
+    ol.steps{margin:0;padding:0;list-style:none;counter-reset:s;display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+    ol.steps li{counter-increment:s;padding:18px;border:1px solid var(--line);border-radius:14px;background:rgba(21,28,58,.6)}
+    ol.steps li:before{content:counter(s);display:grid;place-items:center;width:30px;height:30px;margin-bottom:10px;border-radius:50%;background:var(--gold);color:#181320;font-weight:800;font-size:14px}
+    ol.steps b{display:block}ol.steps span{color:var(--muted);font-size:13.5px}
+    .filters{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 16px}
+    .chip{min-height:40px;padding:0 14px;border:1px solid var(--line);border-radius:999px;background:transparent;color:var(--muted);font:inherit;font-size:14px;cursor:pointer}
+    .chip[aria-pressed="true"]{border-color:var(--gold);color:var(--gold2);background:rgba(229,195,120,.10)}
+    .jobs{display:grid;gap:10px}
+    details.job{border:1px solid var(--line);border-radius:14px;background:rgba(21,28,58,.74)}
+    details.job summary{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:18px 20px;cursor:pointer;list-style:none}
+    details.job summary::-webkit-details-marker{display:none}
+    .jt{display:grid;gap:2px}.jt b{font-size:17px}.jt span{color:var(--muted);font-size:13px}
+    .st{flex:none;padding:4px 10px;border-radius:999px;font-size:12px;font-weight:800;border:1px solid var(--line);color:var(--muted)}
+    .st.open{border-color:var(--ok);color:var(--ok)}.st.soon{border-color:var(--gold);color:var(--gold2)}
+    .jb{padding:0 20px 20px;display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
+    .jb h4{margin:0 0 6px;font-size:13px;color:var(--gold2);letter-spacing:.04em}.jb ul{margin:0;padding-left:18px;font-size:14.5px;color:#d6dcf2}
+    .jb .full{grid-column:1/-1}.jb p{margin:0;font-size:14.5px;color:#d6dcf2}
+    .notice{padding:18px 20px;border-left:3px solid var(--gold);border-radius:10px;background:rgba(11,16,38,.7);font-size:14px;color:#d0d6ee}
+    .notice b{color:var(--text)}.notice ul{margin:8px 0 0;padding-left:18px}
+    footer{padding:26px 0 40px;border-top:1px solid var(--line);color:var(--muted);font-size:12px}
+    @media (max-width:760px){.grid2,.grid3,.jb{grid-template-columns:1fr}ol.steps{grid-template-columns:repeat(2,1fr)}.hero{padding:44px 0 32px}}
+    @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+  </style>
+</head>
+<body>
+<header class="top">
+  <div class="wrap topin">
+    <a class="brand" href="/careers/">STARGATE <span>CAREERS</span></a>
+    <nav aria-label="채용 페이지 메뉴">
+      <a href="#about">소개</a><a href="#teams">팀 구성</a><a href="#way">일하는 방식</a><a href="#process">채용 절차</a><a href="#jobs">모집 분야</a><a href="/">홈페이지</a>
+    </nav>
+  </div>
+</header>
+
+<div class="wrap">
+  <section class="hero">
+    <div class="kicker">STARGATE CAREERS</div>
+    <h1>가르치고, 만들고, 분석하는<br><span>작은 팀</span>을 찾습니다</h1>
+    <p class="lead">스타게이트는 KOI·KMO 교육과 AI·데이터 제품을 함께 만드는 회사입니다. 수업에서 얻은 문제를 직접 제품으로 풀고, 그 결과를 다시 수업에 씁니다.</p>
+    <div class="cta">
+      <a class="btn gold" href="#jobs">모집 분야 보기</a>
+      <a class="btn ghost" href="#teams">팀 구성 보기</a>
+    </div>
+  </section>
+
+  <section class="sec" id="about" aria-labelledby="about-t">
+    <div class="kicker">ABOUT</div>
+    <h2 id="about-t">스타게이트가 하는 일</h2>
+    <p class="sub">주식회사 별의문(Stargate Corporation)은 서울 강남에서 세 가지 일을 합니다.</p>
+    <div class="grid3">
+      <div class="card"><h3>교육</h3><p>KOI 정보올림피아드, KMO 수학올림피아드, 알고리즘·수학 수업을 대면과 ZOOM 실시간으로 진행합니다.</p></div>
+      <div class="card"><h3>제품</h3><p>홈페이지와 스타게이트 앱, 상담·결제·알림 같은 운영 도구를 직접 만들어 씁니다.</p></div>
+      <div class="card"><h3>연구·데이터</h3><p>공공데이터와 공간 데이터를 분석해 도시·산업 대시보드로 공개합니다.</p></div>
+    </div>
+  </section>
+
+  <section class="sec" id="teams" aria-labelledby="teams-t">
+    <div class="kicker">TEAMS</div>
+    <h2 id="teams-t">팀 구성</h2>
+    <p class="sub">일을 네 개의 팀으로 나누고, 모든 팀이 대표와 직접 소통합니다. 수업에서 나온 필요를 개발과 연구가 바로 받아 풀 수 있도록 팀 사이의 거리를 짧게 둡니다.</p>
+    <div class="card lead-card" style="margin-bottom:12px">
+      <span class="role">대표 · 교육·연구 총괄</span>
+      <h3>정동수</h3>
+      <p>서울대 스마트도시공학 박사과정 수료. 공간계량·GIS 연구자이자 대치동 KOI 수학정보올림피아드 강사입니다. 공군 시설장교로 서울공항 사업을 관리했습니다.</p>
+    </div>
+    <div class="grid2" id="teamGrid"></div>
+  </section>
+
+  <section class="sec" id="way" aria-labelledby="way-t">
+    <div class="kicker">HOW WE WORK</div>
+    <h2 id="way-t">일하는 방식</h2>
+    <div class="grid2">
+      <div class="card"><h3>근거로 말합니다</h3><p>추측과 확인한 사실을 구분해서 씁니다. 수업 자료든 대시보드든 출처와 한계를 함께 적습니다.</p></div>
+      <div class="card"><h3>끝까지 확인합니다</h3><p>올렸다고 끝내지 않습니다. 학생이 실제로 풀었는지, 페이지가 실제로 열리는지 직접 봅니다.</p></div>
+      <div class="card"><h3>AI를 도구로 씁니다</h3><p>문제 제작, 코드 작성, 자료 정리에 AI를 적극적으로 쓰고, 결과는 사람이 검증합니다.</p></div>
+      <div class="card"><h3>기록을 남깁니다</h3><p>상담 내용, 수업 피드백, 배포 내역을 글로 남겨 다음 사람이 이어받을 수 있게 합니다.</p></div>
+    </div>
+  </section>
+
+  <section class="sec" id="process" aria-labelledby="process-t">
+    <div class="kicker">PROCESS</div>
+    <h2 id="process-t">채용 절차</h2>
+    <p class="sub">직무에 따라 과제나 시범 수업의 형태가 달라집니다. 각 단계 결과는 합격 여부와 관계없이 알려 드립니다.</p>
+    <ol class="steps">
+      <li><b>서류 지원</b><span>이력서와 직무 관련 경험을 이메일로 보냅니다.</span></li>
+      <li><b>실무 확인</b><span>강사는 시범 수업, 개발·데이터는 짧은 과제, 운영은 상황 문답으로 진행합니다.</span></li>
+      <li><b>대표 면담</b><span>일하는 방식과 근무 조건을 서로 확인합니다.</span></li>
+      <li><b>조건 안내 · 합류</b><span>근무 조건을 서면으로 안내한 뒤 시작 일정을 정합니다.</span></li>
+    </ol>
+  </section>
+
+  <section class="sec" id="jobs" aria-labelledby="jobs-t">
+    <div class="kicker">OPEN ROLES</div>
+    <h2 id="jobs-t">모집 분야</h2>
+    <p class="sub">'모집 예정'은 채용을 준비 중인 분야입니다. 미리 지원서를 보내 주시면 모집을 시작할 때 먼저 연락드립니다.</p>
+    <div class="filters" id="filters" role="group" aria-label="팀별로 보기"></div>
+    <div class="jobs" id="jobList"><p class="sub">모집 분야를 불러오는 중입니다.</p></div>
+    <noscript><p class="sub">모집 분야 목록은 자바스크립트를 켜야 보입니다. 문의: support@stargateedu.co.kr</p></noscript>
+  </section>
+
+  <section class="sec" id="apply" aria-labelledby="apply-t">
+    <div class="kicker">APPLY</div>
+    <h2 id="apply-t">지원 방법</h2>
+    <p class="sub">각 모집 분야의 지원 버튼을 누르면 제목이 채워진 이메일이 열립니다. 자유 양식 이력서(PDF)와 직무 관련 경험을 보내 주세요.</p>
+    <div class="notice">
+      <b>지원 서류와 개인정보 안내</b>
+      <ul>
+        <li>수집 항목: 이름, 연락처, 이력서에 직접 적은 학력·경력·자격 사항</li>
+        <li>이용 목적: 채용 전형 진행과 결과 안내</li>
+        <li>보관: 전형이 끝나면 파기하며, 지원자가 요청하면 그 전에도 삭제합니다.</li>
+        <li>주민등록번호, 가족 관계, 신체 조건, 출신 지역처럼 직무와 관계없는 정보는 적지 마세요.</li>
+      </ul>
+    </div>
+  </section>
+
+  <footer>상호 : 주식회사 별의문 · 대표자명 : 정동수 · 사업자번호 : 848-86-03835 · 주소 : 서울시 강남구 강남대로 112길 47, 2층 · 전화 : 070-8027-8025 · 이메일 : support@stargateedu.co.kr</footer>
+</div>
+
+<script>
+(() => {
+  'use strict';
+  const teamGrid = document.getElementById('teamGrid');
+  const filters = document.getElementById('filters');
+  const jobList = document.getElementById('jobList');
+  const el = (tag, cls, text) => { const n = document.createElement(tag); if (cls) n.className = cls; if (text != null) n.textContent = text; return n; };
+  const list = items => { const ul = el('ul'); items.forEach(t => ul.append(el('li', '', t))); return ul; };
+  const ST_CLASS = { '모집 중': 'open', '모집 예정': 'soon', '마감': '' };
+
+  fetch('/careers/jobs.json?v=20261128-1')
+    .then(r => { if (!r.ok) throw new Error(String(r.status)); return r.json(); })
+    .then(data => {
+      const teamName = Object.fromEntries(data.teams.map(t => [t.id, t.name]));
+      data.teams.forEach(t => {
+        const card = el('div', 'card');
+        const n = data.jobs.filter(j => j.team === t.id && j.status !== '마감').length;
+        card.append(el('h3', '', t.name), el('p', '', t.summary), list(t.work));
+        if (n) { const a = el('a', 'count', `모집 분야 ${n}개 보기 →`); a.href = '#jobs'; a.addEventListener('click', () => show(t.id)); card.append(a); }
+        teamGrid.append(card);
+      });
+
+      function show(teamId) {
+        [...filters.children].forEach(b => b.setAttribute('aria-pressed', String(b.dataset.team === teamId)));
+        jobList.replaceChildren();
+        const jobs = data.jobs.filter(j => teamId === 'all' || j.team === teamId);
+        if (!jobs.length) { jobList.append(el('p', 'sub', '현재 이 팀에는 모집 분야가 없습니다.')); return; }
+        jobs.forEach(j => {
+          const d = el('details', 'job'); d.id = `job-${j.id}`;
+          const s = el('summary');
+          const jt = el('span', 'jt'); jt.append(el('b', '', j.title), el('span', '', teamName[j.team]));
+          s.append(jt, el('span', `st ${ST_CLASS[j.status] || ''}`, j.status));
+          const body = el('div', 'jb');
+          const a = el('div'); a.append(el('h4', '', '하는 일'), list(j.does));
+          const b = el('div'); b.append(el('h4', '', '이런 분을 찾습니다'), list(j.wants));
+          const c = el('div', 'full'); c.append(el('h4', '', '근무 조건'), el('p', '', j.conditions || '고용 형태, 근무 시간과 장소, 급여는 공고 확정 시 이 자리에 안내합니다.'));
+          const f = el('div', 'full');
+          if (j.status !== '마감') {
+            const btn = el('a', 'btn gold', j.status === '모집 중' ? '이 분야 지원하기' : '사전 지원 · 문의하기');
+            const subject = `[${j.status === '모집 중' ? '지원' : '사전 지원'}] ${j.title}`;
+            btn.href = `mailto:${data.apply_email}?subject=${encodeURIComponent(subject)}`;
+            btn.dataset.analyticsLabel = `채용 지원 ${j.title}`;
+            f.append(btn);
+          }
+          body.append(a, b, c, f); d.append(s, body); jobList.append(d);
+        });
+      }
+
+      [{ id: 'all', name: '전체' }, ...data.teams].forEach(t => {
+        const b = el('button', 'chip', t.name); b.type = 'button'; b.dataset.team = t.id;
+        b.addEventListener('click', () => show(t.id)); filters.append(b);
+      });
+      show('all');
+      const target = location.hash.startsWith('#job-') && document.getElementById(location.hash.slice(1));
+      if (target) { target.open = true; target.scrollIntoView(); }
+    })
+    .catch(() => { jobList.replaceChildren(el('p', 'sub', '모집 분야를 불러오지 못했습니다. support@stargateedu.co.kr 로 문의해 주세요.')); });
+})();
+</script>
+<script src="/assets/usage-analytics.js?v=20261118-inquiry-1" defer></script>
+</body>
+</html>
