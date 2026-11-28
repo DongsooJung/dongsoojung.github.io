@@ -1,5 +1,5 @@
 {
-  "checked_at_kst": "2026-11-27T17:53:45+09:00",
+  "checked_at_kst": "2026-11-28T17:13:44+09:00",
   "filters": {
     "max_deposit_manwon": 1000,
     "max_rent_manwon": 100,
@@ -8,7 +8,7 @@
   "source_mode": "public-listings",
   "crawl": {
     "visited_urls": 70,
-    "successful_pages": 61,
+    "successful_pages": 59,
     "max_pages": 70
   },
   "baseline": [
@@ -27,29 +27,6 @@
   ],
   "candidates": [
     {
-      "id": "5007664",
-      "url": "https://realty.daangn.com/articles/5007664",
-      "district": "동구",
-      "dong": "",
-      "deposit": 1000,
-      "rent": 20,
-      "rooms": 2,
-      "area_m2": 39.7,
-      "area_basis": "exclusive",
-      "building_type": "단독주택",
-      "freshness_days": 13,
-      "title": "좌천동 12평 직거래 빌라(투룸 이상) 월세 1,000 / 20만원",
-      "legal_risk": "상대적으로 낮음",
-      "host_claim": false,
-      "score": 80,
-      "reasons": [
-        "낮은 월세",
-        "주택용도",
-        "관광/교통 키워드"
-      ],
-      "is_new": false
-    },
-    {
       "id": "3207454",
       "url": "https://realty.daangn.com/articles/3207454",
       "district": "동구",
@@ -60,14 +37,38 @@
       "area_m2": 49.5,
       "area_basis": "exclusive",
       "building_type": "공동주택",
-      "freshness_days": 60,
+      "freshness_days": 0,
       "title": "범일동 15평 직거래 빌라(투룸 이상) 월세 200 / 20만원",
       "legal_risk": "중간",
       "host_claim": false,
-      "score": 73,
+      "score": 83,
       "reasons": [
         "낮은 월세",
-        "낮은 보증금"
+        "낮은 보증금",
+        "최근 등록"
+      ],
+      "is_new": false
+    },
+    {
+      "id": "5007664",
+      "url": "https://realty.daangn.com/articles/5007664",
+      "district": "동구",
+      "dong": "",
+      "deposit": 1000,
+      "rent": 20,
+      "rooms": 2,
+      "area_m2": 39.7,
+      "area_basis": "exclusive",
+      "building_type": "단독주택",
+      "freshness_days": 14,
+      "title": "좌천동 12평 직거래 빌라(투룸 이상) 월세 1,000 / 20만원",
+      "legal_risk": "상대적으로 낮음",
+      "host_claim": false,
+      "score": 80,
+      "reasons": [
+        "낮은 월세",
+        "주택용도",
+        "관광/교통 키워드"
       ],
       "is_new": false
     },
@@ -82,7 +83,7 @@
       "area_m2": 57.92,
       "area_basis": "exclusive",
       "building_type": "단독주택",
-      "freshness_days": 3,
+      "freshness_days": 4,
       "title": "수정동 18평 빌라(투룸 이상) 월세 1,000 / 55만원",
       "legal_risk": "상대적으로 낮음",
       "host_claim": false,
