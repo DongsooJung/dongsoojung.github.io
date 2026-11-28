@@ -1,0 +1,275 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#0b1026">
+  <title>오늘의 사고력 퀴즈 3문제 · STARGATE</title>
+  <meta name="description" content="매일 바뀌는 사고력 퀴즈 3문제. 규칙 찾기, 논리, 경우의 수, 알고리즘 사고 문제를 풀이와 함께 풀어 보세요. KOI·KMO 입문 유형을 스타게이트 에듀가 직접 만들었습니다.">
+  <link rel="canonical" href="https://stargateedu.co.kr/quiz/">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="오늘의 사고력 퀴즈 3문제 · STARGATE">
+  <meta property="og:description" content="매일 바뀌는 3문제. 규칙 찾기·논리·경우의 수·알고리즘 사고를 풀이와 함께.">
+  <meta property="og:url" content="https://stargateedu.co.kr/quiz/">
+  <meta property="og:image" content="https://shop.stargateedu.co.kr/og-banner.png">
+  <link rel="manifest" href="/manifest.webmanifest">
+  <style>
+    :root{--navy:#0b1026;--panel:#151c3a;--gold:#e5c378;--gold2:#f3d98e;--blue:#7aa2ff;--text:#eef1fb;--muted:#aab2cf;--line:rgba(255,255,255,.14);--ok:#5fd39a;--no:#ff8a8a;--font:Pretendard,"Noto Sans KR",system-ui,sans-serif}
+    *{box-sizing:border-box}html{background:var(--navy)}
+    body{margin:0;background:radial-gradient(1000px 560px at 50% -12%,rgba(122,162,255,.20),transparent 62%),linear-gradient(#0b1026,#080b1b);color:var(--text);font-family:var(--font);line-height:1.65;min-height:100vh}
+    a{color:inherit}.wrap{width:min(100% - 32px,720px);margin:0 auto}
+    header.top{display:flex;justify-content:space-between;align-items:center;padding:20px 0}
+    .brand{font-size:13px;font-weight:800;letter-spacing:.18em;text-decoration:none}.home{color:var(--muted);font-size:13px;text-decoration:none}
+    .badge{display:inline-flex;align-items:center;gap:8px;padding:6px 12px;border:1px solid var(--gold);border-radius:999px;color:var(--gold2);font-size:12.5px;font-weight:800;letter-spacing:.04em}
+    h1{margin:14px 0 0;font-size:clamp(28px,7vw,40px);line-height:1.25;text-wrap:balance}h1 span{color:var(--gold2)}
+    .lead{margin:12px 0 0;color:var(--muted);font-size:15.5px}
+    .meta{display:flex;flex-wrap:wrap;gap:8px;margin:18px 0 0}
+    .pill{padding:6px 12px;border:1px solid var(--line);border-radius:999px;background:rgba(21,28,58,.7);font-size:13px;color:var(--muted)}
+    .pill b{color:var(--gold2);font-variant-numeric:tabular-nums}
+    .card{margin:22px 0 0;padding:22px;border:1px solid var(--line);border-radius:18px;background:rgba(21,28,58,.78)}
+    .qhead{display:flex;justify-content:space-between;align-items:center;gap:10px;font-size:12.5px;color:var(--muted)}
+    .tag{padding:3px 9px;border-radius:6px;background:rgba(122,162,255,.16);color:#dbe6ff;font-weight:800}
+    .qtext{margin:14px 0 16px;font-size:18px;font-weight:700;line-height:1.6;white-space:pre-line}
+    .choices{display:grid;gap:10px;margin:0;padding:0;border:0}
+    .choice{display:flex;align-items:center;gap:12px;width:100%;min-height:52px;padding:10px 16px;border:1px solid var(--line);border-radius:12px;background:rgba(11,16,38,.6);color:var(--text);font:inherit;font-size:16px;text-align:left;cursor:pointer}
+    .choice:hover:not(:disabled){border-color:var(--blue)}
+    .choice:focus-visible,.btn:focus-visible{outline:3px solid var(--blue);outline-offset:3px}
+    .choice i{flex:none;display:grid;place-items:center;width:28px;height:28px;border-radius:50%;border:1px solid var(--line);font-style:normal;font-size:13px;font-weight:800;color:var(--muted)}
+    .choice:disabled{cursor:default;opacity:.75}
+    .choice.is-answer{border-color:var(--ok);opacity:1}.choice.is-answer i{background:var(--ok);border-color:var(--ok);color:#06231a}
+    .choice.is-wrong{border-color:var(--no);opacity:1}.choice.is-wrong i{background:var(--no);border-color:var(--no);color:#2b0909}
+    .feedback{margin:16px 0 0;padding:14px 16px;border-radius:12px;background:rgba(11,16,38,.7);border-left:3px solid var(--gold)}
+    .feedback b{display:block;margin-bottom:4px}.feedback.ok b{color:var(--ok)}.feedback.no b{color:var(--no)}
+    .feedback p{margin:0;color:#d6dcf2;font-size:15px}
+    .actions{display:flex;flex-wrap:wrap;gap:10px;margin:18px 0 0}
+    .btn{display:inline-flex;align-items:center;justify-content:center;min-height:50px;padding:0 20px;border:0;border-radius:12px;font:inherit;font-weight:800;font-size:15px;text-decoration:none;cursor:pointer}
+    .btn.gold{background:linear-gradient(135deg,var(--gold2),var(--gold));color:#181320}.btn.ghost{border:1px solid var(--line);background:transparent;color:var(--text)}
+    .score{font-size:44px;font-weight:800;color:var(--gold2);line-height:1.1;font-variant-numeric:tabular-nums}
+    .result h2{margin:0 0 6px;font-size:22px}.result p{margin:8px 0 0;color:var(--muted)}
+    .review{margin:16px 0 0;padding:0;list-style:none;display:grid;gap:8px}
+    .review li{display:grid;grid-template-columns:auto 1fr;gap:10px;padding:10px 12px;border:1px solid var(--line);border-radius:10px;font-size:14px}
+    .review .mark{font-weight:800}.review .mark.ok{color:var(--ok)}.review .mark.no{color:var(--no)}
+    .next{margin:22px 0 0;padding:20px;border:1px solid var(--gold);border-radius:16px;background:rgba(229,195,120,.08)}
+    .next h3{margin:0 0 6px;font-size:17px}.next p{margin:0;color:var(--muted);font-size:14.5px}
+    .note{margin:22px 0 0;color:var(--muted);font-size:12.5px}
+    footer{margin:34px 0 0;padding:22px 0 36px;border-top:1px solid var(--line);color:var(--muted);font-size:12px}
+    [hidden]{display:none!important}
+    @media (prefers-reduced-motion:no-preference){.card{transition:border-color .15s}}
+  </style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <a class="brand" href="/">STARGATE</a>
+    <a class="home" href="/">← 홈으로</a>
+  </header>
+
+  <main>
+    <span class="badge">DAILY · 매일 자정에 새 문제</span>
+    <h1>오늘의 <span>사고력 퀴즈</span> 3문제</h1>
+    <p class="lead">규칙 찾기, 논리, 경우의 수, 알고리즘 사고. 오늘은 모두 같은 3문제를 풉니다. 풀이까지 읽으면 3분이면 충분합니다.</p>
+    <div class="meta">
+      <span class="pill" id="datePill">오늘</span>
+      <span class="pill">연속 풀이 <b id="streak">0</b>일</span>
+      <span class="pill">지금까지 <b id="totalDays">0</b>일 참여</span>
+    </div>
+
+    <section class="card" id="quizCard" aria-live="polite">
+      <p id="loading">문제를 불러오는 중입니다.</p>
+    </section>
+
+    <section class="next" id="nextStep" hidden>
+      <h3>이런 문제가 재미있었다면</h3>
+      <p>오늘 푼 유형은 KOI(정보올림피아드)·KMO(수학올림피아드) 입문 단계에서 다루는 사고 방식입니다. 학생의 현재 수준과 맞는 과정이 궁금하시면 상담으로 안내해 드립니다.</p>
+      <div class="actions">
+        <a class="btn gold" href="/callback/?from=quiz" data-analytics-label="퀴즈 결과 전화 상담 예약">전화 상담 예약</a>
+        <a class="btn ghost" href="/zoom-class/" data-analytics-label="퀴즈 결과 ZOOM 수업 안내">ZOOM 수업 안내</a>
+      </div>
+    </section>
+
+    <p class="note">재미로 푸는 연습 문제이며 지능이나 학력을 판정하는 검사가 아닙니다. 풀이 기록은 이 브라우저에만 저장되고 스타게이트로 전송되지 않습니다. 문제는 스타게이트 에듀가 직접 만들었습니다.</p>
+  </main>
+
+  <footer>상호 : 주식회사 별의문 · 대표자명 : 정동수 · 사업자번호 : 848-86-03835 · 통신판매업신고번호 : 2025-서울강남-05246호 · 전화 : 070-8027-8025 · 이메일 : support@stargateedu.co.kr</footer>
+</div>
+
+<script>
+(() => {
+  'use strict';
+  const PER_DAY = 3;
+  const STORE_KEY = 'stargate.quiz.v1';
+  const DAY_MS = 86400000;
+  const KST_OFFSET = 9 * 3600000;
+  const card = document.getElementById('quizCard');
+  const nextStep = document.getElementById('nextStep');
+
+  // 한국 시간 기준 날짜 번호. 자정에 바뀝니다.
+  const dayIndex = Math.floor((Date.now() + KST_OFFSET) / DAY_MS);
+
+  function rng(seed) { // mulberry32
+    let a = seed >>> 0;
+    return () => {
+      a = (a + 0x6D2B79F5) >>> 0;
+      let t = a;
+      t = Math.imul(t ^ (t >>> 15), t | 1);
+      t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
+      return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+    };
+  }
+  function shuffled(list, seed) {
+    const out = list.slice();
+    const rand = rng(seed);
+    for (let i = out.length - 1; i > 0; i--) {
+      const j = Math.floor(rand() * (i + 1));
+      [out[i], out[j]] = [out[j], out[i]];
+    }
+    return out;
+  }
+  // 문제 전체를 한 바퀴 돌 때까지 겹치지 않게 하루 3문제를 고릅니다.
+  function pickToday(all) {
+    const daysPerCycle = Math.floor(all.length / PER_DAY);
+    const cycle = Math.floor(dayIndex / daysPerCycle);
+    const slot = dayIndex % daysPerCycle;
+    const order = shuffled(all, 7919 + cycle);
+    return order.slice(slot * PER_DAY, slot * PER_DAY + PER_DAY).map((q, n) => {
+      const idx = shuffled([0, 1, 2, 3], dayIndex * 31 + n);
+      return { id: q.id, type: q.type, q: q.q, explain: q.explain, choices: idx.map(i => q.choices[i]), answer: idx.indexOf(q.answer) };
+    });
+  }
+
+  function load() {
+    try { return JSON.parse(localStorage.getItem(STORE_KEY)) || {}; } catch { return {}; }
+  }
+  function save(state) {
+    try { localStorage.setItem(STORE_KEY, JSON.stringify(state)); } catch { /* 저장이 막힌 브라우저에서는 기록 없이 진행 */ }
+  }
+  function el(tag, cls, text) {
+    const node = document.createElement(tag);
+    if (cls) node.className = cls;
+    if (text != null) node.textContent = text;
+    return node;
+  }
+
+  const state = load();
+  const today = (state.day === dayIndex && Array.isArray(state.picks)) ? state : { day: dayIndex, picks: [] };
+  let questions = [];
+
+  function showStats() {
+    const s = load();
+    const streakAlive = s.lastDone === dayIndex || s.lastDone === dayIndex - 1;
+    document.getElementById('streak').textContent = streakAlive ? (s.streak || 0) : 0;
+    document.getElementById('totalDays').textContent = s.totalDays || 0;
+    const d = new Date(dayIndex * DAY_MS);
+    document.getElementById('datePill').textContent = `${d.getUTCFullYear()}년 ${d.getUTCMonth() + 1}월 ${d.getUTCDate()}일 문제`;
+  }
+
+  function finish() {
+    const s = load();
+    if (s.lastDone !== dayIndex) {
+      s.streak = (s.lastDone === dayIndex - 1 ? (s.streak || 0) : 0) + 1;
+      s.totalDays = (s.totalDays || 0) + 1;
+      s.lastDone = dayIndex;
+    }
+    s.day = dayIndex; s.picks = today.picks;
+    save(s);
+  }
+
+  function renderQuestion(n) {
+    const q = questions[n];
+    card.replaceChildren();
+    const head = el('div', 'qhead');
+    head.append(el('span', 'tag', q.type), el('span', '', `${n + 1} / ${PER_DAY}`));
+    const text = el('p', 'qtext', q.q);
+    text.id = 'qtext';
+    const group = el('div', 'choices');
+    group.setAttribute('role', 'group');
+    group.setAttribute('aria-labelledby', 'qtext');
+    const feedback = el('div', 'feedback');
+    feedback.hidden = true;
+    const actions = el('div', 'actions');
+    actions.hidden = true;
+    const nextBtn = el('button', 'btn gold', n + 1 < PER_DAY ? '다음 문제' : '결과 보기');
+    nextBtn.type = 'button';
+    nextBtn.addEventListener('click', () => (n + 1 < PER_DAY ? renderQuestion(n + 1) : renderResult()));
+    actions.append(nextBtn);
+
+    function reveal(picked) {
+      [...group.children].forEach((btn, i) => {
+        btn.disabled = true;
+        if (i === q.answer) btn.classList.add('is-answer');
+        else if (i === picked) btn.classList.add('is-wrong');
+      });
+      const ok = picked === q.answer;
+      feedback.className = `feedback ${ok ? 'ok' : 'no'}`;
+      feedback.replaceChildren(el('b', '', ok ? '정답입니다.' : `아쉽습니다. 정답은 ${q.choices[q.answer]}입니다.`), el('p', '', q.explain));
+      feedback.hidden = false;
+      actions.hidden = false;
+    }
+
+    q.choices.forEach((choice, i) => {
+      const btn = el('button', 'choice');
+      btn.type = 'button';
+      btn.append(el('i', '', String(i + 1)), el('span', '', choice));
+      btn.addEventListener('click', () => {
+        if (today.picks[n] != null) return;
+        today.picks[n] = i;
+        const s = load(); s.day = dayIndex; s.picks = today.picks; save(s);
+        reveal(i);
+        if (today.picks.filter(v => v != null).length >= PER_DAY) { finish(); showStats(); }
+        nextBtn.focus();
+      });
+      group.append(btn);
+    });
+    card.append(head, text, group, feedback, actions);
+    if (today.picks[n] != null) reveal(today.picks[n]);
+  }
+
+  function renderResult() {
+    const right = questions.filter((q, i) => today.picks[i] === q.answer).length;
+    card.replaceChildren();
+    card.classList.add('result');
+    const s = load();
+    const messages = ['풀이를 한 번 더 읽어 보세요. 내일 다시 도전해요.', '한 문제를 맞혔습니다. 틀린 문제의 풀이가 내일의 실력이 됩니다.', '두 문제를 맞혔습니다. 한 걸음만 더.', '세 문제 모두 맞혔습니다.'];
+    const list = el('ul', 'review');
+    questions.forEach((q, i) => {
+      const ok = today.picks[i] === q.answer;
+      const li = el('li');
+      li.append(el('span', `mark ${ok ? 'ok' : 'no'}`, ok ? '정답' : '오답'), el('span', '', `${q.type} · 정답 ${q.choices[q.answer]}`));
+      list.append(li);
+    });
+    const actions = el('div', 'actions');
+    const share = el('button', 'btn gold', '친구에게 도전장 보내기');
+    share.type = 'button';
+    share.addEventListener('click', async () => {
+      const textToShare = `오늘의 사고력 퀴즈 ${right}/${PER_DAY} 맞혔어요. 같은 3문제에 도전해 보세요.`;
+      const url = 'https://stargateedu.co.kr/quiz/';
+      try {
+        if (navigator.share) { await navigator.share({ title: '오늘의 사고력 퀴즈', text: textToShare, url }); return; }
+        await navigator.clipboard.writeText(`${textToShare} ${url}`);
+        share.textContent = '링크를 복사했습니다';
+      } catch { /* 공유를 취소했거나 막힌 경우 그대로 둡니다 */ }
+    });
+    const again = el('button', 'btn ghost', '풀이 다시 보기');
+    again.type = 'button';
+    again.addEventListener('click', () => { card.classList.remove('result'); renderQuestion(0); });
+    actions.append(share, again);
+    card.append(el('h2', '', '오늘의 결과'), el('div', 'score', `${right} / ${PER_DAY}`), el('p', '', messages[right]),
+      el('p', '', `연속 ${s.streak || 1}일째 풀었습니다. 내일 자정에 새로운 3문제가 열립니다.`), list, actions);
+    nextStep.hidden = false;
+  }
+
+  showStats();
+  fetch('/quiz/questions.json?v=20261128-1')
+    .then(r => { if (!r.ok) throw new Error(String(r.status)); return r.json(); })
+    .then(data => {
+      questions = pickToday(data.questions);
+      const answered = today.picks.filter(v => v != null).length;
+      if (answered >= PER_DAY) renderResult(); else renderQuestion(answered);
+    })
+    .catch(() => { card.replaceChildren(el('p', '', '문제를 불러오지 못했습니다. 잠시 후 새로고침해 주세요.')); });
+})();
+</script>
+<script src="/assets/usage-analytics.js?v=20261118-inquiry-1" defer></script>
+<script src="/assets/inquiry-source.js?v=20261118-inquiry-1" defer></script>
+</body>
+</html>
