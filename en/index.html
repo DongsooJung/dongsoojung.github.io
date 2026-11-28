@@ -235,6 +235,7 @@ a{color:var(--acc); text-decoration:none} a:hover{text-decoration:underline}
 .hub-card.global{--hub:#d9a441;--glow:rgba(217,164,65,.22)}
 .hub-card.strategy{--hub:#ff9f5a;--glow:rgba(255,111,15,.18)}
 .hub-card.research{--hub:#73b7ff;--glow:rgba(52,120,246,.2)}
+.hub-card.korea{--hub:#5ec8b4;--glow:rgba(94,200,180,.2)}
 .hub-card:hover{transform:translateY(-2px);border-color:var(--hub);box-shadow:0 18px 48px var(--glow);text-decoration:none}
 .hub-kicker{position:relative;z-index:1;color:var(--hub);font-family:var(--font-mono);font-size:10px;font-weight:500;letter-spacing:.12em;text-transform:uppercase}
 .hub-card h3{position:relative;z-index:1;font-family:var(--font-display);font-size:clamp(1.35rem,1.8vw,1.55rem);font-weight:600;letter-spacing:-.03em;margin:10px 0 7px;line-height:1.25}
@@ -536,6 +537,12 @@ body.portal-dashboard-mode #personal-projects{margin-top:14px}
         <h3>Research dashboards</h3>
         <p>Explore Seoul urban data, exchange rates, trade and tourism through interactive dashboards.</p>
         <div class="hub-meta"><span>Urban · spatial · economic · science · 55 projects</span><b>Research hub →</b></div>
+      </a>
+      <a class="hub-card korea" href="/stargate-korea/">
+        <div class="hub-kicker">STARGATE KOREA · ENGLISH</div>
+        <h3>English customer site</h3>
+        <p>Live posts, Seoul planner, PDF book and custom-guide enquiry from www.stargatekorea.net, matched to traveler and student jobs.</p>
+        <div class="hub-meta"><span>RSS · planner · books · custom guide</span><b>Open bridge →</b></div>
       </a>
     </div>
     <div class="cta" id="kakao-send-cta" style="margin-top:18px" hidden>
@@ -1127,18 +1134,36 @@ body.portal-dashboard-mode #personal-projects{margin-top:14px}
         </div>
       </a>
 
+      <a class="proj" href="/stargate-korea/" data-project-category="사업">
+        <div class="badge">NEW · ENGLISH</div>
+        <div class="thumb" style="background:linear-gradient(135deg,#0b1f24,#5ec8b4)"><span class="emo">🇰🇷</span></div>
+        <div class="body">
+          <div class="ttl">Stargate Korea</div>
+          <div class="sub">Customer-first English posts, a free Seoul planner, PDF book and custom-guide enquiry at www.stargatekorea.net.</div>
+          <div class="row"><span class="tag">English · Travel · Study</span><span class="go">Open bridge →</span></div>
+        </div>
+      </a>
+
     </div>
   </section>
 
   <section class="sec" id="travel-spots" aria-labelledby="travel-spots-title">
     <h2 id="travel-spots-title">Life and travel</h2>
     <div class="desc">Explore Stargate’s guides to travel and neighborhoods in Korea.</div>
+    <div class="hub-grid">
     <a class="hub-card research" style="min-height:190px" href="/travel/">
       <div class="hub-kicker">LIFE · TRAVEL GUIDES</div>
       <h3>Stargate travel guides</h3>
       <p>Find source-checked routes and visitor information for Busan, Gangnam and Dumulmeori.</p>
       <div class="hub-meta"><span>Korean travel · neighborhoods · Korean and English guides</span><b>Explore travel →</b></div>
     </a>
+    <a class="hub-card korea" style="min-height:190px" href="https://www.stargatekorea.net/" rel="noopener">
+      <div class="hub-kicker">WWW.STARGATEKOREA.NET</div>
+      <h3>Plan a first Seoul trip</h3>
+      <p>Free itineraries, travel essentials, a Seoul Starter PDF and a custom digital guide enquiry for visitors and students.</p>
+      <div class="hub-meta"><span>Planner · book · custom guide</span><b>Open English site ↗</b></div>
+    </a>
+    </div>
   </section>
 
   <footer>
