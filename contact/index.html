@@ -1,0 +1,257 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#0b1026">
+  <!-- 인증 메일 발송 설정(Supabase Auth: 사이트 주소·메일 문구·SMTP)이 끝날 때까지 검색 노출을 막습니다. -->
+  <meta name="robots" content="noindex">
+  <title>이메일 인증 문의 · STARGATE</title>
+  <meta name="description" content="이메일 주소를 인증한 뒤 스타게이트 에듀에 문의를 남기는 폼입니다. 답변은 인증한 이메일로 드립니다.">
+  <link rel="canonical" href="https://stargateedu.co.kr/contact/">
+  <link rel="manifest" href="/manifest.webmanifest">
+  <style>
+    :root{--navy:#0b1026;--gold:#e5c378;--gold2:#f3d98e;--blue:#7aa2ff;--text:#eef1fb;--muted:#aab2cf;--line:rgba(255,255,255,.14);--ok:#5fd39a;--no:#ff8a8a;--font:Pretendard,"Noto Sans KR",system-ui,sans-serif}
+    *{box-sizing:border-box}html{background:var(--navy)}
+    body{margin:0;min-height:100vh;background:radial-gradient(1000px 560px at 50% -12%,rgba(122,162,255,.20),transparent 62%),linear-gradient(#0b1026,#080b1b);color:var(--text);font-family:var(--font);line-height:1.65}
+    a{color:inherit}.wrap{width:min(100% - 32px,600px);margin:0 auto}
+    header.top{display:flex;justify-content:space-between;align-items:center;padding:20px 0}
+    .brand{font-size:13px;font-weight:800;letter-spacing:.18em;text-decoration:none}.home{color:var(--muted);font-size:13px;text-decoration:none}
+    h1{margin:10px 0 0;font-size:clamp(26px,6vw,36px);line-height:1.25}h1 span{color:var(--gold2)}
+    .lead{margin:10px 0 0;color:var(--muted);font-size:15.5px}
+    ol.progress{display:flex;gap:8px;margin:22px 0 0;padding:0;list-style:none;font-size:13px;color:var(--muted)}
+    ol.progress li{flex:1;padding:8px 10px;border:1px solid var(--line);border-radius:10px;text-align:center}
+    ol.progress li[aria-current="step"]{border-color:var(--gold);color:var(--gold2);font-weight:800}
+    ol.progress li.done{border-color:var(--ok);color:var(--ok)}
+    .card{margin:16px 0 0;padding:24px;border:1px solid var(--line);border-radius:18px;background:rgba(21,28,58,.78)}
+    .card h2{margin:0 0 6px;font-size:19px}.card p.hint{margin:0 0 16px;color:var(--muted);font-size:14px}
+    label{display:block;margin:14px 0 6px;font-size:14px;font-weight:700}
+    input[type=email],input[type=text],select,textarea{width:100%;min-height:50px;padding:12px 14px;border:1px solid var(--line);border-radius:12px;background:rgba(11,16,38,.7);color:var(--text);font:inherit;font-size:16px}
+    textarea{min-height:140px;resize:vertical}
+    input:focus-visible,select:focus-visible,textarea:focus-visible,.btn:focus-visible,.link:focus-visible{outline:3px solid var(--blue);outline-offset:2px}
+    input[readonly]{color:var(--gold2);border-style:dashed}
+    #code{letter-spacing:.4em;font-size:22px;text-align:center;font-variant-numeric:tabular-nums}
+    .check{display:flex;gap:10px;align-items:flex-start;margin:16px 0 0;font-size:14px;font-weight:400;color:#d6dcf2}
+    .check input{width:20px;height:20px;margin-top:2px;flex:none}
+    .btn{display:flex;align-items:center;justify-content:center;width:100%;min-height:52px;margin-top:18px;border:0;border-radius:12px;background:linear-gradient(135deg,var(--gold2),var(--gold));color:#181320;font:inherit;font-weight:800;font-size:16px;cursor:pointer}
+    .btn:disabled{opacity:.55;cursor:default}
+    .link{display:inline-block;margin-top:14px;padding:4px 0;border:0;background:none;color:var(--muted);font:inherit;font-size:14px;text-decoration:underline;cursor:pointer}
+    .link:disabled{text-decoration:none;cursor:default}
+    .msg{min-height:22px;margin:14px 0 0;font-size:14px}.msg.err{color:var(--no)}.msg.ok{color:var(--ok)}
+    .hp{position:absolute;left:-9999px;width:1px;height:1px;opacity:0}
+    .count{float:right;font-weight:400;color:var(--muted);font-size:12.5px}
+    .note{margin:18px 0 0;color:var(--muted);font-size:12.5px}
+    footer{margin:30px 0 0;padding:22px 0 36px;border-top:1px solid var(--line);color:var(--muted);font-size:12px}
+    [hidden]{display:none!important}
+  </style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <a class="brand" href="/">STARGATE</a>
+    <a class="home" href="/">← 홈으로</a>
+  </header>
+
+  <main>
+    <h1><span>이메일 인증</span> 문의</h1>
+    <p class="lead">이메일 주소를 먼저 확인한 뒤 문의를 받습니다. 답변은 인증한 주소로 보내 드립니다.</p>
+
+    <ol class="progress" aria-label="진행 단계">
+      <li id="p1" aria-current="step">1. 이메일 입력</li>
+      <li id="p2">2. 인증</li>
+      <li id="p3">3. 문의 작성</li>
+    </ol>
+
+    <section class="card" id="step1">
+      <h2>이메일 주소를 입력해 주세요</h2>
+      <p class="hint">입력한 주소로 인증 메일을 보냅니다.</p>
+      <form id="emailForm" novalidate>
+        <label for="email">이메일</label>
+        <input type="email" id="email" name="email" autocomplete="email" inputmode="email" maxlength="254" placeholder="name@example.com" required>
+        <input class="hp" type="text" id="website" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
+        <button class="btn" type="submit" id="sendBtn">인증 메일 받기</button>
+      </form>
+      <p class="msg" id="msg1" role="status"></p>
+    </section>
+
+    <section class="card" id="step2" hidden>
+      <h2>메일을 확인해 주세요</h2>
+      <p class="hint"><b id="sentTo"></b> 로 인증 메일을 보냈습니다. 메일에 적힌 인증 번호 6자리를 입력하거나, 메일의 인증 버튼을 눌러 주세요. 메일이 보이지 않으면 스팸함도 확인해 주세요.</p>
+      <form id="codeForm" novalidate>
+        <label for="code">인증 번호</label>
+        <input type="text" id="code" name="code" inputmode="numeric" autocomplete="one-time-code" maxlength="8" pattern="[0-9]*" placeholder="000000">
+        <button class="btn" type="submit" id="verifyBtn">인증하기</button>
+      </form>
+      <button class="link" type="button" id="resendBtn">인증 메일 다시 받기</button>
+      <button class="link" type="button" id="changeBtn" style="margin-left:14px">이메일 주소 바꾸기</button>
+      <p class="msg" id="msg2" role="status"></p>
+    </section>
+
+    <section class="card" id="step3" hidden>
+      <h2>문의 내용을 적어 주세요</h2>
+      <p class="hint">이메일 인증이 완료되었습니다.</p>
+      <form id="inquiryForm" novalidate>
+        <label for="vEmail">인증한 이메일</label>
+        <input type="email" id="vEmail" readonly>
+        <label for="name">이름</label>
+        <input type="text" id="name" name="name" autocomplete="name" maxlength="40" required>
+        <label for="topic">문의 유형</label>
+        <select id="topic" name="topic">
+          <option>KOI·알고리즘 수업</option>
+          <option>KMO·수학 수업</option>
+          <option>ZOOM 실시간 수업</option>
+          <option>교재·전자책</option>
+          <option>채용 지원</option>
+          <option>제휴·협업</option>
+          <option selected>기타</option>
+        </select>
+        <label for="message">문의 내용 <span class="count" id="count">0 / 2000</span></label>
+        <textarea id="message" name="message" maxlength="2000" required placeholder="학생 학년, 목표, 궁금한 점을 적어 주세요."></textarea>
+        <label class="check"><input type="checkbox" id="consent"> <span>문의 답변을 위해 이름, 이메일, 문의 내용을 수집·이용하는 데 동의합니다. (<a href="/privacy.html" target="_blank" rel="noopener">개인정보처리방침</a>)</span></label>
+        <button class="btn" type="submit" id="submitBtn">문의 보내기</button>
+      </form>
+      <p class="msg" id="msg3" role="status"></p>
+    </section>
+
+    <section class="card" id="done" hidden>
+      <h2>문의가 접수되었습니다</h2>
+      <p class="hint" style="margin:0">인증하신 <b id="doneEmail"></b> 주소로 답변드리겠습니다. 급한 문의는 <a href="/callback/?from=contact">전화 상담 예약</a>을 이용해 주세요.</p>
+    </section>
+
+    <p class="note">인증 메일의 유효 시간이 지나면 처음부터 다시 진행해 주세요. 인증 정보는 문의를 보낸 뒤 바로 폐기되며, 이 브라우저에 저장하지 않습니다.</p>
+  </main>
+
+  <footer>상호 : 주식회사 별의문 · 대표자명 : 정동수 · 사업자번호 : 848-86-03835 · 전화 : 070-8027-8025 · 이메일 : support@stargateedu.co.kr</footer>
+</div>
+
+<script>
+(() => {
+  'use strict';
+  const SUPABASE_URL = 'https://inftexpcnfinglwlrvsj.supabase.co';
+  const SUPABASE_KEY = 'sb_publishable_-D0A-aWNMTMTHXeL0oqBXg_9Tz0bdvs';
+  const PAGE_URL = 'https://stargateedu.co.kr/contact/';
+  const RESEND_SECONDS = 60;
+  const $ = id => document.getElementById(id);
+  const session = { token: null, email: null }; // 메모리에만 둡니다.
+  let pendingEmail = '';
+  let cooldownTimer = null;
+
+  function api(path, body, token) {
+    return fetch(SUPABASE_URL + path, {
+      method: 'POST',
+      headers: { apikey: SUPABASE_KEY, Authorization: `Bearer ${token || SUPABASE_KEY}`, 'Content-Type': 'application/json', Prefer: 'return=minimal' },
+      body: JSON.stringify(body || {}),
+    });
+  }
+  async function errorText(res, fallback) {
+    let data = {};
+    try { data = await res.json(); } catch { /* 본문 없음 */ }
+    const code = data.error_code || data.code || '';
+    const text = String(data.msg || data.message || data.error_description || '');
+    if (res.status === 429 || /rate limit|security purposes/i.test(text)) return '요청이 너무 잦습니다. 1분 뒤에 다시 시도해 주세요.';
+    if (code === 'otp_expired' || /expired|invalid/i.test(text)) return '인증 번호가 맞지 않거나 유효 시간이 지났습니다. 메일을 다시 받아 주세요.';
+    if (code === 'email_address_invalid' || /invalid.*email|email.*invalid/i.test(text)) return '이메일 주소를 다시 확인해 주세요.';
+    if (code === 'signup_disabled') return '지금은 인증 메일을 보낼 수 없습니다. support@stargateedu.co.kr 로 문의해 주세요.';
+    return fallback;
+  }
+  function say(id, text, kind) { const m = $(id); m.textContent = text || ''; m.className = `msg ${kind || ''}`; }
+  function go(step) {
+    ['step1', 'step2', 'step3', 'done'].forEach(id => { $(id).hidden = id !== step; });
+    const n = { step1: 1, step2: 2, step3: 3, done: 4 }[step];
+    [1, 2, 3].forEach(i => { const li = $(`p${i}`); li.classList.toggle('done', i < n); if (i === n) li.setAttribute('aria-current', 'step'); else li.removeAttribute('aria-current'); });
+    const focus = { step1: 'email', step2: 'code', step3: 'name' }[step];
+    if (focus) $(focus).focus();
+  }
+  function startCooldown() {
+    let left = RESEND_SECONDS; const btn = $('resendBtn');
+    clearInterval(cooldownTimer); btn.disabled = true; btn.textContent = `다시 받기 (${left}초)`;
+    cooldownTimer = setInterval(() => { left -= 1; if (left <= 0) { clearInterval(cooldownTimer); btn.disabled = false; btn.textContent = '인증 메일 다시 받기'; } else btn.textContent = `다시 받기 (${left}초)`; }, 1000);
+  }
+
+  async function sendMail(email, msgId) {
+    const res = await api(`/auth/v1/otp?redirect_to=${encodeURIComponent(PAGE_URL)}`, { email, create_user: true });
+    if (!res.ok) { say(msgId, await errorText(res, '인증 메일을 보내지 못했습니다. 잠시 후 다시 시도해 주세요.'), 'err'); return false; }
+    return true;
+  }
+  function signedIn(token, email) {
+    session.token = token; session.email = email;
+    $('vEmail').value = email; go('step3');
+  }
+  async function emailFromToken(token) {
+    const res = await fetch(`${SUPABASE_URL}/auth/v1/user`, { headers: { apikey: SUPABASE_KEY, Authorization: `Bearer ${token}` } });
+    if (!res.ok) return null;
+    const user = await res.json();
+    return user.email || null;
+  }
+
+  $('emailForm').addEventListener('submit', async e => {
+    e.preventDefault();
+    if ($('website').value) return; // 자동 입력 봇
+    const email = $('email').value.trim().toLowerCase();
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) { say('msg1', '이메일 주소 형식을 확인해 주세요.', 'err'); $('email').focus(); return; }
+    $('sendBtn').disabled = true; say('msg1', '인증 메일을 보내는 중입니다.');
+    try {
+      if (await sendMail(email, 'msg1')) { pendingEmail = email; $('sentTo').textContent = email; say('msg1', ''); say('msg2', ''); go('step2'); startCooldown(); }
+    } catch { say('msg1', '연결에 실패했습니다. 인터넷 연결을 확인하고 다시 시도해 주세요.', 'err'); }
+    $('sendBtn').disabled = false;
+  });
+
+  $('resendBtn').addEventListener('click', async () => {
+    $('resendBtn').disabled = true;
+    try { if (await sendMail(pendingEmail, 'msg2')) { say('msg2', '인증 메일을 다시 보냈습니다.', 'ok'); startCooldown(); } else $('resendBtn').disabled = false; }
+    catch { say('msg2', '연결에 실패했습니다. 다시 시도해 주세요.', 'err'); $('resendBtn').disabled = false; }
+  });
+  $('changeBtn').addEventListener('click', () => { clearInterval(cooldownTimer); $('code').value = ''; go('step1'); });
+
+  $('codeForm').addEventListener('submit', async e => {
+    e.preventDefault();
+    const code = $('code').value.replace(/\D/g, '');
+    if (code.length < 6) { say('msg2', '메일에 적힌 인증 번호 6자리를 입력해 주세요.', 'err'); $('code').focus(); return; }
+    $('verifyBtn').disabled = true; say('msg2', '확인하는 중입니다.');
+    try {
+      const res = await api('/auth/v1/verify', { type: 'email', email: pendingEmail, token: code });
+      if (!res.ok) say('msg2', await errorText(res, '인증하지 못했습니다. 번호를 다시 확인해 주세요.'), 'err');
+      else { const data = await res.json(); signedIn(data.access_token, (data.user && data.user.email) || pendingEmail); }
+    } catch { say('msg2', '연결에 실패했습니다. 다시 시도해 주세요.', 'err'); }
+    $('verifyBtn').disabled = false;
+  });
+
+  $('message').addEventListener('input', () => { $('count').textContent = `${$('message').value.length} / 2000`; });
+
+  $('inquiryForm').addEventListener('submit', async e => {
+    e.preventDefault();
+    const name = $('name').value.trim(), message = $('message').value.trim();
+    if (!name) { say('msg3', '이름을 입력해 주세요.', 'err'); $('name').focus(); return; }
+    if (message.length < 5) { say('msg3', '문의 내용을 5자 이상 적어 주세요.', 'err'); $('message').focus(); return; }
+    if (!$('consent').checked) { say('msg3', '개인정보 수집·이용에 동의해 주세요.', 'err'); $('consent').focus(); return; }
+    $('submitBtn').disabled = true; say('msg3', '보내는 중입니다.');
+    try {
+      const from = new URLSearchParams(location.search).get('from');
+      const source = `stargateedu.co.kr/contact${from ? `?from=${from.replace(/[^a-z0-9_-]/gi, '').slice(0, 40)}` : ''}`;
+      const res = await api('/rest/v1/verified_inquiries', { email: session.email, name, topic: $('topic').value, message, consent: 'Y', source }, session.token);
+      if (res.ok) {
+        $('doneEmail').textContent = session.email;
+        api('/auth/v1/logout', {}, session.token).catch(() => {});
+        session.token = null; go('done');
+      } else if (res.status === 401) { say('msg3', '인증 유효 시간이 지났습니다. 새로고침한 뒤 이메일 인증부터 다시 진행해 주세요.', 'err'); }
+      else say('msg3', '문의를 보내지 못했습니다. 잠시 후 다시 시도하거나 support@stargateedu.co.kr 로 보내 주세요.', 'err');
+    } catch { say('msg3', '연결에 실패했습니다. 다시 시도해 주세요.', 'err'); }
+    $('submitBtn').disabled = false;
+  });
+
+  // 메일의 인증 버튼으로 돌아온 경우: 주소 뒤에 붙은 인증 정보를 읽고 곧바로 주소에서 지웁니다.
+  (async () => {
+    if (!location.hash || location.hash.length < 2) return;
+    const params = new URLSearchParams(location.hash.slice(1));
+    const token = params.get('access_token'), err = params.get('error_description');
+    if (!token && !err) return;
+    history.replaceState(null, '', location.pathname + location.search);
+    if (err) { say('msg1', '인증 링크가 만료되었거나 이미 사용되었습니다. 이메일을 다시 입력해 주세요.', 'err'); return; }
+    try { const email = await emailFromToken(token); if (email) signedIn(token, email); else say('msg1', '인증을 확인하지 못했습니다. 다시 시도해 주세요.', 'err'); }
+    catch { say('msg1', '연결에 실패했습니다. 다시 시도해 주세요.', 'err'); }
+  })();
+})();
+</script>
+<script src="/assets/usage-analytics.js?v=20261118-inquiry-1" defer></script>
+</body>
+</html>
